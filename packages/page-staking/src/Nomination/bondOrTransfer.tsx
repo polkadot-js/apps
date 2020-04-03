@@ -7,10 +7,9 @@ import React, { useState, useEffect } from 'react';
 import {useApi} from '@polkadot/react-hooks/index';
 import {Button, InputBalance, TxButton} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
-import { formatBalance } from '@polkadot/util';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 import Summary from './summary';
-import { useBalanceClear } from "@polkadot/app-staking/Nomination/useBalance";
+import { useBalanceClear, useFees } from "@polkadot/app-staking/Nomination/useBalance";
 
 interface Props {
   transfer?: boolean | false;
@@ -24,7 +23,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const controllerBalance: Balance | null = useBalanceClear(recipientId);
-  let wholeFees: any = null;
+  let wholeFees: any | null = useFees(recipientId, senderId);
   const { t } = useTranslation();
   const { api } = useApi();
   const destination = 2; // 2 means controller account
@@ -34,17 +33,6 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   const canSubmit = true;
   const existentialDeposit = api.consts.balances.existentialDeposit;
 
-  async function getFees(bondedAddress: string, senderAddress: string) {
-    const si = formatBalance.findSi('-');
-    const TEN = new BN(10);
-    const basePower = formatBalance.getDefaults().decimals;
-    const siPower = new BN(basePower + si.power);
-    const amount = new BN(1000).mul(TEN.pow(siPower));
-    const bondFees = (await api.tx.staking.bond(bondedAddress, amount, 2).paymentInfo(senderAddress)).partialFee;
-    const paymentFees = (await api.tx.balances.transfer(bondedAddress, amount).paymentInfo(senderAddress)).partialFee;
-    wholeFees = bondFees.iadd(paymentFees).iadd(existentialDeposit);
-  }
-
   useEffect(() => {
     if (transfer) {
       const newStepsState = [...stepsState];
@@ -53,32 +41,19 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
         && existentialDeposit
         && wholeFees
         && accountBalance.cmp(existentialDeposit) === 1
-        && controllerBalance.cmp(wholeFees)) {
+        && controllerBalance.cmp(wholeFees) === 1) {
         newStepsState[2] = 'completed';
         newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
       } else {
         newStepsState[2] = '';
       }
-     if (accountBalance) {
-       console.log('accountBalance.comparedTo(existentialDeposit)', accountBalance.cmp(existentialDeposit));
-     }
-      setStepsState(newStepsState);
-      console.log('newStepsState', newStepsState);
-      console.log('accountBalance', accountBalance);
-      console.log('controllerBalance', controllerBalance);
     } else {
       const newStepsState = [...stepsState];
       newStepsState[3] = 'completed';
       newStepsState[4] = '';
       setStepsState(newStepsState);
     }
-  },[accountBalance, controllerBalance]);
-
-  useEffect(() => {
-    if (senderId && recipientId) {
-      getFees(recipientId, senderId);
-    }
-  }, [recipientId, senderId]);
+  },[accountBalance, controllerBalance, wholeFees]);
 
   return (
     <section>
