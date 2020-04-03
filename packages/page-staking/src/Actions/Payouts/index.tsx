@@ -67,7 +67,7 @@ function Payouts ({ allRewards, className }: Props): React.ReactElement<Props> |
     );
   }, [allRewards]);
 
-  if (!api.tx.staking.stakerPayout) {
+  if (!api.tx.staking.payoutStakers) {
     return null;
   }
 
@@ -77,6 +77,10 @@ function Payouts ({ allRewards, className }: Props): React.ReactElement<Props> |
         <th className='start'>
           <h1>{t('payouts/validator')}</h1>
         </th>
+        <th className='start'>{t('eras')}</th>
+        <th className='number'>{t('available')}</th>
+        <th className='start'>&nbsp;</th>
+        <th className='button'>&nbsp;</th>
       </Table.Head>
       <Table.Body empty={t('No pending era payouts from validators')}>
         {payouts.map((payout): React.ReactNode => (
