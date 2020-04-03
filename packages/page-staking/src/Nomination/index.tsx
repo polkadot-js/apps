@@ -29,6 +29,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
   const [isCreateOpen, toggleCreate] = useToggle();
   const [validators, setValidators] = useState<string[]>([]);
   const { api } = useApi();
+  // api.query.staking.bonded();
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
   // const ownStashes = useOwnStashes();
   const { t } = useTranslation();

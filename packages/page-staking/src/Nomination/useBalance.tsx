@@ -32,6 +32,8 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const siPower = new BN(basePower + si.power);
   const amount = new BN(1000).mul(TEN.pow(siPower));
 
+  // @todo - change to StartNomination + StopNomination + Unbond
+
   async function getPaymentFees(addr1: string, addr2: string) {
     const fees = await api.api.tx.balances.transfer(addr1, amount).paymentInfo(addr2);
     setPaymentFees(fees.partialFee);
@@ -51,8 +53,8 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
 
   useEffect(() => {
     if (bondedAddress && senderAddress) {
-      getPaymentFees(bondedAddress, senderAddress);
-      getBondFees(bondedAddress, senderAddress);
+      getPaymentFees(bondedAddress, senderAddress).then();
+      getBondFees(bondedAddress, senderAddress).then();
     }
   }, [bondedAddress, senderAddress]);
 
