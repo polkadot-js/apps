@@ -77,35 +77,30 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       {isNewStakeOpen && (
         <StartStaking onClose={_toggleNewStake} />
       )}
-      <Table>
-        <Table.Head>
-          <th
-            className='start'
-            colSpan={2}
-          >
-            <h1>{t('stashes')}</h1>
-          </th>
-          <th className='address'>{t('controller')}</th>
-          <th className='number'>{t('rewards')}</th>
-          <th className='number'>{t('bonded')}</th>
-          <th colSpan={2}>&nbsp;</th>
-        </Table.Head>
-        <Table.Body empty={t('No funds staked yet. Bond funds to validate or nominate a validator.')}>
-          {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
-            <Account
-              activeEra={activeEra}
-              allStashes={allStashes}
-              isOwnStash={isOwnStash}
-              isVisible={isVisible}
-              key={stashId}
-              next={next}
-              onUpdateType={_onUpdateType}
-              rewards={allRewards && allRewards[stashId]}
-              stakingOverview={stakingOverview}
-              stashId={stashId}
-            />
-          ))}
-        </Table.Body>
+      <Table
+        empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
+        header={[
+          [t('stashes'), 'start', 2],
+          [t('controller'), 'address'],
+          [t('rewards'), 'number'],
+          [t('bonded'), 'number'],
+          [undefined, undefined, 2]
+        ]}
+      >
+        {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
+          <Account
+            activeEra={activeEra}
+            allStashes={allStashes}
+            isOwnStash={isOwnStash}
+            isVisible={isVisible}
+            key={stashId}
+            next={next}
+            onUpdateType={_onUpdateType}
+            rewards={allRewards && allRewards[stashId]}
+            stakingOverview={stakingOverview}
+            stashId={stashId}
+          />
+        ))}
       </Table>
     </div>
   );

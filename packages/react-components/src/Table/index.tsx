@@ -4,77 +4,42 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { isString } from '@polkadot/util';
 
-import Spinner from './Spinner';
+import Body from './Body';
+import Head from './Head';
 
-interface BaseProps {
+interface TableProps {
   children: React.ReactNode;
   className?: string;
-}
-
-interface BodyProps extends BaseProps {
   empty?: React.ReactNode;
-}
-
-interface HeadProps extends BaseProps {
   filter?: React.ReactNode;
-}
-
-interface TableProps extends BaseProps {
+  header: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
 }
 
-type TableImpl = React.FC<TableProps> & {
-  Body: React.FC<BodyProps>;
-  Head: React.FC<HeadProps>;
-}
-
-function Head ({ children, className, filter }: HeadProps): React.ReactElement<HeadProps> {
-  return (
-    <thead className={className}>
-      {filter && (
-        <tr className='filter'>
-          <th colSpan={100}>{filter}</th>
-        </tr>
-      )}
-      <tr>
-        {children}
-      </tr>
-    </thead>
-  );
-}
-
-function Body ({ children, className, empty }: BodyProps): React.ReactElement<BodyProps> {
+function Table ({ children, className, empty, filter, header, isFixed }: TableProps): React.ReactElement<TableProps> {
   const isEmpty = !children || (Array.isArray(children) && children.length === 0);
 
   return (
-    <tbody className={className}>
-      {isEmpty
-        ? (
-          <tr><td colSpan={100}>{
-            isString(empty)
-              ? <div className='empty'>{empty}</div>
-              : empty || <Spinner />
-          }</td></tr>
-        )
-        : children
-      }
-    </tbody>
-  );
-}
-
-function Table ({ children, className, isFixed }: TableProps): React.ReactElement<TableProps> {
-  return (
     <div className={`ui--Table ${isFixed && 'isFixed'} ${className}`}>
       <table>
-        {children}
+        <Head
+          filter={filter}
+          header={header}
+          isEmpty={isEmpty}
+        />
+        <Body
+          empty={empty}
+          isEmpty={isEmpty}
+        >
+          {children}
+        </Body>
       </table>
     </div>
   );
 }
 
-const Memo = React.memo(styled(Table)`
+export default React.memo(styled(Table)`
   margin-bottom: 1.5rem;
   max-width: 100%;
   width: 100%;
@@ -293,9 +258,4 @@ const Memo = React.memo(styled(Table)`
       }
     }
   }
-`) as unknown as TableImpl;
-
-Memo.Body = React.memo(Body);
-Memo.Head = React.memo(Head);
-
-export default Memo;
+`);

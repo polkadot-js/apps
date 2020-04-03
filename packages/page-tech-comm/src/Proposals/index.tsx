@@ -23,28 +23,23 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
           members={members}
         />
       </Button.Group>
-      <Table>
-        <Table.Head>
-          <th
-            className='start'
-            colSpan={2}
-          >
-            <h1>{t('proposals')}</h1>
-          </th>
-          <th>{t('threshold')}</th>
-          <th className='address'>{t('aye')}</th>
-          <th className='address'>{t('nay')}</th>
-          <th>&nbsp;</th>
-        </Table.Head>
-        <Table.Body empty={proposals && t('No committee proposals')}>
-          {proposals?.map((hash: Hash): React.ReactNode => (
-            <Proposal
-              imageHash={hash.toHex()}
-              key={hash.toHex()}
-              prime={prime}
-            />
-          ))}
-        </Table.Body>
+      <Table
+        empty={proposals && t('No committee proposals')}
+        header={[
+          [t('proposals'), 'start', 2],
+          [t('threshold')],
+          [t('aye'), 'address'],
+          [t('nay'), 'address'],
+          []
+        ]}
+      >
+        {proposals?.map((hash: Hash): React.ReactNode => (
+          <Proposal
+            imageHash={hash.toHex()}
+            key={hash.toHex()}
+            prime={prime}
+          />
+        ))}
       </Table>
     </div>
   );

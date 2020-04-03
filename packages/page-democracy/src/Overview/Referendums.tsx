@@ -21,28 +21,24 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th
-          className='start'
-          colSpan={2}
-        >
-          <h1>{t('referenda')}</h1>
-        </th>
-        <th>{t('remaining')}</th>
-        <th>{t('activate')}</th>
-        <th>{t('aye')}</th>
-        <th>{t('nay')}</th>
-        <th colSpan={3}>&nbsp;</th>
-      </Table.Head>
-      <Table.Body empty={referendums && t('No active referendums')}>
-        {referendums?.map((referendum): React.ReactNode => (
-          <Referendum
-            key={referendum.index.toString()}
-            value={referendum}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={referendums && t('No active referendums')}
+      header={[
+        [t('referenda'), 'start', 2],
+        [t('remaining')],
+        [t('activate')],
+        [t('aye')],
+        [t('nay')],
+        [undefined, undefined, 3]
+      ]}
+    >
+      {referendums?.map((referendum): React.ReactNode => (
+        <Referendum
+          key={referendum.index.toString()}
+          value={referendum}
+        />
+      ))}
     </Table>
   );
 }
