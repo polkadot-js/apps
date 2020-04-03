@@ -47,7 +47,7 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
       <Table
         empty={motions && t('No council motions')}
         header={[
-          [t('motions'), undefined, 2],
+          [t('motions'), 'start', 2],
           [t('threshold')],
           [t('voting end')],
           [t('aye'), 'address'],
