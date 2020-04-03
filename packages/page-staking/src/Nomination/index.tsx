@@ -118,9 +118,9 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         }
         {currentStep === steps[2] &&
         <>
-            <Available label={balanceWrapper('Account balance')} params={senderId} />
+            {/* <Available label={balanceWrapper('Account balance')} params={senderId} />
             <br />
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} /> */}
             <BondOrTransfer
                 transfer
                 recipientId={controllerAccountId}
@@ -132,9 +132,9 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         }
         {currentStep === steps[3] &&
         <>
-            <Available label={balanceWrapper('Account balance')} params={senderId} />
+            {/* <Available label={balanceWrapper('Account balance')} params={senderId} />
             <br />
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} /> */}
             <AddressInfo
                 address={senderId}
                 withBalance={{
