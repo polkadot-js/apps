@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {InputAddress} from '@polkadot/react-components';
-import useBalance from "@polkadot/app-staking/Nomination/useBalance";
+import { useBalance } from "@polkadot/app-staking/Nomination/useBalance";
 
 interface Props {
   value?: string | null;
