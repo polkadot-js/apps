@@ -123,7 +123,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
         <div className='large'>
           {/* The amount field will be pre-populated with maximum possible amount */}
           <InputBalance
-            value={formatBalance(wholeFees).split(' ')[0]}
+            value={'1000'}
             label={`amount to ${transfer ? 'transfer' : 'bond'}`}
             onChange={setAmount}
           />
