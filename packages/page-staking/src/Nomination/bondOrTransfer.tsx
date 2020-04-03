@@ -22,6 +22,7 @@ interface Props {
 
 function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
+  const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const controllerBalance: Balance | null = useBalanceClear(recipientId);
   let wholeFees: any | null = useFees(recipientId, senderId);
@@ -43,10 +44,8 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       && controllerBalance.cmp(wholeFees) === 1)
   }
 
-  useEffect(() => {
+  function setStepsStateAction() {
     if (transfer) {
-      if (accountBalance && wholeFees && controllerBalance) {
-      }
       const newStepsState = [...stepsState];
       if (isBalanceEnough()) {
         newStepsState[2] = 'completed';
@@ -61,9 +60,27 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       newStepsState[4] = '';
       setStepsState(newStepsState);
     }
+  }
+
+  useEffect(() => {
+    setStepsStateAction();
   },[accountBalance, controllerBalance, wholeFees]);
 
+  useEffect(() => {
+    if (!wholeFees) {
+      return;
+    }
+    const balanceToTransfer = wholeFees.clone();
+    const si = formatBalance.findSi('-');
+    const TEN = new BN(10);
+    const basePower = formatBalance.getDefaults().decimals;
+    const siPower = new BN(basePower + si.power);
+    const amount = new BN(1).mul(TEN.pow(siPower));
+    setTransferableAmount(balanceToTransfer.iadd(amount))
+  }, [wholeFees]);
+
   if (transfer) {
+
     return (
       <section>
         {!isBalanceEnough() && (
@@ -72,7 +89,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
             <div className='ui--row'>
               <div className='large'>
                 <InputBalance
-                  value={formatBalance(wholeFees).split(' ')[0]}
+                  value={formatBalance(transferableAmount).split(' ')[0]}
                   label={`amount to ${transfer ? 'transfer' : 'bond'}`}
                   onChange={setAmount}
                 />

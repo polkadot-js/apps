@@ -36,9 +36,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
   // console.log('validators', validators);
   // console.log('stakingOverview', stakingOverview);
 
-  function onStatusChange() {
-
-  }
+  function onStatusChange() {}
 
   function balanceWrapper(text: string): React.ReactNode {
     return (
@@ -86,7 +84,10 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         {currentStep === steps[0] &&
         <>
             {/*<Available label={balanceWrapper('Your account balance')} params={senderId} />*/}
-            <div className="ui segment">Funds will be locked for the Nomination duration and will remain locked for at least for one era after Nomination is stopped</div>
+            <div className="ui segment">
+                <p>Please, select account have funds enough</p>
+                <p>Funds will be locked for the Nomination duration and will remain locked for at least for one era after Nomination is stopped</p>
+            </div>
             <AccountSelector
                 value={senderId}
                 title={'Your account'}
@@ -118,9 +119,9 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         }
         {currentStep === steps[2] &&
         <>
-            {/* <Available label={balanceWrapper('Account balance')} params={senderId} />
+            <Available label={balanceWrapper('Account balance')} params={senderId} />
             <br />
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} /> */}
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <BondOrTransfer
                 transfer
                 recipientId={controllerAccountId}
