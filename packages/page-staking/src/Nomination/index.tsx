@@ -75,7 +75,6 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
     // and margins inside the application. (Just from a consistent pov)
     <main className={`${className} simple-nomination`}>
       {/*<SummaryBar />*/}
-
       <TabsHeader
         setCurrentStep={setCurrentStep}
         stepsState={stepsState}
@@ -87,6 +86,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         {currentStep === steps[0] &&
         <>
             {/*<Available label={balanceWrapper('Your account balance')} params={senderId} />*/}
+            <div className="ui segment">Funds will be locked for the Nomination duration and will remain locked for at least for one era after Nomination is stopped</div>
             <AccountSelector
                 value={senderId}
                 title={'Your account'}

@@ -5,7 +5,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {InputAddress} from '@polkadot/react-components';
-import { useBalance } from "@polkadot/app-staking/Nomination/useBalance";
+import { useBalanceClear } from "@polkadot/app-staking/Nomination/useBalance";
+import {useApi} from "@polkadot/react-hooks/index";
 
 interface Props {
   value?: string | null;
@@ -18,7 +19,9 @@ interface Props {
 
 function AccountSelector ({ className, onChange, title, stepsState, setStepsState, value }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
-  const balance = useBalance(accountId);
+  const balance = useBalanceClear(accountId);
+  const api = useApi();
+  const existentialDeposit = api.api.consts.balances.existentialDeposit;
 
   useEffect((): void => {
       if (accountId) {
@@ -31,7 +34,7 @@ function AccountSelector ({ className, onChange, title, stepsState, setStepsStat
     if (balance === null) {
       return;
     }
-    if (balance.length > 3) {
+    if (balance.cmp(existentialDeposit) === 1) {
       newStepsState[0] = 'completed';
       newStepsState[1] = newStepsState[1] === 'disabled' ? '' : newStepsState[1];
     } else {
