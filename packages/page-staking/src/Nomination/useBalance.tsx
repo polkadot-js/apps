@@ -53,8 +53,8 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
 
   useEffect(() => {
     if (bondedAddress && senderAddress) {
-      getPaymentFees(bondedAddress, senderAddress).then();
-      getBondFees(bondedAddress, senderAddress).then();
+      getPaymentFees(bondedAddress, senderAddress);
+      getBondFees(bondedAddress, senderAddress);
     }
   }, [bondedAddress, senderAddress]);
 
