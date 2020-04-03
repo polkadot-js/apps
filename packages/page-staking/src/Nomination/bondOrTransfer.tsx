@@ -30,6 +30,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
     ? api.tx.staking.bond(recipientId, amount, destination)
     : null;
   const canSubmit = true;
+  const existentialDeposit = api.consts.balances.existentialDeposit;
 
   function getFees(bondedAddress: string, senderAddress: string) {
     const si = formatBalance.findSi('-');
@@ -45,6 +46,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       .paymentInfo(senderAddress).then(paymentInfo => {
       console.log('paymentInfo', formatBalance(paymentInfo.partialFee));
     });
+    console.log('existentialDeposit', formatBalance(existentialDeposit), existentialDeposit.toNumber());
   }
 
   useEffect(() => {

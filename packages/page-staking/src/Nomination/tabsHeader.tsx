@@ -4,19 +4,19 @@ interface Props {
   setCurrentStep: (id: string) => void;
   stepsState: string[];
   steps: string[];
+  currentStep: string;
 }
 
-function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactElement<Props> {
+function TabsHeader({ stepsState, setCurrentStep, steps, currentStep }: Props): React.ReactElement<Props> {
 
   function setCurrentValue(event: React.MouseEvent, id: string) {
     event.preventDefault();
     setCurrentStep(id);
   }
-  console.log('stepsState', stepsState);
   return (
     <div className="ui ordered top attached steps">
 
-      <a onClick={event => setCurrentValue(event, steps[0])} className={`step ${stepsState[0]}`}>
+      <a onClick={event => setCurrentValue(event, steps[0])} className={`step ${stepsState[0]} ${currentStep === steps[0] ? 'active' : ''}`}>
         <div className="content">
           <div className="title">Account</div>
           <div className="description">
@@ -25,7 +25,7 @@ function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactEl
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[1])} className={`step ${stepsState[1]}`}>
+      <a onClick={event => setCurrentValue(event, steps[1])} className={`step ${stepsState[1]} ${currentStep === steps[1] ? 'active' : ''}`}>
         <div className="content">
           <div className="title">Controller</div>
           <div className="description">
@@ -34,7 +34,7 @@ function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactEl
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[2])} className={`step ${stepsState[2]}`}>
+      <a onClick={event => setCurrentValue(event, steps[2])} className={`step ${stepsState[2]} ${currentStep === steps[2] ? 'active' : ''}`}>
         <div className="content">
           <div className="title">Fees</div>
           <div className="description">
@@ -45,7 +45,7 @@ function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactEl
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[3])} className={`step ${stepsState[3]}`}>
+      <a onClick={event => setCurrentValue(event, steps[3])} className={`step ${stepsState[3]} ${currentStep === steps[3] ? 'active' : ''}`}>
         <div className="content">
           <div className="title">Bond</div>
           <div className="description">
@@ -57,7 +57,7 @@ function TabsHeader({ stepsState, setCurrentStep, steps }: Props): React.ReactEl
         </div>
       </a>
 
-      <a onClick={event => setCurrentValue(event, steps[4])} className={`step ${stepsState[4]}`}>
+      <a onClick={event => setCurrentValue(event, steps[4])} className={`step ${stepsState[4]} ${currentStep === steps[4] ? 'active' : ''}`}>
         <div className="content">
           <div className="title">Nomination</div>
           <div className="description">

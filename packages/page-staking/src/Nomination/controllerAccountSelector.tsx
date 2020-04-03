@@ -32,7 +32,7 @@ function ControllerAccountSelector ({ className, onChange, title, stepsState, se
 
   useEffect(() => {
     const newStepsState = [...stepsState];
-    if (senderId !== value) {
+    if (senderId && value && senderId !== value) {
       newStepsState[1] = 'completed';
       newStepsState[2] = newStepsState[2] === 'disabled' ? '' : newStepsState[2];
     } else {
@@ -40,8 +40,7 @@ function ControllerAccountSelector ({ className, onChange, title, stepsState, se
       newStepsState[2] = 'disabled';
     }
     setStepsState(newStepsState);
-    console.log('bondBalance', bondBalance)
-  },[bondBalance]);
+  },[bondBalance, senderId, value]);
 
   return (
     <section className={className} >

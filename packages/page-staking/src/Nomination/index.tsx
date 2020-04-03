@@ -22,7 +22,7 @@ interface Props {
 }
 
 function Nomination ({ className }: Props): React.ReactElement<Props> {
-  const [currentStep, setCurrentStep] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState<string>(steps[0]);
   const [controllerAccountId, setControllerAccountId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [stepsState, setStepsState] = useState<string[]>(stepInitialState);
@@ -46,6 +46,23 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
     );
   }
 
+  function goBack() {
+    const ind = steps.indexOf(currentStep);
+    setCurrentStep(steps[ind - 1]);
+  }
+
+  function goNext() {
+    const ind = steps.indexOf(currentStep);
+    if (ind < 4) {
+      setCurrentStep(steps[ind + 1]);
+    }
+  }
+
+  function disableNext() {
+    const ind = steps.indexOf(currentStep);
+    return stepsState[ind + 1] === 'disabled';
+  }
+
   /*useEffect(() => {
     if (controllerAccountId) {
       if (!currentStep) {
@@ -61,13 +78,6 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
     );
   }, [stakingOverview]);
 
-  // initial step
-  useEffect(() => {
-    setCurrentStep(steps[0]);
-  }, []);
-
-  console.log('senderId', senderId, 'controllerAccountId', controllerAccountId);
-
   return (
     // in all apps, the main wrapper is setup to allow the padding
     // and margins inside the application. (Just from a consistent pov)
@@ -78,12 +88,13 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         setCurrentStep={setCurrentStep}
         stepsState={stepsState}
         steps={steps}
+        currentStep={currentStep}
       />
 
       <div className="ui attached segment">
         {currentStep === steps[0] &&
         <>
-            <Available label={balanceWrapper('Your account balance')} params={senderId} />
+            {/*<Available label={balanceWrapper('Your account balance')} params={senderId} />*/}
             <AccountSelector
                 value={senderId}
                 title={'Your account'}
@@ -95,7 +106,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         }
         {currentStep === steps[1] &&
         <>
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
+            {/*<Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />*/}
             <ControllerAccountSelector
                 senderId={senderId}
                 value={controllerAccountId}
@@ -131,7 +142,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         <>
             <Available label={balanceWrapper('Account balance')} params={senderId} />
             <br />
-            <Available label={balanceWrapper('Account balance')} params={senderId} />
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <AddressInfo
                 address={senderId}
                 withBalance={{
@@ -164,6 +175,24 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
             />
           </Button.Group>
         )}
+        <Button.Group>
+          <Button
+            key='Back'
+            label={'Back'}
+            icon=''
+            isDisabled={steps.indexOf(currentStep) === 0}
+            onClick={goBack}
+          />
+          <div className="or" />
+          <Button
+            className="primary"
+            key='Next'
+            label={'Next'}
+            icon=''
+            isDisabled={disableNext()}
+            onClick={goNext}
+          />
+        </Button.Group>
       </div>
     </main>
   );

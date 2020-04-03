@@ -28,7 +28,10 @@ function AccountSelector ({ className, onChange, title, stepsState, setStepsStat
 
   useEffect(() => {
     const newStepsState = [...stepsState];
-    if (balance && balance.length > 3) {
+    if (balance === null) {
+      return;
+    }
+    if (balance.length > 3) {
       newStepsState[0] = 'completed';
       newStepsState[1] = newStepsState[1] === 'disabled' ? '' : newStepsState[1];
     } else {
