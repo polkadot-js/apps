@@ -14,8 +14,8 @@ import {Available} from "@polkadot/react-query/index";
 import {AddressInfo, Button, TxButton} from "@polkadot/react-components/index";
 import TabsHeader from "@polkadot/app-staking/Nomination/tabsHeader";
 
-const steps = ['choose', 'create', 'transfer', 'bond', 'nominate'];
-const stepInitialState = ['', 'disabled', 'disabled', 'disabled', 'disabled'];
+const steps = ['choose', 'create', 'transfer', 'bond'];
+const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
 
 interface Props {
   className?: string;
@@ -53,7 +53,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
 
   function goNext() {
     const ind = steps.indexOf(currentStep);
-    if (ind < 4) {
+    if (ind < 3) {
       setCurrentStep(steps[ind + 1]);
     }
   }
@@ -62,14 +62,6 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
     const ind = steps.indexOf(currentStep);
     return stepsState[ind + 1] === 'disabled';
   }
-
-  /*useEffect(() => {
-    if (controllerAccountId) {
-      if (!currentStep) {
-        setCurrentStep(steps[1]);
-      }
-    }
-  }, [controllerAccountId]);*/
 
   // set validators list
   useEffect(() => {
@@ -162,19 +154,6 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
             />
         </>
         }
-        {currentStep === steps[4] && (
-          <Button.Group>
-            <TxButton
-              accountId={controllerAccountId}
-              isDisabled={!validators?.length}
-              isPrimary
-              params={[validators]}
-              label={t('Nominate')}
-              icon='hand paper outline'
-              tx='staking.nominate'
-            />
-          </Button.Group>
-        )}
         <Button.Group>
           <Button
             key='Back'
@@ -184,14 +163,27 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
             onClick={goBack}
           />
           <div className="or" />
-          <Button
+          {currentStep === steps[3] && (
+            <TxButton
+              accountId={controllerAccountId}
+              isDisabled={!validators?.length}
+              isPrimary
+              params={[validators]}
+              label={t('Nominate')}
+              icon='hand paper outline'
+              tx='staking.nominate'
+            />
+          )}
+          {currentStep !== steps[3] && (
+            <Button
             className="primary"
             key='Next'
             label={'Next'}
             icon=''
             isDisabled={disableNext()}
             onClick={goNext}
-          />
+            />
+          )}
         </Button.Group>
       </div>
     </main>
@@ -201,6 +193,6 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
 export default React.memo(styled(Nomination)`  
   .ui.attached.steps {
      display: grid;
-     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 `);

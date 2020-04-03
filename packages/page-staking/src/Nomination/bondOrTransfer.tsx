@@ -34,20 +34,27 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   const canSubmit = true;
   const existentialDeposit = api.consts.balances.existentialDeposit;
 
+  function isBalanceEnough() {
+    return (accountBalance
+      && controllerBalance
+      && existentialDeposit
+      && wholeFees
+      && accountBalance.cmp(existentialDeposit) === 1
+      && controllerBalance.cmp(wholeFees) === 1)
+  }
+
   useEffect(() => {
     if (transfer) {
+      if (accountBalance && wholeFees && controllerBalance) {
+      }
       const newStepsState = [...stepsState];
-      if (accountBalance
-        && controllerBalance
-        && existentialDeposit
-        && wholeFees
-        && accountBalance.cmp(existentialDeposit) === 1
-        && controllerBalance.cmp(wholeFees) === 1) {
+      if (isBalanceEnough()) {
         newStepsState[2] = 'completed';
         newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
       } else {
         newStepsState[2] = '';
       }
+      setStepsState(newStepsState);
     } else {
       const newStepsState = [...stepsState];
       newStepsState[3] = 'completed';
@@ -56,9 +63,45 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
     }
   },[accountBalance, controllerBalance, wholeFees]);
 
+  if (transfer) {
+    return (
+      <section>
+        {!isBalanceEnough() && (
+          <>
+            <h1>Transfer</h1>
+            <div className='ui--row'>
+              <div className='large'>
+                <InputBalance
+                  value={formatBalance(wholeFees).split(' ')[0]}
+                  label={`amount to ${transfer ? 'transfer' : 'bond'}`}
+                  onChange={setAmount}
+                />
+                <Button.Group>
+                  <TxButton
+                    accountId={senderId}
+                    icon='send'
+                    label='Transfer'
+                    params={[recipientId, amount]}
+                    tx='balances.transfer'
+                    withSpinner
+                  />
+                </Button.Group>
+              </div>
+              <Summary className='small'>Transfer to controller account.
+                Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>
+            </div>
+          </>
+        )}
+        {isBalanceEnough() && (
+          <h1>You have enough balance to bond!</h1>
+        )}
+      </section>
+    )
+  }
+
   return (
     <section>
-      <h1>{ transfer ? 'Transfer' : 'Bond'}</h1>
+      <h1>Bond</h1>
       <div className='ui--row'>
         <div className='large'>
           <InputBalance
@@ -67,18 +110,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
             onChange={setAmount}
           />
           <Button.Group>
-            {transfer && (
-              <TxButton
-                accountId={senderId}
-                icon='send'
-                label='Transfer'
-                params={[recipientId, amount]}
-                tx='balances.transfer'
-                withSpinner
-              />
-            )}
-            {!transfer && (
-           <TxButton
+            <TxButton
               accountId={senderId}
               isDisabled={!canSubmit}
               isPrimary
@@ -86,11 +118,10 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
               icon='sign-in'
               extrinsic={extrinsic}
             />
-            )}
           </Button.Group>
         </div>
-        <Summary className='small'>Make a transfer from any account you control to controller account.
-          Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>
+        <Summary className='small'>Bond to controller account.
+          Bond fees and per-transaction fees apply and will be calculated upon submission.</Summary>
       </div>
     </section>
   );

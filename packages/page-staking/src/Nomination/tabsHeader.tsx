@@ -47,23 +47,12 @@ function TabsHeader({ stepsState, setCurrentStep, steps, currentStep }: Props): 
 
       <a onClick={event => setCurrentValue(event, steps[3])} className={`step ${stepsState[3]} ${currentStep === steps[3] ? 'active' : ''}`}>
         <div className="content">
-          <div className="title">Bond</div>
+          <div className="title">Bond and nominate</div>
           <div className="description">
             {/*Bond coins to nomination controller account.*/}
             {/* While your DOTs are staked by nominating a validator, they are 'locked' (bonded).
               You can receive new DOTs in your account but you cannot stake
               as validator or transfer DOTs away from your account. */}
-          </div>
-        </div>
-      </a>
-
-      <a onClick={event => setCurrentValue(event, steps[4])} className={`step ${stepsState[4]} ${currentStep === steps[4] ? 'active' : ''}`}>
-        <div className="content">
-          <div className="title">Nomination</div>
-          <div className="description">
-            {/*Nominate your funds to make profit*/}
-            {/*You can un-nominate at any time to unlock your funds.
-              Keep in mind that the un-nomination is effective in the next era.*/}
           </div>
         </div>
       </a>
