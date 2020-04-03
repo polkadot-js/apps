@@ -10,6 +10,7 @@ import {useTranslation} from '@polkadot/app-accounts/translate';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 import Summary from './summary';
 import { useBalanceClear, useFees } from "@polkadot/app-staking/Nomination/useBalance";
+import { formatBalance } from '@polkadot/util';
 
 interface Props {
   transfer?: boolean | false;
@@ -61,6 +62,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       <div className='ui--row'>
         <div className='large'>
           <InputBalance
+            value={formatBalance(wholeFees).split(' ')[0]}
             label={`amount to ${transfer ? 'transfer' : 'bond'}`}
             onChange={setAmount}
           />

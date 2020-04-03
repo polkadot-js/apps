@@ -31,7 +31,6 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const basePower = formatBalance.getDefaults().decimals;
   const siPower = new BN(basePower + si.power);
   const amount = new BN(1000).mul(TEN.pow(siPower));
-  console.log('bondFees', bondFees, 'paymentFees', paymentFees);
 
   async function getPaymentFees(addr1: string, addr2: string) {
     const fees = await api.api.tx.balances.transfer(addr1, amount).paymentInfo(addr2);
