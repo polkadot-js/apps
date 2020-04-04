@@ -35,8 +35,8 @@ interface Props {
   activeEra?: EraIndex;
   allStashes?: string[];
   className?: string;
+  isInElection?: boolean;
   isOwnStash: boolean;
-  isVisible: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
   rewards?: DeriveStakerReward[];
@@ -111,7 +111,7 @@ function createPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[]): Su
     );
 }
 
-function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
@@ -215,13 +215,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
-        {/* {isPayoutOpen && controllerId && (
-          <ClaimRewards
-            controllerId={controllerId}
-            onClose={togglePayout}
-            payoutRewards={payoutRewards}
-          />
-        )} */}
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
@@ -321,7 +314,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                   <TxButton
                     accountId={controllerId}
                     icon='stop'
-                    isDisabled={!isOwnController}
+                    isDisabled={!isOwnController || isInElection}
                     isPrimary={false}
                     key='stop'
                     label={t('Stop')}
@@ -334,7 +327,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                       ? (
                         <Button
                           icon='sign-in'
-                          isDisabled={!isOwnController}
+                          isDisabled={!isOwnController || isInElection}
                           key='set'
                           label={t('Session Key')}
                           onClick={toggleSetSession}
@@ -343,7 +336,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                       : (
                         <Button
                           icon='check circle outline'
-                          isDisabled={!isOwnController}
+                          isDisabled={!isOwnController || isInElection}
                           key='validate'
                           label={t('Validate')}
                           onClick={toggleValidate}
@@ -353,7 +346,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                     <Button.Or key='nominate.or' />
                     <Button
                       icon='hand paper outline'
-                      isDisabled={!isOwnController}
+                      isDisabled={!isOwnController || isInElection}
                       key='nominate'
                       label={t('Nominate')}
                       onClick={toggleNominate}
@@ -362,13 +355,13 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                 )
               }
               <Popup
+                isOpen={isSettingsOpen}
                 key='settings'
                 onClose={toggleSettings}
-                open={isSettingsOpen}
-                position='bottom right'
                 trigger={
                   <Button
                     icon='setting'
+                    isDisabled={isInElection}
                     onClick={toggleSettings}
                   />
                 }

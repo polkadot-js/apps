@@ -2,6 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Popup } from 'semantic-ui-react';
+import React from 'react';
+import { Popup as SUIPopup } from 'semantic-ui-react';
 
-export default Popup;
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+  isOpen?: boolean;
+  onClose?: () => void;
+  trigger?: React.ReactNode;
+}
+
+function Popup ({ children, className, isOpen, onClose, trigger }: Props): React.ReactElement<Props> {
+  return (
+    <SUIPopup
+      className={className}
+      onClose={onClose}
+      open={isOpen}
+      position='bottom right'
+      trigger={trigger}
+    >
+      {children}
+    </SUIPopup>
+  );
+}
+
+export default React.memo(Popup);
