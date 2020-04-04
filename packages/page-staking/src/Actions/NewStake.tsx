@@ -2,174 +2,124 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { CalculateBalanceProps } from '../types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import BN from 'bn.js';
-import React from 'react';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import React, { useEffect, useState } from 'react';
+import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import InputValidateAmount from './Account/InputValidateAmount';
 import InputValidationController from './Account/InputValidationController';
 import { rewardDestinationOptions } from './constants';
 
-interface Props extends ApiProps, I18nProps, CalculateBalanceProps {
-  onClose: () => void;
+interface Props {
+  className?: string;
 }
 
-interface State {
-  amountError: string | null;
-  bondValue?: BN;
-  controllerError: string | null;
-  controllerId: string | null;
-  destination: number;
-  extrinsic: SubmittableExtrinsic | null;
-  stashId: string | null;
-}
+function NewStake ({ className }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const [isVisible, toggleVisible] = useToggle();
+  const [amount, setAmount] = useState<BN | undefined>();
+  const [amountError, setAmountError] = useState<string | null>(null);
+  const [, setControllerError] = useState<string | null>(null);
+  const [controllerId, setControllerId] = useState<string | null>(null);
+  const [destination, setDestination] = useState(0);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [stashId, setStashId] = useState<string | null>(null);
 
-class NewStake extends TxComponent<Props, State> {
-  public state: State;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      amountError: null,
-      controllerError: null,
-      controllerId: null,
-      destination: 0,
-      extrinsic: null,
-      stashId: null
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { amountError, bondValue, controllerId, destination, extrinsic, stashId } = this.state;
-    const hasValue = !!bondValue && bondValue.gtn(0);
-    const canSubmit = hasValue && !!controllerId;
-
-    return (
-      <Modal
-        className='staking--Bonding'
-        header={t('Bonding Preferences')}
-        size='small'
-      >
-        <Modal.Content className='ui--signer-Signer-Content'>
-          <InputAddress
-            className='medium'
-            label={t('stash account')}
-            onChange={this.onChangeStash}
-            type='account'
-            value={stashId}
-          />
-          <InputAddress
-            className='medium'
-            help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            label={t('controller account')}
-            onChange={this.onChangeController}
-            type='account'
-            value={controllerId}
-          />
-          <InputValidationController
-            accountId={stashId}
-            controllerId={controllerId}
-            onError={this.onControllerError}
-          />
-          <InputBalanceBonded
-            autoFocus
-            className='medium'
-            controllerId={controllerId}
-            destination={destination}
-            extrinsicProp={'staking.bond'}
-            help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
-            isError={!hasValue || !!amountError}
-            label={t('value bonded')}
-            onChange={this.onChangeValue}
-            onEnter={this.sendTx}
-            stashId={stashId}
-          />
-          <InputValidateAmount
-            accountId={stashId}
-            onError={this.onAmountError}
-            value={bondValue}
-          />
-          <Dropdown
-            className='medium'
-            defaultValue={0}
-            help={t('The destination account for any payments as either a nominator or validator')}
-            label={t('payment destination')}
-            onChange={this.onChangeDestination}
-            options={rewardDestinationOptions}
-            value={destination}
-          />
-        </Modal.Content>
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={stashId}
-            extrinsic={extrinsic}
-            icon='sign-in'
-            isDisabled={!canSubmit}
-            isPrimary
-            label={t('Bond')}
-            onStart={onClose}
-          />
-        </Modal.Actions>
-      </Modal>
+  useEffect((): void => {
+    setExtrinsic(
+      () => (amount && controllerId)
+        ? api.tx.staking.bond(controllerId, amount, destination)
+        : null
     );
-  }
+  }, [api, amount, controllerId, destination]);
 
-  private nextState (newState: Partial<State>): void {
-    this.setState((prevState: State): State => {
-      const { api } = this.props;
-      const { amountError = prevState.amountError, bondValue = prevState.bondValue, controllerError = prevState.controllerError, controllerId = prevState.controllerId, destination = prevState.destination, stashId = prevState.stashId } = newState;
-      const extrinsic = (bondValue && controllerId)
-        ? api.tx.staking.bond(controllerId, bondValue, destination)
-        : null;
+  const hasValue = !!amount?.gtn(0);
+  const canSubmit = hasValue && !!controllerId;
 
-      return {
-        amountError,
-        bondValue,
-        controllerError,
-        controllerId,
-        destination,
-        extrinsic,
-        stashId
-      };
-    });
-  }
-
-  private onAmountError = (amountError: string | null): void => {
-    this.nextState({ amountError });
-  }
-
-  private onChangeController = (controllerId: string | null): void => {
-    this.nextState({ controllerId });
-  }
-
-  private onChangeDestination = (destination: number): void => {
-    this.nextState({ destination });
-  }
-
-  private onChangeStash = (stashId: string | null): void => {
-    this.nextState({ stashId });
-  }
-
-  private onChangeValue = (bondValue?: BN): void => {
-    this.nextState({ bondValue });
-  }
-
-  private onControllerError = (controllerError: string | null): void => {
-    this.setState({ controllerError });
-  }
+  return (
+    <div className={className}>
+      <Button.Group>
+        <Button
+          icon='add'
+          key='new-stake'
+          label={t('New stake')}
+          onClick={toggleVisible}
+        />
+      </Button.Group>
+      {isVisible && (
+        <Modal
+          className='staking--Bonding'
+          header={t('Bonding Preferences')}
+          size='small'
+        >
+          <Modal.Content className='ui--signer-Signer-Content'>
+            <InputAddress
+              className='medium'
+              label={t('stash account')}
+              onChange={setStashId}
+              type='account'
+              value={stashId}
+            />
+            <InputAddress
+              className='medium'
+              help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
+              label={t('controller account')}
+              onChange={setControllerId}
+              type='account'
+              value={controllerId}
+            />
+            <InputValidationController
+              accountId={stashId}
+              controllerId={controllerId}
+              onError={setControllerError}
+            />
+            <InputBalanceBonded
+              autoFocus
+              className='medium'
+              controllerId={controllerId}
+              destination={destination}
+              extrinsicProp={'staking.bond'}
+              help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
+              isError={!hasValue || !!amountError}
+              label={t('value bonded')}
+              onChange={setAmount}
+              stashId={stashId}
+            />
+            <InputValidateAmount
+              accountId={stashId}
+              onError={setAmountError}
+              value={amount}
+            />
+            <Dropdown
+              className='medium'
+              defaultValue={0}
+              help={t('The destination account for any payments as either a nominator or validator')}
+              label={t('payment destination')}
+              onChange={setDestination}
+              options={rewardDestinationOptions}
+              value={destination}
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={toggleVisible}>
+            <TxButton
+              accountId={stashId}
+              extrinsic={extrinsic}
+              icon='sign-in'
+              isDisabled={!canSubmit}
+              isPrimary
+              label={t('Bond')}
+              onStart={toggleVisible}
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
+    </div>
+  );
 }
 
-export default withMulti(
-  NewStake,
-  translate,
-  withApi
-);
+export default React.memo(NewStake);
