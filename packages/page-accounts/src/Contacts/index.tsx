@@ -68,7 +68,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           </div>
         }
         header={[
-          [t('contacts'), 'start, 2'],
+          [t('contacts'), 'start', 2],
           [t('tags'), 'start'],
           [t('transactions')],
           [t('balances')],

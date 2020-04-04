@@ -36,8 +36,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
       <Table
         header={
           getHeader
-            ? [['...', 'start', 6]]
-            : [
+            ? [
               [formatNumber(blockNumber), 'start', 1],
               [t('hash'), 'start'],
               [t('parent'), 'start'],
@@ -45,6 +44,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
               [t('state'), 'start'],
               []
             ]
+            : [['...', 'start', 6]]
         }
         isFixed
       >
