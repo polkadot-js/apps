@@ -40,30 +40,26 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
   };
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th
-          className='start'
-          colSpan={2}
-        >
-          <h1>{isApprovals ? t('Approved') : t('Proposals')}</h1>
-        </th>
-        <th className='address'>{t('beneficiary')}</th>
-        <th>{t('payment')}</th>
-        <th>{t('bond')}</th>
-        <th colSpan={2}>&nbsp;</th>
-      </Table.Head>
-      <Table.Body empty={proposals && (isApprovals ? t('No approved proposals') : t('No pending proposals'))}>
-        {proposals?.map((proposal): React.ReactNode => (
-          <Proposal
-            isMember={isMember}
-            key={proposal.id.toString()}
-            onRespond={_onRespond}
-            proposal={proposal}
-            withSend={!isApprovals}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={proposals && (isApprovals ? t('No approved proposals') : t('No pending proposals'))}
+      header={[
+        [isApprovals ? t('Approved') : t('Proposals'), 'start', 2],
+        [t('beneficiary'), 'address'],
+        [t('payment')],
+        [t('bond')],
+        [undefined, undefined, 2]
+      ]}
+    >
+      {proposals?.map((proposal): React.ReactNode => (
+        <Proposal
+          isMember={isMember}
+          key={proposal.id.toString()}
+          onRespond={_onRespond}
+          proposal={proposal}
+          withSend={!isApprovals}
+        />
+      ))}
     </Table>
   );
 }

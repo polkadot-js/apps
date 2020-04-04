@@ -54,8 +54,9 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           onStatusChange={onStatusChange}
         />
       )}
-      <Table>
-        <Table.Head filter={
+      <Table
+        empty={t('no addresses saved yet, add any existing address')}
+        filter={
           <div className='filter--tags'>
             <Input
               autoFocus
@@ -65,29 +66,24 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
               value={filter}
             />
           </div>
-        }>
-          <th
-            className='start'
-            colSpan={2}
-          >
-            <h1>{t('contacts')}</h1>
-          </th>
-          <th className='start'>{t('tags')}</th>
-          <th>{t('transactions')}</th>
-          <th>{t('balances')}</th>
-          <th colSpan={2}>&nbsp;</th>
-        </Table.Head>
-        <Table.Body empty={t('no addresses saved yet, add any existing address')}>
-          {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
-            <Address
-              address={address}
-              filter={filter}
-              isFavorite={isFavorite}
-              key={address}
-              toggleFavorite={toggleFavorite}
-            />
-          ))}
-        </Table.Body>
+        }
+        header={[
+          [t('contacts'), 'start', 2],
+          [t('tags'), 'start'],
+          [t('transactions')],
+          [t('balances')],
+          [undefined, undefined, 2]
+        ]}
+      >
+        {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
+          <Address
+            address={address}
+            filter={filter}
+            isFavorite={isFavorite}
+            key={address}
+            toggleFavorite={toggleFavorite}
+          />
+        ))}
       </Table>
     </div>
   );

@@ -19,28 +19,25 @@ function Parachains ({ parachains }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <Table>
-      <Table.Head>
-        <th colSpan={4}>&nbsp;</th>
-        <th>{t('swap to id')}</th>
-        <th>{t('scheduling')}</th>
-      </Table.Head>
-      <Table.Body>
-        {parachains.map((parachain): React.ReactNode => (
-          <Parachain
-            key={parachain.id.toString()}
-            parachain={parachain}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      header={[
+        [t('parachains'), 'start', 4],
+        [t('swap to id')],
+        [t('scheduling')]
+      ]}
+    >
+      {parachains.map((parachain): React.ReactNode => (
+        <Parachain
+          key={parachain.id.toString()}
+          parachain={parachain}
+        />
+      ))}
     </Table>
   );
 }
 
 export default React.memo(styled(Parachains)`
-  tbody {
-    tr {
-      cursor: pointer;
-    }
+  tbody tr {
+    cursor: pointer;
   }
 `);

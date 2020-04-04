@@ -72,24 +72,22 @@ function Payouts ({ allRewards, className }: Props): React.ReactElement<Props> |
   }
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th className='start'>
-          <h1>{t('payouts/validator')}</h1>
-        </th>
-        <th className='start'>{t('eras')}</th>
-        <th className='number'>{t('available')}</th>
-        <th className='start'>&nbsp;</th>
-        <th className='button'>&nbsp;</th>
-      </Table.Head>
-      <Table.Body empty={t('No pending era payouts from validators')}>
-        {payouts.map((payout): React.ReactNode => (
-          <Payout
-            key={payout.validatorId}
-            payout={payout}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={t('No pending era payouts from validators')}
+      header={[
+        [t('payouts/validator'), 'start'],
+        [t('eras'), 'start'],
+        [t('available')],
+        [undefined, undefined, 2]
+      ]}
+    >
+      {payouts.map((payout): React.ReactNode => (
+        <Payout
+          key={payout.validatorId}
+          payout={payout}
+        />
+      ))}
     </Table>
   );
 }

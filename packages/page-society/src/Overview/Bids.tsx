@@ -21,20 +21,21 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const bids = useCall<Bid[]>(api.query.society.bids, []);
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th className='start'><h1>{t('bids')}</h1></th>
-        <th>{t('kind')}</th>
-        <th>{t('value')}</th>
-      </Table.Head>
-      <Table.Body empty={bids && t('No bids')}>
-        {bids?.map((bid): React.ReactNode => (
-          <BidRow
-            key={bid.who.toString()}
-            value={bid}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={bids && t('No bids')}
+      header={[
+        [t('bids'), 'start'],
+        [t('kind')],
+        [t('value')]
+      ]}
+    >
+      {bids?.map((bid): React.ReactNode => (
+        <BidRow
+          key={bid.who.toString()}
+          value={bid}
+        />
+      ))}
     </Table>
   );
 }

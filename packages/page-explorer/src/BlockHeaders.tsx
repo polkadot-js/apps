@@ -17,25 +17,20 @@ function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <Table>
-      <Table.Head>
-        <th
-          className='start'
-          colSpan={3}
-        >
-          <h1>{t('recent blocks')}</h1>
-        </th>
-      </Table.Head>
-      <Table.Body empty={t('No blocks available')}>
-        {headers
-          .filter((header) => !!header)
-          .map((header): React.ReactNode => (
-            <BlockHeader
-              key={header.number.toString()}
-              value={header}
-            />
-          ))}
-      </Table.Body>
+    <Table
+      empty={t('No blocks available')}
+      header={[
+        [t('recent blocks'), 'start', 3]
+      ]}
+    >
+      {headers
+        .filter((header) => !!header)
+        .map((header): React.ReactNode => (
+          <BlockHeader
+            key={header.number.toString()}
+            value={header}
+          />
+        ))}
     </Table>
   );
 }

@@ -19,34 +19,30 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
   const { t } = useTranslation();
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th
-          className='start'
-          colSpan={3}
-        >
-          <h1>{t('members')}</h1>
-        </th>
-      </Table.Head>
-      <Table.Body empty={members && t('No members found')}>
-        {members?.map((accountId): React.ReactNode => (
-          <tr key={accountId.toString()}>
-            <td className='address'>
-              <AddressSmall value={accountId} />
-            </td>
-            <td>
-              {prime?.eq(accountId) && (
-                <Tag
-                  color='green'
-                  hover={t('Committee prime member, default voting')}
-                  label={t('prime member')}
-                />
-              )}
-            </td>
-            <td className='all'>&nbsp;</td>
-          </tr>
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={members && t('No members found')}
+      header={[
+        [t('members'), 'start', 3]
+      ]}
+    >
+      {members?.map((accountId): React.ReactNode => (
+        <tr key={accountId.toString()}>
+          <td className='address'>
+            <AddressSmall value={accountId} />
+          </td>
+          <td>
+            {prime?.eq(accountId) && (
+              <Tag
+                color='green'
+                hover={t('Committee prime member, default voting')}
+                label={t('prime member')}
+              />
+            )}
+          </td>
+          <td className='all'>&nbsp;</td>
+        </tr>
+      ))}
     </Table>
   );
 }
