@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSessionIndexes, DeriveStakingQuery, DeriveStakerReward } from '@polkadot/api-derive/types';
-import { EraIndex } from '@polkadot/types/interfaces';
+import { EraIndex, StakingLedgerTo240 } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 
@@ -18,35 +18,44 @@ interface OwnRewards {
   rewardCount: number;
 }
 
-function useNextPayouts (onlyLatest?: boolean): [string, BN][] | undefined {
+function filterInfo (stashIds: string[], allInfo: DeriveStakingQuery[], prevEra: BN, onlyLatest?: boolean): [string, BN, BN[]?][] {
+  const payouts = allInfo
+    .map(({ stakingLedger }, index): [string, BN?, BN[]?] =>
+      stakingLedger
+        ? stakingLedger.claimedRewards
+          ? [stashIds[index], new BN(0), stakingLedger.claimedRewards]
+          : (stakingLedger as any as StakingLedgerTo240).lastReward
+            ? [stashIds[index], (stakingLedger as any as StakingLedgerTo240).lastReward.unwrapOr(new BN(-1)).addn(1), []]
+            : [stashIds[index]]
+        : [stashIds[index]]
+    )
+    .filter((value): value is [string, BN, BN[]?] => !!value[1]);
+
+  return onlyLatest
+    ? payouts
+      .filter(([, era]) => era.lte(prevEra))
+      .map(([stashId, , exclude]) => [stashId, prevEra, exclude])
+    : payouts;
+}
+
+function useNextPayouts (onlyLatest?: boolean): [string, BN, BN[]?][] | undefined {
   const { api, isApiReady } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
   const allInfo = useCall<DeriveStakingQuery[]>(isApiReady && stashIds && api.derive.staking?.queryMulti, stashIds);
   const indexes = useCall<DeriveSessionIndexes>(isApiReady && api.derive.session?.indexes, []);
-  const [nextPayouts, setNextPayouts] = useState<[string, BN][] | undefined>();
+  const [nextPayouts, setNextPayouts] = useState<[string, BN, BN[]?][] | undefined>();
 
   useEffect((): void => {
-    if (mountedRef.current && stashIds && allInfo && indexes) {
-      const prevEra = indexes.activeEra.subn(1);
-      const lastPayouts = allInfo
-        .map(({ stakingLedger }, index) => [stashIds[index], stakingLedger?.lastReward?.unwrapOr(new BN(-1)).addn(1)])
-        .filter((value): value is [string, EraIndex] => !!value[1]);
-
-      setNextPayouts(
-        onlyLatest
-          ? lastPayouts
-            .filter(([, era]) => era.lte(prevEra))
-            .map(([stashId]) => [stashId, prevEra])
-          : lastPayouts
-      );
-    }
+    mountedRef.current && stashIds && allInfo && indexes && setNextPayouts(
+      filterInfo(stashIds, allInfo, indexes.activeEra.subn(1), onlyLatest)
+    );
   }, [allInfo, indexes, mountedRef, onlyLatest, stashIds]);
 
   return nextPayouts;
 }
 
-function getRewards ([thesePayouts, theseRewards]: [[string, EraIndex][], DeriveStakerReward[][]], nextPayouts: [string, BN][]): OwnRewards {
+function getRewards ([thesePayouts, theseRewards]: [[string, EraIndex][], DeriveStakerReward[][]], nextPayouts: [string, BN, BN[]?][]): OwnRewards {
   const allRewards = theseRewards.reduce((result: Record<string, DeriveStakerReward[]>, rewards, index): Record<string, DeriveStakerReward[]> => {
     const [stashId] = thesePayouts[index];
     const nextPayout = nextPayouts.find(([thisId]) => thisId === stashId);
