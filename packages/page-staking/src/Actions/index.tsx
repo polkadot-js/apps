@@ -77,7 +77,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       <Table
         empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
         header={[
-          [t('stashes'), 'start', 2],
+          [t('stashes'), 'start'],
           [t('controller'), 'address'],
           [t('rewards'), 'number'],
           [t('bonded'), 'number'],
@@ -93,17 +93,17 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
             key={stashId}
             next={next}
             onUpdateType={_onUpdateType}
-            rewards={allRewards && allRewards[stashId]}
-            stakerPayoutsAfter={stakerPayoutsAfter}
             stakingOverview={stakingOverview}
             stashId={stashId}
           />
         ))}
       </Table>
-      <Payouts
-        allRewards={allRewards}
-        stakerPayoutsAfter={stakerPayoutsAfter}
-      />
+      {api.query.staking.activeEra && (
+        <Payouts
+          allRewards={allRewards}
+          stakerPayoutsAfter={stakerPayoutsAfter}
+        />
+      )}
     </div>
   );
 }

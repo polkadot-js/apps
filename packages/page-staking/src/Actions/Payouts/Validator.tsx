@@ -8,10 +8,10 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import PayButton from './PayButton';
+import { createErasString } from './util';
 
 interface Props {
   className?: string;
@@ -19,7 +19,6 @@ interface Props {
 }
 
 interface State {
-  available: BN;
   eraStr: string;
   eras: BN[];
   nominators: Record<string, BN>;
@@ -28,8 +27,7 @@ interface State {
 
 function Payout ({ className, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ available, eraStr, eras, nominators, numNominators }, setState] = useState<State>({
-    available: new BN(0),
+  const [{ eraStr, eras, nominators, numNominators }, setState] = useState<State>({
     eraStr: '',
     eras: [],
     nominators: {},
@@ -37,11 +35,8 @@ function Payout ({ className, payout }: Props): React.ReactElement<Props> {
   });
 
   useEffect((): void => {
-    const available = new BN(0);
     const eras = payout.eras.map(({ era }) => era);
-    const eraStr = eras.length
-      ? `(${formatNumber(eras.length)}) ${eras.map((era) => formatNumber(era)).join(', ')}`
-      : '';
+    const eraStr = createErasString(eras);
     const nominators = payout.eras.reduce((nominators: Record<string, BN>, { stashes }): Record<string, BN> => {
       Object.entries(stashes).forEach(([stashId, value]): void => {
         if (nominators[stashId]) {
@@ -49,22 +44,23 @@ function Payout ({ className, payout }: Props): React.ReactElement<Props> {
         } else {
           nominators[stashId] = value;
         }
-
-        available.iadd(value);
       });
 
       return nominators;
     }, {});
 
-    setState({ available, eraStr, eras, nominators, numNominators: Object.keys(nominators).length });
+    setState({ eraStr, eras, nominators, numNominators: Object.keys(nominators).length });
   }, [payout]);
 
   return (
     <tr className={className}>
       <td className='address'><AddressMini value={payout.validatorId} /></td>
       <td className='start'>{eraStr}</td>
-      <td className='number'><FormatBalance value={available} /></td>
-      <td className='start'>
+      <td className='number'><FormatBalance value={payout.available} /></td>
+      <td
+        className='start'
+        colSpan={2}
+      >
         <Expander summary={t('{{count}} stakers', { replace: { count: numNominators } })}>
           {Object.entries(nominators).map(([stashId, balance]) =>
             <AddressMini

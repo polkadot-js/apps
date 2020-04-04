@@ -22,8 +22,6 @@ import Query from './Query';
 import Targets from './Targets';
 import { useTranslation } from './translate';
 
-export { default as useCounter } from './useCounter';
-
 function reduceNominators (nominators: string[], additional: string[]): string[] {
   return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
 }
@@ -68,8 +66,8 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       text: t('Waiting')
     },
     {
-      name: 'returns',
-      text: t('Returns')
+      name: 'calculator',
+      text: t('Calculator')
     },
     {
       hasParams: true,
@@ -115,7 +113,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
-        <Route path={`${basePath}/returns`}>
+        <Route path={`${basePath}/calculator`}>
           <Targets />
         </Route>
         <Route path={`${basePath}/waiting`}>

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakerReward } from '@polkadot/api-derive/types';
-import { PayoutValidator } from './types';
+import { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -11,12 +11,17 @@ import { Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
-import Payout from './Payout';
+import Stash from './Stash';
+import Validator from './Validator';
 
 interface Props {
   allRewards?: Record<string, DeriveStakerReward[]>;
-  className?: string;
   stakerPayoutsAfter: BN;
+}
+
+interface Available {
+  stashes?: PayoutStash[];
+  validators?: PayoutValidator[];
 }
 
 function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): PayoutValidator[] {
@@ -40,8 +45,11 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
                   stashes: { [stashId]: value }
                 });
               }
+
+              entry.available = entry.available.add(value);
             } else {
               grouped.push({
+                available: value,
                 eras: [{
                   era: reward.era,
                   stashes: { [stashId]: value }
@@ -53,42 +61,74 @@ function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): Pa
       });
 
       return grouped;
-    }, []);
+    }, [])
+    .sort((a, b) => b.available.cmp(a.available));
 }
 
-function Payouts ({ allRewards, className }: Props): React.ReactElement<Props> | null {
+function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): PayoutStash[] {
+  return Object
+    .entries(allRewards)
+    .map(([stashId, rewards]): PayoutStash => ({
+      available: rewards.reduce((result, { total }) => result.iadd(total), new BN(0)),
+      rewards,
+      stashId
+    }))
+    .filter(({ available }) => !available.isZero())
+    .sort((a, b) => b.available.cmp(a.available));
+}
+
+function Payouts ({ allRewards, stakerPayoutsAfter }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [payouts, setPayouts] = useState<PayoutValidator[]>([]);
+  const [{ stashes, validators }, setPayouts] = useState<Available>({});
   const { t } = useTranslation();
 
   useEffect((): void => {
-    allRewards && setPayouts(
-      groupByValidator(allRewards)
-    );
+    allRewards && setPayouts({
+      stashes: extractStashes(allRewards),
+      validators: groupByValidator(allRewards)
+    });
   }, [allRewards]);
 
-  if (!api.tx.staking.payoutStakers) {
-    return null;
-  }
-
   return (
-    <Table
-      className={className}
-      empty={t('No pending era payouts from validators')}
-      header={[
-        [t('payouts/validator'), 'start'],
-        [t('eras'), 'start'],
-        [t('available')],
-        [undefined, undefined, 2]
-      ]}
-    >
-      {payouts.map((payout): React.ReactNode => (
-        <Payout
-          key={payout.validatorId}
-          payout={payout}
-        />
-      ))}
-    </Table>
+    <>
+      <Table
+        empty={stashes && t('No pending payouts for your stashes')}
+        header={[
+          [t('payout/stash'), 'start'],
+          [t('eras'), 'start'],
+          [t('available')],
+          [undefined, undefined, 3]
+        ]}
+        isFixed
+      >
+        {stashes?.map((payout): React.ReactNode => (
+          <Stash
+            key={payout.stashId}
+            payout={payout}
+            stakerPayoutsAfter={stakerPayoutsAfter}
+          />
+        ))}
+      </Table>
+      {api.tx.staking.payoutStakers && (
+        <Table
+          empty={validators && t('No pending era payouts from validators')}
+          header={[
+            [t('payout/validator'), 'start'],
+            [t('eras'), 'start'],
+            [t('total')],
+            [undefined, undefined, 3]
+          ]}
+          isFixed
+        >
+          {validators?.map((payout): React.ReactNode => (
+            <Validator
+              key={payout.validatorId}
+              payout={payout}
+            />
+          ))}
+        </Table>
+      )}
+    </>
   );
 }
 
