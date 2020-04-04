@@ -243,7 +243,7 @@ export default React.memo(styled(Table)`
         font-weight: 100;
         text-align: right;
         padding: 0.75rem 1rem 0.25rem;
-        vertical-align: baseline;
+        vertical-align: bottom;
         white-space: nowrap;
 
         h1, h2 {
