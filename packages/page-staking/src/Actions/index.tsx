@@ -6,12 +6,12 @@ import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import Account from './Account';
-import StartStaking from './NewStake';
+import NewStake from './NewStake';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -33,7 +33,6 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
         : undefined
   });
   const ownStashes = useOwnStashes();
-  const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
@@ -45,12 +44,6 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
     );
   }, [ownStashes, stashTypes]);
 
-  const _toggleNewStake = useCallback(
-    (): void => setIsNewStateOpen(
-      (isNewStakeOpen: boolean) => !isNewStakeOpen
-    ),
-    []
-  );
   const _onUpdateType = useCallback(
     (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
       setStashTypes((stashTypes: Record<string, number>) => ({
@@ -66,17 +59,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
 
   return (
     <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
-      <Button.Group>
-        <Button
-          icon='add'
-          key='new-stake'
-          label={t('New stake')}
-          onClick={_toggleNewStake}
-        />
-      </Button.Group>
-      {isNewStakeOpen && (
-        <StartStaking onClose={_toggleNewStake} />
-      )}
+      <NewStake />
       <Table
         empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
         header={[
