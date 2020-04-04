@@ -16,9 +16,10 @@ import { rewardDestinationOptions } from './constants';
 
 interface Props {
   className?: string;
+  isInElection?: boolean;
 }
 
-function NewStake ({ className }: Props): React.ReactElement<Props> {
+function NewStake ({ className, isInElection }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
@@ -46,6 +47,7 @@ function NewStake ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='add'
+          isDisabled={isInElection}
           key='new-stake'
           label={t('New stake')}
           onClick={toggleVisible}

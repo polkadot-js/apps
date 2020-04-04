@@ -143,6 +143,10 @@ export default createGlobalStyle<Props>`
       margin-left: 2.25rem;
     }
 
+    &.nomargin {
+      margin-left: 0;
+    }
+
     &.error {
       background: #fff6f6;
       border-color: #e0b4b4;

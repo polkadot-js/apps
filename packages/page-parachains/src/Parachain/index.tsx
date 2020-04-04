@@ -70,10 +70,9 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
           >
             {(sudoKey && isMine) && (
               <Popup
+                isOpen={isMenuOpen}
                 key='settings'
                 onClose={toggleMenu}
-                open={isMenuOpen}
-                position='bottom right'
                 trigger={
                   <Button
                     className='menu-button'

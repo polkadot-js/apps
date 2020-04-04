@@ -362,9 +362,8 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         />
         <Popup
           className='theme--default'
+          isOpen={isSettingsOpen}
           onClose={toggleSettings}
-          open={isSettingsOpen}
-          position='bottom right'
           trigger={
             <Button
               icon='setting'
