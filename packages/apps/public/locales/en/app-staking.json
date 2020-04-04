@@ -183,5 +183,6 @@
   "No active validators to check for rewards available": "No active validators to check for rewards available",
   "rewards": "rewards",
   "bonded": "bonded",
-  "No funds staked yet. Bond funds to validate or nominate a validator": "No funds staked yet. Bond funds to validate or nominate a validator"
+  "No funds staked yet. Bond funds to validate or nominate a validator": "No funds staked yet. Bond funds to validate or nominate a validator",
+  "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.": "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted."
 }
