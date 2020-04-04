@@ -29,25 +29,21 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
   }, [info, members]);
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th
-          className='start'
-          colSpan={3}
-        >
-          <h1>{t('members')}</h1>
-        </th>
-        <th>{t('strikes')}</th>
-      </Table.Head>
-      <Table.Body empty={info && t('No active members')}>
-        {filtered.map((member): React.ReactNode => (
-          <Member
-            isHead={info?.head?.eq(member.accountId)}
-            key={member.accountId.toString()}
-            value={member}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={info && t('No active members')}
+      header={[
+        [t('members'), 'start', 3],
+        [t('strikes')]
+      ]}
+    >
+      {filtered.map((member): React.ReactNode => (
+        <Member
+          isHead={info?.head?.eq(member.accountId)}
+          key={member.accountId.toString()}
+          value={member}
+        />
+      ))}
     </Table>
   );
 }

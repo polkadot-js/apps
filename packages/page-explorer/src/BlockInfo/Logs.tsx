@@ -104,21 +104,19 @@ function Logs (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
-    <Table>
-      <Table.Head>
-        <th className='start'><h1>{t('logs')}</h1></th>
-      </Table.Head>
-      <Table.Body>
-        {value?.map((log, index) => (
-          <tr key={`log:${index}`}>
-            <td className='overflow'>
-              <Expander summary={log.type.toString()}>
-                {formatItem(log)}
-              </Expander>
-            </td>
-          </tr>
-        ))}
-      </Table.Body>
+    <Table
+      empty={t('No logs available')}
+      header={[[t('logs'), 'start']]}
+    >
+      {value?.map((log, index) => (
+        <tr key={`log:${index}`}>
+          <td className='overflow'>
+            <Expander summary={log.type.toString()}>
+              {formatItem(log)}
+            </Expander>
+          </td>
+        </tr>
+      ))}
     </Table>
   );
 }

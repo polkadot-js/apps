@@ -19,23 +19,24 @@ function Peers ({ className, peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th className='start'><h1>{t('connected peers')}</h1></th>
-        <th className='start'>{t('role')}</th>
-        <th className='number'>{t('best #')}</th>
-        <th className='start'>{t('best hash')}</th>
-      </Table.Head>
-      <Table.Body empty={t('no peers connected')}>
-        {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (
-          <tr key={peer.peerId.toString()}>
-            <td className='hash'>{peer.peerId.toString()}</td>
-            <td>{peer.roles.toString().toLowerCase()}</td>
-            <td className='number all'>{formatNumber(peer.bestNumber)}</td>
-            <td className='hash'>{peer.bestHash.toHex()}</td>
-          </tr>
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={t('no peers connected')}
+      header={[
+        [t('connected peers'), 'start'],
+        [t('role'), 'start'],
+        [t('best #'), 'number'],
+        [t('best hash'), 'hash']
+      ]}
+    >
+      {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (
+        <tr key={peer.peerId.toString()}>
+          <td className='hash'>{peer.peerId.toString()}</td>
+          <td>{peer.roles.toString().toLowerCase()}</td>
+          <td className='number all'>{formatNumber(peer.bestNumber)}</td>
+          <td className='hash'>{peer.bestHash.toHex()}</td>
+        </tr>
+      ))}
     </Table>
   );
 }

@@ -21,46 +21,36 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
 
   return (
     <>
-      <Table>
-        <Table.Head>
-          <th
-            className='start'
-            colSpan={2}
-          >
-            <h1>{t('runners up')}</h1>
-          </th>
-          <th>{t('backing')}</th>
-        </Table.Head>
-        <Table.Body empty={electionsInfo && t('No runners up found')}>
-          {electionsInfo?.runnersUp.map(([accountId, balance]): React.ReactNode => (
-            <Candidate
-              address={accountId}
-              balance={balance}
-              key={accountId.toString()}
-              voters={allVotes[accountId.toString()]}
-            />
-          ))}
-        </Table.Body>
+      <Table
+        empty={electionsInfo && t('No runners up found')}
+        header={[
+          [t('runners up'), 'start', 2],
+          [t('backing')]
+        ]}
+      >
+        {electionsInfo?.runnersUp.map(([accountId, balance]): React.ReactNode => (
+          <Candidate
+            address={accountId}
+            balance={balance}
+            key={accountId.toString()}
+            voters={allVotes[accountId.toString()]}
+          />
+        ))}
       </Table>
-      <Table>
-        <Table.Head>
-          <th
-            className='start'
-            colSpan={2}
-          >
-            <h1>{t('candidates')}</h1>
-          </th>
-          <th>{t('backing')}</th>
-        </Table.Head>
-        <Table.Body empty={electionsInfo && t('No candidates found')}>
-          {electionsInfo?.candidates.map((accountId): React.ReactNode => (
-            <Candidate
-              address={accountId}
-              key={accountId.toString()}
-              voters={allVotes[accountId.toString()]}
-            />
-          ))}
-        </Table.Body>
+      <Table
+        empty={electionsInfo && t('No candidates found')}
+        header={[
+          [t('candidates'), 'start', 2],
+          [t('backing')]
+        ]}
+      >
+        {electionsInfo?.candidates.map((accountId): React.ReactNode => (
+          <Candidate
+            address={accountId}
+            key={accountId.toString()}
+            voters={allVotes[accountId.toString()]}
+          />
+        ))}
       </Table>
     </>
   );

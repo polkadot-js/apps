@@ -21,25 +21,25 @@ function Events ({ emptyLabel, eventClassName, events, label }: Props): React.Re
   const { t } = useTranslation();
 
   return (
-    <Table>
-      <Table.Head>
-        <th className='start'><h1>{label || t('recent events')}</h1></th>
-      </Table.Head>
-      <Table.Body empty={emptyLabel || t('No events available')}>
-        {events
-          .filter(({ event: { method, section } }): boolean => !!method && !!section)
-          .map((event: EventRecord, index): React.ReactNode => (
-            <tr
-              className={eventClassName}
-              key={`event:${index}`}
-            >
-              <td className='overflow'>
-                <Event value={event} />
-              </td>
-            </tr>
-          ))
-        }
-      </Table.Body>
+    <Table
+      empty={emptyLabel || t('No events available')}
+      header={[
+        [label || t('recent events'), 'start']
+      ]}
+    >
+      {events
+        .filter(({ event: { method, section } }): boolean => !!method && !!section)
+        .map((event: EventRecord, index): React.ReactNode => (
+          <tr
+            className={eventClassName}
+            key={`event:${index}`}
+          >
+            <td className='overflow'>
+              <Event value={event} />
+            </td>
+          </tr>
+        ))
+      }
     </Table>
   );
 }

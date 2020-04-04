@@ -22,25 +22,25 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
 
   return (
-    <Table className={className}>
-      <Table.Head>
-        <th className='start'><h1>{t('candidates')}</h1></th>
-        <th>{t('kind')}</th>
-        <th>{t('value')}</th>
-        <th className='start'>{t('votes')}</th>
-        <th>&nbsp;</th>
-      </Table.Head>
-      <Table.Body empty={candidates && t('No candidates')}>
-        {candidates?.map((candidate): React.ReactNode => (
-          <Candidate
-            allMembers={allMembers}
-            isMember={isMember}
-            key={candidate.accountId.toString()}
-            ownMembers={ownMembers}
-            value={candidate}
-          />
-        ))}
-      </Table.Body>
+    <Table
+      className={className}
+      empty={candidates && t('No candidates')}
+      header={[
+        [t('candidates'), 'start'],
+        [t('kind')],
+        [t('value')],
+        [t('votes'), 'start']
+      ]}
+    >
+      {candidates?.map((candidate): React.ReactNode => (
+        <Candidate
+          allMembers={allMembers}
+          isMember={isMember}
+          key={candidate.accountId.toString()}
+          ownMembers={ownMembers}
+          value={candidate}
+        />
+      ))}
     </Table>
   );
 }

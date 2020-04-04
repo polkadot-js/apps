@@ -219,8 +219,9 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
         numValidators={validators.length}
         totalStaked={totalStaked}
       />
-      <Table>
-        <Table.Head filter={
+      <Table
+        empty={sorted && t('No active validators to check for rewards available')}
+        filter={
           <InputBalance
             className='balanceInput'
             help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
@@ -229,31 +230,25 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
             onChange={setAmount}
             value={_amount}
           />
-        }>
-          <th
-            className='start'
-            colSpan={3}
-          >
-            <h1>{t('validators')}</h1>
-          </th>
-          {['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header): React.ReactNode => (
-            <th
-              className={`isClickable ${sortBy === header && 'ui--highlight--border'} number`}
-              key={header}
-              onClick={(): void => _sort(header as 'rankComm')}
-            >{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
-          ))}
-          <th>&nbsp;</th>
-        </Table.Head>
-        <Table.Body empty={sorted && t('No active validators to check for rewards available')}>
-          {sorted?.map((info): React.ReactNode =>
-            <Validator
-              info={info}
-              key={info.key}
-              toggleFavorite={toggleFavorite}
-            />
-          )}
-        </Table.Body>
+        }
+        header={[
+          [t('validators'), 'start', 3],
+          ...['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
+            <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
+            `isClickable ${sortBy === header && 'ui--highlight--border'} number`,
+            1,
+            (): void => _sort(header as 'rankComm')
+          ]),
+          []
+        ]}
+      >
+        {sorted?.map((info): React.ReactNode =>
+          <Validator
+            info={info}
+            key={info.key}
+            toggleFavorite={toggleFavorite}
+          />
+        )}
       </Table>
     </div>
   );
