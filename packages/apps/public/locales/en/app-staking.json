@@ -182,5 +182,6 @@
   "No waiting validators found": "No waiting validators found",
   "No active validators to check for rewards available": "No active validators to check for rewards available",
   "rewards": "rewards",
-  "bonded": "bonded"
+  "bonded": "bonded",
+  "No funds staked yet. Bond funds to validate or nominate a validator": "No funds staked yet. Bond funds to validate or nominate a validator"
 }
