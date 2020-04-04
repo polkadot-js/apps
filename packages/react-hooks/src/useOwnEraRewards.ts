@@ -16,7 +16,7 @@ interface OwnRewards {
   rewardCount: number;
 }
 
-function getRewards (stashIds: string[], available: DeriveStakerReward[][]): OwnRewards {
+function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][]]): OwnRewards {
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
   stashIds.forEach((stashId, index): void => {
@@ -33,14 +33,14 @@ export default function useOwnEraRewards (): OwnRewards {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
-  const available = useCall<DeriveStakerReward[][]>(stashIds && api.derive.staking?.stakerRewardsMulti as any, [stashIds]);
+  const available = useCall<[[string[]], DeriveStakerReward[][]]>(stashIds && api.derive.staking?.stakerRewardsMulti as any, [stashIds], { withParams: true });
   const [state, setState] = useState<OwnRewards>({ rewardCount: 0 });
 
   useEffect((): void => {
-    mountedRef.current && available && stashIds && (stashIds.length === available.length) && setState(
-      getRewards(stashIds, available)
+    mountedRef.current && available && setState(
+      getRewards(available)
     );
-  }, [available, mountedRef, stashIds]);
+  }, [available, mountedRef]);
 
   return state;
 }

@@ -16,6 +16,7 @@ import Validator from './Validator';
 
 interface Props {
   allRewards?: Record<string, DeriveStakerReward[]>;
+  isInElection?: boolean;
   stakerPayoutsAfter: BN;
 }
 
@@ -77,7 +78,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function Payouts ({ allRewards, stakerPayoutsAfter }: Props): React.ReactElement<Props> {
+function Payouts ({ allRewards, isInElection, stakerPayoutsAfter }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashes, validators }, setPayouts] = useState<Available>({});
   const { t } = useTranslation();
@@ -103,6 +104,7 @@ function Payouts ({ allRewards, stakerPayoutsAfter }: Props): React.ReactElement
       >
         {stashes?.map((payout): React.ReactNode => (
           <Stash
+            isInElection={isInElection}
             key={payout.stashId}
             payout={payout}
             stakerPayoutsAfter={stakerPayoutsAfter}
@@ -122,6 +124,7 @@ function Payouts ({ allRewards, stakerPayoutsAfter }: Props): React.ReactElement
         >
           {validators?.map((payout): React.ReactNode => (
             <Validator
+              isInElection={isInElection}
               key={payout.validatorId}
               payout={payout}
             />

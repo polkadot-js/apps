@@ -18,6 +18,7 @@ import { createErasString } from './util';
 
 interface Props {
   className?: string;
+  isInElection?: boolean;
   payout: PayoutStash;
   stakerPayoutsAfter: BN;
 }
@@ -36,7 +37,7 @@ function createPrevPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[])
     : api.tx.utility.batch(payoutRewards.map((reward) => createPrevPayoutType(api, reward)));
 }
 
-function Stash ({ className, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
+function Stash ({ className, isInElection, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
@@ -79,7 +80,7 @@ function Stash ({ className, payout: { available, rewards, stashId }, stakerPayo
             accountId={stakingAccount.controllerId}
             extrinsic={extrinsic}
             icon='percent'
-            isDisabled={!extrinsic}
+            isDisabled={!extrinsic || isInElection}
             isPrimary={false}
             label={t('Payout')}
             withSpinner={false}

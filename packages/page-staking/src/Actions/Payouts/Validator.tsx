@@ -15,6 +15,7 @@ import { createErasString } from './util';
 
 interface Props {
   className?: string;
+  isInElection?: boolean;
   payout: PayoutValidator;
 }
 
@@ -25,7 +26,7 @@ interface State {
   numNominators: number;
 }
 
-function Payout ({ className, payout }: Props): React.ReactElement<Props> {
+function Payout ({ className, isInElection, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ eraStr, eras, nominators, numNominators }, setState] = useState<State>({
     eraStr: '',
@@ -75,6 +76,7 @@ function Payout ({ className, payout }: Props): React.ReactElement<Props> {
       <td className='button'>
         <PayButton
           eras={eras}
+          isInElection={isInElection}
           validatorId={payout.validatorId}
         />
       </td>

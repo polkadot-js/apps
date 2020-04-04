@@ -95,6 +95,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       {api.query.staking.activeEra && (
         <Payouts
           allRewards={allRewards}
+          isInElection={isInElection}
           stakerPayoutsAfter={stakerPayoutsAfter}
         />
       )}

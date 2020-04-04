@@ -13,10 +13,11 @@ import { useTranslation } from '../../translate';
 
 interface Props {
   eras: BN[];
+  isInElection?: boolean;
   validatorId: string;
 }
 
-function PayButton ({ eras, validatorId }: Props): React.ReactElement<Props> {
+function PayButton ({ eras, isInElection, validatorId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
   const [isVisible, togglePayout] = useToggle();
@@ -66,6 +67,7 @@ function PayButton ({ eras, validatorId }: Props): React.ReactElement<Props> {
       )}
       <Button
         icon='percent'
+        isDisabled={isInElection}
         label={t('Payout')}
         onClick={togglePayout}
       />
