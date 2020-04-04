@@ -3,16 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
-import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
+import { ActiveEraInfo, ElectionStatus, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table } from '@polkadot/react-components';
-import { useCall, useApi, useOwnStashes, useToggle } from '@polkadot/react-hooks';
+import { Table } from '@polkadot/react-components';
+import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 import Account from './Account';
-import StartStaking from './NewStake';
+import NewStake from './NewStake';
 import Payouts from './Payouts';
 import useStakerPayouts from './useStakerPayouts';
 
@@ -29,14 +29,13 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
-    transform: (activeEra: Option<ActiveEraInfo>): EraIndex | undefined =>
-      activeEra.isSome
-        ? activeEra.unwrap().index
-        : undefined
+    transform: (activeEra: Option<ActiveEraInfo>) => activeEra.unwrapOr({ index: undefined }).index
+  });
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
+    transform: (status: ElectionStatus) => status.isOpen
   });
   const ownStashes = useOwnStashes();
   const stakerPayoutsAfter = useStakerPayouts();
-  const [isNewStakeOpen, toggleNewStake] = useToggle();
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
@@ -63,16 +62,11 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
 
   return (
     <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
-      <Button.Group>
-        <Button
-          icon='add'
-          key='new-stake'
-          label={t('New stake')}
-          onClick={toggleNewStake}
-        />
-      </Button.Group>
-      {isNewStakeOpen && (
-        <StartStaking onClose={toggleNewStake} />
+      <NewStake isInElection={isInElection} />
+      {isInElection && (
+        <article className='warning nomargin'>
+          {t('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
+        </article>
       )}
       <Table
         empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
@@ -88,8 +82,8 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
           <Account
             activeEra={activeEra}
             allStashes={allStashes}
+            isInElection={isInElection}
             isOwnStash={isOwnStash}
-            isVisible={isVisible}
             key={stashId}
             next={next}
             onUpdateType={_onUpdateType}

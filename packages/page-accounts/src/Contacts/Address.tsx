@@ -264,9 +264,8 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         />
         <Popup
           className='theme--default'
+          isOpen={isSettingPopupOpen}
           onClose={_toggleSettingPopup}
-          open={isSettingPopupOpen}
-          position='bottom right'
           trigger={
             <Button
               icon='setting'

@@ -29,8 +29,8 @@ interface Props {
   activeEra?: EraIndex;
   allStashes?: string[];
   className?: string;
+  isInElection?: boolean;
   isOwnStash: boolean;
-  isVisible: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
   stakingOverview?: DeriveStakingOverview;
@@ -90,7 +90,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -253,7 +253,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                   <TxButton
                     accountId={controllerId}
                     icon='stop'
-                    isDisabled={!isOwnController}
+                    isDisabled={!isOwnController || isInElection}
                     isPrimary={false}
                     key='stop'
                     label={t('Stop')}
@@ -266,7 +266,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       ? (
                         <Button
                           icon='sign-in'
-                          isDisabled={!isOwnController}
+                          isDisabled={!isOwnController || isInElection}
                           key='set'
                           label={t('Session Key')}
                           onClick={toggleSetSession}
@@ -275,7 +275,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                       : (
                         <Button
                           icon='check circle outline'
-                          isDisabled={!isOwnController}
+                          isDisabled={!isOwnController || isInElection}
                           key='validate'
                           label={t('Validate')}
                           onClick={toggleValidate}
@@ -285,7 +285,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                     <Button.Or key='nominate.or' />
                     <Button
                       icon='hand paper outline'
-                      isDisabled={!isOwnController}
+                      isDisabled={!isOwnController || isInElection}
                       key='nominate'
                       label={t('Nominate')}
                       onClick={toggleNominate}
@@ -294,13 +294,13 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                 )
               }
               <Popup
+                isOpen={isSettingsOpen}
                 key='settings'
                 onClose={toggleSettings}
-                open={isSettingsOpen}
-                position='bottom right'
                 trigger={
                   <Button
                     icon='setting'
+                    isDisabled={isInElection}
                     onClick={toggleSettings}
                   />
                 }
