@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useState } from 'react';
-import { Label } from 'semantic-ui-react';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 import styled from 'styled-components';
 
 import Tooltip from './Tooltip';
