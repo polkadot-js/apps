@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, ElectionStatus, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Table } from '@polkadot/react-components';
-import { useCall, useApi, useOwnEraRewards, useOwnStashes } from '@polkadot/react-hooks';
+import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
@@ -17,16 +17,16 @@ import Payouts from './Payouts';
 import useStakerPayouts from './useStakerPayouts';
 
 interface Props {
+  allRewards?: Record<string, DeriveStakerReward[]>;
   allStashes?: string[];
   className?: string;
   next?: string[];
   stakingOverview?: DeriveStakingOverview;
 }
 
-function Actions ({ allStashes, className, next, stakingOverview }: Props): React.ReactElement<Props> {
+function Actions ({ allRewards, allStashes, className, next, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allRewards } = useOwnEraRewards();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
     transform: (activeEra: Option<ActiveEraInfo>) => activeEra.unwrapOr({ index: undefined }).index
   });

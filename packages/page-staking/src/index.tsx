@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
 import Actions from './Actions';
@@ -31,6 +31,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
+  const { allRewards, rewardCount } = useOwnEraRewards();
   const [next, setNext] = useState<string[] | undefined>();
   const allStashes = useCall<string[]>(api.derive.staking.stashes, [], {
     transform: (stashes: AccountId[]): string[] =>
@@ -51,7 +52,11 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     },
     {
       name: 'actions',
-      text: t('Account actions')
+      text: t('Account actions{{count}}', {
+        replace: {
+          count: rewardCount ? ` (${rewardCount})` : ''
+        }
+      })
     },
     {
       name: 'waiting',
@@ -66,7 +71,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       name: 'query',
       text: t('Validator stats')
     }
-  ], [t]);
+  ], [rewardCount, t]);
   const hiddenTabs = useMemo(
     (): string[] =>
       !hasAccounts
@@ -118,6 +123,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         </Route>
       </Switch>
       <Actions
+        allRewards={allRewards}
         allStashes={allStashes}
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
         next={next}
