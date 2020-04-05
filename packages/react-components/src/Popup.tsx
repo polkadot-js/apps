@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { Popup as SUIPopup } from 'semantic-ui-react';
+import SUIPopup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 
 interface Props {
   children: React.ReactNode;
