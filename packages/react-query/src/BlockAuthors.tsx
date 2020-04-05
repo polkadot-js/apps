@@ -2,14 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EraRewardPoints } from '@polkadot/types/interfaces';
+
 import React, { useEffect, useState } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-interface Authors {
+export interface Authors {
   byAuthor: Record<string, string>;
-  lastBlockAuthors?: string[];
+  eraPoints: Record<string, string>;
+  lastBlockAuthors: string[];
   lastBlockNumber?: string;
   lastHeader?: HeaderExtended;
   lastHeaders: HeaderExtended[];
@@ -22,12 +25,14 @@ interface Props {
 const MAX_HEADERS = 25;
 
 const byAuthor: Record<string, string> = {};
-const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, lastHeaders: [] });
+const eraPoints: Record<string, string> = {};
+const BlockAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
 const ValidatorsContext: React.Context<string[]> = React.createContext<string[]>([]);
 
 function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
-  const [state, setState] = useState<Authors>({ byAuthor, lastHeaders: [] });
+  const { api, isApiReady } = useApi();
+  const queryPoints = useCall<EraRewardPoints>(isApiReady && api.derive.staking.currentPoints, []);
+  const [state, setState] = useState<Authors>({ byAuthor, eraPoints, lastBlockAuthors: [], lastHeaders: [] });
   const [validators, setValidators] = useState<string[]>([]);
 
   useEffect((): void => {
@@ -70,12 +75,18 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
             }, [lastHeader])
             .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()));
 
-          setState({ byAuthor, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders });
+          setState({ byAuthor, eraPoints, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders });
         }
       });
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect((): void => {
+    queryPoints && [...queryPoints.individual.entries()].forEach(([accountId, points]): void => {
+      eraPoints[accountId.toString()] = formatNumber(points);
+    });
+  }, [queryPoints]);
 
   return (
     <ValidatorsContext.Provider value={validators}>
