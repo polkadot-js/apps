@@ -18,7 +18,7 @@ interface Props {
   votes: DeriveReferendumVote[];
 }
 
-const LOCKS = [1, 10, 20, 30, 40, 50];
+const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
 function ReferendumVotes ({ count, total, votes }: Props): React.ReactElement<Props> {
   const [sorted, setSorted] = useState<DeriveReferendumVote[]>([]);
