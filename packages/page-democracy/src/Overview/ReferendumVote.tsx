@@ -12,7 +12,7 @@ interface Props {
   vote: DeriveReferendumVote;
 }
 
-const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x'];
+const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x', '6x'];
 
 function voteLabel (vote: Vote): string {
   return `${sizing[vote.conviction.toNumber()]} - `;
