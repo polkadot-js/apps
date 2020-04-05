@@ -2882,8 +2882,8 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.2
     "@polkadot/react-components": 0.40.0-beta.238
-    "@polkadot/react-qr": ^0.52.0-beta.24
-    "@polkadot/vanitygen": ^0.11.0-beta.14
+    "@polkadot/react-qr": ^0.52.0-beta.25
+    "@polkadot/vanitygen": ^0.11.0-beta.15
     detect-browser: ^5.0.0
     file-saver: ^2.0.2
   languageName: unknown
@@ -3088,7 +3088,7 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.8.7
     "@babel/runtime": ^7.9.2
-    "@polkadot/dev": ^0.52.4
+    "@polkadot/dev": ^0.52.6
     "@polkadot/react-components": 0.40.0-beta.238
     "@polkadot/react-signer": 0.40.0-beta.238
     babel-loader: ^8.1.0
@@ -3108,9 +3108,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.52.4, @polkadot/dev@npm:^0.52.5":
-  version: 0.52.5
-  resolution: "@polkadot/dev@npm:0.52.5"
+"@polkadot/dev@npm:^0.52.6":
+  version: 0.52.6
+  resolution: "@polkadot/dev@npm:0.52.6"
   dependencies:
     "@babel/cli": ^7.8.4
     "@babel/core": ^7.9.0
@@ -3140,7 +3140,6 @@ __metadata:
     babel-plugin-module-resolver: ^4.0.0
     babel-plugin-styled-components: ^1.10.7
     browserslist: ^4.11.1
-    chalk: ^4.0.0
     coveralls: ^3.0.11
     cpx: ^1.5.0
     eslint: ^6.8.0
@@ -3192,7 +3191,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 2/8c8c97b50705c232912f63fcca4f647b0664311c4c52760c273dd9ef5598a532d2ed844de7e3fd9d1609cb64c90bfd8976dc74a38e5863837a9665038bc98a0d
+  checksum: 2/fbd6fd561d8017da10563fb32e7b873fd84fc019b301ac9269fe6cc4ddb7ab96dbc295c175e87e6c9af492aeff512fa505dce8babe6269804a57d1560b32a948
   languageName: node
   linkType: hard
 
@@ -3262,10 +3261,10 @@ __metadata:
     "@babel/runtime": ^7.9.2
     "@polkadot/keyring": ^2.7.1
     "@polkadot/react-api": 0.40.0-beta.238
-    "@polkadot/react-identicon": ^0.52.0-beta.24
+    "@polkadot/react-identicon": ^0.52.0-beta.25
     "@polkadot/react-query": 0.40.0-beta.238
-    "@polkadot/ui-keyring": ^0.52.0-beta.24
-    "@polkadot/ui-settings": ^0.52.0-beta.24
+    "@polkadot/ui-keyring": ^0.52.0-beta.25
+    "@polkadot/ui-settings": ^0.52.0-beta.25
     chart.js: ^2.9.3
     codeflask: ^1.4.1
     i18next: ^19.3.4
@@ -3300,7 +3299,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-identicon@npm:^0.52.0-beta.24":
+"@polkadot/react-identicon@npm:^0.52.0-beta.25":
   version: 0.52.0-beta.25
   resolution: "@polkadot/react-identicon@npm:0.52.0-beta.25"
   dependencies:
@@ -3331,7 +3330,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-qr@npm:^0.52.0-beta.24":
+"@polkadot/react-qr@npm:^0.52.0-beta.25":
   version: 0.52.0-beta.25
   resolution: "@polkadot/react-qr@npm:0.52.0-beta.25"
   dependencies:
@@ -3362,7 +3361,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.2
     "@polkadot/react-components": 0.40.0-beta.238
-    "@polkadot/react-qr": ^0.52.0-beta.24
+    "@polkadot/react-qr": ^0.52.0-beta.25
   languageName: unknown
   linkType: soft
 
@@ -3435,7 +3434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ui-keyring@npm:^0.52.0-beta.24":
+"@polkadot/ui-keyring@npm:^0.52.0-beta.25":
   version: 0.52.0-beta.25
   resolution: "@polkadot/ui-keyring@npm:0.52.0-beta.25"
   dependencies:
@@ -3458,7 +3457,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ui-settings@npm:0.52.0-beta.25, @polkadot/ui-settings@npm:^0.52.0-beta.24":
+"@polkadot/ui-settings@npm:0.52.0-beta.25, @polkadot/ui-settings@npm:^0.52.0-beta.25":
   version: 0.52.0-beta.25
   resolution: "@polkadot/ui-settings@npm:0.52.0-beta.25"
   dependencies:
@@ -3519,7 +3518,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.11.0-beta.14":
+"@polkadot/vanitygen@npm:^0.11.0-beta.15":
   version: 0.11.0-beta.15
   resolution: "@polkadot/vanitygen@npm:0.11.0-beta.15"
   dependencies:
@@ -3806,7 +3805,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^25.1.5":
+"@types/jest@npm:^25.2.1":
   version: 25.2.1
   resolution: "@types/jest@npm:25.2.1"
   dependencies:
@@ -6310,16 +6309,6 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: 2/4018b0c812880da595d0d7b8159939527b72f58d3370e2fdc1a24d9abd460bab851695d7eca014082f110d5702d1221b05493fec430ccce375de907d50cc48c1
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "chalk@npm:4.0.0"
-  dependencies:
-    ansi-styles: ^4.1.0
-    supports-color: ^7.1.0
-  checksum: 2/12b01a228b5ca2f03a82684c62d54c06e2ba2f7b81dd08fac56c5b9288958dd24f9cae866e140df5c29cb736059cb4be0165157ebb0b15039cc1ea511a2dab60
   languageName: node
   linkType: hard
 
@@ -18351,13 +18340,13 @@ __metadata:
     "@babel/core": ^7.9.0
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.2
-    "@polkadot/dev": ^0.52.5
+    "@polkadot/dev": ^0.52.6
     "@polkadot/ts": ^0.3.16
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.18
     "@types/file-saver": ^2.0.1
     "@types/i18next": ^13.0.0
-    "@types/jest": ^25.1.5
+    "@types/jest": ^25.2.1
     "@types/react-beautiful-dnd": ^12.1.2
     "@types/react-copy-to-clipboard": ^4.3.0
     "@types/react-dom": ^16.9.6
