@@ -38,7 +38,6 @@
     "@babel/core": "^7.8.4",
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
-    "@cennznet/crml-generic-asset": "1.0.0",
     "@cennznet/types": "1.0.0",
     "@polkadot/dev": "^0.40.19",
     "@polkadot/ts": "^0.2.3",

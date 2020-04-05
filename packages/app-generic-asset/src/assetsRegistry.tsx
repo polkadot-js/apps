@@ -5,7 +5,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { reservedAssets } from '@polkadot/app-generic-asset/asset-util';
 
-const ASSETS_KEY = 'polkadot-app-generic-asset-assets';
+const ASSETS_KEY = 'cennznet-assets';
 
 export interface AssetsSubjectInfo { [id: string]: string }
 

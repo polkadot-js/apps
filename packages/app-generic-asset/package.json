@@ -5,9 +5,9 @@
   "description": "A basic GenericAsset transfer app",
   "main": "index.js",
   "scripts": {},
-  "author": "Bryan Chen <xlchen1291@gmail.com>",
+  "author": "Centrality developers <developers@centrality.ai>",
   "maintainers": [
-    "Bryan Chen <xlchen1291@gmail.com>"
+    "Centrality developers <developers@centrality.ai>"
   ],
   "license": "Apache-2.0",
   "dependencies": {
