@@ -5,7 +5,7 @@
 import { useOwnEraRewards } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
-  const { rewardCount } = useOwnEraRewards(true);
+  const { rewardCount } = useOwnEraRewards();
 
   return rewardCount;
 }
