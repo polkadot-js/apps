@@ -91,6 +91,7 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
           </Modal.Content>
           <VoteActions
             accountId={accountId}
+            aye={voteValue}
             isDisabled={!councilHash}
             onClick={toggleOpen}
             params={[councilHash, councilId, voteValue]}

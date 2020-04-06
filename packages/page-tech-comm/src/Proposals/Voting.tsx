@@ -53,6 +53,7 @@ function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> 
           </Modal.Content>
           <VoteActions
             accountId={accountId}
+            aye={voteValue}
             onClick={toggleVoting}
             params={[hash, proposalId, voteValue]}
             tx='technicalCommittee.vote'
