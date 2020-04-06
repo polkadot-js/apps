@@ -102,7 +102,6 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
       <Button
         icon='check'
         isDisabled={isDisabled}
-        isPrimary
         label={t('Vote')}
         onClick={toggleOpen}
       />
