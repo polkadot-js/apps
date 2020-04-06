@@ -79,7 +79,7 @@ const routes: Routes = appSettings.uiMode === 'light'
   );
 
 const setup: Routing = {
-  default: 'explorer',
+  default: 'landing',
   routes
 };
 
