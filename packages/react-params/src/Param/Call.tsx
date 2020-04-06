@@ -13,7 +13,7 @@ import { classes } from '@polkadot/react-components/util';
 import Bare from './Bare';
 import Unknown from './Unknown';
 
-export default function CallDisplay (props: Props): React.ReactElement<Props> {
+function CallDisplay (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
 
   if (!isDisabled) {
@@ -39,3 +39,5 @@ export default function CallDisplay (props: Props): React.ReactElement<Props> {
     </Bare>
   );
 }
+
+export default React.memo(CallDisplay);

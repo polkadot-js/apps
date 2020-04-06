@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
-
 import React, { useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { EventRecord } from '@polkadot/types/interfaces';
@@ -25,7 +23,7 @@ const MAX_EVENTS = 25;
 
 const EventsContext: React.Context<Events> = React.createContext<Events>([]);
 
-function Events ({ children }: Props): React.ReactElement<Props> {
+function EventsBase ({ children }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [state, setState] = useState<Events>([]);
 
@@ -33,21 +31,22 @@ function Events ({ children }: Props): React.ReactElement<Props> {
     // TODO We should really unsub - but since this should just be used once,
     // atm I'm rather typing this than doing it the way it is supposed to be
     api.isReady.then((): void => {
-      const prevEventHash = '';
-      let events: Events = [];
+      let prevEventHash = '';
 
-      api.query.system.events((records: EventRecord[] & Codec): void => {
+      api.query.system.events((records): void => {
         const newEvents = records
           .filter(({ event }): boolean => event.section !== 'system')
           .map((record, index): KeyedEvent => ({ key: `${Date.now()}-${index}`, record }));
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
         if (newEventHash !== prevEventHash) {
-          events = [...newEvents, ...events].slice(0, MAX_EVENTS);
-          setState(events);
+          prevEventHash = newEventHash;
+
+          setState((events) => [...newEvents, ...events].slice(0, MAX_EVENTS));
         }
       });
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -56,5 +55,7 @@ function Events ({ children }: Props): React.ReactElement<Props> {
     </EventsContext.Provider>
   );
 }
+
+const Events = React.memo(EventsBase);
 
 export { EventsContext, Events };

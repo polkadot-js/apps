@@ -17,28 +17,28 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   isImminent?: boolean;
-  matchHash?: Hash;
+  imageHash?: Hash;
   onClose: () => void;
 }
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isImminent, setIsImminent] = useState(propsIsImminent || false);
-  const [{ encodedProposal, encodedHash }, setHash] = useState<{ encodedProposal: string; encodedHash: string }>({ encodedProposal: '', encodedHash: ZERO_HASH });
+  const [{ encodedHash, encodedProposal }, setHash] = useState<{ encodedHash: string; encodedProposal: string }>({ encodedHash: ZERO_HASH, encodedProposal: '' });
   const [proposal, setProposal] = useState<any>();
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
 
-    setHash({ encodedProposal, encodedHash: blake2AsHex(encodedProposal) });
+    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal });
   }, [proposal]);
 
-  const isMatched = matchHash
-    ? matchHash.eq(encodedHash)
+  const isMatched = imageHash
+    ? imageHash.eq(encodedHash)
     : true;
 
   return (
@@ -50,7 +50,12 @@ function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose 
         <InputAddress
           help={t('The account you want to register the preimage from')}
           label={t('send from account')}
-          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
+          labelExtra={
+            <Available
+              label={<span className='label'>{t('transferrable')}</span>}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
         />
@@ -76,10 +81,10 @@ function PreImage ({ className, isImminent: propsIsImminent, matchHash, onClose 
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
+          icon='add'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
           isPrimary
           label={t('Submit preimage')}
-          icon='add'
           onStart={onClose}
           params={[encodedProposal]}
           tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}

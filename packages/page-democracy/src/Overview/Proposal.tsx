@@ -6,7 +6,7 @@ import { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, AddressSmall, Button, LinkExternal } from '@polkadot/react-components';
+import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -20,30 +20,26 @@ interface Props {
   value: DeriveProposal;
 }
 
-function Proposal ({ className, value: { balance, hash, index, proposal, proposer, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className, value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const seconding = seconds.filter((_address, index): boolean => index !== 0);
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
-      <td className='top'>
-        <AddressSmall value={proposer} />
-      </td>
-      <td className='number together top'>
-        <FormatBalance label={<label>{t('locked')}</label>} value={balance} />
-      </td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
-        proposalHash={hash}
-        proposal={proposal}
+        imageHash={imageHash}
+        proposal={image?.proposal}
       />
-      <td className='top padtop'>
+      <td className='address'>
+        <AddressMini value={proposer} />
+      </td>
+      <td className='number together'>
+        <FormatBalance value={balance} />
+      </td>
+      <td>
         {seconding.length !== 0 && (
-          <details>
-            <summary>
-              {t('Seconds ({{count}})', { replace: { count: seconding.length } })}
-            </summary>
+          <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini
                 className='identityIcon'
@@ -53,24 +49,26 @@ function Proposal ({ className, value: { balance, hash, index, proposal, propose
                 withShrink
               />
             ))}
-          </details>
+          </Expander>
         )}
       </td>
-      <td className='together number top'>
+      <td className='button'>
         <Button.Group>
           <Seconding
             depositors={seconds || []}
+            image={image}
             proposalId={index}
-            proposal={proposal}
           />
-          <PreImageButton
-            hash={hash}
-            proposal={proposal}
-          />
+          {!image?.proposal && (
+            <PreImageButton imageHash={imageHash} />
+          )}
         </Button.Group>
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           type='proposal'
+          withShort
         />
       </td>
     </tr>

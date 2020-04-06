@@ -1,20 +1,18 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId, VoteIndex } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
 import { ComponentProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { withApi } from '@polkadot/react-api/hoc';
-import { InputAddressMulti, Button } from '@polkadot/react-components';
+import { Button, InputAddressMulti, VoteValue } from '@polkadot/react-components';
 import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 
 import translate from '../translate';
-import VoteValue from './VoteValue';
 
 interface Props extends ApiProps, ComponentProps, TxModalProps {}
 
@@ -31,8 +29,8 @@ class Vote extends TxModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
-      votes: [],
-      voteValue: new BN(0)
+      voteValue: new BN(0),
+      votes: []
     };
 
     this.state = {
@@ -52,13 +50,13 @@ class Vote extends TxModal<Props, State> {
       : 'elections.vote';
 
   protected txParams = (): [boolean[] | null, VoteIndex, BN | null] | [string[], BN] => {
-    const { votes, voteValue } = this.state;
+    const { voteValue, votes } = this.state;
 
     return [votes, voteValue];
   }
 
   protected isDisabled = (): boolean => {
-    const { accountId, votes, voteValue } = this.state;
+    const { accountId, voteValue, votes } = this.state;
 
     return !accountId || votes.length === 0 || voteValue.lten(0);
   }
@@ -77,9 +75,9 @@ class Vote extends TxModal<Props, State> {
 
     return (
       <Button
+        icon='check'
         isDisabled={available.length === 0}
         label={this.props.t('Vote')}
-        icon='check'
         onClick={this.showModal}
       />
     );
@@ -126,9 +124,9 @@ class Vote extends TxModal<Props, State> {
     this.setState({ accountId });
 
     if (accountId) {
-      (api.query.electionsPhragmen || api.query.elections)
-        .votesOf<[AccountId[]] & Codec>(accountId)
-        .then(([existingVotes]): void => {
+      api.derive.council
+        .votesOf(accountId)
+        .then(({ votes }): void => {
           if (!this.props.electionsInfo) {
             return;
           }
@@ -140,7 +138,7 @@ class Vote extends TxModal<Props, State> {
             .concat(candidates.map((accountId): string => accountId.toString()));
 
           this.setState({
-            votes: existingVotes
+            votes: votes
               .map((accountId): string => accountId.toString())
               .filter((accountId): boolean => available.includes(accountId))
           });

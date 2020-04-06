@@ -22,7 +22,7 @@ interface Props {
 
 const ledgerConnOptions = uiSettings.availableLedgerConn;
 
-export default function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
+function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
@@ -35,8 +35,8 @@ export default function General ({ className, isModalContent, onClose }: Props):
   }, [t]);
   const translateLanguages = useMemo((): Option[] => {
     return availableLanguages.map(({ text, value, withI18n }) => ({
-      value,
-      text: withI18n ? t(text as string) : text
+      text: withI18n ? t(text as string) : text,
+      value
     }));
   }, [t]);
 
@@ -69,7 +69,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
     [settings]
   );
 
-  const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
+  const { i18nLang, icon, ledgerConn, prefix, uiMode } = settings;
 
   return (
     <div className={className}>
@@ -132,21 +132,23 @@ export default function General ({ className, isModalContent, onClose }: Props):
           </>
         )}
         <Button
+          icon='save'
           isDisabled={changed === null}
           isPrimary={isModalContent}
-          onClick={
-            changed
-              ? _saveAndReload
-              : _save
-          }
           label={
             changed
               ? t('Save & Reload')
               : t('Save')
           }
-          icon='save'
+          onClick={
+            changed
+              ? _saveAndReload
+              : _save
+          }
         />
       </Button.Group>
     </div>
   );
 }
+
+export default React.memo(General);

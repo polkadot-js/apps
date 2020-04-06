@@ -6,6 +6,7 @@ import { ButtonProps } from './types';
 
 import React, { useState } from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import styled from 'styled-components';
 import { isUndefined } from '@polkadot/util';
 
 import Icon from '../Icon';
@@ -13,15 +14,15 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-export default function Button ({ children, className, floated, icon, isAnimated = false, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className, floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
     animated: isAnimated,
     basic: isBasic,
     circular: isCircular,
-    className,
-    'data-tip': !!tooltip,
+    className: `${className} ${isIcon && 'isIcon'}`,
     'data-for': triggerId,
+    'data-tip': !!tooltip,
     disabled: isDisabled,
     floated,
     fluid: isFluid,
@@ -33,8 +34,8 @@ export default function Button ({ children, className, floated, icon, isAnimated
     onMouseLeave,
     positive: isPositive,
     primary: isPrimary,
-    size,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
+    size: size || (isIcon ? 'tiny' : undefined),
     style,
     tabIndex
   };
@@ -42,11 +43,16 @@ export default function Button ({ children, className, floated, icon, isAnimated
   return (
     <>
       {isUndefined(label) && isUndefined(children)
-        ? <SUIButton {...props} icon={icon} />
+        ? (
+          <SUIButton
+            {...props}
+            icon={icon}
+          />
+        )
         : (
           <SUIButton {...props}>
             {icon && (
-              <><Icon className={icon} />{'  '}</>
+              <><Icon className={icon} />{isIcon ? '' : '  '}</>
             )}
             {label}
             {children}
@@ -63,3 +69,19 @@ export default function Button ({ children, className, floated, icon, isAnimated
     </>
   );
 }
+
+export default React.memo(styled(Button)`
+  &:not(.isIcon) > i.icon {
+    margin-left: 0.25rem;
+  }
+
+  &.isIcon {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    i.icon {
+      margin: 0 0 0 0.25rem !important;
+    }
+  }
+`);

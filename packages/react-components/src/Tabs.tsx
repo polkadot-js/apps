@@ -61,7 +61,7 @@ function renderItem ({ basePath, isSequence, items }: Props): (tabItem: TabItem,
   };
 }
 
-export default function Tabs (props: Props): React.ReactElement<Props> {
+function Tabs (props: Props): React.ReactElement<Props> {
   const { className, hidden = [], items, style } = props;
 
   return (
@@ -76,3 +76,5 @@ export default function Tabs (props: Props): React.ReactElement<Props> {
     </div>
   );
 }
+
+export default React.memo(Tabs);

@@ -2,70 +2,18 @@ name: PR
 on: [pull_request]
 
 jobs:
-  lint:
-    name: Linting
-    runs-on: ubuntu-latest
+  pr:
     strategy:
       matrix:
-        node-version: [12.x]
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: lint
-      run: |
-        yarn install --immutable | grep -v 'YN0013'
-        yarn lint
-
-  test:
-    name: Testing
+        step: ['lint', 'test', 'build:code', 'build:i18n']
+    name: ${{ matrix.step }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: test
+        node-version: '12.x'
+    - name: ${{ matrix.step }}
       run: |
         yarn install --immutable | grep -v 'YN0013'
-        yarn test
-
-  build_code:
-    name: Build Code
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: build
-      run: |
-        yarn install --immutable | grep -v 'YN0013'
-        yarn build:code
-
-  build_i18n:
-    name: Build i18n
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: build
-      run: |
-        yarn install --immutable | grep -v 'YN0013'
-        yarn build:i18n
+        yarn ${{ matrix.step }}

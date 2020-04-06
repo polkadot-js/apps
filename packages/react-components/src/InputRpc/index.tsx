@@ -4,12 +4,12 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
 
-import React, { useState } from 'react';
-import map from '@polkadot/jsonrpc';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectMethod from './SelectMethod';
@@ -19,40 +19,50 @@ import sectionOptions from './options/section';
 
 interface Props {
   className?: string;
-  defaultValue: RpcMethod;
+  defaultValue: DefinitionRpcExt;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
-  onChange?: (value: RpcMethod) => void;
+  onChange?: (value: DefinitionRpcExt) => void;
   style?: any;
   withLabel?: boolean;
 }
 
-export default function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
-  const [value, setValue] = useState<RpcMethod>((): RpcMethod => defaultValue);
+  const [value, setValue] = useState<DefinitionRpcExt>((): DefinitionRpcExt => defaultValue);
 
-  const _onMethodChange = (newValue: RpcMethod): void => {
-    if (value.section === newValue.section && value.method === newValue.method) {
-      return;
-    }
+  useEffect((): void => {
+    onChange && onChange(value);
+  }, [onChange, value]);
 
-    // set via callback since the method is a function itself
-    setValue((): RpcMethod => newValue);
-    onChange && onChange(newValue);
-  };
-  const _onSectionChange = (section: string): void => {
-    if (section === value.section) {
-      return;
-    }
+  const _onMethodChange = useCallback(
+    (newValue: DefinitionRpcExt): void => {
+      if (value.section === newValue.section && value.method === newValue.method) {
+        return;
+      }
 
-    const optionsMethod = methodOptions(api, section);
+      // set via callback since the method is a function itself
+      setValue((): DefinitionRpcExt => newValue);
+    },
+    [value]
+  );
 
-    setOptionsMethod(optionsMethod);
-    _onMethodChange(map[section].methods[optionsMethod[0].value]);
-  };
+  const _onSectionChange = useCallback(
+    (section: string): void => {
+      if (section === value.section) {
+        return;
+      }
+
+      const optionsMethod = methodOptions(api, section);
+
+      setOptionsMethod(optionsMethod);
+      _onMethodChange(jsonrpc[section][optionsMethod[0].value]);
+    },
+    [_onMethodChange, api, value]
+  );
 
   return (
     <LinkedWrapper
@@ -77,3 +87,5 @@ export default function InputRpc ({ className, defaultValue, help, label, onChan
     </LinkedWrapper>
   );
 }
+
+export default React.memo(InputRpc);

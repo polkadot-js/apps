@@ -64,7 +64,7 @@ function expandKey (api: ApiPromise, key: StorageEntryPromise): KeyState {
   };
 }
 
-export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
@@ -77,26 +77,28 @@ export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
     });
   };
+
   const _onChangeValues = (values: RawParams): void =>
     setValues({
       isValid: areParamsValid(key, values),
       values
     });
+
   const _onChangeKey = (key: StorageEntryPromise): void => {
     setKey(expandKey(api, key));
     _onChangeValues([]);
   };
 
-  const { creator: { method, section, meta } } = key;
+  const { creator: { meta, method, section } } = key;
 
   return (
     <section className='storage--actionrow'>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={api.query.timestamp.now}
+          help={meta?.documentation.join(' ')}
           label={t('selected state query')}
           onChange={_onChangeKey}
-          help={meta?.documentation.join(' ')}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
@@ -116,3 +118,5 @@ export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     </section>
   );
 }
+
+export default React.memo(Modules);

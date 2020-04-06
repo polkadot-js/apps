@@ -16,7 +16,7 @@ export default function useModal (defaultIsOpen?: boolean, onOpen?: () => void, 
 
       onOpen && onOpen();
     },
-    []
+    [onOpen, setIsOpen]
   );
   const _onClose = useCallback(
     (): void => {
@@ -24,7 +24,7 @@ export default function useModal (defaultIsOpen?: boolean, onOpen?: () => void, 
 
       onClose && onClose();
     },
-    []
+    [onClose, setIsOpen]
   );
 
   return { isOpen, onClose: _onClose, onOpen: _onOpen };

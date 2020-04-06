@@ -42,6 +42,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
     setTypes(types);
     setTypesPlaceholder(typesPlaceholder);
   };
+
   const _clearTypes = (): void => {
     store.remove('types');
 
@@ -53,6 +54,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       typesPlaceholder: null
     });
   };
+
   const _onChangeTypes = (data: Uint8Array): void => {
     const code = u8aToString(data);
 
@@ -81,6 +83,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       });
     }
   };
+
   const _onEditTypes = (code: string): void => {
     try {
       if (!isJsonObject(code)) {
@@ -94,26 +97,30 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       setTypesPlaceholder(e.message);
     }
   };
+
   const _saveDeveloper = (): void => {
     try {
       registry.register(types);
       store.set('types', types);
       setIsTypesValid(true);
       onStatusChange({
-        status: 'success',
-        action: t('Your custom types have been added')
+        action: t('Your custom types have been added'),
+        status: 'success'
       });
     } catch (error) {
       console.error(error);
       setIsTypesValid(false);
       onStatusChange({
-        status: 'error',
-        action: t(`Error saving your custom types. ${error.message}`)
+        action: t(`Error saving your custom types. ${error.message}`),
+        status: 'error'
       });
     }
   };
 
   const typesHasNoEntries = Object.keys(types).length === 0;
+
+  // Trans component
+  /* eslint-disable react/jsx-max-props-per-line */
 
   return (
     <div className={className}>
@@ -146,16 +153,16 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       </div>
       <Button.Group>
         <Button
-          onClick={_clearTypes}
-          label={t('Reset')}
           icon='sync'
+          label={t('Reset')}
+          onClick={_clearTypes}
         />
         <Button.Or />
         <Button
-          isDisabled={!isTypesValid || !isJsonValid}
-          onClick={_saveDeveloper}
-          label={t('Save')}
           icon='save'
+          isDisabled={!isTypesValid || !isJsonValid}
+          label={t('Save')}
+          onClick={_saveDeveloper}
         />
       </Button.Group>
     </div>

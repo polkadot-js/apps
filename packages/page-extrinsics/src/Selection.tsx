@@ -34,14 +34,19 @@ class Selection extends TxComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { apiDefaultTxSudo, t } = this.props;
-    const { isValid, isValidUnsigned, accountId } = this.state;
+    const { accountId, isValid, isValidUnsigned } = this.state;
     const extrinsic = this.getExtrinsic() || apiDefaultTxSudo('0x00');
 
     return (
       <div className='extrinsics--Selection'>
         <InputAddress
           label={t('using the selected account')}
-          labelExtra={<BalanceFree label={<label>{t('free balance')}</label>} params={accountId} />}
+          labelExtra={
+            <BalanceFree
+              label={<label>{t('free balance')}</label>}
+              params={accountId}
+            />
+          }
           onChange={this.onChangeSender}
           type='account'
         />
@@ -53,21 +58,21 @@ class Selection extends TxComponent<Props, State> {
         />
         <Button.Group>
           <TxButton
+            extrinsic={extrinsic}
+            icon='sign-in'
             isBasic
             isDisabled={!isValidUnsigned}
             isUnsigned
             label={t('Submit Unsigned')}
-            icon='sign-in'
-            extrinsic={extrinsic}
             withSpinner
           />
           <Button.Or />
           <TxButton
             accountId={accountId}
+            extrinsic={extrinsic}
             icon='sign-in'
             isDisabled={!isValid}
             isPrimary={false}
-            extrinsic={extrinsic}
             label={t('Submit Transaction')}
           />
         </Button.Group>
@@ -86,10 +91,10 @@ class Selection extends TxComponent<Props, State> {
         );
 
         return {
-          method,
+          accountId,
           isValid,
           isValidUnsigned: !!method,
-          accountId
+          method
         };
       }
     );

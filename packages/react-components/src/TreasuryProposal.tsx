@@ -23,7 +23,7 @@ interface Props {
   withLink?: boolean;
 }
 
-export default function TreasuryProposal ({ className, asInset, insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
   const { api } = useApi();
@@ -38,28 +38,28 @@ export default function TreasuryProposal ({ className, asInset, insetProps, onCl
     } else {
       setProposal(proposal || null);
     }
-  }, [proposal, proposalId]);
+  }, [api, proposal, proposalId]);
 
   if (!stateProposal) {
     return null;
   }
 
-  const { bond, beneficiary, proposer, value } = stateProposal;
+  const { beneficiary, bond, proposer, value } = stateProposal;
 
   const inner = (
     <>
       <Labelled label={t('proposed by')}>
         <InputAddress
-          isDisabled
           defaultValue={proposer}
+          isDisabled
           value={proposer}
           withLabel={false}
         />
       </Labelled>
       <Labelled label={t('beneficiary')}>
         <InputAddress
-          isDisabled
           defaultValue={beneficiary}
+          isDisabled
           value={beneficiary}
           withLabel={false}
         />
@@ -93,3 +93,5 @@ export default function TreasuryProposal ({ className, asInset, insetProps, onCl
     </div>
   );
 }
+
+export default React.memo(TreasuryProposal);

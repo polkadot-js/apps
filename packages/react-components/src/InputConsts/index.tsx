@@ -40,7 +40,7 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
   };
 }
 
-export default function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -58,6 +58,7 @@ export default function InputConsts ({ className, defaultValue, help, label, onC
     setValue(updated);
     onChange && onChange(updated);
   };
+
   const _onSectionChange = (section: string): void => {
     if (section === value.section) {
       return;
@@ -92,3 +93,5 @@ export default function InputConsts ({ className, defaultValue, help, label, onC
     </LinkedWrapper>
   );
 }
+
+export default React.memo(InputConsts);

@@ -25,8 +25,15 @@ interface ActionsProps extends BareProps {
   onCancel: () => void;
 }
 
-function Modal (props: ModalProps): React.ReactElement<ModalProps> {
-  const { className, children, header, open = true } = props;
+type ModalType = React.FC<ModalProps> & {
+  Actions: React.FC<ActionsProps>;
+  Content: typeof SUIModal.Content;
+  Header: typeof SUIModal.Header;
+  Description: typeof SUIModal.Description;
+};
+
+function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
+  const { children, className, header, open = true } = props;
 
   return (
     <SUIModal
@@ -44,11 +51,14 @@ function Modal (props: ModalProps): React.ReactElement<ModalProps> {
   );
 }
 
-function Actions ({ cancelLabel, className, children, withOr = true, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+function Actions ({ cancelLabel, children, className, onCancel, withOr = true }: ActionsProps): React.ReactElement<ActionsProps> {
   return (
     <SUIModal.Actions>
       <Button.Group className={className}>
-        <ButtonCancel label={cancelLabel} onClick={onCancel} />
+        <ButtonCancel
+          label={cancelLabel}
+          onClick={onCancel}
+        />
         {withOr && <Button.Or />}
         {children}
       </Button.Group>
@@ -56,7 +66,9 @@ function Actions ({ cancelLabel, className, children, withOr = true, onCancel }:
   );
 }
 
-Modal.Actions = Actions;
+const Modal = React.memo(ModalBase) as unknown as ModalType;
+
+Modal.Actions = React.memo(Actions);
 Modal.Content = SUIModal.Content;
 Modal.Header = SUIModal.Header;
 Modal.Description = SUIModal.Description;

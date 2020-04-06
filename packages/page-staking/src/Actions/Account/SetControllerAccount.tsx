@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,6 @@ import { Icon, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/reac
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 
 import translate from '../../translate';
-import detectUnsafe from '../../unsafeChains';
 import InputValidationController from '../Account/InputValidationController';
 
 interface Props extends ApiProps, I18nProps {
@@ -36,10 +35,9 @@ class SetControllerAccount extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { defaultControllerId, isValidating, onClose, stashId, systemChain, t } = this.props;
-    const { controllerError, controllerId } = this.state;
-    const isUnsafeChain = detectUnsafe(systemChain);
-    const canSubmit = isUnsafeChain || (!controllerError && !!controllerId && (defaultControllerId !== controllerId));
+    const { defaultControllerId, isValidating, onClose, stashId, t } = this.props;
+    const { controllerId } = this.state;
+    const canSubmit = !!controllerId;
 
     return (
       <Modal
@@ -66,7 +64,6 @@ class SetControllerAccount extends TxComponent<Props, State> {
             className='medium'
             defaultValue={defaultControllerId}
             help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-            isError={!isUnsafeChain && !!controllerError}
             label={t('controller account')}
             onChange={this.onChangeController}
             type='account'
@@ -74,19 +71,18 @@ class SetControllerAccount extends TxComponent<Props, State> {
           />
           <InputValidationController
             accountId={stashId}
-            defaultController={defaultControllerId}
             controllerId={controllerId}
-            isUnsafeChain={isUnsafeChain}
+            defaultController={defaultControllerId}
             onError={this.onControllerError}
           />
         </Modal.Content>
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={stashId}
+            icon='sign-in'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Set controller')}
-            icon='sign-in'
             onStart={onClose}
             params={[controllerId]}
             tx='staking.setController'

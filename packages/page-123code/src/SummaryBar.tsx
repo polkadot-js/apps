@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// only here, needs to be available for the rest of the codebase
+/* eslint-disable react/jsx-max-props-per-line */
+
 import { DeriveStakingValidators } from '@polkadot/api-derive/types';
-import { BareProps as Props } from '@polkadot/react-components/types';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -11,8 +13,7 @@ import { Bubble, IdentityIcon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function SummaryBar (props: Props): React.ReactElement<Props> {
+function SummaryBar (): React.ReactElement {
   const { api, systemChain, systemName, systemVersion } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const bestNumberLag = useCall<BlockNumber>(api.derive.chain.bestNumberLag, []);
@@ -37,7 +38,7 @@ export default function SummaryBar (props: Props): React.ReactElement<Props> {
         {validators && (
           <Bubble icon='chess queen' label='validators'>{
             validators.validators.map((accountId, index): React.ReactNode => (
-              <IdentityIcon key={index} value={accountId} size={20} />
+              <IdentityIcon key={index} size={20} value={accountId} />
             ))
           }</Bubble>
         )}
@@ -48,3 +49,5 @@ export default function SummaryBar (props: Props): React.ReactElement<Props> {
     </summary>
   );
 }
+
+export default React.memo(SummaryBar);

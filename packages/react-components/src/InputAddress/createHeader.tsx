@@ -11,8 +11,8 @@ import Dropdown from '../Dropdown';
 export default function createHeader (option: KeyringSectionOption): React.ReactNode {
   return (
     <Dropdown.Header
-      key={option.key || option.name}
       content={option.name}
+      key={option.key || option.name}
     />
   );
 }

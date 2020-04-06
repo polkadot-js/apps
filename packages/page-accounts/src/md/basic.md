@@ -42,3 +42,10 @@ Substrate and Polkadot use Schnorrkel/Ristretto x25519 ("sr25519") as its key de
 Sr25519 is based on the same underlying Curve25519 as its EdDSA counterpart, Ed25519. However, it uses Schnorr signatures instead of the EdDSA scheme. Schnorr signatures bring some noticeable benefits over the ECDSA/EdDSA schemes. For one, it is more efficient and still retains the same feature set and security assumptions. Additionally, it allows for native multisignature through signature aggregation.
 
 If you wish to validate, the `session` account needs to use "ed25519" cryptography.
+
+# Contacts
+
+You can store and get quick access to the most commonly used address, such as a friends' account.
+Any contact you create in this interface will be reflected in the application.
+
+You can edit the name of a contact by clicking on it. To remove a contact from the list, click on the trash icon to "Forget" it.

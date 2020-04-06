@@ -53,7 +53,6 @@ function signerIconName (status: QueueTxStatus): any {
       return 'check';
 
     case 'dropped':
-    case 'retracted':
     case 'invalid':
     case 'usurped':
       return 'arrow down';
@@ -63,6 +62,7 @@ function signerIconName (status: QueueTxStatus): any {
       return 'warning sign';
 
     case 'queued':
+    // case 'retracted':
       return 'random';
 
     default:
@@ -102,7 +102,7 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
   );
 }
 
-function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx): React.ReactNode {
+function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx): React.ReactNode {
   let { method, section } = rpc;
 
   if (extrinsic) {
@@ -186,11 +186,11 @@ function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Pro
       {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
+            icon='cancel'
             isFluid
             isPrimary
-            onClick={_onDismiss}
             label={t('Dismiss all notifications')}
-            icon='cancel'
+            onClick={_onDismiss}
           />
         </div>
       )}
@@ -293,7 +293,6 @@ export default React.memo(styled(Status)`
     &.error,
     &.finalitytimeout,
     &.invalid,
-    &.retracted,
     &.usurped {
       & > .wrapper > .container {
         background: red;

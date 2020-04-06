@@ -5,7 +5,7 @@
 import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
 import { isUndefined } from '@polkadot/util';
 
@@ -21,7 +21,7 @@ function generateParam (type: TypeDef, index: number): ParamDef {
   };
 }
 
-export default function Vector ({ className, defaultValue, isDisabled = false, label, onChange, overrides, style, type, withLabel }: Props): React.ReactElement<Props> | null {
+function Vector ({ className, defaultValue, isDisabled = false, label, onChange, overrides, style, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
@@ -78,10 +78,16 @@ export default function Vector ({ className, defaultValue, isDisabled = false, l
       isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
       value: values.map(({ value }): any => value)
     });
-  }, [values]);
+  }, [values, onChange]);
 
-  const _rowAdd = (): void => setCount(count + 1);
-  const _rowRemove = (): void => setCount(count - 1);
+  const _rowAdd = useCallback(
+    (): void => setCount((count) => count + 1),
+    []
+  );
+  const _rowRemove = useCallback(
+    (): void => setCount((count) => count - 1),
+    []
+  );
 
   return (
     <Base
@@ -94,17 +100,17 @@ export default function Vector ({ className, defaultValue, isDisabled = false, l
       {!isDisabled && (
         <div className='ui--Param-Vector-buttons'>
           <Button
-            isPrimary
-            onClick={_rowAdd}
-            label={t('Add item')}
             icon='add'
+            isPrimary
+            label={t('Add item')}
+            onClick={_rowAdd}
           />
           <Button
+            icon='minus'
             isDisabled={values.length === 0}
             isNegative
-            onClick={_rowRemove}
             label={t('Remove item')}
-            icon='minus'
+            onClick={_rowRemove}
           />
         </div>
       )}
@@ -118,3 +124,5 @@ export default function Vector ({ className, defaultValue, isDisabled = false, l
     </Base>
   );
 }
+
+export default React.memo(Vector);

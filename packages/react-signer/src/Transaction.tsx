@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataLatest } from '@polkadot/types/interfaces';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { Call, InputAddress, Modal } from '@polkadot/react-components';
+import { Call, InputAddress, Expander, Modal } from '@polkadot/react-components';
 
 import Checks from './Checks';
 import { useTranslation } from './translate';
@@ -24,26 +23,7 @@ interface Props {
   value: QueueTx;
 }
 
-function formatMeta (meta?: FunctionMetadataLatest): React.ReactNode | null {
-  if (!meta) {
-    return null;
-  }
-
-  const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
-
-  if (!firstEmpty) {
-    return null;
-  }
-
-  return (
-    <div className='meta'>
-      {strings.slice(0, firstEmpty).join(' ')}
-    </div>
-  );
-}
-
-function Transaction ({ children, className, hideDetails, isSendable, onError, value: { accountId, extrinsic, isUnsigned }, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ children, className, hideDetails, isSendable, onError, tip, value: { accountId, extrinsic, isUnsigned } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {
@@ -66,19 +46,23 @@ function Transaction ({ children, className, hideDetails, isSendable, onError, v
               withLabel
             />
           )}
-          <details className='tx-details'>
-            <summary>
-              {t('Sending transaction')} <span className='highlight'>{section}.{method}({
-                meta?.args.map(({ name }) => name).join(', ') || ''
-              })</span>
-            </summary>
-            {formatMeta(meta)}
+          <Expander
+            className='tx-details'
+            summary={
+              <>
+                {t('Sending transaction')} <span className='highlight'>{section}.{method}({
+                  meta?.args.map(({ name }) => name).join(', ') || ''
+                })</span>
+              </>
+            }
+            summaryMeta={meta}
+          >
             <Call
               onError={onError}
               value={extrinsic}
               withBorder={false}
             />
-          </details>
+          </Expander>
         </>
       )}
       {!hideDetails && !isUnsigned && (
@@ -99,7 +83,7 @@ export default React.memo(styled(Transaction)`
   .tx-details {
     margin-left: 2rem;
 
-    summary {
+    .ui--Expander-summary {
       font-size: 1.1rem;
       margin: 0.5rem 0;
     }

@@ -5,7 +5,7 @@
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -27,24 +27,26 @@ function Claim ({ button, className, ethereumAddress }: Props): React.ReactEleme
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
-  const _fetchClaim = (address: EthereumAddress): void => {
-    setIsBusy(true);
+  const _fetchClaim = useCallback(
+    (address: EthereumAddress): void => {
+      setIsBusy(true);
 
-    api.query.claims
-      .claims<Option<BalanceOf>>(address)
-      .then((claim): void => {
-        setClaimValue(claim.unwrapOr(null));
-        setIsBusy(false);
-      })
-      .catch((): void => setIsBusy(false));
-  };
+      api.query.claims
+        .claims<Option<BalanceOf>>(address)
+        .then((claim): void => {
+          setClaimValue(claim.unwrapOr(null));
+          setIsBusy(false);
+        })
+        .catch((): void => setIsBusy(false));
+    },
+    [api]
+  );
 
   useEffect((): void => {
-    if (ethereumAddress !== claimAddress) {
-      setClaimAddress(ethereumAddress);
-      ethereumAddress && _fetchClaim(ethereumAddress);
-    }
-  }, [ethereumAddress]);
+    setClaimAddress(ethereumAddress);
+
+    ethereumAddress && _fetchClaim(ethereumAddress);
+  }, [_fetchClaim, ethereumAddress]);
 
   if (isBusy || !claimAddress) {
     return null;

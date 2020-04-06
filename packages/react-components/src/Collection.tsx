@@ -53,7 +53,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     return !children || (Array.isArray(children) && children.length === 0);
   }
 
-  public static getDerivedStateFromProps ({ isEmpty, children }: CollectionProps): CollectionState {
+  public static getDerivedStateFromProps ({ children, isEmpty }: CollectionProps): CollectionState {
     return {
       isEmpty: isEmpty === undefined ? Collection.isEmpty(children) : isEmpty
     };
@@ -112,6 +112,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
   protected renderCollection (): React.ReactNode {
     const { children } = this.props;
+
     return children;
   }
 }

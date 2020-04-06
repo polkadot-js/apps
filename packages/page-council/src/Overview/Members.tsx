@@ -6,7 +6,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
 import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import Candidate from './Candidate';
@@ -21,33 +21,24 @@ function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): Re
   const { t } = useTranslation();
 
   return (
-    <div className={className}>
-      <h1>{t('members')}</h1>
-      {electionsInfo
-        ? electionsInfo.members.length
-          ? (
-            <Table>
-              <Table.Body>
-                {electionsInfo.members.map(([accountId, balance]): React.ReactNode => {
-                  const isPrime = prime?.toString() === accountId.toString();
-
-                  return (
-                    <Candidate
-                      address={accountId}
-                      balance={balance}
-                      isPrime={isPrime}
-                      key={accountId.toString()}
-                      voters={allVotes[accountId.toString()]}
-                    />
-                  );
-                })}
-              </Table.Body>
-            </Table>
-          )
-          : t('No members found')
-        : <Spinner />
-      }
-    </div>
+    <Table
+      className={className}
+      empty={electionsInfo && t('No members found')}
+      header={[
+        [t('members'), 'start', 2],
+        [t('backing')]
+      ]}
+    >
+      {electionsInfo?.members.map(([accountId, balance]): React.ReactNode => (
+        <Candidate
+          address={accountId}
+          balance={balance}
+          isPrime={prime?.eq(accountId)}
+          key={accountId.toString()}
+          voters={allVotes[accountId.toString()]}
+        />
+      ))}
+    </Table>
   );
 }
 

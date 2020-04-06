@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
-import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
+import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { ActiveEraInfo, ElectionStatus, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import Account from './Account';
-import StartStaking from './NewStake';
+import NewStake from './NewStake';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -20,20 +20,19 @@ interface Props {
   className?: string;
   isVisible: boolean;
   next?: string[];
-  stakingOverview?: DerivedStakingOverview;
+  stakingOverview?: DeriveStakingOverview;
 }
 
 function Actions ({ allRewards, allStashes, className, isVisible, next, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
-    transform: (activeEra: Option<ActiveEraInfo>): EraIndex | undefined =>
-      activeEra.isSome
-        ? activeEra.unwrap().index
-        : undefined
+    transform: (activeEra: Option<ActiveEraInfo>) => activeEra.unwrapOr({ index: undefined }).index
+  });
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
+    transform: (status: ElectionStatus) => status.isOpen
   });
   const ownStashes = useOwnStashes();
-  const [isNewStakeOpen, setIsNewStateOpen] = useState(false);
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
@@ -45,12 +44,6 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
     );
   }, [ownStashes, stashTypes]);
 
-  const _toggleNewStake = useCallback(
-    (): void => setIsNewStateOpen(
-      (isNewStakeOpen: boolean) => !isNewStakeOpen
-    ),
-    []
-  );
   const _onUpdateType = useCallback(
     (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
       setStashTypes((stashTypes: Record<string, number>) => ({
@@ -66,40 +59,37 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
 
   return (
     <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
-      <Button.Group>
-        <Button
-          key='new-stake'
-          label={t('New stake')}
-          icon='add'
-          onClick={_toggleNewStake}
-        />
-      </Button.Group>
-      {isNewStakeOpen && (
-        <StartStaking onClose={_toggleNewStake} />
+      <NewStake isInElection={isInElection} />
+      {isInElection && (
+        <article className='warning nomargin'>
+          {t('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
+        </article>
       )}
-      {foundStashes?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {foundStashes.map(([stashId, isOwnStash]): React.ReactNode => (
-                <Account
-                  activeEra={activeEra}
-                  allStashes={allStashes}
-                  isOwnStash={isOwnStash}
-                  isVisible={isVisible}
-                  key={stashId}
-                  next={next}
-                  onUpdateType={_onUpdateType}
-                  rewards={allRewards && allRewards[stashId]}
-                  stakingOverview={stakingOverview}
-                  stashId={stashId}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No funds staked yet. Bond funds to validate or nominate a validator.')
-      }
+      <Table
+        empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
+        header={[
+          [t('stashes'), 'start', 2],
+          [t('controller'), 'address'],
+          [t('rewards'), 'number'],
+          [t('bonded'), 'number'],
+          [undefined, undefined, 2]
+        ]}
+      >
+        {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
+          <Account
+            activeEra={activeEra}
+            allStashes={allStashes}
+            isInElection={isInElection}
+            isOwnStash={isOwnStash}
+            key={stashId}
+            next={next}
+            onUpdateType={_onUpdateType}
+            rewards={allRewards && allRewards[stashId]}
+            stakingOverview={stakingOverview}
+            stashId={stashId}
+          />
+        ))}
+      </Table>
     </div>
   );
 }

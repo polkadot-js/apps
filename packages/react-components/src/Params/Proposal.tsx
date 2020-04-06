@@ -4,31 +4,29 @@
 
 import { Props, RawParam } from '@polkadot/react-params/types';
 
-import React from 'react';
-import { createType } from '@polkadot/types';
+import React, { useCallback } from 'react';
 import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 import ExtrinsicDisplay from './Extrinsic';
 
-function onChange ({ onChange }: Props): (_: RawParam) => void {
-  return function ({ isValid, value }: RawParam): void {
-    let proposal = null;
-
-    if (isValid && value) {
-      proposal = createType(registry, 'Proposal', value);
-    }
-
-    onChange && onChange({
-      isValid,
-      value: proposal
-    });
-  };
-}
-
-export default function ProposalDisplay (props: Props): React.ReactElement<Props> {
+function ProposalDisplay ({ className, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();
-  const { className, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
+  const _onChange = useCallback(
+    ({ isValid, value }: RawParam): void => {
+      let proposal = null;
+
+      if (isValid && value) {
+        proposal = registry.createType('Proposal', value);
+      }
+
+      onChange && onChange({
+        isValid,
+        value: proposal
+      });
+    },
+    [onChange]
+  );
 
   return (
     <ExtrinsicDisplay
@@ -38,7 +36,7 @@ export default function ProposalDisplay (props: Props): React.ReactElement<Props
       isError={isError}
       isPrivate
       label={label}
-      onChange={onChange(props)}
+      onChange={_onChange}
       onEnter={onEnter}
       onEscape={onEscape}
       style={style}
@@ -46,3 +44,5 @@ export default function ProposalDisplay (props: Props): React.ReactElement<Props
     />
   );
 }
+
+export default React.memo(ProposalDisplay);

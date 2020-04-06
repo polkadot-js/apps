@@ -2,67 +2,59 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
-import { DerivedCollectiveProposal } from '@polkadot/api-derive/types';
+import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
+import BN from 'bn.js';
 import React from 'react';
-import { AddressMini, LinkExternal } from '@polkadot/react-components';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
+import { LinkExternal } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import Votes from './Votes';
 import Voting from './Voting';
 
 interface Props {
   className?: string;
   isMember: boolean;
   members: string[];
-  motion: DerivedCollectiveProposal;
+  motion: DeriveCollectiveProposal;
   prime: AccountId | null;
 }
 
-export default function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
 
   if (!votes) {
     return null;
   }
 
-  const { ayes, index, nays, threshold } = votes;
+  const { ayes, end, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
-        proposalHash={hash}
+        imageHash={hash}
         proposal={proposal}
       />
-      <td className='number top'>
-        <label>{t('threshold')}</label>
+      <td className='number together'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
-      <td className='top'>
-        {ayes.map((address, index): React.ReactNode => (
-          <AddressMini
-            key={`${index}:${address}`}
-            label={index === 0 ? t('Aye') : undefined}
-            value={address}
-            withBalance={false}
-          />
-        ))}
+      <td className='number together'>
+        {end && (
+          <>
+            <BlockToTime blocks={end.sub(bestNumber)} />
+            #{formatNumber(end)}
+          </>
+        )}
       </td>
-      <td className='top'>
-        {nays.map((address, index): React.ReactNode => (
-          <AddressMini
-            key={`${index}:${address}`}
-            label={index === 0 ? t('Nay') : undefined}
-            value={address}
-            withBalance={false}
-          />
-        ))}
-      </td>
-      <td className='number top together'>
+      <Votes votes={ayes} />
+      <Votes votes={nays} />
+      <td className='button'>
         <Voting
           hash={hash}
           idNumber={index}
@@ -71,12 +63,17 @@ export default function Motion ({ className, isMember, members, motion: { hash, 
           prime={prime}
           proposal={proposal}
         />
+      </td>
+      <td className='mini'>
         <LinkExternal
           data={index}
           hash={hash.toString()}
           type='council'
+          withShort
         />
       </td>
     </tr>
   );
 }
+
+export default React.memo(Motion);

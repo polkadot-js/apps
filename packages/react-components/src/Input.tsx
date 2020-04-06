@@ -64,13 +64,13 @@ const KEYS = {
   C: 'c',
   CMD: 'Meta',
   CTRL: 'Control',
+  DECIMAL: getDecimalSeparator(),
   ENTER: 'Enter',
   ESCAPE: 'Escape',
   TAB: 'Tab',
   V: 'v',
   X: 'x',
-  ZERO: '0',
-  DECIMAL: getDecimalSeparator()
+  ZERO: '0'
 };
 
 const KEYS_PRE: any[] = [KEYS.ALT, KEYS.CMD, KEYS.CTRL];
@@ -90,18 +90,21 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-export default function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isEditable = false, isAction = false, isDisabled = false, isDisabledError = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = (): void => {
     onBlur && onBlur();
   };
+
   const _onChange = ({ target }: React.SyntheticEvent<HTMLInputElement>): void => {
     onChange && onChange((target as HTMLInputElement).value);
   };
+
   const _onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     onKeyDown && onKeyDown(event);
   };
+
   const _onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     onKeyUp && onKeyUp(event);
     console.log(event);
@@ -116,6 +119,7 @@ export default function Input ({ autoFocus = false, children, className, default
       onEscape();
     }
   };
+
   const _onPaste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
     onPaste && onPaste(event);
   };
@@ -150,12 +154,12 @@ export default function Input ({ autoFocus = false, children, className, default
         disabled={isDisabled}
         error={(!isDisabled && isError) || isDisabledError}
         hidden={isHidden}
-        id={name}
         iconPosition={
           isUndefined(icon)
             ? undefined
             : 'left'
         }
+        id={name}
         max={max}
         maxLength={maxLength}
         min={min}
@@ -171,15 +175,15 @@ export default function Input ({ autoFocus = false, children, className, default
         value={value}
       >
         <input
+          autoCapitalize='off'
           autoComplete={
             type === 'password'
               ? 'new-password'
               : 'off'
           }
-          autoCapitalize='off'
           autoCorrect='off'
-          spellCheck={false}
           onPaste={_onPaste}
+          spellCheck={false}
         />
         {isEditable && (
           <i className='edit icon' />
@@ -190,6 +194,8 @@ export default function Input ({ autoFocus = false, children, className, default
     </Labelled>
   );
 }
+
+export default React.memo(Input);
 
 export {
   isCopy,

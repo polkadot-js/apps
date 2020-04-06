@@ -5,21 +5,21 @@
 import BN from 'bn.js';
 
 export default {
-  isActive: true,
   chains: {
     Edgeware: 'edgeware',
     Kusama: 'kusama',
     'Kusama CC3': 'kusama'
   },
+  create: (chain: string, path: string, data: BN | number | string, hash?: string): string => {
+    const withHash = path === 'proposal/councilmotion';
+
+    return `https://commonwealth.im/${chain}/${path}/${withHash ? hash : data.toString()}`;
+  },
+  isActive: true,
   paths: {
     council: 'proposal/councilmotion',
     proposal: 'proposal/democracyproposal',
     referendum: 'proposal/referendum',
     treasury: 'proposal/treasuryproposal'
-  },
-  create: (chain: string, path: string, data: BN | number | string, hash?: string): string => {
-    const withHash = path === 'proposal/councilmotion';
-
-    return `https://commonwealth.im/${chain}/${path}/${withHash ? hash : data.toString()}`;
   }
 };

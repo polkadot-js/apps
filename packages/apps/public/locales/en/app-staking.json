@@ -172,5 +172,17 @@
   "Pending payouts for {{count}} eras:": "Pending payouts for {{count}} eras:",
   "Payout reward": "Payout reward",
   "Account actions{{count}}": "Account actions{{count}}",
-  "Stop": "Stop"
+  "Stop": "Stop",
+  "{{currency}} clipped": "{{currency}} clipped",
+  "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.",
+  "profit/era est": "profit/era est",
+  "stashes": "stashes",
+  "No active validators found": "No active validators found",
+  "intentions": "intentions",
+  "No waiting validators found": "No waiting validators found",
+  "No active validators to check for rewards available": "No active validators to check for rewards available",
+  "rewards": "rewards",
+  "bonded": "bonded",
+  "No funds staked yet. Bond funds to validate or nominate a validator": "No funds staked yet. Bond funds to validate or nominate a validator",
+  "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.": "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted."
 }

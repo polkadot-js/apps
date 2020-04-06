@@ -7,47 +7,42 @@ import { ComponentProps as Props } from '../types';
 
 import React from 'react';
 import { Button, Table } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
-export default function Proposals ({ className, members, prime, proposals }: Props): React.ReactElement<Props> {
+function Proposals ({ className, isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isProposeOpen, togglePropose] = useToggle(false);
 
   return (
     <div className={className}>
-      {isProposeOpen && (
-        <Propose
-          memberCount={members?.length}
-          onClose={togglePropose}
-        />
-      )}
       <Button.Group>
-        <Button
-          label={t('Submit proposal')}
-          icon='add'
-          onClick={togglePropose}
+        <Propose
+          isMember={isMember}
+          members={members}
         />
       </Button.Group>
-      {proposals?.length
-        ? (
-          <Table>
-            <Table.Body>
-              {proposals?.map((hash: Hash): React.ReactNode => (
-                <Proposal
-                  hash={hash.toHex()}
-                  key={hash.toHex()}
-                  prime={prime}
-                />
-              ))}
-            </Table.Body>
-          </Table>
-        )
-        : t('No committee proposals')
-      }
+      <Table
+        empty={proposals && t('No committee proposals')}
+        header={[
+          [t('proposals'), 'start', 2],
+          [t('threshold')],
+          [t('aye'), 'address'],
+          [t('nay'), 'address'],
+          []
+        ]}
+      >
+        {proposals?.map((hash: Hash): React.ReactNode => (
+          <Proposal
+            imageHash={hash.toHex()}
+            key={hash.toHex()}
+            prime={prime}
+          />
+        ))}
+      </Table>
     </div>
   );
 }
+
+export default React.memo(Proposals);

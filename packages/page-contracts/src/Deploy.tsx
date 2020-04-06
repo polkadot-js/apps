@@ -14,9 +14,10 @@ import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import { Dropdown, InputBalance, MessageSignature, TxButton } from '@polkadot/react-components';
+import { Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
 
+import MessageSignature from './MessageSignature';
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
@@ -49,8 +50,8 @@ class Deploy extends ContractModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
-      constructorIndex: -1,
       constructOptions: [],
+      constructorIndex: -1,
       endowment: new BN(ENDOWMENT),
       gasLimit: new BN(GAS_LIMIT),
       isHashValid: false,
@@ -79,9 +80,9 @@ class Deploy extends ContractModal<Props, State> {
       };
     } else {
       return {
-        constructorIndex: -1,
-        constructOptions: [] as ConstructOptions,
         abi: null,
+        constructOptions: [] as ConstructOptions,
+        constructorIndex: -1,
         contractAbi: null,
         isAbiSupplied: false,
         isAbiValid: false,
@@ -100,9 +101,9 @@ class Deploy extends ContractModal<Props, State> {
         return {
           codeHash,
           isAbiSupplied: !!contractAbi,
-          name: `${json.name} (instance)`,
           isHashValid: true,
           isNameValid: true,
+          name: `${json.name} (instance)`,
           ...Deploy.getContractAbiState(json.abi, contractAbi, Math.max(constructorIndex, 0))
         };
       }
@@ -113,10 +114,11 @@ class Deploy extends ContractModal<Props, State> {
 
   private static getConstructorState = (contractAbi: Abi | null = null, ci = 0): Pick<State, never> => {
     const constructorIndex = Math.max(ci, 0);
+
     if (!contractAbi || constructorIndex < 0 || constructorIndex >= contractAbi.constructors.length) {
       return {
-        constructorIndex: -1,
         constructOptions: [],
+        constructorIndex: -1,
         params: []
       };
     }
@@ -138,15 +140,15 @@ class Deploy extends ContractModal<Props, State> {
       });
 
     return {
-      constructorIndex,
       constructOptions,
+      constructorIndex,
       params: createValues(constructor.args)
     };
   }
 
   protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
-    const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
+    const { codeHash, constructOptions, constructorIndex, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       text: `${name} (${codeHash})`,
@@ -302,11 +304,11 @@ class Deploy extends ContractModal<Props, State> {
         }
 
         keyring.saveContract(address.toString(), {
-          name,
           contract: {
             abi,
             genesisHash: api.genesisHash.toHex()
           },
+          name,
           tags
         });
 

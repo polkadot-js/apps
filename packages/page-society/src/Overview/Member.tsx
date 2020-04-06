@@ -5,8 +5,7 @@
 import { DeriveSocietyMember } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import styled from 'styled-components';
-import { AddressSmall, Badge, Icon } from '@polkadot/react-components';
+import { AddressSmall, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -20,46 +19,25 @@ function Member ({ className, isHead, value: { accountId, strikes } }: Props): R
   const { t } = useTranslation();
 
   return (
-    <tr className={`${className} ${isHead && 'society--isHead'}`}>
-      <td className='top'>
+    <tr className={className}>
+      <td className='address'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='society--head'>
+      <td>
         {isHead && (
-          <div>
-            <Badge
-              hover={t('Current head')}
-              info={<Icon name='chess king' />}
-              isInline
-              isTooltip
-              type='green'
-            />
-            <span>&nbsp;{t('society head')}</span>
-          </div>
+          <Tag
+            color='green'
+            hover={t('Current society head, exempt')}
+            label={t('society head')}
+          />
         )}
       </td>
+      <td className='all'>&nbsp;</td>
       <td className='number top'>
-        <label>{t('strikes')}</label>
         {strikes.toString()}
       </td>
     </tr>
   );
 }
 
-export default React.memo(styled(Member)`
-  &.society--isHead {
-    td {
-      background-color: rgba(239, 255, 239, 0.8) !important;
-    }
-  }
-
-  .society--head > div {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-
-    > span {
-      color: green;
-    }
-  }
-`);
+export default React.memo(Member);

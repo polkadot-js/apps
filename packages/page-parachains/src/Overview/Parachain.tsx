@@ -63,21 +63,13 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
         </div>
       </td>
       <td className='all info'>
-        <div>
-          <ParachainInfo info={info} />
-        </div>
+        <ParachainInfo info={info} />
       </td>
       <td className='all'></td>
-      <td className='top number pending-swap-id ui--media-small'>
-        {pendingSwapId && (
-          <>
-            <label>{t('will swap to id')}</label>
-            <b>{pendingSwapId.toString()}</b>
-          </>
-        )}
+      <td className='number pending-swap-id ui--media-small'>
+        {pendingSwapId?.toString()}
       </td>
-      <td className='top ui--media-small'>
-        <label>{t('scheduling')}</label>
+      <td className='number ui--media-small'>
         {info?.scheduling?.toString() || t('<unknown>')}
       </td>
     </tr>

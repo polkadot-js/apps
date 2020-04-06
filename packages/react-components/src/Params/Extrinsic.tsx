@@ -6,7 +6,7 @@ import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/ap
 import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
 import { BareProps } from '../types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import BaseExtrinsic from '../Extrinsic';
 
@@ -22,17 +22,15 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function onChange ({ onChange }: Props): (method?: SubmittableExtrinsic<'promise'>) => void {
-  return (method?: SubmittableExtrinsic<'promise'>): void => {
-    onChange && onChange({
-      isValid: !!method,
-      value: method
-    });
-  };
-}
-
-export default function ExtrinsicDisplay (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, isPrivate, label, onEnter, onEscape, style, withLabel } = props;
+function ExtrinsicDisplay ({ className, defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+  const _onChange = useCallback(
+    (method?: SubmittableExtrinsic<'promise'>): void =>
+      onChange && onChange({
+        isValid: !!method,
+        value: method
+      }),
+    [onChange]
+  );
 
   return (
     <BaseExtrinsic
@@ -42,7 +40,7 @@ export default function ExtrinsicDisplay (props: Props): React.ReactElement<Prop
       isError={isError}
       isPrivate={isPrivate}
       label={label}
-      onChange={onChange(props)}
+      onChange={_onChange}
       onEnter={onEnter}
       onEscape={onEscape}
       style={style}
@@ -50,3 +48,5 @@ export default function ExtrinsicDisplay (props: Props): React.ReactElement<Prop
     />
   );
 }
+
+export default React.memo(ExtrinsicDisplay);

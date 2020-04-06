@@ -58,6 +58,7 @@ export interface TxButtonProps extends TxProps {
   iconSize?: Button$Sizes;
   isBasic?: boolean;
   isDisabled?: boolean;
+  isIcon?: boolean;
   isNegative?: boolean;
   isPrimary?: boolean;
   isUnsigned?: boolean;
@@ -68,7 +69,7 @@ export interface TxButtonProps extends TxProps {
   onStart?: VoidFn;
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
-  size?: string;
+  size?: Button$Sizes;
   tooltip?: string;
   withSpinner?: boolean;
 }

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedTreasuryProposals } from '@polkadot/api-derive/types';
+import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -15,9 +15,9 @@ import Propose from './Propose';
 
 interface Props extends AppProps, BareProps, I18nProps {}
 
-export default function Overview ({ className }: Props): React.ReactElement<Props> {
+function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DerivedTreasuryProposals>(api.derive.treasury.proposals, []);
+  const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals, []);
 
   return (
     <div className={className}>
@@ -29,7 +29,12 @@ export default function Overview ({ className }: Props): React.ReactElement<Prop
         <Propose />
       </Button.Group>
       <Proposals proposals={info?.proposals} />
-      <Proposals proposals={info?.approvals} isApprovals />
+      <Proposals
+        isApprovals
+        proposals={info?.approvals}
+      />
     </div>
   );
 }
+
+export default React.memo(Overview);

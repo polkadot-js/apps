@@ -19,8 +19,8 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function BondedDisplay (props: Props): React.ReactElement<Props> | null {
-  const { bonded, params, className, label, style } = props;
+function BondedDisplay (props: Props): React.ReactElement<Props> | null {
+  const { bonded, className, label, params, style } = props;
 
   if (!params) {
     return null;
@@ -41,3 +41,5 @@ export default function BondedDisplay (props: Props): React.ReactElement<Props> 
       />
     );
 }
+
+export default React.memo(BondedDisplay);

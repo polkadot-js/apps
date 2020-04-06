@@ -8,8 +8,9 @@ import { StringOrNull } from '@polkadot/react-components/types';
 import React from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { PromiseContract as Contract } from '@polkadot/api-contract';
-import { MessageSignature } from '@polkadot/react-components';
 import { getContractAbi } from '@polkadot/react-components/util';
+
+import MessageSignature from '../MessageSignature';
 
 export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): ContractABIMessage | null {
   const message = callContract && callContract.abi.abi.contract.messages[callMethodIndex];
@@ -28,6 +29,7 @@ export function getContractForAddress (api: ApiPromise, address: StringOrNull): 
     return null;
   } else {
     const abi = getContractAbi(address);
+
     return abi
       ? new Contract(api, abi, address)
       : null;

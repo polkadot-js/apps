@@ -6,6 +6,7 @@
 import { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
+import { Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import BlockByHash from './ByHash';
@@ -19,7 +20,7 @@ function BlockByNumber ({ value }: Props): React.ReactElement<Props> | null {
   const getBlockHash = useCall<Hash>(api.rpc.chain.getBlockHash as any, [value]);
 
   if (!getBlockHash) {
-    return null;
+    return <Spinner />;
   }
 
   return (

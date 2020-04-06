@@ -16,8 +16,8 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function LockedVoteDisplay (props: Props): React.ReactElement<Props> | null {
-  const { params, className, label, style } = props;
+function LockedVoteDisplay (props: Props): React.ReactElement<Props> | null {
+  const { className, label, params, style } = props;
 
   if (!params) {
     return null;
@@ -32,3 +32,5 @@ export default function LockedVoteDisplay (props: Props): React.ReactElement<Pro
     />
   );
 }
+
+export default React.memo(LockedVoteDisplay);

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -69,14 +69,14 @@ class Unbond extends TxComponent<Props, State> {
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={controllerId}
+            icon='sign-out'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Unbond')}
-            icon='sign-out'
             onStart={onClose}
             params={[maxUnbond]}
             tx='staking.unbond'
-            withSpinner
+            withSpinner={false}
           />
         </Modal.Actions>
       </Modal>
@@ -122,8 +122,8 @@ class Unbond extends TxComponent<Props, State> {
       const { maxUnbond = prevState.maxUnbond, maxBalance = prevState.maxBalance } = newState;
 
       return {
-        maxUnbond,
-        maxBalance
+        maxBalance,
+        maxUnbond
       };
     });
   }

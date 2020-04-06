@@ -31,7 +31,7 @@ function onChange ({ onChange }: Props): (_?: string | null) => void {
   };
 }
 
-export default function Account (props: Props): React.ReactElement<Props> {
+function Account (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
   const defaultValue = value && value.toString();
 
@@ -56,3 +56,5 @@ export default function Account (props: Props): React.ReactElement<Props> {
     </Bare>
   );
 }
+
+export default React.memo(Account);

@@ -130,7 +130,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   private triggerUpdate = (): void => {
-    const { onChange, isDisabled } = this.props;
+    const { isDisabled, onChange } = this.props;
     const { values } = this.state;
 
     if (isDisabled || !values) {

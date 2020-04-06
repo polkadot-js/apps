@@ -11,7 +11,7 @@ import { u32 } from '@polkadot/types';
 
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
-  const mounted = useIsMountedRef();
+  const mountedRef = useIsMountedRef();
   const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes, []);
   const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [indexes?.currentIndex, accountId]);
   const [counts, setCounts] = useState<u32[]>([]);
@@ -27,15 +27,15 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
             api.query.imOnline.authoredBlocks.at(parentHash, sessionIndex.subn(1), accountId) as Promise<u32>
           ))
           .then((historic): void => {
-            mounted.current && setHistoric(historic);
+            mountedRef.current && setHistoric(historic);
           });
       }
     }
-  }, [accountId, sessionRewards]);
+  }, [accountId, api, mountedRef, sessionRewards]);
 
   useEffect((): void => {
     setCounts([...historic, current || api.createType('u32')].slice(1));
-  }, [current, historic]);
+  }, [api, current, historic]);
 
   return counts;
 }

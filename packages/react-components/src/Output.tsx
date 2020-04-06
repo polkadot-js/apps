@@ -5,6 +5,7 @@
 import { BareProps } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 
 import CopyButton from './CopyButton';
 import Labelled from './Labelled';
@@ -22,7 +23,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Output ({ className, children, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className, help, isError, isHidden, isMonospace, label, style, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -49,3 +50,10 @@ export default function Output ({ className, children, help, isError, isHidden, 
     </Labelled>
   );
 }
+
+export default React.memo(styled(Output)`
+  pre {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`);

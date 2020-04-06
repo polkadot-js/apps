@@ -41,10 +41,10 @@ const nodeLogos: Record<string, any> = [
 
 // overrides when we pass an explicit logo name
 const namedLogos: Record<string, any> = {
-  centrifuge: nodeCentrifuge,
-  empty: emptyLogo,
-  edgeware: nodeEdgeware,
   alexander: nodePolkadot,
+  centrifuge: nodeCentrifuge,
+  edgeware: nodeEdgeware,
+  empty: emptyLogo,
   kusama: chainKusama,
   polkadot: nodePolkadot,
   substrate: nodeSubstrate,

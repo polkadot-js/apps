@@ -30,8 +30,8 @@ interface State {
 class ValidateCode extends React.PureComponent<Props, State> {
   public state: State = {
     isStored: false,
-    isValidHex: false,
-    isValid: false
+    isValid: false,
+    isValidHex: false
   };
 
   public static getDerivedStateFromProps ({ codeHash, contracts_codeStorage, onChange }: Props): State {
@@ -44,8 +44,8 @@ class ValidateCode extends React.PureComponent<Props, State> {
 
     return {
       isStored,
-      isValidHex,
-      isValid
+      isValid,
+      isValidHex
     };
   }
 

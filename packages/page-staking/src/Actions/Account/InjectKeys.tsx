@@ -60,10 +60,10 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const _onSubmit = useCallback(
     (): void => queueRpc({
-      rpc: { section: 'author', method: 'insertKey' } as any,
+      rpc: { method: 'insertKey', section: 'author' } as any,
       values: [keyType, suri, publicKey]
     }),
-    [keyType, publicKey, suri]
+    [keyType, publicKey, queueRpc, suri]
   );
   const _cryptoOptions = useMemo(
     () => CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({

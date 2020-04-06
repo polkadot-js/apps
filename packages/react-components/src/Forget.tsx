@@ -2,10 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodeStored } from '@polkadot/app-contracts/types';
-
 import React from 'react';
-import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -13,14 +11,14 @@ type Mode = 'account' | 'address' | 'contract' | 'code';
 
 interface Props {
   address?: string;
-  code?: CodeStored;
+  children?: React.ReactNode;
   name?: string;
   mode?: Mode;
   onClose: () => void;
   onForget: () => void;
 }
 
-function getContent (mode: Mode, t: (key: string) => string): React.ReactNode {
+function getContent (mode: Mode, t: (key: string) => string): React.ReactNode | null {
   switch (mode) {
     case 'account':
       return (
@@ -43,13 +41,8 @@ function getContent (mode: Mode, t: (key: string) => string): React.ReactNode {
           <p>{t('This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.')}</p>
         </>
       );
-    case 'code':
-      return (
-        <>
-          <p>{t('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
-          <p>{t('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
-        </>
-      );
+    default:
+      return null;
   }
 }
 
@@ -66,8 +59,8 @@ function getHeaderText (mode: Mode, t: (key: string) => string): string {
   }
 }
 
-function renderContent (props: Props, t: (key: string) => string): React.ReactNode {
-  const { address, code, mode = 'account' } = props;
+function renderContent (props: Props, t: (key: string) => string): React.ReactNode | null {
+  const { address, mode = 'account' } = props;
 
   switch (mode) {
     case 'account':
@@ -81,21 +74,14 @@ function renderContent (props: Props, t: (key: string) => string): React.ReactNo
           {getContent(mode, t)}
         </AddressRow>
       );
-    case 'code':
-      return (
-        <CodeRow
-          isInline
-          code={code || ''}
-        >
-          {getContent(mode, t)}
-        </CodeRow>
-      );
+    default:
+      return null;
   }
 }
 
-export default function Forget (props: Props): React.ReactElement<Props> {
+function Forget (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { mode = 'account', onForget, onClose } = props;
+  const { children, mode = 'account', onClose, onForget } = props;
 
   return (
     <Modal
@@ -103,15 +89,17 @@ export default function Forget (props: Props): React.ReactElement<Props> {
       header={getHeaderText(mode, t)}
       onClose={onClose}
     >
-      <Modal.Content>{renderContent(props, t)}</Modal.Content>
+      <Modal.Content>{children || renderContent(props, t)}</Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          isPrimary
-          onClick={onForget}
-          label={t('Forget')}
           icon='trash'
+          isPrimary
+          label={t('Forget')}
+          onClick={onForget}
         />
       </Modal.Actions>
     </Modal>
   );
 }
+
+export default React.memo(Forget);

@@ -13,7 +13,7 @@ interface Props {
   ownMembers: string[];
 }
 
-export default function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Props> {
+function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
@@ -63,3 +63,5 @@ export default function DefenderVoting ({ isMember, ownMembers }: Props): React.
     </>
   );
 }
+
+export default React.memo(DefenderVoting);

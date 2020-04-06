@@ -10,7 +10,7 @@ A Portal into the Polkadot and Substrate networks. Provides a view and interacti
 
 This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) to explorer any of the supported Polkadot and Substrate chains
 
-**Important** If you are a chain developer and would like to add support for your chain to the UI, all teh local configuration (API types, settings, logos) can be customized in [the apps-config package](packages/apps-config#README.md), complete with instructions of what goes where.
+**Important** If you are a chain developer and would like to add support for your chain to the UI, all the local configuration (API types, settings, logos) can be customized in [the apps-config package](packages/apps-config#README.md), complete with instructions of what goes where.
 
 ## overview
 

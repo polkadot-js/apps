@@ -13,7 +13,7 @@ interface Props {
   value: boolean;
 }
 
-export default function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<Props> {
+function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const voteOpts = useMemo(() => [
     { text: t('Aye, I approve'), value: true },
@@ -25,9 +25,11 @@ export default function VoteToggle ({ className, onChange, value }: Props): Reac
       className={className}
       help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
       label={t('record my vote as')}
-      options={voteOpts}
       onChange={onChange}
+      options={voteOpts}
       value={value}
     />
   );
 }
+
+export default React.memo(VoteToggle);

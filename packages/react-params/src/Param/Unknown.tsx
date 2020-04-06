@@ -14,7 +14,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Unknown (props: Props): React.ReactElement<Props> {
+function Unknown (props: Props): React.ReactElement<Props> {
   const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type } = props;
 
   if (isDisabled) {
@@ -40,3 +40,5 @@ export default function Unknown (props: Props): React.ReactElement<Props> {
     />
   );
 }
+
+export default React.memo(Unknown);

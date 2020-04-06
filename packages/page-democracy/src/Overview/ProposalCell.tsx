@@ -2,43 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataLatest, Hash, Proposal } from '@polkadot/types/interfaces';
+import { Hash, Proposal } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
-import { Call } from '@polkadot/react-components';
+import { Call, Expander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  imageHash: Hash | string;
   proposal?: Proposal | null;
-  proposalHash: Hash | string;
 }
 
-function formatDocs (meta?: FunctionMetadataLatest): React.ReactNode | null {
-  if (!meta) {
-    return null;
-  }
-
-  const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
-
-  if (!firstEmpty) {
-    return null;
-  }
-
-  return strings.slice(0, firstEmpty).join(' ');
-}
-
-function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   if (!proposal) {
     return (
-      <td className={`${className} all top`}>
+      <td className={`${className} all`}>
         <label>{t('preimage hash')}</label>
-        {proposalHash.toString()}
+        {imageHash.toString()}
       </td>
     );
   }
@@ -46,16 +31,15 @@ function ProposalCell ({ className, proposal, proposalHash }: Props): React.Reac
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
 
   return (
-    <td className={`${className} all top`}>
+    <td className={`${className} all`}>
       <div>{section}.{method}</div>
-      <details>
-        <summary>{formatDocs(meta) || t('Details')}</summary>
+      <Expander summaryMeta={meta}>
         <Call
           labelHash={t('proposal hash')}
           value={proposal}
           withHash
         />
-      </details>
+      </Expander>
     </td>
   );
 }

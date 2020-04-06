@@ -4,17 +4,17 @@
 
 import { Hash } from '@polkadot/types/interfaces';
 
-import { useState, useEffect } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
+
+function transform (proposals: Hash[]): number {
+  return proposals.length;
+}
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const proposals = useCall<Hash[]>(isApiReady && api.query.technicalCommittee?.proposals, []);
-  const [counter, setCounter] = useState(0);
-
-  useEffect((): void => {
-    setCounter(proposals?.length || 0);
-  }, [proposals]);
+  const counter = useCall<number>(isApiReady && api.query.technicalCommittee?.proposals, [], {
+    transform
+  }) || 0;
 
   return counter;
 }

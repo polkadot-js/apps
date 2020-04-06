@@ -6,5 +6,6 @@ export default {
   Address: 'GenericAddress',
   BalanceLock: 'BalanceLockTo212',
   Keys: 'SessionKeys5',
+  ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo223'
 };

@@ -5,7 +5,7 @@
 import { KeyValue as Pair } from '@polkadot/types/interfaces';
 import { Props as BaseProps, RawParam } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { WithTranslation } from 'react-i18next';
 import { Vec } from '@polkadot/types';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
@@ -24,8 +24,8 @@ interface Parsed {
 }
 
 const BYTES_TYPE = {
-  type: 'Bytes',
-  info: 0
+  info: 0,
+  type: 'Bytes'
 };
 
 const EMPTY_PLACEHOLDER = 'click to select or drag and drop JSON key/value (hex-encoded) file';
@@ -53,9 +53,32 @@ function parseFile (raw: Uint8Array): Parsed {
   };
 }
 
-export default function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [placeholder, setPlaceholder] = useState<string>(t(EMPTY_PLACEHOLDER));
+
+  const _onChange = useCallback(
+    (raw: Uint8Array): void => {
+      let encoded: Parsed = { isValid: false, value: [] };
+
+      try {
+        encoded = parseFile(raw);
+
+        setPlaceholder(t('{{count}} key/value pairs encoded for submission', {
+          replace: {
+            count: encoded.value.length
+          }
+        }));
+      } catch (error) {
+        console.error('Error converting json k/v', error);
+
+        setPlaceholder(t(EMPTY_PLACEHOLDER));
+      }
+
+      onChange && onChange(encoded);
+    },
+    [onChange, t]
+  );
 
   if (isDisabled) {
     const pairs = defaultValue.value as Vec<Pair>;
@@ -91,26 +114,6 @@ export default function KeyValueArray ({ className, defaultValue, isDisabled, is
     );
   }
 
-  const _onChange = (raw: Uint8Array): void => {
-    let encoded: Parsed = { isValid: false, value: [] };
-
-    try {
-      encoded = parseFile(raw);
-
-      setPlaceholder(t('{{count}} key/value pairs encoded for submission', {
-        replace: {
-          count: encoded.value.length
-        }
-      }));
-    } catch (error) {
-      console.error('Error converting json k/v', error);
-
-      setPlaceholder(t(EMPTY_PLACEHOLDER));
-    }
-
-    onChange && onChange(encoded);
-  };
-
   return (
     <File
       className={className}
@@ -124,3 +127,5 @@ export default function KeyValueArray ({ className, defaultValue, isDisabled, is
     />
   );
 }
+
+export default React.memo(KeyValueArray);

@@ -12,7 +12,7 @@ import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
-export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
+function Consts ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [defaultValue] = useState<ConstValue>((): ConstValue => {
@@ -37,9 +37,9 @@ export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
+          help={meta?.documentation.join(' ')}
           label={t('selected constant query')}
           onChange={setValue}
-          help={meta?.documentation.join(' ')}
         />
       </div>
       <div className='storage--actionrow-buttons'>
@@ -52,3 +52,5 @@ export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
     </section>
   );
 }
+
+export default React.memo(Consts);

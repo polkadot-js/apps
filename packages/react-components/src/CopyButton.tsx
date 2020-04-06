@@ -28,8 +28,8 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
     isAddress && queueAction && queueAction({
       account: value,
       action: t('clipboard'),
-      status: 'queued',
-      message: t('address copied')
+      message: t('address copied'),
+      status: 'queued'
     });
   };
 
@@ -45,8 +45,8 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
             <Button
               className='icon-button'
               icon={icon}
-              size='mini'
               isPrimary
+              size='mini'
             />
           </span>
         </div>

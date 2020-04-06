@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/no-var-requires */
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+/* eslint-disable @typescript-eslint/camelcase */
 
 const fs = require('fs');
 const path = require('path');
@@ -39,21 +39,11 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         : null // 'webpack-plugin-serve/client'
     ].filter((entry) => entry),
     mode: ENV,
-    output: {
-      chunkFilename: '[name].[chunkhash:8].js',
-      filename: '[name].[hash:8].js',
-      globalObject: '(typeof self !== \'undefined\' ? self : this)',
-      path: path.join(context, 'build')
-    },
-    resolve: {
-      alias,
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
-    },
     module: {
       rules: [
         {
-          test: /\.css$/,
           exclude: /(node_modules)/,
+          test: /\.css$/,
           use: [
             isProd
               ? MiniCssExtractPlugin.loader
@@ -67,8 +57,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           ]
         },
         {
-          test: /\.css$/,
           include: /node_modules/,
+          test: /\.css$/,
           use: [
             isProd
               ? MiniCssExtractPlugin.loader
@@ -77,8 +67,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           ]
         },
         {
-          test: /\.(js|ts|tsx)$/,
           exclude: /(node_modules)/,
+          test: /\.(js|ts|tsx)$/,
           use: [
             require.resolve('thread-loader'),
             {
@@ -100,9 +90,9 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             {
               loader: require.resolve('url-loader'),
               options: {
+                esModule: false,
                 limit: 10000,
-                name: 'static/[name].[hash:8].[ext]',
-                esModule: false
+                name: 'static/[name].[hash:8].[ext]'
               }
             }
           ]
@@ -113,8 +103,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             {
               loader: require.resolve('file-loader'),
               options: {
-                name: 'static/[name].[hash:8].[ext]',
-                esModule: false
+                esModule: false,
+                name: 'static/[name].[hash:8].[ext]'
               }
             }
           ]
@@ -132,6 +122,12 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
+          polkadotJs: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'polkadotjs',
+            test: /node_modules\/(@polkadot\/wasm-crypto)/
+          },
           vendorOther: {
             chunks: 'initial',
             enforce: true,
@@ -143,15 +139,15 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             enforce: true,
             name: 'react',
             test: /node_modules\/(chart|i18next|react|semantic-ui)/
-          },
-          polkadotJs: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'polkadotjs',
-            test: /node_modules\/(@polkadot\/wasm-(crypto|dalek-ed25519|schnorrkel))/
           }
         }
       }
+    },
+    output: {
+      chunkFilename: '[name].[chunkhash:8].js',
+      filename: '[name].[hash:8].js',
+      globalObject: '(typeof self !== \'undefined\' ? self : this)',
+      path: path.join(context, 'build')
     },
     performance: {
       hints: false
@@ -166,9 +162,9 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         }
       }),
       new HtmlWebpackPlugin({
+        PAGE_TITLE: 'Polkadot/Substrate Portal',
         inject: true,
-        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`),
-        PAGE_TITLE: 'Polkadot/Substrate Portal'
+        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
       }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
@@ -179,11 +175,15 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         : new WebpackPluginServe({
           hmr: false, // switch off, Chrome WASM memory leak
           liveReload: false, // explict off, overrides hmr
-          progress: false, // since we have hmr off, disable
           port: 3000,
+          progress: false, // since we have hmr off, disable
           static: path.join(process.cwd(), '/build')
         })
     ]).filter((plugin) => plugin),
+    resolve: {
+      alias,
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
+    },
     watch: !isProd,
     watchOptions: {
       ignored: ['.yarn', /build/, /node_modules/]
@@ -192,10 +192,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
 }
 
 module.exports = createWebpack({
-  context: __dirname,
   alias: findPackages().reduce((alias, { dir, name }) => {
     alias[name] = path.resolve(__dirname, `../${dir}/src`);
 
     return alias;
-  }, {})
+  }, {}),
+  context: __dirname
 });

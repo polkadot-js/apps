@@ -15,12 +15,12 @@ interface UseAccounts {
 }
 
 export default function useAccounts (): UseAccounts {
-  const mounted = useIsMountedRef();
+  const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false, isAccount: () => false });
 
   useEffect((): () => void => {
     const subscription = accountObservable.subject.subscribe((accounts): void => {
-      if (mounted.current) {
+      if (mountedRef.current) {
         const allAccounts = accounts ? Object.keys(accounts) : [];
         const hasAccounts = allAccounts.length !== 0;
         const isAccount = (accountId: string | AccountId | Address): boolean => allAccounts.includes(accountId.toString());
@@ -32,7 +32,7 @@ export default function useAccounts (): UseAccounts {
     return (): void => {
       setTimeout(() => subscription.unsubscribe(), 0);
     };
-  }, []);
+  }, [mountedRef]);
 
   return state;
 }

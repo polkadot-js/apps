@@ -11,13 +11,14 @@ import { useTranslation } from '../translate';
 import { u8aToU8a } from '@polkadot/util';
 import { Compact } from '@polkadot/types';
 
-export default function Raw ({ onAdd }: Props): React.ReactElement<Props> {
+function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>({ isValid: false, key: new Uint8Array([]) });
 
   const _onAdd = (): void => {
     isValid && onAdd({ isConst: false, key });
   };
+
   const _onChangeKey = (key: string): void => {
     const u8a = u8aToU8a(key);
     const isValid = u8a.length !== 0;
@@ -49,3 +50,5 @@ export default function Raw ({ onAdd }: Props): React.ReactElement<Props> {
     </section>
   );
 }
+
+export default React.memo(Raw);

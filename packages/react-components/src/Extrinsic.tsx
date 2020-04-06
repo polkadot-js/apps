@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/react-components/types';
 import { RawParam } from '@polkadot/react-params/types';
 import { TypeDef } from '@polkadot/types/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { GenericCall, getTypeDef } from '@polkadot/types';
 import { InputExtrinsic } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
@@ -34,7 +34,7 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
   }));
 }
 
-export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<{ fn: SubmittableExtrinsicFunction<'promise'>; params: { name: string; type: TypeDef }[] }>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
@@ -61,9 +61,12 @@ export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, i
     }
 
     onChange(method);
-  }, [extrinsic, values]);
+  }, [extrinsic, onChange, values]);
 
-  const _onChangeMethod = (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) });
+  const _onChangeMethod = useCallback(
+    (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) }),
+    []
+  );
 
   const { fn: { meta, method, section }, params } = extrinsic;
 
@@ -71,13 +74,13 @@ export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, i
     <div className='extrinsics--Extrinsic'>
       <InputExtrinsic
         defaultValue={defaultValue}
+        help={meta?.documentation.join(' ')}
         isDisabled={isDisabled}
         isError={isError}
         isPrivate={isPrivate}
         label={label}
         onChange={_onChangeMethod}
         withLabel={withLabel}
-        help={meta?.documentation.join(' ')}
       />
       <Params
         key={`${section}.${method}:params` /* force re-render on change */}
@@ -90,3 +93,5 @@ export default function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, i
     </div>
   );
 }
+
+export default React.memo(ExtrinsicDisplay);

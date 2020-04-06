@@ -32,7 +32,7 @@ function format (value: Compact<any> | BN | string, currency: string, withSi?: b
     return formatBalance(value);
   }
 
-  return <>{prefix}{!isShort && (<>.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
+  return <>{prefix}{!isShort && (<>.<span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
 }
 
 // function formatSi (value: Compact<any> | BN | string): React.ReactNode {
@@ -53,13 +53,13 @@ function FormatBalance ({ children, className, label, value, withSi }: Props): R
 
   return (
     <div className={`ui--FormatBalance ${className}`}>
-      {label || ''}{
+      {label || ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
             ? t('everything')
             : format(value, currency, withSi)
           : '-'
-      }{children}
+      }</span>{children}
     </div>
   );
 }
@@ -67,6 +67,7 @@ function FormatBalance ({ children, className, label, value, withSi }: Props): R
 export default React.memo(styled(FormatBalance)`
   display: inline-block;
   vertical-align: baseline;
+  white-space: nowrap;
 
   * {
     vertical-align: baseline !important;
@@ -79,9 +80,13 @@ export default React.memo(styled(FormatBalance)`
     vertical-align: baseline;
   }
 
-  > .balance-postfix {
-    font-weight: 100;
-    opacity: 0.75;
-    vertical-align: baseline;
+  .ui--FormatBalance-value {
+    text-align: right;
+
+    > .ui--FormatBalance-postfix {
+      font-weight: 100;
+      opacity: 0.75;
+      vertical-align: baseline;
+    }
   }
 `);

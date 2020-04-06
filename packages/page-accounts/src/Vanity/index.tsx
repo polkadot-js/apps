@@ -4,20 +4,20 @@
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '../vanitygen/types';
+import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/vanitygen/types';
 import { ComponentProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, TxComponent } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
+import generator from '@polkadot/vanitygen/generator';
+import matchRegex from '@polkadot/vanitygen/regex';
+import generatorSort from '@polkadot/vanitygen/sort';
 
-import CreateModal from '../modals/Create';
-import generator from '../vanitygen';
-import matchRegex from '../vanitygen/regex';
-import generatorSort from '../vanitygen/sort';
+import CreateModal from '../Accounts/modals/Create';
+import translate from '../translate';
 import Match from './Match';
-import translate from './translate';
 
 interface Props extends ComponentProps, I18nProps {}
 
@@ -101,13 +101,12 @@ class VanityApp extends TxComponent<Props, State> {
               : 'sign-in'
           }
           isDisabled={!isMatchValid}
-          isPrimary={!isRunning}
-          onClick={this.toggleStart}
           label={
             isRunning
               ? t('Stop generation')
               : t('Start generation')
           }
+          onClick={this.toggleStart}
         />
       </Button.Group>
     );
@@ -153,8 +152,8 @@ class VanityApp extends TxComponent<Props, State> {
             help={t('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
             isDisabled={isRunning}
             label={t('case sensitive')}
-            options={BOOL_OPTIONS}
             onChange={this.onChangeCase}
+            options={BOOL_OPTIONS}
             value={withCase}
           />
         </div>
@@ -221,9 +220,9 @@ class VanityApp extends TxComponent<Props, State> {
 
         return {
           elapsed,
-          matches: newMatches,
           keyCount: newKeyCount,
-          keyTime: newKeyTime
+          keyTime: newKeyTime,
+          matches: newMatches
         };
       }
     );

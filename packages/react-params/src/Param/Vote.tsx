@@ -21,7 +21,7 @@ function doChange (onChange?: (value: any) => void): (_: number) => void {
   };
 }
 
-export default function Vote ({ className, defaultValue: { value }, isDisabled, isError, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function Vote ({ className, defaultValue: { value }, isDisabled, isError, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const optAye = useMemo(() => {
     return [
@@ -60,8 +60,8 @@ export default function Vote ({ className, defaultValue: { value }, isDisabled, 
         isDisabled={isDisabled}
         isError={isError}
         label={t('aye: bool')}
-        options={optAye}
         onChange={doChange(onChange)}
+        options={optAye}
         withLabel={withLabel}
       />
       {isDisabled && (
@@ -78,3 +78,5 @@ export default function Vote ({ className, defaultValue: { value }, isDisabled, 
     </Bare>
   );
 }
+
+export default React.memo(Vote);

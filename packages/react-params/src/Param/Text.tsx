@@ -20,7 +20,7 @@ function onChange ({ onChange }: Props): (_: string) => void {
   };
 }
 
-export default function Text (props: Props): React.ReactElement<Props> {
+function Text (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
   const defaultValue = (value || '').toString();
 
@@ -45,3 +45,5 @@ export default function Text (props: Props): React.ReactElement<Props> {
     </Bare>
   );
 }
+
+export default React.memo(Text);

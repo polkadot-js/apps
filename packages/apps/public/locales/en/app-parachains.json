@@ -38,5 +38,6 @@
   "origin": "origin",
   "Message data": "Message data",
   "data": "data",
-  "pending swap id": "pending swap id"
+  "pending swap id": "pending swap id",
+  "swap to id": "swap to id"
 }

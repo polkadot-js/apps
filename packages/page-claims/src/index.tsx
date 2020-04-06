@@ -43,7 +43,7 @@ const Payload = styled.pre`
   cursor: copy;
   font-family: monospace;
   border: 1px dashed #c2c2c2;
-  background: #fafafa;
+  background: #f2f2f2;
   padding: 1rem;
   width: 100%;
   margin: 1rem 0;
@@ -133,8 +133,8 @@ class ClaimsApp extends TxModal<Props, State> {
                   <Button
                     icon='sign-in'
                     isPrimary
-                    onClick={this.setStep(Step.Sign)}
                     label={t('Continue')}
+                    onClick={this.setStep(Step.Sign)}
                   />
                 </Button.Group>
               )}
@@ -173,8 +173,8 @@ class ClaimsApp extends TxModal<Props, State> {
                       icon='sign-in'
                       isDisabled={!accountId || !signature}
                       isPrimary
-                      onClick={this.setStep(Step.Claim)}
                       label={t('Confirm claim')}
+                      onClick={this.setStep(Step.Claim)}
                     />
                   </Button.Group>
                 )}

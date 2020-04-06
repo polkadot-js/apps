@@ -4,7 +4,7 @@
 
 import { Props } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, u8aConcat } from '@polkadot/util';
@@ -36,7 +36,7 @@ export function createParam (hex: string | String, length = -1): StateParam {
   };
 }
 
-export default function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
   const [key, setKey] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
   const [value, setValue] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
 
@@ -48,10 +48,16 @@ export default function KeyValue ({ className, isDisabled, label, onChange, onEn
         value.u8a
       )
     });
-  }, [key, value]);
+  }, [key, onChange, value]);
 
-  const _onChangeKey = (key: string): void => setKey(createParam(key));
-  const _onChangeValue = (value: string): void => setValue(createParam(value));
+  const _onChangeKey = useCallback(
+    (key: string): void => setKey(createParam(key)),
+    []
+  );
+  const _onChangeValue = useCallback(
+    (value: string): void => setValue(createParam(value)),
+    []
+  );
 
   return (
     <Bare
@@ -81,3 +87,5 @@ export default function KeyValue ({ className, isDisabled, label, onChange, onEn
     </Bare>
   );
 }
+
+export default React.memo(KeyValue);

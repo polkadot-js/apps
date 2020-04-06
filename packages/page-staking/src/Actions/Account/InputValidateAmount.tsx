@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ interface Props {
 function ValidateAmount ({ accountId, onError, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [accountId]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [accountId]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
@@ -33,12 +33,10 @@ function ValidateAmount ({ accountId, onError, value }: Props): React.ReactEleme
         newError = t('The specified value is greater than your free balance. The node will bond the maximum amount available.');
       }
 
-      if (error !== newError) {
-        onError(newError);
-        setError(newError);
-      }
+      onError(newError);
+      setError((error) => error !== newError ? newError : error);
     }
-  }, [allBalances, value]);
+  }, [allBalances, onError, t, value]);
 
   if (!error) {
     return null;

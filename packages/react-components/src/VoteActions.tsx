@@ -17,7 +17,7 @@ interface Props {
   tx: string;
 }
 
-export default function VoteActions ({ accountId, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
+function VoteActions ({ accountId, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -38,3 +38,5 @@ export default function VoteActions ({ accountId, className, isDisabled, onClick
     </Modal.Actions>
   );
 }
+
+export default React.memo(VoteActions);

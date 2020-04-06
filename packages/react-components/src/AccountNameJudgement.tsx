@@ -3,11 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-api/types';
-import { RegistrarInfo } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { useCall, useApi } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import Dropdown from './Dropdown';
@@ -18,22 +15,21 @@ import TxButton from './TxButton';
 
 interface Props extends BareProps {
   address: string;
+  registrars: (string | null)[];
   toggleJudgement: () => void;
 }
 
 const JUDGEMENT_ENUM = [
-  { value: 0, text: 'Unknown' },
-  { value: 1, text: 'Fee paid' },
-  { value: 2, text: 'Reasonable' },
-  { value: 3, text: 'Known good' },
-  { value: 4, text: 'Out of date' },
-  { value: 5, text: 'Low quality' }
+  { text: 'Unknown', value: 0 },
+  { text: 'Fee paid', value: 1 },
+  { text: 'Reasonable', value: 2 },
+  { text: 'Known good', value: 3 },
+  { text: 'Out of date', value: 4 },
+  { text: 'Low quality', value: 5 }
 ];
 
-export default function AccountNameJudgement ({ address, toggleJudgement }: Props): React.ReactElement<Props> {
+function AccountNameJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const registrars = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
   const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
   const [registrarIndex, setRegistrarIndex] = useState(-1);
@@ -42,13 +38,7 @@ export default function AccountNameJudgement ({ address, toggleJudgement }: Prop
   useEffect((): void => {
     if (registrars && judgementAccountId) {
       setRegistrarIndex(
-        registrars
-          .map((registrar): string| null =>
-            registrar.isSome
-              ? registrar.unwrap().account.toString()
-              : null
-          )
-          .indexOf(judgementAccountId)
+        registrars.indexOf(judgementAccountId)
       );
     } else {
       setRegistrarIndex(-1);
@@ -91,3 +81,5 @@ export default function AccountNameJudgement ({ address, toggleJudgement }: Prop
     </Modal>
   );
 }
+
+export default React.memo(AccountNameJudgement);

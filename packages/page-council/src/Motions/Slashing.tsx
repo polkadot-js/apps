@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -22,7 +22,7 @@ interface Option {
   value: number;
 }
 
-export default function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
+function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const slashes = useAvailableSlashes();
@@ -34,22 +34,18 @@ export default function Slashing ({ className, isMember, members }: Props): Reac
   const threshold = Math.ceil((members.length || 0) * 0.5);
 
   useEffect((): void => {
-    if (slashes?.length) {
-      setEras(
-        slashes.map(([era, slashes]): Option => ({
-          text: t('era {{era}}, {{count}} slashes', {
-            replace: {
-              count: slashes.length,
-              era: era.toNumber()
-            }
-          }),
-          value: era.toNumber()
-        }))
-      );
-    } else {
-      setEras([]);
-    }
-  }, [slashes]);
+    setEras(
+      (slashes || []).map(([era, slashes]): Option => ({
+        text: t('era {{era}}, {{count}} slashes', {
+          replace: {
+            count: slashes.length,
+            era: era.toNumber()
+          }
+        }),
+        value: era.toNumber()
+      }))
+    );
+  }, [slashes, t]);
 
   useEffect((): void => {
     const actioned = selectedEra && slashes?.find(([era]): boolean => era.eqn(selectedEra));
@@ -59,13 +55,13 @@ export default function Slashing ({ className, isMember, members }: Props): Reac
         ? api.tx.staking.cancelDeferredSlash(actioned[0], actioned[1].map((_, index): number => index))
         : null
     );
-  }, [selectedEra, slashes]);
+  }, [api, selectedEra, slashes]);
 
   return (
     <>
       <Button
         icon='cancel'
-        isDisabled={!isMember || !members.length || !slashes.length}
+        isDisabled={!isMember || !slashes.length}
         label={t('Cancel slashes')}
         onClick={toggleVisible}
       />
@@ -119,3 +115,5 @@ export default function Slashing ({ className, isMember, members }: Props): Reac
     </>
   );
 }
+
+export default React.memo(Slashing);

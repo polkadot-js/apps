@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { classes } from './util';
 
 const rootElement = typeof document === 'undefined'
-  ? null // This hack is required for server side renreding
+  ? null // This hack is required for server side rendering
   : document.getElementById('tooltips');
 
 interface Props extends BareProps {
@@ -30,31 +30,27 @@ interface Props extends BareProps {
 }
 
 function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
-  const defaultTooltipContainer = typeof document === 'undefined'
-    ? {} as HTMLElement // This hack is required for server side renreding
-    : document.createElement('div');
-
-  const [tooltipContainer] = useState(defaultTooltipContainer);
+  const [tooltipContainer] = useState(
+    typeof document === 'undefined'
+      ? {} as HTMLElement // This hack is required for server side rendering
+      : document.createElement('div')
+  );
 
   useEffect((): () => void => {
-    if (rootElement !== null) {
-      rootElement.appendChild(tooltipContainer);
-    }
+    rootElement && rootElement.appendChild(tooltipContainer);
 
     return (): void => {
-      if (rootElement !== null) {
-        rootElement.removeChild(tooltipContainer);
-      }
+      rootElement && rootElement.removeChild(tooltipContainer);
     };
-  }, []);
+  }, [tooltipContainer]);
 
   return ReactDOM.createPortal(
     <ReactTooltip
-      id={trigger}
+      className={classes('ui--Tooltip', className)}
       effect={effect}
+      id={trigger}
       offset={offset}
       place={place}
-      className={classes('ui--Tooltip', className)}
     >
       {text}
     </ReactTooltip>,
@@ -86,5 +82,9 @@ export default React.memo(styled(Tooltip)`
   .faded {
     opacity: 0.75 !important;
     font-size: 0.75em !important;
+  }
+
+  .row+.row {
+    margin-top: 0.5rem;
   }
 `);

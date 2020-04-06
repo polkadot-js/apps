@@ -27,7 +27,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-export default function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -38,10 +38,11 @@ export default function InputExtrinsic ({ className, defaultValue, help, label, 
       return;
     }
 
-    // set this via callback, since the we are setting a function (aletrnatively... we have issues)
+    // set this via callback, since the we are setting a function (alternatively... we have issues)
     setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
     onChange(newValue);
   };
+
   const _onSectionChange = (section: string): void => {
     if (section === value.section) {
       return;
@@ -77,3 +78,5 @@ export default function InputExtrinsic ({ className, defaultValue, help, label, 
     </LinkedWrapper>
   );
 }
+
+export default React.memo(InputExtrinsic);

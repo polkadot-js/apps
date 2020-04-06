@@ -5,8 +5,9 @@
 import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { Button, CodeRow, Modal } from '@polkadot/react-components';
+import { Button, Modal } from '@polkadot/react-components';
 
+import CodeRow from './CodeRow';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
   onRemove: () => void;
 }
 
-export default function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Props> {
+function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const _onRemove = (): void => {
@@ -40,12 +41,14 @@ export default function RemoveABI ({ code, onClose, onRemove }: Props): React.Re
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          isPrimary
-          onClick={_onRemove}
-          label={t('Remove')}
           icon='trash'
+          isPrimary
+          label={t('Remove')}
+          onClick={_onRemove}
         />
       </Modal.Actions>
     </Modal>
   );
 }
+
+export default React.memo(RemoveABI);

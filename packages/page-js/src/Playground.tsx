@@ -106,6 +106,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     setIsCustomExample((selected && selected.type === 'custom') || false);
     setOptions(options);
     setSelected(selected || snippets[0]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect((): void => {
@@ -113,10 +114,12 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
   }, [selected]);
 
   const _clearConsole = (): void => setLogs([]);
+
   const _hookConsole = (type: LogType, args: any[]): void => {
     logs.push({ args, type });
     setLogs(logs.slice(0));
   };
+
   const _stopJs = (): void => {
     if (injectedRef.current) {
       injectedRef.current.api.disconnect();
@@ -125,6 +128,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
 
     setIsRunning(false);
   };
+
   const _runJs = async (): Promise<void> => {
     setIsRunning(true);
     _clearConsole();
@@ -147,6 +151,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
 
     setIsRunning(false);
   };
+
   const _selectExample = (value: string): void => {
     _stopJs();
 
@@ -162,6 +167,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
       }
     }
   };
+
   const _removeSnippet = (): void => {
     const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
     const nextOptions = [...filtered, ...snippets];
@@ -172,6 +178,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     _selectExample(nextOptions[0].value);
     localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
   };
+
   const _saveSnippet = (snippetName: string): void => {
     // The <Dropdown> component doesn't take boolean custom props and no
     // camelCase keys, that's why 'custom' is passed as a string here
@@ -199,8 +206,8 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
         <Dropdown
           className='js--Dropdown'
           isFull
-          onChange={_selectExample}
           label={t('Select example')}
+          onChange={_selectExample}
           options={options}
           value={selected.value}
         />
@@ -305,7 +312,7 @@ export default React.memo(styled(Playground)`
     }
 
     .codeflask__lines {
-      background: #fafafa;
+      background: #f2f2f2;
       line-height: 18px;
       padding-top: 50px;
       z-index: 100;

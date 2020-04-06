@@ -70,10 +70,10 @@ function getRegex (isDecimal: boolean): RegExp {
 function getSiOptions (): { text: string; value: string }[] {
   return formatBalance.getOptions()
     .map(({ power, text, value }): { text: string; value: string } => ({
-      value,
       text: power === 0
         ? TokenUnit.abbr
-        : text
+        : text,
+      value
     }));
 }
 
@@ -193,7 +193,7 @@ function isNewPropsValue (propsValue: BN | string, value: string, valueBn: BN): 
   return BN.isBN(propsValue) ? !propsValue.eq(valueBn) : propsValue !== value;
 }
 
-export default function InputNumber (props: Props): React.ReactElement<Props> {
+function InputNumber (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { bitLength = DEFAULT_BITLENGTH, className, defaultValue = ZERO, help, isDecimal, isFull, isSi, isDisabled, isError = false, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, style, value: propsValue } = props;
 
@@ -206,15 +206,19 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     propsValue && isNewPropsValue(propsValue, value, valueBn) && setValues(getValues(propsValue, si, props));
+  // ummmm...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsValue]);
 
   useEffect((): void => {
     setValues(getValues(value, si, props));
+  // ummmm...
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, si, bitLength, maxValue]);
 
   useEffect((): void => {
     onChange && onChange(valueBn);
-  }, [valueBn]);
+  }, [onChange, valueBn]);
 
   const _onChange = (input: string): void => {
     setValues(getValuesFromString(input, si, props));
@@ -223,11 +227,12 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
   const _onKeyDown = (event: React.KeyboardEvent<Element>): void => {
     if (KEYS_PRE.includes(event.key)) {
       setIsPreKeyDown(true);
+
       return;
     }
 
     if (event.key.length === 1 && !isPreKeyDown) {
-      const { selectionStart: i, selectionEnd: j, value } = event.target as HTMLInputElement;
+      const { selectionEnd: j, selectionStart: i, value } = event.target as HTMLInputElement;
       const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
 
       if (!getRegex(isDecimal || !!si).test(newValue)) {
@@ -292,9 +297,9 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
       ) */}
       {!!si && (
         <Dropdown
+          defaultValue={si.value}
           dropdownClassName='ui--SiDropdown'
           isButton
-          defaultValue={si.value}
           onChange={_onSelectSiUnit}
           options={getSiOptions()}
         />
@@ -302,3 +307,5 @@ export default function InputNumber (props: Props): React.ReactElement<Props> {
     </Input>
   );
 }
+
+export default React.memo(InputNumber);

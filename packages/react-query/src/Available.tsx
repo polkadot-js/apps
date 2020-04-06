@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-api/types';
-import { DerivedBalancesAll } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -17,9 +17,9 @@ interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-export default function AvailableDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
+function AvailableDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [params]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [params]);
 
   return (
     <FormatBalance
@@ -31,3 +31,5 @@ export default function AvailableDisplay ({ children, className, label, params }
     </FormatBalance>
   );
 }
+
+export default React.memo(AvailableDisplay);

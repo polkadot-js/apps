@@ -5,22 +5,21 @@ on:
       - master
 
 jobs:
-  build_code:
-    name: Build Code
-    if: "! contains(github.event.head_commit.message, '[CI Skip]')"
-    runs-on: ubuntu-latest
+  master:
     strategy:
       matrix:
-        node-version: [12.x]
+        step: ['build:release']
+    name: ${{ matrix.step }}
+    if: "! contains(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
       with:
         token: ${{ secrets.GH_PAT }}
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: build
+        node-version: '12.x'
+    - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         GH_PAGES_SRC: packages/apps/build
@@ -28,16 +27,12 @@ jobs:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         yarn install --immutable | grep -v 'YN0013'
-        yarn polkadot-ci-ghact-build
-        yarn polkadot-ci-ghact-docs
+        yarn ${{ matrix.step }}
 
   dummy:
     name: Dummy
     if: "contains(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - name: dummy
       run: |

@@ -13,7 +13,7 @@ interface Props {
   onChange: (value: string | null) => void;
 }
 
-export default function VoteAccount ({ className, filter, onChange }: Props): React.ReactElement<Props> {
+function VoteAccount ({ className, filter, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -28,3 +28,5 @@ export default function VoteAccount ({ className, filter, onChange }: Props): Re
     />
   );
 }
+
+export default React.memo(VoteAccount);

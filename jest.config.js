@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const config = require('@polkadot/dev/config/jest');
+
 const findPackages = require('./scripts/findPackages');
 
 const internalModules = findPackages()
@@ -13,7 +14,10 @@ const internalModules = findPackages()
 module.exports = Object.assign({}, config, {
   moduleNameMapper: {
     ...internalModules,
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
-    '\\.(css|less)$': 'empty/object'
-  }
+    '\\.(css|less)$': 'empty/object',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object'
+  },
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/(?!edgeware-node-types/.*)'
+  ]
 });

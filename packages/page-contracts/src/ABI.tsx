@@ -8,9 +8,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 import { registry } from '@polkadot/react-api';
-import { InputFile, Labelled, Messages } from '@polkadot/react-components';
+import { InputFile, Labelled } from '@polkadot/react-components';
 import { u8aToString } from '@polkadot/util';
 
+import Messages from './Messages';
 import translate from './translate';
 
 interface Props extends I18nProps {
@@ -69,6 +70,7 @@ class ABI extends React.PureComponent<Props, State> {
         isError: false
       };
     }
+
     return null;
   }
 
@@ -89,7 +91,7 @@ class ABI extends React.PureComponent<Props, State> {
 
   private renderInputFile (): React.ReactNode {
     const { className, help, isDisabled, isRequired, label, t } = this.props;
-    const { isAbiValid, isEmpty, isError, errorText } = this.state;
+    const { errorText, isAbiValid, isEmpty, isError } = this.state;
 
     return (
       <div className={className}>
@@ -129,15 +131,15 @@ class ABI extends React.PureComponent<Props, State> {
 
     return (
       <Labelled
-        label={label}
         help={help}
+        label={label}
         withLabel={!!label}
       >
         <Messages
           contractAbi={contractAbi}
-          onRemove={onRemove || this.onRemove}
           isLabelled={!!label}
           isRemovable={!isDisabled}
+          onRemove={onRemove || this.onRemove}
           onSelectConstructor={onSelectConstructor}
           withConstructors
         />
@@ -148,6 +150,7 @@ class ABI extends React.PureComponent<Props, State> {
   private onChange = (u8a: Uint8Array): void => {
     const { onChange, t } = this.props;
     const json = u8aToString(u8a);
+
     try {
       const abi = JSON.parse(json);
 
@@ -167,10 +170,10 @@ class ABI extends React.PureComponent<Props, State> {
       console.error(error);
 
       this.setState({
+        errorText: error,
         isAbiValid: false,
         isEmpty: false,
-        isError: true,
-        errorText: error
+        isError: true
       }, (): void => onChange(null, null));
     }
   }

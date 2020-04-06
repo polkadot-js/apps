@@ -71,6 +71,9 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     onChange && info.isValid && onChange(info.url);
+  // the issue here is that the onChange callback changes each and every render... so Houston, we have
+  // a desperate issue here :(
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [info]);
 
   const _onChangeUrl = useCallback(
@@ -87,7 +90,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
       ),
       isCustom
     }),
-    []
+    [info]
   );
 
   return (

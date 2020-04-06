@@ -4,30 +4,117 @@
 
 import { BareProps } from './types';
 
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
+import { Text } from '@polkadot/types';
+
+import { useTranslation } from './translate';
+import Icon from './Icon';
+
+interface Meta {
+  documentation: Text[];
+}
 
 export interface Props extends BareProps {
-  children: React.ReactNode;
-  summary: React.ReactNode;
+  children?: React.ReactNode;
+  isOpen?: boolean;
+  summary?: React.ReactNode;
+  summaryMeta?: Meta;
+  withDot?: boolean;
+  withHidden?: boolean;
 }
 
-export default function Expanded ({ children, className, summary }: Props): React.ReactElement<Props> {
-  const [isExpanded, setIsExpanded] = useState(false);
+function formatMeta (meta?: Meta): React.ReactNode | null {
+  if (!meta || !meta.documentation.length) {
+    return null;
+  }
 
-  const _toggle = (event: React.SyntheticEvent): void => {
-    event.preventDefault();
-    event.stopPropagation();
+  const strings = meta.documentation.map((doc): string => doc.toString().trim());
+  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
 
-    setIsExpanded(!isExpanded);
-  };
+  return firstEmpty === -1
+    ? strings.join(' ')
+    : strings.slice(0, firstEmpty).join(' ');
+}
+
+function Expander ({ children, className, isOpen, summary, summaryMeta, withDot, withHidden }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [isExpanded, toggleExpanded] = useToggle(isOpen);
+  const headerMain = useMemo(
+    () => summary || formatMeta(summaryMeta),
+    [summary, summaryMeta]
+  );
+  const headerSub = useMemo(
+    () => summary ? formatMeta(summaryMeta) : null,
+    [summary, summaryMeta]
+  );
+  const hasContent = useMemo(
+    (): boolean => !!children && (!Array.isArray(children) || children.length !== 0),
+    [children]
+  );
 
   return (
-    <details
-      className={`ui--Expander ${className}`}
-      open={isExpanded}
-    >
-      <summary onClick={_toggle}>{summary}</summary>
-      {isExpanded && children}
-    </details>
+    <div className={`ui--Expander ${isExpanded && 'isExpanded'} ${hasContent && 'hasContent'} ${className}`}>
+      <div
+        className='ui--Expander-summary'
+        onClick={toggleExpanded}
+      >
+        <div className='ui--Expander-summary-header'>
+          {hasContent
+            ? <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
+            : withDot
+              ? <Icon name='circle outline' />
+              : undefined
+          }{headerMain || t('Details')}
+        </div>
+        {headerSub && (
+          <div className='ui--Expander-summary-sub'>{headerSub}</div>
+        )}
+      </div>
+      {hasContent && (isExpanded || withHidden) && (
+        <div className='ui--Expander-content'>{children}</div>
+      )}
+    </div>
   );
 }
+
+export default React.memo(styled(Expander)`
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:not(.isExpanded) .ui--Expander-content {
+    display: none;
+  }
+
+  &.isExpanded .ui--Expander-content {
+    margin-top: 0.5rem;
+  }
+
+  &.hasContent .ui--Expander-summary {
+    cursor: pointer;
+  }
+
+  .ui--Expander-summary {
+    margin: 0;
+    min-width: 12rem;
+    overflow: hidden;
+
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    i.icon {
+      margin-right: 0.5rem;
+    }
+
+    .ui--Expander-summary-sub {
+      font-size: 1rem;
+      opacity: 0.6;
+      padding-left: 1.75rem;
+    }
+  }
+`);

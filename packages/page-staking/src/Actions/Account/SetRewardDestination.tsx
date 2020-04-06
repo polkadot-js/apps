@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -45,10 +45,10 @@ class SetRewardDestination extends TxComponent<Props, State> {
         <Modal.Actions onCancel={onClose}>
           <TxButton
             accountId={controllerId}
+            icon='sign-in'
             isDisabled={!canSubmit}
             isPrimary
             label={t('Set reward destination')}
-            icon='sign-in'
             onStart={onClose}
             params={[destination]}
             tx={'staking.setPayee'}
@@ -67,9 +67,9 @@ class SetRewardDestination extends TxComponent<Props, State> {
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
           className='medium'
-          isDisabled
           defaultValue={controllerId}
           help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
+          isDisabled
           label={t('controller account')}
         />
         <Dropdown

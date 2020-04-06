@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
+import { DeriveCouncilVotes, DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -20,9 +20,9 @@ interface Props {
   prime: AccountId | null;
 }
 
-function transformVotes ([voters, casted]: [AccountId[], AccountId[][]]): Record<string, AccountId[]> {
-  return voters.reduce((result: Record<string, AccountId[]>, voter, index): Record<string, AccountId[]> => {
-    casted[index].forEach((candidate): void => {
+function transformVotes (entries: DeriveCouncilVotes): Record<string, AccountId[]> {
+  return entries.reduce((result: Record<string, AccountId[]>, [voter, { votes }]): Record<string, AccountId[]> => {
+    votes.forEach((candidate): void => {
       const address = candidate.toString();
 
       if (!result[address]) {
@@ -39,8 +39,8 @@ function transformVotes ([voters, casted]: [AccountId[], AccountId[][]]): Record
 function Overview ({ className, prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const electionsInfo = useCall<DerivedElectionsInfo>(api.derive.elections.info, []);
-  const allVotes = useCall<Record<string, AccountId[]>>(api.query.electionsPhragmen?.votesOf, [], {
+  const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info, []);
+  const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, [], {
     transform: transformVotes
   });
 
@@ -51,7 +51,7 @@ function Overview ({ className, prime }: Props): React.ReactElement<Props> {
         electionsInfo={electionsInfo}
       />
       <Button.Group>
-        <SubmitCandidacy electionsInfo={electionsInfo} />
+        <SubmitCandidacy />
         <Button.Or />
         <Vote electionsInfo={electionsInfo} />
       </Button.Group>

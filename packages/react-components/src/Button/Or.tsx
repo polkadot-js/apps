@@ -14,18 +14,20 @@ interface Props {
   text?: string;
 }
 
-export default function ButtonOr ({ className, style, text }: Props): React.ReactElement<Props> {
+function ButtonOr ({ className, style, text }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <SUIButton.Or
       className={className}
-      style={style}
       label={
         isUndefined(text)
           ? t('or')
           : text
       }
+      style={style}
     />
   );
 }
+
+export default React.memo(ButtonOr);

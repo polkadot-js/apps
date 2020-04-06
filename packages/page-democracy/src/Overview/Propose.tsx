@@ -19,10 +19,10 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [{ isHashValid, hash }, setHash] = useState<{ isHashValid: boolean; hash?: string }>({ isHashValid: false, hash: '' });
+  const [{ hash, isHashValid }, setHash] = useState<{ hash?: string; isHashValid: boolean }>({ hash: '', isHashValid: false });
 
   const _onChangeHash = useCallback(
-    (hash?: string): void => setHash({ isHashValid: isHex(hash, 256), hash }),
+    (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
     []
   );
 
@@ -35,7 +35,12 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
         <InputAddress
           help={t('The account you want to register the proposal from')}
           label={t('send from account')}
-          labelExtra={<Available label={<span className='label'>{t('transferrable')}</span>} params={accountId} />}
+          labelExtra={
+            <Available
+              label={<span className='label'>{t('transferrable')}</span>}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
         />
@@ -55,10 +60,10 @@ function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
+          icon='add'
           isDisabled={!balance || balance.lten(0) || !isHashValid || !accountId}
           isPrimary
           label={t('Submit proposal')}
-          icon='add'
           onStart={onClose}
           params={[hash, balance]}
           tx='democracy.propose'

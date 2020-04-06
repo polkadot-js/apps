@@ -42,28 +42,28 @@ module.exports = {
     '!packages/*/src/i18n/**',
     '!**/node_modules/**'
   ],
-  output: './',
   options: {
     debug: true,
+    defaultLng: 'en',
+    defaultNs: 'ui',
     func: {
-      list: ['t', 'i18next.t', 'i18n.t'],
-      extensions: ['.tsx', '.ts']
+      extensions: ['.tsx', '.ts'],
+      list: ['t', 'i18next.t', 'i18n.t']
+    },
+    keySeparator: false, // key separator
+    lngs: ['en'],
+    ns: findPackages().map(({ dir }) => dir.replace('page-', 'app-')),
+    nsSeparator: false, // namespace separator
+    resource: {
+      jsonIndent: 2,
+      lineEnding: '\n',
+      loadPath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
+      savePath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json'
     },
     trans: {
       component: 'Trans'
-    },
-    lngs: ['en'],
-    defaultLng: 'en',
-    ns: findPackages().map(({ dir }) => dir.replace('page-', 'app-')),
-    defaultNs: 'ui',
-    resource: {
-      loadPath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
-      savePath: 'packages/apps/public/locales/{{lng}}/{{ns}}.json',
-      jsonIndent: 2,
-      lineEnding: '\n'
-    },
-    nsSeparator: false, // namespace separator
-    keySeparator: false // key separator
+    }
   },
+  output: './',
   transform
 };

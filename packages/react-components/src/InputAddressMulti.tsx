@@ -58,6 +58,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
   const onReorder = (source: DraggableLocation, destination: DraggableLocation): void => {
     const result = Array.from(value);
     const [removed] = result.splice(source.index, 1);
+
     result.splice(destination.index, 0, removed);
 
     onChange(uniquesOf(result));
@@ -92,7 +93,7 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
   };
 
   const onDragEnd = (result: DropResult): void => {
-    const { source, destination } = result;
+    const { destination, source } = result;
 
     !!destination && onReorder(source, destination);
   };
@@ -142,9 +143,9 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
               >
                 {value.map((address, index): React.ReactNode => (
                   <Draggable
-                    key={address}
                     draggableId={address}
                     index={index}
+                    key={address}
                   >
                     {(provided: DraggableProvided, snapshot: DraggableStateSnapshot): React.ReactElement => {
                       const element = (

@@ -45,6 +45,12 @@ export default css`
       &:hover {
         filter: brightness(120%);
       }
+
+      &.isIcon {
+        i.icon {
+          color: ${colorLink};
+        }
+      }
     }
 
     .ui.basic.negative.button {
@@ -103,7 +109,7 @@ export default css`
 
     .ui.toggle.checkbox input:checked~.box:before,
     .ui.toggle.checkbox input:checked~label:before {
-      background-color: ${colorBtnHighlight} !important;
+      // background-color: ${colorBtnHighlight} !important;
     }
   }
 `;
