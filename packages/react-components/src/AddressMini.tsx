@@ -22,6 +22,7 @@ interface Props extends BareProps {
   bonded?: BN | BN[];
   children?: React.ReactNode;
   iconInfo?: React.ReactNode;
+  isFlex?: boolean;
   isPadded?: boolean;
   isShort?: boolean;
   label?: React.ReactNode;
@@ -35,14 +36,14 @@ interface Props extends BareProps {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, isFlex, label, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   return (
     <div
-      className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}
+      className={classes('ui--AddressMini', isFlex ? 'flex' : '', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}
       style={style}
     >
       {label && (
@@ -108,9 +109,18 @@ export default React.memo(styled(AddressMini)`
     top: -0.2rem;
   }
 
+  &.flex {
+    padding: 0;
+  }
+
+  &:not(.flex) {
+    .ui--AddressMini-address {
+      max-width: 9rem;
+      min-width: 9rem;
+    }
+  }
+
   .ui--AddressMini-address {
-    max-width: 9rem;
-    min-width: 9rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;

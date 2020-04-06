@@ -34,7 +34,10 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
                     key={accountId.toString()}
                   >
                     <td className='all'>
-                      <AddressSmall value={accountId} />
+                      <AddressSmall
+                        withMenu
+                        value={accountId}
+                      />
                     </td>
                     <td className='right techcomm--prime'>
                       {isPrime && (

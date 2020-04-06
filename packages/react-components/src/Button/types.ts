@@ -6,12 +6,13 @@ import { BareProps } from '../types';
 
 export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
-export type Button$OnClick = () => void | Promise<void>;
+export type Button$Callback = () => void | Promise<void>;
 
 export interface ButtonProps extends BareProps {
   children?: React.ReactNode;
   floated?: 'left' | 'right';
-  icon: string;
+  icon?: string;
+  isAnimated?: boolean;
   isBasic?: boolean;
   isCircular?: boolean;
   isDisabled?: boolean;
@@ -22,7 +23,9 @@ export interface ButtonProps extends BareProps {
   isPrimary?: boolean;
   label?: React.ReactNode;
   labelPosition?: 'left' | 'right';
-  onClick?: Button$OnClick;
+  onClick?: Button$Callback;
+  onMouseEnter?: Button$Callback;
+  onMouseLeave?: Button$Callback;
   ref?: any;
   size?: Button$Sizes;
   tabIndex?: number;
@@ -30,6 +33,12 @@ export interface ButtonProps extends BareProps {
 }
 
 export type DividerProps = BareProps;
+
+export interface ContentProps extends BareProps {
+  children?: React.ReactNode;
+  hidden?: boolean;
+  visible?: boolean;
+}
 
 export interface GroupProps extends BareProps {
   children?: React.ReactNode;
@@ -42,6 +51,7 @@ export type GroupType = React.ComponentType<GroupProps> & {
 };
 
 export type ButtonType = React.ComponentType<ButtonProps> & {
+  Content: React.ComponentType<ContentProps>;
   Divider: React.ComponentType<DividerProps>;
   Group: GroupType;
   Or: React.ComponentType<BareProps>;

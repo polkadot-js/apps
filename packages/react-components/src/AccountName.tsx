@@ -72,7 +72,7 @@ function extractName (address: AccountId | string, accountIndex?: AccountIndex, 
   const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
-    <div className='via-identity'>
+    <span className='via-identity'>
       {isSpecial && (
         <Badge
           info={<Icon name='simplybuilt' />}
@@ -86,7 +86,7 @@ function extractName (address: AccountId | string, accountIndex?: AccountIndex, 
           ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
           : displayFirst
       }</span>
-    </div>
+    </span>
   );
 }
 
@@ -174,7 +174,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
           : undefined;
 
         const name = (
-          <div className='via-identity'>
+          <span className='via-identity'>
             <Badge
               hover={hover}
               info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
@@ -195,7 +195,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
                 ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
                 : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
             }
-          </div>
+          </span>
         );
 
         nameCache.set((accountId || address).toString(), [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
@@ -207,6 +207,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
       nameCache.set((accountId || address).toString(), [false, [nickname, null]]);
       setName(nickname);
     } else {
+      nameCache.delete((accountId || address).toString());
       setName(defaultOrAddr(defaultName, accountId || address, accountIndex));
     }
   }, [address, info, toggle]);
@@ -236,11 +237,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
 
 export default React.memo(styled(AccountName)`
   .via-identity {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
     vertical-align: bottom;
-    width: 100%;
 
     .name {
       font-weight: normal !important;

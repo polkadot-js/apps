@@ -104,6 +104,7 @@ export default function Input ({ autoFocus = false, children, className, default
   };
   const _onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     onKeyUp && onKeyUp(event);
+    console.log(event);
 
     if (onEnter && event.keyCode === 13) {
       (event.target as any).blur();

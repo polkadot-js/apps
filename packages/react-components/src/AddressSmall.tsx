@@ -6,43 +6,72 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
 
+import AddressMenu from './AddressMenu';
+import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
+  withIndex?: boolean;
+  withMenu?: boolean;
   toggle?: any;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ className, defaultName, onClickName, overrideName, toggle, value }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, withIndex, withMenu, value }: Props): React.ReactElement<Props> {
+  const [isMenuOpen, toggleIsMenuOpen] = useToggle();
+  const _onClickName = (): void => {
+    onClickName && onClickName();
+    toggleIsMenuOpen();
+  };
+  const name = (
+    <div className='nameInfo'>
+      <AccountName
+        className={(overrideName || !onClickName) ? '' : 'name--clickable'}
+        defaultName={defaultName}
+        override={overrideName}
+        onClick={_onClickName}
+        toggle={toggle}
+        value={value}
+      >
+        {children}
+      </AccountName>
+      {withIndex && (
+        <AccountIndex value={value} />
+      )}
+    </div>
+  );
+
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
         size={32}
         value={value as Uint8Array}
       />
-      <div className='nameInfo'>
-        <AccountName
-          className={(overrideName || !onClickName) ? '' : 'name--clickable'}
-          defaultName={defaultName}
-          override={overrideName}
-          onClick={onClickName}
-          toggle={toggle}
-          value={value}
-        />
-      </div>
+      {withMenu
+        ? (
+          <AddressMenu
+            value={value}
+            isOpen={isMenuOpen}
+            onClose={toggleIsMenuOpen}
+          >
+            {name}
+          </AddressMenu>
+        )
+        : name}
     </div>
   );
 }
 
 export default React.memo(styled(AddressSmall)`
   vertical-align: middle;
-  white-space: nowrap;
 
   .name--clickable {
     cursor: pointer;
@@ -60,9 +89,7 @@ export default React.memo(styled(AddressSmall)`
 
   .nameInfo {
     > div {
-      max-width: 16rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      max-width: 12rem;
     }
   }
 `);
