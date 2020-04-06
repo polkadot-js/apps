@@ -84,7 +84,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
       <div className="ui attached segment">
         {currentStep === steps[0] &&
         <>
-            {/*<Available label={balanceWrapper('Your account balance')} params={senderId} />*/}
+            <Available label={balanceWrapper('Your account balance')} params={senderId} />
             {/*<div className="ui segment">
                 <p>Please, select account have funds enough</p>
                 <p>Funds will be locked for the Nomination duration and will remain locked for at least for one era after Nomination is stopped</p>
@@ -100,7 +100,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         }
         {currentStep === steps[1] &&
         <>
-            {/*<Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />*/}
+            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <ControllerAccountSelector
                 senderId={senderId}
                 value={controllerAccountId}
