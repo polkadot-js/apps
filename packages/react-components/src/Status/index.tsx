@@ -228,6 +228,13 @@ export default React.memo(styled(Status)`
       vertical-align: middle;
       position: relative;
 
+      .ui--highlight--spinner {
+        &:after {
+          border-color: #fff transparent transparent !important;
+          font-size: 1rem;
+        }
+      }
+
       .desc {
         flex: 1;
         overflow: hidden;
