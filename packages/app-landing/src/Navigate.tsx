@@ -93,7 +93,7 @@ function Navigate({ className }: Props): React.ReactElement<Props> {
             Looking for something more advanced? Find all the developer tools here.
           </div>
           <div className='action'>
-            <Link to='/contracts'>
+            <Link to='/chainstate'>
               <button className='button'>Open Advanced</button>
             </Link>
           </div>
