@@ -8,7 +8,7 @@ import { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Input } from '@polkadot/react-components';
+import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
 import { useIsMountedRef } from '@polkadot/react-hooks';
 import uiSettings from '@polkadot/ui-settings';
 import generator from '@polkadot/vanitygen/generator';
@@ -48,7 +48,7 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
   const [{ elapsed, isRunning, keyCount, matches }, setResults] = useState<Results>({
     elapsed: 0,
     isRunning: false,
-    keyCount: 0,
+    keyCount: -1,
     keyTime: 0,
     matches: [],
     startAt: 0
@@ -213,27 +213,33 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
           onClick={_toggleStart}
         />
       </Button.Group>
-      {keyCount !== 0 && (
-        <div className='vanity--App-stats'>
-          {t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
-            replace: {
-              avg: (keyCount / (elapsed / 1000)).toFixed(3),
-              count: keyCount,
-              elapsed: (elapsed / 1000).toFixed(2)
-            }
-          })}
-        </div>
+      {matches.length !== 0 && (
+        <Table
+          className='vanity--App-matches'
+          empty={t('No matches found')}
+          header={[
+            [t('matches'), 'start', 2],
+            [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+              replace: {
+                avg: (keyCount / (elapsed / 1000)).toFixed(3),
+                count: keyCount,
+                elapsed: (elapsed / 1000).toFixed(2)
+              }
+            }), 'start'],
+            [t('secret'), 'start'],
+            []
+          ]}
+        >
+          {matches.map((match): React.ReactNode => (
+            <Match
+              {...match}
+              key={match.address}
+              onCreateToggle={setCreateSeed}
+              onRemove={_onRemove}
+            />
+          ))}
+        </Table>
       )}
-      <div className='vanity--App-matches'>
-        {matches.map((match): React.ReactNode => (
-          <Match
-            {...match}
-            key={match.address}
-            onCreateToggle={setCreateSeed}
-            onRemove={_onRemove}
-          />
-        ))}
-      </div>
       {createSeed && (
         <CreateModal
           onClose={_clearSeed}
