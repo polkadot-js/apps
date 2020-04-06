@@ -231,6 +231,7 @@ export default React.memo(styled(Status)`
       .ui--highlight--spinner {
         &:after {
           border-color: #fff transparent transparent !important;
+          font-size: 1rem;
         }
       }
 
