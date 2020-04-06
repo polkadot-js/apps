@@ -129,6 +129,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
                 senderId={senderId}
                 stepsState={stepsState}
                 setStepsState={setStepsState}
+                validators={validators}
             />
         </>
         }
@@ -153,6 +154,7 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
                 senderId={senderId}
                 stepsState={stepsState}
                 setStepsState={setStepsState}
+                validators={validators}
             />
         </>
         }
@@ -178,12 +180,12 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
           )}
           {currentStep !== steps[3] && (
             <Button
-            className="primary"
-            key='Next'
-            label={'Next'}
-            icon=''
-            isDisabled={disableNext()}
-            onClick={goNext}
+              className="primary"
+              key='Next'
+              label={'Next'}
+              icon=''
+              isDisabled={disableNext()}
+              onClick={goNext}
             />
           )}
         </Button.Group>

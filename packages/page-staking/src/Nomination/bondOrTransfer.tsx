@@ -18,20 +18,23 @@ interface Props {
   senderId?: string | null;
   stepsState: string[];
   setStepsState: (stepsState: string[]) => void;
+  validators: string[];
 }
 
-function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState }: Props): React.ReactElement<Props> {
+function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const controllerBalance: Balance | null = useBalanceClear(recipientId);
-  let wholeFees: any | null = useFees(recipientId, senderId);
+  let wholeFees: any | null = useFees(recipientId, senderId, validators);
   const { t } = useTranslation();
   const { api } = useApi();
   const destination = 2; // 2 means controller account
   const extrinsic = (amount && recipientId)
     ? api.tx.staking.bond(recipientId, amount, destination)
     : null;
+  // bond mode funds
+  // api.tx.staking.bondExtra(maxAdditional)
   const canSubmit = true;
   const existentialDeposit = api.consts.balances.existentialDeposit;
 
