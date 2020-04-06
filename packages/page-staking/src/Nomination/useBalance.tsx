@@ -17,10 +17,11 @@ export function useBalance (address?: string | null): string | null  {
 export function useBalanceClear (address?: string | null): Balance | null  {
   const api = useApi();
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all as any, [address]);
-  return balancesAll ? balancesAll.freeBalance : null
+  return balancesAll ? balancesAll.availableBalance : null
 }
 
-export function useFees (bondedAddress?: string | null, senderAddress?: string | null, validators: string[]): Balance | null  {
+export function useFees (bondedAddress?: string | null, senderAddress?: string | null, validators?: string[]): Balance | null  {
+  const [paymentFees, setPaymentFees] = useState();
   const [bondFees, setBondFees] = useState();
   const [unBondFees, setUnBondFees] = useState();
   const [wholeFees, setWholeFees] = useState();
@@ -35,6 +36,11 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const amount = new BN(1000).mul(TEN.pow(siPower));
   // @todo calculate and add Change Nominees fess
   // @todo what if fees will be changed on a small count of funds
+
+  async function getPaymentFees(addr1: string, addr2: string) {
+    const fees = await api.api.tx.balances.transfer(addr1, amount).paymentInfo(addr2);
+    setPaymentFees(fees.partialFee);
+  }
 
   async function getBondFees(addr1: string, addr2: string) {
     const fees = await api.api.tx.staking.bond(addr1, amount, 2).paymentInfo(addr2);
@@ -58,7 +64,8 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
 
   useEffect(() => {
     if (bondFees && unBondFees && startNominationFees && stopNominationFees) {
-      let whole = bondFees
+      let whole = paymentFees
+        .iadd(bondFees)
         .iadd(unBondFees)
         .iadd(existentialDeposit)
         .iadd(startNominationFees)
@@ -68,7 +75,8 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   }, [bondFees, unBondFees, startNominationFees, stopNominationFees]);
 
   useEffect(() => {
-    if (bondedAddress && senderAddress) {
+    if (bondedAddress && senderAddress && validators) {
+      getPaymentFees(bondedAddress, senderAddress);
       getUnBondFees(senderAddress);
       getBondFees(bondedAddress, senderAddress);
       getStopNominationFees(senderAddress);
