@@ -67,74 +67,11 @@ class VanityApp extends TxComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, onStatusChange } = this.props;
-    const { createSeed, type } = this.state;
+    const { className, onStatusChange, t } = this.props;
+    const { createSeed, elapsed, isMatchValid, isRunning, keyCount, match, matches, type, withCase } = this.state;
 
     return (
       <div className={className}>
-        {this.renderOptions()}
-        {this.renderButtons()}
-        {this.renderStats()}
-        {this.renderMatches()}
-        {createSeed && (
-          <CreateModal
-            onClose={this.closeCreate}
-            onStatusChange={onStatusChange}
-            seed={createSeed}
-            type={type}
-          />
-        )}
-      </div>
-    );
-  }
-
-  private renderButtons (): React.ReactNode {
-    const { t } = this.props;
-    const { isMatchValid, isRunning } = this.state;
-
-    return (
-      <Button.Group>
-        <Button
-          icon={
-            isRunning
-              ? 'stop'
-              : 'sign-in'
-          }
-          isDisabled={!isMatchValid}
-          label={
-            isRunning
-              ? t('Stop generation')
-              : t('Start generation')
-          }
-          onClick={this.toggleStart}
-        />
-      </Button.Group>
-    );
-  }
-
-  private renderMatches (): React.ReactNode {
-    const { matches } = this.state;
-
-    return (
-      <div className='vanity--App-matches'>
-        {matches.map((match): React.ReactNode => (
-          <Match
-            {...match}
-            key={match.address}
-            onCreateToggle={this.onCreateToggle}
-            onRemove={this.onRemove}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  private renderOptions (): React.ReactNode {
-    const { t } = this.props;
-    const { isMatchValid, isRunning, match, type, withCase } = this.state;
-
-    return (
-      <>
         <div className='ui--row'>
           <Input
             autoFocus
@@ -167,29 +104,51 @@ class VanityApp extends TxComponent<Props, State> {
             options={uiSettings.availableCryptos}
           />
         </div>
-      </>
-    );
-  }
-
-  private renderStats (): React.ReactNode {
-    const { t } = this.props;
-    const { elapsed, keyCount } = this.state;
-
-    if (!keyCount) {
-      return null;
-    }
-
-    const secs = elapsed / 1000;
-
-    return (
-      <div className='vanity--App-stats'>
-        {t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
-          replace: {
-            avg: (keyCount / secs).toFixed(3),
-            count: keyCount,
-            elapsed: secs.toFixed(2)
-          }
-        })}
+        <Button.Group>
+          <Button
+            icon={
+              isRunning
+                ? 'stop'
+                : 'sign-in'
+            }
+            isDisabled={!isMatchValid}
+            label={
+              isRunning
+                ? t('Stop generation')
+                : t('Start generation')
+            }
+            onClick={this.toggleStart}
+          />
+        </Button.Group>
+        {keyCount !== 0 && (
+          <div className='vanity--App-stats'>
+            {t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+              replace: {
+                avg: (keyCount / (elapsed / 1000)).toFixed(3),
+                count: keyCount,
+                elapsed: (elapsed / 1000).toFixed(2)
+              }
+            })}
+          </div>
+        )}
+        <div className='vanity--App-matches'>
+          {matches.map((match): React.ReactNode => (
+            <Match
+              {...match}
+              key={match.address}
+              onCreateToggle={this.onCreateToggle}
+              onRemove={this.onRemove}
+            />
+          ))}
+        </div>
+        {createSeed && (
+          <CreateModal
+            onClose={this.closeCreate}
+            onStatusChange={onStatusChange}
+            seed={createSeed}
+            type={type}
+          />
+        )}
       </div>
     );
   }

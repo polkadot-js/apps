@@ -1032,5 +1032,7 @@
   "motions": "",
   "No logs available": "",
   "No funds staked yet. Bond funds to validate or nominate a validator": "",
-  "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.": ""
+  "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.": "",
+  "This account will be use to approve each candidate.": "",
+  "voting account": ""
 }
