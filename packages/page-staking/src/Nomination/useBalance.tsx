@@ -33,6 +33,8 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const basePower = formatBalance.getDefaults().decimals;
   const siPower = new BN(basePower + si.power);
   const amount = new BN(1000).mul(TEN.pow(siPower));
+  // @todo calculate and add Change Nominees fess
+  // @todo what if fees will be changed on a small count of funds
 
   async function getBondFees(addr1: string, addr2: string) {
     const fees = await api.api.tx.staking.bond(addr1, amount, 2).paymentInfo(addr2);

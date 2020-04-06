@@ -98,6 +98,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
                 />
                 <Button.Group>
                   <TxButton
+                    isDisabled={!wholeFees}
                     accountId={senderId}
                     icon='send'
                     label='Transfer'
