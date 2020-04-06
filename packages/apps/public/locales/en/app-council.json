@@ -79,5 +79,7 @@
   "Current prime member, default voting": "Current prime member, default voting",
   "aye": "aye",
   "nay": "nay",
-  "motions": "motions"
+  "motions": "motions",
+  "This account will be use to approve each candidate.": "This account will be use to approve each candidate.",
+  "voting account": "voting account"
 }
