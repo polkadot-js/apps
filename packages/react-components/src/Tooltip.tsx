@@ -59,6 +59,11 @@ function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, tr
 }
 
 export default React.memo(styled(Tooltip)`
+  &.address div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   table {
     border: 0;
 

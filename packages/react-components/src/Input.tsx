@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { isUndefined } from '@polkadot/util';
 
@@ -93,35 +93,45 @@ let counter = 0;
 function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
-  const _onBlur = (): void => {
-    onBlur && onBlur();
-  };
+  const _onBlur = useCallback(
+    () => onBlur && onBlur(),
+    [onBlur]
+  );
 
-  const _onChange = ({ target }: React.SyntheticEvent<HTMLInputElement>): void => {
-    onChange && onChange((target as HTMLInputElement).value);
-  };
+  const _onChange = useCallback(
+    ({ target }: React.SyntheticEvent<HTMLInputElement>): void =>
+      onChange && onChange((target as HTMLInputElement).value),
+    [onChange]
+  );
 
-  const _onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    onKeyDown && onKeyDown(event);
-  };
+  const _onKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>): void =>
+      onKeyDown && onKeyDown(event),
+    [onKeyDown]
+  );
 
-  const _onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    onKeyUp && onKeyUp(event);
+  const _onKeyUp = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>): void => {
+      onKeyUp && onKeyUp(event);
 
-    if (onEnter && event.keyCode === 13) {
-      (event.target as any).blur();
-      onEnter();
-    }
+      if (onEnter && event.keyCode === 13) {
+        (event.target as any).blur();
+        onEnter();
+      }
 
-    if (onEscape && event.keyCode === 27) {
-      (event.target as any).blur();
-      onEscape();
-    }
-  };
+      if (onEscape && event.keyCode === 27) {
+        (event.target as any).blur();
+        onEscape();
+      }
+    },
+    [onEnter, onEscape, onKeyUp]
+  );
 
-  const _onPaste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
-    onPaste && onPaste(event);
-  };
+  const _onPaste = useCallback(
+    (event: React.ClipboardEvent<HTMLInputElement>): void =>
+      onPaste && onPaste(event),
+    [onPaste]
+  );
 
   return (
     <Labelled

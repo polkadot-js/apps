@@ -6,7 +6,7 @@ import { SiDef } from '@polkadot/util/types';
 import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { formatBalance } from '@polkadot/util';
 
 import { classes } from './util';
@@ -137,30 +137,6 @@ function inputToBn (input: string, si: SiDef | null, props: Props): [BN, boolean
   ];
 }
 
-// function bnToInput (bn: BN, si: SiDef | null): string {
-//   const [siPower] = getSiPowers(si);
-//
-//   const base = TEN.pow(siPower);
-//   const div = bn.div(base);
-//   const mod = bn.mod(base);
-//
-//   return `${
-//     div.gt(ZERO) ? div.toString() : '0'
-//   }${
-//     mod.gt(ZERO)
-//       ? ((): string => {
-//         const padding = Math.max(
-//           mod.toString().length,
-//           base.toString().length - div.toString().length,
-//           bn.toString().length - div.toString().length
-//         );
-//
-//         return `.${mod.toString(10, padding).replace(/0*$/, '')}`;
-//       })()
-//       : ''
-//   }`;
-// }
-
 function getValuesFromString (value: string, si: SiDef | null, props: Props): [string, BN, boolean] {
   const [valueBn, isValid] = inputToBn(value, si, props);
 
@@ -220,48 +196,55 @@ function InputNumber (props: Props): React.ReactElement<Props> {
     onChange && onChange(valueBn);
   }, [onChange, valueBn]);
 
-  const _onChange = (input: string): void => {
-    setValues(getValuesFromString(input, si, props));
-  };
+  const _onChange = useCallback(
+    (input: string) => setValues(getValuesFromString(input, si, props)),
+    [props, si]
+  );
 
-  const _onKeyDown = (event: React.KeyboardEvent<Element>): void => {
-    if (KEYS_PRE.includes(event.key)) {
-      setIsPreKeyDown(true);
+  const _onKeyDown = useCallback(
+    (event: React.KeyboardEvent<Element>): void => {
+      if (KEYS_PRE.includes(event.key)) {
+        setIsPreKeyDown(true);
 
-      return;
-    }
+        return;
+      }
 
-    if (event.key.length === 1 && !isPreKeyDown) {
-      const { selectionEnd: j, selectionStart: i, value } = event.target as HTMLInputElement;
-      const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
+      if (event.key.length === 1 && !isPreKeyDown) {
+        const { selectionEnd: j, selectionStart: i, value } = event.target as HTMLInputElement;
+        const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
+
+        if (!getRegex(isDecimal || !!si).test(newValue)) {
+          event.preventDefault();
+        }
+      }
+    },
+    [isDecimal, isPreKeyDown, si]
+  );
+
+  const _onKeyUp = useCallback(
+    (event: React.KeyboardEvent<Element>): void => {
+      if (KEYS_PRE.includes(event.key)) {
+        setIsPreKeyDown(false);
+      }
+    },
+    []
+  );
+
+  const _onPaste = useCallback(
+    (event: React.ClipboardEvent<Element>): void => {
+      const { value: newValue } = event.target as HTMLInputElement;
 
       if (!getRegex(isDecimal || !!si).test(newValue)) {
         event.preventDefault();
       }
-    }
-  };
+    },
+    [isDecimal, si]
+  );
 
-  const _onKeyUp = (event: React.KeyboardEvent<Element>): void => {
-    if (KEYS_PRE.includes(event.key)) {
-      setIsPreKeyDown(false);
-    }
-  };
-
-  const _onPaste = (event: React.ClipboardEvent<Element>): void => {
-    const { value: newValue } = event.target as HTMLInputElement;
-
-    if (!getRegex(isDecimal || !!si).test(newValue)) {
-      event.preventDefault();
-    }
-  };
-
-  const _onSelectSiUnit = (siUnit: string): void => {
-    setSi(formatBalance.findSi(siUnit));
-  };
-
-  // const _onClickMaxButton = (): void => {
-  //   !!maxValue && setValue(bnToInput(maxValue, si));
-  // };
+  const _onSelectSiUnit = useCallback(
+    (siUnit: string) => setSi(formatBalance.findSi(siUnit)),
+    []
+  );
 
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length - 1;
 

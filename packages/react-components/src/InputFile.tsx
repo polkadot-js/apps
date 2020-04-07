@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useState, createRef } from 'react';
+import React, { useCallback, useState, createRef } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
 import { formatNumber, isHex, u8aToString, hexToU8a } from '@polkadot/util';
@@ -58,29 +58,32 @@ function InputFile ({ accept, className, clearContent, convertHex, help, isDisab
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
 
-  const _onDrop = (files: File[]): void => {
-    files.forEach((file): void => {
-      const reader = new FileReader();
+  const _onDrop = useCallback(
+    (files: File[]): void => {
+      files.forEach((file): void => {
+        const reader = new FileReader();
 
-      reader.onabort = NOOP;
-      reader.onerror = NOOP;
+        reader.onabort = NOOP;
+        reader.onerror = NOOP;
 
-      reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
-        if (target && target.result) {
-          const name = file.name;
-          const data = convertResult(target.result as ArrayBuffer, convertHex);
+        reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
+          if (target && target.result) {
+            const name = file.name;
+            const data = convertResult(target.result as ArrayBuffer, convertHex);
 
-          onChange && onChange(data, name);
-          dropRef && setFile({
-            name,
-            size: data.length
-          });
-        }
-      };
+            onChange && onChange(data, name);
+            dropRef && setFile({
+              name,
+              size: data.length
+            });
+          }
+        };
 
-      reader.readAsArrayBuffer(file);
-    });
-  };
+        reader.readAsArrayBuffer(file);
+      });
+    },
+    [convertHex, dropRef, onChange]
+  );
 
   const dropZone = (
     <Dropzone
