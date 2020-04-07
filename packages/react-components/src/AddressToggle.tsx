@@ -4,7 +4,7 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -54,7 +54,10 @@ function AddressToggle ({ address, className, filter, isHidden, noToggle, onChan
     setIsFiltered(getIsFiltered(address, filter, info));
   }, [address, filter, info]);
 
-  const _onClick = (): void => onChange && onChange(!value);
+  const _onClick = useCallback(
+    (): void => onChange && onChange(!value),
+    [onChange, value]
+  );
 
   return (
     <div

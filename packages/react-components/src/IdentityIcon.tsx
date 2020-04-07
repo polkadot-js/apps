@@ -5,7 +5,7 @@
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
@@ -13,13 +13,17 @@ import uiSettings from '@polkadot/ui-settings';
 import { ValidatorsContext } from '@polkadot/react-query';
 
 import StatusContext from './Status/Context';
+import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
 export function getIdentityTheme (systemName: string): 'substrate' {
   return ((uiSettings.icon === 'default' && getSystemIcon(systemName)) || uiSettings.icon) as 'substrate';
 }
 
-function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }: Props): React.ReactElement<Props> {
+let id = 0;
+
+function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props): React.ReactElement<Props> {
+  const [trigger] = useState(`tooltip-identicon-${++id}`);
   const { api, isApiReady, systemName } = useApi();
   const { t } = useTranslation();
   const info = useCall<DeriveAccountInfo>(isApiReady && api.derive.accounts.info as any, [value]);
@@ -30,34 +34,50 @@ function IdentityIcon ({ className, onCopy, prefix, size, style, theme, value }:
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
-    value && setIsValidator(validators.includes(value.toString()));
+    value && setIsValidator(
+      validators.includes(value.toString())
+    );
   }, [value, validators]);
 
   useEffect((): void => {
-    info && setAddress(info.accountId?.toString());
+    info && setAddress(
+      info.accountId?.toString()
+    );
   }, [info]);
 
-  const _onCopy = (account: string): void => {
-    onCopy && onCopy(account);
-    queueAction && queueAction({
-      account,
-      action: t('clipboard'),
-      message: t('address copied'),
-      status: 'queued'
-    });
-  };
+  const _onCopy = useCallback(
+    (account: string): void => {
+      onCopy && onCopy(account);
+      queueAction && queueAction({
+        account,
+        action: t('clipboard'),
+        message: t('address copied'),
+        status: 'queued'
+      });
+    },
+    [onCopy, queueAction, t]
+  );
 
   return (
-    <BaseIdentityIcon
+    <span
       className={className}
-      isHighlight={isValidator}
-      onCopy={_onCopy}
-      prefix={prefix}
-      size={size}
-      style={style}
-      theme={thisTheme as 'substrate'}
-      value={address}
-    />
+      data-for={trigger}
+      data-tip={true}
+    >
+      <BaseIdentityIcon
+        isHighlight={isValidator}
+        onCopy={_onCopy}
+        prefix={prefix}
+        size={size}
+        theme={thisTheme as 'substrate'}
+        value={address}
+      />
+      <Tooltip
+        className='address'
+        text={address}
+        trigger={trigger}
+      />
+    </span>
   );
 }
 

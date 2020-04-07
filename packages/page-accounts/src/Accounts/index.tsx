@@ -4,6 +4,7 @@
 
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ComponentProps as Props } from '../types';
+import { SortedAccount } from './types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -18,8 +19,6 @@ import ImportModal from './modals/Import';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
-
-type SortedAccount = { address: string; isFavorite: boolean };
 
 const STORE_FAVS = 'accounts:favorites';
 
@@ -36,6 +35,53 @@ async function queryLedger (): Promise<void> {
   }
 }
 
+function expandList (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] {
+  mapped.push(entry);
+
+  entry.children.forEach((entry): void => {
+    expandList(mapped, entry);
+  });
+
+  return mapped;
+}
+
+function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[] {
+  const mapped = addresses
+    .map((address) => keyring.getAccount(address))
+    .filter((account): account is KeyringAddress => !!account)
+    .map((account): SortedAccount => ({
+      account,
+      children: [],
+      isFavorite: favorites.includes(account.address)
+    }))
+    .sort((a, b) => (a.account.meta.whenCreated || 0) - (b.account.meta.whenCreated || 0));
+
+  return mapped
+    .filter((entry): boolean => {
+      const parentAddress = entry.account.meta.parentAddress;
+
+      if (parentAddress) {
+        const parent = mapped.find(({ account: { address } }) => address === parentAddress);
+
+        if (parent) {
+          parent.children.push(entry);
+
+          return false;
+        }
+      }
+
+      return true;
+    })
+    .reduce(expandList, [])
+    .sort((a, b): number =>
+      a.isFavorite === b.isFavorite
+        ? 0
+        : b.isFavorite
+          ? 1
+          : -1
+    );
+}
+
 function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
@@ -48,21 +94,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
 
   useEffect((): void => {
     setSortedAccounts(
-      allAccounts
-        .map((address): SortedAccount => ({ address, isFavorite: favorites.includes(address) }))
-        .sort((a, b): number => {
-          const accA = keyring.getAccount(a.address) as KeyringAddress;
-          const accB = keyring.getAccount(b.address) as KeyringAddress;
-
-          return (accA.meta.whenCreated || 0) - (accB.meta.whenCreated || 0);
-        })
-        .sort((a, b): number =>
-          a.isFavorite === b.isFavorite
-            ? 0
-            : b.isFavorite
-              ? 1
-              : -1
-        )
+      sortAccounts(allAccounts, favorites)
     );
   }, [allAccounts, favorites]);
 
@@ -131,6 +163,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         }
         header={[
           [t('accounts'), 'start', 3],
+          [t('parent'), 'address'],
           [t('type')],
           [t('tags'), 'start'],
           [t('transactions')],
@@ -138,12 +171,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           [undefined, undefined, 2]
         ]}
       >
-        {sortedAccounts.map(({ address, isFavorite }): React.ReactNode => (
+        {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
           <Account
-            address={address}
+            account={account}
             filter={filter}
             isFavorite={isFavorite}
-            key={address}
+            key={account.address}
             toggleFavorite={toggleFavorite}
           />
         ))}

@@ -71,11 +71,17 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
     _setStored(isUndefined(value) ? defaultValue : value);
   }, [_setStored, defaultValue, value]);
 
-  const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
-    onAdd && onAdd(value);
+  const _onAdd = useCallback(
+    (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
+      onAdd && onAdd(value),
+    [onAdd]
+  );
 
-  const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void =>
-    _setStored(value);
+  const _onChange = useCallback(
+    (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void =>
+      _setStored(value),
+    [_setStored]
+  );
 
   const dropdown = (
     <SUIDropdown
