@@ -33,37 +33,40 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
   );
 
   return (
-    <div className={className}>
-      <div className='vanity--Match-item'>
+    <tr className={className}>
+      <td
+        className='number'
+        colSpan={2}
+      >
         <IdentityIcon
           className='vanity--Match-icon'
-          size={48}
+          size={32}
           value={address}
         />
-        <div className='vanity--Match-data'>
-          <div className='vanity--Match-addr'>
-            <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
-          </div>
-          <div className='vanity--Match-seed'>
-            {hexSeed}
-          </div>
+      </td>
+      <td className='address all'>
+        <div className='vanity--Match-addr'>
+          <span className='no'>{address.slice(0, offset)}</span><span className='yes'>{address.slice(offset, count + offset)}</span><span className='no'>{address.slice(count + offset)}</span>
         </div>
-        <div className='vanity--Match-buttons'>
-          <Button
-            icon='plus'
-            isPrimary
-            onClick={_onCreate}
-            size='tiny'
-          />
-          <Button
-            icon='close'
-            isNegative
-            onClick={_onRemove}
-            size='tiny'
-          />
-        </div>
-      </div>
-    </div>
+      </td>
+      <td className='hash'>
+        {hexSeed}
+      </td>
+      <td className='button'>
+        <Button
+          icon='plus'
+          isPrimary
+          onClick={_onCreate}
+          size='tiny'
+        />
+        <Button
+          icon='close'
+          isNegative
+          onClick={_onRemove}
+          size='tiny'
+        />
+      </td>
+    </tr>
   );
 }
 
@@ -75,8 +78,7 @@ export default React.memo(styled(Match)`
   }
 
   .vanity--Match-addr {
-    font-size: 1.5rem;
-    padding: 0 1rem;
+    font-size: 1.25rem;
 
     .no {
       color: inherit;
