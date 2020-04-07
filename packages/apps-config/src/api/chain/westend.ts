@@ -3,9 +3,5 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
-  Address: 'GenericAddress',
-  BalanceLock: 'BalanceLockTo212',
-  Keys: 'SessionKeys5',
-  ReferendumInfo: 'ReferendumInfoTo239',
-  StakingLedger: 'StakingLedgerTo223'
+  Keys: 'SessionKeys5'
 };
