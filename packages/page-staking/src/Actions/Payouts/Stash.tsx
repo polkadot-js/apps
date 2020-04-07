@@ -9,7 +9,7 @@ import { PayoutStash } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import { AddressMini, TxButton } from '@polkadot/react-components';
+import { AddressMini, Badge, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -69,7 +69,14 @@ function Stash ({ className, isInElection, payout: { available, rewards, stashId
   return (
     <tr className={className}>
       <td className='address'><AddressMini value={stashId} /></td>
-      <td className='start'>{eraStr}</td>
+      <td className='start'>
+        <Badge
+          info={rewards.length}
+          isInline
+          type='counter'
+        />
+        <span className='payout-eras'>{eraStr}</span>
+      </td>
       <td className='number'><FormatBalance value={available} /></td>
       <td
         className='button'
@@ -79,7 +86,7 @@ function Stash ({ className, isInElection, payout: { available, rewards, stashId
           <TxButton
             accountId={stakingAccount.controllerId}
             extrinsic={extrinsic}
-            icon='percent'
+            icon='credit card outline'
             isDisabled={!extrinsic || isInElection}
             isPrimary={false}
             label={t('Payout')}

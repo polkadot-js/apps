@@ -14,7 +14,7 @@ export function createErasString (eras: BN[]): string {
     return '';
   }
 
-  const grouped = eras
+  return eras
     .reduce((result: (BN | [BN, BN])[], era): (BN | [BN, BN])[] => {
       if (result.length === 0) {
         return [era];
@@ -44,6 +44,4 @@ export function createErasString (eras: BN[]): string {
         : `${formatNumber(entry[0])}-${formatNumber(entry[1])}`
     )
     .join(', ');
-
-  return `(${eras.length}) ${grouped}`;
 }

@@ -76,7 +76,7 @@ export default React.memo(styled(Table)`
         }
 
         &:last-child {
-          padding-right: 1.5rem;
+          padding-right: 0.75rem;
         }
 
         &.all {

@@ -57,7 +57,7 @@ function PayButton ({ eras, isInElection, validatorId }: Props): React.ReactElem
             <TxButton
               accountId={accountId}
               extrinsic={extrinsic}
-              icon='percent'
+              icon='credit card outline'
               isDisabled={!extrinsic || !accountId}
               label={t('Payout')}
               onStart={togglePayout}

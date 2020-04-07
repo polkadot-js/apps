@@ -7,6 +7,7 @@ import { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -16,6 +17,7 @@ import Validator from './Validator';
 
 interface Props {
   allRewards?: Record<string, DeriveStakerReward[]>;
+  className?: string;
   isInElection?: boolean;
   stakerPayoutsAfter: BN;
 }
@@ -78,7 +80,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function Payouts ({ allRewards, isInElection, stakerPayoutsAfter }: Props): React.ReactElement<Props> {
+function Payouts ({ allRewards, className, isInElection, stakerPayoutsAfter }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashes, validators }, setPayouts] = useState<Available>({});
   const { t } = useTranslation();
@@ -91,7 +93,7 @@ function Payouts ({ allRewards, isInElection, stakerPayoutsAfter }: Props): Reac
   }, [allRewards]);
 
   return (
-    <>
+    <div className={className}>
       <Table
         empty={stashes && t('No pending payouts for your stashes')}
         header={[
@@ -131,8 +133,13 @@ function Payouts ({ allRewards, isInElection, stakerPayoutsAfter }: Props): Reac
           ))}
         </Table>
       )}
-    </>
+    </div>
   );
 }
 
-export default React.memo(Payouts);
+export default React.memo(styled(Payouts)`
+  .payout-eras {
+    padding-left: 0.25rem;
+    vertical-align: middle;
+  }
+`);
