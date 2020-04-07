@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import store from 'store';
 import styled from 'styled-components';
@@ -16,6 +16,14 @@ import { useTranslation } from './translate';
 
 const EMPTY_CODE = '{\n\n}';
 const EMPTY_TYPES = {};
+
+interface AllState {
+  code: string;
+  isJsonValid: boolean;
+  isTypesValid: boolean;
+  types: Record<string, any>;
+  typesPlaceholder: string | null;
+}
 
 function Developer ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -35,87 +43,102 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
     }
   }, []);
 
-  const _setState = ({ code, isJsonValid, isTypesValid, types, typesPlaceholder }: { code: string; isJsonValid: boolean; isTypesValid: boolean; types: Record<string, any>; typesPlaceholder: string | null }): void => {
-    setCode(code);
-    setIsJsonValid(isJsonValid);
-    setIsTypesValid(isTypesValid);
-    setTypes(types);
-    setTypesPlaceholder(typesPlaceholder);
-  };
+  const _setState = useCallback(
+    ({ code, isJsonValid, isTypesValid, types, typesPlaceholder }: AllState): void => {
+      setCode(code);
+      setIsJsonValid(isJsonValid);
+      setIsTypesValid(isTypesValid);
+      setTypes(types);
+      setTypesPlaceholder(typesPlaceholder);
+    },
+    []
+  );
 
-  const _clearTypes = (): void => {
-    store.remove('types');
-
-    _setState({
-      code: EMPTY_CODE,
-      isJsonValid: true,
-      isTypesValid: true,
-      types: EMPTY_TYPES,
-      typesPlaceholder: null
-    });
-  };
-
-  const _onChangeTypes = (data: Uint8Array): void => {
-    const code = u8aToString(data);
-
-    try {
-      const types = JSON.parse(code);
-      const typesPlaceholder = Object.keys(types).join(', ');
-
-      console.log('Detected types:', typesPlaceholder);
+  const _clearTypes = useCallback(
+    (): void => {
+      store.remove('types');
 
       _setState({
-        code,
+        code: EMPTY_CODE,
         isJsonValid: true,
         isTypesValid: true,
-        types: Object.keys(types).length === 0 ? {} : types,
-        typesPlaceholder
+        types: EMPTY_TYPES,
+        typesPlaceholder: null
       });
-    } catch (error) {
-      console.error('Error registering types:', error);
+    },
+    [_setState]
+  );
 
-      _setState({
-        code,
-        isJsonValid: false,
-        isTypesValid: false,
-        types: {},
-        typesPlaceholder: error.message
-      });
-    }
-  };
+  const _onChangeTypes = useCallback(
+    (data: Uint8Array): void => {
+      const code = u8aToString(data);
 
-  const _onEditTypes = (code: string): void => {
-    try {
-      if (!isJsonObject(code)) {
-        throw Error(t('This is not a valid JSON object.'));
+      try {
+        const types = JSON.parse(code);
+        const typesPlaceholder = Object.keys(types).join(', ');
+
+        console.log('Detected types:', typesPlaceholder);
+
+        _setState({
+          code,
+          isJsonValid: true,
+          isTypesValid: true,
+          types: Object.keys(types).length === 0 ? {} : types,
+          typesPlaceholder
+        });
+      } catch (error) {
+        console.error('Error registering types:', error);
+
+        _setState({
+          code,
+          isJsonValid: false,
+          isTypesValid: false,
+          types: {},
+          typesPlaceholder: error.message
+        });
       }
+    },
+    [_setState]
+  );
 
-      _onChangeTypes(stringToU8a(code));
-    } catch (e) {
-      setCode(code);
-      setIsJsonValid(false);
-      setTypesPlaceholder(e.message);
-    }
-  };
+  const _onEditTypes = useCallback(
+    (code: string): void => {
+      try {
+        if (!isJsonObject(code)) {
+          throw Error(t('This is not a valid JSON object.'));
+        }
 
-  const _saveDeveloper = (): void => {
-    try {
-      registry.register(types);
-      store.set('types', types);
-      setIsTypesValid(true);
-      onStatusChange({
-        action: t('Your custom types have been added'),
-        status: 'success'
-      });
-    } catch (error) {
-      console.error(error);
-      setIsTypesValid(false);
-      onStatusChange({
-        action: t(`Error saving your custom types. ${error.message}`),
-        status: 'error'
-      });
-    }
-  };
+        _onChangeTypes(stringToU8a(code));
+      } catch (e) {
+        setCode(code);
+        setIsJsonValid(false);
+        setTypesPlaceholder(e.message);
+      }
+    },
+    [_onChangeTypes, t]
+  );
+
+  const _saveDeveloper = useCallback(
+    (): void => {
+      try {
+        registry.register(types);
+        store.set('types', types);
+        setIsTypesValid(true);
+        onStatusChange({
+          action: t('Your custom types have been added'),
+          status: 'success'
+        });
+      } catch (error) {
+        console.error(error);
+        setIsTypesValid(false);
+        onStatusChange({
+          action: t(`Error saving your custom types. ${error.message}`),
+          status: 'error'
+        });
+      }
+    },
+    [onStatusChange, t, types]
+  );
 
   const typesHasNoEntries = Object.keys(types).length === 0;
 

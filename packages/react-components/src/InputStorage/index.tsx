@@ -7,7 +7,7 @@
 import { DropdownOptions } from '../util/types';
 import { StorageEntryPromise } from './types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
@@ -33,26 +33,32 @@ function InputStorage ({ className, defaultValue, help, label, onChange, style, 
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<StorageEntryPromise>((): StorageEntryPromise => defaultValue);
 
-  const _onKeyChange = (newValue: StorageEntryPromise): void => {
-    if (value.creator.section === newValue.creator.section && value.creator.method === newValue.creator.method) {
-      return;
-    }
+  const _onKeyChange = useCallback(
+    (newValue: StorageEntryPromise): void => {
+      if (value.creator.section === newValue.creator.section && value.creator.method === newValue.creator.method) {
+        return;
+      }
 
-    // set via callback
-    setValue((): StorageEntryPromise => newValue);
-    onChange && onChange(newValue);
-  };
+      // set via callback
+      setValue((): StorageEntryPromise => newValue);
+      onChange && onChange(newValue);
+    },
+    [onChange, value]
+  );
 
-  const _onSectionChange = (section: string): void => {
-    if (section === value.creator.section) {
-      return;
-    }
+  const _onSectionChange = useCallback(
+    (section: string): void => {
+      if (section === value.creator.section) {
+        return;
+      }
 
-    const optionsMethod = keyOptions(api, section);
+      const optionsMethod = keyOptions(api, section);
 
-    setOptionsMethod(optionsMethod);
-    _onKeyChange(api.query[section][optionsMethod[0].value]);
-  };
+      setOptionsMethod(optionsMethod);
+      _onKeyChange(api.query[section][optionsMethod[0].value]);
+    },
+    [_onKeyChange, api, value]
+  );
 
   return (
     <LinkedWrapper

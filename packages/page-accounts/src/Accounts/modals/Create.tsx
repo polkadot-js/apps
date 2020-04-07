@@ -199,11 +199,14 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     [derivePath, seed, seedType]
   );
 
-  const _selectSeedType = (newSeedType: SeedType): void => {
-    if (newSeedType !== seedType) {
-      setAddress(generateSeed(null, derivePath, newSeedType, pairType));
-    }
-  };
+  const _selectSeedType = useCallback(
+    (newSeedType: SeedType): void => {
+      if (newSeedType !== seedType) {
+        setAddress(generateSeed(null, derivePath, newSeedType, pairType));
+      }
+    },
+    [derivePath, pairType, seedType]
+  );
 
   const _onChangeName = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),

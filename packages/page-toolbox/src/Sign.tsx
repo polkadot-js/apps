@@ -5,10 +5,11 @@
 import { Signer } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
 
@@ -37,7 +38,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
   const [isLocked, setIsLocked] = useState(false);
   const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
-  const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
+  const [isUnlockVisible, toggleUnlock] = useToggle();
 
   useEffect((): void => {
     const isExternal = currentPair?.meta.isExternal || false;
@@ -71,42 +72,54 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
     }
   }, [currentPair]);
 
-  const _toggleUnlock = (): void => setIsUnlockVisible(!isUnlockVisible);
-  const _onChangeAccount = (accountId: string | null): void => setCurrentPair(keyring.getPair(accountId || ''));
-  const _onChangeData = (data: string): void => setData({ data, isHexData: isHex(data) });
+  const _onChangeAccount = useCallback(
+    (accountId: string | null) => setCurrentPair(keyring.getPair(accountId || '')),
+    []
+  );
 
-  const _onSign = (): void => {
-    if (isLocked || !isUsable || !currentPair) {
-      return;
-    }
+  const _onChangeData = useCallback(
+    (data: string) => setData({ data, isHexData: isHex(data) }),
+    []
+  );
 
-    if (signer?.signRaw) {
-      setSignature('');
+  const _onSign = useCallback(
+    (): void => {
+      if (isLocked || !isUsable || !currentPair) {
+        return;
+      }
 
-      signer
-        .signRaw({
-          address: currentPair.address,
-          data: isHexData
-            ? data
-            : stringToHex(data),
-          type: 'bytes'
-        })
-        .then(({ signature }): void => setSignature(signature));
-    } else {
-      setSignature(u8aToHex(
-        currentPair.sign(
-          isHexData
-            ? hexToU8a(data)
-            : stringToU8a(data)
-        )
-      ));
-    }
-  };
+      if (signer?.signRaw) {
+        setSignature('');
 
-  const _onUnlock = (): void => {
-    setIsLocked(false);
-    _toggleUnlock();
-  };
+        signer
+          .signRaw({
+            address: currentPair.address,
+            data: isHexData
+              ? data
+              : stringToHex(data),
+            type: 'bytes'
+          })
+          .then(({ signature }): void => setSignature(signature));
+      } else {
+        setSignature(u8aToHex(
+          currentPair.sign(
+            isHexData
+              ? hexToU8a(data)
+              : stringToU8a(data)
+          )
+        ));
+      }
+    },
+    [currentPair, data, isHexData, isLocked, isUsable, signer]
+  );
+
+  const _onUnlock = useCallback(
+    (): void => {
+      setIsLocked(false);
+      toggleUnlock();
+    },
+    [toggleUnlock]
+  );
 
   return (
     <div className={`toolbox--Sign ${className}`}>
@@ -166,7 +179,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
                   <Button
                     icon='unlock'
                     label={t('Unlock account')}
-                    onClick={_toggleUnlock}
+                    onClick={toggleUnlock}
                   />
                 </Button.Group>
               </div>
@@ -187,7 +200,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
         </div>
         {isUnlockVisible && (
           <Unlock
-            onClose={_toggleUnlock}
+            onClose={toggleUnlock}
             onUnlock={_onUnlock}
             pair={currentPair}
           />

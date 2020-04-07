@@ -6,7 +6,7 @@ import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 import { ComponentProps as Props, StorageEntryPromise } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -70,24 +70,33 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
   const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
 
-  const _onAdd = (): void => {
-    isValid && onAdd({
-      isConst: false,
-      key,
-      params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
-    });
-  };
+  const _onAdd = useCallback(
+    (): void => {
+      isValid && onAdd({
+        isConst: false,
+        key,
+        params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
+      });
+    },
+    [isIterable, isValid, key, onAdd, values]
+  );
 
-  const _onChangeValues = (values: RawParams): void =>
-    setValues({
-      isValid: areParamsValid(key, values),
-      values
-    });
+  const _onChangeValues = useCallback(
+    (values: RawParams): void =>
+      setValues({
+        isValid: areParamsValid(key, values),
+        values
+      }),
+    [key]
+  );
 
-  const _onChangeKey = (key: StorageEntryPromise): void => {
-    setKey(expandKey(api, key));
-    _onChangeValues([]);
-  };
+  const _onChangeKey = useCallback(
+    (key: StorageEntryPromise): void => {
+      setKey(expandKey(api, key));
+      _onChangeValues([]);
+    },
+    [_onChangeValues, api]
+  );
 
   const { creator: { meta, method, section } } = key;
 

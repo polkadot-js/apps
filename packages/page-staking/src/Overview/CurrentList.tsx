@@ -6,7 +6,7 @@ import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/ty
 import { AccountId } from '@polkadot/types/interfaces';
 import { AddressDetails } from './types';
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { Input, Table } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
 
@@ -114,25 +114,28 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
     }
   }, [favorites, next, stakingOverview]);
 
-  const _renderRows = (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
-    (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
-      <Address
-        address={address}
-        filterName={nameFilter}
-        hasQueries={hasQueries}
-        isAuthor={lastAuthors && lastAuthors.includes(address)}
-        isElected={isElected}
-        isFavorite={isFavorite}
-        isMain={isMain}
-        key={address}
-        lastBlock={authorsMap[address]}
-        onlineCount={isMain && recentlyOnline?.[address]?.blockCount.toNumber()}
-        onlineMessage={isMain && recentlyOnline?.[address]?.hasMessage}
-        points={isMain && addressDetails[address] && addressDetails[address].points}
-        setNominators={isIntentions && setNominators}
-        toggleFavorite={toggleFavorite}
-      />
-    ));
+  const _renderRows = useCallback(
+    (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
+      (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
+        <Address
+          address={address}
+          filterName={nameFilter}
+          hasQueries={hasQueries}
+          isAuthor={lastAuthors && lastAuthors.includes(address)}
+          isElected={isElected}
+          isFavorite={isFavorite}
+          isMain={isMain}
+          key={address}
+          lastBlock={authorsMap[address]}
+          onlineCount={isMain && recentlyOnline?.[address]?.blockCount.toNumber()}
+          onlineMessage={isMain && recentlyOnline?.[address]?.hasMessage}
+          points={isMain && addressDetails[address] && addressDetails[address].points}
+          setNominators={isIntentions && setNominators}
+          toggleFavorite={toggleFavorite}
+        />
+      )),
+    [addressDetails, authorsMap, hasQueries, isIntentions, lastAuthors, nameFilter, recentlyOnline, setNominators, toggleFavorite]
+  );
 
   return isIntentions
     ? (
