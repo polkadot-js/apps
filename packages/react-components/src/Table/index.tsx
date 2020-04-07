@@ -21,8 +21,8 @@ function Table ({ children, className, empty, filter, header, isFixed }: TablePr
   const isEmpty = !children || (Array.isArray(children) && children.length === 0);
 
   return (
-    <div className={`ui--Table ${isFixed && 'isFixed'} ${className}`}>
-      <table>
+    <div className={`ui--Table ${className}`}>
+      <table className={`${isFixed && 'isFixed'}`}>
         <Head
           filter={filter}
           header={header}
@@ -50,6 +50,10 @@ export default React.memo(styled(Table)`
     overflow: hidden;
     width: 100%;
 
+    &.isFixed {
+      table-layout: fixed;
+    }
+
     tr {
       max-width: 100%;
       width: 100%;
@@ -75,10 +79,6 @@ export default React.memo(styled(Table)`
           }
         }
       }
-    }
-
-    &.isFixed table {
-      table-layout: fixed;
     }
   }
 `);
