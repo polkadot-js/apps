@@ -1036,5 +1036,8 @@
   "This account will be use to approve each candidate.": "",
   "voting account": "",
   "Vote Aye": "",
-  "Vote Nay": ""
+  "Vote Nay": "",
+  "No matches found": "",
+  "matches": "",
+  "secret": ""
 }
