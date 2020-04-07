@@ -25,7 +25,6 @@ class ErrorBoundary extends React.Component<Props> {
   state: State = { error: null, prevTrigger: null };
 
   static getDerivedStateFromError (error: Error): Partial<State> {
-    // Update state so the next render will show the fallback UI.
     return { error };
   }
 
@@ -37,8 +36,7 @@ class ErrorBoundary extends React.Component<Props> {
       : null;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public componentDidCatch (error: Error, _errorInfo: any): void {
+  public componentDidCatch (error: Error): void {
     const { doThrow, onError } = this.props;
 
     onError && onError();
