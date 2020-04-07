@@ -74,7 +74,7 @@ function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props)
       />
       <Tooltip
         className='address'
-        text={<div>{address}</div>}
+        text={address}
         trigger={trigger}
       />
     </span>

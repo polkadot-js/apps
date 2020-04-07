@@ -52,7 +52,7 @@ function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, tr
       offset={offset}
       place={place}
     >
-      {text}
+      {className?.includes('address') ? <div>{text}</div> : text}
     </ReactTooltip>,
     tooltipContainer
   );
