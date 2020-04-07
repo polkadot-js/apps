@@ -8,11 +8,11 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../../types';
 
 import FileSaver from 'file-saver';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
@@ -160,7 +160,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
@@ -174,20 +174,30 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     { text: t('Raw seed'), value: 'raw' }
   ), [isDevelopment, t]);
 
-  const _onChangePass = (password: string): void =>
-    setPassword({ isPassValid: keyring.isPassValid(password), password });
+  const _onChangePass = useCallback(
+    (password: string) => setPassword({ isPassValid: keyring.isPassValid(password), password }),
+    []
+  );
 
-  const _onChangePass2 = (password2: string): void =>
-    setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 });
+  const _onChangePass2 = useCallback(
+    (password2: string) => setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 }),
+    [password]
+  );
 
-  const _onChangeDerive = (newDerivePath: string): void =>
-    setAddress(updateAddress(seed, newDerivePath, seedType, pairType));
+  const _onChangeDerive = useCallback(
+    (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
+    [pairType, seed, seedType]
+  );
 
-  const _onChangeSeed = (newSeed: string): void =>
-    setAddress(updateAddress(newSeed, derivePath, seedType, pairType));
+  const _onChangeSeed = useCallback(
+    (newSeed: string) => setAddress(updateAddress(newSeed, derivePath, seedType, pairType)),
+    [derivePath, pairType, seedType]
+  );
 
-  const _onChangePairType = (newPairType: KeypairType): void =>
-    setAddress(updateAddress(seed, derivePath, seedType, newPairType));
+  const _onChangePairType = useCallback(
+    (newPairType: KeypairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
+    [derivePath, seed, seedType]
+  );
 
   const _selectSeedType = (newSeedType: SeedType): void => {
     if (newSeedType !== seedType) {
@@ -195,22 +205,26 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     }
   };
 
-  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+  const _onChangeName = useCallback(
+    (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
 
-  const _toggleConfirmation = (): void => setIsConfirmationOpen(!isConfirmationOpen);
+  const _onCommit = useCallback(
+    (): void => {
+      if (!isValid) {
+        return;
+      }
 
-  const _onCommit = (): void => {
-    if (!isValid) {
-      return;
-    }
+      const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+      const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t('created account'));
 
-    const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
-    const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t('created account'));
-
-    _toggleConfirmation();
-    onStatusChange(status);
-    onClose();
-  };
+      toggleConfirmation();
+      onStatusChange(status);
+      onClose();
+    },
+    [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t, toggleConfirmation]
+  );
 
   return (
     <Modal
@@ -221,7 +235,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
         <CreateConfirmation
           address={address}
           name={name}
-          onClose={_toggleConfirmation}
+          onClose={toggleConfirmation}
           onCommit={_onCommit}
         />
       )}
@@ -318,7 +332,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           isDisabled={!isValid}
           isPrimary
           label={t('Save')}
-          onClick={_toggleConfirmation}
+          onClick={toggleConfirmation}
         />
       </Modal.Actions>
     </Modal>
