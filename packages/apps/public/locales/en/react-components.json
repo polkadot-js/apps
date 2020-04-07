@@ -110,5 +110,6 @@
   "Unbonding {{value}}, ": "Unbonding {{value}}, ",
   "{{blocks}} blocks": "{{blocks}} blocks",
   "Vote Aye": "Vote Aye",
-  "Vote Nay": "Vote Nay"
+  "Vote Nay": "Vote Nay",
+  "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}"
 }
