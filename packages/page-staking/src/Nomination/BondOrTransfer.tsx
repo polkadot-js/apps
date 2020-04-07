@@ -48,7 +48,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       && controllerBalance.cmp(wholeFees) === 1)
   }
 
-  function calculateMaxPrefilledBalance() {
+  function calculateMaxPreFilledBalance() {
     if (accountBalance && wholeFees) {
       // double wholeFees
       setAmountToBond(accountBalance.isub(wholeFees).isub(wholeFees).isub(existentialDeposit));
@@ -75,9 +75,11 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   }
 
   function setAmountToTransfer() {
+    const minAmount = new BN(0);
     setTransferableAmount(
-      wholeFees.clone()
-        .iadd(getMinimumTransferableAmount())
+      minAmount
+        .iadd(wholeFees)
+        .iadd(wholeFees)
         .isub(controllerBalance || new BN(0))
     );
   }
@@ -87,8 +89,11 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
     if (!wholeFees) {
       return;
     }
-    setAmountToTransfer();
-    calculateMaxPrefilledBalance();
+    if (transfer) {
+      setAmountToTransfer();
+    } else {
+      calculateMaxPreFilledBalance();
+    }
   },[accountBalance, controllerBalance, wholeFees]);
 
   if (transfer) {
@@ -103,7 +108,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
             <div className='ui--row'>
               <div className='large'>
                 <InputBalance
-                  value={transferableAmount}
+                  value={formatBalance(transferableAmount, { withUnit: false })}
                   label={`amount to ${transfer ? 'transfer' : 'bond'}`}
                   onChange={setAmount}
                 />
