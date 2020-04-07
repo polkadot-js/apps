@@ -5,7 +5,7 @@
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
@@ -44,23 +44,28 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
     setCouncilOpts(available);
   }, [councilProposals]);
 
+  const _onChangeVote = useCallback(
+    (vote?: boolean) => setVoteValue(isBoolean(vote) ? vote : true),
+    []
+  );
+
+  const _onChangeProposal = useCallback(
+    (optionId: number): void => {
+      const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
+
+      if (councilProp && councilProp.votes) {
+        setCouncilInfo({ councilHash: councilProp.hash, councilId: councilProp.votes.index });
+        setCouncilOptId(councilOptId);
+      } else {
+        setCouncilInfo({ councilHash: null, councilId: null });
+      }
+    },
+    [councilOptId, councilProposals]
+  );
+
   if (!hasAccounts || !councilOpts.length) {
     return null;
   }
-
-  const _onChangeVote = (vote?: boolean): void =>
-    setVoteValue(isBoolean(vote) ? vote : true);
-
-  const _onChangeProposal = (optionId: number): void => {
-    const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
-
-    if (councilProp && councilProp.votes) {
-      setCouncilInfo({ councilHash: councilProp.hash, councilId: councilProp.votes.index });
-      setCouncilOptId(councilOptId);
-    } else {
-      setCouncilInfo({ councilHash: null, councilId: null });
-    }
-  };
 
   return (
     <>

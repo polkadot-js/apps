@@ -8,7 +8,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { Log, LogType, Snippet } from './types';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Editor } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -113,90 +113,111 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
     setCode(selected.code);
   }, [selected]);
 
-  const _clearConsole = (): void => setLogs([]);
+  const _clearConsole = useCallback(
+    (): void => setLogs([]),
+    []
+  );
 
-  const _hookConsole = (type: LogType, args: any[]): void => {
-    logs.push({ args, type });
-    setLogs(logs.slice(0));
-  };
+  const _hookConsole = useCallback(
+    (type: LogType, args: any[]): void => {
+      logs.push({ args, type });
+      setLogs(logs.slice(0));
+    },
+    [logs]
+  );
 
-  const _stopJs = (): void => {
-    if (injectedRef.current) {
-      injectedRef.current.api.disconnect();
-      injectedRef.current = null;
-    }
-
-    setIsRunning(false);
-  };
-
-  const _runJs = async (): Promise<void> => {
-    setIsRunning(true);
-    _clearConsole();
-
-    injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
-
-    await injectedRef.current.api.isReady;
-
-    try {
-      // squash into a single line so exceptions (with line numbers) maps to the
-      // same line/origin as we have in the editor view
-      // TODO: Make the console.error here actually return the full stack
-      const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
-
-      // eslint-disable-next-line no-new-func
-      new Function('injected', exec).bind({}, injectedRef.current)();
-    } catch (error) {
-      injectedRef.current.console.error(error);
-    }
-
-    setIsRunning(false);
-  };
-
-  const _selectExample = (value: string): void => {
-    _stopJs();
-
-    if (value.length) {
-      const option = options.find((option): boolean => option.value === value);
-
-      if (option) {
-        localStorage.setItem(STORE_SELECTED, value);
-
-        _clearConsole();
-        setIsCustomExample(option.type === 'custom');
-        setSelected(option);
+  const _stopJs = useCallback(
+    (): void => {
+      if (injectedRef.current) {
+        injectedRef.current.api.disconnect();
+        injectedRef.current = null;
       }
-    }
-  };
 
-  const _removeSnippet = (): void => {
-    const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
-    const nextOptions = [...filtered, ...snippets];
+      setIsRunning(false);
+    },
+    []
+  );
 
-    setCustomExamples(filtered);
-    setIsCustomExample(nextOptions[0].type === 'custom');
-    setOptions(nextOptions);
-    _selectExample(nextOptions[0].value);
-    localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
-  };
+  const _runJs = useCallback(
+    async (): Promise<void> => {
+      setIsRunning(true);
+      _clearConsole();
 
-  const _saveSnippet = (snippetName: string): void => {
-    // The <Dropdown> component doesn't take boolean custom props and no
-    // camelCase keys, that's why 'custom' is passed as a string here
-    const snapshot: Snippet = {
-      code,
-      label: CUSTOM_LABEL,
-      text: snippetName,
-      type: 'custom',
-      value: `custom-${Date.now()}`
-    };
-    const options = [snapshot, ...customExamples, ...snippets];
+      injectedRef.current = setupInjected(apiProps, setIsRunning, _hookConsole);
 
-    localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
-    setCustomExamples([snapshot, ...customExamples]);
-    setIsCustomExample(true);
-    setOptions(options);
-    setSelected(snapshot);
-  };
+      await injectedRef.current.api.isReady;
+
+      try {
+        // squash into a single line so exceptions (with line numbers) maps to the
+        // same line/origin as we have in the editor view
+        // TODO: Make the console.error here actually return the full stack
+        const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
+
+        // eslint-disable-next-line no-new-func
+        new Function('injected', exec).bind({}, injectedRef.current)();
+      } catch (error) {
+        injectedRef.current.console.error(error);
+      }
+
+      setIsRunning(false);
+    },
+    [_clearConsole, _hookConsole, apiProps, code]
+  );
+
+  const _selectExample = useCallback(
+    (value: string): void => {
+      _stopJs();
+
+      if (value.length) {
+        const option = options.find((option): boolean => option.value === value);
+
+        if (option) {
+          localStorage.setItem(STORE_SELECTED, value);
+
+          _clearConsole();
+          setIsCustomExample(option.type === 'custom');
+          setSelected(option);
+        }
+      }
+    },
+    [_clearConsole, _stopJs, options]
+  );
+
+  const _removeSnippet = useCallback(
+    (): void => {
+      const filtered = customExamples.filter((value): boolean => value.value !== selected.value);
+      const nextOptions = [...filtered, ...snippets];
+
+      setCustomExamples(filtered);
+      setIsCustomExample(nextOptions[0].type === 'custom');
+      setOptions(nextOptions);
+      _selectExample(nextOptions[0].value);
+      localStorage.setItem(STORE_EXAMPLES, JSON.stringify(filtered));
+    },
+    [_selectExample, customExamples, selected.value]
+  );
+
+  const _saveSnippet = useCallback(
+    (snippetName: string): void => {
+      // The <Dropdown> component doesn't take boolean custom props and no
+      // camelCase keys, that's why 'custom' is passed as a string here
+      const snapshot: Snippet = {
+        code,
+        label: CUSTOM_LABEL,
+        text: snippetName,
+        type: 'custom',
+        value: `custom-${Date.now()}`
+      };
+      const options = [snapshot, ...customExamples, ...snippets];
+
+      localStorage.setItem(STORE_EXAMPLES, JSON.stringify([snapshot, ...customExamples]));
+      setCustomExamples([snapshot, ...customExamples]);
+      setIsCustomExample(true);
+      setOptions(options);
+      setSelected(snapshot);
+    },
+    [code, customExamples]
+  );
 
   const snippetName = selected.type === 'custom' ? selected.text : undefined;
 
