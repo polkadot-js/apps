@@ -108,5 +108,7 @@
   "Unbonding {{value}}, {{remaining}} blocks left": "Unbonding {{value}}, {{remaining}} blocks left",
   "Withdraw these unbonded funds": "Withdraw these unbonded funds",
   "Unbonding {{value}}, ": "Unbonding {{value}}, ",
-  "{{blocks}} blocks": "{{blocks}} blocks"
+  "{{blocks}} blocks": "{{blocks}} blocks",
+  "Vote Aye": "Vote Aye",
+  "Vote Nay": "Vote Nay"
 }
