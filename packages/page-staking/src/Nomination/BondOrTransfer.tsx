@@ -19,9 +19,10 @@ interface Props {
   stepsState: string[];
   setStepsState: (stepsState: string[]) => void;
   validators: string[];
+  controllerAlreadyBonded?: boolean | false;
 }
 
-function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators }: Props): React.ReactElement<Props> {
+function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators, controllerAlreadyBonded }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
   const [amountToBond, setAmountToBond] = useState<BN>(new BN(1));
@@ -36,7 +37,6 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
     : null;
   // bond more funds
   // api.tx.staking.bondExtra(maxAdditional)
-  const canSubmit = true;
   const existentialDeposit = api.consts.balances.existentialDeposit;
 
   function isBalanceEnough() {
@@ -150,7 +150,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
           <Button.Group>
             <TxButton
               accountId={senderId}
-              isDisabled={!canSubmit}
+              isDisabled={controllerAlreadyBonded}
               isPrimary
               label={t('Bond')}
               icon='sign-in'

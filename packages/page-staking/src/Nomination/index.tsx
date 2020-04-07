@@ -61,6 +61,18 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     return stepsState[ind + 1] === 'disabled';
   }
 
+  function resetControllerInfo(accountId: string | null) {
+    setControllerAlreadyBonded(false);
+    setControllerAccountId(accountId);
+  }
+
+  const _onUpdateControllerState = useCallback(
+    (controllerAlreadyBonded: boolean): void => {
+      setControllerAlreadyBonded(controllerAlreadyBonded)
+    },
+    []
+  );
+
   // set validators list
   useEffect(() => {
     // @todo - не больше 16
@@ -68,14 +80,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
       stakingOverview.validators.map((acc): string => acc.toString())
     );
   }, [stakingOverview]);
-
-  const _onUpdateControllerState = useCallback(
-    (controllerAlreadyBonded: boolean): void => {
-      console.log('_onUpdateControllerState', controllerAlreadyBonded);
-      setControllerAlreadyBonded(controllerAlreadyBonded)
-    },
-    []
-  );
 
   console.log('controllerAlreadyBonded', controllerAlreadyBonded);
   // @ts-ignore
@@ -114,7 +118,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 senderId={senderId}
                 value={controllerAccountId}
                 title={'controller account'}
-                onChange={setControllerAccountId}
+                onChange={resetControllerInfo}
                 stepsState={stepsState}
                 setStepsState={setStepsState}
                 toggleCreate={toggleCreate}
@@ -164,6 +168,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 stepsState={stepsState}
                 setStepsState={setStepsState}
                 validators={validators}
+                controllerAlreadyBonded={controllerAlreadyBonded}
             />
         </>
         }
@@ -179,7 +184,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
           {currentStep === steps[3] && (
             <TxButton
               accountId={controllerAccountId}
-              isDisabled={!validators?.length}
+              isDisabled={!validators?.length || !controllerAlreadyBonded}
               isPrimary
               params={[validators]}
               label={t('Nominate')}

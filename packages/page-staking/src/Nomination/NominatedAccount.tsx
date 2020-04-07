@@ -84,7 +84,9 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
 
   useEffect((): void => {
     // if controller already used
-    onUpdateControllerState(controllerId === selectedControllerId);
+    if (controllerId === selectedControllerId) {
+      onUpdateControllerState(true);
+    }
   }, [controllerId, onUpdateControllerState, selectedControllerId]);
 
   useEffect((): void => {
@@ -109,7 +111,6 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     [api, controllerId, payoutRewards, queueExtrinsic]
   );
 
-  console.log('selectedControllerId', selectedControllerId, 'controllerId', controllerId);
   return (
     <tr className={className}>
       <td className='address'>
