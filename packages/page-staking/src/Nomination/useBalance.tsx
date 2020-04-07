@@ -20,7 +20,7 @@ export function useBalanceClear (address?: string | null): Balance | null  {
   return balancesAll ? balancesAll.availableBalance : null
 }
 
-type WholeFeesType = {
+export type WholeFeesType = {
   wholeFees: Balance;
   feesLoading: boolean;
 }

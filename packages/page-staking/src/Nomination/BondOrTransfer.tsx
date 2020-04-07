@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import React, {useState, useEffect} from 'react';
-import {useApi, useOwnStashes} from '@polkadot/react-hooks/index';
+import {useApi} from '@polkadot/react-hooks/index';
 import {Button, InputBalance, TxButton} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import { Balance } from '@polkadot/types/interfaces/runtime';
