@@ -60,11 +60,12 @@ function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props)
 
   return (
     <span
-      className={className}
+      className={`ui--IdentityIcon-Outer ${className}`}
       data-for={trigger}
       data-tip={true}
     >
       <BaseIdentityIcon
+        className={className}
         isHighlight={isValidator}
         onCopy={_onCopy}
         prefix={prefix}

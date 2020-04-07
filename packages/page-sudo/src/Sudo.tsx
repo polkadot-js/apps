@@ -3,94 +3,55 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
-import React from 'react';
-import { createType } from '@polkadot/types';
-import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
-import { registry } from '@polkadot/react-api';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import React, { useCallback, useState } from 'react';
+import { Button, Icon, Extrinsic, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps, ApiProps, ComponentProps {
-  onChange: (accountId?: string) => void;
-}
+function Propose ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { apiDefaultTxSudo } = useApi();
+  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
-interface State {
-  method: SubmittableExtrinsic<'promise'> | null;
-  isValid: boolean;
-}
+  const _onChangeExtrinsic = useCallback(
+    (method: SubmittableExtrinsic<'promise'> | null = null) =>
+      setMethod(() => method),
+    []
+  );
 
-class Propose extends TxComponent<Props, State> {
-  public state: State = {
-    isValid: false,
-    method: null
-  };
-
-  public render (): React.ReactNode {
-    const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
-    const { isValid, method } = this.state;
-
-    return isMine
-      ? (
-        <section>
-          <Extrinsic
-            defaultValue={apiDefaultTxSudo}
-            label={t('submit the following change')}
-            onChange={this.onChangeExtrinsic}
-            onEnter={this.sendTx}
+  return isMine
+    ? (
+      <section>
+        <Extrinsic
+          defaultValue={apiDefaultTxSudo}
+          label={t('submit the following change')}
+          onChange={_onChangeExtrinsic}
+        />
+        <br />
+        <Button.Group>
+          <TxButton
+            accountId={sudoKey}
+            icon='sign-in'
+            isDisabled={!method}
+            label={t('Submit Sudo')}
+            params={[method]}
+            tx='sudo.sudo'
+            withSpinner={false}
           />
-          <br />
-          <Button.Group>
-            <TxButton
-              accountId={sudoKey}
-              icon='sign-in'
-              isDisabled={!method || !isValid}
-              label={t('Submit Sudo')}
-              params={method ? [createType(registry, 'Proposal', method)] : []}
-              tx='sudo.sudo'
-              withSpinner
-            />
-          </Button.Group>
-        </section>
-      )
-      : (
-        <article className='error padded'>
-          <div>
-            <Icon name='ban' />
-            {t('You do not have access to the current sudo key')}
-          </div>
-        </article>
-      );
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState(
-      (prevState: State): State => {
-        const { method = prevState.method } = newState;
-
-        return {
-          isValid: !!method,
-          method
-        };
-      }
+        </Button.Group>
+      </section>
+    )
+    : (
+      <article className='error padded'>
+        <div>
+          <Icon name='ban' />
+          {t('You do not have access to the current sudo key')}
+        </div>
+      </article>
     );
-  }
-
-  private onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void => {
-    if (!method) {
-      return;
-    }
-
-    this.nextState({ method });
-  }
 }
 
-export default withMulti(
-  Propose,
-  translate,
-  withApi
-);
+export default React.memo(Propose);
