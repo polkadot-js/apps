@@ -163,7 +163,7 @@ export default React.memo(styled(Table)`
         }
 
         .ui--Spinner {
-          margin: 0.5rem auto;
+          margin: 0 auto;
 
           .text {
             margin-bottom: 0;

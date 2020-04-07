@@ -2,128 +2,67 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { QueueTxExtrinsicAdd } from '@polkadot/react-components/Status/types';
-import { ApiProps } from '@polkadot/react-api/types';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React from 'react';
-import { Button, Extrinsic, InputAddress, TxButton, TxComponent } from '@polkadot/react-components';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import React, { useCallback, useState } from 'react';
+import { Button, Extrinsic, InputAddress, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends ApiProps, I18nProps {
-  queueExtrinsic: QueueTxExtrinsicAdd;
-}
+function Selection (): React.ReactElement {
+  const { t } = useTranslation();
+  const { apiDefaultTxSudo } = useApi();
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
-interface State {
-  isValid: boolean;
-  isValidUnsigned: boolean;
-  method: SubmittableExtrinsic<'promise'> | null;
-  accountId?: string | null;
-}
+  const _onExtrinsicChange = useCallback(
+    (method?: SubmittableExtrinsic<'promise'>) =>
+      setExtrinsic(() => method || null),
+    []
+  );
 
-class Selection extends TxComponent<Props, State> {
-  public state: State = {
-    isValid: false,
-    isValidUnsigned: false,
-    method: null
-  };
-
-  public render (): React.ReactNode {
-    const { apiDefaultTxSudo, t } = this.props;
-    const { accountId, isValid, isValidUnsigned } = this.state;
-    const extrinsic = this.getExtrinsic() || apiDefaultTxSudo('0x00');
-
-    return (
-      <div className='extrinsics--Selection'>
-        <InputAddress
-          label={t('using the selected account')}
-          labelExtra={
-            <BalanceFree
-              label={<label>{t('free balance')}</label>}
-              params={accountId}
-            />
-          }
-          onChange={this.onChangeSender}
-          type='account'
-        />
-        <Extrinsic
-          defaultValue={apiDefaultTxSudo}
-          label={t('submit the following extrinsic')}
-          onChange={this.onChangeExtrinsic}
-          onEnter={this.sendTx}
-        />
-        <Button.Group>
-          <TxButton
-            extrinsic={extrinsic}
-            icon='sign-in'
-            isBasic
-            isDisabled={!isValidUnsigned}
-            isUnsigned
-            label={t('Submit Unsigned')}
-            withSpinner
+  return (
+    <div className='extrinsics--Selection'>
+      <InputAddress
+        label={t('using the selected account')}
+        labelExtra={
+          <BalanceFree
+            label={<label>{t('free balance')}</label>}
+            params={accountId}
           />
-          <Button.Or />
-          <TxButton
-            accountId={accountId}
-            extrinsic={extrinsic}
-            icon='sign-in'
-            isDisabled={!isValid}
-            isPrimary={false}
-            label={t('Submit Transaction')}
-          />
-        </Button.Group>
-      </div>
-    );
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState(
-      (prevState: State): State => {
-        const { method = prevState.method, accountId = prevState.accountId } = newState;
-        const isValid = !!(
-          accountId &&
-          accountId.length &&
-          method
-        );
-
-        return {
-          accountId,
-          isValid,
-          isValidUnsigned: !!method,
-          method
-        };
-      }
-    );
-  }
-
-  private onChangeExtrinsic = (method: SubmittableExtrinsic<'promise'> | null = null): void => {
-    this.nextState({ method });
-  }
-
-  private onChangeSender = (accountId: string | null): void => {
-    this.nextState({ accountId });
-  }
-
-  private getExtrinsic (): SubmittableExtrinsic<'promise'> | null {
-    const { api } = this.props;
-    const { method } = this.state;
-
-    if (!method) {
-      return null;
-    }
-
-    const fn = api.findCall(method.callIndex);
-
-    return api.tx[fn.section][fn.method](...method.args);
-  }
+        }
+        onChange={setAccountId}
+        type='account'
+      />
+      <Extrinsic
+        defaultValue={apiDefaultTxSudo}
+        label={t('submit the following extrinsic')}
+        onChange={_onExtrinsicChange}
+      />
+      <Button.Group>
+        <TxButton
+          extrinsic={extrinsic}
+          icon='sign-in'
+          isBasic
+          isDisabled={!extrinsic}
+          isUnsigned
+          label={t('Submit Unsigned')}
+          withSpinner
+        />
+        <Button.Or />
+        <TxButton
+          accountId={accountId}
+          extrinsic={extrinsic}
+          icon='sign-in'
+          isDisabled={!extrinsic || !accountId}
+          isPrimary={false}
+          label={t('Submit Transaction')}
+        />
+      </Button.Group>
+    </div>
+  );
 }
 
-export default withMulti(
-  Selection,
-  translate,
-  withApi
-);
+export default React.memo(Selection);
