@@ -182,6 +182,27 @@ export default React.memo(styled(Messages)`
       background: #e8f4ff;
     }
 
+    &.disabled {
+      opacity: 1 !important;
+      background: #eee !important;
+      color: #555 !important;
+    }
+
+    .accessory {
+      width: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .execute {
+        display: none;
+        background: transparent;
+        font-size: 1.5rem;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
     &:hover {
       .accessory .execute {
         display: block;
@@ -200,27 +221,6 @@ export default React.memo(styled(Messages)`
         font-size: 0.8rem;
         font-weight: normal;
       }
-    }
-
-    .accessory {
-      width: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .execute {
-        display: none;
-        background: transparent;
-        font-size: 1.5rem;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    &.disabled {
-      opacity: 1 !important;
-      background: #eee !important;
-      color: #555 !important;
     }
   }
 `);

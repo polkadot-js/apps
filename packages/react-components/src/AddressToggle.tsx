@@ -108,14 +108,6 @@ export default React.memo(styled(AddressToggle)`
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
   }
 
-  &.isAye {
-    cursor: move;
-    .ui--AddressToggle-address {
-      filter: none;
-      opacity: 1;
-    }
-  }
-
   .ui--AddressToggle-address,
   .ui--AddressToggle-toggle {
     flex: 1;
@@ -125,5 +117,14 @@ export default React.memo(styled(AddressToggle)`
   .ui--AddressToggle-toggle {
     margin-top: 0.1rem;
     text-align: right;
+  }
+
+  &.isAye {
+    cursor: move;
+
+    .ui--AddressToggle-address {
+      filter: none;
+      opacity: 1;
+    }
   }
 `);
