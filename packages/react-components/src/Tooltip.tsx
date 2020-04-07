@@ -52,13 +52,18 @@ function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, tr
       offset={offset}
       place={place}
     >
-      {text}
+      {className?.includes('address') ? <div>{text}</div> : text}
     </ReactTooltip>,
     tooltipContainer
   );
 }
 
 export default React.memo(styled(Tooltip)`
+  &.address div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   table {
     border: 0;
 

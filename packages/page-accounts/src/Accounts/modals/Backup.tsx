@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
@@ -34,31 +34,37 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
     keyring.isPassValid(password) && !backupFailed,
   [password, backupFailed]);
 
-  const _onChangePass = (value: string): void => {
-    if (!isPassTouched) {
-      setIsPassTouched(true);
-    }
+  const _onChangePass = useCallback(
+    (value: string): void => {
+      if (!isPassTouched) {
+        setIsPassTouched(true);
+      }
 
-    setBackupFailed(false);
-    setPassword(value);
-  };
+      setBackupFailed(false);
+      setPassword(value);
+    },
+    [isPassTouched]
+  );
 
-  const _doBackup = (): void => {
-    try {
-      const addressKeyring = address && keyring.getPair(address);
-      const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
-      const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+  const _doBackup = useCallback(
+    (): void => {
+      try {
+        const addressKeyring = address && keyring.getPair(address);
+        const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
+        const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
-      FileSaver.saveAs(blob, `${address}.json`);
-    } catch (error) {
-      setBackupFailed(true);
-      console.error(error);
+        FileSaver.saveAs(blob, `${address}.json`);
+      } catch (error) {
+        setBackupFailed(true);
+        console.error(error);
 
-      return;
-    }
+        return;
+      }
 
-    onClose();
-  };
+      onClose();
+    },
+    [address, onClose, password]
+  );
 
   return (
     <Modal

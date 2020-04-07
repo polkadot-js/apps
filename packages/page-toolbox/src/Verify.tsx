@@ -4,7 +4,7 @@
 
 import { KeypairType } from '@polkadot/util-crypto/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -78,23 +78,30 @@ function Verify (): React.ReactElement<{}> {
     setValidity({ cryptoType, isValid });
   }, [data, isValidPk, isValidSignature, publicKey, signature]);
 
-  const _onChangeAddress = (accountId: string | null): void => {
-    let publicKey: Uint8Array | null = null;
+  const _onChangeAddress = useCallback(
+    (accountId: string | null): void => {
+      let publicKey: Uint8Array | null = null;
 
-    try {
-      publicKey = keyring.decodeAddress(accountId || '');
-    } catch (err) {
-      console.error(err);
-    }
+      try {
+        publicKey = keyring.decodeAddress(accountId || '');
+      } catch (err) {
+        console.error(err);
+      }
 
-    setPublicKey({ isValidPk: !!publicKey && publicKey.length === 32, publicKey });
-  };
+      setPublicKey({ isValidPk: !!publicKey && publicKey.length === 32, publicKey });
+    },
+    []
+  );
 
-  const _onChangeData = (data: string): void =>
-    setData({ data, isHexData: isHex(data) });
+  const _onChangeData = useCallback(
+    (data: string) => setData({ data, isHexData: isHex(data) }),
+    []
+  );
 
-  const _onChangeSignature = (signature: string): void =>
-    setSignature({ isValidSignature: isHex(signature) && signature.length === 130, signature });
+  const _onChangeSignature = useCallback(
+    (signature: string) => setSignature({ isValidSignature: isHex(signature) && signature.length === 130, signature }),
+    []
+  );
 
   return (
     <div className='toolbox--Verify'>

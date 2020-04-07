@@ -5,7 +5,7 @@
 import { AccountId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Icon, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
@@ -25,11 +25,15 @@ function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> 
   const [isVotingOpen, toggleVoting] = useToggle();
   const [voteValue, setVoteValue] = useState(true);
 
+  const _onChangeVote = useCallback(
+    (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true),
+    []
+  );
+
   if (!hasAccounts) {
     return null;
   }
 
-  const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
   const isPrime = accountId === prime?.toString();
 
   return (

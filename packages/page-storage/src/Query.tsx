@@ -6,7 +6,7 @@ import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/h
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { Button, Labelled } from '@polkadot/react-components';
@@ -135,24 +135,34 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
 
   useEffect((): void => {
     setComponent(getCachedComponent(value));
-    // setInputs(
-    //   isU8a(value.key)
-    //     ? []
-    //     // FIXME We need to render the actual key params
-    //     // const { key, params } = value;
-    //     // const inputs = key.params.map(({ name, type }, index) => (
-    //     //   <span key={`param_${name}_${index}`}>
-    //     //     {name}={valueToText(type, params[index].value)}
-    //     //   </span>
-    //     // ));
-    //     : []
-    // );
     setIsSpreadable(
       (value.key as StorageEntryPromise).creator &&
       (value.key as StorageEntryPromise).creator.meta &&
       ['Bytes', 'Raw'].includes((value.key as StorageEntryPromise).creator.meta.type.toString())
     );
   }, [value]);
+
+  const _spreadHandler = useCallback(
+    (id: number): () => void => {
+      return (): void => {
+        cache[id].Component = cache[id].refresh(true, !!spread[id]);
+        spread[id] = !spread[id];
+
+        setComponent(cache[id]);
+        setSpread({ ...spread });
+      };
+    },
+    [spread]
+  );
+
+  const _onRemove = useCallback(
+    (): void => {
+      delete cache[value.id];
+
+      onRemove(value.id);
+    },
+    [onRemove, value]
+  );
 
   const { id, isConst, key } = value;
   const type = isConst
@@ -164,22 +174,6 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
   if (!Component) {
     return null;
   }
-
-  const _spreadHandler = (id: number): () => void => {
-    return (): void => {
-      cache[id].Component = cache[id].refresh(true, !!spread[id]);
-      spread[id] = !spread[id];
-
-      setComponent(cache[id]);
-      setSpread({ ...spread });
-    };
-  };
-
-  const _onRemove = (): void => {
-    delete cache[value.id];
-
-    onRemove(value.id);
-  };
 
   return (
     <div className={`storage--Query storage--actionrow ${className}`}>

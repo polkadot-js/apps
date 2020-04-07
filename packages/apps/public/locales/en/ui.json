@@ -1039,5 +1039,6 @@
   "Vote Nay": "",
   "No matches found": "",
   "matches": "",
-  "secret": ""
+  "secret": "",
+  "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": ""
 }

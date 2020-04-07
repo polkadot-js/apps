@@ -2,23 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Card, Button } from '@polkadot/react-components';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import AssetRow from './AssetRow';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   assetId: string;
+  className?: string;
   name: string;
   onSaveName: (id: string, name: string) => void;
   onForget: (id: string) => void;
 }
 
-function AssetCard ({ assetId, className, name, onForget, onSaveName, t }: Props): React.ReactElement<Props> {
-  const _onForget = (): void => onForget(assetId);
-  const _onSaveName = (name: string): void => onSaveName(assetId, name);
+function AssetCard ({ assetId, className, name, onForget, onSaveName }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
+  const _onForget = useCallback(
+    (): void => onForget(assetId),
+    [assetId, onForget]
+  );
+
+  const _onSaveName = useCallback(
+    (name: string): void => onSaveName(assetId, name),
+    [assetId, onSaveName]
+  );
 
   return (
     <Card className={className}>
@@ -44,4 +53,4 @@ function AssetCard ({ assetId, className, name, onForget, onSaveName, t }: Props
   );
 }
 
-export default translate(AssetCard);
+export default React.memo(AssetCard);

@@ -6,10 +6,10 @@ import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
@@ -37,14 +37,17 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingTags, setIsEditingTags] = useState(false);
-  const [isForgetOpen, setIsForgetOpen] = useState(false);
-  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
-  const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [isEditingName, toggleEditName] = useToggle();
+  const [isEditingTags, toggleEditTags] = useToggle();
+  const [isForgetOpen, toggleForget] = useToggle();
+  const [isSettingPopupOpen, toggleTransfer] = useToggle();
+  const [isTransferOpen, toggleSettingPopup] = useToggle();
   const [isVisible, setIsVisible] = useState(true);
 
-  const _setTags = (tags: string[]): void => setTags(tags.sort());
+  const _setTags = useCallback(
+    (tags: string[]): void => setTags(tags.sort()),
+    []
+  );
 
   useEffect((): void => {
     const current = keyring.getAddress(address);
@@ -71,7 +74,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
 
     _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
-  }, [address]);
+  }, [_setTags, address]);
 
   useEffect((): void => {
     if (filter.length === 0) {
@@ -87,77 +90,86 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     }
   }, [accName, filter, tags]);
 
+  const _onForget = useCallback(
+    (): void => {
+      if (address) {
+        const status: Partial<ActionStatus> = {
+          account: address,
+          action: 'forget'
+        };
+
+        try {
+          keyring.forgetAddress(address);
+          status.status = 'success';
+          status.message = t('address forgotten');
+        } catch (error) {
+          status.status = 'error';
+          status.message = error.message;
+        }
+      }
+    },
+    [address, t]
+  );
+
+  const _onGenesisChange = useCallback(
+    (genesisHash: string | null): void => {
+      setGenesisHash(genesisHash);
+
+      const account = keyring.getAddress(address);
+
+      account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+
+      setGenesisHash(genesisHash);
+    },
+    [address]
+  );
+
+  const _onFavorite = useCallback(
+    (): void => toggleFavorite(address),
+    [address, toggleFavorite]
+  );
+
+  const _saveName = useCallback(
+    (): void => {
+      toggleEditName();
+
+      const meta = { name: accName, whenEdited: Date.now() };
+
+      if (address) {
+        try {
+          const currentKeyring = keyring.getPair(address);
+
+          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+        } catch (error) {
+          keyring.saveAddress(address, meta);
+        }
+      }
+    },
+    [accName, address, toggleEditName]
+  );
+
+  const _saveTags = useCallback(
+    (): void => {
+      toggleEditTags();
+
+      const meta = { tags, whenEdited: Date.now() };
+
+      if (address) {
+        try {
+          const currentKeyring = keyring.getPair(address);
+
+          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+        } catch (error) {
+          keyring.saveAddress(address, meta);
+        }
+      }
+    },
+    [address, tags, toggleEditTags]
+  );
+
   if (!isVisible) {
     return null;
   }
-
-  const _toggleEditName = (): void => setIsEditingName(!isEditingName);
-  const _toggleEditTags = (): void => setIsEditingTags(!isEditingTags);
-  const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
-  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
-  const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
-
-  const _onForget = (): void => {
-    if (address) {
-      const status: Partial<ActionStatus> = {
-        account: address,
-        action: 'forget'
-      };
-
-      try {
-        keyring.forgetAddress(address);
-        status.status = 'success';
-        status.message = t('address forgotten');
-      } catch (error) {
-        status.status = 'error';
-        status.message = error.message;
-      }
-    }
-  };
-
-  const _onGenesisChange = (genesisHash: string | null): void => {
-    setGenesisHash(genesisHash);
-
-    const account = keyring.getAddress(address);
-
-    account && keyring.saveAddress(address, { ...account.meta, genesisHash });
-
-    setGenesisHash(genesisHash);
-  };
-
-  const _onFavorite = (): void => toggleFavorite(address);
-
-  const _saveName = (): void => {
-    _toggleEditName();
-
-    const meta = { name: accName, whenEdited: Date.now() };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-    }
-  };
-
-  const _saveTags = (): void => {
-    _toggleEditTags();
-
-    const meta = { tags, whenEdited: Date.now() };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-    }
-  };
 
   return (
     <tr className={className}>
@@ -170,7 +182,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       </td>
       <td className='address'>
         <AddressSmall
-          onClickName={_toggleEditName}
+          onClickName={toggleEditName}
           overrideName={
             isEditingName
               ? (
@@ -196,14 +208,14 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
                 address={current.address}
                 key='modal-forget-account'
                 mode='address'
-                onClose={_toggleForget}
+                onClose={toggleForget}
                 onForget={_onForget}
               />
             )}
             {isTransferOpen && (
               <Transfer
                 key='modal-transfer'
-                onClose={_toggleTransfer}
+                onClose={toggleTransfer}
                 recipientId={address}
               />
             )}
@@ -227,7 +239,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           : (
             <div
               className='tags--toggle'
-              onClick={_toggleEditTags}
+              onClick={toggleEditTags}
             >
               {tags.length
                 ? tags.map((tag): React.ReactNode => (
@@ -258,30 +270,30 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           icon='paper plane'
           key='deposit'
           label={t('deposit')}
-          onClick={_toggleTransfer}
+          onClick={toggleTransfer}
           size='small'
           tooltip={t('Send funds to this address')}
         />
         <Popup
           className='theme--default'
           isOpen={isSettingPopupOpen}
-          onClose={_toggleSettingPopup}
+          onClose={toggleSettingPopup}
           trigger={
             <Button
               icon='setting'
-              onClick={_toggleSettingPopup}
+              onClick={toggleSettingPopup}
               size='small'
             />
           }
         >
           <Menu
-            onClick={_toggleSettingPopup}
+            onClick={toggleSettingPopup}
             text
             vertical
           >
             <Menu.Item
               disabled={!isEditable}
-              onClick={_toggleForget}
+              onClick={toggleForget}
             >
               {t('Forget this address')}
             </Menu.Item>

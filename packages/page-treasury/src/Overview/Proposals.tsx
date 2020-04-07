@@ -5,7 +5,7 @@
 import { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Table } from '@polkadot/react-components';
 import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
@@ -35,9 +35,12 @@ function ProposalsBase ({ className, isApprovals, proposals }: Props): React.Rea
     );
   }, [allAccounts, members]);
 
-  const _onRespond = (): void => {
-    history.push('/council/motions');
-  };
+  const _onRespond = useCallback(
+    (): void => {
+      history.push('/council/motions');
+    },
+    [history]
+  );
 
   return (
     <Table

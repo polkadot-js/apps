@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Button, FilterOverlay, Input } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
@@ -30,13 +30,19 @@ function Query ({ className, value: propsValue }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
 
-  const _setHash = (value: string): void => setState(stateFromValue(value));
+  const _setHash = useCallback(
+    (value: string): void => setState(stateFromValue(value)),
+    []
+  );
 
-  const _onQuery = (): void => {
-    if (isValid && value.length !== 0) {
-      window.location.hash = `/explorer/query/${value}`;
-    }
-  };
+  const _onQuery = useCallback(
+    (): void => {
+      if (isValid && value.length !== 0) {
+        window.location.hash = `/explorer/query/${value}`;
+      }
+    },
+    [isValid, value]
+  );
 
   return (
     <FilterOverlay className={className}>

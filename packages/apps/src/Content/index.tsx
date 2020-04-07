@@ -58,7 +58,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         : (
           <>
             <Suspense fallback='...'>
-              <ErrorBoundary>
+              <ErrorBoundary trigger={name}>
                 <Component
                   basePath={`/${name}`}
                   location={location}

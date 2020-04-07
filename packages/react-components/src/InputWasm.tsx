@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { compactAddLength } from '@polkadot/util';
 import InputFile, { InputFileProps } from './InputFile';
 
@@ -12,12 +12,15 @@ interface Props extends Omit<InputFileProps, 'accept'> {
 }
 
 function InputWasm ({ isValidRef, onChange, ...props }: Props): React.ReactElement<Props> {
-  const _onChange = (wasm: Uint8Array, name: string): void => {
-    const isWasmValid = wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
+  const _onChange = useCallback(
+    (wasm: Uint8Array, name: string): void => {
+      const isWasmValid = wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
 
-    isValidRef.current = isWasmValid;
-    onChange(compactAddLength(wasm), name);
-  };
+      isValidRef.current = isWasmValid;
+      onChange(compactAddLength(wasm), name);
+    },
+    [isValidRef, onChange]
+  );
 
   return (
     <InputFile

@@ -5,7 +5,7 @@
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps as Props } from '../../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
@@ -18,63 +18,72 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
   const isValid = isAddressValid && isNameValid;
 
-  const _onChangeAddress = (input: string): void => {
-    let address = '';
-    let isAddressValid = true;
-    let isAddressExisting = false;
+  const _onChangeAddress = useCallback(
+    (input: string): void => {
+      let address = '';
+      let isAddressValid = true;
+      let isAddressExisting = false;
 
-    try {
-      address = keyring.encodeAddress(
-        keyring.decodeAddress(input)
-      );
-      isAddressValid = keyring.isAvailable(address);
+      try {
+        address = keyring.encodeAddress(
+          keyring.decodeAddress(input)
+        );
+        isAddressValid = keyring.isAvailable(address);
 
-      if (!isAddressValid) {
-        const old = keyring.getAddress(address);
+        if (!isAddressValid) {
+          const old = keyring.getAddress(address);
 
-        if (old) {
-          const newName = old.meta.name || name;
+          if (old) {
+            const newName = old.meta.name || name;
 
-          isAddressExisting = true;
-          isAddressValid = true;
+            isAddressExisting = true;
+            isAddressValid = true;
 
-          setName({ isNameValid: !!(newName || '').trim(), name: newName });
+            setName({ isNameValid: !!(newName || '').trim(), name: newName });
+          }
         }
+      } catch (error) {
+        isAddressValid = false;
       }
-    } catch (error) {
-      isAddressValid = false;
-    }
 
-    setAddress({ address: address || input, isAddressExisting, isAddressValid });
-  };
+      setAddress({ address: address || input, isAddressExisting, isAddressValid });
+    },
+    [name]
+  );
 
-  const _onChangeName = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+  const _onChangeName = useCallback(
+    (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
 
-  const _onCommit = (): void => {
-    const status = { action: 'create' } as ActionStatus;
+  const _onCommit = useCallback(
+    (): void => {
+      const status = { action: 'create' } as ActionStatus;
 
-    if (!isValid) {
-      return;
-    }
+      if (!isValid) {
+        return;
+      }
 
-    try {
-      keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
+      try {
+        keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
 
-      status.account = address;
-      status.status = address ? 'success' : 'error';
-      status.message = isAddressExisting
-        ? t('address edited')
-        : t('address created');
+        status.account = address;
+        status.status = address ? 'success' : 'error';
+        status.message = isAddressExisting
+          ? t('address edited')
+          : t('address created');
 
-      InputAddress.setLastValue('address', address);
-    } catch (error) {
-      status.status = 'error';
-      status.message = error.message;
-    }
+        InputAddress.setLastValue('address', address);
+      } catch (error) {
+        status.status = 'error';
+        status.message = error.message;
+      }
 
-    onStatusChange(status);
-    onClose();
-  };
+      onStatusChange(status);
+      onClose();
+    },
+    [address, isAddressExisting, isValid, name, onClose, onStatusChange, t]
+  );
 
   return (
     <Modal header={t('Add an address')}>

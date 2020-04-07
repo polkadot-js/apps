@@ -161,5 +161,6 @@
   "tags": "tags",
   "No matches found": "No matches found",
   "matches": "matches",
-  "secret": "secret"
+  "secret": "secret",
+  "parent": "parent"
 }

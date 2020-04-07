@@ -6,7 +6,7 @@ import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { ComponentProps as Props } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, InputConsts } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -27,7 +27,10 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
   });
   const [value, setValue] = useState(defaultValue);
 
-  const _onAdd = (): void => onAdd({ isConst: true, key: value });
+  const _onAdd = useCallback(
+    () => onAdd({ isConst: true, key: value }),
+    [onAdd, value]
+  );
 
   const { method, section } = value;
   const meta = (api.consts[section][method] as ConstantCodec).meta;

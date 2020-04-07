@@ -6,7 +6,7 @@ import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import UIParams from '@polkadot/react-params';
 
 interface Props {
@@ -28,13 +28,14 @@ function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): 
     propParams && setParams(propParams);
   }, [propParams]);
 
+  const _onChange = useCallback(
+    (values: RawParams) => onChange(values.map(({ value }): any => value)),
+    [onChange]
+  );
+
   if (!params.length) {
     return null;
   }
-
-  const _onChange = (values: RawParams): void => {
-    onChange(values.map(({ value }): any => value));
-  };
 
   return (
     <UIParams
