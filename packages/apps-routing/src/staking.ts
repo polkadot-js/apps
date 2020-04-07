@@ -4,7 +4,6 @@
 
 import { Route } from './types';
 
-// import Staking from '@polkadot/app-staking';
 import Staking from '@polkadot/app-staking';
 
 const route: Route = {

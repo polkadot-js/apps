@@ -78,10 +78,6 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 onChange={setBalance}
               />
             )}
-            <VoteToggle
-              onChange={_onChangeVote}
-              value={aye}
-            />
             <Dropdown
               help={t('The conviction to use for this vote, with an appropriate lock period.')}
               label={t('conviction')}
@@ -89,9 +85,14 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
               options={convictionOpts}
               value={conviction}
             />
+            <VoteToggle
+              onChange={_onChangeVote}
+              value={aye}
+            />
           </Modal.Content>
           <VoteActions
             accountId={accountId}
+            aye={aye}
             isDisabled={isCurrentVote ? !balance : false}
             onClick={toggleVoting}
             params={

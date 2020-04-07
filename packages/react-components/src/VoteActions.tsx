@@ -10,6 +10,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   accountId: string | null;
+  aye: boolean;
   className?: string;
   isDisabled?: boolean;
   onClick: () => void;
@@ -17,7 +18,7 @@ interface Props {
   tx: string;
 }
 
-function VoteActions ({ accountId, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
+function VoteActions ({ accountId, aye, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -30,7 +31,9 @@ function VoteActions ({ accountId, className, isDisabled, onClick, params, tx }:
         icon='check'
         isDisabled={!accountId || isDisabled}
         isPrimary
-        label={t('Vote')}
+        label={aye
+          ? t('Vote Aye')
+          : t('Vote Nay')}
         onStart={onClick}
         params={params}
         tx={tx}

@@ -62,6 +62,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
           </Modal.Content>
           <VoteActions
             accountId={accountId}
+            aye={voteValue}
             onClick={toggleVoting}
             params={[hash, idNumber, voteValue]}
             tx='council.vote'
