@@ -19,8 +19,6 @@ import { useTranslation } from '../translate';
 import Summary from './Summary';
 import Validator from './Validator';
 
-const PERBILL = new BN(1_000_000_000);
-
 interface Props {
   className?: string;
 }
@@ -33,6 +31,8 @@ interface AllInfo {
 }
 
 type SortBy = 'rankOverall' | 'rankBondOwn' | 'rankBondOther' | 'rankBondTotal' | 'rankComm';
+
+const PERBILL = new BN(1_000_000_000);
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
