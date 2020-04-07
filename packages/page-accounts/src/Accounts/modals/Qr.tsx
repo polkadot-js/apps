@@ -4,7 +4,7 @@
 
 import { ModalProps } from '../../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { QrScanAddress } from '@polkadot/react-qr';
@@ -27,34 +27,43 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);
 
-  const _onNameChange = (name: string): void => setName({ isNameValid: !!name.trim(), name });
+  const _onNameChange = useCallback(
+    (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
 
-  const _onScan = (scanned: Scanned): void => {
-    setScanned(scanned);
+  const _onScan = useCallback(
+    (scanned: Scanned): void => {
+      setScanned(scanned);
 
-    if (scanned.name) {
-      _onNameChange(scanned.name);
-    }
-  };
+      if (scanned.name) {
+        _onNameChange(scanned.name);
+      }
+    },
+    [_onNameChange]
+  );
 
-  const _onSave = (): void => {
-    if (!scanned || !isNameValid) {
-      return;
-    }
+  const _onSave = useCallback(
+    (): void => {
+      if (!scanned || !isNameValid) {
+        return;
+      }
 
-    const { address, genesisHash } = scanned;
+      const { address, genesisHash } = scanned;
 
-    keyring.addExternal(address, { genesisHash, name: name.trim() });
-    InputAddress.setLastValue('account', address);
+      keyring.addExternal(address, { genesisHash, name: name.trim() });
+      InputAddress.setLastValue('account', address);
 
-    onStatusChange({
-      account: address,
-      action: 'create',
-      message: t('created account'),
-      status: 'success'
-    });
-    onClose();
-  };
+      onStatusChange({
+        account: address,
+        action: 'create',
+        message: t('created account'),
+        status: 'success'
+      });
+      onClose();
+    },
+    [isNameValid, name, onClose, onStatusChange, scanned, t]
+  );
 
   return (
     <Modal
