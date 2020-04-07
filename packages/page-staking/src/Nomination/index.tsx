@@ -2,40 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import CreateModal from '@polkadot/app-accounts/Accounts/modals/Create';
-import {useApi, useCall, useToggle} from '@polkadot/react-hooks/index';
+import {useOwnStashes, useToggle} from '@polkadot/react-hooks/index';
 import styled from 'styled-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import AccountSelector from './accountSelector';
-import ControllerAccountSelector from './controllerAccountSelector';
-import BondOrTransfer from './bondOrTransfer';
+import AccountSelector from './AccountSelector';
+import ControllerAccountSelector from './ControllerAccountSelector';
+import BondOrTransfer from './BondOrTransfer';
 import {Available} from "@polkadot/react-query/index";
 import {AddressInfo, Button, TxButton} from "@polkadot/react-components/index";
-import TabsHeader from "@polkadot/app-staking/Nomination/tabsHeader";
+import TabsHeader from "@polkadot/app-staking/Nomination/TabsHeader";
+import StashesTable from "@polkadot/app-staking/Nomination/StahesTable";
 
 const steps = ['choose', 'create', 'transfer', 'bond'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
 
 interface Props {
   className?: string;
+  isVisible: boolean;
+  stakingOverview?: DeriveStakingOverview;
+  next?: string[];
 }
 
-function Nomination ({ className }: Props): React.ReactElement<Props> {
+function Nomination ({ className, isVisible, stakingOverview, next }: Props): React.ReactElement<Props> {
   const [currentStep, setCurrentStep] = useState<string>(steps[0]);
   const [controllerAccountId, setControllerAccountId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [stepsState, setStepsState] = useState<string[]>(stepInitialState);
+  const [controllerAlreadyBonded, setControllerAlreadyBonded] = useState<boolean>(false);
   const [isCreateOpen, toggleCreate] = useToggle();
   const [validators, setValidators] = useState<string[]>([]);
-  const { api } = useApi();
-  // api.query.staking.bonded();
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
-  // const ownStashes = useOwnStashes();
+  const ownStashes = useOwnStashes();
   const { t } = useTranslation();
-  // console.log('ownStashes', ownStashes);
-  // console.log('validators', validators);
-  // console.log('stakingOverview', stakingOverview);
 
   function onStatusChange() {}
 
@@ -64,15 +63,26 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
 
   // set validators list
   useEffect(() => {
+    // @todo - не больше 16
     stakingOverview && setValidators(
       stakingOverview.validators.map((acc): string => acc.toString())
     );
   }, [stakingOverview]);
 
+  const _onUpdateControllerState = useCallback(
+    (controllerAlreadyBonded: boolean): void => {
+      console.log('_onUpdateControllerState', controllerAlreadyBonded);
+      setControllerAlreadyBonded(controllerAlreadyBonded)
+    },
+    []
+  );
+
+  console.log('controllerAlreadyBonded', controllerAlreadyBonded);
+  // @ts-ignore
   return (
     // in all apps, the main wrapper is setup to allow the padding
     // and margins inside the application. (Just from a consistent pov)
-    <main className={`${className} simple-nomination`}>
+    <main className={`${className} ${!isVisible ? 'staking--hidden' : ''} simple-nominatio`}>
       {/*<SummaryBar />*/}
       <TabsHeader
         setCurrentStep={setCurrentStep}
@@ -80,7 +90,6 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
         steps={steps}
         currentStep={currentStep}
       />
-
       <div className="ui attached segment">
         {currentStep === steps[0] &&
         <>
@@ -189,6 +198,16 @@ function Nomination ({ className }: Props): React.ReactElement<Props> {
             />
           )}
         </Button.Group>
+        {controllerAccountId && (
+          <StashesTable
+            onUpdateControllerState={_onUpdateControllerState}
+            ownStashes={ownStashes}
+            controllerAccountId={controllerAccountId}
+            stakingOverview={stakingOverview}
+            isVisible={isVisible}
+            next={next}
+          />
+        )}
       </div>
     </main>
   );

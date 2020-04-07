@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {Button, InputAddress} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
-import useBondBalance from '@polkadot/app-staking/Nomination/useBondBalance';
 
 interface Props {
   senderId?: string | null;
@@ -21,7 +20,6 @@ interface Props {
 
 function ControllerAccountSelector ({ className, onChange, title, stepsState, setStepsState, toggleCreate, value, senderId }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
-  const bondBalance = useBondBalance(value);
   const { t } = useTranslation();
 
   useEffect((): void => {
@@ -40,7 +38,7 @@ function ControllerAccountSelector ({ className, onChange, title, stepsState, se
       newStepsState[2] = 'disabled';
     }
     setStepsState(newStepsState);
-  },[bondBalance, senderId, value]);
+  },[senderId, value]);
 
   return (
     <section className={className} >

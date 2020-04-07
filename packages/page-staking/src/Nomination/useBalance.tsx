@@ -20,15 +20,22 @@ export function useBalanceClear (address?: string | null): Balance | null  {
   return balancesAll ? balancesAll.availableBalance : null
 }
 
-export function useFees (bondedAddress?: string | null, senderAddress?: string | null, validators?: string[]): Balance | null  {
+type WholeFeesType = {
+  wholeFees: Balance;
+  feesLoading: boolean;
+}
+
+export function useFees (bondedAddress?: string | null, senderAddress?: string | null, validators?: string[]): WholeFeesType  {
   const [paymentFees, setPaymentFees] = useState();
   const [bondFees, setBondFees] = useState();
+  const [feesLoading, setFeesLoading] = useState<boolean>(true);
   const [unBondFees, setUnBondFees] = useState();
   const [wholeFees, setWholeFees] = useState();
   const [startNominationFees, setStartNominationFees] = useState();
   const [stopNominationFees, setStopNominationFees] = useState();
   const api = useApi();
   const existentialDeposit = api.api.consts.balances.existentialDeposit;
+  // test amount
   const si = formatBalance.findSi('-');
   const TEN = new BN(10);
   const basePower = formatBalance.getDefaults().decimals;
@@ -62,29 +69,34 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
     setStopNominationFees(fees.partialFee);
   }
 
-  useEffect(() => {
-    if (bondFees && unBondFees && startNominationFees && stopNominationFees) {
-      let whole = paymentFees
-        .iadd(bondFees)
-        .iadd(unBondFees)
-        .iadd(existentialDeposit)
-        .iadd(startNominationFees)
-        .iadd(stopNominationFees);
-      setWholeFees(whole);
+  async function setWholeFeesAsync() {
+    if (bondedAddress && senderAddress && validators) {
+      await getPaymentFees(bondedAddress, senderAddress);
+      await getUnBondFees(senderAddress);
+      await getBondFees(bondedAddress, senderAddress);
+      await getStopNominationFees(senderAddress);
+      await getStartNominationFees(validators, senderAddress);
+
+      if (bondFees && unBondFees && startNominationFees && stopNominationFees) {
+        const whole = paymentFees
+          .iadd(bondFees)
+          .iadd(unBondFees)
+          .iadd(existentialDeposit)
+          .iadd(startNominationFees)
+          .iadd(stopNominationFees);
+        setWholeFees(whole);
+        setFeesLoading(false)
+      }
     }
-  }, [bondFees, unBondFees, startNominationFees, stopNominationFees]);
+  }
 
   useEffect(() => {
     if (bondedAddress && senderAddress && validators) {
-      getPaymentFees(bondedAddress, senderAddress);
-      getUnBondFees(senderAddress);
-      getBondFees(bondedAddress, senderAddress);
-      getStopNominationFees(senderAddress);
-      getStartNominationFees(validators, senderAddress);
+      setWholeFeesAsync().then();
     }
   }, [bondedAddress, senderAddress, validators]);
 
-  return wholeFees;
+  return { wholeFees, feesLoading };
 }
 
 export default useBalance;

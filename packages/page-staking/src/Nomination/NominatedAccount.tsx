@@ -15,19 +15,17 @@ import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Expander, Menu, Popup, Spinner, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { u8aConcat, u8aToHex } from '@polkadot/util';
-
-import { useTranslation } from '../../translate';
-import BondExtra from './BondExtra';
-// import ClaimRewards from './ClaimRewards';
-import InjectKeys from './InjectKeys';
-import Nominate from './Nominate';
-import SetControllerAccount from './SetControllerAccount';
-import SetRewardDestination from './SetRewardDestination';
-import SetSessionKey from './SetSessionKey';
-import Unbond from './Unbond';
-import Validate from './Validate';
-import useInactives from './useInactives';
+import { useTranslation } from '../translate';
+import BondExtra from '../Actions/Account/BondExtra';
+import InjectKeys from '../Actions/Account/InjectKeys';
+import Nominate from '../Actions/Account/Nominate';
+import SetControllerAccount from '../Actions/Account/SetControllerAccount';
+import SetRewardDestination from '../Actions/Account/SetRewardDestination';
+import SetSessionKey from '../Actions/Account/SetSessionKey';
+import Unbond from '../Actions/Account/Unbond';
+import Validate from '../Actions/Account/Validate';
+import { getStakeState, createPayout, StakeState } from '../Actions/Account';
+import useInactives from '../Actions/Account/useInactives';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 
@@ -39,79 +37,14 @@ interface Props {
   isVisible: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
+  onUpdateControllerState: (controllerAlreadyBonded: boolean) => void;
   rewards?: DeriveStakerReward[];
   stakingOverview?: DeriveStakingOverview;
   stashId: string;
+  selectedControllerId: string,
 }
 
-export interface StakeState {
-  controllerId: string | null;
-  destination?: string;
-  destinationId: number;
-  exposure?: Exposure;
-  hexSessionIdNext: string | null;
-  hexSessionIdQueue: string | null;
-  isLoading: boolean;
-  isOwnController: boolean;
-  isStashNominating: boolean;
-  isStashValidating: boolean;
-  nominees?: string[];
-  sessionIds: string[];
-  stakingLedger?: StakingLedger;
-  validatorPrefs?: ValidatorPrefs;
-}
-
-function toIdString (id?: AccountId | null): string | null {
-  return id
-    ? id.toString()
-    : null;
-}
-
-export function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, exposure, nextSessionIds, nominators, rewardDestination, sessionIds, stakingLedger, validatorPrefs }: DeriveStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
-  const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty) || !!allStashes?.includes(stashId);
-  const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
-  const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
-  const controllerId = toIdString(_controllerId);
-
-  return {
-    controllerId,
-    destination: rewardDestination?.toString().toLowerCase(),
-    destinationId: rewardDestination?.toNumber() || 0,
-    exposure,
-    hexSessionIdNext: u8aToHex(nextConcat, 48),
-    hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
-    isLoading: false,
-    isOwnController: allAccounts.includes(controllerId || ''),
-    isStashNominating,
-    isStashValidating,
-    // we assume that all ids are non-null
-    nominees: nominators?.map(toIdString) as string[],
-    sessionIds: (
-      nextSessionIds.length
-        ? nextSessionIds
-        : sessionIds
-    ).map(toIdString) as string[],
-    stakingLedger,
-    validatorPrefs
-  };
-}
-
-export function createPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[]): SubmittableExtrinsic<'promise'> {
-  return payoutRewards.length === 1
-    ? payoutRewards[0].isValidator
-      ? api.tx.staking.payoutValidator(payoutRewards[0].era)
-      : api.tx.staking.payoutNominator(payoutRewards[0].era, payoutRewards[0].nominating)
-    : api.tx.utility.batch(
-      payoutRewards.map(({ era, isValidator, nominating }): SubmittableExtrinsic<'promise'> =>
-        isValidator
-          ? api.tx.staking.payoutValidator(era)
-          : api.tx.staking.payoutNominator(era, nominating)
-      )
-    );
-}
-
-function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId, selectedControllerId, onUpdateControllerState }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
@@ -150,6 +83,11 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
   }, [allAccounts, allStashes, onUpdateType, stakingAccount, stashId, validateInfo]);
 
   useEffect((): void => {
+    // if controller already used
+    onUpdateControllerState(controllerId === selectedControllerId);
+  }, [controllerId, onUpdateControllerState, selectedControllerId]);
+
+  useEffect((): void => {
     nominees && setActiveNoms(
       nominees.filter((id): boolean => !inactiveNoms.includes(id))
     );
@@ -171,29 +109,9 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
     [api, controllerId, payoutRewards, queueExtrinsic]
   );
 
+  console.log('selectedControllerId', selectedControllerId, 'controllerId', controllerId);
   return (
     <tr className={className}>
-      {api.query.staking.activeEra && (
-        <td>
-          {!rewards
-            ? <Spinner variant='mini' />
-            : !!payoutEras.length && (
-              <Badge
-                hover={
-                  <>
-                    <div>{t('Pending payouts for {{count}} eras:', { replace: { count: payoutEras.length } })}</div>
-                    <FormatBalance value={payoutTotal} />
-                  </>
-                }
-                info={payoutEras.length}
-                isInline
-                isTooltip
-                type='counter'
-              />
-            )
-          }
-        </td>
-      )}
       <td className='address'>
         <BondExtra
           controllerId={controllerId}
@@ -214,13 +132,6 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
-        {/* {isPayoutOpen && controllerId && (
-          <ClaimRewards
-            controllerId={controllerId}
-            onClose={togglePayout}
-            payoutRewards={payoutRewards}
-          />
-        )} */}
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
@@ -384,10 +295,10 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                     >
                       <Trans i18nKey='payoutEras'>
                         {t('Payout reward')}&nbsp;{
-                          payoutEras.length
-                            ? <>(<FormatBalance value={payoutTotal} />)</>
-                            : ''
-                        }
+                        payoutEras.length
+                          ? <>(<FormatBalance value={payoutTotal} />)</>
+                          : ''
+                      }
                       </Trans>
                     </Menu.Item>
                   )}
@@ -417,34 +328,34 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
                     {t('Change reward destination')}
                   </Menu.Item>
                   {isStashValidating &&
-                    <Menu.Item
+                  <Menu.Item
                       disabled={!isOwnController}
                       onClick={toggleValidate}
-                    >
-                      {t('Change validator preferences')}
-                    </Menu.Item>
+                  >
+                    {t('Change validator preferences')}
+                  </Menu.Item>
                   }
                   <Menu.Divider />
                   {!isStashNominating &&
-                    <Menu.Item
+                  <Menu.Item
                       disabled={!isOwnController}
                       onClick={toggleSetSession}
-                    >
-                      {t('Change session keys')}
-                    </Menu.Item>
+                  >
+                    {t('Change session keys')}
+                  </Menu.Item>
                   }
                   {isStashNominating &&
-                    <Menu.Item
+                  <Menu.Item
                       disabled={!isOwnController}
                       onClick={toggleNominate}
-                    >
-                      {t('Set nominees')}
-                    </Menu.Item>
+                  >
+                    {t('Set nominees')}
+                  </Menu.Item>
                   }
                   {!isStashNominating &&
-                    <Menu.Item onClick={toggleInject}>
-                      {t('Inject session keys (advanced)')}
-                    </Menu.Item>
+                  <Menu.Item onClick={toggleInject}>
+                    {t('Inject session keys (advanced)')}
+                  </Menu.Item>
                   }
                 </Menu>
               </Popup>
@@ -456,7 +367,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, rewar
   );
 }
 
-export default React.memo(styled(Account)`
+export default React.memo(styled(NominatedAccount)`
   .ui--Button-Group {
     display: inline-block;
     margin-right: 0.25rem;

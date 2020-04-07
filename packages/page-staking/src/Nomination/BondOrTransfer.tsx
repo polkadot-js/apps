@@ -4,12 +4,12 @@
 
 import BN from 'bn.js';
 import React, {useState, useEffect} from 'react';
-import {useApi} from '@polkadot/react-hooks/index';
+import {useApi, useOwnStashes} from '@polkadot/react-hooks/index';
 import {Button, InputBalance, TxButton} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 import Summary from './summary';
-import { useBalanceClear, useFees } from "@polkadot/app-staking/Nomination/useBalance";
+import { useBalanceClear, useFees, WholeFeesType } from "@polkadot/app-staking/Nomination/useBalance";
 import { formatBalance } from '@polkadot/util';
 
 interface Props {
@@ -27,28 +27,17 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   const [amountToBond, setAmountToBond] = useState<BN>(new BN(1));
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const controllerBalance: Balance | null = useBalanceClear(recipientId);
-  let wholeFees: any | null = useFees(recipientId, senderId, validators);
+  const { wholeFees, feesLoading } : WholeFeesType = useFees(recipientId, senderId, validators);
   const { t } = useTranslation();
   const { api } = useApi();
   const destination = 2; // 2 means controller account
   const extrinsic = (amount && recipientId)
     ? api.tx.staking.bond(recipientId, amount, destination)
     : null;
-  // bond mode funds
+  // bond more funds
   // api.tx.staking.bondExtra(maxAdditional)
   const canSubmit = true;
   const existentialDeposit = api.consts.balances.existentialDeposit;
-
-  // @todo - add useMemo for this
-  function getMinimumTransferableAmount() {
-    const si = formatBalance.findSi('-');
-    const TEN = new BN(10);
-    const basePower = formatBalance.getDefaults().decimals;
-    const siPower = new BN(basePower + si.power);
-    const amount = new BN(1).mul(TEN.pow(siPower));
-    console.log('minimum transferable amount', amount);
-    return amount;
-  }
 
   function isBalanceEnough() {
     return (accountBalance
@@ -61,11 +50,8 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
 
   function calculateMaxPrefilledBalance() {
     if (accountBalance && wholeFees) {
-      console.log('accountBalance', formatBalance(accountBalance));
-      console.log('wholeFees', formatBalance(wholeFees));
-      console.log('getMinimumTransferableAmount', formatBalance(getMinimumTransferableAmount()));
-      console.log('existentialDeposit', formatBalance(existentialDeposit));
-      setAmountToBond(accountBalance.isub(wholeFees).isub(getMinimumTransferableAmount()).isub(existentialDeposit));
+      // double wholeFees
+      setAmountToBond(accountBalance.isub(wholeFees).isub(wholeFees).isub(existentialDeposit));
     }
     return 0;
   }
@@ -106,7 +92,9 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   },[accountBalance, controllerBalance, wholeFees]);
 
   if (transfer) {
-
+    if (feesLoading) {
+      return <div />;
+    }
     return (
       <section>
         {!isBalanceEnough() && (
@@ -115,7 +103,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
             <div className='ui--row'>
               <div className='large'>
                 <InputBalance
-                  value={formatBalance(transferableAmount).split(' ')[0]}
+                  value={transferableAmount}
                   label={`amount to ${transfer ? 'transfer' : 'bond'}`}
                   onChange={setAmount}
                 />
