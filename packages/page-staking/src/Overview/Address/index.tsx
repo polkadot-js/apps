@@ -43,6 +43,10 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
+/* stylelint-disable */
+const PERBILL_PERCENT = 10_000_000;
+/* stylelint-enable */
+
 function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
   let nominators: [string, Balance][] = [];
   let stakeTotal: BN | undefined;
@@ -60,7 +64,7 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
 
   return {
     commission: commission
-      ? `${(commission.toNumber() / 10_000_000).toFixed(2)}%`
+      ? `${(commission.toNumber() / PERBILL_PERCENT).toFixed(2)}%`
       : undefined,
     nominators,
     stakeOther,

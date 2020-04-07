@@ -76,7 +76,7 @@ export default React.memo(styled(Output)`
 
   .logs-container {
     flex: 1;
-    overflow: auto;;
+    overflow: auto;
   }
 
   .logs-content {

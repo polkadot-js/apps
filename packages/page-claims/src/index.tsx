@@ -64,11 +64,11 @@ const Signature = styled.textarea`
     color: rgba(0, 0, 0, 0.5);
   }
 
-  &:-ms-input-placeholder {
+  &::-ms-input-placeholder {
     color: rgba(0, 0, 0, 0.5);
   }
 
-  &::-ms-input-placeholder {
+  &:-ms-input-placeholder {
     color: rgba(0, 0, 0, 0.5);
   }
 `;
