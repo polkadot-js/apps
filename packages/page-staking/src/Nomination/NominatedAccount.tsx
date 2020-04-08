@@ -41,7 +41,7 @@ interface Props {
   rewards?: DeriveStakerReward[];
   stakingOverview?: DeriveStakingOverview;
   stashId: string;
-  selectedControllerId: string,
+  selectedControllerId?: string | null,
 }
 
 function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId, selectedControllerId, onUpdateControllerState }: Props): React.ReactElement<Props> {

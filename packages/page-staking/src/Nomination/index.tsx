@@ -27,6 +27,7 @@ interface Props {
 
 function Nomination ({ className, isVisible, stakingOverview, next }: Props): React.ReactElement<Props> {
   const [currentStep, setCurrentStep] = useState<string>(steps[0]);
+  const [alreadyHaveStashes, setAlreadyHaveStashes] = useState<boolean>(false);
   const [controllerAccountId, setControllerAccountId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
   const [stepsState, setStepsState] = useState<string[]>(stepInitialState);
@@ -68,7 +69,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
 
   const _onUpdateControllerState = useCallback(
     (controllerAlreadyBonded: boolean): void => {
-      setControllerAlreadyBonded(controllerAlreadyBonded)
+      setControllerAlreadyBonded(controllerAlreadyBonded);
     },
     []
   );
@@ -81,7 +82,15 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     );
   }, [stakingOverview]);
 
-  console.log('controllerAlreadyBonded', controllerAlreadyBonded);
+  useEffect(() => {
+    // since we already have stashes just open the 4th screen - nomination
+    setCurrentStep(steps[3]);
+    setAlreadyHaveStashes(true);
+    // mark all steps as completed
+    setStepsState(['completed', 'completed', 'completed', 'completed']);
+  }, [ownStashes]);
+
+  console.log('controllerAlreadyBonded', controllerAlreadyBonded, 'ownStashes', ownStashes);
   // @ts-ignore
   return (
     // in all apps, the main wrapper is setup to allow the padding
@@ -177,6 +186,8 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 setStepsState={setStepsState}
                 validators={validators}
                 controllerAlreadyBonded={controllerAlreadyBonded}
+                setCurrentStep={setCurrentStep}
+                alreadyHaveStashes={alreadyHaveStashes}
             />
         </>
         }
@@ -185,7 +196,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             key='Back'
             label={'Back'}
             icon=''
-            isDisabled={steps.indexOf(currentStep) === 0}
+            isDisabled={steps.indexOf(currentStep) === 0 || alreadyHaveStashes}
             onClick={goBack}
           />
           <div className="or" />
@@ -211,7 +222,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             />
           )}
         </Button.Group>
-        {controllerAccountId && (
+        {currentStep === steps[3] && (
           <StashesTable
             onUpdateControllerState={_onUpdateControllerState}
             ownStashes={ownStashes}

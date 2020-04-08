@@ -21,9 +21,10 @@ interface Props {
   validators: string[];
   controllerAlreadyBonded?: boolean | false;
   setCurrentStep: (id: string) => void;
+  alreadyHaveStashes?: boolean | false;
 }
 
-function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators, controllerAlreadyBonded, setCurrentStep }: Props): React.ReactElement<Props> {
+function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators, controllerAlreadyBonded, setCurrentStep, alreadyHaveStashes }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
   const [amountToBond, setAmountToBond] = useState<BN>(new BN(1));
@@ -98,6 +99,10 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       calculateMaxPreFilledBalance();
     }
   },[accountBalance, controllerBalance, wholeFees]);
+
+  if (alreadyHaveStashes) {
+    return <div />;
+  }
 
   if (transfer) {
     if (feesLoading) {

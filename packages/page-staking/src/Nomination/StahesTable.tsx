@@ -9,7 +9,7 @@ import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/
 
 interface Props {
   allRewards?: Record<string, DeriveStakerReward[]>;
-  controllerAccountId: string;
+  controllerAccountId?: string | null;
   className?: string;
   allStashes?: string[];
   isVisible: boolean;
