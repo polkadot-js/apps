@@ -8,6 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useToggle } from '@polkadot/react-hooks';
 
+import { classes } from './util';
 import AddressMenu from './AddressMenu';
 import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
@@ -25,19 +26,21 @@ interface Props {
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, withIndex, withMenu, value }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, value, withIndex, withMenu }: Props): React.ReactElement<Props> {
   const [isMenuOpen, toggleIsMenuOpen] = useToggle();
+
   const _onClickName = (): void => {
     onClickName && onClickName();
     toggleIsMenuOpen();
   };
+
   const name = (
-    <div className='nameInfo'>
+    <div className={classes('nameInfo', withMenu && 'withMenu')}>
       <AccountName
         className={(overrideName || !onClickName) ? '' : 'name--clickable'}
         defaultName={defaultName}
-        override={overrideName}
         onClick={_onClickName}
+        override={overrideName}
         toggle={toggle}
         value={value}
       >
@@ -58,9 +61,9 @@ function AddressSmall ({ children, className, defaultName, onClickName, override
       {withMenu
         ? (
           <AddressMenu
-            value={value}
             isOpen={isMenuOpen}
             onClose={toggleIsMenuOpen}
+            value={value}
           >
             {name}
           </AddressMenu>
@@ -73,10 +76,6 @@ function AddressSmall ({ children, className, defaultName, onClickName, override
 export default React.memo(styled(AddressSmall)`
   vertical-align: middle;
 
-  .name--clickable {
-    cursor: pointer;
-  }
-
   .ui--IdentityIcon,
   .nameInfo {
     display: inline-block;
@@ -88,6 +87,10 @@ export default React.memo(styled(AddressSmall)`
   }
 
   .nameInfo {
+    &.withMenu {
+      cursor: help;
+    }
+
     > div {
       max-width: 12rem;
     }

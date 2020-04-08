@@ -44,7 +44,10 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
     >
       <tr>
         <td className='address all'>
-          <AddressSmall value={info.defender} />
+          <AddressSmall
+            value={info.defender}
+            withMenu
+          />
         </td>
         <Votes votes={votes} />
         <td className='button'>

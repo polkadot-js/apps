@@ -47,6 +47,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
             key={`${index}:${address}`}
             value={address}
             withBalance={false}
+            withMenu
           />
         ))}
       </td>
@@ -56,6 +57,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
             key={`${index}:${address}`}
             value={address}
             withBalance={false}
+            withMenu
           />
         ))}
       </td>

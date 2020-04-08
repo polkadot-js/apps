@@ -35,7 +35,10 @@ function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind
   return (
     <tr>
       <td className='address all'>
-        <AddressSmall value={accountId} />
+        <AddressSmall
+          value={accountId}
+          withMenu
+        />
       </td>
       <td className='number'>
         {kind.type}

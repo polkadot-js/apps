@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, InputTags, Input, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
+import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
@@ -91,8 +91,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     return null;
   }
 
-  const _toggleEditName = (): void => setIsEditingName(!isEditingName);
-  const _toggleEditTags = (): void => setIsEditingTags(!isEditingTags);
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
   const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
   const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
@@ -127,38 +125,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
 
   const _onFavorite = (): void => toggleFavorite(address);
 
-  const _saveName = (): void => {
-    _toggleEditName();
-
-    const meta = { name: accName, whenEdited: Date.now() };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-    }
-  };
-
-  const _saveTags = (): void => {
-    _toggleEditTags();
-
-    const meta = { tags, whenEdited: Date.now() };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-    }
-  };
-
   return (
     <tr className={className}>
       <td className='favorite'>
@@ -170,24 +136,8 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       </td>
       <td className='address'>
         <AddressSmall
-          onClickName={_toggleEditName}
-          overrideName={
-            isEditingName
-              ? (
-                <Input
-                  autoFocus
-                  className='name--input'
-                  defaultValue={accName}
-                  onBlur={_saveName}
-                  onChange={setAccName}
-                  onEnter={_saveName}
-                  withLabel={false}
-                />
-              )
-              : undefined
-          }
-          toggle={isEditingName}
           value={address}
+          withMenu
         />
         {address && current && (
           <>
@@ -211,36 +161,17 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         )}
       </td>
       <td className='all'>
-        {isEditingTags
-          ? (
-            <InputTags
-              defaultValue={tags}
-              onBlur={_saveTags}
-              onChange={_setTags}
-              onClose={_saveTags}
-              openOnFocus
-              searchInput={{ autoFocus: true }}
-              value={tags}
-              withLabel={false}
-            />
-          )
-          : (
-            <div
-              className='tags--toggle'
-              onClick={_toggleEditTags}
-            >
-              {tags.length
-                ? tags.map((tag): React.ReactNode => (
-                  <Tag
-                    key={tag}
-                    label={tag}
-                  />
-                ))
-                : <label>{t('no tags')}</label>
-              }
-            </div>
-          )
-        }
+        <div className='tags'>
+          {tags.length
+            ? tags.map((tag): React.ReactNode => (
+              <Tag
+                key={tag}
+                label={tag}
+              />
+            ))
+            : <label>{t('no tags')}</label>
+          }
+        </div>
       </td>
       <td className='number'>
         {balancesAll && formatNumber(balancesAll.accountNonce)}
@@ -317,14 +248,9 @@ export default React.memo(styled(Address)`
     text-align: right;
   }
 
-  .tags--toggle {
-    cursor: pointer;
+  .tags {
     width: 100%;
     min-height: 1.5rem;
-
-    label {
-      cursor: pointer;
-    }
   }
 
   .name--input {

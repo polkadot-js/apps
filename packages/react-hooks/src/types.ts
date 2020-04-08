@@ -86,20 +86,15 @@ export interface AddressFlags extends DeriveAccountFlags {
 export interface AddressIdentity extends DeriveAccountRegistration {
   isGood: boolean;
   isBad: boolean;
+  isKnownGood: boolean;
+  isReasonable: boolean;
+  isErroneous: boolean;
+  isLowQuality: boolean;
   isExistent: boolean;
   waitCount: number;
 }
 
-export interface UseAccountInfo$Base {
-  isReady: boolean;
-}
-
-export interface UseAccountInfo$Loading extends UseAccountInfo$Base {
-  isReady: false;
-}
-
-export interface UseAccountInfo extends AddressFlags, UseAccountInfo$Base {
-  isReady: true;
+export interface UseAccountInfo extends AddressFlags {
   name: string;
   setName: React.Dispatch<string>;
   tags: string[];

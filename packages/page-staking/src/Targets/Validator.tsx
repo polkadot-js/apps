@@ -33,7 +33,10 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
       />
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address all'>
-        <AddressSmall value={accountId} />
+        <AddressSmall
+          value={accountId}
+          withMenu
+        />
       </td>
       <td className='number'>
         {

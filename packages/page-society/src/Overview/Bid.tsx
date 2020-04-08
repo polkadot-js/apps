@@ -16,7 +16,10 @@ function BidRow ({ value: { kind, value, who } }: Props): React.ReactElement<Pro
   return (
     <tr>
       <td className='all top'>
-        <AddressSmall value={who} />
+        <AddressSmall
+          value={who}
+          withMenu
+        />
       </td>
       <td className='number top'>
         {kind.type}

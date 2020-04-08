@@ -5,7 +5,7 @@
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { StringOrNull } from '@polkadot/react-components/types';
 import { Address, AccountId } from '@polkadot/types/interfaces';
-import { AddressFlags, AddressIdentity, UseAccountInfo, UseAccountInfo$Loading } from './types';
+import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
@@ -20,19 +20,15 @@ const IS_NONE = {
   isDevelopment: false,
   isEditable: false,
   isExternal: false,
-  isInAddressBook: false,
   isFavorite: false,
+  isInAddressBook: false,
   isOwned: false,
   isSociety: false,
   isSudo: false,
   isTechCommittee: false
 };
 
-export default function useAccountInfo (_value?: AccountId | Address | string | null | Uint8Array): UseAccountInfo | UseAccountInfo$Loading | null {
-  if (!_value) {
-    return null;
-  }
-
+export default function useAccountInfo (_value: AccountId | Address | string | Uint8Array): UseAccountInfo {
   const value = _value.toString();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [value]);
@@ -54,7 +50,7 @@ export default function useAccountInfo (_value?: AccountId | Address | string | 
   );
 
   useEffect((): void => {
-    const { flags: infoFlags, identity, nickname } = info || {};
+    const { identity, isCouncil = false, isSociety = false, isSudo = false, isTechCommittee = false, nickname } = info || {};
 
     if (api.api.query.identity && api.api.query.identity.identityOf) {
       if (identity?.display) {
@@ -66,26 +62,37 @@ export default function useAccountInfo (_value?: AccountId | Address | string | 
       setName('');
     }
 
-    setFlags({
+    setFlags((flags) => ({
       ...flags,
-      ...infoFlags
-    });
+      isCouncil,
+      isSociety,
+      isSudo,
+      isTechCommittee
+    }));
 
     if (identity) {
       const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
+      const isKnownGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood);
+      const isReasonable = judgements.some(([, judgement]): boolean => judgement.isReasonable);
+      const isErroneous = judgements.some(([, judgement]): boolean => judgement.isErroneous);
+      const isLowQuality = judgements.some(([, judgement]): boolean => judgement.isLowQuality);
 
       setIdentity({
         ...identity,
+        isBad: isErroneous || isLowQuality,
+        isErroneous,
         isExistent: identity.judgements.length > 0,
-        isGood: judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable),
-        isBad: judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality),
-        waitCount: identity.judgements.length - judgements.length,
-        judgements
+        isGood: isKnownGood || isReasonable,
+        isKnownGood,
+        isLowQuality,
+        isReasonable,
+        judgements,
+        waitCount: identity.judgements.length - judgements.length
       });
     } else {
       setIdentity(undefined);
     }
-  }, [info]);
+  }, [api, info]);
 
   useEffect((): void => {
     const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
@@ -93,17 +100,17 @@ export default function useAccountInfo (_value?: AccountId | Address | string | 
     const isInAddressBook = isAddress(value);
 
     setGenesisHash(accountOrAddress?.meta.genesisHash || null);
-    setFlags({
+    setFlags((flags) => ({
       ...flags,
-      isInAddressBook,
-      isOwned,
-      isEditable: isInAddressBook || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)) || false,
       isDevelopment: accountOrAddress?.meta.isTesting || false,
-      isExternal: accountOrAddress?.meta.isExternal || false
-    });
+      isEditable: isInAddressBook || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)) || false,
+      isExternal: accountOrAddress?.meta.isExternal || false,
+      isInAddressBook,
+      isOwned
+    }));
     setTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
     setName(accountOrAddress?.meta.name || '');
-  }, [isAccount, isAddress, value]);
+  }, [isAccount, isAddress, setTags, value]);
 
   const onSaveName = (): void => {
     if (isEditingName) {
@@ -157,12 +164,6 @@ export default function useAccountInfo (_value?: AccountId | Address | string | 
     }
   };
 
-  if (!info) {
-    return {
-      isReady: false
-    };
-  }
-
   const onSaveGenesisHash = (): void => {
     const account = keyring.getPair(value);
 
@@ -172,22 +173,21 @@ export default function useAccountInfo (_value?: AccountId | Address | string | 
   };
 
   return {
-    isReady: true,
-    name,
-    setName,
-    tags,
-    setTags,
     genesisHash,
-    setGenesisHash,
     identity,
     isEditingName,
-    toggleIsEditingName,
     isEditingTags,
-    toggleIsEditingTags,
+    name,
+    onForgetAddress,
+    onSaveGenesisHash,
     onSaveName,
     onSaveTags,
-    onSaveGenesisHash,
-    onForgetAddress,
+    setGenesisHash,
+    setName,
+    setTags,
+    tags,
+    toggleIsEditingName,
+    toggleIsEditingTags,
     ...flags
   };
 }

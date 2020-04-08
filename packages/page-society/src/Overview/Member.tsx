@@ -21,7 +21,10 @@ function Member ({ className, isHead, value: { accountId, strikes } }: Props): R
   return (
     <tr className={className}>
       <td className='address'>
-        <AddressSmall value={accountId} />
+        <AddressSmall
+          value={accountId}
+          withMenu
+        />
       </td>
       <td>
         {isHead && (

@@ -27,10 +27,16 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
         <h1>{formatNumber(id)}</h1>
       </td>
       <td className='address all'>
-        <AddressSmall value={proposal.proposer} />
+        <AddressSmall
+          value={proposal.proposer}
+          withMenu
+        />
       </td>
       <td className='address'>
-        <AddressMini value={proposal.beneficiary} />
+        <AddressMini
+          value={proposal.beneficiary}
+          withMenu
+        />
       </td>
       <td className='number'>
         <FormatBalance value={proposal.value} />

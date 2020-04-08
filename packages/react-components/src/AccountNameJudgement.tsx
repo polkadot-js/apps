@@ -48,6 +48,7 @@ function AccountNameJudgement ({ address, registrars, toggleJudgement }: Props):
   return (
     <Modal
       header={t('Provide judgement')}
+      onClose={toggleJudgement}
       size='small'
     >
       <Modal.Content>

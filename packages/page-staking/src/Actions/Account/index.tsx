@@ -249,10 +249,16 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
             onClose={toggleSetSession}
           />
         )}
-        <AddressSmall value={stashId} />
+        <AddressSmall
+          value={stashId}
+          withMenu
+        />
       </td>
       <td className='address'>
-        <AddressMini value={controllerId} />
+        <AddressMini
+          value={controllerId}
+          withMenu
+        />
       </td>
       <td className='number'>{destination}</td>
       <td className='number'>
@@ -283,6 +289,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                         value={nomineeId}
                         withBalance={false}
                         withBonded
+                        withMenu
                       />
                     ))}
                   </Expander>
@@ -295,6 +302,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                         value={nomineeId}
                         withBalance={false}
                         withBonded
+                        withMenu
                       />
                     ))}
                   </Expander>

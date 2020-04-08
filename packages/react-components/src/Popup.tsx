@@ -9,15 +9,17 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   isOpen?: boolean;
+  on?: 'click' | 'hover';
   onClose?: () => void;
   trigger?: React.ReactNode;
 }
 
-function Popup ({ children, className, isOpen, onClose, trigger }: Props): React.ReactElement<Props> {
+function Popup ({ children, className, isOpen, on = 'hover', onClose, trigger }: Props): React.ReactElement<Props> {
   return (
     <SUIPopup
       className={className}
       onClose={onClose}
+      on={on}
       open={isOpen}
       position='bottom right'
       trigger={trigger}

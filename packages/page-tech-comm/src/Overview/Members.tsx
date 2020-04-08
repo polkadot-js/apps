@@ -29,7 +29,10 @@ function Members ({ className, members, prime }: Props): React.ReactElement<Prop
       {members?.map((accountId): React.ReactNode => (
         <tr key={accountId.toString()}>
           <td className='address'>
-            <AddressSmall value={accountId} withMenu />
+            <AddressSmall
+              value={accountId}
+              withMenu
+            />
           </td>
           <td>
             {prime?.eq(accountId) && (

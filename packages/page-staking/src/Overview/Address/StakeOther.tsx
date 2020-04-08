@@ -31,6 +31,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
                 key={who}
                 value={who}
                 withBonded
+                withMenu
               />
             )}
           </Expander>

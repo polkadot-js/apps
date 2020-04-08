@@ -142,7 +142,10 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineMessage={onlineMessage}
       />
       <td className='address all'>
-        <AddressSmall value={address} />
+        <AddressSmall
+          value={address}
+          withMenu
+        />
       </td>
       <StakeOther
         nominators={nominators}

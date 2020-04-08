@@ -8,10 +8,12 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { classes, toShortAddress } from './util';
 import AccountName from './AccountName';
+import AddressMenu from './AddressMenu';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -33,14 +35,31 @@ interface Props extends BareProps {
   withBalance?: boolean;
   withBonded?: boolean;
   withLockedVote?: boolean;
+  withMenu?: boolean;
   withName?: boolean;
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isFlex, isPadded = true, label, labelBalance, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className, iconInfo, isFlex, isPadded = true, label, labelBalance, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withMenu = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
+  const [isMenuOpen, toggleIsMenuOpen] = useToggle();
+
   if (!value) {
     return null;
   }
+
+  const info = (
+    <div className={classes('ui--AddressMini-info', withMenu && 'withMenu')}>
+      {withAddress && (
+        <div className='ui--AddressMini-address'>
+          {withName
+            ? <AccountName value={value} />
+            : toShortAddress(value)
+          }
+        </div>
+      )}
+      {children}
+    </div>
+  );
 
   return (
     <div
@@ -61,17 +80,19 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isFlex, 
           </div>
         )}
       </div>
-      <div className='ui--AddressMini-info'>
-        {withAddress && (
-          <div className='ui--AddressMini-address'>
-            {withName
-              ? <AccountName value={value} />
-              : toShortAddress(value)
-            }
-          </div>
-        )}
-        {children}
-      </div>
+      {
+        withMenu
+          ? (
+            <AddressMenu
+              isOpen={isMenuOpen}
+              onClose={toggleIsMenuOpen}
+              value={value}
+            >
+              {info}
+            </AddressMenu>
+          )
+          : info
+      }
       <div className='ui--AddressMini-balances'>
         {withBalance && (
           <BalanceDisplay
@@ -120,6 +141,10 @@ export default React.memo(styled(AddressMini)`
       max-width: 9rem;
       min-width: 9rem;
     }
+  }
+
+  .ui--AddressMini-info.withMenu {
+    cursor: help;
   }
 
   .ui--AddressMini-address {

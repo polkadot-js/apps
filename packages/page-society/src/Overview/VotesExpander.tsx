@@ -23,6 +23,7 @@ function VotesExpander ({ label, votes }: Props): React.ReactElement<Props> | nu
         <AddressMini
           key={who.toString()}
           value={who}
+          withMenu
         />
       )}
     </Expander>
