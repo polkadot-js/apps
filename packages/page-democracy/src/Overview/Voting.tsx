@@ -5,7 +5,7 @@
 import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Dropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
@@ -28,13 +28,20 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
   const [aye, setVoteValue] = useState(true);
+
+  useEffect((): void => {
+    isVotingOpen && setVoteValue(true);
+  }, [isVotingOpen]);
+
   const isCurrentVote = useMemo(
     () => !!api.query.democracy.votingOf,
     [api]
   );
+
   const [enact] = useState(
     (api.consts.democracy.enactmentPeriod.toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / 60 / 60 / 24
   );
+
   const convictionOpts = useMemo(() => [
     { text: t('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
