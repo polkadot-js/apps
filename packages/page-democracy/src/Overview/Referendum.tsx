@@ -23,7 +23,7 @@ interface Props {
   value: DeriveReferendumExt;
 }
 
-function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay } }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
@@ -58,6 +58,7 @@ function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay,
         change={changeAye}
         count={voteCountAye}
         isWinning={isPassing}
+        index={index}
         total={votedAye}
         votes={allAye}
       />
@@ -65,6 +66,7 @@ function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay,
         change={changeNay}
         count={voteCountNay}
         isWinning={!isPassing}
+        index={index}
         total={votedNay}
         votes={allNay}
       />
