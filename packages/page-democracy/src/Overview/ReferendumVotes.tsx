@@ -6,7 +6,7 @@ import { DeriveReferendumVote } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { Expander } from '@polkadot/react-components';
+import { Expander, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -40,7 +40,7 @@ function ReferendumVotes ({ change, count, isWinning, total, votes }: Props): Re
     <td className='number'>
       <Expander
         summary={<><FormatBalance value={total} />{count ? ` (${formatNumber(count)})` : '' }</>}
-        summarySub={change.gtn(0) ? <>{`${isWinning ? '+' : '-'}`}<FormatBalance value={change} /></> : ''}
+        summarySub={change.gtn(0) ? <><Icon name={isWinning ? 'arrow alternate circle up outline' : 'arrow alternate circle down outline'} /><FormatBalance value={change} /></> : ''}
       >
         {sorted.map((vote) =>
           <ReferendumVote
