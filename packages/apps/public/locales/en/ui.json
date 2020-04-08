@@ -1050,5 +1050,7 @@
   "Payout all stakers": "",
   "payout stakers for": "",
   "request from": "",
-  "{{count}} stakers": ""
+  "{{count}} stakers": "",
+  "That amount this total can be reduced by to change the referendum outcome, assuming 1x conviction changes on the removed votes.": "",
+  "The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes.": ""
 }
