@@ -1040,5 +1040,15 @@
   "No matches found": "",
   "matches": "",
   "secret": "",
-  "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": ""
+  "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "",
+  "Calculator": "",
+  "No pending payouts for your stashes": "",
+  "payout/stash": "",
+  "eras": "",
+  "No pending era payouts from validators": "",
+  "payout/validator": "",
+  "Payout all stakers": "",
+  "payout stakers for": "",
+  "request from": "",
+  "{{count}} stakers": ""
 }

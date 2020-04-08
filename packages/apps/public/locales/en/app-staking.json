@@ -184,5 +184,16 @@
   "rewards": "rewards",
   "bonded": "bonded",
   "No funds staked yet. Bond funds to validate or nominate a validator": "No funds staked yet. Bond funds to validate or nominate a validator",
-  "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.": "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted."
+  "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.": "There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.",
+  "Calculator": "Calculator",
+  "No pending payouts for your stashes": "No pending payouts for your stashes",
+  "payout/stash": "payout/stash",
+  "eras": "eras",
+  "available": "available",
+  "No pending era payouts from validators": "No pending era payouts from validators",
+  "payout/validator": "payout/validator",
+  "Payout all stakers": "Payout all stakers",
+  "payout stakers for": "payout stakers for",
+  "request from": "request from",
+  "{{count}} stakers": "{{count}} stakers"
 }
