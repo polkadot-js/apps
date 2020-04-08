@@ -24,6 +24,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [available, setAvailable] = useState<string[]>([]);
+  const [defaultVotes, setDefaultVotes] = useState<string[]>([]);
   const [votes, setVotes] = useState<string[]>([]);
   const [voteValue, setVoteValue] = useState(new BN(0));
 
@@ -42,7 +43,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     accountId && api.derive.council.votesOf(accountId).then(({ votes }): void => {
-      setVotes(
+      setDefaultVotes(
         votes
           .map((accountId): string => accountId.toString())
           .filter((accountId): boolean => available.includes(accountId))
@@ -74,10 +75,10 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
             <InputAddressMulti
               available={available}
               availableLabel={t('council candidates')}
+              defaultValue={defaultVotes}
               help={t('Select and order council candidates you wish to vote for.')}
               maxCount={MAX_VOTES}
               onChange={setVotes}
-              value={votes}
               valueLabel={t('my ordered votes')}
             />
           </Modal.Content>

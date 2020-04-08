@@ -2,50 +2,35 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
+import React, { useCallback } from 'react';
 
-import { PORTAL_ID } from '../../../apps/src/Apps';
 import AddressToggle from '../AddressToggle';
 
 interface Props {
   address: string;
-  index: number;
-  onDeselect: (index: number) => void;
+  filter: string;
+  isHidden?: boolean;
+  onDeselect: (address: string) => void;
 }
 
-const portal = document.getElementById(PORTAL_ID) as Element;
+function Selected ({ address, filter, isHidden, onDeselect }: Props): React.ReactElement<Props> | null {
+  const _onDeselect = useCallback(
+    (): void => onDeselect(address),
+    [address, onDeselect]
+  );
 
-function Selected ({ address, index, onDeselect }: Props): React.ReactElement<Props> {
+  if (isHidden) {
+    return null;
+  }
+
   return (
-    <Draggable
-      draggableId={address}
-      index={index}
-      key={address}
-    >
-      {(provided: DraggableProvided, snapshot: DraggableStateSnapshot): React.ReactElement => {
-        const element = (
-          <div
-            // eslint-disable-next-line @typescript-eslint/unbound-method
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <AddressToggle
-              address={address}
-              className={snapshot.isDragging ? 'isDragging' : ''}
-              noToggle
-              onChange={onDeselect}
-            />
-          </div>
-        );
-
-        return snapshot.isDragging
-          ? ReactDOM.createPortal(element, portal)
-          : element;
-      }}
-    </Draggable>
+    <AddressToggle
+      address={address}
+      filter={filter}
+      noName
+      noToggle
+      onChange={_onDeselect}
+    />
   );
 }
 

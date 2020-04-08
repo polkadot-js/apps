@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, ElectionStatus, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -18,10 +17,10 @@ interface Props {
   allStashes?: string[];
   className?: string;
   next?: string[];
-  stakingOverview?: DeriveStakingOverview;
+  validators?: string[];
 }
 
-function Actions ({ allStashes, className, next, stakingOverview }: Props): React.ReactElement<Props> {
+function Actions ({ allStashes, className, next, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
@@ -82,8 +81,8 @@ function Actions ({ allStashes, className, next, stakingOverview }: Props): Reac
             key={stashId}
             next={next}
             onUpdateType={_onUpdateType}
-            stakingOverview={stakingOverview}
             stashId={stashId}
+            validators={validators}
           />
         ))}
       </Table>

@@ -17,6 +17,7 @@ interface Props {
   className?: string;
   isHidden?: boolean;
   filter?: string;
+  noName?: boolean;
   noToggle?: boolean;
   onChange?: (isChecked: boolean) => void;
   value?: boolean;
@@ -45,9 +46,9 @@ function getIsFiltered (address: string, filter?: string, info?: DeriveAccountIn
   return true;
 }
 
-function AddressToggle ({ address, className, filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
+function AddressToggle ({ address, className, filter, isHidden, noName, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
+  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info as any, [address]);
   const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect((): void => {
@@ -66,6 +67,7 @@ function AddressToggle ({ address, className, filter, isHidden, noToggle, onChan
     >
       <AddressMini
         className='ui--AddressToggle-address'
+        noName={noName}
         value={address}
       />
       {!noToggle && (
@@ -123,8 +125,6 @@ export default React.memo(styled(AddressToggle)`
   }
 
   &.isAye {
-    cursor: move;
-
     .ui--AddressToggle-address {
       filter: none;
       opacity: 1;

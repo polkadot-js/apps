@@ -13,17 +13,13 @@ import uiSettings from '@polkadot/ui-settings';
 import { ValidatorsContext } from '@polkadot/react-query';
 
 import StatusContext from './Status/Context';
-import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
 
 export function getIdentityTheme (systemName: string): 'substrate' {
   return ((uiSettings.icon === 'default' && getSystemIcon(systemName)) || uiSettings.icon) as 'substrate';
 }
 
-let id = 0;
-
 function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props): React.ReactElement<Props> {
-  const [trigger] = useState(`tooltip-identicon-${++id}`);
   const { api, isApiReady, systemName } = useApi();
   const { t } = useTranslation();
   const info = useCall<DeriveAccountInfo>(isApiReady && api.derive.accounts.info as any, [value]);
@@ -59,24 +55,14 @@ function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props)
   );
 
   return (
-    <span
-      className={`ui--IdentityIcon-Outer ${className}`}
-      data-for={trigger}
-      data-tip={true}
-    >
+    <span className={`ui--IdentityIcon-Outer ${className}`}>
       <BaseIdentityIcon
-        className={className}
         isHighlight={isValidator}
         onCopy={_onCopy}
         prefix={prefix}
         size={size}
         theme={thisTheme as 'substrate'}
         value={address}
-      />
-      <Tooltip
-        className='address'
-        text={address}
-        trigger={trigger}
       />
     </span>
   );

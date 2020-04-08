@@ -14,12 +14,13 @@ import useCall from './useCall';
 interface State {
   isRegistrar: boolean;
   registrars: (string | null)[];
+  skipQuery?: boolean;
 }
 
-export default function useRegistrars (): State {
+export default function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(hasAccounts && api.query.identity?.registrars, []);
+  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && hasAccounts && api.query.identity?.registrars, []);
   const [state, setState] = useState<State>({ isRegistrar: false, registrars: [] });
 
   // determine if we have a registrar or not - registrars are allowed to approve

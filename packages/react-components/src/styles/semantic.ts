@@ -86,11 +86,6 @@ export default css`
     }
   }
 
-  .ui.inverted.dimmer {
-    background-color: rgba(255, 255, 255, 0.75);
-    padding: 0 1rem 1rem;
-  }
-
   .ui.label:not(.ui--Bubble) {
     background: transparent;
     font-weight: normal;
@@ -124,11 +119,6 @@ export default css`
       > label {
         margin-top: 0.5rem;
       }
-    }
-
-    > :first-child:not(.icon) {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
     }
 
     .description {

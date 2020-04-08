@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveBalancesAll, DeriveStakingAccount, DeriveStakingOverview } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
@@ -33,8 +33,8 @@ interface Props {
   isOwnStash: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
-  stakingOverview?: DeriveStakingOverview;
   stashId: string;
+  validators?: string[];
 }
 
 interface StakeState {
@@ -90,7 +90,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpdateType, stakingOverview, stashId }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpdateType, stashId, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -141,6 +141,17 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
           onClose={toggleBondExtra}
           stashId={stashId}
         />
+        {controllerId && (
+          <Nominate
+            controllerId={controllerId}
+            isOpen={isNominateOpen}
+            next={next}
+            nominees={nominees}
+            onClose={toggleNominate}
+            stashId={stashId}
+            validators={validators}
+          />
+        )}
         <Unbond
           controllerId={controllerId}
           isOpen={isUnbondOpen}
@@ -156,16 +167,6 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
         />
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
-        )}
-        {isNominateOpen && controllerId && (
-          <Nominate
-            controllerId={controllerId}
-            next={next}
-            nominees={nominees}
-            onClose={toggleNominate}
-            stakingOverview={stakingOverview}
-            stashId={stashId}
-          />
         )}
         {isSetControllerOpen && (
           <SetControllerAccount

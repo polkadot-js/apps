@@ -23,6 +23,11 @@ import Summary from './Overview/Summary';
 import Targets from './Targets';
 import { useTranslation } from './translate';
 
+interface Validators {
+  next?: string[];
+  validators?: string[];
+}
+
 function reduceNominators (nominators: string[], additional: string[]): string[] {
   return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
 }
@@ -32,7 +37,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
-  const [next, setNext] = useState<string[] | undefined>();
+  const [{ next, validators }, setValidators] = useState<Validators>({});
   const allStashes = useCall<string[]>(api.derive.staking.stashes, [], {
     transform: (stashes: AccountId[]): string[] =>
       stashes.map((accountId): string => accountId.toString())
@@ -85,11 +90,10 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   );
 
   useEffect((): void => {
-    allStashes && stakingOverview && setNext(
-      allStashes.filter((address) =>
-        !stakingOverview.validators.includes(address as any)
-      )
-    );
+    allStashes && stakingOverview && setValidators({
+      next: allStashes.filter((address) => !stakingOverview.validators.includes(address as any)),
+      validators: stakingOverview.validators.map((a) => a.toString())
+    });
   }, [allStashes, stakingOverview]);
 
   return (
@@ -118,25 +122,27 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
+        <Route path={`${basePath}/waiting`}>
+          <Overview
+            className={`${basePath}/waiting` === pathname ? '' : 'staking--hidden'}
+            hasQueries={hasQueries}
+            isIntentions
+            next={next}
+            stakingOverview={stakingOverview}
+          />
+        </Route>
       </Switch>
       <Actions
         allStashes={allStashes}
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
         next={next}
-        stakingOverview={stakingOverview}
+        validators={validators}
       />
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
         hasQueries={hasQueries}
         next={next}
         setNominators={dispatchNominators}
-        stakingOverview={stakingOverview}
-      />
-      <Overview
-        className={`${basePath}/waiting` === pathname ? '' : 'staking--hidden'}
-        hasQueries={hasQueries}
-        isIntentions
-        next={next}
         stakingOverview={stakingOverview}
       />
     </main>
