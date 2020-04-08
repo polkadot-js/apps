@@ -173,7 +173,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
   );
 }
 
-function AccountName ({ children, className, defaultName, label, noName, onClick, override, style, toggle, value }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noName, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars(noName);
@@ -217,7 +217,6 @@ function AccountName ({ children, className, defaultName, label, noName, onClick
             ? undefined
             : onClick
         }
-        style={style}
       >
         {label || ''}{override || name}{children}
       </div>
