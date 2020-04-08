@@ -26,6 +26,7 @@ interface Props extends BareProps {
   isShort?: boolean;
   label?: React.ReactNode;
   labelBalance?: React.ReactNode;
+  noName?: boolean;
   type?: KeyringItemType;
   value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
   withAddress?: boolean;
@@ -36,7 +37,7 @@ interface Props extends BareProps {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, labelBalance, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, labelBalance, noName, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -64,7 +65,12 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         {withAddress && (
           <div className='ui--AddressMini-address'>
             {withName
-              ? <AccountName value={value} />
+              ? (
+                <AccountName
+                  noName={noName}
+                  value={value}
+                />
+              )
               : toShortAddress(value)
             }
           </div>

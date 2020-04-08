@@ -6,7 +6,7 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useCall, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
@@ -23,6 +23,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
   label?: React.ReactNode;
+  noName?: boolean;
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
@@ -172,19 +173,18 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
   );
 }
 
-function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noName, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isRegistrar, registrars } = useRegistrars();
+  const { isRegistrar, registrars } = useRegistrars(noName);
   const [isJudgementOpen, toggleJudgement] = useToggle();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const address = useMemo((): string => (value || '').toString(), [value]);
-  const [name, setName] = useState<React.ReactNode>((): React.ReactNode => extractName((value || '').toString(), undefined, defaultName));
+  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info as any, [value]);
+  const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
-    const cacheAddr = (accountId || address).toString();
+    const cacheAddr = (accountId || value || '').toString();
 
     if (api.query.identity?.identityOf) {
       setName((): React.ReactNode =>
@@ -199,13 +199,13 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
     }
-  }, [api, address, defaultName, info, isRegistrar, t, toggle, toggleJudgement]);
+  }, [api, defaultName, info, isRegistrar, t, toggle, toggleJudgement, value]);
 
   return (
     <>
       {isJudgementOpen && (
         <AccountNameJudgement
-          address={address}
+          address={(value || '').toString()}
           registrars={registrars}
           toggleJudgement={toggleJudgement}
         />
@@ -217,7 +217,6 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
             ? undefined
             : onClick
         }
-        style={style}
       >
         {label || ''}{override || name}{children}
       </div>

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, ElectionStatus, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -10,20 +9,18 @@ import { Table } from '@polkadot/react-components';
 import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
+import { useTranslation } from '../translate';
 import Account from './Account';
 import NewStake from './NewStake';
-import { useTranslation } from '../translate';
 
 interface Props {
-  allRewards?: Record<string, DeriveStakerReward[]>;
   allStashes?: string[];
   className?: string;
-  isVisible: boolean;
   next?: string[];
-  stakingOverview?: DeriveStakingOverview;
+  validators?: string[];
 }
 
-function Actions ({ allRewards, allStashes, className, isVisible, next, stakingOverview }: Props): React.ReactElement<Props> {
+function Actions ({ allStashes, className, next, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
@@ -58,7 +55,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
   );
 
   return (
-    <div className={`${className} ${!isVisible && 'staking--hidden'}`}>
+    <div className={className}>
       <NewStake isInElection={isInElection} />
       {isInElection && (
         <article className='warning nomargin'>
@@ -68,7 +65,7 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
       <Table
         empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
         header={[
-          [t('stashes'), 'start', 2],
+          [t('stashes'), 'start'],
           [t('controller'), 'address'],
           [t('rewards'), 'number'],
           [t('bonded'), 'number'],
@@ -84,9 +81,8 @@ function Actions ({ allRewards, allStashes, className, isVisible, next, stakingO
             key={stashId}
             next={next}
             onUpdateType={_onUpdateType}
-            rewards={allRewards && allRewards[stashId]}
-            stakingOverview={stakingOverview}
             stashId={stashId}
+            validators={validators}
           />
         ))}
       </Table>

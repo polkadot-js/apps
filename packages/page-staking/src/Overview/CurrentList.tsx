@@ -4,24 +4,22 @@
 
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { AddressDetails } from './types';
+import { Authors } from '@polkadot/react-query/BlockAuthors';
 
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Input, Table } from '@polkadot/react-components';
-import { useFavorites } from '@polkadot/react-hooks';
+import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
+import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
 import Address from './Address';
 
 interface Props {
-  authorsMap: Record<string, string>;
   hasQueries: boolean;
   isIntentions?: boolean;
-  lastAuthors?: string[];
   next?: string[];
-  recentlyOnline?: DeriveHeartbeats;
-  setNominators: (nominators: string[]) => void;
+  setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
 }
 
@@ -32,6 +30,8 @@ interface Filtered {
   validators?: AccountExtend[];
   waiting?: AccountExtend[];
 }
+
+const EmptyAuthorsContext: React.Context<Authors> = React.createContext<Authors>({ byAuthor: {}, eraPoints: {}, lastBlockAuthors: [], lastHeaders: [] });
 
 function filterAccounts (accounts: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
   return accounts
@@ -52,36 +52,6 @@ function accountsToString (accounts: AccountId[]): string[] {
   return accounts.map((accountId): string => accountId.toString());
 }
 
-function reduceDetails (state: Record<string, AddressDetails>, _details: AddressDetails | AddressDetails[]): Record<string, AddressDetails> {
-  const details = Array.isArray(_details)
-    ? _details
-    : [_details];
-
-  return details.reduce((result, details): Record<string, AddressDetails> => {
-    result[details.address] = {
-      ...(state[details.address] || {}),
-      ...details
-    };
-
-    return result;
-  }, { ...state });
-}
-
-function getDetails (stakingOverview: DeriveStakingOverview, validators?: AccountExtend[]): AddressDetails[] {
-  const allPoints = [...stakingOverview.eraPoints.individual.entries()];
-
-  return (validators || []).map(([address]): AddressDetails => {
-    const points = allPoints.find(([accountId]): boolean => accountId.eq(address));
-
-    return {
-      address,
-      points: points
-        ? points[1].toNumber()
-        : undefined
-    };
-  });
-}
-
 function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[], next?: string[]): Filtered {
   const allElected = accountsToString(stakingOverview.nextElected);
   const validatorIds = accountsToString(stakingOverview.validators);
@@ -96,22 +66,19 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next, recentlyOnline, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const { byAuthor, eraPoints, lastBlockAuthors } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
+  const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [addressDetails, dispatchDetails] = useReducer(reduceDetails, {});
 
   useEffect((): void => {
-    if (stakingOverview) {
-      const filtered = getFiltered(stakingOverview, favorites, next);
-
-      setFiltered(filtered);
-      dispatchDetails(
-        getDetails(stakingOverview, filtered.validators)
-      );
-    }
+    stakingOverview && setFiltered(
+      getFiltered(stakingOverview, favorites, next)
+    );
   }, [favorites, next, stakingOverview]);
 
   const _renderRows = useCallback(
@@ -121,20 +88,20 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
           address={address}
           filterName={nameFilter}
           hasQueries={hasQueries}
-          isAuthor={lastAuthors && lastAuthors.includes(address)}
+          isAuthor={lastBlockAuthors.includes(address)}
           isElected={isElected}
           isFavorite={isFavorite}
           isMain={isMain}
           key={address}
-          lastBlock={authorsMap[address]}
-          onlineCount={isMain && recentlyOnline?.[address]?.blockCount.toNumber()}
-          onlineMessage={isMain && recentlyOnline?.[address]?.hasMessage}
-          points={isMain && addressDetails[address] && addressDetails[address].points}
-          setNominators={isIntentions && setNominators}
+          lastBlock={byAuthor[address]}
+          onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
+          onlineMessage={recentlyOnline?.[address]?.hasMessage}
+          points={eraPoints[address]}
+          setNominators={setNominators}
           toggleFavorite={toggleFavorite}
         />
       )),
-    [addressDetails, authorsMap, hasQueries, isIntentions, lastAuthors, nameFilter, recentlyOnline, setNominators, toggleFavorite]
+    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, recentlyOnline, setNominators, toggleFavorite]
   );
 
   return isIntentions

@@ -10,5 +10,6 @@
 export default {
   Address: 'AccountId',
   Keys: 'SessionKeys5',
-  LookupSource: 'AccountId'
+  LookupSource: 'AccountId',
+  StakingLedger: 'StakingLedgerTo240'
 };

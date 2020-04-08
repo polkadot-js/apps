@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+/* eslint-disable @typescript-eslint/camelcase */
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '@polkadot/app-contracts/types';

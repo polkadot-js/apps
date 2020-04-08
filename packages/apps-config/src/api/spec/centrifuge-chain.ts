@@ -29,5 +29,6 @@ export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
   // previous substrate versions
-  ReferendumInfo: 'ReferendumInfoTo239'
+  ReferendumInfo: 'ReferendumInfoTo239',
+  StakingLedger: 'StakingLedgerTo240'
 };

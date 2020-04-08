@@ -12,7 +12,6 @@ import { AddressSmall, Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
-import { formatNumber } from '@polkadot/util';
 
 import Favorite from './Favorite';
 import Status from './Status';
@@ -30,7 +29,7 @@ interface Props {
   lastBlock?: string;
   onlineCount?: false | number;
   onlineMessage?: boolean;
-  points?: false | number;
+  points?: string;
   setNominators?: false | ((nominators: string[]) => void);
   toggleFavorite: (accountId: string) => void;
 }
@@ -161,7 +160,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         {commission}
       </td>
       <td className='number'>
-        {points && formatNumber(points)}
+        {points}
       </td>
       <td className='number'>
         {lastBlock}

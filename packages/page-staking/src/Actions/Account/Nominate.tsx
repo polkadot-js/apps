@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { InputAddressMulti, InputAddress, Modal, TxButton } from '@polkadot/react-components';
@@ -15,46 +13,40 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   controllerId: string;
+  isOpen: boolean;
   next?: string[];
   nominees?: string[];
   onClose: () => void;
-  stakingOverview?: DeriveStakingOverview;
   stashId: string;
+  validators: string[];
 }
 
 const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, next, nominees, onClose, stakingOverview, stashId }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, isOpen, next, nominees, onClose, stashId, validators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
-  const [validators, setValidators] = useState<string[]>([]);
-  const [selection, setSelection] = useState<string[] | undefined>();
+  const [selection, setSelection] = useState<string[]>([]);
   const [available, setAvailable] = useState<string[]>([]);
-
-  useEffect((): void => {
-    !selection && nominees && setSelection(nominees);
-  }, [selection, nominees]);
-
-  useEffect((): void => {
-    stakingOverview && setValidators(
-      stakingOverview.validators.map((acc): string => acc.toString())
-    );
-  }, [stakingOverview]);
 
   useEffect((): void => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc): boolean => validators.includes(acc) || (next || []).includes(acc)),
+      ...favorites.filter((acc) => (validators || []).includes(acc) || (next || []).includes(acc)),
       // make sure the nominee is not in our favorites already
-      ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
+      ...(nominees || []).filter((acc) => !favorites.includes(acc))
     ];
 
     setAvailable([
       ...shortlist,
-      ...validators.filter((acc): boolean => !shortlist.includes(acc)),
-      ...(next || []).filter((acc): boolean => !shortlist.includes(acc))
+      ...(validators || []).filter((acc) => !shortlist.includes(acc)),
+      ...(next || []).filter((acc) => !shortlist.includes(acc))
     ]);
   }, [favorites, next, nominees, validators]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <Modal
@@ -78,10 +70,10 @@ function Nominate ({ className, controllerId, next, nominees, onClose, stakingOv
           available={available}
           availableLabel={t('candidate accounts')}
           className='medium'
+          defaultValue={nominees}
           help={t('Filter available candidates based on name, address or short account index.')}
           maxCount={MAX_NOMINEES}
           onChange={setSelection}
-          value={selection || []}
           valueLabel={t('nominated accounts')}
         />
       </Modal.Content>

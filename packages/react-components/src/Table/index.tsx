@@ -17,8 +17,19 @@ interface TableProps {
   isFixed?: boolean;
 }
 
+function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
+  if (!Array.isArray(children)) {
+    return [!children, children];
+  }
+
+  const kids = children.filter((child) => !!child);
+  const isEmpty = kids.length === 0;
+
+  return [isEmpty, isEmpty ? null : kids];
+}
+
 function Table ({ children, className, empty, filter, header, isFixed }: TableProps): React.ReactElement<TableProps> {
-  const isEmpty = !children || (Array.isArray(children) && children.length === 0);
+  const [isEmpty, kids] = extractKids(children);
 
   return (
     <div className={`ui--Table ${className}`}>
@@ -28,11 +39,8 @@ function Table ({ children, className, empty, filter, header, isFixed }: TablePr
           header={header}
           isEmpty={isEmpty}
         />
-        <Body
-          empty={empty}
-          isEmpty={isEmpty}
-        >
-          {children}
+        <Body empty={empty}>
+          {kids}
         </Body>
       </table>
     </div>
@@ -68,7 +76,7 @@ export default React.memo(styled(Table)`
         }
 
         &:last-child {
-          padding-right: 1.5rem;
+          padding-right: 0.75rem;
         }
 
         &.all {
