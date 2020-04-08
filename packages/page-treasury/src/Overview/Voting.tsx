@@ -33,6 +33,10 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
   const [voteValue, setVoteValue] = useState(true);
 
   useEffect((): void => {
+    isOpen && setVoteValue(true);
+  }, [isOpen]);
+
+  useEffect((): void => {
     const available = councilProposals
       .map(({ proposal: { methodName, sectionName }, votes }): Option => ({
         text: `Council #${votes?.index.toNumber()}: ${sectionName}.${methodName} `,
