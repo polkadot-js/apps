@@ -32,16 +32,19 @@ function Nominate ({ className, controllerId, next, nominees, onClose, stakingOv
   const [available, setAvailable] = useState<string[]>([]);
 
   useEffect((): void => {
+    console.error('1');
     !selection && nominees && setSelection(nominees);
   }, [selection, nominees]);
 
   useEffect((): void => {
+    console.error('2');
     stakingOverview && setValidators(
       stakingOverview.validators.map((acc): string => acc.toString())
     );
   }, [stakingOverview]);
 
   useEffect((): void => {
+    console.error('3');
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
       ...favorites.filter((acc): boolean => validators.includes(acc) || (next || []).includes(acc)),

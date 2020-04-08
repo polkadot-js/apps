@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { AddressMini, Badge, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 import PayButton from './PayButton';
 import { createErasString } from './util';
 

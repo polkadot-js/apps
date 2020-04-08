@@ -9,14 +9,14 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Table } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
+import useStakerPayouts from './useStakerPayouts';
 import Stash from './Stash';
 import Validator from './Validator';
 
 interface Props {
-  allRewards?: Record<string, DeriveStakerReward[]>;
   className?: string;
   isInElection?: boolean;
   stakerPayoutsAfter: BN;
@@ -80,9 +80,11 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function Payouts ({ allRewards, className, isInElection, stakerPayoutsAfter }: Props): React.ReactElement<Props> {
+function Payouts ({ className, isInElection }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashes, validators }, setPayouts] = useState<Available>({});
+  const stakerPayoutsAfter = useStakerPayouts();
+  const { allRewards } = useOwnEraRewards();
   const { t } = useTranslation();
 
   useEffect((): void => {

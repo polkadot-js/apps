@@ -1,19 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-/* eslint-disable @typescript-eslint/unbound-method */
 
-import React, { useMemo, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { DragDropContext, Droppable, Draggable, DraggableLocation, DraggableProvided, DraggableStateSnapshot, DroppableProvided, DropResult } from 'react-beautiful-dnd';
+import React, { useCallback, useMemo, useState } from 'react';
+import { DragDropContext, Droppable, DraggableLocation, DroppableProvided, DropResult } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { useDebounce } from '@polkadot/react-hooks';
 
 // FIXME :()
-import { PORTAL_ID } from '../../apps/src/Apps';
-import { useTranslation } from './translate';
-import AddressToggle from './AddressToggle';
-import Input from './Input';
+import { useTranslation } from '../translate';
+import Input from '../Input';
+import Available from './Available';
+import Selected from './Selected';
 
 interface Props {
   available: string[];
@@ -41,62 +39,58 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
   );
 
   const isSelected = useMemo(
-    (): Record<string, boolean> => {
-      return available.reduce(
-        (result: Record<string, boolean>, address) => {
-          return {
-            ...result,
-            [address]: value.includes(address)
-          };
-        },
+    (): Record<string, boolean> =>
+      available.reduce(
+        (result: Record<string, boolean>, address) => ({
+          ...result,
+          [address]: value.includes(address)
+        }),
         {}
-      );
-    },
+      ),
     [value, available]
   );
 
-  const onReorder = (source: DraggableLocation, destination: DraggableLocation): void => {
-    const result = Array.from(value);
-    const [removed] = result.splice(source.index, 1);
+  const _onReorder = useCallback(
+    (source: DraggableLocation, destination: DraggableLocation): void => {
+      const result = Array.from(value);
+      const [removed] = result.splice(source.index, 1);
 
-    result.splice(destination.index, 0, removed);
+      result.splice(destination.index, 0, removed);
 
-    onChange(uniquesOf(result));
-  };
+      onChange(uniquesOf(result));
+    },
+    [onChange, value]
+  );
 
-  const onSelect = (address: string): () => void => {
-    return (): void => {
+  const _onSelect = useCallback(
+    (address: string): void => {
       if (isSelected[address] || (maxCount && value.length >= maxCount)) {
         return;
       }
 
       onChange(
-        uniquesOf(
-          [
-            ...value,
-            address
-          ]
-        )
+        uniquesOf([...value, address])
       );
-    };
-  };
+    },
+    [isSelected, maxCount, onChange, value]
+  );
 
-  const onDeselect = (index: number): () => void => {
-    return (): void => {
+  const _onDeselect = useCallback(
+    (index: number): void =>
       onChange(
-        uniquesOf([
-          ...value.slice(0, index),
-          ...value.slice(index + 1)
-        ])
-      );
-    };
-  };
+        uniquesOf([...value.slice(0, index), ...value.slice(index + 1)])
+      ),
+    [onChange, value]
+  );
 
-  const onDragEnd = (result: DropResult): void => {
-    const { destination, source } = result;
+  const _onDragEnd = useCallback(
+    (result: DropResult): void => {
+      const { destination, source } = result;
 
-    !!destination && onReorder(source, destination);
-  };
+      !!destination && _onReorder(source, destination);
+    },
+    [_onReorder]
+  );
 
   return (
     <div className={`ui--InputAddressMulti ${className}`}>
@@ -111,13 +105,12 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
         />
         <div className='ui--InputAddressMulti-items'>
           {available.map((address): React.ReactNode => (
-            <AddressToggle
+            <Available
               address={address}
               filter={filter}
               isHidden={isSelected[address]}
               key={address}
-              noToggle
-              onChange={onSelect(address)}
+              onSelect={_onSelect}
             />
           ))}
         </div>
@@ -132,44 +125,22 @@ function InputAddressMulti ({ available: propsAvailable = [], className, help, m
           label={valueLabel}
           onChange={setFilter}
           placeholder={t('drag and drop to reorder')}
-          value={''}
         />
-        <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={_onDragEnd}>
           <Droppable droppableId='available'>
             {(provided: DroppableProvided): React.ReactElement => (
               <div
                 className='ui--InputAddressMulti-items'
+                // eslint-disable-next-line @typescript-eslint/unbound-method
                 ref={provided.innerRef}
               >
                 {value.map((address, index): React.ReactNode => (
-                  <Draggable
-                    draggableId={address}
+                  <Selected
+                    address={address}
                     index={index}
                     key={address}
-                  >
-                    {(provided: DraggableProvided, snapshot: DraggableStateSnapshot): React.ReactElement => {
-                      const element = (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <AddressToggle
-                            address={address}
-                            className={snapshot.isDragging ? 'isDragging' : ''}
-                            noToggle
-                            onChange={onDeselect(index)}
-                          />
-                        </div>
-                      );
-
-                      if (snapshot.isDragging) {
-                        return ReactDOM.createPortal(element, document.getElementById(PORTAL_ID) as Element);
-                      }
-
-                      return element;
-                    }}
-                  </Draggable>
+                    onDeselect={_onDeselect}
+                  />
                 ))}
                 {provided.placeholder}
               </div>

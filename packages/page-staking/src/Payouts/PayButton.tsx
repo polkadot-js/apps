@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, InputAddress, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   eras: BN[];

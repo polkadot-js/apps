@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { ActiveEraInfo, ElectionStatus, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -13,18 +13,15 @@ import { Option } from '@polkadot/types';
 import { useTranslation } from '../translate';
 import Account from './Account';
 import NewStake from './NewStake';
-import Payouts from './Payouts';
-import useStakerPayouts from './useStakerPayouts';
 
 interface Props {
-  allRewards?: Record<string, DeriveStakerReward[]>;
   allStashes?: string[];
   className?: string;
   next?: string[];
   stakingOverview?: DeriveStakingOverview;
 }
 
-function Actions ({ allRewards, allStashes, className, next, stakingOverview }: Props): React.ReactElement<Props> {
+function Actions ({ allStashes, className, next, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
@@ -34,7 +31,6 @@ function Actions ({ allRewards, allStashes, className, next, stakingOverview }: 
     transform: (status: ElectionStatus) => status.isOpen
   });
   const ownStashes = useOwnStashes();
-  const stakerPayoutsAfter = useStakerPayouts();
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
   const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
 
@@ -91,13 +87,6 @@ function Actions ({ allRewards, allStashes, className, next, stakingOverview }: 
           />
         ))}
       </Table>
-      {api.query.staking.activeEra && (
-        <Payouts
-          allRewards={allRewards}
-          isInElection={isInElection}
-          stakerPayoutsAfter={stakerPayoutsAfter}
-        />
-      )}
     </div>
   );
 }

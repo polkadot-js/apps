@@ -13,7 +13,7 @@ import { AddressMini, Badge, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 import { createErasString } from './util';
 
 interface Props {
