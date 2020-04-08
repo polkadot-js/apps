@@ -11,10 +11,14 @@ export default {
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
-  isActive: false,
+  isActive: true,
   paths: {
     address: 'account',
     block: 'block',
-    extrinsic: 'extrinsic'
+    council: 'council',
+    extrinsic: 'extrinsic',
+    referendum: 'referenda',
+    techcomm: 'tech',
+    treasury: 'treasury'
   }
 };
