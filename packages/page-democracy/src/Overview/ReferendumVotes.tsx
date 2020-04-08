@@ -13,14 +13,16 @@ import { formatNumber } from '@polkadot/util';
 import ReferendumVote from './ReferendumVote';
 
 interface Props {
+  change: BN;
   count: number;
+  isWinning: boolean;
   total: BN;
   votes: DeriveReferendumVote[];
 }
 
 const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
-function ReferendumVotes ({ count, total, votes }: Props): React.ReactElement<Props> {
+function ReferendumVotes ({ change, count, isWinning, total, votes }: Props): React.ReactElement<Props> {
   const [sorted, setSorted] = useState<DeriveReferendumVote[]>([]);
 
   useEffect((): void => {
@@ -36,7 +38,10 @@ function ReferendumVotes ({ count, total, votes }: Props): React.ReactElement<Pr
 
   return (
     <td className='number'>
-      <Expander summary={<><FormatBalance value={total} />{count ? ` (${formatNumber(count)})` : '' }</>}>
+      <Expander
+        summary={<><FormatBalance value={total} />{count ? ` (${formatNumber(count)})` : '' }</>}
+        summarySub={change.gtn(0) ? <>{`${isWinning ? '+' : '-'}`}<FormatBalance value={change} /></> : ''}
+      >
         {sorted.map((vote) =>
           <ReferendumVote
             key={vote.accountId.toString()}
