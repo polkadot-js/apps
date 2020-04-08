@@ -101,4 +101,5 @@ export default React.memo(styled(ReferendumVotes)`
     i.icon+i.icon {
       margin-left: -0.375rem;
     }
+  }
 `);
