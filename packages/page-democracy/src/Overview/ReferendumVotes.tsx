@@ -6,23 +6,31 @@ import { DeriveReferendumVote } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { Expander, Icon } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import ReferendumVote from './ReferendumVote';
 
 interface Props {
   change: BN;
+  className?: string;
   count: number;
   isWinning: boolean;
+  index: BN;
   total: BN;
   votes: DeriveReferendumVote[];
 }
 
 const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
-function ReferendumVotes ({ change, count, isWinning, total, votes }: Props): React.ReactElement<Props> {
+let id = 0;
+
+function ReferendumVotes ({ change, className, count, index, isWinning, total, votes }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [trigger] = useState(`votes-${index}-${++id}`);
   const [sorted, setSorted] = useState<DeriveReferendumVote[]>([]);
 
   useEffect((): void => {
@@ -37,10 +45,45 @@ function ReferendumVotes ({ change, count, isWinning, total, votes }: Props): Re
   }, [votes]);
 
   return (
-    <td className='number'>
+    <td className={`${className} number`}>
       <Expander
-        summary={<><FormatBalance value={total} />{count ? ` (${formatNumber(count)})` : '' }</>}
-        summarySub={change.gtn(0) ? <><Icon name={isWinning ? 'arrow alternate circle up outline' : 'arrow alternate circle down outline'} /><FormatBalance value={change} /></> : ''}
+        summary={
+          <>
+            <FormatBalance value={total} />
+            {count ? ` (${formatNumber(count)})` : '' }
+          </>
+        }
+        summarySub={
+          change.gtn(0)
+            ? (
+              <>
+                <Icon
+                  className='double-icon'
+                  data-for={trigger}
+                  data-tip
+                  name='info circle'
+                />
+                <Icon
+                  className='double-icon'
+                  name={isWinning ? 'arrow alternate circle down outline' : 'arrow alternate circle up outline'}
+                />
+                <FormatBalance
+                  isShort
+                  label='~'
+                  value={change}
+                />
+                <Tooltip
+                  text={
+                    isWinning
+                      ? t('That amount this total can be reduced by to change the referendum outcome, assuming 1x conviction changes on the removed votes.')
+                      : t('The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes.')
+                  }
+                  trigger={trigger}
+                />
+              </>
+            )
+            : ''
+        }
       >
         {sorted.map((vote) =>
           <ReferendumVote
@@ -53,4 +96,10 @@ function ReferendumVotes ({ change, count, isWinning, total, votes }: Props): Re
   );
 }
 
-export default React.memo(ReferendumVotes);
+export default React.memo(styled(ReferendumVotes)`
+  .ui--Expander-summary {
+    i.icon+i.icon {
+      margin-left: -0.375rem;
+    }
+  }
+`);

@@ -57,6 +57,7 @@ function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay,
       <ReferendumVotes
         change={changeAye}
         count={voteCountAye}
+        index={index}
         isWinning={isPassing}
         total={votedAye}
         votes={allAye}
@@ -64,6 +65,7 @@ function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay,
       <ReferendumVotes
         change={changeNay}
         count={voteCountNay}
+        index={index}
         isWinning={!isPassing}
         total={votedNay}
         votes={allNay}
