@@ -20,9 +20,10 @@ interface Props {
   setStepsState: (stepsState: string[]) => void;
   validators: string[];
   controllerAlreadyBonded?: boolean | false;
+  setCurrentStep: (id: string) => void;
 }
 
-function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators, controllerAlreadyBonded }: Props): React.ReactElement<Props> {
+function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setStepsState, validators, controllerAlreadyBonded, setCurrentStep }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
   const [amountToBond, setAmountToBond] = useState<BN>(new BN(1));
@@ -31,6 +32,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
   const { wholeFees, feesLoading } : WholeFeesType = useFees(recipientId, senderId, validators);
   const { t } = useTranslation();
   const { api } = useApi();
+  // @todo - определиться, что это, stash increase / stash not increase / controller
   const destination = 2; // 2 means controller account
   const extrinsic = (amount && recipientId)
     ? api.tx.staking.bond(recipientId, amount, destination)
@@ -62,6 +64,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       if (isBalanceEnough()) {
         newStepsState[2] = 'completed';
         newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
+        setCurrentStep('bond');
       } else {
         newStepsState[2] = '';
       }

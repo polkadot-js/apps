@@ -97,11 +97,15 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
       <div className="ui attached segment">
         {currentStep === steps[0] &&
         <>
-            <Available label={balanceWrapper('Your account balance')} params={senderId} />
+
             {/*<div className="ui segment">
                 <p>Please, select account have funds enough</p>
                 <p>Funds will be locked for the Nomination duration and will remain locked for at least for one era after Nomination is stopped</p>
             </div>*/}
+            <br />
+            <h3>Select your account that holds funds:</h3>
+            <br />
+            <Available label={balanceWrapper('Your account balance')} params={senderId} />
             <AccountSelector
                 value={senderId}
                 title={'Your account'}
@@ -113,6 +117,9 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         }
         {currentStep === steps[1] &&
         <>
+            <br />
+            <h3>Now you need to select or create Controller account. This is account that will manage your funds:</h3>
+            <br />
             <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <ControllerAccountSelector
                 senderId={senderId}
@@ -133,9 +140,9 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         }
         {currentStep === steps[2] &&
         <>
-            <Available label={balanceWrapper('Account balance')} params={senderId} />
             <br />
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
+            <h3>Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.</h3>
+            <br />
             <BondOrTransfer
                 transfer
                 recipientId={controllerAccountId}
@@ -143,6 +150,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 stepsState={stepsState}
                 setStepsState={setStepsState}
                 validators={validators}
+                setCurrentStep={setCurrentStep}
             />
         </>
         }
