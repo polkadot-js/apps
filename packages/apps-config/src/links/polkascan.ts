@@ -22,6 +22,7 @@ export default {
     extrinsic: 'system/extrinsic',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
+    techcomm: 'techcomm/proposal',
     treasury: 'treasury/proposal'
   }
 };
