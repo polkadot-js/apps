@@ -238,9 +238,13 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         }
         {currentStep === steps[3] &&
         <>
-            {/* <Available label={balanceWrapper('Account balance')} params={senderId} />
             <br />
-            <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} /> */}
+            <h3>Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.
+                <p>Once bonded, funds will be under management of your Controller.</p>
+                <p>Money can be unbonded, but will remain locked for a while, until the next Era.</p>
+                <p>Enter the amount you would like to Bond and click Next to proceed.</p>
+            </h3>
+            <br />
             <AddressInfo
                 address={senderId}
                 withBalance={{
@@ -346,7 +350,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   );
 }
 
-export default React.memo(styled(Nomination)`  
+export default React.memo(styled(Nomination)`
   .ui.attached.steps {
      display: grid;
      grid-template-columns: 1fr 1fr 1fr 1fr;
