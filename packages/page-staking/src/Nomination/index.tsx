@@ -54,6 +54,8 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     ? api.tx.staking.bond(controllerAccountId, amount, destination)
     : null;
   const existentialDeposit = api.consts.balances.existentialDeposit;
+  const bondedDuration = api.consts.staking.bondingDuration;
+  console.log('bondedDuration', bondedDuration.toNumber());
 
   function onStatusChange() {}
 

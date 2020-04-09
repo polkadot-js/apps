@@ -231,8 +231,7 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
           ? null
           : (
             <>
-              {(isStashNominating || isStashValidating)
-                ? (
+              {(isStashNominating || isStashValidating) && (
                   <TxButton
                     accountId={controllerId}
                     isDisabled={!isOwnController}
@@ -242,38 +241,6 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
                     key='stop'
                     tx='staking.chill'
                   />
-                )
-                : (
-                  <Button.Group>
-                    {(!sessionIds.length || hexSessionIdNext === '0x')
-                      ? (
-                        <Button
-                          isDisabled={!isOwnController}
-                          key='set'
-                          onClick={toggleSetSession}
-                          label={t('Session Key')}
-                          icon='sign-in'
-                        />
-                      )
-                      : (
-                        <Button
-                          isDisabled={!isOwnController}
-                          key='validate'
-                          onClick={toggleValidate}
-                          label={t('Validate')}
-                          icon='check circle outline'
-                        />
-                      )
-                    }
-                    <Button.Or key='nominate.or' />
-                    <Button
-                      isDisabled={!isOwnController}
-                      key='nominate'
-                      onClick={toggleNominate}
-                      label={t('Nominate')}
-                      icon='hand paper outline'
-                    />
-                  </Button.Group>
                 )
               }
               <Popup
