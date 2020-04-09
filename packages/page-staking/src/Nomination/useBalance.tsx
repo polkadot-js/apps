@@ -51,13 +51,11 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
 
   async function getBondFees(addr1: string, addr2: string) {
     const fees = await api.api.tx.staking.bond(addr1, amount, 2).paymentInfo(addr2);
-    console.log('getBondFees', fees.partialFee);
     setBondFees(fees.partialFee);
   }
 
   async function getUnBondFees(addr: string) {
     const fees = await api.api.tx.staking.unbond(amount).paymentInfo(addr);
-    console.log('getUnBondFees', fees.partialFee);
     setUnBondFees(fees.partialFee);
   }
 
@@ -83,10 +81,6 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
 
   useEffect(() => {
     if (bondFees && unBondFees && startNominationFees && stopNominationFees && paymentFees) {
-      console.log('bondFees', bondFees);
-      console.log('unBondFees', bondFees);
-      console.log('startNominationFees', startNominationFees);
-      console.log('stopNominationFees', stopNominationFees);
       const whole = paymentFees
         .iadd(bondFees)
         .iadd(unBondFees)

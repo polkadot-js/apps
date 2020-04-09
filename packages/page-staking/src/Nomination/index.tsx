@@ -9,7 +9,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import AccountSelector from './AccountSelector';
 import ControllerAccountSelector from './ControllerAccountSelector';
-import BondOrTransfer from './BondOrTransfer';
 import {Available} from "@polkadot/react-query/index";
 import {AddressInfo, Button, InputBalance, TxButton} from "@polkadot/react-components/index";
 import TabsHeader from "@polkadot/app-staking/Nomination/TabsHeader";
@@ -96,7 +95,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
 
   function disableNext() {
     const ind = steps.indexOf(currentStep);
-    console.log('stepsState', stepsState, 'ind', ind + 1);
     return stepsState[ind + 1] === 'disabled';
   }
 
