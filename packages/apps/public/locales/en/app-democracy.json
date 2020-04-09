@@ -102,5 +102,7 @@
   "aye": "aye",
   "nay": "nay",
   "That amount this total can be reduced by to change the referendum outcome, assuming 1x conviction changes on the removed votes.": "That amount this total can be reduced by to change the referendum outcome, assuming 1x conviction changes on the removed votes.",
-  "The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes.": "The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes."
+  "The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes.": "The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes.",
+  "That amount this total can be reduced by to change the referendum outcome, assuming changes to the convictions of the existing votes.": "That amount this total can be reduced by to change the referendum outcome, assuming changes to the convictions of the existing votes.",
+  "The amount this total should be increased by to change the referendum outcome, assuming changes to the convictions of the existing votes.": "The amount this total should be increased by to change the referendum outcome, assuming changes to the convictions of the existing votes."
 }
