@@ -4,7 +4,7 @@
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, ElectionStatus } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { Route, Switch } from 'react-router';
@@ -43,6 +43,9 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       stashes.map((accountId): string => accountId.toString())
   });
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
+    transform: (status: ElectionStatus) => status.isOpen
+  });
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
   const hasQueries = useMemo(
     (): boolean =>
@@ -117,7 +120,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
           <Targets />
         </Route>
         <Route path={`${basePath}/payout`}>
-          <Payouts />
+          <Payouts isInElection={isInElection} />
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
@@ -135,6 +138,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       <Actions
         allStashes={allStashes}
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
+        isInElection={isInElection}
         next={next}
         validators={validators}
       />

@@ -8,11 +8,13 @@ import { PayoutStash, PayoutValidator } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
 
+import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
 import useStakerPayouts from './useStakerPayouts';
+import PayButton from './PayButton';
 import Stash from './Stash';
 import Validator from './Validator';
 
@@ -96,6 +98,15 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
 
   return (
     <div className={className}>
+      {api.tx.staking.payoutStakers && (
+        <Button.Group>
+          <PayButton
+            isInElection={isInElection}
+            payout={validators}
+          />
+        </Button.Group>
+      )}
+      <ElectionBanner isInElection={isInElection} />
       <Table
         empty={stashes && t('No pending payouts for your stashes')}
         header={[
