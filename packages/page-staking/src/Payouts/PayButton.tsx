@@ -3,21 +3,44 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { PayoutValidator } from './types';
 
-import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, InputAddress, TxButton } from '@polkadot/react-components';
+import { ApiPromise } from '@polkadot/api';
+import { AddressMini, Button, Modal, InputAddress, Static, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
 interface Props {
-  eras: BN[];
   isInElection?: boolean;
-  validatorId: string;
+  payout?: PayoutValidator | PayoutValidator[];
 }
 
-function PayButton ({ eras, isInElection, validatorId }: Props): React.ReactElement<Props> {
+function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> {
+  if (Array.isArray(payout)) {
+    if (payout.length === 1) {
+      return createExtrinsic(api, payout[0]);
+    }
+
+    return api.tx.utility.batch(
+      payout.reduce((calls: SubmittableExtrinsic<'promise'>[], { eras, validatorId }): SubmittableExtrinsic<'promise'>[] =>
+        calls.concat(
+          ...eras.map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
+        ), [])
+    );
+  }
+
+  const { eras, validatorId } = payout;
+
+  return eras.length === 1
+    ? api.tx.staking.payoutStakers(validatorId, eras[0].era)
+    : api.tx.utility.batch(
+      eras.map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
+    );
+}
+
+function PayButton ({ isInElection, payout }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
   const [isVisible, togglePayout] = useToggle();
@@ -25,29 +48,42 @@ function PayButton ({ eras, isInElection, validatorId }: Props): React.ReactElem
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   useEffect((): void => {
-    setExtrinsic(
-      () => eras.length === 1
-        ? api.tx.staking.payoutStakers(validatorId, eras[0])
-        : api.tx.utility.batch(
-          eras.map((era): SubmittableExtrinsic<'promise'> =>
-            api.tx.staking.payoutStakers(validatorId, era)
-          )
-        )
+    payout && setExtrinsic(
+      () => createExtrinsic(api, payout)
     );
-  }, [api, eras, validatorId]);
+  }, [api, payout]);
+
+  const isPayoutEmpty = !payout || (Array.isArray(payout) && payout.length === 0);
 
   return (
     <>
-      {isVisible && (
+      {payout && isVisible && (
         <Modal header={t('Payout all stakers')}>
           <Modal.Content>
+            {Array.isArray(payout)
+              ? (
+                <Static
+                  label={t('payout stakers for (multiple)')}
+                  value={
+                    payout.map(({ validatorId }) => (
+                      <AddressMini
+                        key={validatorId}
+                        value={validatorId}
+                      />
+                    ))
+                  }
+                />
+              )
+              : (
+                <InputAddress
+                  defaultValue={payout.validatorId}
+                  isDisabled
+                  label={t('payout stakers for (single)')}
+                />
+              )
+            }
             <InputAddress
-              isDisabled
-              label={t('payout stakers for')}
-              value={validatorId}
-            />
-            <InputAddress
-              label={t('request from')}
+              label={t('request payout from')}
               onChange={setAccount}
               type='account'
               value={accountId}
@@ -67,8 +103,8 @@ function PayButton ({ eras, isInElection, validatorId }: Props): React.ReactElem
       )}
       <Button
         icon='percent'
-        isDisabled={isInElection}
-        label={t('Payout')}
+        isDisabled={isInElection || isPayoutEmpty}
+        label={Array.isArray(payout) ? t('Payout all') : t('Payout')}
         onClick={togglePayout}
       />
     </>

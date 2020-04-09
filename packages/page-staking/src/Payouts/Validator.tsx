@@ -21,23 +21,20 @@ interface Props {
 
 interface State {
   eraStr: string;
-  eras: BN[];
   nominators: Record<string, BN>;
   numNominators: number;
 }
 
 function Payout ({ className, isInElection, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ eraStr, eras, nominators, numNominators }, setState] = useState<State>({
+  const [{ eraStr, nominators, numNominators }, setState] = useState<State>({
     eraStr: '',
-    eras: [],
     nominators: {},
     numNominators: 0
   });
 
   useEffect((): void => {
-    const eras = payout.eras.map(({ era }) => era);
-    const eraStr = createErasString(eras);
+    const eraStr = createErasString(payout.eras.map(({ era }) => era));
     const nominators = payout.eras.reduce((nominators: Record<string, BN>, { stashes }): Record<string, BN> => {
       Object.entries(stashes).forEach(([stashId, value]): void => {
         if (nominators[stashId]) {
@@ -50,7 +47,7 @@ function Payout ({ className, isInElection, payout }: Props): React.ReactElement
       return nominators;
     }, {});
 
-    setState({ eraStr, eras, nominators, numNominators: Object.keys(nominators).length });
+    setState({ eraStr, nominators, numNominators: Object.keys(nominators).length });
   }, [payout]);
 
   return (
@@ -82,9 +79,8 @@ function Payout ({ className, isInElection, payout }: Props): React.ReactElement
       </td>
       <td className='button'>
         <PayButton
-          eras={eras}
           isInElection={isInElection}
-          validatorId={payout.validatorId}
+          payout={payout}
         />
       </td>
     </tr>
