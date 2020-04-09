@@ -51,14 +51,6 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
       && controllerBalance.cmp(wholeFees) === 1)
   }
 
-  function calculateMaxPreFilledBalance() {
-    if (accountBalance && wholeFees) {
-      // double wholeFees
-      setAmountToBond(accountBalance.isub(wholeFees).isub(wholeFees).isub(existentialDeposit));
-    }
-    return 0;
-  }
-
   function setStepsStateAction() {
     if (transfer) {
       const newStepsState = [...stepsState];
@@ -78,25 +70,10 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
     }
   }
 
-  function setAmountToTransfer() {
-    const minAmount = new BN(0);
-    setTransferableAmount(
-      minAmount
-        .iadd(wholeFees)
-        .iadd(wholeFees)
-        .isub(controllerBalance || new BN(0))
-    );
-  }
-
   useEffect(() => {
     setStepsStateAction();
     if (!wholeFees) {
       return;
-    }
-    if (transfer) {
-      setAmountToTransfer();
-    } else {
-      calculateMaxPreFilledBalance();
     }
   },[accountBalance, controllerBalance, wholeFees]);
 
@@ -114,7 +91,7 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
           <>
             <h1>Transfer</h1>
             <div className='ui--row'>
-              <div className='large'>
+              {/*<div className='large'>
                 <InputBalance
                   value={formatBalance(transferableAmount, { withUnit: false })}
                   label={`amount to ${transfer ? 'transfer' : 'bond'}`}
@@ -126,11 +103,11 @@ function BondOrTransfer ({ recipientId, senderId, transfer, stepsState, setSteps
                     accountId={senderId}
                     icon='send'
                     label='Transfer'
-                    params={[recipientId, amount]}
+                    params={[recipientId, transferableAmount]}
                     tx='balances.transfer'
                     withSpinner
                   />
-                </Button.Group>
+                </Button.Group>*/}
               </div>
               <Summary className='small'>Transfer to controller account.
                 Transfer fees and per-transaction fees apply and will be calculated upon submission.</Summary>

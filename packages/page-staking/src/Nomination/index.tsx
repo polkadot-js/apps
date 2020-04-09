@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import CreateModal from '@polkadot/app-accounts/Accounts/modals/Create';
-import {useOwnStashes, useToggle} from '@polkadot/react-hooks/index';
+import {useApi, useOwnStashes, useToggle} from '@polkadot/react-hooks/index';
 import styled from 'styled-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import React, { useState, useEffect, useCallback } from 'react';
@@ -11,9 +11,14 @@ import AccountSelector from './AccountSelector';
 import ControllerAccountSelector from './ControllerAccountSelector';
 import BondOrTransfer from './BondOrTransfer';
 import {Available} from "@polkadot/react-query/index";
-import {AddressInfo, Button, TxButton} from "@polkadot/react-components/index";
+import {AddressInfo, Button, InputBalance, TxButton} from "@polkadot/react-components/index";
 import TabsHeader from "@polkadot/app-staking/Nomination/TabsHeader";
 import StashesTable from "@polkadot/app-staking/Nomination/StahesTable";
+import {useBalanceClear, useFees, WholeFeesType} from "@polkadot/app-staking/Nomination/useBalance";
+import { Balance } from '@polkadot/types/interfaces/runtime';
+import BN from "bn.js";
+import Summary from "@polkadot/app-staking/Nomination/summary";
+import { formatBalance } from '@polkadot/util';
 
 const steps = ['choose', 'create', 'transfer', 'bond'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
@@ -26,6 +31,7 @@ interface Props {
 }
 
 function Nomination ({ className, isVisible, stakingOverview, next }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
   const [currentStep, setCurrentStep] = useState<string>(steps[0]);
   const [alreadyHaveStashes, setAlreadyHaveStashes] = useState<boolean>(false);
   const [controllerAccountId, setControllerAccountId] = useState<string | null>(null);
@@ -34,10 +40,41 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   const [controllerAlreadyBonded, setControllerAlreadyBonded] = useState<boolean>(false);
   const [isCreateOpen, toggleCreate] = useToggle();
   const [validators, setValidators] = useState<string[]>([]);
+  const { wholeFees, feesLoading } : WholeFeesType = useFees(controllerAccountId, senderId, validators);
+  const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
+  const [amountToBond, setAmountToBond] = useState<BN | undefined>();
+  const [amount, setAmount] = useState<BN | undefined | null>(null);
+  const controllerBalance: Balance | null = useBalanceClear(controllerAccountId);
+  const accountBalance: Balance | null = useBalanceClear(senderId);
   const ownStashes = useOwnStashes();
   const { t } = useTranslation();
+  // @todo - определиться, что это, stash increase / stash not increase / controller
+  const destination = 2; // 2 means controller account
+  const extrinsic = (amount && controllerAccountId)
+    ? api.tx.staking.bond(controllerAccountId, amount, destination)
+    : null;
+  const existentialDeposit = api.consts.balances.existentialDeposit;
 
   function onStatusChange() {}
+
+  function setStepsStateAction() {
+    if (currentStep === steps[2]) {
+      const newStepsState = [...stepsState];
+      if (isBalanceEnough()) {
+        newStepsState[2] = 'completed';
+        newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
+        setCurrentStep('bond');
+      } else {
+        newStepsState[2] = '';
+      }
+      setStepsState(newStepsState);
+    } else {
+      const newStepsState = [...stepsState];
+      newStepsState[3] = 'completed';
+      newStepsState[4] = '';
+      setStepsState(newStepsState);
+    }
+  }
 
   function balanceWrapper(text: string): React.ReactNode {
     return (
@@ -59,12 +96,41 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
 
   function disableNext() {
     const ind = steps.indexOf(currentStep);
+    console.log('stepsState', stepsState, 'ind', ind + 1);
     return stepsState[ind + 1] === 'disabled';
   }
 
   function resetControllerInfo(accountId: string | null) {
     setControllerAlreadyBonded(false);
     setControllerAccountId(accountId);
+  }
+
+  function setAmountToTransfer() {
+    const minAmount = new BN(0);
+    // @todo - compare with account balance and throw error if more
+    setTransferableAmount(
+      minAmount
+        .iadd(wholeFees)
+        .iadd(wholeFees)
+        .isub(controllerBalance || new BN(0))
+    );
+  }
+
+  function calculateMaxPreFilledBalance() {
+    if (accountBalance && wholeFees && !amountToBond) {
+      // double wholeFees
+      setAmountToBond(accountBalance.isub(wholeFees).isub(wholeFees).isub(existentialDeposit));
+    }
+    return 0;
+  }
+
+  function isBalanceEnough() {
+    return (accountBalance
+      && controllerBalance
+      && existentialDeposit
+      && wholeFees
+      && accountBalance.cmp(existentialDeposit) === 1
+      && controllerBalance.cmp(wholeFees) === 1)
   }
 
   const _onUpdateControllerState = useCallback(
@@ -83,14 +149,23 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   }, [stakingOverview]);
 
   useEffect(() => {
+    setStepsStateAction();
+    if (!wholeFees) {
+      return;
+    }
+    setAmountToTransfer();
+    calculateMaxPreFilledBalance();
+  }, [accountBalance, controllerBalance, wholeFees]);
+
+  useEffect(() => {
     // since we already have stashes just open the 4th screen - nomination
-    setCurrentStep(steps[3]);
-    setAlreadyHaveStashes(true);
+    // setCurrentStep(steps[3]);
+    // setAlreadyHaveStashes(true);
     // mark all steps as completed
-    setStepsState(['completed', 'completed', 'completed', 'completed']);
+    // setStepsState(['completed', 'completed', 'completed', 'completed']);
   }, [ownStashes]);
 
-  console.log('controllerAlreadyBonded', controllerAlreadyBonded, 'ownStashes', ownStashes);
+  console.log('controllerAlreadyBonded', controllerAlreadyBonded);
   // @ts-ignore
   return (
     // in all apps, the main wrapper is setup to allow the padding
@@ -152,7 +227,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             <br />
             <h3>Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.</h3>
             <br />
-            <BondOrTransfer
+            {/*<BondOrTransfer
                 transfer
                 recipientId={controllerAccountId}
                 senderId={senderId}
@@ -160,7 +235,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 setStepsState={setStepsState}
                 validators={validators}
                 setCurrentStep={setCurrentStep}
-            />
+            />*/}
         </>
         }
         {currentStep === steps[3] &&
@@ -179,7 +254,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 }}
                 withRewardDestination
             />
-            <BondOrTransfer
+            {/*<BondOrTransfer
                 recipientId={controllerAccountId}
                 senderId={senderId}
                 stepsState={stepsState}
@@ -188,7 +263,22 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 controllerAlreadyBonded={controllerAlreadyBonded}
                 setCurrentStep={setCurrentStep}
                 alreadyHaveStashes={alreadyHaveStashes}
-            />
+            />*/}
+            <section>
+                <h1>Bond</h1>
+                <div className='ui--row'>
+                    <div className='large'>
+                      {/* The amount field will be pre-populated with maximum possible amount */}
+                        <InputBalance
+                            value={formatBalance(amountToBond, { withUnit: false })}
+                            label={`amount to bond}`}
+                            onChange={setAmount}
+                        />
+                    </div>
+                    <Summary className='small'>Bond to controller account.
+                        Bond fees and per-transaction fees apply and will be calculated upon submission.</Summary>
+                </div>
+            </section>
         </>
         }
         <Button.Group>
@@ -200,7 +290,28 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             onClick={goBack}
           />
           <div className="or" />
-          {currentStep === steps[3] && (
+          {currentStep === steps[2] && !isBalanceEnough() && (
+            <TxButton
+              isDisabled={!wholeFees}
+              accountId={senderId}
+              icon='send'
+              label='Next'
+              params={[controllerAccountId, transferableAmount]}
+              tx='balances.transfer'
+              withSpinner
+            />
+          )}
+          {currentStep === steps[3] && !controllerAlreadyBonded && (
+            <TxButton
+              accountId={senderId}
+              isDisabled={controllerAlreadyBonded}
+              isPrimary
+              label={t('Bond')}
+              icon='sign-in'
+              extrinsic={extrinsic}
+            />
+          )}
+          {currentStep === steps[3] && controllerAlreadyBonded && (
             <TxButton
               accountId={controllerAccountId}
               isDisabled={!validators?.length || !controllerAlreadyBonded}
@@ -211,7 +322,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               tx='staking.nominate'
             />
           )}
-          {currentStep !== steps[3] && (
+          {currentStep !== steps[3] && (currentStep !== steps[2] || isBalanceEnough()) && (
             <Button
               className="primary"
               key='Next'
