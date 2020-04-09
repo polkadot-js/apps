@@ -38,13 +38,14 @@ interface Props {
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
   onUpdateControllerState: (controllerAlreadyBonded: boolean) => void;
+  onUpdateNominatedState: (controllerAlreadyBonded: boolean) => void;
   rewards?: DeriveStakerReward[];
   stakingOverview?: DeriveStakingOverview;
   stashId: string;
   selectedControllerId?: string | null,
 }
 
-function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId, selectedControllerId, onUpdateControllerState }: Props): React.ReactElement<Props> {
+function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateType, rewards, stakingOverview, stashId, selectedControllerId, onUpdateControllerState, onUpdateNominatedState }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const { api } = useApi();
@@ -86,6 +87,9 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     // if controller already used
     if (controllerId === selectedControllerId) {
       onUpdateControllerState(true);
+      if (isStashNominating) {
+        onUpdateNominatedState(true);
+      }
     }
   }, [controllerId, onUpdateControllerState, selectedControllerId]);
 

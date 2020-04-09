@@ -28,7 +28,7 @@ export type WholeFeesType = {
 export function useFees (bondedAddress?: string | null, senderAddress?: string | null, validators?: string[]): WholeFeesType  {
   const [paymentFees, setPaymentFees] = useState<Balance | null>(null);
   const [bondFees, setBondFees] = useState<Balance | null>(null);
-  const [feesLoading, setFeesLoading] = useState<boolean>(true);
+  const [feesLoading, setFeesLoading] = useState<boolean>(false);
   const [unBondFees, setUnBondFees] = useState<Balance | null>(null);
   const [wholeFees, setWholeFees] = useState<any>(null);
   const [startNominationFees, setStartNominationFees] = useState();
@@ -71,6 +71,7 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
 
   async function setWholeFeesAsync() {
     if (bondedAddress && senderAddress && validators) {
+      setFeesLoading(true);
       await getPaymentFees(bondedAddress, senderAddress);
       await getUnBondFees(senderAddress);
       await getBondFees(bondedAddress, senderAddress);

@@ -17,9 +17,10 @@ interface Props {
   stakingOverview?: DeriveStakingOverview;
   ownStashes?: [string, boolean][];
   onUpdateControllerState: (controllerAlreadyBonded: boolean) => void;
+  onUpdateNominatedState: (controllerAlreadyBonded: boolean) => void;
 }
 
-function StashesTable({ className, allStashes, isVisible, next, allRewards, stakingOverview, controllerAccountId, ownStashes, onUpdateControllerState }: Props): React.ReactElement<Props> {
+function StashesTable({ className, allStashes, isVisible, next, allRewards, stakingOverview, controllerAccountId, ownStashes, onUpdateControllerState, onUpdateNominatedState }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
   const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
@@ -73,6 +74,7 @@ function StashesTable({ className, allStashes, isVisible, next, allRewards, stak
             next={next}
             onUpdateType={_onUpdateType}
             onUpdateControllerState={onUpdateControllerState}
+            onUpdateNominatedState={onUpdateNominatedState}
             rewards={allRewards && allRewards[stashId]}
             stakingOverview={stakingOverview}
             stashId={stashId}
