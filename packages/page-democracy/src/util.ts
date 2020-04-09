@@ -25,6 +25,9 @@ const DIVISOR = new BN(2);
 const TEN = new BN(10);
 
 /**
+ * This is where we tweak the input values, based on what was specified, be it the input number
+ * or the direction and turnout adjustments
+ *
  * @param votes The votes that should be adjusted, will be either aye/nay
  * @param total The actual total of applied votes (same as turnout from derived)
  * @param change The actual change value we want to affect
@@ -40,8 +43,8 @@ function getDiffs (votes: BN, total: BN, change: BN, inc: BN, totalInc: 0 | 0.1 
   // since we allow 0.1 as well, we first multiply by 10, before dividing by the same
   const totalChange = ONE.muln(totalInc * 10).mul(voteChange).div(TEN);
 
-  // return the change, vote with change applied amd the total. For the total we don't want to
-  // go negative (total votes/turnout), since will do sqrt on it (and negative is non-sensical anyway)
+  // return the change, vote with change applied and the total with the same. For the total we don't want
+  // to go negative (total votes/turnout), since will do sqrt on it (and negative is non-sensical anyway)
   return [
     voteChange,
     votes.add(multiplier.mul(voteChange)),
