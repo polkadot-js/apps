@@ -126,14 +126,18 @@ export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, sta
     inc = nextInc;
   }
 
-  // for the cases where we start at 0, we could have a value slightly higher than available,
-  // cleanup, never having more than the max already available to us
+  // - When the other vote is zero, it is not useful to show the decrease, since it ends up at all
+  // - Always ensure that we don't go above max available (generally should be covered by above)
   return {
-    changeAye: isPassing
-      ? BN.min(changeAye, state.votedAye)
-      : changeAye,
-    changeNay: isPassing
-      ? changeNay
-      : BN.min(changeNay, state.votedNay)
+    changeAye: state.votedNay.isZero()
+      ? ZERO
+      : isPassing
+        ? BN.min(changeAye, state.votedAye)
+        : changeAye,
+    changeNay: state.votedAye.isZero()
+      ? ZERO
+      : isPassing
+        ? changeNay
+        : BN.min(changeNay, state.votedNay)
   };
 }
