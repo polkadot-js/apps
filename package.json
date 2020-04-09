@@ -8,10 +8,10 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.10.0-beta.19",
-    "@polkadot/api-contract": "^1.10.0-beta.19",
+    "@polkadot/api": "^1.10.0-beta.20",
+    "@polkadot/api-contract": "^1.10.0-beta.20",
     "@polkadot/keyring": "^2.8.0-beta.7",
-    "@polkadot/types": "^1.10.0-beta.19",
+    "@polkadot/types": "^1.10.0-beta.20",
     "@polkadot/util": "^2.8.0-beta.7",
     "@polkadot/util-crypto": "^2.8.0-beta.7",
     "babel-core": "^7.0.0-bridge.0",
@@ -31,6 +31,7 @@
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test packages/page-claims/src",
+    "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js"
   },
   "devDependencies": {

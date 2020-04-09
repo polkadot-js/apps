@@ -75,8 +75,8 @@ function ReferendumVotes ({ change, className, count, index, isWinning, total, v
                 <Tooltip
                   text={
                     isWinning
-                      ? t('That amount this total can be reduced by to change the referendum outcome, assuming 1x conviction changes on the removed votes.')
-                      : t('The amount this total should be increased by to change the referendum outcome, assuming 1x convictions on the added votes.')
+                      ? t('That amount this total can be reduced by to change the referendum outcome, assuming changes to the convictions of the existing votes.')
+                      : t('The amount this total should be increased by to change the referendum outcome, assuming changes to the convictions of the existing votes.')
                   }
                   trigger={trigger}
                 />
