@@ -55,7 +55,9 @@ function getDiffs (votes: BN, total: BN, change: BN, inc: BN, totalInc: 0 | 0.1 
 // loop changes over aye, using the diffs above, returning when an outcome change is made
 function calcChangeAye (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState, isPassing: boolean, changeAye: BN, inc: BN): BN {
   while (true) {
-    const [newChangeAye, newAye, newTotal] = getDiffs(votedAye, votedTotal, changeAye, inc, 0, isPassing ? -1 : 1);
+    // if this one is passing, we only adjust the convictions (since it goes down), if it is failing
+    // we assume new votes needs to be added, do those at 1x conviction
+    const [newChangeAye, newAye, newTotal] = getDiffs(votedAye, votedTotal, changeAye, inc, isPassing ? 0 : 1, isPassing ? -1 : 1);
     const newResult = calcPassing(threshold, sqrtElectorate, { votedAye: newAye, votedNay, votedTotal: newTotal });
 
     if (newResult !== isPassing) {
@@ -69,7 +71,10 @@ function calcChangeAye (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye
 // loop changes over nay, using the diffs above, returning when an outcome change is made
 function calcChangeNay (threshold: VoteThreshold, sqrtElectorate: BN, { votedAye, votedNay, votedTotal }: ApproxState, isPassing: boolean, changeNay: BN, inc: BN): BN {
   while (true) {
-    const [newChangeNay, newNay, newTotal] = getDiffs(votedNay, votedTotal, changeNay, inc, 0, isPassing ? 1 : -1);
+    // if this one is passing, we only adjust the convictions (since it goes down), if it is failing
+    // we assume new votes needs to be added, do those at 1x conviction
+    // NOTE: We use isPassing here, so it is reversed from what we find in the aye calc
+    const [newChangeNay, newNay, newTotal] = getDiffs(votedNay, votedTotal, changeNay, inc, isPassing ? 1 : 0, isPassing ? 1 : -1);
     const newResult = calcPassing(threshold, sqrtElectorate, { votedAye, votedNay: newNay, votedTotal: newTotal });
 
     if (newResult !== isPassing) {
