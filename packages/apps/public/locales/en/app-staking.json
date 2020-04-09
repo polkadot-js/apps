@@ -195,5 +195,9 @@
   "Payout all stakers": "Payout all stakers",
   "payout stakers for": "payout stakers for",
   "request from": "request from",
-  "{{count}} stakers": "{{count}} stakers"
+  "{{count}} stakers": "{{count}} stakers",
+  "payout stakers for (multiple)": "payout stakers for (multiple)",
+  "payout stakers for (single)": "payout stakers for (single)",
+  "request payout from": "request payout from",
+  "Payout all": "Payout all"
 }
