@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/apps",
   "private": true,
-  "version": "0.41.0-beta.1",
+  "version": "0.41.0-beta.0",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
@@ -15,15 +15,15 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.9.2",
-    "@polkadot/dev": "^0.52.8",
-    "@polkadot/react-components": "0.41.0-beta.1",
-    "@polkadot/react-signer": "0.41.0-beta.1",
-    "query-string": "^6.11.1"
+    "@polkadot/dev": "^0.52.9",
+    "@polkadot/react-components": "0.41.0-beta.0",
+    "@polkadot/react-signer": "0.41.0-beta.0",
+    "query-string": "^6.12.0"
   },
   "devDependencies": {
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^3.4.2",
+    "css-loader": "^3.5.1",
     "empty": "^0.10.1",
     "file-loader": "^6.0.0",
     "html-loader": "^1.1.0",
@@ -33,6 +33,6 @@
     "source-map-explorer": "^2.4.2",
     "style-loader": "^1.1.3",
     "thread-loader": "^2.1.3",
-    "url-loader": "^4.0.0"
+    "url-loader": "^4.1.0"
   }
 }
