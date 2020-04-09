@@ -13,6 +13,7 @@ import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import useChangeCalc from '../useChangeCalc';
 import PreImageButton from './PreImageButton';
 import ProposalCell from './ProposalCell';
 import ReferendumVotes from './ReferendumVotes';
@@ -23,10 +24,11 @@ interface Props {
   value: DeriveReferendumExt;
 }
 
-function Referendum ({ className, value: { allAye, allNay, changeAye, changeNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay } }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className, value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
