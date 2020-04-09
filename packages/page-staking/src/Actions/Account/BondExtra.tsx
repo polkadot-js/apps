@@ -2,80 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
-
-import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { CalculateBalanceProps } from '../../types';
-
 import BN from 'bn.js';
-import React from 'react';
-import { Available, InputAddress, InputBalance, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { withCalls, withApi, withMulti } from '@polkadot/react-api/hoc';
+import React, { useState } from 'react';
+import { Available, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
 
-interface Props extends I18nProps, ApiProps, CalculateBalanceProps {
-  controllerId: string;
-  isOpen: boolean;
+interface Props {
   onClose: () => void;
   stashId: string;
 }
 
-interface State {
-  amountError: string | null;
-  extrinsic: SubmittableExtrinsic | null;
-  maxAdditional?: BN;
-  maxBalance?: BN;
-}
-
 const ZERO = new BN(0);
 
-class BondExtra extends TxComponent<Props, State> {
-  public state: State = {
-    amountError: null,
-    extrinsic: null
-  };
+function BondExtra ({ onClose, stashId }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [amountError, setAmountError] = useState<string | null>(null);
+  const [maxAdditional, setMaxAdditional] = useState<BN | undefined>();
+  const [maxBalance] = useState<BN | undefined>();
 
-  public render (): React.ReactNode {
-    const { isOpen, onClose, stashId, t } = this.props;
-    const { extrinsic, maxAdditional } = this.state;
-    const canSubmit = !!maxAdditional && maxAdditional.gtn(0);
-
-    if (!isOpen) {
-      return null;
-    }
-
-    return (
-      <Modal
-        className='staking--BondExtra'
-        header= {t('Bond more funds')}
-        size='small'
-      >
-        {this.renderContent()}
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={stashId}
-            extrinsic={extrinsic}
-            icon='sign-in'
-            isDisabled={!canSubmit}
-            isPrimary
-            label={t('Bond more')}
-            onStart={onClose}
-            withSpinner
-          />
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { stashId, t } = this.props;
-    const { amountError, maxAdditional, maxBalance } = this.state;
-
-    return (
+  return (
+    <Modal
+      className='staking--BondExtra'
+      header= {t('Bond more funds')}
+      size='small'
+    >
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
           className='medium'
@@ -96,49 +48,29 @@ class BondExtra extends TxComponent<Props, State> {
           isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
           label={t('additional bonded funds')}
           maxValue={maxBalance}
-          onChange={this.onChangeValue}
-          onEnter={this.sendTx}
+          onChange={setMaxAdditional}
         />
         <ValidateAmount
           accountId={stashId}
-          onError={this.setAmountError}
+          onError={setAmountError}
           value={maxAdditional}
         />
       </Modal.Content>
-    );
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState((prevState: State): State => {
-      const { api } = this.props;
-      const { amountError = prevState.amountError, maxAdditional = prevState.maxAdditional, maxBalance = prevState.maxBalance } = newState;
-      const extrinsic: any = (maxAdditional && maxAdditional.gte(ZERO))
-        ? api.tx.staking.bondExtra(maxAdditional)
-        : null;
-
-      return {
-        amountError,
-        extrinsic,
-        maxAdditional,
-        maxBalance
-      };
-    });
-  }
-
-  private onChangeValue = (maxAdditional?: BN): void => {
-    this.nextState({ maxAdditional });
-  }
-
-  private setAmountError = (amountError: string | null): void => {
-    this.setState({ amountError });
-  }
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={stashId}
+          icon='sign-in'
+          isDisabled={!maxAdditional?.gt(ZERO)}
+          isPrimary
+          label={t('Bond more')}
+          onStart={onClose}
+          params={[maxAdditional]}
+          tx='staking.bondExtra'
+          withSpinner={false}
+        />
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default withMulti(
-  BondExtra,
-  translate,
-  withApi,
-  withCalls<Props>(
-    'derive.balances.fees'
-  )
-);
+export default React.memo(BondExtra);

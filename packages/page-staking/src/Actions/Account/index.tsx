@@ -135,12 +135,6 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
   return (
     <tr className={className}>
       <td className='address'>
-        <BondExtra
-          controllerId={controllerId}
-          isOpen={isBondExtraOpen}
-          onClose={toggleBondExtra}
-          stashId={stashId}
-        />
         {controllerId && (
           <Nominate
             controllerId={controllerId}
@@ -165,6 +159,12 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
           stashId={stashId}
           validatorPrefs={validatorPrefs}
         />
+        {isBondExtraOpen && (
+          <BondExtra
+            onClose={toggleBondExtra}
+            stashId={stashId}
+          />
+        )}
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
