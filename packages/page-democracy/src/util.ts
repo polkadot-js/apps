@@ -102,10 +102,12 @@ export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, sta
   // - continue the process, until we have the smallest increment
   // - on the last iteration, we add the increment, since we push over the line
   while (!inc.isZero()) {
-    const nextInc = inc.div(DIVISOR);
-
+    // calc the applied changes based on current increment
     changeAye = calcChangeAye(threshold, sqrtElectorate, state, isPassing, changeAye, inc);
     changeNay = calcChangeNay(threshold, sqrtElectorate, state, isPassing, changeNay, inc);
+
+    // move down one level
+    const nextInc = inc.div(DIVISOR);
 
     // on the final round (no more inc reductions), add the last increment to push it over the line
     if (nextInc.isZero()) {
