@@ -109,6 +109,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       <ElectionBanner isInElection={isInElection} />
       <Table
         empty={stashes && t('No pending payouts for your stashes')}
+        emptySpinner={t('Retrieving info for all applicable eras, this will take some time')}
         header={[
           [t('payout/stash'), 'start'],
           [t('eras'), 'start'],

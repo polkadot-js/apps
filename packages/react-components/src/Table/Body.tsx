@@ -12,16 +12,17 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   empty?: React.ReactNode;
+  emptySpinner?: React.ReactNode;
 }
 
-function Body ({ children, className, empty }: Props): React.ReactElement<Props> {
+function Body ({ children, className, empty, emptySpinner }: Props): React.ReactElement<Props> {
   return (
     <tbody className={className}>
       {children || (
         <tr><td colSpan={100}>{
           isString(empty)
             ? <div className='empty'>{empty}</div>
-            : empty || <Spinner />
+            : empty || <Spinner label={emptySpinner} />
         }</td></tr>
       )}
     </tbody>
