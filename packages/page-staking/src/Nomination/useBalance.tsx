@@ -84,10 +84,10 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   useEffect(() => {
     if (bondFees && startNominationFees && stopNominationFees && paymentFees) {
       const whole = paymentFees
-        .iadd(bondFees)
-        .iadd(existentialDeposit)
-        .iadd(startNominationFees)
-        .iadd(stopNominationFees);
+        .add(bondFees)
+        .add(existentialDeposit)
+        .add(startNominationFees)
+        .add(stopNominationFees);
       setWholeFees(whole);
     }
   }, [bondFees, startNominationFees, stopNominationFees]);
