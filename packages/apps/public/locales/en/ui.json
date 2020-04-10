@@ -1061,5 +1061,6 @@
   "Payout all": "",
   "That amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with not additional turnout.": "",
   "The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.": "",
-  "The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with not additional turnout.": ""
+  "The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with not additional turnout.": "",
+  "Retrieving info for all applicable eras, this will take some time": ""
 }

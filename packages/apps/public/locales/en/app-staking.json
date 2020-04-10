@@ -199,5 +199,6 @@
   "payout stakers for (multiple)": "payout stakers for (multiple)",
   "payout stakers for (single)": "payout stakers for (single)",
   "request payout from": "request payout from",
-  "Payout all": "Payout all"
+  "Payout all": "Payout all",
+  "Retrieving info for all applicable eras, this will take some time": "Retrieving info for all applicable eras, this will take some time"
 }
