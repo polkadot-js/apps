@@ -74,7 +74,10 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
   return Object
     .entries(allRewards)
     .map(([stashId, rewards]): PayoutStash => ({
-      available: rewards.reduce((result, { total }) => result.iadd(total), new BN(0)),
+      available: rewards.reduce((result, { validators }) =>
+        Object.values(validators).reduce((result, { value }) =>
+          result.iadd(value), result), new BN(0)
+      ),
       rewards,
       stashId
     }))
