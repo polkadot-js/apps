@@ -7,7 +7,6 @@ import { VoteThreshold } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { bnSqrt } from '@polkadot/util';
 
 import { approxChanges } from './util';
 
@@ -20,9 +19,7 @@ const ZERO = new BN(0);
 
 export default function useChangeCalc (threshold: VoteThreshold, votedAye: BN, votedNay: BN, votedTotal: BN): Result {
   const { api } = useApi();
-  const sqrtElectorate = useCall<BN>(api.query.balances.totalIssuance, [], {
-    transform: (totalIssuance: BN) => bnSqrt(totalIssuance)
-  });
+  const sqrtElectorate = useCall<BN>(api.derive.democracy.sqrtElectorate as any, []);
   const [result, setResult] = useState<Result>({ changeAye: ZERO, changeNay: ZERO });
 
   useEffect((): void => {
