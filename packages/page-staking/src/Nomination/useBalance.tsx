@@ -29,7 +29,6 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const [paymentFees, setPaymentFees] = useState<Balance | null>(null);
   const [bondFees, setBondFees] = useState<Balance | null>(null);
   const [feesLoading, setFeesLoading] = useState<boolean>(false);
-  const [unBondFees, setUnBondFees] = useState<Balance | null>(null);
   const [wholeFees, setWholeFees] = useState<any>(null);
   const [startNominationFees, setStartNominationFees] = useState();
   const [stopNominationFees, setStopNominationFees] = useState();
@@ -54,11 +53,6 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
     setBondFees(fees.partialFee);
   }
 
-  /* async function getUnBondFees(addr: string) {
-    const fees = await api.api.tx.staking.unbond(amount).paymentInfo(addr);
-    setUnBondFees(fees.partialFee);
-  } */
-
   async function getStartNominationFees(validators: string[], addr: string) {
     const fees = await api.api.tx.staking.nominate(validators).paymentInfo(addr);
     setStartNominationFees(fees.partialFee);
@@ -73,7 +67,6 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
     if (bondedAddress && senderAddress && validators) {
       setFeesLoading(true);
       await getPaymentFees(bondedAddress, senderAddress);
-      // await getUnBondFees(senderAddress);
       await getBondFees(bondedAddress, senderAddress);
       await getStopNominationFees(senderAddress);
       await getStartNominationFees(validators, senderAddress);
@@ -93,7 +86,9 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   }, [bondFees, startNominationFees, stopNominationFees]);
 
   useEffect(() => {
-    setWholeFeesAsync().then();
+    if (!wholeFees) {
+      setWholeFeesAsync().then();
+    }
   }, [bondedAddress, senderAddress, validators]);
 
   return { wholeFees, feesLoading };

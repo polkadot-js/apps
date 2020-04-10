@@ -52,7 +52,7 @@ function StashesTable({ className, allStashes, isVisible, next, allRewards, stak
       )
     );
   }, [ownStashes, stashTypes]);
-
+  console.log('Stashes');
   return (
     <Table className={className}>
       <Table.Head>

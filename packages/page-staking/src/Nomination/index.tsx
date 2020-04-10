@@ -20,7 +20,7 @@ import { formatBalance } from '@polkadot/util';
 import BN from 'bn.js';
 import EraToTime from './eraToTime';
 
-const steps = ['choose', 'create', 'transfer', 'bond'];
+const steps = ['choose', 'create', 'bond', 'nominate'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
 
 interface Props {
@@ -59,21 +59,27 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   function onStatusChange() {}
 
   function setStepsStateAction() {
-    if (currentStep === steps[3] && isNominated) {
-      const newStepsState = [...stepsState];
-      newStepsState[3] = 'completed';
-      setStepsState(newStepsState);
-    }
-    if (currentStep === steps[2]) {
-      const newStepsState = [...stepsState];
-      if (isBalanceEnough()) {
-        newStepsState[2] = 'completed';
-        newStepsState[3] = newStepsState[3] === 'disabled' ? '' : newStepsState[3];
-        setCurrentStep('bond');
-      } else {
-        newStepsState[2] = '';
+    if (controllerAlreadyBonded && !isNominated) {
+      setStepsState((prevState): string[] => {
+        prevState[2] = 'completed';
+        prevState[3] = '';
+        return prevState;
+      });
+      // go to last tab
+      if (currentStep === steps[2]) {
+        setCurrentStep(steps[3]);
       }
-      setStepsState(newStepsState);
+    }
+    if (isNominated) {
+      setStepsState((prevState): string[] => {
+        prevState[2] = 'completed';
+        prevState[3] = 'completed';
+        return prevState;
+      });
+      // go to last tab
+      if (currentStep === steps[2]) {
+        setCurrentStep(steps[3]);
+      }
     }
   }
 
@@ -162,7 +168,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     }
     setAmountToTransfer();
     calculateMaxPreFilledBalance();
-  }, [accountBalance, controllerBalance, wholeFees]);
+  }, [accountBalance, controllerBalance, wholeFees, controllerAlreadyBonded, isNominated]);
 
   useEffect(() => {
     // since we already have stashes just open the 4th screen - nomination
@@ -172,10 +178,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     // setStepsState(['completed', 'completed', 'completed', 'completed']);
   }, [ownStashes]);
 
-  // @ts-ignore
   return (
-    // in all apps, the main wrapper is setup to allow the padding
-    // and margins inside the application. (Just from a consistent pov)
     <main className={`${className} ${!isVisible ? 'staking--hidden' : ''} simple-nominatio`}>
       <TabsHeader
         setCurrentStep={setCurrentStep}
@@ -229,15 +232,12 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         }
         {currentStep === steps[2] &&
         <>
-            <br />
-            <h3>Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.</h3>
-            <br />
-        </>
-        }
-        {currentStep === steps[3] && !isNominated &&
-        <>
-            <br />
-          { !controllerAlreadyBonded && (
+          <br />
+          {!isBalanceEnough() &&
+          <h3>Now we will transfer some small amount from your account that holds funds to Controller so that it can pay
+              transaction fees. Just click Next to proceed.</h3>
+          }
+          { !controllerAlreadyBonded && isBalanceEnough() && (
             <>
               <h3>Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.
                 <p>Once bonded, funds will be under management of your Controller.</p>
@@ -247,13 +247,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               <h4 className="ui orange header">
                 Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately <EraToTime />.
               </h4>
-            </>
-          )}
-          { controllerAlreadyBonded && (
-            <h3>We are ready to nominate. Click Nominate to proceed.</h3>
-          )}
-          {!controllerAlreadyBonded && (
-            <>
               <br />
               <AddressInfo
                 address={senderId}
@@ -283,6 +276,15 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               </section>
             </>
           )}
+          <br />
+        </>
+        }
+        {currentStep === steps[3] && !isNominated &&
+        <>
+          <br />
+          { controllerAlreadyBonded && (
+            <h3>We are ready to nominate. Click Nominate to proceed.</h3>
+          )}
         </>
         }
         <Button.Group>
@@ -299,13 +301,13 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               isDisabled={!wholeFees}
               accountId={senderId}
               icon='send'
-              label='Next'
+              label='Fees'
               params={[controllerAccountId, transferableAmount]}
               tx='balances.transfer'
               withSpinner
             />
           )}
-          {currentStep === steps[3] && !controllerAlreadyBonded && (
+          {currentStep === steps[2] && !controllerAlreadyBonded && isBalanceEnough() && (
             <TxButton
               accountId={senderId}
               isDisabled={controllerAlreadyBonded}
@@ -326,7 +328,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               tx='staking.nominate'
             />
           )}
-          {currentStep !== steps[3] && (currentStep !== steps[2] || isBalanceEnough()) && (
+          {currentStep !== steps[3] && (currentStep !== steps[2] || controllerAlreadyBonded) && (
             <Button
               className="primary"
               key='Next'
@@ -337,7 +339,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             />
           )}
         </Button.Group>
-        {currentStep === steps[3] && (
+        {(currentStep === steps[2] || currentStep === steps[3]) && (
           <StashesTable
             onUpdateNominatedState={_onUpdateNominatedState}
             onUpdateControllerState={_onUpdateControllerState}
