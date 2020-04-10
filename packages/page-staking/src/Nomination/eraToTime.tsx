@@ -8,9 +8,11 @@ function eraToTime({ className, style }: BareProps) {
   const { t } = useTranslation();
   const bondedDuration = api.consts.staking.bondingDuration;
 
+  // Attention! This is hardcode for Kusama
   const time = useMemo((): string => {
-    const days = Math.floor(bondedDuration.toNumber() / 24);
-    const hoursRemainder = bondedDuration.toNumber() - days * 24;
+    const erasToHours = bondedDuration.toNumber() * 6;
+    const days = Math.floor(erasToHours / 24);
+    const hoursRemainder = erasToHours - days * 24;
     return [
       days ? (days > 1) ? t('{{d}} days', { replace: { d: days } }) : t('1 day') : null,
       hoursRemainder ? (hoursRemainder > 1) ? t('{{h}} hrs', { replace: { h: hoursRemainder } }) : t('1 hr') : null
