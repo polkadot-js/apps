@@ -5,6 +5,7 @@
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import { Table } from '@polkadot/react-components';
 import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -81,6 +82,9 @@ function Actions ({ allStashes, className, isInElection, next, validators }: Pro
           />
         ))}
       </Table>
+      {api.query.staking.activeEra && (
+        <Trans key='paymentMoved'>All applicable account payouts are now available on the <a href='#/staking/payout'>Payouts tab</a></Trans>
+      )}
     </div>
   );
 }

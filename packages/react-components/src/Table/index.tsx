@@ -12,6 +12,7 @@ interface TableProps {
   children: React.ReactNode;
   className?: string;
   empty?: React.ReactNode;
+  emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   header: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
@@ -28,7 +29,7 @@ function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className, empty, filter, header, isFixed }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className, empty, emptySpinner, filter, header, isFixed }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, kids] = extractKids(children);
 
   return (
@@ -39,7 +40,10 @@ function Table ({ children, className, empty, filter, header, isFixed }: TablePr
           header={header}
           isEmpty={isEmpty}
         />
-        <Body empty={empty}>
+        <Body
+          empty={empty}
+          emptySpinner={emptySpinner}
+        >
           {kids}
         </Body>
       </table>
