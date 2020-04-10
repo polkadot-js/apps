@@ -150,7 +150,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
 
   // set validators list
   useEffect(() => {
-    // @todo - не больше 16
+    // @todo - не больше 16, по алгоритму
     stakingOverview && setValidators(
       stakingOverview.validators.map((acc): string => acc.toString())
     );
@@ -220,6 +220,8 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             />
           {isCreateOpen && (
             <CreateModal
+              hideAdvanced
+              initialName={'NominationController'}
               onClose={toggleCreate}
               onStatusChange={onStatusChange}
             />

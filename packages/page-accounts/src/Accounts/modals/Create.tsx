@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { ModalProps } from '../../types';
 
 import FileSaver from 'file-saver';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
@@ -25,6 +25,8 @@ interface Props extends ModalProps {
   className?: string;
   seed?: string;
   type?: KeypairType;
+  hideAdvanced?: boolean;
+  initialName?: string;
 }
 
 type SeedType = 'bip' | 'raw' | 'dev';
@@ -156,7 +158,7 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
   return status;
 }
 
-function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
+function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: propsType, hideAdvanced, initialName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
@@ -204,6 +206,12 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     onStatusChange(status);
     onClose();
   };
+
+  useEffect(() => {
+    if (initialName) {
+      setName({ isNameValid: !!initialName.trim(), name: initialName });
+    }
+  }, []);
 
   return (
     <Modal
@@ -279,7 +287,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           />
           <Expander
             className='accounts--Creator-advanced'
-            isOpen
+            isOpen={!hideAdvanced}
             summary={t('Advanced creation options')}
           >
             <Dropdown

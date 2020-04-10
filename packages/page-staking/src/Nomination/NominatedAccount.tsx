@@ -114,7 +114,7 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     }),
     [api, controllerId, payoutRewards, queueExtrinsic]
   );
-
+  const maxUnbond = 1000;
   return (
     <tr className={className}>
       <td className='address'>
@@ -232,17 +232,27 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
           : (
             <>
               {(isStashNominating || isStashValidating) && (
+                <>
                   <TxButton
                     accountId={controllerId}
                     isDisabled={!isOwnController}
                     isPrimary={false}
-                    label={t('Stop')}
+                    label={'Stop'}
                     icon='stop'
                     key='stop'
                     tx='staking.chill'
                   />
-                )
-              }
+                  <TxButton
+                    accountId={controllerId}
+                    isPrimary
+                    label={t('Unbond')}
+                    icon='sign-out'
+                    params={[maxUnbond]}
+                    tx='staking.unbond'
+                    withSpinner={false}
+                  />
+                </>
+              )}
               <Popup
                 key='settings'
                 onClose={toggleSettings}
