@@ -83,9 +83,22 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   }, []);
 
   useEffect((): void => {
-    queryPoints && [...queryPoints.individual.entries()].forEach(([accountId, points]): void => {
-      eraPoints[accountId.toString()] = formatNumber(points);
-    });
+    if (queryPoints) {
+      const entries = [...queryPoints.individual.entries()]
+        .map(([accountId, points]) => [accountId.toString(), formatNumber(points)]);
+      const current = Object.keys(eraPoints);
+
+      // we have an update, clear all previous
+      if (current.length !== entries.length) {
+        current.forEach((accountId): void => {
+          delete eraPoints[accountId];
+        });
+      }
+
+      entries.forEach(([accountId, points]): void => {
+        eraPoints[accountId] = points;
+      });
+    }
   }, [queryPoints]);
 
   return (
