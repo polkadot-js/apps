@@ -54,10 +54,10 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
     setBondFees(fees.partialFee);
   }
 
-  async function getUnBondFees(addr: string) {
+  /* async function getUnBondFees(addr: string) {
     const fees = await api.api.tx.staking.unbond(amount).paymentInfo(addr);
     setUnBondFees(fees.partialFee);
-  }
+  } */
 
   async function getStartNominationFees(validators: string[], addr: string) {
     const fees = await api.api.tx.staking.nominate(validators).paymentInfo(addr);
@@ -73,30 +73,27 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
     if (bondedAddress && senderAddress && validators) {
       setFeesLoading(true);
       await getPaymentFees(bondedAddress, senderAddress);
-      await getUnBondFees(senderAddress);
+      // await getUnBondFees(senderAddress);
       await getBondFees(bondedAddress, senderAddress);
       await getStopNominationFees(senderAddress);
       await getStartNominationFees(validators, senderAddress);
+      setFeesLoading(false);
     }
   }
 
   useEffect(() => {
-    if (bondFees && unBondFees && startNominationFees && stopNominationFees && paymentFees) {
+    if (bondFees && startNominationFees && stopNominationFees && paymentFees) {
       const whole = paymentFees
         .iadd(bondFees)
-        .iadd(unBondFees)
         .iadd(existentialDeposit)
         .iadd(startNominationFees)
         .iadd(stopNominationFees);
       setWholeFees(whole);
-      setFeesLoading(false)
     }
-  }, [bondFees, unBondFees, startNominationFees, stopNominationFees]);
+  }, [bondFees, startNominationFees, stopNominationFees]);
 
   useEffect(() => {
-    if (bondedAddress && senderAddress && validators) {
-      setWholeFeesAsync().then();
-    }
+    setWholeFeesAsync().then();
   }, [bondedAddress, senderAddress, validators]);
 
   return { wholeFees, feesLoading };

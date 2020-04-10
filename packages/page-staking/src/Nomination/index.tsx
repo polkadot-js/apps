@@ -18,6 +18,7 @@ import { Balance } from '@polkadot/types/interfaces/runtime';
 import Summary from '@polkadot/app-staking/Nomination/summary';
 import { formatBalance } from '@polkadot/util';
 import BN from 'bn.js';
+import EraToTime from './eraToTime';
 
 const steps = ['choose', 'create', 'transfer', 'bond'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
@@ -54,8 +55,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     ? api.tx.staking.bond(controllerAccountId, amount, destination)
     : null;
   const existentialDeposit = api.consts.balances.existentialDeposit;
-  const bondedDuration = api.consts.staking.bondingDuration;
-  console.log('bondedDuration', bondedDuration.toNumber());
 
   function onStatusChange() {}
 
@@ -246,7 +245,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 <p>Enter the amount you would like to Bond and click Next to proceed.</p>
               </h3>
               <h4 className="ui orange header">
-                Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately XXX days.
+                Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately <EraToTime />.
               </h4>
             </>
           )}
