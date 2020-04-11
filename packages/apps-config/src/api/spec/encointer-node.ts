@@ -4,6 +4,7 @@
 
 // structs need to be in order
 /* eslint-disable sort-keys */
+/* eslint-disable @typescript-eslint/camelcase */
 
 export default {
   Address: 'AccountId',
