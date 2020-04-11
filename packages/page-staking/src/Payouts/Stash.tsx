@@ -90,7 +90,6 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
             isDisabled={!extrinsic || isDisabled}
             isPrimary={false}
             label={t('Payout')}
-            withSpinner={false}
           />
         )}
       </td>

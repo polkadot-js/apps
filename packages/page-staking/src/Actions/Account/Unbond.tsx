@@ -75,7 +75,6 @@ function Unbond ({ className, controllerId, onClose, stakingLedger, stashId }: P
           onStart={onClose}
           params={[maxUnbond]}
           tx='staking.unbond'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

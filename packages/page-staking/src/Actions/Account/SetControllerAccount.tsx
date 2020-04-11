@@ -67,7 +67,6 @@ function SetControllerAccount ({ defaultControllerId, isValidating, onClose, sta
           onStart={onClose}
           params={[controllerId]}
           tx='staking.setController'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

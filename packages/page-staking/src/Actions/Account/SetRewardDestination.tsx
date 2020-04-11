@@ -52,7 +52,6 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose }: Pr
           onStart={onClose}
           params={[destination]}
           tx={'staking.setPayee'}
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>
