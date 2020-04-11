@@ -16,7 +16,7 @@ interface Props {
 
 function BlockByNumber ({ value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const getBlockHash = useCall<Hash>(api.rpc.chain.getBlockHash as any, [value]);
+  const getBlockHash = useCall<Hash>(api.rpc.chain.getBlockHash, [value]);
 
   if (!getBlockHash) {
     return <Spinner />;

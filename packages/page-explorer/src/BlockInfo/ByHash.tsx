@@ -24,9 +24,9 @@ interface Props {
 function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const events = useCall<EventRecord[]>(api.query.system.events.at as any, [value], { isSingle: true });
-  const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock as any, [value], { isSingle: true });
-  const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader as any, [value]);
+  const events = useCall<EventRecord[]>(api.query.system.events.at, [value], { isSingle: true });
+  const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock, [value], { isSingle: true });
+  const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader, [value]);
 
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();

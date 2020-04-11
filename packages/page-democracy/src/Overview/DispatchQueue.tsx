@@ -18,7 +18,7 @@ interface Props {
 function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue as any, []);
+  const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue, []);
 
   return (
     <Table

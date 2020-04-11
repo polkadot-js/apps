@@ -48,7 +48,7 @@ function getIsFiltered (address: string, filter?: string, info?: DeriveAccountIn
 
 function AddressToggle ({ address, className, filter, isHidden, noName, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info as any, [address]);
+  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info, [address]);
   const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect((): void => {
