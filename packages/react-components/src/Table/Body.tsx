@@ -77,8 +77,11 @@ export default React.memo(styled(Body)`
 
     &.button {
       text-align: right;
-      vertical-align: middle;
       white-space: nowrap;
+
+      > * {
+        vertical-align: middle;
+      }
     }
 
     &.combined {
