@@ -3,19 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useState } from 'react';
-import { Icon, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
 import InputValidationController from './InputValidationController';
 
 interface Props {
   defaultControllerId: string;
-  isValidating?: boolean;
   onClose: () => void;
   stashId: string;
 }
 
-function SetControllerAccount ({ defaultControllerId, isValidating, onClose, stashId }: Props): React.ReactElement<Props> {
+function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [, setControllerError] = useState<string | null>(null);
   const [controllerId, setControllerId] = useState<string | null>(null);
@@ -27,14 +26,6 @@ function SetControllerAccount ({ defaultControllerId, isValidating, onClose, sta
       size='small'
     >
       <Modal.Content className='ui--signer-Signer-Content'>
-        {isValidating && (
-          <article className='warning'>
-            <div className='warning'>
-              <Icon name='warning sign' />
-              {t('Warning - Changing the controller while validating will modify the associated session account. It is advised to stop validating before changing the controller account.')}
-            </div>
-          </article>
-        )}
         <InputAddress
           className='medium'
           isDisabled
