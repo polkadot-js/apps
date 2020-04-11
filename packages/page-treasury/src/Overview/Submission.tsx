@@ -50,7 +50,7 @@ function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactEl
     <>
       {isOpen && (
         <Modal
-          header={t('Submit to council')}
+          header={t('To council')}
           size='small'
         >
           <Modal.Content>
