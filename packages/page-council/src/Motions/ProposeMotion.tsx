@@ -3,135 +3,99 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React from 'react';
-import { registry, withApi, withMulti } from '@polkadot/react-api';
-import { Button, Extrinsic, InputNumber } from '@polkadot/react-components';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
-import { createType } from '@polkadot/types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends TxModalProps, ApiProps {
+interface Props {
   isMember: boolean;
   members: string[];
 }
 
-interface State extends TxModalState {
-  method: SubmittableExtrinsic<'promise'> | null;
-  threshold: BN | null;
+interface Threshold {
+  isThresholdValid: boolean;
+  threshold?: BN;
 }
 
-class Propose extends TxModal<Props, State> {
-  constructor (props: Props) {
-    super(props);
+function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { apiDefaultTxSudo } = useApi();
+  const [isOpen, toggleOpen] = useToggle();
+  const [accountId, setAcountId] = useState<string | null>(null);
+  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null | undefined>();
+  const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
 
-    this.defaultState = {
-      ...this.defaultState,
-      method: null,
-      threshold: props.members.length ? new BN(Math.ceil(props.members.length * 0.5)) : null
-    };
-    this.state = this.defaultState;
-  }
+  useEffect((): void => {
+    members && setThreshold({
+      isThresholdValid: members.length !== 0,
+      threshold: new BN(Math.ceil(members.length * 0.5))
+    });
+  }, [members]);
 
-  public static getDerivedStateFromProps ({ members }: Props, { threshold }: State): Pick<State, never> | null {
-    if (!threshold && members.length) {
-      return { threshold: new BN(Math.ceil(members.length * 0.5)) };
-    }
+  const _setMethod = useCallback(
+    (method?: SubmittableExtrinsic<'promise'> | null) => setMethod(() => method),
+    []
+  );
 
-    return null;
-  }
+  const _setThreshold = useCallback(
+    (threshold?: BN) => setThreshold({
+      isThresholdValid: !!threshold?.gtn(0),
+      threshold
+    }),
+    []
+  );
 
-  protected headerText = (): string => this.props.t('Propose a council motion');
-
-  protected txMethod = (): string => 'council.propose';
-
-  protected txParams = (): [BN | null, ...Proposal[]] => {
-    const { method, threshold } = this.state;
-
-    return [
-      threshold,
-      ...(method ? [createType(registry, 'Proposal', method)] : [])
-    ];
-  }
-
-  protected isDisabled = (): boolean => {
-    const { members } = this.props;
-    const { accountId, method, threshold } = this.state;
-
-    const hasThreshold = !!threshold && threshold.gtn(0) && threshold.ltn(members.length + 1);
-    const hasMethod = !!method;
-
-    return !accountId || !hasMethod || !hasThreshold;
-  }
-
-  protected renderTrigger = (): React.ReactNode => {
-    const { isMember, t } = this.props;
-
-    return (
+  return (
+    <>
       <Button
         icon='add'
         isDisabled={!isMember}
         label={t('Propose motion')}
-        onClick={this.showModal}
+        onClick={toggleOpen}
       />
-    );
-  }
-
-  protected renderContent = (): React.ReactNode => {
-    const { apiDefaultTxSudo, members, t } = this.props;
-    const { threshold } = this.state;
-
-    return (
-      <>
-        <InputNumber
-          className='medium'
-          help={t('The minimum number of council votes required to approve this motion')}
-          isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
-          label={t('threshold')}
-          onChange={this.onChangeThreshold}
-          onEnter={this.sendTx}
-          placeholder={
-            t(
-              'Positive number between 1 and {{memberCount}}',
-              { replace: { memberCount: members.length } }
-            )
-          }
-          value={threshold || new BN(0)}
-        />
-        <Extrinsic
-          defaultValue={apiDefaultTxSudo}
-          label={t('proposal')}
-          onChange={this.onChangeExtrinsic}
-          onEnter={this.sendTx}
-        />
-      </>
-    );
-  }
-
-  private onChangeThreshold = (threshold: BN | null = null): void => {
-    const { members } = this.props;
-
-    if (members.length && !this.defaultState.threshold) {
-      this.defaultState.threshold = new BN(Math.ceil(members.length * 0.5));
-    }
-
-    this.setState({ threshold });
-  }
-
-  private onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void => {
-    if (!method) {
-      return;
-    }
-
-    this.setState({ method });
-  }
+      {isOpen && (
+        <Modal header={t('Propose a council motion')}>
+          <Modal.Content>
+            <InputAddress
+              filter={members}
+              help={t('Select the account you wish to make the proposal with.')}
+              label={t('propose from account')}
+              onChange={setAcountId}
+              type='account'
+              withLabel
+            />
+            <InputNumber
+              className='medium'
+              help={t('The minimum number of council votes required to approve this motion')}
+              isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
+              label={t('threshold')}
+              onChange={_setThreshold}
+              placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
+              value={threshold || new BN(0)}
+            />
+            <Extrinsic
+              defaultValue={apiDefaultTxSudo}
+              label={t('proposal')}
+              onChange={_setMethod}
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={toggleOpen}>
+            <TxButton
+              accountId={accountId}
+              isDisabled={!method || !isThresholdValid}
+              label={t('Propose')}
+              params={[threshold, method]}
+              tx='council.propose'
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
+    </>
+  );
 }
 
-export default withMulti(
-  translate(Propose),
-  withApi
-);
+export default React.memo(Propose);
