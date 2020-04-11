@@ -64,7 +64,6 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
           onStart={onClose}
           params={[prefs]}
           tx='staking.validate'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>

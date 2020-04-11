@@ -24,15 +24,15 @@ export default function useInactives (stashId: string, nominees?: string[]): str
             ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
             : nominees.map((id) => [api.query.staking.stakers, id]),
           (exposures: Exposure[]): void => {
-            const inactives: string[] = [];
-
-            exposures.forEach((exposure, index): void => {
-              if (!exposure.others.some((indv): boolean => indv.who.eq(stashId))) {
-                inactives.push(nominees[index].toString());
-              }
-            });
-
-            mountedRef.current && setInactives(inactives);
+            mountedRef.current && setInactives(
+              exposures
+                .map((exposure, index) =>
+                  exposure.others.some(({ who }) => who.eq(stashId))
+                    ? null
+                    : nominees[index].toString()
+                )
+                .filter((inactiveId): inactiveId is string => !!inactiveId)
+            );
           }
         )
         .then((_unsub): void => {

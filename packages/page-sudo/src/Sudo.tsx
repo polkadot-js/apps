@@ -39,7 +39,6 @@ function Propose ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
             label={t('Submit Sudo')}
             params={[method]}
             tx='sudo.sudo'
-            withSpinner={false}
           />
         </Button.Group>
       </section>

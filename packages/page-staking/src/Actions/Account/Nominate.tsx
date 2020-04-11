@@ -55,13 +55,11 @@ function Nominate ({ className, controllerId, isOpen, next, nominees, onClose, s
     >
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
-          className='medium'
           defaultValue={controllerId}
           isDisabled
           label={t('controller account')}
         />
         <InputAddress
-          className='medium'
           defaultValue={stashId}
           isDisabled
           label={t('stash account')}
@@ -69,7 +67,6 @@ function Nominate ({ className, controllerId, isOpen, next, nominees, onClose, s
         <InputAddressMulti
           available={available}
           availableLabel={t('candidate accounts')}
-          className='medium'
           defaultValue={nominees}
           help={t('Filter available candidates based on name, address or short account index.')}
           maxCount={MAX_NOMINEES}

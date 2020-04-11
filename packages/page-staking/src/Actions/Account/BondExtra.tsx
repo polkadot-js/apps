@@ -66,7 +66,6 @@ function BondExtra ({ onClose, stashId }: Props): React.ReactElement<Props> {
           onStart={onClose}
           params={[maxAdditional]}
           tx='staking.bondExtra'
-          withSpinner={false}
         />
       </Modal.Actions>
     </Modal>
