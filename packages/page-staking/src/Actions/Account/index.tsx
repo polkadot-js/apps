@@ -173,7 +173,6 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
         {isSetControllerOpen && controllerId && (
           <SetControllerAccount
             defaultControllerId={controllerId}
-            isValidating={isStashValidating}
             onClose={toggleSetController}
             stashId={stashId}
           />
