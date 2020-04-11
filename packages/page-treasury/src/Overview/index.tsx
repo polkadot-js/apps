@@ -1,23 +1,56 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
-import { AppProps, BareProps, I18nProps } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
+import { AccountId, Balance } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useIncrement, useIsMountedRef } from '@polkadot/react-hooks';
 
-import Summary from './Summary';
+import ProposalCreate from './ProposalCreate';
 import Proposals from './Proposals';
-import Propose from './Propose';
+import Summary from './Summary';
+import TipCreate from './TipCreate';
+import Tips from './Tips';
 
-interface Props extends AppProps, BareProps, I18nProps {}
+interface Members {
+  isMember: boolean;
+  members: string[];
+}
 
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals, []);
+  const { allAccounts } = useAccounts();
+  const queryMembers = useCall<[AccountId, Balance][]>((api.query.electionsPhragmen || api.query.elections).members, []);
+  const [{ isMember, members }, setMembers] = useState<Members>({ isMember: false, members: [] });
+  const mountedRef = useIsMountedRef();
+  const [hashTrigger, triggerHashes] = useIncrement();
+  const [hashes, setHashes] = useState<string[] | null>(null);
+
+  useEffect((): void => {
+    if (hashTrigger && mountedRef.current) {
+      api.query.treasury.tips.keys().then((keys) =>
+        mountedRef.current && setHashes(
+          keys.map((key) => key.args[0].toHex())
+        )
+      );
+    }
+  }, [api, hashTrigger, mountedRef]);
+
+  useEffect((): void => {
+    if (allAccounts && queryMembers) {
+      const members = queryMembers.map(([accountId]) => accountId.toString());
+
+      setMembers({
+        isMember: members.some((accountId) => allAccounts.includes(accountId)),
+        members
+      });
+    }
+  }, [allAccounts, queryMembers]);
 
   return (
     <div className={className}>
@@ -26,12 +59,26 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         proposalCount={info?.approvals.length}
       />
       <Button.Group>
-        <Propose />
+        <ProposalCreate />
+        <Button.Or />
+        <TipCreate
+          members={members}
+          refresh={triggerHashes}
+        />
       </Button.Group>
-      <Proposals proposals={info?.proposals} />
+      <Proposals
+        isMember={isMember}
+        proposals={info?.proposals}
+      />
       <Proposals
         isApprovals
+        isMember={isMember}
         proposals={info?.approvals}
+      />
+      <Tips
+        hashes={hashes}
+        isMember={isMember}
+        members={members}
       />
     </div>
   );
