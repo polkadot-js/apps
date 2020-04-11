@@ -178,7 +178,7 @@ function AccountName ({ children, className, defaultName, label, noName, onClick
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars(noName);
   const [isJudgementOpen, toggleJudgement] = useToggle();
-  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info as any, [value]);
+  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
 
   // set the actual nickname, local name, accountIndex, accountId

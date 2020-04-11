@@ -45,8 +45,8 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
 function Account ({ account: { address, meta }, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all as any, [address]);
+  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });

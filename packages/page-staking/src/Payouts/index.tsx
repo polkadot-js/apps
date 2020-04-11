@@ -104,7 +104,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       {api.tx.staking.payoutStakers && (
         <Button.Group>
           <PayButton
-            isInElection={isInElection}
+            isDisabled={isInElection}
             payout={validators}
           />
         </Button.Group>
@@ -123,7 +123,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       >
         {stashes?.map((payout): React.ReactNode => (
           <Stash
-            isInElection={isInElection}
+            isDisabled={isInElection}
             key={payout.stashId}
             payout={payout}
             stakerPayoutsAfter={stakerPayoutsAfter}
@@ -143,7 +143,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
         >
           {validators?.map((payout): React.ReactNode => (
             <Validator
-              isInElection={isInElection}
+              isDisabled={isInElection}
               key={payout.validatorId}
               payout={payout}
             />

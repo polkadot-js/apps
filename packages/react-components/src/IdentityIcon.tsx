@@ -22,7 +22,7 @@ export function getIdentityTheme (systemName: string): 'substrate' {
 function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props): React.ReactElement<Props> {
   const { api, isApiReady, systemName } = useApi();
   const { t } = useTranslation();
-  const info = useCall<DeriveAccountInfo>(isApiReady && api.derive.accounts.info as any, [value]);
+  const info = useCall<DeriveAccountInfo>(isApiReady && api.derive.accounts.info, [value]);
   const { queueAction } = useContext(StatusContext);
   const validators = useContext(ValidatorsContext);
   const [isValidator, setIsValidator] = useState(false);

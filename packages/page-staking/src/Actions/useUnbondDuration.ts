@@ -8,12 +8,12 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useUnbondDuration (): BN | undefined {
   const { api } = useApi();
-  const eraLength = useCall<BN>(api.derive.session?.eraLength as any, []);
+  const eraLength = useCall<BN>(api.derive.session.eraLength, []);
   const [duration, setDuration] = useState<BN | undefined>();
 
   useEffect((): void => {
     eraLength && setDuration(
-      eraLength.mul(api.consts.staking?.bondingDuration)
+      eraLength.mul(api.consts.staking.bondingDuration)
     );
   }, [api, eraLength]);
 

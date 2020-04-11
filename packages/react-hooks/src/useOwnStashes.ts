@@ -36,8 +36,8 @@ export default function useOwnStashes (): [string, IsInKeyring][] | undefined {
   const { allAccounts, hasAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
   const { api } = useApi();
-  const ownBonded = useCall<Option<AccountId>[]>(hasAccounts && api.query.staking?.bonded.multi as any, [allAccounts]);
-  const ownLedger = useCall<Option<StakingLedger>[]>(hasAccounts && api.query.staking?.ledger.multi as any, [allAccounts]);
+  const ownBonded = useCall<Option<AccountId>[]>(hasAccounts && api.query.staking?.bonded.multi, [allAccounts]);
+  const ownLedger = useCall<Option<StakingLedger>[]>(hasAccounts && api.query.staking?.ledger.multi, [allAccounts]);
   const [state, setState] = useState<[string, IsInKeyring][] | undefined>();
 
   useEffect((): void => {

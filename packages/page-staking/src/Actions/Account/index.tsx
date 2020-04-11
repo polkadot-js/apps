@@ -29,7 +29,7 @@ interface Props {
   activeEra?: EraIndex;
   allStashes?: string[];
   className?: string;
-  isInElection?: boolean;
+  isDisabled?: boolean;
   isOwnStash: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
@@ -90,13 +90,13 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpdateType, stashId, validators }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdateType, stashId, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [stashId]);
-  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account as any, [stashId]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
+  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
   const [{ controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, stakingLedger }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
@@ -256,7 +256,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                   <TxButton
                     accountId={controllerId}
                     icon='stop'
-                    isDisabled={!isOwnController || isInElection}
+                    isDisabled={!isOwnController || isDisabled}
                     isPrimary={false}
                     key='stop'
                     label={t('Stop')}
@@ -269,7 +269,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                       ? (
                         <Button
                           icon='sign-in'
-                          isDisabled={!isOwnController || isInElection}
+                          isDisabled={!isOwnController || isDisabled}
                           key='set'
                           label={t('Session Key')}
                           onClick={toggleSetSession}
@@ -278,7 +278,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                       : (
                         <Button
                           icon='check circle outline'
-                          isDisabled={!isOwnController || isInElection}
+                          isDisabled={!isOwnController || isDisabled}
                           key='validate'
                           label={t('Validate')}
                           onClick={toggleValidate}
@@ -288,7 +288,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                     <Button.Or key='nominate.or' />
                     <Button
                       icon='hand paper outline'
-                      isDisabled={!isOwnController || isInElection}
+                      isDisabled={!isOwnController || isDisabled}
                       key='nominate'
                       label={t('Nominate')}
                       onClick={toggleNominate}
@@ -303,7 +303,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
                 trigger={
                   <Button
                     icon='setting'
-                    isDisabled={isInElection}
+                    isDisabled={isDisabled}
                     onClick={toggleSettings}
                   />
                 }

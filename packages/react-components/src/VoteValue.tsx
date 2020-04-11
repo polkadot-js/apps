@@ -27,7 +27,7 @@ interface ValueState {
 function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [accountId]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
   // TODO This may be useful elsewhere, so figure out a way to make this a utility

@@ -56,7 +56,7 @@ function Actions ({ allStashes, className, isInElection, next, validators }: Pro
 
   return (
     <div className={className}>
-      <NewStake isInElection={isInElection} />
+      <NewStake />
       <ElectionBanner isInElection={isInElection} />
       <Table
         empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
@@ -72,7 +72,7 @@ function Actions ({ allStashes, className, isInElection, next, validators }: Pro
           <Account
             activeEra={activeEra}
             allStashes={allStashes}
-            isInElection={isInElection}
+            isDisabled={isInElection}
             isOwnStash={isOwnStash}
             key={stashId}
             next={next}

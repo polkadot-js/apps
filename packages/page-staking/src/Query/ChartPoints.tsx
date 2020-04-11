@@ -42,7 +42,7 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ chart, labels }, setChart] = useState<ChartInfo>({ chart: [], labels: [] });
-  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints as any, [validatorId, true]);
+  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
   const legends = useMemo(() => [
     t('points'),
     t('average')

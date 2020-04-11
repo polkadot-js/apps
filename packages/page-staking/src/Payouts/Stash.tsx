@@ -18,7 +18,7 @@ import { createErasString } from './util';
 
 interface Props {
   className?: string;
-  isInElection?: boolean;
+  isDisabled?: boolean;
   payout: PayoutStash;
   stakerPayoutsAfter: BN;
 }
@@ -37,12 +37,12 @@ function createPrevPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[])
     : api.tx.utility.batch(payoutRewards.map((reward) => createPrevPayoutType(api, reward)));
 }
 
-function Stash ({ className, isInElection, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
+function Stash ({ className, isDisabled, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [eraStr, setEraStr] = useState('');
-  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account as any, [stashId]);
+  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
 
   useEffect((): void => {
     rewards && setEraStr(
@@ -87,7 +87,7 @@ function Stash ({ className, isInElection, payout: { available, rewards, stashId
             accountId={stakingAccount.controllerId}
             extrinsic={extrinsic}
             icon='credit card outline'
-            isDisabled={!extrinsic || isInElection}
+            isDisabled={!extrinsic || isDisabled}
             isPrimary={false}
             label={t('Payout')}
             withSpinner={false}

@@ -171,7 +171,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const lastEra = useCall<BN>(api.derive.session.indexes as any, [], {
+  const lastEra = useCall<BN>(api.derive.session.indexes, [], {
     defaultValue: new BN(0),
     transform: ({ activeEra }: DeriveSessionIndexes) =>
       activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)

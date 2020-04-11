@@ -31,7 +31,7 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
   const { id } = useParams();
   const [isMenuOpen, toggleMenu] = useToggle();
   const { isOpen: isDeregisterOpen, onClose: onDeregisterClose, onOpen: onDeregisterOpen } = useModal();
-  const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info as any, [id || null]);
+  const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info, [id || null]);
 
   if (isUndefined(parachain)) {
     return (
