@@ -4,11 +4,10 @@
 
 import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 import { BareProps as Props } from '@polkadot/react-components/types';
-import { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useIncrement, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall, useIncrement, useMembers, useIsMountedRef } from '@polkadot/react-hooks';
 
 import ProposalCreate from './ProposalCreate';
 import Proposals from './Proposals';
@@ -16,17 +15,11 @@ import Summary from './Summary';
 import TipCreate from './TipCreate';
 import Tips from './Tips';
 
-interface Members {
-  isMember: boolean;
-  members: string[];
-}
-
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals, []);
-  const { allAccounts } = useAccounts();
-  const queryMembers = useCall<[AccountId, Balance][]>((api.query.electionsPhragmen || api.query.elections).members, []);
-  const [{ isMember, members }, setMembers] = useState<Members>({ isMember: false, members: [] });
+  const { isMember, members } = useMembers();
+
   const mountedRef = useIsMountedRef();
   const [hashTrigger, triggerHashes] = useIncrement();
   const [hashes, setHashes] = useState<string[] | null>(null);
@@ -40,17 +33,6 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       );
     }
   }, [api, hashTrigger, mountedRef]);
-
-  useEffect((): void => {
-    if (allAccounts && queryMembers) {
-      const members = queryMembers.map(([accountId]) => accountId.toString());
-
-      setMembers({
-        isMember: members.some((accountId) => allAccounts.includes(accountId)),
-        members
-      });
-    }
-  }, [allAccounts, queryMembers]);
 
   return (
     <div className={className}>
