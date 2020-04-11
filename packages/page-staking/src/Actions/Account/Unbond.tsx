@@ -8,12 +8,12 @@ import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { AddressInfo, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
+import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
   className?: string;
@@ -25,8 +25,7 @@ interface Props {
 
 function Unbond ({ className, controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const eraLength = useCall<BN>(api.derive.session.eraLength as any, []);
+  const duration = useUnbondDuration();
   const [maxBalance] = useState<BN | null>(stakingLedger?.active.unwrap() || null);
   const [maxUnbond, setMaxUnbond] = useState<BN | null>(null);
 
@@ -60,9 +59,9 @@ function Unbond ({ className, controllerId, onClose, stakingLedger, stashId }: P
           onChange={setMaxUnbond}
           withMax
         />
-        {eraLength?.gtn(0) && (
+        {duration?.gtn(0) && (
           <article className='warning'>
-            <Trans key='unlockDuration'>Once unlocked, funds will only be available for withdrawal in <BlockToTime blocks={eraLength} /> ({formatNumber(eraLength)} blocks)</Trans>
+            <Trans key='unlockDuration'>Once unbonded, funds will only be available for withdrawal in <BlockToTime blocks={duration} /> ({formatNumber(duration)} blocks)</Trans>
           </article>
         )}
       </Modal.Content>
