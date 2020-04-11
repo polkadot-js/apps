@@ -97,7 +97,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account as any, [stashId]);
-  const [{ controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const [{ controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, stakingLedger }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
@@ -146,19 +146,21 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
             validators={validators}
           />
         )}
-        <Unbond
-          controllerId={controllerId}
-          isOpen={isUnbondOpen}
-          onClose={toggleUnbond}
-          stashId={stashId}
-        />
-        <Validate
-          controllerId={controllerId}
-          isOpen={isValidateOpen}
-          onClose={toggleValidate}
-          stashId={stashId}
-          validatorPrefs={validatorPrefs}
-        />
+        {isUnbondOpen && (
+          <Unbond
+            controllerId={controllerId}
+            onClose={toggleUnbond}
+            stakingLedger={stakingLedger}
+            stashId={stashId}
+          />
+        )}
+        {isValidateOpen && controllerId && (
+          <Validate
+            controllerId={controllerId}
+            onClose={toggleValidate}
+            stashId={stashId}
+          />
+        )}
         {isBondExtraOpen && (
           <BondExtra
             onClose={toggleBondExtra}
@@ -168,7 +170,7 @@ function Account ({ allStashes, className, isInElection, isOwnStash, next, onUpd
         {isInjectOpen && (
           <InjectKeys onClose={toggleInject} />
         )}
-        {isSetControllerOpen && (
+        {isSetControllerOpen && controllerId && (
           <SetControllerAccount
             defaultControllerId={controllerId}
             isValidating={isStashValidating}

@@ -74,8 +74,14 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(StakingUnbonding)`
+  white-space: nowrap;
+
   i.icon {
     margin-left: 0.25rem;
     margin-right: 0;
+  }
+
+  .ui--FormatBalance {
+    display: inline-block;
   }
 `);
