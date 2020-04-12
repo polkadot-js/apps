@@ -31,12 +31,13 @@ interface Props extends BareProps {
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
 }
 
+const DISPLAY_KEYS = ['display', 'legal', 'email', 'web', 'twitter', 'riot'];
 const KNOWN: [AccountId, string][] = [
   [registry.createType('AccountId', stringToU8a('modlpy/socie'.padEnd(32, '\0'))), 'Society'],
   [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
 ];
 
-const DISPLAY_KEYS = ['display', 'legal', 'email', 'web', 'twitter', 'riot'];
+const displayCache: Map<string, React.ReactNode> = new Map();
 const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
@@ -70,6 +71,12 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
 }
 
 function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
+  const displayCached = displayCache.get(address);
+
+  if (displayCached) {
+    return displayCached;
+  }
+
   const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
@@ -147,7 +154,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
 
-  return (
+  const element = (
     <div className='via-identity'>
       <Badge
         hover={hover}
@@ -171,6 +178,10 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
       }
     </div>
   );
+
+  displayCache.set(address, element);
+
+  return element;
 }
 
 function AccountName ({ children, className, defaultName, label, noName, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
@@ -187,7 +198,7 @@ function AccountName ({ children, className, defaultName, label, noName, onClick
     const cacheAddr = (accountId || value || '').toString();
 
     if (api.query.identity?.identityOf) {
-      setName((): React.ReactNode =>
+      setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity, isRegistrar ? toggleJudgement : undefined, t)
           : extractName(cacheAddr, accountIndex)
