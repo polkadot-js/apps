@@ -155,7 +155,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td className={`address ${isMain ? 'all' : ''}`}>
+      <td className='address'>
         <AddressSmall value={address} />
       </td>
       {isMain

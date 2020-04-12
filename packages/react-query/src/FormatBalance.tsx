@@ -16,6 +16,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   isShort?: boolean;
   label?: React.ReactNode;
+  labelPost?: React.ReactNode;
   value?: Compact<any> | BN | string | null | 'all';
   withSi?: boolean;
 }
@@ -48,7 +49,7 @@ function format (value: Compact<any> | BN | string, currency: string, withSi?: b
 //   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
 // }
 
-function FormatBalance ({ children, className, isShort, label, value, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className, isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currency] = useState(formatBalance.getDefaults().unit);
 
@@ -60,7 +61,7 @@ function FormatBalance ({ children, className, isShort, label, value, withSi }: 
             ? t('everything')
             : format(value, currency, withSi, isShort)
           : '-'
-      }</span>{children}
+      }</span>{labelPost}{children}
     </div>
   );
 }

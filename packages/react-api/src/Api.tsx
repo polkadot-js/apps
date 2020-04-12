@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { InjectedExtension } from '@polkadot/extension-inject/types';
-import { ChainProperties } from '@polkadot/types/interfaces';
+import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
@@ -40,6 +40,7 @@ interface ChainData {
   injectedAccounts: InjectedAccountExt[];
   properties: ChainProperties;
   systemChain: string;
+  systemChainType: ChainType;
   systemName: string;
   systemVersion: string;
 }
@@ -57,22 +58,23 @@ let api: ApiPromise;
 export { api };
 
 async function retrieve (api: ApiPromise): Promise<ChainData> {
-  const [properties, systemChain, systemName, systemVersion, injectedAccounts] = await Promise.all([
+  const [properties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
+    api.rpc.system.chainType
+      ? api.rpc.system.chainType()
+      : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
     injectedPromise
       .then(() => web3Accounts())
-      .then((accounts): InjectedAccountExt[] =>
-        accounts.map(({ address, meta }): InjectedAccountExt => ({
-          address,
-          meta: {
-            ...meta,
-            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-          }
-        }))
-      )
+      .then((accounts) => accounts.map(({ address, meta }): InjectedAccountExt => ({
+        address,
+        meta: {
+          ...meta,
+          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+        }
+      })))
       .catch((error): InjectedAccountExt[] => {
         console.error('web3Enable', error);
 
@@ -84,21 +86,22 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
     injectedAccounts,
     properties,
     systemChain: (systemChain || '<unknown>').toString(),
+    systemChainType,
     systemName: systemName.toString(),
     systemVersion: systemVersion.toString()
   };
 }
 
 async function loadOnReady (api: ApiPromise): Promise<ApiState> {
-  const { injectedAccounts, properties, systemChain, systemName, systemVersion } = await retrieve(api);
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-  const isDevelopment = isTestChain(systemChain);
+  const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
 
-  console.log('api: found chain', systemChain, JSON.stringify(properties));
+  console.log(`chain: ${systemChain} (${systemChainType}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));

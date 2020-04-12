@@ -9,7 +9,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { formatBalance, formatNumber, isObject } from '@polkadot/util';
+import { formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -256,12 +256,12 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
               name='info circle'
             />
             <Tooltip
-              text={balancesAll.lockedBreakdown.map(({ amount, reasons }, index): React.ReactNode => (
+              text={balancesAll.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
                 <div key={index}>
                   {amount.isMax()
                     ? t('everything')
                     : formatBalance(amount, { forceUnit: '-' })
-                  }<div className='faded'>{reasons.toString()}</div>
+                  }{id && <div className='faded'>{hexToString(id.toHex())}</div>}<div className='faded'>{reasons.toString()}</div>
                 </div>
               ))}
               trigger={`${address}-locks-trigger`}

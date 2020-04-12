@@ -44,7 +44,12 @@ function Validator ({ info: { accountId, bondOther, bondOwn, bondTotal, commissi
       </td>
       <td className='number together'><FormatBalance value={bondTotal} /></td>
       <td className='number together'><FormatBalance value={bondOwn} /></td>
-      <td className='number together'><FormatBalance value={bondOther} >&nbsp;({formatNumber(numNominators)})</FormatBalance></td>
+      <td className='number together'>
+        <FormatBalance
+          labelPost={` (${numNominators})`}
+          value={bondOther}
+        />
+      </td>
       <td className='number together'><FormatBalance value={rewardPayout} /></td>
       <td>
         <Icon

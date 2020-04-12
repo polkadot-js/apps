@@ -102,6 +102,10 @@ export default React.memo(styled(Expander)`
     min-width: 12rem;
     overflow: hidden;
 
+    .ui--Expander-summary-header > .ui--FormatBalance {
+      min-width: 12rem;
+    }
+
     > div {
       overflow: hidden;
       text-overflow: ellipsis;

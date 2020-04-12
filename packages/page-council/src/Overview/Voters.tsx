@@ -19,7 +19,14 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> | null {
   }
 
   return (
-    <Expander summary={<><FormatBalance value={balance} />&nbsp;({voters.length})</>}>
+    <Expander
+      summary={
+        <FormatBalance
+          labelPost={` (${voters.length})`}
+          value={balance}
+        />
+      }
+    >
       {voters.map((who): React.ReactNode =>
         <AddressMini
           key={who.toString()}
