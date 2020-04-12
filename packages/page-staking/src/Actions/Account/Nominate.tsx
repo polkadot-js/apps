@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { InputAddressMulti, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
@@ -13,7 +13,6 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   controllerId: string;
-  isOpen: boolean;
   next?: string[];
   nominees?: string[];
   onClose: () => void;
@@ -23,13 +22,11 @@ interface Props {
 
 const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, isOpen, next, nominees, onClose, stashId, validators }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, next, nominees, onClose, stashId, validators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [selection, setSelection] = useState<string[]>([]);
-  const [available, setAvailable] = useState<string[]>([]);
-
-  useEffect((): void => {
+  const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
       ...favorites.filter((acc) => (validators || []).includes(acc) || (next || []).includes(acc)),
@@ -37,16 +34,10 @@ function Nominate ({ className, controllerId, isOpen, next, nominees, onClose, s
       ...(nominees || []).filter((acc) => !favorites.includes(acc))
     ];
 
-    setAvailable([
-      ...shortlist,
-      ...(validators || []).filter((acc) => !shortlist.includes(acc)),
-      ...(next || []).filter((acc) => !shortlist.includes(acc))
-    ]);
-  }, [favorites, next, nominees, validators]);
-
-  if (!isOpen) {
-    return null;
-  }
+    return shortlist
+      .concat(...(validators || []).filter((acc) => !shortlist.includes(acc)))
+      .concat(...(next || []).filter((acc) => !shortlist.includes(acc)));
+  });
 
   return (
     <Modal
