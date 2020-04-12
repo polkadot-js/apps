@@ -1082,5 +1082,7 @@
   "tips": "",
   "finder": "",
   "fee": "",
-  "reason": ""
+  "reason": "",
+  "Nominations ({{count}})": "",
+  "priority {{index}}": ""
 }
