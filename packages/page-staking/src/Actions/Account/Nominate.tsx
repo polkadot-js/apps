@@ -14,7 +14,7 @@ interface Props {
   className?: string;
   controllerId: string;
   next?: string[];
-  nominees?: string[];
+  nominating?: string[];
   onClose: () => void;
   stashId: string;
   validators: string[];
@@ -22,7 +22,7 @@ interface Props {
 
 const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, next, nominees, onClose, stashId, validators }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, next, nominating, onClose, stashId, validators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [selection, setSelection] = useState<string[]>([]);
@@ -31,7 +31,7 @@ function Nominate ({ className, controllerId, next, nominees, onClose, stashId, 
       // ensure that the favorite is included in the list of stashes
       ...favorites.filter((acc) => (validators || []).includes(acc) || (next || []).includes(acc)),
       // make sure the nominee is not in our favorites already
-      ...(nominees || []).filter((acc) => !favorites.includes(acc))
+      ...(nominating || []).filter((acc) => !favorites.includes(acc))
     ];
 
     return shortlist
@@ -58,7 +58,7 @@ function Nominate ({ className, controllerId, next, nominees, onClose, stashId, 
         <InputAddressMulti
           available={available}
           availableLabel={t('candidate accounts')}
-          defaultValue={nominees}
+          defaultValue={nominating}
           help={t('Filter available candidates based on name, address or short account index.')}
           maxCount={MAX_NOMINEES}
           onChange={setSelection}
