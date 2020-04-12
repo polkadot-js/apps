@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
+import { LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps } from './types';
 
 import BN from 'bn.js';
@@ -76,6 +76,18 @@ const DEFAULT_PREFS = {
   unstakeThreshold: true,
   validatorPayment: true
 };
+
+function lookupLock (lookup: Record<string, string>, lockId: LockIdentifier): string {
+  const lockHex = lockId.toHex();
+
+  try {
+    const lockName = hexToString(lockHex);
+
+    return lookup[lockName] || lockName;
+  } catch (error) {
+    return lockHex;
+  }
+}
 
 // skip balances retrieval of none of this matches
 function skipBalancesIf ({ withBalance = true, withExtended = false }: Props): boolean {
@@ -213,6 +225,12 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
 
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount.isMax());
+  const lookup = {
+    democrac: t('via Democracy/Vote'),
+    phrelect: t('via Council/Vote'),
+    'staking ': t('via Staking/Bond'),
+    'vesting ': t('via Vesting')
+  };
 
   const allItems = (
     <>
@@ -261,7 +279,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
                   {amount.isMax()
                     ? t('everything')
                     : formatBalance(amount, { forceUnit: '-' })
-                  }{id && <div className='faded'>{hexToString(id.toHex())}</div>}<div className='faded'>{reasons.toString()}</div>
+                  }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
                 </div>
               ))}
               trigger={`${address}-locks-trigger`}
