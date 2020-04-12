@@ -111,5 +111,9 @@
   "{{blocks}} blocks": "{{blocks}} blocks",
   "Vote Aye": "Vote Aye",
   "Vote Nay": "Vote Nay",
-  "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}"
+  "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}",
+  "via Democracy/Vote": "via Democracy/Vote",
+  "via Council/Vote": "via Council/Vote",
+  "via Staking/Bond": "via Staking/Bond",
+  "via Vesting": "via Vesting"
 }
