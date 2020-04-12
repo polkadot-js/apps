@@ -216,7 +216,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
 
   const allItems = (
     <>
-      {balancesAll && balanceDisplay.total && (
+      {!withBalanceToggle && balancesAll && balanceDisplay.total && (
         <>
           <Label label={t('total')} />
           <FormatBalance
@@ -319,12 +319,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
   if (withBalanceToggle) {
     return (
       <>
-        <Expander summary={
-          <FormatBalance
-            className='summary'
-            value={balancesAll?.votingBalance}
-          />
-        }>
+        <Expander summary={<FormatBalance value={balancesAll?.votingBalance} />}>
           <div className='body column'>
             {allItems}
           </div>
@@ -402,12 +397,6 @@ export default withMulti(
 
       &.column--expander {
         width: 15rem;
-
-        .ui--Expander.isExpanded {
-          .summary {
-            opacity: 0;
-          }
-        }
 
         .ui--Expander {
           width: 100%;
