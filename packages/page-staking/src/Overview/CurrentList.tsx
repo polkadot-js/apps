@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Input, Table } from '@polkadot/react-components';
 import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
+import { Option, StorageKey } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
@@ -66,20 +67,49 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
+function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Record<string, [string, number][]> {
+  return nominations.reduce((mapped: Record<string, [string, number][]>, [key, optNoms]) => {
+    if (optNoms.isSome) {
+      const nominatorId = key.args[0].toString();
+
+      optNoms.unwrap().targets.forEach((_validatorId, index): void => {
+        const validatorId = _validatorId.toString();
+        const info: [string, number] = [nominatorId, index + 1];
+
+        if (!mapped[validatorId]) {
+          mapped[validatorId] = [info];
+        } else {
+          mapped[validatorId].push(info);
+        }
+      });
+    }
+
+    return mapped;
+  }, {});
+}
+
 function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints, lastBlockAuthors } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats, []);
+  const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries as any, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
+  const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
 
   useEffect((): void => {
     stakingOverview && setFiltered(
       getFiltered(stakingOverview, favorites, next)
     );
   }, [favorites, next, stakingOverview]);
+
+  useEffect((): void => {
+    nominators && setNominatedBy(
+      extractNominators(nominators)
+    );
+  }, [nominators]);
 
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
@@ -94,6 +124,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
           isMain={isMain}
           key={address}
           lastBlock={byAuthor[address]}
+          nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
           onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
@@ -101,7 +132,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
           toggleFavorite={toggleFavorite}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, recentlyOnline, setNominators, toggleFavorite]
+    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, setNominators, toggleFavorite]
   );
 
   return isIntentions
@@ -109,7 +140,10 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
       <Table
         empty={waiting && t('No waiting validators found')}
         header={[
-          [t('intentions'), 'start', 9]
+          [t('intentions'), 'start', 3],
+          [t('nominators'), 'start', 2],
+          [t('commission'), 'number', 1],
+          [undefined, undefined, 3]
         ]}
       >
         {_renderRows(elected, false).concat(..._renderRows(waiting, false))}

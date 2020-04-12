@@ -14,6 +14,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
 
 import Favorite from './Favorite';
+import NominatedBy from './NominatedBy';
 import Status from './Status';
 import StakeOther from './StakeOther';
 
@@ -27,6 +28,7 @@ interface Props {
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
+  nominatedBy?: [string, number][];
   onlineCount?: false | number;
   onlineMessage?: boolean;
   points?: string;
@@ -103,10 +105,10 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
-  const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query, [address]);
+  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
   const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
 
@@ -144,15 +146,20 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td className='address all'>
+      <td className={`address ${isMain ? 'all' : ''}`}>
         <AddressSmall value={address} />
       </td>
-      <StakeOther
-        nominators={nominators}
-        stakeOther={stakeOther}
-      />
+      {isMain
+        ? (
+          <StakeOther
+            nominators={nominators}
+            stakeOther={stakeOther}
+          />
+        )
+        : <NominatedBy nominators={nominatedBy} />
+      }
       <td className='number'>
-        {stakeOwn && (
+        {stakeOwn?.gtn(0) && (
           <FormatBalance value={stakeOwn} />
         )}
       </td>

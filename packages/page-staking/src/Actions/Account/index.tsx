@@ -48,7 +48,7 @@ interface StakeState {
   isOwnController: boolean;
   isStashNominating: boolean;
   isStashValidating: boolean;
-  nominees?: string[];
+  nominating?: string[];
   sessionIds: string[];
   stakingLedger?: StakingLedger;
   validatorPrefs?: ValidatorPrefs;
@@ -79,7 +79,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
     isStashNominating,
     isStashValidating,
     // we assume that all ids are non-null
-    nominees: nominators?.map(toIdString) as string[],
+    nominating: nominators?.map(toIdString) as string[],
     sessionIds: (
       nextSessionIds.length
         ? nextSessionIds
@@ -97,9 +97,9 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
-  const [{ controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, stakingLedger }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const [{ controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
-  const inactiveNoms = useInactives(stashId, nominees);
+  const inactiveNoms = useInactives(stashId, nominating);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -127,10 +127,10 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
   }, [allAccounts, allStashes, onUpdateType, stakingAccount, stashId, validateInfo]);
 
   useEffect((): void => {
-    nominees && setActiveNoms(
-      nominees.filter((id): boolean => !inactiveNoms.includes(id))
+    nominating && setActiveNoms(
+      nominating.filter((id): boolean => !inactiveNoms.includes(id))
     );
-  }, [inactiveNoms, nominees]);
+  }, [inactiveNoms, nominating]);
 
   return (
     <tr className={className}>
@@ -150,7 +150,7 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
             controllerId={controllerId}
             isOpen={isNominateOpen}
             next={next}
-            nominees={nominees}
+            nominating={nominating}
             onClose={toggleNominate}
             stashId={stashId}
             validators={validators}
