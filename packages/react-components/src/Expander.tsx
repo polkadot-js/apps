@@ -91,6 +91,10 @@ export default React.memo(styled(Expander)`
 
   &.isExpanded .ui--Expander-content {
     margin-top: 0.5rem;
+
+    .body.column {
+      justify-content: end;
+    }
   }
 
   &.hasContent .ui--Expander-summary {
