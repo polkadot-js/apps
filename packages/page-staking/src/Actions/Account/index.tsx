@@ -135,7 +135,17 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
   return (
     <tr className={className}>
       <td className='address'>
-        {controllerId && (
+        <AddressSmall value={stashId} />
+        {isBondExtraOpen && (
+          <BondExtra
+            onClose={toggleBondExtra}
+            stashId={stashId}
+          />
+        )}
+        {isInjectOpen && (
+          <InjectKeys onClose={toggleInject} />
+        )}
+        {isNominateOpen && controllerId && (
           <Nominate
             controllerId={controllerId}
             isOpen={isNominateOpen}
@@ -145,30 +155,6 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
             stashId={stashId}
             validators={validators}
           />
-        )}
-        {isUnbondOpen && (
-          <Unbond
-            controllerId={controllerId}
-            onClose={toggleUnbond}
-            stakingLedger={stakingLedger}
-            stashId={stashId}
-          />
-        )}
-        {isValidateOpen && controllerId && (
-          <Validate
-            controllerId={controllerId}
-            onClose={toggleValidate}
-            stashId={stashId}
-          />
-        )}
-        {isBondExtraOpen && (
-          <BondExtra
-            onClose={toggleBondExtra}
-            stashId={stashId}
-          />
-        )}
-        {isInjectOpen && (
-          <InjectKeys onClose={toggleInject} />
         )}
         {isSetControllerOpen && controllerId && (
           <SetControllerAccount
@@ -190,7 +176,21 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
             onClose={toggleSetSession}
           />
         )}
-        <AddressSmall value={stashId} />
+        {isUnbondOpen && (
+          <Unbond
+            controllerId={controllerId}
+            onClose={toggleUnbond}
+            stakingLedger={stakingLedger}
+            stashId={stashId}
+          />
+        )}
+        {isValidateOpen && controllerId && (
+          <Validate
+            controllerId={controllerId}
+            onClose={toggleValidate}
+            stashId={stashId}
+          />
+        )}
       </td>
       <td className='address'>
         <AddressMini value={controllerId} />
