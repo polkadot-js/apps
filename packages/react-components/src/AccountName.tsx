@@ -21,7 +21,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
   label?: React.ReactNode;
-  noName?: boolean;
+  noLookup?: boolean;
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
@@ -111,9 +111,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
     )
     : undefined;
 
-  nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
-
-  const element = (
+  const nameElem = (
     <div className='via-identity'>
       {
         displayParent
@@ -123,14 +121,15 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
     </div>
   );
 
-  displayCache.set(address, element);
+  nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
+  displayCache.set(address, nameElem);
 
-  return element;
+  return nameElem;
 }
 
-function AccountName ({ children, className, defaultName, label, noName, onClick, override, value, withMenu }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, value, withMenu }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info, [value]);
+  const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const [isMenuOpen, toggleIsMenuOpen] = useToggle();
 
