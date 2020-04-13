@@ -9,11 +9,12 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useCall, useApi, useRegistrars } from '@polkadot/react-hooks';
+import { useCall, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 import { getAddressName } from './util';
+import AddressMenu from './AddressMenu';
 import Badge from './Badge';
 import Icon from './Icon';
 
@@ -26,6 +27,7 @@ interface Props extends BareProps {
   // this is used by app-account/addresses to toggle editing
   toggle?: boolean;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
+  withMenu?: boolean;
 }
 
 const KNOWN: [AccountId, string][] = [
@@ -115,13 +117,14 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   );
 }
 
-function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withMenu = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar } = useRegistrars();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
   const address = useMemo((): string => (value || '').toString(), [value]);
   const [name, setName] = useState<React.ReactNode>((): React.ReactNode => extractName((value || '').toString(), undefined, defaultName));
+  const [isMenuOpen, toggleIsMenuOpen] = useToggle();
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
@@ -143,22 +146,34 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     }
   }, [api, address, defaultName, info, isRegistrar, t, toggle]);
 
-  return (
+  const node = (
     <div
-      className={`ui--AccountName ${className}`}
-      onClick={
-        override
-          ? undefined
-          : onClick
-      }
+      className={`ui--AccountName ${withMenu && 'withMenu'} ${className}`}
+      onClick={toggleIsMenuOpen}
       style={style}
     >
       {label || ''}{override || name}{children}
     </div>
   );
+
+  return withMenu
+    ? (
+      <AddressMenu
+        isOpen={isMenuOpen}
+        onClose={toggleIsMenuOpen}
+        value={value}
+      >
+        {node}
+      </AddressMenu>
+    )
+    : node;
 }
 
 export default React.memo(styled(AccountName)`
+  &.withMenu {
+    cursor: help !important;
+  }
+
   .via-identity {
     display: inline-block;
     vertical-align: bottom;

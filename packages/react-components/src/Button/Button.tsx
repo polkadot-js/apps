@@ -17,6 +17,7 @@ let idCounter = 0;
 function Button ({ children, className, floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
+    animate: 'fade',
     animated: isAnimated,
     basic: isBasic,
     circular: isCircular,

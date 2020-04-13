@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { BareProps } from '../types';
-
-export type Button$Sizes = 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive';
 
 export type Button$Callback = () => void | Promise<void>;
 
@@ -12,7 +11,7 @@ export interface ButtonProps extends BareProps {
   children?: React.ReactNode;
   floated?: 'left' | 'right';
   icon?: string;
-  isAnimated?: boolean;
+  isAnimated?: SUIButtonProps['animated'];
   isBasic?: boolean;
   isCircular?: boolean;
   isDisabled?: boolean;
@@ -28,7 +27,7 @@ export interface ButtonProps extends BareProps {
   onMouseEnter?: Button$Callback;
   onMouseLeave?: Button$Callback;
   ref?: any;
-  size?: Button$Sizes;
+  size?: SUIButtonProps['size'];
   tabIndex?: number;
   tooltip?: React.ReactNode;
 }

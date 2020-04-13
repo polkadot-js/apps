@@ -8,12 +8,11 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
+import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tag, Transfer } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
-import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -37,8 +36,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [genesisHash, setGenesisHash] = useState<string | null>(null);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingTags, setIsEditingTags] = useState(false);
   const [isForgetOpen, setIsForgetOpen] = useState(false);
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isTransferOpen, setIsTransferOpen] = useState(false);

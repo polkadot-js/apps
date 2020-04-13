@@ -25,6 +25,7 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> | null {
           key={who.toString()}
           value={who}
           withLockedVote
+          withMenu
         />
       )}
     </Expander>

@@ -9,7 +9,7 @@ import React from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
-import Transfer from '@polkadot/app-accounts/Accounts/modals/Transfer';
+// import Transfer from '@polkadot/app-accounts/Accounts/modals/Transfer';
 import polkascan from '@polkadot/apps-config/links/polkascan';
 
 import { classes } from './util';
@@ -24,6 +24,7 @@ import IconLink from './IconLink';
 import Input from './Input';
 import InputTags from './InputTags';
 import Popup from './Popup';
+import Transfer from './Transfer';
 
 import { useTranslation } from './translate';
 
@@ -478,6 +479,7 @@ function AddressMenu ({ children, className, isOpen, onClose, style, value }: Pr
         isOpen={isOpen}
         on='click'
         onClose={onClose}
+        position='bottom left'
         trigger={children}
       >
         {content}

@@ -8,12 +8,10 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { useToggle } from '@polkadot/react-hooks';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
 import { classes, toShortAddress } from './util';
 import AccountName from './AccountName';
-import AddressMenu from './AddressMenu';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
@@ -24,7 +22,6 @@ interface Props extends BareProps {
   bonded?: BN | BN[];
   children?: React.ReactNode;
   iconInfo?: React.ReactNode;
-  isFlex?: boolean;
   isPadded?: boolean;
   isShort?: boolean;
   label?: React.ReactNode;
@@ -40,30 +37,14 @@ interface Props extends BareProps {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isFlex, isPadded = true, label, labelBalance, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withMenu = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
-  const [isMenuOpen, toggleIsMenuOpen] = useToggle();
-
+function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, labelBalance, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withMenu = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
-  const info = (
-    <div className={classes('ui--AddressMini-info', withMenu && 'withMenu')}>
-      {withAddress && (
-        <div className='ui--AddressMini-address'>
-          {withName
-            ? <AccountName value={value} />
-            : toShortAddress(value)
-          }
-        </div>
-      )}
-      {children}
-    </div>
-  );
-
   return (
     <div
-      className={classes('ui--AddressMini', isFlex ? 'flex' : '', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}
+      className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}
       style={style}
     >
       {label && (
@@ -80,19 +61,20 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isFlex, 
           </div>
         )}
       </div>
-      {
-        withMenu
-          ? (
-            <AddressMenu
-              isOpen={isMenuOpen}
-              onClose={toggleIsMenuOpen}
-              value={value}
-            >
-              {info}
-            </AddressMenu>
-          )
-          : info
-      }
+      <div className='ui--AddressMini-info'>
+        {withAddress && (
+          <div className='ui--AddressMini-address'>
+            {withName
+              ? <AccountName
+                value={value}
+                withMenu={withMenu}
+              />
+              : toShortAddress(value)
+            }
+          </div>
+        )}
+        {children}
+      </div>
       <div className='ui--AddressMini-balances'>
         {withBalance && (
           <BalanceDisplay
@@ -132,22 +114,9 @@ export default React.memo(styled(AddressMini)`
     top: -0.2rem;
   }
 
-  &.flex {
-    padding: 0;
-  }
-
-  &:not(.flex) {
-    .ui--AddressMini-address {
-      max-width: 9rem;
-      min-width: 9rem;
-    }
-  }
-
-  .ui--AddressMini-info.withMenu {
-    cursor: help;
-  }
-
   .ui--AddressMini-address {
+    max-width: 9rem;
+    min-width: 9rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;

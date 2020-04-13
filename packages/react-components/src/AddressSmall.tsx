@@ -6,10 +6,8 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import { classes } from './util';
-import AddressMenu from './AddressMenu';
 import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
@@ -27,48 +25,27 @@ interface Props {
 }
 
 function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, value, withIndex, withMenu }: Props): React.ReactElement<Props> {
-  const [isMenuOpen, toggleIsMenuOpen] = useToggle();
-
-  const _onClickName = (): void => {
-    onClickName && onClickName();
-    toggleIsMenuOpen();
-  };
-
-  const name = (
-    <div className={classes('nameInfo', withMenu && 'withMenu')}>
-      <AccountName
-        className={(overrideName || !onClickName) ? '' : 'name--clickable'}
-        defaultName={defaultName}
-        onClick={_onClickName}
-        override={overrideName}
-        toggle={toggle}
-        value={value}
-      >
-        {children}
-      </AccountName>
-      {withIndex && (
-        <AccountIndex value={value} />
-      )}
-    </div>
-  );
-
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
         size={32}
         value={value as Uint8Array}
       />
-      {withMenu
-        ? (
-          <AddressMenu
-            isOpen={isMenuOpen}
-            onClose={toggleIsMenuOpen}
-            value={value}
-          >
-            {name}
-          </AddressMenu>
-        )
-        : name}
+      <div className={classes('nameInfo', withMenu && 'withMenu')}>
+        <AccountName
+          className={(overrideName || !onClickName) ? '' : 'name--clickable'}
+          defaultName={defaultName}
+          override={overrideName}
+          toggle={toggle}
+          value={value}
+          withMenu={withMenu}
+        >
+          {children}
+        </AccountName>
+        {withIndex && (
+          <AccountIndex value={value} />
+        )}
+      </div>
     </div>
   );
 }
