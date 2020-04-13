@@ -193,10 +193,7 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
         )}
       </td>
       <td className='address'>
-        <AddressMini
-          value={controllerId}
-          withMenu
-        />
+        <AddressMini value={controllerId} />
       </td>
       <td className='number'>{destination}</td>
       <td className='number'>
@@ -227,7 +224,6 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
                         value={nomineeId}
                         withBalance={false}
                         withBonded
-                        withMenu
                       />
                     ))}
                   </Expander>
@@ -240,7 +236,6 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
                         value={nomineeId}
                         withBalance={false}
                         withBonded
-                        withMenu
                       />
                     ))}
                   </Expander>

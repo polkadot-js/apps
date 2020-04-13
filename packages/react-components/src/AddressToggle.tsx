@@ -69,7 +69,6 @@ function AddressToggle ({ address, className, filter, isHidden, noName, noToggle
         className='ui--AddressToggle-address'
         noName={noName}
         value={address}
-        withMenu
       />
       {!noToggle && (
         <div className='ui--AddressToggle-toggle'>

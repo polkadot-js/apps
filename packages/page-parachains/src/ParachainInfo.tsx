@@ -34,8 +34,8 @@ function ParachainInfo ({ children, className, info, isBig }: Props): React.Reac
           )
       }
       isBig={isBig}
-      title={parachainName(t, info)}
       subtitle={parachainOwner(t, info)}
+      title={parachainName(t, info)}
     >
       {children}
     </AvatarItem>

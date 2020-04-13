@@ -6,13 +6,12 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useCall, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
+import { useCall, useApi, useToggle } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 
-import { useTranslation } from './translate';
 import { getAddressName } from './util';
 import AddressMenu from './AddressMenu';
 import Badge from './Badge';
@@ -129,38 +128,54 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return element;
 }
 
-function AccountName ({ children, className, defaultName, label, noName, override, toggle, value, withMenu }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function AccountName ({ children, className, defaultName, label, noName, onClick, override, value, withMenu }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const { isRegistrar } = useRegistrars(noName);
   const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const [isMenuOpen, toggleIsMenuOpen] = useToggle();
 
+  const _setName = useMemo(
+    (): () => void => {
+      return (): void => {
+        const { accountId, accountIndex, identity, nickname } = info || {};
+        const cacheAddr = (accountId || value || '').toString();
+
+        if (api.query.identity && api.query.identity.identityOf) {
+          setName(() =>
+            identity?.display
+              ? extractIdentity(cacheAddr, identity)
+              : extractName(cacheAddr, accountIndex)
+          );
+        } else if (nickname) {
+          nameCache.set(cacheAddr, [false, [nickname, null]]);
+
+          setName(nickname);
+        } else {
+          setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
+        }
+      };
+    },
+    [api, defaultName, info, value]
+  );
+
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
-    const { accountId, accountIndex, identity, nickname } = info || {};
-    const cacheAddr = (accountId || value || '').toString();
+    _setName();
+  }, [_setName]);
 
-    if (api.query.identity && api.query.identity.identityOf) {
-      setName(() =>
-        identity?.display
-          ? extractIdentity(cacheAddr, identity)
-          : extractName(cacheAddr, accountIndex)
-      );
-    } else if (nickname) {
-      nameCache.set(cacheAddr, [false, [nickname, null]]);
+  const onUpdateName = (): void => {
+    value && ((): void => {
+      displayCache.delete(value.toString());
+      nameCache.delete(value.toString());
 
-      setName(nickname);
-    } else {
-      setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
-    }
-  }, [api, defaultName, info, isRegistrar, t, toggle, value]);
+      _setName();
+    })();
+  };
 
   const node = (
     <div
       className={`ui--AccountName ${withMenu && 'withMenu'} ${className}`}
-      onClick={toggleIsMenuOpen}
+      onClick={withMenu ? toggleIsMenuOpen : onClick}
     >
       {label || ''}{override || name}{children}
     </div>
@@ -170,7 +185,9 @@ function AccountName ({ children, className, defaultName, label, noName, overrid
     ? (
       <AddressMenu
         isOpen={isMenuOpen}
+        nameDisplay={name}
         onClose={toggleIsMenuOpen}
+        onUpdateName={onUpdateName}
         value={value}
       >
         {node}

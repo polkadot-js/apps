@@ -19,7 +19,6 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
           key={address.toString()}
           value={address}
           withBalance={false}
-          withMenu
         />
       ))}
     </td>

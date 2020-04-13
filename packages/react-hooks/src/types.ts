@@ -79,7 +79,7 @@ export interface AddressFlags extends DeriveAccountFlags {
   isEditable: boolean;
   isExternal: boolean;
   isFavorite: boolean;
-  isInAddressBook: boolean;
+  isInContacts: boolean;
   isOwned: boolean;
 }
 

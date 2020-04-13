@@ -32,10 +32,7 @@ function Proposal ({ className, value: { balance, image, imageHash, index, propo
         proposal={image?.proposal}
       />
       <td className='address'>
-        <AddressMini
-          value={proposer}
-          withMenu
-        />
+        <AddressMini value={proposer} />
       </td>
       <td className='number together'>
         <FormatBalance value={balance} />
@@ -49,7 +46,6 @@ function Proposal ({ className, value: { balance, image, imageHash, index, propo
                 key={`${count}:${address}`}
                 value={address}
                 withBalance={false}
-                withMenu
                 withShrink
               />
             ))}

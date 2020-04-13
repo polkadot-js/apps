@@ -57,10 +57,7 @@ function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.Reac
               label={t('sudo key')}
               withLabel
             >
-              <AddressMini
-                value={sudoKey}
-                withMenu
-              />
+              <AddressMini value={sudoKey} />
             </Labelled>
           )
         }

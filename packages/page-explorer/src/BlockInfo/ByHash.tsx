@@ -52,10 +52,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
           <tr>
             <td className='address'>
               {getHeader.author && (
-                <AddressMini
-                  value={getHeader.author}
-                  withMenu
-                />
+                <AddressMini value={getHeader.author} />
               )}
             </td>
             <td className='hash overflow'>{getHeader.hash.toHex()}</td>

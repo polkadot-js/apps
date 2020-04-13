@@ -152,10 +152,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, t
         )}
       </td>
       <td className='address'>
-        <AddressSmall
-          value={address}
-          withMenu
-        />
+        <AddressSmall value={address} />
         {isBackupOpen && (
           <Backup
             address={address}

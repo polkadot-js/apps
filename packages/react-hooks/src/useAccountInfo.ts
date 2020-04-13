@@ -9,6 +9,7 @@ import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
+
 import useAccounts from './useAccounts';
 import useAddresses from './useAddresses';
 import useApi from './useApi';
@@ -21,7 +22,7 @@ const IS_NONE = {
   isEditable: false,
   isExternal: false,
   isFavorite: false,
-  isInAddressBook: false,
+  isInContacts: false,
   isOwned: false,
   isSociety: false,
   isSudo: false,
@@ -97,20 +98,20 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
   useEffect((): void => {
     const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
     const isOwned = isAccount(value);
-    const isInAddressBook = isAddress(value);
+    const isInContacts = isAddress(value);
 
     setGenesisHash(accountOrAddress?.meta.genesisHash || null);
     setFlags((flags) => ({
       ...flags,
       isDevelopment: accountOrAddress?.meta.isTesting || false,
-      isEditable: isInAddressBook || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)) || false,
+      isEditable: (!identity?.display && (isInContacts || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
       isExternal: accountOrAddress?.meta.isExternal || false,
-      isInAddressBook,
+      isInContacts,
       isOwned
     }));
     setTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
     setName(accountOrAddress?.meta.name || '');
-  }, [isAccount, isAddress, setTags, value]);
+  }, [identity, isAccount, isAddress, setTags, value]);
 
   const onSaveName = (): void => {
     if (isEditingName) {

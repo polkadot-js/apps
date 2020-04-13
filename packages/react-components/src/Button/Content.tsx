@@ -7,7 +7,7 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
 import { ContentProps as Props } from './types';
 
-export default function ButtonContent ({ children, visible, hidden }: Props): React.ReactElement<Props> {
+export default function ButtonContent ({ children, hidden, visible }: Props): React.ReactElement<Props> {
   return (
     <SUIButton.Content
       hidden={hidden}

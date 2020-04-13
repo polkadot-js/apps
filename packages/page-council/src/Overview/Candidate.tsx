@@ -24,10 +24,7 @@ function Candidate ({ address, balance, className, isPrime, voters }: Props): Re
   return (
     <tr className={className}>
       <td className='address'>
-        <AddressSmall
-          value={address}
-          withMenu
-        />
+        <AddressSmall value={address} />
       </td>
       <td>
         {isPrime && (

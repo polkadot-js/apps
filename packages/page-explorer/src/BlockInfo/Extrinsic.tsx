@@ -88,10 +88,7 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
         {value.isSigned
           ? (
             <>
-              <AddressMini
-                value={value.signer}
-                withMenu
-              />
+              <AddressMini value={value.signer} />
               <div className='explorer--BlockByHash-nonce'>
                 {t('index')} {formatNumber(value.nonce)}
               </div>

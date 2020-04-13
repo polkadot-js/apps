@@ -26,10 +26,7 @@ function External ({ className, value: { image, imageHash, threshold } }: Props)
       />
       <td className='address'>
         {image && (
-          <AddressMini
-            value={image.proposer}
-            withMenu
-          />
+          <AddressMini value={image.proposer} />
         )}
       </td>
       <td className='number'>

@@ -25,7 +25,6 @@ function ReferendumVote ({ vote: { accountId, balance, vote } }: Props): React.R
       labelBalance={voteLabel(vote)}
       value={accountId}
       withBalance
-      withMenu
     />
   );
 }
