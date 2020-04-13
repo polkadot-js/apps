@@ -4,8 +4,7 @@
 
 import { Route } from './types';
 
-// import Staking from '@polkadot/app-staking';
-import Staking, { useCounter } from '@polkadot/app-staking';
+import Staking from '@polkadot/app-staking';
 
 const route: Route = {
   Component: Staking,
@@ -18,8 +17,7 @@ const route: Route = {
     defaultValue: 'Staking'
   },
   icon: 'certificate',
-  name: 'staking',
-  useCounter
+  name: 'staking'
 };
 
 export default route;

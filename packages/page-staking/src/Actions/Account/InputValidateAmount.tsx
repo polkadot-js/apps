@@ -20,7 +20,7 @@ interface Props {
 function ValidateAmount ({ accountId, onError, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [accountId]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {

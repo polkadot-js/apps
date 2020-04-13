@@ -8,7 +8,6 @@ import BN from 'bn.js';
 import React from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
 
 interface Props {
   stakeOther?: BN;
@@ -21,9 +20,10 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
       {stakeOther?.gtn(0) && (
         <>
           <Expander summary={
-            <FormatBalance value={stakeOther}>
-              &nbsp;({formatNumber(nominators.length)})
-            </FormatBalance>
+            <FormatBalance
+              labelPost={` (${nominators.length})`}
+              value={stakeOther}
+            />
           }>
             {nominators.map(([who, bonded]): React.ReactNode =>
               <AddressMini

@@ -9,12 +9,12 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { AddressSmall, Icon } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
-import { formatNumber } from '@polkadot/util';
 
 import Favorite from './Favorite';
+import NominatedBy from './NominatedBy';
 import Status from './Status';
 import StakeOther from './StakeOther';
 
@@ -28,9 +28,10 @@ interface Props {
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
+  nominatedBy?: [string, number][];
   onlineCount?: false | number;
   onlineMessage?: boolean;
-  points?: false | number;
+  points?: string;
   setNominators?: false | ((nominators: string[]) => void);
   toggleFavorite: (accountId: string) => void;
 }
@@ -42,6 +43,10 @@ interface StakingState {
   stakeOther?: BN;
   stakeOwn?: BN;
 }
+
+/* stylelint-disable */
+const PERBILL_PERCENT = 10_000_000;
+/* stylelint-enable */
 
 function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
   let nominators: [string, Balance][] = [];
@@ -60,7 +65,7 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
 
   return {
     commission: commission
-      ? `${(commission.toNumber() / 10_000_000).toFixed(2)}%`
+      ? `${(commission.toNumber() / PERBILL_PERCENT).toFixed(2)}%`
       : undefined,
     nominators,
     stakeOther,
@@ -100,12 +105,14 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
-  const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query as any, [address]);
+  const { allAccounts } = useAccounts();
+  const accountInfo = useCall<DeriveAccountInfo>(isMain && api.derive.accounts.info, [address]);
+  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
   const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
+  const [isNominating, setIsNominating] = useState(false);
 
   useEffect((): void => {
     if (stakingInfo) {
@@ -122,6 +129,13 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
     );
   }, [api, accountInfo, address, filterName]);
 
+  useEffect((): void => {
+    !isMain && setIsNominating(
+      allAccounts.includes(address) ||
+      (nominatedBy || []).some(([address]) => allAccounts.includes(address))
+    );
+  }, [address, allAccounts, isMain, nominatedBy]);
+
   const _onQueryStats = useCallback(
     (): void => {
       window.location.hash = `/staking/query/${address}`;
@@ -130,7 +144,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
   );
 
   return (
-    <tr className={`${className} ${isAuthor && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
+    <tr className={`${className} ${(isAuthor || isNominating) && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
       <Favorite
         address={address}
         isFavorite={isFavorite}
@@ -141,18 +155,23 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td className='address all'>
+      <td className='address'>
         <AddressSmall
           value={address}
           withMenu
         />
       </td>
-      <StakeOther
-        nominators={nominators}
-        stakeOther={stakeOther}
-      />
+      {isMain
+        ? (
+          <StakeOther
+            nominators={nominators}
+            stakeOther={stakeOther}
+          />
+        )
+        : <NominatedBy nominators={nominatedBy} />
+      }
       <td className='number'>
-        {stakeOwn && (
+        {stakeOwn?.gtn(0) && (
           <FormatBalance value={stakeOwn} />
         )}
       </td>
@@ -160,7 +179,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         {commission}
       </td>
       <td className='number'>
-        {points && formatNumber(points)}
+        {points}
       </td>
       <td className='number'>
         {lastBlock}

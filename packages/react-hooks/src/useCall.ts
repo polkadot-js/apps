@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
 import { CallOptions, CallParam, CallParams } from './types';
 
 import { useEffect, useRef, useState } from 'react';
@@ -10,17 +9,10 @@ import { isNull, isUndefined } from '@polkadot/util';
 
 import useIsMountedRef, { MountedRef } from './useIsMountedRef';
 
-interface TrackFnCallback {
-  (value: Codec): void;
-}
-
 type TrackFnResult = Promise<() => void>;
 
 interface TrackFn {
-  (a: CallParam, b: CallParam, c: CallParam, cb: TrackFnCallback): TrackFnResult;
-  (a: CallParam, b: CallParam, cb: TrackFnCallback): TrackFnResult;
-  (a: CallParam, cb: TrackFnCallback): TrackFnResult;
-  (cb: TrackFnCallback): TrackFnResult;
+  (...params: CallParam[]): TrackFnResult;
   meta?: {
     type: {
       isDoubleMap: boolean;

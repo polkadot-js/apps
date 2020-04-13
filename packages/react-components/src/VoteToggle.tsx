@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useMemo } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 
-import Dropdown from './Dropdown';
+import Toggle from './Toggle';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -15,21 +16,21 @@ interface Props {
 
 function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const voteOpts = useMemo(() => [
-    { text: t('Aye, I approve'), value: true },
-    { text: t('Nay, I do not approve'), value: false }
-  ], [t]);
 
   return (
-    <Dropdown
-      className={className}
-      help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
-      label={t('record my vote as')}
+    <Toggle
+      className={`${className}`}
+      label={value
+        ? t('Aye, I approve')
+        : t('Nay, I do not approve')
+      }
       onChange={onChange}
-      options={voteOpts}
       value={value}
     />
   );
 }
 
-export default React.memo(VoteToggle);
+export default React.memo(styled(VoteToggle)`
+  margin: 0.5rem;
+  text-align: right;
+`);

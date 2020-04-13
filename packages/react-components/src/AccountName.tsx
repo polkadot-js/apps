@@ -6,7 +6,7 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { useCall, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
@@ -22,6 +22,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
   label?: React.ReactNode;
+  noName?: boolean;
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
@@ -35,6 +36,7 @@ const KNOWN: [AccountId, string][] = [
   [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
 ];
 
+const displayCache: Map<string, React.ReactNode> = new Map();
 const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
@@ -68,6 +70,12 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
 }
 
 function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
+  const displayCached = displayCache.get(address);
+
+  if (displayCached) {
+    return displayCached;
+  }
+
   const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
@@ -106,7 +114,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
 
-  return (
+  const element = (
     <div className='via-identity'>
       {
         displayParent
@@ -115,24 +123,27 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
       }
     </div>
   );
+
+  displayCache.set(address, element);
+
+  return element;
 }
 
-function AccountName ({ children, className, defaultName, label, onClick, override, style, toggle, value, withMenu = false }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noName, override, toggle, value, withMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isRegistrar } = useRegistrars();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const address = useMemo((): string => (value || '').toString(), [value]);
-  const [name, setName] = useState<React.ReactNode>((): React.ReactNode => extractName((value || '').toString(), undefined, defaultName));
+  const { isRegistrar } = useRegistrars(noName);
+  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info, [value]);
+  const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const [isMenuOpen, toggleIsMenuOpen] = useToggle();
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
-    const cacheAddr = (accountId || address).toString();
+    const cacheAddr = (accountId || value || '').toString();
 
     if (api.query.identity && api.query.identity.identityOf) {
-      setName((): React.ReactNode =>
+      setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)
           : extractName(cacheAddr, accountIndex)
@@ -144,13 +155,12 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
     }
-  }, [api, address, defaultName, info, isRegistrar, t, toggle]);
+  }, [api, defaultName, info, isRegistrar, t, toggle, value]);
 
   const node = (
     <div
       className={`ui--AccountName ${withMenu && 'withMenu'} ${className}`}
       onClick={toggleIsMenuOpen}
-      style={style}
     >
       {label || ''}{override || name}{children}
     </div>

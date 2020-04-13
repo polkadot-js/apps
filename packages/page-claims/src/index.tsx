@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-123code authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -64,11 +63,11 @@ const Signature = styled.textarea`
     color: rgba(0, 0, 0, 0.5);
   }
 
-  &:-ms-input-placeholder {
+  &::-ms-input-placeholder {
     color: rgba(0, 0, 0, 0.5);
   }
 
-  &::-ms-input-placeholder {
+  &:-ms-input-placeholder {
     color: rgba(0, 0, 0, 0.5);
   }
 `;

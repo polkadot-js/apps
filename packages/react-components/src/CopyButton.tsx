@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import StatusContext from './Status/Context';
@@ -24,14 +24,17 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
-  const _onCopy = (): void => {
-    isAddress && queueAction && queueAction({
-      account: value,
-      action: t('clipboard'),
-      message: t('address copied'),
-      status: 'queued'
-    });
-  };
+  const _onCopy = useCallback(
+    (): void => {
+      isAddress && queueAction && queueAction({
+        account: value,
+        action: t('clipboard'),
+        message: t('address copied'),
+        status: 'queued'
+      });
+    },
+    [isAddress, queueAction, t, value]
+  );
 
   return (
     <div className={className}>

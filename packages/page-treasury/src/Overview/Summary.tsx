@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -23,9 +23,9 @@ interface Props {
 function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber as any, []);
+  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber, []);
   const spendPeriod = api.consts.treasury.spendPeriod;
-  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account as any, [TREASURY_ACCOUNT]);
+  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
 
   const value = treasuryBalance?.freeBalance.gtn(0)
     ? treasuryBalance.freeBalance.toString()

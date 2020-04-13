@@ -158,5 +158,9 @@
   "type": "type",
   "accounts": "accounts",
   "contacts": "contacts",
-  "tags": "tags"
+  "tags": "tags",
+  "No matches found": "No matches found",
+  "matches": "matches",
+  "secret": "secret",
+  "parent": "parent"
 }

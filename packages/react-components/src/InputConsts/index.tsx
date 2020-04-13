@@ -6,7 +6,7 @@ import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { DropdownOptions } from '../util/types';
 import { ConstValue, ConstValueBase } from './types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -46,29 +46,35 @@ function InputConsts ({ className, defaultValue, help, label, onChange, style, w
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<ConstValue>(getValue(api, defaultValue));
 
-  const _onKeyChange = (newValue: ConstValueBase): void => {
-    if (value.section === newValue.section && value.method === newValue.method) {
-      return;
-    }
+  const _onKeyChange = useCallback(
+    (newValue: ConstValueBase): void => {
+      if (value.section === newValue.section && value.method === newValue.method) {
+        return;
+      }
 
-    const { method, section } = newValue;
-    const meta = (api.consts[section][method] as ConstantCodec).meta;
-    const updated = { meta, method, section };
+      const { method, section } = newValue;
+      const meta = (api.consts[section][method] as ConstantCodec).meta;
+      const updated = { meta, method, section };
 
-    setValue(updated);
-    onChange && onChange(updated);
-  };
+      setValue(updated);
+      onChange && onChange(updated);
+    },
+    [api, onChange, value]
+  );
 
-  const _onSectionChange = (section: string): void => {
-    if (section === value.section) {
-      return;
-    }
+  const _onSectionChange = useCallback(
+    (section: string): void => {
+      if (section === value.section) {
+        return;
+      }
 
-    const optionsMethod = keyOptions(api, section);
+      const optionsMethod = keyOptions(api, section);
 
-    setOptionsMethod(optionsMethod);
-    _onKeyChange({ method: optionsMethod[0].value, section });
-  };
+      setOptionsMethod(optionsMethod);
+      _onKeyChange({ method: optionsMethod[0].value, section });
+    },
+    [_onKeyChange, api, value]
+  );
 
   return (
     <LinkedWrapper

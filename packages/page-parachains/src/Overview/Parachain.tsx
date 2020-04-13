@@ -4,7 +4,7 @@
 
 import { DeriveParachain } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Badge, Icon } from '@polkadot/react-components';
@@ -21,9 +21,12 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
   const { t } = useTranslation();
   const history = useHistory();
 
-  const _onClick = (): void => {
-    history.push(`/parachains/${id.toString()}`);
-  };
+  const _onClick = useCallback(
+    (): void => {
+      history.push(`/parachains/${id.toString()}`);
+    },
+    [history, id]
+  );
 
   return (
     <tr

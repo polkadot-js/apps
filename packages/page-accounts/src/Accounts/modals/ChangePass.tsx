@@ -2,71 +2,83 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-
-import React from 'react';
-import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
+import React, { useCallback, useState } from 'react';
+import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   address: string;
   onClose: () => void;
 }
 
-interface State {
+interface NewPass {
   isNewValid: boolean;
-  isOldValid: boolean;
   newPass: string;
+}
+
+interface OldPass {
+  isOldValid: boolean;
   oldPass: string;
 }
 
-class ChangePass extends TxComponent<Props, State> {
-  public state: State = {
-    isNewValid: false,
-    isOldValid: false,
-    newPass: '',
-    oldPass: ''
-  };
+function ChangePass ({ address, className, onClose }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [{ isNewValid, newPass }, setNewPass] = useState<NewPass>({ isNewValid: false, newPass: '' });
+  const [{ isOldValid, oldPass }, setOldPass] = useState<OldPass>({ isOldValid: false, oldPass: '' });
 
-  public render (): React.ReactNode {
-    const { t } = this.props;
+  const _onChangeNew = useCallback(
+    (newPass: string) =>
+      setNewPass({ isNewValid: keyring.isPassValid(newPass), newPass }),
+    []
+  );
 
-    return (
-      <Modal
-        className='app--accounts-Modal'
-        header={t('Change account password')}
-      >
-        {this.renderContent()}
-        {this.renderButtons()}
-      </Modal>
-    );
-  }
+  const _onChangeOld = useCallback(
+    (oldPass: string) =>
+      setOldPass({ isOldValid: keyring.isPassValid(oldPass), oldPass }),
+    []
+  );
 
-  private renderButtons (): React.ReactNode {
-    const { onClose, t } = this.props;
-    const { isNewValid, isOldValid } = this.state;
+  const _doChange = useCallback(
+    (): void => {
+      const account = address && keyring.getPair(address);
 
-    return (
-      <Modal.Actions onCancel={onClose}>
-        <Button
-          icon='sign-in'
-          isDisabled={!isNewValid || !isOldValid}
-          isPrimary
-          label={t('Change')}
-          onClick={this.doChange}
-        />
-      </Modal.Actions>
-    );
-  }
+      if (!account) {
+        return;
+      }
 
-  private renderContent (): React.ReactNode {
-    const { address, t } = this.props;
-    const { isNewValid, isOldValid, newPass, oldPass } = this.state;
+      try {
+        if (!account.isLocked) {
+          account.lock();
+        }
 
-    return (
+        account.decodePkcs8(oldPass);
+      } catch (error) {
+        setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
+
+        return;
+      }
+
+      try {
+        keyring.encryptAccount(account, newPass);
+      } catch (error) {
+        setNewPass((state: NewPass) => ({ ...state, isNewValid: false }));
+
+        return;
+      }
+
+      onClose();
+    },
+    [address, newPass, oldPass, onClose]
+  );
+
+  return (
+    <Modal
+      className={`${className} app--accounts-Modal`}
+      header={t('Change account password')}
+    >
       <Modal.Content>
         <AddressRow
           isInline
@@ -79,7 +91,7 @@ class ChangePass extends TxComponent<Props, State> {
               help={t('The existing account password as specified when this account was created or when it was last changed.')}
               isError={!isOldValid}
               label={t('your current password')}
-              onChange={this.onChangeOld}
+              onChange={_onChangeOld}
               tabIndex={1}
               value={oldPass}
             />
@@ -87,84 +99,25 @@ class ChangePass extends TxComponent<Props, State> {
               help={t('The new account password. Once set, all future account unlocks will be performed with this new password.')}
               isError={!isNewValid}
               label={t('your new password')}
-              onChange={this.onChangeNew}
-              onEnter={this.submit}
+              onChange={_onChangeNew}
+              onEnter={_doChange}
               tabIndex={2}
               value={newPass}
             />
           </div>
         </AddressRow>
       </Modal.Content>
-    );
-  }
-
-  private doChange = (): void => {
-    const { address, onClose, t } = this.props;
-    const { newPass, oldPass } = this.state;
-    const status: Partial<ActionStatus> = {
-      action: 'changePassword'
-    };
-
-    try {
-      const account = address && keyring.getPair(address);
-
-      if (!account) {
-        status.message = t(`No keypair found for this address ${address}`);
-
-        return;
-      }
-
-      try {
-        if (!account.isLocked) {
-          account.lock();
-        }
-
-        account.decodePkcs8(oldPass);
-      } catch (error) {
-        this.setState({ isOldValid: false });
-        status.message = error.message;
-
-        return;
-      }
-
-      try {
-        keyring.encryptAccount(account, newPass);
-        status.account = address;
-        status.status = 'success';
-        status.message = t('password changed');
-      } catch (error) {
-        this.setState({ isNewValid: false });
-        status.status = 'error';
-        status.message = error.message;
-
-        return;
-      }
-    } catch (error) {
-      status.message = error.message;
-
-      return;
-    }
-
-    onClose();
-  }
-
-  private onChangeNew = (newPass: string): void => {
-    this.setState({
-      isNewValid: this.validatePass(newPass),
-      newPass
-    });
-  }
-
-  private onChangeOld = (oldPass: string): void => {
-    this.setState({
-      isOldValid: this.validatePass(oldPass),
-      oldPass
-    });
-  }
-
-  private validatePass (password: string): boolean {
-    return keyring.isPassValid(password);
-  }
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='sign-in'
+          isDisabled={!isNewValid || !isOldValid}
+          isPrimary
+          label={t('Change')}
+          onClick={_doChange}
+        />
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default translate(ChangePass);
+export default React.memo(ChangePass);

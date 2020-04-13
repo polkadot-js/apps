@@ -21,6 +21,7 @@ export interface Props extends BareProps {
   isOpen?: boolean;
   summary?: React.ReactNode;
   summaryMeta?: Meta;
+  summarySub?: React.ReactNode;
   withDot?: boolean;
   withHidden?: boolean;
 }
@@ -38,7 +39,7 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
     : strings.slice(0, firstEmpty).join(' ');
 }
 
-function Expander ({ children, className, isOpen, summary, summaryMeta, withDot, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className, isOpen, summary, summaryMeta, summarySub, withDot, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen);
   const headerMain = useMemo(
@@ -46,8 +47,8 @@ function Expander ({ children, className, isOpen, summary, summaryMeta, withDot,
     [summary, summaryMeta]
   );
   const headerSub = useMemo(
-    () => summary ? formatMeta(summaryMeta) : null,
-    [summary, summaryMeta]
+    () => summary ? (formatMeta(summaryMeta) || summarySub) : null,
+    [summary, summaryMeta, summarySub]
   );
   const hasContent = useMemo(
     (): boolean => !!children && (!Array.isArray(children) || children.length !== 0),
@@ -90,6 +91,10 @@ export default React.memo(styled(Expander)`
 
   &.isExpanded .ui--Expander-content {
     margin-top: 0.5rem;
+
+    .body.column {
+      justify-content: end;
+    }
   }
 
   &.hasContent .ui--Expander-summary {
@@ -100,6 +105,10 @@ export default React.memo(styled(Expander)`
     margin: 0;
     min-width: 12rem;
     overflow: hidden;
+
+    .ui--Expander-summary-header > .ui--FormatBalance {
+      min-width: 12rem;
+    }
 
     > div {
       overflow: hidden;

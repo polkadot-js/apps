@@ -6,7 +6,7 @@ import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tag, Transfer } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -30,8 +30,8 @@ const isEditable = true;
 function Address ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [address]);
-  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all as any, [address]);
+  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const [tags, setTags] = useState<string[]>([]);
   const [accName, setAccName] = useState('');
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
@@ -41,7 +41,10 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   const [isTransferOpen, setIsTransferOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
-  const _setTags = (tags: string[]): void => setTags(tags.sort());
+  const _setTags = useCallback(
+    (tags: string[]): void => setTags(tags.sort()),
+    []
+  );
 
   useEffect((): void => {
     const current = keyring.getAddress(address);
@@ -68,7 +71,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
 
     _setTags(account?.meta?.tags || []);
     setAccName(account?.meta?.name || '');
-  }, [address]);
+  }, [_setTags, address]);
 
   useEffect((): void => {
     if (filter.length === 0) {
@@ -83,6 +86,24 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       );
     }
   }, [accName, filter, tags]);
+
+  const _onGenesisChange = useCallback(
+    (genesisHash: string | null): void => {
+      setGenesisHash(genesisHash);
+
+      const account = keyring.getAddress(address);
+
+      account && keyring.saveAddress(address, { ...account.meta, genesisHash });
+
+      setGenesisHash(genesisHash);
+    },
+    [address]
+  );
+
+  const _onFavorite = useCallback(
+    (): void => toggleFavorite(address),
+    [address, toggleFavorite]
+  );
 
   if (!isVisible) {
     return null;
@@ -109,18 +130,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       }
     }
   };
-
-  const _onGenesisChange = (genesisHash: string | null): void => {
-    setGenesisHash(genesisHash);
-
-    const account = keyring.getAddress(address);
-
-    account && keyring.saveAddress(address, { ...account.meta, genesisHash });
-
-    setGenesisHash(genesisHash);
-  };
-
-  const _onFavorite = (): void => toggleFavorite(address);
 
   return (
     <tr className={className}>

@@ -19,8 +19,6 @@ import { useTranslation } from '../translate';
 import Summary from './Summary';
 import Validator from './Validator';
 
-const PERBILL = new BN(1_000_000_000);
-
 interface Props {
   className?: string;
 }
@@ -33,6 +31,8 @@ interface AllInfo {
 }
 
 type SortBy = 'rankOverall' | 'rankBondOwn' | 'rankBondOther' | 'rankBondTotal' | 'rankComm';
+
+const PERBILL = new BN(1_000_000_000);
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
@@ -171,7 +171,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const lastEra = useCall<BN>(api.derive.session.indexes as any, [], {
+  const lastEra = useCall<BN>(api.derive.session.indexes, [], {
     defaultValue: new BN(0),
     transform: ({ activeEra }: DeriveSessionIndexes) =>
       activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)

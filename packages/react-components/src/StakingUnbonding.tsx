@@ -29,7 +29,7 @@ function remainingBlocks (remainingEras: BN, { eraLength, eraProgress }: DeriveS
 
 function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress as any, []);
+  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress, []);
   const { t } = useTranslation();
 
   if (!stakingInfo?.unlocking || !progress) {
@@ -74,8 +74,14 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(StakingUnbonding)`
+  white-space: nowrap;
+
   i.icon {
     margin-left: 0.25rem;
     margin-right: 0;
+  }
+
+  .ui--FormatBalance {
+    display: inline-block;
   }
 `);

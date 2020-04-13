@@ -83,7 +83,7 @@ export default React.memo(styled(LinkExternal)`
 
   > div {
     display: block;
-    whitespace: nowrap;
+    white-space: nowrap;
 
     > span+span {
       margin-left: 0.3rem;

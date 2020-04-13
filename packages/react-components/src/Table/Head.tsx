@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
+import styled from 'styled-components';
 
 interface Props {
   className?: string;
@@ -41,4 +42,41 @@ function Head ({ className, filter, header, isEmpty }: Props): React.ReactElemen
   );
 }
 
-export default React.memo(Head);
+export default React.memo(styled(Head)`
+  th {
+    color: rgba(78, 78, 78, .66);
+    font-family: sans-serif;
+    font-weight: 100;
+    padding: 0.75rem 1rem 0.25rem;
+    text-align: right;
+    vertical-align: baseline;
+    white-space: nowrap;
+
+    h1, h2 {
+      font-size: 1.75rem;
+    }
+
+    &.address {
+      padding-left: 3rem;
+      text-align: left;
+    }
+
+    &.isClickable {
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    &.start {
+      text-align: left;
+    }
+  }
+
+  tr {
+    background: transparent;
+    text-transform: lowercase;
+
+    &.filter th {
+      padding: 0;
+    }
+  }
+`);

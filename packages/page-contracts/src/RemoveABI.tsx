@@ -4,7 +4,7 @@
 
 import { CodeStored } from '@polkadot/app-contracts/types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, Modal } from '@polkadot/react-components';
 
 import CodeRow from './CodeRow';
@@ -19,10 +19,13 @@ interface Props {
 function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const _onRemove = (): void => {
-    onClose && onClose();
-    onRemove();
-  };
+  const _onRemove = useCallback(
+    (): void => {
+      onClose && onClose();
+      onRemove();
+    },
+    [onClose, onRemove]
+  );
 
   return (
     <Modal

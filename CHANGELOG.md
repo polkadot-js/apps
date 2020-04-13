@@ -1,4 +1,38 @@
-# 0.39.1
+# 0.40.1 Apr 9, 2020
+
+- Swap voting to aye/nay toggles (Thanks to https://github.com/Lowhearth)
+- Cater for chains where no tp is present (Thanks to https://github.com/Sushisource)
+- Export chain-specific settings via QR (thanks to https://github.com/hanwencheng)
+- Improve support for WS_URL usage (Thanks to https://github.com/chevdor)
+- Add out-of-the-box support for Centrifuge (Thanks to https://github.com/philipstanislaus)
+- Cleanup docker image construction (Thanks to https://github.com/philipstanislaus)
+- Add out-of-the-box support for node template (Thanks to https://github.com/JoshOrndorff)
+- Text cleanups (Thanks to https://github.com/x5engine)
+- Text cleanups (Thanks to https://github.com/ltfschoen)
+- update Parachains to support latest Polkadot (Thanks to https://github.com/kwingram25)
+- Rework multi address inputs (e.g. nominations & council) (Thanks to https://github.com/kwingram25)
+- Introduce apps-config as a single source of config information
+- Cater for metadata updates to extensions
+- Rework explorer layouts, combining extrinsics & events into a single view
+- Swap all layouts to be explicitly table-based (instead of table-like)
+- Cater for latest Substrate referendum updates
+- Allow for fast-tracking proposals
+- Time countdowns where applicable, e.g. referendums
+- Show referendum pass/fail status as well as change information
+- Combine Accounts & Contacts into a single app
+- Support for display of parent/child relationships in accounts
+- Add ErrorBoundary around components
+- Update Westend after reset
+- Enable Subscan explorer
+- Support for simple payouts on Substrate, with Payouts screen
+- Extensive use of useCallback & React.memo for functional components
+- Add Expander component for consistent UI
+- Loading spinners used consistently
+- Specific names for society & treasury addresses
+- Cleanup all voting lock, consistent display
+- ... loads of other under-the-hood improvements and cleanups
+
+# 0.39.1 Jan 31, 2020
 
 - **Breaking** Drop support for V1 Substrate chains
 - Translation into Chinese (Thanks to https://github.com/dushaobindoudou)
@@ -34,7 +68,7 @@
 # 0.37.1
 
 - Support for Kusama CC3
-- Support for contracts with new ABI v2 (Thanks to @kwingram25)
+- Support for contracts with new ABI v2 (Thanks to https://github.com/kwingram25)
 - Support for on-chain nicks
 - Speed improvements for the staking pages
 - Add account derivation from existing account
