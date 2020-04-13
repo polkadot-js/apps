@@ -23,7 +23,7 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   defaultName?: string;
   label?: React.ReactNode;
-  noName?: boolean;
+  noLookup?: boolean;
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
@@ -98,12 +98,39 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   );
 }
 
+function createIdElem (badgeType: 'green' | 'brown' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode, hoverElem?: React.ReactNode, onJudge?: undefined | (() => void)): React.ReactNode {
+  return (
+    <div className='via-identity'>
+      <Badge
+        hover={hoverElem}
+        info={infoElem}
+        isInline
+        isSmall
+        isTooltip
+        onClick={onJudge}
+        type={badgeType}
+      />
+      {nameElem}
+    </div>
+  );
+}
+
 function extractIdentity (address: string, identity: DeriveAccountRegistration, onJudge: undefined | (() => void), t: (key: string, opts?: object) => string): React.ReactNode {
   const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
   const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
   const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
   const waitCount = identity.judgements.length - judgements.length;
-  const hover = (
+  const displayName = isGood
+    ? identity.display
+    : (identity.display || '').replace(/[^\x20-\x7E]/g, '');
+  const displayParent = identity.displayParent
+    ? (
+      isGood
+        ? identity.displayParent
+        : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
+    )
+    : undefined;
+  const hoverElem = (
     <div>
       <div>
         {
@@ -140,56 +167,24 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
       </table>
     </div>
   );
-
-  const displayName = isGood
-    ? identity.display
-    : (identity.display || '').replace(/[^\x20-\x7E]/g, '');
-  const displayParent = identity.displayParent
-    ? (
-      isGood
-        ? identity.displayParent
-        : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
-    )
-    : undefined;
+  const nameElem = displayParent
+    ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
+    : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>;
+  const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
+  const badgeType = isGood ? 'green' : (isBad ? 'brown' : 'gray');
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
+  displayCache.set(address, createIdElem(badgeType, nameElem, infoElem));
 
-  const element = (
-    <div className='via-identity'>
-      <Badge
-        hover={hover}
-        info={<Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />}
-        isInline
-        isSmall
-        isTooltip
-        onClick={onJudge}
-        type={
-          isGood
-            ? 'green'
-            : isBad
-              ? 'brown'
-              : 'gray'
-        }
-      />
-      {
-        displayParent
-          ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
-          : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
-      }
-    </div>
-  );
-
-  displayCache.set(address, element);
-
-  return element;
+  return createIdElem(badgeType, nameElem, infoElem, hoverElem, onJudge);
 }
 
-function AccountName ({ children, className, defaultName, label, noName, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isRegistrar, registrars } = useRegistrars(noName);
+  const { isRegistrar, registrars } = useRegistrars(noLookup);
   const [isJudgementOpen, toggleJudgement] = useToggle();
-  const info = useCall<DeriveAccountInfo>(!noName && api.derive.accounts.info, [value]);
+  const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
 
   // set the actual nickname, local name, accountIndex, accountId
