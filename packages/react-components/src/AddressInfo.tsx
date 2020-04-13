@@ -266,13 +266,15 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
           <Label label={t('locked')} />
           <FormatBalance
             className='result'
+            label={
+              <Icon
+                data-for={`${address}-locks-trigger`}
+                data-tip
+                name='info circle'
+              />
+            }
             value={isAllLocked ? 'all' : balancesAll.lockedBalance}
           >
-            <Icon
-              data-for={`${address}-locks-trigger`}
-              data-tip
-              name='info circle'
-            />
             <Tooltip
               text={balancesAll.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
                 <div key={index}>
@@ -447,8 +449,8 @@ export default withMulti(
           grid-column: 2;
 
           .icon {
-            margin-left: .3em;
-            margin-right: 0;
+            margin-left: 0;
+            margin-right: 0.25rem;
             padding-right: 0 !important;
           }
         }
