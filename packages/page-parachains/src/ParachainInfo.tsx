@@ -40,31 +40,6 @@ function ParachainInfo ({ children, className, info, isBig }: Props): React.Reac
       {children}
     </AvatarItem>
   );
-
-  // return (
-  //   <div className={[className, isBig ? 'big' : ''].join(' ')}>
-  //     <div className='chain-icon'>
-  //       {
-  //         info?.icon
-  //           ? (
-  //             <img src={info.icon} />
-  //           )
-  //           : (
-  //             <i className='icon chain fitted' />
-  //           )
-  //       }
-  //     </div>
-  //     <div className='details'>
-  //       <div className='name'>
-  //         {parachainName(t, info)}
-  //       </div>
-  //       <div className='owner'>
-  //         {parachainOwner(t, info)}
-  //       </div>
-  //     </div>
-  //     {children}
-  //   </div>
-  // );
 }
 
 export default React.memo(styled(ParachainInfo)`

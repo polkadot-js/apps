@@ -49,10 +49,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, t
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
-  // const [tags, setTags] = useState<string[]>([]);
-  // const [accName, setAccName] = useState('');
-  // const [genesisHash, setGenesisHash] = useState<string | null>(null);
-  // const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
+
   const { genesisHash, isDevelopment, isEditable, isExternal, name: accName, onSaveGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
