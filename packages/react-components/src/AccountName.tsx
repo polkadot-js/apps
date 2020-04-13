@@ -6,10 +6,10 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useCall, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
+import { useAccountSidebar, useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -179,9 +179,10 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration, 
   return createIdElem(badgeType, nameElem, infoElem, hoverElem, onJudge);
 }
 
-function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noLookup, override, toggle, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const toggleSidebar = useAccountSidebar();
   const { isRegistrar, registrars } = useRegistrars(noLookup);
   const [isJudgementOpen, toggleJudgement] = useToggle();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
@@ -207,6 +208,11 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
     }
   }, [api, defaultName, info, isRegistrar, t, toggle, toggleJudgement, value]);
 
+  const _toggleSidebar = useCallback(
+    () => toggleSidebar && value && toggleSidebar(value.toString()),
+    [toggleSidebar, value]
+  );
+
   return (
     <>
       {isJudgementOpen && (
@@ -218,11 +224,7 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
       )}
       <div
         className={`ui--AccountName ${className}`}
-        onClick={
-          override
-            ? undefined
-            : onClick
-        }
+        onClick={_toggleSidebar}
       >
         {label || ''}{override || name}{children}
       </div>

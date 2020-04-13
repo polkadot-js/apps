@@ -4,6 +4,7 @@
 
 export { default as useAccountId } from './useAccountId';
 export { default as useAccounts } from './useAccounts';
+export { default as useAccountSidebar } from './useAccountSidebar';
 export { default as useAddresses } from './useAddresses';
 export { default as useApi } from './useApi';
 export { default as useCacheKey } from './useCacheKey';
