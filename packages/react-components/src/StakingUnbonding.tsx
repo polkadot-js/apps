@@ -48,12 +48,12 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <FormatBalance value={total} />
       <Icon
         data-for={trigger}
         data-tip
         name='clock'
       />
+      <FormatBalance value={total} />
       <Tooltip
         text={mapped.map(([{ value }, blocks], index): React.ReactNode => (
           <div
@@ -77,8 +77,8 @@ export default React.memo(styled(StakingUnbonding)`
   white-space: nowrap;
 
   i.icon {
-    margin-left: 0.25rem;
-    margin-right: 0;
+    margin-left: 0;
+    margin-right: 0.25rem;
   }
 
   .ui--FormatBalance {
