@@ -36,6 +36,7 @@ const PERBILL = new BN(1_000_000_000);
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
+    .filter((a) => a.bondTotal.gtn(0))
     .sort((a, b): number => b.commissionPer - a.commissionPer)
     .map((info, index): ValidatorInfo => {
       info.rankComm = index + 1;
