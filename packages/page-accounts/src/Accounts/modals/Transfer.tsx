@@ -2,13 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 
 import { useTranslation } from '../../translate';
@@ -20,23 +17,13 @@ interface Props {
   senderId?: string;
 }
 
-const ZERO = new BN(0);
-
 function Transfer ({ className, onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
   const [hasAvailable] = useState(true);
   const [maxBalance] = useState(new BN(0));
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
-
-  useEffect((): void => {
-    senderId && recipientId && setExtrinsic(
-      () => api.tx.balances.transfer(recipientId, amount || ZERO)
-    );
-  }, [api, amount, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t('transferrable')}</span>;
 
@@ -90,12 +77,13 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={senderId}
-          extrinsic={extrinsic}
           icon='send'
-          isDisabled={!hasAvailable}
+          isDisabled={!hasAvailable || !recipientId || !amount}
           isPrimary
           label={t('Make Transfer')}
           onStart={onClose}
+          params={[recipientId, amount]}
+          tx='balances.transfer'
         />
       </Modal.Actions>
     </Modal>
@@ -103,11 +91,6 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
 }
 
 export default React.memo(styled(Transfer)`
-  article.padded {
-    box-shadow: none;
-    margin-left: 2rem;
-  }
-
   .balance {
     margin-bottom: 0.5rem;
     text-align: right;

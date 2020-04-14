@@ -72,6 +72,7 @@ function Summary ({ className, isVisible, next, nominators, stakingOverview, sty
 
 export default React.memo(styled(Summary)`
   .validator--Account-block-icon {
+    display: inline-block;
     margin-right: 0.75rem;
     margin-top: -0.25rem;
     vertical-align: middle;
