@@ -5,6 +5,7 @@
 import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
@@ -60,4 +61,8 @@ function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props)
   );
 }
 
-export default React.memo(IdentityIcon);
+export default React.memo(styled(IdentityIcon)`
+  .ui--IdentityIcon {
+    display: block;
+  }
+`);
