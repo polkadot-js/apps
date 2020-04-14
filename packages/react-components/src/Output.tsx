@@ -53,6 +53,7 @@ function Output ({ children, className, help, isError, isHidden, isMonospace, la
 
 export default React.memo(styled(Output)`
   pre {
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
   }
