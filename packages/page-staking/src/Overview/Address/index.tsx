@@ -84,8 +84,9 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
 
       if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
         isVisible = true;
-      } else if (api.query.identity && api.query.identity.identityOf && identity?.display) {
-        isVisible = identity.display.toLowerCase().includes(filterLower);
+      } else if (api.query.identity && api.query.identity.identityOf) {
+        isVisible = (!!identity?.display && identity.display.toLowerCase().includes(filterLower)) ||
+          (!!identity?.displayParent && identity.displayParent.toLowerCase().includes(filterLower));
       } else if (nickname) {
         isVisible = nickname.toLowerCase().includes(filterLower);
       }
