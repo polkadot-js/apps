@@ -48,11 +48,7 @@ const ICON_SIZE_SMALL = 32;
 const EMPTY_INFO: DeriveAccountInfo = {
   identity: {
     judgements: []
-  },
-  isCouncil: false,
-  isSociety: false,
-  isSudo: false,
-  isTechCommittee: false
+  }
 };
 
 class AddressRow extends Row<ApiProps & Props, State> {
