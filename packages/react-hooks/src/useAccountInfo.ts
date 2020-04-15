@@ -113,41 +113,47 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     setName(accountOrAddress?.meta.name || '');
   }, [identity, isAccount, isAddress, setTags, value]);
 
-  const onSaveName = (): void => {
-    if (isEditingName) {
-      toggleIsEditingName();
-    }
-
-    const meta = { name, whenEdited: Date.now() };
-
-    if (value) {
-      try {
-        const currentKeyring = keyring.getPair(value);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(value, meta);
+  const onSaveName = useCallback(
+    (): void => {
+      if (isEditingName) {
+        toggleIsEditingName();
       }
-    }
-  };
 
-  const onSaveTags = (): void => {
-    if (isEditingTags) {
-      toggleIsEditingTags();
-    }
+      const meta = { name, whenEdited: Date.now() };
 
-    const meta = { tags, whenEdited: Date.now() };
+      if (value) {
+        try {
+          const currentKeyring = keyring.getPair(value);
 
-    if (value) {
-      try {
-        const currentKeyring = keyring.getPair(value);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(value, meta);
+          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+        } catch (error) {
+          keyring.saveAddress(value, meta);
+        }
       }
-    }
-  };
+    },
+    [isEditingName, name, toggleIsEditingName, value]
+  );
+
+  const onSaveTags = useCallback(
+    (): void => {
+      if (isEditingTags) {
+        toggleIsEditingTags();
+      }
+
+      const meta = { tags, whenEdited: Date.now() };
+
+      if (value) {
+        try {
+          const currentKeyring = keyring.getPair(value);
+
+          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+        } catch (error) {
+          keyring.saveAddress(value, meta);
+        }
+      }
+    },
+    [isEditingTags, tags, toggleIsEditingTags, value]
+  );
 
   const onForgetAddress = (): void => {
     if (isEditingName) {

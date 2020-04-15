@@ -10,7 +10,6 @@ export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
 export { default as AddressRow } from './AddressRow';
 export { default as AddressSmall } from './AddressSmall';
-export { default as AddressMenu } from './AddressMenu';
 export { default as AddressToggle } from './AddressToggle';
 export { default as Available } from './Available';
 export { default as AvatarItem } from './AvatarItem';

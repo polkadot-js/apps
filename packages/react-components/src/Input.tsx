@@ -6,7 +6,7 @@ import { BareProps, VoidFn } from './types';
 
 import React, { useCallback, useState } from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
-import { isUndefined } from '@polkadot/util';
+import { isFunction, isUndefined } from '@polkadot/util';
 
 import Labelled from './Labelled';
 
@@ -116,7 +116,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
 
       if (onEnter && event.keyCode === 13) {
         (event.target as any).blur();
-        typeof onEnter === 'function' && onEnter();
+        isFunction(onEnter) && onEnter();
       }
 
       if (onEscape && event.keyCode === 27) {

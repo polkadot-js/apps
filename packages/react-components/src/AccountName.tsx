@@ -173,8 +173,8 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
   );
 
   const onToggleSidebar = useCallback(
-    () => toggleSidebar && value && toggleSidebar([value.toString(), name, _onUpdateName]),
-    [name, _onUpdateName, toggleSidebar, value]
+    () => toggleSidebar && value && toggleSidebar([value.toString(), _onUpdateName]),
+    [_onUpdateName, toggleSidebar, value]
   );
 
   return (

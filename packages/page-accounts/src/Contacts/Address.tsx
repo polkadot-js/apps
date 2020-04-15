@@ -105,13 +105,22 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     [address, toggleFavorite]
   );
 
+  const _toggleForget = useCallback(
+    (): void => setIsForgetOpen(!isForgetOpen),
+    [isForgetOpen]
+  );
+  const _toggleSettingPopup = useCallback(
+    (): void => setIsSettingPopupOpen(!isSettingPopupOpen),
+    [isSettingPopupOpen]
+  );
+  const _toggleTransfer = useCallback(
+    (): void => setIsTransferOpen(!isTransferOpen),
+    [isTransferOpen]
+  );
+
   if (!isVisible) {
     return null;
   }
-
-  const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
-  const _toggleSettingPopup = (): void => setIsSettingPopupOpen(!isSettingPopupOpen);
-  const _toggleTransfer = (): void => setIsTransferOpen(!isTransferOpen);
 
   const _onForget = (): void => {
     if (address) {

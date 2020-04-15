@@ -8,7 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 import Sidebar from './Sidebar';
 
-type ToggleContext = undefined | (([address, nameDisplay, onUpdateName]: [StringOrNull, React.ReactNode, VoidFn | null]) => void);
+type ToggleContext = undefined | (([address, onUpdateName]: [StringOrNull, VoidFn | null]) => void);
 
 interface Props {
   children: React.ReactNode;
@@ -17,10 +17,10 @@ interface Props {
 const AccountSidebarToggle: React.Context<ToggleContext> = React.createContext<ToggleContext>(undefined);
 
 function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
-  const [[address, nameDisplay, onUpdateName], setAddress] = useState<[StringOrNull, React.ReactNode, VoidFn | null]>([null, null, null]);
+  const [[address, onUpdateName], setAddress] = useState<[StringOrNull, VoidFn | null]>([null, null]);
 
   const onClose = useCallback(
-    () => setAddress([null, null, null]),
+    () => setAddress([null, null]),
     []
   );
 
@@ -30,7 +30,6 @@ function AccountSidebar ({ children }: Props): React.ReactElement<Props> {
       {address && (
         <Sidebar
           address={address}
-          nameDisplay={nameDisplay}
           onClose={onClose}
           onUpdateName={onUpdateName}
         />
