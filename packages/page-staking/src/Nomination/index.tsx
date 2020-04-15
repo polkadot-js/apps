@@ -19,6 +19,7 @@ import Summary from '@polkadot/app-staking/Nomination/summary';
 import { formatBalance } from '@polkadot/util';
 import BN from 'bn.js';
 import EraToTime from './eraToTime';
+import useStakeState from './useStakeState';
 
 const steps = ['choose', 'create', 'bond', 'nominate'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
@@ -30,6 +31,7 @@ interface Props {
   next?: string[];
 }
 
+// @todo add unsubscribe to api calls
 function Nomination ({ className, isVisible, stakingOverview, next }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [currentStep, setCurrentStep] = useState<string>(steps[0]);
@@ -48,6 +50,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   const controllerBalance: Balance | null = useBalanceClear(controllerAccountId);
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const ownStashes = useOwnStashes();
+  const filteredValidators = useStakeState();
   const { t } = useTranslation();
   // @todo - определиться, что это, stash increase / stash not increase / controller
   const destination = 2; // 2 means controller account
@@ -156,10 +159,12 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   // set validators list
   useEffect(() => {
     // @todo - не больше 16, по алгоритму
-    stakingOverview && setValidators(
-      stakingOverview.validators.map((acc): string => acc.toString())
-    );
-  }, [stakingOverview]);
+    if (filteredValidators && filteredValidators.length) {
+      setValidators(
+        filteredValidators.map((validator): string => validator.key)
+      );
+    }
+  }, [filteredValidators]);
 
   useEffect(() => {
     setStepsStateAction();

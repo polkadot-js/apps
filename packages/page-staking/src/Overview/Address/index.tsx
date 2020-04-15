@@ -103,6 +103,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
 function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
+  // console.log('accountInfo', accountInfo);
   const stakingInfo = useCall<DeriveStakingQuery>(isMain && api.derive.staking.query as any, [address]);
   const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);

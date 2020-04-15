@@ -1,42 +1,44 @@
 import {useEffect, useState} from 'react';
-import {useAccounts, useApi, useCall} from '@polkadot/react-hooks/index';
-import {getStakeState} from '@polkadot/app-staking/Actions/Account';
-import { DeriveStakingAccount} from '@polkadot/api-derive/types';
-import { ValidatorPrefs } from '@polkadot/types/interfaces';
-import { Codec, ITuple } from '@polkadot/types/types';
+import BN from 'bn.js';
+import {useAccounts, useApi, useCall, useDebounce, useFavorites} from '@polkadot/react-hooks/index';
+import { DeriveStakingElected, DeriveSessionIndexes} from '@polkadot/api-derive/types';
+import { Balance } from '@polkadot/types/interfaces';
+import { SortBy, extractInfo, AllInfo, sort } from '@polkadot/app-staking/Targets';
+import {STORE_FAVS_BASE} from "@polkadot/app-staking/constants";
+import { Option } from '@polkadot/types';
+import useValidatorsFilter from './useValidatorsFilter';
 
-type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
-
-interface localStakeState {
-  controllerId: string | null;
-  isStashNominating: boolean;
-  isStashValidating: boolean;
-}
-
-function useStakeState (stashId: string, allStashes: string[]) {
+function useStakeState () {
   const { api } = useApi();
+  const [_amount] = useState<BN | undefined>(new BN(1_000));
   const { allAccounts } = useAccounts();
-  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account as any, [stashId]);
-  const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
-  const [{ controllerId, isStashNominating, isStashValidating }, setStakeState] = useState<localStakeState>({ controllerId: null, isStashNominating: false, isStashValidating: false });
-  const [stashType, setStashType] = useState();
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
+  const [{ sortBy, sortFromMax }] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
+  const amount = useDebounce(_amount);
+  const [favorites] = useFavorites(STORE_FAVS_BASE);
+  const lastEra = useCall<BN>(api.derive.session.indexes as any, [], {
+    defaultValue: new BN(0),
+    transform: ({ activeEra }: DeriveSessionIndexes) =>
+      activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
+  }) || new BN(0);
+  const lastReward = useCall<BN>(api.query.staking.erasValidatorReward, [lastEra], {
+    transform: (optBalance: Option<Balance>) =>
+      optBalance.unwrapOrDefault()
+  });
+
+  const [{ validators }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
+
+  const filteredElected = useValidatorsFilter(electedInfo);
 
   useEffect((): void => {
-    if (stakingAccount && validateInfo) {
-      const state = getStakeState(allAccounts, allStashes, stakingAccount, stashId, validateInfo);
-      setStakeState(state);
-
-      if (state.isStashValidating) {
-        setStashType('validator');
-      } else if (state.isStashNominating) {
-        setStashType('nominator');
-      } else {
-        setStashType('other');
-      }
+    if (filteredElected && filteredElected.info) {
+      const { nominators, totalStaked, validators } = extractInfo(allAccounts, amount, filteredElected, favorites, lastReward);
+      const sorted = sort(sortBy, sortFromMax, validators);
+      setWorkable({ nominators, totalStaked, sorted, validators });
     }
-  }, [allAccounts, allStashes, stakingAccount, stashId, validateInfo]);
+  }, [allAccounts, amount, electedInfo, favorites, lastReward, sortBy, sortFromMax, filteredElected]);
 
-  return { controllerId, isStashNominating, isStashValidating, stashType };
+  return validators;
 }
 
 export default useStakeState;

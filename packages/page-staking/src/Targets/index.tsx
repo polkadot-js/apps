@@ -25,16 +25,16 @@ interface Props {
   className?: string;
 }
 
-interface AllInfo {
+export interface AllInfo {
   nominators: string[];
   sorted?: ValidatorInfo[];
   totalStaked?: BN;
   validators: ValidatorInfo[];
 }
 
-type SortBy = 'rankOverall' | 'rankBondOwn' | 'rankBondOther' | 'rankBondTotal' | 'rankComm';
+export type SortBy = 'rankOverall' | 'rankBondOwn' | 'rankBondOther' | 'rankBondTotal' | 'rankComm';
 
-function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
+export function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
     .sort((a, b): number => b.commissionPer - a.commissionPer)
     .map((info, index): ValidatorInfo => {
@@ -90,7 +90,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     });
 }
 
-function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
+export function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
   const nominators: string[] = [];
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
@@ -155,7 +155,7 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   return { nominators, totalStaked, validators };
 }
 
-function sort (sortBy: SortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
+export function sort (sortBy: SortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
   return validators
     .sort((a, b): number => sortFromMax
       ? a[sortBy] - b[sortBy]
