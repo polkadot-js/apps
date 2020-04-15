@@ -6,14 +6,14 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
-import { useCall, useApi, useToggle } from '@polkadot/react-hooks';
+import { useCall, useApi } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 
 import { getAddressName } from './util';
-import AddressMenu from './AddressMenu';
 import Badge from './Badge';
 import Icon from './Icon';
 
@@ -27,7 +27,7 @@ interface Props extends BareProps {
   // this is used by app-account/addresses to toggle editing
   toggle?: boolean;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
-  withMenu?: boolean;
+  withSidebar?: boolean;
 }
 
 const KNOWN: [AccountId, string][] = [
@@ -127,32 +127,30 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return nameElem;
 }
 
-function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, value, withMenu }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
-  const [isMenuOpen, toggleIsMenuOpen] = useToggle();
+  const toggleSidebar = useContext(AccountSidebarToggle);
 
-  const _setName = useMemo(
-    (): () => void => {
-      return (): void => {
-        const { accountId, accountIndex, identity, nickname } = info || {};
-        const cacheAddr = (accountId || value || '').toString();
+  const _setName = useCallback(
+    (): void => {
+      const { accountId, accountIndex, identity, nickname } = info || {};
+      const cacheAddr = (accountId || value || '').toString();
 
-        if (api.query.identity && api.query.identity.identityOf) {
-          setName(() =>
-            identity?.display
-              ? extractIdentity(cacheAddr, identity)
-              : extractName(cacheAddr, accountIndex)
-          );
-        } else if (nickname) {
-          nameCache.set(cacheAddr, [false, [nickname, null]]);
+      if (api.query.identity && api.query.identity.identityOf) {
+        setName(() =>
+          identity?.display
+            ? extractIdentity(cacheAddr, identity)
+            : extractName(cacheAddr, accountIndex)
+        );
+      } else if (nickname) {
+        nameCache.set(cacheAddr, [false, [nickname, null]]);
 
-          setName(nickname);
-        } else {
-          setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
-        }
-      };
+        setName(nickname);
+      } else {
+        setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
+      }
     },
     [api, defaultName, info, value]
   );
@@ -162,41 +160,35 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
     _setName();
   }, [_setName]);
 
-  const onUpdateName = (): void => {
-    value && ((): void => {
-      displayCache.delete(value.toString());
-      nameCache.delete(value.toString());
+  const _onUpdateName = useCallback(
+    (): void => {
+      value && ((): void => {
+        displayCache.delete(value.toString());
+        nameCache.delete(value.toString());
 
-      _setName();
-    })();
-  };
+        _setName();
+      })();
+    },
+    [_setName, value]
+  );
 
-  const node = (
+  const onToggleSidebar = useCallback(
+    () => toggleSidebar && value && toggleSidebar([value.toString(), name, _onUpdateName]),
+    [name, _onUpdateName, toggleSidebar, value]
+  );
+
+  return (
     <div
-      className={`ui--AccountName ${withMenu && 'withMenu'} ${className}`}
-      onClick={withMenu ? toggleIsMenuOpen : onClick}
+      className={`ui--AccountName ${withSidebar && 'withSidebar'} ${className}`}
+      onClick={withSidebar ? onToggleSidebar : onClick}
     >
       {label || ''}{override || name}{children}
     </div>
   );
-
-  return withMenu
-    ? (
-      <AddressMenu
-        isOpen={isMenuOpen}
-        nameDisplay={name}
-        onClose={toggleIsMenuOpen}
-        onUpdateName={onUpdateName}
-        value={value}
-      >
-        {node}
-      </AddressMenu>
-    )
-    : node;
 }
 
 export default React.memo(styled(AccountName)`
-  &.withMenu {
+  &.withSidebar {
     cursor: help !important;
   }
 

@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BareProps } from '@polkadot/react-components/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import React from 'react';
 import { Label } from 'semantic-ui-react';
@@ -11,36 +11,32 @@ import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import polkascan from '@polkadot/apps-config/links/polkascan';
 
-import { classes } from './util';
-import { colorLink } from './styles/theme';
-import AccountNameJudgement from './AccountNameJudgement';
-import AddressMini from './AddressMini';
-import AddressSmall from './AddressSmall';
-import AvatarItem from './AvatarItem';
-import Button from './Button';
-import Icon from './Icon';
-import IconLink from './IconLink';
-import Input from './Input';
-import InputTags from './InputTags';
-import Popup from './Popup';
-import Transfer from './Transfer';
+import { classes } from '@polkadot/react-components/util';
+import { colorLink } from '@polkadot/react-components/styles/theme';
+import { AccountNameJudgement, AddressMini, AddressSmall, AvatarItem, Button, Icon, IconLink, Input, InputTags, Transfer } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 interface Props extends BareProps {
-  children?: React.ReactNode;
-  isOpen: boolean;
-  nameDisplay: React.ReactNode;
+  address: AccountId | Address | string | Uint8Array;
   onClose: () => void;
   onUpdateName: () => void;
-  value: AccountId | Address | string | Uint8Array;
 }
 
-function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpdateName, style, value }: Props): React.ReactElement<Props> | null {
+const Screen = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 998;
+`;
+
+function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> | null{
   const { t } = useTranslation();
   const { api, systemChain } = useApi();
   const { registrars } = useRegistrars();
-  const accountInfo = useAccountInfo(value);
+  const accountInfo = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
@@ -52,12 +48,10 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
   const useIdentity = !!api.query.identity?.identityOf;
 
   const _toggleTransfer = (): void => {
-    onClose && onClose();
     toggleIsTransferOpen();
   };
 
   const _toggleJudgement = (): void => {
-    onClose && onClose();
     toggleIsJudgementOpen();
   };
 
@@ -102,13 +96,8 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
 
   return (
     <>
-      <Popup
-        isOpen={isOpen}
-        on='click'
-        onClose={onClose}
-        position='bottom left'
-        trigger={children}
-      >
+      <Screen onClick={onClose} />
+      <div className={className}>
         <div
           className={classes('ui--AddressMenu', className)}
           style={style}
@@ -130,11 +119,15 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
                       withLabel={false}
                     />
                   )
-                  : nameDisplay
+                  : (
+                    isEditable
+                      ? name.toUpperCase()
+                      : undefined
+                  )
               }
-              value={value}
+              value={address}
               withIndex
-              withMenu={false}
+              withSidebar={false}
             >
               {(!isEditingName && isEditable) && (
                 <Icon
@@ -422,7 +415,7 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
                 {t('actions')}
               </div>
             </div>
-            {!!value && (
+            {!!address && (
               <div className='ui--AddressMenu-actions'>
                 <ul>
                   <li>
@@ -443,7 +436,7 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
                   )}
                   <li>
                     <IconLink
-                      href={polkascan.create(polkascan.chains[systemChain as 'Kusama'], polkascan.paths.address, value.toString())}
+                      href={polkascan.create(polkascan.chains[systemChain as 'Kusama'], polkascan.paths.address, address.toString())}
                       icon='external'
                       label={t('View on Polkascan')}
                       rel='noopener noreferrer'
@@ -455,17 +448,17 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
             )}
           </div>
         </div>
-      </Popup>
+      </div>
       {isTransferOpen && (
         <Transfer
           key='modal-transfer'
           onClose={_toggleTransfer}
-          recipientId={value}
+          recipientId={address}
         />
       )}
-      {(!!value && isJudgementOpen && useIdentity) && (
+      {(!!address && isJudgementOpen && useIdentity) && (
         <AccountNameJudgement
-          address={value.toString()}
+          address={address.toString()}
           key='modal-judgement'
           registrars={registrars}
           toggleJudgement={_toggleJudgement}
@@ -475,8 +468,16 @@ function AddressMenu ({ children, className, isOpen, nameDisplay, onClose, onUpd
   );
 }
 
-export default React.memo(styled(AddressMenu)`
-  min-width: 16rem;
+export default React.memo(styled(Sidebar)`
+  bottom: 0;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 20rem;
+  background: white;
+  padding: 1rem;
+  box-shadow: 0px 8px 20px 0px rgba(0,0,0,0.3);
+  z-index: 999;
 
   input {
     width: auto !important;
