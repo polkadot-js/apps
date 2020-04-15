@@ -8,7 +8,7 @@ import {STORE_FAVS_BASE} from "@polkadot/app-staking/constants";
 import { Option } from '@polkadot/types';
 import useValidatorsFilter from './useValidatorsFilter';
 
-function useStakeState () {
+function useValidators () {
   const { api } = useApi();
   const [_amount] = useState<BN | undefined>(new BN(1_000));
   const { allAccounts } = useAccounts();
@@ -41,4 +41,4 @@ function useStakeState () {
   return validators;
 }
 
-export default useStakeState;
+export default useValidators;

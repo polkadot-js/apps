@@ -19,7 +19,7 @@ import Summary from '@polkadot/app-staking/Nomination/summary';
 import { formatBalance } from '@polkadot/util';
 import BN from 'bn.js';
 import EraToTime from './eraToTime';
-import useStakeState from './useStakeState';
+import useValidators from './useValidators';
 
 const steps = ['choose', 'create', 'bond', 'nominate'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
@@ -50,7 +50,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   const controllerBalance: Balance | null = useBalanceClear(controllerAccountId);
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const ownStashes = useOwnStashes();
-  const filteredValidators = useStakeState();
+  const filteredValidators = useValidators();
   const { t } = useTranslation();
   // @todo - определиться, что это, stash increase / stash not increase / controller
   const destination = 2; // 2 means controller account
@@ -158,10 +158,9 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
 
   // set validators list
   useEffect(() => {
-    // @todo - не больше 16, по алгоритму
-    if (filteredValidators && filteredValidators.length) {
+    if (filteredValidators && filteredValidators.length && !validators.length) {
       setValidators(
-        filteredValidators.map((validator): string => validator.key)
+        filteredValidators.map((validator): string => validator.key).slice(0, 16)
       );
     }
   }, [filteredValidators]);
@@ -183,6 +182,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     // setStepsState(['completed', 'completed', 'completed', 'completed']);
   }, [ownStashes]);
 
+  // console.log('validators', validators);
   return (
     <main className={`${className} ${!isVisible ? 'staking--hidden' : ''} simple-nominatio`}>
       <TabsHeader
