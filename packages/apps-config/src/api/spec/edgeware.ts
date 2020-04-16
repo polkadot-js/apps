@@ -14,5 +14,6 @@ export default {
   Keys: 'SessionKeys4',
   // previous substrate versions
   ReferendumInfo: 'ReferendumInfoTo239',
-  StakingLedger: 'StakingLedgerTo223'
+  StakingLedger: 'StakingLedgerTo223',
+  Weight: 'u32'
 };
