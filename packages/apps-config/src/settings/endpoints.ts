@@ -34,6 +34,11 @@ const LIVE: Option[] = [
     value: 'wss://cc3-5.kusama.network/'
   },
   {
+    info: 'kusama',
+    text: 'Kusama (Load balanced between user-run public nodes; see https://status.cloud.ava.do/)',
+    value: 'wss://kusama.polkadot.cloud.ava.do/'
+  },
+  {
     info: 'edgeware',
     text: 'Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)',
     value: 'wss://mainnet1.edgewa.re'
