@@ -4,8 +4,9 @@
 
 import { ChainInfo } from './types';
 
-import { getChainTypes } from '@polkadot/apps-config/api';
 import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config/ui';
+import { getSpecTypes } from '@polkadot/types-known';
+import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useEffect, useState } from 'react';
@@ -25,7 +26,7 @@ export default function useChainInfo (): ChainInfo | null {
       ss58Format: api.registry.chainSS58 || 42,
       tokenDecimals: api.registry.chainDecimals || 12,
       tokenSymbol: api.registry.chainToken || 'Unit',
-      types: getChainTypes(api.runtimeVersion.specName.toString(), systemChain)
+      types: getSpecTypes(registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion)
     });
   }, [api, isApiReady, systemChain, systemName]);
 
