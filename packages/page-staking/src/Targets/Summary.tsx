@@ -22,7 +22,7 @@ interface Props {
 function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
   const [percentage, setPercentage] = useState<string | undefined>();
 
   useEffect((): void => {
