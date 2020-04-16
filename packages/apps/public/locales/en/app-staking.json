@@ -183,5 +183,19 @@
   "No waiting validators found": "No waiting validators found",
   "No active validators to check for rewards available": "No active validators to check for rewards available",
   "rewards": "rewards",
-  "bonded": "bonded"
+  "bonded": "bonded",
+  "Select your account that holds funds": "Select your account that holds funds",
+  "Now you need to select or create Controller account. This is account that will manage your funds": "Now you need to select or create Controller account. This is account that will manage your funds",
+  "Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.": "Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.",
+  "Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.": "Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.",
+  "Once bonded, funds will be under management of your Controller.": "Once bonded, funds will be under management of your Controller.",
+  "Money can be unbonded, but will remain locked for a while, until the next Era.": "Money can be unbonded, but will remain locked for a while, until the next Era.",
+  "Enter the amount you would like to Bond and click Next to proceed.": "Enter the amount you would like to Bond and click Next to proceed.",
+  "Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately": "Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately",
+  "Bond to controller account. Bond fees and per-transaction fees apply and will be calculated upon submission.": "Bond to controller account. Bond fees and per-transaction fees apply and will be calculated upon submission.",
+  "amount to bond": "amount to bond",
+  "Your account balance": "Your account balance",
+  "Fees": "Fees",
+  "Back": "Back",
+  "Next": "Next"
 }

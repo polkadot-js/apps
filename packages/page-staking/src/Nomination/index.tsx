@@ -209,9 +209,9 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         {currentStep === steps[0] &&
         <>
             <br />
-            <h3>Select your account that holds funds:</h3>
+            <h3>{t('Select your account that holds funds')}:</h3>
             <br />
-            <Available label={balanceWrapper('Your account balance')} params={senderId} />
+            <Available label={balanceWrapper(t('Your account balance'))} params={senderId} />
             <AccountSelector
                 value={senderId}
                 title={'Your account'}
@@ -224,13 +224,13 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         {currentStep === steps[1] &&
         <>
             <br />
-            <h3>Now you need to select or create Controller account. This is account that will manage your funds:</h3>
+            <h3>{t('Now you need to select or create Controller account. This is account that will manage your funds')}:</h3>
             <br />
             <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <ControllerAccountSelector
                 senderId={senderId}
                 value={controllerAccountId}
-                title={'controller account'}
+                title={t('controller account')}
                 onChange={resetControllerInfo}
                 stepsState={stepsState}
                 setStepsState={setStepsState}
@@ -250,18 +250,17 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         <>
           <br />
           {!isBalanceEnough() &&
-          <h3>Now we will transfer some small amount from your account that holds funds to Controller so that it can pay
-              transaction fees. Just click Next to proceed.</h3>
+          <h3>{t('Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.')}</h3>
           }
           { !controllerAlreadyBonded && isBalanceEnough() && (
             <>
-              <h3>Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.
-                <p>Once bonded, funds will be under management of your Controller.</p>
-                <p>Money can be unbonded, but will remain locked for a while, until the next Era.</p>
-                <p>Enter the amount you would like to Bond and click Next to proceed.</p>
+              <h3>{t('Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.')}
+                <p>{t('Once bonded, funds will be under management of your Controller.')}</p>
+                <p>{t('Money can be unbonded, but will remain locked for a while, until the next Era.')}</p>
+                <p>{t('Enter the amount you would like to Bond and click Next to proceed.')}</p>
               </h3>
               <h4 className="ui orange header">
-                Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately <EraToTime />.
+                {t('Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately')} <EraToTime />.
               </h4>
               <br />
               <AddressInfo
@@ -279,15 +278,13 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                 <h1>Bond</h1>
                 <div className='ui--row'>
                   <div className='large'>
-                    {/* The amount field will be pre-populated with maximum possible amount */}
                     <InputBalance
                       value={formatBalance(amountToBond, { withUnit: false })}
-                      label={`amount to bond}`}
+                      label={t('amount to bond')}
                       onChange={setAmount}
                     />
                   </div>
-                  <Summary className='small'>Bond to controller account.
-                    Bond fees and per-transaction fees apply and will be calculated upon submission.</Summary>
+                  <Summary className='small'>{t('Bond to controller account. Bond fees and per-transaction fees apply and will be calculated upon submission.')}</Summary>
                 </div>
               </section>
             </>
@@ -306,7 +303,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         <Button.Group>
           <Button
             key='Back'
-            label={'Back'}
+            label={t('Back')}
             icon=''
             isDisabled={steps.indexOf(currentStep) === 0 || alreadyHaveStashes}
             onClick={goBack}
@@ -317,7 +314,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               isDisabled={!wholeFees}
               accountId={senderId}
               icon='send'
-              label='Fees'
+              label={t('Fees')}
               params={[controllerAccountId, transferableAmount]}
               tx='balances.transfer'
               withSpinner
@@ -348,7 +345,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             <Button
               className="primary"
               key='Next'
-              label={'Next'}
+              label={t('Next')}
               icon=''
               isDisabled={disableNext()}
               onClick={goNext}

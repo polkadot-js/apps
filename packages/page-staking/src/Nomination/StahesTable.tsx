@@ -1,8 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Table} from '@polkadot/react-components/index';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Table } from '@polkadot/react-components/index';
 import NominatedAccount from '@polkadot/app-staking/Nomination/NominatedAccount';
-import {useApi, useCall} from '@polkadot/react-hooks/index';
-import {useTranslation} from '@polkadot/app-staking/translate';
+import { useApi, useCall } from '@polkadot/react-hooks/index';
+import { useTranslation } from '@polkadot/app-staking/translate';
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 import { Option } from '@polkadot/types';
 import { DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
@@ -56,7 +56,7 @@ function StashesTable({ className, allStashes, isVisible, next, allRewards, stak
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start'><h1>Your accounts</h1></th>
+        <th className='start'><h1>{t('your accounts')}</h1></th>
         <th className='address'>{t('controller')}</th>
         <th className='number'>{t('rewards')}</th>
         <th className='number'>{t('bonded')}</th>

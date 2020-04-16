@@ -4,9 +4,9 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {InputAddress} from '@polkadot/react-components';
-import { useBalanceClear } from "@polkadot/app-staking/Nomination/useBalance";
-import {useApi} from "@polkadot/react-hooks/index";
+import { InputAddress} from '@polkadot/react-components';
+import { useBalanceClear } from '@polkadot/app-staking/Nomination/useBalance';
+import { useApi} from '@polkadot/react-hooks/index';
 
 interface Props {
   value?: string | null;

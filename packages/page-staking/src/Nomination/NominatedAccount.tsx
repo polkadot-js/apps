@@ -1,14 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { DeriveBalancesAll, DeriveStakingAccount, DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
-import { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { Codec, ITuple } from '@polkadot/types/types';
-
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
+import { DeriveBalancesAll, DeriveStakingAccount, DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
+import { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { Codec, ITuple } from '@polkadot/types/types';
 import { AddressInfo, AddressMini, AddressSmall, Button, Expander, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -114,7 +113,7 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     }),
     [api, controllerId, payoutRewards, queueExtrinsic]
   );
-  console.log('maxUnBond', maxUnBond);
+
   return (
     <tr className={className}>
       <td className='address'>

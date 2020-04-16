@@ -21,20 +21,20 @@ function useValidators (): ValidatorInfo[] {
   const [{ sortBy, sortFromMax }] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
   const [favorites] = useFavorites(STORE_FAVS_BASE);
+
   const lastEra = useCall<BN>(api.derive.session.indexes as any, [], {
     defaultValue: new BN(0),
     transform: ({ activeEra }: DeriveSessionIndexes) =>
       activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
   }) || new BN(0);
+
   const lastReward = useCall<BN>(api.query.staking.erasValidatorReward, [lastEra], {
     transform: (optBalance: Option<Balance>) =>
       optBalance.unwrapOrDefault()
   });
 
   const [{ validators }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
-
   const filteredElected = useValidatorsFilter(electedInfo);
-  console.log('filteredElected', filteredElected);
 
   useEffect((): void => {
     if (filteredElected && filteredElected.info) {

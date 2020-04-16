@@ -71,7 +71,7 @@ export default React.memo(styled(ControllerAccountSelector)`
   .summary {
     text-align: center;
   }
-  
+ 
   .text-block {
     width: 50px !important;
     line-height: 60px;
