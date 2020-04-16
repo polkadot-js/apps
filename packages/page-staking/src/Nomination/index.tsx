@@ -42,15 +42,15 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   const [stepsState, setStepsState] = useState<string[]>(stepInitialState);
   const [controllerAlreadyBonded, setControllerAlreadyBonded] = useState<boolean>(false);
   const [isCreateOpen, toggleCreate] = useToggle();
-  const [validators, setValidators] = useState<string[]>([]);
-  const { wholeFees, feesLoading } : WholeFeesType = useFees(controllerAccountId, senderId, validators);
+  const [selectedValidators, setSelectedValidators] = useState<string[]>([]);
+  const { wholeFees, feesLoading } : WholeFeesType = useFees(controllerAccountId, senderId, selectedValidators);
   const [transferableAmount, setTransferableAmount] = useState<BN>(new BN(1));
   const [amountToBond, setAmountToBond] = useState<BN | undefined>();
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const controllerBalance: Balance | null = useBalanceClear(controllerAccountId);
   const accountBalance: Balance | null = useBalanceClear(senderId);
   const ownStashes = useOwnStashes();
-  const filteredValidators = useValidators();
+  const { validators, validatorsLoading } = useValidators();
   const { t } = useTranslation();
   const destination = 2; // 2 means controller account
   const extrinsic = (amount && controllerAccountId)
@@ -163,16 +163,16 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
    * If filtered validators
    */
   useEffect(() => {
-    if (filteredValidators && filteredValidators.length) {
-      setValidators(
-        filteredValidators.map((validator): string => validator.key).slice(0, 16)
+    if (validators && validators.length) {
+      setSelectedValidators(
+        validators.map((validator): string => validator.key).slice(0, 16)
       );
     } else {
-      stakingOverview && setValidators(
+      stakingOverview && setSelectedValidators(
         stakingOverview.validators.map((acc): string => acc.toString()).slice(0, 16)
       );
     }
-  }, [filteredValidators, stakingOverview]);
+  }, [validators, stakingOverview]);
 
   useEffect(() => {
     setStepsStateAction();
@@ -193,7 +193,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     setStepsState(['completed', 'completed', 'completed', 'completed']);
   }, [ownStashes]); */
 
-  console.log('validators', validators);
+  // console.log('validators', selectedValidators);
   return (
     <main className={`${className} ${!isVisible ? 'staking--hidden' : ''} simple-nominatio`}>
       <TabsHeader
@@ -311,7 +311,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
           <div className="or" />
           {currentStep === steps[2] && !isBalanceEnough() && (
             <TxButton
-              isDisabled={!wholeFees}
+              isDisabled={!wholeFees || feesLoading}
               accountId={senderId}
               icon='send'
               label={t('Fees')}
@@ -333,9 +333,9 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
           {currentStep === steps[3] && controllerAlreadyBonded && (
             <TxButton
               accountId={controllerAccountId}
-              isDisabled={!validators?.length || !controllerAlreadyBonded || isNominated}
+              isDisabled={!selectedValidators?.length || !controllerAlreadyBonded || isNominated || validatorsLoading}
               isPrimary
-              params={[validators]}
+              params={[selectedValidators]}
               label={t('Nominate')}
               icon='hand paper outline'
               tx='staking.nominate'

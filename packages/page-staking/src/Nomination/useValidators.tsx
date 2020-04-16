@@ -9,11 +9,16 @@ import { Option } from '@polkadot/types';
 import { ValidatorInfo } from '@polkadot/app-staking/Targets/types';
 import useValidatorsFilter from './useValidatorsFilter';
 
+interface useValidatorsInterface {
+  validators: ValidatorInfo[];
+  validatorsLoading: boolean;
+}
+
 /**
  * Get, sort and filter validators
  * @return {Array<ValidatorInfo>} filtered validators
  */
-function useValidators (): ValidatorInfo[] {
+function useValidators (): useValidatorsInterface {
   const { api } = useApi();
   const [_amount] = useState<BN | undefined>(new BN(1_000));
   const { allAccounts } = useAccounts();
@@ -34,17 +39,19 @@ function useValidators (): ValidatorInfo[] {
   });
 
   const [{ validators }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
-  const filteredElected = useValidatorsFilter(electedInfo);
+  const [validatorsLoading, setValidatorsLoading] = useState(false);
+  const filteredElected = useValidatorsFilter(electedInfo, setValidatorsLoading);
 
   useEffect((): void => {
     if (filteredElected && filteredElected.info) {
       const { nominators, totalStaked, validators } = extractInfo(allAccounts, amount, filteredElected, favorites, lastReward);
       const sorted = sort(sortBy, sortFromMax, validators);
       setWorkable({ nominators, totalStaked, sorted, validators });
+      setValidatorsLoading(false);
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward, sortBy, sortFromMax, filteredElected]);
 
-  return validators;
+  return { validators, validatorsLoading };
 }
 
 export default useValidators;
