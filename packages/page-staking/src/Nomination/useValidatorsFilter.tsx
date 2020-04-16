@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useApi } from '@polkadot/react-hooks/index';
 import { DeriveStakingElected } from '@polkadot/api-derive/types';
 
-function useValidatorsFilter(electedInfo?: DeriveStakingElected) {
+/**
+ * Filter validators by judgements. Empty judgements discard.
+ * @param {DeriveStakingElected} electedInfo
+ * @return {DeriveStakingElected} filtered validators
+ */
+function useValidatorsFilter(electedInfo?: DeriveStakingElected): DeriveStakingElected | null {
   const { api } = useApi();
   const [called, setCalled] = useState<boolean>(false);
   const [filtered, setFiltered] = useState<DeriveStakingElected | null>(null);

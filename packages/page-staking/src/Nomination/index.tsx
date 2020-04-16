@@ -1,25 +1,25 @@
-// Copyright 2017-2020 @polkadot/app-123code authors & contributors
+// Copyright 2020
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import CreateModal from '@polkadot/app-accounts/Accounts/modals/Create';
-import {useApi, useOwnStashes, useToggle} from '@polkadot/react-hooks/index';
-import styled from 'styled-components';
-import {useTranslation} from '@polkadot/app-accounts/translate';
 import React, { useState, useEffect, useCallback } from 'react';
+import styled from 'styled-components';
+import BN from 'bn.js';
+import CreateModal from '@polkadot/app-accounts/Accounts/modals/Create';
+import { useApi, useOwnStashes, useToggle} from '@polkadot/react-hooks/index';
+import { useTranslation} from '@polkadot/app-accounts/translate';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import AccountSelector from './AccountSelector';
-import ControllerAccountSelector from './ControllerAccountSelector';
-import {Available} from '@polkadot/react-query/index';
-import {AddressInfo, Button, InputBalance, TxButton, Spinner} from '@polkadot/react-components/index';
+import { Available } from '@polkadot/react-query/index';
+import { AddressInfo, Button, InputBalance, TxButton, Spinner } from '@polkadot/react-components/index';
 import TabsHeader from '@polkadot/app-staking/Nomination/TabsHeader';
 import StashesTable from '@polkadot/app-staking/Nomination/StahesTable';
-import {useBalanceClear, useFees, WholeFeesType} from '@polkadot/app-staking/Nomination/useBalance';
+import { useBalanceClear, useFees, WholeFeesType } from '@polkadot/app-staking/Nomination/useBalance';
 import { Balance } from '@polkadot/types/interfaces/runtime';
 import Summary from '@polkadot/app-staking/Nomination/summary';
 import { formatBalance } from '@polkadot/util';
-import BN from 'bn.js';
 import EraToTime from './eraToTime';
 import useValidators from './useValidators';
+import AccountSelector from './AccountSelector';
+import ControllerAccountSelector from './ControllerAccountSelector';
 
 const steps = ['choose', 'create', 'bond', 'nominate'];
 const stepInitialState = ['', 'disabled', 'disabled', 'disabled'];
@@ -52,7 +52,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   const ownStashes = useOwnStashes();
   const filteredValidators = useValidators();
   const { t } = useTranslation();
-  // @todo - определиться, что это, stash increase / stash not increase / controller
   const destination = 2; // 2 means controller account
   const extrinsic = (amount && controllerAccountId)
     ? api.tx.staking.bond(controllerAccountId, amount, destination)
@@ -114,9 +113,12 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     setControllerAccountId(accountId);
   }
 
+  /**
+   * double fees for case if fees will be changed on a small count of funds
+   * @todo - compare with account balance and throw error if more
+   */
   function setAmountToTransfer() {
     const minAmount = new BN(0);
-    // @todo - compare with account balance and throw error if more
     setTransferableAmount(
       minAmount
         .iadd(wholeFees)
@@ -156,14 +158,21 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     []
   );
 
-  // set validators list
+  /**
+   * Set validators list.
+   * If filtered validators
+   */
   useEffect(() => {
-    if (filteredValidators && filteredValidators.length && !validators.length) {
+    if (filteredValidators && filteredValidators.length) {
       setValidators(
         filteredValidators.map((validator): string => validator.key).slice(0, 16)
       );
+    } else {
+      stakingOverview && setValidators(
+        stakingOverview.validators.map((acc): string => acc.toString()).slice(0, 16)
+      );
     }
-  }, [filteredValidators]);
+  }, [filteredValidators, stakingOverview]);
 
   useEffect(() => {
     setStepsStateAction();
@@ -174,15 +183,17 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     calculateMaxPreFilledBalance();
   }, [accountBalance, controllerBalance, wholeFees, controllerAlreadyBonded, isNominated]);
 
-  useEffect(() => {
-    // since we already have stashes just open the 4th screen - nomination
-    // setCurrentStep(steps[3]);
-    // setAlreadyHaveStashes(true);
-    // mark all steps as completed
-    // setStepsState(['completed', 'completed', 'completed', 'completed']);
-  }, [ownStashes]);
+  /**
+   * Since we already have stashes just open the 4th screen - nomination
+   * and mark all steps as completed
+   */
+  /* useEffect(() => {
+    setCurrentStep(steps[3]);
+    setAlreadyHaveStashes(true);
+    setStepsState(['completed', 'completed', 'completed', 'completed']);
+  }, [ownStashes]); */
 
-  // console.log('validators', validators);
+  console.log('validators', validators);
   return (
     <main className={`${className} ${!isVisible ? 'staking--hidden' : ''} simple-nominatio`}>
       <TabsHeader

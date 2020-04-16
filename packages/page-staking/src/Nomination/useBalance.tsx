@@ -25,6 +25,14 @@ export type WholeFeesType = {
   feesLoading: boolean;
 }
 
+/**
+ * Get fees for controller account to allow start and stop nomination, existentialDeposit
+ * @param {string} bondedAddress
+ * @param {string} senderAddress
+ * @param {Array<string>} validators
+ * @return {WholeFeesType} { wholeFees, feesLoading }
+ */
+
 export function useFees (bondedAddress?: string | null, senderAddress?: string | null, validators?: string[]): WholeFeesType  {
   const [paymentFees, setPaymentFees] = useState<Balance | null>(null);
   const [bondFees, setBondFees] = useState<Balance | null>(null);
@@ -40,8 +48,6 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const basePower = formatBalance.getDefaults().decimals;
   const siPower = new BN(basePower + si.power);
   const amount = new BN(1000).mul(TEN.pow(siPower));
-  // @todo calculate and add Change Nominees fess
-  // @todo what if fees will be changed on a small count of funds
 
   async function getPaymentFees(addr1: string, addr2: string) {
     const fees = await api.api.tx.balances.transfer(addr1, amount).paymentInfo(addr2);

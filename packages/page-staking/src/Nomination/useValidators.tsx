@@ -1,14 +1,19 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import BN from 'bn.js';
-import {useAccounts, useApi, useCall, useDebounce, useFavorites} from '@polkadot/react-hooks/index';
-import { DeriveStakingElected, DeriveSessionIndexes} from '@polkadot/api-derive/types';
+import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks/index';
+import { DeriveStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { Balance } from '@polkadot/types/interfaces';
 import { SortBy, extractInfo, AllInfo, sort } from '@polkadot/app-staking/Targets';
-import {STORE_FAVS_BASE} from "@polkadot/app-staking/constants";
+import { STORE_FAVS_BASE } from '@polkadot/app-staking/constants';
 import { Option } from '@polkadot/types';
+import { ValidatorInfo } from '@polkadot/app-staking/Targets/types';
 import useValidatorsFilter from './useValidatorsFilter';
 
-function useValidators () {
+/**
+ * Get, sort and filter validators
+ * @return {Array<ValidatorInfo>} filtered validators
+ */
+function useValidators (): ValidatorInfo[] {
   const { api } = useApi();
   const [_amount] = useState<BN | undefined>(new BN(1_000));
   const { allAccounts } = useAccounts();
@@ -29,6 +34,7 @@ function useValidators () {
   const [{ validators }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
 
   const filteredElected = useValidatorsFilter(electedInfo);
+  console.log('filteredElected', filteredElected);
 
   useEffect((): void => {
     if (filteredElected && filteredElected.info) {

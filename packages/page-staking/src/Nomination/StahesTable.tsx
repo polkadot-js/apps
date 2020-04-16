@@ -56,7 +56,7 @@ function StashesTable({ className, allStashes, isVisible, next, allRewards, stak
   return (
     <Table className={className}>
       <Table.Head>
-        <th className='start' colSpan={2}><h1>Your accounts</h1></th>
+        <th className='start'><h1>Your accounts</h1></th>
         <th className='address'>{t('controller')}</th>
         <th className='number'>{t('rewards')}</th>
         <th className='number'>{t('bonded')}</th>

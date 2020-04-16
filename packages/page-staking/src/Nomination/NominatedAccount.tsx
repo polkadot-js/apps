@@ -1,18 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-
-import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveStakingAccount, DeriveStakingOverview, DeriveStakerReward } from '@polkadot/api-derive/types';
-import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { EraIndex, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Expander, Menu, Popup, Spinner, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Button, Expander, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { useTranslation } from '../translate';
@@ -54,11 +51,11 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account as any, [stashId]);
   const [[payoutRewards, payoutEras, payoutTotal], setStakingRewards] = useState<[DeriveStakerReward[], EraIndex[], BN]>([[], [], new BN(0)]);
-  const [{ controllerId, destination, destinationId, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const [{ controllerId, destination, destinationId, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
+  const [maxUnBond, setMaxUnbond] = useState(new BN(0));
   const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
-  // const [isPayoutOpen, togglePayout] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
   const [isRewardDestinationOpen, toggleRewardDestination] = useToggle();
@@ -72,7 +69,6 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     if (stakingAccount && validateInfo) {
       const state = getStakeState(allAccounts, allStashes, stakingAccount, stashId, validateInfo);
       setStakeState(state);
-
       if (state.isStashValidating) {
         onUpdateType(stashId, 'validator');
       } else if (state.isStashNominating) {
@@ -107,6 +103,10 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     ]);
   }, [rewards]);
 
+  useEffect(() => {
+    setMaxUnbond(stakingAccount?.stakingLedger?.active.unwrap());
+  }, [stakingAccount]);
+
   const _doPayout = useCallback(
     (): void => queueExtrinsic({
       accountId: controllerId,
@@ -114,7 +114,7 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
     }),
     [api, controllerId, payoutRewards, queueExtrinsic]
   );
-  const maxUnbond = 1000;
+  console.log('maxUnBond', maxUnBond);
   return (
     <tr className={className}>
       <td className='address'>
@@ -232,27 +232,26 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
           : (
             <>
               {(isStashNominating || isStashValidating) && (
-                <>
-                  <TxButton
-                    accountId={controllerId}
-                    isDisabled={!isOwnController}
-                    isPrimary={false}
-                    label={'Stop'}
-                    icon='stop'
-                    key='stop'
-                    tx='staking.chill'
-                  />
-                  <TxButton
-                    accountId={controllerId}
-                    isPrimary
-                    label={t('Unbond')}
-                    icon='sign-out'
-                    params={[maxUnbond]}
-                    tx='staking.unbond'
-                    withSpinner={false}
-                  />
-                </>
+                <TxButton
+                  accountId={controllerId}
+                  isDisabled={!isOwnController}
+                  isPrimary={false}
+                  label={'Stop'}
+                  icon='stop'
+                  key='stop'
+                  tx='staking.chill'
+                />
               )}
+              <TxButton
+                isDisabled={!isOwnController || isStashNominating}
+                accountId={controllerId}
+                isPrimary
+                label={t('Unbond')}
+                icon='sign-out'
+                params={[maxUnBond]}
+                tx='staking.unbond'
+                withSpinner={false}
+              />
               <Popup
                 key='settings'
                 onClose={toggleSettings}
@@ -289,12 +288,6 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
                     onClick={toggleBondExtra}
                   >
                     {t('Bond more funds')}
-                  </Menu.Item>
-                  <Menu.Item
-                    disabled={!isOwnController}
-                    onClick={toggleUnbond}
-                  >
-                    {t('Unbond funds')}
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item
