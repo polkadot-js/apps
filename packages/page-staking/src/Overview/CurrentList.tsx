@@ -5,11 +5,9 @@
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { AddressDetails } from './types';
-
 import React, { useEffect, useReducer, useState } from 'react';
 import { Input, Table } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
-
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
 import Address from './Address';

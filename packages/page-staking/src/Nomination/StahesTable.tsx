@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Table } from '@polkadot/react-components/index';
+import { Table } from '@polkadot/react-components';
 import NominatedAccount from '@polkadot/app-staking/Nomination/NominatedAccount';
-import { useApi, useCall } from '@polkadot/react-hooks/index';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTranslation } from '@polkadot/app-staking/translate';
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 import { Option } from '@polkadot/types';
@@ -52,7 +52,7 @@ function StashesTable({ className, allStashes, isVisible, next, allRewards, stak
       )
     );
   }, [ownStashes, stashTypes]);
-  console.log('Stashes');
+
   return (
     <Table className={className}>
       <Table.Head>
@@ -63,7 +63,7 @@ function StashesTable({ className, allStashes, isVisible, next, allRewards, stak
         <th colSpan={2}>&nbsp;</th>
       </Table.Head>
       <Table.Body empty={t('No funds staked yet. Bond funds to validate or nominate a validator.')}>
-        {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
+        {foundStashes?.map(([stashId, isOwnStash]: Array<any>): React.ReactNode => (
           <NominatedAccount
             selectedControllerId={controllerAccountId}
             activeEra={activeEra}

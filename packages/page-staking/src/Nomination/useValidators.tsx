@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import BN from 'bn.js';
-import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks/index';
+import { useEffect, useState } from 'react';
+import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { DeriveStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { Balance } from '@polkadot/types/interfaces';
 import { SortBy, extractInfo, AllInfo, sort } from '@polkadot/app-staking/Targets';

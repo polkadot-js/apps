@@ -1,8 +1,8 @@
 import React from 'react';
-import { useApi} from '@polkadot/react-hooks/index';
+import { useApi} from '@polkadot/react-hooks';
 import { useTranslation} from '@polkadot/app-accounts/translate';
 import { BareProps} from "@polkadot/react-api/types";
-import { BlockToTime} from "@polkadot/react-query/index";
+import { BlockToTime} from "@polkadot/react-query";
 import { formatNumber } from '@polkadot/util';
 
 function eraToTime({ className, style }: BareProps) {

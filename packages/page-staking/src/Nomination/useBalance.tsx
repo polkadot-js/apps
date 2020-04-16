@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {useApi, useCall} from '@polkadot/react-hooks/index';
+import {useApi, useCall} from '@polkadot/react-hooks';
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { formatNumber } from '@polkadot/util';
 import { Balance } from '@polkadot/types/interfaces/runtime';
@@ -42,7 +42,7 @@ export function useFees (bondedAddress?: string | null, senderAddress?: string |
   const [stopNominationFees, setStopNominationFees] = useState();
   const api = useApi();
   const existentialDeposit = api.api.consts.balances.existentialDeposit;
-  // test amount
+  // any amount to get fees
   const si = formatBalance.findSi('-');
   const TEN = new BN(10);
   const basePower = formatBalance.getDefaults().decimals;

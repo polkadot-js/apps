@@ -303,8 +303,8 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
                   </Menu.Item>
                   {isStashValidating &&
                   <Menu.Item
-                      disabled={!isOwnController}
-                      onClick={toggleValidate}
+                    disabled={!isOwnController}
+                    onClick={toggleValidate}
                   >
                     {t('Change validator preferences')}
                   </Menu.Item>
@@ -312,16 +312,16 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
                   <Menu.Divider />
                   {!isStashNominating &&
                   <Menu.Item
-                      disabled={!isOwnController}
-                      onClick={toggleSetSession}
+                    disabled={!isOwnController}
+                    onClick={toggleSetSession}
                   >
                     {t('Change session keys')}
                   </Menu.Item>
                   }
                   {isStashNominating &&
                   <Menu.Item
-                      disabled={!isOwnController}
-                      onClick={toggleNominate}
+                    disabled={!isOwnController}
+                    onClick={toggleNominate}
                   >
                     {t('Set nominees')}
                   </Menu.Item>

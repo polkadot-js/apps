@@ -5,18 +5,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import BN from 'bn.js';
 import CreateModal from '@polkadot/app-accounts/Accounts/modals/Create';
-import { useApi, useOwnStashes, useToggle} from '@polkadot/react-hooks/index';
+import { useApi, useOwnStashes, useToggle} from '@polkadot/react-hooks';
 import { useTranslation} from '@polkadot/app-accounts/translate';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { Available } from '@polkadot/react-query/index';
-import { AddressInfo, Button, InputBalance, TxButton, Spinner } from '@polkadot/react-components/index';
+import { Available } from '@polkadot/react-query';
+import { AddressInfo, Button, InputBalance, TxButton, Spinner } from '@polkadot/react-components';
 import TabsHeader from '@polkadot/app-staking/Nomination/TabsHeader';
 import StashesTable from '@polkadot/app-staking/Nomination/StahesTable';
 import { useBalanceClear, useFees, WholeFeesType } from '@polkadot/app-staking/Nomination/useBalance';
 import { Balance } from '@polkadot/types/interfaces/runtime';
-import Summary from '@polkadot/app-staking/Nomination/summary';
+import Summary from '@polkadot/app-staking/Nomination/Summary';
 import { formatBalance } from '@polkadot/util';
-import EraToTime from './eraToTime';
+import EraToTime from './EraToTime';
 import useValidators from './useValidators';
 import AccountSelector from './AccountSelector';
 import ControllerAccountSelector from './ControllerAccountSelector';
@@ -193,7 +193,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     setStepsState(['completed', 'completed', 'completed', 'completed']);
   }, [ownStashes]); */
 
-  // console.log('validators', selectedValidators);
   return (
     <main className={`${className} ${!isVisible ? 'staking--hidden' : ''} simple-nominatio`}>
       <TabsHeader
@@ -213,11 +212,11 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             <br />
             <Available label={balanceWrapper(t('Your account balance'))} params={senderId} />
             <AccountSelector
-                value={senderId}
-                title={'Your account'}
-                onChange={setSenderId}
-                stepsState={stepsState}
-                setStepsState={setStepsState}
+              value={senderId}
+              title={'Your account'}
+              onChange={setSenderId}
+              stepsState={stepsState}
+              setStepsState={setStepsState}
             />
         </>
         }
@@ -228,13 +227,13 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
             <br />
             <Available label={balanceWrapper('Controller balance')} params={controllerAccountId} />
             <ControllerAccountSelector
-                senderId={senderId}
-                value={controllerAccountId}
-                title={t('controller account')}
-                onChange={resetControllerInfo}
-                stepsState={stepsState}
-                setStepsState={setStepsState}
-                toggleCreate={toggleCreate}
+              senderId={senderId}
+              value={controllerAccountId}
+              title={t('controller account')}
+              onChange={resetControllerInfo}
+              stepsState={stepsState}
+              setStepsState={setStepsState}
+              toggleCreate={toggleCreate}
             />
           {isCreateOpen && (
             <CreateModal
@@ -250,44 +249,46 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         <>
           <br />
           {!isBalanceEnough() &&
-          <h3>{t('Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.')}</h3>
+          <h3>
+            {t('Now we will transfer some small amount from your account that holds funds to Controller so that it can pay transaction fees. Just click Next to proceed.')}
+          </h3>
           }
           { !controllerAlreadyBonded && isBalanceEnough() && (
-            <>
-              <h3>{t('Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.')}
-                <p>{t('Once bonded, funds will be under management of your Controller.')}</p>
-                <p>{t('Money can be unbonded, but will remain locked for a while, until the next Era.')}</p>
-                <p>{t('Enter the amount you would like to Bond and click Next to proceed.')}</p>
-              </h3>
-              <h4 className="ui orange header">
-                {t('Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately')} <EraToTime />.
-              </h4>
-              <br />
-              <AddressInfo
-                address={senderId}
-                withBalance={{
-                  available: true,
-                  bonded: true,
-                  free: true,
-                  redeemable: true,
-                  unlocking: true
-                }}
-                withRewardDestination
-              />
-              <section>
-                <h1>Bond</h1>
-                <div className='ui--row'>
-                  <div className='large'>
-                    <InputBalance
-                      value={formatBalance(amountToBond, { withUnit: false })}
-                      label={t('amount to bond')}
-                      onChange={setAmount}
-                    />
+              <>
+                <h3>{t('Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.')}
+                  <p>{t('Once bonded, funds will be under management of your Controller.')}</p>
+                  <p>{t('Money can be unbonded, but will remain locked for a while, until the next Era.')}</p>
+                  <p>{t('Enter the amount you would like to Bond and click Next to proceed.')}</p>
+                </h3>
+                <h4 className="ui orange header">
+                  {t('Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately')} <EraToTime />.
+                </h4>
+                <br />
+                <AddressInfo
+                  address={senderId}
+                  withBalance={{
+                    available: true,
+                    bonded: true,
+                    free: true,
+                    redeemable: true,
+                    unlocking: true
+                  }}
+                  withRewardDestination
+                />
+                <section>
+                  <h1>Bond</h1>
+                  <div className='ui--row'>
+                    <div className='large'>
+                      <InputBalance
+                        value={formatBalance(amountToBond, { withUnit: false })}
+                        label={t('amount to bond')}
+                        onChange={setAmount}
+                      />
+                    </div>
+                    <Summary className='small'>{t('Bond to controller account. Bond fees and per-transaction fees apply and will be calculated upon submission.')}</Summary>
                   </div>
-                  <Summary className='small'>{t('Bond to controller account. Bond fees and per-transaction fees apply and will be calculated upon submission.')}</Summary>
-                </div>
-              </section>
-            </>
+                </section>
+              </>
           )}
           <br />
         </>
