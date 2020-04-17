@@ -131,7 +131,7 @@ function CurrentList ({ authorsMap, hasQueries, isIntentions, lastAuthors, next,
         toggleFavorite={toggleFavorite}
       />
     ));
-  // console.log('elected', elected, 'isIntentions', isIntentions, 'validators', validators);
+
   return isIntentions
     ? (
       <Table>
