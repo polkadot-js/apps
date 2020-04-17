@@ -52,8 +52,8 @@ function AddressSmall ({ children, className, defaultName, onClickName, override
 }
 
 export default React.memo(styled(AddressSmall)`
-  vertical-align: middle;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
 
   .ui--IdentityIcon,
   .nameInfo {

@@ -23,15 +23,6 @@ interface Props extends BareProps {
   onUpdateName: () => void;
 }
 
-const Screen = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 998;
-`;
-
 function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> | null{
   const { t } = useTranslation();
   const { api, systemChain } = useApi();
@@ -46,14 +37,6 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
   }
 
   const useIdentity = !!api.query.identity?.identityOf;
-
-  const _toggleTransfer = (): void => {
-    toggleIsTransferOpen();
-  };
-
-  const _toggleJudgement = (): void => {
-    toggleIsJudgementOpen();
-  };
 
   const {
     identity,
@@ -96,363 +79,367 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
 
   return (
     <>
-      <Screen onClick={onClose} />
-      <div className={className}>
-        <div
-          className={classes('ui--AddressMenu', className)}
-          style={style}
-        >
-          <div className='ui--AddressMenu-header'>
-            <AddressSmall
-              className='ui--AddressMenu-address'
-              onClickName={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
-              overrideName={
-                isEditingName
-                  ? (
-                    <Input
-                      autoFocus
-                      className='name--input'
-                      defaultValue={name}
-                      onBlur={(isInContacts || isOwned) ? _onUpdateName : undefined}
-                      onChange={setName}
-                      onEnter
-                      withLabel={false}
-                    />
-                  )
-                  : (
-                    isEditable
-                      ? name.toUpperCase()
-                      : undefined
-                  )
-              }
-              value={address}
-              withIndex
-              withSidebar={false}
-            >
-              {(!isEditingName && isEditable) && (
-                <Icon
-                  className='inline-icon'
-                  name='edit'
-                />
-              )}
-            </AddressSmall>
-            <div className='ui--AddressMenu-tags'>
-              {isEditingTags
+      <div
+        className={classes('ui--AddressMenu', className)}
+        style={style}
+      >
+        <Button
+          className='ui--AddressMenu-close'
+          icon='close'
+          isBasic
+          isCircular
+          onClick={onClose}
+        />
+        <div className='ui--AddressMenu-header'>
+          <AddressSmall
+            className='ui--AddressMenu-address'
+            onClickName={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
+            overrideName={
+              isEditingName
                 ? (
-                  <InputTags
-                    defaultValue={tags}
-                    onBlur={onSaveTags}
-                    onChange={setTags}
-                    onClose={onSaveTags}
-                    openOnFocus
-                    searchInput={{ autoFocus: true }}
-                    value={tags}
+                  <Input
+                    autoFocus
+                    className='name--input'
+                    defaultValue={name}
+                    onBlur={(isInContacts || isOwned) ? _onUpdateName : undefined}
+                    onChange={setName}
+                    onEnter
                     withLabel={false}
                   />
                 )
                 : (
-                  <div
-                    className='tags--toggle'
-                    onClick={toggleIsEditingTags}
-                  >
-                    {tags.length
-                      ? tags.map((tag): React.ReactNode => (
-                        <Label
-                          color='grey'
-                          key={tag}
-                          size='tiny'
-                        >
-                          {tag}
-                        </Label>
-                      ))
-                      : <label>{t('no tags')}</label>
-                    }
-                  </div>
+                  isEditable
+                    ? name.toUpperCase()
+                    : undefined
                 )
-              }
-              {(!isEditingTags && (isInContacts || isOwned)) && (
-                <Icon
-                  className='inline-icon'
-                  name='edit'
-                  onClick={toggleIsEditingTags}
+            }
+            value={address}
+            withIndex
+            withSidebar={false}
+          >
+            {(!isEditingName && isEditable) && (
+              <Icon
+                className='inline-icon'
+                name='edit'
+              />
+            )}
+          </AddressSmall>
+          <div className='ui--AddressMenu-tags'>
+            {isEditingTags
+              ? (
+                <InputTags
+                  defaultValue={tags}
+                  onBlur={onSaveTags}
+                  onChange={setTags}
+                  onClose={onSaveTags}
+                  openOnFocus
+                  searchInput={{ autoFocus: true }}
+                  value={tags}
+                  withLabel={false}
                 />
+              )
+              : (
+                <div
+                  className='tags--toggle'
+                  onClick={toggleIsEditingTags}
+                >
+                  {tags.length
+                    ? tags.map((tag): React.ReactNode => (
+                      <Label
+                        color='grey'
+                        key={tag}
+                        size='tiny'
+                      >
+                        {tag}
+                      </Label>
+                    ))
+                    : <label>{t('no tags')}</label>
+                  }
+                </div>
+              )
+            }
+            {(!isEditingTags && (isInContacts || isOwned)) && (
+              <Icon
+                className='inline-icon'
+                name='edit'
+                onClick={toggleIsEditingTags}
+              />
+            )}
+          </div>
+          <div className='ui-AddressMenu--button'>
+            {isOwned && (
+              <Button
+                className='basic'
+                icon='check'
+                isPrimary
+                size='tiny'
+                {...buttonProps}
+              >
+                {t('Owned')}
+              </Button>
+            )}
+            {!isOwned && !isInContacts && (
+              <Button
+                icon='add'
+                isPositive
+                onClick={_onUpdateName}
+                size='tiny'
+                {...buttonProps}
+              >
+                {t('Add to contacts')}
+              </Button>
+            )}
+            {!isOwned && isInContacts && (
+              <Button
+                className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
+                isAnimated
+                isNegative={isHoveringButton}
+                isPositive={!isHoveringButton}
+                onClick={onForgetAddress}
+                size='tiny'
+                {...buttonProps}
+              >
+                <Button.Content visible>
+                  <Icon name='check' />
+                  {' '}
+                  {t('In contacts')}
+                </Button.Content>
+                <Button.Content hidden>
+                  <Icon name='ban' />
+                  {' '}
+                  {t('Remove')}
+                </Button.Content>
+              </Button>
+            )}
+          </div>
+        </div>
+        {useIdentity && identity?.isExistent && (
+          <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
+            <div className='ui--AddressMenu-sectionHeader'>
+              <div>
+                <Icon name='address card' />
+                {' '}
+                {t('identity')}
+              </div>
+              {identity?.isExistent && (
+                <Label
+                  color={
+                    identity.isGood
+                      ? 'green'
+                      : identity.isBad
+                        ? 'red'
+                        : 'yellow'
+                  }
+                  size='tiny'
+                >
+                  <b>{identity.judgements.length}</b>
+                  <Label.Detail>
+                    {
+                      identity.judgements.length
+                        ? (identity.isGood
+                          ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
+                          : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
+                        )
+                        : t('No judgments')
+                    }
+                  </Label.Detail>
+                </Label>
               )}
+
             </div>
-            <div className='ui-AddressMenu--button'>
-              {isOwned && (
-                <Button
-                  className='basic'
-                  icon='check'
-                  isPrimary
-                  size='tiny'
-                  {...buttonProps}
-                >
-                  {t('Owned')}
-                </Button>
-              )}
-              {!isOwned && !isInContacts && (
-                <Button
-                  icon='add'
-                  isPositive
-                  onClick={_onUpdateName}
-                  size='tiny'
-                  {...buttonProps}
-                >
-                  {t('Add to contacts')}
-                </Button>
-              )}
-              {!isOwned && isInContacts && (
-                <Button
-                  className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
-                  isAnimated
-                  isNegative={isHoveringButton}
-                  isPositive={!isHoveringButton}
-                  onClick={onForgetAddress}
-                  size='tiny'
-                  {...buttonProps}
-                >
-                  <Button.Content visible>
-                    <Icon name='check' />
-                    {' '}
-                    {t('In contacts')}
-                  </Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='ban' />
-                    {' '}
-                    {t('Remove')}
-                  </Button.Content>
-                </Button>
-              )}
+            <div>
+              <AvatarItem
+                icon={
+                  identity.image
+                    ? (
+                      <img src={identity.image} />
+                    )
+                    : (
+                      <i className='icon user ui--AddressMenu-identityIcon' />
+                    )
+                }
+                subtitle={identity.legal}
+                title={identity.display}
+              />
+              <div className='ui--AddressMenu-identityTable'>
+                {identity.parent && (
+                  <div className='tr parent'>
+                    <div className='th'>{t('parent')}</div>
+                    <div className='td'>
+                      <AddressMini
+                        className='parent'
+                        isPadded={false}
+                        value={identity.parent}
+                      />
+                    </div>
+                  </div>
+                )}
+                {identity.email && (
+                  <div className='tr'>
+                    <div className='th'>{t('email')}</div>
+                    <div className='td'>
+                      <a
+                        href={`mailto:${identity.email}`}
+                        rel='noopener noreferrer'
+                        target='_blank'
+                      >
+                        {identity.email}
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {identity.web && (
+                  <div className='tr'>
+                    <div className='th'>{t('website')}</div>
+                    <div className='td'>
+                      <a
+                        href={identity.web.replace(/^(https?:\/\/)?/g, 'https://')}
+                        rel='noopener noreferrer'
+                        target='_blank'
+                      >
+                        {identity.web}
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {identity.twitter && (
+                  <div className='tr'>
+                    <div className='th'>{t('twitter')}</div>
+                    <div className='td'>
+                      <a
+                        href={`https://twitter.com/${identity.twitter}`}
+                        rel='noopener noreferrer'
+                        target='_blank'
+                      >
+                        {identity.twitter}
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {identity.riot && (
+                  <div className='tr'>
+                    <div className='th'>{t('riot')}</div>
+                    <div className='td'>
+                      {identity.riot}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          {useIdentity && identity?.isExistent && (
-            <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
-              <div className='ui--AddressMenu-sectionHeader'>
-                <div>
-                  <Icon name='address card' />
-                  {' '}
-                  {t('identity')}
-                </div>
-                {identity?.isExistent && (
-                  <Label
-                    color={
-                      identity.isGood
-                        ? 'green'
-                        : identity.isBad
-                          ? 'red'
-                          : 'yellow'
-                    }
-                    size='tiny'
-                  >
-                    <b>{identity.judgements.length}</b>
-                    <Label.Detail>
-                      {
-                        identity.judgements.length
-                          ? (identity.isGood
-                            ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
-                            : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
-                          )
-                          : t('No judgments')
-                      }
-                    </Label.Detail>
-                  </Label>
-                )}
-
-              </div>
-              <div>
-                <AvatarItem
-                  icon={
-                    identity.image
-                      ? (
-                        <img src={identity.image} />
-                      )
-                      : (
-                        <i className='icon user ui--AddressMenu-identityIcon' />
-                      )
-                  }
-                  subtitle={identity.legal}
-                  title={identity.display}
-                />
-                <div className='ui--AddressMenu-identityTable'>
-                  {identity.parent && (
-                    <div className='tr parent'>
-                      <div className='th'>{t('parent')}</div>
-                      <div className='td'>
-                        <AddressMini
-                          className='parent'
-                          isPadded={false}
-                          value={identity.parent}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {identity.email && (
-                    <div className='tr'>
-                      <div className='th'>{t('email')}</div>
-                      <div className='td'>
-                        <a
-                          href={`mailto:${identity.email}`}
-                          rel='noopener noreferrer'
-                          target='_blank'
-                        >
-                          {identity.email}
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                  {identity.web && (
-                    <div className='tr'>
-                      <div className='th'>{t('website')}</div>
-                      <div className='td'>
-                        <a
-                          href={identity.web.replace(/^(https?:\/\/)?/g, 'https://')}
-                          rel='noopener noreferrer'
-                          target='_blank'
-                        >
-                          {identity.web}
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                  {identity.twitter && (
-                    <div className='tr'>
-                      <div className='th'>{t('twitter')}</div>
-                      <div className='td'>
-                        <a
-                          href={`https://twitter.com/${identity.twitter}`}
-                          rel='noopener noreferrer'
-                          target='_blank'
-                        >
-                          {identity.twitter}
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                  {identity.riot && (
-                    <div className='tr'>
-                      <div className='th'>{t('riot')}</div>
-                      <div className='td'>
-                        {identity.riot}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-          {hasFlags && (
-            <div className='ui--AddressMenu-section'>
-              <div className='ui--AddressMenu-sectionHeader'>
-                <div>
-                  <Icon name='tag' />
-                  {' '}
-                  {t('flags')}
-                </div>
-              </div>
-              <div className='ui--AddressMenu-flags'>
-                {isExternal && (
-                  <Label
-                    color='grey'
-                    size='tiny'
-                    tag
-                  >
-                    {t('Injected')}
-                  </Label>
-                )}
-                {isDevelopment && (
-                  <Label
-                    color='grey'
-                    size='tiny'
-                    tag
-                  >
-                    {t('Test account')}
-                  </Label>
-                )}
-                {isCouncil && (
-                  <Label
-                    color='blue'
-                    size='tiny'
-                    tag
-                  >
-                    {t('Council')}
-                  </Label>
-                )}
-                {isSociety && (
-                  <Label
-                    color='green'
-                    size='tiny'
-                    tag
-                  >
-                    {t('Society')}
-                  </Label>
-                )}
-                {isTechCommittee && (
-                  <Label
-                    color='orange'
-                    size='tiny'
-                    tag
-                  >
-                    {t('Technical committee')}
-                  </Label>
-                )}
-                {isSudo && (
-                  <Label
-                    color='pink'
-                    size='tiny'
-                    tag
-                  >
-                    {t('Sudo key')}
-                  </Label>
-                )}
-              </div>
-            </div>
-          )}
+        )}
+        {hasFlags && (
           <div className='ui--AddressMenu-section'>
             <div className='ui--AddressMenu-sectionHeader'>
               <div>
-                <Icon name='share square' />
+                <Icon name='tag' />
                 {' '}
-                {t('actions')}
+                {t('flags')}
               </div>
             </div>
-            {!!address && (
-              <div className='ui--AddressMenu-actions'>
-                <ul>
-                  <li>
-                    <IconLink
-                      icon='send'
-                      label={t('Transfer funds')}
-                      onClick={_toggleTransfer}
-                    />
-                  </li>
-                  {identity?.isExistent && (
-                    <li>
-                      <IconLink
-                        icon='address card'
-                        label={t('Add identity judgment')}
-                        onClick={_toggleJudgement}
-                      />
-                    </li>
-                  )}
-                  <li>
-                    <IconLink
-                      href={polkascan.create(polkascan.chains[systemChain as 'Kusama'], polkascan.paths.address, address.toString())}
-                      icon='external'
-                      label={t('View on Polkascan')}
-                      rel='noopener noreferrer'
-                      target='_blank'
-                    />
-                  </li>
-                </ul>
-              </div>
-            )}
+            <div className='ui--AddressMenu-flags'>
+              {isExternal && (
+                <Label
+                  color='grey'
+                  size='tiny'
+                  tag
+                >
+                  {t('Injected')}
+                </Label>
+              )}
+              {isDevelopment && (
+                <Label
+                  color='grey'
+                  size='tiny'
+                  tag
+                >
+                  {t('Test account')}
+                </Label>
+              )}
+              {isCouncil && (
+                <Label
+                  color='blue'
+                  size='tiny'
+                  tag
+                >
+                  {t('Council')}
+                </Label>
+              )}
+              {isSociety && (
+                <Label
+                  color='green'
+                  size='tiny'
+                  tag
+                >
+                  {t('Society')}
+                </Label>
+              )}
+              {isTechCommittee && (
+                <Label
+                  color='orange'
+                  size='tiny'
+                  tag
+                >
+                  {t('Technical committee')}
+                </Label>
+              )}
+              {isSudo && (
+                <Label
+                  color='pink'
+                  size='tiny'
+                  tag
+                >
+                  {t('Sudo key')}
+                </Label>
+              )}
+            </div>
           </div>
+        )}
+        <div className='ui--AddressMenu-section'>
+          <div className='ui--AddressMenu-sectionHeader'>
+            <div>
+              <Icon name='share square' />
+              {' '}
+              {t('actions')}
+            </div>
+          </div>
+          {!!address && (
+            <div className='ui--AddressMenu-actions'>
+              <ul>
+                <li>
+                  <IconLink
+                    icon='send'
+                    label={t('Transfer funds')}
+                    onClick={toggleIsTransferOpen}
+                  />
+                </li>
+                {identity?.isExistent && (
+                  <li>
+                    <IconLink
+                      icon='address card'
+                      label={t('Add identity judgment')}
+                      onClick={toggleIsJudgementOpen}
+                    />
+                  </li>
+                )}
+                <li>
+                  <IconLink
+                    href={polkascan.create(polkascan.chains[systemChain as 'Kusama'], polkascan.paths.address, address.toString())}
+                    icon='external'
+                    label={t('View on Polkascan')}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  />
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       {isTransferOpen && (
         <Transfer
           key='modal-transfer'
-          onClose={_toggleTransfer}
+          onClose={toggleIsTransferOpen}
           recipientId={address}
         />
       )}
@@ -461,7 +448,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
           address={address.toString()}
           key='modal-judgement'
           registrars={registrars}
-          toggleJudgement={_toggleJudgement}
+          toggleJudgement={toggleIsJudgementOpen}
         />
       )}
     </>
@@ -471,16 +458,25 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
 export default React.memo(styled(Sidebar)`
   bottom: 0;
   position: fixed;
-  right: 1rem;
-  bottom: 1rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
   width: 20rem;
   background: white;
   padding: 1rem;
-  box-shadow: 0px 8px 20px 0px rgba(0,0,0,0.3);
+  box-shadow: -6px 0px 20px 0px rgba(0,0,0,0.2);
   z-index: 999;
 
   input {
     width: auto !important;
+  }
+
+  .ui--AddressMenu-close {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    font-size: 1.2rem;
+    padding: 0.6rem !important;
   }
 
   .ui--AddressMenu-header {
