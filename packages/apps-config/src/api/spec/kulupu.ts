@@ -21,5 +21,6 @@ export default {
     class: 'DispatchClass'
   },
   ReferendumInfo: 'ReferendumInfoTo239',
-  StakingLedger: 'StakingLedgerTo223'
+  StakingLedger: 'StakingLedgerTo223',
+  Weight: 'u32'
 };

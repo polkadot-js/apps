@@ -41,5 +41,7 @@ export default {
     demurrage_per_block: 'i128'
   },
   Attestation: 'Vec<u8>',
-  ProofOfAttendance: 'Vec<u8>'
+  ProofOfAttendance: 'Vec<u8>',
+  // substrate
+  Weight: 'u32'
 };
