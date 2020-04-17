@@ -31,7 +31,6 @@ interface Props {
   next?: string[];
 }
 
-// @todo add unsubscribe to api calls
 function Nomination ({ className, isVisible, stakingOverview, next }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [currentStep, setCurrentStep] = useState<string>(steps[0]);
@@ -63,9 +62,10 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   function setStepsStateAction() {
     if (controllerAlreadyBonded && !isNominated) {
       setStepsState((prevState): string[] => {
-        prevState[2] = 'completed';
-        prevState[3] = '';
-        return prevState;
+        const newState = [...prevState];
+        newState[2] = 'completed';
+        newState[3] = '';
+        return newState;
       });
       // go to last tab
       if (currentStep === steps[2]) {
@@ -74,9 +74,10 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     }
     if (isNominated) {
       setStepsState((prevState): string[] => {
-        prevState[2] = 'completed';
-        prevState[3] = 'completed';
-        return prevState;
+        const newState = [...prevState];
+        newState[2] = 'completed';
+        newState[3] = 'completed';
+        return newState;
       });
       // go to last tab
       if (currentStep === steps[2]) {
@@ -148,14 +149,14 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
     (controllerAlreadyBonded: boolean): void => {
       setControllerAlreadyBonded(controllerAlreadyBonded);
     },
-    []
+    [controllerAlreadyBonded]
   );
 
   const _onUpdateNominatedState = useCallback(
     (isNominated) => {
       setIsNominated(isNominated);
     },
-    []
+    [isNominated]
   );
 
   /**
@@ -175,13 +176,16 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
   }, [validators, stakingOverview]);
 
   useEffect(() => {
-    setStepsStateAction();
     if (!wholeFees) {
       return;
     }
     setAmountToTransfer();
     calculateMaxPreFilledBalance();
-  }, [accountBalance, controllerBalance, wholeFees, controllerAlreadyBonded, isNominated]);
+  }, [accountBalance, controllerBalance, wholeFees]);
+
+  useEffect(() => {
+    setStepsStateAction();
+  }, [controllerAlreadyBonded, isNominated]);
 
   /**
    * Since we already have stashes just open the 4th screen - nomination

@@ -86,7 +86,7 @@ function NominatedAccount ({ allStashes, className, isOwnStash, next, onUpdateTy
         onUpdateNominatedState(true);
       }
     }
-  }, [controllerId, onUpdateControllerState, selectedControllerId]);
+  }, [controllerId, onUpdateControllerState, selectedControllerId, isStashNominating]);
 
   useEffect((): void => {
     nominees && setActiveNoms(
