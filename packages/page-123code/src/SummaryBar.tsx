@@ -42,9 +42,14 @@ function SummaryBar (): React.ReactElement {
             ))
           }</Bubble>
         )}
-        {totalIssuance && (<Bubble icon='circle' label='total tokens'>
-          {formatBalance(totalIssuance)}
-        </Bubble>)}
+        {totalIssuance && (
+          <Bubble
+            icon='circle'
+            label='total tokens'
+          >
+            {formatBalance(totalIssuance)}
+          </Bubble>
+        )}
       </div>
     </summary>
   );
