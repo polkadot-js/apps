@@ -17,7 +17,7 @@ function SummaryBar (): React.ReactElement {
   const { api, systemChain, systemName, systemVersion } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const bestNumberLag = useCall<BlockNumber>(api.derive.chain.bestNumberLag, []);
-  const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
   const validators = useCall<DeriveStakingValidators>(api.derive.staking.validators, []);
 
   return (
@@ -42,9 +42,14 @@ function SummaryBar (): React.ReactElement {
             ))
           }</Bubble>
         )}
-        <Bubble icon='circle' label='total tokens'>
-          {formatBalance(totalInsurance)}
-        </Bubble>
+        {totalIssuance && (
+          <Bubble
+            icon='circle'
+            label='total tokens'
+          >
+            {formatBalance(totalIssuance)}
+          </Bubble>
+        )}
       </div>
     </summary>
   );
