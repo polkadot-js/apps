@@ -113,7 +113,6 @@ export default React.memo(styled(Expander)`
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     i.icon {
