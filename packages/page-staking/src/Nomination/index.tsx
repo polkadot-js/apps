@@ -206,7 +206,6 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         currentStep={currentStep}
       />
       <div className="ui attached segment">
-        <EraToTime showBlocks showDays/>
         {/* {feesLoading && (
           <Spinner />
         )} */}
