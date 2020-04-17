@@ -29,12 +29,14 @@ function Summary (): React.ReactElement<{}> {
         >
           <BlockToTime blocks={ONE_BLOCK} />
         </CardSummary>
-        {api.query.balances && (<CardSummary
-          className='ui--media-small'
-          label={t('total issuance')}
-        >
-          <TotalIssuance />
-        </CardSummary>)}
+        {api.query.balances && (
+            <CardSummary
+              className='ui--media-small'
+              label={t('total issuance')}
+            >
+                <TotalIssuance />
+            </CardSummary>
+        )}
       </section>
       <section className='ui--media-large'>
         <SummarySession withEra={false} />
