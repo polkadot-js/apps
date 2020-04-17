@@ -48,10 +48,10 @@ function ReferendumVotes ({ change, className, count, index, isWinning, total, v
     <td className={`${className} number`}>
       <Expander
         summary={
-          <>
-            <FormatBalance value={total} />
-            {count ? ` (${formatNumber(count)})` : '' }
-          </>
+          <FormatBalance
+            labelPost={count ? ` (${formatNumber(count)})` : '' }
+            value={total}
+          />
         }
         summarySub={
           change.gtn(0)
