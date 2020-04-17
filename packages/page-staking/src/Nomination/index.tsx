@@ -206,6 +206,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
         currentStep={currentStep}
       />
       <div className="ui attached segment">
+        <EraToTime showBlocks showDays/>
         {/* {feesLoading && (
           <Spinner />
         )} */}
@@ -261,11 +262,10 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               <>
                 <h3>{t('Now we need to Bond funds. Bonding means that main account gives control over funds to Controller account.')}
                   <p>{t('Once bonded, funds will be under management of your Controller.')}</p>
-                  <p>{t('Money can be unbonded, but will remain locked for a while, until the next Era.')}</p>
-                  <p>{t('Enter the amount you would like to Bond and click Next to proceed.')}</p>
+                  <p>{t('Money can be unbonded, but will remain locked for a while.')}</p>
                 </h3>
                 <h4 className="ui orange header">
-                  {t('Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for the duration of one era, which is approximately')} <EraToTime />.
+                  {t('Warning: After bonding, your funds will be locked and will remain locked after the nomination is stopped for')} <EraToTime showBlocks />, {t('which is approximately')} <EraToTime showDays />.
                 </h4>
                 <br />
                 <AddressInfo
@@ -330,7 +330,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               accountId={senderId}
               isDisabled={controllerAlreadyBonded}
               isPrimary
-              label={t('Bond')}
+              label={t('Enter the amount you would like to Bond and click Next:')}
               icon='sign-in'
               extrinsic={extrinsic}
             />
