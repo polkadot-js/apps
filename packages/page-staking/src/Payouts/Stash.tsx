@@ -11,16 +11,22 @@ import React, { useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { AddressMini, Badge, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 import { createErasString } from './util';
+import useEraBlocks from './useEraBlocks';
 
 interface Props {
   className?: string;
   isDisabled?: boolean;
   payout: PayoutStash;
   stakerPayoutsAfter: BN;
+}
+
+interface EraInfo {
+  eraStr: string;
+  oldestEra?: BN;
 }
 
 function createPrevPayoutType (api: ApiPromise, { era, isValidator, nominating }: DeriveStakerReward): SubmittableExtrinsic<'promise'> {
@@ -41,13 +47,15 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
   const { t } = useTranslation();
   const { api } = useApi();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [eraStr, setEraStr] = useState('');
+  const [{ eraStr, oldestEra }, setEraInfo] = useState<EraInfo>({ eraStr: '' });
+  const eraBlocks = useEraBlocks(oldestEra);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
 
   useEffect((): void => {
-    rewards && setEraStr(
-      createErasString(rewards.map(({ era }): BN => era))
-    );
+    rewards && setEraInfo({
+      eraStr: createErasString(rewards.map(({ era }): BN => era)),
+      oldestEra: rewards[0]?.era
+    });
   }, [rewards]);
 
   useEffect((): void => {
@@ -78,6 +86,7 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
         <span className='payout-eras'>{eraStr}</span>
       </td>
       <td className='number'><FormatBalance value={available} /></td>
+      <td className='number'>{eraBlocks && <BlockToTime blocks={eraBlocks} />}</td>
       <td
         className='button'
         colSpan={3}
