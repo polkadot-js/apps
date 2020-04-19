@@ -180,6 +180,8 @@ export default translate(
       display: inline-block;
       font-size: 1rem;
       line-height: 1.714rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .ui--Param-text .icon {

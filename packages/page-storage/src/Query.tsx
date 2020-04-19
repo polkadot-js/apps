@@ -180,7 +180,7 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
       <div className='storage--actionrow-value'>
         <Labelled
           label={
-            <div className='ui--Param-text'>
+            <div className='storage--actionrow-label'>
               {keyToName(isConst, key)}: {type}
             </div>
           }
@@ -228,5 +228,10 @@ export default React.memo(styled(Query)`
 
   pre {
     margin: 0;
+
+    .ui--Param-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `);

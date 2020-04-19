@@ -25,7 +25,7 @@ function StaticParam ({ asHex, children, className, defaultValue, label, style }
       ? defaultValue.value.toHex()
       : JSON.stringify(
         defaultValue.value.toHuman ? defaultValue.value.toHuman() : defaultValue.value, null, 2
-      ).replace(/"/g, '')
+      ).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
   );
 
   return (
