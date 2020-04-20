@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Proposal } from '@polkadot/types/interfaces';
+import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
 import { Call, Expander } from '@polkadot/react-components';
+import { Compact } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
+import TreasuryCell from './TreasuryCell';
 
 interface Props {
   className?: string;
@@ -29,6 +31,7 @@ function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactEl
   }
 
   const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
+  const isTreasury = section === 'treasury' && ['approveProposal', 'rejectProposal'].includes(method);
 
   return (
     <td className={`${className} all`}>
@@ -37,8 +40,11 @@ function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactEl
         <Call
           labelHash={t('proposal hash')}
           value={proposal}
-          withHash
+          withHash={!isTreasury}
         />
+        {isTreasury && (
+          <TreasuryCell value={proposal.args[0] as Compact<ProposalIndex>} />
+        )}
       </Expander>
     </td>
   );
