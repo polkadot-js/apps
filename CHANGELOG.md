@@ -1,7 +1,29 @@
+# 0.41.1 Apr 20, 2020
+
+- Fix for searching child identities on parent name (Thanks to https://github.com/krogla)
+- Support chains with no balances module (Thanks to https://github.com/Voxelot)
+- Add out-of-the-box support for Encointer (Thanks to https://github.com/brenzi)
+- Add ava.do endpoint for Kusama (Thanks to https://github.com/Swader)
+- Show remaining time on staking payout actions, link payouts from actions
+- Display per-validator nominators on waiting list
+- Add support for Treasury tipping (display of available & creation)
+- Adjust display of passing/failing calcs in democracy (incl. no display when other side is 0)
+- Enable use of `system_chainType` to detect development chains
+- Adjust Expander display for balances as used in accounts
+- Adjust formatting outputs (via cleanup) for state queries
+- Cleanup nowrap on Extender as part of tables
+- Optimize retrieval of old-style validator/nominator payouts (not full historyDepth)
+- Optimize AccountName with caching & when used in lists (no lookup information attached, but not shown)
+- Optimize IdentityIcon with removal of extra queries
+- Optimize Transfers, no unneeded useEffect
+- Cleanups, remove unused components with no references (dropped in earlier refactoring)
+- More components to functional, specific focus on TxModal extends
+- Bumps to all @polkadot/* packages for latest support everywhere
+
 # 0.40.1 Apr 9, 2020
 
 - Swap voting to aye/nay toggles (Thanks to https://github.com/Lowhearth)
-- Cater for chains where no tp is present (Thanks to https://github.com/Sushisource)
+- Cater for chains where no tip is present (Thanks to https://github.com/Sushisource)
 - Export chain-specific settings via QR (thanks to https://github.com/hanwencheng)
 - Improve support for WS_URL usage (Thanks to https://github.com/chevdor)
 - Add out-of-the-box support for Centrifuge (Thanks to https://github.com/philipstanislaus)
