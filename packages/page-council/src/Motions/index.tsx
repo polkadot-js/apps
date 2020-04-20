@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { BlockNumber, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { Button, Table } from '@polkadot/react-components';
-import { useMembers } from '@polkadot/react-hooks';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Motion from './Motion';
@@ -23,7 +23,10 @@ interface Props {
 
 function Proposals ({ className, motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const { isMember, members } = useMembers();
+  const filtered = bestNumber && motions?.filter(({ votes }) => votes?.end.gt(bestNumber));
 
   return (
     <div className={className}>
@@ -44,7 +47,7 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
         />
       </Button.Group>
       <Table
-        empty={motions && t('No council motions')}
+        empty={filtered && t('No council motions')}
         header={[
           [t('motions'), 'start', 2],
           [t('threshold')],
@@ -54,7 +57,7 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
           [undefined, undefined, 2]
         ]}
       >
-        {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
+        {filtered?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
           <Motion
             isMember={isMember}
             key={motion.hash.toHex()}
