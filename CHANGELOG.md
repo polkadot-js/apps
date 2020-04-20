@@ -1,3 +1,7 @@
+# 0.42.0-beta.x
+
+- Expand Treasury proposal inline in council (for approve/reject)
+
 # 0.41.1 Apr 20, 2020
 
 - Fix for searching child identities on parent name (Thanks to https://github.com/krogla)
