@@ -6,10 +6,9 @@ import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue } from './types';
 
 import React from 'react';
-import styled from 'styled-components';
 import { ErrorBoundary } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
 
+import Holder from './Holder';
 import ParamComp from './ParamComp';
 import translate from './translate';
 import { createValue } from './values';
@@ -31,6 +30,8 @@ interface State {
   params?: ParamDef[] | null;
   values?: RawParams;
 }
+
+export { Holder };
 
 class Params extends React.PureComponent<Props, State> {
   public state: State = {
@@ -75,7 +76,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { children, className, isDisabled, onEnter, onEscape, overrides, params, style, withBorder = true } = this.props;
+    const { children, className, isDisabled, onEnter, onEscape, overrides, params, withBorder = true } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -83,9 +84,9 @@ class Params extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className={classes('ui--Params', className, withBorder ? 'withBorder' : 'withoutBorder')}
-        style={style}
+      <Holder
+        className={className}
+        withBorder={withBorder}
       >
         <ErrorBoundary onError={this.onRenderError}>
           <div className='ui--Params-Content'>
@@ -106,7 +107,7 @@ class Params extends React.PureComponent<Props, State> {
           </div>
           {children}
         </ErrorBoundary>
-      </div>
+      </Holder>
     );
   }
 
@@ -149,76 +150,4 @@ class Params extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
-  styled(Params as React.ComponentClass<Props>)`
-    &.withBorder {
-      border-left: 0.25rem solid #f2f2f2;
-    }
-
-    &.withoutBorder {
-      margin-left: -1.75rem;
-      padding: 0;
-    }
-
-    .ui--Param .ui--Labelled label {
-      text-transform: none !important;
-      font-family: monospace;
-    }
-
-    .ui--row {
-      flex-wrap: wrap;
-    }
-
-    .ui--Param-Address {
-      font-family: monospace;
-    }
-
-    .ui--Params-Content {
-      box-sizing: border-box;
-      padding: 0 0 0 1.75rem;
-    }
-
-    .ui--Param-text {
-      display: inline-block;
-      font-size: 1rem;
-      line-height: 1.714rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .ui--Param-text .icon {
-      margin-right: 0.5rem !important;
-    }
-
-    .ui--Param-text * {
-      vertical-align: middle;
-    }
-
-    .ui--Param-text.nowrap {
-      white-space: nowrap;
-    }
-
-    .ui--Param-text.name {
-      color: rgba(0, 0, 0, .6);
-      font-style: italic;
-    }
-
-    .ui--Param-text + .ui--Param-text {
-      margin-left: 0.5rem;
-    }
-
-    .ui--Param-Vector-buttons {
-      text-align: right;
-    }
-
-    .ui--Param-composite {
-      position: relative;
-
-      .ui--Param-overlay {
-        position: absolute;
-        top: 0.5rem;
-        right: 3.5rem;
-      }
-    }
-  `
-);
+export default translate(Params);
