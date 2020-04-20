@@ -9,7 +9,7 @@ import { useApi, useOwnStashes, useToggle} from '@polkadot/react-hooks';
 import { useTranslation} from '@polkadot/app-accounts/translate';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { Available } from '@polkadot/react-query';
-import { AddressInfo, Button, InputBalance, TxButton, Spinner } from '@polkadot/react-components';
+import { AddressInfo, Button, InputBalance, TxButton /*, Spinner*/ } from '@polkadot/react-components';
 import TabsHeader from '@polkadot/app-staking/Nomination/TabsHeader';
 import StashesTable from '@polkadot/app-staking/Nomination/StahesTable';
 import { useBalanceClear, useFees, WholeFeesType } from '@polkadot/app-staking/Nomination/useBalance';
@@ -34,7 +34,7 @@ interface Props {
 function Nomination ({ className, isVisible, stakingOverview, next }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [currentStep, setCurrentStep] = useState<string>(steps[0]);
-  const [alreadyHaveStashes, setAlreadyHaveStashes] = useState<boolean>(false);
+  const [alreadyHaveStashes /*, setAlreadyHaveStashes*/ ] = useState<boolean>(false);
   const [isNominated, setIsNominated] = useState<boolean>(false);
   const [controllerAccountId, setControllerAccountId] = useState<string | null>(null);
   const [senderId, setSenderId] = useState<string | null>(null);
@@ -279,7 +279,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
                   withRewardDestination
                 />
                 <section>
-                  <h1>Bond</h1>
+                  <h1>{t('Enter the amount you would like to Bond and click Next:')}</h1>
                   <div className='ui--row'>
                     <div className='large'>
                       <InputBalance
@@ -329,7 +329,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
               accountId={senderId}
               isDisabled={controllerAlreadyBonded}
               isPrimary
-              label={t('Enter the amount you would like to Bond and click Next:')}
+              label={t('Bond')}
               icon='sign-in'
               extrinsic={extrinsic}
             />
@@ -337,7 +337,7 @@ function Nomination ({ className, isVisible, stakingOverview, next }: Props): Re
           {currentStep === steps[3] && controllerAlreadyBonded && (
             <TxButton
               accountId={controllerAccountId}
-              isDisabled={!selectedValidators?.length || !controllerAlreadyBonded || isNominated || validatorsLoading}
+              isDisabled={!selectedValidators.length || !controllerAlreadyBonded || isNominated || validatorsLoading}
               isPrimary
               params={[selectedValidators]}
               label={t('Nominate')}
