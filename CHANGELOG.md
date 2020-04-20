@@ -1,6 +1,7 @@
 # 0.42.0-beta.x
 
 - Expand Treasury proposal inline in council (for approve/reject)
+- Expand external proposals in council (preimage lookups)
 
 # 0.41.1 Apr 20, 2020
 
