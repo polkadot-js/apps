@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, InputAddress, InputBalanceBonded, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -61,14 +61,12 @@ function NewStake ({ className, isInElection }: Props): React.ReactElement<Props
         >
           <Modal.Content className='ui--signer-Signer-Content'>
             <InputAddress
-              className='medium'
               label={t('stash account')}
               onChange={setStashId}
               type='account'
               value={stashId}
             />
             <InputAddress
-              className='medium'
               help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
               label={t('controller account')}
               onChange={setControllerId}
@@ -80,17 +78,12 @@ function NewStake ({ className, isInElection }: Props): React.ReactElement<Props
               controllerId={controllerId}
               onError={setControllerError}
             />
-            <InputBalanceBonded
+            <InputBalance
               autoFocus
-              className='medium'
-              controllerId={controllerId}
-              destination={destination}
-              extrinsicProp={'staking.bond'}
               help={t('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
               isError={!hasValue || !!amountError}
               label={t('value bonded')}
               onChange={setAmount}
-              stashId={stashId}
             />
             <InputValidateAmount
               accountId={stashId}
@@ -98,7 +91,6 @@ function NewStake ({ className, isInElection }: Props): React.ReactElement<Props
               value={amount}
             />
             <Dropdown
-              className='medium'
               defaultValue={0}
               help={t('The destination account for any payments as either a nominator or validator')}
               label={t('payment destination')}
