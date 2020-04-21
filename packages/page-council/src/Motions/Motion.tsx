@@ -5,7 +5,6 @@
 import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
-import BN from 'bn.js';
 import React from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { LinkExternal } from '@polkadot/react-components';
@@ -26,7 +25,7 @@ interface Props {
 
 function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
   if (!votes) {
     return null;
@@ -45,7 +44,7 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
       <td className='number together'>
-        {end && (
+        {bestNumber && end && (
           <>
             <BlockToTime blocks={end.sub(bestNumber)} />
             #{formatNumber(end)}
@@ -55,14 +54,16 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
       <Votes votes={ayes} />
       <Votes votes={nays} />
       <td className='button'>
-        <Voting
-          hash={hash}
-          idNumber={index}
-          isDisabled={!isMember}
-          members={members}
-          prime={prime}
-          proposal={proposal}
-        />
+        {bestNumber && end.gt(bestNumber) && (
+          <Voting
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            prime={prime}
+            proposal={proposal}
+          />
+        )}
       </td>
       <td className='mini'>
         <LinkExternal

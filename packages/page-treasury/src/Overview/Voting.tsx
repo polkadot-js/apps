@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { ProposalIndex, Hash } from '@polkadot/types/interfaces';
+import { BlockNumber, Hash, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Dropdown, Input, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -25,6 +25,8 @@ interface Option {
 function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -38,15 +40,16 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
 
   useEffect((): void => {
     const available = councilProposals
+      .filter(({ votes }) => bestNumber && votes?.end.gt(bestNumber))
       .map(({ proposal: { methodName, sectionName }, votes }): Option => ({
         text: `Council #${votes?.index.toNumber()}: ${sectionName}.${methodName} `,
         value: votes ? votes?.index.toNumber() : -1
       }))
-      .filter(({ value }): boolean => value !== -1);
+      .filter(({ value }) => value !== -1);
 
     setCouncilOptId(available.length ? available[0].value : 0);
     setCouncilOpts(available);
-  }, [councilProposals]);
+  }, [bestNumber, councilProposals]);
 
   const _onChangeVote = useCallback(
     (vote?: boolean) => setVoteValue(isBoolean(vote) ? vote : true),
@@ -55,7 +58,7 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
 
   const _onChangeProposal = useCallback(
     (optionId: number): void => {
-      const councilProp = councilProposals.find(({ votes }): boolean => !!(votes?.index.eq(optionId)));
+      const councilProp = councilProposals.find(({ votes }) => votes?.index.eq(optionId));
 
       if (councilProp && councilProp.votes) {
         setCouncilInfo({ councilHash: councilProp.hash, councilId: councilProp.votes.index });
