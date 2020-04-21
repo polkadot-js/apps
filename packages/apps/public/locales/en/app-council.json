@@ -81,5 +81,9 @@
   "nay": "nay",
   "motions": "motions",
   "This account will be use to approve each candidate.": "This account will be use to approve each candidate.",
-  "voting account": "voting account"
+  "voting account": "voting account",
+  "Close proposal": "Close proposal",
+  "Select the account you wish close the proposal with.": "Select the account you wish close the proposal with.",
+  "sending account": "sending account",
+  "Close": "Close"
 }
