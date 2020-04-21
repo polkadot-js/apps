@@ -1,15 +1,19 @@
-FROM ubuntu:latest
+FROM ubuntu:latest as data
 LABEL maintainer="gz@usetech.com"
 
-RUN apt-get update; apt-get install -y curl
+EXPOSE 9944 
+VOLUME ["/chain-data"]
+
+RUN apt-get update; apt-get install -y curl unzip
 
 WORKDIR /substrate
 
+# Install RUST
 COPY ["docker/getrust.sh", "./getrust.sh"]
-
 RUN /bin/bash ./getrust.sh
 RUN git clone https://github.com/paritytech/substrate substrate
 
+# Build specific commit of substrate (to match chain data)
 WORKDIR /substrate/substrate
 
 RUN git fetch --all
@@ -20,7 +24,11 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 
 RUN cargo build --release
 
-#COPY ["docker/chaindata.zip", "./chaindata.zip"]
-#RUN rm =rf /chain-data/chains unzip chaindata.zip /chain-data
+# Copy chain data
+COPY ["docker/chaindata.zip", "./chaindata.zip"]
 
-CMD ["cargo", "run", "--release", "--", "--dev", "--base-path", "/chain-data", "--chain=chainspec.json"]
+# Copy and run start script
+COPY ["docker/extract_data_and_run.sh", "./extract_data_and_run.sh"]
+RUN chmod +x ./extract_data_and_run.sh
+CMD ["bash", "-c", "./extract_data_and_run.sh"]
+
