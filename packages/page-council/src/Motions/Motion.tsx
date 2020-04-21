@@ -12,6 +12,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import Close from './Close';
 import Votes from './Votes';
 import Voting from './Voting';
 
@@ -54,15 +55,25 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
       <Votes votes={ayes} />
       <Votes votes={nays} />
       <td className='button'>
-        {bestNumber && end.gt(bestNumber) && (
-          <Voting
-            hash={hash}
-            idNumber={index}
-            isDisabled={!isMember}
-            members={members}
-            prime={prime}
-            proposal={proposal}
-          />
+        {bestNumber && (
+          end.gt(bestNumber)
+            ? (
+              <Voting
+                hash={hash}
+                idNumber={index}
+                isDisabled={!isMember}
+                members={members}
+                prime={prime}
+                proposal={proposal}
+              />
+            )
+            : (
+              <Close
+                hash={hash}
+                idNumber={index}
+                proposal={proposal}
+              />
+            )
         )}
       </td>
       <td className='mini'>
