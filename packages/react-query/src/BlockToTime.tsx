@@ -54,7 +54,7 @@ function extractTime (value?: number): Time {
   return addTime([round, 0, 0, 0], extractTime(value - (round * DAY)));
 }
 
-function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> {
+function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const time = useMemo((): string => {
@@ -72,6 +72,10 @@ function BlockToTime ({ blocks, children, className, label, style }: Props): Rea
       time[3] ? (time[3] > 1) ? t('{{s}} s', { replace: { s: time[3] } }) : t('1 s') : null
     ].filter((value): value is string => !!value).slice(0, 2).join(' ');
   }, [api, blocks, t]);
+
+  if (blocks?.ltn(0)) {
+    return null;
+  }
 
   return (
     <div

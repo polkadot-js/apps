@@ -3,26 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveCollectiveProposals } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
 
-import { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
+
+function transform (motions: DeriveCollectiveProposals): number {
+  return motions.filter(({ votes }): boolean => !!votes).length;
+}
 
 export default function useCounter (): number {
   const { api, isApiReady } = useApi();
-  const [counter, setCounter] = useState(0);
-  const bestNumber = useCall<BlockNumber>(isApiReady && api.derive.chain.bestNumber, []);
-  const proposals = useCall<DeriveCollectiveProposals>(isApiReady && api.derive.council?.proposals, []);
-
-  useEffect((): void => {
-    bestNumber && proposals && setCounter((prev: number): number => {
-      const filtered = proposals.filter(({ votes }) => votes?.end.gt(bestNumber));
-
-      return filtered.length !== prev
-        ? filtered.length
-        : prev;
-    });
-  }, [bestNumber, proposals]);
+  const counter = useCall<number>(isApiReady && api.derive.council?.proposals, [], {
+    transform
+  }) || 0;
 
   return counter;
 }
