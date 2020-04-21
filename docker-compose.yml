@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  node:
+    volumes:
+     - ./chain-data:/chain-data
+    ports:
+     - 9944:9944
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.substrate
+          

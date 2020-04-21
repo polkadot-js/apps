@@ -1,0 +1,26 @@
+FROM ubuntu:latest
+LABEL maintainer="gz@usetech.com"
+
+RUN apt-get update; apt-get install -y curl
+
+WORKDIR /substrate
+
+COPY ["docker/getrust.sh", "./getrust.sh"]
+
+RUN /bin/bash ./getrust.sh
+RUN git clone https://github.com/paritytech/substrate substrate
+
+WORKDIR /substrate/substrate
+
+RUN git fetch --all
+RUN git checkout fc6e2a625d8
+COPY ["docker/chainspec.json", "./chainspec.json"]
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN cargo build --release
+
+#COPY ["docker/chaindata.zip", "./chaindata.zip"]
+#RUN rm =rf /chain-data/chains unzip chaindata.zip /chain-data
+
+CMD ["cargo", "run", "--release", "--", "--dev", "--base-path", "/chain-data", "--chain=chainspec.json"]
