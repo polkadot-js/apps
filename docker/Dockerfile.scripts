@@ -1,0 +1,12 @@
+FROM node:12.16.2
+LABEL maintainer="gz@usetech.com"
+
+RUN apt-get update && apt-get install -y python build-essential
+
+WORKDIR "/src"
+COPY ["./docker/scripts", "."]
+
+RUN npm install
+
+CMD ["node", "set_identities.js"]
+

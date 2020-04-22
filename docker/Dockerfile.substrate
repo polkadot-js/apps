@@ -25,10 +25,10 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo build --release
 
 # Copy chain data
-COPY ["docker/chaindata.zip", "./chaindata.zip"]
+# COPY ["docker/chaindata.zip", "./chaindata.zip"]
 
 # Copy and run start script
-COPY ["docker/extract_data_and_run.sh", "./extract_data_and_run.sh"]
-RUN chmod +x ./extract_data_and_run.sh
-CMD ["bash", "-c", "./extract_data_and_run.sh"]
+COPY ["docker/run.sh", "./run.sh"]
+RUN chmod +x ./run.sh
+CMD ["bash", "-c", "./run.sh"]
 

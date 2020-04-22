@@ -1,5 +1,9 @@
 version: "3.2"
 
+networks:
+  substrate_net:
+    external: false
+
 services:
   node:
     volumes:
@@ -9,3 +13,12 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.substrate
+    networks:
+      - substrate_net
+  
+  scripts:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.scripts
+    networks:
+      - substrate_net

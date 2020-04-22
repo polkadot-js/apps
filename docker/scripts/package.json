@@ -1,0 +1,45 @@
+{
+  "name": "SubstraPunks",
+  "version": "1.0.0",
+  "description": "Substrate Based Remake of CryptoPunks",
+  "main": "",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "browserify": "^16.5.1",
+    "got": "^10.7.0",
+    "web3": "^1.2.6"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "author": "",
+  "license": "Apache 2.0",
+  "homepage": "",
+  "dependencies": {
+    "await-sleep": "^0.0.1",
+    "bignumber.js": "^8.0.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "png-crop": "^0.0.2",
+    "@polkadot/api": "^1.11.0-beta.32",
+    "@polkadot/types": "^1.11.0-beta.32",
+    "pug": "^2.0.4",
+    "sprintf-js": "^1.1.2"
+  },
+  "standard": {
+    "globals": [
+      "it",
+      "assert",
+      "beforeEach",
+      "afterEach",
+      "describe",
+      "contract",
+      "artifacts"
+    ]
+  }
+}
