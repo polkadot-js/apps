@@ -31,13 +31,13 @@ const IS_NONE = {
 
 export default function useAccountInfo (_value: AccountId | Address | string | Uint8Array): UseAccountInfo {
   const value = _value.toString();
-  const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [value]);
-  const accountFlags = useCall<DeriveAccountFlags>(api.api.derive.accounts.flags as any, [value]) || {};
+  const { api } = useApi();
+  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
+  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags as any, [value]);
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
 
-  const [tags, _setTags] = useState<string[]>([]);
+  const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
@@ -46,15 +46,17 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
   const [isEditingName, toggleIsEditingName] = useToggle(false);
   const [isEditingTags, toggleIsEditingTags] = useToggle(false);
 
-  const setTags = useCallback(
-    (tags: string[]): void => _setTags(tags.sort()),
-    []
-  );
+  useEffect((): void => {
+    accountFlags && setFlags((flags) => ({
+      ...flags,
+      ...accountFlags
+    }));
+  }, [accountFlags]);
 
   useEffect((): void => {
-    const { identity, nickname } = info || {};
+    const { identity, nickname } = accountInfo || {};
 
-    if (api.api.query.identity && api.api.query.identity.identityOf) {
+    if (api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
         setName(identity.display);
       }
@@ -64,17 +66,12 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
       setName('');
     }
 
-    setFlags((flags) => ({
-      ...flags,
-      ...accountFlags
-    }));
-
     if (identity) {
-      const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
-      const isKnownGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood);
-      const isReasonable = judgements.some(([, judgement]): boolean => judgement.isReasonable);
-      const isErroneous = judgements.some(([, judgement]): boolean => judgement.isErroneous);
-      const isLowQuality = judgements.some(([, judgement]): boolean => judgement.isLowQuality);
+      const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
+      const isKnownGood = judgements.some(([, judgement]) => judgement.isKnownGood);
+      const isReasonable = judgements.some(([, judgement]) => judgement.isReasonable);
+      const isErroneous = judgements.some(([, judgement]) => judgement.isErroneous);
+      const isLowQuality = judgements.some(([, judgement]) => judgement.isLowQuality);
 
       setIdentity({
         ...identity,
@@ -91,7 +88,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     } else {
       setIdentity(undefined);
     }
-  }, [api, accountFlags, info]);
+  }, [accountInfo, api]);
 
   useEffect((): void => {
     const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
@@ -107,9 +104,9 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
       isInContacts,
       isOwned
     }));
-    setTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
     setName(accountOrAddress?.meta.name || '');
-  }, [identity, isAccount, isAddress, setTags, value]);
+    setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
+  }, [identity, isAccount, isAddress, value]);
 
   const onSaveName = useCallback(
     (): void => {
@@ -181,6 +178,11 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
       setGenesisHash(genesisHash);
     },
     [genesisHash, value]
+  );
+
+  const setTags = useCallback(
+    (tags: string[]): void => setSortedTags(tags.sort()),
+    []
   );
 
   return {
