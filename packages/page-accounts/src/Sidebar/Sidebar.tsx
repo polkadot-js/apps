@@ -9,11 +9,10 @@ import React from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
-import polkascan from '@polkadot/apps-config/links/polkascan';
 
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, Transfer } from '@polkadot/react-components';
+import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Transfer } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -25,7 +24,7 @@ interface Props extends BareProps {
 
 function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> | null{
   const { t } = useTranslation();
-  const { api, systemChain } = useApi();
+  const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const accountInfo = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
@@ -297,13 +296,12 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
             <div>
               <AvatarItem
                 icon={
-                  identity.image
-                    ? (
-                      <img src={identity.image} />
-                    )
-                    : (
-                      <i className='icon user ui--AddressMenu-identityIcon' />
-                    )
+                  // This won't work - images are IPFS hashes
+                  // identity.image
+                  //   ? <img src={identity.image} />
+                  //   : <i className='icon user ui--AddressMenu-identityIcon' />
+                  //
+                  <i className='icon user ui--AddressMenu-identityIcon' />
                 }
                 subtitle={identity.legal}
                 title={identity.display}
@@ -470,12 +468,9 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                   </li>
                 )}
                 <li>
-                  <IconLink
-                    href={polkascan.create(polkascan.chains[systemChain as 'Kusama'], polkascan.paths.address, address.toString())}
-                    icon='external'
-                    label={t('View on Polkascan')}
-                    rel='noopener noreferrer'
-                    target='_blank'
+                  <LinkExternal
+                    data={address}
+                    type='address'
                   />
                 </li>
               </ul>
@@ -509,7 +504,7 @@ export default React.memo(styled(Sidebar)`
   right: 0;
   bottom: 0;
   max-width: 24rem;
-  background: white;
+  background: #f5f5f5;
   padding: 1rem;
   box-shadow: -6px 0px 20px 0px rgba(0,0,0,0.2);
   z-index: 999;
@@ -542,8 +537,10 @@ export default React.memo(styled(Sidebar)`
 
   .ui--AddressMenu-addr {
     font-family: monospace;
-    font-size: 0.8rem;
-    margin: 0.6rem 0;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
   .ui--AddressMenu-section {
@@ -556,7 +553,7 @@ export default React.memo(styled(Sidebar)`
       color: #aaa;
       margin-bottom: 0.4rem;
       width: 100%;
-  
+
       & > :first-child {
         flex: 1;
       }
@@ -646,7 +643,7 @@ export default React.memo(styled(Sidebar)`
   .name--input {
     .ui.input {
       margin: 0 !important;
-      
+
       > input {
         padding: 0 !important;
         background: rgba(230, 230, 230, 0.8) !important;
