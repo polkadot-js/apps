@@ -63,17 +63,19 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
 function LinkExternal ({ className, data, hash, type, withShort }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
-  const links = useMemo((): React.ReactNode[] => {
-    return genLinks(systemChain, { data, hash, type, withShort });
-  }, [systemChain, data, hash, type, withShort]);
+  const links = useMemo(
+    () => genLinks(systemChain, { data, hash, type, withShort }),
+    [systemChain, data, hash, type, withShort]
+  );
 
   if (!links.length) {
     return null;
   }
 
   return (
-    <div className={`${className} ${withShort ? 'withShort' : ''}`}>
-      {!withShort && <div>{t('View this externally')}</div>}<div>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
+    <div className={`${className} ${withShort && 'withShort'}`}>
+      {!withShort && <div>{t('View this externally')}</div>}
+      <div>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/ty
 import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Button, Expander, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
@@ -33,6 +34,7 @@ interface Props {
   isOwnStash: boolean;
   next?: string[];
   onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
+  setBonded: (account: string, bonded: BN) => void;
   stashId: string;
   validators?: string[];
 }
@@ -90,7 +92,7 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
   };
 }
 
-function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdateType, stashId, validators }: Props): React.ReactElement<Props> {
+function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdateType, setBonded, stashId, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -114,6 +116,10 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
     if (stakingAccount && validateInfo) {
       const state = getStakeState(allAccounts, allStashes, stakingAccount, stashId, validateInfo);
 
+      if (state.stakingLedger) {
+        setBonded(stashId, state.stakingLedger.total.unwrap());
+      }
+
       setStakeState(state);
       onUpdateType(
         stashId,
@@ -124,7 +130,7 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
             : 'other'
       );
     }
-  }, [allAccounts, allStashes, onUpdateType, stakingAccount, stashId, validateInfo]);
+  }, [allAccounts, allStashes, onUpdateType, stakingAccount, setBonded, stashId, validateInfo]);
 
   useEffect((): void => {
     nominating && setActiveNoms(
