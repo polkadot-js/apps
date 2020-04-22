@@ -6,7 +6,7 @@ import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/ty
 import { AccountId, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Input, Table } from '@polkadot/react-components';
 import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
@@ -111,6 +111,33 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     );
   }, [nominators]);
 
+  const headerActive = useMemo(() => [
+    [t('intentions'), 'start', 3],
+    [t('nominators'), 'start', 2],
+    [t('commission'), 'number', 1],
+    [undefined, undefined, 3]
+  ], [t]);
+
+  const headerWaiting = useMemo(() => [
+    [t('validators'), 'start', 3],
+    [t('other stake')],
+    [t('own stake')],
+    [t('commission')],
+    [t('points')],
+    [t('last #')],
+    []
+  ], [t]);
+
+  const filter = useMemo(() => (
+    <Input
+      autoFocus
+      isFull
+      label={t('filter by name, address or index')}
+      onChange={setNameFilter}
+      value={nameFilter}
+    />
+  ), [nameFilter, t]);
+
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
       (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
@@ -139,12 +166,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     ? (
       <Table
         empty={waiting && t('No waiting validators found')}
-        header={[
-          [t('intentions'), 'start', 3],
-          [t('nominators'), 'start', 2],
-          [t('commission'), 'number', 1],
-          [undefined, undefined, 3]
-        ]}
+        header={headerActive}
       >
         {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
       </Table>
@@ -152,24 +174,8 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     : (
       <Table
         empty={validators && t('No active validators found')}
-        filter={
-          <Input
-            autoFocus
-            isFull
-            label={t('filter by name, address or index')}
-            onChange={setNameFilter}
-            value={nameFilter}
-          />
-        }
-        header={[
-          [t('validators'), 'start', 3],
-          [t('other stake')],
-          [t('own stake')],
-          [t('commission')],
-          [t('points')],
-          [t('last #')],
-          []
-        ]}
+        filter={filter}
+        header={headerWaiting}
       >
         {_renderRows(validators, true)}
       </Table>

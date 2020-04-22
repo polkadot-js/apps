@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -18,18 +18,20 @@ interface Props {
 function Tips ({ className, hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const header = useMemo(() => [
+    [t('tips'), 'start'],
+    [t('finder'), 'address'],
+    [t('fee')],
+    [t('reason'), 'start'],
+    [],
+    []
+  ], [t]);
+
   return (
     <Table
       className={className}
       empty={hashes && t('No open tips')}
-      header={[
-        [t('tips'), 'start'],
-        [t('finder'), 'address'],
-        [t('fee')],
-        [t('reason'), 'start'],
-        [],
-        []
-      ]}
+      header={header}
     >
       {hashes?.map((hash): React.ReactNode => (
         <Tip

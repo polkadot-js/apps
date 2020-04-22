@@ -5,7 +5,7 @@
 import { Hash } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from '../types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -14,6 +14,14 @@ import Propose from './Propose';
 
 function Proposals ({ className, isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const header = useMemo(() => [
+    [t('proposals'), 'start', 2],
+    [t('threshold')],
+    [t('aye'), 'address'],
+    [t('nay'), 'address'],
+    []
+  ], [t]);
 
   return (
     <div className={className}>
@@ -25,13 +33,7 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
       </Button.Group>
       <Table
         empty={proposals && t('No committee proposals')}
-        header={[
-          [t('proposals'), 'start', 2],
-          [t('threshold')],
-          [t('aye'), 'address'],
-          [t('nay'), 'address'],
-          []
-        ]}
+        header={header}
       >
         {proposals?.map((hash: Hash): React.ReactNode => (
           <Proposal

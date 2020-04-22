@@ -5,7 +5,7 @@
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -72,28 +72,32 @@ function Actions ({ allStashes, className, isInElection, next, validators }: Pro
     []
   );
 
+  const header = useMemo(() => [
+    [t('stashes'), 'start'],
+    [t('controller'), 'address'],
+    [t('rewards'), 'number'],
+    [t('bonded'), 'number'],
+    [undefined, undefined, 2]
+  ], [t]);
+
+  const footer = useMemo(() => (
+    <tr>
+      <td colSpan={3} />
+      <td className='number'>
+        {bondedTotal && <FormatBalance value={bondedTotal} />}
+      </td>
+      <td colSpan={2} />
+    </tr>
+  ), [bondedTotal]);
+
   return (
     <div className={className}>
       <NewStake />
       <ElectionBanner isInElection={isInElection} />
       <Table
         empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
-        footer={
-          <tr>
-            <td colSpan={3} />
-            <td className='number'>
-              {bondedTotal && <FormatBalance value={bondedTotal} />}
-            </td>
-            <td colSpan={2} />
-          </tr>
-        }
-        header={[
-          [t('stashes'), 'start'],
-          [t('controller'), 'address'],
-          [t('rewards'), 'number'],
-          [t('bonded'), 'number'],
-          [undefined, undefined, 2]
-        ]}
+        footer={footer}
+        header={header}
       >
         {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
           <Account

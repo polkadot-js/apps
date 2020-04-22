@@ -4,7 +4,7 @@
 
 import { EventRecord } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import Event from './Event';
@@ -20,12 +20,14 @@ interface Props {
 function Events ({ emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const header = useMemo(() => [
+    [label || t('recent events'), 'start']
+  ], [label, t]);
+
   return (
     <Table
       empty={emptyLabel || t('No events available')}
-      header={[
-        [label || t('recent events'), 'start']
-      ]}
+      header={header}
     >
       {events
         .filter(({ event: { method, section } }): boolean => !!method && !!section)

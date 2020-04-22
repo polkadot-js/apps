@@ -4,7 +4,7 @@
 
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -20,18 +20,20 @@ function Referendums ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
 
+  const header = useMemo(() => [
+    [t('referenda'), 'start', 2],
+    [t('remaining')],
+    [t('activate')],
+    [t('aye')],
+    [t('nay')],
+    [undefined, undefined, 3]
+  ], [t]);
+
   return (
     <Table
       className={className}
       empty={referendums && t('No active referendums')}
-      header={[
-        [t('referenda'), 'start', 2],
-        [t('remaining')],
-        [t('activate')],
-        [t('aye')],
-        [t('nay')],
-        [undefined, undefined, 3]
-      ]}
+      header={header}
     >
       {referendums?.map((referendum): React.ReactNode => (
         <Referendum
