@@ -4,7 +4,7 @@
 
 import { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Table } from '@polkadot/react-components';
 
@@ -29,17 +29,19 @@ function ProposalsBase ({ className, isApprovals, isMember, proposals }: Props):
     [history]
   );
 
+  const header = useMemo(() => [
+    [isApprovals ? t('Approved') : t('Proposals'), 'start', 2],
+    [t('beneficiary'), 'address'],
+    [t('payment')],
+    [t('bond')],
+    [undefined, undefined, 2]
+  ], [isApprovals, t]);
+
   return (
     <Table
       className={className}
       empty={proposals && (isApprovals ? t('No approved proposals') : t('No pending proposals'))}
-      header={[
-        [isApprovals ? t('Approved') : t('Proposals'), 'start', 2],
-        [t('beneficiary'), 'address'],
-        [t('payment')],
-        [t('bond')],
-        [undefined, undefined, 2]
-      ]}
+      header={header}
     >
       {proposals?.map((proposal): React.ReactNode => (
         <Proposal

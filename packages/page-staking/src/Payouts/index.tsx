@@ -6,7 +6,7 @@ import { DeriveStakerReward } from '@polkadot/api-derive/types';
 import { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Table } from '@polkadot/react-components';
 import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
@@ -109,6 +109,32 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
     }
   }, [allRewards]);
 
+  const headerStashes = useMemo(() => [
+    [t('payout/stash'), 'start'],
+    [t('eras'), 'start'],
+    [t('available')],
+    [('remaining')],
+    [undefined, undefined, 3]
+  ], [t]);
+
+  const headerValidators = useMemo(() => [
+    [t('payout/validator'), 'start'],
+    [t('eras'), 'start'],
+    [t('available')],
+    [('remaining')],
+    [undefined, undefined, 3]
+  ], [t]);
+
+  const footer = useMemo(() => (
+    <tr>
+      <td colSpan={2} />
+      <td className='number'>
+        {stashTotal && <FormatBalance value={stashTotal} />}
+      </td>
+      <td colSpan={4} />
+    </tr>
+  ), [stashTotal]);
+
   return (
     <div className={className}>
       {api.tx.staking.payoutStakers && (
@@ -123,22 +149,8 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       <Table
         empty={stashes && t('No pending payouts for your stashes')}
         emptySpinner={t('Retrieving info for all applicable eras, this will take some time')}
-        footer={
-          <tr>
-            <td colSpan={2} />
-            <td className='number'>
-              {stashTotal && <FormatBalance value={stashTotal} />}
-            </td>
-            <td colSpan={4} />
-          </tr>
-        }
-        header={[
-          [t('payout/stash'), 'start'],
-          [t('eras'), 'start'],
-          [t('available')],
-          [('remaining')],
-          [undefined, undefined, 3]
-        ]}
+        footer={footer}
+        header={headerStashes}
         isFixed
       >
         {stashes?.map((payout): React.ReactNode => (
@@ -153,13 +165,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       {api.tx.staking.payoutStakers && (
         <Table
           empty={validators && t('No pending era payouts from validators')}
-          header={[
-            [t('payout/validator'), 'start'],
-            [t('eras'), 'start'],
-            [t('available')],
-            [('remaining')],
-            [undefined, undefined, 3]
-          ]}
+          header={headerValidators}
           isFixed
         >
           {validators?.map((payout): React.ReactNode => (

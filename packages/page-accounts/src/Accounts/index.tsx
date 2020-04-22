@@ -7,7 +7,7 @@ import { ComponentProps as Props } from '../types';
 import { SortedAccount } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
@@ -98,7 +98,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
-  const [filter, setFilter] = useState<string>('');
+  const [filterOn, setFilter] = useState<string>('');
 
   useEffect((): void => {
     setSortedAccounts(
@@ -118,6 +118,38 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       }),
     []
   );
+
+  const header = useMemo(() => [
+    [t('accounts'), 'start', 3],
+    [t('parent'), 'address'],
+    [t('type')],
+    [t('tags'), 'start'],
+    [t('transactions')],
+    [t('balances')],
+    [undefined, undefined, 2]
+  ], [t]);
+
+  const footer = useMemo(() => (
+    <tr>
+      <td colSpan={7} />
+      <td className='number'>
+        {balanceTotal && <FormatBalance value={balanceTotal} />}
+      </td>
+      <td colSpan={2} />
+    </tr>
+  ), [balanceTotal]);
+
+  const filter = useMemo(() => (
+    <div className='filter--tags'>
+      <Input
+        autoFocus
+        isFull
+        label={t('filter by name or tags')}
+        onChange={setFilter}
+        value={filterOn}
+      />
+    </div>
+  ), [filterOn, t]);
 
   return (
     <div className={className}>
@@ -171,40 +203,14 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       </Button.Group>
       <Table
         empty={t('no accounts yet, create or import an existing')}
-        filter={
-          <div className='filter--tags'>
-            <Input
-              autoFocus
-              isFull
-              label={t('filter by name or tags')}
-              onChange={setFilter}
-              value={filter}
-            />
-          </div>
-        }
-        footer={
-          <tr>
-            <td colSpan={7} />
-            <td className='number'>
-              {balanceTotal && <FormatBalance value={balanceTotal} />}
-            </td>
-            <td colSpan={2} />
-          </tr>
-        }
-        header={[
-          [t('accounts'), 'start', 3],
-          [t('parent'), 'address'],
-          [t('type')],
-          [t('tags'), 'start'],
-          [t('transactions')],
-          [t('balances')],
-          [undefined, undefined, 2]
-        ]}
+        filter={filter}
+        footer={footer}
+        header={header}
       >
         {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
           <Account
             account={account}
-            filter={filter}
+            filter={filterOn}
             isFavorite={isFavorite}
             key={account.address}
             setBalance={_setBalance}
