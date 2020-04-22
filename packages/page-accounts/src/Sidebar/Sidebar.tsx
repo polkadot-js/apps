@@ -264,31 +264,28 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 {' '}
                 {t('identity')}
               </div>
-              {identity?.isExistent && (
-                <Label
-                  color={
-                    identity.isGood
-                      ? 'green'
-                      : identity.isBad
-                        ? 'red'
-                        : 'yellow'
+              <Label
+                color={
+                  identity.isGood
+                    ? 'green'
+                    : identity.isBad
+                      ? 'red'
+                      : 'yellow'
+                }
+                size='tiny'
+              >
+                <b>{identity.judgements.length}</b>
+                <Label.Detail>
+                  {
+                    identity.judgements.length
+                      ? (identity.isGood
+                        ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
+                        : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
+                      )
+                      : t('No judgments')
                   }
-                  size='tiny'
-                >
-                  <b>{identity.judgements.length}</b>
-                  <Label.Detail>
-                    {
-                      identity.judgements.length
-                        ? (identity.isGood
-                          ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
-                          : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
-                        )
-                        : t('No judgments')
-                    }
-                  </Label.Detail>
-                </Label>
-              )}
-
+                </Label.Detail>
+              </Label>
             </div>
             <div>
               <AvatarItem

@@ -77,7 +77,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
         ...identity,
         isBad: isErroneous || isLowQuality,
         isErroneous,
-        isExistent: identity.judgements.length > 0,
+        isExistent: !!identity.display,
         isGood: isKnownGood || isReasonable,
         isKnownGood,
         isLowQuality,
