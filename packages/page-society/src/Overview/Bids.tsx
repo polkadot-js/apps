@@ -4,7 +4,7 @@
 
 import { Bid } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -20,15 +20,17 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bids = useCall<Bid[]>(api.query.society.bids, []);
 
+  const header = useMemo(() => [
+    [t('bids'), 'start'],
+    [t('kind')],
+    [t('value')]
+  ], [t]);
+
   return (
     <Table
       className={className}
       empty={bids && t('No bids')}
-      header={[
-        [t('bids'), 'start'],
-        [t('kind')],
-        [t('value')]
-      ]}
+      header={header}
     >
       {bids?.map((bid): React.ReactNode => (
         <BidRow

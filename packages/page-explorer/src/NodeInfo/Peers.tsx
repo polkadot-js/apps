@@ -4,7 +4,7 @@
 
 import { PeerInfo } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -18,16 +18,18 @@ interface Props {
 function Peers ({ className, peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const header = useMemo(() => [
+    [t('connected peers'), 'start'],
+    [t('role'), 'start'],
+    [t('best #'), 'number'],
+    [t('best hash'), 'hash']
+  ], [t]);
+
   return (
     <Table
       className={className}
       empty={t('no peers connected')}
-      header={[
-        [t('connected peers'), 'start'],
-        [t('role'), 'start'],
-        [t('best #'), 'number'],
-        [t('best hash'), 'hash']
-      ]}
+      header={header}
     >
       {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (
         <tr key={peer.peerId.toString()}>

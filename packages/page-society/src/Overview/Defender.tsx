@@ -6,7 +6,7 @@ import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import { SocietyVote } from '@polkadot/types/interfaces';
 import { OwnMembers, VoteType } from '../types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -29,6 +29,12 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
         .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote])
   });
 
+  const header = useMemo(() => [
+    [t('defender'), 'start'],
+    [t('votes'), 'start'],
+    []
+  ], [t]);
+
   if (!info || !info.hasDefender || !info.defender) {
     return null;
   }
@@ -36,11 +42,7 @@ function Defender ({ className, info, isMember, ownMembers }: Props): React.Reac
   return (
     <Table
       className={className}
-      header={[
-        [t('defender'), 'start'],
-        [t('votes'), 'start'],
-        []
-      ]}
+      header={header}
     >
       <tr>
         <td className='address all'>
