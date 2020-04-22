@@ -7,26 +7,31 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
+import { classes } from './util';
+import AccountIndex from './AccountIndex';
 import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
-  toggle?: boolean;
+  withIndex?: boolean;
+  withSidebar?: boolean;
+  toggle?: any;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ className, defaultName, onClickName, overrideName, toggle, value }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, value, withIndex, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
         size={32}
         value={value as Uint8Array}
       />
-      <div className='nameInfo'>
+      <div className={classes('nameInfo', withSidebar && 'withSidebar')}>
         <AccountName
           className={(overrideName || !onClickName) ? '' : 'name--clickable'}
           defaultName={defaultName}
@@ -34,24 +39,27 @@ function AddressSmall ({ className, defaultName, onClickName, overrideName, togg
           override={overrideName}
           toggle={toggle}
           value={value}
-        />
+          withSidebar={withSidebar}
+        >
+          {children}
+        </AccountName>
+        {withIndex && (
+          <AccountIndex value={value} />
+        )}
       </div>
     </div>
   );
 }
 
 export default React.memo(styled(AddressSmall)`
-  vertical-align: middle;
-  white-space: nowrap;
-
-  .name--clickable {
-    cursor: pointer;
-  }
+  display: flex;
+  align-items: center;
 
   .ui--IdentityIcon,
   .nameInfo {
     display: inline-block;
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   .ui--IdentityIcon {
@@ -59,10 +67,12 @@ export default React.memo(styled(AddressSmall)`
   }
 
   .nameInfo {
+    &.withSidebar {
+      cursor: help;
+    }
+
     > div {
-      max-width: 16rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      max-width: 12rem;
     }
   }
 `);

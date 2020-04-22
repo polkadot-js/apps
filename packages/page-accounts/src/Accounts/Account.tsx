@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { SortedAccount } from './types';
@@ -10,8 +10,8 @@ import { SortedAccount } from './types';
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, Input, InputTags, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
+import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance, formatNumber } from '@polkadot/util';
@@ -47,18 +47,12 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
 function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
-  const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
-  const [tags, setTags] = useState<string[]>([]);
-  const [accName, setAccName] = useState('');
-  const [genesisHash, setGenesisHash] = useState<string | null>(null);
-  const [{ isDevelopment, isEditable, isExternal }, setFlags] = useState({ isDevelopment: false, isEditable: false, isExternal: false });
+  const { genesisHash, isDevelopment, isEditable, isExternal, name: accName, onSaveGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
-  const [isEditingName, toggleEditName] = useToggle();
-  const [isEditingTags, toggleEditTags] = useToggle();
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
   const [isForgetOpen, toggleForget] = useToggle();
@@ -69,39 +63,9 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
 
-  const _setTags = useCallback(
-    (tags: string[]): void => setTags(tags.sort()),
-    []
-  );
-
   useEffect((): void => {
     balancesAll && setBalance(address, balancesAll.freeBalance);
   }, [address, balancesAll, setBalance]);
-
-  useEffect((): void => {
-    const { identity, nickname } = info || {};
-
-    if (api.api.query.identity && api.api.query.identity.identityOf) {
-      if (identity?.display) {
-        setAccName(identity.display);
-      }
-    } else if (nickname) {
-      setAccName(nickname);
-    }
-  }, [api, info]);
-
-  useEffect((): void => {
-    const account = keyring.getAccount(address);
-
-    setGenesisHash(account?.meta.genesisHash || null);
-    setFlags({
-      isDevelopment: account?.meta.isTesting || false,
-      isEditable: (account && !(account.meta.isInjected || account.meta.isHardware)) || false,
-      isExternal: account?.meta.isExternal || false
-    });
-    _setTags(account?.meta.tags || []);
-    setAccName(account?.meta.name || '');
-  }, [address, _setTags]);
 
   useEffect((): void => {
     setIsVisible(
@@ -112,55 +76,6 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
   const _onFavorite = useCallback(
     (): void => toggleFavorite(address),
     [address, toggleFavorite]
-  );
-
-  const _onGenesisChange = useCallback(
-    (genesisHash: string | null): void => {
-      const account = keyring.getPair(address);
-
-      account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
-
-      setGenesisHash(genesisHash);
-    },
-    [address]
-  );
-
-  const _saveName = useCallback(
-    (): void => {
-      toggleEditName();
-
-      const meta = { name: accName, whenEdited: Date.now() };
-
-      if (address) {
-        try {
-          const currentKeyring = keyring.getPair(address);
-
-          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-        } catch (error) {
-          keyring.saveAddress(address, meta);
-        }
-      }
-    },
-    [accName, address, toggleEditName]
-  );
-
-  const _saveTags = useCallback(
-    (): void => {
-      toggleEditTags();
-
-      const meta = { tags, whenEdited: Date.now() };
-
-      if (address) {
-        try {
-          const currentKeyring = keyring.getPair(address);
-
-          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-        } catch (error) {
-          keyring.saveAddress(address, meta);
-        }
-      }
-    },
-    [address, tags, toggleEditTags]
   );
 
   const _onForget = useCallback(
@@ -240,26 +155,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         )}
       </td>
       <td className='address'>
-        <AddressSmall
-          onClickName={toggleEditName}
-          overrideName={
-            isEditingName
-              ? (
-                <Input
-                  autoFocus
-                  className='name--input'
-                  defaultValue={accName}
-                  onBlur={_saveName}
-                  onChange={setAccName}
-                  onEnter={_saveName}
-                  withLabel={false}
-                />
-              )
-              : undefined
-          }
-          toggle={isEditingName}
-          value={address}
-        />
+        <AddressSmall value={address} />
         {isBackupOpen && (
           <Backup
             address={address}
@@ -327,36 +223,17 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         <CryptoType accountId={address} />
       </td>
       <td className='all'>
-        {isEditingTags
-          ? (
-            <InputTags
-              defaultValue={tags}
-              onBlur={_saveTags}
-              onChange={_setTags}
-              onClose={_saveTags}
-              openOnFocus
-              searchInput={{ autoFocus: true }}
-              value={tags}
-              withLabel={false}
-            />
-          )
-          : (
-            <div
-              className='tags--toggle'
-              onClick={toggleEditTags}
-            >
-              {tags.length
-                ? tags.map((tag): React.ReactNode => (
-                  <Tag
-                    key={tag}
-                    label={tag}
-                  />
-                ))
-                : <label>{t('no tags')}</label>
-              }
-            </div>
-          )
-        }
+        <div className='tags--toggle'>
+          {tags.length
+            ? tags.map((tag): React.ReactNode => (
+              <Tag
+                key={tag}
+                label={tag}
+              />
+            ))
+            : <label>{t('no tags')}</label>
+          }
+        </div>
       </td>
       <td className='number'>
         {balancesAll && formatNumber(balancesAll.accountNonce)}
@@ -443,7 +320,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
                 <ChainLock
                   className='accounts--network-toggle'
                   genesisHash={genesisHash}
-                  onChange={_onGenesisChange}
+                  onChange={onSaveGenesisHash}
                   preventDefault
                 />
               </>

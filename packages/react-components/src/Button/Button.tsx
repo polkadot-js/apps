@@ -14,9 +14,11 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-function Button ({ children, className, floated, icon, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className, floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
+    animate: 'fade',
+    animated: isAnimated,
     basic: isBasic,
     circular: isCircular,
     className: `${className} ${isIcon && 'isIcon'}`,
@@ -29,6 +31,8 @@ function Button ({ children, className, floated, icon, isBasic = false, isCircul
     loading: isLoading,
     negative: isNegative,
     onClick,
+    onMouseEnter,
+    onMouseLeave,
     positive: isPositive,
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),

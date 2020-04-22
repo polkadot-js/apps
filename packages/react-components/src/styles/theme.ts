@@ -5,18 +5,18 @@
 import { css } from 'styled-components';
 
 /* default buttons, dark gray */
-const colorBtnDefault = '#666';
+export const colorBtnDefault = '#666';
 
 /* highlighted buttons, orange */
-const colorBtnHighlight = '#f19135';
+export const colorBtnHighlight = '#f19135';
 
 /* primary buttons, blue */
-const colorBtnPrimary = colorBtnDefault; // '#2e86ab';
+export const colorBtnPrimary = colorBtnDefault; // '#2e86ab';
 
 /* button text color */
-const colorBtnText = '#f9f9f9';
+export const colorBtnText = '#f9f9f9';
 
-const colorLink = '#2e86ab';
+export const colorLink = '#2e86ab';
 
 export default css`
   .theme--default {

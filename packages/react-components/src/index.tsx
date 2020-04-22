@@ -4,6 +4,7 @@
 
 export { default as AccountIndex } from './AccountIndex';
 export { default as AccountName } from './AccountName';
+export { default as AccountNameJudgement } from './AccountNameJudgement';
 export { default as ActionItem } from './ActionItem';
 export { default as AddressInfo } from './AddressInfo';
 export { default as AddressMini } from './AddressMini';
@@ -11,6 +12,7 @@ export { default as AddressRow } from './AddressRow';
 export { default as AddressSmall } from './AddressSmall';
 export { default as AddressToggle } from './AddressToggle';
 export { default as Available } from './Available';
+export { default as AvatarItem } from './AvatarItem';
 export { default as Badge } from './Badge';
 export { default as Balance } from './Balance';
 export { default as Bonded } from './Bonded';
@@ -83,6 +85,7 @@ export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';
 export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
+export { default as Transfer } from './Transfer';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
