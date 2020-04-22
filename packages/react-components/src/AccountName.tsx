@@ -184,12 +184,11 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
 }
 
 export default React.memo(styled(AccountName)`
-  &.withSidebar {
-    cursor: help !important;
+  border: 1px dotted transparent;
 
-    .via-identity .name:hover {
-      border-bottom-color: #333;
-    }
+  &.withSidebar:hover {
+    border-bottom-color: #333;
+    cursor: help !important;
   }
 
   .via-identity {
@@ -200,7 +199,6 @@ export default React.memo(styled(AccountName)`
     width: 100%;
 
     .name {
-      border: 1px dotted transparent;
       font-weight: normal !important;
       filter: grayscale(100%);
       opacity: 0.6;
