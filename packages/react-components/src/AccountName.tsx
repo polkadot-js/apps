@@ -8,8 +8,8 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import registry from '@polkadot/react-api/typeRegistry';
+import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 
@@ -78,7 +78,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
-    <span className='via-identity'>
+    <div className='via-identity'>
       {isSpecial && (
         <Badge
           info={<Icon name='simplybuilt' />}
@@ -92,14 +92,29 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
           ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
           : displayFirst
       }</span>
-    </span>
+    </div>
+  );
+}
+
+function createIdElem (badgeType: 'green' | 'brown' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode): React.ReactNode {
+  return (
+    <div className='via-identity'>
+      <Badge
+        info={infoElem}
+        isInline
+        isSmall
+        isTooltip
+        type={badgeType}
+      />
+      {nameElem}
+    </div>
   );
 }
 
 function extractIdentity (address: string, identity: DeriveAccountRegistration): React.ReactNode {
   const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
   const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-
+  const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
   const displayName = isGood
     ? identity.display
     : (identity.display || '').replace(/[^\x20-\x7E]/g, '');
@@ -110,77 +125,58 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
         : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
     )
     : undefined;
-
-  const nameElem = (
-    <div className='via-identity'>
-      {
-        displayParent
-          ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
-          : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>
-      }
-    </div>
-  );
+  const nameElem = displayParent
+    ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
+    : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>;
+  const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
+  const badgeType = isGood ? 'green' : (isBad ? 'brown' : 'gray');
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
-  displayCache.set(address, nameElem);
+  displayCache.set(address, createIdElem(badgeType, nameElem, infoElem));
 
-  return nameElem;
+  return createIdElem(badgeType, nameElem, infoElem);
 }
 
-function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarToggle);
 
-  const _setName = useCallback(
-    (): void => {
-      const { accountId, accountIndex, identity, nickname } = info || {};
-      const cacheAddr = (accountId || value || '').toString();
-
-      if (api.query.identity && api.query.identity.identityOf) {
-        setName(() =>
-          identity?.display
-            ? extractIdentity(cacheAddr, identity)
-            : extractName(cacheAddr, accountIndex)
-        );
-      } else if (nickname) {
-        nameCache.set(cacheAddr, [false, [nickname, null]]);
-
-        setName(nickname);
-      } else {
-        setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
-      }
-    },
-    [api, defaultName, info, value]
-  );
-
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
-    _setName();
-  }, [_setName]);
+    const { accountId, accountIndex, identity, nickname } = info || {};
+    const cacheAddr = (accountId || value || '').toString();
 
-  const _onUpdateName = useCallback(
-    (): void => {
-      value && ((): void => {
-        displayCache.delete(value.toString());
-        nameCache.delete(value.toString());
+    if (api.query.identity?.identityOf) {
+      setName(() =>
+        identity?.display
+          ? extractIdentity(cacheAddr, identity)
+          : extractName(cacheAddr, accountIndex)
+      );
+    } else if (nickname) {
+      nameCache.set(cacheAddr, [false, [nickname, null]]);
 
-        _setName();
-      })();
-    },
-    [_setName, value]
-  );
+      setName(nickname);
+    } else {
+      setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
+    }
+  }, [api, defaultName, info, toggle, value]);
 
-  const onToggleSidebar = useCallback(
-    () => toggleSidebar && value && toggleSidebar([value.toString(), _onUpdateName]),
-    [_onUpdateName, toggleSidebar, value]
+  // FIXME name edit to be re-added
+  const _onToggleSidebar = useCallback(
+    () => toggleSidebar && value && toggleSidebar([value.toString(), null]),
+    [toggleSidebar, value]
   );
 
   return (
     <div
       className={`ui--AccountName ${withSidebar && 'withSidebar'} ${className}`}
-      onClick={withSidebar ? onToggleSidebar : onClick}
+      onClick={
+        withSidebar
+          ? _onToggleSidebar
+          : onClick
+      }
     >
       {label || ''}{override || name}{children}
     </div>
@@ -191,23 +187,20 @@ export default React.memo(styled(AccountName)`
   &.withSidebar {
     cursor: help !important;
 
-    .via-identity {
-      .name {
-        border-top: 1px solid transparent;
-        border-bottom: 1px solid transparent;
-    
-        &:hover {
-          border-bottom: 1px dotted #333;
-        }
-      }
+    .via-identity .name:hover {
+      border-bottom-color: #333;
     }
   }
 
   .via-identity {
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
     vertical-align: bottom;
+    width: 100%;
 
     .name {
+      border: 1px dotted transparent;
       font-weight: normal !important;
       filter: grayscale(100%);
       opacity: 0.6;
