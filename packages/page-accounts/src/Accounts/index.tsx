@@ -6,11 +6,13 @@ import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ComponentProps as Props } from '../types';
 import { SortedAccount } from './types';
 
-import React, { useEffect, useState } from 'react';
+import BN from 'bn.js';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
 import { useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -19,6 +21,11 @@ import ImportModal from './modals/Import';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
+
+interface Balances {
+  accounts: Record<string, BN>;
+  balanceTotal?: BN;
+}
 
 const STORE_FAVS = 'accounts:favorites';
 
@@ -89,6 +96,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const [isImportOpen, toggleImport] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
+  const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
   const [filter, setFilter] = useState<string>('');
 
@@ -97,6 +105,19 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       sortAccounts(allAccounts, favorites)
     );
   }, [allAccounts, favorites]);
+
+  const _setBalance = useCallback(
+    (account: string, balance: BN) =>
+      setBalances(({ accounts }: Balances): Balances => {
+        accounts[account] = balance;
+
+        return {
+          accounts,
+          balanceTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), new BN(0))
+        };
+      }),
+    []
+  );
 
   return (
     <div className={className}>
@@ -161,6 +182,15 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             />
           </div>
         }
+        footer={
+          <tr>
+            <td colSpan={7} />
+            <td className='number'>
+              {balanceTotal && <FormatBalance value={balanceTotal} />}
+            </td>
+            <td colSpan={2} />
+          </tr>
+        }
         header={[
           [t('accounts'), 'start', 3],
           [t('parent'), 'address'],
@@ -177,6 +207,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             filter={filter}
             isFavorite={isFavorite}
             key={account.address}
+            setBalance={_setBalance}
             toggleFavorite={toggleFavorite}
           />
         ))}

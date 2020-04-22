@@ -7,6 +7,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { SortedAccount } from './types';
 
+import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, Input, InputTags, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
@@ -27,6 +28,7 @@ import Transfer from './modals/Transfer';
 interface Props extends SortedAccount {
   className?: string;
   filter: string;
+  setBalance: (address: string, value: BN) => void;
   toggleFavorite: (address: string) => void;
 }
 
@@ -42,7 +44,7 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
-function Account ({ account: { address, meta }, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
@@ -71,6 +73,10 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, t
     (tags: string[]): void => setTags(tags.sort()),
     []
   );
+
+  useEffect((): void => {
+    balancesAll && setBalance(address, balancesAll.freeBalance);
+  }, [address, balancesAll, setBalance]);
 
   useEffect((): void => {
     const { identity, nickname } = info || {};

@@ -2,6 +2,7 @@
 
 - Expand Treasury proposal inline in council (for approve/reject)
 - Expand external proposals in council (preimage lookups)
+- Add table summaries with totals for free, bonded & stash payouts
 
 # 0.41.1 Apr 20, 2020
 
