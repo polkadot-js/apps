@@ -46,9 +46,10 @@ interface ChainData {
 }
 
 const injectedPromise = new Promise<InjectedExtension[]>((resolve): void => {
-  window.addEventListener('load', (): void => {
-    resolve(web3Enable('polkadot-js/apps'));
-  });
+  resolve(web3Enable('polkadot-js/apps'));
+  // window.addEventListener('load', (): void => {
+  //   resolve(web3Enable('polkadot-js/apps'));
+  // });
 });
 
 const DEFAULT_DECIMALS = registry.createType('u32', 12);
