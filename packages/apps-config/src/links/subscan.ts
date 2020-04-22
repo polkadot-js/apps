@@ -17,6 +17,7 @@ export default {
     block: 'block',
     council: 'council',
     extrinsic: 'extrinsic',
+    proposal: 'proposal',
     referendum: 'referenda',
     techcomm: 'tech',
     treasury: 'treasury'

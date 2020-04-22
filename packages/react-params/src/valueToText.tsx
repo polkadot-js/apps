@@ -46,13 +46,13 @@ export default function valueToText (type: string, value: any, swallowError = tr
       // HACK Handle Keys as hex-only (this should go away once the node value is
       // consistently swapped to `Bytes`)
       : type === 'Vec<(ValidatorId,Keys)>'
-        ? JSON.stringify(formatKeys(value as [ValidatorId, Keys][]), null, 2).replace(/"/g, '')
+        ? JSON.stringify(formatKeys(value as [ValidatorId, Keys][]), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
         : value instanceof Raw
           ? value.isEmpty
             ? '<empty>'
             : value.toString()
           : (value instanceof Option) && value.isNone
             ? '<none>'
-            : JSON.stringify(value.toHuman(), null, 2).replace(/"/g, '')
+            : JSON.stringify(value.toHuman(), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
   );
 }

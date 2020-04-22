@@ -174,12 +174,10 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const { allAccounts } = useAccounts();
   const lastEra = useCall<BN>(api.derive.session.indexes, [], {
     defaultValue: new BN(0),
-    transform: ({ activeEra }: DeriveSessionIndexes) =>
-      activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
+    transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
   }) || new BN(0);
   const lastReward = useCall<BN>(api.query.staking.erasValidatorReward, [lastEra], {
-    transform: (optBalance: Option<Balance>) =>
-      optBalance.unwrapOrDefault()
+    transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
   });
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);

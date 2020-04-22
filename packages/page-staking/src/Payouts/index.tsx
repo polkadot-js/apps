@@ -117,6 +117,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
           [t('payout/stash'), 'start'],
           [t('eras'), 'start'],
           [t('available')],
+          [('remaining')],
           [undefined, undefined, 3]
         ]}
         isFixed
@@ -137,6 +138,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
             [t('payout/validator'), 'start'],
             [t('eras'), 'start'],
             [t('total')],
+            [('remaining')],
             [undefined, undefined, 3]
           ]}
           isFixed
