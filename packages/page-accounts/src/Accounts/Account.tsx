@@ -7,6 +7,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { SortedAccount } from './types';
 
+import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
@@ -27,6 +28,7 @@ import Transfer from './modals/Transfer';
 interface Props extends SortedAccount {
   className?: string;
   filter: string;
+  setBalance: (address: string, value: BN) => void;
   toggleFavorite: (address: string) => void;
 }
 
@@ -42,14 +44,13 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
-function Account ({ account: { address, meta }, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
-
   const { genesisHash, isDevelopment, isEditable, isExternal, name: accName, onSaveGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -61,6 +62,10 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, t
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
+
+  useEffect((): void => {
+    balancesAll && setBalance(address, balancesAll.freeBalance);
+  }, [address, balancesAll, setBalance]);
 
   useEffect((): void => {
     setIsVisible(
