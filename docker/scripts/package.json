@@ -26,8 +26,8 @@
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
     "png-crop": "^0.0.2",
-    "@polkadot/api": "^1.11.0-beta.32",
-    "@polkadot/types": "^1.11.0-beta.32",
+    "@polkadot/api": "1.10.1",
+    "@polkadot/types": "1.10.1",
     "pug": "^2.0.4",
     "sprintf-js": "^1.1.2"
   },
