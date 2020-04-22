@@ -77,6 +77,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
     (): void => toggleFavorite(address),
     [address, toggleFavorite]
   );
+
   const _onForget = useCallback(
     (): void => {
       if (!address) {

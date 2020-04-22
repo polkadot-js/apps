@@ -109,36 +109,41 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     (): void => setIsForgetOpen(!isForgetOpen),
     [isForgetOpen]
   );
+
   const _toggleSettingPopup = useCallback(
     (): void => setIsSettingPopupOpen(!isSettingPopupOpen),
     [isSettingPopupOpen]
   );
+
   const _toggleTransfer = useCallback(
     (): void => setIsTransferOpen(!isTransferOpen),
     [isTransferOpen]
   );
 
+  const _onForget = useCallback(
+    (): void => {
+      if (address) {
+        const status: Partial<ActionStatus> = {
+          account: address,
+          action: 'forget'
+        };
+
+        try {
+          keyring.forgetAddress(address);
+          status.status = 'success';
+          status.message = t('address forgotten');
+        } catch (error) {
+          status.status = 'error';
+          status.message = error.message;
+        }
+      }
+    },
+    [address, t]
+  );
+
   if (!isVisible) {
     return null;
   }
-
-  const _onForget = (): void => {
-    if (address) {
-      const status: Partial<ActionStatus> = {
-        account: address,
-        action: 'forget'
-      };
-
-      try {
-        keyring.forgetAddress(address);
-        status.status = 'success';
-        status.message = t('address forgotten');
-      } catch (error) {
-        status.status = 'error';
-        status.message = error.message;
-      }
-    }
-  };
 
   return (
     <tr className={className}>
