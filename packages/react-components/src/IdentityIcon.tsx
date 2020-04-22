@@ -25,13 +25,14 @@ function IdentityIcon ({ className, onCopy, prefix, size, theme, value }: Props)
   const { queueAction } = useContext(StatusContext);
   const validators = useContext(ValidatorsContext);
   const [isValidator, setIsValidator] = useState(false);
-  const [address] = useState(value?.toString());
+  const [address, setAddress] = useState(value?.toString());
   const thisTheme = theme || getIdentityTheme(systemName);
 
   useEffect((): void => {
     value && setIsValidator(
       validators.includes(value.toString())
     );
+    value && setAddress(value.toString());
   }, [value, validators]);
 
   const _onCopy = useCallback(

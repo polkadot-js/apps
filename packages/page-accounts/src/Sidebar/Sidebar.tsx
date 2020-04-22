@@ -13,7 +13,7 @@ import polkascan from '@polkadot/apps-config/links/polkascan';
 
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountNameJudgement, AddressMini, AddressSmall, AvatarItem, Button, Icon, IconLink, Input, InputTags, Transfer } from '@polkadot/react-components';
+import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, Transfer } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -26,7 +26,7 @@ interface Props extends BareProps {
 function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> | null{
   const { t } = useTranslation();
   const { api, systemChain } = useApi();
-  const { registrars } = useRegistrars();
+  const { isRegistrar, registrars } = useRegistrars();
   const accountInfo = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
@@ -62,6 +62,11 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
     toggleIsEditingTags
   } = accountInfo;
 
+  const _onForgetAddress = (): void => {
+    onForgetAddress();
+    onUpdateName && onUpdateName();
+  };
+
   const _onUpdateName = (): void => {
     onSaveName();
     onUpdateName && onUpdateName();
@@ -77,6 +82,8 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
     onMouseLeave: toggleIsHoveringButton
   };
 
+  console.log(address.toString());
+
   return (
     <>
       <div
@@ -91,7 +98,47 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
           onClick={onClose}
         />
         <div className='ui--AddressMenu-header'>
-          <AddressSmall
+          <IdentityIcon
+            size={92}
+            value={address.toString()}
+          />
+          <div className='ui--AddressMenu-addr'>
+            {address.toString()}
+          </div>
+          <AccountName
+            defaultName={`<${t('no name')}>`}
+            onClick={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
+            override={
+              isEditingName
+                ? (
+                  <Input
+                    autoFocus
+                    className='name--input'
+                    defaultValue={name}
+                    onBlur={(isInContacts || isOwned) ? _onUpdateName : undefined}
+                    onChange={setName}
+                    onEnter
+                    withLabel={false}
+                  />
+                )
+                : (
+                  isEditable
+                    ? name.toUpperCase()
+                    : undefined
+                )
+            }
+            useDefaultName
+            value={address}
+            withSidebar={false}
+          >
+            {(!isEditingName && isEditable) && (
+              <Icon
+                className='inline-icon'
+                name='edit'
+              />
+            )}
+          </AccountName>
+          {/* <AddressSmall
             className='ui--AddressMenu-address'
             onClickName={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
             overrideName={
@@ -123,7 +170,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 name='edit'
               />
             )}
-          </AddressSmall>
+            </AddressSmall> */}
           <div className='ui--AddressMenu-tags'>
             {isEditingTags
               ? (
@@ -195,7 +242,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 isAnimated
                 isNegative={isHoveringButton}
                 isPositive={!isHoveringButton}
-                onClick={onForgetAddress}
+                onClick={_onForgetAddress}
                 size='tiny'
                 {...buttonProps}
               >
@@ -413,7 +460,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                     onClick={toggleIsTransferOpen}
                   />
                 </li>
-                {identity?.isExistent && (
+                {identity?.isExistent && isRegistrar && (
                   <li>
                     <IconLink
                       icon='address card'
@@ -443,7 +490,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
           recipientId={address}
         />
       )}
-      {(!!address && isJudgementOpen && useIdentity) && (
+      {(!!address && isJudgementOpen && isRegistrar && useIdentity) && (
         <AccountNameJudgement
           address={address.toString()}
           key='modal-judgement'
@@ -461,7 +508,7 @@ export default React.memo(styled(Sidebar)`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 20rem;
+  max-width: 24rem;
   background: white;
   padding: 1rem;
   box-shadow: -6px 0px 20px 0px rgba(0,0,0,0.2);
@@ -480,6 +527,10 @@ export default React.memo(styled(Sidebar)`
   }
 
   .ui--AddressMenu-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 2rem;
     border-bottom: 1px solid #eee;
 
@@ -487,6 +538,12 @@ export default React.memo(styled(Sidebar)`
       width: 100%;
       transition: 0.5s all;
     }
+  }
+
+  .ui--AddressMenu-addr {
+    font-family: monospace;
+    font-size: 0.8rem;
+    margin: 0.6rem 0;
   }
 
   .ui--AddressMenu-section {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { StringOrNull } from '@polkadot/react-components/types';
 import { Address, AccountId } from '@polkadot/types/interfaces';
 import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
@@ -33,6 +33,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
   const value = _value.toString();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info as any, [value]);
+  const accountFlags = useCall<DeriveAccountFlags>(api.api.derive.accounts.flags as any, [value]) || {};
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
 
@@ -51,7 +52,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
   );
 
   useEffect((): void => {
-    const { identity, isCouncil = false, isSociety = false, isSudo = false, isTechCommittee = false, nickname } = info || {};
+    const { identity, nickname } = info || {};
 
     if (api.api.query.identity && api.api.query.identity.identityOf) {
       if (identity?.display) {
@@ -65,10 +66,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
 
     setFlags((flags) => ({
       ...flags,
-      isCouncil,
-      isSociety,
-      isSudo,
-      isTechCommittee
+      ...accountFlags
     }));
 
     if (identity) {
@@ -93,7 +91,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     } else {
       setIdentity(undefined);
     }
-  }, [api, info]);
+  }, [api, accountFlags, info]);
 
   useEffect((): void => {
     const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);

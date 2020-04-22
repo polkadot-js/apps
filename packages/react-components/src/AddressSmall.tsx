@@ -59,6 +59,7 @@ export default React.memo(styled(AddressSmall)`
   .nameInfo {
     display: inline-block;
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   .ui--IdentityIcon {
