@@ -153,29 +153,35 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     [isEditingTags, tags, toggleIsEditingTags, value]
   );
 
-  const onForgetAddress = (): void => {
-    if (isEditingName) {
-      toggleIsEditingName();
-    }
+  const onForgetAddress = useCallback(
+    (): void => {
+      if (isEditingName) {
+        toggleIsEditingName();
+      }
 
-    if (isEditingTags) {
-      toggleIsEditingTags();
-    }
+      if (isEditingTags) {
+        toggleIsEditingTags();
+      }
 
-    try {
-      keyring.forgetAddress(value);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+      try {
+        keyring.forgetAddress(value);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [isEditingName, isEditingTags, toggleIsEditingName, toggleIsEditingTags, value]
+  );
 
-  const onSaveGenesisHash = (): void => {
-    const account = keyring.getPair(value);
+  const onSaveGenesisHash = useCallback(
+    (): void => {
+      const account = keyring.getPair(value);
 
-    account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
+      account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
 
-    setGenesisHash(genesisHash);
-  };
+      setGenesisHash(genesisHash);
+    },
+    [genesisHash, value]
+  );
 
   return {
     genesisHash,

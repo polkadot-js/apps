@@ -5,7 +5,7 @@
 import { BareProps } from '@polkadot/react-components/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
@@ -22,66 +22,33 @@ interface Props extends BareProps {
   onUpdateName: () => void;
 }
 
-function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> | null{
+function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
-  const accountInfo = useAccountInfo(address);
+  const { identity, isCouncil, isDevelopment, isEditable, isEditingName, isEditingTags, isExternal, isInContacts, isOwned, isSociety, isSudo, isTechCommittee, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
 
-  if (!accountInfo) {
-    return null;
-  }
-
-  const useIdentity = !!api.query.identity?.identityOf;
-
-  const {
-    identity,
-    isCouncil,
-    isDevelopment,
-    isEditable,
-    isEditingName,
-    isEditingTags,
-    isExternal,
-    isInContacts,
-    isOwned,
-    isSociety,
-    isSudo,
-    isTechCommittee,
-    name,
-    onForgetAddress,
-    onSaveName,
-    onSaveTags,
-    setName,
-    setTags,
-    tags,
-    toggleIsEditingName,
-    toggleIsEditingTags
-  } = accountInfo;
-
-  const _onForgetAddress = (): void => {
-    onForgetAddress();
-    onUpdateName && onUpdateName();
-  };
-
-  const _onUpdateName = (): void => {
-    onSaveName();
-    onUpdateName && onUpdateName();
-  };
-
-  const hasFlags = [isDevelopment, isExternal, isSociety, isCouncil, isTechCommittee, isSudo].reduce(
-    (result: boolean, value: boolean): boolean => result || value,
-    false
+  const _onForgetAddress = useCallback(
+    (): void => {
+      onForgetAddress();
+      onUpdateName && onUpdateName();
+    },
+    [onForgetAddress, onUpdateName]
   );
 
-  const buttonProps = {
-    onMouseEnter: toggleIsHoveringButton,
-    onMouseLeave: toggleIsHoveringButton
-  };
+  const _onUpdateName = useCallback(
+    (): void => {
+      onSaveName();
+      onUpdateName && onUpdateName();
+    },
+    [onSaveName, onUpdateName]
+  );
 
-  console.log(address.toString());
+  const useIdentity = !!api.query.identity?.identityOf;
+  const hasFlags = isDevelopment || isExternal || isSociety || isCouncil || isTechCommittee || isSudo;
 
   return (
     <>
@@ -116,7 +83,6 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                     defaultValue={name}
                     onBlur={(isInContacts || isOwned) ? _onUpdateName : undefined}
                     onChange={setName}
-                    onEnter
                     withLabel={false}
                   />
                 )
@@ -137,39 +103,6 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
               />
             )}
           </AccountName>
-          {/* <AddressSmall
-            className='ui--AddressMenu-address'
-            onClickName={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
-            overrideName={
-              isEditingName
-                ? (
-                  <Input
-                    autoFocus
-                    className='name--input'
-                    defaultValue={name}
-                    onBlur={(isInContacts || isOwned) ? _onUpdateName : undefined}
-                    onChange={setName}
-                    onEnter
-                    withLabel={false}
-                  />
-                )
-                : (
-                  isEditable
-                    ? name.toUpperCase()
-                    : undefined
-                )
-            }
-            value={address}
-            withIndex
-            withSidebar={false}
-          >
-            {(!isEditingName && isEditable) && (
-              <Icon
-                className='inline-icon'
-                name='edit'
-              />
-            )}
-            </AddressSmall> */}
           <div className='ui--AddressMenu-tags'>
             {isEditingTags
               ? (
@@ -212,51 +145,117 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
               />
             )}
           </div>
+          {hasFlags && (
+            <div className='ui--AddressMenu-flags'>
+              {isExternal && (
+                <Label
+                  color='grey'
+                  size='tiny'
+                  tag
+                >
+                  {t('Injected')}
+                </Label>
+              )}
+              {isDevelopment && (
+                <Label
+                  color='grey'
+                  size='tiny'
+                  tag
+                >
+                  {t('Test account')}
+                </Label>
+              )}
+              {isCouncil && (
+                <Label
+                  color='blue'
+                  size='tiny'
+                  tag
+                >
+                  {t('Council')}
+                </Label>
+              )}
+              {isSociety && (
+                <Label
+                  color='green'
+                  size='tiny'
+                  tag
+                >
+                  {t('Society')}
+                </Label>
+              )}
+              {isTechCommittee && (
+                <Label
+                  color='orange'
+                  size='tiny'
+                  tag
+                >
+                  {t('Technical committee')}
+                </Label>
+              )}
+              {isSudo && (
+                <Label
+                  color='pink'
+                  size='tiny'
+                  tag
+                >
+                  {t('Sudo key')}
+                </Label>
+              )}
+            </div>
+          )}
           <div className='ui-AddressMenu--button'>
-            {isOwned && (
+            <Button.Group>
               <Button
-                className='basic'
-                icon='check'
-                isPrimary
-                size='tiny'
-                {...buttonProps}
-              >
-                {t('Owned')}
-              </Button>
-            )}
-            {!isOwned && !isInContacts && (
-              <Button
-                icon='add'
-                isPositive
-                onClick={_onUpdateName}
-                size='tiny'
-                {...buttonProps}
-              >
-                {t('Add to contacts')}
-              </Button>
-            )}
-            {!isOwned && isInContacts && (
-              <Button
-                className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
-                isAnimated
-                isNegative={isHoveringButton}
-                isPositive={!isHoveringButton}
-                onClick={_onForgetAddress}
-                size='tiny'
-                {...buttonProps}
-              >
-                <Button.Content visible>
-                  <Icon name='check' />
-                  {' '}
-                  {t('In contacts')}
-                </Button.Content>
-                <Button.Content hidden>
-                  <Icon name='ban' />
-                  {' '}
-                  {t('Remove')}
-                </Button.Content>
-              </Button>
-            )}
+                icon='send'
+                label={t('Deposit')}
+                onClick={toggleIsTransferOpen}
+              />
+              {isOwned && (
+                <Button
+                  className='basic'
+                  icon='check'
+                  isPrimary
+                  label={t('Owned')}
+                  onMouseEnter={toggleIsHoveringButton}
+                  onMouseLeave={toggleIsHoveringButton}
+                  size='tiny'
+                />
+              )}
+              {!isOwned && !isInContacts && (
+                <Button
+                  icon='add'
+                  isPositive
+                  label={t('Save')}
+                  onClick={_onUpdateName}
+                  onMouseEnter={toggleIsHoveringButton}
+                  onMouseLeave={toggleIsHoveringButton}
+                  size='tiny'
+                />
+              )}
+              {!isOwned && isInContacts && (
+                <Button
+                  className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
+                  isAnimated
+                  isNegative={isHoveringButton}
+                  isPositive={!isHoveringButton}
+                  onClick={_onForgetAddress}
+                  onMouseEnter={toggleIsHoveringButton}
+                  onMouseLeave={toggleIsHoveringButton}
+                  size='tiny'
+                >
+                  <Button.Content visible>
+                    <Icon name='check' />
+                    {' '}
+                    {t('Saved')}
+                  </Button.Content>
+                  <Button.Content hidden>
+                    <Icon name='ban' />
+                    {' '}
+                    {t('Remove')}
+                  </Button.Content>
+                </Button>
+              )}
+            </Button.Group>
           </div>
         </div>
         {useIdentity && identity?.isExistent && (
@@ -373,91 +372,17 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
             </div>
           </div>
         )}
-        {hasFlags && (
+        {!!address && identity?.isExistent && isRegistrar && (
           <div className='ui--AddressMenu-section'>
             <div className='ui--AddressMenu-sectionHeader'>
               <div>
-                <Icon name='tag' />
+                <Icon name='share square' />
                 {' '}
-                {t('flags')}
+                {t('actions')}
               </div>
             </div>
-            <div className='ui--AddressMenu-flags'>
-              {isExternal && (
-                <Label
-                  color='grey'
-                  size='tiny'
-                  tag
-                >
-                  {t('Injected')}
-                </Label>
-              )}
-              {isDevelopment && (
-                <Label
-                  color='grey'
-                  size='tiny'
-                  tag
-                >
-                  {t('Test account')}
-                </Label>
-              )}
-              {isCouncil && (
-                <Label
-                  color='blue'
-                  size='tiny'
-                  tag
-                >
-                  {t('Council')}
-                </Label>
-              )}
-              {isSociety && (
-                <Label
-                  color='green'
-                  size='tiny'
-                  tag
-                >
-                  {t('Society')}
-                </Label>
-              )}
-              {isTechCommittee && (
-                <Label
-                  color='orange'
-                  size='tiny'
-                  tag
-                >
-                  {t('Technical committee')}
-                </Label>
-              )}
-              {isSudo && (
-                <Label
-                  color='pink'
-                  size='tiny'
-                  tag
-                >
-                  {t('Sudo key')}
-                </Label>
-              )}
-            </div>
-          </div>
-        )}
-        <div className='ui--AddressMenu-section'>
-          <div className='ui--AddressMenu-sectionHeader'>
-            <div>
-              <Icon name='share square' />
-              {' '}
-              {t('actions')}
-            </div>
-          </div>
-          {!!address && (
             <div className='ui--AddressMenu-actions'>
               <ul>
-                <li>
-                  <IconLink
-                    icon='send'
-                    label={t('Transfer funds')}
-                    onClick={toggleIsTransferOpen}
-                  />
-                </li>
                 {identity?.isExistent && isRegistrar && (
                   <li>
                     <IconLink
@@ -467,15 +392,15 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                     />
                   </li>
                 )}
-                <li>
-                  <LinkExternal
-                    data={address}
-                    type='address'
-                  />
-                </li>
               </ul>
             </div>
-          )}
+          </div>
+        )}
+        <div className='ui--AddressMenu-section'>
+          <LinkExternal
+            data={address}
+            type='address'
+          />
         </div>
       </div>
       {isTransferOpen && (
@@ -527,11 +452,13 @@ export default React.memo(styled(Sidebar)`
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
-    border-bottom: 1px solid #eee;
 
     .ui.button {
-      width: 100%;
       transition: 0.5s all;
+    }
+
+    .ui.button+.ui.button {
+      margin-left: 0.25rem !important;
     }
   }
 
@@ -588,8 +515,9 @@ export default React.memo(styled(Sidebar)`
     }
   }
 
-  .ui--AddressMenu-tags {
-    margin-bottom: 1rem;
+  .ui--AddressMenu-tags,
+  .ui--AddressMenu-flags {
+    margin-bottom: 0.75rem;
   }
 
   .ui--AddressMenu-flags {

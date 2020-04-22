@@ -7,7 +7,7 @@ import { ComponentProps as Props } from '../types';
 import { SortedAccount } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
@@ -119,6 +119,16 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     []
   );
 
+  const footer = useMemo(() => (
+    <tr>
+      <td colSpan={7} />
+      <td className='number'>
+        {balanceTotal && <FormatBalance value={balanceTotal} />}
+      </td>
+      <td colSpan={2} />
+    </tr>
+  ), [balanceTotal]);
+
   return (
     <div className={className}>
       <Banner />
@@ -182,15 +192,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             />
           </div>
         }
-        footer={
-          <tr>
-            <td colSpan={7} />
-            <td className='number'>
-              {balanceTotal && <FormatBalance value={balanceTotal} />}
-            </td>
-            <td colSpan={2} />
-          </tr>
-        }
+        footer={footer}
         header={[
           [t('accounts'), 'start', 3],
           [t('parent'), 'address'],
