@@ -54,10 +54,10 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         isFull
         label={t('filter by name or tags')}
         onChange={setFilter}
-        value={filter}
+        value={filterOn}
       />
     </div>
-  ), [t]);
+  ), [filterOn, t]);
 
   return (
     <div className={className}>
