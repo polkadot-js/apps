@@ -65,7 +65,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
         />
         <div className='ui--AddressMenu-header'>
           <IdentityIcon
-            size={92}
+            size={80}
             value={address.toString()}
           />
           <div className='ui--AddressMenu-addr'>
@@ -85,11 +85,9 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                     withLabel={false}
                   />
                 )
-                : (
-                  isEditable
-                    ? (name.toUpperCase() || t('<unknown>'))
-                    : undefined
-                )
+                : isEditable
+                  ? (name.toUpperCase() || t('<unknown>'))
+                  : undefined
             }
             value={address}
             withSidebar={false}
@@ -433,11 +431,14 @@ export default React.memo(styled(Sidebar)`
   }
 
   .ui--AddressMenu-header {
+    align-items: center;
+    background: white;
+    border-bottom: 1px solid #e6e6e6;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
+    margin: -1rem -1rem 1rem -1rem;
+    padding: 1rem;
 
     .ui.button {
       transition: 0.5s all;
