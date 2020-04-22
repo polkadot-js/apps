@@ -52,13 +52,16 @@ export default React.memo(styled(Badge)`
   border-radius: 16px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
-  cursor: help;
   font-size: 12px;
   height: 22px;
   padding: 0 4px;
   text-align: center;
   width: 22px;
   min-width: 22px;
+
+  &.isTooltip {
+    cursor: help;
+  }
 
   i.icon {
     cursor: inherit !important;
