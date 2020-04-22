@@ -455,6 +455,10 @@ export default React.memo(styled(Sidebar)`
 
     .ui.button {
       transition: 0.5s all;
+
+      &.secondary {
+        background-color: #666;
+      }
     }
 
     .ui.button+.ui.button {
