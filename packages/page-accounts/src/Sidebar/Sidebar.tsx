@@ -367,26 +367,17 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
             </div>
           </div>
         )}
-        {!!address && identity?.isExistent && isRegistrar && (
+        {address && identity?.isExistent && isRegistrar && (
           <div className='ui--AddressMenu-section'>
-            <div className='ui--AddressMenu-sectionHeader'>
-              <div>
-                <Icon name='share square' />
-                {' '}
-                {t('actions')}
-              </div>
-            </div>
             <div className='ui--AddressMenu-actions'>
               <ul>
-                {identity?.isExistent && isRegistrar && (
-                  <li>
-                    <IconLink
-                      icon='address card'
-                      label={t('Add identity judgment')}
-                      onClick={toggleIsJudgementOpen}
-                    />
-                  </li>
-                )}
+                <li>
+                  <IconLink
+                    icon='address card'
+                    label={t('Add identity judgment')}
+                    onClick={toggleIsJudgementOpen}
+                  />
+                </li>
               </ul>
             </div>
           </div>
