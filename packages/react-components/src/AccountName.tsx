@@ -163,10 +163,14 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
     }
   }, [api, defaultName, info, toggle, value]);
 
-  // FIXME name edit to be re-added
+  const _onNameEdit = useCallback(
+    () => setName(defaultOrAddr(defaultName, (value || '').toString())),
+    [defaultName, value]
+  );
+
   const _onToggleSidebar = useCallback(
-    () => toggleSidebar && value && toggleSidebar([value.toString(), null]),
-    [toggleSidebar, value]
+    () => toggleSidebar && value && toggleSidebar([value.toString(), _onNameEdit]),
+    [_onNameEdit, toggleSidebar, value]
   );
 
   return (

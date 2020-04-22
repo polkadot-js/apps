@@ -72,7 +72,6 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
             {address.toString()}
           </div>
           <AccountName
-            defaultName={`<${t('no name')}>`}
             onClick={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
             override={
               isEditingName
@@ -88,11 +87,10 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 )
                 : (
                   isEditable
-                    ? name.toUpperCase()
+                    ? (name.toUpperCase() || t('<unknown>'))
                     : undefined
                 )
             }
-            useDefaultName
             value={address}
             withSidebar={false}
           >
