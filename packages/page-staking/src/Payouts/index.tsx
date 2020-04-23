@@ -31,41 +31,43 @@ interface Available {
   validators?: PayoutValidator[];
 }
 
-function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>): PayoutValidator[] {
+function groupByValidator (allRewards: Record<string, DeriveStakerReward[]>, stakerPayoutsAfter: BN): PayoutValidator[] {
   return Object
     .entries(allRewards)
     .reduce((grouped: PayoutValidator[], [stashId, rewards]): PayoutValidator[] => {
-      rewards.forEach((reward: DeriveStakerReward): void => {
-        Object
-          .entries(reward.validators)
-          .forEach(([validatorId, { value }]): void => {
-            const entry = grouped.find((entry) => entry.validatorId === validatorId);
+      rewards
+        .filter(({ era }) => era.gte(stakerPayoutsAfter))
+        .forEach((reward): void => {
+          Object
+            .entries(reward.validators)
+            .forEach(([validatorId, { value }]): void => {
+              const entry = grouped.find((entry) => entry.validatorId === validatorId);
 
-            if (entry) {
-              const eraEntry = entry.eras.find((entry) => entry.era.eq(reward.era));
+              if (entry) {
+                const eraEntry = entry.eras.find((entry) => entry.era.eq(reward.era));
 
-              if (eraEntry) {
-                eraEntry.stashes[stashId] = value;
+                if (eraEntry) {
+                  eraEntry.stashes[stashId] = value;
+                } else {
+                  entry.eras.push({
+                    era: reward.era,
+                    stashes: { [stashId]: value }
+                  });
+                }
+
+                entry.available = entry.available.add(value);
               } else {
-                entry.eras.push({
-                  era: reward.era,
-                  stashes: { [stashId]: value }
+                grouped.push({
+                  available: value,
+                  eras: [{
+                    era: reward.era,
+                    stashes: { [stashId]: value }
+                  }],
+                  validatorId
                 });
               }
-
-              entry.available = entry.available.add(value);
-            } else {
-              grouped.push({
-                available: value,
-                eras: [{
-                  era: reward.era,
-                  stashes: { [stashId]: value }
-                }],
-                validatorId
-              });
-            }
-          });
-      });
+            });
+        });
 
       return grouped;
     }, [])
@@ -104,10 +106,10 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       setPayouts({
         stashTotal,
         stashes,
-        validators: groupByValidator(allRewards)
+        validators: groupByValidator(allRewards, stakerPayoutsAfter)
       });
     }
-  }, [allRewards]);
+  }, [allRewards, stakerPayoutsAfter]);
 
   const headerStashes = useMemo(() => [
     [t('payout/stash'), 'start'],
@@ -140,6 +142,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       {api.tx.staking.payoutStakers && (
         <Button.Group>
           <PayButton
+            isAll
             isDisabled={isInElection}
             payout={validators}
           />
