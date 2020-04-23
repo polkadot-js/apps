@@ -3015,6 +3015,7 @@ __metadata:
   resolution: "@polkadot/app-settings@workspace:packages/page-settings"
   dependencies:
     "@babel/runtime": ^7.9.2
+    "@polkadot/apps-config": 0.42.0-beta.21
     "@polkadot/react-components": 0.42.0-beta.21
     "@polkadot/react-query": 0.42.0-beta.21
     query-string: ^6.12.1
@@ -3089,7 +3090,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/apps-config@workspace:packages/apps-config":
+"@polkadot/apps-config@0.42.0-beta.21, @polkadot/apps-config@workspace:packages/apps-config":
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
