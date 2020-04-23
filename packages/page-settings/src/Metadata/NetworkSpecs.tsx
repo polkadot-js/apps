@@ -6,7 +6,7 @@ import { ChainInfo } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Columar, Column, Input, Spinner } from '@polkadot/react-components';
+import { Button, ChainImg, Columar, Column, Input, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 import { QrNetworkSpecs } from '@polkadot/react-qr';
 import { NetworkSpecsStruct } from '@polkadot/ui-settings';
@@ -89,13 +89,16 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
   return (
     <Columar className={className}>
       <Column>
-        <Input
-          className='full'
-          help={t('Name of the network. It only for display purpose.')}
-          isDisabled
-          label={t('Network Name')}
-          value={networkSpecs.title}
-        />
+        <div className='settings--networkSpecs-name'>
+          <Input
+            className='full'
+            help={t('Name of the network. It only for display purpose.')}
+            isDisabled
+            label={t('Network Name')}
+            value={networkSpecs.title}
+          />
+          <ChainImg className='settings--networkSpecs-logo' />
+        </div>
         <Input
           className='full'
           help={t('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
@@ -164,5 +167,17 @@ export default React.memo(styled(NetworkSpecs)`
   .settings--networkSpecs-qr {
     margin: 0.25rem auto;
     max-width: 15rem;
+  }
+
+  .settings--networkSpecs-name {
+    position: relative;
+
+    .settings--networkSpecs-logo {
+      height: 32px;
+      left: 12px;
+      position: absolute;
+      top: 1rem;
+      width: 32px;
+    }
   }
 `);

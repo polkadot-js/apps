@@ -12,6 +12,9 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
+// extensions
+import extensionPolkadotJs from './extensions/polkadot-js.svg';
+
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -51,9 +54,15 @@ const namedLogos: Record<string, any> = {
   westend: nodePolkadot
 };
 
+// extension logos
+const extensionLogos: Record<string, any> = {
+  'polkadot-js': extensionPolkadotJs
+};
+
 export {
   chainLogos,
   emptyLogo,
+  extensionLogos,
   namedLogos,
   nodeLogos
 };
