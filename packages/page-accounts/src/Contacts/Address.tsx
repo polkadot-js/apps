@@ -179,15 +179,12 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       </td>
       <td className='all'>
         <div className='tags'>
-          {tags.length
-            ? tags.map((tag): React.ReactNode => (
-              <Tag
-                key={tag}
-                label={tag}
-              />
-            ))
-            : <label>{t('no tags')}</label>
-          }
+          {tags.map((tag): React.ReactNode => (
+            <Tag
+              key={tag}
+              label={tag}
+            />
+          ))}
         </div>
       </td>
       <td className='number'>
@@ -261,16 +258,8 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
 }
 
 export default React.memo(styled(Address)`
-  .addresses--Address-buttons {
-    text-align: right;
-  }
-
   .tags {
     width: 100%;
     min-height: 1.5rem;
-  }
-
-  .name--input {
-    width: 16rem;
   }
 `);
