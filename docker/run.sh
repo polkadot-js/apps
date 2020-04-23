@@ -6,6 +6,6 @@ then
 fi
 
 # dump local chain spec
-#cargo run --release -- build-spec --dev --chain=local > /chain-data/spec_1_10.json
+# cargo run --release -- build-spec --dev --chain=local > /chain-data/spec_1_09.json
 
 cargo run --release -- --ws-external --rpc-external --dev --base-path /chain-data --chain=chainspec.json

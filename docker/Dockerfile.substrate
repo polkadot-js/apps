@@ -24,13 +24,17 @@ RUN git fetch --all
 # Compatible with API 1.10.1
 RUN git checkout 2b988996d031
 
+# Compatible with API 1.09.1
+RUN git checkout 2e8080e29
+
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 RUN cargo build --release
 
 # Copy chain spec
 # COPY ["docker/chainspec.json", "./chainspec.json"]
-COPY ["docker/spec_1_10.json", "./chainspec.json"]
+# COPY ["docker/spec_1_10.json", "./chainspec.json"]
+COPY ["docker/spec_1_09.json", "./chainspec.json"]
 
 # Copy and run start script
 COPY ["docker/run.sh", "./run.sh"]
