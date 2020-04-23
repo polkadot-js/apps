@@ -94,7 +94,8 @@ export interface AddressIdentity extends DeriveAccountRegistration {
   waitCount: number;
 }
 
-export interface UseAccountInfo extends AddressFlags {
+export interface UseAccountInfo {
+  flags: AddressFlags;
   name: string;
   setName: React.Dispatch<string>;
   tags: string[];

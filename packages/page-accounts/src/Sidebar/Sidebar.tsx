@@ -6,15 +6,15 @@ import { BareProps } from '@polkadot/react-components/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
-import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Transfer } from '@polkadot/react-components';
+import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag, Transfer } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Flags from './Flags';
 
 interface Props extends BareProps {
   address: AccountId | Address | string | Uint8Array;
@@ -26,7 +26,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
   const { t } = useTranslation();
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
-  const { identity, isCouncil, isDevelopment, isEditable, isEditingName, isEditingTags, isExternal, isInContacts, isOwned, isSociety, isSudo, isTechCommittee, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { flags, identity, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
@@ -48,7 +48,6 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
   );
 
   const useIdentity = !!api.query.identity?.identityOf;
-  const hasFlags = isDevelopment || isExternal || isSociety || isCouncil || isTechCommittee || isSudo;
 
   return (
     <>
@@ -72,7 +71,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
             {address.toString()}
           </div>
           <AccountName
-            onClick={(isEditable && !isEditingName) ? toggleIsEditingName : undefined}
+            onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
             override={
               isEditingName
                 ? (
@@ -80,19 +79,19 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                     autoFocus
                     className='name--input'
                     defaultValue={name}
-                    onBlur={(isInContacts || isOwned) ? _onUpdateName : undefined}
+                    onBlur={(flags.isInContacts || flags.isOwned) ? _onUpdateName : undefined}
                     onChange={setName}
                     withLabel={false}
                   />
                 )
-                : isEditable
+                : flags.isEditable
                   ? (name.toUpperCase() || t('<unknown>'))
                   : undefined
             }
             value={address}
             withSidebar={false}
           >
-            {(!isEditingName && isEditable) && (
+            {(!isEditingName && flags.isEditable) && (
               <Icon
                 className='inline-icon'
                 name='edit'
@@ -120,20 +119,19 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 >
                   {tags.length
                     ? tags.map((tag): React.ReactNode => (
-                      <Label
+                      <Tag
                         color='grey'
                         key={tag}
+                        label={tag}
                         size='tiny'
-                      >
-                        {tag}
-                      </Label>
+                      />
                     ))
                     : <label>{t('no tags')}</label>
                   }
                 </div>
               )
             }
-            {(!isEditingTags && (isInContacts || isOwned)) && (
+            {(!isEditingTags && (flags.isInContacts || flags.isOwned)) && (
               <Icon
                 className='inline-icon'
                 name='edit'
@@ -141,64 +139,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
               />
             )}
           </div>
-          {hasFlags && (
-            <div className='ui--AddressMenu-flags'>
-              {isExternal && (
-                <Label
-                  color='grey'
-                  size='tiny'
-                  tag
-                >
-                  {t('Injected')}
-                </Label>
-              )}
-              {isDevelopment && (
-                <Label
-                  color='grey'
-                  size='tiny'
-                  tag
-                >
-                  {t('Test account')}
-                </Label>
-              )}
-              {isCouncil && (
-                <Label
-                  color='blue'
-                  size='tiny'
-                  tag
-                >
-                  {t('Council')}
-                </Label>
-              )}
-              {isSociety && (
-                <Label
-                  color='green'
-                  size='tiny'
-                  tag
-                >
-                  {t('Society')}
-                </Label>
-              )}
-              {isTechCommittee && (
-                <Label
-                  color='orange'
-                  size='tiny'
-                  tag
-                >
-                  {t('Technical committee')}
-                </Label>
-              )}
-              {isSudo && (
-                <Label
-                  color='pink'
-                  size='tiny'
-                  tag
-                >
-                  {t('Sudo key')}
-                </Label>
-              )}
-            </div>
-          )}
+          <Flags flags={flags} />
           <div className='ui-AddressMenu--button'>
             <Button.Group>
               <Button
@@ -206,7 +147,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 label={t('Deposit')}
                 onClick={toggleIsTransferOpen}
               />
-              {isOwned && (
+              {flags.isOwned && (
                 <Button
                   className='basic'
                   icon='check'
@@ -217,7 +158,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                   size='tiny'
                 />
               )}
-              {!isOwned && !isInContacts && (
+              {!flags.isOwned && !flags.isInContacts && (
                 <Button
                   icon='add'
                   isPositive
@@ -228,7 +169,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                   size='tiny'
                 />
               )}
-              {!isOwned && isInContacts && (
+              {!flags.isOwned && flags.isInContacts && (
                 <Button
                   className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
                   isAnimated
@@ -241,12 +182,12 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 >
                   <Button.Content visible>
                     <Icon name='check' />
-                    {' '}
+                    &nbsp;
                     {t('Saved')}
                   </Button.Content>
                   <Button.Content hidden>
                     <Icon name='ban' />
-                    {' '}
+                    &nbsp;
                     {t('Remove')}
                   </Button.Content>
                 </Button>
@@ -259,10 +200,10 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
             <div className='ui--AddressMenu-sectionHeader'>
               <div>
                 <Icon name='address card' />
-                {' '}
+                &nbsp;
                 {t('identity')}
               </div>
-              <Label
+              <Tag
                 color={
                   identity.isGood
                     ? 'green'
@@ -270,20 +211,22 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                       ? 'red'
                       : 'yellow'
                 }
+                isTag={false}
+                label={
+                  <>
+                    <b>{identity.judgements.length}&nbsp;</b>
+                    {
+                      identity.judgements.length
+                        ? (identity.isGood
+                          ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
+                          : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
+                        )
+                        : t('No judgments')
+                    }
+                  </>
+                }
                 size='tiny'
-              >
-                <b>{identity.judgements.length}</b>
-                <Label.Detail>
-                  {
-                    identity.judgements.length
-                      ? (identity.isGood
-                        ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
-                        : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
-                      )
-                      : t('No judgments')
-                  }
-                </Label.Detail>
-              </Label>
+              />
             </div>
             <div>
               <AvatarItem
@@ -564,13 +507,7 @@ export default React.memo(styled(Sidebar)`
   .inline-icon {
     cursor: pointer;
     margin: 0 0 0 0.6rem;
-    color: rgba(200, 200, 200, 0.8);
-  }
-
-  &:hover {
-    .inline-icon {
-      color: ${colorLink}
-    }
+    color:  ${colorLink};
   }
 
   .name--input {
