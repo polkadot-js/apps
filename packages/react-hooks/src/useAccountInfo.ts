@@ -186,6 +186,7 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
   );
 
   return {
+    flags,
     genesisHash,
     identity,
     isEditingName,
@@ -200,7 +201,6 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     setTags,
     tags,
     toggleIsEditingName,
-    toggleIsEditingTags,
-    ...flags
+    toggleIsEditingTags
   };
 }
