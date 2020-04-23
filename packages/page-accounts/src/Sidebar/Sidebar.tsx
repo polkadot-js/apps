@@ -9,10 +9,10 @@ import React, { useCallback } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
-
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Transfer } from '@polkadot/react-components';
+import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -315,13 +315,17 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                   <div className='tr'>
                     <div className='th'>{t('email')}</div>
                     <div className='td'>
-                      <a
-                        href={`mailto:${identity.email}`}
-                        rel='noopener noreferrer'
-                        target='_blank'
-                      >
-                        {identity.email}
-                      </a>
+                      {isHex(identity.email)
+                        ? identity.email
+                        : (
+                          <a
+                            href={`mailto:${identity.email}`}
+                            rel='noopener noreferrer'
+                            target='_blank'
+                          >
+                            {identity.email}
+                          </a>
+                        )}
                     </div>
                   </div>
                 )}
@@ -329,13 +333,17 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                   <div className='tr'>
                     <div className='th'>{t('website')}</div>
                     <div className='td'>
-                      <a
-                        href={identity.web.replace(/^(https?:\/\/)?/g, 'https://')}
-                        rel='noopener noreferrer'
-                        target='_blank'
-                      >
-                        {identity.web}
-                      </a>
+                      {isHex(identity.web)
+                        ? identity.web
+                        : (
+                          <a
+                            href={(identity.web as string).replace(/^(https?:\/\/)?/g, 'https://')}
+                            rel='noopener noreferrer'
+                            target='_blank'
+                          >
+                            {identity.web}
+                          </a>
+                        )}
                     </div>
                   </div>
                 )}
@@ -343,13 +351,17 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                   <div className='tr'>
                     <div className='th'>{t('twitter')}</div>
                     <div className='td'>
-                      <a
-                        href={`https://twitter.com/${identity.twitter}`}
-                        rel='noopener noreferrer'
-                        target='_blank'
-                      >
-                        {identity.twitter}
-                      </a>
+                      {isHex(identity.twitter)
+                        ? identity.twitter
+                        : (
+                          <a
+                            href={`https://twitter.com/${identity.twitter}`}
+                            rel='noopener noreferrer'
+                            target='_blank'
+                          >
+                            {identity.twitter}
+                          </a>
+                        )}
                     </div>
                   </div>
                 )}
@@ -495,8 +507,10 @@ export default React.memo(styled(Sidebar)`
         }
 
         .td {
-          padding-left: 0.6rem;
           flex: 1;
+          overflow: hidden;
+          padding-left: 0.6rem;
+          text-overflow: ellipsis;
         }
       }
     }
