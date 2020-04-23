@@ -223,16 +223,13 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         <CryptoType accountId={address} />
       </td>
       <td className='all'>
-        <div className='tags--toggle'>
-          {tags.length
-            ? tags.map((tag): React.ReactNode => (
-              <Tag
-                key={tag}
-                label={tag}
-              />
-            ))
-            : <label>{t('no tags')}</label>
-          }
+        <div className='tags'>
+          {tags.map((tag): React.ReactNode => (
+            <Tag
+              key={tag}
+              label={tag}
+            />
+          ))}
         </div>
       </td>
       <td className='number'>
@@ -341,21 +338,8 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
 }
 
 export default React.memo(styled(Account)`
-  .accounts--Account-buttons {
-    text-align: right;
-  }
-
-  .tags--toggle {
-    cursor: pointer;
+  .tags {
     width: 100%;
     min-height: 1.5rem;
-
-    label {
-      cursor: pointer;
-    }
-  }
-
-  .name--input {
-    width: 16rem;
   }
 `);
