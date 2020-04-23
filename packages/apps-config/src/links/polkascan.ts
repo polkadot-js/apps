@@ -24,5 +24,6 @@ export default {
     referendum: 'democracy/referendum',
     techcomm: 'techcomm/proposal',
     treasury: 'treasury/proposal'
-  }
+  },
+  url: 'https://polkascan.io/'
 };

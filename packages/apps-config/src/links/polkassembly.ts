@@ -17,5 +17,6 @@ export default {
     proposal: 'proposal',
     referendum: 'referendum',
     treasury: 'treasury'
-  }
+  },
+  url: 'https://polkassembly.io/'
 };
