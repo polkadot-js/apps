@@ -11,7 +11,6 @@ import linked from '@polkadot/apps-config/links';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
-import Icon from './Icon';
 import Tooltip from './Tooltip';
 
 interface Props {
@@ -22,10 +21,14 @@ interface Props {
   withShort?: boolean;
 }
 
+function shortName (name: string): string {
+  return `${name[0]}${name[name.length - 1]}`;
+}
+
 function genLinks (systemChain: string, { data, hash, type, withShort }: Props): React.ReactNode[] {
   return Object
     .entries(linked)
-    .map(([name, { chains, create, isActive, paths }]): React.ReactNode | null => {
+    .map(([name, { chains, create, isActive, paths, url }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -46,12 +49,12 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
           target='_blank'
         >
           {withShort
-            ? <Icon name='external' />
+            ? shortName(name)
             : name
           }
           <Tooltip
             place='top'
-            text={name}
+            text={<>{name}<br />{url}</>}
             trigger={trigger}
           />
         </a>
@@ -75,7 +78,7 @@ function LinkExternal ({ className, data, hash, type, withShort }: Props): React
   return (
     <div className={`${className} ${withShort && 'withShort'}`}>
       {!withShort && <div>{t('View this externally')}</div>}
-      <div>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
+      <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
   );
 }
@@ -83,11 +86,13 @@ function LinkExternal ({ className, data, hash, type, withShort }: Props): React
 export default React.memo(styled(LinkExternal)`
   text-align: right;
 
-  > div {
-    display: block;
-    white-space: nowrap;
+  .links {
+    span {
+      word-wrap: normal;
+      display: inline-block;
+    }
 
-    > span+span {
+    span+span {
       margin-left: 0.3rem;
     }
   }
