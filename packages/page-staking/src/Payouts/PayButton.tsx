@@ -13,6 +13,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  isAll?: boolean;
   isDisabled?: boolean;
   payout?: PayoutValidator | PayoutValidator[];
 }
@@ -40,7 +41,7 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
     );
 }
 
-function PayButton ({ isDisabled, payout }: Props): React.ReactElement<Props> {
+function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { t } = useTranslation();
   const [isVisible, togglePayout] = useToggle();
@@ -104,7 +105,7 @@ function PayButton ({ isDisabled, payout }: Props): React.ReactElement<Props> {
       <Button
         icon='percent'
         isDisabled={isDisabled || isPayoutEmpty}
-        label={Array.isArray(payout) ? t('Payout all') : t('Payout')}
+        label={(isAll || Array.isArray(payout)) ? t('Payout all') : t('Payout')}
         onClick={togglePayout}
       />
     </>

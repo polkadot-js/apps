@@ -27,7 +27,7 @@ interface State {
   oldestEra?: BN;
 }
 
-function Payout ({ className, isDisabled, payout }: Props): React.ReactElement<Props> {
+function Validator ({ className, isDisabled, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ eraStr, nominators, numNominators, oldestEra }, setState] = useState<State>({
     eraStr: '',
@@ -91,4 +91,4 @@ function Payout ({ className, isDisabled, payout }: Props): React.ReactElement<P
   );
 }
 
-export default React.memo(Payout);
+export default React.memo(Validator);
