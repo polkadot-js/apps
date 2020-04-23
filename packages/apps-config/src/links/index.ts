@@ -6,11 +6,13 @@ import { ExternalDef } from './types';
 
 import Commonwealth from './commonwealth';
 import Polkascan from './polkascan';
+import Polkassembly from './polkassembly';
 import Subscan from './subscan';
 
 const externals: Record<string, ExternalDef> = {
   Commonwealth,
   Polkascan,
+  Polkassembly,
   Subscan
 };
 
