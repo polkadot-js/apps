@@ -10,11 +10,12 @@ import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountNameJudgement, AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag, Transfer } from '@polkadot/react-components';
+import { AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag, Transfer } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Flags from './Flags';
+import RegistrarJudgement from './RegistrarJudgement';
 
 interface Props extends BareProps {
   address: AccountId | Address | string | Uint8Array;
@@ -350,7 +351,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
         />
       )}
       {(!!address && isJudgementOpen && isRegistrar && useIdentity) && (
-        <AccountNameJudgement
+        <RegistrarJudgement
           address={address.toString()}
           key='modal-judgement'
           registrars={registrars}

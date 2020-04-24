@@ -182,5 +182,11 @@
   "No judgments": "No judgments",
   "website": "website",
   "riot": "riot",
-  "Add identity judgment": "Add identity judgment"
+  "Add identity judgment": "Add identity judgment",
+  "Provide judgement": "Provide judgement",
+  "registrar account": "registrar account",
+  "registrar index": "registrar index",
+  "invalid/unknown registrar account": "invalid/unknown registrar account",
+  "judgement": "judgement",
+  "Judge": "Judge"
 }

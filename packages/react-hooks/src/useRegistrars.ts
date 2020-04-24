@@ -11,9 +11,19 @@ import useAccounts from './useAccounts';
 import useApi from './useApi';
 import useCall from './useCall';
 
+interface RegistrarNull {
+  address: string | null;
+  index: number;
+}
+
+interface Registrar {
+  address: string;
+  index: number;
+}
+
 interface State {
   isRegistrar: boolean;
-  registrars: (string | null)[];
+  registrars: Registrar[];
   skipQuery?: boolean;
 }
 
@@ -26,14 +36,17 @@ export default function useRegistrars (skipQuery?: boolean): State {
   // determine if we have a registrar or not - registrars are allowed to approve
   useEffect((): void => {
     if (allAccounts && query) {
-      const registrars = query.map((registrar): string| null =>
-        registrar.isSome
-          ? registrar.unwrap().account.toString()
-          : null
-      );
+      const registrars = query
+        .map((registrar, index): RegistrarNull => ({
+          address: registrar.isSome
+            ? registrar.unwrap().account.toString()
+            : null,
+          index
+        }))
+        .filter((registrar): registrar is Registrar => !!registrar.address);
 
       setState({
-        isRegistrar: registrars.some((registrar) => !!registrar && allAccounts.includes(registrar)),
+        isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
         registrars
       });
     }
