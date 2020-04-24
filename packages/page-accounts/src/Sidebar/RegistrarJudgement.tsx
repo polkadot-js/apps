@@ -5,17 +5,13 @@
 import { BareProps } from '@polkadot/react-api/types';
 
 import React, { useEffect, useState } from 'react';
+import { Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
-import Dropdown from './Dropdown';
-import Input from './Input';
-import InputAddress from './InputAddress';
-import Modal from './Modal';
-import TxButton from './TxButton';
+import { useTranslation } from '../translate';
 
 interface Props extends BareProps {
   address: string;
-  registrars: (string | null)[];
+  registrars: { address: string; index: number }[];
   toggleJudgement: () => void;
 }
 
@@ -28,21 +24,22 @@ const JUDGEMENT_ENUM = [
   { text: 'Low quality', value: 5 }
 ];
 
-function AccountNameJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
+function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [addresses] = useState(registrars.map(({ address }) => address));
   const [judgementAccountId, setJudgementAccountId] = useState<string | null>(null);
   const [judgementEnum, setJudgementEnum] = useState(2); // Reasonable
   const [registrarIndex, setRegistrarIndex] = useState(-1);
 
   // find the id of our registrar in the list
   useEffect((): void => {
-    if (registrars && judgementAccountId) {
-      setRegistrarIndex(
-        registrars.indexOf(judgementAccountId)
-      );
-    } else {
-      setRegistrarIndex(-1);
-    }
+    const registrar = registrars.find(({ address }) => judgementAccountId === address);
+
+    setRegistrarIndex(
+      registrar
+        ? registrar.index
+        : -1
+    );
   }, [judgementAccountId, registrars]);
 
   return (
@@ -53,8 +50,10 @@ function AccountNameJudgement ({ address, registrars, toggleJudgement }: Props):
     >
       <Modal.Content>
         <InputAddress
+          filter={addresses}
           label={t('registrar account')}
           onChange={setJudgementAccountId}
+          type='account'
         />
         <Input
           isDisabled
@@ -83,4 +82,4 @@ function AccountNameJudgement ({ address, registrars, toggleJudgement }: Props):
   );
 }
 
-export default React.memo(AccountNameJudgement);
+export default React.memo(RegistrarJudgement);
