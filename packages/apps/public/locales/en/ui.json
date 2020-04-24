@@ -1120,5 +1120,14 @@
   "More": "",
   "Sign for multisig": "",
   "The multisig signatory for this transaction.": "",
-  "signatory": ""
+  "signatory": "",
+  "Multisig approvals": "",
+  "Approve this call hash": "",
+  "Cancel this call hash": "",
+  "Pending call hashes": "",
+  "The signatory to send the approval/cancel from": "",
+  "The call hashes that have not been executed as of yet.": "",
+  "pending hashes": "",
+  "Either approve or reject this call.": "",
+  "approval type": ""
 }

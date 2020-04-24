@@ -197,5 +197,15 @@
   "The threshold for this multisig": "The threshold for this multisig",
   "signatory {{index}}/{{length}}": "signatory {{index}}/{{length}}",
   "Less": "Less",
-  "More": "More"
+  "More": "More",
+  "Multisig approvals": "Multisig approvals",
+  "Approve this call hash": "Approve this call hash",
+  "Cancel this call hash": "Cancel this call hash",
+  "Pending call hashes": "Pending call hashes",
+  "The signatory to send the approval/cancel from": "The signatory to send the approval/cancel from",
+  "signatory": "signatory",
+  "The call hashes that have not been executed as of yet.": "The call hashes that have not been executed as of yet.",
+  "pending hashes": "pending hashes",
+  "Either approve or reject this call.": "Either approve or reject this call.",
+  "approval type": "approval type"
 }
