@@ -46,10 +46,8 @@ interface ChainData {
 }
 
 // const injectedPromise = new Promise<InjectedExtension[]>((resolve): void => {
-//   const inner = web3Enable('polkadot-js/apps');
-
 //   window.addEventListener('load', (): void => {
-//     resolve(inner);
+//     resolve(web3Enable('polkadot-js/apps'));
 //   });
 // });
 
