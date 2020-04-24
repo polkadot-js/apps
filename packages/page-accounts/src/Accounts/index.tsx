@@ -18,7 +18,7 @@ import { Button, Input, Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
-import Multisig from './modals/Multisig';
+import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
