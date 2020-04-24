@@ -256,6 +256,7 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
 
 export default React.memo(styled(VanityApp)`
   .vanity--App-matches {
+    overflow-x: auto;
     padding: 1em 0;
   }
 
