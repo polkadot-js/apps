@@ -14,15 +14,15 @@ interface Props {
 
 const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x', '6x'];
 
-function voteLabel (vote: Vote): string {
-  return `${sizing[vote.conviction.toNumber()]} - `;
+function voteLabel ({ conviction }: Vote, isDelegating: boolean): string {
+  return `${sizing[conviction.toNumber()]}${isDelegating ? '/d' : ''} - `;
 }
 
-function ReferendumVote ({ vote: { accountId, balance, vote } }: Props): React.ReactElement<Props> {
+function ReferendumVote ({ vote: { accountId, balance, isDelegating, vote } }: Props): React.ReactElement<Props> {
   return (
     <AddressMini
       balance={balance}
-      labelBalance={voteLabel(vote)}
+      labelBalance={voteLabel(vote, isDelegating)}
       value={accountId}
       withBalance
     />
