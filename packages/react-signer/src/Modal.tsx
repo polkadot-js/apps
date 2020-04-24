@@ -9,6 +9,7 @@ import { I18nProps, BareProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { Timepoint } from '@polkadot/types/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -16,7 +17,7 @@ import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { createType } from '@polkadot/types';
-import { Button, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber } from '@polkadot/react-components';
+import { Button, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber, InputAddress } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
@@ -53,19 +54,27 @@ interface State {
   qrPayload: Uint8Array;
   qrResolve?: (result: SignerResult) => void;
   qrReject?: (error: Error) => void;
+  signatory?: string | null;
   showTip: boolean;
   signedTx?: string;
   tip?: BN;
   unlockError?: string | null;
 }
 
+interface AccountFlags {
+  hardwareType?: string;
+  isExternal: boolean;
+  isHardware: boolean;
+  isMultisig: boolean;
+  threshold: number;
+  who: string[];
+}
+
 let qrId = 0;
 
-function extractExternal (
-  accountId?: string | null
-): { isExternal: boolean; isHardware: boolean; hardwareType?: string } {
+function extractExternal (accountId?: string | null): AccountFlags {
   if (!accountId) {
-    return { isExternal: false, isHardware: false };
+    return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
   }
 
   let publicKey;
@@ -75,7 +84,7 @@ function extractExternal (
   } catch (error) {
     console.error(error);
 
-    return { isExternal: false, isHardware: false };
+    return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
   }
 
   const pair = keyring.getPair(publicKey);
@@ -83,7 +92,10 @@ function extractExternal (
   return {
     hardwareType: pair.meta.hardwareType,
     isExternal: !!pair.meta.isExternal,
-    isHardware: !!pair.meta.isHardware
+    isHardware: !!pair.meta.isHardware,
+    isMultisig: !!pair.meta.isMultisig,
+    threshold: pair.meta.threshold || 0,
+    who: pair.meta.who || []
   };
 }
 
@@ -183,13 +195,13 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderButtons (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, isQrScanning, isQrVisible, isRenderError, isSendable, isSubmit, signedTx } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isRenderError, isSendable, isSubmit, signatory, signedTx } = this.state;
 
     if (!currentItem) {
       return null;
     }
 
-    const { hardwareType, isExternal, isHardware } = extractExternal(currentItem.accountId);
+    const { hardwareType, isExternal, isHardware, isMultisig } = extractExternal(currentItem.accountId);
 
     return (
       <Modal.Actions
@@ -209,8 +221,8 @@ class Signer extends React.PureComponent<Props, State> {
             <Button.Or />
             <Button
               className='ui--signer-Signer-Submit'
-              icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : isExternal ? 'qrcode' : 'sign-in'}
-              isDisabled={!isSendable}
+              icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : (isExternal && !isMultisig) ? 'qrcode' : 'sign-in'}
+              isDisabled={!isSendable || (isMultisig && !signatory)}
               isPrimary
               label={
                 isQrVisible
@@ -220,7 +232,9 @@ class Signer extends React.PureComponent<Props, State> {
                     : isHardware
                       ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
                       : isExternal
-                        ? t('Sign via Qr')
+                        ? isMultisig
+                          ? t('Sign for multisig')
+                          : t('Sign via Qr')
                         : isSubmit
                           ? t('Sign and Submit')
                           : t('Sign (no submission)')
@@ -261,11 +275,34 @@ class Signer extends React.PureComponent<Props, State> {
           : (
             <>
               {this.renderTip()}
+              {this.renderSignatory()}
               {this.renderUnlock()}
               {!isSubmit && this.renderSignFields()}
             </>
           )}
       </Transaction>
+    );
+  }
+
+  private renderSignatory (): React.ReactNode {
+    const { t } = this.props;
+    const { currentItem } = this.state;
+    const { isMultisig, who } = currentItem
+      ? extractExternal(currentItem.accountId)
+      : { isMultisig: false, who: [] };
+
+    if (!currentItem || !isMultisig) {
+      return null;
+    }
+
+    return (
+      <InputAddress
+        filter={who}
+        help={t('The multisig signatory for this transaction.')}
+        label={t('signatory')}
+        onChange={this.onChangeSignatory}
+        type='account'
+      />
     );
   }
 
@@ -308,17 +345,19 @@ class Signer extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { isQrScanning, isQrVisible, isSubmit } = this.state;
 
-    return <Toggle
-      className='signToggle'
-      isDisabled={isQrVisible || isQrScanning}
-      label={
-        isSubmit
-          ? t('Sign and Submit')
-          : t('Sign (no submission)')
-      }
-      onChange={this.onToggleSign}
-      value={isSubmit}
-    />;
+    return (
+      <Toggle
+        className='signToggle'
+        isDisabled={isQrVisible || isQrScanning}
+        label={
+          isSubmit
+            ? t('Sign and Submit')
+            : t('Sign (no submission)')
+        }
+        onChange={this.onToggleSign}
+        value={isSubmit}
+      />
+    );
   }
 
   private renderSignFields (): React.ReactNode {
@@ -379,13 +418,17 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ blocks: value ? value.toString() : '0' });
   }
 
-  private renderUnlock (): React.ReactNode {
-    const { currentItem, isSendable, password, unlockError } = this.state;
-    const { isExternal } = currentItem
-      ? extractExternal(currentItem.accountId)
-      : { isExternal: false };
+  private onChangeSignatory = (signatory?: string | null): void => {
+    this.setState({ signatory });
+  }
 
-    if (!isSendable || !currentItem || currentItem.isUnsigned || isExternal) {
+  private renderUnlock (): React.ReactNode {
+    const { currentItem, isSendable, password, signatory, unlockError } = this.state;
+    const { isExternal, isMultisig } = currentItem
+      ? extractExternal(currentItem.accountId)
+      : { isExternal: false, isMultisig: false };
+
+    if (!isSendable || !currentItem || currentItem.isUnsigned || (isExternal && !isMultisig)) {
       return null;
     }
 
@@ -397,7 +440,7 @@ class Signer extends React.PureComponent<Props, State> {
         onEnter={this.onSend}
         password={password}
         tabIndex={1}
-        value={currentItem.accountId}
+        value={isMultisig ? signatory : currentItem.accountId}
       />
     );
   }
@@ -415,7 +458,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     const pair = keyring.getPair(publicKey);
 
-    if (!pair.isLocked || pair.meta.isInjected || pair.meta.isExternal) {
+    if (!pair.isLocked || pair.meta.isInjected || (pair.meta.isExternal && !pair.meta.isMultisig)) {
       return null;
     }
 
@@ -561,14 +604,14 @@ class Signer extends React.PureComponent<Props, State> {
   };
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
-    const { queueSetTxStatus } = this.props;
-    const { isSubmit, showTip, tip } = this.state;
+    const { api, queueSetTxStatus } = this.props;
+    const { isSubmit, showTip, signatory, tip } = this.state;
     const { accountId, extrinsic, id, isUnsigned, payload } = queueTx;
 
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
 
-      const unlockError = this.unlockAccount(accountId, password);
+      const unlockError = this.unlockAccount((signatory || accountId), password);
 
       if (unlockError) {
         this.setState({ unlockError });
@@ -586,7 +629,7 @@ class Signer extends React.PureComponent<Props, State> {
           ...(showTip && tip && !payload.tip ? { tip: tip.toString() } : {})
         },
         queueTx,
-        keyring.getPair(accountId as string)
+        keyring.getPair((signatory || accountId) as string)
       );
     }
 
@@ -594,11 +637,32 @@ class Signer extends React.PureComponent<Props, State> {
 
     assert(submittable, 'Expected an extrinsic to be supplied to sendExtrinsic');
 
-    return isUnsigned
-      ? this.makeExtrinsicCall(submittable, queueTx, submittable.send.bind(submittable))
-      : isSubmit
-        ? this.makeExtrinsicCall(submittable, queueTx, submittable.signAndSend.bind(submittable), keyring.getPair(accountId as string))
-        : this.makeSignedTransaction(submittable, queueTx, keyring.getPair(accountId as string));
+    if (isUnsigned) {
+      return this.makeExtrinsicCall(submittable, queueTx, submittable.send.bind(submittable));
+    }
+
+    const basePair = keyring.getPair(accountId as string);
+    let pair = basePair;
+    let tx = submittable;
+
+    if (basePair.meta.isMultisig) {
+      const others = basePair.meta.who.filter((who: string) => who !== signatory);
+      const info = await api.query.utility.multisigs(accountId as string, submittable.method.hash);
+      let timepoint: Timepoint | null = null;
+
+      if (info.isSome) {
+        timepoint = info.unwrap().when;
+      }
+
+      pair = keyring.getPair(signatory as string);
+      tx = api.tx.utility.asMulti(basePair.meta.threshold, others, timepoint, submittable.method);
+    }
+
+    console.log('sendExtrinsic::', JSON.stringify(tx.method.toHuman()));
+
+    return isSubmit
+      ? this.makeExtrinsicCall(tx, queueTx, tx.signAndSend.bind(tx), pair)
+      : this.makeSignedTransaction(tx, queueTx, pair);
   }
 
   private async submitRpc ({ method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
@@ -716,11 +780,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
   }
 
-  private async makeSignedTransaction (
-    extrinsic: SubmittableExtrinsic,
-    { id, txFailedCb, txStartCb }: QueueTx,
-    pair: KeyringPair
-  ): Promise<void> {
+  private async makeSignedTransaction (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb }: QueueTx, pair: KeyringPair): Promise<void> {
     const { queueSetTxStatus } = this.props;
     const { blocks, nonce, showTip, tip } = this.state;
 

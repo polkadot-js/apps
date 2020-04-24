@@ -1108,5 +1108,17 @@
   "Low quality": "",
   "No judgments": "",
   "website": "",
-  "Add identity judgment": ""
+  "Add identity judgment": "",
+  "Multisig": "",
+  "created multisig": "",
+  "Add multisig": "",
+  "Name given to this multisig. You can edit it it any later point in time.": "",
+  "multisig name": "",
+  "The threshold for this multisig": "",
+  "signatory {{index}}/{{length}}": "",
+  "Less": "",
+  "More": "",
+  "Sign for multisig": "",
+  "The multisig signatory for this transaction.": "",
+  "signatory": ""
 }

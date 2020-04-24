@@ -80,6 +80,7 @@ export interface AddressFlags extends DeriveAccountFlags {
   isExternal: boolean;
   isFavorite: boolean;
   isInContacts: boolean;
+  isMultisig: boolean;
   isOwned: boolean;
 }
 

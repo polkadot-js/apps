@@ -23,6 +23,7 @@ const IS_NONE = {
   isExternal: false,
   isFavorite: false,
   isInContacts: false,
+  isMultisig: false,
   isOwned: false,
   isSociety: false,
   isSudo: false,
@@ -99,9 +100,10 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     setFlags((flags) => ({
       ...flags,
       isDevelopment: accountOrAddress?.meta.isTesting || false,
-      isEditable: (!identity?.display && (isInContacts || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
+      isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
       isExternal: accountOrAddress?.meta.isExternal || false,
       isInContacts,
+      isMultisig: accountOrAddress?.meta.isMultisig || false,
       isOwned
     }));
     setName(accountOrAddress?.meta.name || '');

@@ -37,5 +37,8 @@
   "Set to 0 to make transaction immortal": "Set to 0 to make transaction immortal",
   "Signed transaction": "Signed transaction",
   "Authorize transaction": "Authorize transaction",
-  "Sending transaction": "Sending transaction"
+  "Sending transaction": "Sending transaction",
+  "Sign for multisig": "Sign for multisig",
+  "The multisig signatory for this transaction.": "The multisig signatory for this transaction.",
+  "signatory": "signatory"
 }

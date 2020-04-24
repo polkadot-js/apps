@@ -18,6 +18,7 @@ import { Button, Input, Table } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
+import Multisig from './modals/Multisig';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
@@ -94,6 +95,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const { allAccounts } = useAccounts();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
+  const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
@@ -166,6 +168,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           onStatusChange={onStatusChange}
         />
       )}
+      {isMultisigOpen && (
+        <Multisig
+          onClose={toggleMultisig}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isQrOpen && (
         <QrModal
           onClose={toggleQr}
@@ -200,6 +208,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             />
           </>
         )}
+        <Button.Or />
+        <Button
+          icon='add'
+          label={t('Multisig')}
+          onClick={toggleMultisig}
+        />
       </Button.Group>
       <Table
         empty={t('no accounts yet, create or import an existing')}
