@@ -4,15 +4,15 @@
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { RecoveryConfig } from '@polkadot/types/interfaces';
+import { H256, Multisig, RecoveryConfig } from '@polkadot/types/interfaces';
 import { SortedAccount } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
-import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
+import { useAccountInfo, useApi, useCall, useIncrement, useToggle } from '@polkadot/react-hooks';
+import { Option, StorageKey } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { formatBalance, formatNumber } from '@polkadot/util';
 
@@ -21,6 +21,7 @@ import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Derive from './modals/Derive';
 import Identity from './modals/Identity';
+import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
@@ -47,16 +48,24 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
 function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
+  const [multiInc, refreshMulti] = useIncrement();
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
-  const { flags: { isDevelopment, isEditable, isExternal }, genesisHash, name: accName, onSaveGenesisHash, tags } = useAccountInfo(address);
+  const multiInfos = useCall<[H256, Multisig][]>(multiInc && api.api.query.utility?.multisigs.entries as any, [address], {
+    transform: (infos: [StorageKey, Option<Multisig>][]): [H256, Multisig][] =>
+      infos
+        .filter(([, opt]) => opt.isSome)
+        .map(([key, opt]) => [key.args[1] as H256, opt.unwrap()])
+  });
+  const { flags: { isDevelopment, isEditable, isExternal, isMultisig }, genesisHash, name: accName, onSaveGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
   const [isForgetOpen, toggleForget] = useToggle();
   const [isIdentityOpen, toggleIdentity] = useToggle();
+  const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
@@ -99,6 +108,14 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
       }
     },
     [address, t]
+  );
+
+  const _closeMultisig = useCallback(
+    (): void => {
+      toggleMultisig();
+      refreshMulti();
+    },
+    [refreshMulti, toggleMultisig]
   );
 
   if (!isVisible) {
@@ -197,6 +214,16 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
             key='modal-transfer'
             onClose={toggleTransfer}
             senderId={address}
+          />
+        )}
+        {isMultisigOpen && multiInfos && (
+          <MultisigApprove
+            address={address}
+            key='multisig-approve'
+            onClose={_closeMultisig}
+            ongoing={multiInfos}
+            threshold={meta.threshold}
+            who={meta.who}
           />
         )}
         {isRecoverAccountOpen && (
@@ -308,6 +335,17 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
                 )}
                 <Menu.Item onClick={toggleRecoverAccount}>
                   {t('Initiate recovery for another')}
+                </Menu.Item>
+              </>
+            )}
+            {isMultisig && (
+              <>
+                <Menu.Divider />
+                <Menu.Item
+                  disabled={!multiInfos || !multiInfos.length}
+                  onClick={toggleMultisig}
+                >
+                  {t('Multisig approvals')}
                 </Menu.Item>
               </>
             )}
