@@ -9,6 +9,7 @@ import { I18nProps, BareProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { Timepoint } from '@polkadot/typs/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -344,17 +345,19 @@ class Signer extends React.PureComponent<Props, State> {
     const { t } = this.props;
     const { isQrScanning, isQrVisible, isSubmit } = this.state;
 
-    return <Toggle
-      className='signToggle'
-      isDisabled={isQrVisible || isQrScanning}
-      label={
-        isSubmit
-          ? t('Sign and Submit')
-          : t('Sign (no submission)')
-      }
-      onChange={this.onToggleSign}
-      value={isSubmit}
-    />;
+    return (
+      <Toggle
+        className='signToggle'
+        isDisabled={isQrVisible || isQrScanning}
+        label={
+          isSubmit
+            ? t('Sign and Submit')
+            : t('Sign (no submission)')
+        }
+        onChange={this.onToggleSign}
+        value={isSubmit}
+      />
+    );
   }
 
   private renderSignFields (): React.ReactNode {
@@ -608,7 +611,7 @@ class Signer extends React.PureComponent<Props, State> {
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
 
-      const unlockError = this.unlockAccount(accountId, password);
+      const unlockError = this.unlockAccount((signatory || accountId), password);
 
       if (unlockError) {
         this.setState({ unlockError });
@@ -644,9 +647,15 @@ class Signer extends React.PureComponent<Props, State> {
 
     if (basePair.meta.isMultisig) {
       const others = basePair.meta.who.filter((who: string) => who !== signatory);
+      const info = await api.query.utility.multisigs(accountId as string, submittable.method.hash);
+      let timepoint: Timepoint | null = null;
+
+      if (info.isSome) {
+        timepoint = info.unwrap().when;
+      }
 
       pair = keyring.getPair(signatory as string);
-      tx = api.tx.utility.asMulti(basePair.meta.threshold, others, null, submittable.method);
+      tx = api.tx.utility.asMulti(basePair.meta.threshold, others, timepoint, submittable.method);
     }
 
     console.log('sendExtrinsic::', JSON.stringify(tx.method.toHuman()));

@@ -124,8 +124,9 @@ function Multisig ({ className, onClose, onStatusChange }: Props): React.ReactEl
         {signatories.map((_, index) => (
           <InputAddress
             key={index}
-            label={t('signatory {{index}}', { replace: { index } })}
+            label={t('signatory {{index}}/{{length}}', { replace: { index: index + 1, length: signatories.length } })}
             onChange={setSignatory[index]}
+            value={signatories[index]}
           />
         ))}
         <Button.Group>
