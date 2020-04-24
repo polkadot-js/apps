@@ -85,14 +85,14 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
             ? 'The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.'
             : 'The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.'
         )}
+        isDisabled={isBusy}
+        isRequired={this.isContract}
         label={t(
           this.isContract
             ? 'contract ABI'
             : 'contract ABI (optional)'
         )}
         onChange={this.onAddAbi}
-        isDisabled={isBusy}
-        isRequired={this.isContract}
       />
     );
   }
@@ -177,6 +177,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     const { isBusy } = this.state;
 
     onClose && onClose();
+
     if (!isBusy) {
       this.reset();
     }
@@ -191,7 +192,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
   }
 
   protected onChangeName = (name: string): void => {
-    this.setState({ name, isNameValid: name.length !== 0 });
+    this.setState({ isNameValid: name.length !== 0, name });
   }
 
   protected onChangeGas = (gasLimit: BN | undefined): void => {

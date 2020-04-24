@@ -51,14 +51,13 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor = false): React.ReactNode {
-  const { t } = useTranslation();
+function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: (key: string) => string): React.ReactNode {
   const { docs = [], name } = message;
 
   return (
     <div
-      key={name}
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
+      key={name}
     >
       <div className='info'>
         <MessageSignature
@@ -108,24 +107,24 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
   );
 }
 
-function renderConstructor (props: Props, index: number): React.ReactNode {
+function renderConstructor (props: Props, index: number, t: (key: string) => string): React.ReactNode {
   const { contractAbi: { abi: { contract: { constructors } } } } = props;
 
   if (!constructors[index]) {
     return null;
   }
 
-  return renderItem(props, constructors[index], index, true);
+  return renderItem(props, constructors[index], index, true, t);
 }
 
-function renderMessage (props: Props, index: number): React.ReactNode {
+function renderMessage (props: Props, index: number, t: (key: string) => string): React.ReactNode {
   const { contractAbi: { abi: { contract: { messages } } } } = props;
 
   if (!messages[index]) {
     return null;
   }
 
-  return renderItem(props, messages[index], index);
+  return renderItem(props, messages[index], index, false, t);
 }
 
 function Messages (props: Props): React.ReactElement<Props> {
@@ -134,13 +133,13 @@ function Messages (props: Props): React.ReactElement<Props> {
 
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
-      {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index))}
-      {messages.map((_, index): React.ReactNode => renderMessage(props, index))}
+      {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
+      {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
       {isRemovable && (
         <IconLink
-          label={t('Remove ABI')}
-          icon='remove'
           className='remove-abi'
+          icon='remove'
+          label={t('Remove ABI')}
           onClick={onRemove}
         />
       )}
@@ -183,6 +182,27 @@ export default React.memo(styled(Messages)`
       background: #e8f4ff;
     }
 
+    &.disabled {
+      opacity: 1 !important;
+      background: #eee !important;
+      color: #555 !important;
+    }
+
+    .accessory {
+      width: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .execute {
+        display: none;
+        background: transparent;
+        font-size: 1.5rem;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
     &:hover {
       .accessory .execute {
         display: block;
@@ -201,27 +221,6 @@ export default React.memo(styled(Messages)`
         font-size: 0.8rem;
         font-weight: normal;
       }
-    }
-
-    .accessory {
-      width: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .execute {
-        display: none;
-        background: transparent;
-        font-size: 1.5rem;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    &.disabled {
-      opacity: 1 !important;
-      background: #eee !important;
-      color: #555 !important;
     }
   }
 `);

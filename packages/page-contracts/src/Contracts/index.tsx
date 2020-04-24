@@ -23,7 +23,7 @@ function filterContracts (api: ApiPromise, { accounts, contracts: keyringContrac
     .filter((contract: ApiContract | null): boolean => !!contract) as ApiContract[];
 }
 
-export default function Contracts (props: Props): React.ReactElement<Props> {
+function Contracts (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy } = props;
@@ -35,13 +35,9 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     setContracts(filterContracts(api, props));
-  }, [accounts, api, keyringContracts]);
+  }, [accounts, api, keyringContracts, props]);
 
-  let callContract = contracts[callContractIndex] || null;
-
-  useEffect((): void => {
-    callContract = contracts[callContractIndex];
-  }, [callContractIndex]);
+  const callContract = contracts[callContractIndex] || null;
 
   const _toggleAdd = (): void => setIsAddOpen(!isAddOpen);
   const _toggleCall = (): void => setIsCallOpen(!isCallOpen);
@@ -72,7 +68,6 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
   return (
     <>
       <CardGrid
-        emptyText={t('No contracts available')}
         buttons={
           <Button.Group>
             {hasCode && (
@@ -92,6 +87,7 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
             />
           </Button.Group>
         }
+        emptyText={t('No contracts available')}
       >
         {contracts.map((contract: ApiContract, index): React.ReactNode => (
           <ContractCard
@@ -118,3 +114,5 @@ export default function Contracts (props: Props): React.ReactElement<Props> {
     </>
   );
 }
+
+export default React.memo(Contracts);

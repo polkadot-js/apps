@@ -4,6 +4,7 @@
 
 import BN from 'bn.js';
 import React from 'react';
+import { useApi } from '@polkadot/react-hooks';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { BestFinalized, BestNumber, BlockToTime, TimeNow, TotalIssuance } from '@polkadot/react-query';
 
@@ -14,6 +15,7 @@ const ONE_BLOCK = new BN(1);
 
 function Summary (): React.ReactElement<{}> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   return (
     <SummaryBox>
@@ -27,12 +29,14 @@ function Summary (): React.ReactElement<{}> {
         >
           <BlockToTime blocks={ONE_BLOCK} />
         </CardSummary>
-        <CardSummary
-          className='ui--media-small'
-          label={t('total issuance')}
-        >
-          <TotalIssuance />
-        </CardSummary>
+        {api.query.balances && (
+          <CardSummary
+            className='ui--media-small'
+            label={t('total issuance')}
+          >
+            <TotalIssuance />
+          </CardSummary>
+        )}
       </section>
       <section className='ui--media-large'>
         <SummarySession withEra={false} />

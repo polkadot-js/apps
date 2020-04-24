@@ -12,6 +12,9 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
+// extensions
+import extensionPolkadotJs from './extensions/polkadot-js.svg';
+
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -41,19 +44,25 @@ const nodeLogos: Record<string, any> = [
 
 // overrides when we pass an explicit logo name
 const namedLogos: Record<string, any> = {
-  centrifuge: nodeCentrifuge,
-  empty: emptyLogo,
-  edgeware: nodeEdgeware,
   alexander: nodePolkadot,
+  centrifuge: nodeCentrifuge,
+  edgeware: nodeEdgeware,
+  empty: emptyLogo,
   kusama: chainKusama,
   polkadot: nodePolkadot,
   substrate: nodeSubstrate,
   westend: nodePolkadot
 };
 
+// extension logos
+const extensionLogos: Record<string, any> = {
+  'polkadot-js': extensionPolkadotJs
+};
+
 export {
   chainLogos,
   emptyLogo,
+  extensionLogos,
   namedLogos,
   nodeLogos
 };

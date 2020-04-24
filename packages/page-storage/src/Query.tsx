@@ -6,7 +6,7 @@ import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/h
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { Button, Labelled } from '@polkadot/react-components';
@@ -61,16 +61,16 @@ function typeToString ({ creator: { meta: { modifier, type } } }: StorageEntryPr
 function createComponent (type: string, Component: React.ComponentType<any>, defaultProps: DefaultProps, renderHelper: ComponentRenderer): { Component: React.ComponentType<any>; render: (createComponent: RenderFn) => React.ComponentType<any>; refresh: (swallowErrors: boolean, contentShorten: boolean) => React.ComponentType<any> } {
   return {
     Component,
-    // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
-    render: (createComponent: RenderFn): React.ComponentType<any> =>
-      renderHelper(createComponent, defaultProps),
     // In order to modify the parameters which are used to render the default component, we can use this method
     refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> =>
       renderHelper(
         (value: any): React.ReactNode =>
           <pre>{valueToText(type, value, swallowErrors, contentShorten)}</pre>,
         defaultProps
-      )
+      ),
+    // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
+    render: (createComponent: RenderFn): React.ComponentType<any> =>
+      renderHelper(createComponent, defaultProps)
   };
 }
 
@@ -135,24 +135,34 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
 
   useEffect((): void => {
     setComponent(getCachedComponent(value));
-    // setInputs(
-    //   isU8a(value.key)
-    //     ? []
-    //     // FIXME We need to render the actual key params
-    //     // const { key, params } = value;
-    //     // const inputs = key.params.map(({ name, type }, index) => (
-    //     //   <span key={`param_${name}_${index}`}>
-    //     //     {name}={valueToText(type, params[index].value)}
-    //     //   </span>
-    //     // ));
-    //     : []
-    // );
     setIsSpreadable(
       (value.key as StorageEntryPromise).creator &&
       (value.key as StorageEntryPromise).creator.meta &&
       ['Bytes', 'Raw'].includes((value.key as StorageEntryPromise).creator.meta.type.toString())
     );
   }, [value]);
+
+  const _spreadHandler = useCallback(
+    (id: number): () => void => {
+      return (): void => {
+        cache[id].Component = cache[id].refresh(true, !!spread[id]);
+        spread[id] = !spread[id];
+
+        setComponent(cache[id]);
+        setSpread({ ...spread });
+      };
+    },
+    [spread]
+  );
+
+  const _onRemove = useCallback(
+    (): void => {
+      delete cache[value.id];
+
+      onRemove(value.id);
+    },
+    [onRemove, value]
+  );
 
   const { id, isConst, key } = value;
   const type = isConst
@@ -165,27 +175,12 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
     return null;
   }
 
-  const _spreadHandler = (id: number): () => void => {
-    return (): void => {
-      cache[id].Component = cache[id].refresh(true, !!spread[id]);
-      spread[id] = !spread[id];
-
-      setComponent(cache[id]);
-      setSpread({ ...spread });
-    };
-  };
-  const _onRemove = (): void => {
-    delete cache[value.id];
-
-    onRemove(value.id);
-  };
-
   return (
     <div className={`storage--Query storage--actionrow ${className}`}>
       <div className='storage--actionrow-value'>
         <Labelled
           label={
-            <div className='ui--Param-text'>
+            <div className='storage--actionrow-label'>
               {keyToName(isConst, key)}: {type}
             </div>
           }
@@ -233,5 +228,10 @@ export default React.memo(styled(Query)`
 
   pre {
     margin: 0;
+
+    .ui--Param-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `);

@@ -31,14 +31,14 @@ const ContractCard = styled(Card)`
 function Contract (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { contract: { abi, address }, onCall } = props;
+  const [isForgetOpen, setIsForgetOpen] = useState(false);
 
   if (!address || !abi) {
     return null;
   }
 
-  const [isForgetOpen, setIsForgetOpen] = useState(false);
-
   const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
+
   const _onForget = (): void => {
     if (!address) {
       return;
@@ -57,6 +57,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
       status.status = 'error';
       status.message = error.message;
     }
+
     _toggleForget();
   };
 
@@ -65,10 +66,10 @@ function Contract (props: Props): React.ReactElement<Props> | null {
       {isForgetOpen && (
         <Forget
           address={address.toString()}
-          mode='contract'
-          onForget={_onForget}
           key='modal-forget-contract'
+          mode='contract'
           onClose={_toggleForget}
+          onForget={_onForget}
         />
       )}
       <AddressRow

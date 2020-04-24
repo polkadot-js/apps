@@ -10,7 +10,7 @@ import { Tabs } from '@polkadot/react-components';
 import Selection from './Selection';
 import { useTranslation } from './translate';
 
-export default function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
+function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [{
     isRoot: true,
@@ -32,3 +32,5 @@ export default function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<
 }
 
 export { ExtrinsicsApp };
+
+export default React.memo(ExtrinsicsApp);

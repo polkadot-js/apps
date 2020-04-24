@@ -2,20 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo, DerivedStakingQuery } from '@polkadot/api-derive/types';
+import { Balance } from '@polkadot/types/interfaces';
+import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { AddressSmall, Icon } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
-import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
 import Favorite from './Favorite';
+import NominatedBy from './NominatedBy';
 import Status from './Status';
 import StakeOther from './StakeOther';
 
@@ -29,58 +28,65 @@ interface Props {
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
+  nominatedBy?: [string, number][];
   onlineCount?: false | number;
   onlineMessage?: boolean;
-  points?: false | number;
+  points?: string;
   setNominators?: false | ((nominators: string[]) => void);
   toggleFavorite: (accountId: string) => void;
-  withNominations?: boolean;
 }
 
 interface StakingState {
   commission?: string;
-  controllerId?: string;
-  nominators: [AccountId, Balance][];
-  sessionId?: string;
+  nominators: [string, Balance][];
   stakeTotal?: BN;
   stakeOther?: BN;
   stakeOwn?: BN;
 }
 
-function expandInfo ({ controllerId, exposure, nextSessionIds, validatorPrefs }: DerivedStakingQuery, withNominations = true): StakingState {
-  const nominators = withNominations && exposure
-    ? exposure.others.map(({ who, value }): [AccountId, Balance] => [who, value.unwrap()])
-    : [];
-  const stakeTotal = (exposure && !exposure.total.isEmpty && exposure.total.unwrap()) || undefined;
-  const stakeOwn = (exposure && !exposure.own.isEmpty && exposure.own.unwrap()) || undefined;
-  const stakeOther = (stakeTotal && stakeOwn) ? stakeTotal.sub(stakeOwn) : undefined;
+/* stylelint-disable */
+const PERBILL_PERCENT = 10_000_000;
+/* stylelint-enable */
+
+function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
+  let nominators: [string, Balance][] = [];
+  let stakeTotal: BN | undefined;
+  let stakeOther: BN | undefined;
+  let stakeOwn: BN | undefined;
+
+  if (exposure) {
+    nominators = exposure.others.map(({ value, who }): [string, Balance] => [who.toString(), value.unwrap()]);
+    stakeTotal = exposure.total.unwrap();
+    stakeOwn = exposure.own.unwrap();
+    stakeOther = stakeTotal.sub(stakeOwn);
+  }
+
   const commission = validatorPrefs?.commission?.unwrap();
 
   return {
     commission: commission
-      ? `${(commission.toNumber() / 10_000_000).toFixed(2)}%`
+      ? `${(commission.toNumber() / PERBILL_PERCENT).toFixed(2)}%`
       : undefined,
-    controllerId: controllerId?.toString(),
     nominators,
-    sessionId: nextSessionIds && nextSessionIds[0]?.toString(),
     stakeOther,
     stakeOwn,
     stakeTotal
   };
 }
 
-function checkVisibility (api: ApiPromise, address: string, filterName: string, info: DeriveAccountInfo | undefined): boolean {
+function checkVisibility (api: ApiPromise, address: string, filterName: string, accountInfo?: DeriveAccountInfo): boolean {
   let isVisible = false;
   const filterLower = filterName.toLowerCase();
 
   if (filterLower) {
-    if (info) {
-      const { identity, nickname, accountId, accountIndex } = info;
+    if (accountInfo) {
+      const { accountId, accountIndex, identity, nickname } = accountInfo;
 
       if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
         isVisible = true;
-      } else if (api.query.identity && api.query.identity.identityOf && identity?.display) {
-        isVisible = identity.display.toLowerCase().includes(filterLower);
+      } else if (api.query.identity && api.query.identity.identityOf) {
+        isVisible = (!!identity?.display && identity.display.toLowerCase().includes(filterLower)) ||
+          (!!identity?.displayParent && identity.displayParent.toLowerCase().includes(filterLower));
       } else if (nickname) {
         isVisible = nickname.toLowerCase().includes(filterLower);
       }
@@ -100,28 +106,36 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, onlineCount, onlineMessage, points, setNominators, toggleFavorite, withNominations }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+function Address ({ address, className, filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [address]);
-  const stakingInfo = useCall<DerivedStakingQuery>(isMain && api.derive.staking.query as any, [address]);
-  const [{ commission, nominators, stakeOwn, stakeOther }, setStakingState] = useState<StakingState>({ nominators: [] });
+  const { allAccounts } = useAccounts();
+  const accountInfo = useCall<DeriveAccountInfo>(isMain && api.derive.accounts.info, [address]);
+  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
+  const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
+  const [isNominating, setIsNominating] = useState(false);
 
   useEffect((): void => {
     if (stakingInfo) {
-      const info = expandInfo(stakingInfo, withNominations);
+      const info = expandInfo(stakingInfo);
 
       setNominators && setNominators(info.nominators.map(([who]): string => who.toString()));
       setStakingState(info);
     }
-  }, [stakingInfo]);
+  }, [setNominators, stakingInfo]);
 
   useEffect((): void => {
     setIsVisible(
-      checkVisibility(api, address, filterName, info)
+      checkVisibility(api, address, filterName, accountInfo)
     );
-  }, [address, filterName, info]);
+  }, [api, accountInfo, address, filterName]);
+
+  useEffect((): void => {
+    !isMain && setIsNominating(
+      allAccounts.includes(address) ||
+      (nominatedBy || []).some(([address]) => allAccounts.includes(address))
+    );
+  }, [address, allAccounts, isMain, nominatedBy]);
 
   const _onQueryStats = useCallback(
     (): void => {
@@ -131,7 +145,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
   );
 
   return (
-    <tr className={`${className} ${isAuthor && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
+    <tr className={`${className} ${(isAuthor || isNominating) && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
       <Favorite
         address={address}
         isFavorite={isFavorite}
@@ -142,35 +156,31 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
-      <td className='top padtop'>
+      <td className='address'>
         <AddressSmall value={address} />
       </td>
-      <td className='top'>
-        {stakeOwn && (
-          <FormatBalance
-            label={<label>{t('own stake')}</label>}
-            value={stakeOwn}
+      {isMain
+        ? (
+          <StakeOther
+            nominators={nominators}
+            stakeOther={stakeOther}
           />
+        )
+        : <NominatedBy nominators={nominatedBy} />
+      }
+      <td className='number'>
+        {stakeOwn?.gtn(0) && (
+          <FormatBalance value={stakeOwn} />
         )}
       </td>
-      <StakeOther
-        nominators={nominators}
-        stakeOther={stakeOther}
-      />
-      <td className='number top'>
-        {commission && (
-          <><label>{t('commission')}</label>{commission}</>
-        )}
+      <td className='number'>
+        {commission}
       </td>
-      <td className='number top'>
-        {points && (
-          <><label>{t('points')}</label>{formatNumber(points)}</>
-        )}
+      <td className='number'>
+        {points}
       </td>
-      <td className='number top'>
-        {lastBlock && (
-          <><label>{t('last #')}</label>{lastBlock}</>
-        )}
+      <td className='number'>
+        {lastBlock}
       </td>
       <td>
         {hasQueries && (

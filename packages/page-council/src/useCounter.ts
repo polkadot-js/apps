@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
+import { DeriveCollectiveProposals } from '@polkadot/api-derive/types';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-function transform (motions: DerivedCollectiveProposals): number {
+function transform (motions: DeriveCollectiveProposals): number {
   return motions.filter(({ votes }): boolean => !!votes).length;
 }
 

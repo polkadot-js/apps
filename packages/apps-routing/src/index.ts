@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routing, Routes } from './types';
+import { Routing } from './types';
 
 import appSettings from '@polkadot/ui-settings';
 
 import template from './123code';
 import accounts from './accounts';
-import addressbook from './addressbook';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
@@ -29,54 +28,50 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
-const routes: Routes = appSettings.uiMode === 'light'
-  ? ([] as Routes).concat(
-    // dashboard,
-    explorer,
-    accounts,
-    addressbook,
-    claims,
-    transfer,
-    genericAsset,
-    null,
-    staking,
-    democracy,
-    council,
-    // TODO Not sure about the inclusion of treasury, parachains & society here
-    null,
-    settings
-  )
-  : ([] as Routes).concat(
-    // dashboard,
-    explorer,
-    accounts,
-    addressbook,
-    claims,
-    transfer,
-    genericAsset,
-    null,
-    staking,
-    democracy,
-    council,
-    treasury,
-    techcomm,
-    parachains,
-    society,
-    null,
-    contracts,
-    storage,
-    extrinsics,
-    sudo,
-    null,
-    settings,
-    toolbox,
-    js,
-    template
-  );
-
 const setup: Routing = {
   default: 'explorer',
-  routes
+  routes: appSettings.uiMode === 'light'
+    ? [
+      // dashboard,
+      explorer,
+      accounts,
+      claims,
+      transfer,
+      genericAsset,
+      null,
+      staking,
+      democracy,
+      council,
+      // TODO Not sure about the inclusion of treasury, parachains & society here
+      null,
+      settings
+    ]
+    : [
+      // dashboard,
+      explorer,
+      accounts,
+      claims,
+      transfer,
+      genericAsset,
+      null,
+      staking,
+      democracy,
+      council,
+      treasury,
+      techcomm,
+      parachains,
+      society,
+      null,
+      contracts,
+      storage,
+      extrinsics,
+      sudo,
+      null,
+      settings,
+      toolbox,
+      js,
+      template
+    ]
 };
 
 export default setup;

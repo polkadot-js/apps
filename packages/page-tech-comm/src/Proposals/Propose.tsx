@@ -19,7 +19,7 @@ interface Props {
 function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose, onOpen } = useModal();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
@@ -33,17 +33,21 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
     [members]
   );
 
-  const _onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void =>
-    setProposal(() => method || null);
-  const _onChangeThreshold = (threshold?: BN): void =>
-    setThreshold([threshold || null, _hasThreshold(threshold)]);
+  const _onChangeExtrinsic = useCallback(
+    (method?: SubmittableExtrinsic<'promise'>): void => setProposal(() => method || null),
+    []
+  );
+  const _onChangeThreshold = useCallback(
+    (threshold?: BN): void => setThreshold([threshold || null, _hasThreshold(threshold)]),
+    [_hasThreshold]
+  );
 
   return (
     <>
       {isOpen && (
         <Modal
-          onClose={onClose}
           header={t('Propose a committee motion')}
+          onClose={onClose}
         >
           <Modal.Content>
             <InputAddress
@@ -56,9 +60,9 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
             />
             <InputNumber
               className='medium'
-              label={t('threshold')}
               help={t('The minimum number of committee votes required to approve this motion')}
               isError={!hasThreshold}
+              label={t('threshold')}
               onChange={_onChangeThreshold}
               placeholder={t('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
               value={threshold || undefined}

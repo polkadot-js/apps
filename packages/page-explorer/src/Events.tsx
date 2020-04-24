@@ -2,73 +2,47 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyedEvent } from './types';
+import { EventRecord } from '@polkadot/types/interfaces';
 
-import React from 'react';
-import { Event as EventDisplay, Expander } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
+import React, { useMemo } from 'react';
+import { Table } from '@polkadot/react-components';
 
+import Event from './Event';
 import { useTranslation } from './translate';
 
 interface Props {
   emptyLabel?: React.ReactNode;
-  events: KeyedEvent[];
+  events: EventRecord[];
   eventClassName?: string;
-  withoutIndex?: boolean;
+  label?: React.ReactNode;
 }
 
-function Events ({ emptyLabel, eventClassName, events, withoutIndex }: Props): React.ReactElement<Props> {
+function Events ({ emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  if (!events || events.length === 0) {
-    return (
-      <article>
-        {emptyLabel || t('no events available')}
-      </article>
-    );
-  }
+  const header = useMemo(() => [
+    [label || t('recent events'), 'start']
+  ], [label, t]);
 
   return (
-    <>
-      {events.map(({ key, record: { event, phase } }: KeyedEvent): React.ReactNode => {
-        const extIndex = !withoutIndex && phase.isApplyExtrinsic
-          ? phase.asApplyExtrinsic
-          : -1;
-
-        if (!event.method || !event.section) {
-          return null;
-        }
-
-        return (
-          <article
-            className={`explorer--Container ${eventClassName}`}
-            key={key}
+    <Table
+      empty={emptyLabel || t('No events available')}
+      header={header}
+    >
+      {events
+        .filter(({ event: { method, section } }): boolean => !!method && !!section)
+        .map((event: EventRecord, index): React.ReactNode => (
+          <tr
+            className={eventClassName}
+            key={`event:${index}`}
           >
-            <div className='header'>
-              <h3>
-                {event.section}.{event.method}&nbsp;{
-                  extIndex !== -1
-                    ? `(#${formatNumber(extIndex)})`
-                    : ''
-                }
-              </h3>
-            </div>
-            <Expander
-              summary={
-                event.meta && event.meta.documentation
-                  ? event.meta.documentation.join(' ')
-                  : 'Details'
-              }
-            >
-              <EventDisplay
-                className='details'
-                value={event}
-              />
-            </Expander>
-          </article>
-        );
-      })}
-    </>
+            <td className='overflow'>
+              <Event value={event} />
+            </td>
+          </tr>
+        ))
+      }
+    </Table>
   );
 }
 

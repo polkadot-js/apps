@@ -55,7 +55,7 @@ function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDis
           : true
       )
     );
-  }, [length, value]);
+  }, [length, validate, value]);
 
   const _onChange = useCallback(
     (hex: string): void => {
@@ -80,7 +80,7 @@ function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDis
 
       setIsValid(isValid);
     },
-    [withLength]
+    [asHex, length, onChange, validate, withLength]
   );
 
   const defaultValue = value

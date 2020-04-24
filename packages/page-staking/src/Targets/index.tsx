@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import { DeriveStakingElected, DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { Icon, InputBalance, Spinner, Table } from '@polkadot/react-components';
+import { Icon, InputBalance, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { createType, Option } from '@polkadot/types';
 
@@ -18,8 +18,6 @@ import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
 import Summary from './Summary';
 import Validator from './Validator';
-
-const PERBILL = new BN(1_000_000_000);
 
 interface Props {
   className?: string;
@@ -34,8 +32,11 @@ interface AllInfo {
 
 type SortBy = 'rankOverall' | 'rankBondOwn' | 'rankBondOther' | 'rankBondTotal' | 'rankComm';
 
+const PERBILL = new BN(1_000_000_000);
+
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
+    .filter((a) => a.bondTotal.gtn(0))
     .sort((a, b): number => b.commissionPer - a.commissionPer)
     .map((info, index): ValidatorInfo => {
       info.rankComm = index + 1;
@@ -90,16 +91,16 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     });
 }
 
-function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DerivedStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
+function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): AllInfo {
   const nominators: string[] = [];
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
   const validators = sortValidators(
     electedInfo.info.map(({ accountId, exposure: _exposure, validatorPrefs }): ValidatorInfo => {
       const exposure = _exposure || {
-        total: createType(registry, 'Compact<Balance>'),
+        others: createType(registry, 'Vec<IndividualExposure>'),
         own: createType(registry, 'Compact<Balance>'),
-        others: createType(registry, 'Vec<IndividualExposure>')
+        total: createType(registry, 'Compact<Balance>')
       };
       const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
         commission: createType(registry, 'Compact<Perbill>')
@@ -132,11 +133,11 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
         bondOwn,
         bondShare: 0,
         bondTotal,
+        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).toNumber() / 10_000_000),
         isCommission: !!(prefs as ValidatorPrefs).commission,
         isFavorite: favorites.includes(key),
         isNominating,
         key,
-        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).toNumber() / 10_000_000),
         numNominators: exposure.others.length,
         rankBondOther: 0,
         rankBondOwn: 0,
@@ -171,21 +172,23 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const lastEra = useCall<BN>(api.derive.session.indexes as any, [], {
+  const lastEra = useCall<BN>(api.derive.session.indexes, [], {
     defaultValue: new BN(0),
-    transform: ({ activeEra }: DeriveSessionIndexes) =>
-      activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
+    transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
   }) || new BN(0);
   const lastReward = useCall<BN>(api.query.staking.erasValidatorReward, [lastEra], {
-    transform: (optBalance: Option<Balance>) =>
-      optBalance.unwrapOrDefault()
+    transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
   });
   const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
-  const electedInfo = useCall<DerivedStakingElected>(api.derive.staking.electedInfo, []);
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const [{ nominators, validators, sorted, totalStaked }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
+  const [{ nominators, sorted, totalStaked, validators }, setWorkable] = useState<AllInfo>({ nominators: [], validators: [] });
   const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
+  const labels = useMemo(
+    (): Record<string, string> => ({ rankBondOther: t('other stake'), rankBondOwn: t('own stake'), rankBondTotal: t('total stake'), rankComm: t('commission'), rankOverall: t('profit/era est') }),
+    [t]
+  );
 
   const _sort = useCallback(
     (newSortBy: SortBy): void =>
@@ -195,7 +198,7 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
           ? !sortFromMax
           : true
       })),
-    [sortBy]
+    []
   );
 
   useEffect((): void => {
@@ -203,13 +206,31 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
       const { nominators, totalStaked, validators } = extractInfo(allAccounts, amount, electedInfo, favorites, lastReward);
       const sorted = sort(sortBy, sortFromMax, validators);
 
-      setWorkable({ nominators, totalStaked, sorted, validators });
+      setWorkable({ nominators, sorted, totalStaked, validators });
     }
   }, [allAccounts, amount, electedInfo, favorites, lastReward, sortBy, sortFromMax]);
 
-  if (!sorted) {
-    return <Spinner />;
-  }
+  const header = useMemo(() => [
+    [t('validators'), 'start', 3],
+    ...['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
+      <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
+      `isClickable ${sortBy === header && 'ui--highlight--border'} number`,
+      1,
+      (): void => _sort(header as 'rankComm')
+    ]),
+    []
+  ], [_sort, labels, sortBy, sortFromMax, t]);
+
+  const filter = useMemo(() => (
+    <InputBalance
+      className='balanceInput'
+      help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
+      isFull
+      label={t('amount to use for estimation')}
+      onChange={setAmount}
+      value={_amount}
+    />
+  ), [_amount, t]);
 
   return (
     <div className={className}>
@@ -219,49 +240,32 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
         numValidators={validators.length}
         totalStaked={totalStaked}
       />
-      {sorted.length
-        ? (
-          <>
-            <InputBalance
-              className='balanceInput'
-              help={t('The amount that will be used on a per-validator basis to calculate rewards for that validator.')}
-              isFull
-              label={t('amount to use for estimation')}
-              onChange={setAmount}
-              value={_amount}
-            />
-            <Table>
-              <Table.Head>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                {['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header): React.ReactNode => (
-                  <th
-                    className={`isClickable ${sortBy === header && 'isSelected'}`}
-                    key={header}
-                    onClick={(): void => _sort(header as 'rankComm')}
-                  ><Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></th>
-                ))}
-                <th>&nbsp;</th>
-              </Table.Head>
-              <Table.Body>
-                {sorted.map((info): React.ReactNode =>
-                  <Validator
-                    info={info}
-                    key={info.key}
-                    toggleFavorite={toggleFavorite}
-                  />
-                )}
-              </Table.Body>
-            </Table>
-          </>
-        )
-        : <Spinner />
-      }
+      <Table
+        empty={sorted && t('No active validators to check for rewards available')}
+        filter={filter}
+        header={header}
+      >
+        {sorted?.map((info): React.ReactNode =>
+          <Validator
+            info={info}
+            key={info.key}
+            toggleFavorite={toggleFavorite}
+          />
+        )}
+      </Table>
     </div>
   );
 }
 
 export default React.memo(styled(Targets)`
   text-align: center;
+  
+  th {
+    i.icon {
+      margin-left: 0.5rem;
+    }
+  }
+  .ui--Table {
+    overflow-x: auto;
+  }
 `);

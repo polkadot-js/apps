@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -17,7 +17,7 @@ export { default as useCounter } from './useCounter';
 
 interface Props extends AppProps, BareProps {}
 
-export default function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
+function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -42,3 +42,5 @@ export default function TreasuryApp ({ basePath }: Props): React.ReactElement<Pr
     </main>
   );
 }
+
+export default React.memo(TreasuryApp);

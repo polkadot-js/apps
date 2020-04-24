@@ -4,73 +4,49 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React from 'react';
-import styled from 'styled-components';
-import { AddressSmall, Badge, Icon, Table } from '@polkadot/react-components';
+import React, { useMemo } from 'react';
+import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  members: string[];
+  members?: string[];
   prime?: AccountId | null;
 }
 
 function Members ({ className, members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  return (
-    <div className={className}>
-      {members.length
-        ? (
-          <Table>
-            <Table.Body>
-              {members.map((accountId): React.ReactNode => {
-                const isPrime = prime?.toString() === accountId.toString();
+  const header = useMemo(() => [
+    [t('members'), 'start', 3]
+  ], [t]);
 
-                return (
-                  <tr
-                    className={isPrime ? 'techcomm--isPrime' : ''}
-                    key={accountId.toString()}
-                  >
-                    <td className='all top padtop'>
-                      <AddressSmall value={accountId} />
-                    </td>
-                    <td className='right techcomm--prime'>
-                      {isPrime && (
-                        <div>
-                          <Badge
-                            info={<Icon name='chess king' />}
-                            isInline
-                            type='green'
-                          />
-                          <span>{' '}{t('prime voter')}</span>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </Table.Body>
-          </Table>
-        )
-        : t('No members found')
-      }
-    </div>
+  return (
+    <Table
+      className={className}
+      empty={members && t('No members found')}
+      header={header}
+    >
+      {members?.map((accountId): React.ReactNode => (
+        <tr key={accountId.toString()}>
+          <td className='address'>
+            <AddressSmall value={accountId} />
+          </td>
+          <td>
+            {prime?.eq(accountId) && (
+              <Tag
+                color='green'
+                hover={t('Committee prime member, default voting')}
+                label={t('prime member')}
+              />
+            )}
+          </td>
+          <td className='all'>&nbsp;</td>
+        </tr>
+      ))}
+    </Table>
   );
 }
 
-export default React.memo(styled(Members)`
-  .techcomm--isPrime td {
-    background: rgba(239, 255, 239, 0.8);
-  }
-  .techcomm--prime > div {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-
-    > span {
-      color: green;
-    }
-  }
-`);
+export default React.memo(Members);

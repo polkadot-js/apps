@@ -81,7 +81,7 @@ function renderContent (props: Props, t: (key: string) => string): React.ReactNo
 
 function Forget (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { children, mode = 'account', onForget, onClose } = props;
+  const { children, mode = 'account', onClose, onForget } = props;
 
   return (
     <Modal
@@ -92,10 +92,10 @@ function Forget (props: Props): React.ReactElement<Props> {
       <Modal.Content>{children || renderContent(props, t)}</Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          isPrimary
-          onClick={onForget}
-          label={t('Forget')}
           icon='trash'
+          isPrimary
+          label={t('Forget')}
+          onClick={onForget}
         />
       </Modal.Actions>
     </Modal>

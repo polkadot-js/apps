@@ -12,7 +12,7 @@ interface Props {
   accountId?: string | null;
 }
 
-export default function Transfer ({ accountId }: Props): React.ReactElement<Props> {
+function Transfer ({ accountId }: Props): React.ReactElement<Props> {
   const [amount, setAmount] = useState<BN | undefined | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(null);
 
@@ -46,3 +46,5 @@ export default function Transfer ({ accountId }: Props): React.ReactElement<Prop
     </section>
   );
 }
+
+export default React.memo(Transfer);

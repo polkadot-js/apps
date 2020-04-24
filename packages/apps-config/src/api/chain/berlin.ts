@@ -6,5 +6,6 @@ export default {
   // previous substrate versions
   BalanceLock: 'BalanceLockTo212',
   ReferendumInfo: 'ReferendumInfoTo239',
-  StakingLedger: 'StakingLedgerTo223'
+  StakingLedger: 'StakingLedgerTo223',
+  Weight: 'u32'
 };

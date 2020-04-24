@@ -6,7 +6,7 @@ import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 import { ComponentProps as Props, StorageEntryPromise } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -64,39 +64,50 @@ function expandKey (api: ApiPromise, key: StorageEntryPromise): KeyState {
   };
 }
 
-export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
+function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
   const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
 
-  const _onAdd = (): void => {
-    isValid && onAdd({
-      isConst: false,
-      key,
-      params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
-    });
-  };
-  const _onChangeValues = (values: RawParams): void =>
-    setValues({
-      isValid: areParamsValid(key, values),
-      values
-    });
-  const _onChangeKey = (key: StorageEntryPromise): void => {
-    setKey(expandKey(api, key));
-    _onChangeValues([]);
-  };
+  const _onAdd = useCallback(
+    (): void => {
+      isValid && onAdd({
+        isConst: false,
+        key,
+        params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
+      });
+    },
+    [isIterable, isValid, key, onAdd, values]
+  );
 
-  const { creator: { method, section, meta } } = key;
+  const _onChangeValues = useCallback(
+    (values: RawParams): void =>
+      setValues({
+        isValid: areParamsValid(key, values),
+        values
+      }),
+    [key]
+  );
+
+  const _onChangeKey = useCallback(
+    (key: StorageEntryPromise): void => {
+      setKey(expandKey(api, key));
+      _onChangeValues([]);
+    },
+    [_onChangeValues, api]
+  );
+
+  const { creator: { meta, method, section } } = key;
 
   return (
     <section className='storage--actionrow'>
       <div className='storage--actionrow-value'>
         <InputStorage
           defaultValue={api.query.timestamp.now}
+          help={meta?.documentation.join(' ')}
           label={t('selected state query')}
           onChange={_onChangeKey}
-          help={meta?.documentation.join(' ')}
         />
         <Params
           key={`${section}.${method}:params` /* force re-render on change */}
@@ -116,3 +127,5 @@ export default function Modules ({ onAdd }: Props): React.ReactElement<Props> {
     </section>
   );
 }
+
+export default React.memo(Modules);

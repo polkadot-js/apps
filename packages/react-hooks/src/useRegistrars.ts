@@ -11,28 +11,42 @@ import useAccounts from './useAccounts';
 import useApi from './useApi';
 import useCall from './useCall';
 
-interface State {
-  isRegistrar: boolean;
-  registrars: (string | null)[];
+interface RegistrarNull {
+  address: string | null;
+  index: number;
 }
 
-export default function useRegistrars (): State {
+interface Registrar {
+  address: string;
+  index: number;
+}
+
+interface State {
+  isRegistrar: boolean;
+  registrars: Registrar[];
+  skipQuery?: boolean;
+}
+
+export default function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
-  const query = useCall<Option<RegistrarInfo>[]>(api.query.identity?.registrars, []);
+  const { allAccounts, hasAccounts } = useAccounts();
+  const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && hasAccounts && api.query.identity?.registrars, []);
   const [state, setState] = useState<State>({ isRegistrar: false, registrars: [] });
 
   // determine if we have a registrar or not - registrars are allowed to approve
   useEffect((): void => {
     if (allAccounts && query) {
-      const registrars = query.map((registrar): string| null =>
-        registrar.isSome
-          ? registrar.unwrap().account.toString()
-          : null
-      );
+      const registrars = query
+        .map((registrar, index): RegistrarNull => ({
+          address: registrar.isSome
+            ? registrar.unwrap().account.toString()
+            : null,
+          index
+        }))
+        .filter((registrar): registrar is Registrar => !!registrar.address);
 
       setState({
-        isRegistrar: registrars.some((registrar) => !!registrar && allAccounts.includes(registrar)),
+        isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
         registrars
       });
     }

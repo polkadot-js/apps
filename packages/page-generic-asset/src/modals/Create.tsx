@@ -17,12 +17,13 @@ interface Props extends ModalProps {
   className?: string;
 }
 
-export default function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
+function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [assetId, setAssetId] = useState(new BN(0));
   const [name, setName] = useState('new asset');
 
   const _onChangeAssetId = (assetId: BN | undefined): void => setAssetId(assetId || new BN(0));
+
   const _onCommit = (): void => {
     onRegister(assetId, name);
     onClose();
@@ -50,13 +51,15 @@ export default function Create ({ onClose, onRegister }: Props): React.ReactElem
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
+          icon='registered'
           isDisabled={!name}
           isPrimary
-          onClick={onClose}
           label={t('Register')}
-          icon='registered'
+          onClick={onClose}
         />
       </Modal.Actions>
     </Modal>
   );
 }
+
+export default React.memo(Create);

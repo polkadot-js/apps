@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ComponentProps, QueryTypes, ParitalQueryTypes } from '../types';
+import { QueryTypes, ParitalQueryTypes } from '../types';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
@@ -20,7 +20,7 @@ interface Props {
 
 let id = -1;
 
-export default function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
+function Selection ({ basePath, onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -38,10 +38,10 @@ export default function Selection ({ basePath, onAdd }: Props): React.ReactEleme
     }
   ], [t]);
 
-  const _onAdd = (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id });
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>): () => React.ReactNode =>
-    // eslint-disable-next-line react/display-name
-    (): React.ReactNode => <Component onAdd={_onAdd} />;
+  const _onAdd = useCallback(
+    (query: ParitalQueryTypes): void => onAdd({ ...query, id: ++id }),
+    [onAdd]
+  );
 
   return (
     <>
@@ -52,10 +52,12 @@ export default function Selection ({ basePath, onAdd }: Props): React.ReactEleme
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/constants`} render={_renderComponent(Consts)} />
-        <Route path={`${basePath}/raw`} render={_renderComponent(Raw)} />
-        <Route render={_renderComponent(Modules)} />
+        <Route path={`${basePath}/constants`}><Consts onAdd={_onAdd} /></Route>
+        <Route path={`${basePath}/raw`}><Raw onAdd={_onAdd} /></Route>
+        <Route><Modules onAdd={_onAdd} /></Route>
       </Switch>
     </>
   );
 }
+
+export default React.memo(Selection);

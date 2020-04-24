@@ -35,9 +35,17 @@ const Memo = React.memo(styled(ButtonGroup)`
     margin-top: 0.75rem;
   }
 
+  > .ui.buttons {
+    vertical-align: middle;
+  }
+
   &.centered {
     margin-bottom: 0.5rem;
     text-align: center;
+  }
+
+  &+.ui--Table {
+    margin-top: 1.5rem;
   }
 `) as unknown as GroupType;
 

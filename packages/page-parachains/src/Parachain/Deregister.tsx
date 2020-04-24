@@ -23,7 +23,7 @@ interface Props {
   sudoKey: string;
 }
 
-export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): React.ReactElement<Props> | null {
+function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const onSendRef = useRef<() => void>();
@@ -34,10 +34,11 @@ export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoK
         return api.tx.registrar.deregisterPara(id);
       } catch (error) {
         console.log(error);
+
         return null;
       }
     },
-    [id]
+    [api, id]
   );
 
   const onStart = (): void => {
@@ -48,8 +49,8 @@ export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoK
   return (
     <Modal
       header={t('Deregister this parachain')}
-      open={isOpen}
       onClose={onClose}
+      open={isOpen}
       small
     >
       <Modal.Content>
@@ -77,3 +78,5 @@ export default function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoK
     </Modal>
   );
 }
+
+export default React.memo(Deregister);

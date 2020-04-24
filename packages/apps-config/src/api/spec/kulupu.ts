@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// structs need to be in order
+/* eslint-disable sort-keys */
+
 export default {
   Address: 'GenericAddress',
   Difficulty: 'U256',
@@ -18,5 +21,6 @@ export default {
     class: 'DispatchClass'
   },
   ReferendumInfo: 'ReferendumInfoTo239',
-  StakingLedger: 'StakingLedgerTo223'
+  StakingLedger: 'StakingLedgerTo223',
+  Weight: 'u32'
 };

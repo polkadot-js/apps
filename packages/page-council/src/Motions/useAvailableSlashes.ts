@@ -48,7 +48,7 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
     return (): void => {
       unsub && unsub();
     };
-  }, [earliestSlash, indexes]);
+  }, [api, earliestSlash, indexes, mountedRef]);
 
   return slashes;
 }

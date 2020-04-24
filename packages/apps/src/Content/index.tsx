@@ -52,13 +52,13 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {needsApi && (!isApiReady || !isApiConnected)
         ? (
           <div className='connecting'>
-            <Spinner label={t('Waiting for API to be connected and ready')} />
+            <Spinner label={t('Initializing connection')} />
           </div>
         )
         : (
           <>
             <Suspense fallback='...'>
-              <ErrorBoundary>
+              <ErrorBoundary trigger={name}>
                 <Component
                   basePath={`/${name}`}
                   location={location}
@@ -79,7 +79,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #fafafa;
+  background: #f5f5f5;
   display: flex;
   flex-direction: column;
   flex-grow: 1;

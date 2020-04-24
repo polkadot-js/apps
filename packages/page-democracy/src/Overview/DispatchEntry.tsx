@@ -2,65 +2,55 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber, Hash, Proposal, ReferendumIndex } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import { DeriveDispatch } from '@polkadot/api-derive/types';
+import { BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { Bytes, Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import ProposalCell from './ProposalCell';
 import PreImageButton from './PreImageButton';
 
 interface Props {
-  blockNumber?: BlockNumber;
-  hash: Hash;
-  referendumIndex: ReferendumIndex;
+  value: DeriveDispatch;
 }
 
-function DispatchEntry ({ blockNumber, hash, referendumIndex }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || new BN(0);
-  const preimage = useCall<Option<ITuple<[Bytes, AccountId, Balance, BlockNumber]>>
-  >(api.query.democracy.preimages, [hash]);
-  const [proposal, setProposal] = useState<Proposal | undefined>();
-
-  useEffect((): void => {
-    preimage?.isSome && setProposal(api.createType('Proposal', preimage.unwrap()[0].toU8a(true)));
-  }, [preimage]);
 
   return (
     <tr>
-      <td className='number top'><h1>{formatNumber(referendumIndex)}</h1></td>
-      <td className='number together top'>
-        {blockNumber && (
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
+      <ProposalCell
+        imageHash={imageHash}
+        proposal={image?.proposal}
+      />
+      <td className='number together'>
+        {bestNumber && (
           <>
-            <label>{t('enact')}</label>
-            <BlockToTime blocks={blockNumber.sub(bestNumber)} />
-            #{formatNumber(blockNumber)}
+            <BlockToTime blocks={at.sub(bestNumber)} />
+            #{formatNumber(at)}
           </>
         )}
       </td>
-      <ProposalCell
-        proposalHash={hash}
-        proposal={proposal}
-      />
-      <td className='together number top'>
-        {!proposal && (
+      <td className='button'>
+        {!image?.proposal && (
           <PreImageButton
-            hash={hash}
+            imageHash={imageHash}
             isImminent
           />
         )}
+      </td>
+      <td className='mini'>
         <LinkExternal
-          data={referendumIndex}
+          data={index}
           type='referendum'
+          withShort
         />
       </td>
     </tr>

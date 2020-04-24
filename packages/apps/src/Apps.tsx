@@ -7,7 +7,8 @@ import { BareProps as Props } from '@polkadot/react-components/types';
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { defaultColor, chainColors, nodeColors } from '@polkadot/apps-config/ui/general';
+import { getSystemChainColor } from '@polkadot/apps-config/ui';
+import { defaultColor } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -28,8 +29,8 @@ interface SidebarState {
 
 export const PORTAL_ID = 'portals';
 
-function sanitize (value?: string): string {
-  return value?.toLowerCase().replace('-', ' ') || '';
+function saveSidebar (sidebar: SidebarState): SidebarState {
+  return store.set('sidebar', sidebar);
 }
 
 function Apps ({ className }: Props): React.ReactElement<Props> {
@@ -41,24 +42,17 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     ...store.get('sidebar', {}),
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
-  const uiHighlight = useMemo((): string | undefined => {
-    return chainColors[sanitize(systemChain)] || nodeColors[sanitize(systemName)];
-  }, [systemChain, systemName]);
-  const { isCollapsed, isMenu, isMenuOpen } = sidebar;
+  const uiHighlight = useMemo(
+    (): string | undefined => getSystemChainColor(systemChain, systemName),
+    [systemChain, systemName]
+  );
 
-  const _setSidebar = useCallback(
-    (update: Partial<SidebarState>): void =>
-      setSidebar((sidebar: SidebarState) =>
-        store.set('sidebar', { ...sidebar, ...update })
-      ),
+  const _collapse = useCallback(
+    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
     []
   );
-  const _collapse = useCallback(
-    (): void => _setSidebar({ isCollapsed: !isCollapsed }),
-    [isCollapsed]
-  );
   const _toggleMenu = useCallback(
-    (): void => _setSidebar({ isCollapsed: false, isMenuOpen: true }),
+    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
     []
   );
   const _handleResize = useCallback(
@@ -67,14 +61,17 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         ? SideBarTransition.MINIMISED_AND_EXPANDED
         : SideBarTransition.EXPANDED_AND_MAXIMISED;
 
-      _setSidebar({
+      setSidebar((sidebar: SidebarState) => saveSidebar({
+        ...sidebar,
         isMenu: transition === SideBarTransition.MINIMISED_AND_EXPANDED,
         isMenuOpen: false,
         transition
-      });
+      }));
     },
     []
   );
+
+  const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 
   return (
     <>
@@ -126,13 +123,13 @@ export default React.memo(styled(Apps)`
     }
 
     a.apps--SideBar-Item-NavLink-active {
-      background: #fafafa;
+      background: #f5f5f5;
       border-radius: 0.28571429rem 0 0 0.28571429rem;
-      // border-bottom: 2px solid transparent;
+      /* border-bottom: 2px solid transparent; */
       color: #3f3f3f;
 
       &:hover {
-        background: #fafafa;
+        background: #f5f5f5;
         color: #3f3f3f;
         margin-right: 0;
       }

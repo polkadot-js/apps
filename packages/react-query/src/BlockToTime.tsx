@@ -20,6 +20,7 @@ type Time = [number, number, number, number];
 
 const HRS = 60 * 60;
 const DAY = HRS * 24;
+const DEFAULT_TIME = new BN(6000);
 
 function addTime (a: Time, b: Time): Time {
   return [a[0] + b[0], a[1] + b[1], a[2] + b[2], a[3] + b[3]];
@@ -53,14 +54,14 @@ function extractTime (value?: number): Time {
   return addTime([round, 0, 0, 0], extractTime(value - (round * DAY)));
 }
 
-function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> {
+function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const time = useMemo((): string => {
     const blockTime = (
       api.consts.babe?.expectedBlockTime ||
       api.consts.timestamp?.minimumPeriod.muln(2) ||
-      new BN(6000)
+      DEFAULT_TIME
     ).divn(1000);
     const time = extractTime(blocks?.mul(blockTime).toNumber());
 
@@ -71,6 +72,10 @@ function BlockToTime ({ blocks, children, className, label, style }: Props): Rea
       time[3] ? (time[3] > 1) ? t('{{s}} s', { replace: { s: time[3] } }) : t('1 s') : null
     ].filter((value): value is string => !!value).slice(0, 2).join(' ');
   }, [api, blocks, t]);
+
+  if (blocks?.ltn(0)) {
+    return null;
+  }
 
   return (
     <div

@@ -13,5 +13,6 @@
   "GitHub": "GitHub",
   "Wiki": "Wiki",
   "Reload": "Reload",
-  "Waiting for API to be connected and ready": "Waiting for API to be connected and ready"
+  "Waiting for API to be connected and ready": "Waiting for API to be connected and ready",
+  "Initializing connection": "Initializing connection"
 }

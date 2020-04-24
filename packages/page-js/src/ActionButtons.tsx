@@ -4,7 +4,7 @@
 
 import { BareProps } from '@polkadot/react-components/types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
 
@@ -20,25 +20,36 @@ interface Props extends BareProps {
   stopJs: () => void;
 }
 
-export default function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
+function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [snippetName, setSnippetName] = useState('');
 
-  const _onChangeName = (snippetName: string): void => {
-    setSnippetName(snippetName);
-  };
-  const _onPopupOpen = (): void => {
-    setIsOpen(true);
-  };
-  const _onPopupClose = (): void => {
-    setSnippetName('');
-    setIsOpen(false);
-  };
-  const _saveSnippet = (): void => {
-    saveSnippet(snippetName);
-    _onPopupClose();
-  };
+  const _onChangeName = useCallback(
+    (snippetName: string) => setSnippetName(snippetName),
+    []
+  );
+
+  const _onPopupOpen = useCallback(
+    () => setIsOpen(true),
+    []
+  );
+
+  const _onPopupClose = useCallback(
+    (): void => {
+      setSnippetName('');
+      setIsOpen(false);
+    },
+    []
+  );
+
+  const _saveSnippet = useCallback(
+    (): void => {
+      saveSnippet(snippetName);
+      _onPopupClose();
+    },
+    [_onPopupClose, saveSnippet, snippetName]
+  );
 
   return (
     <div className={`${className} action-button`}>
@@ -76,10 +87,10 @@ export default function ActionButtons ({ className, isCustomExample, isRunning, 
         >
           <Input
             autoFocus
-            onChange={_onChangeName}
-            onEnter={_saveSnippet}
             maxLength={50}
             min={1}
+            onChange={_onChangeName}
+            onEnter={_saveSnippet}
             placeholder={t('Name your example')}
             value={snippetName}
             withLabel={false}
@@ -115,3 +126,5 @@ export default function ActionButtons ({ className, isCustomExample, isRunning, 
     </div>
   );
 }
+
+export default React.memo(ActionButtons);

@@ -11,6 +11,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
@@ -33,9 +34,11 @@ ReactDOM.render(
         <Api url={settings.apiUrl}>
           <BlockAuthors>
             <Events>
-              <HashRouter>
-                <Apps />
-              </HashRouter>
+              <AccountSidebar>
+                <HashRouter>
+                  <Apps />
+                </HashRouter>
+              </AccountSidebar>
             </Events>
           </BlockAuthors>
         </Api>

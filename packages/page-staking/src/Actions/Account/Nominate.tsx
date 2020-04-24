@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingOverview } from '@polkadot/api-derive/types';
-
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { InputAddressMulti, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
@@ -16,45 +14,30 @@ interface Props {
   className?: string;
   controllerId: string;
   next?: string[];
-  nominees?: string[];
+  nominating?: string[];
   onClose: () => void;
-  stakingOverview?: DerivedStakingOverview;
   stashId: string;
+  validators: string[];
 }
 
 const MAX_NOMINEES = 16;
 
-function Nominate ({ className, controllerId, nominees, onClose, next, stakingOverview, stashId }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className, controllerId, next, nominating, onClose, stashId, validators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
-  const [validators, setValidators] = useState<string[]>([]);
-  const [selection, setSelection] = useState<string[] | undefined>();
-  const [available, setAvailable] = useState<string[]>([]);
-
-  useEffect((): void => {
-    !selection && nominees && setSelection(nominees);
-  }, [selection, nominees]);
-
-  useEffect((): void => {
-    stakingOverview && setValidators(
-      stakingOverview.validators.map((acc): string => acc.toString())
-    );
-  }, [stakingOverview]);
-
-  useEffect((): void => {
+  const [selection, setSelection] = useState<string[]>([]);
+  const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc): boolean => validators.includes(acc) || (next || []).includes(acc)),
+      ...favorites.filter((acc) => (validators || []).includes(acc) || (next || []).includes(acc)),
       // make sure the nominee is not in our favorites already
-      ...(nominees || []).filter((acc): boolean => !favorites.includes(acc))
+      ...(nominating || []).filter((acc) => !favorites.includes(acc))
     ];
 
-    setAvailable([
-      ...shortlist,
-      ...validators.filter((acc): boolean => !shortlist.includes(acc)),
-      ...(next || []).filter((acc): boolean => !shortlist.includes(acc))
-    ]);
-  }, [favorites, next, nominees, validators]);
+    return shortlist
+      .concat(...(validators || []).filter((acc) => !shortlist.includes(acc)))
+      .concat(...(next || []).filter((acc) => !shortlist.includes(acc)));
+  });
 
   return (
     <Modal
@@ -63,13 +46,11 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
     >
       <Modal.Content className='ui--signer-Signer-Content'>
         <InputAddress
-          className='medium'
           defaultValue={controllerId}
           isDisabled
           label={t('controller account')}
         />
         <InputAddress
-          className='medium'
           defaultValue={stashId}
           isDisabled
           label={t('stash account')}
@@ -77,23 +58,22 @@ function Nominate ({ className, controllerId, nominees, onClose, next, stakingOv
         <InputAddressMulti
           available={available}
           availableLabel={t('candidate accounts')}
-          className='medium'
+          defaultValue={nominating}
           help={t('Filter available candidates based on name, address or short account index.')}
           maxCount={MAX_NOMINEES}
           onChange={setSelection}
-          value={selection || []}
           valueLabel={t('nominated accounts')}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
+          icon='hand paper outline'
           isDisabled={!selection?.length}
           isPrimary
+          label={t('Nominate')}
           onStart={onClose}
           params={[selection]}
-          label={t('Nominate')}
-          icon='hand paper outline'
           tx='staking.nominate'
         />
       </Modal.Actions>

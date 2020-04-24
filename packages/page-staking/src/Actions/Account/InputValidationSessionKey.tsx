@@ -21,17 +21,15 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
-    let newError = null;
+    let newError: string | null = null;
 
     if (sessionId === stashId) {
       newError = t('For fund security, your session key should not match your stash key.');
     }
 
-    if (error !== newError) {
-      onError(newError);
-      setError(newError);
-    }
-  }, [sessionId, stashId]);
+    onError(newError);
+    setError((error) => error !== newError ? newError : error);
+  }, [onError, sessionId, stashId, t]);
 
   if (!error) {
     return null;

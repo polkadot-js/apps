@@ -10,14 +10,16 @@ import { initReactI18next } from 'react-i18next';
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
 
 const languageDetector = new LanguageDetector();
+
 languageDetector.addDetector({
-  name: 'i18nLangDetector',
   lookup: () => {
     const i18nLang = uiSettings.i18nLang;
+
     return i18nLang === LANGUAGE_DEFAULT
       ? undefined
       : i18nLang;
-  }
+  },
+  name: 'i18nLangDetector'
 });
 
 i18n
@@ -37,11 +39,11 @@ i18n
     interpolation: {
       escapeValue: false
     },
+    keySeparator: false,
     load: 'languageOnly',
     ns: [
       'app-123code',
       'app-accounts',
-      'app-address-book',
       'app-claims',
       'app-contracts',
       'app-council',
@@ -59,7 +61,6 @@ i18n
       'app-sudo',
       'app-tech-comm',
       'app-toolbox',
-      'app-transfer',
       'app-treasury',
       'apps',
       'apps-routing',
@@ -70,7 +71,6 @@ i18n
       'react-query',
       'react-signer'
     ],
-    keySeparator: false,
     nsSeparator: false,
     react: {
       wait: true

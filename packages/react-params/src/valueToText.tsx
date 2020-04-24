@@ -14,7 +14,7 @@ interface DivProps {
   key?: any;
 }
 
-function div ({ key, className }: DivProps, ...values: React.ReactNode[]): React.ReactNode {
+function div ({ className, key }: DivProps, ...values: React.ReactNode[]): React.ReactNode {
   return (
     <div
       className={classes('ui--Param-text', className)}
@@ -46,13 +46,13 @@ export default function valueToText (type: string, value: any, swallowError = tr
       // HACK Handle Keys as hex-only (this should go away once the node value is
       // consistently swapped to `Bytes`)
       : type === 'Vec<(ValidatorId,Keys)>'
-        ? JSON.stringify(formatKeys(value as [ValidatorId, Keys][]), null, 2).replace(/"/g, '')
+        ? JSON.stringify(formatKeys(value as [ValidatorId, Keys][]), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
         : value instanceof Raw
           ? value.isEmpty
             ? '<empty>'
             : value.toString()
           : (value instanceof Option) && value.isNone
             ? '<none>'
-            : JSON.stringify(value.toHuman(), null, 2).replace(/"/g, '')
+            : JSON.stringify(value.toHuman(), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
   );
 }

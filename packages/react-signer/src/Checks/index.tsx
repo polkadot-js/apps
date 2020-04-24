@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -22,7 +21,7 @@ interface Props {
   tip?: BN;
 }
 
-export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
@@ -49,3 +48,5 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
     />
   );
 }
+
+export default React.memo(Checks);

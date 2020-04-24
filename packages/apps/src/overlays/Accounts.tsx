@@ -32,8 +32,8 @@ function Accounts ({ className }: Props): React.ReactElement<Props> | null {
       <p>{t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}</p>
       <p>
         <Link
-          to='/accounts'
           onClick={toggleHidden}
+          to='/accounts'
         >
           {t('Create an account now.')}
         </Link>

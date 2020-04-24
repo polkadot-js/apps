@@ -7,51 +7,94 @@ import { BareProps } from './types';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useToggle } from '@polkadot/react-hooks';
+import { Text } from '@polkadot/types';
 
+import { useTranslation } from './translate';
 import Icon from './Icon';
+
+interface Meta {
+  documentation: Text[];
+}
 
 export interface Props extends BareProps {
   children?: React.ReactNode;
   isOpen?: boolean;
-  summary: React.ReactNode;
+  summary?: React.ReactNode;
+  summaryMeta?: Meta;
+  summarySub?: React.ReactNode;
   withDot?: boolean;
   withHidden?: boolean;
 }
 
-function Expander ({ children, className, isOpen, summary, withDot, withHidden }: Props): React.ReactElement<Props> {
+function formatMeta (meta?: Meta): React.ReactNode | null {
+  if (!meta || !meta.documentation.length) {
+    return null;
+  }
+
+  const strings = meta.documentation.map((doc): string => doc.toString().trim());
+  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
+
+  return firstEmpty === -1
+    ? strings.join(' ')
+    : strings.slice(0, firstEmpty).join(' ');
+}
+
+function Expander ({ children, className, isOpen, summary, summaryMeta, summarySub, withDot, withHidden }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen);
+  const headerMain = useMemo(
+    () => summary || formatMeta(summaryMeta),
+    [summary, summaryMeta]
+  );
+  const headerSub = useMemo(
+    () => summary ? (formatMeta(summaryMeta) || summarySub) : null,
+    [summary, summaryMeta, summarySub]
+  );
   const hasContent = useMemo(
     (): boolean => !!children && (!Array.isArray(children) || children.length !== 0),
     [children]
   );
 
   return (
-    <div
-      className={`ui--Expander ${isExpanded && 'isExpanded'} ${hasContent && 'hasContent'} ${className}`}
-      onClick={toggleExpanded}
-    >
-      <div className='ui--Expander-summary'>
-        {hasContent
-          ? <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
-          : withDot
-            ? <Icon name='circle outline' />
-            : undefined
-        }{summary}
+    <div className={`ui--Expander ${isExpanded && 'isExpanded'} ${hasContent && 'hasContent'} ${className}`}>
+      <div
+        className='ui--Expander-summary'
+        onClick={toggleExpanded}
+      >
+        <div className='ui--Expander-summary-header'>
+          {hasContent
+            ? <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
+            : withDot
+              ? <Icon name='circle outline' />
+              : undefined
+          }{headerMain || t('Details')}
+        </div>
+        {headerSub && (
+          <div className='ui--Expander-summary-sub'>{headerSub}</div>
+        )}
       </div>
       {hasContent && (isExpanded || withHidden) && (
-        <div className='ui--Expander-contents'>{children}</div>
+        <div className='ui--Expander-content'>{children}</div>
       )}
     </div>
   );
 }
 
 export default React.memo(styled(Expander)`
-  &:not(.isExpanded) .ui--Expander-contents {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:not(.isExpanded) .ui--Expander-content {
     display: none;
   }
 
-  &.isExpanded .ui--Expander-contents {
+  &.isExpanded .ui--Expander-content {
     margin-top: 0.5rem;
+
+    .body.column {
+      justify-content: end;
+    }
   }
 
   &.hasContent .ui--Expander-summary {
@@ -59,14 +102,27 @@ export default React.memo(styled(Expander)`
   }
 
   .ui--Expander-summary {
-    display: block;
     margin: 0;
+    min-width: 13.5rem;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    .ui--Expander-summary-header > .ui--FormatBalance {
+      min-width: 11rem;
+    }
+
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     i.icon {
       margin-right: 0.5rem;
+    }
+
+    .ui--Expander-summary-sub {
+      font-size: 1rem;
+      opacity: 0.6;
+      padding-left: 1.75rem;
     }
   }
 `);

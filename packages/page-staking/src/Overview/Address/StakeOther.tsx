@@ -2,38 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
-
-import { useTranslation } from '../../translate';
 
 interface Props {
   stakeOther?: BN;
-  nominators: [AccountId, Balance][];
+  nominators: [string, Balance][];
 }
 
 function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
   return (
-    <td className='top'>
+    <td className='number all'>
       {stakeOther?.gtn(0) && (
         <>
-          <label>{t('other stake')}</label>
           <Expander summary={
-            <FormatBalance value={stakeOther}>
-              &nbsp;({formatNumber(nominators.length)})
-            </FormatBalance>
+            <FormatBalance
+              labelPost={` (${nominators.length})`}
+              value={stakeOther}
+            />
           }>
             {nominators.map(([who, bonded]): React.ReactNode =>
               <AddressMini
                 bonded={bonded}
-                key={who.toString()}
+                key={who}
                 value={who}
                 withBonded
               />

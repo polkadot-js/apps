@@ -75,5 +75,15 @@
   "preimage hash": "preimage hash",
   "Propose": "Propose",
   "Select the account you wish to submit for candidacy.": "Select the account you wish to submit for candidacy.",
-  "candidate account": "candidate account"
+  "candidate account": "candidate account",
+  "Current prime member, default voting": "Current prime member, default voting",
+  "aye": "aye",
+  "nay": "nay",
+  "motions": "motions",
+  "This account will be use to approve each candidate.": "This account will be use to approve each candidate.",
+  "voting account": "voting account",
+  "Close proposal": "Close proposal",
+  "Select the account you wish close the proposal with.": "Select the account you wish close the proposal with.",
+  "sending account": "sending account",
+  "Close": "Close"
 }

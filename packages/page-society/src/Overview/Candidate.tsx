@@ -12,9 +12,8 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 
-import { useTranslation } from '../translate';
 import CandidateVoting from './CandidateVoting';
-import VoteDisplay from './VoteDisplay';
+import Votes from './Votes';
 
 interface Props {
   allMembers: string[];
@@ -23,10 +22,9 @@ interface Props {
   value: DeriveSocietyCandidate;
 }
 
-export default function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
+function Candidate ({ allMembers, isMember, ownMembers, value: { accountId, kind, value } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const votes = useCall<VoteType[]>(api.query.society.votes.multi as any, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as any, {
+  const votes = useCall<VoteType[]>(api.query.society.votes.multi, [allMembers.map((memberId): [AccountId, string] => [accountId, memberId])] as any, {
     transform: (voteOpts: Option<SocietyVote>[]): VoteType[] =>
       voteOpts
         .map((voteOpt, index): [string, Option<SocietyVote>] => [allMembers[index], voteOpt])
@@ -36,21 +34,17 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
 
   return (
     <tr>
-      <td className='top padtop'>
+      <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number top'>
-        <label>{t('kind')}</label>
+      <td className='number'>
         {kind.type}
       </td>
-      <td className='number top'>
-        <FormatBalance
-          label={<label>{t('value')}</label>}
-          value={value}
-        />
+      <td className='number'>
+        <FormatBalance value={value} />
       </td>
-      <VoteDisplay votes={votes} />
-      <td className='number together top'>
+      <Votes votes={votes} />
+      <td className='button'>
         <CandidateVoting
           candidateId={accountId.toString()}
           isMember={isMember}
@@ -60,3 +54,5 @@ export default function Candidate ({ allMembers, isMember, ownMembers, value: { 
     </tr>
   );
 }
+
+export default React.memo(Candidate);

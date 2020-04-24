@@ -4,7 +4,6 @@
 
 import { createGlobalStyle } from 'styled-components';
 
-import media from '../media';
 import cssComponents from './components';
 import cssForm from './form';
 import cssMedia from './media';
@@ -44,6 +43,18 @@ export default createGlobalStyle<Props>`
 
   .ui--highlight--gradient {
     background: ${(props): string => `linear-gradient(90deg, ${props.uiHighlight}, transparent)`};
+  }
+
+  .ui--highlight--icon {
+    i.icon {
+      color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    }
+  }
+
+  .ui--highlight--spinner {
+    &:after {
+      border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} transparent transparent !important;
+    }
   }
 
   .ui--highlight--stroke {
@@ -138,6 +149,10 @@ export default createGlobalStyle<Props>`
       margin-left: 2.25rem;
     }
 
+    &.nomargin {
+      margin-left: 0;
+    }
+
     &.error {
       background: #fff6f6;
       border-color: #e0b4b4;
@@ -205,17 +220,13 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  h3, h4, h5 {
+  h1, h2, h3, h4, h5 {
     margin-bottom: 0.25rem;
   }
 
   header {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.5rem;
     text-align: center;
-
-    ${media.TABLET`
-      margin-bottom: 2rem;
-   `}
 
     > article {
       background: transparent;

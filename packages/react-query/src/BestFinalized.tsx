@@ -16,7 +16,7 @@ interface Props extends BareProps {
 
 function BestFinalized ({ children, className, label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized as any, []);
+  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized, []);
 
   return (
     <div

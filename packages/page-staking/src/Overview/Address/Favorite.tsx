@@ -14,7 +14,7 @@ interface Props {
 function Favorite ({ address, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> {
   const _onFavorite = useCallback(
     (): void => toggleFavorite(address),
-    [address]
+    [address, toggleFavorite]
   );
 
   return (

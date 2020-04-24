@@ -51,7 +51,7 @@ function truncate (param: string): string {
     : param;
 }
 
-export default function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -91,15 +91,15 @@ export default function MessageSignature ({ message: { args, mutates, name, retu
       {mutates && (
         <>
           <Icon
-            data-tip
+            className='mutates'
             data-for={`mutates-${name}`}
-            name="database"
-            className="mutates"
+            data-tip
+            name='database'
           />
           {withTooltip && (
             <Tooltip
-              trigger={`mutates-${name}`}
               text={t('Mutates contract state')}
+              trigger={`mutates-${name}`}
             />
           )}
         </>
@@ -107,3 +107,5 @@ export default function MessageSignature ({ message: { args, mutates, name, retu
     </Signature>
   );
 }
+
+export default React.memo(MessageSignature);

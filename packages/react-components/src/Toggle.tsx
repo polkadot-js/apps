@@ -4,7 +4,7 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import SUICheckbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import styled from 'styled-components';
 
@@ -18,23 +18,26 @@ interface Props extends BareProps {
   value?: boolean;
 }
 
-function Toggle ({ className, asSwitch = true, defaultValue, isDisabled, onChange, preventDefault, value, label }: Props): React.ReactElement<Props> {
-  const _onChange = (event: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
-    if (preventDefault) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+function Toggle ({ asSwitch = true, className, defaultValue, isDisabled, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
+  const _onChange = useCallback(
+    (event: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
+      if (preventDefault) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
 
-    onChange && onChange(checked);
-  };
+      onChange && onChange(checked);
+    },
+    [onChange, preventDefault]
+  );
 
   return (
     <div className={className}>
       <label>{label}</label>
       <SUICheckbox
         checked={value}
-        disabled={isDisabled}
         defaultChecked={defaultValue}
+        disabled={isDisabled}
         onChange={_onChange}
         toggle={asSwitch}
       />

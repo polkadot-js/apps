@@ -19,3 +19,4 @@ yarn-debug.log*
 yarn-error.log*
 .idea/
 env-config.js
+NOTES.md

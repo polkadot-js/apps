@@ -78,8 +78,8 @@ class Upload extends ContractModal<Props, State> {
         isPrimary
         label={t('Upload')}
         onClick={this.toggleBusy(true)}
-        onSuccess={this.onSuccess}
         onFailed={this.toggleBusy(false)}
+        onSuccess={this.onSuccess}
         params={[gasLimit, wasm]}
         tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
         withSpinner
@@ -88,9 +88,10 @@ class Upload extends ContractModal<Props, State> {
   }
 
   private onAddWasm = (wasm: Uint8Array, name: string): void => {
-    const isWasmValid = wasm.subarray(0, 4).toString() === '0,97,115,109'; // '\0asm'
-
-    this.setState({ wasm: compactAddLength(wasm), isWasmValid });
+    this.setState({
+      isWasmValid: wasm.subarray(0, 4).toString() === '0,97,115,109', // '\0asm'
+      wasm: compactAddLength(wasm)
+    });
     this.onChangeName(name);
   }
 

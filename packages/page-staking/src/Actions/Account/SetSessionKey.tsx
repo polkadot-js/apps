@@ -43,10 +43,10 @@ function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Pr
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
+          icon='sign-in'
           isDisabled={!keys}
           isPrimary
           label={t('Set Session Key')}
-          icon='sign-in'
           onStart={onClose}
           params={[keys, EMPTY_PROOF]}
           tx='session.setKeys'
