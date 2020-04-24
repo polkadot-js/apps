@@ -188,5 +188,14 @@
   "registrar index": "registrar index",
   "invalid/unknown registrar account": "invalid/unknown registrar account",
   "judgement": "judgement",
-  "Judge": "Judge"
+  "Judge": "Judge",
+  "Multisig": "Multisig",
+  "created multisig": "created multisig",
+  "Add multisig": "Add multisig",
+  "Name given to this multisig. You can edit it it any later point in time.": "Name given to this multisig. You can edit it it any later point in time.",
+  "multisig name": "multisig name",
+  "The threshold for this multisig": "The threshold for this multisig",
+  "signatory {{index}}/{{length}}": "signatory {{index}}/{{length}}",
+  "Less": "Less",
+  "More": "More"
 }
