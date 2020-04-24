@@ -16,7 +16,7 @@ interface Props {
 const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x', '6x'];
 
 function voteLabel ({ conviction }: Vote, isDelegating: boolean): string {
-  return `${sizing[conviction.toNumber()]}${isDelegating ? ' (d) ' : ''} - `;
+  return `${sizing[conviction.toNumber()]}${isDelegating ? '/d' : ''} - `;
 }
 
 function ReferendumVote ({ vote: { accountId, balance, isDelegating, vote } }: Props): React.ReactElement<Props> {
