@@ -21,5 +21,6 @@ export default {
     referendum: 'referenda',
     techcomm: 'tech',
     treasury: 'treasury'
-  }
+  },
+  url: 'https://subscan.io/'
 };

@@ -6,7 +6,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/vanitygen/types';
 import { ComponentProps as Props } from '../types';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
 import { useIsMountedRef } from '@polkadot/react-hooks';
@@ -163,6 +163,19 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
     }
   }, [_executeGeneration, isRunning]);
 
+  const header = useMemo(() => [
+    [t('matches'), 'start', 2],
+    [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
+      replace: {
+        avg: (keyCount / (elapsed / 1000)).toFixed(3),
+        count: keyCount,
+        elapsed: (elapsed / 1000).toFixed(2)
+      }
+    }), 'start'],
+    [t('secret'), 'start'],
+    []
+  ], [elapsed, keyCount, t]);
+
   return (
     <div className={className}>
       <div className='ui--row'>
@@ -217,18 +230,7 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
         <Table
           className='vanity--App-matches'
           empty={t('No matches found')}
-          header={[
-            [t('matches'), 'start', 2],
-            [t('Evaluated {{count}} keys in {{elapsed}}s ({{avg}} keys/s)', {
-              replace: {
-                avg: (keyCount / (elapsed / 1000)).toFixed(3),
-                count: keyCount,
-                elapsed: (elapsed / 1000).toFixed(2)
-              }
-            }), 'start'],
-            [t('secret'), 'start'],
-            []
-          ]}
+          header={header}
         >
           {matches.map((match): React.ReactNode => (
             <Match

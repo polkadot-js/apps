@@ -4,7 +4,7 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AddressSmall, Table, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -18,13 +18,15 @@ interface Props {
 function Members ({ className, members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const header = useMemo(() => [
+    [t('members'), 'start', 3]
+  ], [t]);
+
   return (
     <Table
       className={className}
       empty={members && t('No members found')}
-      header={[
-        [t('members'), 'start', 3]
-      ]}
+      header={header}
     >
       {members?.map((accountId): React.ReactNode => (
         <tr key={accountId.toString()}>

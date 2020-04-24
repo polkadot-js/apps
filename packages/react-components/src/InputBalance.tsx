@@ -8,8 +8,8 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { InputNumber } from '@polkadot/react-components';
 import { formatBalance } from '@polkadot/util';
+import InputNumber from './InputNumber';
 
 interface Props extends BareProps {
   autoFocus?: boolean;

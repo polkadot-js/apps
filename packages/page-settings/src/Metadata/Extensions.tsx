@@ -5,11 +5,13 @@
 import { ChainInfo } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
+import { extensionLogos } from '@polkadot/apps-config/ui/logos';
 import { Button, Dropdown, Spinner } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import useExtensions from '../useExtensions';
+import iconOption from './iconOption';
 
 interface Props {
   chainInfo: ChainInfo | null;
@@ -22,7 +24,8 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isBusy, toggleBusy] = useToggle();
   const options = useMemo(
-    () => (extensions || []).map(({ extension: { name, version } }, value) => ({ text: `${name} ${version}`, value })),
+    () => (extensions || []).map(({ extension: { name, version } }, value) =>
+      iconOption(`${name} ${version}`, value, extensionLogos[name])),
     [extensions]
   );
   const _updateMeta = useCallback(

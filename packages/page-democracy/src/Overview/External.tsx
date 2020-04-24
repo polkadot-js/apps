@@ -25,7 +25,9 @@ function External ({ className, value: { image, imageHash, threshold } }: Props)
         proposal={image?.proposal}
       />
       <td className='address'>
-        {image && <AddressMini value={image.proposer} />}
+        {image && (
+          <AddressMini value={image.proposer} />
+        )}
       </td>
       <td className='number'>
         {image && <FormatBalance value={image.balance} />}

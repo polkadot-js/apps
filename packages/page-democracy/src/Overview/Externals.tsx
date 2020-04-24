@@ -4,7 +4,7 @@
 
 import { DeriveProposalExternal } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -20,16 +20,18 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal, []);
 
+  const header = useMemo(() => [
+    [t('external'), 'start'],
+    [t('proposer'), 'address'],
+    [t('locked')],
+    []
+  ], [t]);
+
   return (
     <Table
       className={className}
       empty={external === null && t('No external proposal')}
-      header={[
-        [t('external'), 'start'],
-        [t('proposer'), 'address'],
-        [t('locked')],
-        []
-      ]}
+      header={header}
     >
       {external && <External value={external} />}
     </Table>

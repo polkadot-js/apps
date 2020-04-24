@@ -29,7 +29,9 @@ function BlockHeader ({ value }: Props): React.ReactElement<Props> | null {
       </td>
       <td className='all hash overflow'>{hashHex}</td>
       <td className='address'>
-        {value.author && <AddressMini value={value.author} />}
+        {value.author && (
+          <AddressMini value={value.author} />
+        )}
       </td>
     </tr>
   );

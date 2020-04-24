@@ -7,8 +7,9 @@ import BN from 'bn.js';
 export type LinkTypes = 'address' | 'block' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'techcomm' | 'treasury';
 
 export interface ExternalDef {
-  isActive: boolean;
   chains: Record<string, string>;
+  isActive: boolean;
   paths: Partial<Record<LinkTypes, string>>;
+  url: string;
   create: (chain: string, path: string, data: BN | number | string, hash?: string) => string;
 }

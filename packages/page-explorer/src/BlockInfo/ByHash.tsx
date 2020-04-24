@@ -50,7 +50,11 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
       >
         {getBlock && !getBlock.isEmpty && getHeader && !getHeader.isEmpty && (
           <tr>
-            <td className='address'>{getHeader.author && <AddressMini value={getHeader.author} />}</td>
+            <td className='address'>
+              {getHeader.author && (
+                <AddressMini value={getHeader.author} />
+              )}
+            </td>
             <td className='hash overflow'>{getHeader.hash.toHex()}</td>
             <td className='hash overflow'><Link to={`/explorer/query/${parentHash}`}>{parentHash}</Link></td>
             <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>

@@ -69,6 +69,7 @@ function AddressToggle ({ address, className, filter, isHidden, noLookup, noTogg
         className='ui--AddressToggle-address'
         noLookup={noLookup}
         value={address}
+        withSidebar={false}
       />
       {!noToggle && (
         <div className='ui--AddressToggle-toggle'>

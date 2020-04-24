@@ -4,7 +4,7 @@
 
 import { BlockNumber, EventRecord, Extrinsic } from '@polkadot/types/interfaces';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -21,15 +21,17 @@ interface Props {
 function Extrinsics ({ blockNumber, className, events, label, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const header = useMemo(() => [
+    [label || t('extrinsics'), 'start', 2],
+    [t('events'), 'start', 2],
+    [t('signer'), 'address']
+  ], [label, t]);
+
   return (
     <Table
       className={className}
       empty={t('No pending extrinsics are in the queue')}
-      header={[
-        [label || t('extrinsics'), 'start', 2],
-        [t('events'), 'start', 2],
-        [t('signer'), 'address']
-      ]}
+      header={header}
       isFixed
     >
       {value?.map((extrinsic, index): React.ReactNode =>

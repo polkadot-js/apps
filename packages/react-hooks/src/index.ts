@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as useAccountId } from './useAccountId';
+export { default as useAccountInfo } from './useAccountInfo';
 export { default as useAccounts } from './useAccounts';
 export { default as useAddresses } from './useAddresses';
 export { default as useApi } from './useApi';
