@@ -5,6 +5,7 @@
 import { PeerInfo } from '@polkadot/types/interfaces';
 
 import React from 'react';
+import styled from 'styled-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -41,4 +42,6 @@ function Peers ({ className, peers }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Peers);
+export default React.memo(styled(Peers)`
+  overflow-x: auto;
+`);

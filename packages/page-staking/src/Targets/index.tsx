@@ -255,10 +255,13 @@ function Targets ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Targets)`
   text-align: center;
-
+  
   th {
     i.icon {
       margin-left: 0.5rem;
     }
+  }
+  .ui--Table {
+    overflow-x: auto;
   }
 `);
