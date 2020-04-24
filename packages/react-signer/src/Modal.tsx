@@ -9,7 +9,7 @@ import { I18nProps, BareProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
-import { Timepoint } from '@polkadot/typs/interfaces';
+import { Timepoint } from '@polkadot/types/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
