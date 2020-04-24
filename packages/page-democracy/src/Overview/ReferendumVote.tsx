@@ -9,7 +9,6 @@ import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
 
 interface Props {
-  isDelegated: boolean;
   vote: DeriveReferendumVote;
 }
 
