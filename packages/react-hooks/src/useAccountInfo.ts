@@ -116,15 +116,21 @@ export default function useAccountInfo (value: string): UseAccountInfo {
 
       if (value) {
         try {
-          const currentKeyring = keyring.getPair(value);
+          const pair = keyring.getPair(value);
 
-          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+          pair && keyring.saveAccountMeta(pair, meta);
         } catch (error) {
-          keyring.saveAddress(value, meta);
+          const pair = keyring.getAddress(value);
+
+          if (pair) {
+            keyring.saveAddress(value, meta);
+          } else {
+            keyring.saveAddress(value, { genesisHash: api.genesisHash.toHex(), ...meta });
+          }
         }
       }
     },
-    [isEditingName, name, toggleIsEditingName, value]
+    [api, isEditingName, name, toggleIsEditingName, value]
   );
 
   const onSaveTags = useCallback(
