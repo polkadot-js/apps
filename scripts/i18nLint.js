@@ -26,7 +26,7 @@ function checkLanguage (lang) {
   const langRoot = path.join(i18nRoot, lang);
   const entries = getEntries(langRoot);
   const roots = Object.keys(defaults);
-  const missing = entries.filter((entry) => !roots.includes(entry));
+  const missing = roots.filter((entry) => !entries.includes(entry));
 
   if (missing.length) {
     console.log(`\ttop-level missing ${missing.length}: ${missing.join(', ')}`);
