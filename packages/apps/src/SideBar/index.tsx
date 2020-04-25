@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routing } from '@polkadot/apps-routing/types';
+import { Routes } from '@polkadot/apps-routing/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -39,7 +39,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
     }, { network: false })
   );
 
-  const routing = useMemo<Routing>(
+  const routing = useMemo<Routes>(
     () => createRoutes(t),
     [t]
   );
