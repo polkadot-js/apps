@@ -6,6 +6,8 @@ import { Routing } from './types';
 
 import appSettings from '@polkadot/ui-settings';
 
+// When adding here, also ensure to add to Dummy.tsx
+
 import template from './123code';
 import accounts from './accounts';
 import claims from './claims';
@@ -28,7 +30,7 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Routing {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Routing {
   return {
     default: 'explorer',
     routes: appSettings.uiMode === 'light'

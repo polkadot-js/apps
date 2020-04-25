@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import TechComm, { useCounter } from '@polkadot/app-tech-comm';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: TechComm,
     display: {
@@ -16,7 +16,7 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'microchip',
     name: 'techcomm',
-    text: t('Tech. comm.', { ns: 'apps-routing' }),
+    text: t('nav.tech-comm', 'Tech. comm.', { ns: 'apps-routing' }),
     useCounter
   };
 }

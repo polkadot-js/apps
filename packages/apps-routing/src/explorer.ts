@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Explorer from '@polkadot/app-explorer';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Explorer,
     display: {
@@ -14,6 +14,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'braille',
     name: 'explorer',
-    text: t('Explorer', { ns: 'apps-routing' })
+    text: t('nav.explorer', 'Explorer', { ns: 'apps-routing' })
   };
 }

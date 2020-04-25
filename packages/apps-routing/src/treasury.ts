@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Treasury, { useCounter } from '@polkadot/app-treasury';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Treasury,
     display: {
@@ -17,7 +17,7 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'gem',
     name: 'treasury',
-    text: t('Treasury', { ns: 'apps-routing' }),
+    text: t('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
     useCounter
   };
 }

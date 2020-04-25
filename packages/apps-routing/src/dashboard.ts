@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Dashboard from '@polkadot/app-dashboard';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Dashboard,
     display: {
@@ -14,6 +14,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'th',
     name: 'dashboard',
-    text: t('Dashboard', { ns: 'apps-routing' })
+    text: t('nav.dashboard', 'Dashboard', { ns: 'apps-routing' })
   };
 }

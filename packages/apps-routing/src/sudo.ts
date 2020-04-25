@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Sudo from '@polkadot/app-sudo';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Sudo,
     display: {
@@ -18,6 +18,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'unlock',
     name: 'sudo',
-    text: t('Sudo', { ns: 'apps-routing' })
+    text: t('nav.sudo', 'Sudo', { ns: 'apps-routing' })
   };
 }

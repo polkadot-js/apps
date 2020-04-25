@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Toolbox from '@polkadot/app-toolbox';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Toolbox,
     display: {
@@ -14,6 +14,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'configure',
     name: 'toolbox',
-    text: t('Toolbox', { ns: 'apps-routing' })
+    text: t('nav.toolbox', 'Toolbox', { ns: 'apps-routing' })
   };
 }

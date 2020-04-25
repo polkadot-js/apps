@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Society from '@polkadot/app-society';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Society,
     display: {
@@ -16,6 +16,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'grab',
     name: 'society',
-    text: t('Society', { ns: 'apps-routing' })
+    text: t('nav.society', 'Society', { ns: 'apps-routing' })
   };
 }

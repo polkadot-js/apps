@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Js from '@polkadot/app-js';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Js,
     display: {
@@ -14,6 +14,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'code',
     name: 'js',
-    text: t('Javascript', { ns: 'apps-routing' })
+    text: t('nav.js', 'Javascript', { ns: 'apps-routing' })
   };
 }

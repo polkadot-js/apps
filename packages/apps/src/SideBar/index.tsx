@@ -113,7 +113,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='github' /><span className='text'>{t('GitHub', { ns: 'apps-routing' })}</span>
+                <Icon name='github' /><span className='text'>{t('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Item className='apps--SideBar-Item'>
@@ -123,7 +123,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='book' /><span className='text'>{t('Wiki', { ns: 'apps-routing' })}</span>
+                <Icon name='book' /><span className='text'>{t('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Divider hidden />

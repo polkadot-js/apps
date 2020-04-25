@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Template from '@polkadot/app-123code';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Template,
     display: {
@@ -18,6 +18,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'th',
     name: '123code',
-    text: t('Template', { ns: 'apps-routing' })
+    text: t('nav.123-code', 'Template', { ns: 'apps-routing' })
   };
 }

@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Claims from '@polkadot/app-claims';
 
-export default function create (t: (key: string, options: { ns: string }) => string): Route {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
     Component: Claims,
     display: {
@@ -16,6 +16,6 @@ export default function create (t: (key: string, options: { ns: string }) => str
     },
     icon: 'star',
     name: 'claims',
-    text: t('Claim Tokens', { ns: 'apps-routing' })
+    text: t('nav.claims', 'Claim Tokens', { ns: 'apps-routing' })
   };
 }
