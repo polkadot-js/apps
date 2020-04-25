@@ -17,7 +17,7 @@ export default {
     block: 'block',
     council: 'council',
     extrinsic: 'extrinsic',
-    proposal: 'proposal',
+    proposal: 'democracy_proposal',
     referendum: 'referenda',
     techcomm: 'tech',
     treasury: 'treasury'
