@@ -23,5 +23,8 @@ export default {
   },
   // Overwrites to Substrate types
   Address: 'AccountId',
-  LookupSource: 'AccountId'
+  LookupSource: 'AccountId',
+  // Bridge constants
+  ChainId: 'u8',
+  ResourceId: '[u8; 32]'
 };
