@@ -1,1 +1,22 @@
-{}
+{
+  "Default browser language (auto-detect)": "",
+  "Local Node (Own, 127.0.0.1:9944)": "",
+  "Kusama (Polkadot Canary, hosted by Parity)": "",
+  "Kusama (Polkadot Canary, hosted by Web3 Foundation)": "",
+  "Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)": "",
+  "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)": "",
+  "Kulupu (Kulupu Mainnet, hosted by Kulupu)": "",
+  "Westend (Polkadot Testnet, hosted by Parity)": "",
+  "Berlin (Edgeware Testnet, hosted by Commonwealth Labs)": "",
+  "Flaming Fir (Substrate Testnet, hosted by Parity)": "",
+  "Live networks": "",
+  "Test networks": "",
+  "Development": "",
+  "Custom ENV": "",
+  "Default for the connected node": "",
+  "Substrate (generic)": "",
+  "Polkadot (live)": "",
+  "Kusama (canary)": "",
+  "Edgeware (live)": "",
+  "Centrifuge (live)": ""
+}

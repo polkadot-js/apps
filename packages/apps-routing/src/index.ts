@@ -28,50 +28,50 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
-const setup: Routing = {
-  default: 'explorer',
-  routes: appSettings.uiMode === 'light'
-    ? [
-      // dashboard,
-      explorer,
-      accounts,
-      claims,
-      transfer,
-      genericAsset,
-      null,
-      staking,
-      democracy,
-      council,
-      // TODO Not sure about the inclusion of treasury, parachains & society here
-      null,
-      settings
-    ]
-    : [
-      // dashboard,
-      explorer,
-      accounts,
-      claims,
-      transfer,
-      genericAsset,
-      null,
-      staking,
-      democracy,
-      council,
-      treasury,
-      techcomm,
-      parachains,
-      society,
-      null,
-      contracts,
-      storage,
-      extrinsics,
-      sudo,
-      null,
-      settings,
-      toolbox,
-      js,
-      template
-    ]
-};
-
-export default setup;
+export default function create (t: (key: string, options: { ns: string }) => string): Routing {
+  return {
+    default: 'explorer',
+    routes: appSettings.uiMode === 'light'
+      ? [
+        // dashboard,
+        explorer(t),
+        accounts(t),
+        claims(t),
+        transfer(t),
+        genericAsset(t),
+        null,
+        staking(t),
+        democracy(t),
+        council(t),
+        // TODO Not sure about the inclusion of treasury, parachains & society here
+        null,
+        settings(t)
+      ]
+      : [
+        // dashboard(t),
+        explorer(t),
+        accounts(t),
+        claims(t),
+        transfer(t),
+        genericAsset(t),
+        null,
+        staking(t),
+        democracy(t),
+        council(t),
+        treasury(t),
+        techcomm(t),
+        parachains(t),
+        society(t),
+        null,
+        contracts(t),
+        storage(t),
+        extrinsics(t),
+        sudo(t),
+        null,
+        settings(t),
+        toolbox(t),
+        js(t),
+        template(t)
+      ]
+  };
+}

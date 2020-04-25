@@ -2,11 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option } from '@polkadot/apps-config/settings/types';
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { availableEndpoints } from '@polkadot/apps-config/settings';
+import { createEndpoints } from '@polkadot/apps-config/settings';
 import { Dropdown, Input, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -47,11 +45,11 @@ function makeUrl (_url: string): StateUrl {
 
 // this allows us to retrieve the initial state by reading the settings and the applying
 // validation on-top of the values retrieved
-function getInitialState (): State {
+function getInitialState (t: (key: string) => string): State {
   const url = uiSettings.get().apiUrl;
 
   return {
-    isCustom: availableEndpoints.reduce((isCustom: boolean, { value }): boolean => {
+    isCustom: createEndpoints(t).reduce((isCustom: boolean, { value }): boolean => {
       return isCustom && value !== url;
     }, true),
     isValid: isValidUrl(url),
@@ -61,13 +59,12 @@ function getInitialState (): State {
 
 function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [info, setInfo] = useState(getInitialState());
+  const [info, setInfo] = useState(getInitialState(() => ''));
   const { isCustom, isValid, url } = info;
-  const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
-  const label = t('remote node/endpoint to connect to');
-  const translatedEndpoints = useMemo(() => {
-    return availableEndpoints.map((option): Option | React.ReactNode => createOption(t, option, ['local']));
-  }, [t]);
+  const translatedEndpoints = useMemo(
+    () => createEndpoints(t).map((option) => createOption(option, ['local'])),
+    [t]
+  );
 
   useEffect((): void => {
     onChange && info.isValid && onChange(info.url);
@@ -81,17 +78,21 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
       setInfo((info: State) => ({ ...info, ...makeUrl(url) })),
     []
   );
+
   const _onChangeCustom = useCallback(
     (isCustom: boolean): void => setInfo({
       ...makeUrl(
         isCustom
           ? info.url
-          : (availableEndpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
+          : (createEndpoints(() => '').find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
       ),
       isCustom
     }),
     [info]
   );
+
+  const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
+  const label = t('remote node/endpoint to connect to');
 
   return (
     <div className={className}>

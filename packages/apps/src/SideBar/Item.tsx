@@ -13,8 +13,6 @@ import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
-
 const DUMMY_COUNTER = (): number => 0;
 
 interface Props {
@@ -75,7 +73,6 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
 }
 
 function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
@@ -98,12 +95,12 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
     return null;
   }
 
-  const { Modal, i18n, icon, name } = route;
+  const { Modal, icon, name, text } = route;
 
   const body = (
     <>
       <Icon name={icon} />
-      <span className='text'>{t(`sidebar.${name}`, i18n)}</span>
+      <span className='text'>{text}</span>
       {count !== 0 && (
         <Badge
           info={count}
@@ -114,7 +111,7 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
       <Tooltip
         offset={TOOLTIP_OFFSET}
         place='right'
-        text={t(`sidebar.${name}`, i18n)}
+        text={text}
         trigger={`nav-${name}`}
       />
     </>

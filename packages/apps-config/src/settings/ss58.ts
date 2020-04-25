@@ -8,35 +8,37 @@ import { Option } from './types';
 //   info: the name of a logo as defined in ../logos, specifically in namedLogos
 //   text: The text you wish to display in the dropdown
 //   value: The actual ss5Format value (as registered)
-export default [
-  {
-    info: 'default',
-    text: 'Default for the connected node',
-    value: -1
-  },
-  {
-    info: 'substrate',
-    text: 'Substrate (generic)',
-    value: 42
-  },
-  {
-    info: 'polkadot',
-    text: 'Polkadot (live)',
-    value: 0
-  },
-  {
-    info: 'kusama',
-    text: 'Kusama (canary)',
-    value: 2
-  },
-  {
-    info: 'edgeware',
-    text: 'Edgeware (live)',
-    value: 7
-  },
-  {
-    info: 'centrifuge',
-    text: 'Centrifuge (live)',
-    value: 36
-  }
-].map((option): Option => ({ ...option, withI18n: true }));
+export default function create (t: (key: string, options: { ns: string }) => string): Option[] {
+  return [
+    {
+      info: 'default',
+      text: t('Default for the connected node', { ns: 'apps-config' }),
+      value: -1
+    },
+    {
+      info: 'substrate',
+      text: t('Substrate (generic)', { ns: 'apps-config' }),
+      value: 42
+    },
+    {
+      info: 'polkadot',
+      text: t('Polkadot (live)', { ns: 'apps-config' }),
+      value: 0
+    },
+    {
+      info: 'kusama',
+      text: t('Kusama (canary)', { ns: 'apps-config' }),
+      value: 2
+    },
+    {
+      info: 'edgeware',
+      text: t('Edgeware (live)', { ns: 'apps-config' }),
+      value: 7
+    },
+    {
+      info: 'centrifuge',
+      text: t('Centrifuge (live)', { ns: 'apps-config' }),
+      value: 36
+    }
+  ];
+}

@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SIDEBAR_MENU_THRESHOLD } from '../constants';
+import { Routing } from '@polkadot/apps-routing/types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
-import routing from '@polkadot/apps-routing';
+import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { classes } from '@polkadot/react-components/util';
 
+import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import NetworkModal from '../modals/Network';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
@@ -29,13 +30,18 @@ interface Props {
 function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [modals, setModals] = useState<Record<string, boolean>>(
-    routing.routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
+    createRoutes(t).routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
         result[route.name] = false;
       }
 
       return result;
     }, { network: false })
+  );
+
+  const routing = useMemo<Routing>(
+    () => createRoutes(t),
+    [t]
   );
 
   const _toggleModal = useCallback(
@@ -107,7 +113,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='github' /><span className='text'>{t('GitHub')}</span>
+                <Icon name='github' /><span className='text'>{t('GitHub', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Item className='apps--SideBar-Item'>
@@ -117,7 +123,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='book' /><span className='text'>{t('Wiki')}</span>
+                <Icon name='book' /><span className='text'>{t('Wiki', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Divider hidden />

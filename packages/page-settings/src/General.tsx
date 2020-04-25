@@ -5,7 +5,7 @@
 import { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { availableLanguages, availableSs58 } from '@polkadot/apps-config/settings';
+import { createLanguages, createSs58 } from '@polkadot/apps-config/settings';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, ButtonCancel, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
@@ -27,18 +27,18 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
-  const iconOptions = useMemo((): Option[] => {
-    return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
-  }, [t]);
-  const prefixOptions = useMemo((): (Option | React.ReactNode)[] => {
-    return availableSs58.map((o): Option | React.ReactNode => createOption(t, o, ['default']));
-  }, [t]);
-  const translateLanguages = useMemo((): Option[] => {
-    return availableLanguages.map(({ text, value, withI18n }) => ({
-      text: withI18n ? t(text as string) : text,
-      value
-    }));
-  }, [t]);
+  const iconOptions = useMemo(
+    () => uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default'])),
+    []
+  );
+  const prefixOptions = useMemo(
+    () => createSs58(t).map((o): Option | React.ReactNode => createOption(o, ['default'])),
+    [t]
+  );
+  const translateLanguages = useMemo(
+    () => createLanguages(t),
+    [t]
+  );
 
   useEffect((): void => {
     const prev = uiSettings.get();

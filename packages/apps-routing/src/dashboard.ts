@@ -6,16 +6,14 @@ import { Route } from './types';
 
 import Dashboard from '@polkadot/app-dashboard';
 
-const route: Route = {
-  Component: Dashboard,
-  display: {
-    isHidden: true
-  },
-  i18n: {
-    defaultValue: 'Dashboard'
-  },
-  icon: 'th',
-  name: 'dashboard'
-};
-
-export default route;
+export default function create (t: (key: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Dashboard,
+    display: {
+      isHidden: true
+    },
+    icon: 'th',
+    name: 'dashboard',
+    text: t('Dashboard', { ns: 'apps-routing' })
+  };
+}
