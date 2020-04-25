@@ -4,15 +4,12 @@
 
 import React from 'react';
 import { Redirect } from 'react-router';
-import routing from '@polkadot/apps-routing';
 
 type Props = {};
 
-const defaultTo = `/${routing.default}`;
-
 function NotFound (): React.ReactElement<Props> {
   return (
-    <Redirect to={defaultTo} />
+    <Redirect to='/explorer' />
   );
 }
 

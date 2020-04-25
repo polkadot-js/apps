@@ -40,7 +40,7 @@ function DashboardApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const routes = useMemo(
-    () => createRoutes(t).routes.filter((route): route is Route =>
+    () => createRoutes(t).filter((route): route is Route =>
       !!route && !route.display.isHidden && route.name !== 'dashboard'),
     [t]
   );

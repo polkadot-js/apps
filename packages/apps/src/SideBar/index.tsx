@@ -30,7 +30,7 @@ interface Props {
 function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [modals, setModals] = useState<Record<string, boolean>>(
-    createRoutes(t).routes.reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
+    createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
         result[route.name] = false;
       }
@@ -62,7 +62,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
       />
-      {routing.routes.map((route): React.ReactNode => (
+      {routing.map((route): React.ReactNode => (
         route?.Modal
           ? route.Modal && modals[route.name]
             ? (
@@ -84,7 +84,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
         >
           <div className='apps--SideBar-Scroll'>
             <ChainInfo onClick={_toggleModal('network')} />
-            {routing.routes.map((route, index): React.ReactNode => (
+            {routing.map((route, index): React.ReactNode => (
               route
                 ? (
                   <Item

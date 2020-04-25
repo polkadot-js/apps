@@ -38,7 +38,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
-      const found = createRoutes(t).routes.find((route) => !!(route && app.startsWith(route.name)));
+      const found = createRoutes(t).find((route) => !!(route && app.startsWith(route.name)));
 
       return found || NOT_FOUND;
     },

@@ -28,8 +28,3 @@ export interface Route {
 }
 
 export type Routes = (Route | null)[];
-
-export interface Routing {
-  default: string;
-  routes: Routes;
-}
