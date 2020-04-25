@@ -4,25 +4,19 @@
 
 import { Option } from './types';
 
-// These are the available languages. For each there are translation files available
-// in packages/apps/public/locales (Don't edit unless adding a new translation)
-export default [
-  {
-    text: 'Default browser language (auto-detect)',
-    value: 'default',
-    withI18n: true
-  },
-  {
-    text: 'English',
-    value: 'en'
-  },
-  {
-    text: '汉语',
-    value: 'zh'
-  }
-  // For ja, we only have the settings page, remove until comprehensive
-  // , {
-  //   text: '日本語',
-  //   value: 'ja'
-  // }
-].map((option): Option => ({ ...option }));
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+  return [
+    {
+      text: t('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
+      value: 'default'
+    },
+    {
+      text: 'English',
+      value: 'en'
+    },
+    {
+      text: '汉语',
+      value: 'zh'
+    }
+  ];
+}

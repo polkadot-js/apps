@@ -10,5 +10,7 @@
   "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.": "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.",
   "version {{version}}": "version {{version}}",
   "GitHub": "GitHub",
-  "Wiki": "Wiki"
+  "Wiki": "Wiki",
+  "nav.github": "nav.github",
+  "nav.wiki": "nav.wiki"
 }

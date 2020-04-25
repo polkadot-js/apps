@@ -6,20 +6,18 @@ import { Route } from './types';
 
 import Treasury, { useCounter } from '@polkadot/app-treasury';
 
-const route: Route = {
-  Component: Treasury,
-  display: {
-    needsAccounts: true,
-    needsApi: [
-      'tx.treasury.proposeSpend'
-    ]
-  },
-  i18n: {
-    defaultValue: 'Treasury'
-  },
-  icon: 'gem',
-  name: 'treasury',
-  useCounter
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Treasury,
+    display: {
+      needsAccounts: true,
+      needsApi: [
+        'tx.treasury.proposeSpend'
+      ]
+    },
+    icon: 'gem',
+    name: 'treasury',
+    text: t('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
+    useCounter
+  };
+}

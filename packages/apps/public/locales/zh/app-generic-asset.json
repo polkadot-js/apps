@@ -10,9 +10,7 @@
   "asset id": "asset id",
   "Type the name of this Asset. This name will be used across all the apps. It can be edited later on.": "Type the name of this Asset. This name will be used across all the apps. It can be edited later on.",
   "name": "name",
-  "Cancel": "Cancel",
   "Register": "Register",
-  "available ": "available ",
   "The account you will send funds from.": "The account you will send funds from.",
   "send from account": "send from account",
   "Select a contact or paste the address you want to send funds to.": "Select a contact or paste the address you want to send funds to.",
@@ -21,6 +19,5 @@
   "Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.": "Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.",
   "amount": "amount",
   "Make Transfer": "Make Transfer",
-  "transferrable ": "transferrable ",
   "transferrable": "transferrable"
 }

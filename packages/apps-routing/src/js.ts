@@ -6,16 +6,14 @@ import { Route } from './types';
 
 import Js from '@polkadot/app-js';
 
-const route: Route = {
-  Component: Js,
-  display: {
-    needsApi: []
-  },
-  i18n: {
-    defaultValue: 'Javascript'
-  },
-  icon: 'code',
-  name: 'js'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Js,
+    display: {
+      needsApi: []
+    },
+    icon: 'code',
+    name: 'js',
+    text: t('nav.js', 'Javascript', { ns: 'apps-routing' })
+  };
+}

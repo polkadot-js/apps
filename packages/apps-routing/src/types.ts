@@ -19,19 +19,12 @@ export interface Route {
     needsApi?: (string | string[])[];
     needsSudo?: boolean;
   };
-  i18n: {
-    defaultValue: string;
-  };
   icon: SemanticICONS;
   isIgnored?: boolean;
   name: string;
+  text: string;
   useCheck?: () => boolean;
   useCounter?: () => number;
 }
 
 export type Routes = (Route | null)[];
-
-export interface Routing {
-  default: string;
-  routes: Routes;
-}

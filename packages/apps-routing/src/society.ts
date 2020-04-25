@@ -6,18 +6,16 @@ import { Route } from './types';
 
 import Society from '@polkadot/app-society';
 
-const route: Route = {
-  Component: Society,
-  display: {
-    needsApi: [
-      'query.society.pot'
-    ]
-  },
-  i18n: {
-    defaultValue: 'Society'
-  },
-  icon: 'grab',
-  name: 'society'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Society,
+    display: {
+      needsApi: [
+        'query.society.pot'
+      ]
+    },
+    icon: 'grab',
+    name: 'society',
+    text: t('nav.society', 'Society', { ns: 'apps-routing' })
+  };
+}

@@ -6,20 +6,18 @@ import { Route } from './types';
 
 import Sudo from '@polkadot/app-sudo';
 
-const route: Route = {
-  Component: Sudo,
-  display: {
-    needsAccounts: true,
-    needsApi: [
-      'tx.sudo.setKey'
-    ],
-    needsSudo: true
-  },
-  i18n: {
-    defaultValue: 'Sudo'
-  },
-  icon: 'unlock',
-  name: 'sudo'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Sudo,
+    display: {
+      needsAccounts: true,
+      needsApi: [
+        'tx.sudo.setKey'
+      ],
+      needsSudo: true
+    },
+    icon: 'unlock',
+    name: 'sudo',
+    text: t('nav.sudo', 'Sudo', { ns: 'apps-routing' })
+  };
+}

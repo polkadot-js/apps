@@ -45,7 +45,6 @@ module.exports = {
   options: {
     debug: true,
     defaultLng: 'en',
-    defaultNs: 'ui',
     func: {
       extensions: ['.tsx', '.ts'],
       list: ['t', 'i18next.t', 'i18n.t']

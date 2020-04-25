@@ -6,18 +6,16 @@ import { Route } from './types';
 
 import Parachains from '@polkadot/app-parachains';
 
-const route: Route = {
-  Component: Parachains,
-  display: {
-    needsApi: [
-      'query.parachains.code'
-    ]
-  },
-  i18n: {
-    defaultValue: 'Parachains'
-  },
-  icon: 'chain',
-  name: 'parachains'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Parachains,
+    display: {
+      needsApi: [
+        'query.parachains.code'
+      ]
+    },
+    icon: 'chain',
+    name: 'parachains',
+    text: t('nav.parachains', 'Parachains', { ns: 'apps-routing' })
+  };
+}

@@ -1,3 +1,21 @@
 {
-  "explorer": "管理器"
+  "nav.accounts": "账户",
+  "nav.claims": "认领",
+  "nav.contracts": "合约",
+  "nav.council": "议会",
+  "nav.dashboard": "仪表盘",
+  "nav.democracy": "民主权利",
+  "nav.explorer": "浏览",
+  "nav.extrinsics": "交易",
+  "nav.generic-asset": "通用资产",
+  "nav.js": "javascript",
+  "nav.parachains": "平行链",
+  "nav.settings": "设置",
+  "nav.staking": "质押",
+  "nav.storage": "链状态",
+  "nav.sudo": "撤销",
+  "nav.tech-comm": "技术委员会",
+  "nav.toolbox": "工具箱",
+  "nav.transfer": "转账",
+  "nav.treasury": "财政"
 }

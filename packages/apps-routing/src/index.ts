@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routing } from './types';
+import { Routes } from './types';
 
 import appSettings from '@polkadot/ui-settings';
+
+// When adding here, also ensure to add to Dummy.tsx
 
 import template from './123code';
 import accounts from './accounts';
@@ -28,50 +30,47 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
-const setup: Routing = {
-  default: 'explorer',
-  routes: appSettings.uiMode === 'light'
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Routes {
+  return appSettings.uiMode === 'light'
     ? [
       // dashboard,
-      explorer,
-      accounts,
-      claims,
-      transfer,
-      genericAsset,
+      explorer(t),
+      accounts(t),
+      claims(t),
+      transfer(t),
+      genericAsset(t),
       null,
-      staking,
-      democracy,
-      council,
+      staking(t),
+      democracy(t),
+      council(t),
       // TODO Not sure about the inclusion of treasury, parachains & society here
       null,
-      settings
+      settings(t)
     ]
     : [
-      // dashboard,
-      explorer,
-      accounts,
-      claims,
-      transfer,
-      genericAsset,
+      // dashboard(t),
+      explorer(t),
+      accounts(t),
+      claims(t),
+      transfer(t),
+      genericAsset(t),
       null,
-      staking,
-      democracy,
-      council,
-      treasury,
-      techcomm,
-      parachains,
-      society,
+      staking(t),
+      democracy(t),
+      council(t),
+      treasury(t),
+      techcomm(t),
+      parachains(t),
+      society(t),
       null,
-      contracts,
-      storage,
-      extrinsics,
-      sudo,
+      contracts(t),
+      storage(t),
+      extrinsics(t),
+      sudo(t),
       null,
-      settings,
-      toolbox,
-      js,
-      template
-    ]
-};
-
-export default setup;
+      settings(t),
+      toolbox(t),
+      js(t),
+      template(t)
+    ];
+}

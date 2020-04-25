@@ -9,8 +9,6 @@
   "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.": "",
   "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.": "",
   "version {{version}}": "",
-  "GitHub": "",
-  "Wiki": "",
   "account forgotten": "",
   "This account is recoverable, with the following friends:": "",
   "threshold": "",

@@ -31,7 +31,6 @@ i18n
       loadPath: 'locales/{{lng}}/{{ns}}.json'
     },
     debug: false,
-    defaultNS: 'ui',
     detection: {
       order: ['i18nLangDetector', 'navigator']
     },
@@ -63,6 +62,7 @@ i18n
       'app-toolbox',
       'app-treasury',
       'apps',
+      'apps-config',
       'apps-routing',
       'react-api',
       'react-components',

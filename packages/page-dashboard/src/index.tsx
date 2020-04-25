@@ -5,10 +5,11 @@
 import { Route } from '@polkadot/apps-routing/types';
 import { AppProps } from '@polkadot/react-components/types';
 
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import routing from '@polkadot/apps-routing';
+import createRoutes from '@polkadot/apps-routing';
 
+import { useTranslation } from './translate';
 import Entry from './Entry';
 import Spacer from './Spacer';
 
@@ -36,10 +37,12 @@ function renderSpacer (route: Route, index: number): React.ReactNode {
 }
 
 function DashboardApp ({ className }: Props): React.ReactElement<Props> {
-  const [routes] = useState(
-    routing.routes.filter((route): boolean =>
-      !!route && !route.display.isHidden && route.name !== 'dashboard'
-    ) as Route[]
+  const { t } = useTranslation();
+
+  const routes = useMemo(
+    () => createRoutes(t).filter((route): route is Route =>
+      !!route && !route.display.isHidden && route.name !== 'dashboard'),
+    [t]
   );
 
   return (

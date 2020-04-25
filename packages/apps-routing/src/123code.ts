@@ -6,20 +6,18 @@ import { Route } from './types';
 
 import Template from '@polkadot/app-123code';
 
-const route: Route = {
-  Component: Template,
-  display: {
-    isHidden: true,
-    needsAccounts: true,
-    needsApi: [
-      'tx.balances.transfer'
-    ]
-  },
-  i18n: {
-    defaultValue: 'Template'
-  },
-  icon: 'th',
-  name: '123code'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Template,
+    display: {
+      isHidden: true,
+      needsAccounts: true,
+      needsApi: [
+        'tx.balances.transfer'
+      ]
+    },
+    icon: 'th',
+    name: '123code',
+    text: t('nav.123-code', 'Template', { ns: 'apps-routing' })
+  };
+}

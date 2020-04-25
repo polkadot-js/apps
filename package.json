@@ -29,6 +29,7 @@
     "clean:i18n": "rm -rf packages/apps/public/locales/en && mkdir -p packages/apps/public/locales/en",
     "lint": "polkadot-dev-run-lint",
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
+    "lint:i18n": "node ./scripts/i18nLint.js",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test packages/page-claims/src",
     "test:one": "polkadot-dev-run-test",

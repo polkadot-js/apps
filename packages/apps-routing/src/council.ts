@@ -6,22 +6,20 @@ import { Route } from './types';
 
 import Council, { useCounter } from '@polkadot/app-council';
 
-const route: Route = {
-  Component: Council,
-  display: {
-    needsApi: [
-      [
-        'query.electionsPhragmen.candidates',
-        'query.elections.candidates'
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: Council,
+    display: {
+      needsApi: [
+        [
+          'query.electionsPhragmen.candidates',
+          'query.elections.candidates'
+        ]
       ]
-    ]
-  },
-  i18n: {
-    defaultValue: 'Council'
-  },
-  icon: 'building',
-  name: 'council',
-  useCounter
-};
-
-export default route;
+    },
+    icon: 'building',
+    name: 'council',
+    text: t('nav.council', 'Council', { ns: 'apps-routing' }),
+    useCounter
+  };
+}

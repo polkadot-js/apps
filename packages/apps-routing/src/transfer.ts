@@ -6,21 +6,19 @@ import { Route } from './types';
 
 import TransferModal from '@polkadot/app-accounts/Accounts/modals/Transfer';
 
-const route: Route = {
-  Component: TransferModal,
-  Modal: TransferModal,
-  display: {
-    isHidden: false,
-    needsAccounts: true,
-    needsApi: [
-      'tx.balances.transfer'
-    ]
-  },
-  i18n: {
-    defaultValue: 'Transfer'
-  },
-  icon: 'send',
-  name: 'transfer'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: TransferModal,
+    Modal: TransferModal,
+    display: {
+      isHidden: false,
+      needsAccounts: true,
+      needsApi: [
+        'tx.balances.transfer'
+      ]
+    },
+    icon: 'send',
+    name: 'transfer',
+    text: t('nav.transfer', 'Transfer', { ns: 'apps-routing' })
+  };
+}

@@ -1,1 +1,25 @@
-{}
+{
+  "nav.123-code": "Template",
+  "nav.accounts": "Accounts",
+  "nav.claims": "Claim Tokens",
+  "nav.contracts": "Contracts",
+  "nav.council": "Council",
+  "nav.dashboard": "Dashboard",
+  "nav.democracy": "Democracy",
+  "nav.explorer": "Explorer",
+  "nav.extrinsics": "Extrinsics",
+  "nav.generic-asset": "Generic asset",
+  "nav.js": "Javascript",
+  "nav.parachains": "Parachains",
+  "nav.settings": "Settings",
+  "nav.society": "Society",
+  "nav.staking": "Staking",
+  "nav.storage": "Chain state",
+  "nav.sudo": "Sudo",
+  "nav.tech-comm": "Tech. comm.",
+  "nav.toolbox": "Toolbox",
+  "nav.transfer": "Transfer",
+  "nav.treasury": "Treasury",
+  "nav.github": "GitHub",
+  "nav.wiki": "Wiki"
+}

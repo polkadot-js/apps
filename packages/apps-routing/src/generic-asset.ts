@@ -6,20 +6,18 @@ import { Route } from './types';
 
 import GenericAsset from '@polkadot/app-generic-asset';
 
-const route: Route = {
-  Component: GenericAsset,
-  display: {
-    isHidden: false,
-    needsAccounts: true,
-    needsApi: [
-      'tx.genericAsset.transfer'
-    ]
-  },
-  i18n: {
-    defaultValue: 'Generic Asset'
-  },
-  icon: 'cubes',
-  name: 'generic-asset'
-};
-
-export default route;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
+    Component: GenericAsset,
+    display: {
+      isHidden: false,
+      needsAccounts: true,
+      needsApi: [
+        'tx.genericAsset.transfer'
+      ]
+    },
+    icon: 'cubes',
+    name: 'generic-asset',
+    text: t('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
+  };
+}
