@@ -59,7 +59,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         .filter(([, opt]) => opt.isSome)
         .map(([key, opt]) => [key.args[1] as H256, opt.unwrap()])
   });
-  const { flags: { isDevelopment, isEditable, isExternal, isMultisig }, genesisHash, name: accName, onSaveGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isEditable, isExternal, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -355,8 +355,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
                 <ChainLock
                   className='accounts--network-toggle'
                   genesisHash={genesisHash}
-                  onChange={onSaveGenesisHash}
-                  preventDefault
+                  onChange={onSetGenesisHash}
                 />
               </>
             )}

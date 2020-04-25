@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-components/types';
-import { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -18,7 +17,7 @@ import Flags from './Flags';
 import RegistrarJudgement from './RegistrarJudgement';
 
 interface Props extends BareProps {
-  address: AccountId | Address | string | Uint8Array;
+  address: string;
   onClose: () => void;
   onUpdateName: () => void;
 }
@@ -352,7 +351,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
       )}
       {(!!address && isJudgementOpen && isRegistrar && useIdentity) && (
         <RegistrarJudgement
-          address={address.toString()}
+          address={address}
           key='modal-judgement'
           registrars={registrars}
           toggleJudgement={toggleIsJudgementOpen}

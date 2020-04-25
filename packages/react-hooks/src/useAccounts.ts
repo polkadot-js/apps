@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useEffect, useState } from 'react';
-import { AccountId, Address } from '@polkadot/types/interfaces';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
 import useIsMountedRef from './useIsMountedRef';
@@ -11,7 +10,7 @@ import useIsMountedRef from './useIsMountedRef';
 interface UseAccounts {
   allAccounts: string[];
   hasAccounts: boolean;
-  isAccount: (_: string | AccountId | Address) => boolean;
+  isAccount: (address: string) => boolean;
 }
 
 export default function useAccounts (): UseAccounts {
@@ -23,7 +22,7 @@ export default function useAccounts (): UseAccounts {
       if (mountedRef.current) {
         const allAccounts = accounts ? Object.keys(accounts) : [];
         const hasAccounts = allAccounts.length !== 0;
-        const isAccount = (accountId: string | AccountId | Address): boolean => allAccounts.includes(accountId.toString());
+        const isAccount = (address: string): boolean => allAccounts.includes(address);
 
         setState({ allAccounts, hasAccounts, isAccount });
       }

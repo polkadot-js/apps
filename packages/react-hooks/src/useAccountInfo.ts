@@ -4,7 +4,6 @@
 
 import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { StringOrNull } from '@polkadot/react-components/types';
-import { Address, AccountId } from '@polkadot/types/interfaces';
 import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -30,22 +29,19 @@ const IS_NONE = {
   isTechCommittee: false
 };
 
-export default function useAccountInfo (_value: AccountId | Address | string | Uint8Array): UseAccountInfo {
-  const value = _value.toString();
+export default function useAccountInfo (value: string): UseAccountInfo {
   const { api } = useApi();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags as any, [value]);
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
-
+  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
+  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags as any, [value]);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
-
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
-  const [isEditingName, toggleIsEditingName] = useToggle(false);
-  const [isEditingTags, toggleIsEditingTags] = useToggle(false);
+  const [isEditingName, toggleIsEditingName] = useToggle();
+  const [isEditingTags, toggleIsEditingTags] = useToggle();
 
   useEffect((): void => {
     accountFlags && setFlags((flags) => ({
@@ -120,15 +116,21 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
 
       if (value) {
         try {
-          const currentKeyring = keyring.getPair(value);
+          const pair = keyring.getPair(value);
 
-          currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
+          pair && keyring.saveAccountMeta(pair, meta);
         } catch (error) {
-          keyring.saveAddress(value, meta);
+          const pair = keyring.getAddress(value);
+
+          if (pair) {
+            keyring.saveAddress(value, meta);
+          } else {
+            keyring.saveAddress(value, { genesisHash: api.genesisHash.toHex(), ...meta });
+          }
         }
       }
     },
-    [isEditingName, name, toggleIsEditingName, value]
+    [api, isEditingName, name, toggleIsEditingName, value]
   );
 
   const onSaveTags = useCallback(
@@ -171,15 +173,15 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     [isEditingName, isEditingTags, toggleIsEditingName, toggleIsEditingTags, value]
   );
 
-  const onSaveGenesisHash = useCallback(
-    (): void => {
+  const onSetGenesisHash = useCallback(
+    (genesisHash: string | null): void => {
       const account = keyring.getPair(value);
 
       account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
 
       setGenesisHash(genesisHash);
     },
-    [genesisHash, value]
+    [value]
   );
 
   const setTags = useCallback(
@@ -195,10 +197,9 @@ export default function useAccountInfo (_value: AccountId | Address | string | U
     isEditingTags,
     name,
     onForgetAddress,
-    onSaveGenesisHash,
     onSaveName,
     onSaveTags,
-    setGenesisHash,
+    onSetGenesisHash,
     setName,
     setTags,
     tags,

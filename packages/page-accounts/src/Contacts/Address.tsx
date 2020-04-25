@@ -238,7 +238,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
                   genesisHash={genesisHash}
                   isDisabled={!isEditable}
                   onChange={_onGenesisChange}
-                  preventDefault
                 />
               </>
             )}
