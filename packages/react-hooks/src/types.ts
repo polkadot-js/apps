@@ -102,7 +102,6 @@ export interface UseAccountInfo {
   tags: string[];
   setTags: React.Dispatch<string[]>;
   genesisHash: StringOrNull;
-  setGenesisHash: React.Dispatch<StringOrNull>;
   identity?: AddressIdentity;
   isEditingName: boolean;
   toggleIsEditingName: VoidFn;
@@ -110,6 +109,6 @@ export interface UseAccountInfo {
   toggleIsEditingTags: VoidFn;
   onSaveName: VoidFn;
   onSaveTags: VoidFn;
-  onSaveGenesisHash: VoidFn;
+  onSetGenesisHash: (genesisHash: string | null) => void;
   onForgetAddress: VoidFn;
 }
