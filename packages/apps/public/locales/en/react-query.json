@@ -1,11 +1,11 @@
 {
-  "{{d}} days": "{{d}} days",
   "1 day": "1 day",
-  "{{h}} hrs": "{{h}} hrs",
   "1 hr": "1 hr",
-  "{{m}} mins": "{{m}} mins",
   "1 min": "1 min",
-  "{{s}} s": "{{s}} s",
   "1 s": "1 s",
-  "everything": "everything"
+  "everything": "everything",
+  "{{d}} days": "{{d}} days",
+  "{{h}} hrs": "{{h}} hrs",
+  "{{m}} mins": "{{m}} mins",
+  "{{s}} s": "{{s}} s"
 }

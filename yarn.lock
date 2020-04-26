@@ -2991,6 +2991,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-i18n@workspace:packages/page-i18n":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-i18n@workspace:packages/page-i18n"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+    "@polkadot/react-components": 0.42.0-beta.33
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-js@workspace:packages/page-js":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-js@workspace:packages/page-js"
