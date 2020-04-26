@@ -15,7 +15,7 @@ function getEntries (langRoot) {
       !['.', '..'].includes(entry) &&
       fs.lstatSync(path.join(langRoot, entry)).isFile() &&
       entry.endsWith('.json') &&
-      !entry.startsWith('ui')
+      !['app-i18n.json', 'index.json', 'translation.json'].includes(entry)
     )
     .sort();
 }
@@ -38,7 +38,7 @@ function checkLanguage (lang) {
     const root = defaults[entry];
 
     if (!root) {
-      console.log(`\t> ${entry} not in default found, not checking`);
+      console.log(`\t> ${entry} not found in default, not checking`);
 
       return;
     }
@@ -69,7 +69,7 @@ function checkLanguages () {
     .readdirSync(i18nRoot)
     .filter((entry) =>
       !['.', '..'].includes(entry) &&
-      fs.lstatSync(i18nRoot).isDirectory() &&
+      fs.lstatSync(path.join(i18nRoot, entry)).isDirectory() &&
       entry !== 'en'
     )
     .sort()
@@ -83,9 +83,9 @@ function initDefault () {
     const json = require(path.join(enRoot, entry));
     const keys = Object.keys(json);
 
-    if (keys.length > 0) {
-      // console.log(`${entry} ${keys.length} keys`);
-    }
+    // if (keys.length > 0) {
+    //   console.log(`${entry} ${keys.length} keys`);
+    // }
 
     defaults[entry] = keys;
   });

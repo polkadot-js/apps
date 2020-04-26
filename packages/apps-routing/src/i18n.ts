@@ -10,7 +10,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
   return {
     Component: Translator,
     display: {
-      isHidden: true,
+      isHidden: true
     },
     icon: 'th',
     name: 'i18n',
