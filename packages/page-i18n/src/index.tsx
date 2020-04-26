@@ -29,14 +29,14 @@ type StringsMod = Record<string, Strings>;
 type Languages = Record<string, Strings>;
 
 async function retrieveJson (url: string): Promise<any> {
-  const response = await fetch(url);
+  const response = await fetch(`locales/${url}`);
 
   return response.json();
 }
 
 async function retrieveEnglish (): Promise<StringsMod> {
-  const paths: Array<string> = await retrieveJson('locales/en/index.json');
-  const strings: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`locales/en/${path}`)));
+  const paths: Array<string> = await retrieveJson('en/index.json');
+  const strings: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`en/${path}`)));
 
   return strings.reduce((language: StringsMod, strings, index): StringsMod => {
     language[paths[index]] = strings;
@@ -45,27 +45,13 @@ async function retrieveEnglish (): Promise<StringsMod> {
   }, {});
 }
 
-async function retrieveLanguage (lng: string): Promise<Strings> {
-  const paths: Array<string> = await retrieveJson(`locales/${lng}/index.json`);
-  const translation: Strings = await retrieveJson(`locales/${lng}/translation.json`).catch(() => ({}));
-  const modules: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`locales/${lng}/${path}`)));
-
-  modules.forEach((strings): void => {
-    Object.keys(strings).forEach((key): void => {
-      if (strings[key]) {
-        translation[key] = strings[key];
-      }
-    });
-  });
-
-  return translation;
-}
-
 async function retrieveAll (): Promise<Defaults> {
-  const _keys: string[] = await retrieveJson('locales/index.json');
+  const _keys: string[] = await retrieveJson('index.json');
   const keys = _keys.filter((key) => key !== 'en');
   const english = await retrieveEnglish();
-  const languages = await Promise.all(keys.map(retrieveLanguage));
+  const languages = await Promise.all(
+    keys.map((lng) => retrieveJson(`${lng}/translation.json`))
+  );
 
   return {
     english,
@@ -108,7 +94,7 @@ function calcProgress (english: StringsMod, language: Strings): Progress {
 }
 
 function doDownload (strings: Strings): void {
-  const sanitized = Object.keys(strings).reduce((result: Strings, key): Strings => {
+  const sanitized = Object.keys(strings).sort().reduce((result: Strings, key): Strings => {
     const sanitized = strings[key].trim();
 
     if (sanitized) {

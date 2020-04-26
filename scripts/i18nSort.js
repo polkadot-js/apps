@@ -14,7 +14,7 @@ function getEntries (langRoot) {
       !['.', '..'].includes(entry) &&
       fs.lstatSync(path.join(langRoot, entry)).isFile() &&
       entry.endsWith('.json') &&
-      !['app-i18n.json', 'index.json'].includes(entry)
+      !['index.json'].includes(entry)
     )
     .sort();
 }
@@ -35,10 +35,12 @@ function sortLanguage (lang) {
     fs.writeFileSync(filename, JSON.stringify(sorted, null, 2));
   });
 
-  fs.writeFileSync(
-    path.join(langRoot, 'index.json'),
-    JSON.stringify(entries.filter((entry) => !['translation.json'].includes(entry)), null, 2)
-  );
+  if (lang === 'en') {
+    fs.writeFileSync(
+      path.join(langRoot, 'index.json'),
+      JSON.stringify(entries.filter((entry) => !['translation.json'].includes(entry)), null, 2)
+    );
+  }
 }
 
 function checkLanguages () {

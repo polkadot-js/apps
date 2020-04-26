@@ -15,7 +15,7 @@ function getEntries (langRoot) {
       !['.', '..'].includes(entry) &&
       fs.lstatSync(path.join(langRoot, entry)).isFile() &&
       entry.endsWith('.json') &&
-      !['app-i18n.json', 'index.json', 'translation.json'].includes(entry)
+      !['index.json', 'translation.json'].includes(entry)
     )
     .sort();
 }
