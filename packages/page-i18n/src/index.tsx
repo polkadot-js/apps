@@ -107,11 +107,36 @@ function calcProgress (english: StringsMod, language: Strings): Progress {
   return [[done, total], breakdown];
 }
 
+function doDownload (strings: Strings): void {
+  const sanitized = Object.keys(strings).reduce((result: Strings, key): Strings => {
+    const sanitized = strings[key].trim();
+
+    if (sanitized) {
+      result[key] = sanitized;
+    }
+
+    return result;
+  }, {});
+
+  FileSaver.saveAs(
+    new Blob([JSON.stringify(sanitized, null, 2)], { type: 'application/json; charset=utf-8' }),
+    'translation.json'
+  );
+}
+
+function progressDisplay ([done, total]: [number, number] = [0, 0]): { done: number; progress: string; total: number } {
+  return {
+    done,
+    progress: (total ? (done * 100 / total) : 100).toFixed(2),
+    total
+  };
+}
+
 function TranslateApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ english, keys, languages, modules }, setDefaults] = useState<Defaults>({ english: {}, keys: [], languages: {}, modules: [] });
   const [lng, setLng] = useState<string>('zh');
-  const [[progressOverall, progressRecord], setProgress] = useState<Progress>([[0, 0], {}]);
+  const [[modProgress, allProgress], setProgress] = useState<Progress>([[0, 0], {}]);
   const [record, setRecord] = useState<string>('app-accounts.json');
   const [strings, setStrings] = useState<Strings | null>(null);
 
@@ -120,54 +145,32 @@ function TranslateApp ({ className }: Props): React.ReactElement<Props> {
   }, []);
 
   useEffect((): void => {
-    if (lng) {
-      setStrings(languages[lng]);
-      setProgress(calcProgress(english, languages[lng]));
-    }
+    setStrings(languages[lng]);
+    setProgress(calcProgress(english, languages[lng]));
   }, [english, languages, lng]);
 
   const _setString = useCallback(
     (key: string, value: string): void => {
-      let hasChanged = false;
-
-      if (lng) {
-        const hasPrevVal = !!languages[lng][key];
-        const sanitized = value.trim();
-
-        languages[lng][key] = sanitized;
-        hasChanged = hasPrevVal !== !!sanitized;
-      }
-
       setStrings((strings: Strings | null): Strings | null =>
         strings
           ? { ...strings, [key]: value }
           : null
       );
 
-      hasChanged && setProgress(
-        calcProgress(english, languages[lng])
-      );
+      const hasPrevVal = !!languages[lng][key];
+      const sanitized = value.trim();
+
+      languages[lng][key] = value;
+
+      if (hasPrevVal !== !!sanitized) {
+        setProgress(calcProgress(english, languages[lng]));
+      }
     },
     [english, languages, lng]
   );
 
   const _onDownload = useCallback(
-    (): void => {
-      const sanitized = Object.keys(strings || {}).reduce((result: Strings, key): Strings => {
-        const sanitized = (strings || {})[key].trim();
-
-        if (sanitized) {
-          result[key] = sanitized;
-        }
-
-        return result;
-      }, {});
-
-      FileSaver.saveAs(
-        new Blob([JSON.stringify(sanitized, null, 2)], { type: 'application/json; charset=utf-8' }),
-        'translation.json'
-      );
-    },
+    () => doDownload(strings || {}),
     [strings]
   );
 
@@ -187,11 +190,7 @@ function TranslateApp ({ className }: Props): React.ReactElement<Props> {
               options={keys}
               value={lng}
             />
-            &nbsp;{t('{{done}}/{{total}}, {{progress}}% done', { replace: {
-              done: progressOverall[0],
-              progress: (progressOverall[1] ? (progressOverall[0] * 100 / progressOverall[1]) : 100).toFixed(2),
-              total: progressOverall[1]
-            } })}
+            &nbsp;{t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
           </Column>
           <Column>
             <Dropdown
@@ -201,11 +200,7 @@ function TranslateApp ({ className }: Props): React.ReactElement<Props> {
               options={modules}
               value={record}
             />
-            &nbsp;{t('{{done}}/{{total}}, {{progress}}% done', { replace: {
-              done: (progressRecord && progressRecord[record] && progressRecord[record][0]) || 0,
-              progress: (progressRecord && progressRecord[record] && progressRecord[record][1] ? (progressRecord[record][0] * 100 / progressRecord[record][1]) : 100).toFixed(2),
-              total: (progressRecord && progressRecord[record] && progressRecord[record][1]) || 0
-            } })}
+            &nbsp;{t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
           </Column>
         </Columar>
       </header>
