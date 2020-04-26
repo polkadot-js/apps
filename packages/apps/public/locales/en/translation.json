@@ -146,6 +146,7 @@
   "Forks": "",
   "General": "",
   "Generate {{lng}}/translate.json": "",
+  "Generate {{lng}}/translation.json": "",
   "Genesis Hash": "",
   "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "",
   "Grandpa": "",
