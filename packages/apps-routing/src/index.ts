@@ -18,6 +18,7 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import genericAsset from './generic-asset';
+import i18n from './i18n';
 import js from './js';
 import parachains from './parachains';
 import settings from './settings';
@@ -71,6 +72,8 @@ export default function create (t: (key: string, text: string, options: { ns: st
       settings(t),
       toolbox(t),
       js(t),
-      template(t)
+      // hidden
+      template(t),
+      i18n(t)
     ];
 }
