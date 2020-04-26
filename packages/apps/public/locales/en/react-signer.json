@@ -7,6 +7,8 @@
   "Do not include a tip for the block author": "Do not include a tip for the block author",
   "Include an optional tip for faster processing": "Include an optional tip for faster processing",
   "Lifetime (# of blocks)": "Lifetime (# of blocks)",
+  "Multisig approval with hash (not message with call)": "Multisig approval with hash (not message with call)",
+  "Multisig message with call (not approval with hash)": "Multisig message with call (not approval with hash)",
   "Nonce": "Nonce",
   "Scan Signature Qr": "Scan Signature Qr",
   "Sending transaction": "Sending transaction",
