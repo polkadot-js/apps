@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.v
 
-import { ValidatorInfo } from './types';
+import { ValidatorInfo } from '../types';
 
 import React, { useCallback } from 'react';
 import { AddressSmall, Icon, Toggle } from '@polkadot/react-components';
