@@ -25,7 +25,7 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
     if (ledger.isSome) {
       const stashId = ledger.unwrap().stash.toString();
 
-      !result.some(([accountId]): boolean => accountId === stashId) && result.push([stashId, false]);
+      !result.some(([accountId]) => accountId === stashId) && result.push([stashId, false]);
     }
   });
 

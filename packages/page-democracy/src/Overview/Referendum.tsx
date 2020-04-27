@@ -7,7 +7,7 @@ import { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, LinkExternal, Tag } from '@polkadot/react-components';
+import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
@@ -72,12 +72,13 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
         total={votedNay}
         votes={allNay}
       />
-      <td>
+      <td className='badge'>
         {isBoolean(isPassing) && (
-          <Tag
-            color={isPassing ? 'green' : 'red'}
+          <Badge
             hover={isPassing ? t('{{threshold}}, passing', { replace: { threshold } }) : t('{{threshold}}, not passing', { replace: { threshold } })}
-            label={isPassing ? t('passing') : t('failing')}
+            info={<Icon name={isPassing ? 'check' : 'cancel'} />}
+            isTooltip
+            type={isPassing ? 'green' : 'brown'}
           />
         )}
       </td>
