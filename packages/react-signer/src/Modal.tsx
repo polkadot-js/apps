@@ -753,8 +753,6 @@ class Signer extends React.PureComponent<Props, State> {
       txStartCb();
     }
 
-    queueSetTxStatus(id, 'sending');
-
     try {
       const unsubscribe = await extrinsicCall.apply(extrinsic, [
         ...params,
@@ -790,6 +788,8 @@ class Signer extends React.PureComponent<Props, State> {
           }
         }
       ]);
+
+      queueSetTxStatus(id, 'sending');
     } catch (error) {
       console.error('makeExtrinsicCall: error:', error);
       queueSetTxStatus(id, 'error', {}, error);
