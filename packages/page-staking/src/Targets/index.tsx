@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Icon, InputBalance, Table, Button } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
-import { createType, Option } from '@polkadot/types';
+import { Option } from '@polkadot/types';
 
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
@@ -107,12 +107,12 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   const validators = sortValidators(
     electedInfo.info.map(({ accountId, exposure: _exposure, validatorPrefs }): ValidatorInfo => {
       const exposure = _exposure || {
-        others: createType(registry, 'Vec<IndividualExposure>'),
-        own: createType(registry, 'Compact<Balance>'),
-        total: createType(registry, 'Compact<Balance>')
+        others: registry.createType('Vec<IndividualExposure>'),
+        own: registry.createType('Compact<Balance>'),
+        total: registry.createType('Compact<Balance>')
       };
       const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
-        commission: createType(registry, 'Compact<Perbill>')
+        commission: registry.createType('Compact<Perbill>')
       };
       const bondOwn = exposure.own.unwrap();
       const bondTotal = exposure.total.unwrap();
@@ -196,18 +196,23 @@ function Targets ({ className, ownStashes }: Props): React.ReactElement<Props> {
   const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
   const amount = useDebounce(_amount);
   const labels = useMemo(
-    (): Record<string, string> => ({ rankBondOther: t('other stake'), rankBondOwn: t('own stake'), rankBondTotal: t('total stake'), rankComm: t('commission'), rankOverall: t('profit/era est') }),
+    (): Record<string, string> => ({
+      rankBondOther: t('other stake'),
+      rankBondOwn: t('own stake'),
+      rankBondTotal: t('total stake'),
+      rankComm: t('commission'),
+      rankOverall: t('profit/era est')
+    }),
     [t]
   );
 
   const _sort = useCallback(
-    (newSortBy: SortBy): void =>
-      setSortBy(({ sortBy, sortFromMax }) => ({
-        sortBy: newSortBy,
-        sortFromMax: newSortBy === sortBy
-          ? !sortFromMax
-          : true
-      })),
+    (newSortBy: SortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
+      sortBy: newSortBy,
+      sortFromMax: newSortBy === sortBy
+        ? !sortFromMax
+        : true
+    })),
     []
   );
 
@@ -221,7 +226,7 @@ function Targets ({ className, ownStashes }: Props): React.ReactElement<Props> {
   );
 
   const _selectProfitable = useCallback(
-    (): void => setSelected(
+    () => setSelected(
       validators
         .filter((_, index) => index < MAX_NOMINATIONS)
         .map(({ key }) => key)
