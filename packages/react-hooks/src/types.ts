@@ -4,7 +4,7 @@
 
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
-import { AccountId, Balance, BlockNumber, Call, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
@@ -111,4 +111,23 @@ export interface UseAccountInfo {
   onSaveTags: VoidFn;
   onSetGenesisHash: (genesisHash: string | null) => void;
   onForgetAddress: VoidFn;
+}
+
+export interface StakerState {
+  controllerId: string | null;
+  destination?: string;
+  destinationId: number;
+  exposure?: Exposure;
+  hexSessionIdNext: string | null;
+  hexSessionIdQueue: string | null;
+  isLoading: boolean;
+  isOwnController: boolean;
+  isOwnStash: boolean;
+  isStashNominating: boolean;
+  isStashValidating: boolean;
+  nominating?: string[];
+  sessionIds: string[];
+  stakingLedger?: StakingLedger;
+  stashId: string;
+  validatorPrefs?: ValidatorPrefs;
 }

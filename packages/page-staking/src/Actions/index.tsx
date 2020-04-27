@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActiveEraInfo, EraIndex } from '@polkadot/types/interfaces';
+import { StakerState } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Table } from '@polkadot/react-components';
-import { useCall, useApi, useOwnStashes } from '@polkadot/react-hooks';
+import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 
@@ -17,60 +18,38 @@ import Account from './Account';
 import NewStake from './NewStake';
 
 interface Props {
-  allStashes?: string[];
   className?: string;
   isInElection?: boolean;
+  ownStashes?: StakerState[];
   next?: string[];
   validators?: string[];
 }
 
-interface Balances {
-  accounts: Record<string, BN>;
+interface State {
   bondedTotal?: BN;
+  foundStashes?: StakerState[];
 }
 
-function Actions ({ allStashes, className, isInElection, next, validators }: Props): React.ReactElement<Props> {
+function Actions ({ className, isInElection, next, ownStashes, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
     transform: (activeEra: Option<ActiveEraInfo>) => activeEra.unwrapOr({ index: undefined }).index
   });
-  const ownStashes = useOwnStashes();
-  const [{ bondedTotal }, setBonded] = useState<Balances>({ accounts: {} });
-  const [foundStashes, setFoundStashes] = useState<[string, boolean][] | null>(null);
-  const [stashTypes, setStashTypes] = useState<Record<string, number>>({});
+  const [{ bondedTotal, foundStashes }, setState] = useState<State>({});
 
   useEffect((): void => {
-    ownStashes && setFoundStashes(
-      ownStashes.sort((a, b) => (stashTypes[a[0]] || 99) - (stashTypes[b[0]] || 99))
-    );
-  }, [ownStashes, stashTypes]);
-
-  const _setBonded = useCallback(
-    (account: string, bonded: BN) =>
-      setBonded(({ accounts }: Balances): Balances => {
-        accounts[account] = bonded;
-
-        return {
-          accounts,
-          bondedTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), new BN(0))
-        };
-      }),
-    []
-  );
-
-  const _onUpdateType = useCallback(
-    (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other'): void =>
-      setStashTypes((stashTypes: Record<string, number>) => ({
-        ...stashTypes,
-        [stashId]: type === 'validator'
-          ? 1
-          : type === 'nominator'
-            ? 5
-            : 9
-      })),
-    []
-  );
+    ownStashes && setState({
+      bondedTotal: ownStashes.reduce((total: BN, { stakingLedger }) =>
+        stakingLedger
+          ? total.add(stakingLedger.total.unwrap())
+          : total,
+      new BN(0)),
+      foundStashes: ownStashes.sort((a, b) =>
+        (a.isStashValidating ? 1 : (a.isStashNominating ? 5 : 99)) - (b.isStashValidating ? 1 : (b.isStashNominating ? 5 : 99))
+      )
+    });
+  }, [ownStashes]);
 
   const header = useMemo(() => [
     [t('stashes'), 'start'],
@@ -95,21 +74,17 @@ function Actions ({ allStashes, className, isInElection, next, validators }: Pro
       <NewStake />
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={t('No funds staked yet. Bond funds to validate or nominate a validator')}
+        empty={foundStashes && t('No funds staked yet. Bond funds to validate or nominate a validator')}
         footer={footer}
         header={header}
       >
-        {foundStashes?.map(([stashId, isOwnStash]): React.ReactNode => (
+        {foundStashes?.map((info): React.ReactNode => (
           <Account
             activeEra={activeEra}
-            allStashes={allStashes}
+            info={info}
             isDisabled={isInElection}
-            isOwnStash={isOwnStash}
-            key={stashId}
+            key={info.stashId}
             next={next}
-            onUpdateType={_onUpdateType}
-            setBonded={_setBonded}
-            stashId={stashId}
             validators={validators}
           />
         ))}

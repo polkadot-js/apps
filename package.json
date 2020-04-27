@@ -8,12 +8,12 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.12.0-beta.9",
-    "@polkadot/api-contract": "^1.12.0-beta.9",
-    "@polkadot/keyring": "^2.9.0-beta.1",
-    "@polkadot/types": "^1.12.0-beta.9",
-    "@polkadot/util": "^2.9.0-beta.1",
-    "@polkadot/util-crypto": "^2.9.0-beta.1",
+    "@polkadot/api": "^1.12.0-beta.11",
+    "@polkadot/api-contract": "^1.12.0-beta.11",
+    "@polkadot/keyring": "^2.9.0-beta.3",
+    "@polkadot/types": "^1.12.0-beta.11",
+    "@polkadot/util": "^2.9.0-beta.3",
+    "@polkadot/util-crypto": "^2.9.0-beta.3",
     "babel-core": "^7.0.0-bridge.0",
     "typescript": "^3.8.3"
   },

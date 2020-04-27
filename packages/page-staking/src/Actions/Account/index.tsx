@@ -3,15 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { AccountId, EraIndex, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { Codec, ITuple } from '@polkadot/types/types';
+import { EraIndex } from '@polkadot/types/interfaces';
+import { StakerState } from '@polkadot/react-hooks/types';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Button, Expander, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { u8aConcat, u8aToHex } from '@polkadot/util';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
@@ -24,82 +22,21 @@ import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
 
-type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
-
 interface Props {
   activeEra?: EraIndex;
-  allStashes?: string[];
   className?: string;
   isDisabled?: boolean;
-  isOwnStash: boolean;
+  info: StakerState;
   next?: string[];
-  onUpdateType: (stashId: string, type: 'validator' | 'nominator' | 'started' | 'other') => void;
-  setBonded: (account: string, bonded: BN) => void;
   stashId: string;
   validators?: string[];
 }
 
-interface StakeState {
-  controllerId: string | null;
-  destination?: string;
-  destinationId: number;
-  exposure?: Exposure;
-  hexSessionIdNext: string | null;
-  hexSessionIdQueue: string | null;
-  isLoading: boolean;
-  isOwnController: boolean;
-  isStashNominating: boolean;
-  isStashValidating: boolean;
-  nominating?: string[];
-  sessionIds: string[];
-  stakingLedger?: StakingLedger;
-  validatorPrefs?: ValidatorPrefs;
-}
-
-function toIdString (id?: AccountId | null): string | null {
-  return id
-    ? id.toString()
-    : null;
-}
-
-function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, exposure, nextSessionIds, nominators, rewardDestination, sessionIds, stakingLedger, validatorPrefs }: DeriveStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
-  const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty) || !!allStashes?.includes(stashId);
-  const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
-  const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
-  const controllerId = toIdString(_controllerId);
-
-  return {
-    controllerId,
-    destination: rewardDestination?.toString().toLowerCase(),
-    destinationId: rewardDestination?.toNumber() || 0,
-    exposure,
-    hexSessionIdNext: u8aToHex(nextConcat, 48),
-    hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
-    isLoading: false,
-    isOwnController: allAccounts.includes(controllerId || ''),
-    isStashNominating,
-    isStashValidating,
-    // we assume that all ids are non-null
-    nominating: nominators?.map(toIdString) as string[],
-    sessionIds: (
-      nextSessionIds.length
-        ? nextSessionIds
-        : sessionIds
-    ).map(toIdString) as string[],
-    stakingLedger,
-    validatorPrefs
-  };
-}
-
-function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdateType, setBonded, stashId, validators }: Props): React.ReactElement<Props> {
+function Account ({ className, info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
-  const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
-  const [{ controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger }, setStakeState] = useState<StakeState>({ controllerId: null, destinationId: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominating);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
@@ -111,26 +48,6 @@ function Account ({ allStashes, className, isDisabled, isOwnStash, next, onUpdat
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
-
-  useEffect((): void => {
-    if (stakingAccount && validateInfo) {
-      const state = getStakeState(allAccounts, allStashes, stakingAccount, stashId, validateInfo);
-
-      if (state.stakingLedger) {
-        setBonded(stashId, state.stakingLedger.total.unwrap());
-      }
-
-      setStakeState(state);
-      onUpdateType(
-        stashId,
-        state.isStashValidating
-          ? 'validator'
-          : state.isStashNominating
-            ? 'nominator'
-            : 'other'
-      );
-    }
-  }, [allAccounts, allStashes, onUpdateType, stakingAccount, setBonded, stashId, validateInfo]);
 
   useEffect((): void => {
     nominating && setActiveNoms(
