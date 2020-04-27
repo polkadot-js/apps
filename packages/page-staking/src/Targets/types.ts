@@ -29,3 +29,11 @@ export interface ValidatorInfo {
   rewardSplit: BN;
   validatorPayment: BN;
 }
+
+export interface SortedTargets {
+  lastReward?: BN;
+  nominators?: string[];
+  toggleFavorite: (accountId: string) => void;
+  totalStaked?: BN;
+  validators?: ValidatorInfo[];
+}
