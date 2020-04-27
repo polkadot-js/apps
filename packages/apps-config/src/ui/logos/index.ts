@@ -8,6 +8,7 @@ import chainKusama from './chains/kusama-128.gif';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
+import nodeNodle from './nodes/nodle.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
@@ -34,6 +35,7 @@ const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Edgeware Node', nodeEdgeware],
   ['node-template', nodeSubstrate],
+  ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
   ['polkadot-js', nodePolkadotJs],
   ['substrate-node', nodeSubstrate]
@@ -49,6 +51,7 @@ const namedLogos: Record<string, any> = {
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   kusama: chainKusama,
+  nodle: nodeNodle,
   polkadot: nodePolkadot,
   substrate: nodeSubstrate,
   westend: nodePolkadot

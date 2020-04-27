@@ -62,7 +62,7 @@ function createTest (t: (key: string, text: string, options: { ns: string }) => 
       value: 'wss://substrate-rpc.parity.io/'
     },
     {
-      info: 'substrate',
+      info: 'nodle',
       text: t('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io/'
     }
