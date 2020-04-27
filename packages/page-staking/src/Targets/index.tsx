@@ -3,31 +3,26 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StakerState } from '@polkadot/react-hooks/types';
-import { ValidatorInfo } from './types';
+import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
-import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Icon, InputBalance, Table, Button } from '@polkadot/react-components';
-import { useDebounce } from '@polkadot/react-hooks';
 
+import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
 import Nominate from './Nominate';
 import Summary from './Summary';
 import Validator from './Validator';
 import useOwnNominators from './useOwnNominators';
-import useSortedTargets from './useSortedTargets';
 
 interface Props {
   className?: string;
   ownStashes?: StakerState[];
+  targets: SortedTargets;
 }
 
-type SortBy = 'rankOverall' | 'rankBondOwn' | 'rankBondOther' | 'rankBondTotal' | 'rankComm';
-
-const MAX_NOMINATIONS = 16;
-
-function sort (sortBy: SortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
+function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
   return [...Array(validators.length).keys()]
     .sort((a, b) =>
       sortFromMax
@@ -41,15 +36,12 @@ function sort (sortBy: SortBy, sortFromMax: boolean, validators: ValidatorInfo[]
     );
 }
 
-function Targets ({ className, ownStashes }: Props): React.ReactElement<Props> {
+function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const ownNominators = useOwnNominators(ownStashes);
-  const [_amount, setAmount] = useState<BN | undefined>(new BN(1_000));
-  const amount = useDebounce(_amount);
-  const { lastReward, nominators, toggleFavorite, totalStaked, validators } = useSortedTargets(amount);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
-  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: SortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: TargetSortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
 
   useEffect((): void => {
     validators && setSorted(
@@ -58,7 +50,7 @@ function Targets ({ className, ownStashes }: Props): React.ReactElement<Props> {
   }, [sortBy, sortFromMax, validators]);
 
   const _sort = useCallback(
-    (newSortBy: SortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
+    (newSortBy: TargetSortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
       sortBy: newSortBy,
       sortFromMax: newSortBy === sortBy
         ? !sortFromMax
@@ -113,10 +105,10 @@ function Targets ({ className, ownStashes }: Props): React.ReactElement<Props> {
       help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
       isFull
       label={t('amount to use for estimation')}
-      onChange={setAmount}
-      value={_amount}
+      onChange={setCalcWith}
+      value={calcWith}
     />
-  ), [_amount, t]);
+  ), [calcWith, setCalcWith, t]);
 
   return (
     <div className={className}>

@@ -22,6 +22,7 @@ import Query from './Query';
 import Summary from './Overview/Summary';
 import Targets from './Targets';
 import { useTranslation } from './translate';
+import useSortedTargets from './useSortedTargets';
 
 interface Validators {
   next?: string[];
@@ -40,6 +41,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const [{ next, validators }, setValidators] = useState<Validators>({});
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
+  const targets = useSortedTargets();
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
@@ -120,6 +122,12 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
+        <Route path={`${basePath}/targets`}>
+          <Targets
+            ownStashes={ownStashes}
+            targets={targets}
+          />
+        </Route>
         <Route path={`${basePath}/waiting`}>
           <Overview
             className={`${basePath}/waiting` === pathname ? '' : 'staking--hidden'}
@@ -136,10 +144,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         next={next}
         ownStashes={ownStashes}
         validators={validators}
-      />
-      <Targets
-        className={pathname === `${basePath}/targets` ? '' : 'staking--hidden'}
-        ownStashes={ownStashes}
       />
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}

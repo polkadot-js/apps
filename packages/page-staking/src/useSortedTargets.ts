@@ -4,57 +4,41 @@
 
 import { DeriveSessionIndexes, DeriveStakingElected } from '@polkadot/api-derive/types';
 import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
-import { SortedTargets, ValidatorInfo } from './types';
+import { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
-import { useAccounts, useApi, useCall, useFavorites } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
-import { STORE_FAVS_BASE } from '../constants';
+import { STORE_FAVS_BASE } from './constants';
 
 const PERBILL = new BN(1_000_000_000);
+
+function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
+  return (info, index): ValidatorInfo => {
+    info[mapBy] = index + 1;
+
+    return info;
+  };
+}
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
     .filter((a) => a.bondTotal.gtn(0))
-    .sort((a, b): number => b.commissionPer - a.commissionPer)
-    .map((info, index): ValidatorInfo => {
-      info.rankComm = index + 1;
-
-      return info;
-    })
-    .sort((a, b): number => b.bondOther.cmp(a.bondOther))
-    .map((info, index): ValidatorInfo => {
-      info.rankBondOther = index + 1;
-
-      return info;
-    })
-    .sort((a, b): number => b.bondOwn.cmp(a.bondOwn))
-    .map((info, index): ValidatorInfo => {
-      info.rankBondOwn = index + 1;
-
-      return info;
-    })
-    .sort((a, b): number => b.bondTotal.cmp(a.bondTotal))
-    .map((info, index): ValidatorInfo => {
-      info.rankBondTotal = index + 1;
-
-      return info;
-    })
-    .sort((a, b): number => b.validatorPayment.cmp(a.validatorPayment))
-    .map((info, index): ValidatorInfo => {
-      info.rankPayment = index + 1;
-
-      return info;
-    })
-    .sort((a, b): number => a.rewardSplit.cmp(b.rewardSplit))
-    .map((info, index): ValidatorInfo => {
-      info.rankReward = index + 1;
-
-      return info;
-    })
+    .sort((a, b) => b.commissionPer - a.commissionPer)
+    .map(mapIndex('rankComm'))
+    .sort((a, b) => b.bondOther.cmp(a.bondOther))
+    .map(mapIndex('rankBondOther'))
+    .sort((a, b) => b.bondOwn.cmp(a.bondOwn))
+    .map(mapIndex('rankBondOwn'))
+    .sort((a, b) => b.bondTotal.cmp(a.bondTotal))
+    .map(mapIndex('rankBondTotal'))
+    .sort((a, b) => b.validatorPayment.cmp(a.validatorPayment))
+    .map(mapIndex('rankPayment'))
+    .sort((a, b) => a.rewardSplit.cmp(b.rewardSplit))
+    .map(mapIndex('rankReward'))
     .sort((a, b): number => {
       const cmp = b.rewardPayout.cmp(a.rewardPayout);
 
@@ -66,14 +50,11 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
             : b.rankPayment - a.rankPayment
           : b.rankReward - a.rankReward;
     })
-    .map((info, index): ValidatorInfo => {
-      info.rankOverall = index + 1;
-
-      return info;
-    })
-    .sort((a, b): number => a.isFavorite === b.isFavorite
-      ? 0
-      : (a.isFavorite ? -1 : 1)
+    .map(mapIndex('rankOverall'))
+    .sort((a, b) =>
+      a.isFavorite === b.isFavorite
+        ? 0
+        : (a.isFavorite ? -1 : 1)
     );
 }
 
@@ -142,7 +123,7 @@ function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo
   return { nominators, totalStaked, validators };
 }
 
-export default function useSortedTargets (amount?: BN): SortedTargets {
+export default function useSortedTargets (): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
@@ -153,15 +134,26 @@ export default function useSortedTargets (amount?: BN): SortedTargets {
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], {
     transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
   });
-  const [state, setState] = useState<SortedTargets>({ toggleFavorite });
+  const [calcWith, setCalcWith] = useState<BN | undefined>(new BN(1_000));
+  const calcWithDebounce = useDebounce(calcWith);
+  const [state, setState] = useState<SortedTargets>({ setCalcWith, toggleFavorite });
 
   useEffect((): void => {
-    electedInfo && setState(({ toggleFavorite }) => ({
-      ...extractInfo(allAccounts, amount, electedInfo, favorites, lastReward),
+    electedInfo && setState(({ calcWith, setCalcWith, toggleFavorite }) => ({
+      ...extractInfo(allAccounts, calcWithDebounce, electedInfo, favorites, lastReward),
+      calcWith,
       lastReward,
+      setCalcWith,
       toggleFavorite
     }));
-  }, [allAccounts, amount, electedInfo, favorites, lastReward]);
+  }, [allAccounts, calcWithDebounce, electedInfo, favorites, lastReward]);
+
+  useEffect((): void => {
+    calcWith && setState((state) => ({
+      ...state,
+      calcWith
+    }));
+  }, [calcWith]);
 
   return state;
 }
