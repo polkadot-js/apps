@@ -26,8 +26,10 @@ function Progress ({ className, color = 'blue', percent, style, total, value }: 
   const _total = bnToBn(total);
   const _value = bnToBn(value);
   const calculated = _total.gtn(0)
-    ? 100.0 * _value.toNumber() / _total.toNumber()
-    : isBn(percent) ? percent.toNumber() : percent;
+    ? (100.0 * _value.toNumber() / _total.toNumber())
+    : isBn(percent)
+      ? percent.toNumber()
+      : percent;
 
   if (isUndefined(calculated) || calculated < 0) {
     return null;

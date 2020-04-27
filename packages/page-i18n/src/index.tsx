@@ -6,7 +6,8 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Columar, Column, Dropdown, Spinner } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { Button, Columar, Column, Dropdown, Progress, Spinner } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 import StringInput from './StringInput';
@@ -176,7 +177,12 @@ function TranslateApp ({ className }: Props): React.ReactElement<Props> {
               options={keys}
               value={lng}
             />
-            &nbsp;{t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
+            <Progress
+              color='auto'
+              total={modProgress[1]}
+              value={modProgress[0]}
+            />
+            {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
           </Column>
           <Column>
             <Dropdown
@@ -186,7 +192,12 @@ function TranslateApp ({ className }: Props): React.ReactElement<Props> {
               options={modules}
               value={record}
             />
-            &nbsp;{t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
+            <Progress
+              color='auto'
+              total={allProgress[record]?.[1]}
+              value={allProgress[record]?.[0]}
+            />
+            {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
           </Column>
         </Columar>
       </header>
@@ -210,4 +221,8 @@ function TranslateApp ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(TranslateApp);
+export default React.memo(styled(TranslateApp)`
+  .ui.progress:last-child {
+    margin: 0.25rem;
+  }
+`);
