@@ -120,9 +120,6 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
-        <Route path={`${basePath}/targets`}>
-          <Targets ownStashes={ownStashes} />
-        </Route>
         <Route path={`${basePath}/waiting`}>
           <Overview
             className={`${basePath}/waiting` === pathname ? '' : 'staking--hidden'}
@@ -139,6 +136,10 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         next={next}
         ownStashes={ownStashes}
         validators={validators}
+      />
+      <Targets
+        className={pathname === `${basePath}/targets` ? '' : 'staking--hidden'}
+        ownStashes={ownStashes}
       />
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
