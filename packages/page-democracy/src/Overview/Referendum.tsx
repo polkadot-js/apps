@@ -75,7 +75,11 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
       <td className='badge'>
         {isBoolean(isPassing) && (
           <Badge
-            hover={isPassing ? t('{{threshold}}, passing', { replace: { threshold } }) : t('{{threshold}}, not passing', { replace: { threshold } })}
+            hover={
+              isPassing
+                ? t('{{threshold}}, passing', { replace: { threshold } })
+                : t('{{threshold}}, not passing', { replace: { threshold } })
+            }
             info={<Icon name={isPassing ? 'check' : 'cancel'} />}
             isTooltip
             type={isPassing ? 'green' : 'brown'}
