@@ -14,11 +14,12 @@ function Columns ({ children, className }: ColumnProps): React.ReactElement<Colu
 }
 
 export default React.memo(styled(Columns)`
+  align-items: center;
   display: flex;
   flex-layout: row;
-  align-items: center;
+  justify-content: space-between;
 
   &+& {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 `);

@@ -96,15 +96,18 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              defaultValue={controllerId}
-              isDisabled
-              label={t('controller account')}
-            />
-            <InputAddress
               defaultValue={stashId}
               isDisabled
               label={t('stash account')}
             />
+            <InputAddress
+              defaultValue={controllerId}
+              isDisabled
+              label={t('controller account')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The stash that is to be affected. The transaction will be sent from the associated controller account.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>

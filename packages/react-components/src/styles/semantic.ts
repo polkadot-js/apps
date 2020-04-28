@@ -28,7 +28,6 @@ export default css`
   .ui.dropdown {
     &.disabled {
       background: transparent;
-      border-color: #eee;
       border-style: dashed;
       opacity: 1;
 
