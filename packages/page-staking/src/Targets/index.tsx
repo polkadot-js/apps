@@ -89,7 +89,7 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
   );
 
   const header = useMemo(() => [
-    [t('validators'), 'start', 3],
+    [t('validators'), 'start', 4],
     ...['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
       `isClickable ${sortBy === header && 'ui--highlight--border'} number`,
@@ -100,17 +100,15 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
   ], [_sort, labels, sortBy, sortFromMax, t]);
 
   const filter = useMemo(() => (
-    sorted && (
-      <InputBalance
-        className='balanceInput'
-        help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
-        isFull
-        label={t('amount to use for estimation')}
-        onChange={setCalcWith}
-        value={calcWith}
-      />
-    )
-  ), [calcWith, setCalcWith, sorted, t]);
+    <InputBalance
+      className='balanceInput'
+      help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
+      isFull
+      label={t('amount to use for estimation')}
+      onChange={setCalcWith}
+      value={calcWith}
+    />
+  ), [calcWith, setCalcWith, t]);
 
   return (
     <div className={className}>

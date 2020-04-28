@@ -1,6 +1,6 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.v
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ValidatorInfo } from '../types';
 
@@ -9,6 +9,7 @@ import { AddressSmall, Icon, Toggle } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
+import MaxBadge from '../MaxBadge';
 import Favorite from '../Overview/Address/Favorite';
 
 interface Props {
@@ -39,6 +40,9 @@ function Validator ({ canSelect, info: { accountId, bondOther, bondOwn, bondTota
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
+      <td className='badge'>
+        <MaxBadge numNominators={numNominators} />
+      </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address all'>
         <AddressSmall value={accountId} />

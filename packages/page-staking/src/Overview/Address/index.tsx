@@ -153,6 +153,7 @@ function Address ({ address, className, filterName, hasQueries, isAuthor, isElec
       />
       <Status
         isElected={isElected}
+        numNominators={nominatedBy?.length}
         onlineCount={onlineCount}
         onlineMessage={onlineMessage}
       />
