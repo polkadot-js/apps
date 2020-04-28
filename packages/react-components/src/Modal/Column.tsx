@@ -21,20 +21,20 @@ export default React.memo(styled(Column)`
   &:nth-child(2) {
     display: none;
     flex: 0%;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     opacity: 0.75;
   }
 
   @media only screen and (min-width: 1024px) {
     &:nth-child(1),
     &:only-child {
-      flex: 0 66.6%;
+      flex: 0 66%;
     }
 
     &:nth-child(2) {
       box-sizing: border-box;
       display: block;
-      flex: 0 33.3%;
+      flex: 0 34%;
       padding-left: 1rem;
     }
   }

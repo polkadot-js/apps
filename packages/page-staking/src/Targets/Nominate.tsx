@@ -92,7 +92,7 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
               </Modal.Column>
               <Modal.Column>
                 <p>{t('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
-                <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, then nominations will show as inactive.')}</p>
+                <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>

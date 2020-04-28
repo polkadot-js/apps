@@ -16,4 +16,9 @@ function Columns ({ children, className }: ColumnProps): React.ReactElement<Colu
 export default React.memo(styled(Columns)`
   display: flex;
   flex-layout: row;
+  align-items: center;
+
+  &+& {
+    margin-top: 1rem;
+  }
 `);
