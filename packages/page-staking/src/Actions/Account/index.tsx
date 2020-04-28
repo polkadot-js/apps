@@ -5,6 +5,7 @@
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { EraIndex } from '@polkadot/types/interfaces';
 import { StakerState } from '@polkadot/react-hooks/types';
+import { SortedTargets } from '../../types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -29,10 +30,11 @@ interface Props {
   info: StakerState;
   next?: string[];
   stashId: string;
+  targets: SortedTargets;
   validators?: string[];
 }
 
-function Account ({ className, info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, validators }: Props): React.ReactElement<Props> {
+function Account ({ className, info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
@@ -76,6 +78,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
             nominating={nominating}
             onClose={toggleNominate}
             stashId={stashId}
+            targets={targets}
             validators={validators}
           />
         )}

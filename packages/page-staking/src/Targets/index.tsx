@@ -136,7 +136,7 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
         filter={filter}
         header={header}
       >
-        {validators && sorted?.map((index): React.ReactNode =>
+        {validators && sorted && (validators.length === sorted.length) && sorted.map((index): React.ReactNode =>
           <Validator
             canSelect={selected.length < MAX_NOMINATIONS}
             info={validators[index]}

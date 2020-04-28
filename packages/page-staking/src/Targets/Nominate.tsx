@@ -5,6 +5,7 @@
 import { StakerState } from '@polkadot/react-hooks/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -92,4 +93,8 @@ function Nominate ({ ownNominators, targets }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(Nominate);
+export default React.memo(styled(Nominate)`
+  .ui--AddressMini.padded {
+    padding-top: 0.5rem;
+  }
+`);
