@@ -121,6 +121,7 @@ function InputAddressMulti ({ available, availableLabel, className, defaultValue
         onChange={setFilter}
         placeholder={t('filter by name, address, or account index')}
         value={_filter}
+        withLabel={false}
       />
       <div className='ui--InputAddressMulti-columns'>
         <div className='ui--InputAddressMulti-column'>

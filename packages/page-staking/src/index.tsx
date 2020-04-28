@@ -143,6 +143,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
         isInElection={isInElection}
         next={next}
         ownStashes={ownStashes}
+        targets={targets}
         validators={validators}
       />
       <Overview
