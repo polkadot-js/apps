@@ -19,16 +19,19 @@ export default React.memo(styled(Column)`
   }
 
   &:nth-child(2) {
+    background: #eee;
+    border-radius: 0.5rem;
     display: none;
     flex: 0%;
     font-size: 0.95rem;
     opacity: 0.75;
+    padding: 0.75em 1rem;
   }
 
   @media only screen and (min-width: 1024px) {
     &:nth-child(1),
     &:only-child {
-      flex: 0 66%;
+      flex: 0 65%;
     }
 
     &:nth-child(2) {
