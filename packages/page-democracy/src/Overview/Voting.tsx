@@ -70,32 +70,54 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
       {isVotingOpen && (
         <Modal
           header={t('Vote on proposal')}
-          size='small'
+          size='large'
         >
           <Modal.Content>
             <ProposedAction
               idNumber={referendumId}
               proposal={proposal}
             />
-            <VoteAccount onChange={setAccountId} />
-            {isCurrentVote && (
-              <VoteValue
-                accountId={accountId}
-                autoFocus
-                onChange={setBalance}
-              />
-            )}
-            <Dropdown
-              help={t('The conviction to use for this vote, with an appropriate lock period.')}
-              label={t('conviction')}
-              onChange={setConviction}
-              options={convictionOpts}
-              value={conviction}
-            />
-            <VoteToggle
-              onChange={_onChangeVote}
-              value={aye}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteAccount onChange={setAccountId} />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                {isCurrentVote && (
+                  <VoteValue
+                    accountId={accountId}
+                    autoFocus
+                    onChange={setBalance}
+                  />
+                )}
+                <Dropdown
+                  help={t('The conviction to use for this vote, with an appropriate lock period.')}
+                  label={t('conviction')}
+                  onChange={setConviction}
+                  options={convictionOpts}
+                  value={conviction}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The balance associated with the vote will be locked as per the conviction specified nd will not be available for transfer or spend during this period.')}</p>
+                <p>{t('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteToggle
+                  onChange={_onChangeVote}
+                  value={aye}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Register the vote for or against the proposal.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <VoteActions
             accountId={accountId}
