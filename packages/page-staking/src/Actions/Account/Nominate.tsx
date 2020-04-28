@@ -41,9 +41,14 @@ function autoPick (targets: SortedTargets): string[] {
 }
 
 function initialPick (targets: SortedTargets): Selected {
-  return targets.validators?.length
-    ? { isAutoSelect: true, selected: autoPick(targets) }
-    : { isAutoSelect: false, selected: [] };
+  const selected = targets.validators?.length
+    ? autoPick(targets)
+    : [];
+
+  return {
+    isAutoSelect: selected.length !== 0,
+    selected
+  };
 }
 
 function Nominate ({ className, controllerId, next, nominating, onClose, stashId, targets, validators }: Props): React.ReactElement<Props> | null {
@@ -85,58 +90,71 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
     <Modal
       className={`staking--Nominating ${className}`}
       header={t('Nominate Validators')}
+      size='large'
     >
       <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          defaultValue={controllerId}
-          isDisabled
-          label={t('controller account')}
-        />
-        <InputAddress
-          defaultValue={stashId}
-          isDisabled
-          label={t('stash account')}
-        />
-        {isAutoSelect
-          ? (
-            <>
-              <Static
-                label={t('auto-selected targets for nomination')}
-                value={
-                  selected.map((validatorId) => (
-                    <AddressMini
-                      key={validatorId}
-                      value={validatorId}
-                    />
-                  ))
-                }
-              />
-              <article className='warning'>{t('The auto-selection is done on the current profitability of the validators taking your favorites into account. It is adjusted based on the commission and current range of backing for teh validator. The calculation may and will change over time, so it is rather a selection based on the current state of the network, not a predictor of future profitability.')}</article>
-            </>
-          )
-          : (
-            <InputAddressMulti
-              available={available}
-              availableLabel={t('candidate accounts')}
-              defaultValue={nominating}
-              help={t('Filter available candidates based on name, address or short account index.')}
-              maxCount={MAX_NOMINATIONS}
-              onChange={_setSelected}
-              valueLabel={t('nominated accounts')}
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={controllerId}
+              isDisabled
+              label={t('controller account')}
             />
-          )
-        }
-        <Toggle
-          className='auto--toggle'
-          isDisabled={!targets.validators?.length}
-          label={
-            isAutoSelect
-              ? t('Use an automatic selection of the currently most profitable validators')
-              : t('Select targets manually (no auto-selection based on current profitability)')
-          }
-          onChange={_toggleAutoSelect}
-          value={isAutoSelect}
-        />
+            <InputAddress
+              defaultValue={stashId}
+              isDisabled
+              label={t('stash account')}
+            />
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            {isAutoSelect
+              ? (
+                <>
+                  <Static
+                    label={t('auto-selected targets for nomination')}
+                    value={
+                      selected.map((validatorId) => (
+                        <AddressMini
+                          key={validatorId}
+                          value={validatorId}
+                        />
+                      ))
+                    }
+                  />
+                  <article className='warning'>{t('The auto-selection is done on the current profitability of the validators taking your favorites into account. It is adjusted based on the commission and current range of backing for the validator. The calculation may and will change over time, so it is rather a selection based on the current state of the network, not a predictor of future profitability.')}</article>
+                </>
+              )
+              : (
+                <InputAddressMulti
+                  available={available}
+                  availableLabel={t('candidate accounts')}
+                  defaultValue={nominating}
+                  help={t('Filter available candidates based on name, address or short account index.')}
+                  maxCount={MAX_NOMINATIONS}
+                  onChange={_setSelected}
+                  valueLabel={t('nominated accounts')}
+                />
+              )
+            }
+            <Toggle
+              className='auto--toggle'
+              isDisabled={!targets.validators?.length}
+              label={
+                isAutoSelect
+                  ? t('Use an automatic selection of the currently most profitable validators')
+                  : t('Select targets manually (no auto-selection based on current profitability)')
+              }
+              onChange={_toggleAutoSelect}
+              value={isAutoSelect}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Nominators can be selected automatically based on the current on-chain conditions or supplied manually as selected from the list of all currently available validators. In both cases, your favorites appear for the selection.')}</p>
+            <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, then nominations will show as inactive.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
