@@ -17,7 +17,7 @@ interface Props {
   targets: string[];
 }
 
-function Nominate ({ ownNominators, targets }: Props): React.ReactElement<Props> {
+function Nominate ({ className, ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [ids, setIds] = useState<{ controllerId?: string | null; stashId: string } | null>(null);
   const [filter, setFilter] = useState<string[]>([]);
@@ -51,19 +51,11 @@ function Nominate ({ ownNominators, targets }: Props): React.ReactElement<Props>
         onClick={toggleOpen}
       />
       {isOpen && (
-        <Modal header={t('Nominate validators')}>
+        <Modal
+          className={className}
+          header={t('Nominate validators')}
+        >
           <Modal.Content>
-            <Static
-              label={t('selected validators')}
-              value={
-                targets.map((validatorId) => (
-                  <AddressMini
-                    key={validatorId}
-                    value={validatorId}
-                  />
-                ))
-              }
-            />
             <InputAddress
               filter={filter}
               help={t('Your stash account. The transaction will be sent from the associated controller.')}
@@ -76,6 +68,17 @@ function Nominate ({ ownNominators, targets }: Props): React.ReactElement<Props>
               label={t('the associated controller')}
               onChange={_onChangeStash}
               value={ids?.controllerId}
+            />
+            <Static
+              label={t('selected validators')}
+              value={
+                targets.map((validatorId) => (
+                  <AddressMini
+                    key={validatorId}
+                    value={validatorId}
+                  />
+                ))
+              }
             />
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
