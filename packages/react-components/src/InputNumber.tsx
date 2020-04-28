@@ -173,11 +173,16 @@ function InputNumber ({ bitLength = DEFAULT_BITLENGTH, className, defaultValue =
     onChange && onChange(valueBn);
   }, [onChange, valueBn]);
 
-  const _onChange = useCallback(
-    (input: string) => setValues(
+  const _onChangeWithSi = useCallback(
+    (input: string, si: SiDef | null) => setValues(
       getValuesFromString(input, si, bitLength, isZeroable, maxValue)
     ),
-    [bitLength, isZeroable, maxValue, si]
+    [bitLength, isZeroable, maxValue]
+  );
+
+  const _onChange = useCallback(
+    (input: string) => _onChangeWithSi(input, si),
+    [_onChangeWithSi, si]
   );
 
   const _onKeyDown = useCallback(
@@ -221,8 +226,13 @@ function InputNumber ({ bitLength = DEFAULT_BITLENGTH, className, defaultValue =
   );
 
   const _onSelectSiUnit = useCallback(
-    (siUnit: string) => setSi(formatBalance.findSi(siUnit)),
-    []
+    (siUnit: string): void => {
+      const si = formatBalance.findSi(siUnit);
+
+      setSi(si);
+      _onChangeWithSi(value, si);
+    },
+    [_onChangeWithSi, value]
   );
 
   const maxValueLength = getGlobalMaxValue(bitLength).toString().length - 1;
