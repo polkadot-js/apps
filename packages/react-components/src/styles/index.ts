@@ -146,7 +146,7 @@ export default createGlobalStyle<Props>`
 
     &.error,
     &.warning {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
     }

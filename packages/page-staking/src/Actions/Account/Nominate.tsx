@@ -152,7 +152,7 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
           </Modal.Column>
           <Modal.Column>
             <p>{t('Nominators can be selected automatically based on the current on-chain conditions or supplied manually as selected from the list of all currently available validators. In both cases, your favorites appear for the selection.')}</p>
-            <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, then nominations will show as inactive.')}</p>
+            <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
