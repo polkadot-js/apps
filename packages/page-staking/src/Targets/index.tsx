@@ -100,15 +100,17 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
   ], [_sort, labels, sortBy, sortFromMax, t]);
 
   const filter = useMemo(() => (
-    <InputBalance
-      className='balanceInput'
-      help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
-      isFull
-      label={t('amount to use for estimation')}
-      onChange={setCalcWith}
-      value={calcWith}
-    />
-  ), [calcWith, setCalcWith, t]);
+    sorted && (
+      <InputBalance
+        className='balanceInput'
+        help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
+        isFull
+        label={t('amount to use for estimation')}
+        onChange={setCalcWith}
+        value={calcWith}
+      />
+    )
+  ), [calcWith, setCalcWith, sorted, t]);
 
   return (
     <div className={className}>
