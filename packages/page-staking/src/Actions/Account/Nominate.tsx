@@ -28,10 +28,20 @@ interface Selected {
   selected: string[];
 }
 
+function autoPick (targets: SortedTargets): string[] {
+  return (targets.validators || []).filter((_, index) => index < MAX_NOMINATIONS).map(({ key }) => key);
+}
+
+function initialPick (targets: SortedTargets): Selected {
+  return targets.validators?.length
+    ? { isAutoSelect: true, selected: autoPick(targets) }
+    : { isAutoSelect: false, selected: [] };
+}
+
 function Nominate ({ className, controllerId, next, nominating, onClose, stashId, targets, validators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
-  const [{ isAutoSelect, selected }, setSelected] = useState<Selected>({ isAutoSelect: false, selected: [] });
+  const [{ isAutoSelect, selected }, setSelected] = useState<Selected>(initialPick(targets));
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
@@ -57,7 +67,7 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
     (isAutoSelect: boolean) => setSelected(() => ({
       isAutoSelect,
       selected: isAutoSelect
-        ? (targets.validators || []).filter((_, index) => index < MAX_NOMINATIONS).map(({ key }) => key)
+        ? autoPick(targets)
         : []
     })),
     [targets]
@@ -81,17 +91,20 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
         />
         {isAutoSelect
           ? (
-            <Static
-              label={t('auto-selected based on the currently most profitable validators')}
-              value={
-                selected.map((validatorId) => (
-                  <AddressMini
-                    key={validatorId}
-                    value={validatorId}
-                  />
-                ))
-              }
-            />
+            <>
+              <Static
+                label={t('auto-selected targets for nomination')}
+                value={
+                  selected.map((validatorId) => (
+                    <AddressMini
+                      key={validatorId}
+                      value={validatorId}
+                    />
+                  ))
+                }
+              />
+              <article className='warning'>{t('The auto-selection is done on the current profitability of the validators taking your favorites into account. It is adjusted based on the commission and current range of backing for teh validator. The calculation may and will change over time, so it is rather a selection based on the current state of the network, not a predictor of future profitability.')}</article>
+            </>
           )
           : (
             <InputAddressMulti
@@ -107,13 +120,14 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
         }
         <Toggle
           className='auto--toggle'
-          isDsiabled={!targets.validators?.length}
+          isDisabled={!targets.validators?.length}
           label={
             isAutoSelect
               ? t('Use an automatic selection of the currently most profitable validators')
               : t('Select targets manually (no auto-selection based on current profitability)')
           }
           onChange={_toggleAutoSelect}
+          value={isAutoSelect}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
@@ -133,6 +147,10 @@ function Nominate ({ className, controllerId, next, nominating, onClose, stashId
 }
 
 export default React.memo(styled(Nominate)`
+  article.warning {
+    margin-top: 0;
+  }
+
   .auto--toggle {
     margin: 0.5rem 0 0;
     text-align: right;
