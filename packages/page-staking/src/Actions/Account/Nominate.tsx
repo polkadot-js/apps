@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { AddressMini, InputAddressMulti, InputAddress, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
 import { useFavorites } from '@polkadot/react-hooks';
 
-import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
+import { MAX_NOMINATIONS, MAX_PAYOUTS, STORE_FAVS_BASE } from '../../constants';
 import { useTranslation } from '../../translate';
 
 interface Props {
@@ -29,7 +29,15 @@ interface Selected {
 }
 
 function autoPick (targets: SortedTargets): string[] {
-  return (targets.validators || []).filter((_, index) => index < MAX_NOMINATIONS).map(({ key }) => key);
+  return (targets.validators || []).reduce((result: string[], { key, numNominators }): string[] => {
+    if (result.length < MAX_NOMINATIONS) {
+      if (numNominators && (numNominators < MAX_PAYOUTS)) {
+        result.push(key);
+      }
+    }
+
+    return result;
+  }, []);
 }
 
 function initialPick (targets: SortedTargets): Selected {

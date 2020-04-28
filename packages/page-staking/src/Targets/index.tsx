@@ -89,7 +89,7 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
   );
 
   const header = useMemo(() => [
-    [t('validators'), 'start', 3],
+    [t('validators'), 'start', 4],
     ...['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
       `isClickable ${sortBy === header && 'ui--highlight--border'} number`,

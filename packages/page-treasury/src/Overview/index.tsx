@@ -37,8 +37,8 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Summary
-        approvalCount={info?.proposals.length}
-        proposalCount={info?.approvals.length}
+        approvalCount={info?.approvals.length}
+        proposalCount={info?.proposals.length}
       />
       <Button.Group>
         <ProposalCreate />
