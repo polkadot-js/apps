@@ -26,7 +26,7 @@ interface Props extends BareProps {
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
-  value?: BN | string;
+  value?: BN;
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;

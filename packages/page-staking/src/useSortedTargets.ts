@@ -11,10 +11,15 @@ import { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+import { formatBalance } from '@polkadot/util';
 
 import { STORE_FAVS_BASE } from './constants';
 
 const PERBILL = new BN(1_000_000_000);
+
+function baseBalance (): BN {
+  return new BN('1'.padEnd(formatBalance.getDefaults().decimals + 4, '0'));
+}
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
   return (info, index): ValidatorInfo => {
@@ -58,7 +63,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractInfo (allAccounts: string[], amount: BN = new BN(0), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): Partial<SortedTargets> {
+function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): Partial<SortedTargets> {
   const nominators: string[] = [];
   let totalStaked = new BN(0);
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
@@ -134,7 +139,7 @@ export default function useSortedTargets (): SortedTargets {
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], {
     transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
   });
-  const [calcWith, setCalcWith] = useState<BN | undefined>(new BN(1_000));
+  const [calcWith, setCalcWith] = useState<BN | undefined>(baseBalance());
   const calcWithDebounce = useDebounce(calcWith);
   const [state, setState] = useState<SortedTargets>({ setCalcWith, toggleFavorite });
 
