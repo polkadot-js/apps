@@ -467,6 +467,7 @@
   "The signatory to send the approval/cancel from": "",
   "The signature as by the account being checked, supplied as a hex-formatted string.": "",
   "The specified value is greater than your free balance. The node will bond the maximum amount available.": "",
+  "The stash that is to be affected. The transaction will be sent from the associated controller account.": "",
   "The suggested value for this tip": "",
   "The threshold for this multisig": "",
   "The threshold of vouches that is to be reached for the account to be recovered.": "",
