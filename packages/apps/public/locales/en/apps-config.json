@@ -1,5 +1,6 @@
 {
   "lng.detect": "Default browser language (auto-detect)",
+  "rpc.arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
   "rpc.berlin": "Berlin (Edgeware Testnet, hosted by Commonwealth Labs)",
   "rpc.custom": "Custom environment",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
