@@ -46,36 +46,64 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
       {isOpen && (
         <Modal
           header={t('Submit tip request')}
-          size='small'
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              help={t('Select the account you wish to submit the tip from.')}
-              label={t('submit with account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
-            <InputAddress
-              help={t('The account to which the tip will be transferred if approved')}
-              label={t('beneficiary')}
-              onChange={setBeneficiary}
-              type='allPlus'
-            />
-            <Input
-              autoFocus
-              help={t('The reason why this tip should be paid.')}
-              isError={!hasReason}
-              label={t('tip reason')}
-              onChange={setReason}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  help={t('Select the account you wish to submit the tip from.')}
+                  label={t('submit with account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Use this account to request the tip from. This can be a normal or council account.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  help={t('The account to which the tip will be transferred if approved')}
+                  label={t('beneficiary')}
+                  onChange={setBeneficiary}
+                  type='allPlus'
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The beneficiary will received the tip as approved by council members.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  autoFocus
+                  help={t('The reason why this tip should be paid.')}
+                  isError={!hasReason}
+                  label={t('tip reason')}
+                  onChange={setReason}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('A reason (to be stored-on-chain) as to why the recipient deserves a tip payout.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
             {isMember && (
-              <InputBalance
-                help={t('The suggested value for this tip')}
-                isError={!hasValue}
-                label={t('tip value')}
-                onChange={setValue}
-              />
+              <Modal.Columns>
+                <Modal.Column>
+                  <InputBalance
+                    help={t('The suggested value for this tip')}
+                    isError={!hasValue}
+                    label={t('tip value')}
+                    onChange={setValue}
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t('As a council member, you can suggest an initial value for the tip, each other council member can suggest their own.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
             )}
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
