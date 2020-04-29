@@ -58,16 +58,17 @@ export default css`
       opacity: 1;
 
       input {
-        background: transparent;
+        background: #f5f5f5;
         border-color: #eee;
         border-style: dashed;
       }
 
       .ui.primary.buttons .ui.button {
-        background: #eee;
+        background-color: #666;
         border-color: transparent;
         border-left-color: transparent;
-        color: #4e4e4e;
+        color: #f9f9f9;
+        opacity: 0.5;
 
         .dropdown.icon {
           opacity: 0;
