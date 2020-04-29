@@ -27,7 +27,6 @@ function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
     <SUIModal
       {...props}
       className={`theme--default ui--Modal ${className}`}
-      dimmer='inverted'
       header={undefined}
       open={open}
     >

@@ -109,11 +109,12 @@ export default css`
     }
 
     > .header:not(.ui) {
-      background: #f5f5f5;
+      background: #f9f9f9;
+      border-bottom: none;
       font-size: 1.25rem !important;
       font-weight: normal;
       line-height: 1.25rem;
-      padding: 1rem 1.5rem;
+      padding: 1.5rem 1.75rem 0;
 
       > label {
         margin-top: 0.5rem;
@@ -163,6 +164,7 @@ export default css`
 
   /* modals aligned to top, not center */
   .ui.dimmer {
+    background-color: rgba(0,0,0,0.5);
     justify-content: flex-start;
   }
 
