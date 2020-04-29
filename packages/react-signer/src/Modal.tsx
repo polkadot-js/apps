@@ -220,7 +220,6 @@ class Signer extends React.PureComponent<Props, State> {
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
             {!currentItem.isUnsigned && this.renderSignToggle()}
-            <Button.Or />
             <Button
               className='ui--signer-Signer-Submit'
               icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : (isExternal && !isMultisig) ? 'qrcode' : 'sign-in'}

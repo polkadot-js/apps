@@ -162,6 +162,10 @@ export default css`
     opacity: 0.2 !important;
   }
 
+  .ui.button+.ui.button {
+    margin-left: 0.25rem;
+  }
+
   /* modals aligned to top, not center */
   .ui.dimmer {
     background-color: rgba(0,0,0,0.5);

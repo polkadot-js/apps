@@ -35,21 +35,13 @@ function External ({ className, value: { image, imageHash, threshold } }: Props)
       <td className='button'>
         <Button.Group>
           {!image?.proposal && (
-            <PreImageButton
-              imageHash={imageHash}
-              withoutOr
-            />
+            <PreImageButton imageHash={imageHash} />
           )}
           {threshold && (
-            <>
-              {!image?.proposal && (
-                <Button.Or />
-              )}
-              <Fasttrack
-                imageHash={imageHash}
-                threshold={threshold}
-              />
-            </>
+            <Fasttrack
+              imageHash={imageHash}
+              threshold={threshold}
+            />
           )}
         </Button.Group>
       </td>

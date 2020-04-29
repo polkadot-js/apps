@@ -41,12 +41,10 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
           isMember={isMember}
           members={members}
         />
-        <Button.Or />
         <ProposeExternal
           isMember={isMember}
           members={members}
         />
-        <Button.Or />
         <Slashing
           isMember={isMember}
           members={members}

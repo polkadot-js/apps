@@ -34,7 +34,6 @@ function Overview ({ className }: Props): React.ReactElement {
           label={t('Submit preimage')}
           onClick={togglePreimage}
         />
-        <Button.Or />
         <Button
           icon='add'
           label={t('Submit proposal')}

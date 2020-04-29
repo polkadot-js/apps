@@ -199,7 +199,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
         )}
         <Button.Group>
           <ButtonCancel onClick={onClose} />
-          <Button.Or />
           {useRpc
             ? (
               <Button

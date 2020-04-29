@@ -180,7 +180,6 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
           label={t('Reset')}
           onClick={_clearTypes}
         />
-        <Button.Or />
         <Button
           icon='save'
           isDisabled={!isTypesValid || !isJsonValid}
