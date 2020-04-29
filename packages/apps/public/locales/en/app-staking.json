@@ -89,6 +89,7 @@
   "Validate": "Validate",
   "Validator stats": "Validator stats",
   "Waiting": "Waiting",
+  "Waiting nominations ({{count}})": "Waiting nominations ({{count}})",
   "Your stash account. The transaction will be sent from the associated controller.": "Your stash account. The transaction will be sent from the associated controller.",
   "additional bonded funds": "additional bonded funds",
   "amount to use for estimation": "amount to use for estimation",

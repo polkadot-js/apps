@@ -549,6 +549,7 @@
   "Vote on proposal": "",
   "Waiting": "",
   "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": "",
+  "Waiting nominations ({{count}})": "",
   "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.": "",
   "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.": "",
   "Withdraw these unbonded funds": "",
