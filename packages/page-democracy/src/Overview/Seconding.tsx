@@ -36,20 +36,27 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
       {isSecondingOpen && (
         <Modal
           header={t('Second proposal')}
-          size='small'
+          size='large'
         >
           <Modal.Content>
             <ProposedAction
               idNumber={proposalId}
               proposal={image?.proposal}
             />
-            <InputAddress
-              help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
-              label={t('second with account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  help={t('Select the account you wish to second with. This will lock your funds until the proposal is either approved or rejected')}
+                  label={t('second with account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Seconding in a pre-approval that indicates your backing for the proposal. Proposal with greater interest moves up the queue for potential next referendums.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleSeconding}>
             <TxButton
