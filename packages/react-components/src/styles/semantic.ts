@@ -94,6 +94,7 @@ export default css`
 
   .ui.modal {
     background: #f9f9f9;
+    box-shadow: none;
     color: #4e4e4e;
     font-family: sans-serif;
 
