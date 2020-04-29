@@ -14,18 +14,15 @@ function Column ({ children, className }: ColumnProps): React.ReactElement<Colum
 }
 
 export default React.memo(styled(Column)`
+  padding: 0.25em 0;
+
   &:nth-child(1) {
     flex: 100%;
   }
 
   &:nth-child(2) {
-    background: #eee;
-    border-radius: 0.5rem;
     display: none;
     flex: 0%;
-    font-size: 0.95rem;
-    opacity: 0.75;
-    padding: 0.75em 1rem;
   }
 
   @media only screen and (min-width: 1024px) {
@@ -38,7 +35,9 @@ export default React.memo(styled(Column)`
       box-sizing: border-box;
       display: block;
       flex: 0 34%;
-      padding-left: 1rem;
+      font-size: 0.95rem;
+      opacity: 0.75;
+      padding: 0.25em 0.5rem;
     }
   }
 `);

@@ -20,6 +20,6 @@ export default React.memo(styled(Columns)`
   justify-content: space-between;
 
   &+& {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
   }
 `);

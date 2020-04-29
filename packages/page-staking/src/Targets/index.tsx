@@ -127,7 +127,6 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
           label={t('Select best')}
           onClick={_selectProfitable}
         />
-        <Button.Or />
         <Nominate
           ownNominators={ownNominators}
           targets={selected}

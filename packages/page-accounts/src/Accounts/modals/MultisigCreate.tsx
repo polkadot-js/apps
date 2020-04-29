@@ -136,7 +136,6 @@ function Multisig ({ className, onClose, onStatusChange }: Props): React.ReactEl
             label={t('Less')}
             onClick={_onLess}
           />
-          <Button.Or />
           <Button
             icon='plus'
             isDisabled={signatories.length === MAX_SIGNATORIES}

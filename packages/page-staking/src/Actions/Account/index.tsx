@@ -180,7 +180,6 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                         />
                       )
                     }
-                    <Button.Or key='nominate.or' />
                     <Button
                       icon='hand paper outline'
                       isDisabled={!isOwnController || isDisabled}

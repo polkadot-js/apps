@@ -42,7 +42,6 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       />
       <Button.Group>
         <ProposalCreate />
-        <Button.Or />
         <TipCreate
           members={members}
           refresh={triggerHashes}

@@ -51,7 +51,6 @@ function Selection (): React.ReactElement {
           label={t('Submit Unsigned')}
           withSpinner
         />
-        <Button.Or />
         <TxButton
           accountId={accountId}
           extrinsic={extrinsic}

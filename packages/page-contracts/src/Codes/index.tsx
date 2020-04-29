@@ -42,7 +42,6 @@ class Codes extends React.PureComponent<Props, State> {
                 label={t('Upload WASM')}
                 onClick={this.showUpload}
               />
-              <Button.Or />
               <Button
                 icon='add'
                 label={t('Add an existing code hash')}

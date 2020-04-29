@@ -126,10 +126,7 @@ function General ({ className, isModalContent, onClose }: Props): React.ReactEle
       )}
       <Button.Group>
         {isModalContent && (
-          <>
-            <ButtonCancel onClick={onClose} />
-            <Button.Or />
-          </>
+          <ButtonCancel onClick={onClose} />
         )}
         <Button
           icon='save'

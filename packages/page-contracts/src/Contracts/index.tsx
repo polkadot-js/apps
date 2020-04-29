@@ -71,14 +71,11 @@ function Contracts (props: Props): React.ReactElement<Props> {
         buttons={
           <Button.Group>
             {hasCode && (
-              <>
-                <Button
-                  icon='cloud upload'
-                  label={t('Deploy a code hash')}
-                  onClick={showDeploy()}
-                />
-                <Button.Or />
-              </>
+              <Button
+                icon='cloud upload'
+                label={t('Deploy a code hash')}
+                onClick={showDeploy()}
+              />
             )}
             <Button
               icon='add'
