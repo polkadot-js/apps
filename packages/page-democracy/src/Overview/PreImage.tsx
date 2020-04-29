@@ -45,38 +45,61 @@ function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose 
     <Modal
       className={className}
       header={t('Submit preimage')}
+      size='large'
     >
       <Modal.Content>
-        <InputAddress
-          help={t('The account you want to register the preimage from')}
-          label={t('send from account')}
-          labelExtra={
-            <Available
-              label={<span className='label'>{t('transferrable')}</span>}
-              params={accountId}
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              help={t('The account you want to register the preimage from')}
+              label={t('send from account')}
+              labelExtra={
+                <Available
+                  label={<span className='label'>{t('transferrable')}</span>}
+                  params={accountId}
+                />
+              }
+              onChange={setAccountId}
+              type='account'
             />
-          }
-          onChange={setAccountId}
-          type='account'
-        />
-        <Extrinsic
-          defaultValue={apiDefaultTxSudo}
-          label={t('propose')}
-          onChange={setProposal}
-        />
-        <Input
-          help={t('The hash of the selected proposal, use it for submitting the proposal')}
-          isDisabled
-          isDisabledError={!isMatched}
-          label={t('preimage hash')}
-          value={encodedHash}
-        />
-        <Toggle
-          className='toggleImminent'
-          label={t('imminent preimage (proposal already passed)')}
-          onChange={setIsImminent}
-          value={isImminent}
-        />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('This account will pay the fees for the preimage, based on the size thereof.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Extrinsic
+              defaultValue={apiDefaultTxSudo}
+              label={t('propose')}
+              onChange={setProposal}
+            />
+            <Input
+              help={t('The hash of the selected proposal, use it for submitting the proposal')}
+              isDisabled
+              isDisabledError={!isMatched}
+              label={t('preimage hash')}
+              value={encodedHash}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Toggle
+              className='toggleImminent'
+              label={t('imminent preimage (proposal already passed)')}
+              onChange={setIsImminent}
+              value={isImminent}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Only applicable if the proposal has already passed and is ready for dispatch.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
