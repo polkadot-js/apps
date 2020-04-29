@@ -14,7 +14,7 @@ import { useTranslation } from '../translate';
 import InputValidateAmount from './Account/InputValidateAmount';
 import InputValidationController from './Account/InputValidationController';
 import { rewardDestinationOptions } from './constants';
-import useBondBlocks from './useBondBlocks';
+import useUnbondDuration from './useUnbondDuration';
 
 interface Props {
   className?: string;
@@ -32,7 +32,7 @@ function NewStake ({ className, isInElection }: Props): React.ReactElement<Props
   const [destination, setDestination] = useState(0);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [stashId, setStashId] = useState<string | null>(null);
-  const bondedBlocks = useBondBlocks();
+  const bondedBlocks = useUnbondDuration();
 
   useEffect((): void => {
     setExtrinsic(
@@ -104,7 +104,7 @@ function NewStake ({ className, isInElection }: Props): React.ReactElement<Props
                   }
                   onChange={setAmount}
                 />
-                {bondedBlocks && (
+                {bondedBlocks?.gtn(0) && (
                   <Static
                     help={t('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
                     label={t('on-chain bonding duration')}
