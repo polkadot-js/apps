@@ -330,8 +330,7 @@ class Signer extends React.PureComponent<Props, State> {
           />
         </Modal.Column>
         <Modal.Column>
-          <p>{t('For multisig accounts, the signatory is one of the allowed accounts on the multisig.')}</p>
-          <p>{t('The generated transaction could either be a multi message or an approval for the hash of a message.')}</p>
+          <p>{t('The signatory is one of the allowed accounts on the multisig. The transaction could either be the call or an approval for the hash of a call.')}</p>
         </Modal.Column>
       </Modal.Columns>
     );
@@ -469,7 +468,6 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderUnlock (): React.ReactNode {
-    const { t } = this.props;
     const { currentItem, isSendable, password, signatory, unlockError } = this.state;
     const { isExternal, isMultisig } = currentItem
       ? extractExternal(currentItem.accountId)
@@ -480,22 +478,15 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Modal.Columns>
-        <Modal.Column>
-          <Unlock
-            autoFocus
-            error={unlockError || undefined}
-            onChange={this.onChangePassword}
-            onEnter={this.onSend}
-            password={password}
-            tabIndex={1}
-            value={isMultisig ? signatory : currentItem.accountId}
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t('Unlock the sending account to allow signing of this transaction.')}</p>
-        </Modal.Column>
-      </Modal.Columns>
+      <Unlock
+        autoFocus
+        error={unlockError || undefined}
+        onChange={this.onChangePassword}
+        onEnter={this.onSend}
+        password={password}
+        tabIndex={1}
+        value={isMultisig ? signatory : currentItem.accountId}
+      />
     );
   }
 
