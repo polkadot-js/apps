@@ -154,10 +154,10 @@ console.log(api.query.system.account.key(ALICE));
 console.log(api.query.system.account.keyPrefix());
 
 // show the key for a double map
-console.log(api.query.staking.eraStakers.key(0, ALICE));
+console.log(api.query.staking.erasStakers.key(0, ALICE));
 
 // show the key prefix for a doublemap
-console.log(api.query.staking.eraStakers.keyPrefix());
+console.log(api.query.staking.erasStakers.keyPrefix());
 `,
   label,
   text: 'Get underlying storage key hex values',
