@@ -188,6 +188,7 @@ class Signer extends React.PureComponent<Props, State> {
       <Modal
         className={`ui--signer-Signer ${className}`}
         header={t('Authorize transaction')}
+        size='large'
       >
         <ErrorBoundary onError={this.onRenderError}>{this.renderContent()}</ErrorBoundary>
         {this.renderButtons()}
@@ -219,7 +220,6 @@ class Signer extends React.PureComponent<Props, State> {
       >
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
-            {!currentItem.isUnsigned && this.renderSignToggle()}
             <Button
               className='ui--signer-Signer-Submit'
               icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : (isExternal && !isMultisig) ? 'qrcode' : 'sign-in'}
@@ -243,6 +243,7 @@ class Signer extends React.PureComponent<Props, State> {
               onClick={isQrVisible ? this.activateQrScanning : this.onSend}
               tabIndex={2}
             />
+            {!currentItem.isUnsigned && this.renderSignToggle()}
           </>
         )}
       </Modal.Actions>
@@ -250,6 +251,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
+    const { t } = this.props;
     const { currentItem, isQrScanning, isQrVisible, isSendable, isSubmit, qrAddress, qrPayload, tip } = this.state;
 
     if (!currentItem) {
@@ -266,12 +268,22 @@ class Signer extends React.PureComponent<Props, State> {
       >
         {isQrVisible
           ? (
-            <Qr
-              address={qrAddress}
-              isScanning={isQrScanning}
-              onSignature={this.addQrSignature}
-              payload={qrPayload}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <Qr
+                  address={qrAddress}
+                  isScanning={isQrScanning}
+                  onSignature={this.addQrSignature}
+                  payload={qrPayload}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                {isQrScanning
+                  ? <p>{t('Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.')}</p>
+                  : <p>{t('Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.')}</p>
+                }
+              </Modal.Column>
+            </Modal.Columns>
           )
           : (
             <>
@@ -297,25 +309,30 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <>
-        <InputAddress
-          filter={who}
-          help={t('The multisig signatory for this transaction.')}
-          label={t('signatory')}
-          onChange={this.onChangeSignatory}
-          type='account'
-        />
-        <Toggle
-          className='tipToggle'
-          label={
-            multiApproval
-              ? t('Multisig approval with hash (not message with call)')
-              : t('Multisig message with call (not approval with hash)')
-          }
-          onChange={this.onToggleMultiApproval}
-          value={multiApproval}
-        />
-      </>
+      <Modal.Columns>
+        <Modal.Column>
+          <InputAddress
+            filter={who}
+            help={t('The multisig signatory for this transaction.')}
+            label={t('signatory')}
+            onChange={this.onChangeSignatory}
+            type='account'
+          />
+          <Toggle
+            className='tipToggle'
+            label={
+              multiApproval
+                ? t('Multisig approval with hash (not message with call)')
+                : t('Multisig message with call (not approval with hash)')
+            }
+            onChange={this.onToggleMultiApproval}
+            value={multiApproval}
+          />
+        </Modal.Column>
+        <Modal.Column>
+          <p>{t('The signatory is one of the allowed accounts on the multisig. The transaction could either be the call or an approval for the hash of a call.')}</p>
+        </Modal.Column>
+      </Modal.Columns>
     );
   }
 
@@ -328,29 +345,34 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <>
-        <Toggle
-          className='tipToggle'
-          isDisabled={!!signedTx}
-          label={
-            showTip
-              ? t('Include an optional tip for faster processing')
-              : t('Do not include a tip for the block author')
-          }
-          onChange={this.onShowTip}
-          value={showTip}
-        />
-        {showTip && (
-          <InputBalance
-            defaultValue={new BN(0)}
-            help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
+      <Modal.Columns>
+        <Modal.Column>
+          <Toggle
+            className='tipToggle'
             isDisabled={!!signedTx}
-            isZeroable
-            label={t('Tip (optional)')}
-            onChange={this.onChangeTip}
+            label={
+              showTip
+                ? t('Include an optional tip for faster processing')
+                : t('Do not include a tip for the block author')
+            }
+            onChange={this.onShowTip}
+            value={showTip}
           />
-        )}
-      </>
+          {showTip && (
+            <InputBalance
+              defaultValue={new BN(0)}
+              help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
+              isDisabled={!!signedTx}
+              isZeroable
+              label={t('Tip (optional)')}
+              onChange={this.onChangeTip}
+            />
+          )}
+        </Modal.Column>
+        <Modal.Column>
+          <p>{t('Adding an optional tip to the transaction could allow for higher priority, especially when the chain is busy.')}</p>
+        </Modal.Column>
+      </Modal.Columns>
     );
   }
 
@@ -383,23 +405,29 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <br />
-        <InputNumber
-          isDisabled={!!signedTx}
-          isZeroable
-          label={t('Nonce')}
-          labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce } })}
-          onChange={this.onChangeNonce}
-          value={accountNonce}
-        />
-        <InputNumber
-          isDisabled={!!signedTx}
-          isZeroable
-          label={t('Lifetime (# of blocks)')}
-          labelExtra={t('Set to 0 to make transaction immortal')}
-          onChange={this.onChangeBlocks}
-          value={blocks}
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <InputNumber
+              isDisabled={!!signedTx}
+              isZeroable
+              label={t('Nonce')}
+              labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce } })}
+              onChange={this.onChangeNonce}
+              value={accountNonce}
+            />
+            <InputNumber
+              isDisabled={!!signedTx}
+              isZeroable
+              label={t('Lifetime (# of blocks)')}
+              labelExtra={t('Set to 0 to make transaction immortal')}
+              onChange={this.onChangeBlocks}
+              value={blocks}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
         {!!signedTx && (
           <Output
             label={t('Signed transaction')}
