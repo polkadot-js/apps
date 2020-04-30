@@ -7,7 +7,7 @@ import { Snippet } from './../types';
 import { constsStakingParameters } from './consts-examples';
 import { extrinsicMakeTransfer } from './extrinsics-examples';
 import { rpcNetworkAuthoring, rpcNewHead, rpcQueryState, rpcSysthemInfo } from './rpc-examples';
-import { storageGetInfo, storageSystemEvents, storageListenToBalanceChange, storageListenToMultipleBalancesChange, storageRetrieveInfoOnQueryKeys } from './storage-examples';
+import { storageGetInfo, storageSystemEvents, storageKeys, storageListenToBalanceChange, storageListenToMultipleBalancesChange, storageRetrieveInfoOnQueryKeys } from './storage-examples';
 
 const snippets: Snippet[] = [
   rpcNetworkAuthoring,
@@ -19,6 +19,7 @@ const snippets: Snippet[] = [
   storageListenToBalanceChange,
   storageListenToMultipleBalancesChange,
   storageRetrieveInfoOnQueryKeys,
+  storageKeys,
   constsStakingParameters,
   extrinsicMakeTransfer
 ];
