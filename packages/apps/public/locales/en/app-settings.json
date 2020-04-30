@@ -25,6 +25,7 @@
   "Save & Reload": "Save & Reload",
   "Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.": "Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.",
   "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle": "Select the remote endpoint, either from the dropdown on manual entered via the custom toggle",
+  "The RPC node can be selected from the pre-defined list or manually entered, depending on the chain you wish to connect to.": "The RPC node can be selected from the pre-defined list or manually entered, depending on the chain you wish to connect to.",
   "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"",
   "This is not a valid JSON object.": "This is not a valid JSON object.",
   "Unit": "Unit",
