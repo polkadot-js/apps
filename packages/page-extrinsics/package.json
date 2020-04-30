@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-extrinsics",
   "private": true,
-  "version": "0.42.0-beta.61",
+  "version": "0.42.0-beta.62",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -12,8 +12,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.9.6",
-    "@polkadot/react-components": "0.42.0-beta.61",
-    "@polkadot/react-params": "0.42.0-beta.61",
-    "@polkadot/react-signer": "0.42.0-beta.61"
+    "@polkadot/react-components": "0.42.0-beta.62",
+    "@polkadot/react-params": "0.42.0-beta.62",
+    "@polkadot/react-signer": "0.42.0-beta.62"
   }
 }
