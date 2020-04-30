@@ -8,6 +8,6 @@ import createMemo from 'memoizee';
 // eslint-disable-next-line @typescript-eslint/unbound-method
 const normalizer = JSON.stringify;
 
-export default function memo <T extends Function> (inner: T): T {
+export default function memo <T extends (...args: any[]) => any> (inner: T): T {
   return createMemo(inner, { normalizer });
 }

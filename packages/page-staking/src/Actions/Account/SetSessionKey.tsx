@@ -10,11 +10,12 @@ import { useTranslation } from '../../translate';
 interface Props {
   controllerId: string;
   onClose: () => void;
+  stashId: string;
 }
 
 const EMPTY_PROOF = new Uint8Array();
 
-function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Props> | null {
+function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [keys, setKeys] = useState<string | null>(null);
 
@@ -22,23 +23,41 @@ function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Pr
     <Modal
       className='staking--SetSessionAccount'
       header={t('Set Session Key')}
-      size='small'
+      size='large'
     >
       <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          defaultValue={controllerId}
-          isDisabled
-          label={t('controller account')}
-        />
-        <Input
-          autoFocus
-          className='medium'
-          help={t('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
-          isError={!keys}
-          label={t('Keys from rotateKeys')}
-          onChange={setKeys}
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={stashId}
+              isDisabled
+              label={t('stash account')}
+            />
+            <InputAddress
+              className='medium'
+              defaultValue={controllerId}
+              isDisabled
+              label={t('controller account')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Input
+              autoFocus
+              help={t('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
+              isError={!keys}
+              label={t('Keys from rotateKeys')}
+              onChange={setKeys}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton

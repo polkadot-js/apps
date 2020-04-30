@@ -11,7 +11,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.9.2",
-    "@polkadot/api-contract": "^1.12.0-beta.13"
+    "@babel/runtime": "^7.9.6",
+    "@polkadot/api-contract": "^1.13.0-beta.2"
   }
 }

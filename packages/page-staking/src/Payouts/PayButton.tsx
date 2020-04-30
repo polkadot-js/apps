@@ -59,36 +59,53 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
   return (
     <>
       {payout && isVisible && (
-        <Modal header={t('Payout all stakers')}>
+        <Modal
+          header={t('Payout all stakers')}
+          size='large'
+        >
           <Modal.Content>
-            {Array.isArray(payout)
-              ? (
-                <Static
-                  label={t('payout stakers for (multiple)')}
-                  value={
-                    payout.map(({ validatorId }) => (
-                      <AddressMini
-                        key={validatorId}
-                        value={validatorId}
-                      />
-                    ))
-                  }
-                />
-              )
-              : (
+            <Modal.Columns>
+              <Modal.Column>
                 <InputAddress
-                  defaultValue={payout.validatorId}
-                  isDisabled
-                  label={t('payout stakers for (single)')}
+                  label={t('request payout from')}
+                  onChange={setAccount}
+                  type='account'
+                  value={accountId}
                 />
-              )
-            }
-            <InputAddress
-              label={t('request payout from')}
-              onChange={setAccount}
-              type='account'
-              value={accountId}
-            />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                {Array.isArray(payout)
+                  ? (
+                    <Static
+                      label={t('payout stakers for (multiple)')}
+                      value={
+                        payout.map(({ validatorId }) => (
+                          <AddressMini
+                            key={validatorId}
+                            value={validatorId}
+                          />
+                        ))
+                      }
+                    />
+                  )
+                  : (
+                    <InputAddress
+                      defaultValue={payout.validatorId}
+                      isDisabled
+                      label={t('payout stakers for (single)')}
+                    />
+                  )
+                }
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('All the listed validators and all their nominators will receive their rewards.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={togglePayout}>
             <TxButton
@@ -103,7 +120,7 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
         </Modal>
       )}
       <Button
-        icon='percent'
+        icon='credit card outline'
         isDisabled={isDisabled || isPayoutEmpty}
         label={(isAll || Array.isArray(payout)) ? t('Payout all') : t('Payout')}
         onClick={togglePayout}

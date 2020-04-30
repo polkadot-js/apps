@@ -92,6 +92,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
           <SetSessionKey
             controllerId={controllerId}
             onClose={toggleSetSession}
+            stashId={stashId}
           />
         )}
         {isUnbondOpen && (

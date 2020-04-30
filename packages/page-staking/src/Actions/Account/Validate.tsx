@@ -31,29 +31,40 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
     <Modal
       className='staking--Staking'
       header={t('Set validator preferences')}
-      size='small'
+      size='large'
     >
       <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          defaultValue={stashId}
-          isDisabled
-          label={t('stash account')}
-        />
-        <InputAddress
-          className='medium'
-          defaultValue={controllerId}
-          isDisabled
-          label={t('controller account')}
-        />
-        <InputNumber
-          className='medium'
-          help={t('The percentage reward (0-100) that should be applied for the validator')}
-          isZeroable
-          label={t('reward commission percentage')}
-          maxValue={MAX_COMM}
-          onChange={_setCommission}
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={stashId}
+              isDisabled
+              label={t('stash account')}
+            />
+            <InputAddress
+              defaultValue={controllerId}
+              isDisabled
+              label={t('controller account')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The stash and controller pair. This transaction, managing preferences, will be sent from the controller.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputNumber
+              help={t('The percentage reward (0-100) that should be applied for the validator')}
+              isZeroable
+              label={t('reward commission percentage')}
+              maxValue={MAX_COMM}
+              onChange={_setCommission}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
