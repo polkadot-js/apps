@@ -15,12 +15,13 @@ import Voting from './Voting';
 interface Props {
   className?: string;
   isMember: boolean;
-  proposal: DeriveTreasuryProposal;
+  members: string[];
   onRespond: () => void;
+  proposal: DeriveTreasuryProposal;
   withSend: boolean;
 }
 
-function ProposalDisplay ({ className, isMember, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
+function ProposalDisplay ({ className, isMember, members, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
   return (
     <tr className={className}>
       <td className='number'>
@@ -45,10 +46,12 @@ function ProposalDisplay ({ className, isMember, proposal: { council, id, propos
               councilProposals={council}
               id={id}
               isDisabled={!isMember}
+              members={members}
             />
             <Voting
               councilProposals={council}
               isDisabled={!isMember}
+              members={members}
             />
           </>
         )}

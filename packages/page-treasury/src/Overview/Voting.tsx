@@ -15,6 +15,7 @@ import { useTranslation } from '../translate';
 interface Props {
   councilProposals: DeriveCollectiveProposal[];
   isDisabled?: boolean;
+  members: string[];
 }
 
 interface Option {
