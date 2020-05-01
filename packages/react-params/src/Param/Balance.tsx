@@ -14,11 +14,10 @@ function Balance ({ className, defaultValue: { value }, isDisabled, isError, lab
   const [defaultValue] = useState(new BN((value as BN || '0').toString()).toString(10));
 
   const _onChange = useCallback(
-    (value?: BN): void =>
-      onChange && onChange({
-        isValid: !isError && !!value,
-        value
-      }),
+    (value?: BN) => onChange && onChange({
+      isValid: !isError && !!value,
+      value
+    }),
     [isError, onChange]
   );
 
