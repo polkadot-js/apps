@@ -185,9 +185,9 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, className, def
     [_onChangeWithSi, si]
   );
 
-  useEffect((): void => {
-    defaultValue && _onChange(defaultValue);
-  }, [_onChange, defaultValue]);
+  // useEffect((): void => {
+  //   defaultValue && _onChange(defaultValue);
+  // }, [_onChange, defaultValue]);
 
   const _onKeyDown = useCallback(
     (event: React.KeyboardEvent<Element>): void => {
