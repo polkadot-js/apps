@@ -10,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -36,7 +35,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const hasRpc = callContract?.hasRpcContractsCall;
   const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
-  const { api } = useApi();
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
   const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
@@ -220,7 +218,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 onFailed={_toggleBusy}
                 onSuccess={_toggleBusy}
                 params={_constructTx}
-                tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+                tx='contracts.call'
                 withSpinner
               />
             )

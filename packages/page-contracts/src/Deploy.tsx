@@ -237,11 +237,9 @@ class Deploy extends ContractModal<Props, State> {
         onSuccess={this.onSuccess}
         params={this.constructCall}
         tx={
-          api.tx.contracts
-            ? api.tx.contracts.instantiate
-              ? 'contracts.instantiate' // V2 (new)
-              : 'contracts.create' // V2 (old)
-            : 'contract.create' // V1
+          api.tx.contracts.instantiate
+            ? 'contracts.instantiate' // V2 (new)
+            : 'contracts.create' // V2 (old)
         }
         withSpinner
       />
@@ -290,8 +288,7 @@ class Deploy extends ContractModal<Props, State> {
   private onSuccess = (result: SubmittableResult): void => {
     const { api, history } = this.props;
 
-    const section = api.tx.contracts ? 'contracts' : 'contract';
-    const records = result.filterRecords(section, 'Instantiated');
+    const records = result.filterRecords('contracts', 'Instantiated');
 
     if (records.length) {
       // find the last EventRecord (in the case of multiple contracts deployed - we should really be
