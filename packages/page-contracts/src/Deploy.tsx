@@ -22,7 +22,7 @@ import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
-import { ENDOWMENT, GAS_LIMIT } from './constants';
+import { ENDOWMENT, DEFAULT_GAS_LIMIT } from './constants';
 
 type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
@@ -53,7 +53,7 @@ class Deploy extends ContractModal<Props, State> {
       constructOptions: [],
       constructorIndex: -1,
       endowment: new BN(ENDOWMENT),
-      gasLimit: new BN(GAS_LIMIT),
+      gasLimit: new BN(DEFAULT_GAS_LIMIT),
       isHashValid: false,
       params: [],
       ...Deploy.getCodeState(props.codeHash)

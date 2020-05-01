@@ -39,10 +39,17 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
           size='large'
         >
           <Modal.Content>
-            <ProposedAction
-              idNumber={proposalId}
-              proposal={image?.proposal}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <ProposedAction
+                  idNumber={proposalId}
+                  proposal={image?.proposal}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The proposal is in the queue for future referendums. One proposal from this list will move forward to voting.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
@@ -54,7 +61,7 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('Seconding in a pre-approval that indicates your backing for the proposal. Proposal with greater interest moves up the queue for potential next referendums.')}</p>
+                <p>{t('Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
