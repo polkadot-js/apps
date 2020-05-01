@@ -15,10 +15,11 @@ interface Props {
   className?: string;
   isApprovals?: boolean;
   isMember: boolean;
+  members: string[];
   proposals?: DeriveTreasuryProposal[];
 }
 
-function ProposalsBase ({ className, isApprovals, isMember, proposals }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ className, isApprovals, isMember, members, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -47,6 +48,7 @@ function ProposalsBase ({ className, isApprovals, isMember, proposals }: Props):
         <Proposal
           isMember={isMember}
           key={proposal.id.toString()}
+          members={members}
           onRespond={_onRespond}
           proposal={proposal}
           withSend={!isApprovals}

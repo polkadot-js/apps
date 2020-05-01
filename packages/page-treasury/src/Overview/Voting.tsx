@@ -15,6 +15,7 @@ import { useTranslation } from '../translate';
 interface Props {
   councilProposals: DeriveCollectiveProposal[];
   isDisabled?: boolean;
+  members: string[];
 }
 
 interface Option {
@@ -22,7 +23,7 @@ interface Option {
   value: number;
 }
 
-function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Props> | null {
+function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { api } = useApi();
@@ -82,24 +83,42 @@ function Voting ({ councilProposals, isDisabled }: Props): React.ReactElement<Pr
           size='small'
         >
           <Modal.Content>
-            <VoteAccount onChange={setAccountId} />
-            <Dropdown
-              help={t('The council proposal to make the vote on')}
-              label={t('council proposal')}
-              onChange={_onChangeProposal}
-              options={councilOpts}
-              value={councilOptId}
-            />
-            <Input
-              help={t('The hash for the proposal this vote applies to')}
-              isDisabled
-              label={t('proposal hash')}
-              value={councilHash}
-            />
-            <VoteToggle
-              onChange={_onChangeVote}
-              value={voteValue}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteAccount
+                  filter={members}
+                  onChange={setAccountId}
+                />
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Dropdown
+                  help={t('The council proposal to make the vote on')}
+                  label={t('council proposal')}
+                  onChange={_onChangeProposal}
+                  options={councilOpts}
+                  value={councilOptId}
+                />
+                <Input
+                  help={t('The hash for the proposal this vote applies to')}
+                  isDisabled
+                  label={t('proposal hash')}
+                  value={councilHash}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Multiple council proposals could exist, both approval and rejection. Apply your vote to the correct council proposal (also available on council motions page)')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteToggle
+                  onChange={_onChangeVote}
+                  value={voteValue}
+                />
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <VoteActions
             accountId={accountId}

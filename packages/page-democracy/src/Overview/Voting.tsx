@@ -73,10 +73,17 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
           size='large'
         >
           <Modal.Content>
-            <ProposedAction
-              idNumber={referendumId}
-              proposal={proposal}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <ProposedAction
+                  idNumber={referendumId}
+                  proposal={proposal}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The referendum info that is voted upon. If passed, the changed will be applied via dispatch and the deposit returned.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <VoteAccount onChange={setAccountId} />

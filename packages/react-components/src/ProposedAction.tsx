@@ -27,7 +27,7 @@ interface Props {
 }
 
 export const styles = `
-  margin-bottom: 1rem;
+  margin-left: 2rem;
 
   .ui--ProposedAction-extrinsic {
     .ui--Params-Content {
