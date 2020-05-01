@@ -21,27 +21,33 @@ interface Props extends ContractModalProps, ApiProps {}
 
 interface State extends ContractModalState {
   gasLimit: BN;
+  isGasLimit: boolean;
   isWasmValid: boolean;
   wasm?: Uint8Array | null;
 }
+
+const WASM_MAGIC = '0,97,115,109'; // '\0asm'
 
 class Upload extends ContractModal<Props, State> {
   constructor (props: Props) {
     super(props);
 
+    const { api, t } = this.props;
+
     this.defaultState = {
       ...this.defaultState,
       gasLimit: new BN(GAS_LIMIT),
+      isGasLimit: api.tx.contracts.putCode.meta.args.length === 2,
       isWasmValid: false,
       wasm: null
     };
     this.state = this.defaultState;
-    this.headerText = props.t('Upload WASM');
+    this.headerText = t('Upload WASM');
   }
 
   protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
-    const { isBusy, isWasmValid, wasm } = this.state;
+    const { isBusy, isGasLimit, isWasmValid, wasm } = this.state;
 
     return (
       <>
@@ -60,15 +66,15 @@ class Upload extends ContractModal<Props, State> {
         />
         {this.renderInputName()}
         {this.renderInputAbi()}
-        {this.renderInputGas()}
+        {isGasLimit && this.renderInputGas()}
       </>
     );
   }
 
   protected renderButtons = (): React.ReactNode => {
-    const { api, t } = this.props;
-    const { accountId, gasLimit, isBusy, isNameValid, isWasmValid, wasm } = this.state;
-    const isValid = !isBusy && accountId && isNameValid && isWasmValid && !gasLimit.isZero() && !!accountId;
+    const { t } = this.props;
+    const { accountId, gasLimit, isBusy, isGasLimit, isNameValid, isWasmValid, wasm } = this.state;
+    const isValid = !isBusy && !!accountId && isNameValid && isWasmValid && (isGasLimit || !gasLimit.isZero());
 
     return (
       <TxButton
@@ -80,8 +86,12 @@ class Upload extends ContractModal<Props, State> {
         onClick={this.toggleBusy(true)}
         onFailed={this.toggleBusy(false)}
         onSuccess={this.onSuccess}
-        params={[gasLimit, wasm]}
-        tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
+        params={
+          isGasLimit
+            ? [gasLimit, wasm]
+            : [wasm]
+        }
+        tx='contracts.putCode'
         withSpinner
       />
     );
@@ -89,18 +99,15 @@ class Upload extends ContractModal<Props, State> {
 
   private onAddWasm = (wasm: Uint8Array, name: string): void => {
     this.setState({
-      isWasmValid: wasm.subarray(0, 4).toString() === '0,97,115,109', // '\0asm'
+      isWasmValid: wasm.subarray(0, 4).toString() === WASM_MAGIC,
       wasm: compactAddLength(wasm)
     });
     this.onChangeName(name);
   }
 
   private onSuccess = (result: SubmittableResult): void => {
-    const { api } = this.props;
-
     this.setState(({ abi, name, tags }): Pick<State, never> | null => {
-      const section = api.tx.contracts ? 'contracts' : 'contract';
-      const record = result.findRecord(section, 'CodeStored');
+      const record = result.findRecord('contracts', 'CodeStored');
 
       if (record) {
         const codeHash = record.event.data[0];
