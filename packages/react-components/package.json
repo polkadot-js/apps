@@ -21,7 +21,7 @@
     "codeflask": "^1.4.1",
     "i18next": "^19.4.4",
     "i18next-browser-languagedetector": "^4.1.1",
-    "i18next-xhr-backend": "^3.2.2",
+    "i18next-http-backend": "^1.0.7",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-chartjs-2": "^2.9.0",

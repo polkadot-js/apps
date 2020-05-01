@@ -4,7 +4,7 @@
 
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-xhr-backend';
+import HttpApi from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
@@ -23,12 +23,12 @@ languageDetector.addDetector({
 });
 
 i18n
-  .use(Backend)
   .use(languageDetector)
   .use(initReactI18next)
+  .use(HttpApi)
   .init({
     backend: {
-      loadPath: 'locales/{{lng}}/{{ns}}.json'
+      loadPath: 'locales/{{lng}}/translation.json'
     },
     debug: false,
     detection: {
@@ -40,41 +40,13 @@ i18n
     },
     keySeparator: false,
     load: 'languageOnly',
-    ns: [
-      'app-123code',
-      'app-accounts',
-      'app-claims',
-      'app-contracts',
-      'app-council',
-      'app-dashboard',
-      'app-democracy',
-      'app-explorer',
-      'app-extrinsics',
-      'app-generic-asset',
-      'app-js',
-      'app-parachains',
-      'app-settings',
-      'app-society',
-      'app-staking',
-      'app-storage',
-      'app-sudo',
-      'app-tech-comm',
-      'app-toolbox',
-      'app-treasury',
-      'apps',
-      'apps-config',
-      'apps-routing',
-      'react-api',
-      'react-components',
-      'react-hooks',
-      'react-params',
-      'react-query',
-      'react-signer'
-    ],
+    ns: ['translation'],
     nsSeparator: false,
     react: {
       wait: true
-    }
+    },
+    returnEmptyString: false,
+    returnNull: false
   })
   .catch((error: Error): void =>
     console.log('i18n: failure', error)
