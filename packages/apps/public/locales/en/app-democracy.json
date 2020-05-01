@@ -35,6 +35,7 @@
   "The minimum deposit required": "The minimum deposit required",
   "The preimage hash of the proposal": "The preimage hash of the proposal",
   "The proposal will be registered from this account and the balance lock will be applied here.": "The proposal will be registered from this account and the balance lock will be applied here.",
+  "The referendum info that is voted upon. If passed, the changed will be applied via dispatch and the deposit returned.": "The referendum info that is voted upon. If passed, the changed will be applied via dispatch and the deposit returned.",
   "The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.": "The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.",
   "The voting period to apply in blocks": "The voting period to apply in blocks",
   "This account will pay the fees for the preimage, based on the size thereof.": "This account will pay the fees for the preimage, based on the size thereof.",
