@@ -9,9 +9,10 @@ import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag, Transfer } from '@polkadot/react-components';
+import { AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
+import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 import Flags from './Flags';
 import RegistrarJudgement from './RegistrarJudgement';
