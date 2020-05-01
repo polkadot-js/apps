@@ -51,7 +51,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
     <>
       {isOpen && (
         <Modal
-          header={t('To council')}
+          header={t('Send to council')}
           size='large'
         >
           <Modal.Content>
@@ -105,7 +105,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
         </Modal>
       )}
       <Button
-        icon='chevron right'
+        icon='sort'
         isDisabled={isDisabled}
         label={t('To council')}
         onClick={toggleOpen}
