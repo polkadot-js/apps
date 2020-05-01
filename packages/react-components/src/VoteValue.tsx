@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
-import { formatBalance, isBn } from '@polkadot/util';
+import { isBn } from '@polkadot/util';
 
 import InputBalance from './InputBalance';
 import { useTranslation } from './translate';
@@ -21,7 +21,7 @@ interface Props {
 
 interface ValueState {
   selectedId?: string | null;
-  value?: BN | string;
+  value?: BN;
 }
 
 function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactElement<Props> | null {
@@ -30,25 +30,12 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
 
-  // TODO This may be useful elsewhere, so figure out a way to make this a utility
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
-    if (accountId !== selectedId && allBalances?.accountId.eq(accountId)) {
-      // format, removing ',' separators
-      const formatted = formatBalance(allBalances.lockedBalance, { forceUnit: '-', withSi: false }).replace(',', '');
-      // format the balance
-      //   - if > 0 just take the significant portion
-      //   - if == 0, just display 0
-      //   - if < 0, display the 3 decimal formatted value
-      const value = allBalances.lockedBalance.gtn(0)
-        ? formatted.split('.')[0]
-        : allBalances.lockedBalance.eqn(0)
-          ? '0'
-          : formatted;
-
-      // set both the selected id (for future checks) and the formatted value
-      setValue({ selectedId: accountId, value });
-    }
+    (accountId !== selectedId) && allBalances?.accountId.eq(accountId) && setValue({
+      selectedId: accountId,
+      value: allBalances.lockedBalance
+    });
   }, [accountId, selectedId, allBalances]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
@@ -57,14 +44,18 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
   }, [onChange, value]);
 
   const _setValue = useCallback(
-    (value?: BN): void => setValue({ selectedId, value }),
-    [selectedId]
+    (value?: BN) => setValue(({ selectedId }) => ({ selectedId, value })),
+    []
   );
+
+  const isDisabled = accountId !== selectedId;
 
   return (
     <InputBalance
       autoFocus={autoFocus}
+      defaultValue={accountId !== selectedId ? undefined : allBalances?.lockedBalance}
       help={t('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
+      isDisabled={isDisabled}
       isZeroable
       label={t('vote value')}
       labelExtra={
@@ -75,7 +66,6 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
       }
       maxValue={allBalances?.votingBalance}
       onChange={_setValue}
-      value={value}
     />
   );
 }

@@ -20,14 +20,22 @@ function SubmitCandidacy (): React.ReactElement {
         <Modal
           header={t('Submit your council candidacy')}
           onClose={onClose}
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              help={t('Select the account you wish to submit for candidacy.')}
-              label={t('candidate account')}
-              onChange={setAcountId}
-              type='account'
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  help={t('Select the account you wish to submit for candidacy.')}
+                  label={t('candidate account')}
+                  onChange={setAcountId}
+                  type='account'
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={onClose}>
             <TxButton

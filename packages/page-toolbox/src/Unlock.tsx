@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -54,14 +54,24 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
     <Modal
       className='toolbox--Unlock'
       header={t('Unlock account')}
+      size='large'
     >
       <Modal.Content>
-        <AddressRow
-          isInline
-          value={address}
-        >
-          <p>{t('You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.')}</p>
-          <div>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              help={t('The selected account to be unlocked.')}
+              isDisabled
+              label={t('account')}
+              value={address}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('This account that will perform the message signing.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
             <Password
               autoFocus
               help={t('The account\'s password specified at the creation of this account.')}
@@ -71,8 +81,11 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
               onEnter={_onUnlock}
               value={password}
             />
-          </div>
-        </AddressRow>
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button

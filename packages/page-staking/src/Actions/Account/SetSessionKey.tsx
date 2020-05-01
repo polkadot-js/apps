@@ -52,6 +52,7 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
               isError={!keys}
               label={t('Keys from rotateKeys')}
               onChange={setKeys}
+              placeholder='0x...'
             />
           </Modal.Column>
           <Modal.Column>

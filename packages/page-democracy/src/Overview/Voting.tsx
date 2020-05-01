@@ -81,7 +81,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The referendum info that is voted upon. If passed, the changed will be applied via dispatch and the deposit returned.')}</p>
+                <p>{t('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
