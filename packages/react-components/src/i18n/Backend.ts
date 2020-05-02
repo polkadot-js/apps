@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-type Callback = (error: string | null, data: any) => void;
+import languageCache from './cache';
 
-export const languageCache: Record<string, Record<string, string>> = {};
+type Callback = (error: string | null, data: any) => void;
 
 export default class Backend {
   type = 'backend'
@@ -12,35 +12,20 @@ export default class Backend {
   static type: 'backend' = 'backend'
 
   async read (lng: string, _namespace: string, responder: Callback): Promise<void> {
-    const cached = languageCache[lng];
+    if (!languageCache[lng]) {
+      try {
+        const response = await fetch(`locales/${lng}/translation.json`, {});
 
-    if (cached) {
-      responder(null, cached);
+        if (!response.ok) {
+          return responder(`i18n: failed loading ${lng}`, response.status >= 500 && response.status < 600);
+        }
 
-      return;
-    }
-
-    try {
-      const response = await fetch(`locales/${lng}/translation.json`, {});
-      const { ok, status } = response;
-
-      if (!ok) {
-        responder(`i18n: failed loading ${lng}`, status >= 500 && status < 600);
-
-        return;
+        languageCache[lng] = await response.json();
+      } catch (error) {
+        return responder(error.message, false);
       }
-
-      const data = await response.json();
-
-      languageCache[lng] = data;
-
-      return responder(null, data);
-    } catch (error) {
-      responder(error.message, false);
     }
-  }
 
-  create (): void {
-    // no creation
+    return responder(null, languageCache[lng]);
   }
 }

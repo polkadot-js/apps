@@ -9,6 +9,7 @@
   "Developer": "Developer",
   "Extensions": "Extensions",
   "General": "General",
+  "Generate {{lng}}/translation.json": "Generate {{lng}}/translation.json",
   "Genesis Hash": "Genesis Hash",
   "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched",
   "Manage your connection to Ledger S": "Manage your connection to Ledger S",
@@ -28,6 +29,7 @@
   "The RPC node can be selected from the pre-defined list or manually entered, depending on the chain you wish to connect to.": "The RPC node can be selected from the pre-defined list or manually entered, depending on the chain you wish to connect to.",
   "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"": "The color used to distinguish this network with others, use color code with 3 or 6 digits, like \"#FFF\" or \"#111111\"",
   "This is not a valid JSON object.": "This is not a valid JSON object.",
+  "Translate": "Translate",
   "Unit": "Unit",
   "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot",
   "Update metadata": "Update metadata",
@@ -39,5 +41,8 @@
   "interface operation mode": "interface operation mode",
   "manage hardware connections": "manage hardware connections",
   "remote node/endpoint to connect to": "remote node/endpoint to connect to",
-  "upgradable extensions": "upgradable extensions"
+  "the language to display translations for": "the language to display translations for",
+  "the module to display strings for": "the module to display strings for",
+  "upgradable extensions": "upgradable extensions",
+  "{{done}}/{{total}}, {{progress}}% done": "{{done}}/{{total}}, {{progress}}% done"
 }
