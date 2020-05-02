@@ -55,7 +55,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t('The transferred balance will be substracted (along with fees) from the sender account.')}</p>
+              <p>{t('The transferred balance will be subtracted (along with fees) from the sender account.')}</p>
             </Modal.Column>
           </Modal.Columns>
           <Modal.Columns>
