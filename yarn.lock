@@ -3316,7 +3316,6 @@ __metadata:
     codeflask: ^1.4.1
     i18next: ^19.4.4
     i18next-browser-languagedetector: ^4.1.1
-    i18next-http-backend: ^1.0.7
     react: ^16.13.1
     react-beautiful-dnd: ^13.0.0
     react-chartjs-2: ^2.9.0
@@ -11502,15 +11501,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-backend@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "i18next-http-backend@npm:1.0.7"
-  dependencies:
-    node-fetch: 2.6.0
-  checksum: 2/e10d9af7ae97583d18f14e51197a59e790eed170982fe61362bb290e7d2f5e485181af5bb1c7e5431435942b372d74cb268a129e57eb6edcc2750f18e16c1283
-  languageName: node
-  linkType: hard
-
 "i18next-scanner@npm:^2.11.0":
   version: 2.11.0
   resolution: "i18next-scanner@npm:2.11.0"
@@ -15234,13 +15224,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.0, node-fetch@npm:^2.3.0, node-fetch@npm:^2.5.0":
-  version: 2.6.0
-  resolution: "node-fetch@npm:2.6.0"
-  checksum: 2/dd9f586a9f7ddb7dd94d2aba9cb693d32f5001e9850098512fbc8a4cbdd56838afa08ed0a6725b9fce9b01ec12b713e622cbfc16d92762d8b937b238330a632a
-  languageName: node
-  linkType: hard
-
 "node-fetch@npm:^1.0.1":
   version: 1.7.3
   resolution: "node-fetch@npm:1.7.3"
@@ -15248,6 +15231,13 @@ __metadata:
     encoding: ^0.1.11
     is-stream: ^1.0.1
   checksum: 2/d04afb2e328ffb974a5ac4800fe5714d7419243d72f089a6a2383d3b93368c61ae88954a4866c476c0d7f95d7af414c1b9a885e051971061efe4054d526e23ed
+  languageName: node
+  linkType: hard
+
+"node-fetch@npm:^2.3.0, node-fetch@npm:^2.5.0":
+  version: 2.6.0
+  resolution: "node-fetch@npm:2.6.0"
+  checksum: 2/dd9f586a9f7ddb7dd94d2aba9cb693d32f5001e9850098512fbc8a4cbdd56838afa08ed0a6725b9fce9b01ec12b713e622cbfc16d92762d8b937b238330a632a
   languageName: node
   linkType: hard
 
