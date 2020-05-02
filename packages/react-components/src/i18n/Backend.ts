@@ -4,7 +4,7 @@
 
 type Callback = (error: string | null, data: any) => void;
 
-export const languageCache: Record<string, any> = {};
+export const languageCache: Record<string, Record<string, string>> = {};
 
 export default class Backend {
   type = 'backend'
@@ -12,8 +12,7 @@ export default class Backend {
   static type: 'backend' = 'backend'
 
   async read (lng: string, _namespace: string, responder: Callback): Promise<void> {
-    const url = `locales/${lng}/translation.json`;
-    const cached = languageCache[url];
+    const cached = languageCache[lng];
 
     if (cached) {
       responder(null, cached);
@@ -22,18 +21,18 @@ export default class Backend {
     }
 
     try {
-      const response = await fetch(url, {});
+      const response = await fetch(`locales/${lng}/translation.json`, {});
       const { ok, status } = response;
 
       if (!ok) {
-        responder(`failed loading ${url}`, status >= 500 && status < 600);
+        responder(`i18n: failed loading ${lng}`, status >= 500 && status < 600);
 
         return;
       }
 
       const data = await response.json();
 
-      languageCache[url] = data;
+      languageCache[lng] = data;
 
       return responder(null, data);
     } catch (error) {
