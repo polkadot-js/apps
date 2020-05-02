@@ -25,7 +25,6 @@
   "Unlock the account for signing. Once active the signature will be generated based on the content provided.": "Unlock the account for signing. Once active the signature will be generated based on the content provided.",
   "Verify signature": "Verify signature",
   "Yes": "Yes",
-  "You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.": "You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.",
   "You need to unlock this account to be able to sign data.": "You need to unlock this account to be able to sign data.",
   "account": "account",
   "call the selected endpoint": "call the selected endpoint",

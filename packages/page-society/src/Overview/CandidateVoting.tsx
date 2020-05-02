@@ -37,7 +37,7 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
             />
             <Dropdown
               help={t('Approve this candidacy.')}
-              label={t('vote for andidate')}
+              label={t('vote for candidate')}
               onChange={setVote}
               options={voteOpts}
               value={vote}

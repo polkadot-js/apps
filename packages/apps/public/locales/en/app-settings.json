@@ -13,7 +13,7 @@
   "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched",
   "Manage your connection to Ledger S": "Manage your connection to Ledger S",
   "Metadata {{count}}": "Metadata {{count}}",
-  "Name of the network. It only for display purpose.": "Name of the network. It only for display purpose.",
+  "Name of the network. It is only for display purposes.": "Name of the network. It is only for display purposes.",
   "Network Name": "Network Name",
   "No upgradable extensions found": "No upgradable extensions found",
   "Override the default identity icon display with a specific theme": "Override the default identity icon display with a specific theme",

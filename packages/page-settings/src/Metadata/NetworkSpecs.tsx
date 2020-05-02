@@ -92,7 +92,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <div className='settings--networkSpecs-name'>
           <Input
             className='full'
-            help={t('Name of the network. It only for display purpose.')}
+            help={t('Name of the network. It is only for display purposes.')}
             isDisabled
             label={t('Network Name')}
             value={networkSpecs.title}
