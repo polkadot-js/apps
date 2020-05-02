@@ -4,10 +4,10 @@
 
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import HttpApi from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
-
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
+
+import Backend from './Backend';
 
 const languageDetector = new LanguageDetector();
 
@@ -25,11 +25,9 @@ languageDetector.addDetector({
 i18n
   .use(languageDetector)
   .use(initReactI18next)
-  .use(HttpApi)
+  .use(Backend)
   .init({
-    backend: {
-      loadPath: 'locales/{{lng}}/translation.json'
-    },
+    backend: {},
     debug: false,
     detection: {
       order: ['i18nLangDetector', 'navigator']
