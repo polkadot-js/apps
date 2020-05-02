@@ -6,12 +6,13 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useMemo, useState } from 'react';
-import { Button, Input, InputAddress, InputNumber, Modal } from '@polkadot/react-components';
+import React, { useCallback, useState } from 'react';
+import { Button, Input, InputAddressMulti, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
+import useKnownAddresses from '../useKnownAddresses';
 
 interface Props extends ModalProps {
   className?: string;
@@ -23,8 +24,6 @@ interface CreateOptions {
   name: string;
   tags?: string[];
 }
-
-type Setter = (address: string| null) => void;
 
 const MAX_SIGNATORIES = 16;
 
@@ -50,23 +49,10 @@ function createAccount (signatories: string[], threshold: BN | number, { genesis
 function Multisig ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { api, isDevelopment } = useApi();
   const { t } = useTranslation();
+  const availableSignatories = useKnownAddresses();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [signatories, setSignatories] = useState<string[]>(['']);
   const [{ isThresholdValid, threshold }, setThreshold] = useState({ isThresholdValid: true, threshold: new BN(1) });
-  const setSignatory = useMemo((): Setter[] => {
-    return Array(MAX_SIGNATORIES).fill(0).map((_, index): Setter =>
-      (address: string | null): void => {
-        setSignatories((signatories: string[]): string[] => {
-          if (address) {
-            signatories[index] = address;
-          }
-
-          return signatories;
-        });
-      }
-    );
-  }, []);
-  const isValid = isNameValid && isThresholdValid;
 
   const _createMultisig = useCallback(
     (): void => {
@@ -90,59 +76,61 @@ function Multisig ({ className, onClose, onStatusChange }: Props): React.ReactEl
     [signatories]
   );
 
-  const _onLess = useCallback(
-    () => setSignatories((signatories) => signatories.slice(0, signatories.length - 1)),
-    []
-  );
-
-  const _onMore = useCallback(
-    () => setSignatories((signatories) => signatories.concat('')),
-    []
-  );
+  const isValid = isNameValid && isThresholdValid;
 
   return (
     <Modal
       className={className}
       header={t('Add multisig')}
+      size='large'
     >
       <Modal.Content>
-        <Input
-          autoFocus
-          className='full'
-          help={t('Name given to this multisig. You can edit it it any later point in time.')}
-          isError={!isNameValid}
-          label={t('name')}
-          onChange={_onChangeName}
-          placeholder={t('multisig name')}
-        />
-        <InputNumber
-          help={t('The threshold for this multisig')}
-          isError={!isThresholdValid}
-          label={t('threshold')}
-          onChange={_onChangeThreshold}
-        />
-        {signatories.map((_, index) => (
-          <InputAddress
-            key={index}
-            label={t('signatory {{index}}/{{length}}', { replace: { index: index + 1, length: signatories.length } })}
-            onChange={setSignatory[index]}
-            value={signatories[index]}
-          />
-        ))}
-        <Button.Group>
-          <Button
-            icon='minus'
-            isDisabled={signatories.length === 1}
-            label={t('Less')}
-            onClick={_onLess}
-          />
-          <Button
-            icon='plus'
-            isDisabled={signatories.length === MAX_SIGNATORIES}
-            label={t('More')}
-            onClick={_onMore}
-          />
-        </Button.Group>
+        <Modal.Columns>
+          <Modal.Column>
+            <Input
+              autoFocus
+              className='full'
+              help={t('Name given to this multisig. You can edit it at any later point in time.')}
+              isError={!isNameValid}
+              label={t('name')}
+              onChange={_onChangeName}
+              placeholder={t('multisig name')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The name is for unique identification of the account in your owner lists.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddressMulti
+              available={availableSignatories}
+              availableLabel={t('available signatories')}
+              help={t('The addresses that are able to approve multisig transactions. You can select up to {{maxHelpers}} trusted addresses.', { replace: { maxHelpers: MAX_SIGNATORIES } })}
+              maxCount={MAX_SIGNATORIES}
+              onChange={setSignatories}
+              value={signatories}
+              valueLabel={t('selected signatories')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The signatories has the ability to create transactions using the multisig and approve transactions sent by others.Once the threshold is reached with approvals, the multisig transaction is enacted on-chain.')}</p>
+            <p>{t('Since the multisig function like any other account, once created it is available for selection anywhere accounts are used and needs to be funded before use.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputNumber
+              help={t('The threshold for this multisig')}
+              isError={!isThresholdValid}
+              label={t('threshold')}
+              onChange={_onChangeThreshold}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The threshold for approval should be less or equal to the number of signatories for this multisig.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button

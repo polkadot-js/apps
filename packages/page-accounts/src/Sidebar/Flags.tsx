@@ -13,9 +13,9 @@ interface Props {
   flags: AddressFlags;
 }
 
-function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
+function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isMultisig, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const hasFlags = isDevelopment || isExternal || isSociety || isCouncil || isTechCommittee || isSudo;
+  const hasFlags = isCouncil || isDevelopment || isExternal || isInjected || isMultisig || isSociety || isSudo || isTechCommittee;
 
   if (!hasFlags) {
     return null;
@@ -24,6 +24,23 @@ function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isSociety, isSu
   return (
     <div className='ui--AddressMenu-flags'>
       {isExternal && (
+        isMultisig
+          ? (
+            <Tag
+              color='green'
+              label={t('Multisig')}
+              size='tiny'
+            />
+          )
+          : (
+            <Tag
+              color='grey'
+              label={t('External')}
+              size='tiny'
+            />
+          )
+      )}
+      {isInjected && (
         <Tag
           color='grey'
           label={t('Injected')}
