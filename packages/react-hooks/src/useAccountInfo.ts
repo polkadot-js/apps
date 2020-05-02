@@ -22,6 +22,7 @@ const IS_NONE = {
   isExternal: false,
   isFavorite: false,
   isInContacts: false,
+  isInjected: false,
   isMultisig: false,
   isOwned: false,
   isSociety: false,
@@ -99,6 +100,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
       isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
       isExternal: accountOrAddress?.meta.isExternal || false,
       isInContacts,
+      isInjected: accountOrAddress?.meta.isInjected || false,
       isMultisig: accountOrAddress?.meta.isMultisig || false,
       isOwned
     }));
