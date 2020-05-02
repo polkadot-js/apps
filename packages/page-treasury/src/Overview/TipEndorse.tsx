@@ -33,23 +33,37 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
       {isOpen && (
         <Modal
           header={t('Submit tip endorsement')}
-          size='small'
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t('Select the account you wish to submit the tip from.')}
-              label={t('submit with account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
-            <InputBalance
-              help={t('The tip amount that should be allocated')}
-              isError={!hasValue}
-              label={t('value')}
-              onChange={setValue}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  filter={members}
+                  help={t('Select the account you wish to submit the tip from.')}
+                  label={t('submit with account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Your endorsement will be applied for this account.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputBalance
+                  help={t('The tip amount that should be allocated')}
+                  isError={!hasValue}
+                  label={t('value')}
+                  onChange={setValue}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton

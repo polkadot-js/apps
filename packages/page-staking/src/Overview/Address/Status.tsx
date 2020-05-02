@@ -5,13 +5,16 @@
 import React from 'react';
 import { Badge, Icon } from '@polkadot/react-components';
 
+import MaxBadge from '../../MaxBadge';
+
 interface Props {
   isElected: boolean;
+  numNominators?: number;
   onlineCount?: false | number;
   onlineMessage?: boolean;
 }
 
-function Status ({ isElected, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
+function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
     <td className='together'>
       {isElected && (
@@ -28,6 +31,7 @@ function Status ({ isElected, onlineCount, onlineMessage }: Props): React.ReactE
           type='online'
         />
       )}
+      <MaxBadge numNominators={numNominators} />
     </td>
   );
 }

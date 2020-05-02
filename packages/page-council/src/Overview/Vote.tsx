@@ -35,8 +35,8 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
       setAvailable(
         members
           .map(([accountId]): string => accountId.toString())
-          .concat(runnersUp.map(([accountId]): string => accountId.toString()))
-          .concat(candidates.map((accountId): string => accountId.toString()))
+          .concat(runnersUp.map(([accountId]) => accountId.toString()))
+          .concat(candidates.map((accountId) => accountId.toString()))
       );
     }
   }, [electionsInfo]);
@@ -60,27 +60,52 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
         onClick={toggleVisible}
       />
       {isVisible && (
-        <Modal header={t('Vote for current candidates')}>
+        <Modal
+          header={t('Vote for current candidates')}
+          size='large'
+        >
           <Modal.Content>
-            <InputAddress
-              help={t('This account will be use to approve each candidate.')}
-              label={t('voting account')}
-              onChange={setAccountId}
-              type='account'
-            />
-            <VoteValue
-              accountId={accountId}
-              onChange={setVoteValue}
-            />
-            <InputAddressMulti
-              available={available}
-              availableLabel={t('council candidates')}
-              defaultValue={defaultVotes}
-              help={t('Select and order council candidates you wish to vote for.')}
-              maxCount={MAX_VOTES}
-              onChange={setVotes}
-              valueLabel={t('my ordered votes')}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  help={t('This account will be use to approve each candidate.')}
+                  label={t('voting account')}
+                  onChange={setAccountId}
+                  type='account'
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The vote will be recorded for the selected account.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteValue
+                  accountId={accountId}
+                  onChange={setVoteValue}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The value associated with this vote. The amount will be locked (not available for transfer) and used in all subsequent elections.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddressMulti
+                  available={available}
+                  availableLabel={t('council candidates')}
+                  defaultValue={defaultVotes}
+                  help={t('Select and order council candidates you wish to vote for.')}
+                  maxCount={MAX_VOTES}
+                  onChange={setVotes}
+                  valueLabel={t('my ordered votes')}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
+                <p>{t('In calculating the election outcome, this prioitized vote ordering will be used to determine the final score for the candidates.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton

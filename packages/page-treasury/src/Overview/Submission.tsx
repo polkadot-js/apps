@@ -15,9 +15,10 @@ interface Props {
   councilProposals: DeriveCollectiveProposal[];
   id: ProposalIndex;
   isDisabled: boolean;
+  members: string[];
 }
 
-function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactElement<Props> | null {
+function Submission ({ councilProposals, id, isDisabled, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const councilThreshold = useCall<number>((api.query.electionsPhragmen || api.query.elections).members, [], {
@@ -50,24 +51,39 @@ function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactEl
     <>
       {isOpen && (
         <Modal
-          header={t('To council')}
-          size='small'
+          header={t('Send to council')}
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              help={t('Select the council account you wish to use to make the proposal.')}
-              label={t('submit with council account')}
-              onChange={setAccountId}
-              type='account'
-              withLabel
-            />
-            <Dropdown
-              help={t('The type of council proposal to submit.')}
-              label={t('council proposal type')}
-              onChange={setCouncilType}
-              options={councilTypeOpt}
-              value={councilType}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  filter={members}
+                  help={t('Select the council account you wish to use to make the proposal.')}
+                  label={t('submit with council account')}
+                  onChange={setAccountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The council member that is proposing this, submission equates to an "aye" vote.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Dropdown
+                  help={t('The type of council proposal to submit.')}
+                  label={t('council proposal type')}
+                  onChange={setCouncilType}
+                  options={councilTypeOpt}
+                  value={councilType}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
@@ -89,9 +105,9 @@ function Submission ({ councilProposals, id, isDisabled }: Props): React.ReactEl
         </Modal>
       )}
       <Button
-        icon='check'
+        icon='sort'
         isDisabled={isDisabled}
-        label={t('Send to council')}
+        label={t('To council')}
         onClick={toggleOpen}
       />
     </>

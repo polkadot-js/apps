@@ -10,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -18,7 +17,7 @@ import Params from '../Params';
 import Outcome from './Outcome';
 
 import { useTranslation } from '../translate';
-import { GAS_LIMIT } from '../constants';
+import { DEFAULT_GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
 
 interface Props extends BareProps {
@@ -36,10 +35,9 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const hasRpc = callContract?.hasRpcContractsCall;
   const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
-  const { api } = useApi();
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
-  const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
+  const [gasLimit, setGasLimit] = useState<BN>(new BN(DEFAULT_GAS_LIMIT));
   const [isBusy, setIsBusy] = useState(false);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
@@ -174,7 +172,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               value={endowment}
             />
             <InputNumber
-              defaultValue={gasLimit}
+              defaultValue={DEFAULT_GAS_LIMIT}
               help={t('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
               isDisabled={isBusy}
               isError={!isGasValid}
@@ -199,7 +197,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
         )}
         <Button.Group>
           <ButtonCancel onClick={onClose} />
-          <Button.Or />
           {useRpc
             ? (
               <Button
@@ -221,7 +218,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 onFailed={_toggleBusy}
                 onSuccess={_toggleBusy}
                 params={_constructTx}
-                tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+                tx='contracts.call'
                 withSpinner
               />
             )

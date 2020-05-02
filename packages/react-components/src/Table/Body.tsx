@@ -75,6 +75,10 @@ export default React.memo(styled(Body)`
       padding: 0.85rem 1rem;
     }
 
+    &.badge {
+      padding: 0;
+    }
+
     &.button {
       text-align: right;
       white-space: nowrap;

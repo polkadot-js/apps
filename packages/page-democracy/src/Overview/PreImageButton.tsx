@@ -14,16 +14,14 @@ import PreImage from './PreImage';
 interface Props {
   imageHash: Hash;
   isImminent?: boolean;
-  withoutOr?: boolean;
 }
 
-function PreImageButton ({ imageHash, isImminent, withoutOr }: Props): React.ReactElement<Props> | null {
+function PreImageButton ({ imageHash, isImminent }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isPreimageOpen, togglePreimage] = useToggle();
 
   return (
     <>
-      {!withoutOr && <Button.Or />}
       <Button
         icon='plus'
         label={t('Preimage')}

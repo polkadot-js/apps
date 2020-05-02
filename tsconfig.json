@@ -30,6 +30,8 @@
       "@polkadot/app-explorer/*": [ "packages/page-explorer/src/*" ],
       "@polkadot/app-generic-asset": [ "packages/page-generic-asset/src" ],
       "@polkadot/app-generic-asset/*": [ "packages/page-generic-asset/src/*" ],
+      "@polkadot/app-i18n": [ "packages/page-i18n/src" ],
+      "@polkadot/app-i18n/*": [ "packages/page-i18n/src/*" ],
       "@polkadot/app-js": [ "packages/page-js/src" ],
       "@polkadot/app-js/*": [ "packages/page-js/src/*" ],
       "@polkadot/app-parachains": [ "packages/page-parachains/src" ],

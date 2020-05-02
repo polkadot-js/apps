@@ -9,6 +9,8 @@
   "nav.explorer": "Explorer",
   "nav.extrinsics": "Extrinsics",
   "nav.generic-asset": "Generic asset",
+  "nav.github": "GitHub",
+  "nav.i18n": "I18n Translator",
   "nav.js": "Javascript",
   "nav.parachains": "Parachains",
   "nav.settings": "Settings",
@@ -20,6 +22,5 @@
   "nav.toolbox": "Toolbox",
   "nav.transfer": "Transfer",
   "nav.treasury": "Treasury",
-  "nav.github": "GitHub",
   "nav.wiki": "Wiki"
 }

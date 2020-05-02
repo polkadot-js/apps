@@ -93,7 +93,7 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
         >
           <Modal.Content>
             <InputNumber
-              defaultValue={nextFreeId}
+              defaultValue={nextFreeId.toString()}
               help={t('The id number to assign to this parachain.')}
               isError={!isIdValid}
               label={t('parachain id')}

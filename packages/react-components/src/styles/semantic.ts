@@ -28,7 +28,6 @@ export default css`
   .ui.dropdown {
     &.disabled {
       background: transparent;
-      border-color: #eee;
       border-style: dashed;
       opacity: 1;
 
@@ -60,15 +59,15 @@ export default css`
 
       input {
         background: transparent;
-        border-color: #eee;
         border-style: dashed;
       }
 
       .ui.primary.buttons .ui.button {
-        background: #eee;
+        background-color: #666;
         border-color: transparent;
         border-left-color: transparent;
-        color: #4e4e4e;
+        color: #f9f9f9;
+        opacity: 0.5;
 
         .dropdown.icon {
           opacity: 0;
@@ -95,6 +94,7 @@ export default css`
 
   .ui.modal {
     background: #f9f9f9;
+    box-shadow: none;
     color: #4e4e4e;
     font-family: sans-serif;
 
@@ -109,12 +109,17 @@ export default css`
       padding: 1rem !important;
     }
 
+    /* approx h1, color, size, font */
     > .header:not(.ui) {
-      background: #f5f5f5;
-      font-size: 1.25rem !important;
-      font-weight: normal;
+      background: #f9f9f9;
+      border-bottom: none;
+      color: rgba(0, 0, 0, .6);
+      font-family: sans-serif;
+      font-size: 1.75rem;
+      font-weight: 100;
       line-height: 1.25rem;
-      padding: 1rem 1.5rem;
+      padding: 1.5rem 1.75rem 0;
+      text-transform: lowercase;
 
       > label {
         margin-top: 0.5rem;
@@ -162,8 +167,13 @@ export default css`
     opacity: 0.2 !important;
   }
 
+  .ui.button+.ui.button {
+    margin-left: 0.25rem;
+  }
+
   /* modals aligned to top, not center */
   .ui.dimmer {
+    background-color: rgba(0,0,0,0.5);
     justify-content: flex-start;
   }
 

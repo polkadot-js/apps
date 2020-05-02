@@ -186,13 +186,11 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           label={t('Add account')}
           onClick={toggleCreate}
         />
-        <Button.Or />
         <Button
           icon='sync'
           label={t('Restore JSON')}
           onClick={toggleImport}
         />
-        <Button.Or />
         <Button
           icon='qrcode'
           label={t('Add via Qr')}
@@ -200,7 +198,6 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         />
         {isLedger() && (
           <>
-            <Button.Or />
             <Button
               icon='question'
               label={t('Query Ledger')}
@@ -208,7 +205,6 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
             />
           </>
         )}
-        <Button.Or />
         <Button
           icon='add'
           label={t('Multisig')}

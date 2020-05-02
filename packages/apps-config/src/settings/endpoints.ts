@@ -60,6 +60,11 @@ function createTest (t: (key: string, text: string, options: { ns: string }) => 
       info: 'substrate',
       text: t('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://substrate-rpc.parity.io/'
+    },
+    {
+      info: 'nodle',
+      text: t('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      value: 'wss://arcadia1.nodleprotocol.io/'
     }
   ];
 }

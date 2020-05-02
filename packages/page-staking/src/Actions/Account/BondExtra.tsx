@@ -4,7 +4,8 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { Available, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Available } from '@polkadot/react-query';
 
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
@@ -26,35 +27,47 @@ function BondExtra ({ onClose, stashId }: Props): React.ReactElement<Props> {
     <Modal
       className='staking--BondExtra'
       header= {t('Bond more funds')}
-      size='small'
+      size='large'
     >
       <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          defaultValue={stashId}
-          isDisabled
-          label={t('stash account')}
-          labelExtra={
-            <Available
-              label={<span className='label'>{t('transferrable')}</span>}
-              params={stashId}
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={stashId}
+              isDisabled
+              label={t('stash account')}
             />
-          }
-        />
-        <InputBalance
-          autoFocus
-          className='medium'
-          help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
-          isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
-          label={t('additional bonded funds')}
-          maxValue={maxBalance}
-          onChange={setMaxAdditional}
-        />
-        <ValidateAmount
-          accountId={stashId}
-          onError={setAmountError}
-          value={maxAdditional}
-        />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Since this transaction deals with funding, the stash account will be used.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputBalance
+              autoFocus
+              help={t('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
+              isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
+              label={t('additional bonded funds')}
+              labelExtra={
+                <Available
+                  label={<span className='label'>{t('available')}</span>}
+                  params={stashId}
+                />
+              }
+              maxValue={maxBalance}
+              onChange={setMaxAdditional}
+            />
+            <ValidateAmount
+              accountId={stashId}
+              onError={setAmountError}
+              value={maxAdditional}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Ensure that not all funds are locked, funds need to be available for fees.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton

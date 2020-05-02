@@ -71,6 +71,8 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
               <Close
                 hash={hash}
                 idNumber={index}
+                isDisabled={!isMember}
+                members={members}
                 proposal={proposal}
               />
             )

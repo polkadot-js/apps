@@ -32,7 +32,7 @@ function Toggle ({ asSwitch = true, className, defaultValue, isDisabled, label, 
   );
 
   return (
-    <div className={className}>
+    <div className={`ui--Toggle ${asSwitch ? 'isToggle' : 'isCheckbox'} ${className}`}>
       <label>{label}</label>
       <SUICheckbox
         checked={value}
@@ -58,5 +58,9 @@ export default React.memo(styled(Toggle)`
 
   .ui.checkbox + label {
     color: rgba(78, 78, 78, 0.75);
+  }
+
+  &.isCheckbox label {
+    opacity: 1 !important;
   }
 `);

@@ -69,6 +69,6 @@ export default React.memo(styled(Signer)`
 
   .signToggle {
     position: absolute;
-    left: 1rem;
+    left: 1.5rem;
   }
 `);

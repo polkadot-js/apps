@@ -22,7 +22,7 @@ import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
-import { ENDOWMENT, GAS_LIMIT } from './constants';
+import { ENDOWMENT, DEFAULT_GAS_LIMIT } from './constants';
 
 type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
@@ -53,7 +53,7 @@ class Deploy extends ContractModal<Props, State> {
       constructOptions: [],
       constructorIndex: -1,
       endowment: new BN(ENDOWMENT),
-      gasLimit: new BN(GAS_LIMIT),
+      gasLimit: new BN(DEFAULT_GAS_LIMIT),
       isHashValid: false,
       params: [],
       ...Deploy.getCodeState(props.codeHash)
@@ -237,11 +237,9 @@ class Deploy extends ContractModal<Props, State> {
         onSuccess={this.onSuccess}
         params={this.constructCall}
         tx={
-          api.tx.contracts
-            ? api.tx.contracts.instantiate
-              ? 'contracts.instantiate' // V2 (new)
-              : 'contracts.create' // V2 (old)
-            : 'contract.create' // V1
+          api.tx.contracts.instantiate
+            ? 'contracts.instantiate' // V2 (new)
+            : 'contracts.create' // V2 (old)
         }
         withSpinner
       />
@@ -290,8 +288,7 @@ class Deploy extends ContractModal<Props, State> {
   private onSuccess = (result: SubmittableResult): void => {
     const { api, history } = this.props;
 
-    const section = api.tx.contracts ? 'contracts' : 'contract';
-    const records = result.filterRecords(section, 'Instantiated');
+    const records = result.filterRecords('contracts', 'Instantiated');
 
     if (records.length) {
       // find the last EventRecord (in the case of multiple contracts deployed - we should really be
