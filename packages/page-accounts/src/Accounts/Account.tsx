@@ -59,7 +59,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         .filter(([, opt]) => opt.isSome)
         .map(([key, opt]) => [key.args[1] as H256, opt.unwrap()])
   });
-  const { flags: { isDevelopment, isEditable, isExternal, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isExternal, isInjected, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -302,25 +302,25 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
               {t('Set on-chain identity')}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isExternal}
+              disabled={isExternal || isInjected || isMultisig}
               onClick={toggleDerive}
             >
               {t('Derive account via derivation path')}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isExternal || isDevelopment}
+              disabled={isExternal || isInjected || isMultisig || isDevelopment}
               onClick={toggleBackup}
             >
               {t('Create a backup file for this account')}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isExternal || isDevelopment}
+              disabled={isExternal || isInjected || isMultisig || isDevelopment}
               onClick={togglePassword}
             >
               {t("Change this account's password")}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isDevelopment}
+              disabled={isInjected || isDevelopment}
               onClick={toggleForget}
             >
               {t('Forget this account')}
