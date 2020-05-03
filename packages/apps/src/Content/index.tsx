@@ -78,15 +78,13 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Content)`
   background: #f5f5f5;
-  display: flex;
-  flex-direction: column;
   flex-grow: 1;
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 
   @media(max-width: 768px) {
     padding: 0 0.5rem;
