@@ -101,11 +101,10 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Apps)`
-  align-items: stretch;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  height: 100vh;
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
