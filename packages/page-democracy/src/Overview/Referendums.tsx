@@ -6,19 +6,17 @@ import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Referendum from './Referendum';
 import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  referendums?: DeriveReferendumExt[];
 }
 
-function Referendums ({ className }: Props): React.ReactElement<Props> {
+function Referendums ({ className, referendums }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
 
   const header = useMemo(() => [
     [t('referenda'), 'start', 2],
