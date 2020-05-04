@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  referendums?: DeriveReferendumExt;
+  referendums?: DeriveReferendumExt[];
 }
 
 function Referendums ({ className, referendums }: Props): React.ReactElement<Props> {
