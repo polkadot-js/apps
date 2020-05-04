@@ -5,6 +5,7 @@
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
 import { Balance } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -24,8 +25,9 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<Balance>(api.derive.chain.bestNumber, []);
-  const spendPeriod = api.consts.treasury.spendPeriod;
+  const totalProposals = useCall<BN>(api.query.treasury.proposalCount, []);
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
+  const spendPeriod = api.consts.treasury.spendPeriod;
 
   const value = treasuryBalance?.freeBalance.gtn(0)
     ? treasuryBalance.freeBalance.toString()
@@ -37,6 +39,11 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
         <CardSummary label={t('proposals')}>
           {formatNumber(proposalCount)}
         </CardSummary>
+        <CardSummary label={t('total')}>
+          {formatNumber(totalProposals || 0)}
+        </CardSummary>
+      </section>
+      <section>
         <CardSummary label={t('approved')}>
           {formatNumber(approvalCount)}
         </CardSummary>
