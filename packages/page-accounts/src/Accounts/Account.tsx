@@ -10,6 +10,7 @@ import { SortedAccount } from './types';
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useIncrement, useToggle } from '@polkadot/react-hooks';
 import { Option, StorageKey } from '@polkadot/types';
@@ -59,7 +60,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         .filter(([, opt]) => opt.isSome)
         .map(([key, opt]) => [key.args[1] as H256, opt.unwrap()])
   });
-  const { flags: { isDevelopment, isExternal, isInjected, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -116,6 +117,19 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
       refreshMulti();
     },
     [refreshMulti, toggleMultisig]
+  );
+
+  const _showOnHardware = useCallback(
+    (): void => {
+      // TODO: we should check the hardwareType from metadata here as well,
+      // for now we are always assuming hardwareType === 'ledger'
+      getLedger()
+        .getAddress(true)
+        .catch((error): void => {
+          console.error(`ledger: ${error.message}`);
+        });
+    },
+    []
   );
 
   if (!isVisible) {
@@ -307,6 +321,13 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
             >
               {t('Derive account via derivation path')}
             </Menu.Item>
+            {isHardware && (
+              <Menu.Item onClick={_showOnHardware}
+              >
+                {t('Show address on hardware device')}
+              </Menu.Item>
+            )}
+            <Menu.Divider />
             <Menu.Item
               disabled={isExternal || isInjected || isMultisig || isDevelopment}
               onClick={toggleBackup}
