@@ -22,7 +22,7 @@ interface Props {
   className?: string;
 }
 
-function Overview ({ className }: Props): React.ReactElement {
+function Overview ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isPreimageOpen, togglePreimage] = useToggle();

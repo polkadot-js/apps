@@ -14,7 +14,7 @@ interface Props {
   referendumCount?: number;
 }
 
-function Summary ({ referendumCount }): React.ReactElement<Props> {
+function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeProposals = useCall<any[]>(api.derive.democracy.proposals, []);
