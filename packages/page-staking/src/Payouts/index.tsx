@@ -165,13 +165,12 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
           />
         ))}
       </Table>
-      {api.tx.staking.payoutStakers && (
+      {api.tx.staking.payoutStakers && validators && (validators.length !== 0) && (
         <Table
-          empty={validators && t('No pending era payouts from validators')}
           header={headerValidators}
           isFixed
         >
-          {validators?.map((payout): React.ReactNode => (
+          {validators.map((payout): React.ReactNode => (
             <Validator
               isDisabled={isInElection}
               key={payout.validatorId}
