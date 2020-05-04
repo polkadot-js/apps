@@ -364,6 +364,7 @@
   "Set validator preferences": "",
   "Setup account as recoverable": "",
   "Should the search be case sensitive, e.g if you select \"no\" your search for \"Some\" may return addresses containing \"somE\" or \"sOme\"...": "",
+  "Show address on hardware device": "",
   "Sign (no submission)": "",
   "Sign and Submit": "",
   "Sign for multisig": "",
