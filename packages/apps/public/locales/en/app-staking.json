@@ -153,7 +153,7 @@
   "validators/nominators": "validators/nominators",
   "value bonded": "value bonded",
   "waiting": "waiting",
-  "{{count}} stakers": "{{count}} stakers",
+  "{{count}} own stashes": "{{count}} own stashes",
   "{{currency}} average": "{{currency}} average",
   "{{currency}} clipped": "{{currency}} clipped",
   "{{currency}} rewards": "{{currency}} rewards",
