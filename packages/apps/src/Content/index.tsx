@@ -83,8 +83,9 @@ export default React.memo(styled(Content)`
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  width: 100%;
   padding: 0 1.5rem;
+  position: relative;
+  width: 100%;
 
   @media(max-width: 768px) {
     padding: 0 0.5rem;
