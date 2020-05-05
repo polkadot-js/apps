@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -17,7 +17,7 @@ export interface Props extends BareProps {
   value: Event;
 }
 
-export default function EventDisplay ({ children, className, style, value }: Props): React.ReactElement<Props> {
+function EventDisplay ({ children, className, style, value }: Props): React.ReactElement<Props> {
   const params = value.typeDef.map(({ type }): { type: TypeDef } => ({
     type: getTypeDef(type)
   }));
@@ -40,3 +40,5 @@ export default function EventDisplay ({ children, className, style, value }: Pro
     </div>
   );
 }
+
+export default React.memo(EventDisplay);

@@ -1,13 +1,14 @@
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
-import { Button, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
+import { InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 export interface TxModalProps extends I18nProps {
+  filter?: string[];
   onSubmit?: () => void;
   onClose?: () => void;
   onSuccess?: () => void;
@@ -23,8 +24,8 @@ export interface TxModalState {
 export default class TxModal<P extends TxModalProps, S extends TxModalState> extends TxComponent<P, S> {
   protected defaultState: S = {
     accountId: null,
-    isOpen: false,
-    isBusy: false
+    isBusy: false,
+    isOpen: false
   } as unknown as S;
 
   public state: S = this.defaultState;
@@ -46,7 +47,7 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
             {this.renderInputAccount()}
             {this.renderContent()}
           </Modal.Content>
-          <Modal.Actions>
+          <Modal.Actions onCancel={this.hideModal}>
             {this.renderButtons()}
           </Modal.Actions>
         </Modal>
@@ -116,20 +117,17 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
   protected renderTrigger?: () => React.ReactNode = (): React.ReactNode => null;
 
   protected renderButtons: () => React.ReactNode = (): React.ReactNode => {
-    return (
-      <Button.Group>
-        {this.renderCancelButton()}
-        {this.renderTxButton()}
-      </Button.Group>
-    );
+    return this.renderTxButton();
   }
 
   protected renderInputAccount (): React.ReactNode {
+    const { filter } = this.props;
     const { accountId, isBusy } = this.state;
 
     return (
       <InputAddress
         defaultValue={accountId}
+        filter={filter}
         help={this.accountHelp()}
         isDisabled={isBusy}
         isInput={false}
@@ -151,33 +149,16 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
             ? { isUnsigned: true }
             : { accountId }
         )}
+        icon='sign-in'
         isDisabled={this.isDisabled()}
         isPrimary
         label={this.submitLabel()}
-        icon='sign-in'
         onClick={this.onSubmit}
         onFailed={this.onFailed}
         onSuccess={this.onSuccess}
         params={this.txParams()}
-        ref={this.button}
         tx={this.txMethod()}
       />
-    );
-  }
-
-  protected renderCancelButton (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <>
-        <Button
-          isNegative
-          onClick={this.hideModal}
-          label={t('Cancel')}
-          icon='cancel'
-        />
-        <Button.Or />
-      </>
     );
   }
 

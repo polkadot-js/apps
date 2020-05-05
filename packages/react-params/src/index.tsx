@@ -1,22 +1,20 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue } from './types';
 
-import './Params.css';
-
 import React from 'react';
-import styled from 'styled-components';
 import { ErrorBoundary } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
 
+import Holder from './Holder';
 import ParamComp from './ParamComp';
 import translate from './translate';
 import { createValue } from './values';
 
 interface Props extends I18nProps {
+  children?: React.ReactNode;
   isDisabled?: boolean;
   onChange?: (value: RawParams) => void;
   onEnter?: () => void;
@@ -25,12 +23,15 @@ interface Props extends I18nProps {
   overrides?: ComponentMap;
   params: ParamDef[];
   values?: RawParams | null;
+  withBorder?: boolean;
 }
 
 interface State {
   params?: ParamDef[] | null;
   values?: RawParams;
 }
+
+export { Holder };
 
 class Params extends React.PureComponent<Props, State> {
   public state: State = {
@@ -75,7 +76,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isDisabled, onEnter, onEscape, overrides, params, style } = this.props;
+    const { children, className, isDisabled, onEnter, onEscape, overrides, params, withBorder = true } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -83,9 +84,9 @@ class Params extends React.PureComponent<Props, State> {
     }
 
     return (
-      <div
-        className={classes('ui--Params', className)}
-        style={style}
+      <Holder
+        className={className}
+        withBorder={withBorder}
       >
         <ErrorBoundary onError={this.onRenderError}>
           <div className='ui--Params-Content'>
@@ -104,8 +105,9 @@ class Params extends React.PureComponent<Props, State> {
               />
             ))}
           </div>
+          {children}
         </ErrorBoundary>
-      </div>
+      </Holder>
     );
   }
 
@@ -131,7 +133,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   private triggerUpdate = (): void => {
-    const { onChange, isDisabled } = this.props;
+    const { isDisabled, onChange } = this.props;
     const { values } = this.state;
 
     if (isDisabled || !values) {
@@ -148,16 +150,4 @@ class Params extends React.PureComponent<Props, State> {
   }
 }
 
-export default translate(
-  styled(Params as React.ComponentClass<Props>)`
-    .ui--Param-composite {
-      position: relative;
-
-      .ui--Param-overlay {
-        position: absolute;
-        top: 0.5rem;
-        right: 3.5rem;
-      }
-    }
-  `
-);
+export default translate(Params);

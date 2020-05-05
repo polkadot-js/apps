@@ -1,0 +1,19 @@
+{
+  "name": "@polkadot/app-staking",
+  "private": true,
+  "version": "0.42.0-beta.87",
+  "description": "A basic staking app",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.9.6",
+    "@polkadot/app-explorer": "0.42.0-beta.87",
+    "@polkadot/react-components": "0.42.0-beta.87",
+    "@polkadot/react-query": "0.42.0-beta.87"
+  }
+}

@@ -7,20 +7,28 @@ RUN apt-get update && apt-get install -y curl git gnupg
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
 
-WORKDIR /app
-RUN git clone https://github.com/polkadot-js/apps
+WORKDIR /apps
+COPY . .
 
-WORKDIR /app/apps
 RUN npm install yarn -g
-RUN yarn
-RUN NODE_ENV=production yarn build
+RUN yarn && NODE_ENV=production yarn build:www
+CMD ["ls", "-al", "build"]
 
-FROM ubuntu:18.04
+# ===========================================================
+FROM nginx:stable-alpine
 
-RUN apt-get update && apt-get -y install nginx
+# The following is mainly for doc purpose to show which ENV is supported
+ENV WS_URL=
 
-COPY --from=builder /app/apps/packages/apps/build /var/www/html
+WORKDIR /usr/share/nginx/html
+
+COPY env.sh .
+
+RUN apk add --no-cache bash; chmod +x env.sh
+
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /apps/packages/apps/build /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]

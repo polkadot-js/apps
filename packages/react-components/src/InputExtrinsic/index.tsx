@@ -1,31 +1,29 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CallFunction } from '@polkadot/types/types';
-import { I18nProps } from '../types';
+import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 
-import './InputExtrinsic.css';
-
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
-import Labelled from '../Labelled';
-import translate from '../translate';
+import LinkedWrapper from './LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 
-interface Props extends I18nProps {
-  defaultValue: CallFunction;
+interface Props {
+  className?: string;
+  defaultValue: SubmittableExtrinsicFunction<'promise'>;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isPrivate?: boolean;
   label: React.ReactNode;
-  onChange: (value: CallFunction) => void;
+  onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
+  style?: any;
   withLabel?: boolean;
 }
 
@@ -33,56 +31,58 @@ function InputExtrinsic ({ className, defaultValue, help, label, onChange, style
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
-  const [value, setValue] = useState<CallFunction>((): CallFunction => defaultValue);
+  const [value, setValue] = useState<SubmittableExtrinsicFunction<'promise'>>((): SubmittableExtrinsicFunction<'promise'> => defaultValue);
 
-  const _onKeyChange = (newValue: CallFunction): void => {
-    if (value.section === newValue.section && value.method === newValue.method) {
-      return;
-    }
+  const _onKeyChange = useCallback(
+    (newValue: SubmittableExtrinsicFunction<'promise'>): void => {
+      if (value.section === newValue.section && value.method === newValue.method) {
+        return;
+      }
 
-    // set this via callback, since the we are setting a function (aletrnatively... we have issues)
-    setValue((): CallFunction => newValue);
-    onChange(newValue);
-  };
-  const _onSectionChange = (section: string): void => {
-    if (section === value.section) {
-      return;
-    }
+      // set this via callback, since the we are setting a function (alternatively... we have issues)
+      setValue((): SubmittableExtrinsicFunction<'promise'> => newValue);
+      onChange(newValue);
+    },
+    [onChange, value]
+  );
 
-    const optionsMethod = methodOptions(api, section);
+  const _onSectionChange = useCallback(
+    (section: string): void => {
+      if (section === value.section) {
+        return;
+      }
 
-    setOptionsMethod(optionsMethod);
-    _onKeyChange(api.tx[section][optionsMethod[0].value]);
-  };
+      const optionsMethod = methodOptions(api, section);
+
+      setOptionsMethod(optionsMethod);
+      _onKeyChange(api.tx[section][optionsMethod[0].value]);
+    },
+    [_onKeyChange, api, value]
+  );
 
   return (
-    <div
+    <LinkedWrapper
       className={className}
+      help={help}
+      label={label}
       style={style}
+      withLabel={withLabel}
     >
-      <Labelled
-        help={help}
-        label={label}
-        withLabel={withLabel}
-      >
-        <div className=' ui--DropdownLinked ui--row'>
-          <SelectSection
-            className='small'
-            onChange={_onSectionChange}
-            options={optionsSection}
-            value={value}
-          />
-          <SelectMethod
-            api={api}
-            className='large'
-            onChange={_onKeyChange}
-            options={optionsMethod}
-            value={value}
-          />
-        </div>
-      </Labelled>
-    </div>
+      <SelectSection
+        className='small'
+        onChange={_onSectionChange}
+        options={optionsSection}
+        value={value}
+      />
+      <SelectMethod
+        api={api}
+        className='large'
+        onChange={_onKeyChange}
+        options={optionsMethod}
+        value={value}
+      />
+    </LinkedWrapper>
   );
 }
 
-export default translate(InputExtrinsic);
+export default React.memo(InputExtrinsic);

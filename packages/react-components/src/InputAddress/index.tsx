@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -9,11 +9,11 @@ import { Option } from './types';
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { withMulti, withObservable } from '@polkadot/react-api';
+import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
-import { isUndefined } from '@polkadot/util';
+import { isNull, isUndefined } from '@polkadot/util';
 
 import { classes, getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
@@ -23,6 +23,7 @@ import createItem from './createItem';
 
 interface Props extends BareProps {
   defaultValue?: Uint8Array | string | null;
+  filter?: string[];
   help?: React.ReactNode;
   hideAddress?: boolean;
   isDisabled?: boolean;
@@ -144,21 +145,15 @@ class InputAddress extends React.PureComponent<Props, State> {
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
         ? defaultValue
-        : (
-          this.hasValue(lastValue)
-            ? lastValue
-            : (lastOption && lastOption.value)
-        )
+        : this.hasValue(lastValue)
+          ? lastValue
+          : (lastOption && lastOption.value)
     );
     const actualOptions: Option[] = options
       ? options.map((o): Option => createItem(o))
-      : (
-        isDisabled && actualValue
-          ? [createOption(actualValue)]
-          : optionsAll
-            ? optionsAll[type]
-            : []
-      );
+      : isDisabled && actualValue
+        ? [createOption(actualValue)]
+        : this.getFiltered();
     const _defaultValue = (isMultiple || !isUndefined(value))
       ? undefined
       : actualValue;
@@ -207,13 +202,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private getLastOptionValue (): KeyringSectionOption | undefined {
-    const { optionsAll, type = DEFAULT_TYPE } = this.props;
-
-    if (!optionsAll) {
-      return;
-    }
-
-    const available = optionsAll[type].filter(({ value }): boolean => !!value);
+    const available = this.getFiltered();
 
     return available.length
       ? available[available.length - 1]
@@ -221,13 +210,15 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   private hasValue (test?: Uint8Array | string): boolean {
-    const { optionsAll, type = DEFAULT_TYPE } = this.props;
+    return this.getFiltered().some(({ value }): boolean => test === value);
+  }
 
-    if (!optionsAll) {
-      return false;
-    }
+  private getFiltered (): Option[] {
+    const { filter, optionsAll, type = DEFAULT_TYPE } = this.props;
 
-    return !!optionsAll[type].find(({ value }): boolean => test === value);
+    return !optionsAll
+      ? []
+      : optionsAll[type].filter(({ value }): boolean => !filter || (!!value && filter.includes(value)));
   }
 
   private onChange = (address: string): void => {
@@ -255,17 +246,13 @@ class InputAddress extends React.PureComponent<Props, State> {
     const query = _query.trim();
     const queryLower = query.toLowerCase();
     const matches = filteredOptions.filter((item): boolean =>
-      item.value !== null && (
+      !!item.value && (
         (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
         item.value.toLowerCase().includes(queryLower)
       )
     );
 
-    const valueMatches = matches.filter((item): boolean =>
-      item.value !== null
-    );
-
-    if (isInput && valueMatches.length === 0) {
+    if (isInput && matches.length === 0) {
       const accountId = transformToAccountId(query);
 
       if (accountId) {
@@ -282,7 +269,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       const nextItem = matches[index + 1];
       const hasNext = nextItem && nextItem.value;
 
-      return item.value !== null || (!isLast && !!hasNext);
+      return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
     });
   }
 }
@@ -299,7 +286,7 @@ const ExportedComponent = withMulti(
 
     .ui.search.selection.dropdown {
       > .text > .ui--KeyPair {
-        .ui--IdentityIcon {
+        .ui--IdentityIcon-Outer {
           border: 1px solid #888;
           border-radius: 50%;
           left: -2.75rem;
@@ -319,9 +306,9 @@ const ExportedComponent = withMulti(
   `,
   withObservable(keyringOption.optionsSubject, {
     propName: 'optionsAll',
-    transform: (optionsAll: KeyringOptions): Record<string, Option[]> =>
-      Object.entries(optionsAll).reduce((result: Record<string, Option[]>, [type, options]): Record<string, Option[]> => {
-        result[type] = options.map((option): Option =>
+    transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
+      Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {
+        result[type] = options.map((option): Option | React.ReactNode =>
           option.value === null
             ? createHeader(option)
             : createItem(option)

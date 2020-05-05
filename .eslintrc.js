@@ -1,4 +1,4 @@
-const base = require('@polkadot/dev-react/config/eslint');
+const base = require('@polkadot/dev/config/eslint');
 
 // add override for any (a metric ton of them, initial conversion)
 module.exports = {

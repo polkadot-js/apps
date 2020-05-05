@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -23,7 +23,7 @@ function onChange ({ onChange }: Props): (_: boolean) => void {
   };
 }
 
-export default function BoolParam (props: Props): React.ReactElement<Props> {
+function BoolParam (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
   const defaultValue = value instanceof Boolean
     ? value.valueOf()
@@ -40,11 +40,13 @@ export default function BoolParam (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        options={options}
         onChange={onChange(props)}
+        options={options}
         withEllipsis
         withLabel={withLabel}
       />
     </Bare>
   );
 }
+
+export default React.memo(BoolParam);

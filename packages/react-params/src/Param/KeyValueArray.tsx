@@ -1,16 +1,16 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyValue as Pair } from '@polkadot/types/interfaces';
 import { Props as BaseProps, RawParam } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { WithTranslation } from 'react-i18next';
 import { Vec } from '@polkadot/types';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';
@@ -24,8 +24,8 @@ interface Parsed {
 }
 
 const BYTES_TYPE = {
-  type: 'Bytes',
-  info: 0
+  info: 0,
+  type: 'Bytes'
 };
 
 const EMPTY_PLACEHOLDER = 'click to select or drag and drop JSON key/value (hex-encoded) file';
@@ -53,8 +53,32 @@ function parseFile (raw: Uint8Array): Parsed {
   };
 }
 
-function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, t, withLabel }: Props): React.ReactElement<Props> {
-  const [placeholder, setPlaceholder] = useState(t(EMPTY_PLACEHOLDER));
+function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [placeholder, setPlaceholder] = useState<string>(t(EMPTY_PLACEHOLDER));
+
+  const _onChange = useCallback(
+    (raw: Uint8Array): void => {
+      let encoded: Parsed = { isValid: false, value: [] };
+
+      try {
+        encoded = parseFile(raw);
+
+        setPlaceholder(t('{{count}} key/value pairs encoded for submission', {
+          replace: {
+            count: encoded.value.length
+          }
+        }));
+      } catch (error) {
+        console.error('Error converting json k/v', error);
+
+        setPlaceholder(t(EMPTY_PLACEHOLDER));
+      }
+
+      onChange && onChange(encoded);
+    },
+    [onChange, t]
+  );
 
   if (isDisabled) {
     const pairs = defaultValue.value as Vec<Pair>;
@@ -90,26 +114,6 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
     );
   }
 
-  const _onChange = (raw: Uint8Array): void => {
-    let encoded: Parsed = { isValid: false, value: [] };
-
-    try {
-      encoded = parseFile(raw);
-
-      setPlaceholder(t('{{count}} key/value pairs encoded for submission', {
-        replace: {
-          count: encoded.value.length
-        }
-      }));
-    } catch (error) {
-      console.error('Error converting json k/v', error);
-
-      setPlaceholder(t(EMPTY_PLACEHOLDER));
-    }
-
-    onChange && onChange(encoded);
-  };
-
   return (
     <File
       className={className}
@@ -124,4 +128,4 @@ function KeyValueArray ({ className, defaultValue, isDisabled, isError, label, o
   );
 }
 
-export default translate(KeyValueArray);
+export default React.memo(KeyValueArray);

@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ interface Props extends BareProps {
   label?: string;
 }
 
-export default function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
+function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
   const [type, setType] = useState('unknown');
 
   useEffect((): void => {
@@ -31,7 +31,9 @@ export default function CryptoType ({ accountId, className, label = '' }: Props)
             : current.meta.isHardware
               ? current.meta.hardwareType || 'hardware'
               : current.meta.isExternal
-                ? 'external'
+                ? current.meta.isMultisig
+                  ? 'multisig'
+                  : 'external'
                 : current.type
         );
       }
@@ -46,3 +48,5 @@ export default function CryptoType ({ accountId, className, label = '' }: Props)
     </div>
   );
 }
+
+export default React.memo(CryptoType);

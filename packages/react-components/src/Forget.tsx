@@ -1,25 +1,24 @@
-// Copyright 2017-2019 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
-import { CodeStored } from '@polkadot/app-contracts/types';
-
 import React from 'react';
-import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, Modal } from '@polkadot/react-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+type Mode = 'account' | 'address' | 'contract' | 'code';
+
+interface Props {
   address?: string;
-  code?: CodeStored;
+  children?: React.ReactNode;
   name?: string;
-  mode?: 'account' | 'address' | 'contract' | 'code';
+  mode?: Mode;
   onClose: () => void;
   onForget: () => void;
 }
 
-function getContent ({ mode = 'account', t }: Props): React.ReactNode {
+function getContent (mode: Mode, t: (key: string) => string): React.ReactNode | null {
   switch (mode) {
     case 'account':
       return (
@@ -42,17 +41,12 @@ function getContent ({ mode = 'account', t }: Props): React.ReactNode {
           <p>{t('This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.')}</p>
         </>
       );
-    case 'code':
-      return (
-        <>
-          <p>{t('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
-          <p>{t('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
-        </>
-      );
+    default:
+      return null;
   }
 }
 
-function getHeaderText ({ mode = 'account', t }: Props): string {
+function getHeaderText (mode: Mode, t: (key: string) => string): string {
   switch (mode) {
     case 'account':
       return t('Confirm account removal');
@@ -65,8 +59,8 @@ function getHeaderText ({ mode = 'account', t }: Props): string {
   }
 }
 
-function renderContent (props: Props): React.ReactNode {
-  const { address, code, mode = 'account' } = props;
+function renderContent (props: Props, t: (key: string) => string): React.ReactNode | null {
+  const { address, mode = 'account' } = props;
 
   switch (mode) {
     case 'account':
@@ -77,51 +71,35 @@ function renderContent (props: Props): React.ReactNode {
           isInline
           value={address || ''}
         >
-          {getContent(props)}
+          {getContent(mode, t)}
         </AddressRow>
       );
-    case 'code':
-      return (
-        <CodeRow
-          isInline
-          code={code || ''}
-        >
-          {getContent(props)}
-        </CodeRow>
-      );
+    default:
+      return null;
   }
 }
 
 function Forget (props: Props): React.ReactElement<Props> {
-  const { onForget, onClose, t } = props;
+  const { t } = useTranslation();
+  const { children, mode = 'account', onClose, onForget } = props;
 
   return (
     <Modal
       className='app--accounts-Modal'
-      header={getHeaderText(props)}
+      header={getHeaderText(mode, t)}
       onClose={onClose}
-      open
     >
-      <Modal.Content>{renderContent(props)}</Modal.Content>
-      <Modal.Actions>
-        <Button.Group>
-          <Button
-            isNegative
-            onClick={onClose}
-            label={t('Cancel')}
-            icon='cancel'
-          />
-          <Button.Or />
-          <Button
-            isPrimary
-            onClick={onForget}
-            label={t('Forget')}
-            icon='trash'
-          />
-        </Button.Group>
+      <Modal.Content>{children || renderContent(props, t)}</Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='trash'
+          isPrimary
+          label={t('Forget')}
+          onClick={onForget}
+        />
       </Modal.Actions>
     </Modal>
   );
 }
 
-export default translate(Forget);
+export default React.memo(Forget);

@@ -1,26 +1,32 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Props } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Button } from '@polkadot/react-components';
 
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-export default function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
   const [isFileDrop, setIsFileDrop] = useState(false);
 
-  const _toggleFile = (): void => setIsFileDrop(true);
-  const _onChangeFile = (value: Uint8Array): void => {
-    onChange && onChange({
-      isValid: value.length !== 0,
-      value: Compact.addLengthPrefix(value)
-    });
-  };
+  const _toggleFile = useCallback(
+    (): void => setIsFileDrop(true),
+    []
+  );
+  const _onChangeFile = useCallback(
+    (value: Uint8Array): void => {
+      onChange && onChange({
+        isValid: value.length !== 0,
+        value: Compact.addLengthPrefix(value)
+      });
+    },
+    [onChange]
+  );
 
   return !isDisabled && isFileDrop
     ? (
@@ -60,3 +66,5 @@ export default function Bytes ({ className, defaultValue, isDisabled, isError, l
       </BaseBytes>
     );
 }
+
+export default React.memo(Bytes);

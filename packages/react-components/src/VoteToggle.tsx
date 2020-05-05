@@ -1,33 +1,36 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from './types';
-
 import React from 'react';
+import styled from 'styled-components';
 
-import Dropdown from './Dropdown';
-import translate from './translate';
+import Toggle from './Toggle';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
+  className?: string;
   onChange: (value: boolean) => void;
   value: boolean;
 }
 
-function VoteToggle ({ className, onChange, t, value }: Props): React.ReactElement<Props> {
+function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
-    <Dropdown
-      className={className}
-      help={t('Select your vote preferences for this proposal, either to approve or disapprove')}
-      label={t('record my vote as')}
-      options={[
-        { text: t('Aye, I approve'), value: true },
-        { text: t('Nay, I do not approve'), value: false }
-      ]}
+    <Toggle
+      className={`${className}`}
+      label={value
+        ? t('Aye, I approve')
+        : t('Nay, I do not approve')
+      }
       onChange={onChange}
       value={value}
     />
   );
 }
 
-export default translate(VoteToggle);
+export default React.memo(styled(VoteToggle)`
+  margin: 0.5rem;
+  text-align: right;
+`);

@@ -1,24 +1,22 @@
-/* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees } from '@polkadot/api-derive/types';
-import { I18nProps } from '@polkadot/react-components/types';
+import { DeriveFees } from '@polkadot/api-derive/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Compact, UInt } from '@polkadot/types';
-import { withCalls, withMulti } from '@polkadot/react-api';
 import { Icon } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends I18nProps {
+interface Props {
   deposit: BN | Compact<UInt>;
-  fees: DerivedFees;
+  fees: DeriveFees;
   democracy_minimumDeposit?: BN;
   onChange: (fees: ExtraFees) => void;
 }
@@ -29,32 +27,37 @@ interface State extends ExtraFees {
 
 const ZERO = new BN(0);
 
-export function Proposal ({ deposit, democracy_minimumDeposit = ZERO, onChange, t }: Props): React.ReactElement<Props> {
+function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const minDeposit = api.consts.democracy.minimumDeposit;
   const [{ extraAmount, isBelowMinimum }, setState] = useState<State>({
-    extraFees: ZERO,
     extraAmount: ZERO,
+    extraFees: ZERO,
     extraWarn: false,
     isBelowMinimum: false
   });
 
   useEffect((): void => {
-    const extraAmount = deposit instanceof Compact
-      ? deposit.toBn()
-      : deposit;
-    const isBelowMinimum = extraAmount.lt(democracy_minimumDeposit);
-    const update = {
-      extraAmount,
-      extraFees: ZERO,
-      extraWarn: isBelowMinimum
-    };
+    if (minDeposit) {
+      const extraAmount = deposit instanceof Compact
+        ? deposit.toBn()
+        : deposit;
+      const isBelowMinimum = extraAmount.lt(minDeposit);
+      const update = {
+        extraAmount,
+        extraFees: ZERO,
+        extraWarn: isBelowMinimum
+      };
 
-    onChange(update);
+      onChange(update);
 
-    setState({
-      ...update,
-      isBelowMinimum
-    });
-  }, [democracy_minimumDeposit]);
+      setState({
+        ...update,
+        isBelowMinimum
+      });
+    }
+  }, [deposit, minDeposit, onChange]);
 
   return (
     <>
@@ -63,7 +66,7 @@ export function Proposal ({ deposit, democracy_minimumDeposit = ZERO, onChange, 
           <Icon name='warning sign' />
           {t('The deposit is below the {{minimum}} minimum required for the proposal to be evaluated', {
             replace: {
-              minimum: formatBalance(democracy_minimumDeposit, { forceUnit: '-' })
+              minimum: formatBalance(minDeposit, { forceUnit: '-' })
             }
           })}
         </div>
@@ -82,10 +85,4 @@ export function Proposal ({ deposit, democracy_minimumDeposit = ZERO, onChange, 
   );
 }
 
-export default withMulti(
-  Proposal,
-  translate,
-  withCalls<Props>(
-    ['consts.democracy.minimumDeposit', { fallbacks: ['query.democracy.minimumDeposit'] }]
-  )
-);
+export default React.memo(Proposal);

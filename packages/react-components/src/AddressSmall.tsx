@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,53 +6,60 @@ import { Address, AccountId } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AccountIndex, AccountName } from '@polkadot/react-query';
 
+import { classes } from './util';
+import AccountIndex from './AccountIndex';
+import AccountName from './AccountName';
 import IdentityIcon from './IdentityIcon';
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   defaultName?: string;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
+  withIndex?: boolean;
+  withSidebar?: boolean;
   toggle?: any;
-  value?: string | Address | AccountId;
+  value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ className, defaultName, onClickName, overrideName, toggle, value }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, value, withIndex, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon
         size={32}
-        value={value}
+        value={value as Uint8Array}
       />
-      <div className='nameInfo'>
+      <div className={classes('nameInfo', withSidebar && 'withSidebar')}>
         <AccountName
           className={(overrideName || !onClickName) ? '' : 'name--clickable'}
           defaultName={defaultName}
-          override={overrideName}
           onClick={onClickName}
-          params={value}
+          override={overrideName}
           toggle={toggle}
-        />
-        <AccountIndex params={value} />
+          value={value}
+          withSidebar={withSidebar}
+        >
+          {children}
+        </AccountName>
+        {withIndex && (
+          <AccountIndex value={value} />
+        )}
       </div>
     </div>
   );
 }
 
-export default styled(AddressSmall)`
-  vertical-align: middle;
-  white-space: nowrap;
-
-  .name--clickable {
-    cursor: pointer;
-  }
+export default React.memo(styled(AddressSmall)`
+  display: flex;
+  align-items: center;
 
   .ui--IdentityIcon,
   .nameInfo {
     display: inline-block;
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   .ui--IdentityIcon {
@@ -60,10 +67,12 @@ export default styled(AddressSmall)`
   }
 
   .nameInfo {
+    &.withSidebar {
+      cursor: help;
+    }
+
     > div {
-      max-width: 16rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      max-width: 12rem;
     }
   }
-`;
+`);

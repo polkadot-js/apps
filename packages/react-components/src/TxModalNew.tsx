@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -28,7 +28,6 @@ function TxModal<P extends Props> ({
   inputAddressLabel = t('using my account'),
   inputAddressHelp = t('Select the account to use for this action.'),
   inputAddressProps = {},
-  cancelButtonLabel = t('Cancel'),
   submitButtonIcon = 'sign-in',
   submitButtonLabel = t('Submit'),
   submitButtonProps = {},
@@ -96,7 +95,7 @@ function TxModal<P extends Props> ({
 
   return (
     <>
-      {Trigger ? <Trigger onOpen={onOpen} /> : null}
+      {Trigger && <Trigger onOpen={onOpen} />}
       <Modal {...allModalProps}>
         <Modal.Content>
           {preContent}
@@ -113,24 +112,15 @@ function TxModal<P extends Props> ({
           />
           {children}
         </Modal.Content>
-        <Modal.Actions>
-          <Button.Group>
-            <Button
-              isNegative
-              onClick={onClose}
-              label={cancelButtonLabel}
-              icon='cancel'
-            />
-            <Button.Or />
-            <Button
-              isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
-              isPrimary
-              label={submitButtonLabel}
-              icon={submitButtonIcon}
-              onClick={onSend}
-              {...submitButtonProps}
-            />
-          </Button.Group>
+        <Modal.Actions onCancel={onClose}>
+          <Button
+            icon={submitButtonIcon}
+            isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
+            isPrimary
+            label={submitButtonLabel}
+            onClick={onSend}
+            {...submitButtonProps}
+          />
         </Modal.Actions>
       </Modal>
     </>

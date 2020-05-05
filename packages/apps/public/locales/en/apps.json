@@ -1,12 +1,14 @@
 {
-  "Waiting for API to be connected and ready.": "Waiting for API to be connected and ready.",
+  "Create an account now.": "Create an account now.",
+  "Initializing connection": "Initializing connection",
+  "Select Network": "Select Network",
+  "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.",
+  "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.": "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.",
+  "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.": "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.",
+  "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.": "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.",
+  "nav.github": "nav.github",
+  "nav.wiki": "nav.wiki",
   "transfer received": "transfer received",
   "update on #{{index}}": "update on #{{index}}",
-  "Select Network": "Select Network",
-  "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.": "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.",
-  "Create an account now.": "Create an account now.",
-  "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.",
-  "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.": "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.",
-  "With the Firefox browser connecting to insecure WebSockets ({{wsUrl}}) will fail due to the browser not allowing localhost access from a secure site.": "With the Firefox browser connecting to insecure WebSockets ({{wsUrl}}) will fail due to the browser not allowing localhost access from a secure site.",
-  "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.": "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint."
+  "version {{version}}": "version {{version}}"
 }

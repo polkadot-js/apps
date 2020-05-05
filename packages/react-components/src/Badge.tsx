@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,22 +11,26 @@ interface Props {
   className?: string;
   hover?: React.ReactNode;
   info: React.ReactNode;
+  isGray?: boolean;
   isInline?: boolean;
+  isSmall?: boolean;
   isTooltip?: boolean;
-  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected';
+  onClick?: () => void;
+  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray' | 'purple';
 }
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): React.ReactElement<Props> | null {
-  const [key] = useState(`${Date.now()}-${badgeId++}`);
+function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
+  const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
 
   return (
     <div
-      className={`ui--Badge ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${type} ${className}`}
-      data-for={`badge-status-${key}`}
+      className={`ui--Badge ${isGray && 'isGray'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
+      data-for={trigger}
       data-tip={true}
       data-tip-disable={!isTooltip}
+      onClick={onClick}
     >
       <div className='badge'>
         {info}
@@ -36,24 +40,47 @@ function Badge ({ className, hover, info, isInline, isTooltip, type }: Props): R
       </div>
       {hover && (
         <Tooltip
-          trigger={`badge-status-${key}`}
           text={hover}
+          trigger={trigger}
         />
       )}
     </div>
   );
 }
 
-export default styled(Badge)`
+export default React.memo(styled(Badge)`
   border-radius: 16px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
-  cursor: help;
   font-size: 12px;
   height: 22px;
   padding: 0 4px;
   text-align: center;
   width: 22px;
+  min-width: 22px;
+
+  &.isTooltip {
+    cursor: help;
+  }
+
+  i.icon {
+    cursor: inherit !important;
+    margin: 0;
+    width: 1em;
+  }
+
+  &.isClickable {
+    cursor: pointer;
+  }
+
+  &.isSmall {
+    box-shadow: none;
+    font-size: 10px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0;
+    width: 16px;
+  }
 
   &:not(.isInline) {
     display: flex;
@@ -64,9 +91,11 @@ export default styled(Badge)`
   &.isInline {
     display: inline-block;
     margin-right: 0.25rem;
+    vertical-align: middle;
   }
 
-  &.next {
+  &.next,
+  &.blue {
     background: steelblue;
   }
 
@@ -80,24 +109,33 @@ export default styled(Badge)`
     vertical-align: middle;
   }
 
-  &.runnerup {
+  &.gray, &.isGray {
+    background: #eee !important;
+    color: #aaa;
+  }
+
+  &.runnerup,
+  &.brown {
     background: brown;
   }
 
   &.online,
-  &.selected {
+  &.selected,
+  &.green {
     background: green;
+  }
+
+  &.purple {
+    background: indigo;
   }
 
   & > * {
     line-height: 22px;
     overflow: hidden;
-    transition: all ease 0.25;
   }
 
-  .badge {
-    font-weight: bold;
-    width: auto;
+  &.isSmall > * {
+    line-height: 16px;
   }
 
   .detail {
@@ -116,4 +154,4 @@ export default styled(Badge)`
       width: auto;
     }
   }
-`;
+`);

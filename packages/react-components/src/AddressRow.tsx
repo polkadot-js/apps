@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo, DerivedStakingAccount } from '@polkadot/api-derive/types';
+/* eslint-disable @typescript-eslint/camelcase */
+
+import { DeriveAccountInfo, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -11,13 +12,12 @@ import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api';
+import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import keyring from '@polkadot/ui-keyring';
 
 import AddressInfo, { BalanceActiveType, ValidatorPrefsType } from './AddressInfo';
 import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
-import CopyButton from './CopyButton';
 import IdentityIcon, { getIdentityTheme } from './IdentityIcon';
 import Row, { RowProps, RowState as State, styles } from './Row';
 import translate from './translate';
@@ -32,7 +32,7 @@ export interface Props extends I18nProps, RowProps {
   accounts_info?: DeriveAccountInfo;
   noDefaultNameOpacity?: boolean;
   overlay?: React.ReactNode;
-  stakingInfo?: DerivedStakingAccount;
+  stakingInfo?: DeriveStakingAccount;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;
@@ -45,6 +45,11 @@ export interface Props extends I18nProps, RowProps {
 const DEFAULT_ADDR = '5'.padEnd(16, 'x');
 const ICON_SIZE = 48;
 const ICON_SIZE_SMALL = 32;
+const EMPTY_INFO: DeriveAccountInfo = {
+  identity: {
+    judgements: []
+  }
+};
 
 class AddressRow extends Row<ApiProps & Props, State> {
   public state: State;
@@ -55,7 +60,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_info = {}, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accounts_info = EMPTY_INFO, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
     const accountId = accounts_info.accountId || value;
     const address = accountId
       ? accountId.toString()
@@ -86,7 +91,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_info = {}, className, isContract, isDisabled, isInline, label, overlay, style } = this.props;
+    const { accounts_info = EMPTY_INFO, className, isContract, isDisabled, isInline, label, overlay, style } = this.props;
     const { accountId, accountIndex } = accounts_info;
     const isValid = this.props.isValid || accountId || accountIndex;
 
@@ -113,7 +118,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private createState (): State {
-    const { accounts_info = {}, defaultName, type, value } = this.props;
+    const { accounts_info = EMPTY_INFO, defaultName, type, value } = this.props;
     const accountId = accounts_info.accountId || value;
     const address = accountId
       ? accountId.toString()
@@ -145,7 +150,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderAddress (): React.ReactNode {
-    const { accounts_info = {}, withIndexOrAddress = true } = this.props;
+    const { accounts_info = EMPTY_INFO, withIndexOrAddress = true } = this.props;
     const { address } = this.state;
     const { accountIndex } = accounts_info;
 
@@ -155,18 +160,13 @@ class AddressRow extends Row<ApiProps & Props, State> {
 
     return (
       <div className='ui--Row-accountId'>
-        <CopyButton
-          isAddress
-          value={address}
-        >
-          <span>{toShortAddress(address)}</span>
-        </CopyButton>
+        {toShortAddress(address)}
       </div>
     );
   }
 
   private renderAccountIndex (): React.ReactNode {
-    const { accounts_info = {}, withIndex = true, withIndexOrAddress = true, withSmallIcon } = this.props;
+    const { accounts_info = EMPTY_INFO, withIndex = true, withIndexOrAddress = true, withSmallIcon } = this.props;
     const { accountIndex } = accounts_info;
 
     if (withSmallIcon || !accountIndex || !(withIndex || withIndexOrAddress)) {
@@ -181,7 +181,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderBalances (): React.ReactNode {
-    const { accounts_info = {}, extraInfo, stakingInfo, withBalance, withValidatorPrefs } = this.props;
+    const { accounts_info = EMPTY_INFO, extraInfo, stakingInfo, withBalance, withValidatorPrefs } = this.props;
     const { accountId } = accounts_info;
 
     if (!(withBalance || withValidatorPrefs) || !accountId) {
@@ -202,7 +202,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   private renderIcon (): React.ReactNode {
-    const { accounts_info = {}, iconInfo, systemName, withIcon = true, withSmallIcon = false } = this.props;
+    const { accounts_info = EMPTY_INFO, iconInfo, systemName, withIcon = true, withSmallIcon = false } = this.props;
     const { address } = this.state;
     const { accountId } = accounts_info;
 
@@ -287,6 +287,11 @@ export default withMulti(
 
     .ui--Row-placeholder {
       opacity: 0.5;
+    }
+
+    .ui--Row-accountId,
+    .ui--Row-accountIndex {
+      font-family: monospace;
     }
   `,
   translate,

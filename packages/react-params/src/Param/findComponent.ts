@@ -1,27 +1,28 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
-import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
 import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
+import { isBn } from '@polkadot/util';
 
 import Account from './Account';
 import Amount from './Amount';
 import Balance from './Balance';
 import Bool from './Bool';
 import Bytes from './Bytes';
+import Call from './Call';
 import Code from './Code';
+import DispatchError from './DispatchError';
 import Enum from './Enum';
 import Hash256 from './Hash256';
 import Hash512 from './Hash512';
-import Moment from './Moment';
-import Proposal from './Proposal';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
+import Moment from './Moment';
 import Null from './Null';
 import Option from './Option';
 import Raw from './Raw';
@@ -34,17 +35,19 @@ import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
 interface TypeToComponent {
-  c: React.ComponentType<Props>;
+  c: React.ComponentType<any>;
   t: string[];
 }
 
-const components: ComponentMap = ([
-  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'SessionKey', 'ValidatorId'] },
+const componentDef: TypeToComponent[] = [
+  { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },
   { c: Amount, t: ['AccountIndex', 'AssetId', 'BlockNumber', 'Gas', 'Index', 'Nonce', 'ParaId', 'ProposalIndex', 'PropIndex', 'ReferendumIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256', 'VoteIndex'] },
   { c: Balance, t: ['Amount', 'AssetOf', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
   { c: Bytes, t: ['Bytes'] },
+  { c: Call, t: ['Call', 'Proposal'] },
   { c: Code, t: ['Code'] },
+  { c: DispatchError, t: ['DispatchError'] },
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
@@ -54,7 +57,6 @@ const components: ComponentMap = ([
   { c: Moment, t: ['Moment', 'MomentOf'] },
   { c: Null, t: ['Null'] },
   { c: Option, t: ['Option'] },
-  { c: Proposal, t: ['Proposal'] },
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
@@ -62,7 +64,9 @@ const components: ComponentMap = ([
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] }
-] as TypeToComponent[]).reduce((components, { c, t }): ComponentMap => {
+];
+
+const components: ComponentMap = componentDef.reduce((components, { c, t }): ComponentMap => {
   t.forEach((type): void => {
     components[type] = c;
   });
@@ -97,6 +101,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         if (components[type] === Account) {
           return type;
         }
+
         return 'Tuple';
 
       case TypeDefInfo.Vec:
@@ -124,7 +129,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
       if (Component) {
         return Component;
-      } else if (instance instanceof BN) {
+      } else if (isBn(instance)) {
         return Amount;
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
         return findComponent(raw, overrides);
@@ -136,7 +141,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
     // we only want to want once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
-      console.warn(`Cannot find component for ${type}, defaulting to Unknown`);
+      console.info(`params: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
     }
   }
 

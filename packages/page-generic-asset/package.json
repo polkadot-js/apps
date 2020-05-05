@@ -1,0 +1,17 @@
+{
+  "name": "@polkadot/app-generic-asset",
+  "private": true,
+  "version": "0.42.0-beta.87",
+  "description": "A basic GenericAsset transfer app",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Bryan Chen <xlchen1291@gmail.com>",
+  "maintainers": [
+    "Bryan Chen <xlchen1291@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.9.6",
+    "@polkadot/react-components": "0.42.0-beta.87"
+  }
+}

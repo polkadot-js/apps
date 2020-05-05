@@ -1,0 +1,11 @@
+{
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "npm.packageManager": "yarn",
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "typescriptreact"
+  ]
+}

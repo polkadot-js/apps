@@ -1,11 +1,11 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Dropdown } from '@polkadot/react-components';
 import { Enum, createType, getTypeDef } from '@polkadot/types';
@@ -19,8 +19,8 @@ interface Option {
   value?: string;
 }
 
-export default function EnumParam (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, label, onChange, style, type, withLabel } = props;
+function EnumParam (props: Props): React.ReactElement<Props> {
+  const { className, defaultValue, isDisabled, isError, label, onChange, overrides, style, type, withLabel } = props;
   const [current, setCurrent] = useState<ParamDef[] | null>(null);
   const [initialValue, setInitialValue] = useState<string | null>(null);
   const [{ options, subTypes }, setOptions] = useState<{ options: Option[]; subTypes: TypeDef[] }>({ options: [], subTypes: [] });
@@ -50,26 +50,32 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
     );
   }, [defaultValue]);
 
+  const _onChange = useCallback(
+    (value: string): void => {
+      const newType = subTypes.find(({ name }): boolean => name === value) || null;
+
+      setCurrent(
+        newType
+          ? [{ name: newType.name, type: newType }]
+          : null
+      );
+    },
+    [subTypes]
+  );
+
+  const _onChangeParam = useCallback(
+    ([{ isValid, value }]: RawParam[]): void => {
+      current && onChange && onChange({
+        isValid,
+        value: { [current[0].name as string]: value }
+      });
+    },
+    [current, onChange]
+  );
+
   if (isDisabled) {
     return <Static {...props} />;
   }
-
-  const _onChange = (value: string): void => {
-    const newType = subTypes.find(({ name }): boolean => name === value) || null;
-
-    setCurrent(
-      newType
-        ? [{ name: newType.name, type: newType }]
-        : null
-    );
-  };
-
-  const _onChangeParam = ([{ isValid, value }]: RawParam[]): void => {
-    current && onChange && onChange({
-      isValid,
-      value: { [current[0].name as string]: value }
-    });
-  };
 
   return (
     <Bare
@@ -82,17 +88,20 @@ export default function EnumParam (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        options={options}
         onChange={_onChange}
+        options={options}
         withEllipsis
         withLabel={withLabel}
       />
       {current && (
         <Params
           onChange={_onChangeParam}
+          overrides={overrides}
           params={current}
         />
       )}
     </Bare>
   );
 }
+
+export default React.memo(EnumParam);

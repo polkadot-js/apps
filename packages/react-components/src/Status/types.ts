@@ -1,13 +1,12 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableResult } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { SignerResult } from '@polkadot/api/types';
-import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { AccountId, Address } from '@polkadot/types/interfaces';
-import { SignerPayloadJSON } from '@polkadot/types/types';
+import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
@@ -22,7 +21,7 @@ export interface AccountInfo {
   accountId?: string | null;
 }
 
-export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'usurped' | 'dropped' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'qr' | 'sending' | 'signing' | 'sent' | 'blocked';
+export type QueueTxStatus = 'future' | 'ready' | 'finalized' | 'finalitytimeout' | 'usurped' | 'dropped' | 'inblock' | 'invalid' | 'broadcast' | 'cancelled' | 'completed' | 'error' | 'incomplete' | 'queued' | 'qr' | 'retracted' | 'sending' | 'signing' | 'sent' | 'blocked';
 
 export type SignerCallback = (id: number, result: SignerResult | null) => void;
 
@@ -38,7 +37,7 @@ export interface QueueTx extends AccountInfo {
   payload?: SignerPayloadJSON;
   result?: any;
   removeItem: () => void;
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   signerCb?: SignerCallback;
   txFailedCb?: TxFailedCallback;
   txSuccessCb?: TxCallback;
@@ -65,7 +64,7 @@ export interface QueueTxExtrinsic extends AccountInfo {
 }
 
 export interface QueueTxRpc extends AccountInfo {
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   values: any[];
 }
 
@@ -85,7 +84,7 @@ export interface PartialQueueTxExtrinsic extends PartialAccountInfo {
 }
 
 export interface PartialQueueTxRpc extends PartialAccountInfo {
-  rpc: RpcMethod;
+  rpc: DefinitionRpcExt;
   values: any[];
 }
 

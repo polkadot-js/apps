@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -28,7 +28,6 @@ export default css`
   .ui.dropdown {
     &.disabled {
       background: transparent;
-      border-color: #eee;
       border-style: dashed;
       opacity: 1;
 
@@ -55,20 +54,20 @@ export default css`
   .ui.input {
     width: 100%;
 
-    &.disabled {
+    &.disabled:not(.retain-appearance) {
       opacity: 1;
 
       input {
         background: transparent;
-        border-color: #eee;
         border-style: dashed;
       }
 
       .ui.primary.buttons .ui.button {
-        background: #eee;
+        background-color: #666;
         border-color: transparent;
         border-left-color: transparent;
-        color: #4e4e4e;
+        color: #f9f9f9;
+        opacity: 0.5;
 
         .dropdown.icon {
           opacity: 0;
@@ -76,14 +75,14 @@ export default css`
       }
     }
 
+    &.disabled.error input {
+      background-color: #fff6f6;
+      border-color: #e0b4b4;
+    }
+
     > input {
       width: 0;
     }
-  }
-
-  .ui.inverted.dimmer {
-    background-color: rgba(255, 255, 255, 0.75);
-    padding: 0 1rem 1rem;
   }
 
   .ui.label:not(.ui--Bubble) {
@@ -94,7 +93,8 @@ export default css`
   }
 
   .ui.modal {
-    background: #fafafa;
+    background: #f9f9f9;
+    box-shadow: none;
     color: #4e4e4e;
     font-family: sans-serif;
 
@@ -109,21 +109,21 @@ export default css`
       padding: 1rem !important;
     }
 
+    /* approx h1, color, size, font */
     > .header:not(.ui) {
-      background: #f5f5f5;
-      font-size: 1.25rem !important;
-      font-weight: normal;
+      background: #f9f9f9;
+      border-bottom: none;
+      color: rgba(0, 0, 0, .6);
+      font-family: sans-serif;
+      font-size: 1.75rem;
+      font-weight: 100;
       line-height: 1.25rem;
-      padding: 1rem 1.5rem;
+      padding: 1.5rem 1.75rem 0;
+      text-transform: lowercase;
 
       > label {
         margin-top: 0.5rem;
       }
-    }
-
-    > :first-child:not(.icon) {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
     }
 
     .description {
@@ -167,8 +167,13 @@ export default css`
     opacity: 0.2 !important;
   }
 
+  .ui.button+.ui.button {
+    margin-left: 0.25rem;
+  }
+
   /* modals aligned to top, not center */
   .ui.dimmer {
+    background-color: rgba(0,0,0,0.5);
     justify-content: flex-start;
   }
 

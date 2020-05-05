@@ -5,39 +5,31 @@ on:
       - master
 
 jobs:
-  build_code:
-    name: Build Code
-    if: "! contains(github.event.head_commit.message, '[CI Skip]')"
-    runs-on: ubuntu-latest
+  master:
     strategy:
       matrix:
-        node-version: [12.x]
+        step: ['build:release']
+    name: ${{ matrix.step }}
+    if: "! contains(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
       with:
         token: ${{ secrets.GH_PAT }}
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: build
+    - name: ${{ matrix.step }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         GH_PAGES_SRC: packages/apps/build
         GH_PAT: ${{ secrets.GH_PAT }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
-        yarn install --frozen-lockfile
-        yarn polkadot-dev-ghact-build
-        yarn polkadot-dev-ghact-docs
+        yarn install --immutable | grep -v 'YN0013'
+        yarn ${{ matrix.step }}
 
   dummy:
     name: Dummy
     if: "contains(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - name: dummy
       run: |

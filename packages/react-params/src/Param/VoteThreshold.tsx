@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -35,7 +35,7 @@ function onChange ({ onChange }: Props): (_: number) => void {
   };
 }
 
-export default function VoteThresholdParam (props: Props): React.ReactElement<Props> {
+function VoteThresholdParam (props: Props): React.ReactElement<Props> {
   const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
   const defaultValue = value instanceof ClassOf(registry, 'VoteThreshold')
     ? value.toNumber()
@@ -52,10 +52,12 @@ export default function VoteThresholdParam (props: Props): React.ReactElement<Pr
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        options={options}
         onChange={onChange(props)}
+        options={options}
         withLabel={withLabel}
       />
     </Bare>
   );
 }
+
+export default React.memo(VoteThresholdParam);

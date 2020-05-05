@@ -1,13 +1,13 @@
-// Copyright 2017-2019 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2020 @polkadot/apps-routing authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routes } from './types';
+import { Route } from './types';
 
 import Contracts from '@polkadot/app-contracts';
 
-export default ([
-  {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
     Component: Contracts,
     display: {
       needsAccounts: true,
@@ -18,10 +18,8 @@ export default ([
         ]
       ]
     },
-    i18n: {
-      defaultValue: 'Contracts'
-    },
     icon: 'compress',
-    name: 'contracts'
-  }
-] as Routes);
+    name: 'contracts',
+    text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })
+  };
+}

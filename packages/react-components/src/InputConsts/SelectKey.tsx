@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -29,7 +29,7 @@ function transform ({ value }: Props): (method: string) => ConstValueBase {
   };
 }
 
-export default function SelectKey (props: Props): React.ReactElement<Props> | null {
+function SelectKey (props: Props): React.ReactElement<Props> | null {
   const { className, isError, onChange, options, style, value } = props;
 
   if (!options.length) {
@@ -49,3 +49,5 @@ export default function SelectKey (props: Props): React.ReactElement<Props> | nu
     />
   );
 }
+
+export default React.memo(SelectKey);

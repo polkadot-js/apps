@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -53,7 +53,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
     return !children || (Array.isArray(children) && children.length === 0);
   }
 
-  public static getDerivedStateFromProps ({ isEmpty, children }: CollectionProps): CollectionState {
+  public static getDerivedStateFromProps ({ children, isEmpty }: CollectionProps): CollectionState {
     return {
       isEmpty: isEmpty === undefined ? Collection.isEmpty(children) : isEmpty
     };
@@ -112,6 +112,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
 
   protected renderCollection (): React.ReactNode {
     const { children } = this.props;
+
     return children;
   }
 }

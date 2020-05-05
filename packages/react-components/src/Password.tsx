@@ -1,11 +1,12 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from './types';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
+import { useToggle } from '@polkadot/react-hooks';
 
 import { classes } from './util';
 import Button from './Button';
@@ -18,7 +19,9 @@ interface Props extends BareProps {
   help?: string;
   isDisabled?: boolean;
   isError?: boolean;
+  isFull?: boolean;
   label?: string;
+  labelExtra?: React.ReactNode;
   name?: string;
   onChange: (value: string) => void;
   onEnter?: () => void;
@@ -28,10 +31,8 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export default function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const _toggleVisible = (): void => setIsVisible(!isVisible);
+function Password ({ autoFocus, children, className, defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+  const [isVisible, toggleVisible] = useToggle();
 
   return (
     <Input
@@ -42,7 +43,9 @@ export default function Password ({ autoFocus, children, className, defaultValue
       isAction
       isDisabled={isDisabled}
       isError={isError}
+      isFull={isFull}
       label={label}
+      labelExtra={labelExtra}
       maxLength={MAX_PASS_LEN}
       name={name}
       onChange={onChange}
@@ -64,10 +67,11 @@ export default function Password ({ autoFocus, children, className, defaultValue
             ? 'hide'
             : 'unhide'
         }
-        isPrimary
-        onClick={_toggleVisible}
+        onClick={toggleVisible}
       />
       {children}
     </Input>
   );
 }
+
+export default React.memo(Password);

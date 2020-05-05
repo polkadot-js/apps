@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -31,7 +31,7 @@ function NodeInfo ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default styled(NodeInfo)`
+export default React.memo(styled(NodeInfo)`
   background: transparent;
   color: white;
   font-size: 0.75rem;
@@ -49,4 +49,4 @@ export default styled(NodeInfo)`
       margin-bottom: 0.5rem;
     }
   }
-`;
+`);

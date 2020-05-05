@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -20,13 +20,12 @@ function SummaryBox ({ children, className }: Props): React.ReactElement<Props> 
   );
 }
 
-export default styled(SummaryBox)`
+export default React.memo(styled(SummaryBox)`
   align-items: stretch;
   border-radius: 4px;
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
-  margin-bottom: 1.4rem;
 
   > section {
     display: flex;
@@ -58,7 +57,7 @@ export default styled(SummaryBox)`
   }
 
   @media(min-width: 768px) {
-    margin-bottom: 2.8rem;
+    margin-bottom: 1.5rem;
   }
 
   .ui.label {
@@ -66,4 +65,4 @@ export default styled(SummaryBox)`
     padding-right: 0;
     padding-top: 0;
   }
-`;
+`);

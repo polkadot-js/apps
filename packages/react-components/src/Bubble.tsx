@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -19,14 +19,19 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-function Bubble ({ color, children, className, icon, label }: Props): React.ReactElement<Props> {
+function Bubble ({ children, className, color, icon, label }: Props): React.ReactElement<Props> {
   return (
     <SUILabel
       className={classes('theme--default', 'ui--Bubble', className)}
       color={color}
     >
       <div className='ui--Bubble-header'>
-        {icon && <Icon name={icon} size='large' />}
+        {icon && (
+          <Icon
+            name={icon}
+            size='large'
+          />
+        )}
         {label && <div className='text'>{label}</div>}
       </div>
       <div className='ui--Bubble-children'>
@@ -36,7 +41,7 @@ function Bubble ({ color, children, className, icon, label }: Props): React.Reac
   );
 }
 
-export default styled(Bubble)`
+export default React.memo(styled(Bubble)`
   font-weight: normal;
   margin: 0.25rem;
   padding: 0;
@@ -75,4 +80,4 @@ export default styled(Bubble)`
       padding: 0 0 0 0.25rem;
     }
   }
-`;
+`);

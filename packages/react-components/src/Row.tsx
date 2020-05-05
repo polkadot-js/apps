@@ -1,11 +1,10 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { Label } from 'semantic-ui-react';
 import React from 'react';
 
 import Button from './Button';
@@ -13,6 +12,7 @@ import { classes, toShortAddress } from './util';
 import CopyButton from './CopyButton';
 import Input from './Input';
 import InputTags from './InputTags';
+import Tag from './Tag';
 
 export const styles = `
   text-align: left;
@@ -66,10 +66,6 @@ export const styles = `
     font-size: 1.25em;
     padding: 0;
     margin-bottom: 0.25rem;
-  }
-
-  .ui--Row-accountIndex {
-    font-style: italic;
   }
 
   .ui--Row-balances {
@@ -270,9 +266,9 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
         <Button
           className='icon-button'
           icon='edit'
-          size='mini'
           isPrimary
           key='unlock'
+          size='mini'
         />
       </span>
 
@@ -339,11 +335,11 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
       ? (
         <InputTags
           className='ui--Row-tags-input'
+          defaultValue={tags}
           onBlur={this.saveTags}
           onChange={this.onChangeTags}
           onClose={this.saveTags}
           openOnFocus
-          defaultValue={tags}
           searchInput={{ autoFocus: true }}
           value={tags}
           withLabel={false}
@@ -358,7 +354,10 @@ export default class Row<P extends RowProps, S extends RowState> extends React.P
             !tags.length
               ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
               : tags.map((tag): React.ReactNode => (
-                <Label key={tag} size='tiny' color='grey'>{tag}</Label>
+                <Tag
+                  key={tag}
+                  label={tag}
+                />
               ))
           }
           {isEditable && this.renderEditIcon()}

@@ -1,29 +1,31 @@
-// Copyright 2017-2019 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
 
 /* default buttons, dark gray */
-const colorBtnDefault = '#666';
+export const colorBtnDefault = '#666';
 
 /* highlighted buttons, orange */
-const colorBtnHighlight = '#f19135';
+export const colorBtnHighlight = '#f19135';
 
 /* primary buttons, blue */
-const colorBtnPrimary = '#2e86ab';
+export const colorBtnPrimary = colorBtnDefault; // '#2e86ab';
 
 /* button text color */
-const colorBtnText = '#f9f9f9';
+export const colorBtnText = '#f9f9f9';
+
+export const colorLink = '#2e86ab';
 
 export default css`
   .theme--default {
     a {
-      color: ${colorBtnPrimary};
+      color: ${colorLink};
 
       &:hover,
       a:visited {
-        color: ${colorBtnPrimary};
+        color: ${colorLink};
       }
     }
 
@@ -41,38 +43,44 @@ export default css`
       }
 
       &:hover {
-        opacity: 0.8;
+        filter: brightness(120%);
+      }
+
+      &.isIcon {
+        i.icon {
+          color: ${colorLink};
+        }
       }
     }
 
     .ui.basic.negative.button {
-      box-shadow: 0 0 0 1px ${colorBtnHighlight} inset !important;
-      color: ${colorBtnHighlight} !important;
+      // box-shadow: 0 0 0 1px ${colorBtnHighlight} inset !important;
+      // color: ${colorBtnHighlight} !important;
     }
 
     .ui.negative.button,
     .ui.buttons .negative.button {
-      background-color: ${colorBtnHighlight};
+      // background-color: ${colorBtnHighlight};
 
-      &.active,
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: ${colorBtnHighlight};
-      }
+      // &.active,
+      // &:active,
+      // &:focus,
+      // &:hover {
+      //   background-color: ${colorBtnHighlight};
+      // }
     }
 
     .ui.primary.button,
     .ui.buttons .primary.button
     /*, .ui.primary.buttons .button (for dropdowns) */ {
-      background-color: ${colorBtnPrimary};
+      // background-color: ${colorBtnPrimary};
 
-      &.active,
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: ${colorBtnPrimary};
-      }
+      // &.active,
+      // &:active,
+      // &:focus,
+      // &:hover {
+      //   background-color: ${colorBtnPrimary};
+      // }
     }
 
     .ui.blue.progress .bar {
@@ -101,7 +109,7 @@ export default css`
 
     .ui.toggle.checkbox input:checked~.box:before,
     .ui.toggle.checkbox input:checked~label:before {
-      background-color: ${colorBtnHighlight} !important;
+      // background-color: ${colorBtnHighlight} !important;
     }
   }
 `;

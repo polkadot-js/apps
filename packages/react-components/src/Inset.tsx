@@ -1,10 +1,11 @@
-// Copyright 2017-2019 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 import { classes } from './util';
@@ -23,16 +24,18 @@ export interface InsetProps {
 
 function Inset ({ children, className, header, href, isCollapsible, isError, isSuccess, withBottomMargin, withTopMargin }: InsetProps): React.ReactElement<InsetProps> | null {
   const history = useHistory();
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, toggleCollapsed] = useToggle();
+
+  const _onClick = useCallback(
+    (): void => {
+      href && history.push(href);
+    },
+    [history, href]
+  );
 
   if (!children) {
     return null;
   }
-
-  const _onClick = (): void => {
-    href && history.push(href);
-  };
-  const _toggleCollapsed = (): void => setIsCollapsed(!isCollapsed);
 
   return (
     <div
@@ -52,7 +55,7 @@ function Inset ({ children, className, header, href, isCollapsible, isError, isS
       {isCollapsible && (
         <div
           className='header'
-          onClick={_toggleCollapsed}
+          onClick={toggleCollapsed}
         >
           <h3>{header}</h3>
           <Icon
@@ -71,7 +74,7 @@ function Inset ({ children, className, header, href, isCollapsible, isError, isS
   );
 }
 
-export default styled(Inset)`
+export default React.memo(styled(Inset)`
   & {
     box-shadow: 0 3px 3px rgba(0,0,0,.2);
     position: relative;
@@ -149,4 +152,4 @@ export default styled(Inset)`
       }
     }
   }
-`;
+`);
