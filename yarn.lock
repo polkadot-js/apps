@@ -3117,7 +3117,7 @@ __metadata:
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
     "@babel/runtime": ^7.9.6
-    edgeware-node-types: ^2.0.1
+    edgeware-node-types: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -8680,7 +8680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"edgeware-node-types@npm:^2.0.1":
+"edgeware-node-types@npm:^2.1.0":
   version: 2.1.0
   resolution: "edgeware-node-types@npm:2.1.0"
   checksum: 2/ef0809ae1a0bfb5e7f510202e8be7ebaef444b7d388b1238b1d642241bcadfa2ed67a5567e745b4c887f3dc106a51ebacb6c511433a1303fbd9cc022df8e16ab
