@@ -12,6 +12,7 @@ let initalAssets: AssetsSubjectInfo = {};
 
 try {
   const storedAsset = localStorage.getItem(ASSETS_KEY);
+
   if (storedAsset) {
     initalAssets = JSON.parse(storedAsset);
   }
@@ -26,18 +27,21 @@ subject.subscribe((assets): void =>
 );
 
 export default {
-  getAssets: (): AssetsSubjectInfo[] =>
-    Object.entries(subject.getValue()).map(([id, name]): AssetsSubjectInfo => ({ id, name })),
   add: (id: string, name: string): void => {
     const assets = subject.getValue();
+
     subject.next({
       ...assets,
       [id]: name
     });
   },
+  getAssets: (): AssetsSubjectInfo[] =>
+    Object.entries(subject.getValue()).map(([id, name]): AssetsSubjectInfo => ({ id, name })),
+
   remove: (id: string): void => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [id]: ignore, ...assets } = subject.getValue();
+
     subject.next(assets);
   },
   subject

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -9,6 +8,7 @@ import { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Trans } from 'react-i18next';
+import { Expander } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
 
@@ -21,7 +21,7 @@ interface Props {
   tip?: BN;
 }
 
-export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
@@ -37,12 +37,16 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
   }
 
   return (
-    <details className={className}>
-      <summary>
+    <Expander
+      className={className}
+      summary={
         <Trans i18nKey='feesForSubmission'>
           Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
         </Trans>
-      </summary>
-    </details>
+      }
+      withDot
+    />
   );
 }
+
+export default React.memo(Checks);

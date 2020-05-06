@@ -11,6 +11,7 @@ import { registry } from '@polkadot/react-api';
 import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';
+import Expander from './Expander';
 import Inset, { InsetProps } from './Inset';
 import TreasuryProposal from './TreasuryProposal';
 import { isTreasuryProposalVote } from './util';
@@ -21,13 +22,12 @@ interface Props {
   insetProps?: Partial<InsetProps>;
   proposal?: Proposal | null;
   idNumber: BN | number | string;
-  isCollapsible?: boolean;
   withLinks?: boolean;
   expandNested?: boolean;
 }
 
 export const styles = `
-  margin-bottom: 1rem;
+  margin-left: 2rem;
 
   .ui--ProposedAction-extrinsic {
     .ui--Params-Content {
@@ -40,7 +40,7 @@ export const styles = `
   }
 `;
 
-function ProposedAction ({ className, asInset, idNumber, insetProps, isCollapsible = true, proposal, withLinks, expandNested }: Props): React.ReactElement<Props> {
+function ProposedAction ({ asInset, className, expandNested, idNumber, insetProps, proposal, withLinks }: Props): React.ReactElement<Props> {
   const stringId = isString(idNumber)
     ? idNumber
     : formatNumber(idNumber);
@@ -64,8 +64,8 @@ function ProposedAction ({ className, asInset, idNumber, insetProps, isCollapsib
       <TreasuryProposal
         asInset={withLinks}
         insetProps={{
-          withTopMargin: true,
           withBottomMargin: true,
+          withTopMargin: true,
           ...(withLinks ? { href: '/treasury' } : {})
         }}
         proposalId={proposal.args[0].toString()}
@@ -91,21 +91,9 @@ function ProposedAction ({ className, asInset, idNumber, insetProps, isCollapsib
   return (
     <div className={`ui--ProposedAction ${className}`}>
       <h3>{header}</h3>
-      {isCollapsible
-        ? (
-          <details>
-            {documentation}
-            {params}
-          </details>
-        )
-        : (
-          <>
-            <details>
-              {documentation}
-            </details>
-            {params}
-          </>
-        )}
+      <Expander summaryMeta={meta}>
+        {params}
+      </Expander>
     </div>
   );
 }

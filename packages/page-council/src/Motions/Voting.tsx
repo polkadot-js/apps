@@ -4,7 +4,7 @@
 
 import { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Icon, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
@@ -20,18 +20,26 @@ interface Props {
   proposal: Proposal;
 }
 
-export default function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [voteValue, setVoteValue] = useState(true);
 
+  useEffect((): void => {
+    isVotingOpen && setVoteValue(true);
+  }, [isVotingOpen]);
+
+  const _onChangeVote = useCallback(
+    (vote?: boolean) => setVoteValue(isBoolean(vote) ? vote : true),
+    []
+  );
+
   if (!hasAccounts) {
     return null;
   }
 
-  const _onChangeVote = (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true);
   const isPrime = prime?.toString() === accountId;
 
   return (
@@ -62,6 +70,7 @@ export default function Voting ({ hash, idNumber, isDisabled, members, prime, pr
           </Modal.Content>
           <VoteActions
             accountId={accountId}
+            aye={voteValue}
             onClick={toggleVoting}
             params={[hash, idNumber, voteValue]}
             tx='council.vote'
@@ -77,3 +86,5 @@ export default function Voting ({ hash, idNumber, isDisabled, members, prime, pr
     </>
   );
 }
+
+export default React.memo(Voting);

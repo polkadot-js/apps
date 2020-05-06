@@ -20,6 +20,7 @@ function NetworkModal ({ className, onClose }: Props): React.ReactElement<Props>
     <Modal
       className={className}
       header={t('Select Network')}
+      size='large'
     >
       <Modal.Content>
         <General

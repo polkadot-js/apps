@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-123code authors & contributors
+// Copyright 2017-2020 @polkadot/app-js authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { I18nProps } from '@polkadot/react-components/types';
@@ -34,18 +34,18 @@ function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.Reac
             <>
               <InputAddress
                 className='sudoInputAddress'
-                value={selected}
-                label={t('sudo key')}
                 isInput={true}
+                label={t('sudo key')}
                 onChange={setSelected}
                 type='all'
+                value={selected}
               />
               <TxButton
                 accountId={sudoKey}
+                icon='sign-in'
                 isDisabled={!isMine || sudoKey === selected}
                 isPrimary
                 label={t('Reassign')}
-                icon='sign-in'
                 params={[selected]}
                 tx='sudo.setKey'
               />

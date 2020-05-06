@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo, DerivedStakingAccount } from '@polkadot/api-derive/types';
+/* eslint-disable @typescript-eslint/camelcase */
+
+import { DeriveAccountInfo, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
@@ -31,7 +32,7 @@ export interface Props extends I18nProps, RowProps {
   accounts_info?: DeriveAccountInfo;
   noDefaultNameOpacity?: boolean;
   overlay?: React.ReactNode;
-  stakingInfo?: DerivedStakingAccount;
+  stakingInfo?: DeriveStakingAccount;
   value: AccountId | AccountIndex | Address | string | null;
   withAddressOrName?: boolean;
   withBalance?: boolean | BalanceActiveType;

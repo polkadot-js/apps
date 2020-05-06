@@ -4,8 +4,8 @@
 
 import { Bid } from '@polkadot/types/interfaces';
 
-import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import React, { useMemo } from 'react';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -20,27 +20,25 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bids = useCall<Bid[]>(api.query.society.bids, []);
 
+  const header = useMemo(() => [
+    [t('bids'), 'start'],
+    [t('kind')],
+    [t('value')]
+  ], [t]);
+
   return (
-    <div className={`overviewSection ${className}`}>
-      <h1>{t('bids')}</h1>
-      {bids
-        ? bids.length
-          ? (
-            <Table>
-              <Table.Body>
-                {bids.map((bid): React.ReactNode => (
-                  <BidRow
-                    key={bid.who.toString()}
-                    value={bid}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : t('No bids')
-        : <Spinner />
-      }
-    </div>
+    <Table
+      className={className}
+      empty={bids && t('No bids')}
+      header={header}
+    >
+      {bids?.map((bid): React.ReactNode => (
+        <BidRow
+          key={bid.who.toString()}
+          value={bid}
+        />
+      ))}
+    </Table>
   );
 }
 

@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/camelcase */
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+/* eslint-disable @typescript-eslint/camelcase */
 
 import { PrefabWasmModule } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
@@ -30,8 +31,8 @@ interface State {
 class ValidateCode extends React.PureComponent<Props, State> {
   public state: State = {
     isStored: false,
-    isValidHex: false,
-    isValid: false
+    isValid: false,
+    isValidHex: false
   };
 
   public static getDerivedStateFromProps ({ codeHash, contracts_codeStorage, onChange }: Props): State {
@@ -44,8 +45,8 @@ class ValidateCode extends React.PureComponent<Props, State> {
 
     return {
       isStored,
-      isValidHex,
-      isValid
+      isValid,
+      isValidHex
     };
   }
 

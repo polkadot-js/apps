@@ -5,6 +5,13 @@
 import typesChain from './chain';
 import typesSpec from './spec';
 
+export function getChainTypes (specName: string, chainName: string): Record<string, string | object> {
+  return {
+    ...(typesSpec[specName as 'edgeware'] || {}),
+    ...(typesChain[chainName as 'Berlin'] || {})
+  };
+}
+
 export {
   typesChain,
   typesSpec

@@ -31,11 +31,11 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
           });
       }
     }
-  }, [accountId, sessionRewards]);
+  }, [accountId, api, mountedRef, sessionRewards]);
 
   useEffect((): void => {
     setCounts([...historic, current || api.createType('u32')].slice(1));
-  }, [current, historic]);
+  }, [api, current, historic]);
 
   return counts;
 }

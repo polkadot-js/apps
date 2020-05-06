@@ -9,7 +9,7 @@ export default function useCounter (): number {
   const { api, isApiReady } = useApi();
   const mountedRef = useIsMountedRef();
   const proposals = useCall<any[]>(isApiReady && api.derive.democracy?.proposals, []);
-  const referenda = useCall<any[]>(isApiReady && api.derive.democracy?.referendums, []);
+  const referenda = useCall<any[]>(isApiReady && api.derive.democracy?.referendumsActive, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {
@@ -17,7 +17,7 @@ export default function useCounter (): number {
       (proposals?.length || 0) +
       (referenda?.length || 0)
     );
-  }, [proposals, referenda]);
+  }, [mountedRef, proposals, referenda]);
 
   return counter;
 }

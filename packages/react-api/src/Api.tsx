@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ChainProperties } from '@polkadot/types/interfaces';
+import { InjectedExtension } from '@polkadot/extension-inject/types';
+import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
-import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
@@ -39,39 +40,42 @@ interface ChainData {
   injectedAccounts: InjectedAccountExt[];
   properties: ChainProperties;
   systemChain: string;
+  systemChainType: ChainType;
   systemName: string;
   systemVersion: string;
 }
 
-const injectedPromise = new Promise((resolve): void => {
-  window.addEventListener('load', (): void => {
-    resolve(web3Enable('polkadot-js/apps'));
-  });
-});
+// const injectedPromise = new Promise<InjectedExtension[]>((resolve): void => {
+//   window.addEventListener('load', (): void => {
+//     resolve(web3Enable('polkadot-js/apps'));
+//   });
+// });
 
 const DEFAULT_DECIMALS = registry.createType('u32', 12);
 const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
 
 export { api };
 
 async function retrieve (api: ApiPromise): Promise<ChainData> {
-  const [properties, systemChain, systemName, systemVersion, injectedAccounts] = await Promise.all([
+  const [properties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
     api.rpc.system.chain(),
+    api.rpc.system.chainType
+      ? api.rpc.system.chainType()
+      : Promise.resolve(registry.createType('ChainType', 'Live')),
     api.rpc.system.name(),
     api.rpc.system.version(),
     injectedPromise
       .then(() => web3Accounts())
-      .then((accounts): InjectedAccountExt[] =>
-        accounts.map(({ address, meta }): InjectedAccountExt => ({
-          address,
-          meta: {
-            ...meta,
-            name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
-          }
-        }))
-      )
+      .then((accounts) => accounts.map(({ address, meta }): InjectedAccountExt => ({
+        address,
+        meta: {
+          ...meta,
+          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+        }
+      })))
       .catch((error): InjectedAccountExt[] => {
         console.error('web3Enable', error);
 
@@ -83,21 +87,22 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
     injectedAccounts,
     properties,
     systemChain: (systemChain || '<unknown>').toString(),
+    systemChainType,
     systemName: systemName.toString(),
     systemVersion: systemVersion.toString()
   };
 }
 
 async function loadOnReady (api: ApiPromise): Promise<ApiState> {
-  const { injectedAccounts, properties, systemChain, systemName, systemVersion } = await retrieve(api);
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-  const isDevelopment = isTestChain(systemChain);
+  const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
 
-  console.log('api: found chain', systemChain, JSON.stringify(properties));
+  console.log(`chain: ${systemChain} (${systemChainType}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));
@@ -143,10 +148,10 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
   const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
-  const [isWaitingInjected, setIsWaitingInjected] = useState(isWeb3Injected);
+  const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
   const props = useMemo<ApiProps>(
-    () => ({ ...state, api, isApiConnected, isApiInitialized, isWaitingInjected }),
-    [isApiConnected, isApiInitialized, isWaitingInjected, state]
+    () => ({ ...state, api, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [extensions, isApiConnected, isApiInitialized, state]
   );
 
   // initial initialization
@@ -156,8 +161,8 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
 
     api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec });
 
-    api.on('connected', (): void => setIsApiConnected(true));
-    api.on('disconnected', (): void => setIsApiConnected(false));
+    api.on('connected', () => setIsApiConnected(true));
+    api.on('disconnected', () => setIsApiConnected(false));
     api.on('ready', async (): Promise<void> => {
       try {
         setState(await loadOnReady(api));
@@ -167,10 +172,11 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
     });
 
     injectedPromise
-      .then((): void => setIsWaitingInjected(false))
-      .catch((error: Error) => console.error(error));
+      .then(setExtensions)
+      .catch((error) => console.error(error));
 
     setIsApiInitialized(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!props.isApiInitialized) {

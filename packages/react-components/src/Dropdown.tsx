@@ -44,7 +44,7 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, withEllipsis, withLabel, value }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<any>();
 
@@ -56,6 +56,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
         lastUpdate.current = json;
 
         setStored(value);
+
         onChange && onChange(
           transform
             ? transform(value)
@@ -68,19 +69,25 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
 
   useEffect((): void => {
     _setStored(isUndefined(value) ? defaultValue : value);
-  }, [defaultValue, value]);
+  }, [_setStored, defaultValue, value]);
 
-  const _onAdd = (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
-    onAdd && onAdd(value);
+  const _onAdd = useCallback(
+    (_: React.SyntheticEvent<HTMLElement>, { value }: DropdownProps): void =>
+      onAdd && onAdd(value),
+    [onAdd]
+  );
 
-  const _onChange = (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void =>
-    _setStored(value);
+  const _onChange = useCallback(
+    (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void =>
+      _setStored(value),
+    [_setStored]
+  );
 
   const dropdown = (
     <SUIDropdown
       allowAdditions={allowAdd}
-      className={dropdownClassName}
       button={isButton}
+      className={dropdownClassName}
       compact={isButton}
       disabled={isDisabled}
       error={isError}

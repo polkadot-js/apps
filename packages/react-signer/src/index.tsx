@@ -15,7 +15,7 @@ interface Props extends BareProps {
 }
 
 function Signer ({ children, className, style }: Props): React.ReactElement<Props> {
-  const { txqueue, queueSetTxStatus } = useContext(StatusContext);
+  const { queueSetTxStatus, txqueue } = useContext(StatusContext);
 
   return (
     <>
@@ -69,6 +69,6 @@ export default React.memo(styled(Signer)`
 
   .signToggle {
     position: absolute;
-    left: 1rem;
+    left: 1.5rem;
   }
 `);

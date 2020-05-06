@@ -2,141 +2,101 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 
-import React from 'react';
-import { AddressRow, Button, Modal, Password, TxComponent } from '@polkadot/react-components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   onClose: () => void;
   onUnlock: () => void;
   pair: KeyringPair | null;
 }
 
-interface State {
-  address: string;
-  password: string;
-  unlockError: string | null;
-}
+function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const [address, setAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [unlockError, setUnlockError] = useState<string | null>(null);
 
-class Unlock extends TxComponent<Props, State> {
-  public state: State = {
-    address: '',
-    password: '',
-    unlockError: null
-  };
+  useEffect((): void => {
+    setAddress(pair?.address || '');
+  }, [pair]);
 
-  public static getDerivedStateFromProps ({ pair }: Props): Pick<State, never> {
-    return {
-      address: (pair && pair.address) || ''
-    };
-  }
+  useEffect((): void => {
+    setUnlockError(null);
+  }, [password]);
 
-  public render (): React.ReactNode {
-    const { pair, t } = this.props;
+  const _onUnlock = useCallback(
+    (): void => {
+      if (!pair || !pair.isLocked) {
+        return;
+      }
 
-    if (!pair) {
-      return null;
-    }
+      try {
+        pair.decodePkcs8(password);
+      } catch (error) {
+        return setUnlockError(error.message);
+      }
 
-    return (
-      <Modal
-        className='toolbox--Unlock'
-        header={t('Unlock account')}
-      >
-        {this.renderContent()}
-        {this.renderActions()}
-      </Modal>
-    );
-  }
+      onUnlock();
+    },
+    [onUnlock, pair, password]
+  );
 
-  private renderActions (): React.ReactNode {
-    const { t } = this.props;
-
-    return (
-      <Modal.Actions onCancel={this.onCancel}>
-        <Button
-          isPrimary
-          onClick={this.onUnlock}
-          label={t('Unlock')}
-          icon='unlock'
-          ref={this.button}
-        />
-      </Modal.Actions>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { t } = this.props;
-    const { address, password, unlockError } = this.state;
-
-    return (
-      <Modal.Content>
-        <AddressRow
-          isInline
-          value={address}
-        >
-          <p>{t('You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.')}</p>
-          <div>
-            <Password
-              autoFocus
-              isError={!!unlockError}
-              help={t('The account\'s password specified at the creation of this account.')}
-              label={t('password')}
-              onChange={this.onChangePassword}
-              onEnter={this.submit}
-              value={password}
-            />
-          </div>
-        </AddressRow>
-      </Modal.Content>
-    );
-  }
-
-  private unlockAccount (password?: string): string | null {
-    const { pair } = this.props;
-
-    if (!pair || !pair.isLocked) {
-      return null;
-    }
-
-    try {
-      pair.decodePkcs8(password);
-    } catch (error) {
-      return error.message;
-    }
-
+  if (!pair) {
     return null;
   }
 
-  private onChangePassword = (password: string): void => {
-    this.setState({
-      password,
-      unlockError: null
-    });
-  }
-
-  private onCancel = (): void => {
-    const { onClose } = this.props;
-
-    onClose();
-  }
-
-  private onUnlock = (): void => {
-    const { onUnlock } = this.props;
-    const { password } = this.state;
-    const unlockError = this.unlockAccount(password);
-
-    if (unlockError) {
-      this.setState({ unlockError });
-      return;
-    }
-
-    onUnlock();
-  }
+  return (
+    <Modal
+      className='toolbox--Unlock'
+      header={t('Unlock account')}
+      size='large'
+    >
+      <Modal.Content>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              help={t('The selected account to be unlocked.')}
+              isDisabled
+              label={t('account')}
+              value={address}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('This account that will perform the message signing.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Password
+              autoFocus
+              help={t('The account\'s password specified at the creation of this account.')}
+              isError={!!unlockError}
+              label={t('password')}
+              onChange={setPassword}
+              onEnter={_onUnlock}
+              value={password}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      </Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='unlock'
+          isPrimary
+          label={t('Unlock')}
+          onClick={_onUnlock}
+        />
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default translate(Unlock);
+export default React.memo(Unlock);

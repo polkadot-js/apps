@@ -22,7 +22,7 @@ const availableExtensions: Record<Browser, Extension[]> = [
   }
 ].reduce((available: Record<Browser, Extension[]>, { browsers, desc, name }): Record<Browser, Extension[]> => {
   Object.entries(browsers).forEach(([browser, link]): void => {
-    available[browser as 'chrome'].push({ link, desc, name });
+    available[browser as 'chrome'].push({ desc, link, name });
   });
 
   return available;

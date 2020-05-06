@@ -25,26 +25,27 @@ interface Props extends BareProps {
   isPadded?: boolean;
   isShort?: boolean;
   label?: React.ReactNode;
+  labelBalance?: React.ReactNode;
+  noLookup?: boolean;
+  summary?: React.ReactNode;
   type?: KeyringItemType;
   value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
   withAddress?: boolean;
   withBalance?: boolean;
   withBonded?: boolean;
   withLockedVote?: boolean;
+  withSidebar?: boolean;
   withName?: boolean;
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, style, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   return (
-    <div
-      className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}
-      style={style}
-    >
+    <div className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
@@ -63,7 +64,13 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         {withAddress && (
           <div className='ui--AddressMini-address'>
             {withName
-              ? <AccountName value={value} />
+              ? (
+                <AccountName
+                  noLookup={noLookup}
+                  value={value}
+                  withSidebar={withSidebar}
+                />
+              )
               : toShortAddress(value)
             }
           </div>
@@ -74,6 +81,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         {withBalance && (
           <BalanceDisplay
             balance={balance}
+            label={labelBalance}
             params={value}
           />
         )}
@@ -86,6 +94,9 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         )}
         {withLockedVote && (
           <LockedVote params={value} />
+        )}
+        {summary && (
+          <div className='ui--AddressMini-summary'>{summary}</div>
         )}
       </div>
     </div>
@@ -100,7 +111,7 @@ export default React.memo(styled(AddressMini)`
 
   &.padded {
     display: inline-block;
-    padding: 0.25rem 1rem 0 0;
+    padding: 0 1rem 0 0;
   }
 
   &.summary {
@@ -165,5 +176,12 @@ export default React.memo(styled(AddressMini)`
     display: inline-block;
     position: relative;
     vertical-align: middle;
+  }
+
+  .ui--AddressMini-summary {
+    font-size: 0.75rem;
+    margin-left: 2.25rem;
+    margin-top: -0.5rem;
+    text-align: left;
   }
 `);

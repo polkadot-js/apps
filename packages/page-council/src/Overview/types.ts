@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SetIndex } from '@polkadot/types/interfaces';
-import { DerivedElectionsInfo } from '@polkadot/api-derive/types';
+import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 
 export interface ComponentProps {
-  electionsInfo?: DerivedElectionsInfo;
+  electionsInfo?: DeriveElectionsInfo;
 }
 
 export interface VoterPosition {

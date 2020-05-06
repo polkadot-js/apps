@@ -50,6 +50,7 @@ function Editor ({ className, code, isValid, onEdit }: Props): React.ReactElemen
     });
 
     editorRef.current = editor;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect((): void => {

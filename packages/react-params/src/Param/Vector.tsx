@@ -78,7 +78,7 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
       isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
       value: values.map(({ value }): any => value)
     });
-  }, [values]);
+  }, [values, onChange]);
 
   const _rowAdd = useCallback(
     (): void => setCount((count) => count + 1),
@@ -100,17 +100,17 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
       {!isDisabled && (
         <div className='ui--Param-Vector-buttons'>
           <Button
-            isPrimary
-            onClick={_rowAdd}
-            label={t('Add item')}
             icon='add'
+            isPrimary
+            label={t('Add item')}
+            onClick={_rowAdd}
           />
           <Button
+            icon='minus'
             isDisabled={values.length === 0}
             isNegative
-            onClick={_rowRemove}
             label={t('Remove item')}
-            icon='minus'
+            onClick={_rowRemove}
           />
         </div>
       )}

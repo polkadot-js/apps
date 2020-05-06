@@ -2,15 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees, DerivedBalancesAll } from '@polkadot/api-derive/types';
 import { AccountId, Balance, BlockNumber, Hash, SessionIndex } from '@polkadot/types/interfaces';
 
-export type Nominators = Record<string, string[]>;
+import BN from 'bn.js';
 
-export interface CalculateBalanceProps {
-  balances_fees?: DerivedFees;
-  balances_all?: DerivedBalancesAll;
-}
+export type Nominators = Record<string, string[]>;
 
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';
 
@@ -30,4 +26,43 @@ export interface SessionRewards {
   sessionIndex: SessionIndex;
   slashes: Slash[];
   treasury: Balance;
+}
+
+interface ValidatorInfoRank {
+  rankBondOther: number;
+  rankBondOwn: number;
+  rankBondTotal: number;
+  rankComm: number;
+  rankOverall: number;
+  rankPayment: number;
+  rankReward: number;
+}
+
+export interface ValidatorInfo extends ValidatorInfoRank {
+  accountId: AccountId;
+  bondOther: BN;
+  bondOwn: Balance;
+  bondShare: number;
+  bondTotal: Balance;
+  commissionPer: number;
+  isCommission: boolean;
+  isFavorite: boolean;
+  isNominating: boolean;
+  key: string;
+  numNominators: number;
+  rewardPayout: BN;
+  rewardSplit: BN;
+  validatorPayment: BN;
+}
+
+export type TargetSortBy = keyof ValidatorInfoRank;
+
+export interface SortedTargets {
+  calcWith?: BN;
+  lastReward?: BN;
+  nominators?: string[];
+  setCalcWith: (amount?: BN) => void;
+  toggleFavorite: (accountId: string) => void;
+  totalStaked?: BN;
+  validators?: ValidatorInfo[];
 }

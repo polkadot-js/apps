@@ -28,15 +28,6 @@ class Column extends Collection<Props, State> {
 
     return children;
   }
-
-  // renderEmpty () {
-  //   const { emptyText } = this.props;
-  //   return (
-  //     <article className='container'>
-  //       {emptyText}
-  //     </article>
-  //   );
-  // }
 }
 
 export default translate(
@@ -47,7 +38,15 @@ export default translate(
     max-width: 100%;
     flex: 1 1;
     margin: 0;
-    padding: 0.5rem;
+    padding: 0 0.5rem;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
 
     .container {
       margin: 0;

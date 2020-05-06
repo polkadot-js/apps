@@ -31,7 +31,10 @@ const format = (value: any): string => {
 };
 
 const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
-  <div className={`js--Log ${type}`} key={index}>
+  <div
+    className={`js--Log ${type}`}
+    key={index}
+  >
     {args.map((arg): string => format(arg)).join(' ')}
   </div>
 );
@@ -73,7 +76,7 @@ export default React.memo(styled(Output)`
 
   .logs-container {
     flex: 1;
-    overflow: auto;;
+    overflow: auto;
   }
 
   .logs-content {

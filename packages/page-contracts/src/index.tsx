@@ -89,8 +89,14 @@ class ContractsApp extends React.PureComponent<Props, State> {
           />
         </header>
         <Switch>
-          <Route path={`${basePath}/code`} render={this.renderComponent(Codes)} />
-          <Route render={this.renderComponent(Contracts)} exact />
+          <Route
+            path={`${basePath}/code`}
+            render={this.renderComponent(Codes)}
+          />
+          <Route
+            exact
+            render={this.renderComponent(Contracts)}
+          />
         </Switch>
         <Deploy
           basePath={basePath}

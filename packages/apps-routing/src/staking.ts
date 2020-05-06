@@ -2,24 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routes } from './types';
+import { Route } from './types';
 
-// import Staking from '@polkadot/app-staking';
-import Staking, { useCounter } from '@polkadot/app-staking';
+import Staking from '@polkadot/app-staking';
 
-export default ([
-  {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
     Component: Staking,
-    useCounter,
     display: {
       needsApi: [
         ['tx.staking.bond']
       ]
     },
-    i18n: {
-      defaultValue: 'Staking'
-    },
     icon: 'certificate',
-    name: 'staking'
-  }
-] as Routes);
+    name: 'staking',
+    text: t('nav.staking', 'Staking', { ns: 'apps-routing' })
+  };
+}

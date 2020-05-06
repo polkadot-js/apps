@@ -38,7 +38,7 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
         setDetails({ details: null });
       }
     }
-  }, [props.defaultValue]);
+  }, [details, props.defaultValue]);
 
   if (!props.isDisabled || !details) {
     return <Unknown {...props} />;

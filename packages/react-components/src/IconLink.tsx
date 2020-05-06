@@ -10,16 +10,22 @@ import styled from 'styled-components';
 import Icon from './Icon';
 
 interface Props extends BareProps {
+  href?: string;
   icon?: string;
   label?: React.ReactNode;
+  rel?: string;
+  target?: string;
   onClick: () => void;
 }
 
-function IconLink ({ className, icon, label, onClick }: Props): React.ReactElement<Props> {
+function IconLink ({ className, href, icon, label, onClick, rel, target }: Props): React.ReactElement<Props> {
   return (
     <a
       className={className}
+      href={href}
       onClick={onClick}
+      rel={rel}
+      target={target}
     >
       {icon && <Icon className={icon} />}
       {label}

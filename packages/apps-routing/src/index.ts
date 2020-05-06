@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routing, Routes } from './types';
+import { Routes } from './types';
 
 import appSettings from '@polkadot/ui-settings';
 
+// When adding here, also ensure to add to Dummy.tsx
+
 import template from './123code';
 import accounts from './accounts';
-import addressbook from './addressbook';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
@@ -17,6 +18,7 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import genericAsset from './generic-asset';
+import i18n from './i18n';
 import js from './js';
 import parachains from './parachains';
 import settings from './settings';
@@ -29,54 +31,49 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
-const routes: Routes = appSettings.uiMode === 'light'
-  ? ([] as Routes).concat(
-    // dashboard,
-    explorer,
-    accounts,
-    addressbook,
-    claims,
-    transfer,
-    genericAsset,
-    null,
-    staking,
-    democracy,
-    council,
-    // TODO Not sure about the inclusion of treasury, parachains & society here
-    null,
-    settings
-  )
-  : ([] as Routes).concat(
-    // dashboard,
-    explorer,
-    accounts,
-    addressbook,
-    claims,
-    transfer,
-    genericAsset,
-    null,
-    staking,
-    democracy,
-    council,
-    treasury,
-    techcomm,
-    parachains,
-    society,
-    null,
-    contracts,
-    storage,
-    extrinsics,
-    sudo,
-    null,
-    settings,
-    toolbox,
-    js,
-    template
-  );
-
-const setup: Routing = {
-  default: 'explorer',
-  routes
-};
-
-export default setup;
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Routes {
+  return appSettings.uiMode === 'light'
+    ? [
+      // dashboard,
+      explorer(t),
+      accounts(t),
+      claims(t),
+      transfer(t),
+      genericAsset(t),
+      null,
+      staking(t),
+      democracy(t),
+      council(t),
+      // TODO Not sure about the inclusion of treasury, parachains & society here
+      null,
+      settings(t)
+    ]
+    : [
+      // dashboard(t),
+      explorer(t),
+      accounts(t),
+      claims(t),
+      transfer(t),
+      genericAsset(t),
+      null,
+      staking(t),
+      democracy(t),
+      council(t),
+      treasury(t),
+      techcomm(t),
+      parachains(t),
+      society(t),
+      null,
+      contracts(t),
+      storage(t),
+      extrinsics(t),
+      sudo(t),
+      null,
+      settings(t),
+      toolbox(t),
+      js(t),
+      // hidden
+      template(t),
+      i18n(t)
+    ];
+}

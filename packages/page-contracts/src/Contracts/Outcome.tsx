@@ -17,7 +17,7 @@ interface Props {
 }
 
 function Outcome (props: Props): React.ReactElement<Props> | null {
-  const { className, onClear, outcome: { message, origin, output, params, isSuccess, time } } = props;
+  const { className, onClear, outcome: { isSuccess, message, origin, output, params, time } } = props;
   const dateTime = new Date(time);
 
   return (
@@ -25,9 +25,9 @@ function Outcome (props: Props): React.ReactElement<Props> | null {
       <div className='info'>
         <AddressMini
           className='origin'
+          isPadded={false}
           value={origin}
           withAddress={false}
-          isPadded={false}
         />
         <MessageSignature
           message={message}
@@ -41,14 +41,14 @@ function Outcome (props: Props): React.ReactElement<Props> | null {
         <Button
           className='icon-button clear-btn'
           icon='close'
-          size='mini'
           isPrimary
           onClick={onClear}
+          size='mini'
         />
       </div>
       <Output
-        isError={!isSuccess}
         className='output'
+        isError={!isSuccess}
         value={(output || '()').toString()}
         withCopy
         withLabel={false}

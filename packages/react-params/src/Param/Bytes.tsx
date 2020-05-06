@@ -25,7 +25,7 @@ function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onC
         value: Compact.addLengthPrefix(value)
       });
     },
-    []
+    [onChange]
   );
 
   return !isDisabled && isFileDrop

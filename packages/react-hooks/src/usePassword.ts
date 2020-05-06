@@ -21,9 +21,9 @@ export default function usePassword (): PasswordProps {
   }, [password]);
 
   return {
-    password,
-    setPassword,
     isPasswordValid,
-    setIsPasswordValid
+    password,
+    setIsPasswordValid,
+    setPassword
   };
 }
