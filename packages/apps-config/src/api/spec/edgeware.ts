@@ -2,18 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import signaling from 'edgeware-node-types/dist/signaling/definitions';
-import treasuryRewards from 'edgeware-node-types/dist/treasuryRewards/definitions';
-import voting from 'edgeware-node-types/dist//voting/definitions';
+import * as edgewareDefinitions from 'edgeware-node-types/dist/definitions';
 
-import { typesFromDefs } from '../util';
+const edgTypes = Object.values(edgewareDefinitions)
+  .reduce((res, { default: { types } }): object => ({ ...res, ...types }), {});
 
 export default {
-  ...typesFromDefs({ signaling, treasuryRewards, voting }),
+  ...edgTypes,
+  // aliases that don't do well as part of interfaces
+  'voting::VoteType': 'VoteType',
+  'voting::TallyType': 'TallyType',
+  'voting::Tally': 'VotingTally',
+  // chain-specific overrides
   Address: 'GenericAddress',
   Keys: 'SessionKeys4',
-  // previous substrate versions
-  ReferendumInfo: 'ReferendumInfoTo239',
   StakingLedger: 'StakingLedgerTo223',
-  Weight: 'u32'
+  Votes: 'VotesTo230',
+  ReferendumInfo: 'ReferendumInfoTo239',
+  Weight: 'u32',
 };
