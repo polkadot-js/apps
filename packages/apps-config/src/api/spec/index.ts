@@ -9,7 +9,6 @@ import kulupu from './kulupu';
 import nodeTemplate from './node-template';
 
 export default {
-  'Centrifuge Chain Node': centrifugeChain,
   'centrifuge-chain': centrifugeChain,
   edgeware,
   'encointer-node': encointerNode,
