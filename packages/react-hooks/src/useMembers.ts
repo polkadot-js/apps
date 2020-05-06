@@ -25,7 +25,7 @@ export default function useMembers (collective: 'council' | 'technicalCommittee'
           members.map(([accountId]) => accountId.toString())
       })
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      : useCall<string[]>(hasAccounts && api.query.technicalCommittee.members, [], {
+      : useCall<string[]>(hasAccounts && api.query.technicalCommittee?.members, [], {
         transform: (accounts: AccountId[]): string[] =>
           accounts.map((accountId) => accountId.toString())
       })
