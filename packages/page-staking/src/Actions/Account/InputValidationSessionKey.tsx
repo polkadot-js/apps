@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -21,17 +21,15 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
   const [error, setError] = useState<string | null>(null);
 
   useEffect((): void => {
-    let newError = null;
+    let newError: string | null = null;
 
     if (sessionId === stashId) {
       newError = t('For fund security, your session key should not match your stash key.');
     }
 
-    if (error !== newError) {
-      onError(newError);
-      setError(newError);
-    }
-  }, [sessionId, stashId]);
+    onError(newError);
+    setError((error) => error !== newError ? newError : error);
+  }, [onError, sessionId, stashId, t]);
 
   if (!error) {
     return null;

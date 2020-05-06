@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as useAccountId } from './useAccountId';
+export { default as useAccountInfo } from './useAccountInfo';
 export { default as useAccounts } from './useAccounts';
 export { default as useAddresses } from './useAddresses';
 export { default as useApi } from './useApi';
@@ -11,12 +12,15 @@ export { default as useCall } from './useCall';
 export { default as useFormField } from './useFormField';
 export { default as useDebounce } from './useDebounce';
 export { default as useFavorites } from './useFavorites';
+export { default as useIncrement } from './useIncrement';
 export { default as useIsMountedRef } from './useIsMountedRef';
 export { default as useMembers } from './useMembers';
 export { default as useModal } from './useModal';
 export { default as useOwnEraRewards } from './useOwnEraRewards';
 export { default as useOwnStashes, useOwnStashIds } from './useOwnStashes';
+export { default as useOwnStashInfos } from './useOwnStashInfos';
 export { default as usePassword } from './usePassword';
+export { default as useRegistrars } from './useRegistrars';
+export { default as useStashIds } from './useStashIds';
 export { default as useSudo } from './useSudo';
 export { default as useToggle } from './useToggle';
-export { default as useTx } from './useTx';

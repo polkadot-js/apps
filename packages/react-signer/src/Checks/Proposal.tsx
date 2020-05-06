@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees } from '@polkadot/api-derive/types';
+import { DeriveFees } from '@polkadot/api-derive/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
@@ -16,7 +16,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   deposit: BN | Compact<UInt>;
-  fees: DerivedFees;
+  fees: DeriveFees;
   democracy_minimumDeposit?: BN;
   onChange: (fees: ExtraFees) => void;
 }
@@ -27,13 +27,13 @@ interface State extends ExtraFees {
 
 const ZERO = new BN(0);
 
-export default function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
+function Proposal ({ deposit, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const minDeposit = api.consts.democracy.minimumDeposit;
   const [{ extraAmount, isBelowMinimum }, setState] = useState<State>({
-    extraFees: ZERO,
     extraAmount: ZERO,
+    extraFees: ZERO,
     extraWarn: false,
     isBelowMinimum: false
   });
@@ -57,7 +57,7 @@ export default function Proposal ({ deposit, onChange }: Props): React.ReactElem
         isBelowMinimum
       });
     }
-  }, [minDeposit]);
+  }, [deposit, minDeposit, onChange]);
 
   return (
     <>
@@ -84,3 +84,5 @@ export default function Proposal ({ deposit, onChange }: Props): React.ReactElem
     </>
   );
 }
+
+export default React.memo(Proposal);

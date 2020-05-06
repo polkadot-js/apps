@@ -7,7 +7,7 @@
 import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
@@ -34,25 +34,35 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<DefinitionRpcExt>((): DefinitionRpcExt => defaultValue);
 
-  const _onMethodChange = (newValue: DefinitionRpcExt): void => {
-    if (value.section === newValue.section && value.method === newValue.method) {
-      return;
-    }
+  useEffect((): void => {
+    onChange && onChange(value);
+  }, [onChange, value]);
 
-    // set via callback since the method is a function itself
-    setValue((): DefinitionRpcExt => newValue);
-    onChange && onChange(newValue);
-  };
-  const _onSectionChange = (section: string): void => {
-    if (section === value.section) {
-      return;
-    }
+  const _onMethodChange = useCallback(
+    (newValue: DefinitionRpcExt): void => {
+      if (value.section === newValue.section && value.method === newValue.method) {
+        return;
+      }
 
-    const optionsMethod = methodOptions(api, section);
+      // set via callback since the method is a function itself
+      setValue((): DefinitionRpcExt => newValue);
+    },
+    [value]
+  );
 
-    setOptionsMethod(optionsMethod);
-    _onMethodChange(jsonrpc[section][optionsMethod[0].value]);
-  };
+  const _onSectionChange = useCallback(
+    (section: string): void => {
+      if (section === value.section) {
+        return;
+      }
+
+      const optionsMethod = methodOptions(api, section);
+
+      setOptionsMethod(optionsMethod);
+      _onMethodChange(jsonrpc[section][optionsMethod[0].value]);
+    },
+    [_onMethodChange, api, value]
+  );
 
   return (
     <LinkedWrapper

@@ -32,10 +32,10 @@ const schedulingOptions = [{
 
 const ONE_THOUSAND = new BN(1000);
 
-export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
+function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen, onClose, onOpen } = useModal();
   const onSendRef = useRef<() => void>();
   const isWasmValidRef = useRef(false);
 
@@ -56,7 +56,7 @@ export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props)
     (): ParaInfo => {
       return createType(api.registry, 'ParaInfo', { scheduling });
     },
-    [scheduling]
+    [api, scheduling]
   );
   const extrinsic = useMemo(
     (): SubmittableExtrinsic | null => {
@@ -69,18 +69,19 @@ export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props)
         );
       } catch (error) {
         console.log(error);
+
         return null;
       }
     },
-    [id, info, code, initialHeadState]
+    [api, id, info, code, initialHeadState]
   );
 
   return (
     <>
       <div className='ui--Row-buttons'>
         <Button
-          label={t('Register a parachain')}
           icon='add'
+          label={t('Register a parachain')}
           onClick={onOpen}
         />
       </div>
@@ -92,10 +93,10 @@ export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props)
         >
           <Modal.Content>
             <InputNumber
-              defaultValue={nextFreeId}
-              label={t('parachain id')}
+              defaultValue={nextFreeId.toString()}
               help={t('The id number to assign to this parachain.')}
               isError={!isIdValid}
+              label={t('parachain id')}
               onChange={setId}
               onEnter={onSendRef.current}
               onEscape={onClose}
@@ -152,3 +153,5 @@ export default function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props)
     </>
   );
 }
+
+export default React.memo(Register);

@@ -28,10 +28,6 @@ function Tuple (props: Props): React.ReactElement<Props> {
     }
   }, [type]);
 
-  if (isDisabled) {
-    return <Static {...props} />;
-  }
-
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
@@ -39,8 +35,12 @@ function Tuple (props: Props): React.ReactElement<Props> {
         value: values.map(({ value }): any => value)
       });
     },
-    []
+    [onChange]
   );
+
+  if (isDisabled) {
+    return <Static {...props} />;
+  }
 
   return (
     <div className='ui--Params-Tuple'>

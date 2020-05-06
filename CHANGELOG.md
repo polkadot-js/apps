@@ -1,4 +1,66 @@
-# 0.39.1
+# 0.42.0-beta.x
+
+- Expand Treasury proposal inline in council (for approve/reject)
+- Expand external proposals in council (preimage lookups)
+- Add table summaries with totals for free, bonded & stash payouts
+
+# 0.41.1 Apr 20, 2020
+
+- Fix for searching child identities on parent name (Thanks to https://github.com/krogla)
+- Support chains with no balances module (Thanks to https://github.com/Voxelot)
+- Add out-of-the-box support for Encointer (Thanks to https://github.com/brenzi)
+- Add ava.do endpoint for Kusama (Thanks to https://github.com/Swader)
+- Show remaining time on staking payout actions, link payouts from actions
+- Display per-validator nominators on waiting list
+- Add support for Treasury tipping (display of available & creation)
+- Adjust display of passing/failing calcs in democracy (incl. no display when other side is 0)
+- Enable use of `system_chainType` to detect development chains
+- Adjust Expander display for balances as used in accounts
+- Adjust formatting outputs (via cleanup) for state queries
+- Cleanup nowrap on Extender as part of tables
+- Optimize retrieval of old-style validator/nominator payouts (not full historyDepth)
+- Optimize AccountName with caching & when used in lists (no lookup information attached, but not shown)
+- Optimize IdentityIcon with removal of extra queries
+- Optimize Transfers, no unneeded useEffect
+- Cleanups, remove unused components with no references (dropped in earlier refactoring)
+- More components to functional, specific focus on TxModal extends
+- Bumps to all @polkadot/* packages for latest support everywhere
+
+# 0.40.1 Apr 9, 2020
+
+- Swap voting to aye/nay toggles (Thanks to https://github.com/Lowhearth)
+- Cater for chains where no tip is present (Thanks to https://github.com/Sushisource)
+- Export chain-specific settings via QR (thanks to https://github.com/hanwencheng)
+- Improve support for WS_URL usage (Thanks to https://github.com/chevdor)
+- Add out-of-the-box support for Centrifuge (Thanks to https://github.com/philipstanislaus)
+- Cleanup docker image construction (Thanks to https://github.com/philipstanislaus)
+- Add out-of-the-box support for node template (Thanks to https://github.com/JoshOrndorff)
+- Text cleanups (Thanks to https://github.com/x5engine)
+- Text cleanups (Thanks to https://github.com/ltfschoen)
+- update Parachains to support latest Polkadot (Thanks to https://github.com/kwingram25)
+- Rework multi address inputs (e.g. nominations & council) (Thanks to https://github.com/kwingram25)
+- Introduce apps-config as a single source of config information
+- Cater for metadata updates to extensions
+- Rework explorer layouts, combining extrinsics & events into a single view
+- Swap all layouts to be explicitly table-based (instead of table-like)
+- Cater for latest Substrate referendum updates
+- Allow for fast-tracking proposals
+- Time countdowns where applicable, e.g. referendums
+- Show referendum pass/fail status as well as change information
+- Combine Accounts & Contacts into a single app
+- Support for display of parent/child relationships in accounts
+- Add ErrorBoundary around components
+- Update Westend after reset
+- Enable Subscan explorer
+- Support for simple payouts on Substrate, with Payouts screen
+- Extensive use of useCallback & React.memo for functional components
+- Add Expander component for consistent UI
+- Loading spinners used consistently
+- Specific names for society & treasury addresses
+- Cleanup all voting lock, consistent display
+- ... loads of other under-the-hood improvements and cleanups
+
+# 0.39.1 Jan 31, 2020
 
 - **Breaking** Drop support for V1 Substrate chains
 - Translation into Chinese (Thanks to https://github.com/dushaobindoudou)
@@ -34,7 +96,7 @@
 # 0.37.1
 
 - Support for Kusama CC3
-- Support for contracts with new ABI v2 (Thanks to @kwingram25)
+- Support for contracts with new ABI v2 (Thanks to https://github.com/kwingram25)
 - Support for on-chain nicks
 - Speed improvements for the staking pages
 - Add account derivation from existing account

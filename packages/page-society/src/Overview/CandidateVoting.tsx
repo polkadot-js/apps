@@ -14,7 +14,7 @@ interface Props {
   ownMembers: string[];
 }
 
-export default function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
@@ -37,7 +37,7 @@ export default function CandidateVoting ({ candidateId, isMember, ownMembers }: 
             />
             <Dropdown
               help={t('Approve this candidacy.')}
-              label={t('vote for andidate')}
+              label={t('vote for candidate')}
               onChange={setVote}
               options={voteOpts}
               value={vote}
@@ -58,10 +58,11 @@ export default function CandidateVoting ({ candidateId, isMember, ownMembers }: 
       <Button
         icon='check'
         isDisabled={!isMember}
-        isPrimary
         label={t('Vote')}
         onClick={toggleVisible}
       />
     </>
   );
 }
+
+export default React.memo(CandidateVoting);

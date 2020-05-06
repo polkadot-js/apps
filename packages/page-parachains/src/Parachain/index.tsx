@@ -24,14 +24,14 @@ interface Props extends ComponentProps {
   paraInfoRef: React.MutableRefObject<DeriveParachainInfo | null>;
 }
 
-function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
+function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
   const { api } = useApi();
   const { id } = useParams();
   const [isMenuOpen, toggleMenu] = useToggle();
-  const { isOpen: isDeregisterOpen, onOpen: onDeregisterOpen, onClose: onDeregisterClose } = useModal();
-  const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info as any, [id || null]);
+  const { isOpen: isDeregisterOpen, onClose: onDeregisterClose, onOpen: onDeregisterOpen } = useModal();
+  const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info, [id || null]);
 
   if (isUndefined(parachain)) {
     return (
@@ -65,15 +65,14 @@ function Parachain ({ className, basePath, isMine, paraInfoRef, sudoKey }: Props
       <SummaryBox>
         <section>
           <ParachainInfo
-            isBig
             info={parachain.info}
+            isBig
           >
             {(sudoKey && isMine) && (
               <Popup
+                isOpen={isMenuOpen}
                 key='settings'
                 onClose={toggleMenu}
-                open={isMenuOpen}
-                position='bottom right'
                 trigger={
                   <Button
                     className='menu-button'

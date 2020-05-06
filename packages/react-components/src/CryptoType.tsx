@@ -31,7 +31,9 @@ function CryptoType ({ accountId, className, label = '' }: Props): React.ReactEl
             : current.meta.isHardware
               ? current.meta.hardwareType || 'hardware'
               : current.meta.isExternal
-                ? 'external'
+                ? current.meta.isMultisig
+                  ? 'multisig'
+                  : 'external'
                 : current.type
         );
       }

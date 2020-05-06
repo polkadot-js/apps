@@ -4,7 +4,7 @@
 
 import { Option } from '@polkadot/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { DerivedCollectiveProposals } from '@polkadot/api-derive/types';
+import { DeriveCollectiveProposals } from '@polkadot/api-derive/types';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
@@ -31,7 +31,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const prime = useCall<AccountId | null>(api.query.council.prime, [], {
     transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
   }) || null;
-  const motions = useCall<DerivedCollectiveProposals>(api.derive.council.proposals);
+  const motions = useCall<DeriveCollectiveProposals>(api.derive.council.proposals);
 
   const items = useMemo(() => [
     {

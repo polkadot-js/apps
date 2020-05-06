@@ -102,7 +102,7 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
   );
 }
 
-function renderItem ({ id, extrinsic, error, removeItem, rpc, status }: QueueTx): React.ReactNode {
+function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx): React.ReactNode {
   let { method, section } = rpc;
 
   if (extrinsic) {
@@ -186,11 +186,11 @@ function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Pro
       {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
+            icon='cancel'
             isFluid
             isPrimary
-            onClick={_onDismiss}
             label={t('Dismiss all notifications')}
-            icon='cancel'
+            onClick={_onDismiss}
           />
         </div>
       )}
@@ -227,6 +227,13 @@ export default React.memo(styled(Status)`
       opacity: 0.95;
       vertical-align: middle;
       position: relative;
+
+      .ui--highlight--spinner {
+        &:after {
+          border-color: #fff transparent transparent !important;
+          font-size: 1rem;
+        }
+      }
 
       .desc {
         flex: 1;

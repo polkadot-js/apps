@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -49,12 +49,10 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
         newError = t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
       }
 
-      if (error !== newError) {
-        onError(newError);
-        setError(newError);
-      }
+      onError(newError);
+      setError((error) => error !== newError ? newError : error);
     }
-  }, [accountId, bondedId, controllerId, defaultController, stashId]);
+  }, [accountId, bondedId, controllerId, defaultController, onError, stashId, t]);
 
   if (!error || !accountId) {
     return null;

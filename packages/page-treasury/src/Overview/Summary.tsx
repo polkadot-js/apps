@@ -1,10 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAccount } from '@polkadot/api-derive/types';
+import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
 import { Balance } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -20,12 +21,13 @@ interface Props {
   proposalCount?: number;
 }
 
-export default function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
+function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber as any, []);
+  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber, []);
+  const totalProposals = useCall<BN>(api.query.treasury.proposalCount, []);
+  const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
   const spendPeriod = api.consts.treasury.spendPeriod;
-  const treasuryBalance = useCall<DerivedBalancesAccount>(api.derive.balances.account as any, [TREASURY_ACCOUNT]);
 
   const value = treasuryBalance?.freeBalance.gtn(0)
     ? treasuryBalance.freeBalance.toString()
@@ -37,6 +39,11 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
         <CardSummary label={t('proposals')}>
           {formatNumber(proposalCount)}
         </CardSummary>
+        <CardSummary label={t('total')}>
+          {formatNumber(totalProposals || 0)}
+        </CardSummary>
+      </section>
+      <section>
         <CardSummary label={t('approved')}>
           {formatNumber(approvalCount)}
         </CardSummary>
@@ -66,3 +73,5 @@ export default function Summary ({ approvalCount, proposalCount }: Props): React
     </SummaryBox>
   );
 }
+
+export default React.memo(Summary);

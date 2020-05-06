@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
@@ -43,12 +42,12 @@ function calculateOptions (aspectRatio: number, values: HorizBarValue[], jsonVal
 
     return data;
   }, {
-    labels: [] as string[],
     datasets: [{
-      data: [] as number[],
       backgroundColor: [] as string[],
+      data: [] as number[],
       hoverBackgroundColor: [] as string[]
-    }]
+    }],
+    labels: [] as string[]
   });
 
   return {
@@ -69,7 +68,7 @@ function calculateOptions (aspectRatio: number, values: HorizBarValue[], jsonVal
       },
       tooltips: {
         callbacks: {
-          label: (item: TooltipItem, _: any): string =>
+          label: (item: TooltipItem): string =>
             values[item.index].tooltip || values[item.index].label
         }
       }
@@ -87,7 +86,7 @@ function ChartHorizBar ({ aspectRatio = 8, className, max = 100, showLabels = fa
     if (newJsonValues !== jsonValues) {
       setState(calculateOptions(aspectRatio, values, newJsonValues, max, showLabels));
     }
-  }, [values]);
+  }, [aspectRatio, jsonValues, max, showLabels, values]);
 
   if (!chartData) {
     return null;

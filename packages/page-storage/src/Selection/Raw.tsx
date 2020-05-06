@@ -4,29 +4,35 @@
 
 import { ComponentProps as Props } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 import { u8aToU8a } from '@polkadot/util';
 import { Compact } from '@polkadot/types';
 
-export default function Raw ({ onAdd }: Props): React.ReactElement<Props> {
+function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isValid, key }, setValue] = useState<{ isValid: boolean; key: Uint8Array }>({ isValid: false, key: new Uint8Array([]) });
 
-  const _onAdd = (): void => {
-    isValid && onAdd({ isConst: false, key });
-  };
-  const _onChangeKey = (key: string): void => {
-    const u8a = u8aToU8a(key);
-    const isValid = u8a.length !== 0;
+  const _onAdd = useCallback(
+    (): void => {
+      isValid && onAdd({ isConst: false, key });
+    },
+    [isValid, key, onAdd]
+  );
 
-    setValue({
-      isValid,
-      key: Compact.addLengthPrefix(u8a)
-    });
-  };
+  const _onChangeKey = useCallback(
+    (key: string): void => {
+      const u8a = u8aToU8a(key);
+
+      setValue({
+        isValid: u8a.length !== 0,
+        key: Compact.addLengthPrefix(u8a)
+      });
+    },
+    []
+  );
 
   return (
     <section className='storage--actionrow'>
@@ -49,3 +55,5 @@ export default function Raw ({ onAdd }: Props): React.ReactElement<Props> {
     </section>
   );
 }
+
+export default React.memo(Raw);

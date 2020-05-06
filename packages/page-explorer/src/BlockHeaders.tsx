@@ -2,27 +2,38 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
+import { Table } from '@polkadot/react-components';
 
 import BlockHeader from './BlockHeader';
+import { useTranslation } from './translate';
 
 interface Props {
   headers: HeaderExtended[];
 }
 
 function BlockHeaders ({ headers }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
+  const header = useMemo(() => [
+    [t('recent blocks'), 'start', 3]
+  ], [t]);
+
   return (
-    <>
-      {headers.map((header, index): React.ReactNode => (
-        <BlockHeader
-          isSummary={!!index}
-          key={header.number.toString()}
-          value={header}
-          withLink={!header.number.isEmpty}
-        />
-      ))}
-    </>
+    <Table
+      empty={t('No blocks available')}
+      header={header}
+    >
+      {headers
+        .filter((header) => !!header)
+        .map((header): React.ReactNode => (
+          <BlockHeader
+            key={header.number.toString()}
+            value={header}
+          />
+        ))}
+    </Table>
   );
 }
 

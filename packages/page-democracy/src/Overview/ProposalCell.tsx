@@ -2,60 +2,56 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadataLatest, Hash, Proposal } from '@polkadot/types/interfaces';
+import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
-import { Call } from '@polkadot/react-components';
+import { CallExpander } from '@polkadot/react-components';
+import { Compact } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
+import ExternalCell from './ExternalCell';
+import TreasuryCell from './TreasuryCell';
 
 interface Props {
   className?: string;
+  imageHash: Hash | string;
   proposal?: Proposal | null;
-  proposalHash: Hash | string;
 }
 
-function formatDocs (meta?: FunctionMetadataLatest): React.ReactNode | null {
-  if (!meta) {
-    return null;
-  }
+const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority'];
+const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
-  const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
-
-  if (!firstEmpty) {
-    return null;
-  }
-
-  return strings.slice(0, firstEmpty).join(' ');
-}
-
-function ProposalCell ({ className, proposal, proposalHash }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   if (!proposal) {
     return (
-      <td className={`${className} all top`}>
+      <td className={`${className} all`}>
         <label>{t('preimage hash')}</label>
-        {proposalHash.toString()}
+        {imageHash.toString()}
       </td>
     );
   }
 
-  const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
+  const { method, section } = registry.findMetaCall(proposal.callIndex);
+  const isTreasury = section === 'treasury' && METHOD_TREA.includes(method);
+  const isExternal = section === 'democracy' && METHOD_EXTE.includes(method);
 
   return (
-    <td className={`${className} all top`}>
-      <div>{section}.{method}</div>
-      <details>
-        <summary>{formatDocs(meta) || t('Details')}</summary>
-        <Call
-          labelHash={t('proposal hash')}
-          value={proposal}
-          withHash
-        />
-      </details>
+    <td className={`${className} all`}>
+      <CallExpander
+        labelHash={t('proposal hash')}
+        value={proposal}
+        withHash={!isTreasury && !isExternal}
+      >
+        {isExternal && (
+          <ExternalCell value={proposal.args[0] as Hash} />
+        )}
+        {isTreasury && (
+          <TreasuryCell value={proposal.args[0] as Compact<ProposalIndex>} />
+        )}
+      </CallExpander>
     </td>
   );
 }

@@ -22,7 +22,7 @@ import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
 import Params from './Params';
 import store from './store';
 import translate from './translate';
-import { ENDOWMENT, GAS_LIMIT } from './constants';
+import { ENDOWMENT, DEFAULT_GAS_LIMIT } from './constants';
 
 type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
@@ -50,10 +50,10 @@ class Deploy extends ContractModal<Props, State> {
 
     this.defaultState = {
       ...this.defaultState,
-      constructorIndex: -1,
       constructOptions: [],
+      constructorIndex: -1,
       endowment: new BN(ENDOWMENT),
-      gasLimit: new BN(GAS_LIMIT),
+      gasLimit: new BN(DEFAULT_GAS_LIMIT),
       isHashValid: false,
       params: [],
       ...Deploy.getCodeState(props.codeHash)
@@ -80,9 +80,9 @@ class Deploy extends ContractModal<Props, State> {
       };
     } else {
       return {
-        constructorIndex: -1,
-        constructOptions: [] as ConstructOptions,
         abi: null,
+        constructOptions: [] as ConstructOptions,
+        constructorIndex: -1,
         contractAbi: null,
         isAbiSupplied: false,
         isAbiValid: false,
@@ -101,9 +101,9 @@ class Deploy extends ContractModal<Props, State> {
         return {
           codeHash,
           isAbiSupplied: !!contractAbi,
-          name: `${json.name} (instance)`,
           isHashValid: true,
           isNameValid: true,
+          name: `${json.name} (instance)`,
           ...Deploy.getContractAbiState(json.abi, contractAbi, Math.max(constructorIndex, 0))
         };
       }
@@ -114,10 +114,11 @@ class Deploy extends ContractModal<Props, State> {
 
   private static getConstructorState = (contractAbi: Abi | null = null, ci = 0): Pick<State, never> => {
     const constructorIndex = Math.max(ci, 0);
+
     if (!contractAbi || constructorIndex < 0 || constructorIndex >= contractAbi.constructors.length) {
       return {
-        constructorIndex: -1,
         constructOptions: [],
+        constructorIndex: -1,
         params: []
       };
     }
@@ -139,15 +140,15 @@ class Deploy extends ContractModal<Props, State> {
       });
 
     return {
-      constructorIndex,
       constructOptions,
+      constructorIndex,
       params: createValues(constructor.args)
     };
   }
 
   protected renderContent = (): React.ReactNode => {
     const { t } = this.props;
-    const { codeHash, constructorIndex, constructOptions, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
+    const { codeHash, constructOptions, constructorIndex, contractAbi, endowment, isAbiSupplied, isBusy, isHashValid } = this.state;
 
     const codeOptions = store.getAllCode().map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       text: `${name} (${codeHash})`,
@@ -236,11 +237,9 @@ class Deploy extends ContractModal<Props, State> {
         onSuccess={this.onSuccess}
         params={this.constructCall}
         tx={
-          api.tx.contracts
-            ? api.tx.contracts.instantiate
-              ? 'contracts.instantiate' // V2 (new)
-              : 'contracts.create' // V2 (old)
-            : 'contract.create' // V1
+          api.tx.contracts.instantiate
+            ? 'contracts.instantiate' // V2 (new)
+            : 'contracts.create' // V2 (old)
         }
         withSpinner
       />
@@ -289,8 +288,7 @@ class Deploy extends ContractModal<Props, State> {
   private onSuccess = (result: SubmittableResult): void => {
     const { api, history } = this.props;
 
-    const section = api.tx.contracts ? 'contracts' : 'contract';
-    const records = result.filterRecords(section, 'Instantiated');
+    const records = result.filterRecords('contracts', 'Instantiated');
 
     if (records.length) {
       // find the last EventRecord (in the case of multiple contracts deployed - we should really be
@@ -303,11 +301,11 @@ class Deploy extends ContractModal<Props, State> {
         }
 
         keyring.saveContract(address.toString(), {
-          name,
           contract: {
             abi,
             genesisHash: api.genesisHash.toHex()
           },
+          name,
           tags
         });
 

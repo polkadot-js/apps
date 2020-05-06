@@ -4,6 +4,9 @@
 
 import { Snippet } from '@polkadot/app-js/types';
 
+// We must fix this :(
+/* eslint-disable sort-keys */
+
 export const extrinsicMakeTransfer: Snippet = {
   value: 'extrinsicMakeTransfer',
   text: 'Make transfer and listen to events',

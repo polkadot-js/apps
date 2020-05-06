@@ -29,9 +29,9 @@ class Add extends ContractModal<Props, State> {
     this.defaultState = {
       ...this.defaultState,
       address: null,
-      name: 'New Contract',
       isAddressValid: false,
-      isNameValid: true
+      isNameValid: true,
+      name: 'New Contract'
     };
     this.state = this.defaultState;
     this.headerText = props.t('Add an existing contract');
@@ -71,7 +71,7 @@ class Add extends ContractModal<Props, State> {
 
   protected renderButtons = (): React.ReactNode => {
     const { t } = this.props;
-    const { isAddressValid, isAbiValid, isNameValid } = this.state;
+    const { isAbiValid, isAddressValid, isNameValid } = this.state;
     const isValid = isNameValid && isAddressValid && isAbiValid;
 
     return (
@@ -96,7 +96,7 @@ class Add extends ContractModal<Props, State> {
   private onAdd = (): void => {
     const { api } = this.props;
     const status: Partial<ActionStatus> = { action: 'create' };
-    const { address, abi, name, tags } = this.state;
+    const { abi, address, name, tags } = this.state;
 
     if (!address || !abi || !name) {
       return;
@@ -104,12 +104,12 @@ class Add extends ContractModal<Props, State> {
 
     try {
       const json = {
-        name,
-        tags,
         contract: {
           abi,
           genesisHash: api.genesisHash.toHex()
-        }
+        },
+        name,
+        tags
       };
 
       keyring.saveContract(address, json);

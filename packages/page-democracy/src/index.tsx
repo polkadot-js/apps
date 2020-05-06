@@ -21,7 +21,7 @@ const hidden = uiSettings.uiMode === 'full'
   ? []
   : ['propose'];
 
-export default function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
+function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [
     {
@@ -47,3 +47,5 @@ export default function DemocracyApp ({ basePath }: Props): React.ReactElement<P
     </main>
   );
 }
+
+export default React.memo(DemocracyApp);

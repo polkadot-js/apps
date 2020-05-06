@@ -7,14 +7,15 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 function WarmUp (): React.ReactElement {
   const { api, isApiReady } = useApi();
-  const fees = useCall<unknown>(isApiReady && api.derive.balances?.fees, []);
   const indexes = useCall<unknown>(isApiReady && api.derive.accounts?.indexes, []);
   const registrars = useCall<unknown>(isApiReady && api.query.identity?.registrars, []);
   const staking = null; // useCall<unknown>(isApiReady && api.derive.staking?.overview, []);
+  const issuance = useCall<unknown>(isApiReady && api.query.balances?.totalIssuance, []);
   const [hasValues, setHasValues] = useState(false);
 
   useEffect((): void => {
-    setHasValues(!!fees || !!indexes || !!registrars || !!staking);
+    setHasValues(!!indexes || !!issuance || !!registrars || !!staking);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

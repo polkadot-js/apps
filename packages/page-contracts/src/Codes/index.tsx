@@ -35,7 +35,6 @@ class Codes extends React.PureComponent<Props, State> {
     return (
       <>
         <CardGrid
-          emptyText={t('No code hashes available')}
           buttons={
             <Button.Group>
               <Button
@@ -43,7 +42,6 @@ class Codes extends React.PureComponent<Props, State> {
                 label={t('Upload WASM')}
                 onClick={this.showUpload}
               />
-              <Button.Or />
               <Button
                 icon='add'
                 label={t('Add an existing code hash')}
@@ -51,12 +49,13 @@ class Codes extends React.PureComponent<Props, State> {
               />
             </Button.Group>
           }
+          emptyText={t('No code hashes available')}
         >
           {contracts.getAllCode().map((code): React.ReactNode => {
             return (
               <Code
-                key={code.json.codeHash}
                 code={code}
+                key={code.json.codeHash}
                 showDeploy={showDeploy}
               />
             );
@@ -65,13 +64,13 @@ class Codes extends React.PureComponent<Props, State> {
         <Upload
           basePath={basePath}
           isNew
-          onClose={this.hideUpload}
           isOpen={isUploadOpen}
+          onClose={this.hideUpload}
         />
         <Add
           basePath={basePath}
-          onClose={this.hideAdd}
           isOpen={isAddOpen}
+          onClose={this.hideAdd}
         />
       </>
     );

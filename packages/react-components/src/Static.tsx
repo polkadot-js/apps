@@ -20,7 +20,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function Static ({ className, children, defaultValue, help, isHidden, label, style, value, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ children, className, defaultValue, help, isHidden, label, style, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}

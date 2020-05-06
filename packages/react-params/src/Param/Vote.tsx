@@ -60,8 +60,8 @@ function Vote ({ className, defaultValue: { value }, isDisabled, isError, onChan
         isDisabled={isDisabled}
         isError={isError}
         label={t('aye: bool')}
-        options={optAye}
         onChange={doChange(onChange)}
+        options={optAye}
         withLabel={withLabel}
       />
       {isDisabled && (
