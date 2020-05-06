@@ -12,10 +12,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     display: {
       needsAccounts: true,
       needsApi: [
-        [
-          'tx.contracts.call', // substrate 2.x
-          'tx.contract.call' // substrate 1.x
-        ]
+        'tx.contracts.call'
       ]
     },
     icon: 'compress',
