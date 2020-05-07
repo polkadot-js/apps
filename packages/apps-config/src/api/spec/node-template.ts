@@ -8,6 +8,4 @@
 export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
-  // Remove when https://github.com/substrate-developer-hub/substrate-node-template/ moves to alpha-v7
-  Weight: 'u32'
 };
