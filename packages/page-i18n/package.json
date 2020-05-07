@@ -1,0 +1,17 @@
+{
+  "name": "@polkadot/app-i18n",
+  "private": true,
+  "version": "0.42.0-beta.100",
+  "description": "A basic string translayor",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.9.6",
+    "@polkadot/react-components": "0.42.0-beta.100"
+  }
+}

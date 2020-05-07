@@ -23,7 +23,12 @@ function InputError ({ className, label = defaultLabel, style }: Props): React.R
       className={classes('ui--InputError', className)}
       style={style}
     >
-      <Label color='red' pointing='left'>{label}</Label>
+      <Label
+        color='red'
+        pointing='left'
+      >
+        {label}
+      </Label>
     </div>
   );
 }

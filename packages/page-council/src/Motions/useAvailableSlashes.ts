@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -48,7 +48,7 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
     return (): void => {
       unsub && unsub();
     };
-  }, [earliestSlash, indexes]);
+  }, [api, earliestSlash, indexes, mountedRef]);
 
   return slashes;
 }

@@ -9,16 +9,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Icon } from '@polkadot/react-components';
 
-import { useTranslation } from './translate';
-
 interface Props {
   className?: string;
   route: Route;
 }
 
-function Entry ({ className, route: { i18n, icon, name } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
+function Entry ({ className, route: { icon, name, text } }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Link to={`/${name}`}>
@@ -27,7 +23,7 @@ function Entry ({ className, route: { i18n, icon, name } }: Props): React.ReactE
           size='massive'
         />
         <div className='name'>
-          {t(`entry.${name}`, i18n)}
+          {text}
         </div>
       </Link>
     </div>

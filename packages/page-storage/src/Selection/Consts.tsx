@@ -6,13 +6,13 @@ import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { ComponentProps as Props } from '../types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, InputConsts } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
-export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
+function Consts ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [defaultValue] = useState<ConstValue>((): ConstValue => {
@@ -27,7 +27,10 @@ export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
   });
   const [value, setValue] = useState(defaultValue);
 
-  const _onAdd = (): void => onAdd({ isConst: true, key: value });
+  const _onAdd = useCallback(
+    () => onAdd({ isConst: true, key: value }),
+    [onAdd, value]
+  );
 
   const { method, section } = value;
   const meta = (api.consts[section][method] as ConstantCodec).meta;
@@ -37,9 +40,9 @@ export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-value'>
         <InputConsts
           defaultValue={defaultValue}
+          help={meta?.documentation.join(' ')}
           label={t('selected constant query')}
           onChange={setValue}
-          help={meta?.documentation.join(' ')}
         />
       </div>
       <div className='storage--actionrow-buttons'>
@@ -52,3 +55,5 @@ export default function Consts ({ onAdd }: Props): React.ReactElement<Props> {
     </section>
   );
 }
+
+export default React.memo(Consts);

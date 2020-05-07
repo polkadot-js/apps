@@ -21,7 +21,7 @@ function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter,
       isValid: true,
       value: null
     });
-  }, [isActive]);
+  }, [isActive, onChange]);
 
   return (
     <div className={className}>

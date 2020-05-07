@@ -17,7 +17,7 @@ interface Props {
   parachain: DeriveParachainFull;
 }
 
-function Details ({ parachain: { heads, info, id } }: Props): React.ReactElement<Props> {
+function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 

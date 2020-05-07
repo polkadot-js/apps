@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 
+import { useEffect, useState } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface Result {
@@ -11,27 +12,20 @@ interface Result {
   members: string[];
 }
 
-function getResult (allAccounts: string[], members: string[]): Result {
-  return {
-    isMember: members.some((accountId): boolean => allAccounts.includes(accountId)),
-    members
-  };
-}
-
-export default function useMembers (collective: 'council' | 'technicalCommittee'): Result {
+export default function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
-  const state = (
-    collective === 'council'
-      ? useCall<Result>(api.query.electionsPhragmen?.members || api.query.elections.members, [], {
-        transform: (accounts: [AccountId, Balance][]): Result =>
-          getResult(allAccounts, accounts.map(([accountId]) => accountId.toString()))
-      })
-      : useCall<Result>(api.query.technicalCommittee.members, [], {
-        transform: (accounts: AccountId[]): Result =>
-          getResult(allAccounts, accounts.map((accountId) => accountId.toString()))
-      })
-  ) || { isMember: false, members: [] };
+  const { allAccounts, hasAccounts } = useAccounts();
+  const [state, setState] = useState<Result>({ isMember: false, members: [] });
+  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, [], {
+    transform: (accounts: AccountId[]) => accounts.map((accountId) => accountId.toString())
+  });
+
+  useEffect((): void => {
+    retrieved && setState({
+      isMember: retrieved.some((accountId) => allAccounts.includes(accountId)),
+      members: retrieved
+    });
+  }, [allAccounts, retrieved]);
 
   return state;
 }

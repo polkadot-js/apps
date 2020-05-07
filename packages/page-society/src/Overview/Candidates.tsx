@@ -5,8 +5,8 @@
 import { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
 import { OwnMembers } from '../types';
 
-import React from 'react';
-import { Spinner, Table } from '@polkadot/react-components';
+import React, { useMemo } from 'react';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -16,34 +16,35 @@ interface Props extends OwnMembers {
   className?: string;
 }
 
-export default function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
 
+  const header = useMemo(() => [
+    [t('candidates'), 'start'],
+    [t('kind')],
+    [t('value')],
+    [t('votes'), 'start']
+  ], [t]);
+
   return (
-    <div className={`overviewSection ${className}`}>
-      <h1>{t('candidates')}</h1>
-      {candidates
-        ? candidates.length
-          ? (
-            <Table>
-              <Table.Body>
-                {candidates.map((candidate): React.ReactNode => (
-                  <Candidate
-                    allMembers={allMembers}
-                    isMember={isMember}
-                    key={candidate.accountId.toString()}
-                    ownMembers={ownMembers}
-                    value={candidate}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          )
-          : t('No candidates')
-        : <Spinner />
-      }
-    </div>
+    <Table
+      className={className}
+      empty={candidates && t('No candidates')}
+      header={header}
+    >
+      {candidates?.map((candidate): React.ReactNode => (
+        <Candidate
+          allMembers={allMembers}
+          isMember={isMember}
+          key={candidate.accountId.toString()}
+          ownMembers={ownMembers}
+          value={candidate}
+        />
+      ))}
+    </Table>
   );
 }
+
+export default React.memo(Candidates);

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
-// Copyright 2017-2020 @polkadot/app-123code authors & contributors
+// Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +6,6 @@ import { EthereumAddress, EcdsaSignature } from '@polkadot/types/interfaces';
 
 import secp256k1 from 'secp256k1/elliptic';
 import { registry } from '@polkadot/react-api';
-import { createType } from '@polkadot/types';
 import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
@@ -97,8 +95,8 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
 
     return {
       error: null,
-      ethereumAddress: createType(registry, 'EthereumAddress', recoverAddress(msg, parts)),
-      signature: createType(registry, 'EcdsaSignature', u8aConcat(parts.signature, new Uint8Array([parts.recovery])))
+      ethereumAddress: registry.createType('EthereumAddress', recoverAddress(msg, parts)),
+      signature: registry.createType('EcdsaSignature', u8aConcat(parts.signature, new Uint8Array([parts.recovery])))
     };
   } catch (error) {
     console.error(error);

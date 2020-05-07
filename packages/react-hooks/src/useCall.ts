@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
 import { CallOptions, CallParam, CallParams } from './types';
 
 import { useEffect, useRef, useState } from 'react';
@@ -10,17 +9,10 @@ import { isNull, isUndefined } from '@polkadot/util';
 
 import useIsMountedRef, { MountedRef } from './useIsMountedRef';
 
-interface TrackFnCallback {
-  (value: Codec): void;
-}
-
 type TrackFnResult = Promise<() => void>;
 
 interface TrackFn {
-  (a: CallParam, b: CallParam, c: CallParam, cb: TrackFnCallback): TrackFnResult;
-  (a: CallParam, b: CallParam, cb: TrackFnCallback): TrackFnResult;
-  (a: CallParam, cb: TrackFnCallback): TrackFnResult;
-  (cb: TrackFnCallback): TrackFnResult;
+  (...params: CallParam[]): TrackFnResult;
   meta?: {
     type: {
       isDoubleMap: boolean;
@@ -105,7 +97,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 // FIXME The typings here need some serious TLC
 export default function useCall <T> (fn: TrackFn | undefined | null | false, params: CallParams = [], options: CallOptions<T> = {}): T | undefined {
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ isActive: false, count: 0, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ count: 0, isActive: false, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>(options.defaultValue);
 
   // initial effect, we need an un-subscription
@@ -125,7 +117,7 @@ export default function useCall <T> (fn: TrackFn | undefined | null | false, par
         subscribe(mountedRef, tracker, fn, mappedParams, setValue, options);
       }
     }
-  }, [fn, params]);
+  }, [fn, options, mountedRef, params]);
 
   return value;
 }

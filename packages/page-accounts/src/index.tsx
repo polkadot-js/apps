@@ -3,22 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useAccounts } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
-import Overview from './Overview';
 import { useTranslation } from './translate';
+import Accounts from './Accounts';
+import Contacts from './Contacts';
 import Vanity from './Vanity';
 
-export default function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
-  const [hidden, setHidden] = useState<string[]>(['vanity']);
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -26,24 +25,17 @@ export default function AccountsApp ({ basePath, onStatusChange }: Props): React
       text: t('My accounts')
     },
     {
+      name: 'contacts',
+      text: t('My contacts')
+    },
+    {
       name: 'vanity',
-      text: t('Vanity address')
+      text: t('Vanity generator')
     }
   ], [t]);
-
-  useEffect((): void => {
-    setHidden(
-      hasAccounts
-        ? []
-        : ['vanity']
-    );
-  }, [hasAccounts]);
-
-  const _renderComponent = (Component: React.ComponentType<ComponentProps>): React.ReactNode => (
-    <Component
-      basePath={basePath}
-      onStatusChange={onStatusChange}
-    />
+  const hidden = useMemo(
+    () => hasAccounts ? [] : ['vanity'],
+    [hasAccounts]
   );
 
   return (
@@ -57,9 +49,27 @@ export default function AccountsApp ({ basePath, onStatusChange }: Props): React
         />
       </header>
       <Switch>
-        <Route path={`${basePath}/vanity`}>{_renderComponent(Vanity)}</Route>
-        <Route>{_renderComponent(Overview)}</Route>
+        <Route path={`${basePath}/contacts`}>
+          <Contacts
+            basePath={basePath}
+            onStatusChange={onStatusChange}
+          />
+        </Route>
+        <Route path={`${basePath}/vanity`}>
+          <Vanity
+            basePath={basePath}
+            onStatusChange={onStatusChange}
+          />
+        </Route>
+        <Route>
+          <Accounts
+            basePath={basePath}
+            onStatusChange={onStatusChange}
+          />
+        </Route>
       </Switch>
     </main>
   );
 }
+
+export default React.memo(AccountsApp);

@@ -19,17 +19,12 @@ interface Options {
 
 function ChartDoughnut ({ className, size = 100, style, values }: DoughnutProps): React.ReactElement<DoughnutProps> {
   const options: Options = {
-    colorNormal: [],
     colorHover: [],
+    colorNormal: [],
     data: [],
     labels: []
   };
 
-  // FIXME Classic case of kicking the can down the road, i.e. don't expend energy
-  // when stuff are not used. This was replaced by the HorizBar as the only Chart
-  // in actual use (by Referendum). However the below is not optimal, and gets re-
-  // calculated on each render. If this component is put back in use, look at
-  // getDerivedStateFromProps in HorizBar (the logic is the same for chartData)
   values.forEach(({ colors: [normalColor = '#00f', hoverColor], label, value }): void => {
     options.colorNormal.push(normalColor);
     options.colorHover.push(hoverColor || normalColor);
@@ -44,12 +39,12 @@ function ChartDoughnut ({ className, size = 100, style, values }: DoughnutProps)
     >
       <Doughnut
         data={{
-          labels: options.labels,
           datasets: [{
-            data: options.data,
             backgroundColor: options.colorNormal,
+            data: options.data,
             hoverBackgroundColor: options.colorHover
-          }]
+          }],
+          labels: options.labels
         }}
         height={size}
         width={size}

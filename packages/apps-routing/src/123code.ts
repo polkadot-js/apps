@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routes } from './types';
+import { Route } from './types';
 
 import Template from '@polkadot/app-123code';
 
-export default ([
-  {
+export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+  return {
     Component: Template,
     display: {
       isHidden: true,
@@ -16,10 +16,8 @@ export default ([
         'tx.balances.transfer'
       ]
     },
-    i18n: {
-      defaultValue: 'Template'
-    },
     icon: 'th',
-    name: '123code'
-  }
-] as Routes);
+    name: '123code',
+    text: t('nav.123-code', 'Template', { ns: 'apps-routing' })
+  };
+}

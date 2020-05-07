@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Input, Output, Static } from '@polkadot/react-components';
 import { hexToU8a, isHex, stringToU8a } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
@@ -15,7 +15,7 @@ interface State {
   isHexData: boolean;
 }
 
-export default function Hash (): React.ReactElement<{}> {
+function Hash (): React.ReactElement {
   const { t } = useTranslation();
   const [{ data, hash, isHexData }, setState] = useState<State>({
     data: '',
@@ -23,20 +23,23 @@ export default function Hash (): React.ReactElement<{}> {
     isHexData: false
   });
 
-  const _onChangeData = (data: string): void => {
-    const isHexData = isHex(data);
+  const _onChangeData = useCallback(
+    (data: string): void => {
+      const isHexData = isHex(data);
 
-    setState({
-      data,
-      hash: blake2AsHex(
+      setState({
+        data,
+        hash: blake2AsHex(
+          isHexData
+            ? hexToU8a(data)
+            : stringToU8a(data),
+          256
+        ),
         isHexData
-          ? hexToU8a(data)
-          : stringToU8a(data),
-        256
-      ),
-      isHexData
-    });
-  };
+      });
+    },
+    []
+  );
 
   return (
     <div className='toolbox--Hash'>
@@ -76,3 +79,5 @@ export default function Hash (): React.ReactElement<{}> {
     </div>
   );
 }
+
+export default React.memo(Hash);

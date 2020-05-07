@@ -1,96 +1,78 @@
-// Copyright 2017-2020 @polkadot/ui-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import React, { useState } from 'react';
+import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import React from 'react';
-import { Dropdown, InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
-import { withMulti } from '@polkadot/react-api/hoc';
-
-import translate from '../../translate';
+import { useTranslation } from '../../translate';
 import { rewardDestinationOptions } from '../constants';
 
-interface Props extends I18nProps {
+interface Props {
   defaultDestination?: number;
   controllerId: string;
   onClose: () => void;
+  stashId: string;
 }
 
-interface State {
-  destination: number;
-}
+function SetRewardDestination ({ controllerId, defaultDestination, onClose, stashId }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [destination, setDestination] = useState(0);
 
-class SetRewardDestination extends TxComponent<Props, State> {
-  constructor (props: Props) {
-    super(props);
-
-    this.state = {
-      destination: 0
-    };
-  }
-
-  public render (): React.ReactNode {
-    const { controllerId, onClose, t } = this.props;
-    const { destination } = this.state;
-    const canSubmit = !!controllerId;
-
-    return (
-      <Modal
-        className='staking--Bonding'
-        header={t('Bonding Preferences')}
-        size='small'
-      >
-        {this.renderContent()}
-        <Modal.Actions onCancel={onClose}>
-          <TxButton
-            accountId={controllerId}
-            isDisabled={!canSubmit}
-            isPrimary
-            label={t('Set reward destination')}
-            icon='sign-in'
-            onStart={onClose}
-            params={[destination]}
-            tx={'staking.setPayee'}
-            withSpinner
-          />
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  private renderContent (): React.ReactNode {
-    const { controllerId, defaultDestination, t } = this.props;
-    const { destination } = this.state;
-
-    return (
-      <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          isDisabled
-          defaultValue={controllerId}
-          help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
-          label={t('controller account')}
-        />
-        <Dropdown
-          className='medium'
-          defaultValue={defaultDestination}
-          help={t('The destination account for any payments as either a nominator or validator')}
-          label={t('payment destination')}
-          onChange={this.onChangeDestination}
-          options={rewardDestinationOptions}
-          value={destination}
-        />
+  return (
+    <Modal
+      header={t('Bonding Preferences')}
+      size='large'
+    >
+      <Modal.Content>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={stashId}
+              isDisabled
+              label={t('stash account')}
+            />
+            <InputAddress
+              defaultValue={controllerId}
+              help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
+              isDisabled
+              label={t('controller account')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The stash and controller pair as linked. This operation will be performed via the controller.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Dropdown
+              defaultValue={defaultDestination}
+              help={t('The destination account for any payments as either a nominator or validator')}
+              label={t('payment destination')}
+              onChange={setDestination}
+              options={rewardDestinationOptions}
+              value={destination}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('All rewards will go towards the selected output destination when a payout is made.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
-    );
-  }
-
-  private onChangeDestination = (destination: number): void => {
-    this.setState({ destination });
-  }
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={controllerId}
+          icon='sign-in'
+          isDisabled={!controllerId}
+          isPrimary
+          label={t('Set reward destination')}
+          onStart={onClose}
+          params={[destination]}
+          tx={'staking.setPayee'}
+        />
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-export default withMulti(
-  SetRewardDestination,
-  translate
-);
+export default React.memo(SetRewardDestination);

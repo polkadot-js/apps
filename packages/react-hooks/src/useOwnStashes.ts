@@ -25,7 +25,7 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
     if (ledger.isSome) {
       const stashId = ledger.unwrap().stash.toString();
 
-      !result.some(([accountId]): boolean => accountId === stashId) && result.push([stashId, false]);
+      !result.some(([accountId]) => accountId === stashId) && result.push([stashId, false]);
     }
   });
 
@@ -33,18 +33,18 @@ function getStashes (allAccounts: string[], ownBonded: Option<AccountId>[], ownL
 }
 
 export default function useOwnStashes (): [string, IsInKeyring][] | undefined {
-  const { allAccounts } = useAccounts();
+  const { allAccounts, hasAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
   const { api } = useApi();
-  const ownBonded = useCall<Option<AccountId>[]>(api.query.staking?.bonded.multi as any, [allAccounts]);
-  const ownLedger = useCall<Option<StakingLedger>[]>(api.query.staking?.ledger.multi as any, [allAccounts]);
+  const ownBonded = useCall<Option<AccountId>[]>(hasAccounts && api.query.staking?.bonded.multi, [allAccounts]);
+  const ownLedger = useCall<Option<StakingLedger>[]>(hasAccounts && api.query.staking?.ledger.multi, [allAccounts]);
   const [state, setState] = useState<[string, IsInKeyring][] | undefined>();
 
   useEffect((): void => {
-    mountedRef.current && allAccounts && ownBonded && ownLedger && setState(
+    mountedRef.current && ownBonded && ownLedger && setState(
       getStashes(allAccounts, ownBonded, ownLedger)
     );
-  }, [allAccounts, ownBonded, ownLedger]);
+  }, [allAccounts, mountedRef, ownBonded, ownLedger]);
 
   return state;
 }
@@ -58,7 +58,7 @@ export function useOwnStashIds (): string[] | undefined {
     mountedRef.current && ownStashes && setStashIds(
       ownStashes.map(([stashId]) => stashId)
     );
-  }, [ownStashes]);
+  }, [mountedRef, ownStashes]);
 
   return stashIds;
 }

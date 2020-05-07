@@ -145,19 +145,15 @@ class InputAddress extends React.PureComponent<Props, State> {
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
         ? defaultValue
-        : (
-          this.hasValue(lastValue)
-            ? lastValue
-            : (lastOption && lastOption.value)
-        )
+        : this.hasValue(lastValue)
+          ? lastValue
+          : (lastOption && lastOption.value)
     );
     const actualOptions: Option[] = options
       ? options.map((o): Option => createItem(o))
-      : (
-        isDisabled && actualValue
-          ? [createOption(actualValue)]
-          : this.getFiltered()
-      );
+      : isDisabled && actualValue
+        ? [createOption(actualValue)]
+        : this.getFiltered();
     const _defaultValue = (isMultiple || !isUndefined(value))
       ? undefined
       : actualValue;
@@ -290,7 +286,7 @@ const ExportedComponent = withMulti(
 
     .ui.search.selection.dropdown {
       > .text > .ui--KeyPair {
-        .ui--IdentityIcon {
+        .ui--IdentityIcon-Outer {
           border: 1px solid #888;
           border-radius: 50%;
           left: -2.75rem;

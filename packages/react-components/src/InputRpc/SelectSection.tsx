@@ -18,6 +18,7 @@ interface Props extends BareProps {
   options: DropdownOptions;
   value: DefinitionRpcExt;
 }
+
 function SelectSection ({ className, defaultValue, isError, onChange, options, style, value }: Props): React.ReactElement<Props> {
   return (
     <Dropdown

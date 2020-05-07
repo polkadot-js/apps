@@ -5,16 +5,22 @@
 import BN from 'bn.js';
 
 export default {
-  isActive: false,
   chains: {
     Kusama: 'kusama',
     'Kusama CC3': 'kusama'
   },
+  create: (chain: string, path: string, data: BN | number | string): string =>
+    `https://${chain}.subscan.io/${path}/${data.toString()}`,
+  isActive: true,
   paths: {
     address: 'account',
     block: 'block',
-    extrinsic: 'extrinsic'
+    council: 'council',
+    extrinsic: 'extrinsic',
+    proposal: 'democracy_proposal',
+    referendum: 'referenda',
+    techcomm: 'tech',
+    treasury: 'treasury'
   },
-  create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://${chain}.subscan.io/${path}/${data.toString()}`
+  url: 'https://subscan.io/'
 };

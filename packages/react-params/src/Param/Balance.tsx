@@ -5,20 +5,20 @@
 import { Props } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { InputBalance } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
 function Balance ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
-  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
+  const [defaultValue] = useState(new BN((value as BN || '0').toString()).toString(10));
+
   const _onChange = useCallback(
-    (value?: BN): void =>
-      onChange && onChange({
-        isValid: !isError && !!value,
-        value
-      }),
-    [isError]
+    (value?: BN) => onChange && onChange({
+      isValid: !isError && !!value,
+      value
+    }),
+    [isError, onChange]
   );
 
   return (
@@ -33,9 +33,9 @@ function Balance ({ className, defaultValue: { value }, isDisabled, isError, lab
         isError={isError}
         label={label}
         onChange={_onChange}
-        withEllipsis
         onEnter={onEnter}
         onEscape={onEscape}
+        withEllipsis
         withLabel={withLabel}
       />
     </Bare>

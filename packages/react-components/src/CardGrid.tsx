@@ -28,7 +28,7 @@ class CardGrid extends Collection<Props, State> {
 
     return (
       <div className='ui--CardGrid-empty'>
-        <h2>{emptyText || t('No items')}</h2>
+        <h1>{emptyText || t('No items')}</h1>
         {buttons && (
           <div className='ui--CardGrid-buttons'>
             {buttons}

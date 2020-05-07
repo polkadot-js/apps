@@ -13,7 +13,7 @@ interface Props {
   ownMembers: string[];
 }
 
-export default function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Props> {
+function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
@@ -35,7 +35,7 @@ export default function DefenderVoting ({ isMember, ownMembers }: Props): React.
               onChange={setAccountId}
             />
             <Dropdown
-              help={t('Approve or reject this defneder.')}
+              help={t('Approve or reject this defender.')}
               label={t('vote for defender')}
               onChange={setVote}
               options={voteOpts}
@@ -63,3 +63,5 @@ export default function DefenderVoting ({ isMember, ownMembers }: Props): React.
     </>
   );
 }
+
+export default React.memo(DefenderVoting);

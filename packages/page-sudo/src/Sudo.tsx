@@ -1,97 +1,56 @@
-// Copyright 2017-2020 @polkadot/app-123code authors & contributors
+// Copyright 2017-2020 @polkadot/app-js authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { ComponentProps } from './types';
+import { ComponentProps as Props } from './types';
 
-import React from 'react';
-import { createType } from '@polkadot/types';
-import { Button, Icon, Extrinsic, TxButton, TxComponent } from '@polkadot/react-components';
-import { registry } from '@polkadot/react-api';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
+import React, { useCallback, useState } from 'react';
+import { Button, Icon, Extrinsic, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps, ApiProps, ComponentProps {
-  onChange: (accountId?: string) => void;
-}
+function Propose ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { apiDefaultTxSudo } = useApi();
+  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
-interface State {
-  method: SubmittableExtrinsic<'promise'> | null;
-  isValid: boolean;
-}
+  const _onChangeExtrinsic = useCallback(
+    (method: SubmittableExtrinsic<'promise'> | null = null) =>
+      setMethod(() => method),
+    []
+  );
 
-class Propose extends TxComponent<Props, State> {
-  public state: State = {
-    method: null,
-    isValid: false
-  };
-
-  public render (): React.ReactNode {
-    const { apiDefaultTxSudo, isMine, sudoKey, t } = this.props;
-    const { method, isValid } = this.state;
-
-    return isMine
-      ? (
-        <section>
-          <Extrinsic
-            defaultValue={apiDefaultTxSudo}
-            label={t('submit the following change')}
-            onChange={this.onChangeExtrinsic}
-            onEnter={this.sendTx}
+  return isMine
+    ? (
+      <section>
+        <Extrinsic
+          defaultValue={apiDefaultTxSudo}
+          label={t('submit the following change')}
+          onChange={_onChangeExtrinsic}
+        />
+        <br />
+        <Button.Group>
+          <TxButton
+            accountId={sudoKey}
+            icon='sign-in'
+            isDisabled={!method}
+            label={t('Submit Sudo')}
+            params={[method]}
+            tx='sudo.sudo'
           />
-          <br />
-          <Button.Group>
-            <TxButton
-              accountId={sudoKey}
-              label={t('Submit Sudo')}
-              icon='sign-in'
-              tx='sudo.sudo'
-              isDisabled={!method || !isValid}
-              params={method ? [createType(registry, 'Proposal', method)] : []}
-              withSpinner
-            />
-          </Button.Group>
-        </section>
-      )
-      : (
-        <article className='error padded'>
-          <div>
-            <Icon name='ban' />
-            {t('You do not have access to the current sudo key')}
-          </div>
-        </article>
-      );
-  }
-
-  private nextState (newState: Partial<State>): void {
-    this.setState(
-      (prevState: State): State => {
-        const { method = prevState.method } = newState;
-        const isValid = !!method;
-
-        return {
-          method,
-          isValid
-        };
-      }
+        </Button.Group>
+      </section>
+    )
+    : (
+      <article className='error padded'>
+        <div>
+          <Icon name='ban' />
+          {t('You do not have access to the current sudo key')}
+        </div>
+      </article>
     );
-  }
-
-  private onChangeExtrinsic = (method?: SubmittableExtrinsic<'promise'>): void => {
-    if (!method) {
-      return;
-    }
-
-    this.nextState({ method });
-  }
 }
 
-export default withMulti(
-  Propose,
-  translate,
-  withApi
-);
+export default React.memo(Propose);

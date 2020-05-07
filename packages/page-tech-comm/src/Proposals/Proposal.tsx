@@ -11,20 +11,18 @@ import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Voting from './Voting';
 
 interface Props {
   className?: string;
-  hash: string;
+  imageHash: string;
   prime?: AccountId | null;
 }
 
-export default function Proposal ({ className, hash, prime }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [hash]);
-  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [hash]);
+  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [imageHash]);
+  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [imageHash]);
 
   if (!optProposal?.isSome || !votes?.isSome) {
     return null;
@@ -35,39 +33,35 @@ export default function Proposal ({ className, hash, prime }: Props): React.Reac
 
   return (
     <tr className={className}>
-      <td className='number top'><h1>{formatNumber(index)}</h1></td>
+      <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
-        className='top'
-        proposalHash={hash}
+        imageHash={imageHash}
         proposal={proposal}
       />
-      <td className='number top'>
-        <label>{t('threshold')}</label>
+      <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
-      <td className='top'>
+      <td className='address'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={index === 0 ? t('Aye') : undefined}
             value={address}
             withBalance={false}
           />
         ))}
       </td>
-      <td className='top'>
+      <td className='address'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
             key={`${index}:${address}`}
-            label={t('Nay')}
             value={address}
             withBalance={false}
           />
         ))}
       </td>
-      <td className='number top together'>
+      <td className='button'>
         <Voting
-          hash={hash}
+          hash={imageHash}
           prime={prime}
           proposalId={index}
         />
@@ -75,3 +69,5 @@ export default function Proposal ({ className, hash, prime }: Props): React.Reac
     </tr>
   );
 }
+
+export default React.memo(Proposal);

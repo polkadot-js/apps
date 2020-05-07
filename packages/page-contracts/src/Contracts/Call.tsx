@@ -10,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useApi } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
@@ -18,7 +17,7 @@ import Params from '../Params';
 import Outcome from './Outcome';
 
 import { useTranslation } from '../translate';
-import { GAS_LIMIT } from '../constants';
+import { DEFAULT_GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
 
 interface Props extends BareProps {
@@ -32,41 +31,41 @@ interface Props extends BareProps {
 
 function Call (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { className, isOpen, callContract, callMessageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
+  const { callContract, callMessageIndex, className, isOpen, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
+  const hasRpc = callContract?.hasRpcContractsCall;
+  const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
-  if (isNull(callContract) || isNull(callMessageIndex)) {
-    return null;
-  }
-
-  const hasRpc = callContract.hasRpcContractsCall;
-  let callMessage = callContract.getMessage(callMessageIndex);
-
-  const { api } = useApi();
   const [accountId, setAccountId] = useState<StringOrNull>(null);
   const [endowment, setEndowment] = useState<BN>(new BN(0));
-  const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
+  const [gasLimit, setGasLimit] = useState<BN>(new BN(DEFAULT_GAS_LIMIT));
   const [isBusy, setIsBusy] = useState(false);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
   const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
 
   useEffect((): void => {
-    callMessage = callContract.getMessage(callMessageIndex);
+    if (callContract && callMessageIndex) {
+      const callMessage = callContract.getMessage(callMessageIndex);
 
-    setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+      setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
 
-    if (hasRpc) {
-      if (!callMessage || callMessage.def.mutates) {
-        setUseRpc(false);
-      } else {
-        setUseRpc(true);
+      if (hasRpc) {
+        if (!callMessage || callMessage.def.mutates) {
+          setUseRpc(false);
+        } else {
+          setUseRpc(true);
+        }
       }
     }
-  }, [callContract, callMessageIndex]);
+  }, [callContract, callMessageIndex, hasRpc]);
 
   useEffect((): void => {
     setOutcomes([]);
   }, [callContract]);
+
+  if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
+    return null;
+  }
 
   const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
 
@@ -91,7 +90,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   };
 
   const _onSubmitRpc = (): void => {
-    if (!accountId) return;
+    if (!accountId || !callMessage) return;
 
     callContract
       .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
@@ -104,6 +103,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   };
 
   const _onClearOutcomes = (): void => setOutcomes([]);
+
   const _onClearOutcome = (outcomeIndex: number) => (): void => {
     setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
   };
@@ -172,7 +172,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               value={endowment}
             />
             <InputNumber
-              defaultValue={gasLimit}
+              defaultValue={DEFAULT_GAS_LIMIT}
               help={t('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
               isDisabled={isBusy}
               isError={!isGasValid}
@@ -197,7 +197,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
         )}
         <Button.Group>
           <ButtonCancel onClick={onClose} />
-          <Button.Or />
           {useRpc
             ? (
               <Button
@@ -219,7 +218,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 onFailed={_toggleBusy}
                 onSuccess={_toggleBusy}
                 params={_constructTx}
-                tx={api.tx.contracts ? 'contracts.call' : 'contract.call'}
+                tx='contracts.call'
                 withSpinner
               />
             )

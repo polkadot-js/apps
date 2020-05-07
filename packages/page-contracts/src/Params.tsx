@@ -6,7 +6,7 @@ import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import UIParams from '@polkadot/react-params';
 
 interface Props {
@@ -21,20 +21,21 @@ interface ParamDef {
   type: TypeDef;
 }
 
-export default function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
+function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
     propParams && setParams(propParams);
   }, [propParams]);
 
+  const _onChange = useCallback(
+    (values: RawParams) => onChange(values.map(({ value }): any => value)),
+    [onChange]
+  );
+
   if (!params.length) {
     return null;
   }
-
-  const _onChange = (values: RawParams): void => {
-    onChange(values.map(({ value }): any => value));
-  };
 
   return (
     <UIParams
@@ -45,3 +46,5 @@ export default function Params ({ isDisabled, onChange, onEnter, params: propPar
     />
   );
 }
+
+export default React.memo(Params);
