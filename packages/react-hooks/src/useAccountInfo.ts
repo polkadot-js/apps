@@ -4,6 +4,7 @@
 
 import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { StringOrNull } from '@polkadot/react-components/types';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -42,6 +43,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
   const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
+  const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
   const [isEditingName, toggleIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags] = useToggle();
 
@@ -106,6 +108,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
       isMultisig: accountOrAddress?.meta.isMultisig || false,
       isOwned
     }));
+    setMeta(accountOrAddress?.meta);
     setName(accountOrAddress?.meta.name || '');
     setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
   }, [identity, isAccount, isAddress, value]);
@@ -199,6 +202,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     identity,
     isEditingName,
     isEditingTags,
+    meta,
     name,
     onForgetAddress,
     onSaveName,

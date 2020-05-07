@@ -6,16 +6,14 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
-import { classes } from '@polkadot/react-components/util';
+import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag } from '@polkadot/react-components';
-import { isHex } from '@polkadot/util';
+import { AccountName, Button, Icon, IdentityIcon, Input, InputTags, LinkExternal, Tag } from '@polkadot/react-components';
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 import Flags from './Flags';
-import RegistrarJudgement from './RegistrarJudgement';
+import Identity from './Identity';
 
 interface Props extends BareProps {
   address: string;
@@ -23,14 +21,15 @@ interface Props extends BareProps {
   onUpdateName: () => void;
 }
 
-function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): React.ReactElement<Props> {
+const TAG_OPTS = {
+  autoFocus: true
+};
+
+function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const { isRegistrar, registrars } = useRegistrars();
   const { flags, identity, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
-  const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
 
   const _onForgetAddress = useCallback(
     (): void => {
@@ -48,317 +47,166 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
     [onSaveName, onUpdateName]
   );
 
-  const useIdentity = !!api.query.identity?.identityOf;
-
   return (
-    <>
-      <div
-        className={classes('ui--AddressMenu', className)}
-        style={style}
-      >
-        <Button
-          className='ui--AddressMenu-close'
-          icon='close'
-          isBasic
-          isCircular
-          onClick={onClose}
+    <div className={className}>
+      <Button
+        className='ui--AddressMenu-close'
+        icon='close'
+        isBasic
+        isCircular
+        onClick={onClose}
+      />
+      <div className='ui--AddressMenu-header'>
+        <IdentityIcon
+          size={80}
+          value={address}
         />
-        <div className='ui--AddressMenu-header'>
-          <IdentityIcon
-            size={80}
-            value={address.toString()}
-          />
-          <div className='ui--AddressMenu-addr'>
-            {address.toString()}
-          </div>
-          <AccountName
-            onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
-            override={
-              isEditingName
-                ? (
-                  <Input
-                    autoFocus
-                    className='name--input'
-                    defaultValue={name}
-                    onBlur={(flags.isInContacts || flags.isOwned) ? _onUpdateName : undefined}
-                    onChange={setName}
-                    withLabel={false}
-                  />
-                )
-                : flags.isEditable
-                  ? (name.toUpperCase() || t('<unknown>'))
-                  : undefined
-            }
-            value={address}
-            withSidebar={false}
-          >
-            {(!isEditingName && flags.isEditable) && (
-              <Icon
-                className='inline-icon'
-                name='edit'
-              />
-            )}
-          </AccountName>
-          <div className='ui--AddressMenu-tags'>
-            {isEditingTags
+        <div className='ui--AddressMenu-addr'>
+          {address}
+        </div>
+        <AccountName
+          onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
+          override={
+            isEditingName
               ? (
-                <InputTags
-                  defaultValue={tags}
-                  onBlur={onSaveTags}
-                  onChange={setTags}
-                  onClose={onSaveTags}
-                  openOnFocus
-                  searchInput={{ autoFocus: true }}
-                  value={tags}
+                <Input
+                  autoFocus
+                  className='name--input'
+                  defaultValue={name}
+                  onBlur={(flags.isInContacts || flags.isOwned) ? _onUpdateName : undefined}
+                  onChange={setName}
                   withLabel={false}
                 />
               )
-              : (
-                <div
-                  className='tags--toggle'
-                  onClick={toggleIsEditingTags}
-                >
-                  {tags.length
-                    ? tags.map((tag): React.ReactNode => (
-                      <Tag
-                        color='grey'
-                        key={tag}
-                        label={tag}
-                        size='tiny'
-                      />
-                    ))
-                    : <label>{t('no tags')}</label>
-                  }
-                </div>
-              )
-            }
-            {(!isEditingTags && (flags.isInContacts || flags.isOwned)) && (
-              <Icon
-                className='inline-icon'
-                name='edit'
+              : flags.isEditable
+                ? (name.toUpperCase() || t('<unknown>'))
+                : undefined
+          }
+          value={address}
+          withSidebar={false}
+        >
+          {(!isEditingName && flags.isEditable) && (
+            <Icon
+              className='inline-icon'
+              name='edit'
+            />
+          )}
+        </AccountName>
+        <div className='ui--AddressMenu-tags'>
+          {isEditingTags
+            ? (
+              <InputTags
+                defaultValue={tags}
+                onBlur={onSaveTags}
+                onChange={setTags}
+                onClose={onSaveTags}
+                openOnFocus
+                searchInput={TAG_OPTS}
+                value={tags}
+                withLabel={false}
+              />
+            )
+            : (
+              <div
+                className='tags--toggle'
                 onClick={toggleIsEditingTags}
-              />
-            )}
-          </div>
-          <Flags flags={flags} />
-          <div className='ui-AddressMenu--button'>
-            <Button.Group>
-              <Button
-                icon='send'
-                label={t('Deposit')}
-                onClick={toggleIsTransferOpen}
-              />
-              {flags.isOwned && (
-                <Button
-                  className='basic'
-                  icon='check'
-                  isPrimary
-                  label={t('Owned')}
-                  onMouseEnter={toggleIsHoveringButton}
-                  onMouseLeave={toggleIsHoveringButton}
-                  size='tiny'
-                />
-              )}
-              {!flags.isOwned && !flags.isInContacts && (
-                <Button
-                  icon='add'
-                  isPositive
-                  label={t('Save')}
-                  onClick={_onUpdateName}
-                  onMouseEnter={toggleIsHoveringButton}
-                  onMouseLeave={toggleIsHoveringButton}
-                  size='tiny'
-                />
-              )}
-              {!flags.isOwned && flags.isInContacts && (
-                <Button
-                  className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
-                  isAnimated
-                  isNegative={isHoveringButton}
-                  isPositive={!isHoveringButton}
-                  onClick={_onForgetAddress}
-                  onMouseEnter={toggleIsHoveringButton}
-                  onMouseLeave={toggleIsHoveringButton}
-                  size='tiny'
-                >
-                  <Button.Content visible>
-                    <Icon name='check' />
-                    &nbsp;
-                    {t('Saved')}
-                  </Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='ban' />
-                    &nbsp;
-                    {t('Remove')}
-                  </Button.Content>
-                </Button>
-              )}
-            </Button.Group>
-          </div>
-        </div>
-        {useIdentity && identity?.isExistent && (
-          <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
-            <div className='ui--AddressMenu-sectionHeader'>
-              <div>
-                <Icon name='address card' />
-                &nbsp;
-                {t('identity')}
+              >
+                {tags.length
+                  ? tags.map((tag): React.ReactNode => (
+                    <Tag
+                      color='grey'
+                      key={tag}
+                      label={tag}
+                      size='tiny'
+                    />
+                  ))
+                  : <label>{t('no tags')}</label>
+                }
               </div>
-              <Tag
-                color={
-                  identity.isGood
-                    ? 'green'
-                    : identity.isBad
-                      ? 'red'
-                      : 'yellow'
-                }
-                isTag={false}
-                label={
-                  <>
-                    <b>{identity.judgements.length}&nbsp;</b>
-                    {
-                      identity.judgements.length
-                        ? (identity.isGood
-                          ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
-                          : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
-                        )
-                        : t('No judgments')
-                    }
-                  </>
-                }
+            )
+          }
+          {(!isEditingTags && (flags.isInContacts || flags.isOwned)) && (
+            <Icon
+              className='inline-icon'
+              name='edit'
+              onClick={toggleIsEditingTags}
+            />
+          )}
+        </div>
+        <Flags flags={flags} />
+        <div className='ui-AddressMenu--button'>
+          <Button.Group>
+            <Button
+              icon='send'
+              label={t('Deposit')}
+              onClick={toggleIsTransferOpen}
+            />
+            {flags.isOwned && (
+              <Button
+                className='basic'
+                icon='check'
+                isPrimary
+                label={t('Owned')}
+                onMouseEnter={toggleIsHoveringButton}
+                onMouseLeave={toggleIsHoveringButton}
                 size='tiny'
               />
-            </div>
-            <div>
-              <AvatarItem
-                icon={
-                  // This won't work - images are IPFS hashes
-                  // identity.image
-                  //   ? <img src={identity.image} />
-                  //   : <i className='icon user ui--AddressMenu-identityIcon' />
-                  //
-                  <i className='icon user ui--AddressMenu-identityIcon' />
-                }
-                subtitle={identity.legal}
-                title={identity.display}
+            )}
+            {!flags.isOwned && !flags.isInContacts && (
+              <Button
+                icon='add'
+                isPositive
+                label={t('Save')}
+                onClick={_onUpdateName}
+                onMouseEnter={toggleIsHoveringButton}
+                onMouseLeave={toggleIsHoveringButton}
+                size='tiny'
               />
-              <div className='ui--AddressMenu-identityTable'>
-                {identity.parent && (
-                  <div className='tr parent'>
-                    <div className='th'>{t('parent')}</div>
-                    <div className='td'>
-                      <AddressMini
-                        className='parent'
-                        isPadded={false}
-                        value={identity.parent}
-                      />
-                    </div>
-                  </div>
-                )}
-                {identity.email && (
-                  <div className='tr'>
-                    <div className='th'>{t('email')}</div>
-                    <div className='td'>
-                      {isHex(identity.email)
-                        ? identity.email
-                        : (
-                          <a
-                            href={`mailto:${identity.email}`}
-                            rel='noopener noreferrer'
-                            target='_blank'
-                          >
-                            {identity.email}
-                          </a>
-                        )}
-                    </div>
-                  </div>
-                )}
-                {identity.web && (
-                  <div className='tr'>
-                    <div className='th'>{t('website')}</div>
-                    <div className='td'>
-                      {isHex(identity.web)
-                        ? identity.web
-                        : (
-                          <a
-                            href={(identity.web as string).replace(/^(https?:\/\/)?/g, 'https://')}
-                            rel='noopener noreferrer'
-                            target='_blank'
-                          >
-                            {identity.web}
-                          </a>
-                        )}
-                    </div>
-                  </div>
-                )}
-                {identity.twitter && (
-                  <div className='tr'>
-                    <div className='th'>{t('twitter')}</div>
-                    <div className='td'>
-                      {isHex(identity.twitter)
-                        ? identity.twitter
-                        : (
-                          <a
-                            href={`https://twitter.com/${identity.twitter}`}
-                            rel='noopener noreferrer'
-                            target='_blank'
-                          >
-                            {identity.twitter}
-                          </a>
-                        )}
-                    </div>
-                  </div>
-                )}
-                {identity.riot && (
-                  <div className='tr'>
-                    <div className='th'>{t('riot')}</div>
-                    <div className='td'>
-                      {identity.riot}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-        {address && identity?.isExistent && isRegistrar && (
-          <div className='ui--AddressMenu-section'>
-            <div className='ui--AddressMenu-actions'>
-              <ul>
-                <li>
-                  <IconLink
-                    icon='address card'
-                    label={t('Add identity judgment')}
-                    onClick={toggleIsJudgementOpen}
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
-        )}
-        <div className='ui--AddressMenu-section'>
-          <LinkExternal
-            data={address}
-            type='address'
-          />
+            )}
+            {!flags.isOwned && flags.isInContacts && (
+              <Button
+                className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
+                isAnimated
+                isNegative={isHoveringButton}
+                isPositive={!isHoveringButton}
+                onClick={_onForgetAddress}
+                onMouseEnter={toggleIsHoveringButton}
+                onMouseLeave={toggleIsHoveringButton}
+                size='tiny'
+              >
+                <Button.Content visible>
+                  <Icon name='check' />
+                  &nbsp;
+                  {t('Saved')}
+                </Button.Content>
+                <Button.Content hidden>
+                  <Icon name='ban' />
+                  &nbsp;
+                  {t('Remove')}
+                </Button.Content>
+              </Button>
+            )}
+          </Button.Group>
+          {isTransferOpen && (
+            <Transfer
+              key='modal-transfer'
+              onClose={toggleIsTransferOpen}
+              recipientId={address}
+            />
+          )}
         </div>
       </div>
-      {isTransferOpen && (
-        <Transfer
-          key='modal-transfer'
-          onClose={toggleIsTransferOpen}
-          recipientId={address}
+      <Identity
+        address={address}
+        identity={identity}
+      />
+      <div className='ui--AddressMenu-section'>
+        <LinkExternal
+          data={address}
+          type='address'
         />
-      )}
-      {(!!address && isJudgementOpen && isRegistrar && useIdentity) && (
-        <RegistrarJudgement
-          address={address}
-          key='modal-judgement'
-          registrars={registrars}
-          toggleJudgement={toggleIsJudgementOpen}
-        />
-      )}
-    </>
+      </div>
+    </div>
   );
 }
 
