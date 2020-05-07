@@ -14,6 +14,7 @@ import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 import Flags from './Flags';
 import Identity from './Identity';
+import Multisig from './Multisig';
 
 interface Props extends BareProps {
   address: string;
@@ -27,7 +28,7 @@ const TAG_OPTS = {
 
 function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { flags, identity, isEditingName, isEditingTags, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
@@ -200,12 +201,16 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
         address={address}
         identity={identity}
       />
-      <div className='ui--AddressMenu-section'>
+      <Multisig
+        isMultisig={flags.isMultisig}
+        meta={meta}
+      />
+      <section>
         <LinkExternal
           data={address}
           type='address'
         />
-      </div>
+      </section>
     </div>
   );
 }
@@ -265,7 +270,7 @@ export default React.memo(styled(Sidebar)`
     width: 100%;
   }
 
-  .ui--AddressMenu-section {
+  section {
     &:not(:last-child) {
       margin-bottom: 1.4rem;
     }

@@ -28,7 +28,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   }
 
   return (
-    <>
+    <section>
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
           <div>
@@ -175,7 +175,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
           toggleJudgement={toggleIsJudgementOpen}
         />
       )}
-    </>
+    </section>
   );
 }
 
