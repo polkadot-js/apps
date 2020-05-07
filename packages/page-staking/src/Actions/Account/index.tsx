@@ -86,6 +86,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
             controllerId={controllerId}
             defaultDestination={destinationId}
             onClose={toggleRewardDestination}
+            stashId={stashId}
           />
         )}
         {isSetSessionOpen && controllerId && (
