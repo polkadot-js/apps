@@ -15,56 +15,25 @@ function createDev (t: (key: string, text: string, options: { ns: string }) => s
 }
 
 function createLive (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
-  return [
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://kusama-rpc.polkadot.io/'
-    },
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
-      value: 'wss://cc3-5.kusama.network/'
-    },
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
-      value: 'wss://kusama.polkadot.cloud.ava.do/'
-    },
-    {
-      info: 'edgeware',
-      text: t('rpc.edgeware', 'Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://mainnet1.edgewa.re'
-    },
-    {
-      info: 'substrate',
-      text: t('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
-      value: 'wss://rpc.kulupu.network/ws'
-    }
-  ];
+  return [];
 }
 
 function createTest (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
   return [
     {
-      info: 'westend',
-      text: t('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://westend-rpc.polkadot.io'
+      info: 'amber',
+      text: t('rpc.amber', 'Centrifuge Testnet Amber (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.amber.centrifuge.io'
     },
     {
-      info: 'edgeware',
-      text: t('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://berlin1.edgewa.re'
+      info: 'flint',
+      text: t('rpc.flint', 'Centrifuge Testnet Flint (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.flint.centrifuge.io'
     },
     {
-      info: 'substrate',
-      text: t('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://substrate-rpc.parity.io/'
-    },
-    {
-      info: 'nodle',
-      text: t('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
-      value: 'wss://arcadia1.nodleprotocol.io/'
+      info: 'fulvous',
+      text: t('rpc.fulvous', 'Centrifuge Testnet Fulvous (Validator 0, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.fulvous.centrifuge.io'
     }
   ];
 }
