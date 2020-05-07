@@ -405,7 +405,7 @@ export default React.memo(styled(Sidebar)`
     }
 
     .ui.button+.ui.button {
-      margin-left: 0.25rem !important;
+      margin-left: 0.5rem !important;
     }
   }
 
