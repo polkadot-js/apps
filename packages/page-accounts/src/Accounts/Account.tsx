@@ -298,7 +298,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           onClose={toggleSettings}
           trigger={
             <Button
-              icon='setting'
+              icon='ellipsis vertical'
               onClick={toggleSettings}
               size='small'
             />

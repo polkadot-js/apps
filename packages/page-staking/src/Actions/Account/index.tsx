@@ -198,7 +198,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                 onClose={toggleSettings}
                 trigger={
                   <Button
-                    icon='setting'
+                    icon='ellipsis vertical'
                     isDisabled={isDisabled}
                     onClick={toggleSettings}
                   />

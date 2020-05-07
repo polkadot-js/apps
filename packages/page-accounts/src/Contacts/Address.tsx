@@ -214,7 +214,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           onClose={_toggleSettingPopup}
           trigger={
             <Button
-              icon='setting'
+              icon='ellipsis vertical'
               onClick={_toggleSettingPopup}
               size='small'
             />

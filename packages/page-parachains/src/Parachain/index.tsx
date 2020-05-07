@@ -76,7 +76,7 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
                 trigger={
                   <Button
                     className='menu-button'
-                    icon='setting'
+                    icon='ellipsis vertical'
                     isPrimary
                     onClick={toggleMenu}
                   />
