@@ -32,8 +32,6 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
     return null;
   }
 
-  console.error(votes);
-
   const { ayes, end, index, nays, threshold } = votes;
 
   return (
