@@ -4,30 +4,36 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Dropdown } from '@polkadot/react-components';
 
+import { useTranslation } from '../translate';
 import Bare from './Bare';
 
-const options = [
-  { text: 'No', value: false },
-  { text: 'Yes', value: true }
-];
+function BoolParam ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [defaultValue] = useState(
+    value instanceof Boolean
+      ? value.valueOf()
+      : value as boolean
+  );
 
-function onChange ({ onChange }: Props): (_: boolean) => void {
-  return function (value: boolean): void {
-    onChange && onChange({
-      isValid: true,
-      value
-    });
-  };
-}
+  const options = useMemo(
+    () => [
+      { text: t('No'), value: false },
+      { text: t('Yes'), value: true }
+    ],
+    [t]
+  );
 
-function BoolParam (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value instanceof Boolean
-    ? value.valueOf()
-    : value as boolean;
+  const _onChange = useCallback(
+    (value: boolean) =>
+      onChange && onChange({
+        isValid: true,
+        value
+      }),
+    [onChange]
+  );
 
   return (
     <Bare
@@ -40,7 +46,7 @@ function BoolParam (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         options={options}
         withEllipsis
         withLabel={withLabel}

@@ -4,45 +4,35 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Bytes from './Bytes';
 import BytesFile from './File';
 
-function renderDisabled ({ className, defaultValue, isError, label, onEnter, onEscape, style, type, withLabel }: Props): React.ReactNode {
-  return (
-    <Bytes
-      className={className}
-      defaultValue={defaultValue}
-      isError={isError}
-      label={label}
-      onEnter={onEnter}
-      onEscape={onEscape}
-      style={style}
-      type={type}
-      withLabel={withLabel}
-    />
+function Code ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+  // TODO: Validate that we have actual proper WASM code
+  const _onChange = useCallback(
+    (value: Uint8Array) =>
+      onChange && onChange({
+        isValid: value.length !== 0,
+        value
+      }),
+    [onChange]
   );
-}
-
-// TODO: Validate that we have actual proper WASM code
-function onChange ({ onChange }: Props): (_: Uint8Array) => void {
-  return function (value: Uint8Array): void {
-    onChange && onChange({
-      isValid: value.length !== 0,
-      value
-    });
-  };
-}
-
-function Code (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
 
   if (isDisabled) {
     return (
-      <>
-        {renderDisabled(props)}
-      </>
+      <Bytes
+        className={className}
+        defaultValue={defaultValue}
+        isError={isError}
+        label={label}
+        onEnter={onEnter}
+        onEscape={onEscape}
+        style={style}
+        type={type}
+        withLabel={withLabel}
+      />
     );
   }
 
@@ -52,7 +42,7 @@ function Code (props: Props): React.ReactElement<Props> {
       defaultValue={defaultValue}
       isError={isError}
       label={label}
-      onChange={onChange(props)}
+      onChange={_onChange}
       style={style}
       withLabel={withLabel}
     />

@@ -5,7 +5,7 @@
 import { Props } from '../types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Input } from '@polkadot/react-components';
 import { ClassOf } from '@polkadot/types';
@@ -13,24 +13,25 @@ import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 
-function onChange ({ onChange }: Props): (_: string) => void {
-  return function (value: string): void {
-    onChange && onChange({
-      isValid: true,
-      value: new BN(value || 0)
-    });
-  };
-}
+function Amount ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const [defaultValue] = useState(
+    isDisabled
+      ? (
+        value instanceof ClassOf(registry, 'AccountIndex')
+          ? value.toString()
+          : formatNumber(value)
+      )
+      : bnToBn((value as number) || 0).toString()
+  );
 
-function Amount (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, style, withLabel } = props;
-  const defaultValue = isDisabled
-    ? (
-      value instanceof ClassOf(registry, 'AccountIndex')
-        ? value.toString()
-        : formatNumber(value)
-    )
-    : bnToBn((value as number) || 0).toString();
+  const _onChange = useCallback(
+    (value: string) =>
+      onChange && onChange({
+        isValid: true,
+        value: new BN(value || 0)
+      }),
+    [onChange]
+  );
 
   return (
     <Bare
@@ -44,7 +45,7 @@ function Amount (props: Props): React.ReactElement<Props> {
         isError={isError}
         label={label}
         min={0}
-        onChange={onChange(props)}
+        onChange={_onChange}
         onEnter={onEnter}
         type={
           isDisabled

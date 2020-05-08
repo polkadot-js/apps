@@ -4,24 +4,24 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function onChange ({ onChange }: Props): (_: string) => void {
-  return function (value: string): void {
-    const isValid = value.length !== 0;
+function Raw ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+  const _onChange = useCallback(
+    (value: string): void => {
+      const isValid = value.length !== 0;
 
-    onChange && onChange({
-      isValid,
-      value
-    });
-  };
-}
+      onChange && onChange({
+        isValid,
+        value
+      });
+    },
+    [onChange]
+  );
 
-function Raw (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
   const defaultValue = value
     ? (value.toHex ? value.toHex() : value)
     : '';
@@ -37,7 +37,7 @@ function Raw (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
         placeholder='Hex data'
