@@ -32,6 +32,8 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
     return null;
   }
 
+  console.error(votes);
+
   const { ayes, end, index, nays, threshold } = votes;
 
   return (
@@ -56,7 +58,8 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
       <Votes votes={nays} />
       <td className='button'>
         {bestNumber && (
-          end.gt(bestNumber)
+          // end may not be existing (older versions)
+          !end || end.gt(bestNumber)
             ? (
               <Voting
                 hash={hash}
