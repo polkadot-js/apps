@@ -155,7 +155,6 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
                   {recoveryInfo.friends.map((friend, index): React.ReactNode => (
                     <IdentityIcon
                       key={index}
-                      size={24}
                       value={friend}
                     />
                   ))}

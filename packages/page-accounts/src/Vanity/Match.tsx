@@ -40,7 +40,6 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
       >
         <IdentityIcon
           className='vanity--Match-icon'
-          size={32}
           value={address}
         />
       </td>

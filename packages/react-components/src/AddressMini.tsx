@@ -50,10 +50,7 @@ function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded
         <label className='ui--AddressMini-label'>{label}</label>
       )}
       <div className='ui--AddressMini-icon'>
-        <IdentityIcon
-          size={24}
-          value={value as Uint8Array}
-        />
+        <IdentityIcon value={value as Uint8Array} />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
             {iconInfo}
