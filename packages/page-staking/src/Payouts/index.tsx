@@ -187,5 +187,9 @@ export default React.memo(styled(Payouts)`
   .payout-eras {
     padding-left: 0.25rem;
     vertical-align: middle;
+
+    span {
+      white-space: nowrap;
+    }
   }
 `);
