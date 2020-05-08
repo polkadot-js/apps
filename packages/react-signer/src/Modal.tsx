@@ -136,8 +136,8 @@ const initialState: State = {
 class Signer extends React.PureComponent<Props, State> {
   public state: State = initialState;
 
-  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): Partial<State> {
-    const nextItem = queue.find(({ status }): boolean => ['queued', 'qr'].includes(status));
+  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, multiCall, password, unlockError }: State): Partial<State> {
+    const nextItem = queue.find(({ status }) => ['queued', 'qr'].includes(status));
     const isSame =
       !!nextItem &&
       !!currentItem &&
@@ -159,8 +159,10 @@ class Signer extends React.PureComponent<Props, State> {
     return {
       currentItem: nextItem,
       isSendable,
-      password: isSame ? password : '',
-      unlockError: isSame ? unlockError : null
+      ...(isSame
+        ? { multiCall, password, unlockError }
+        : { multiCall: false, password: '', unlockError: null }
+      )
     };
   }
 
@@ -309,30 +311,39 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Modal.Columns>
-        <Modal.Column>
-          <InputAddress
-            filter={who}
-            help={t('The multisig signatory for this transaction.')}
-            label={t('signatory')}
-            onChange={this.onChangeSignatory}
-            type='account'
-          />
-          <Toggle
-            className='tipToggle'
-            label={
-              multiCall
-                ? t('Multisig message with call (final approval & execution)')
-                : t('Multisig approval with hash (non-final approval)')
-            }
-            onChange={this.onToggleMultiCall}
-            value={multiCall}
-          />
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t('The signatory is one of the allowed accounts on the multisig. The transaction could either be the call or an approval for the hash of a call.')}</p>
-        </Modal.Column>
-      </Modal.Columns>
+      <>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              filter={who}
+              help={t('The multisig signatory for this transaction.')}
+              label={t('signatory')}
+              onChange={this.onChangeSignatory}
+              type='account'
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Toggle
+              className='tipToggle'
+              label={
+                multiCall
+                  ? t('Multisig message with call (for final approval)')
+                  : t('Multisig approval with hash (non-final approval)')
+              }
+              onChange={this.onToggleMultiCall}
+              value={multiCall}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      </>
     );
   }
 
