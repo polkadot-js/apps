@@ -48,7 +48,7 @@ interface State {
   isRenderError: boolean;
   isSendable: boolean;
   isSubmit: boolean;
-  multiApproval: boolean;
+  multiCall: boolean;
   nonce?: BN;
   password: string;
   qrAddress: string;
@@ -123,7 +123,7 @@ const initialState: State = {
   isRenderError: false,
   isSendable: false,
   isSubmit: true,
-  multiApproval: false,
+  multiCall: false,
   nonce: undefined,
   password: '',
   qrAddress: '',
@@ -299,7 +299,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderSignatory (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, multiApproval } = this.state;
+    const { currentItem, multiCall } = this.state;
     const { isMultisig, who } = currentItem
       ? extractExternal(currentItem.accountId)
       : { isMultisig: false, who: [] };
@@ -321,12 +321,12 @@ class Signer extends React.PureComponent<Props, State> {
           <Toggle
             className='tipToggle'
             label={
-              multiApproval
-                ? t('Multisig approval with hash (not message with call)')
-                : t('Multisig message with call (not approval with hash)')
+              multiCall
+                ? t('Multisig message with call (final approval & execution)')
+                : t('Multisig approval with hash (non-final approval)')
             }
-            onChange={this.onToggleMultiApproval}
-            value={multiApproval}
+            onChange={this.onToggleMultiCall}
+            value={multiCall}
           />
         </Modal.Column>
         <Modal.Column>
@@ -447,8 +447,8 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ showTip });
   };
 
-  private onToggleMultiApproval = (multiApproval: boolean): void => {
-    this.setState({ multiApproval });
+  private onToggleMultiCall = (multiCall: boolean): void => {
+    this.setState({ multiCall });
   }
 
   private onToggleSign = (isSubmit: boolean): void => {
@@ -650,7 +650,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
-    const { isSubmit, multiApproval, showTip, signatory, tip } = this.state;
+    const { isSubmit, multiCall, showTip, signatory, tip } = this.state;
     const { accountId, extrinsic, id, isUnsigned, payload } = queueTx;
 
     if (!isUnsigned) {
@@ -700,9 +700,9 @@ class Signer extends React.PureComponent<Props, State> {
       }
 
       pair = keyring.getPair(signatory as string);
-      tx = multiApproval
-        ? api.tx.utility.approveAsMulti(basePair.meta.threshold, others, timepoint, submittable.method.hash)
-        : api.tx.utility.asMulti(basePair.meta.threshold, others, timepoint, submittable.method);
+      tx = multiCall
+        ? api.tx.utility.asMulti(basePair.meta.threshold, others, timepoint, submittable.method)
+        : api.tx.utility.approveAsMulti(basePair.meta.threshold, others, timepoint, submittable.method.hash);
     }
 
     console.log('sendExtrinsic::', JSON.stringify(tx.method.toHuman()));
