@@ -56,7 +56,6 @@ function Summary ({ className, isVisible, next, nominators, stakingOverview, sty
             <IdentityIcon
               className='validator--Account-block-icon'
               key={author}
-              size={24}
               value={author}
             />
           ))}
