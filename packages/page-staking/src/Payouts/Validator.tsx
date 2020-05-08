@@ -21,7 +21,7 @@ interface Props {
 }
 
 interface State {
-  eraStr: string;
+  eraStr: React.ReactNode;
   nominators: Record<string, BN>;
   numNominators: number;
   oldestEra?: BN;

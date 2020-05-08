@@ -25,7 +25,7 @@ interface Props {
 }
 
 interface EraInfo {
-  eraStr: string;
+  eraStr: React.ReactNode;
   oldestEra?: BN;
 }
 
