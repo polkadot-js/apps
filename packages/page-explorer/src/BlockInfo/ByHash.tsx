@@ -28,8 +28,8 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
   const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], {
     isSingle: true,
     transform: (events: EventRecord[]): KeyedEvent[] =>
-      events.map((record) => ({
-        key: `${Date.now()}-${record.hash.toHex()}`,
+      events.map((record, index) => ({
+        key: `${Date.now()}-${index}-${record.hash.toHex()}`,
         record
       }))
   });
@@ -87,7 +87,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
             <Column>
               <Events
                 eventClassName='explorer--BlockByHash-block'
-                events={events}
+                events={events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
                 label={t('system events')}
               />
             </Column>
