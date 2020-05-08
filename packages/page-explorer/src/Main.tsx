@@ -28,7 +28,7 @@ function Main ({ events, headers }: Props): React.ReactElement<Props> {
           <BlockHeaders headers={headers} />
         </Column>
         <Column>
-          <Events events={events.map(({ record }) => record)} />
+          <Events events={events} />
         </Column>
       </Columar>
     </>

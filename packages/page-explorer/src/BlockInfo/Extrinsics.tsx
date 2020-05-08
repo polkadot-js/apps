@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, EventRecord, Extrinsic } from '@polkadot/types/interfaces';
+import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+import { KeyedEvent } from '../types';
 
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -13,7 +14,7 @@ import ExtrinsicDisplay from './Extrinsic';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: EventRecord[];
+  events?: KeyedEvent[];
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
 }
