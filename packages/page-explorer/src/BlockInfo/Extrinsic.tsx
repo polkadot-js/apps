@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, EventRecord, Extrinsic } from '@polkadot/types/interfaces';
+import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+import { KeyedEvent } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -16,7 +17,7 @@ import Event from '../Event';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: EventRecord[];
+  events?: KeyedEvent[];
   index: number;
   value: Extrinsic;
 }
@@ -31,8 +32,8 @@ function getEra ({ era }: Extrinsic, blockNumber?: BlockNumber): [number, number
   return null;
 }
 
-function filterEvents (index: number, events: EventRecord[] = []): EventRecord[] {
-  return events.filter(({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index));
+function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
+  return events.filter(({ record: { phase } }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index));
 }
 
 function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Props): React.ReactElement<Props> {
@@ -76,11 +77,11 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
         className='top'
         colSpan={2}
       >
-        {thisEvents.map((event, index) =>
+        {thisEvents.map(({ key, record }) =>
           <Event
             className='explorer--BlockByHash-event'
-            key={`event:${index}`}
-            value={event}
+            key={key}
+            value={record}
           />
         )}
       </td>

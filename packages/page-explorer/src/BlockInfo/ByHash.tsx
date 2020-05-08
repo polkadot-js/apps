@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
+import { KeyedEvent } from '../types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -24,7 +25,14 @@ interface Props {
 function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const events = useCall<EventRecord[]>(api.query.system.events.at, [value], { isSingle: true });
+  const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], {
+    isSingle: true,
+    transform: (events: EventRecord[]): KeyedEvent[] =>
+      events.map((record) => ({
+        key: `${Date.now()}-${record.hash.toHex()}`,
+        record
+      }))
+  });
   const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock, [value], { isSingle: true });
   const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader, [value]);
 
@@ -79,7 +87,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
             <Column>
               <Events
                 eventClassName='explorer--BlockByHash-block'
-                events={(events || []).filter(({ phase }) => !phase.isApplyExtrinsic)}
+                events={events}
                 label={t('system events')}
               />
             </Column>

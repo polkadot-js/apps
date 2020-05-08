@@ -43,6 +43,13 @@ function convertInput (value: string): [boolean, Uint8Array] {
 }
 
 function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+  const [defaultValue] = useState(
+    value
+      ? isHex(value)
+        ? value
+        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      : undefined
+  );
   const [isValid, setIsValid] = useState(false);
 
   useEffect((): void => {
@@ -82,14 +89,6 @@ function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDis
     },
     [asHex, length, onChange, validate, withLength]
   );
-
-  const defaultValue = value
-    ? (
-      isHex(value)
-        ? value
-        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
-    )
-    : undefined;
 
   return (
     <Bare

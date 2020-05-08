@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord } from '@polkadot/types/interfaces';
+import { KeyedEvent } from './types';
 
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -12,7 +12,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   emptyLabel?: React.ReactNode;
-  events: EventRecord[];
+  events?: KeyedEvent[];
   eventClassName?: string;
   label?: React.ReactNode;
 }
@@ -29,15 +29,15 @@ function Events ({ emptyLabel, eventClassName, events, label }: Props): React.Re
       empty={emptyLabel || t('No events available')}
       header={header}
     >
-      {events
-        .filter(({ event: { method, section } }): boolean => !!method && !!section)
-        .map((event: EventRecord, index): React.ReactNode => (
+      {events && events
+        .filter(({ record: { event: { method, section } } }) => !!method && !!section)
+        .map(({ key, record }): React.ReactNode => (
           <tr
             className={eventClassName}
-            key={`event:${index}`}
+            key={key}
           >
             <td className='overflow'>
-              <Event value={event} />
+              <Event value={record} />
             </td>
           </tr>
         ))
