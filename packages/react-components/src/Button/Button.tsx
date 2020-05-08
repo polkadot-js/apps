@@ -36,7 +36,7 @@ function Button ({ children, className, floated, icon, isAnimated, isBasic = fal
     positive: isPositive,
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
-    size: size || (isIcon ? 'tiny' : undefined),
+    size: size || (isIcon ? 'tiny' : undefined) || 'small',
     style,
     tabIndex
   };

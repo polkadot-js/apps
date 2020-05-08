@@ -205,7 +205,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           key='deposit'
           label={t('deposit')}
           onClick={_toggleTransfer}
-          size='small'
           tooltip={t('Send funds to this address')}
         />
         <Popup
@@ -216,7 +215,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
             <Button
               icon='ellipsis vertical'
               onClick={_toggleSettingPopup}
-              size='small'
             />
           }
         >

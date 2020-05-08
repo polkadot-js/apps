@@ -172,8 +172,16 @@ export default React.memo(styled(Body)`
 
     &:not(:hover) {
       .ui.button:not(.isIcon):not(.disabled) {
-        background: #eee !important;
         color: #555 !important;
+
+        &:not(.basic) {
+          background: #eee !important;
+        }
+
+        &.basic {
+          background: transparent !important;
+          box-shadow: none !important;
+        }
       }
 
       .ui.toggle.checkbox input:checked~.box:before,

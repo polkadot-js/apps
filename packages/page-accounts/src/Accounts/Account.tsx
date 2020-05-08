@@ -288,7 +288,6 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           icon='paper plane'
           label={t('send')}
           onClick={toggleTransfer}
-          size='small'
           tooltip={t('Send funds from this account')}
         />
         <Popup
@@ -299,7 +298,6 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
             <Button
               icon='ellipsis vertical'
               onClick={toggleSettings}
-              size='small'
             />
           }
         >
