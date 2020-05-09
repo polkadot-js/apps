@@ -88,6 +88,10 @@ export default React.memo(styled(Body)`
       > * {
         vertical-align: middle;
       }
+
+      .ui.button {
+        margin-right: 0;
+      }
     }
 
     &.combined {

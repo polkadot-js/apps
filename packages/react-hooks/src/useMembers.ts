@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
@@ -17,19 +16,9 @@ export default function useMembers (collective: 'council' | 'technicalCommittee'
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const [state, setState] = useState<Result>({ isMember: false, members: [] });
-  const retrieved = (
-    collective === 'council'
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      ? useCall<string[]>(hasAccounts && api.derive.elections.info, [], {
-        transform: ({ members }: DeriveElectionsInfo): string[] =>
-          members.map(([accountId]) => accountId.toString())
-      })
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      : useCall<string[]>(hasAccounts && api.query.technicalCommittee?.members, [], {
-        transform: (accounts: AccountId[]): string[] =>
-          accounts.map((accountId) => accountId.toString())
-      })
-  );
+  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, [], {
+    transform: (accounts: AccountId[]) => accounts.map((accountId) => accountId.toString())
+  });
 
   useEffect((): void => {
     retrieved && setState({
