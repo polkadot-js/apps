@@ -38,6 +38,8 @@
   "custom endpoint": "custom endpoint",
   "default icon theme": "default icon theme",
   "default interface language": "default interface language",
+  "do not include empty strings in the generated file": "do not include empty strings in the generated file",
+  "include all empty strings in the generated file": "include all empty strings in the generated file",
   "interface operation mode": "interface operation mode",
   "manage hardware connections": "manage hardware connections",
   "remote node/endpoint to connect to": "remote node/endpoint to connect to",
