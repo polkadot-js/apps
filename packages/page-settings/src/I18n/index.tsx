@@ -5,8 +5,9 @@
 import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Columar, Column, Dropdown, Progress, Spinner } from '@polkadot/react-components';
+import { Button, Columar, Column, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
 import languageCache from '@polkadot/react-components/i18n/cache';
+import { useToggle } from '@polkadot/react-hooks';
 import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
@@ -58,7 +59,17 @@ async function retrieveAll (): Promise<Defaults> {
     : [];
 
   missing.forEach((lng, index): void => {
+    // setup the language cache
     languageCache[lng] = translations[index];
+
+    // fill in all empty values (useful for download, filling in)
+    Object.keys(english).forEach((record): void => {
+      Object.keys(english[record]).forEach((key): void => {
+        if (!languageCache[lng][key]) {
+          languageCache[lng][key] = '';
+        }
+      });
+    });
   });
 
   return {
@@ -96,11 +107,11 @@ function calcProgress (english: StringsMod, language: Strings): Progress {
   return [[done, total, 0], breakdown];
 }
 
-function doDownload (strings: Strings): void {
+function doDownload (strings: Strings, withEmpty: boolean): void {
   const sanitized = Object.keys(strings).sort().reduce((result: Strings, key): Strings => {
     const sanitized = strings[key].trim();
 
-    if (sanitized) {
+    if (sanitized || withEmpty) {
       result[key] = sanitized;
     }
 
@@ -124,6 +135,7 @@ function progressDisplay ([done, total, _]: [number, number, number] = [0, 0, 0]
 
 function Translate ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [withEmpty, toggleWithEmpty] = useToggle();
   const [{ english, keys, modules }, setDefaults] = useState<Defaults>({ english: {}, keys: [], modules: [] });
   const [lng, setLng] = useState<string>('zh');
   const [[modProgress, allProgress], setProgress] = useState<Progress>([[0, 0, 0], {}]);
@@ -174,8 +186,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   );
 
   const _onDownload = useCallback(
-    () => doDownload(strings || {}),
-    [strings]
+    () => doDownload(strings || {}, withEmpty),
+    [strings, withEmpty]
   );
 
   if (!keys.length) {
@@ -218,6 +230,17 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           </Column>
         </Columar>
       </header>
+      <div className='toggleWrapper'>
+        <Toggle
+          label={
+            withEmpty
+              ? t('include all empty strings in the generated file')
+              : t('do not include empty strings in the generated file')
+          }
+          onChange={toggleWithEmpty}
+          value={withEmpty}
+        />
+      </div>
       <Button.Group>
         <Button
           icon='download'
@@ -231,7 +254,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           onChange={_setString}
           original={english[record][key]}
           tkey={key}
-          tval={strings[key] || ''}
+          tval={strings[key]}
         />
       )}
     </main>
@@ -241,5 +264,11 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
 export default React.memo(styled(Translate)`
   .ui.progress:last-child {
     margin: 0.25rem;
+  }
+
+  .toggleWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
   }
 `);
