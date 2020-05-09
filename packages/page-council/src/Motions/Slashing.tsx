@@ -69,34 +69,49 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
         <Modal
           className={className}
           header={t('Revert pending slashes')}
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t('Select the account you wish to make the proposal with.')}
-              label={t('propose from account')}
-              onChange={setAcountId}
-              type='account'
-              withLabel
-            />
-            {eras.length
-              ? (
-                <Dropdown
-                  defaultValue={eras[0].value}
-                  help={t('The unapplied slashed era to cancel.')}
-                  label={t('the era to cancel for')}
-                  onChange={setSelectedEra}
-                  options={eras}
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  filter={members}
+                  help={t('Select the account you wish to make the proposal with.')}
+                  label={t('propose from account')}
+                  onChange={setAcountId}
+                  type='account'
+                  withLabel
                 />
-              )
-              : (
-                <Input
-                  isDisabled
-                  label={t('the era to cancel for')}
-                  value={t('no unapplied slashes found')}
-                />
-              )
-            }
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The council account for the proposal. The selection is filtered by the current members.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                {eras.length
+                  ? (
+                    <Dropdown
+                      defaultValue={eras[0].value}
+                      help={t('The unapplied slashed era to cancel.')}
+                      label={t('the era to cancel for')}
+                      onChange={setSelectedEra}
+                      options={eras}
+                    />
+                  )
+                  : (
+                    <Input
+                      isDisabled
+                      label={t('the era to cancel for')}
+                      value={t('no unapplied slashes found')}
+                    />
+                  )
+                }
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The specific eras on which there are unapplied slashes. For each era a separate proposal is to be made.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton

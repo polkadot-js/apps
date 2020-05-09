@@ -51,23 +51,38 @@ function ProposeExternal ({ className, isMember, members }: Props): React.ReactE
         <Modal
           className={className}
           header={t('Propose external (majority)')}
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t('Select the account you wish to make the proposal with.')}
-              label={t('propose from account')}
-              onChange={setAcountId}
-              type='account'
-              withLabel
-            />
-            <Input
-              autoFocus
-              help={t('The preimage hash of the proposal')}
-              label={t('preimage hash')}
-              onChange={_onChangeHash}
-              value={hash}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  filter={members}
+                  help={t('Select the account you wish to make the proposal with.')}
+                  label={t('propose from account')}
+                  onChange={setAcountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The council account for the proposal. The selection is filtered by the current members.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  autoFocus
+                  help={t('The preimage hash of the proposal')}
+                  label={t('preimage hash')}
+                  onChange={_onChangeHash}
+                  value={hash}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The hash of the proposal image, either already submitted or valid for the specific call.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
