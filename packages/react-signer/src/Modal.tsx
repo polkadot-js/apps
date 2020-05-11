@@ -161,7 +161,7 @@ class Signer extends React.PureComponent<Props, State> {
       isSendable,
       ...(isSame
         ? { multiCall, password, unlockError }
-        : { multiCall: false, password: '', unlockError: null }
+        : { multiCall: false, password: '', signatory: null, unlockError: null }
       )
     };
   }
