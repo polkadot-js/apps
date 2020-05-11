@@ -1,8 +1,16 @@
 {
-  "name": "electron-app",
+  "name": "@polkadot/electron-app",
   "devDependencies": {
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "electron": "^8.2.5",
-    "ts-node": "^8.10.1"
+    "html-webpack-plugin": "^4.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "ts-loader": "^7.0.3",
+    "ts-node": "^8.10.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "start": "electron -r ts-node/register src/main.ts"
