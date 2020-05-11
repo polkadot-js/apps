@@ -1,0 +1,10 @@
+{
+  "name": "electron-app",
+  "devDependencies": {
+    "electron": "^8.2.5",
+    "ts-node": "^8.10.1"
+  },
+  "scripts": {
+    "start": "electron -r ts-node/register src/main.ts"
+  }
+}
