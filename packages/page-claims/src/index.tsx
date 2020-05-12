@@ -38,6 +38,7 @@ interface State extends TxModalState {
   step: Step;
 }
 
+// FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
   cursor: copy;
   font-family: monospace;
@@ -72,6 +73,7 @@ const Signature = styled.textarea`
   }
 `;
 
+// FIXME Not React.FC yet
 class ClaimsApp extends TxModal<Props, State> {
   constructor (props: Props) {
     super(props);
@@ -99,11 +101,9 @@ class ClaimsApp extends TxModal<Props, State> {
     const { api, systemChain = '', t } = this.props;
     const { accountId, didCopy, ethereumAddress, signature, step } = this.state;
 
+    const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
     const payload = accountId
-      ? (
-        u8aToString(api.consts.claims.prefix.toU8a(true)) +
-        u8aToHex(decodeAddress(accountId), -1, false)
-      )
+      ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
       : '';
 
     return (
@@ -131,7 +131,6 @@ class ClaimsApp extends TxModal<Props, State> {
                 <Button.Group>
                   <Button
                     icon='sign-in'
-                    isPrimary
                     label={t('Continue')}
                     onClick={this.setStep(Step.Sign)}
                   />
@@ -163,7 +162,7 @@ class ClaimsApp extends TxModal<Props, State> {
                 </div>
                 <Signature
                   onChange={this.onChangeSignature}
-                  placeholder='{\n  "address": "0x ...",\n  "msg": "Pay KSMs to the Kusama account: ...",\n  "sig": "0x ...",\n  "version": "2"\n}'
+                  placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:0x...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
                   rows={10}
                 />
                 {(step === Step.Sign) && (
@@ -171,7 +170,6 @@ class ClaimsApp extends TxModal<Props, State> {
                     <Button
                       icon='sign-in'
                       isDisabled={!accountId || !signature}
-                      isPrimary
                       label={t('Confirm claim')}
                       onClick={this.setStep(Step.Claim)}
                     />
