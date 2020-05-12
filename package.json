@@ -8,10 +8,10 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.14.0-beta.6",
-    "@polkadot/api-contract": "^1.14.0-beta.6",
+    "@polkadot/api": "^1.14.0-beta.9",
+    "@polkadot/api-contract": "^1.14.0-beta.9",
     "@polkadot/keyring": "^2.10.0-beta.5",
-    "@polkadot/types": "^1.14.0-beta.6",
+    "@polkadot/types": "^1.14.0-beta.9",
     "@polkadot/util": "^2.10.0-beta.5",
     "@polkadot/util-crypto": "^2.10.0-beta.5",
     "babel-core": "^7.0.0-bridge.0",
@@ -38,7 +38,7 @@
     "@babel/core": "^7.9.6",
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.6",
-    "@polkadot/dev": "^0.52.18",
+    "@polkadot/dev": "^0.52.19",
     "@polkadot/ts": "^0.3.21",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.20",
@@ -47,9 +47,9 @@
     "@types/jest": "^25.2.1",
     "@types/react-beautiful-dnd": "^12.1.2",
     "@types/react-copy-to-clipboard": "^4.3.0",
-    "@types/react-dom": "^16.9.7",
+    "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
-    "@types/react-tooltip": "^3.11.0",
+    "@types/react-tooltip": "^4.2.4",
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.0",
     "@types/styled-theming": "^2.2.2",
@@ -61,6 +61,6 @@
     "stylelint-config-styled-components": "^0.1.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-plugin-serve": "^0.12.1"
+    "webpack-plugin-serve": "^1.0.0"
   }
 }
