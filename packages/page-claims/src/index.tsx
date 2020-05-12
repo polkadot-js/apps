@@ -162,7 +162,7 @@ class ClaimsApp extends TxModal<Props, State> {
                 </div>
                 <Signature
                   onChange={this.onChangeSignature}
-                  placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:0x...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
+                  placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
                   rows={10}
                 />
                 {(step === Step.Sign) && (
