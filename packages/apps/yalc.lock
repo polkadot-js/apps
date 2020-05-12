@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@nodefactory/metamask-polkadot-adapter": {
+      "signature": "b44f0dfc6920c16fd111e6ed541773ea",
+      "file": true
+    }
+  }
+}

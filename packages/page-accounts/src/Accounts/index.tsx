@@ -22,6 +22,10 @@ import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
+import {InjectedMetamaskExtension} from "@nodefactory/metamask-polkadot-adapter/src/types"
+import {web3EnablePromise, web3Enable} from "@polkadot/extension-dapp";
+import {InjectedExtension} from "@polkadot/extension-inject/types";
+import {injectMetamaskPolkadotSnapProvider} from "@nodefactory/metamask-polkadot-adapter/";
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -101,12 +105,14 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
   const [filterOn, setFilter] = useState<string>('');
+  const [test, setTest] = useState<boolean>(false);
 
   useEffect((): void => {
+    console.log(test);
     setSortedAccounts(
       sortAccounts(allAccounts, favorites)
     );
-  }, [allAccounts, favorites]);
+  }, [allAccounts, favorites, test]);
 
   const _setBalance = useCallback(
     (account: string, balance: BN) =>
@@ -153,6 +159,24 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     </div>
   ), [filterOn, t]);
 
+  const connectMetamaskAccount = () => {
+    injectMetamaskPolkadotSnapProvider("kusama");
+    
+    (async ()=> {
+      await web3Enable('my cool dapp');
+      const extensions = await web3EnablePromise;
+      const x = getMetamaskExtension(extensions || []) || null;
+      console.log(x);
+    })();
+    console.log(!test);
+    setTest(!test);
+    console.log("allAccounts");
+    console.log(allAccounts);
+  }
+  function getMetamaskExtension(extensions: InjectedExtension[]): InjectedMetamaskExtension|undefined {
+    return extensions.find(item => item.name === "metamask-polkadot-snap") as InjectedMetamaskExtension|undefined;
+}
+
   return (
     <div className={className}>
       <Banner />
@@ -195,6 +219,11 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           icon='qrcode'
           label={t('Add via Qr')}
           onClick={toggleQr}
+        />
+        <Button
+          icon=""
+          label={t('Connect Metamask')}
+          onClick={connectMetamaskAccount}
         />
         {isLedger() && (
           <>

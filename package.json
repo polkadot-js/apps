@@ -62,5 +62,8 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-plugin-serve": "^0.12.1"
+  },
+  "dependencies": {
+    "@nodefactory/metamask-polkadot-adapter": "file:.yalc/@nodefactory/metamask-polkadot-adapter"
   }
 }
