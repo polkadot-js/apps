@@ -1,9 +1,0 @@
-{
-  "extends": "@polkadot/dev/config/tsconfig",
-  "include": ["src"],
-  "compilerOptions": {
-    "jsx": "react",
-    "module": "commonJS",
-    "sourceMap": true
-  }
-}
