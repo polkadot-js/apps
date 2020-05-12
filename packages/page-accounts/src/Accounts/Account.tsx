@@ -68,7 +68,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
   const [multiInc, refreshMulti] = useIncrement();
   const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber, []);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
-  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy.locks, [address]);
+  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
