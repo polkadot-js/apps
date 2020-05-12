@@ -106,7 +106,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
     bestNumber && democracyLocks && setUnlockableIds(
       (prev): DemocracyUnlockable => {
         const ids = democracyLocks
-          .filter(({ unlockAt }) => bestNumber.gt(unlockAt))
+          .filter(({ isFinished, unlockAt }) => isFinished && bestNumber.gt(unlockAt))
           .map(({ referendumId }) => referendumId);
 
         if (JSON.stringify(prev.ids) === JSON.stringify(ids)) {

@@ -48,7 +48,7 @@ function DemocracyLocks ({ className, value }: Props): React.ReactElement<Props>
       />
       <FormatBalance value={max} />
       <Tooltip
-        text={mapped.map(([{ balance, referendumId, vote }, blocks], index): React.ReactNode => (
+        text={mapped.map(([{ balance, isFinished, referendumId, vote }, blocks], index): React.ReactNode => (
           <div
             className='row'
             key={index}
@@ -62,7 +62,9 @@ function DemocracyLocks ({ className, value }: Props): React.ReactElement<Props>
                     label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
                   />
                 )
-                : t('lock expired')
+                : isFinished
+                  ? t('lock expired')
+                  : t('ongoing referendum')
               }
             </div>
           </div>
