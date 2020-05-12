@@ -8,7 +8,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -22,6 +22,7 @@ interface Props {
 function Seconding ({ depositors, image, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
+  const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isSecondingOpen, toggleSeconding] = useToggle();
 
@@ -29,7 +30,7 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
     return null;
   }
 
-  const isDepositor = depositors.some((depositor): boolean => depositor.eq(accountId));
+  const isDepositor = depositors.some((depositor) => depositor.eq(accountId));
 
   return (
     <>
@@ -73,7 +74,11 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
               isPrimary
               label={t('Second')}
               onStart={toggleSeconding}
-              params={[proposalId]}
+              params={
+                api.tx.democracy.second.meta.args.length === 2
+                  ? [proposalId, depositors.length]
+                  : [proposalId]
+              }
               tx='democracy.second'
             />
           </Modal.Actions>
