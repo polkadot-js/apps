@@ -15,7 +15,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@babel/runtime": "^7.9.6",
-    "@polkadot/dev": "^0.52.18",
+    "@polkadot/dev": "^0.52.19",
     "@polkadot/react-components": "0.42.0-beta.112",
     "@polkadot/react-signer": "0.42.0-beta.112",
     "query-string": "^6.12.1"
@@ -27,7 +27,7 @@
     "empty": "^0.10.1",
     "file-loader": "^6.0.0",
     "html-loader": "^1.1.0",
-    "html-webpack-plugin": "^4.2.1",
+    "html-webpack-plugin": "^4.3.0",
     "markdown-loader": "^5.1.0",
     "mini-css-extract-plugin": "^0.9.0",
     "source-map-explorer": "^2.4.2",

@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { H256, Multisig, RecoveryConfig } from '@polkadot/types/interfaces';
 import { SortedAccount } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useIncrement, useToggle } from '@polkadot/react-hooks';
 import { Option, StorageKey } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -34,6 +36,11 @@ interface Props extends SortedAccount {
   toggleFavorite: (address: string) => void;
 }
 
+interface DemocracyUnlockable {
+  democracyUnlockTx: SubmittableExtrinsic<'promise'> | null;
+  ids: BN[];
+}
+
 function calcVisible (filter: string, name: string, tags: string[]): boolean {
   if (filter.length === 0) {
     return true;
@@ -46,11 +53,22 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
+function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> {
+  return api.tx.utility.batch(
+    unlockableIds
+      .map((id) => api.tx.democracy.removeVote(id))
+      .concat(api.tx.democracy.unlock(address))
+  );
+}
+
 function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const [multiInc, refreshMulti] = useIncrement();
+  const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber, []);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
+  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
@@ -61,6 +79,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         .map(([key, opt]) => [key.args[1] as H256, opt.unwrap()])
   });
   const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -83,8 +102,27 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
     );
   }, [accName, filter, tags]);
 
+  useEffect((): void => {
+    bestNumber && democracyLocks && setUnlockableIds(
+      (prev): DemocracyUnlockable => {
+        const ids = democracyLocks
+          .filter(({ isFinished, unlockAt }) => isFinished && bestNumber.gt(unlockAt))
+          .map(({ referendumId }) => referendumId);
+
+        if (JSON.stringify(prev.ids) === JSON.stringify(ids)) {
+          return prev;
+        }
+
+        return {
+          democracyUnlockTx: createClearDemocracyTx(api.api, address, ids),
+          ids
+        };
+      }
+    );
+  }, [address, api, bestNumber, democracyLocks]);
+
   const _onFavorite = useCallback(
-    (): void => toggleFavorite(address),
+    () => toggleFavorite(address),
     [address, toggleFavorite]
   );
 
@@ -117,6 +155,16 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
       refreshMulti();
     },
     [refreshMulti, toggleMultisig]
+  );
+
+  const _clearDemocracyLocks = useCallback(
+    (): void => {
+      democracyUnlockTx && queueExtrinsic({
+        accountId: address,
+        extrinsic: democracyUnlockTx
+      });
+    },
+    [address, democracyUnlockTx, queueExtrinsic]
   );
 
   const _showOnHardware = useCallback(
@@ -312,6 +360,13 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
             >
               {t('Set on-chain identity')}
             </Menu.Item>
+            <Menu.Item
+              disabled={!democracyUnlockTx}
+              onClick={_clearDemocracyLocks}
+            >
+              {t('Clear expired democracy locks')}
+            </Menu.Item>
+            <Menu.Divider />
             <Menu.Item
               disabled={isExternal || isInjected || isMultisig}
               onClick={toggleDerive}
