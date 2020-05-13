@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Option } from '@polkadot/types';
 import { Balance, EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -18,11 +19,9 @@ import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import ClaimDisplay from './Claim';
-import AttestDisplay from './Attest';
 import { recoverFromJSON } from './util';
-import { useTranslation } from './translate';
+import translate, { useTranslation } from './translate';
 
-import translate from './translate';
 import { useApi } from '@polkadot/react-hooks';
 
 enum Step {
@@ -31,17 +30,7 @@ enum Step {
   Claim = 2,
 }
 
-interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
-
-interface State extends TxModalState {
-  attest?: string | null;
-  claim?: Balance | null;
-  didCopy: boolean;
-  ethereumAddress: EthereumAddress | null;
-  isPreclaimed: boolean;
-  signature?: EcdsaSignature | null;
-  step: Step;
-}
+interface Props extends AppProps, ApiProps, I18nProps, TxModalProps { }
 
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
@@ -78,23 +67,22 @@ const Signature = styled.textarea`
   }
 `;
 
-
 const ClaimsApp = (props: Props) => {
   // constructor (props: Props) {
   //   super(props);
 
   //   this.defaultState = {
   //     ...this.defaultState,
-  
-      const [claim, setClaim] = useState<Balance | null>(null);
-      const [didCopy, setDidCopy] = useState(false);
-      const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
-      const [signature, setSignature] = useState<EcdsaSignature | null>(null);
-      const [step, setStep] = useState<Step>(Step.Account);
-      const [accountId, setAccountId] = useState<string | null>(null);
-      const { api, systemChain } = useApi();
-      const { t } = useTranslation();
-      step: 0
+
+  const [claim, setClaim] = useState<Balance | null>(null);
+  const [didCopy, setDidCopy] = useState(false);
+  const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
+  const [signature, setSignature] = useState<EcdsaSignature | null>(null);
+  const [step, setStep] = useState<Step>(Step.Account);
+  const [accountId, setAccountId] = useState<string | null>(null);
+  const { api, systemChain } = useApi();
+  const { t } = useTranslation();
+
   //   };
   //   this.state = this.defaultState;
   // }
@@ -105,162 +93,155 @@ const ClaimsApp = (props: Props) => {
         setDidCopy(false);
       }, 1000);
     }
-  },[didCopy])
+  }, [didCopy]);
 
+  const goToStepSign = useCallback(() => {
+    setStep(Step.Sign);
+  }, []);
+
+  const goToStepClaim = useCallback(() => {
+    setStep(Step.Claim);
+  }, []);
+
+  const onChangeAccount = useCallback(async (newAccountId) => {
+    const isPreclaimed = (await api.query.claims?.preclaims<Option<EthereumAddress>>(newAccountId)).isSome;
+
+    setAccountId(newAccountId);
+    // FIXME Amaury It should not be Step.Sign
+    goToStepSign();
+  }, [api, goToStepSign]);
+
+  const onChangeSignature = useCallback((event: React.SyntheticEvent<Element>) => {
+    const { value: signatureJson } = event.target as HTMLInputElement;
+
+    const { ethereumAddress, signature } = recoverFromJSON(signatureJson);
+
+    setEthereumAddress(ethereumAddress);
+    setSignature(signature);
+    step > Step.Sign && goToStepSign();
+  }, [goToStepSign, step]);
+
+  const onCopy = useCallback(() => {
+    setDidCopy(true);
+  }, []);
 
   // public render (): React.ReactNode {
   //   const { api, systemChain = '', t } = props;
   //   const { accountId, attest, didCopy, ethereumAddress, signature, step } = this.state;
 
-    const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
-    const payload = accountId
-      ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
-      : '';
+  const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
+  const payload = accountId
+    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
+    : '';
 
-    return (
-      <main>
-        <header />
-        <h1>
-          <Trans>claim your <em>{TokenUnit.abbr}</em> tokens</Trans>
-        </h1>
-        <Columar>
-          <Column>
-            <Card withBottomMargin>
-              <h3>{t('1. Select your {{chain}} account', {
-                replace: {
-                  chain: systemChain
-                }
-              })}</h3>
-              <InputAddress
-                defaultValue={accountId}
-                help={t('The account you want to claim to.')}
-                label={t('claim to account')}
-                onChange={this.onChangeAccount}
-                type='all'
+  return (
+    <main>
+      <header />
+      <h1>
+        <Trans>claim your <em>{TokenUnit.abbr}</em> tokens</Trans>
+      </h1>
+      <Columar>
+        <Column>
+          <Card withBottomMargin>
+            <h3>{t('1. Select your {{chain}} account', {
+              replace: {
+                chain: systemChain
+              }
+            })}</h3>
+            <InputAddress
+              defaultValue={accountId}
+              help={t('The account you want to claim to.')}
+              label={t('claim to account')}
+              onChange={onChangeAccount}
+              type='all'
+            />
+            {(step === Step.Account) && (
+              <Button.Group>
+                <Button
+                  icon='sign-in'
+                  label={t('Continue')}
+                  onClick={goToStepSign}
+                />
+              </Button.Group>
+            )}
+          </Card>
+          {(step >= Step.Sign && !!accountId) && (
+            <Card>
+              <h3>{t('2. Sign ETH transaction')}</h3>
+              <CopyToClipboard
+                onCopy={onCopy}
+                text={payload}
+              >
+                <Payload
+                  data-for='tx-payload'
+                  data-tip
+                >
+                  {payload}
+                </Payload>
+              </CopyToClipboard>
+              <Tooltip
+                place='right'
+                text={didCopy ? t('copied') : t('click to copy')}
+                trigger='tx-payload'
               />
-              {(step === Step.Account) && (
+              <div>
+                {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
+                  :
+              </div>
+              <Signature
+                onChange={onChangeSignature}
+                placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
+                rows={10}
+              />
+              {(step === Step.Sign) && (
                 <Button.Group>
                   <Button
                     icon='sign-in'
-                    label={t('Continue')}
-                    onClick={this.setStep(Step.Sign)}
+                    isDisabled={!accountId || !signature}
+                    label={t('Confirm claim')}
+                    onClick={goToStepClaim}
                   />
                 </Button.Group>
               )}
             </Card>
-            {(step >= Step.Sign && !!accountId) && (
-              <Card>
-                <h3>{t('2. Sign ETH transaction')}</h3>
-                <CopyToClipboard
-                  onCopy={this.onCopy}
-                  text={payload}
-                >
-                  <Payload
-                    data-for='tx-payload'
-                    data-tip
-                  >
-                    {payload}
-                  </Payload>
-                </CopyToClipboard>
-                <Tooltip
-                  place='right'
-                  text={didCopy ? t('copied') : t('click to copy')}
-                  trigger='tx-payload'
-                />
-                <div>
-                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
-                  :
-                </div>
-                <Signature
-                  onChange={this.onChangeSignature}
-                  placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
-                  rows={10}
-                />
-                {(step === Step.Sign) && (
-                  <Button.Group>
-                    <Button
-                      icon='sign-in'
-                      isDisabled={!accountId || !signature}
-                      label={t('Confirm claim')}
-                      onClick={this.setStep(Step.Claim)}
-                    />
-                  </Button.Group>
-                )}
-              </Card>
-            )}
-          </Column>
-          <Column showEmptyText={false}>
-            {(step >= Step.Claim) && (
-              <ClaimDisplay
-                button={this.renderTxButton()}
-                ethereumAddress={ethereumAddress}
-              />
-            )}
-          </Column>
-        </Columar>
-      </main>
-    );
+          )}
+        </Column>
+        <Column showEmptyText={false}>
+          {(step >= Step.Claim) && (
+            <ClaimDisplay
+              // button={this.renderTxButton()}
+              ethereumAddress={ethereumAddress}
+            />
+          )}
+        </Column>
+      </Columar>
+    </main>
+  );
   // }
 
-  protected isDisabled = (): boolean => {
-    const { accountId, signature } = this.state;
+  // protected isDisabled = (): boolean => {
+  //   const { accountId, signature } = this.state;
 
-    return !accountId || !signature;
-  }
+  //   return !accountId || !signature;
+  // }
 
-  protected isUnsigned = (): boolean => true;
+  // protected isUnsigned = (): boolean => true;
 
-  protected submitLabel = (): React.ReactNode => this.props.t('Redeem');
+  // protected submitLabel = (): React.ReactNode => this.props.t('Redeem');
 
-  protected txMethod = (): string => 'claims.claim';
+  // protected txMethod = (): string => 'claims.claim';
 
-  protected txParams = (): [string | null, EcdsaSignature | null] => {
-    const { accountId, signature } = this.state;
+  // protected txParams = (): [string | null, EcdsaSignature | null] => {
+  //   const { accountId, signature } = this.state;
 
-    return [
-      accountId ? accountId.toString() : null,
-      signature || null
-    ];
-  }
+  //   return [
+  //     accountId ? accountId.toString() : null,
+  //     signature || null
+  //   ];
+  // }
 
-  protected onChangeAccount = (accountId: string | null): void => {
-    const { api } = this.props;
-    const isPreclaimed = await (api.query.claims?.preclaims(accountId)).isSome;
-
-    this.setState(({ step }: State): Pick<State, never> => {
-      return {
-        ...(
-          step > Step.Account
-            ? this.defaultState
-            : {}
-        ),
-        accountId
-      };
-    });
-  }
-
-  protected onChangeSignature = (event: React.SyntheticEvent<Element>): void => {
-    const { value: signatureJson } = event.target as HTMLInputElement;
-
-    this.setState(({ step }: State): Pick<State, never> => ({
-      ...(
-        step > Step.Sign
-          ? { step: Step.Sign }
-          : {}
-      ),
-      ...recoverFromJSON(signatureJson)
-    }));
-  }
-
-  private onCopy = (): void => {
-    this.setState({ didCopy: true });
-  }
-
-  private setStep = (step: Step): () => void =>
-    (): void => {
-      this.setState({ step });
-    }
-}
+  // }
+};
 
 export default withMulti(
   ClaimsApp,
