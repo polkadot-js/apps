@@ -24,7 +24,7 @@ function Attest ({ className }: Props): React.ReactElement<Props> | null {
   const [needAttest, setNeedAttest] = useState<Option<EthereumAddress>[]>([]);
 
   useEffect(() => {
-    if (typeof api.query.claims.preclaims !== undefined) {
+    if (typeof api.query?.claims?.preclaims !== undefined) {
       setIsOldClaimProcess(false);
     }
   }, [api]);
