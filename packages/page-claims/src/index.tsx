@@ -68,6 +68,7 @@ const Signature = styled.textarea`
 `;
 
 const ClaimsApp = (props: Props): React.ReactElement => {
+  const [isOldClaimProcess, setIsOldClaimProcess] = useState(true);
   const [claim, setClaim] = useState<Balance | null>(null);
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
@@ -77,6 +78,14 @@ const ClaimsApp = (props: Props): React.ReactElement => {
   const { api, isApiReady, systemChain } = useApi();
   const { t } = useTranslation();
   const [isPreclaimed, setIsPreclaimed] = useState(false);
+
+  useEffect(() => {
+    if (isApiReady && typeof api.query.claims.claimAttest !== undefined) {
+      setIsOldClaimProcess(false);
+    }
+
+    console.log('isOldclaimProcess', isOldClaimProcess);
+  }, [api, isApiReady, isOldClaimProcess]);
 
   useEffect(() => {
     if (didCopy) {
@@ -125,6 +134,7 @@ const ClaimsApp = (props: Props): React.ReactElement => {
   }, []);
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
+  const statement = isPreclaimed;
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
     : '';
