@@ -19,15 +19,15 @@ interface Props {
 function Attest ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
   const [isOldClaimProcess, setIsOldClaimProcess] = useState(true);
   const [needAttest, setNeedAttest] = useState<Option<EthereumAddress>[]>([]);
 
   useEffect(() => {
-    if (typeof api.query?.claims?.preclaims !== undefined) {
+    if (isApiReady && typeof api.query?.claims?.preclaims !== 'undefined') {
       setIsOldClaimProcess(false);
     }
-  }, [api]);
+  }, [api, isApiReady]);
 
   // Find accounts that need attest. They are accounts that
   // - already preclaimed,
@@ -35,12 +35,12 @@ function Attest ({ className }: Props): React.ReactElement<Props> | null {
   // `claims.preclaims` returns Some() for these accounts.
   useEffect(() => {
     if (!isOldClaimProcess) {
-      api.query.claims.preclaims.multi<Option<EthereumAddress>>([allAccounts])
+      api.query.claims.preclaims.multi<Option<EthereumAddress>>(allAccounts)
         .then((options) => {
           setNeedAttest(options.filter((opt) => opt.isSome));
         });
     }
-  });
+  }, [allAccounts, isOldClaimProcess]);
 
   if (!needAttest?.length) {
     return null;
