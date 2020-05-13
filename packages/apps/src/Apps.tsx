@@ -14,6 +14,7 @@ import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import AccountsOverlay from './overlays/Accounts';
+import AttestOverlay from './overlays/Attest';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
@@ -93,6 +94,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
         </Signer>
         <ConnectingOverlay />
         <AccountsOverlay />
+        <AttestOverlay />
         <div id={PORTAL_ID} />
       </div>
       <WarmUp />
