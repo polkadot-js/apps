@@ -67,13 +67,7 @@ const Signature = styled.textarea`
   }
 `;
 
-const ClaimsApp = (props: Props) => {
-  // constructor (props: Props) {
-  //   super(props);
-
-  //   this.defaultState = {
-  //     ...this.defaultState,
-
+const ClaimsApp = (props: Props): React.ReactElement => {
   const [claim, setClaim] = useState<Balance | null>(null);
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
@@ -82,10 +76,6 @@ const ClaimsApp = (props: Props) => {
   const [accountId, setAccountId] = useState<string | null>(null);
   const { api, systemChain } = useApi();
   const { t } = useTranslation();
-
-  //   };
-  //   this.state = this.defaultState;
-  // }
 
   useEffect(() => {
     if (didCopy) {
@@ -124,10 +114,6 @@ const ClaimsApp = (props: Props) => {
   const onCopy = useCallback(() => {
     setDidCopy(true);
   }, []);
-
-  // public render (): React.ReactNode {
-  //   const { api, systemChain = '', t } = props;
-  //   const { accountId, attest, didCopy, ethereumAddress, signature, step } = this.state;
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
@@ -217,6 +203,9 @@ const ClaimsApp = (props: Props) => {
       </Columar>
     </main>
   );
+
+  // FIXME Amaury Below are from the old component
+  // How to use TxModalNew?
   // }
 
   // protected isDisabled = (): boolean => {
