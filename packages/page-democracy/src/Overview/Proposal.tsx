@@ -64,7 +64,7 @@ function Proposal ({ className, value: { balance, image, imageHash, index, propo
           )}
         </Button.Group>
       </td>
-      <td className='mini'>
+      <td className='mini hide-small'>
         <LinkExternal
           data={index}
           type='proposal'

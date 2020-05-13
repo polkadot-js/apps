@@ -20,11 +20,13 @@ function Referendums ({ className, referendums }: Props): React.ReactElement<Pro
 
   const header = useMemo(() => [
     [t('referenda'), 'start', 2],
+    [t('turnout'), 'hide-medium'],
     [t('remaining')],
     [t('activate')],
     [t('aye')],
     [t('nay')],
-    [undefined, undefined, 3]
+    [undefined, undefined, 2],
+    [undefined, 'hide-small']
   ], [t]);
 
   return (

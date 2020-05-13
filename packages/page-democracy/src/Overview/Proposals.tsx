@@ -24,7 +24,8 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
     [t('proposals'), 'start', 2],
     [t('proposer'), 'address'],
     [t('locked')],
-    [undefined, undefined, 3]
+    [undefined, undefined, 2],
+    [undefined, 'hide-small']
   ], [t]);
 
   return (
