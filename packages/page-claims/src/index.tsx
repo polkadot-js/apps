@@ -11,7 +11,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, Card, Columar, Column, InputAddress, Tooltip } from '@polkadot/react-components';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { u8aToHex, u8aToString } from '@polkadot/util';
@@ -20,7 +19,7 @@ import { decodeAddress } from '@polkadot/util-crypto';
 import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
 import { recoverFromJSON } from './util';
-import translate, { useTranslation } from './translate';
+import { useTranslation } from './translate';
 
 import { useApi } from '@polkadot/react-hooks';
 
@@ -229,8 +228,4 @@ const ClaimsApp = (props: Props): React.ReactElement => {
   );
 };
 
-export default withMulti(
-  ClaimsApp,
-  translate,
-  withApi
-);
+export default ClaimsApp;
