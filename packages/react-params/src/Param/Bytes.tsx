@@ -12,18 +12,24 @@ import BaseBytes from './BaseBytes';
 import File from './File';
 
 function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
   const [isFileDrop, setIsFileDrop] = useState(false);
 
   const _toggleFile = useCallback(
     (): void => setIsFileDrop(true),
     []
   );
+
   const _onChangeFile = useCallback(
     (value: Uint8Array): void => {
+      const isValid = value.length !== 0;
+
       onChange && onChange({
-        isValid: value.length !== 0,
+        isValid,
         value: Compact.addLengthPrefix(value)
       });
+
+      setIsValid(isValid);
     },
     [onChange]
   );
@@ -33,7 +39,7 @@ function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onC
       <File
         className={className}
         isDisabled={isDisabled}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
         onChange={_onChangeFile}
         style={style}
@@ -45,7 +51,7 @@ function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onC
         className={className}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
         length={-1}
         name={name}
