@@ -15,13 +15,12 @@ import { useTranslation } from './translate';
 import { addrToChecksum } from './util';
 
 interface Props {
-  attestSignature?: string | null;
   button: React.ReactNode;
   className?: string;
   ethereumAddress: EthereumAddress | null;
 }
 
-function Claim ({ attestSignature, button, className, ethereumAddress }: Props): React.ReactElement<Props> | null {
+function Claim ({ button, className, ethereumAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
