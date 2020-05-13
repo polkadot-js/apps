@@ -105,7 +105,7 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     } else {
       goToStepSign();
     }
-  });
+  }, [goToStepClaim, goToStepSign, isPreclaimed]);
 
   const onChangeAccount = useCallback((newAccountId) => {
     setAccountId(newAccountId);
@@ -118,8 +118,7 @@ const ClaimsApp = (props: Props): React.ReactElement => {
 
     setEthereumAddress(ethereumAddress);
     setSignature(signature);
-    step > Step.Sign && goToStepSign();
-  }, [goToStepSign, step]);
+  }, []);
 
   const onCopy = useCallback(() => {
     setDidCopy(true);

@@ -28,7 +28,7 @@ function Attest ({ accountId, className }: Props): React.ReactElement<Props> | n
             icon='send'
             isPrimary
             label={t('Attest')}
-            params={['Default']} // Replace with actual
+            params={['dsafdsalkfj']} // Replace with actual
             tx='claims.attest'
           />
         </Button.Group>

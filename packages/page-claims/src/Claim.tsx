@@ -29,7 +29,6 @@ function constructTx (accountId: string, ethereumSignature: string | null, kind:
   tx: string;
 } {
   return isOldClaimProcess
-    // FIXME How to get the StatementKind?
     ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
     : { params: [accountId, ethereumSignature, kind], tx: 'claims.claimAttest' };
 }
