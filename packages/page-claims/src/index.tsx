@@ -74,8 +74,9 @@ const ClaimsApp = (props: Props): React.ReactElement => {
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
   const [step, setStep] = useState<Step>(Step.Account);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const { api, systemChain } = useApi();
+  const { api, isApiReady, systemChain } = useApi();
   const { t } = useTranslation();
+  const [isPreclaimed, setIsPreclaimed] = useState(false);
 
   useEffect(() => {
     if (didCopy) {
@@ -85,6 +86,16 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     }
   }, [didCopy]);
 
+  useEffect(() => {
+    if (isApiReady && accountId) {
+      api.query.claims
+        .preclaims<Option<EthereumAddress>>(accountId)
+        .then((opt): void => {
+          setIsPreclaimed(opt.isSome);
+        });
+    }
+  }, [accountId, api.query.claims, isApiReady]);
+
   const goToStepSign = useCallback(() => {
     setStep(Step.Sign);
   }, []);
@@ -93,13 +104,11 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     setStep(Step.Claim);
   }, []);
 
-  const onChangeAccount = useCallback(async (newAccountId) => {
-    const isPreclaimed = (await api.query.claims?.preclaims<Option<EthereumAddress>>(newAccountId)).isSome;
-
+  const onChangeAccount = useCallback((newAccountId) => {
     setAccountId(newAccountId);
     // FIXME Amaury It should not be Step.Sign
     goToStepSign();
-  }, [api, goToStepSign]);
+  }, [goToStepSign]);
 
   const onChangeSignature = useCallback((event: React.SyntheticEvent<Element>) => {
     const { value: signatureJson } = event.target as HTMLInputElement;
@@ -151,7 +160,7 @@ const ClaimsApp = (props: Props): React.ReactElement => {
               </Button.Group>
             )}
           </Card>
-          {(step >= Step.Sign && !!accountId) && (
+          {(step >= Step.Sign && !!accountId && !isPreclaimed) && (
             <Card>
               <h3>{t('2. Sign ETH transaction')}</h3>
               <CopyToClipboard
