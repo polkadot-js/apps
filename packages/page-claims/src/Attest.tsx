@@ -18,9 +18,9 @@ function Attest ({ accountId, className }: Props): React.ReactElement<Props> | n
   const { t } = useTranslation();
 
   return (
-    <Card>
+    <Card isSuccess>
       <div className={className}>
-        {t('By signing this transaction, you agree with attestation available at the following address: XXX')}
+        {t('By signing this transaction, you agree with the attestation available at the following address: XXX')}
         <h3>{addrToChecksum(accountId)}</h3>
         <Button.Group>
           <TxButton
