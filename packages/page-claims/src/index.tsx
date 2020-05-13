@@ -4,8 +4,6 @@
 
 import { Option } from '@polkadot/types';
 import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
-import { AppProps, I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
@@ -28,8 +26,6 @@ enum Step {
   Sign = 1,
   Claim = 2,
 }
-
-interface Props extends AppProps, ApiProps, I18nProps { }
 
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
@@ -66,7 +62,7 @@ const Signature = styled.textarea`
   }
 `;
 
-const ClaimsApp = (props: Props): React.ReactElement => {
+const ClaimsApp = (): React.ReactElement => {
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
