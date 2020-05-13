@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Option } from '@polkadot/types';
-import { BalanceOf, EthereumAddress } from '@polkadot/types/interfaces';
+import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from './translate';
@@ -24,14 +24,13 @@ interface Props {
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.
-function constructTx (accountId: string, ethereumSignature: string | null, isOldClaimProcess: boolean): {
+function constructTx (accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): {
   params: any[];
   tx: string;
 } {
   return isOldClaimProcess
-    // FIXME How to get the StatementKind?
-    ? { params: [accountId, ethereumSignature], tx: 'claims.claimAttest' }
-    : { params: [accountId, ethereumSignature, 'Default'], tx: 'claims.claimAttest' };
+    ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
+    : { params: [accountId, ethereumSignature, kind], tx: 'claims.claimAttest' };
 }
 
 function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess }: Props): React.ReactElement<Props> | null {
@@ -40,6 +39,9 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
+  const statementKind = useCall<StatementKind | undefined>(ethereumAddress && !isOldClaimProcess && api.query.claims.signing, [ethereumAddress], {
+    transform: (option: Option<StatementKind>) => option.unwrapOr(undefined)
+  });
 
   const _fetchClaim = useCallback(
     (address: EthereumAddress): void => {
@@ -87,7 +89,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
                   icon='send'
                   isPrimary
                   label={t('Claim')}
-                  {...constructTx(accountId, ethereumSignature, isOldClaimProcess)}
+                  {...constructTx(accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
               </Button.Group>
             </>
