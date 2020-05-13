@@ -22,6 +22,11 @@ import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
+import {InjectedMetamaskExtension} from "@nodefactory/metamask-polkadot-adapter/src/types"
+import {web3EnablePromise, web3Enable} from "@polkadot/extension-dapp";
+import {InjectedExtension} from "@polkadot/extension-inject/types";
+import {injectMetamaskPolkadotSnapProvider} from "@nodefactory/metamask-polkadot-adapter/";
+import {Keyring} from "@polkadot/keyring";
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -153,6 +158,29 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     </div>
   ), [filterOn, t]);
 
+  const connectMetamaskAccount = () => {
+    injectMetamaskPolkadotSnapProvider("kusama");
+    
+    (async ()=> {
+      await web3Enable('my cool dapp');
+      const extensions = await web3EnablePromise;
+      const metamaskExtension = getMetamaskExtension(extensions || []) || null;
+      if(metamaskExtension) {
+        const accountData =  await metamaskExtension.accounts.get();
+        const address = accountData[0].address;
+        console.log(accountData[0].address);
+
+        const accountKeyring = new Keyring(); 
+        const keyringPair = accountKeyring.addFromAddress(address);
+        console.log(keyringPair);
+        keyring.saveAccount(keyringPair);
+      }
+    })();
+  }
+  function getMetamaskExtension(extensions: InjectedExtension[]): InjectedMetamaskExtension|undefined {
+    return extensions.find(item => item.name === "metamask-polkadot-snap") as InjectedMetamaskExtension|undefined;
+  }
+
   return (
     <div className={className}>
       <Banner />
@@ -209,6 +237,11 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           icon='add'
           label={t('Multisig')}
           onClick={toggleMultisig}
+        />
+        <Button
+          icon=""
+          label={t('Connect Metamask')}
+          onClick={connectMetamaskAccount}
         />
       </Button.Group>
       <Table

@@ -2692,6 +2692,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nodefactory/metamask-polkadot-adapter@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@nodefactory/metamask-polkadot-adapter@npm:0.1.2"
+  dependencies:
+    "@polkadot/api": ^1.11.2
+    "@polkadot/extension-inject": ^0.23.1
+  checksum: 2/09770cfd07d7cd65f991cebfaca2e098a544afd2fe0835f14bff2fb205f2f0defb32e12bc529719c358192623924c0cae17b47e2984583b822802e576544a709
+  languageName: node
+  linkType: hard
+
+"@nodefactory/metamask-polkadot-types@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@nodefactory/metamask-polkadot-types@npm:0.1.2"
+  dependencies:
+    "@polkadot/api": ^1.10.1
+  checksum: 2/b2a8db0006581dfe0068e3c815357fc730aec81eb7a18c9fe439d5848a7d59127d7c4dfdfb5c080f1d0de55e93a4c45a7d3f4d7147ba8065206ef3b00f3af9e8
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.3":
   version: 2.1.3
   resolution: "@nodelib/fs.scandir@npm:2.1.3"
@@ -3262,6 +3281,17 @@ __metadata:
   peerDependencies:
     "@polkadot/api": "*"
   checksum: 2/25b94f072f05f372b564160ab2fdd7f02ca9303e26ea4e9bf4dc5cd4bd02f3add1885599640ba868dc4683adeb1066010dd0c3972955b013d660266c1aa07aa0
+  languageName: node
+  linkType: hard
+
+"@polkadot/extension-inject@npm:^0.23.1":
+  version: 0.23.1
+  resolution: "@polkadot/extension-inject@npm:0.23.1"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+  peerDependencies:
+    "@polkadot/api": "*"
+  checksum: 2/1df16ef560b717dc6d32b951f0e6cfec063c687f6b21e7bbb0f306c81bdbe4da42905f453575cb81e08b3a1a0a9428d93120c0d89822e8df874cc32db51e74ee
   languageName: node
   linkType: hard
 
@@ -18836,6 +18866,8 @@ __metadata:
     "@babel/core": ^7.9.6
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.6
+    "@nodefactory/metamask-polkadot-adapter": ^0.1.2
+    "@nodefactory/metamask-polkadot-types": ^0.1.2
     "@polkadot/dev": ^0.52.12
     "@polkadot/ts": ^0.3.19
     "@types/bn.js": ^4.11.6
