@@ -32,11 +32,11 @@ enum Step {
 interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
 
 interface State extends TxModalState {
-  attestSignature?: string | null;
+  attest?: string | null;
+  claim?: Balance | null;
   didCopy: boolean;
   ethereumAddress: EthereumAddress | null;
   signature?: EcdsaSignature | null;
-  claim?: Balance | null;
   step: Step;
 }
 
@@ -101,14 +101,12 @@ class ClaimsApp extends TxModal<Props, State> {
 
   public render (): React.ReactNode {
     const { api, systemChain = '', t } = this.props;
-    const { accountId, attestSignature, didCopy, ethereumAddress, signature, step } = this.state;
+    const { accountId, attest, didCopy, ethereumAddress, signature, step } = this.state;
 
     const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
     const payload = accountId
       ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
       : '';
-
-    console.log('signature', signature);
 
     return (
       <main>
@@ -174,7 +172,7 @@ class ClaimsApp extends TxModal<Props, State> {
                     <Button
                       icon='sign-in'
                       isDisabled={!accountId || !signature}
-                      label={t('Confirm Ethereum Signature')}
+                      label={t('Confirm claim')}
                       onClick={this.setStep(Step.Claim)}
                     />
                   </Button.Group>
@@ -183,9 +181,8 @@ class ClaimsApp extends TxModal<Props, State> {
             )}
           </Column>
           <Column showEmptyText={false}>
-            {(step >= Step.Claim && !!attestSignature) && (
+            {(step >= Step.Claim) && (
               <ClaimDisplay
-                attestSignature={attestSignature}
                 button={this.renderTxButton()}
                 ethereumAddress={ethereumAddress}
               />
