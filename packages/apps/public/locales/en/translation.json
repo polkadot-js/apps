@@ -1024,6 +1024,7 @@
   "{{h}} hrs": "",
   "{{m}} mins": "",
   "{{name}} ({{size}} bytes)": "",
+  "{{percentage}} aye": "",
   "{{relayDispatchQueueSize}} dispatch messages pending": "",
   "{{s}} s": "",
   "{{threshold}}, not passing": "",

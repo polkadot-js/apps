@@ -71,6 +71,7 @@
   "turnout": "turnout",
   "voting period": "voting period",
   "{{blocks}} blocks": "{{blocks}} blocks",
+  "{{percentage}} aye": "{{percentage}} aye",
   "{{threshold}}, not passing": "{{threshold}}, not passing",
   "{{threshold}}, passing": "{{threshold}}, passing",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
