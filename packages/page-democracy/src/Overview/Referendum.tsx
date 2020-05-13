@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -28,11 +28,19 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const [turnoutPercentage, setTurnoutPercentage] = useState<string>('');
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
+
+  useEffect((): void => {
+    totalIssuance && votedTotal && setTurnoutPercentage(
+      `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
+    );
+  }, [totalIssuance, votedTotal]);
 
   if (!bestNumber || status.end.sub(bestNumber).lten(0)) {
     return null;
@@ -48,6 +56,14 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
         imageHash={imageHash}
         proposal={image?.proposal}
       />
+      <td className='number together hide-medium'>
+        {turnoutPercentage && (
+          <>
+            <FormatBalance value={votedTotal} />
+            <div>{turnoutPercentage}</div>
+          </>
+        )}
+      </td>
       <td className='number together'>
         <BlockToTime blocks={remainBlock} />
         {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
@@ -97,7 +113,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           )}
         </Button.Group>
       </td>
-      <td className='mini'>
+      <td className='mini hide-small'>
         <LinkExternal
           data={index}
           type='referendum'
