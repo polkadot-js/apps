@@ -14,7 +14,7 @@ interface Props {
   className?: string;
 }
 
-function Attest({ accountId, className }: Props): React.ReactElement<Props> | null {
+function Attest ({ accountId, className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (

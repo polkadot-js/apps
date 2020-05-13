@@ -24,7 +24,7 @@ interface Props {
 }
 
 // Depending on isClaimAttest, construct the correct tx.
-function constructTx(accountId: string, ethereumSignature: string | null, isClaimAttest: boolean): {
+function constructTx (accountId: string, ethereumSignature: string | null, isClaimAttest: boolean): {
   params: any[];
   tx: string;
 } {
@@ -34,7 +34,7 @@ function constructTx(accountId: string, ethereumSignature: string | null, isClai
     : { params: [accountId, ethereumSignature], tx: 'claims.claimAttest' };
 }
 
-function Claim({ accountId, className, ethereumAddress, ethereumSignature, isClaimAttest }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isClaimAttest }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
