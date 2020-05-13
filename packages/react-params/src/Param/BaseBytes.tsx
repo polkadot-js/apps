@@ -4,7 +4,7 @@
 
 import { Props as BaseProps, Size } from '../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
@@ -51,18 +51,6 @@ function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDis
       : undefined
   );
   const [isValid, setIsValid] = useState(false);
-
-  useEffect((): void => {
-    const [isValid, converted] = convertInput(value);
-
-    setIsValid(
-      isValid && validate(converted) && (
-        length !== -1
-          ? converted.length === length
-          : true
-      )
-    );
-  }, [length, validate, value]);
 
   const _onChange = useCallback(
     (hex: string): void => {

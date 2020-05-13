@@ -11,13 +11,19 @@ import { InputBalance } from '@polkadot/react-components';
 import Bare from './Bare';
 
 function Balance ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
   const [defaultValue] = useState(new BN((value as BN || '0').toString()).toString(10));
 
   const _onChange = useCallback(
-    (value?: BN) => onChange && onChange({
-      isValid: !isError && !!value,
-      value
-    }),
+    (value?: BN): void => {
+      const isValid = !isError && !!value;
+
+      onChange && onChange({
+        isValid,
+        value
+      });
+      setIsValid(isValid);
+    },
     [isError, onChange]
   );
 
@@ -30,7 +36,7 @@ function Balance ({ className, defaultValue: { value }, isDisabled, isError, lab
         className='full'
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
         onChange={_onChange}
         onEnter={onEnter}

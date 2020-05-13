@@ -4,18 +4,24 @@
 
 import { Props } from '../types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
 function Text ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
+
   const _onChange = useCallback(
-    (value: string) =>
+    (value: string): void => {
+      const isValid = value.length !== 0;
+
       onChange && onChange({
-        isValid: value.length !== 0,
+        isValid,
         value
-      }),
+      });
+      setIsValid(isValid);
+    },
     [onChange]
   );
 
@@ -30,7 +36,7 @@ function Text ({ className, defaultValue: { value }, isDisabled, isError, label,
         className='full'
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
         onChange={_onChange}
         onEnter={onEnter}
