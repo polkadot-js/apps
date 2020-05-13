@@ -24,17 +24,19 @@ import translate from './translate';
 
 enum Step {
   Account = 0,
-  Sign = 1,
-  Claim = 2,
+  SignETH = 1,
+  SignAttest = 2,
+  Claim = 3,
 }
 
 interface Props extends AppProps, ApiProps, I18nProps, TxModalProps {}
 
 interface State extends TxModalState {
+  attestSignature?: string | null;
   didCopy: boolean;
   ethereumAddress: EthereumAddress | null;
+  ethereumSignature?: EcdsaSignature | null;
   claim?: Balance | null;
-  signature?: EcdsaSignature | null;
   step: Step;
 }
 
@@ -83,7 +85,7 @@ class ClaimsApp extends TxModal<Props, State> {
       claim: null,
       didCopy: false,
       ethereumAddress: null,
-      signature: null,
+      ethereumSignature: null,
       step: 0
     };
     this.state = this.defaultState;
@@ -99,7 +101,7 @@ class ClaimsApp extends TxModal<Props, State> {
 
   public render (): React.ReactNode {
     const { api, systemChain = '', t } = this.props;
-    const { accountId, didCopy, ethereumAddress, signature, step } = this.state;
+    const { accountId, didCopy, ethereumAddress, ethereumSignature: signature, step } = this.state;
 
     const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
     const payload = accountId
@@ -132,12 +134,12 @@ class ClaimsApp extends TxModal<Props, State> {
                   <Button
                     icon='sign-in'
                     label={t('Continue')}
-                    onClick={this.setStep(Step.Sign)}
+                    onClick={this.setStep(Step.SignETH)}
                   />
                 </Button.Group>
               )}
             </Card>
-            {(step >= Step.Sign && !!accountId) && (
+            {(step >= Step.SignETH && !!accountId) && (
               <Card>
                 <h3>{t('2. Sign ETH transaction')}</h3>
                 <CopyToClipboard
@@ -165,13 +167,13 @@ class ClaimsApp extends TxModal<Props, State> {
                   placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
                   rows={10}
                 />
-                {(step === Step.Sign) && (
+                {(step === Step.SignETH) && (
                   <Button.Group>
                     <Button
                       icon='sign-in'
                       isDisabled={!accountId || !signature}
                       label={t('Confirm claim')}
-                      onClick={this.setStep(Step.Claim)}
+                      onClick={this.setStep(Step.SignAttest)}
                     />
                   </Button.Group>
                 )}
@@ -192,7 +194,7 @@ class ClaimsApp extends TxModal<Props, State> {
   }
 
   protected isDisabled = (): boolean => {
-    const { accountId, signature } = this.state;
+    const { accountId, ethereumSignature: signature } = this.state;
 
     return !accountId || !signature;
   }
@@ -204,7 +206,7 @@ class ClaimsApp extends TxModal<Props, State> {
   protected txMethod = (): string => 'claims.claim';
 
   protected txParams = (): [string | null, EcdsaSignature | null] => {
-    const { accountId, signature } = this.state;
+    const { accountId, ethereumSignature: signature } = this.state;
 
     return [
       accountId ? accountId.toString() : null,
@@ -230,8 +232,8 @@ class ClaimsApp extends TxModal<Props, State> {
 
     this.setState(({ step }: State): Pick<State, never> => ({
       ...(
-        step > Step.Sign
-          ? { step: Step.Sign }
+        step > Step.SignETH
+          ? { step: Step.SignETH }
           : {}
       ),
       ...recoverFromJSON(signatureJson)
