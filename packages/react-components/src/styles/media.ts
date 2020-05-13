@@ -30,6 +30,72 @@ export default css`
     display: none;
   }
 
+  .ui--media-1600 {
+    @media only screen and (max-width: 1600px) {
+      width: none;
+    }
+  }
+
+  .ui--media-1500 {
+    @media only screen and (max-width: 1500px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1400 {
+    @media only screen and (max-width: 1400px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1300 {
+    @media only screen and (max-width: 1300px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1200 {
+    @media only screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1100 {
+    @media only screen and (max-width: 1100px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1000 {
+    @media only screen and (max-width: 1000px) {
+      display: none;
+    }
+  }
+
+  .ui--media-900 {
+    @media only screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+
+  .ui--media-800 {
+    @media only screen and (max-width: 800px) {
+      display: none;
+    }
+  }
+
+  .ui--media-8700 {
+    @media only screen and (max-width: 700px) {
+      display: none;
+    }
+  }
+
+  .ui--media-600 {
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
   @media (min-width: 1281px) {
     .ui--flex-large {
       display: flex;

@@ -24,7 +24,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
     [t('dispatch queue'), 'start', 2],
     [t('enact')],
     [undefined, undefined],
-    [undefined, 'hide-small']
+    [undefined, 'ui--media-1000']
   ], [t]);
 
   return (
