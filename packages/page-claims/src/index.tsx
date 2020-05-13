@@ -18,6 +18,7 @@ import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import ClaimDisplay from './Claim';
+import AttestDisplay from './Attest';
 import { recoverFromJSON } from './util';
 
 import translate from './translate';
@@ -101,12 +102,14 @@ class ClaimsApp extends TxModal<Props, State> {
 
   public render (): React.ReactNode {
     const { api, systemChain = '', t } = this.props;
-    const { accountId, didCopy, ethereumAddress, ethereumSignature: signature, step } = this.state;
+    const { accountId, attestSignature, didCopy, ethereumAddress, ethereumSignature, step } = this.state;
 
     const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
     const payload = accountId
       ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
       : '';
+
+    console.log('ethereumSignature', ethereumSignature);
 
     return (
       <main>
@@ -163,7 +166,7 @@ class ClaimsApp extends TxModal<Props, State> {
                   :
                 </div>
                 <Signature
-                  onChange={this.onChangeSignature}
+                  onChange={this.onChangeEthereumSignature}
                   placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
                   rows={10}
                 />
@@ -171,18 +174,29 @@ class ClaimsApp extends TxModal<Props, State> {
                   <Button.Group>
                     <Button
                       icon='sign-in'
-                      isDisabled={!accountId || !signature}
-                      label={t('Confirm claim')}
+                      isDisabled={!accountId || !ethereumSignature}
+                      label={t('Confirm Ethereum Signature')}
                       onClick={this.setStep(Step.SignAttest)}
                     />
                   </Button.Group>
                 )}
               </Card>
             )}
+            {(step >= Step.SignAttest && !!accountId && !!ethereumSignature) && (
+              <AttestDisplay
+                accountId={accountId}
+                data={'0x00'}
+                onNextStep={(signature: string): void => {
+                  this.setState({ attestSignature: signature });
+                  this.setStep(Step.Claim);
+                }}
+              />
+            )}
           </Column>
           <Column showEmptyText={false}>
-            {(step >= Step.Claim) && (
+            {(step >= Step.Claim && !!attestSignature) && (
               <ClaimDisplay
+                attestSignature={attestSignature}
                 button={this.renderTxButton()}
                 ethereumAddress={ethereumAddress}
               />
@@ -194,9 +208,9 @@ class ClaimsApp extends TxModal<Props, State> {
   }
 
   protected isDisabled = (): boolean => {
-    const { accountId, ethereumSignature: signature } = this.state;
+    const { accountId, ethereumSignature } = this.state;
 
-    return !accountId || !signature;
+    return !accountId || !ethereumSignature;
   }
 
   protected isUnsigned = (): boolean => true;
@@ -206,11 +220,11 @@ class ClaimsApp extends TxModal<Props, State> {
   protected txMethod = (): string => 'claims.claim';
 
   protected txParams = (): [string | null, EcdsaSignature | null] => {
-    const { accountId, ethereumSignature: signature } = this.state;
+    const { accountId, ethereumSignature } = this.state;
 
     return [
       accountId ? accountId.toString() : null,
-      signature || null
+      ethereumSignature || null
     ];
   }
 
@@ -227,8 +241,10 @@ class ClaimsApp extends TxModal<Props, State> {
     });
   }
 
-  protected onChangeSignature = (event: React.SyntheticEvent<Element>): void => {
+  protected onChangeEthereumSignature = (event: React.SyntheticEvent<Element>): void => {
     const { value: signatureJson } = event.target as HTMLInputElement;
+
+    const { ethereumAddress, signature } = recoverFromJSON(signatureJson);
 
     this.setState(({ step }: State): Pick<State, never> => ({
       ...(
@@ -236,7 +252,8 @@ class ClaimsApp extends TxModal<Props, State> {
           ? { step: Step.SignETH }
           : {}
       ),
-      ...recoverFromJSON(signatureJson)
+      ethereumAddress,
+      ethereumSignature: signature
     }));
   }
 
