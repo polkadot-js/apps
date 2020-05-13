@@ -68,6 +68,7 @@
   "send from account": "send from account",
   "total": "total",
   "transferrable": "transferrable",
+  "turnout": "turnout",
   "voting period": "voting period",
   "{{blocks}} blocks": "{{blocks}} blocks",
   "{{threshold}}, not passing": "{{threshold}}, not passing",
