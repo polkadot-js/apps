@@ -6,7 +6,7 @@ import { Balance, EcdsaSignature, EthereumAddress } from '@polkadot/types/interf
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -20,8 +20,10 @@ import { decodeAddress } from '@polkadot/util-crypto';
 import ClaimDisplay from './Claim';
 import AttestDisplay from './Attest';
 import { recoverFromJSON } from './util';
+import { useTranslation } from './translate';
 
 import translate from './translate';
+import { useApi } from '@polkadot/react-hooks';
 
 enum Step {
   Account = 0,
@@ -36,6 +38,7 @@ interface State extends TxModalState {
   claim?: Balance | null;
   didCopy: boolean;
   ethereumAddress: EthereumAddress | null;
+  isPreclaimed: boolean;
   signature?: EcdsaSignature | null;
   step: Step;
 }
@@ -75,33 +78,39 @@ const Signature = styled.textarea`
   }
 `;
 
-// FIXME Not React.FC yet
-class ClaimsApp extends TxModal<Props, State> {
-  constructor (props: Props) {
-    super(props);
 
-    this.defaultState = {
-      ...this.defaultState,
-      claim: null,
-      didCopy: false,
-      ethereumAddress: null,
-      signature: null,
+const ClaimsApp = (props: Props) => {
+  // constructor (props: Props) {
+  //   super(props);
+
+  //   this.defaultState = {
+  //     ...this.defaultState,
+  
+      const [claim, setClaim] = useState<Balance | null>(null);
+      const [didCopy, setDidCopy] = useState(false);
+      const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
+      const [signature, setSignature] = useState<EcdsaSignature | null>(null);
+      const [step, setStep] = useState<Step>(Step.Account);
+      const [accountId, setAccountId] = useState<string | null>(null);
+      const { api, systemChain } = useApi();
+      const { t } = useTranslation();
       step: 0
-    };
-    this.state = this.defaultState;
-  }
+  //   };
+  //   this.state = this.defaultState;
+  // }
 
-  public componentDidUpdate (): void {
-    if (this.state.didCopy) {
+  useEffect(() => {
+    if (didCopy) {
       setTimeout((): void => {
-        this.setState({ didCopy: false });
+        setDidCopy(false);
       }, 1000);
     }
-  }
+  },[didCopy])
 
-  public render (): React.ReactNode {
-    const { api, systemChain = '', t } = this.props;
-    const { accountId, attest, didCopy, ethereumAddress, signature, step } = this.state;
+
+  // public render (): React.ReactNode {
+  //   const { api, systemChain = '', t } = props;
+  //   const { accountId, attest, didCopy, ethereumAddress, signature, step } = this.state;
 
     const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
     const payload = accountId
@@ -123,7 +132,7 @@ class ClaimsApp extends TxModal<Props, State> {
                 }
               })}</h3>
               <InputAddress
-                defaultValue={this.state.accountId}
+                defaultValue={accountId}
                 help={t('The account you want to claim to.')}
                 label={t('claim to account')}
                 onChange={this.onChangeAccount}
@@ -191,7 +200,7 @@ class ClaimsApp extends TxModal<Props, State> {
         </Columar>
       </main>
     );
-  }
+  // }
 
   protected isDisabled = (): boolean => {
     const { accountId, signature } = this.state;
@@ -215,6 +224,9 @@ class ClaimsApp extends TxModal<Props, State> {
   }
 
   protected onChangeAccount = (accountId: string | null): void => {
+    const { api } = this.props;
+    const isPreclaimed = await (api.query.claims?.preclaims(accountId)).isSome;
+
     this.setState(({ step }: State): Pick<State, never> => {
       return {
         ...(
