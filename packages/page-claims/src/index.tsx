@@ -22,7 +22,7 @@ import ClaimDisplay from './Claim';
 import { recoverFromJSON } from './util';
 import translate, { useTranslation } from './translate';
 
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 enum Step {
   Account = 0,
@@ -68,23 +68,18 @@ const Signature = styled.textarea`
 `;
 
 const ClaimsApp = (props: Props): React.ReactElement => {
-  const [isOldClaimProcess, setIsOldClaimProcess] = useState(true);
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
   const [step, setStep] = useState<Step>(Step.Account);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const { api, isApiReady, systemChain } = useApi();
+  const { api, systemChain } = useApi();
   const { t } = useTranslation();
-  const [isPreclaimed, setIsPreclaimed] = useState(false);
+  const isPreclaimed = useCall<boolean>(api.query.claims.preclaims, [accountId], {
+    transform: (option: Option<EthereumAddress>) => option.isSome
+  });
 
-  useEffect(() => {
-    if (isApiReady && typeof api.query.claims.claimAttest !== 'undefined') {
-      setIsOldClaimProcess(false);
-    }
-
-    console.log('isOldclaimProcess', isOldClaimProcess);
-  }, [api, isApiReady, isOldClaimProcess]);
+  const isOldClaimProcess = !api.query.claims.claimAttest;
 
   useEffect(() => {
     if (didCopy) {
@@ -102,21 +97,15 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     setStep(Step.Claim);
   }, []);
 
+  // Everytime we get a new preclaimed value (e.g. after we change account), we
+  // decide on which step to show.
   useEffect(() => {
-    if (isApiReady && accountId) {
-      api.query.claims
-        .preclaims<Option<EthereumAddress>>(accountId)
-        .then((opt): void => {
-          setIsPreclaimed(opt.isSome);
-
-          if (opt.isSome) {
-            goToStepClaim();
-          } else {
-            goToStepSign();
-          }
-        });
+    if (isPreclaimed) {
+      goToStepClaim();
+    } else {
+      goToStepSign();
     }
-  }, [accountId, api.query.claims, goToStepClaim, goToStepSign, isApiReady]);
+  });
 
   const onChangeAccount = useCallback((newAccountId) => {
     setAccountId(newAccountId);
@@ -137,7 +126,6 @@ const ClaimsApp = (props: Props): React.ReactElement => {
   }, []);
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
-  const statement = isPreclaimed;
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
     : '';
