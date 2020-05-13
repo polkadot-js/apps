@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
+import React, { useEffect, useState } from 'react';
+import { useApi, useAccounts } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { EthereumAddress } from '@polkadot/types/interfaces';
+
 import { Link } from 'react-router-dom';
 
 import { useTranslation } from '../translate';
@@ -19,12 +20,27 @@ function Attest ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
   const { api } = useApi();
+  const [isOldClaimProcess, setIsOldClaimProcess] = useState(true);
+  const [needAttest, setNeedAttest] = useState<Option<EthereumAddress>[]>([]);
+
+  useEffect(() => {
+    if (typeof api.query.claims.preclaims !== undefined) {
+      setIsOldClaimProcess(false);
+    }
+  }, [api]);
 
   // Find accounts that need attest. They are accounts that
   // - already preclaimed,
   // - didn't sign the attest yet.
   // `claims.preclaims` returns Some() for these accounts.
-  const needAttest = useCall<[Option<EthereumAddress>]>(api.query.claims?.preclaims.multi, [allAccounts])?.filter((opt) => opt.isSome);
+  useEffect(() => {
+    if (!isOldClaimProcess) {
+      api.query.claims.preclaims.multi<Option<EthereumAddress>>([allAccounts])
+        .then((options) => {
+          setNeedAttest(options.filter((opt) => opt.isSome));
+        });
+    }
+  });
 
   if (!needAttest?.length) {
     return null;

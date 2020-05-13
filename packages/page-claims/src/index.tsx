@@ -83,9 +83,7 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     if (isApiReady && typeof api.query.claims.claimAttest !== undefined) {
       setIsOldClaimProcess(false);
     }
-
-    console.log('isOldclaimProcess', isOldClaimProcess);
-  }, [api, isApiReady, isOldClaimProcess]);
+  }, [api, isApiReady]);
 
   useEffect(() => {
     if (didCopy) {
