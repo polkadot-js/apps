@@ -6,6 +6,7 @@ import React from 'react';
 import { useApi, useAccounts, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { EthereumAddress } from '@polkadot/types/interfaces';
+
 import { Link } from 'react-router-dom';
 
 import { useTranslation } from '../translate';
@@ -24,7 +25,7 @@ function Attest ({ className }: Props): React.ReactElement<Props> | null {
   // - already preclaimed,
   // - didn't sign the attest yet.
   // `claims.preclaims` returns Some() for these accounts.
-  const needAttest = useCall<[Option<EthereumAddress>]>(api.query.claims?.preclaims.multi, [allAccounts])?.filter((opt) => opt.isSome);
+  const needAttest = useCall<[Option<EthereumAddress>]>(api.query?.claims?.preclaims?.multi, [allAccounts])?.filter((opt) => opt.isSome);
 
   if (!needAttest?.length) {
     return null;
