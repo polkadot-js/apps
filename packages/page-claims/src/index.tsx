@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Option } from '@polkadot/types';
-import { Balance, EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
+import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
 import { AppProps, I18nProps } from '@polkadot/react-components/types';
 import { ApiProps } from '@polkadot/react-api/types';
 
@@ -69,7 +69,6 @@ const Signature = styled.textarea`
 
 const ClaimsApp = (props: Props): React.ReactElement => {
   const [isOldClaimProcess, setIsOldClaimProcess] = useState(true);
-  const [claim, setClaim] = useState<Balance | null>(null);
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
@@ -80,7 +79,7 @@ const ClaimsApp = (props: Props): React.ReactElement => {
   const [isPreclaimed, setIsPreclaimed] = useState(false);
 
   useEffect(() => {
-    if (isApiReady && typeof api.query.claims.claimAttest !== undefined) {
+    if (isApiReady && typeof api.query.claims.claimAttest !== 'undefined') {
       setIsOldClaimProcess(false);
     }
   }, [api, isApiReady]);
@@ -93,16 +92,6 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     }
   }, [didCopy]);
 
-  useEffect(() => {
-    if (isApiReady && accountId) {
-      api.query.claims
-        .preclaims<Option<EthereumAddress>>(accountId)
-        .then((opt): void => {
-          setIsPreclaimed(opt.isSome);
-        });
-    }
-  }, [accountId, api.query.claims, isApiReady]);
-
   const goToStepSign = useCallback(() => {
     setStep(Step.Sign);
   }, []);
@@ -111,11 +100,25 @@ const ClaimsApp = (props: Props): React.ReactElement => {
     setStep(Step.Claim);
   }, []);
 
+  useEffect(() => {
+    if (isApiReady && accountId) {
+      api.query.claims
+        .preclaims<Option<EthereumAddress>>(accountId)
+        .then((opt): void => {
+          setIsPreclaimed(opt.isSome);
+
+          if (opt.isSome) {
+            goToStepClaim();
+          } else {
+            goToStepSign();
+          }
+        });
+    }
+  }, [accountId, api.query.claims, goToStepClaim, goToStepSign, isApiReady]);
+
   const onChangeAccount = useCallback((newAccountId) => {
     setAccountId(newAccountId);
-    // FIXME Amaury It should not be Step.Sign
-    goToStepSign();
-  }, [goToStepSign]);
+  }, []);
 
   const onChangeSignature = useCallback((event: React.SyntheticEvent<Element>) => {
     const { value: signatureJson } = event.target as HTMLInputElement;
@@ -217,41 +220,13 @@ const ClaimsApp = (props: Props): React.ReactElement => {
                 accountId={accountId}
                 ethereumAddress={ethereumAddress}
                 ethereumSignature={signature}
-                // Use claims.claimAttest is chain supports it
-                isClaimAttest={!!api.query.claims.claimAttest}
+                isOldClaimProcess={isOldClaimProcess}
               />
           )}
         </Column>
       </Columar>
     </main>
   );
-
-  // FIXME Amaury Below are from the old component
-  // How to use TxModalNew?
-  // }
-
-  // protected isDisabled = (): boolean => {
-  //   const { accountId, signature } = this.state;
-
-  //   return !accountId || !signature;
-  // }
-
-  // protected isUnsigned = (): boolean => true;
-
-  // protected submitLabel = (): React.ReactNode => this.props.t('Redeem');
-
-  // protected txMethod = (): string => 'claims.claim';
-
-  // protected txParams = (): [string | null, EcdsaSignature | null] => {
-  //   const { accountId, signature } = this.state;
-
-  //   return [
-  //     accountId ? accountId.toString() : null,
-  //     signature || null
-  //   ];
-  // }
-
-  // }
 };
 
 export default withMulti(

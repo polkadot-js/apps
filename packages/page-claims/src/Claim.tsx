@@ -19,22 +19,22 @@ interface Props {
   className?: string;
   ethereumAddress: EthereumAddress | null;
   ethereumSignature: string | null;
-  // Do we sign with `claims.claimAttest` instead of `claims.claim`?
-  isClaimAttest: boolean;
+  // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
+  isOldClaimProcess: boolean;
 }
 
-// Depending on isClaimAttest, construct the correct tx.
-function constructTx (accountId: string, ethereumSignature: string | null, isClaimAttest: boolean): {
+// Depending on isOldClaimProcess, construct the correct tx.
+function constructTx (accountId: string, ethereumSignature: string | null, isOldClaimProcess: boolean): {
   params: any[];
   tx: string;
 } {
-  return isClaimAttest
+  return isOldClaimProcess
     // FIXME How to get the StatementKind?
-    ? { params: [accountId, ethereumSignature, 'Default'], tx: 'claims.claimAttest' }
-    : { params: [accountId, ethereumSignature], tx: 'claims.claimAttest' };
+    ? { params: [accountId, ethereumSignature], tx: 'claims.claimAttest' }
+    : { params: [accountId, ethereumSignature, 'Default'], tx: 'claims.claimAttest' };
 }
 
-function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isClaimAttest }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
@@ -87,7 +87,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isCl
                   icon='send'
                   isPrimary
                   label={t('Claim')}
-                  {...constructTx(accountId, ethereumSignature, isClaimAttest)}
+                  {...constructTx(accountId, ethereumSignature, isOldClaimProcess)}
                 />
               </Button.Group>
             </>
