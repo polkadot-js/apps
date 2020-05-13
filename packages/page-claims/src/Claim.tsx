@@ -7,7 +7,7 @@ import { BalanceOf, EthereumAddress } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card } from '@polkadot/react-components';
+import { Button, Card, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -15,12 +15,26 @@ import { useTranslation } from './translate';
 import { addrToChecksum } from './util';
 
 interface Props {
-  button: React.ReactNode;
+  accountId: string;
   className?: string;
   ethereumAddress: EthereumAddress | null;
+  ethereumSignature: string | null;
+  // Do we sign with `claims.claimAttest` instead of `claims.claim`?
+  isClaimAttest: boolean;
 }
 
-function Claim ({ button, className, ethereumAddress }: Props): React.ReactElement<Props> | null {
+// Depending on isClaimAttest, construct the correct tx.
+function constructTx (accountId: string, ethereumSignature: string | null, isClaimAttest: boolean): {
+  params: any[];
+  tx: string;
+} {
+  return isClaimAttest
+    // FIXME How to get the StatementKind?
+    ? { params: [accountId, ethereumSignature, 'Default'], tx: 'claims.claimAttest' }
+    : { params: [accountId, ethereumSignature], tx: 'claims.claimAttest' };
+}
+
+function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isClaimAttest }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
@@ -67,7 +81,15 @@ function Claim ({ button, className, ethereumAddress }: Props): React.ReactEleme
             <>
               {t('has a valid claim for')}
               <h2><FormatBalance value={claimValue} /></h2>
-              <Button.Group>{button}</Button.Group>
+              <Button.Group>
+                <TxButton
+                  accountId={accountId}
+                  icon='send'
+                  isPrimary
+                  label={t('Claim')}
+                  {...constructTx(accountId, ethereumSignature, isClaimAttest)}
+                />
+              </Button.Group>
             </>
           )
           : (

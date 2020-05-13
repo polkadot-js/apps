@@ -14,10 +14,10 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
 import { Button, Card, Columar, Column, InputAddress, Tooltip } from '@polkadot/react-components';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
-import TxModal, { TxModalState, TxModalProps } from '@polkadot/react-components/TxModal';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
 import { recoverFromJSON } from './util';
 import translate, { useTranslation } from './translate';
@@ -30,7 +30,7 @@ enum Step {
   Claim = 2,
 }
 
-interface Props extends AppProps, ApiProps, I18nProps, TxModalProps { }
+interface Props extends AppProps, ApiProps, I18nProps { }
 
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
@@ -213,10 +213,15 @@ const ClaimsApp = (props: Props): React.ReactElement => {
         </Column>
         <Column showEmptyText={false}>
           {(step >= Step.Claim) && (
-            <ClaimDisplay
-              // button={this.renderTxButton()}
-              ethereumAddress={ethereumAddress}
-            />
+            isPreclaimed
+              ? <AttestDisplay accountId={accountId} />
+              : <ClaimDisplay
+                accountId={accountId}
+                ethereumAddress={ethereumAddress}
+                ethereumSignature={signature}
+                // Use claims.claimAttest is chain supports it
+                isClaimAttest={!!api.query.claims.claimAttest}
+              />
           )}
         </Column>
       </Columar>
