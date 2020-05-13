@@ -36,8 +36,8 @@ function Attest ({ className }: Props): React.ReactElement<Props> | null {
       type='error'>
       <div>
         {t(
-          '{{number}} of your accounts need to sign the attest before receiving DOTs. Please sign the attest ',
-          { replace: { number: needAttest.length } }
+          '{{number}} account {{need}} to sign the attest before receiving DOTs. Please sign the attest ',
+          { replace: { need: needAttest.length === 1 ? 'needs' : 'need', number: needAttest.length } }
         )}
         <Link to='/claims'>{t('here.')}</Link>
       </div>
