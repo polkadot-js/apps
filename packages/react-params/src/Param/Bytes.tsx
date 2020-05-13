@@ -51,7 +51,7 @@ function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onC
         className={className}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isError={isError || !isValid}
+        isError={isError}
         label={label}
         length={-1}
         name={name}
