@@ -20,9 +20,9 @@ function Referendums ({ className, referendums }: Props): React.ReactElement<Pro
 
   const header = useMemo(() => [
     [t('referenda'), 'start', 2],
-    [t('turnout'), 'ui--media-1400'],
     [t('remaining'), 'ui--media-1200'],
     [t('activate'), 'ui--media-1400'],
+    [t('turnout'), 'ui--media-1400'],
     [t('aye')],
     [t('nay')],
     [undefined, undefined, 2],
