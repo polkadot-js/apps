@@ -56,7 +56,7 @@ function Actions ({ className, isInElection, next, ownStashes, targets, validato
   const header = useMemo(() => [
     [t('stashes'), 'start'],
     [t('controller'), 'address'],
-    [t('rewards'), 'number'],
+    [t('rewards'), 'number ui--media-1200'],
     [t('bonded'), 'number'],
     [undefined, undefined, 2]
   ], [t]);

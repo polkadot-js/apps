@@ -96,18 +96,6 @@ export default React.memo(styled(Table)`
             white-space: normal;
           }
         }
-
-        &.hide-medium {
-          @media only screen and (max-width: 1400px) {
-            display: none;
-          }
-        }
-
-        &.hide-small {
-          @media only screen and (max-width: 1000px) {
-            display: none;
-          }
-        }
       }
     }
   }

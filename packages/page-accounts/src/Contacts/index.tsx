@@ -42,9 +42,10 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const header = useMemo(() => [
     [t('contacts'), 'start', 2],
     [t('tags'), 'start'],
-    [t('transactions')],
+    [t('transactions'), 'ui--media-1500'],
     [t('balances')],
-    [undefined, undefined, 2]
+    [undefined, undefined],
+    [undefined, 'ui--media-1400']
   ], [t]);
 
   const filter = useMemo(() => (

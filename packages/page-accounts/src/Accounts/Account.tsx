@@ -320,7 +320,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           ))}
         </div>
       </td>
-      <td className='number'>
+      <td className='number ui--media-1500'>
         {balancesAll && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
@@ -435,7 +435,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           </Menu>
         </Popup>
       </td>
-      <td className='mini'>
+      <td className='mini ui--media-1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

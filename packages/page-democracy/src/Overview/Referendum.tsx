@@ -56,7 +56,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='number together hide-medium'>
+      <td className='number together ui--media-1400'>
         {turnoutPercentage && (
           <>
             <FormatBalance value={votedTotal} />
@@ -64,11 +64,11 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           </>
         )}
       </td>
-      <td className='number together'>
+      <td className='number together ui--media-1200'>
         <BlockToTime blocks={remainBlock} />
         {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
-      <td className='number together'>
+      <td className='number together ui--media-1400'>
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
       </td>
@@ -113,7 +113,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           )}
         </Button.Group>
       </td>
-      <td className='mini hide-small'>
+      <td className='mini ui--media-1000'>
         <LinkExternal
           data={index}
           type='referendum'
