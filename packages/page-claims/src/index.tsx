@@ -62,7 +62,7 @@ const Signature = styled.textarea`
   }
 `;
 
-const ClaimsApp = (): React.ReactElement => {
+function ClaimsApp (): React.ReactElement {
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
