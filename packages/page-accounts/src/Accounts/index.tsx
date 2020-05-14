@@ -213,11 +213,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         />
       </Button.Group>
       <Table
-        empty={t('no accounts yet, create or import an existing')}
+        empty={t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={header}
       >
+        {}
         {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
           <Account
             account={account}
