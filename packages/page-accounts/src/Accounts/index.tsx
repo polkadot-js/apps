@@ -22,9 +22,7 @@ import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
-import {InjectedMetamaskExtension} from "@nodefactory/metamask-polkadot-adapter/src/types"
-import {web3EnablePromise, web3Enable} from "@polkadot/extension-dapp";
-import {InjectedExtension} from "@polkadot/extension-inject/types";
+import {web3Enable, web3FromSource} from "@polkadot/extension-dapp";
 import {injectMetamaskPolkadotSnapProvider} from "@nodefactory/metamask-polkadot-adapter/";
 import {Keyring} from "@polkadot/keyring";
 
@@ -160,25 +158,20 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
 
   const connectMetamaskAccount = () => {
     injectMetamaskPolkadotSnapProvider("kusama");
-    
+  
     (async ()=> {
-      await web3Enable('my cool dapp');
-      const extensions = await web3EnablePromise;
-      const metamaskExtension = getMetamaskExtension(extensions || []) || null;
+      await web3Enable('polkadot-js/apps');
+      const metamaskExtension = await web3FromSource("metamask-polkadot-snap");
       if(metamaskExtension) {
-        const accountData =  await metamaskExtension.accounts.get();
-        const address = accountData[0].address;
-        console.log(accountData[0].address);
-
-        const accountKeyring = new Keyring(); 
-        const keyringPair = accountKeyring.addFromAddress(address);
-        console.log(keyringPair);
-        keyring.saveAccount(keyringPair);
+        (await metamaskExtension.accounts.get()).forEach((account) => 
+          {
+            const accountKeyring = new Keyring();
+            const keyringPair = accountKeyring.addFromAddress(account.address)
+            keyring.saveAccount(keyringPair);
+          }
+        )
       }
     })();
-  }
-  function getMetamaskExtension(extensions: InjectedExtension[]): InjectedMetamaskExtension|undefined {
-    return extensions.find(item => item.name === "metamask-polkadot-snap") as InjectedMetamaskExtension|undefined;
   }
 
   return (
@@ -239,7 +232,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           onClick={toggleMultisig}
         />
         <Button
-          icon=""
+          icon="add"
           label={t('Connect Metamask')}
           onClick={connectMetamaskAccount}
         />

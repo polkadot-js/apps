@@ -2937,6 +2937,8 @@ __metadata:
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
   dependencies:
     "@babel/runtime": ^7.9.6
+    "@nodefactory/metamask-polkadot-adapter": ^0.1.2
+    "@nodefactory/metamask-polkadot-types": ^0.1.2
     "@polkadot/react-components": 0.42.0-beta.81
     "@polkadot/react-qr": ^0.53.0-beta.1
     "@polkadot/vanitygen": ^0.11.1
@@ -18866,8 +18868,6 @@ __metadata:
     "@babel/core": ^7.9.6
     "@babel/register": ^7.9.0
     "@babel/runtime": ^7.9.6
-    "@nodefactory/metamask-polkadot-adapter": ^0.1.2
-    "@nodefactory/metamask-polkadot-types": ^0.1.2
     "@polkadot/dev": ^0.52.12
     "@polkadot/ts": ^0.3.19
     "@types/bn.js": ^4.11.6
