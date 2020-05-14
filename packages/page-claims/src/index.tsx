@@ -239,4 +239,4 @@ function ClaimsApp (): React.ReactElement {
   );
 };
 
-export default ClaimsApp;
+export default React.memo(ClaimsApp);
