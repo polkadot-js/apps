@@ -22,7 +22,7 @@ export interface Props{
 
 function Warning ({ className }: Props): React.ReactElement<Props> | null {
   const { allAccounts } = useAccounts();
-  const { api, isApiReady } = useApi();
+  const { api } = useApi();
   const { t } = useTranslation();
 
   // Find accounts that need attest. They are accounts that
@@ -30,13 +30,13 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
   // - didn't sign the attest yet.
   // `claims.preclaims` returns Some() for these accounts.
   const needsAttestArray = useCall<string[]>(api.query.claims.preclaims?.multi, [allAccounts], {
-     transform: (preclaims: Option<EthereumAddress>[]) =>
-       preclaims
-         .map((opt, index) => [opt.isSome, allAccounts[index]])
-         .filter(([isSome]) => isSome)
-         .map(([, address)) => address) 
+    transform: (preclaims: Option<EthereumAddress>[]) =>
+      preclaims
+        .map((opt, index) => [opt.isSome, allAccounts[index]])
+        .filter(([isSome]) => isSome)
+        .map(([, address]) => address as string)
   });
-  
+
   if (!needsAttestArray || !needsAttestArray.length) {
     return null;
   }
@@ -46,8 +46,8 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
       <div className={className}>
         {
           t(
-            'You need to sign an attestation for the following account(s): {{needAttestArray}}',
-            { replace: { needAttestArray } }
+            'You need to sign an attestation for the following account(s): {{needsAttestArray}}',
+            { replace: { needsAttestArray } }
           )
         }
       </div>

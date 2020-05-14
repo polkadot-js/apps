@@ -5,7 +5,7 @@
 import { Option } from '@polkadot/types';
 import { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -70,17 +70,17 @@ function ClaimsApp (): React.ReactElement {
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
   const [step, setStep] = useState<Step>(Step.Account);
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [isPreclaimed, setIsPreclaimed] = useState(false);
   const { api, systemChain } = useApi();
   const { t } = useTranslation();
-  const isPreclaimed = useCall<boolean>(api.query.claims.preclaims, [accountId], {
-    transform: (option: Option<EthereumAddress>) => {
-      if (option.isSome) {
-        setEthereumAddress(option.unwrap());
-      }
-
-      return option.isSome;
-    }
+  const preclaimEthereumAddress = useCall<EthereumAddress | ''>(api.query.claims.preclaims, [accountId], {
+    transform: (option: Option<EthereumAddress>) => option.unwrapOr('')
   });
+
+  useEffect(() => {
+    setIsPreclaimed(!!preclaimEthereumAddress);
+    setEthereumAddress(preclaimEthereumAddress || null);
+  }, [preclaimEthereumAddress]);
 
   const isOldClaimProcess = !api.tx.claims.claimAttest;
 
