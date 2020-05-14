@@ -146,6 +146,7 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <InputNumber
+        bitLength={128}
         help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
         isDisabled={isBusy}
         isError={!isGasValid}
