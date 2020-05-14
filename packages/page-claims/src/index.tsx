@@ -247,6 +247,6 @@ function ClaimsApp (): React.ReactElement {
       </Columar>
     </main>
   );
-};
+}
 
 export default React.memo(ClaimsApp);
