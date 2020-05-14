@@ -191,34 +191,36 @@ function ClaimsApp (): React.ReactElement {
                     value={ethereumAddress || ''}
                   />
                 )}
-              {(!!ethereumAddress || isOldClaimProcess) && <>
-                <CopyToClipboard
-                  onCopy={onCopy}
-                  text={payload}
-                >
-                  <Payload
-                    data-for='tx-payload'
-                    data-tip
+              {(!!ethereumAddress || isOldClaimProcess) && (
+                <>
+                  <CopyToClipboard
+                    onCopy={onCopy}
+                    text={payload}
                   >
-                    {payload}
-                  </Payload>
-                </CopyToClipboard>
-                <Tooltip
-                  place='right'
-                  text={didCopy ? t('copied') : t('click to copy')}
-                  trigger='tx-payload'
-                />
-                <div>
-                  {/* FIXME Thibaut We need to present the statement clearly */}
-                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
+                    <Payload
+                      data-for='tx-payload'
+                      data-tip
+                    >
+                      {payload}
+                    </Payload>
+                  </CopyToClipboard>
+                  <Tooltip
+                    place='right'
+                    text={didCopy ? t('copied') : t('click to copy')}
+                    trigger='tx-payload'
+                  />
+                  <div>
+                    {/* FIXME Thibaut We need to present the statement clearly */}
+                    {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                   :
-                </div>
-                <Signature
-                  onChange={onChangeSignature}
-                  placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
-                  rows={10}
-                />
-              </>}
+                  </div>
+                  <Signature
+                    onChange={onChangeSignature}
+                    placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
+                    rows={10}
+                  />
+                </>
+              )}
               {(step === Step.Sign) && (
                 <Button.Group>
                   <Button
