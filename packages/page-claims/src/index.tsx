@@ -10,6 +10,7 @@ import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Button, Card, Columar, Column, InputAddress, Tooltip, Input } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
@@ -18,8 +19,9 @@ import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
 import { recoverFromJSON } from './util';
 import { useTranslation } from './translate';
+import Warning from './Warning';
 
-import { useApi, useCall } from '@polkadot/react-hooks';
+export { default as useCounter } from './useCounter';
 
 enum Step {
   Account = 0,
@@ -144,6 +146,7 @@ function ClaimsApp (): React.ReactElement {
   return (
     <main>
       <header />
+      {!isOldClaimProcess && <Warning />}
       <h1>
         <Trans>claim your <em>{TokenUnit.abbr}</em> tokens</Trans>
       </h1>

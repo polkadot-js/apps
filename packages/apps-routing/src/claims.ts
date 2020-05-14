@@ -4,7 +4,7 @@
 
 import { Route } from './types';
 
-import Claims from '@polkadot/app-claims';
+import Claims, { useCounter } from '@polkadot/app-claims';
 
 export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
   return {
@@ -16,6 +16,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'star',
     name: 'claims',
-    text: t('nav.claims', 'Claim Tokens', { ns: 'apps-routing' })
+    text: t('nav.claims', 'Claim Tokens', { ns: 'apps-routing' }),
+    useCounter
   };
 }
