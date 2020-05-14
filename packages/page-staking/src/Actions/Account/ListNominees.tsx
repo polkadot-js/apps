@@ -26,7 +26,6 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
               key={index}
               value={nomineeId}
               withBalance={false}
-              withBonded
             />
           ))}
         </Expander>
@@ -38,7 +37,6 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
               key={index}
               value={nomineeId}
               withBalance={false}
-              withBonded
             />
           ))}
         </Expander>
@@ -50,7 +48,6 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
               key={index}
               value={nomineeId}
               withBalance={false}
-              withBonded
             />
           ))}
         </Expander>
