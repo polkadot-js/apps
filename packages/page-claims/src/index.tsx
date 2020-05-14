@@ -21,6 +21,8 @@ import { useTranslation } from './translate';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+export { default as useCounter } from './useCounter';
+
 enum Step {
   Account = 0,
   Sign = 1,
