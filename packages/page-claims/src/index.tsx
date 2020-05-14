@@ -126,8 +126,6 @@ const ClaimsApp = (): React.ReactElement => {
     setDidCopy(true);
   }, []);
 
-  console.log('isOldClaimProcess', isOldClaimProcess);
-
   const statementKind = useCall<StatementKind | undefined>(ethereumAddress && api.query.claims.signing, [ethereumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr(undefined)
   }) || '';
@@ -136,9 +134,6 @@ const ClaimsApp = (): React.ReactElement => {
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind}`
     : '';
-
-  console.log('ethereumAddress', ethereumAddress);
-  console.log('statementKind', statementKind);
 
   return (
     <main>
