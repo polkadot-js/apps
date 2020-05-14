@@ -74,7 +74,7 @@ const ClaimsApp = (): React.ReactElement => {
     transform: (option: Option<EthereumAddress>) => option.isSome
   });
 
-  const isOldClaimProcess = !api.query.claims.claimAttest;
+  const isOldClaimProcess = !api.tx.claims.claimAttest;
 
   useEffect(() => {
     if (didCopy) {
@@ -126,14 +126,18 @@ const ClaimsApp = (): React.ReactElement => {
     setDidCopy(true);
   }, []);
 
-  const statementKind = useCall<StatementKind | undefined>(ethereumAddress && !isOldClaimProcess && api.query.claims.signing, [ethereumAddress], {
+  console.log('isOldClaimProcess', isOldClaimProcess);
+
+  const statementKind = useCall<StatementKind | undefined>(ethereumAddress && api.query.claims.signing, [ethereumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr(undefined)
   }) || '';
+
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind}`
     : '';
 
+  console.log('ethereumAddress', ethereumAddress);
   console.log('statementKind', statementKind);
 
   return (
@@ -173,7 +177,7 @@ const ClaimsApp = (): React.ReactElement => {
               {
                 // We only need to know the Ethereum addrss for the new process
                 // to know the StatementKind for users to sign
-                !!isOldClaimProcess && <Input
+                !isOldClaimProcess && <Input
                   autoFocus
                   className='full'
                   help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
