@@ -181,14 +181,16 @@ function ClaimsApp (): React.ReactElement {
               {
                 // We only need to know the Ethereum address for the new process
                 // to know the StatementKind for users to sign
-                !isOldClaimProcess && <Input
-                  autoFocus
-                  className='full'
-                  help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
-                  label={t('Pre-sale ethereum address')}
-                  onChange={onChangeEthereumAddress}
-                  value={ethereumAddress || ''}
-                />}
+                !isOldClaimProcess && (
+                  <Input
+                    autoFocus
+                    className='full'
+                    help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
+                    label={t('Pre-sale ethereum address')}
+                    onChange={onChangeEthereumAddress}
+                    value={ethereumAddress || ''}
+                  />
+                )}
               {(!!ethereumAddress || isOldClaimProcess) && <>
                 <CopyToClipboard
                   onCopy={onCopy}
