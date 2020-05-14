@@ -15,10 +15,10 @@ import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import { useTranslation } from './translate';
+import { recoverFromJSON } from './util';
 import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
-import { recoverFromJSON } from './util';
-import { useTranslation } from './translate';
 import Warning from './Warning';
 
 export { default as useCounter } from './useCounter';
