@@ -18,9 +18,9 @@ export default function usePreclaimPolkadotAddresses (): string[] {
   const needAttest = useCall<string[]>(api.query.claims?.preclaims?.multi, [allAccounts], {
     transform: (preclaims: Option<EthereumAddress>[]) =>
       preclaims
-        .map((opt, index) => [opt.isSome, allAccounts[index]])
+        .map((opt, index): [boolean, string] => [opt.isSome, allAccounts[index]])
         .filter(([isSome]) => isSome)
-        .map(([, address]) => address as string)
+        .map(([, address]) => address)
   });
 
   return needAttest || [];

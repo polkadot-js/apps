@@ -125,10 +125,10 @@ function ClaimsApp (): React.ReactElement {
 
   const onChangeEthereumAddress = useCallback((value: string) => {
     // FIXME We surely need a better check than just a trim
-    const trimmedAddress = value.trim() as unknown as EthereumAddress;
+    const trimmedAddress = api.createType('EthereumAddress', value.trim());
 
     setEthereumAddress(trimmedAddress);
-  }, []);
+  }, [api]);
 
   const onCopy = useCallback(() => {
     setDidCopy(true);
