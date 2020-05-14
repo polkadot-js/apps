@@ -13,7 +13,6 @@ import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
-import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
@@ -92,7 +91,6 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
           <Content />
         </Signer>
         <ConnectingOverlay />
-        <AccountsOverlay />
         <div id={PORTAL_ID} />
       </div>
       <WarmUp />

@@ -11,9 +11,12 @@ import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
 import { useTranslation } from './translate';
+import useCounter from './useCounter';
 import Accounts from './Accounts';
 import Contacts from './Contacts';
 import Vanity from './Vanity';
+
+export { useCounter };
 
 function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
