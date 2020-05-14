@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // setup these right at front
-import './initSettings';
+import initSettings from './initSettings';
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
 
@@ -19,6 +19,7 @@ import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';
 
+initSettings();
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 const theme = { theme: settings.uiTheme };

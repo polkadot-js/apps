@@ -34,11 +34,5 @@
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
-  },
-  "scripts": {
-    "clean": "polkadot-dev-clean-build",
-    "build": "yarn clean && NODE_ENV=production webpack --config webpack.config.js",
-    "start:electron": "electron ./build/electron.js",
-    "start": "yarn build && yarn start:electron"
   }
 }
