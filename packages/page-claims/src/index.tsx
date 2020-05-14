@@ -5,7 +5,7 @@
 import { Option } from '@polkadot/types';
 import { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
