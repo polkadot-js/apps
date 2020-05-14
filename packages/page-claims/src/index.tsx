@@ -9,7 +9,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Button, Card, Columar, Column, InputAddress, Tooltip, Input } from '@polkadot/react-components';
+import { Button, Card, Columar, Column, Input, InputAddress, Tooltip } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { u8aToHex, u8aToString } from '@polkadot/util';
