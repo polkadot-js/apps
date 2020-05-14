@@ -1,3 +1,7 @@
+// Copyright 2017-2020 @polkadot/apps authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 /* eslint-disable @typescript-eslint/camelcase */
 
 const path = require('path');
@@ -15,26 +19,25 @@ const ENV = process.env.NODE_ENV || 'development';
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
-  const plugins = [new CopyWebpackPlugin([{from: '../apps/public'}])];
+  const plugins = [new CopyWebpackPlugin([{ from: '../apps/public' }])];
 
   return [
     {
-      mode: ENV,
       entry: './src/electron.ts',
-      target: 'electron-main',
+      mode: ENV,
       output: {
-        path: __dirname + '/build',
-        filename: 'electron.js'
+        filename: 'electron.js',
+        path: path.join(__dirname, '/build')
       },
+      target: 'electron-main'
     },
     {
       context,
       devtool: 'source-map',
       entry: [
         '@babel/polyfill',
-        `./src/${name}.tsx`,
+        `./src/${name}.tsx`
       ].filter((entry) => entry),
-      target: 'electron-renderer',
       mode: ENV,
       module: {
         rules: [
@@ -181,12 +184,13 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         alias,
         extensions: ['.js', '.jsx', '.ts', '.tsx']
       },
+      target: 'electron-renderer',
       watch: !isProd,
       watchOptions: {
         ignored: ['.yarn', /build/, /node_modules/]
       }
     }
-  ]
+  ];
 }
 
 module.exports = createWebpack({
