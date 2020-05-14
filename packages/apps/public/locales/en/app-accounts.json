@@ -135,6 +135,7 @@
   "Verify the password entered above.": "Verify the password entered above.",
   "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.": "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.",
   "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.": "You can set a custom derivation path for this account using the following syntax \"/<soft-key>//<hard-key>///<password>\". The \"/<soft-key>\" and \"//<hard-key>\" may be repeated and mixed`. The \"///password\" is optional and should only occur once.",
+  "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.": "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.",
   "a riot name linked to this identity": "a riot name linked to this identity",
   "account forgotten": "account forgotten",
   "account restored": "account restored",
