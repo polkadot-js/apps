@@ -134,13 +134,13 @@ function ClaimsApp (): React.ReactElement {
     setDidCopy(true);
   }, []);
 
-  const statementKind = useCall<StatementKind | undefined>(ethereumAddress && api.query.claims.signing, [ethereumAddress], {
-    transform: (option: Option<StatementKind>) => option.unwrapOr(undefined)
-  }) || '';
+  const statementKind = useCall<string>(ethereumAddress && api.query.claims.signing, [ethereumAddress], {
+    transform: (option: Option<StatementKind>) => option.unwrapOr('').toString()
+  });
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
-    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind}`
+    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind || ''}`
     : '';
 
   return (
