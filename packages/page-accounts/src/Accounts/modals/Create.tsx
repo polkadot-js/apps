@@ -345,5 +345,6 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
 export default React.memo(styled(Create)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
+    overflow: visible;
   }
 `);
