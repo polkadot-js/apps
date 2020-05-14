@@ -61,24 +61,7 @@ export default React.memo(styled(Warning)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 12rem;
+  min-height: 8rem;
   align-items: center;
   margin: 0 1rem;
-
-  h3 {
-    font-family: monospace;
-    font-size: 1.5rem;
-    max-width: 100%;
-    margin: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  h2 {
-    margin: 0.5rem 0 2rem;
-    font-family: monospace;
-    font-size: 2.5rem;
-    font-weight: 200;
-  }
 `);
