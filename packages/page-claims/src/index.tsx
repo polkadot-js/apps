@@ -71,7 +71,13 @@ function ClaimsApp (): React.ReactElement {
   const { api, systemChain } = useApi();
   const { t } = useTranslation();
   const isPreclaimed = useCall<boolean>(api.query.claims.preclaims, [accountId], {
-    transform: (option: Option<EthereumAddress>) => option.isSome
+    transform: (option: Option<EthereumAddress>) => {
+      if (option.isSome) {
+        setEthereumAddress(option.unwrap());
+      }
+
+      return option.isSome;
+    }
   });
 
   const isOldClaimProcess = !api.tx.claims.claimAttest;
@@ -170,7 +176,7 @@ function ClaimsApp (): React.ReactElement {
             <Card>
               <h3>{t('2. Sign ETH transaction')}</h3>
               {
-                // We only need to know the Ethereum addrss for the new process
+                // We only need to know the Ethereum address for the new process
                 // to know the StatementKind for users to sign
                 !isOldClaimProcess && <Input
                   autoFocus
@@ -224,7 +230,11 @@ function ClaimsApp (): React.ReactElement {
         <Column showEmptyText={false}>
           {(step >= Step.Claim) && (
             isPreclaimed
-              ? <AttestDisplay accountId={accountId} />
+              ? <AttestDisplay
+                accountId={accountId}
+                ethereumAddress={ethereumAddress}
+                statementKind={statementKind}
+              />
               : <ClaimDisplay
                 accountId={accountId}
                 ethereumAddress={ethereumAddress}
@@ -237,6 +247,6 @@ function ClaimsApp (): React.ReactElement {
       </Columar>
     </main>
   );
-};
+}
 
 export default React.memo(ClaimsApp);

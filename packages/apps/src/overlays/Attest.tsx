@@ -19,7 +19,7 @@ interface Props {
 function Attest ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const { api } = useApi();
+  const { api, isApiReady } = useApi();
 
   // Find accounts that need attest. They are accounts that
   // - already preclaimed,
