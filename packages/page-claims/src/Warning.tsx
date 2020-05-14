@@ -29,10 +29,10 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
   // - already preclaimed,
   // - didn't sign the attest yet.
   // `claims.preclaims` returns Some() for these accounts.
-  const preclaimsArray = useCall<[Option<EthereumAddress>]>(isApiReady && api.query.claims?.preclaims?.multi, [allAccounts]);
+  const preclaimsArray = useCall<[Option<EthereumAddress>]>(isApiReady && api.query.claims?.preclaims?.multi, [allAccounts]) || [];
   const needAttestArray: string [] = [];
 
-  const _ = preclaimsArray?.forEach((opt, index) => {
+  preclaimsArray.forEach((opt, index) => {
     if (opt.isSome) {
       needAttestArray.push(allAccounts[index]);
     }
