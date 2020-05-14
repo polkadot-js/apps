@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Option } from '@polkadot/types';
-import { EcdsaSignature, EthereumAddress } from '@polkadot/types/interfaces';
+import { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Button, Card, Columar, Column, InputAddress, Tooltip } from '@polkadot/react-components';
+import { Button, Card, Columar, Column, InputAddress, Tooltip, Input } from '@polkadot/react-components';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
@@ -74,7 +74,7 @@ const ClaimsApp = (): React.ReactElement => {
     transform: (option: Option<EthereumAddress>) => option.isSome
   });
 
-  const isOldClaimProcess = !api.query.claims.claimAttest;
+  const isOldClaimProcess = !api.tx.claims.claimAttest;
 
   useEffect(() => {
     if (didCopy) {
@@ -115,13 +115,24 @@ const ClaimsApp = (): React.ReactElement => {
     setSignature(signature);
   }, []);
 
+  const onChangeEthereumAddress = useCallback((value: string) => {
+    // FIXME We surely need a better check than just a trim
+    const trimmedAddress = value.trim() as unknown as EthereumAddress;
+
+    setEthereumAddress(trimmedAddress);
+  }, []);
+
   const onCopy = useCallback(() => {
     setDidCopy(true);
   }, []);
 
+  const statementKind = useCall<StatementKind | undefined>(ethereumAddress && api.query.claims.signing, [ethereumAddress], {
+    transform: (option: Option<StatementKind>) => option.unwrapOr(undefined)
+  }) || '';
+
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
-    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}`
+    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind}`
     : '';
 
   return (
@@ -158,31 +169,45 @@ const ClaimsApp = (): React.ReactElement => {
           {(step >= Step.Sign && !!accountId && !isPreclaimed) && (
             <Card>
               <h3>{t('2. Sign ETH transaction')}</h3>
-              <CopyToClipboard
-                onCopy={onCopy}
-                text={payload}
-              >
-                <Payload
-                  data-for='tx-payload'
-                  data-tip
+              {
+                // We only need to know the Ethereum addrss for the new process
+                // to know the StatementKind for users to sign
+                !isOldClaimProcess && <Input
+                  autoFocus
+                  className='full'
+                  help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
+                  label={t('Pre-sale ethereum address')}
+                  onChange={onChangeEthereumAddress}
+                  value={ethereumAddress || ''}
+                />}
+              {(!!ethereumAddress || isOldClaimProcess) && <>
+                <CopyToClipboard
+                  onCopy={onCopy}
+                  text={payload}
                 >
-                  {payload}
-                </Payload>
-              </CopyToClipboard>
-              <Tooltip
-                place='right'
-                text={didCopy ? t('copied') : t('click to copy')}
-                trigger='tx-payload'
-              />
-              <div>
-                {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
+                  <Payload
+                    data-for='tx-payload'
+                    data-tip
+                  >
+                    {payload}
+                  </Payload>
+                </CopyToClipboard>
+                <Tooltip
+                  place='right'
+                  text={didCopy ? t('copied') : t('click to copy')}
+                  trigger='tx-payload'
+                />
+                <div>
+                  {/* FIXME Thibaut We need to present the statement clearly */}
+                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                   :
-              </div>
-              <Signature
-                onChange={onChangeSignature}
-                placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
-                rows={10}
-              />
+                </div>
+                <Signature
+                  onChange={onChangeSignature}
+                  placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
+                  rows={10}
+                />
+              </>}
               {(step === Step.Sign) && (
                 <Button.Group>
                   <Button
@@ -205,6 +230,7 @@ const ClaimsApp = (): React.ReactElement => {
                 ethereumAddress={ethereumAddress}
                 ethereumSignature={signature}
                 isOldClaimProcess={isOldClaimProcess}
+                statementKind={statementKind}
               />
           )}
         </Column>
