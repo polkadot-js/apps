@@ -6,36 +6,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option } from '@polkadot/types';
-import { EthereumAddress } from '@polkadot/types/interfaces';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { Card } from '@polkadot/react-components';
 
 import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
+import usePreclaimPolkadotAddresses from './usePreclaimPolkadotAddresses';
 
 export interface Props{
   className?: string;
 }
 
 function Warning ({ className }: Props): React.ReactElement<Props> | null {
-  const { allAccounts } = useAccounts();
-  const { api } = useApi();
   const { t } = useTranslation();
-
-  // Find accounts that need attest. They are accounts that
-  // - already preclaimed,
-  // - didn't sign the attest yet.
-  // `claims.preclaims` returns Some() for these accounts.
-  const needsAttestArray = useCall<string[]>(api.query.claims.preclaims?.multi, [allAccounts], {
-    transform: (preclaims: Option<EthereumAddress>[]) =>
-      preclaims
-        .map((opt, index) => [opt.isSome, allAccounts[index]])
-        .filter(([isSome]) => isSome)
-        .map(([, address]) => address as string)
-  });
+  const needsAttestArray = usePreclaimPolkadotAddresses();
 
   if (!needsAttestArray || !needsAttestArray.length) {
     return null;
