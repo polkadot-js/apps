@@ -8,7 +8,7 @@ import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/inter
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from './translate';
@@ -21,6 +21,7 @@ interface Props {
   ethereumSignature: string | null;
   // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
   isOldClaimProcess: boolean;
+  statementKind?: StatementKind;
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.
@@ -33,15 +34,12 @@ function constructTx (accountId: string, ethereumSignature: string | null, kind:
     : { params: [accountId, ethereumSignature, kind], tx: 'claims.claimAttest' };
 }
 
-function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, statementKind }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
-  const statementKind = useCall<StatementKind | undefined>(ethereumAddress && !isOldClaimProcess && api.query.claims.signing, [ethereumAddress], {
-    transform: (option: Option<StatementKind>) => option.unwrapOr(undefined)
-  });
 
   const _fetchClaim = useCallback(
     (address: EthereumAddress): void => {
