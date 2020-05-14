@@ -25,7 +25,7 @@ function Attest ({ className }: Props): React.ReactElement<Props> | null {
   // - already preclaimed,
   // - didn't sign the attest yet.
   // `claims.preclaims` returns Some() for these accounts.
-  const needAttest = useCall<[Option<EthereumAddress>]>(api.query?.claims?.preclaims?.multi, [allAccounts])?.filter((opt) => opt.isSome);
+  const needAttest = useCall<[Option<EthereumAddress>]>(isApiReady && api.query.claims?.preclaims?.multi, [allAccounts])?.filter((opt) => opt.isSome);
 
   if (!needAttest?.length) {
     return null;
