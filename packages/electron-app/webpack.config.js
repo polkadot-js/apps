@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -16,10 +15,7 @@ const ENV = process.env.NODE_ENV || 'development';
 function createWebpack ({ alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
-  const hasPublic = fs.existsSync(path.join(context, 'public'));
-  const plugins = hasPublic
-    ? [new CopyWebpackPlugin([{ from: 'public' }])]
-    : [];
+  const plugins = [new CopyWebpackPlugin([{from: '../apps/public'}])];
 
   return [
     {
@@ -165,7 +161,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         new HtmlWebpackPlugin({
           PAGE_TITLE: 'Polkadot/Substrate Portal',
           inject: true,
-          template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
+          template: path.join(context, `../apps/public/${name}.html`)
         }),
         new webpack.optimize.SplitChunksPlugin(),
         new MiniCssExtractPlugin({
