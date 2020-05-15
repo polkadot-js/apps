@@ -101,10 +101,7 @@ function ClaimsApp (): React.ReactElement {
     api.query.claims
       .preclaims<Option<EthereumAddress>>(accountId)
       .then((preclaim): void => {
-        if (preclaim.isSome) {
-          setEthereumAddress(preclaim.unwrap());
-        }
-
+        setEthereumAddress(preclaim.unwrapOr(null))
         setPreclaimEthereumAddress(preclaim.unwrapOr(null));
       })
       .catch((): void => setPreclaimEthereumAddress(null));
