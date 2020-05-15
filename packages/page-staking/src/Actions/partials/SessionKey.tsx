@@ -7,6 +7,7 @@ import { SessionInfo } from './types';
 import React, { useEffect, useState } from 'react';
 import { InputAddress, Input, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -27,7 +28,7 @@ function SessionKey ({ className, controllerId, onChange, stashId, withSenders }
 
   useEffect((): void => {
     onChange({
-      sessionTx: keys
+      sessionTx: isHex(keys)
         // this is weird... :(
         ? api.tx.session.setKeys(keys as any, EMPTY_PROOF)
         : null

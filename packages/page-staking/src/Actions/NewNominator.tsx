@@ -26,7 +26,7 @@ const NUM_STEPS = 2;
 function NewNominator ({ isInElection, next, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondTx, controllerId, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ nominateTx }, setNominateInfo] = useState<NominateInfo>({});
   const [step, setStep] = useState(1);
 
@@ -40,6 +40,16 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
     []
   );
 
+  const _toggle = useCallback(
+    (): void => {
+      setBondInfo({});
+      setNominateInfo({});
+      setStep(1);
+      toggleVisible();
+    },
+    [toggleVisible]
+  );
+
   return (
     <>
       <Button
@@ -47,7 +57,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
         isDisabled={isInElection}
         key='new-nominator'
         label={t('Nominator')}
-        onClick={toggleVisible}
+        onClick={_toggle}
       />
       {isVisible && (
         <Modal
@@ -75,9 +85,9 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
               />
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions onCancel={_toggle}>
             <Button
-              icon='prev'
+              icon='step backward'
               isDisabled={step === 1}
               label={t('prev')}
               onClick={_prevStep}
@@ -90,14 +100,18 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
                   isPrimary
                   label={t('Bond & Nominate')}
-                  onStart={toggleVisible}
-                  params={[bondTx, nominateTx]}
+                  onStart={_toggle}
+                  params={[
+                    stashId === controllerId
+                      ? [bondTx, nominateTx]
+                      : [bondOwnTx, nominateTx, controllerTx]
+                  ]}
                   tx='utility.batch'
                 />
               )
               : (
                 <Button
-                  icon='next'
+                  icon='step forward'
                   isDisabled={!bondTx}
                   label={t('next')}
                   onClick={_nextStep}

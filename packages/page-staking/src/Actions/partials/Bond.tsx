@@ -34,10 +34,12 @@ function Bond ({ className, onChange }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     onChange(
-      (amount && controllerId && stashId)
+      (amount && amount.gtn(0) && controllerId && stashId)
         ? {
+          bondOwnTx: api.tx.staking.bond(stashId, amount, destination),
           bondTx: api.tx.staking.bond(controllerId, amount, destination),
           controllerId,
+          controllerTx: api.tx.staking.setController(controllerId),
           stashId
         }
         : {

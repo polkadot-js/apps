@@ -22,7 +22,7 @@ const NUM_STEPS = 3;
 function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isVisible, toggleVisible] = useToggle();
-  const [{ bondTx, controllerId, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
   const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
 
@@ -38,6 +38,17 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
     []
   );
 
+  const _toggle = useCallback(
+    (): void => {
+      setBondInfo({});
+      setSessionInfo({});
+      setValidateInfo({});
+      setStep(1);
+      toggleVisible();
+    },
+    [toggleVisible]
+  );
+
   return (
     <>
       <Button
@@ -45,7 +56,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
         isDisabled={isInElection}
         key='new-validator'
         label={t('Validator')}
-        onClick={toggleVisible}
+        onClick={_toggle}
       />
       {isVisible && (
         <Modal
@@ -76,16 +87,16 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               />
             )}
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions onCancel={_toggle}>
             <Button
-              icon='prev'
+              icon='step backward'
               isDisabled={step === 1}
               label={t('prev')}
               onClick={_prevStep}
             />
             {step !== NUM_STEPS && (
               <Button
-                icon='next'
+                icon='step forward'
                 isDisabled={
                   step === 1
                     ? !bondTx
@@ -102,8 +113,12 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                 isDisabled={!bondTx || !sessionTx || !validateTx}
                 isPrimary
                 label={t('Bond & Validate')}
-                onStart={toggleVisible}
-                params={[bondTx, sessionTx, validateTx]}
+                onStart={_toggle}
+                params={[
+                  controllerId === stashId
+                    ? [bondTx, sessionTx, validateTx]
+                    : [bondOwnTx, sessionTx, validateTx, controllerTx]
+                ]}
                 tx='utility.batch'
               />
             )}

@@ -4,7 +4,7 @@
 
 import { BondInfo } from './partials/types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -16,13 +16,21 @@ function NewStash (): React.ReactElement {
   const [isVisible, toggleVisible] = useToggle();
   const [{ bondTx, stashId }, setBondInfo] = useState<BondInfo>({});
 
+  const _toggle = useCallback(
+    (): void => {
+      setBondInfo({});
+      toggleVisible();
+    },
+    [toggleVisible]
+  );
+
   return (
     <>
       <Button
         icon='add'
         key='new-stash'
         label={t('Stash')}
-        onClick={toggleVisible}
+        onClick={_toggle}
       />
       {isVisible && (
         <Modal
@@ -32,7 +40,7 @@ function NewStash (): React.ReactElement {
           <Modal.Content>
             <BondPartial onChange={setBondInfo} />
           </Modal.Content>
-          <Modal.Actions onCancel={toggleVisible}>
+          <Modal.Actions onCancel={_toggle}>
             <TxButton
               accountId={stashId}
               extrinsic={bondTx}
@@ -40,7 +48,7 @@ function NewStash (): React.ReactElement {
               isDisabled={!bondTx || !stashId}
               isPrimary
               label={t('Bond')}
-              onStart={toggleVisible}
+              onStart={_toggle}
             />
           </Modal.Actions>
         </Modal>
