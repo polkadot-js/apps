@@ -30,6 +30,8 @@ enum Step {
   Claim = 3,
 }
 
+const PRECLAIMS_LOADING = 'PRECLAIMS_LOADING';
+
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
   cursor: copy;
@@ -71,18 +73,44 @@ function ClaimsApp (): React.ReactElement {
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
   const [step, setStep] = useState<Step>(Step.Account);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [isPreclaimed, setIsPreclaimed] = useState(false);
   const { api, systemChain } = useApi();
   const { t } = useTranslation();
-  const preclaimEthereumAddress = useCall<EthereumAddress | ''>(api.query.claims.preclaims, [accountId], {
-    transform: (option: Option<EthereumAddress>) => option.unwrapOr('')
-  });
 
+  // This preclaimEthereumAddress holds the result of `api.query.claims.preclaims`:
+  // - an `EthereumAddress` when there's a preclaim
+  // - null if no preclaim
+  // - `PRECLAIMS_LOADING` if we're fetching the results
+  const [preclaimEthereumAddress, setPreclaimEthereumAddress] = useState<EthereumAddress | null | typeof PRECLAIMS_LOADING>(PRECLAIMS_LOADING);
+  const isPreclaimed = !!preclaimEthereumAddress && preclaimEthereumAddress !== PRECLAIMS_LOADING;
+
+  // Everytime we change account, reset everything, and check if the accountId
+  // has a preclaim.
   useEffect(() => {
-    setIsPreclaimed(!!preclaimEthereumAddress);
-    setEthereumAddress(preclaimEthereumAddress || null);
-  }, [preclaimEthereumAddress]);
+    if (!accountId) {
+      return;
+    }
 
+    setStep(Step.Account);
+    setEthereumAddress(null);
+    setPreclaimEthereumAddress(PRECLAIMS_LOADING);
+
+    if (!api.query.claims?.preclaims) {
+      return setPreclaimEthereumAddress(null);
+    }
+
+    api.query.claims
+      .preclaims<Option<EthereumAddress>>(accountId)
+      .then((preclaim): void => {
+        if (preclaim.isSome) {
+          setEthereumAddress(preclaim.unwrap());
+        }
+
+        setPreclaimEthereumAddress(preclaim.unwrapOr(null));
+      })
+      .catch((): void => setPreclaimEthereumAddress(null));
+  }, [accountId, api.query.claims]);
+
+  // Old claim process used `api.tx.claims.claim`, and didn't have attest
   const isOldClaimProcess = !api.tx.claims.claimAttest;
 
   useEffect(() => {
@@ -101,27 +129,16 @@ function ClaimsApp (): React.ReactElement {
     setStep(Step.Claim);
   }, []);
 
-  const goToStepEthereumAddress = useCallback(() => {
-    console.log('isOldClaimProcess', isOldClaimProcess);
-
-    if (ethereumAddress || isOldClaimProcess) {
+  // Depending on the account, decide which step to show.
+  const handleAccountStep = useCallback(() => {
+    if (isPreclaimed) {
+      goToStepClaim();
+    } else if (ethereumAddress || isOldClaimProcess) {
       goToStepSign();
     } else {
       setStep(Step.ETHAddress);
     }
-  }, [ethereumAddress, goToStepSign, isOldClaimProcess]);
-
-  // Everytime we get a new preclaimed value (e.g. after we change account), we
-  // decide on which step to show.
-  useEffect(() => {
-    if (isPreclaimed) {
-      goToStepClaim();
-    }
-  }, [ethereumAddress, goToStepClaim, goToStepSign, isPreclaimed]);
-
-  const onChangeAccount = useCallback((newAccountId) => {
-    setAccountId(newAccountId);
-  }, []);
+  }, [ethereumAddress, goToStepClaim, goToStepSign, isPreclaimed, isOldClaimProcess]);
 
   const onChangeSignature = useCallback((event: React.SyntheticEvent<Element>) => {
     const { value: signatureJson } = event.target as HTMLInputElement;
@@ -143,7 +160,9 @@ function ClaimsApp (): React.ReactElement {
     setDidCopy(true);
   }, []);
 
-  const statementKind = useCall<string>(ethereumAddress && api.query.claims.signing, [ethereumAddress], {
+  // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
+  // statement kind to sign.
+  const statementKind = useCall<string>(!isPreclaimed && !isOldClaimProcess && ethereumAddress && api.query.claims.signing, [ethereumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr('').toString()
   });
 
@@ -151,6 +170,8 @@ function ClaimsApp (): React.ReactElement {
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind || ''}`
     : '';
+
+  console.log('step', step);
 
   return (
     <main>
@@ -171,22 +192,26 @@ function ClaimsApp (): React.ReactElement {
               defaultValue={accountId}
               help={t('The account you want to claim to.')}
               label={t('claim to account')}
-              onChange={onChangeAccount}
+              onChange={setAccountId}
               type='all'
             />
             {(step === Step.Account) && (
               <Button.Group>
                 <Button
                   icon='sign-in'
-                  label={t('Continue')}
-                  onClick={goToStepEthereumAddress}
+                  isDisabled={preclaimEthereumAddress === PRECLAIMS_LOADING}
+                  label={preclaimEthereumAddress === PRECLAIMS_LOADING
+                    ? t('Loading')
+                    : t('Continue')
+                  }
+                  onClick={handleAccountStep}
                 />
               </Button.Group>
             )}
           </Card>
           {
-          // We need to know the ethereuem address only for the new process
-          // to be able to know the statement kind so that the users can sign it
+            // We need to know the ethereuem address only for the new process
+            // to be able to know the statement kind so that the users can sign it
             (step >= Step.ETHAddress && !isPreclaimed && !isOldClaimProcess) && (
               <Card withBottomMargin>
                 <h3>{t('2. Enter the ETH address from the sale.')}</h3>
@@ -202,6 +227,7 @@ function ClaimsApp (): React.ReactElement {
                   <Button.Group>
                     <Button
                       icon='sign-in'
+                      isDisabled={!ethereumAddress}
                       label={t('Continue')}
                       onClick={goToStepSign}
                     />
