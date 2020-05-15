@@ -8,7 +8,7 @@ import { SortedTargets } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
@@ -16,7 +16,9 @@ import { Option } from '@polkadot/types';
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
 import Account from './Account';
-import NewStake from './NewStake';
+import NewNominator from './NewNominator';
+import NewStash from './NewStash';
+import NewValidator from './NewValidator';
 
 interface Props {
   className?: string;
@@ -73,7 +75,16 @@ function Actions ({ className, isInElection, next, ownStashes, targets, validato
 
   return (
     <div className={className}>
-      <NewStake />
+      <Button.Group>
+        <NewNominator
+          isInElection={isInElection}
+          next={next}
+          targets={targets}
+          validators={validators}
+        />
+        <NewValidator isInElection={isInElection} />
+        <NewStash />
+      </Button.Group>
       <ElectionBanner isInElection={isInElection} />
       <Table
         empty={foundStashes && t('No funds staked yet. Bond funds to validate or nominate a validator')}

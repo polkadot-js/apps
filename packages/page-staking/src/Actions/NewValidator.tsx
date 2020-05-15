@@ -1,0 +1,117 @@
+// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
+
+import React, { useCallback, useState } from 'react';
+import { Button, Modal, TxButton } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
+
+import { useTranslation } from '../translate';
+import BondPartial from './partials/Bond';
+import SessionKeyPartial from './partials/SessionKey';
+import ValidatePartial from './partials/Validate';
+
+interface Props {
+  isInElection?: boolean;
+}
+
+const NUM_STEPS = 3;
+
+function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [isVisible, toggleVisible] = useToggle();
+  const [{ bondTx, controllerId, stashId }, setBondInfo] = useState<BondInfo>({});
+  const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
+  const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
+
+  const [step, setStep] = useState(1);
+
+  const _nextStep = useCallback(
+    () => setStep((step) => step + 1),
+    []
+  );
+
+  const _prevStep = useCallback(
+    () => setStep((step) => step - 1),
+    []
+  );
+
+  return (
+    <>
+      <Button
+        icon='add'
+        isDisabled={isInElection}
+        key='new-validator'
+        label={t('Validator')}
+        onClick={toggleVisible}
+      />
+      {isVisible && (
+        <Modal
+          header={t('Setup Validator {{step}}/{{NUM_STEPS}}', {
+            replace: {
+              NUM_STEPS,
+              step
+            }
+          })}
+          size='large'
+        >
+          <Modal.Content>
+            {step === 1 && (
+              <BondPartial onChange={setBondInfo} />
+            )}
+            {controllerId && stashId && step === 2 && (
+              <SessionKeyPartial
+                controllerId={controllerId}
+                onChange={setSessionInfo}
+                stashId={stashId}
+              />
+            )}
+            {controllerId && stashId && step === 3 && (
+              <ValidatePartial
+                controllerId={controllerId}
+                onChange={setValidateInfo}
+                stashId={stashId}
+              />
+            )}
+          </Modal.Content>
+          <Modal.Actions onCancel={toggleVisible}>
+            <Button
+              icon='prev'
+              isDisabled={step === 1}
+              label={t('prev')}
+              onClick={_prevStep}
+            />
+            {step !== NUM_STEPS && (
+              <Button
+                icon='next'
+                isDisabled={
+                  step === 1
+                    ? !bondTx
+                    : !sessionTx
+                }
+                label={t('next')}
+                onClick={_nextStep}
+              />
+            )}
+            {step === NUM_STEPS && (
+              <TxButton
+                accountId={stashId}
+                icon='sign-in'
+                isDisabled={!bondTx || !sessionTx || !validateTx}
+                isPrimary
+                label={t('Bond & Validate')}
+                onStart={toggleVisible}
+                params={[bondTx, sessionTx, validateTx]}
+                tx='utility.batch'
+              />
+            )}
+          </Modal.Actions>
+        </Modal>
+      )}
+    </>
+  );
+}
+
+export default React.memo(NewValidator);
