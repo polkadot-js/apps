@@ -25,8 +25,9 @@ export { default as useCounter } from './useCounter';
 
 enum Step {
   Account = 0,
-  Sign = 1,
-  Claim = 2,
+  ETHAddress = 1,
+  Sign = 2,
+  Claim = 3,
 }
 
 // FIXME no embedded components (hossible to tweak)
@@ -100,15 +101,23 @@ function ClaimsApp (): React.ReactElement {
     setStep(Step.Claim);
   }, []);
 
+  const goToStepEthereumAddress = useCallback(() => {
+    console.log('isOldClaimProcess', isOldClaimProcess);
+
+    if (ethereumAddress || isOldClaimProcess) {
+      goToStepSign();
+    } else {
+      setStep(Step.ETHAddress);
+    }
+  }, [ethereumAddress, goToStepSign, isOldClaimProcess]);
+
   // Everytime we get a new preclaimed value (e.g. after we change account), we
   // decide on which step to show.
   useEffect(() => {
     if (isPreclaimed) {
       goToStepClaim();
-    } else {
-      goToStepSign();
     }
-  }, [goToStepClaim, goToStepSign, isPreclaimed]);
+  }, [ethereumAddress, goToStepClaim, goToStepSign, isPreclaimed]);
 
   const onChangeAccount = useCallback((newAccountId) => {
     setAccountId(newAccountId);
@@ -170,57 +179,66 @@ function ClaimsApp (): React.ReactElement {
                 <Button
                   icon='sign-in'
                   label={t('Continue')}
-                  onClick={goToStepSign}
+                  onClick={goToStepEthereumAddress}
                 />
               </Button.Group>
             )}
           </Card>
-          {(step >= Step.Sign && !!accountId && !isPreclaimed) && (
-            <Card>
-              <h3>{t('2. Sign ETH transaction')}</h3>
-              {
-                // We only need to know the Ethereum address for the new process
-                // to know the StatementKind for users to sign
-                !isOldClaimProcess && (
-                  <Input
-                    autoFocus
-                    className='full'
-                    help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
-                    label={t('Pre-sale ethereum address')}
-                    onChange={onChangeEthereumAddress}
-                    value={ethereumAddress || ''}
-                  />
+          {
+          // We need to know the ethereuem address only for the new process
+          // to be able to know the statement kind so that the users can sign it
+            (step >= Step.ETHAddress && !isPreclaimed && !isOldClaimProcess) && (
+              <Card withBottomMargin>
+                <h3>{t('2. Enter the ETH address from the sale.')}</h3>
+                <Input
+                  autoFocus
+                  className='full'
+                  help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
+                  label={t('Pre-sale ethereum address')}
+                  onChange={onChangeEthereumAddress}
+                  value={ethereumAddress || ''}
+                />
+                {(step === Step.ETHAddress) && (
+                  <Button.Group>
+                    <Button
+                      icon='sign-in'
+                      label={t('Continue')}
+                      onClick={goToStepSign}
+                    />
+                  </Button.Group>
                 )}
-              {(!!ethereumAddress || isOldClaimProcess) && (
-                <>
-                  <CopyToClipboard
-                    onCopy={onCopy}
-                    text={payload}
-                  >
-                    <Payload
-                      data-for='tx-payload'
-                      data-tip
-                    >
-                      {payload}
-                    </Payload>
-                  </CopyToClipboard>
-                  <Tooltip
-                    place='right'
-                    text={didCopy ? t('copied') : t('click to copy')}
-                    trigger='tx-payload'
-                  />
-                  <div>
-                    {/* FIXME Thibaut We need to present the statement clearly */}
-                    {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
+              </Card>
+            )}
+          {(step >= Step.Sign && !isPreclaimed) && (
+            <Card>
+              <h3>{t('{{step}}. Sign with you ETH address',
+                { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
+              <CopyToClipboard
+                onCopy={onCopy}
+                text={payload}
+              >
+                <Payload
+                  data-for='tx-payload'
+                  data-tip
+                >
+                  {payload}
+                </Payload>
+              </CopyToClipboard>
+              <Tooltip
+                place='right'
+                text={didCopy ? t('copied') : t('click to copy')}
+                trigger='tx-payload'
+              />
+              <div>
+                {/* FIXME Thibaut We need to present the statement clearly */}
+                {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                   :
-                  </div>
-                  <Signature
-                    onChange={onChangeSignature}
-                    placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
-                    rows={10}
-                  />
-                </>
-              )}
+              </div>
+              <Signature
+                onChange={onChangeSignature}
+                placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
+                rows={10}
+              />
               {(step === Step.Sign) && (
                 <Button.Group>
                   <Button
