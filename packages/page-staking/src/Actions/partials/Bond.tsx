@@ -49,8 +49,10 @@ function Bond ({ className, onChange }: Props): React.ReactElement<Props> {
           stashId
         }
         : {
+          bondOwnTx: null,
           bondTx: null,
           controllerId: null,
+          controllerTx: null,
           stashId: null
         }
     );
