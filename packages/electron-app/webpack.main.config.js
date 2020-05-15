@@ -4,14 +4,20 @@
 
 /* eslint-disable @typescript-eslint/camelcase */
 
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const ENV = process.env.NODE_ENV || 'development';
+const isProd = ENV === 'production';
 
 function createWebpack () {
   return [
     {
       entry: './src/electron.ts',
       mode: ENV,
+      optimization: {
+        minimize: !!isProd,
+        minimizer: [new TerserPlugin()]
+      },
       output: {
         filename: 'electron.js',
         path: path.join(__dirname, '/build')
