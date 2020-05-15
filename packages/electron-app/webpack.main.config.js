@@ -14,6 +14,21 @@ function createWebpack () {
     {
       entry: './src/electron.ts',
       mode: ENV,
+      module: {
+        rules: [
+          {
+            exclude: /(node_modules)/,
+            test: /\.(js|ts|tsx)$/,
+            use: [
+              require.resolve('thread-loader'),
+              {
+                loader: require.resolve('babel-loader'),
+                options: require('@polkadot/dev/config/babel')
+              }
+            ]
+          }
+        ]
+      },
       optimization: {
         minimize: !!isProd,
         minimizer: [new TerserPlugin()]
