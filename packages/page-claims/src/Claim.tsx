@@ -86,6 +86,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
                   accountId={accountId}
                   icon='send'
                   isPrimary
+                  isUnsigned
                   label={t('Claim')}
                   {...constructTx(accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
