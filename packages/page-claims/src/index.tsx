@@ -171,8 +171,6 @@ function ClaimsApp (): React.ReactElement {
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind || ''}`
     : '';
 
-  console.log('step', step);
-
   return (
     <main>
       <header />
