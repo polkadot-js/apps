@@ -8,11 +8,12 @@ import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 export default function useStakerPayouts (): BN {
   const { api } = useApi();
   const [stakerPayoutAfter, setState] = useState<BN>(
-    api.tx.staking.payoutStakers
+    isFunction(api.tx.staking.payoutStakers)
       ? new BN(0)
       : new BN(1_000_000_000)
   );

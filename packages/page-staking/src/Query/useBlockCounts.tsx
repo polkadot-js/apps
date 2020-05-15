@@ -24,7 +24,7 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
       if (filtered.length) {
         Promise
           .all(filtered.map(({ parentHash, sessionIndex }): Promise<u32> =>
-            api.query.imOnline.authoredBlocks.at(parentHash, sessionIndex.subn(1), accountId) as Promise<u32>
+            api.query.imOnline.authoredBlocks.at(parentHash, sessionIndex.subn(1), accountId)
           ))
           .then((historic): void => {
             mountedRef.current && setHistoric(historic);

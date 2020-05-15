@@ -10,6 +10,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
   return {
     Component: Claims,
     display: {
+      needsAccounts: true,
       needsApi: [
         'query.claims.claims'
       ]
