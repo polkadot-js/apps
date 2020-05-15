@@ -65,7 +65,6 @@ function Account ({ className, info: { controllerId, destination, destinationId,
         {isNominateOpen && controllerId && (
           <Nominate
             controllerId={controllerId}
-            isOpen={isNominateOpen}
             next={next}
             nominating={nominating}
             onClose={toggleNominate}

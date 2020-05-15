@@ -18,7 +18,7 @@ interface Props {
   onClose: () => void;
   stashId: string;
   targets: SortedTargets;
-  validators: string[];
+  validators?: string[];
 }
 
 function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, validators }: Props): React.ReactElement<Props> | null {

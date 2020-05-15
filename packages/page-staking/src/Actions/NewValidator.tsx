@@ -17,7 +17,7 @@ interface Props {
   isInElection?: boolean;
 }
 
-const NUM_STEPS = 3;
+const NUM_STEPS = 2;
 
 function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -73,18 +73,18 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               <BondPartial onChange={setBondInfo} />
             )}
             {controllerId && stashId && step === 2 && (
-              <SessionKeyPartial
-                controllerId={controllerId}
-                onChange={setSessionInfo}
-                stashId={stashId}
-              />
-            )}
-            {controllerId && stashId && step === 3 && (
-              <ValidatePartial
-                controllerId={controllerId}
-                onChange={setValidateInfo}
-                stashId={stashId}
-              />
+              <>
+                <SessionKeyPartial
+                  controllerId={controllerId}
+                  onChange={setSessionInfo}
+                  stashId={stashId}
+                />
+                <ValidatePartial
+                  controllerId={controllerId}
+                  onChange={setValidateInfo}
+                  stashId={stashId}
+                />
+              </>
             )}
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
@@ -94,34 +94,31 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               label={t('prev')}
               onClick={_prevStep}
             />
-            {step !== NUM_STEPS && (
-              <Button
-                icon='step forward'
-                isDisabled={
-                  step === 1
-                    ? !bondTx
-                    : !sessionTx
-                }
-                label={t('next')}
-                onClick={_nextStep}
-              />
-            )}
-            {step === NUM_STEPS && (
-              <TxButton
-                accountId={stashId}
-                icon='sign-in'
-                isDisabled={!bondTx || !sessionTx || !validateTx}
-                isPrimary
-                label={t('Bond & Validate')}
-                onStart={_toggle}
-                params={[
-                  controllerId === stashId
-                    ? [bondTx, sessionTx, validateTx]
-                    : [bondOwnTx, sessionTx, validateTx, controllerTx]
-                ]}
-                tx='utility.batch'
-              />
-            )}
+            {step === NUM_STEPS
+              ? (
+                <TxButton
+                  accountId={stashId}
+                  icon='sign-in'
+                  isDisabled={!bondTx || !sessionTx || !validateTx}
+                  isPrimary
+                  label={t('Bond & Validate')}
+                  onStart={_toggle}
+                  params={[
+                    controllerId === stashId
+                      ? [bondTx, sessionTx, validateTx]
+                      : [bondOwnTx, sessionTx, validateTx, controllerTx]
+                  ]}
+                  tx='utility.batch'
+                />
+              )
+              : (
+                <Button
+                  icon='step forward'
+                  isDisabled={!bondTx}
+                  label={t('next')}
+                  onClick={_nextStep}
+                />
+              )}
           </Modal.Actions>
         </Modal>
       )}
