@@ -10,7 +10,6 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const findPackages = require('../../scripts/findPackages');
 
@@ -23,17 +22,8 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
 
   return [
     {
-      entry: './src/electron.ts',
-      mode: ENV,
-      output: {
-        filename: 'electron.js',
-        path: path.join(__dirname, '/build')
-      },
-      target: 'electron-main'
-    },
-    {
       context,
-      devtool: 'source-map',
+      devtool: isProd ? 'none' : 'source-map',
       entry: [
         '@babel/polyfill',
         `./src/${name}.tsx`
@@ -169,16 +159,7 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
         new webpack.optimize.SplitChunksPlugin(),
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash:8].css'
-        }),
-        isProd
-          ? null
-          : new WebpackPluginServe({
-            hmr: false, // switch off, Chrome WASM memory leak
-            liveReload: false, // explict off, overrides hmr
-            port: 3000,
-            progress: false, // since we have hmr off, disable
-            static: path.join(process.cwd(), '/build')
-          })
+        })
       ]).filter((plugin) => plugin),
       resolve: {
         alias,
