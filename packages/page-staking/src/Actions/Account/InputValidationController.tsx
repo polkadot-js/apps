@@ -15,7 +15,7 @@ interface Props {
   accountId: string | null;
   controllerId: string | null;
   defaultController?: string;
-  onError: (error: string | null) => void;
+  onError: (error: string | null, isFatal: boolean) => void;
 }
 
 function ValidateController ({ accountId, controllerId, defaultController, onError }: Props): React.ReactElement<Props> | null {
@@ -33,24 +33,26 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
         ? value.unwrap().stash.toString()
         : null
   });
-  const [error, setError] = useState<string | null>(null);
+  const [{ error, isFatal }, setError] = useState<{ error: string | null; isFatal: boolean }>({ error: null, isFatal: false });
 
   useEffect((): void => {
     // don't show an error if the selected controller is the default
     // this applies when changing controller
     if (defaultController !== controllerId) {
       let newError: string | null = null;
+      let isFatal = true;
 
-      if (controllerId === accountId) {
-        newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
-      } else if (bondedId) {
+      if (bondedId) {
         newError = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
         newError = t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
+      } else if (controllerId === accountId) {
+        newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
+        isFatal = false;
       }
 
-      onError(newError);
-      setError((error) => error !== newError ? newError : error);
+      onError(newError, isFatal);
+      setError((state) => state.error !== newError ? { error: newError, isFatal } : state);
     }
   }, [accountId, bondedId, controllerId, defaultController, onError, stashId, t]);
 
@@ -59,7 +61,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
   }
 
   return (
-    <article className='warning'>
+    <article className={isFatal ? 'error' : 'warning'}>
       <div><Icon name='warning sign' />{error}</div>
     </article>
   );
