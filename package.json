@@ -8,14 +8,13 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^1.14.0-beta.20",
-    "@polkadot/api-contract": "^1.14.0-beta.20",
+    "@polkadot/api": "^1.14.1",
+    "@polkadot/api-contract": "^1.14.1",
     "@polkadot/keyring": "^2.10.1",
-    "@polkadot/types": "^1.14.0-beta.20",
+    "@polkadot/types": "^1.14.1",
     "@polkadot/util": "^2.10.1",
     "@polkadot/util-crypto": "^2.10.1",
-    "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.8.3"
+    "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
     "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
@@ -38,13 +37,13 @@
     "@babel/core": "^7.9.6",
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.6",
-    "@polkadot/dev": "^0.52.19",
-    "@polkadot/ts": "^0.3.21",
+    "@polkadot/dev": "^0.53.5",
+    "@polkadot/ts": "^0.3.22",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.20",
     "@types/file-saver": "^2.0.1",
     "@types/i18next": "^13.0.0",
-    "@types/jest": "^25.2.1",
+    "@types/jest": "^25.2.2",
     "@types/react-beautiful-dnd": "^12.1.2",
     "@types/react-copy-to-clipboard": "^4.3.0",
     "@types/react-dom": "^16.9.8",

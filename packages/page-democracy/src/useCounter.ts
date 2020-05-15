@@ -3,13 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { useState, useEffect } from 'react';
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {
+  const { hasAccounts } = useAccounts();
   const { api, isApiReady } = useApi();
   const mountedRef = useIsMountedRef();
-  const proposals = useCall<any[]>(isApiReady && api.derive.democracy?.proposals, []);
-  const referenda = useCall<any[]>(isApiReady && api.derive.democracy?.referendumsActive, []);
+  const proposals = useCall<any[]>(isApiReady && hasAccounts && api.derive.democracy?.proposals, []);
+  const referenda = useCall<any[]>(isApiReady && hasAccounts && api.derive.democracy?.referendumsActive, []);
   const [counter, setCounter] = useState(0);
 
   useEffect((): void => {
