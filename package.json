@@ -23,7 +23,7 @@
     "build:i18n": "i18next-scanner --config i18next-scanner.config.js && node ./scripts/i18nSort.js",
     "build:release": "yarn polkadot-ci-ghact-build && yarn polkadot-ci-ghact-docs",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
-    "build:electron": "yarn clean:electron && cd packages/electron-app && NODE_ENV=production webpack --config webpack.renderer.config.js && NODE_ENV=production webpack --config webpack.main.config.js",
+    "build:electron": "yarn clean:electron && cd packages/electron-app && webpack --config webpack.main.config.js && webpack-dev-server --color --progress --config webpack.renderer.config.js",
     "docs": "echo \"skipping docs\"",
     "clean": "polkadot-dev-clean-build",
     "clean:electron": "cd packages/electron-app polkadot-dev-clean-build",
@@ -34,7 +34,7 @@
     "test": "polkadot-dev-run-test packages/page-claims/src",
     "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
-    "start:electron": "yarn build:electron && cd packages/electron-app && electron ./build/electron.js"
+    "start:electron": "concurrently 'yarn build:electron' 'cd packages/electron-app && electron ./build/electron.js'"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -55,6 +55,7 @@
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.0",
     "@types/styled-theming": "^2.2.2",
+    "concurrently": "^5.2.0",
     "electron": "^8.2.5",
     "i18next-scanner": "^2.11.0",
     "react": "^16.13.1",
@@ -64,6 +65,7 @@
     "stylelint-config-styled-components": "^0.1.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
     "webpack-plugin-serve": "^1.0.0"
   }
 }

@@ -23,6 +23,13 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   return [
     {
       context,
+      devServer: {
+        compress: true,
+        contentBase: path.join(__dirname, 'build'),
+        hot: true,
+        liveReload: false,
+        port: 9000
+      },
       devtool: isProd ? 'none' : 'source-map',
       entry: [
         '@babel/polyfill',

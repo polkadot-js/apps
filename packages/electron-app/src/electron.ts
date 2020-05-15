@@ -4,6 +4,8 @@
 
 import { BrowserWindow, app } from 'electron';
 
+const environment = process.env.NODE_ENV || 'production';
+
 function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -14,9 +16,12 @@ function createWindow () {
     width: 800
   });
 
-  // and load the index.html of the app.
-  win.loadFile('index.html');
-  win.webContents.openDevTools();
+  if (environment === 'development') {
+    win.loadURL('http://0.0.0.0:9000/');
+    win.webContents.openDevTools();
+  } else {
+    win.loadFile('index.html');
+  }
 }
 
 app.whenReady().then(createWindow);
