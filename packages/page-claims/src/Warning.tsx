@@ -36,12 +36,12 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
           )
         }
         {
-          needsAttestArray.map((address) => {
-            return <AddressMini
+          needsAttestArray.map((address) => (
+            <AddressMini
               key={address}
               value={address}
-            />;
-          })
+            />
+          ))
         }
       </div>
     </Card>
