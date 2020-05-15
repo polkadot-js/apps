@@ -6,7 +6,7 @@ import { BrowserWindow, app } from 'electron';
 
 const environment = process.env.NODE_ENV || 'production';
 
-function createWindow () {
+function createWindow (): void {
   // Create the browser window.
   const win = new BrowserWindow({
     height: 600,
