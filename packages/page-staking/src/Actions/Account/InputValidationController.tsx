@@ -33,7 +33,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
         ? value.unwrap().stash.toString()
         : null
   });
-  const [error, setError] = useState<string | null>(null);
+  const [{ error, isFatal }, setError] = useState<{ error: string | null; isFatal: boolean }>({ error: null, isFatal: false });
 
   useEffect((): void => {
     // don't show an error if the selected controller is the default
@@ -52,7 +52,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
       }
 
       onError(newError, isFatal);
-      setError((error) => error !== newError ? newError : error);
+      setError((state) => state.error !== newError ? { error: newError, isFatal } : state);
     }
   }, [accountId, bondedId, controllerId, defaultController, onError, stashId, t]);
 
@@ -61,7 +61,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
   }
 
   return (
-    <article className='warning'>
+    <article className={isFatal ? 'error' : 'warning'}>
       <div><Icon name='warning sign' />{error}</div>
     </article>
   );

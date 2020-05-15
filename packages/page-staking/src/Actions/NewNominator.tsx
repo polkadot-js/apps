@@ -113,6 +113,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                 <Button
                   icon='step forward'
                   isDisabled={!bondTx}
+                  isPrimary
                   label={t('next')}
                   onClick={_nextStep}
                 />

@@ -115,6 +115,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                 <Button
                   icon='step forward'
                   isDisabled={!bondTx}
+                  isPrimary
                   label={t('next')}
                   onClick={_nextStep}
                 />

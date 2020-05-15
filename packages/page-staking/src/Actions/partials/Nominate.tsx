@@ -70,6 +70,7 @@ function Nominate ({ className, controllerId, next, nominating, onChange, stashI
       .concat(...(validators || []).filter((acc) => !shortlist.includes(acc)))
       .concat(...(next || []).filter((acc) => !shortlist.includes(acc)));
   });
+  const [autoSelected, setAutoSelected] = useState<string[]>([]);
 
   const _setSelected = useCallback(
     (selected: string[]) => setSelected(({ isAutoSelect }: Selected) => ({
@@ -83,11 +84,19 @@ function Nominate ({ className, controllerId, next, nominating, onChange, stashI
     (isAutoSelect: boolean) => setSelected(() => ({
       isAutoSelect,
       selected: isAutoSelect
-        ? autoPick(targets)
+        ? autoSelected
         : []
     })),
-    [targets]
+    [autoSelected]
   );
+
+  useEffect((): void => {
+    setAutoSelected(
+      targets.validators?.length
+        ? autoPick(targets)
+        : []
+    );
+  }, [targets]);
 
   useEffect((): void => {
     onChange({
@@ -149,17 +158,19 @@ function Nominate ({ className, controllerId, next, nominating, onChange, stashI
               />
             )
           }
-          <Toggle
-            className='auto--toggle'
-            isDisabled={!targets.validators?.length}
-            label={
-              isAutoSelect
-                ? t('Use an automatic selection of the currently most profitable validators')
-                : t('Select targets manually (no auto-selection based on current profitability)')
-            }
-            onChange={_toggleAutoSelect}
-            value={isAutoSelect}
-          />
+          {autoSelected.length !== 0 && (
+            <Toggle
+              className='auto--toggle'
+              isDisabled={!targets.validators?.length}
+              label={
+                isAutoSelect
+                  ? t('Use an automatic selection of the currently most profitable validators')
+                  : t('Select targets manually (no auto-selection based on current profitability)')
+              }
+              onChange={_toggleAutoSelect}
+              value={isAutoSelect}
+            />
+          )}
         </Modal.Column>
         <Modal.Column>
           <p>{t('Nominators can be selected automatically based on the current on-chain conditions or supplied manually as selected from the list of all currently available validators. In both cases, your favorites appear for the selection.')}</p>
