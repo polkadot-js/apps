@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { ValidateInfo } from '../partials/types';
 
 import React, { useState } from 'react';
 import { Modal, TxButton } from '@polkadot/react-components';
@@ -18,7 +18,7 @@ interface Props {
 
 function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [tx, setTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ validateTx }, setTx] = useState<ValidateInfo>({});
 
   return (
     <Modal
@@ -36,9 +36,9 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
-          extrinsic={tx}
+          extrinsic={validateTx}
           icon='check circle outline'
-          isDisabled={!tx}
+          isDisabled={!validateTx}
           isPrimary
           label={t('Validate')}
           onStart={onClose}
