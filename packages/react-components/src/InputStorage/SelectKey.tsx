@@ -23,7 +23,7 @@ interface Props extends BareProps {
 function transform (api: ApiPromise, { value }: Props): (method: string) => StorageEntryPromise {
   return function (method: string): StorageEntryPromise {
     return api.query[value.creator.section]
-      ? api.query[value.creator.section][method]
+      ? api.query[value.creator.section][method] as any
       : value;
   };
 }

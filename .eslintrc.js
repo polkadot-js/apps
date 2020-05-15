@@ -11,6 +11,7 @@ module.exports = {
   },
   rules: {
     ...base.rules,
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    'react-hooks/exhaustive-deps': 'warn'
   }
 };

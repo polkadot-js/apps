@@ -10,6 +10,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
   return {
     Component: TechComm,
     display: {
+      needsAccounts: true,
       needsApi: [
         'query.technicalCommittee.members'
       ]

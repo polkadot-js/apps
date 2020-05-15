@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import { useCall, useApi } from '@polkadot/react-hooks';
-import { stringToU8a } from '@polkadot/util';
+import { isFunction, stringToU8a } from '@polkadot/util';
 
 import { getAddressName } from './util';
 import Badge from './Badge';
@@ -148,7 +148,7 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
     const { accountId, accountIndex, identity, nickname } = info || {};
     const cacheAddr = (accountId || value || '').toString();
 
-    if (api.query.identity?.identityOf) {
+    if (isFunction(api.query.identity?.identityOf)) {
       setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)

@@ -13,9 +13,10 @@ import { withRouter } from 'react-router-dom';
 import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
-import keyring from '@polkadot/ui-keyring';
 import { Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
+import keyring from '@polkadot/ui-keyring';
+import { isFunction } from '@polkadot/util';
 
 import MessageSignature from './MessageSignature';
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
@@ -237,7 +238,7 @@ class Deploy extends ContractModal<Props, State> {
         onSuccess={this.onSuccess}
         params={this.constructCall}
         tx={
-          api.tx.contracts.instantiate
+          isFunction(api.tx.contracts.instantiate)
             ? 'contracts.instantiate' // V2 (new)
             : 'contracts.create' // V2 (old)
         }
