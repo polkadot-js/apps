@@ -30,12 +30,10 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
     <Card isError>
       <div className={className}>
         {
-          t(
-            'You need to sign an attestation for the following {{account}}:',
-            { replace: { account: needsAttestArray.length > 1 ? 'accounts' : 'account' } }
-          )
-        }
-        {
+          needsAttestArray.length > 1
+            ? t('You need to sign an attestation for the following accounts:')
+            : t('You need to sign an attestation for the following account:')
+        }{
           needsAttestArray.map((address) => (
             <AddressMini
               key={address}
