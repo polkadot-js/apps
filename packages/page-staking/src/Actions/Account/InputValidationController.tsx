@@ -15,7 +15,7 @@ interface Props {
   accountId: string | null;
   controllerId: string | null;
   defaultController?: string;
-  onError: (error: string | null) => void;
+  onError: (error: string | null, isFatal: boolean) => void;
 }
 
 function ValidateController ({ accountId, controllerId, defaultController, onError }: Props): React.ReactElement<Props> | null {
@@ -40,16 +40,18 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
     // this applies when changing controller
     if (defaultController !== controllerId) {
       let newError: string | null = null;
+      let isFatal = true;
 
-      if (controllerId === accountId) {
-        newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
-      } else if (bondedId) {
+      if (bondedId) {
         newError = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
         newError = t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
+      } else if (controllerId === accountId) {
+        newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
+        isFatal = false;
       }
 
-      onError(newError);
+      onError(newError, isFatal);
       setError((error) => error !== newError ? newError : error);
     }
   }, [accountId, bondedId, controllerId, defaultController, onError, stashId, t]);

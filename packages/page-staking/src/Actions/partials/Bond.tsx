@@ -5,7 +5,7 @@
 import { BondInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
 import { Available, BlockToTime } from '@polkadot/react-query';
 import { useApi } from '@polkadot/react-hooks';
@@ -26,15 +26,21 @@ function Bond ({ className, onChange }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
   const [amountError, setAmountError] = useState<string | null>(null);
-  const [, setControllerError] = useState<string | null>(null);
+  const [controllerError, setControllerError] = useState<boolean>(false);
   const [controllerId, setControllerId] = useState<string | null>(null);
   const [destination, setDestination] = useState(0);
   const [stashId, setStashId] = useState<string | null>(null);
   const bondedBlocks = useUnbondDuration();
 
+  const _setError = useCallback(
+    // eslint-disable-next-line handle-callback-err
+    (error: string | null, isFatal: boolean) => setControllerError(isFatal),
+    []
+  );
+
   useEffect((): void => {
     onChange(
-      (amount && amount.gtn(0) && controllerId && stashId)
+      (amount && amount.gtn(0) && !controllerError && controllerId && stashId)
         ? {
           bondOwnTx: api.tx.staking.bond(stashId, amount, destination),
           bondTx: api.tx.staking.bond(controllerId, amount, destination),
@@ -48,7 +54,7 @@ function Bond ({ className, onChange }: Props): React.ReactElement<Props> {
           stashId: null
         }
     );
-  }, [api, amount, controllerId, destination, stashId, onChange]);
+  }, [api, amount, controllerError, controllerId, destination, stashId, onChange]);
 
   const hasValue = !!amount?.gtn(0);
 
@@ -72,7 +78,7 @@ function Bond ({ className, onChange }: Props): React.ReactElement<Props> {
           <InputValidationController
             accountId={stashId}
             controllerId={controllerId}
-            onError={setControllerError}
+            onError={_setError}
           />
         </Modal.Column>
         <Modal.Column>
