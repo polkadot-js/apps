@@ -22,7 +22,7 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
   useEffect((): Unsub => {
     let unsub: Unsub | undefined;
 
-    if (mountedRef.current && indexes && earliestSlash?.isSome) {
+    if (mountedRef.current && indexes && earliestSlash && earliestSlash.isSome) {
       const from = earliestSlash.unwrap();
       const range: BN[] = [];
       let start = new BN(from);

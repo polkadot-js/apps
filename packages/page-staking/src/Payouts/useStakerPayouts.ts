@@ -20,7 +20,7 @@ export default function useStakerPayouts (): BN {
   const migrateEraOpt = useCall<Option<EraIndex>>(api.query.staking?.migrateEra, []);
 
   useEffect((): void => {
-    migrateEraOpt?.isSome && setState(migrateEraOpt.unwrap());
+    migrateEraOpt && migrateEraOpt.isSome && setState(migrateEraOpt.unwrap());
   }, [migrateEraOpt]);
 
   return stakerPayoutAfter;

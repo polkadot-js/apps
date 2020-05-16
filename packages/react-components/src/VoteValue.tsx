@@ -32,7 +32,7 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
-    (accountId !== selectedId) && allBalances?.accountId.eq(accountId) && setValue({
+    (accountId !== selectedId) && allBalances && allBalances.accountId.eq(accountId) && setValue({
       selectedId: accountId,
       value: allBalances.lockedBalance
     });
