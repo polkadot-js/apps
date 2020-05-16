@@ -48,7 +48,7 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
   }, [slashes, t]);
 
   useEffect((): void => {
-    const actioned = selectedEra && slashes?.find(([era]): boolean => era.eqn(selectedEra));
+    const actioned = selectedEra && slashes && slashes.find(([era]): boolean => era.eqn(selectedEra));
 
     setProposal((): any =>
       actioned

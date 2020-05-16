@@ -56,7 +56,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
   useEffect((): () => void => {
     let unsub: (() => void) | undefined;
 
-    if (mountedRef.current && nominees?.length && indexes) {
+    if (mountedRef.current && nominees && nominees.length && indexes) {
       api
         .queryMulti(
           [[api.query.staking.nominators, stashId] as any].concat(

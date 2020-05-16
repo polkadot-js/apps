@@ -75,7 +75,7 @@ function Identity ({ address, className, onClose }: Props): React.ReactElement<P
   const [valWeb, setValWeb] = useState('');
 
   useEffect((): void => {
-    if (identityOpt?.isSome) {
+    if (identityOpt && identityOpt.isSome) {
       const { info } = identityOpt.unwrap();
 
       setData(info.display, null, setValDisplay);

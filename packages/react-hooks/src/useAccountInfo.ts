@@ -111,7 +111,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     setMeta(accountOrAddress?.meta);
     setName(accountOrAddress?.meta.name || '');
     setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
-  }, [identity, isAccount, isAddress, value]);
+  }, [identity?.display, isAccount, isAddress, value]);
 
   const onSaveName = useCallback(
     (): void => {

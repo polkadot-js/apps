@@ -32,7 +32,7 @@ function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
       text: t('Parachains overview')
     },
     ...(
-      match?.params.id
+      match && match.params.id
         ? [{
           name: match.params.id,
           text: `${match.params.id}: ${parachainName(t, paraInfoRef.current)}`

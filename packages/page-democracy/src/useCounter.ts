@@ -18,7 +18,7 @@ export default function useCounter (): number {
       (proposals?.length || 0) +
       (referenda?.length || 0)
     );
-  }, [mountedRef, proposals, referenda]);
+  }, [mountedRef, proposals?.length, referenda?.length]);
 
   return counter;
 }

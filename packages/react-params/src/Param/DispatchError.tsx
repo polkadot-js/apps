@@ -18,27 +18,35 @@ interface Details {
   type?: string;
 }
 
+interface RawModuleError {
+  value: DispatchError;
+}
+
+function isModuleError (defaultValue?: { value: any }): defaultValue is RawModuleError {
+  return !!defaultValue?.value?.isModule;
+}
+
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ details, type }, setDetails] = useState<Details>({});
 
   useEffect((): void => {
-    if (details !== null && props.defaultValue?.value?.isModule) {
+    if (isModuleError(props.defaultValue)) {
       try {
-        const { documentation, name, section } = registry.findMetaError((props.defaultValue.value as DispatchError).asModule);
+        const { documentation, name, section } = registry.findMetaError(props.defaultValue.value.asModule);
 
-        setDetails({
+        return setDetails({
           details: documentation.join(', '),
           type: `${section}.${name}`
         });
       } catch (error) {
         // Errors may not actually be exposed, in this case, just return the default representation
         console.error(error);
-
-        setDetails({ details: null });
       }
     }
-  }, [details, props.defaultValue]);
+
+    setDetails({ details: null });
+  }, [props.defaultValue]);
 
   if (!props.isDisabled || !details) {
     return <Unknown {...props} />;

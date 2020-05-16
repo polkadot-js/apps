@@ -8,6 +8,7 @@ import { SessionRewards } from '../types';
 import { useEffect, useState } from 'react';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { u32 } from '@polkadot/types';
+import { isFunction } from '@polkadot/util';
 
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
@@ -18,7 +19,7 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
   const [historic, setHistoric] = useState<u32[]>([]);
 
   useEffect((): void => {
-    if (api.query.imOnline?.authoredBlocks && sessionRewards?.length) {
+    if (isFunction(api.query.imOnline?.authoredBlocks) && sessionRewards && sessionRewards.length) {
       const filtered = sessionRewards.filter(({ sessionIndex }): boolean => sessionIndex.gtn(0));
 
       if (filtered.length) {

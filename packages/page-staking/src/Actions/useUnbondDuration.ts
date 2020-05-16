@@ -18,7 +18,7 @@ export default function useUnbondDuration (): BN | undefined {
   useEffect((): void => {
     // We check sessionLength, for aura this is not properly calculated (not exposed),
     // so the actual real block value would be invalid here
-    sessionInfo?.sessionLength.gt(ONE) && setDuration(
+    sessionInfo && sessionInfo.sessionLength.gt(ONE) && setDuration(
       sessionInfo.eraLength.mul(api.consts.staking.bondingDuration)
     );
   }, [api, sessionInfo]);
