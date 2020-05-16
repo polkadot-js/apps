@@ -22,7 +22,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_HEADERS = 25;
+const MAX_HEADERS = 50;
 
 const byAuthor: Record<string, string> = {};
 const eraPoints: Record<string, string> = {};
@@ -36,8 +36,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
   const [validators, setValidators] = useState<string[]>([]);
 
   useEffect((): void => {
-    // TODO We should really unsub - but since this should just be used once,
-    // atm I'm rather typing this than doing it the way it is supposed to be
+    // No unsub, global context - destroyed on app close
     api.isReady.then((): void => {
       let lastHeaders: HeaderExtended[] = [];
       let lastBlockAuthors: string[] = [];
@@ -45,7 +44,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
       // subscribe to all validators
       api.query.session && api.query.session.validators((validatorIds): void => {
-        setValidators(validatorIds.map((validatorId): string => validatorId.toString()));
+        setValidators(validatorIds.map((validatorId) => validatorId.toString()));
       });
 
       // subscribe to new headers
@@ -73,7 +72,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
               return next;
             }, [lastHeader])
-            .sort((a, b): number => b.number.unwrap().cmp(a.number.unwrap()));
+            .sort((a, b) => b.number.unwrap().cmp(a.number.unwrap()));
 
           setState({ byAuthor, eraPoints, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders });
         }
