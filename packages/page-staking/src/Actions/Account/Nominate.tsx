@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { NominateInfo } from '../partials/types';
 import { SortedTargets } from '../../types';
 
 import React, { useState } from 'react';
@@ -23,7 +23,7 @@ interface Props {
 
 function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, validators }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [tx, setTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ nominateTx }, setTx] = useState<NominateInfo>({});
 
   return (
     <Modal
@@ -45,9 +45,9 @@ function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, 
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
-          extrinsic={tx}
+          extrinsic={nominateTx}
           icon='hand paper outline'
-          isDisabled={!tx}
+          isDisabled={!nominateTx}
           isPrimary
           label={t('Nominate')}
           onStart={onClose}
