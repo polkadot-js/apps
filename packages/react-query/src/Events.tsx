@@ -9,11 +9,15 @@ import { useApi } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
-interface KeyedEvent {
+interface IndexedEvent {
+  index: number;
+  record: EventRecord;
+}
+
+interface KeyedEvent extends IndexedEvent {
   blockHash: string;
   blockNumber: BlockNumber;
   key: string;
-  record: EventRecord;
 }
 
 type Events = KeyedEvent[];
@@ -37,7 +41,9 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
       let prevEventHash: string | null = null;
 
       api.query.system.events((records): void => {
-        const newEvents = records.filter(({ event }) => event.section !== 'system');
+        const newEvents: IndexedEvent[] = records
+          .map((record, index) => ({ index, record }))
+          .filter(({ record: { event: { section } } }) => section !== 'system');
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
         if (newEventHash !== prevEventHash && newEvents.length) {
@@ -52,9 +58,10 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
               prevBlockHash = blockHash;
 
               setState((events) => [
-                ...newEvents.map((record, index): KeyedEvent => ({
+                ...newEvents.map(({ index, record }): KeyedEvent => ({
                   blockHash,
                   blockNumber,
+                  index,
                   key: `${blockNumber}-${blockHash}-${index}`,
                   record
                 })),

@@ -77,9 +77,8 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
         className='top'
         colSpan={2}
       >
-        {thisEvents.map(({ blockNumber, key, record }) =>
+        {thisEvents.map(({ key, record }) =>
           <Event
-            blockNumber={blockNumber}
             className='explorer--BlockByHash-event'
             key={key}
             value={record}

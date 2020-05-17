@@ -5,7 +5,9 @@
 import { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 
 export interface KeyedEvent {
+  blockHash?: string;
   blockNumber?: BlockNumber;
+  index?: number;
   key: string;
   record: EventRecord;
 }
