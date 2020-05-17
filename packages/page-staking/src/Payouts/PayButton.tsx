@@ -52,7 +52,7 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
     api.tx.utility && payout && setExtrinsic(
       () => createExtrinsic(api, payout)
     );
-  }, [api, payout]);
+  }, [api, isDisabled, payout]);
 
   const isPayoutEmpty = !payout || (Array.isArray(payout) && payout.length === 0);
 
@@ -122,7 +122,11 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
       <Button
         icon='credit card outline'
         isDisabled={isDisabled || isPayoutEmpty}
-        label={(isAll || Array.isArray(payout)) ? t('Payout all') : t('Payout')}
+        label={
+          (isAll || Array.isArray(payout))
+            ? t('Payout all')
+            : t('Payout')
+        }
         onClick={togglePayout}
       />
     </>
