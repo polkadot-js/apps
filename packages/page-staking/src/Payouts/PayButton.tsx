@@ -18,7 +18,7 @@ interface Props {
   payout?: PayoutValidator | PayoutValidator[];
 }
 
-function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> {
+function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> | null {
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
       return createExtrinsic(api, payout[0]);
@@ -49,7 +49,7 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   useEffect((): void => {
-    payout && setExtrinsic(
+    api.tx.utility && payout && setExtrinsic(
       () => createExtrinsic(api, payout)
     );
   }, [api, payout]);

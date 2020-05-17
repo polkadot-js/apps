@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Button, Table } from '@polkadot/react-components';
 import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { isFunction } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
@@ -95,6 +96,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
   const stakerPayoutsAfter = useStakerPayouts();
   const { allRewards } = useOwnEraRewards();
   const { t } = useTranslation();
+  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
   useEffect((): void => {
     if (allRewards) {
@@ -143,7 +145,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
         <Button.Group>
           <PayButton
             isAll
-            isDisabled={isInElection}
+            isDisabled={isDisabled}
             payout={validators}
           />
         </Button.Group>
@@ -158,7 +160,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       >
         {stashes?.map((payout): React.ReactNode => (
           <Stash
-            isDisabled={isInElection}
+            isDisabled={isDisabled}
             key={payout.stashId}
             payout={payout}
             stakerPayoutsAfter={stakerPayoutsAfter}
@@ -172,7 +174,7 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
         >
           {validators.map((payout): React.ReactNode => (
             <Validator
-              isDisabled={isInElection}
+              isDisabled={isDisabled}
               key={payout.validatorId}
               payout={payout}
             />
