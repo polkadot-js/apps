@@ -11,7 +11,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
-import { useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
 
@@ -92,6 +92,7 @@ function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[
 
 function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
@@ -208,6 +209,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         )}
         <Button
           icon='add'
+          isDisabled={!api.tx.utility}
           label={t('Multisig')}
           onClick={toggleMultisig}
         />

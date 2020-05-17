@@ -6,7 +6,8 @@ import { BondInfo, SessionInfo, ValidateInfo } from './partials/types';
 
 import React, { useCallback, useState } from 'react';
 import { Button, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import BondPartial from './partials/Bond';
@@ -21,12 +22,13 @@ const NUM_STEPS = 2;
 
 function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
   const [{ bondOwnTx, bondTx, controllerId, controllerTx, stashId }, setBondInfo] = useState<BondInfo>({});
   const [{ sessionTx }, setSessionInfo] = useState<SessionInfo>({});
   const [{ validateTx }, setValidateInfo] = useState<ValidateInfo>({});
-
   const [step, setStep] = useState(1);
+  const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
   const _nextStep = useCallback(
     () => setStep((step) => step + 1),
@@ -53,7 +55,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
     <>
       <Button
         icon='add'
-        isDisabled={isInElection}
+        isDisabled={isDisabled}
         key='new-validator'
         label={t('Validator')}
         onClick={_toggle}

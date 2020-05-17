@@ -63,7 +63,7 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
       const available = rewards.filter(({ era }) => era.lt(stakerPayoutsAfter));
 
       setExtrinsic(
-        available.length
+        api.tx.utility && available.length
           ? createPrevPayout(api, available)
           : null
       );
