@@ -31,13 +31,16 @@ function Events ({ emptyLabel, eventClassName, events, label }: Props): React.Re
     >
       {events && events
         .filter(({ record: { event: { method, section } } }) => !!method && !!section)
-        .map(({ key, record }): React.ReactNode => (
+        .map(({ blockNumber, key, record }): React.ReactNode => (
           <tr
             className={eventClassName}
             key={key}
           >
             <td className='overflow'>
-              <Event value={record} />
+              <Event
+                blockNumber={blockNumber}
+                value={record}
+              />
             </td>
           </tr>
         ))
