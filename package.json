@@ -26,7 +26,7 @@
     "build:devElectronRenderer": "cd packages/electron-app && webpack-dev-server --color --progress --config webpack.renderer.config.js",
     "build:electronRenderer": "cd packages/electron-app && NODE_ENV=production webpack --config webpack.renderer.config.js",
     "build:electronMain": "cd packages/electron-app && webpack --config webpack.main.config.js",
-    "build:electron":"yarn clean:electron && yarn build:electronMain && yarn build:electronRenderer",
+    "build:electron": "yarn clean:electron && yarn build:electronMain && yarn build:electronRenderer",
     "docs": "echo \"skipping docs\"",
     "clean": "polkadot-dev-clean-build",
     "clean:electron": "cd packages/electron-app polkadot-dev-clean-build",
