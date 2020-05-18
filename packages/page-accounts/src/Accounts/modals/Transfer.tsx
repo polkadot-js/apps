@@ -81,7 +81,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
           </Modal.Columns>
           <Modal.Columns>
             <Modal.Column>
-              {/* <InputBalance
+              <InputBalance
                 autoFocus
                 help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
                 isError={!hasAvailable}
@@ -90,7 +90,7 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
                 maxValue={maxBalance}
                 onChange={setAmount}
                 withMax
-              /> */}
+              />
               <InputBalance
                 defaultValue={api.consts.balances.existentialDeposit}
                 help={t('The minimum amount that an account should have to be deemed active')}
