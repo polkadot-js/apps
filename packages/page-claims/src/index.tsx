@@ -94,7 +94,7 @@ function ClaimsApp (): React.ReactElement {
     setEthereumAddress(null);
     setPreclaimEthereumAddress(PRECLAIMS_LOADING);
 
-    if (!api.query.claims?.preclaims) {
+    if (!api.query.claims || !api.query.claims.preclaims) {
       return setPreclaimEthereumAddress(null);
     }
 

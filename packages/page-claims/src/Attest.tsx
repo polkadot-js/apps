@@ -5,12 +5,12 @@
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
 import { useTranslation } from './translate';
-import { useApi } from '@polkadot/react-hooks';
 import { getStatement } from './util';
 
 interface Props {
