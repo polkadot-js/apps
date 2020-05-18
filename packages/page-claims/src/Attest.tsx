@@ -11,6 +11,7 @@ import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/inter
 
 import { useTranslation } from './translate';
 import { useApi } from '@polkadot/react-hooks';
+import { getStatement } from './util';
 
 interface Props {
   accountId: string;
@@ -47,7 +48,7 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
     ethereumAddress && _fetchClaim(ethereumAddress);
   }, [_fetchClaim, ethereumAddress]);
 
-  if (isBusy || !claimAddress) {
+  if (isBusy || !claimAddress || !statementKind) {
     return null;
   }
 
@@ -65,7 +66,7 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
             icon='send'
             isPrimary
             label={t('Attest')}
-            params={[statementKind]} // Replace with actual
+            params={[getStatement(statementKind)]}
             tx='claims.attest'
           />
         </Button.Group>

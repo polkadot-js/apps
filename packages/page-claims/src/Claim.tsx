@@ -12,7 +12,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from './translate';
-import { addrToChecksum } from './util';
+import { addrToChecksum, getStatement } from './util';
 
 interface Props {
   accountId: string;
@@ -26,12 +26,16 @@ interface Props {
 
 // Depending on isOldClaimProcess, construct the correct tx.
 function constructTx (accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): {
-  params: any[];
-  tx: string;
+  params?: any[];
+  tx?: string;
 } {
+  if (!ethereumSignature || !kind) {
+    return {};
+  }
+
   return isOldClaimProcess
     ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
-    : { params: [accountId, ethereumSignature, kind], tx: 'claims.claimAttest' };
+    : { params: [accountId, ethereumSignature, getStatement(kind)], tx: 'claims.claimAttest' };
 }
 
 function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, statementKind }: Props): React.ReactElement<Props> | null {

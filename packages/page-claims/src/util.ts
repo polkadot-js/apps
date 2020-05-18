@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EthereumAddress, EcdsaSignature } from '@polkadot/types/interfaces';
+import { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
 
 import secp256k1 from 'secp256k1/elliptic';
 import { registry } from '@polkadot/react-api';
@@ -107,4 +107,10 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
       signature: null
     };
   }
+}
+
+// From a StatementKind, get the hardcoded actual statement to sign
+export function getStatement (kind: StatementKind): string {
+  // FIXME Wait for actual legal statements
+  return kind.toString();
 }
