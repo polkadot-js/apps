@@ -19485,6 +19485,7 @@ fsevents@^2.1.2:
     webpack: ^4.43.0
     webpack-cli: ^3.3.11
     webpack-dev-server: ^3.11.0
+    webpack-merge: ^4.2.2
     webpack-plugin-serve: ^1.0.0
   languageName: unknown
   linkType: soft
@@ -23175,7 +23176,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"webpack-merge@npm:^4.1.2":
+"webpack-merge@npm:^4.1.2, webpack-merge@npm:^4.2.2":
   version: 4.2.2
   resolution: "webpack-merge@npm:4.2.2"
   dependencies:
