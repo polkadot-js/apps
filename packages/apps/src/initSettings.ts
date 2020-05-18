@@ -8,7 +8,7 @@ import { createEndpoints } from '@polkadot/apps-config/settings';
 import { registry } from '@polkadot/react-api';
 import settings from '@polkadot/ui-settings';
 
-export default function (): void {
+export default function initSettings (): void {
 // we split here so that both these forms are allowed
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io

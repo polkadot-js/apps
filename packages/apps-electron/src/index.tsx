@@ -17,9 +17,7 @@ import { BlockAuthors, Events } from '@polkadot/react-query';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Apps from '@polkadot/apps/Apps';
-import initSettings from '@polkadot/apps/initSettings';
 
-initSettings();
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 const theme = { theme: settings.uiTheme };

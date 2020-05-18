@@ -22,6 +22,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import initSettings from '@polkadot/apps/initSettings';
 
 interface Props {
   children: React.ReactNode;
@@ -51,6 +52,7 @@ interface ChainData {
 //   });
 // });
 
+initSettings();
 const DEFAULT_DECIMALS = registry.createType('u32', 12);
 const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
