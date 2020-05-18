@@ -1,12 +1,30 @@
 {
+  "name": "polkadot",
   "repository": "https://github.com/polkadot-js/apps",
+  "main": "packages/apps-electron/build/electron.js",
+  "description": "TODO",
   "author": "Jaco Greeff <jacogr@gmail.com>",
+  "version": "0.42.0-beta.109",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
   "workspaces": [
     "packages/*"
   ],
+  "build": {
+    "files": [
+      "./packages/apps-electron/build"
+    ],
+    "electronCompile": false,
+    "appId": "com.polkadot.polkadot-app",
+    "mac": {
+      "category": "public.app-category.finance"
+    },
+    "directories": {
+      "buildResources": "./packages/apps-electron/build",
+      "output": "./packages/apps-electron/release"
+    }
+  },
   "resolutions": {
     "@polkadot/api": "^1.15.0-beta.3",
     "@polkadot/api-contract": "^1.15.0-beta.3",
@@ -26,18 +44,24 @@
     "build:devElectronRenderer": "cd packages/apps-electron && webpack-dev-server --color --progress --config webpack.renderer.config.js",
     "build:electronRenderer": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.renderer.config.js",
     "build:electronMain": "cd packages/apps-electron && webpack --config webpack.main.config.js",
-    "build:electron": "yarn clean:electron && yarn build:electronMain && yarn build:electronRenderer",
+    "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
+    "prepackElectron": "yarn postinstall:electron && yarn clean:electronRelease",
+    "packElectron:test": "yarn prepackElectron && electron-builder --dir",
+    "packElectron:mac": "yarn prepackElectron && electron-builder build --mac",
     "docs": "echo \"skipping docs\"",
     "clean": "polkadot-dev-clean-build",
-    "clean:electron": "cd packages/apps-electron polkadot-dev-clean-build",
+    "clean:electronBuild": "cd packages/apps-electron polkadot-dev-clean-build",
+    "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
     "clean:i18n": "rm -rf packages/apps/public/locales/en && mkdir -p packages/apps/public/locales/en",
     "lint": "polkadot-dev-run-lint",
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "postinstall": "polkadot-dev-yarn-only",
+    "postinstall:electron": "electron-builder install-app-deps",
     "test": "polkadot-dev-run-test packages/page-claims/src",
     "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
-    "start:devElectron": "yarn clean:electron && concurrently 'yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
+    "start:electron": "yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js",
+    "start:devElectron": "yarn clean:electronBuild && concurrently 'yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -59,7 +83,8 @@
     "@types/styled-components": "^5.1.0",
     "@types/styled-theming": "^2.2.2",
     "concurrently": "^5.2.0",
-    "electron": "^8.2.5",
+    "electron": "8.2.3",
+    "electron-builder": "^22.6.1",
     "i18next-scanner": "^2.11.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

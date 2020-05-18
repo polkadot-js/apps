@@ -17,7 +17,6 @@
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
-    "electron": "^8.2.5",
     "empty": "^0.10.1",
     "file-loader": "^6.0.0",
     "html-loader": "^1.1.0",
