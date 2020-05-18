@@ -10,9 +10,6 @@ const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const findPackages = require('../../scripts/findPackages');
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -159,11 +156,6 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
-      new HtmlWebpackPlugin({
-        PAGE_TITLE: 'Polkadot/Substrate Portal',
-        inject: true,
-        template: path.join(context, `${hasPublic ? 'public/' : ''}${name}.html`)
-      }),
       new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash:8].css'
@@ -180,11 +172,4 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   };
 }
 
-module.exports = createWebpack({
-  alias: findPackages().reduce((alias, { dir, name }) => {
-    alias[name] = path.resolve(__dirname, `../${dir}/src`);
-
-    return alias;
-  }, {}),
-  context: __dirname
-});
+module.exports = createWebpack;

@@ -8,38 +8,36 @@ import { createEndpoints } from '@polkadot/apps-config/settings';
 import { registry } from '@polkadot/react-api';
 import settings from '@polkadot/ui-settings';
 
-export default function initSettings (): void {
 // we split here so that both these forms are allowed
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
-  const urlOptions = queryString.parse(location.href.split('?')[1]);
-  const stored = store.get('settings') || {};
+const urlOptions = queryString.parse(location.href.split('?')[1]);
+const stored = store.get('settings') || {};
 
-  if (Array.isArray(urlOptions.rpc)) {
-    throw new Error('Invalid WS endpoint specified');
+if (Array.isArray(urlOptions.rpc)) {
+  throw new Error('Invalid WS endpoint specified');
+}
+
+const fallbackUrl = createEndpoints(() => '').find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
+const apiUrl = urlOptions.rpc // we have a supplied value
+  ? urlOptions.rpc.split('#')[0] // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
+  : [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl) // overridden, or stored
+    ? settings.apiUrl // keep as-is
+    : fallbackUrl.value as string; // grab the fallback
+
+// set the default as retrieved here
+settings.set({ apiUrl });
+
+console.log('WS endpoint=', apiUrl);
+
+try {
+  const types = store.get('types') || {};
+  const names = Object.keys(types);
+
+  if (names.length) {
+    registry.register(types);
+    console.log('Type registration:', names.join(', '));
   }
-
-  const fallbackUrl = createEndpoints(() => '').find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
-  const apiUrl = urlOptions.rpc // we have a supplied value
-    ? urlOptions.rpc.split('#')[0] // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
-    : [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl) // overridden, or stored
-      ? settings.apiUrl // keep as-is
-      : fallbackUrl.value as string; // grab the fallback
-
-  // set the default as retrieved here
-  settings.set({ apiUrl });
-
-  console.log('WS endpoint=', apiUrl);
-
-  try {
-    const types = store.get('types') || {};
-    const names = Object.keys(types);
-
-    if (names.length) {
-      registry.register(types);
-      console.log('Type registration:', names.join(', '));
-    }
-  } catch (error) {
-    console.error('Type registration failed', error);
-  }
+} catch (error) {
+  console.error('Type registration failed', error);
 }

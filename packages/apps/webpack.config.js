@@ -4,19 +4,23 @@
 
 /* eslint-disable @typescript-eslint/camelcase */
 
+const fs = require('fs');
 const path = require('path');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base.config');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
+const findPackages = require('../../scripts/findPackages');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const devtool = false;
 const ENV = process.env.NODE_ENV || 'development';
 const isProd = ENV === 'production';
+const context = __dirname;
+const hasPublic = fs.existsSync(path.join(context, 'public'));
 
-const config = { devtool };
-
-if (!isProd) {
-  config.plugins = [
+const plugins = isProd
+  ? []
+  : [
     new WebpackPluginServe({
       hmr: false, // switch off, Chrome WASM memory leak
       liveReload: false, // explict off, overrides hmr
@@ -25,6 +29,24 @@ if (!isProd) {
       static: path.join(process.cwd(), '/build')
     })
   ];
-}
 
-module.exports = merge(baseConfig, config);
+module.exports = merge(
+  baseConfig({
+    alias: findPackages().reduce((alias, { dir, name }) => {
+      alias[name] = path.resolve(context, `../${dir}/src`);
+
+      return alias;
+    }, {}),
+    context
+  }),
+  {
+    devtool,
+    plugins: plugins.concat([
+      new HtmlWebpackPlugin({
+        PAGE_TITLE: 'Polkadot/Substrate Portal',
+        inject: true,
+        template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
+      })
+    ])
+  }
+);

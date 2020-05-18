@@ -8,21 +8,39 @@ const merge = require('webpack-merge');
 const baseConfig = require('@polkadot/apps/webpack.base.config');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const findPackages = require('../../scripts/findPackages');
 
 const ENV = process.env.NODE_ENV || 'development';
 const isProd = ENV === 'production';
+const context = __dirname;
 
-const config = {
-  devServer: {
-    compress: true,
-    contentBase: path.join(__dirname, 'build'),
-    hot: true,
-    liveReload: false,
-    port: 9000
-  },
-  devtool: isProd ? 'none' : 'source-map',
-  plugins: [new CopyWebpackPlugin([{ from: '../apps/public' }])],
-  target: 'electron-renderer'
-};
+module.exports = merge(
+  baseConfig({
+    alias: findPackages().reduce((alias, { dir, name }) => {
+      alias[name] = path.resolve(context, `../${dir}/src`);
 
-module.exports = merge(baseConfig, config);
+      return alias;
+    }, {}),
+    context
+  }),
+  {
+    devServer: {
+      compress: true,
+      contentBase: path.join(__dirname, 'build'),
+      hot: true,
+      liveReload: false,
+      port: 9000
+    },
+    devtool: isProd ? 'none' : 'source-map',
+    plugins: [
+      new CopyWebpackPlugin([{ from: '../apps/public' }]),
+      new HtmlWebpackPlugin({
+        PAGE_TITLE: 'Polkadot/Substrate Portal',
+        inject: true,
+        template: path.join(context, '../apps/public/index.html')
+      })
+    ],
+    target: 'electron-renderer'
+  }
+);
