@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
@@ -27,6 +27,8 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
+  const statement = useMemo(() => statementKind && getStatement(statementKind), [statementKind]);
+
   const _fetchClaim = useCallback(
     (address: EthereumAddress): void => {
       setIsBusy(true);
@@ -48,7 +50,7 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
     ethereumAddress && _fetchClaim(ethereumAddress);
   }, [_fetchClaim, ethereumAddress]);
 
-  if (isBusy || !claimAddress || !statementKind) {
+  if (isBusy || !claimAddress) {
     return null;
   }
 
@@ -64,9 +66,10 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
           <TxButton
             accountId={accountId}
             icon='send'
+            isDisabled={!statement}
             isPrimary
             label={t('Attest')}
-            params={[getStatement(statementKind)]}
+            params={[statement]}
             tx='claims.attest'
           />
         </Button.Group>

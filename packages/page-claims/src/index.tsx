@@ -105,7 +105,7 @@ function ClaimsApp (): React.ReactElement {
         setPreclaimEthereumAddress(preclaim.unwrapOr(null));
       })
       .catch((): void => setPreclaimEthereumAddress(null));
-  }, [accountId, api.query.claims]);
+  }, [accountId, api.query.claims, api.query.claims.preclaims]);
 
   // Old claim process used `api.tx.claims.claim`, and didn't have attest
   const isOldClaimProcess = !api.tx.claims.claimAttest;

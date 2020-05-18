@@ -24,11 +24,13 @@ interface Props {
   statementKind?: StatementKind;
 }
 
-// Depending on isOldClaimProcess, construct the correct tx.
-function constructTx (accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): {
+interface ConstructTx {
   params?: any[];
   tx?: string;
-} {
+}
+
+// Depending on isOldClaimProcess, construct the correct tx.
+function constructTx (accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
   if (!ethereumSignature || !kind) {
     return {};
   }
