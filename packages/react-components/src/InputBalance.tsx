@@ -34,16 +34,31 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 const TEN = new BN(10);
+const THOUSAND = new BN(1000);
 
 function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const [defaultValue, setDefaultValue] = useState<string | undefined>();
 
   useEffect((): void => {
-    inDefault && setDefaultValue(
-      isBn(inDefault)
-        ? inDefault.div(TEN.pow(new BN(formatBalance.getDefaults().decimals))).toString()
-        : formatBalance(inDefault, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '')
-    );
+    inDefault && setDefaultValue((): string => {
+      if (isBn(inDefault)) {
+        let fmt = (inDefault.mul(THOUSAND).div(TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
+
+        while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
+          const isLast = fmt.endsWith('.');
+
+          fmt = fmt.substr(0, fmt.length - 1);
+
+          if (isLast) {
+            break;
+          }
+        }
+
+        return fmt;
+      }
+
+      return formatBalance(inDefault, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '')
+    });
   }, [inDefault, isDisabled]);
 
   return (
