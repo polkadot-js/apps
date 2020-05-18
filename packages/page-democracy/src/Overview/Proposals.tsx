@@ -23,8 +23,9 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const header = useMemo(() => [
     [t('proposals'), 'start', 2],
     [t('proposer'), 'address'],
-    [t('locked')],
-    [undefined, undefined, 3]
+    [t('locked'), 'ui--media-1200'],
+    [undefined, undefined, 2],
+    [undefined, 'ui--media-1000']
   ], [t]);
 
   return (

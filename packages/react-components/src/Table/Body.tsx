@@ -30,6 +30,8 @@ function Body ({ children, className, empty, emptySpinner }: Props): React.React
 }
 
 export default React.memo(styled(Body)`
+  background: white;
+
   td {
     border-top: 1px solid #e6e6e6;
     padding: 0.75rem 1rem;
@@ -86,6 +88,10 @@ export default React.memo(styled(Body)`
       > * {
         vertical-align: middle;
       }
+
+      .ui.button {
+        margin-right: 0;
+      }
     }
 
     &.combined {
@@ -136,8 +142,6 @@ export default React.memo(styled(Body)`
   }
 
   tr {
-    background: white;
-
     &.isHighlight td {
       background: #ffffed;
     }
@@ -148,28 +152,36 @@ export default React.memo(styled(Body)`
 
     &:first-child {
       td:first-child {
-        border-radius: 0.25rem 0 0 0;
+        border-top-left-radius: 0.25rem;
       }
 
       td:last-child {
-        border-radius: 0 0.25rem 0 0;
+        border-top-right-radius: 0.25rem;
       }
     }
 
     &:last-child {
       td:first-child {
-        border-radius: 0 0 0 0.25rem;
+        border-bottom-left-radius: 0.25rem;
       }
 
       td:last-child {
-        border-radius: 0 0 0.25rem 0;
+        border-bottom-right-radius: 0.25rem;
       }
     }
 
     &:not(:hover) {
       .ui.button:not(.isIcon):not(.disabled) {
-        background: #eee !important;
         color: #555 !important;
+
+        &:not(.basic) {
+          background: #eee !important;
+        }
+
+        &.basic {
+          background: transparent !important;
+          box-shadow: none !important;
+        }
       }
 
       .ui.toggle.checkbox input:checked~.box:before,

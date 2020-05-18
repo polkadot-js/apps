@@ -58,30 +58,54 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
         onClick={toggleOpen}
       />
       {isOpen && (
-        <Modal header={t('Propose a council motion')}>
+        <Modal
+          header={t('Propose a council motion')}
+          size='large'
+        >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t('Select the account you wish to make the proposal with.')}
-              label={t('propose from account')}
-              onChange={setAcountId}
-              type='account'
-              withLabel
-            />
-            <InputNumber
-              className='medium'
-              help={t('The minimum number of council votes required to approve this motion')}
-              isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
-              label={t('threshold')}
-              onChange={_setThreshold}
-              placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
-              value={threshold || new BN(0)}
-            />
-            <Extrinsic
-              defaultValue={apiDefaultTxSudo}
-              label={t('proposal')}
-              onChange={_setMethod}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  filter={members}
+                  help={t('Select the account you wish to make the proposal with.')}
+                  label={t('propose from account')}
+                  onChange={setAcountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The council account for the proposal. The selection is filtered by the current members.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputNumber
+                  className='medium'
+                  help={t('The minimum number of council votes required to approve this motion')}
+                  isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
+                  label={t('threshold')}
+                  onChange={_setThreshold}
+                  placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
+                  value={threshold || new BN(0)}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The desired threshold. Here set to a default of 50%+1, as applicable for general proposals.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Extrinsic
+                  defaultValue={apiDefaultTxSudo}
+                  label={t('proposal')}
+                  onChange={_setMethod}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t('The actual proposal to make, based on the selected call and parameters thereof.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton

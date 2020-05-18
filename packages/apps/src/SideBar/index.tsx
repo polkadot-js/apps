@@ -161,7 +161,6 @@ const sideBorderWidth = '0.65rem';
 export default React.memo(styled(SideBar)`
   display: flex;
   position: relative;
-  transition: width 0.3s linear;
   z-index: 300;
 
   &.collapsed {

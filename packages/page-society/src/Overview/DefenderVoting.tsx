@@ -35,7 +35,7 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
               onChange={setAccountId}
             />
             <Dropdown
-              help={t('Approve or reject this defneder.')}
+              help={t('Approve or reject this defender.')}
               label={t('vote for defender')}
               onChange={setVote}
               options={voteOpts}

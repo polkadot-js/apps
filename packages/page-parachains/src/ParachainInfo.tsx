@@ -26,12 +26,8 @@ function ParachainInfo ({ children, className, info, isBig }: Props): React.Reac
       className={className}
       icon={
         info?.icon
-          ? (
-            <img src={info.icon} />
-          )
-          : (
-            <i className='icon chain' />
-          )
+          ? <img src={info.icon} />
+          : <i className='icon chain' />
       }
       isBig={isBig}
       subtitle={parachainOwner(t, info)}

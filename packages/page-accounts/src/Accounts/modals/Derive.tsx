@@ -87,7 +87,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
   }, [source]);
 
   useEffect((): void => {
-    setDerive((): DeriveAddress => {
+    !isLocked && setDerive((): DeriveAddress => {
       let address: string | null = null;
       const deriveError = deriveValidate(debouncedSuri, source.type);
 
@@ -99,7 +99,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
 
       return { address, deriveError };
     });
-  }, [debouncedSuri, source]);
+  }, [debouncedSuri, isLocked, source]);
 
   const _onChangeName = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),

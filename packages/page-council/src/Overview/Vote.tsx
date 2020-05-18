@@ -103,7 +103,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               </Modal.Column>
               <Modal.Column>
                 <p>{t('The votes for the members, runner-ups and candidates. These should be ordered based on your priority.')}</p>
-                <p>{t('In calculating the election outcome, this prioitized vote ordering will be used to determine the final score for the candidates.')}</p>
+                <p>{t('In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>

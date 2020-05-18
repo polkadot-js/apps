@@ -90,7 +90,6 @@ class Code extends React.PureComponent<Props, State> {
           icon='trash'
           isNegative
           onClick={this.toggleForget}
-          size='small'
           tooltip={t('Forget this code hash')}
         />
         <Button
@@ -98,7 +97,6 @@ class Code extends React.PureComponent<Props, State> {
           isPrimary
           label={t('deploy')}
           onClick={showDeploy(codeHash)}
-          size='small'
           tooltip={t('Deploy this code hash as a smart contract')}
         />
       </>

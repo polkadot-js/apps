@@ -79,7 +79,6 @@ function Contract (props: Props): React.ReactElement<Props> | null {
               icon='trash'
               isNegative
               onClick={_toggleForget}
-              size='small'
               tooltip={t('Forget this contract')}
             />
             <Button
@@ -87,7 +86,6 @@ function Contract (props: Props): React.ReactElement<Props> | null {
               isPrimary
               label={t('execute')}
               onClick={onCall()}
-              size='small'
               tooltip={t('Call a method on this contract')}
             />
           </div>

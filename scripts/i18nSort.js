@@ -7,6 +7,8 @@ const path = require('path');
 
 const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
 
+const SKIP_NS = ['app-123code', 'app-dashboard', 'app-i18n', 'translation'].map((f) => `${f}.json`);
+
 function getEntries (langRoot) {
   return fs
     .readdirSync(langRoot)
@@ -22,6 +24,7 @@ function getEntries (langRoot) {
 function sortLanguage (lang) {
   const langRoot = path.join(i18nRoot, lang);
   const entries = getEntries(langRoot);
+  const hasKeys = {};
 
   entries.forEach((entry) => {
     const filename = path.join(langRoot, entry);
@@ -32,13 +35,19 @@ function sortLanguage (lang) {
       return result;
     }, {});
 
+    hasKeys[entry] = Object.keys(sorted).length !== 0;
+
     fs.writeFileSync(filename, JSON.stringify(sorted, null, 2));
   });
 
   if (lang === 'en') {
+    const filtered = entries
+      .filter((entry) => !SKIP_NS.includes(entry))
+      .filter((entry) => hasKeys[entry]);
+
     fs.writeFileSync(
       path.join(langRoot, 'index.json'),
-      JSON.stringify(entries.filter((entry) => !['translation.json'].includes(entry)), null, 2)
+      JSON.stringify(filtered, null, 2)
     );
   }
 }

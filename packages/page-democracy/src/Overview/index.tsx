@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveReferendumExt } from '@polkadot/api-derive/types';
+
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import DispatchQueue from './DispatchQueue';
@@ -20,14 +22,16 @@ interface Props {
   className?: string;
 }
 
-function Overview ({ className }: Props): React.ReactElement {
+function Overview ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isPreimageOpen, togglePreimage] = useToggle();
   const [isProposeOpen, togglePropose] = useToggle();
+  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
 
   return (
     <div className={className}>
-      <Summary />
+      <Summary referendumCount={referendums?.length} />
       <Button.Group>
         <Button
           icon='add'
@@ -46,7 +50,7 @@ function Overview ({ className }: Props): React.ReactElement {
       {isProposeOpen && (
         <Propose onClose={togglePropose} />
       )}
-      <Referendums />
+      <Referendums referendums={referendums} />
       <Proposals />
       <DispatchQueue />
       <Externals />

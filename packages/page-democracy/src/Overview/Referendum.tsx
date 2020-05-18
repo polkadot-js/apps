@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import BN from 'bn.js';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -24,15 +25,40 @@ interface Props {
   value: DeriveReferendumExt;
 }
 
+interface Percentages {
+  aye: string;
+  nay: string;
+  turnout: string;
+}
+
 function Referendum ({ className, value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const [percentages, setPercentages] = useState<Percentages | null>(null);
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
+
+  useEffect((): void => {
+    if (totalIssuance) {
+      const aye = allAye.reduce((total: BN, { balance }) => total.add(balance), new BN(0));
+      const nay = allNay.reduce((total: BN, { balance }) => total.add(balance), new BN(0));
+
+      setPercentages({
+        aye: votedTotal.isZero()
+          ? ''
+          : `${(aye.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+        nay: votedTotal.isZero()
+          ? ''
+          : `${(nay.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+        turnout: `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
+      });
+    }
+  }, [allAye, allNay, totalIssuance, votedTotal]);
 
   if (!bestNumber || status.end.sub(bestNumber).lten(0)) {
     return null;
@@ -48,13 +74,24 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
         imageHash={imageHash}
         proposal={image?.proposal}
       />
-      <td className='number together'>
+      <td className='number together ui--media-1200'>
         <BlockToTime blocks={remainBlock} />
         {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
-      <td className='number together'>
+      <td className='number together ui--media-1400'>
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
         #{formatNumber(enactBlock)}
+      </td>
+      <td className='number together ui--media-1400'>
+        {percentages && (
+          <>
+            {/* <FormatBalance value={votedTotal} /> */}
+            <div>{percentages.turnout}</div>
+            {percentages.aye && (
+              <div>{t('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
+            )}
+          </>
+        )}
       </td>
       <ReferendumVotes
         change={changeAye}
@@ -97,7 +134,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           )}
         </Button.Group>
       </td>
-      <td className='mini'>
+      <td className='mini ui--media-1000'>
         <LinkExternal
           data={index}
           type='referendum'

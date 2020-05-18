@@ -105,7 +105,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
         </Modal>
       )}
       <Button
-        icon='sort'
+        icon='step forward'
         isDisabled={isDisabled}
         label={t('To council')}
         onClick={toggleOpen}

@@ -4,7 +4,7 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ClassOf } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { Dropdown } from '@polkadot/react-components';
@@ -26,17 +26,16 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
   return textMap;
 }, {} as unknown as TextMap);
 
-function onChange ({ onChange }: Props): (_: number) => void {
-  return function (value: number): void {
-    onChange && onChange({
-      isValid: true,
-      value
-    });
-  };
-}
+function VoteThresholdParam ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+  const _onChange = useCallback(
+    (value: number) =>
+      onChange && onChange({
+        isValid: true,
+        value
+      }),
+    [onChange]
+  );
 
-function VoteThresholdParam (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
   const defaultValue = value instanceof ClassOf(registry, 'VoteThreshold')
     ? value.toNumber()
     : bnToBn(value as number).toNumber();
@@ -52,7 +51,7 @@ function VoteThresholdParam (props: Props): React.ReactElement<Props> {
         isDisabled={isDisabled}
         isError={isError}
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         options={options}
         withLabel={withLabel}
       />

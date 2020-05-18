@@ -31,7 +31,7 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
 
   const _onChangeStash = useCallback(
     (accountId?: string | null): void => {
-      const acc = ownNominators?.find(({ stashId }) => stashId === accountId);
+      const acc = ownNominators && ownNominators.find(({ stashId }) => stashId === accountId);
 
       setIds(
         acc

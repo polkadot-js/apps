@@ -24,7 +24,6 @@ function KeyPair ({ address, className, style }: Props): React.ReactElement<Prop
     >
       <IdentityIcon
         className='icon'
-        size={32}
         value={address}
       />
       <div className='name'>
@@ -57,7 +56,7 @@ export default React.memo(styled(KeyPair)`
 
   > .icon {
     position: absolute;
-    top: -9px;
+    top: -3px;
     left: 0;
   }
 

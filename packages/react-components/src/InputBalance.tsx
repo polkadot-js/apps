@@ -5,7 +5,7 @@
 import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { formatBalance, isBn } from '@polkadot/util';
@@ -34,13 +34,36 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 const TEN = new BN(10);
+const THOUSAND = new BN(1000);
+
+function reformat (value: string | BN, isDisabled?: boolean): string {
+  if (isBn(value)) {
+    let fmt = (value.mul(THOUSAND).div(TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
+
+    while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
+      const isLast = fmt.endsWith('.');
+
+      fmt = fmt.substr(0, fmt.length - 1);
+
+      if (isLast) {
+        break;
+      }
+    }
+
+    return fmt;
+  }
+
+  return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
+}
 
 function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
-  const defaultValue = inDefault
-    ? isBn(inDefault)
-      ? inDefault.div(TEN.pow(new BN(formatBalance.getDefaults().decimals))).toString()
-      : formatBalance(inDefault, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '')
-    : inDefault;
+  const [defaultValue, setDefaultValue] = useState<string | undefined>();
+
+  useEffect((): void => {
+    inDefault && setDefaultValue(
+      reformat(inDefault, isDisabled)
+    );
+  }, [inDefault, isDisabled]);
 
   return (
     <InputNumber

@@ -25,7 +25,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
   const pot = useMemo((): string | null => {
-    return info?.pot.gtn(0)
+    return info && info.pot.gtn(0)
       ? info.pot.toString()
       : null;
   }, [info]);

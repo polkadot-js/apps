@@ -41,9 +41,10 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
   const [isUnlockVisible, toggleUnlock] = useToggle();
 
   useEffect((): void => {
-    const isExternal = currentPair?.meta.isExternal || false;
-    const isHardware = currentPair?.meta.isHardware || false;
-    const isInjected = currentPair?.meta.isInjected || false;
+    const meta = (currentPair && currentPair.meta) || {};
+    const isExternal = meta.isExternal || false;
+    const isHardware = meta.isHardware || false;
+    const isInjected = meta.isInjected || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({
@@ -54,18 +55,16 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
     setIsLocked(
       isInjected
         ? false
-        : currentPair?.isLocked || false
+        : (currentPair && currentPair.isLocked) || false
     );
     setSignature('');
     setSigner({ isUsable, signer: null });
 
     // for injected, retrieve the signer
-    if (currentPair && isInjected) {
-      const { meta: { source } } = currentPair;
-
-      web3FromSource(source)
+    if (meta.source && isInjected) {
+      web3FromSource(meta.source)
         .catch((): null => null)
-        .then((injected): void => setSigner({
+        .then((injected) => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),
           signer: injected?.signer || null
         }));
@@ -88,7 +87,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
         return;
       }
 
-      if (signer?.signRaw) {
+      if (signer && isFunction(signer.signRaw)) {
         setSignature('');
 
         signer
@@ -99,7 +98,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
               : stringToHex(data),
             type: 'bytes'
           })
-          .then(({ signature }): void => setSignature(signature));
+          .then(({ signature }) => setSignature(signature));
       } else {
         setSignature(u8aToHex(
           currentPair.sign(

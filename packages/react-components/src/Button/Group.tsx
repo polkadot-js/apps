@@ -8,19 +8,23 @@ import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import styled from 'styled-components';
 
-import { classes } from '../util';
 import Divider from './Divider';
 
-function ButtonGroup ({ children, className, isBasic = false, isCentered = false, style }: GroupProps): React.ReactElement<GroupProps> {
+const DIVIDER_STYLE = { padding: '0em' };
+
+function ButtonGroup ({ children, className, isBasic, isCentered, style }: GroupProps): React.ReactElement<GroupProps> {
   return (
     <div
-      className={classes('ui--Button-Group', isCentered ? 'centered' : '', className)}
+      className={`ui--Button-Group ${isCentered && 'centered'} ${className}`}
       style={style}
     >
-      <SUIButton.Group basic={isBasic}>
+      <SUIButton.Group
+        basic={isBasic}
+        size='small'
+      >
         {isBasic
           ? null
-          : <Divider style={{ padding: '0em' }} />
+          : <Divider style={DIVIDER_STYLE} />
         }
         {children}
       </SUIButton.Group>

@@ -290,7 +290,12 @@ const ExportedComponent = withMulti(
           border: 1px solid #888;
           border-radius: 50%;
           left: -2.75rem;
-          top: -1.2rem;
+          top: -1.05rem;
+
+          svg {
+            height: 32px;
+            width: 32px;
+          }
         }
 
         .name {

@@ -172,6 +172,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               value={endowment}
             />
             <InputNumber
+              bitLength={128}
               defaultValue={DEFAULT_GAS_LIMIT}
               help={t('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
               isDisabled={isBusy}

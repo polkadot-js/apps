@@ -1,6 +1,1 @@
-{
-  "Generate {{lng}}/translation.json": "Generate {{lng}}/translation.json",
-  "the language to display translations for": "the language to display translations for",
-  "the module to display strings for": "the module to display strings for",
-  "{{done}}/{{total}}, {{progress}}% done": "{{done}}/{{total}}, {{progress}}% done"
-}
+{}

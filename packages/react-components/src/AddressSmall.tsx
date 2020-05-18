@@ -27,10 +27,7 @@ interface Props {
 function AddressSmall ({ children, className, defaultName, onClickName, overrideName, toggle, value, withIndex, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
-      <IdentityIcon
-        size={32}
-        value={value as Uint8Array}
-      />
+      <IdentityIcon value={value as Uint8Array} />
       <div className={classes('nameInfo', withSidebar && 'withSidebar')}>
         <AccountName
           className={(overrideName || !onClickName) ? '' : 'name--clickable'}

@@ -17,7 +17,7 @@ export default function useEraBlocks (era?: BN): BN | undefined {
   const [duration, setDuration] = useState<BN | undefined>();
 
   useEffect((): void => {
-    depth && era && progress?.sessionLength.gt(ONE) && setDuration(
+    depth && era && progress && progress.sessionLength.gt(ONE) && setDuration(
       progress.eraLength
         .mul(
           depth
