@@ -22,9 +22,10 @@ import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
 import Banner from './Banner';
-import {web3Enable, web3FromSource} from "@polkadot/extension-dapp";
-import {injectMetamaskPolkadotSnapProvider} from "@nodefactory/metamask-polkadot-adapter/";
-import {Keyring} from "@polkadot/keyring";
+import { web3Enable, web3FromSource } from '@polkadot/extension-dapp';
+import { injectMetamaskPolkadotSnapProvider } from '@nodefactory/metamask-polkadot-adapter/';
+import { Keyring } from '@polkadot/keyring';
+import settings from '@polkadot/ui-settings';
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -43,6 +44,23 @@ async function queryLedger (): Promise<void> {
     keyring.addHardware(address, 'ledger', { name: 'ledger' });
   } catch (error) {
     console.error(error);
+  }
+}
+
+async function queryMetamask (): Promise<void> {
+  await web3Enable('polkadot-js/apps');
+  const metamaskExtension = await web3FromSource('metamask-polkadot-snap');
+
+  if (metamaskExtension) {
+    (await metamaskExtension.accounts.get()).forEach((account) => {
+      const accountKeyring = new Keyring();
+      const keyringPair = accountKeyring.addFromAddress(account.address, {
+        isInjected: true, source: 'metamask-polkadot-snap', tags: ['metamask']
+      });
+
+      keyring.saveAccount(keyringPair);
+    }
+    );
   }
 }
 
@@ -156,23 +174,10 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     </div>
   ), [filterOn, t]);
 
-  const connectMetamaskAccount = () => {
-    injectMetamaskPolkadotSnapProvider("kusama");
-  
-    (async ()=> {
-      await web3Enable('polkadot-js/apps');
-      const metamaskExtension = await web3FromSource("metamask-polkadot-snap");
-      if(metamaskExtension) {
-        (await metamaskExtension.accounts.get()).forEach((account) => 
-          {
-            const accountKeyring = new Keyring();
-            const keyringPair = accountKeyring.addFromAddress(account.address)
-            keyring.saveAccount(keyringPair);
-          }
-        )
-      }
-    })();
-  }
+  const connectMetamaskAccount = (): void => {
+    injectMetamaskPolkadotSnapProvider(settings.apiUrl.includes('kusama') ? 'kusama' : 'westend');
+    queryMetamask();
+  };
 
   return (
     <div className={className}>
@@ -232,7 +237,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
           onClick={toggleMultisig}
         />
         <Button
-          icon="add"
+          icon='add'
           label={t('Connect Metamask')}
           onClick={connectMetamaskAccount}
         />
