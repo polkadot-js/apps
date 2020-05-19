@@ -70,6 +70,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
       }
       : null,
     {
+      alias: 'returns',
       name: 'targets',
       text: t('Targets')
     },

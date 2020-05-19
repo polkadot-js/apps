@@ -4,8 +4,8 @@
 
 import { BareProps } from './types';
 
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { classes } from './util';
@@ -19,6 +19,7 @@ const MyIcon = styled(Icon)`
 `;
 
 export interface TabItem {
+  alias?: string;
   hasParams?: boolean;
   isExact?: boolean;
   isRoot?: boolean;
@@ -62,7 +63,25 @@ function renderItem ({ basePath, isSequence, items }: Props): (tabItem: TabItem,
 }
 
 function Tabs (props: Props): React.ReactElement<Props> {
-  const { className, hidden = [], items, style } = props;
+  const location = useLocation();
+  const { className, basePath, hidden = [], items, style } = props;
+
+  // redirect on invalid tabs
+  useEffect((): void => {
+    if (location.pathname !== basePath) {
+      // Has the form /staking/query/<something>
+      const [,, section] = location.pathname.split('/');
+      const alias = items.find(({ alias }) => alias === section);
+
+      if (alias) {
+        window.location.hash = alias.isRoot
+          ? basePath
+          : `${basePath}/${alias.name}`;
+      } else if (hidden.includes(section) || !items.some(({ isRoot, name }) => !isRoot && name === section)) {
+        window.location.hash = basePath;
+      }
+    }
+  }, [basePath, hidden, items, location]);
 
   return (
     <div
