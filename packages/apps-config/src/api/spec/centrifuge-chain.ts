@@ -25,6 +25,13 @@ export default {
     leafHash: 'H256',
     sortedHashes: 'H256'
   },
+  // MultiAccount
+  MultiAccountData: {
+    threshold: 'u16',
+    signatories: 'Vec<AccountId>',
+    deposit: 'Balance',
+    depositor: 'AccountId'
+  },
   // Overwrites to Substrate types
   Address: 'AccountId',
   LookupSource: 'AccountId',
