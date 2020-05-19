@@ -15,13 +15,11 @@
     "files": [
       "./packages/apps-electron/build"
     ],
-    "electronCompile": false,
     "appId": "com.polkadot.polkadot-app",
     "mac": {
       "category": "public.app-category.finance"
     },
     "directories": {
-      "buildResources": "./packages/apps-electron/build",
       "output": "./packages/apps-electron/release"
     }
   },
@@ -43,11 +41,15 @@
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
     "build:devElectronRenderer": "cd packages/apps-electron && webpack-dev-server --color --progress --config webpack.renderer.config.js",
     "build:electronRenderer": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.renderer.config.js",
-    "build:electronMain": "cd packages/apps-electron && webpack --config webpack.main.config.js",
+    "build:devElectronMain": "cd packages/apps-electron && webpack --config webpack.main.config.js",
+    "build:electronMain": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.main.config.js",
     "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
-    "prepackElectron": "yarn postinstall:electron && yarn clean:electronRelease",
+    "prepackElectron": "yarn build:electron && yarn postinstall:electron && yarn clean:electronRelease",
     "packElectron:test": "yarn prepackElectron && electron-builder --dir",
     "packElectron:mac": "yarn prepackElectron && electron-builder build --mac",
+    "packElectron:win": "yarn prepackElectron && electron-builder build --win",
+    "packElectron:linux": "yarn prepackElectron && electron-builder build --linux",
+    "packElectron": "yarn prepackElectron && electron-builder build --linux --win --mac",
     "docs": "echo \"skipping docs\"",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron polkadot-dev-clean-build",
@@ -60,8 +62,7 @@
     "test": "polkadot-dev-run-test packages/page-claims/src",
     "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
-    "start:electron": "yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js",
-    "start:devElectron": "yarn clean:electronBuild && concurrently 'yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
+    "start:electron": "yarn clean:devElectronBuild && concurrently 'yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
