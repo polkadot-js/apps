@@ -233,6 +233,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
     <Modal
       className={className}
       header={t('Add an account via seed')}
+      size='large'
     >
       {address && isConfirmationOpen && (
         <CreateConfirmation
@@ -243,91 +244,133 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
         />
       )}
       <Modal.Content>
-        <AddressRow
-          defaultName={name}
-          noDefaultNameOpacity
-          value={isSeedValid ? address : ''}
-        >
-          <Input
-            autoFocus
-            className='full'
-            help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-            isError={!isNameValid}
-            label={t('name')}
-            onChange={_onChangeName}
-            onEnter={_onCommit}
-            placeholder={t('new account')}
-            value={name}
-          />
-          <Input
-            className='full'
-            help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-            isAction
-            isError={!isSeedValid}
-            isReadOnly={seedType === 'dev'}
-            label={
-              seedType === 'bip'
-                ? t('mnemonic seed')
-                : seedType === 'dev'
-                  ? t('development seed')
-                  : t('seed (hex or string)')
-            }
-            onChange={_onChangeSeed}
-            onEnter={_onCommit}
-            value={seed}
-          >
-            <Dropdown
-              defaultValue={seedType}
-              isButton
-              onChange={_selectSeedType}
-              options={seedOpt}
+        <Modal.Columns>
+          <Modal.Column>
+            <AddressRow
+              defaultName={name}
+              noDefaultNameOpacity
+              value={isSeedValid ? address : ''}
             />
-          </Input>
-          <Password
-            className='full'
-            help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-            isError={!isPassValid}
-            label={t('password')}
-            onChange={_onChangePass}
-            onEnter={_onCommit}
-            value={password}
-          />
-          <Password
-            className='full'
-            help={t('Verify the password entered above.')}
-            isError={!isPass2Valid}
-            label={t('password (repeat)')}
-            onChange={_onChangePass2}
-            onEnter={_onCommit}
-            value={password2}
-          />
-          <Expander
-            className='accounts--Creator-advanced'
-            isOpen
-            summary={t('Advanced creation options')}
-          >
-            <Dropdown
-              defaultValue={pairType}
-              help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-              label={t('keypair crypto type')}
-              onChange={_onChangePairType}
-              options={uiSettings.availableCryptos}
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Input
+              autoFocus
+              className='full'
+              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              isError={!isNameValid}
+              label={t('name')}
+              onChange={_onChangeName}
+              onEnter={_onCommit}
+              placeholder={t('new account')}
+              value={name}
             />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
             <Input
               className='full'
-              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
-              isError={!!deriveError}
-              label={t('secret derivation path')}
-              onChange={_onChangeDerive}
+              help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              isAction
+              isError={!isSeedValid}
+              isReadOnly={seedType === 'dev'}
+              label={
+                seedType === 'bip'
+                  ? t('mnemonic seed')
+                  : seedType === 'dev'
+                    ? t('development seed')
+                    : t('seed (hex or string)')
+              }
+              onChange={_onChangeSeed}
               onEnter={_onCommit}
-              placeholder={t('//hard/soft///password')}
-              value={derivePath}
+              value={seed}
+            >
+              <Dropdown
+                defaultValue={seedType}
+                isButton
+                onChange={_selectSeedType}
+                options={seedOpt}
+              />
+            </Input>
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Password
+              className='full'
+              help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
+              isError={!isPassValid}
+              label={t('password')}
+              onChange={_onChangePass}
+              onEnter={_onCommit}
+              value={password}
             />
-            {deriveError && (
-              <article className='error'>{deriveError}</article>
-            )}
-          </Expander>
-        </AddressRow>
+            <Password
+              className='full'
+              help={t('Verify the password entered above.')}
+              isError={!isPass2Valid}
+              label={t('password (repeat)')}
+              onChange={_onChangePass2}
+              onEnter={_onCommit}
+              value={password2}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Expander
+          className='accounts--Creator-advanced'
+          isOpen
+          summary={t('Advanced creation options')}
+        >
+          <Modal.Columns>
+            <Modal.Column>
+              <Dropdown
+                defaultValue={pairType}
+                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t('keypair crypto type')}
+                onChange={_onChangePairType}
+                options={uiSettings.availableCryptos}
+              />
+            </Modal.Column>
+            <Modal.Column>
+              <p>{t('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
+          <Modal.Columns>
+            <Modal.Column>
+              <Input
+                className='full'
+                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
+                isError={!!deriveError}
+                label={t('secret derivation path')}
+                onChange={_onChangeDerive}
+                onEnter={_onCommit}
+                placeholder={
+                  pairType === 'sr25519'
+                    ? t('//hard/soft///password')
+                    : t('//hard///password')
+                }
+                value={derivePath}
+              />
+              {deriveError && (
+                <article className='error'>{deriveError}</article>
+              )}
+            </Modal.Column>
+            <Modal.Column>
+              <p>{t('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
+        </Expander>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
