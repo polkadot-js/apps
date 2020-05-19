@@ -2,7 +2,7 @@
   "name": "polkadot",
   "repository": "https://github.com/polkadot-js/apps",
   "main": "packages/apps-electron/build/electron.js",
-  "description": "TODO",
+  "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "version": "0.42.0-beta.109",
   "license": "Apache-2",
@@ -62,7 +62,7 @@
     "test": "polkadot-dev-run-test packages/page-claims/src",
     "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
-    "start:electron": "yarn clean:devElectronBuild && concurrently 'yarn build:electronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
+    "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
