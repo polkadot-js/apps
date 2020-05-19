@@ -104,33 +104,51 @@ function Import ({ className, onClose, onStatusChange }: Props): React.ReactElem
     <Modal
       className={className}
       header={t('Add via backup file')}
+      size='large'
     >
       <Modal.Content>
-        <AddressRow
-          defaultName={isFileValid && json ? json.meta.name : null}
-          noDefaultNameOpacity
-          value={isFileValid && address ? address : null}
-        >
-          <InputFile
-            accept={acceptedFormats}
-            className='full'
-            help={t('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
-            isError={!isFileValid}
-            label={t('backup file')}
-            onChange={_onChangeFile}
-            withLabel
-          />
-          <Password
-            autoFocus
-            className='full'
-            help={t('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
-            isError={!isPassValid}
-            label={t('password')}
-            onChange={_onChangePass}
-            onEnter={_onSave}
-            value={password}
-          />
-        </AddressRow>
+        <Modal.Columns>
+          <Modal.Column>
+            <AddressRow
+              defaultName={isFileValid && json ? json.meta.name : null}
+              noDefaultNameOpacity
+              value={isFileValid && address ? address : null}
+            />
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputFile
+              accept={acceptedFormats}
+              className='full'
+              help={t('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
+              isError={!isFileValid}
+              label={t('backup file')}
+              onChange={_onChangeFile}
+              withLabel
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('Supply a backed-up JSON file, encrypted with your account-specific password.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Password
+              autoFocus
+              className='full'
+              help={t('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
+              isError={!isPassValid}
+              label={t('password')}
+              onChange={_onChangePass}
+              onEnter={_onSave}
+              value={password}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The password previously used to encrypt this account.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
