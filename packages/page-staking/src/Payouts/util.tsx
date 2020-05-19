@@ -16,6 +16,7 @@ export function createErasString (eras: BN[]): React.ReactNode {
   }
 
   const parts = eras
+    .sort((a, b) => a.cmp(b))
     .reduce((result: (BN | [BN, BN])[], era): (BN | [BN, BN])[] => {
       if (result.length === 0) {
         return [era];
