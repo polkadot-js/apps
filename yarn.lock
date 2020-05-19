@@ -3164,7 +3164,7 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.8.7
     "@polkadot/dev": ^0.52.15
-    "@polkadot/react-components": 0.42.0-beta.144
+    "@polkadot/react-components": 0.42.0-beta.146
     "@types/react": ^16.9.35
     "@types/react-dom": ^16.9.8
     babel-loader: ^8.1.0
@@ -17457,9 +17457,9 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"polkadot@workspace:.":
+"polkadot-apps@workspace:.":
   version: 0.0.0-use.local
-  resolution: "polkadot@workspace:."
+  resolution: "polkadot-apps@workspace:."
   dependencies:
     "@babel/core": ^7.9.6
     "@babel/register": ^7.9.0
