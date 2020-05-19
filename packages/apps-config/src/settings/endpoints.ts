@@ -15,7 +15,13 @@ function createDev (t: (key: string, text: string, options: { ns: string }) => s
 }
 
 function createLive (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
-  return [];
+  return [
+    {
+      info: 'mainnet',
+      text: t('rpc.mainnet', 'Centrifuge Mainnet (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.centrifuge.io'
+    }
+  ];
 }
 
 function createTest (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
