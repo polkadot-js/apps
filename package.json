@@ -48,7 +48,7 @@
     "build:electronRenderer": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.renderer.config.js",
     "build:devElectronMain": "cd packages/apps-electron && webpack --config webpack.main.config.js",
     "build:electronMain": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.main.config.js",
-    "prepackElectron": "yarn build:electron && yarn postinstall:electron",
+    "prepackElectron": "yarn build && yarn build:electron && yarn postinstall:electron",
     "packElectron:test": "yarn prepackElectron && electron-builder --dir",
     "packElectron:mac": "yarn prepackElectron && electron-builder build --mac",
     "packElectron:win": "yarn prepackElectron && electron-builder build --win",
