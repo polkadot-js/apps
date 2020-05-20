@@ -4,8 +4,10 @@
 
 import { useState } from 'react';
 
+const KNOWN = ['/ipfs/', '/ipns/'];
+
 export default function useIsIpfs (): boolean {
-  const [isIpfs] = useState(window.location.href.includes('/ipfs/'));
+  const [isIpfs] = useState(KNOWN.some((part) => window.location.href.includes(part)));
 
   return isIpfs;
 }
