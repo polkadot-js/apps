@@ -16,7 +16,7 @@ async function main () {
 <html>
   <head>
     <title>Redirecting to latest deployed IPFS instance</title>
-    <meta http-equiv="refresh" content="2; url=${url}" />
+    <meta http-equiv="refresh" content="0; url=${url}" />
   </head>
   <body>
     <p>Redirecting you to <a href="${url}">${url}</a></p>
