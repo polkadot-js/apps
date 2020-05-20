@@ -17457,9 +17457,9 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"polkadot@workspace:.":
+"polkadot-apps@workspace:.":
   version: 0.0.0-use.local
-  resolution: "polkadot@workspace:."
+  resolution: "polkadot-apps@workspace:."
   dependencies:
     "@babel/core": ^7.9.6
     "@babel/register": ^7.9.0

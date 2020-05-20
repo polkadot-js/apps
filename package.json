@@ -1,5 +1,5 @@
 {
-  "name": "polkadot",
+  "name": "polkadot-apps",
   "repository": "https://github.com/polkadot-js/apps",
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
@@ -12,6 +12,7 @@
     "packages/*"
   ],
   "build": {
+    "productName": "Polkadot",
     "files": [
       "./packages/apps-electron/build"
     ],
