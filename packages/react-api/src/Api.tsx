@@ -23,6 +23,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import './initSettings';
 
 interface Props {
   children: React.ReactNode;

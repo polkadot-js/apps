@@ -2,22 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
+
 // setup these right at front
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
 
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
-import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { Api } from '@polkadot/react-api';
+import settings from '@polkadot/ui-settings';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
-import settings from '@polkadot/ui-settings';
-
-import Apps from './Apps';
+import AccountSidebar from '@polkadot/app-accounts/Sidebar';
+import { Api } from '@polkadot/react-api';
+import Apps from '@polkadot/apps/Apps';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
@@ -27,12 +26,7 @@ if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
-// cleanups for old/unused storage items
-store.each((_, key): void => {
-  if (key.startsWith('hooks:sessionSlashes:')) {
-    store.remove(key);
-  }
-});
+console.log('Opened in electron app');
 
 ReactDOM.render(
   <Suspense fallback='...'>

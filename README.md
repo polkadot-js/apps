@@ -17,6 +17,7 @@ This can be accessed as a hosted application via [https://polkadot.js.org/apps/]
 The repo is split into a number of packages, each representing an application. These are -
 
 - [apps](packages/apps/) This is the main entry point. It handles the selection sidebar and routing to the specific application being displayed.
+- [apps-electron](packages/apps-electron/) Desktop app running [apps](packages/apps/).
 - [page-accounts](packages/page-accounts/) A basic account management app.
 - [page-address-book](packages/page-address-book/) A basic address management app.
 - [page-democracy](packages/page-democracy/) A basic voting app, allowing votes on activate proposals and referenda.

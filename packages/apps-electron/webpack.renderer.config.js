@@ -4,31 +4,16 @@
 
 /* eslint-disable @typescript-eslint/camelcase */
 
-const fs = require('fs');
-const path = require('path');
 const merge = require('webpack-merge');
-const baseConfig = require('./webpack.base.config');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
-const findPackages = require('../../scripts/findPackages');
+const baseConfig = require('@polkadot/apps/webpack.base.config');
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const findPackages = require('../../scripts/findPackages');
 
-const devtool = false;
 const ENV = process.env.NODE_ENV || 'development';
 const isProd = ENV === 'production';
 const context = __dirname;
-const hasPublic = fs.existsSync(path.join(context, 'public'));
-
-const plugins = isProd
-  ? []
-  : [
-    new WebpackPluginServe({
-      hmr: false, // switch off, Chrome WASM memory leak
-      liveReload: false, // explict off, overrides hmr
-      port: 3000,
-      progress: false, // since we have hmr off, disable
-      static: path.join(process.cwd(), '/build')
-    })
-  ];
 
 module.exports = merge(
   baseConfig({
@@ -40,13 +25,22 @@ module.exports = merge(
     context
   }),
   {
-    devtool,
-    plugins: plugins.concat([
+    devServer: {
+      compress: true,
+      contentBase: path.join(__dirname, 'build'),
+      hot: true,
+      liveReload: false,
+      port: 9000
+    },
+    devtool: isProd ? 'none' : 'source-map',
+    plugins: [
+      new CopyWebpackPlugin([{ from: '../apps/public' }]),
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
         inject: true,
-        template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
+        template: path.join(context, '../apps/public/index.html')
       })
-    ])
+    ],
+    target: 'electron-renderer'
   }
 );
