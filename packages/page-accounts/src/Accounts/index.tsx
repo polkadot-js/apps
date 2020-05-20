@@ -16,6 +16,7 @@ import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import useIsIpfs from './useIsIpfs';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
@@ -94,6 +95,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const isIpfs = useIsIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -185,11 +187,13 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Button.Group>
         <Button
           icon='add'
+          isDisabled={isIpfs}
           label={t('Add account')}
           onClick={toggleCreate}
         />
         <Button
           icon='sync'
+          isDisabled={isIpfs}
           label={t('Restore JSON')}
           onClick={toggleImport}
         />
