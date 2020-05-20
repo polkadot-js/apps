@@ -24,7 +24,7 @@ async function main () {
 </html>`;
 
   fs.writeFileSync(`${ROOT}/ipfs/index.html`, html);
-  fs.writeFileSync(`${ROOT}/ipfs/hash.json`, JSON.stringify(result));
+  fs.writeFileSync(`${ROOT}/ipfs/pin.json`, JSON.stringify(result));
   fs.writeFileSync(`${ROOT}/ipfs/${result.IpfsHash}.ipfs`, result.IpfsHash);
 
   console.log(`Deployed to ${url}`);
