@@ -37,6 +37,7 @@ async function main () {
 </html>`;
 
   fs.writeFileSync('packages/apps/build/ipfs/index.html', html);
+  fs.writeFileSync(`packages/apps/build/ipfs/${pinnedHash}.ipfs`, pinnedHash);
 
   console.log(`Deployed to ${url}`);
 }
