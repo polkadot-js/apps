@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+// setup these right at front
+import '@polkadot/apps/initSettings';
+import 'semantic-ui-css/semantic.min.css';
+import '@polkadot/react-components/i18n';
+
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-
-// setup these right at front
-import 'semantic-ui-css/semantic.min.css';
-import '@polkadot/react-components/i18n';
 
 import { ThemeProvider } from 'styled-components';
 import settings from '@polkadot/ui-settings';
