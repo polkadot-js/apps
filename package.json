@@ -88,6 +88,7 @@
     "@types/styled-components": "^5.1.0",
     "@types/styled-theming": "^2.2.3",
     "concurrently": "^5.2.0",
+    "dnslink-cloudflare": "^2.0.4",
     "electron": "8.3.0",
     "electron-builder": "^22.6.1",
     "i18next-scanner": "^2.11.0",
