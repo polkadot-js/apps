@@ -43,6 +43,14 @@ jobs:
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
+          # Base64-encoded code signing certificate for macOS
+          mac_certs: ${{ secrets.mac_certs }}
+          # Password for decrypting `mac_certs`
+          mac_certs_password: ${{ secrets.mac_certs_password }}
+          # Base64-encoded code signing certificate for Windows
+          windows_certs: ${{ secrets.windows_certs }}
+          # Password for decrypting `windows_certs`
+          windows_certs_password: ${{ secrets.windows_certs_password }}
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
