@@ -4,10 +4,12 @@
 
 const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
+const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
+const DOMAIN = 'dotapps.io';
 const DST = 'packages/apps/build';
 const SRC = 'packages/apps/public';
 const WOPTS = { encoding: 'utf8', flag: 'w' };
@@ -52,7 +54,7 @@ async function pin () {
 
   writeFiles('index.html', html);
   writeFiles('pin.json', JSON.stringify(result));
-  updateGh(result.IpfsHas);
+  updateGh(result.IpfsHash);
 
   console.log(`Pinned ${result.IpfsHash}`);
 
@@ -74,7 +76,22 @@ async function unpin (exclude) {
   }
 }
 
-pin()
-  .then(unpin)
+async function dnslink (hash) {
+  await cloudflare.update(
+    { token: process.env.CF_API_TOKEN },
+    { link: `/ipfs/${hash}`, record: `_dnslink.${DOMAIN}`, zone: DOMAIN }
+  );
+
+  console.log(`Dnslink ${hash}`);
+}
+
+async function main () {
+  const hash = await pin();
+
+  await dnslink(hash);
+  await unpin(hash);
+}
+
+main()
   .catch(console.error)
   .finally(() => process.exit());
