@@ -77,7 +77,7 @@ async function unpin (exclude) {
 }
 
 async function dnslink (hash) {
-  await cloudflare.update(
+  await cloudflare(
     { token: process.env.CF_API_TOKEN },
     { link: `/ipfs/${hash}`, record: `_dnslink.${DOMAIN}`, zone: DOMAIN }
   );
