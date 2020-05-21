@@ -6,8 +6,6 @@ const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
-const lerna = require('../lerna.json');
-
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
 const DST = 'packages/apps/build';
@@ -18,35 +16,43 @@ const token = process.env.GH_PAT || `x-access-token:${process.env.GITHUB_TOKEN}`
 const repo = `https://${token}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
 
+function writeFiles (name, content) {
+  [DST, SRC].forEach((root) =>
+    fs.writeFileSync(`${root}/ipfs/${name}`, content, WOPTS)
+  );
+}
+
+function updateGh (hash) {
+  execSync('git add --all .');
+  execSync(`git commit --no-status --quiet -m "[CI Skip] ${hash}
+
+
+skip-checks: true"`);
+  execSync(`git push ${repo} HEAD:${process.env.GITHUB_REF}`, true);
+}
+
 async function pin () {
   const result = await pinata.pinFromFS(DST);
   const url = `${GATEWAY}${result.IpfsHash}/`;
   const html = `<!DOCTYPE html>
 <html>
   <head>
-    <title>Redirecting to latest deployed IPFS instance</title>
-    <meta http-equiv="refresh" content="0; url=${url}" />
+    <title>Redirecting to ipfs gateway</title>
+    <meta http-equiv="refresh" content="100; url=${url}" />
+    <style>
+      body { font-family: sans-serif; line-height: 1.5rem; padding: 2rem; text-align: center }
+      p { margin: 0 }
+    </style>
   </head>
   <body>
-    <p>Redirecting you to <a href="${url}">${url}</a></p>
+    <p>Redirecting to</p>
+    <p><a href="${url}">${url}</a></p>
   </body>
 </html>`;
-  const pinFile = JSON.stringify({ ...result, version: lerna.version });
 
-  // write the redirect
-  fs.writeFileSync(`${DST}/ipfs/index.html`, html, WOPTS);
-  fs.writeFileSync(`${SRC}/ipfs/index.html`, html, WOPTS);
-
-  // write the pin info
-  fs.writeFileSync(`${DST}/ipfs/pin.json`, pinFile, WOPTS);
-  fs.writeFileSync(`${SRC}/ipfs/pin.json`, pinFile, WOPTS);
-
-  execSync('git add --all .');
-  execSync(`git commit --no-status --quiet -m "[CI Skip] ${result.IpfsHash}
-
-
-skip-checks: true"`);
-  execSync(`git push ${repo} HEAD:${process.env.GITHUB_REF}`, true);
+  writeFiles('index.html', html);
+  writeFiles('pin.json', JSON.stringify(result));
+  updateGh(result.IpfsHas);
 
   console.log(`Pinned ${result.IpfsHash}`);
 
