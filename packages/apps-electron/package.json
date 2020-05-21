@@ -2,11 +2,11 @@
   "name": "@polkadot/apps-electron",
   "main": "index.js",
   "private": true,
-  "version": "0.42.0-beta.161",
+  "version": "0.42.0-beta.162",
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "@polkadot/dev": "^0.53.5",
-    "@polkadot/react-components": "0.42.0-beta.161"
+    "@polkadot/react-components": "0.42.0-beta.162"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
