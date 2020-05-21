@@ -8,6 +8,7 @@ import chainKusama from './chains/kusama-128.gif';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
+import nodeEncointer from './nodes/encointer.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -34,6 +35,7 @@ const chainLogos: Record<string, any> = [
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Edgeware Node', nodeEdgeware],
+  ['Encointer Node', nodeEncointer],
   ['kulupu', nodeSubstrate],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
