@@ -53,7 +53,7 @@ export default {
     meetup_index: 'MeetupIndexType',
     location: 'Location',
     timestamp: 'Moment',
-    number_of_participants_confirmed: 'u32',
+    number_of_participants_confirmed: 'u32'
   },
   Attestation: {
     claim: 'ClaimOfAttendance',
@@ -65,7 +65,7 @@ export default {
     ceremony_index: 'CeremonyIndexType',
     currency_identifier: 'CurrencyIdentifier',
     attendee_public: 'AccountId',
-    attendee_signature: 'Signature' 
+    attendee_signature: 'Signature'
   },
   // substrate
   Weight: 'u32'
