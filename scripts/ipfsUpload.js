@@ -31,7 +31,7 @@ async function pin () {
     <p>Redirecting you to <a href="${url}">${url}</a></p>
   </body>
 </html>`;
-  const pinFile = JSON.stringify({ ...result, version: lerna.json });
+  const pinFile = JSON.stringify({ ...result, version: lerna.version });
 
   // write the redirect
   fs.writeFileSync(`${DST}/ipfs/index.html`, html, WOPTS);
