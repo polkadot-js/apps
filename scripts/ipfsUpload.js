@@ -4,14 +4,21 @@
 
 const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
+const execSync = require('@polkadot/dev/scripts/execSync');
 
-const ROOT = 'packages/apps/build';
+// https://gateway.pinata.cloud/ipfs/
+const GATEWAY = 'https://ipfs.io/ipfs/';
+const DST = 'packages/apps/build';
+const SRC = 'packages/apps/public';
+const WOPTS = { encoding: 'utf8', flag: 'w' };
 
+const token = process.env.GH_PAT || `x-access-token:${process.env.GITHUB_TOKEN}`;
+const repo = `https://${token}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
 
-async function main () {
-  const result = await pinata.pinFromFS(ROOT);
-  const url = `https://ipfs.io/ipfs/${result.IpfsHash}/`; // `https://gateway.pinata.cloud/ipfs/${pinnedHash}/`;
+async function pin () {
+  const result = await pinata.pinFromFS(DST);
+  const url = `${GATEWAY}${result.IpfsHash}/`;
   const html = `<!DOCTYPE html>
 <html>
   <head>
@@ -23,13 +30,42 @@ async function main () {
   </body>
 </html>`;
 
-  fs.writeFileSync(`${ROOT}/ipfs/index.html`, html);
-  fs.writeFileSync(`${ROOT}/ipfs/pin.json`, JSON.stringify(result));
-  fs.writeFileSync(`${ROOT}/ipfs/${result.IpfsHash}.ipfs`, result.IpfsHash);
+  // write the redirect
+  fs.writeFileSync(`${DST}/ipfs/index.html`, html, WOPTS);
+  fs.writeFileSync(`${SRC}/ipfs/index.html`, html, WOPTS);
 
-  console.log(`Deployed to ${url}`);
+  // write the pin info
+  fs.writeFileSync(`${DST}/ipfs/pin.json`, JSON.stringify(result), WOPTS);
+  fs.writeFileSync(`${SRC}/ipfs/pin.json`, JSON.stringify(result), WOPTS);
+
+  execSync('git add --all .');
+  execSync(`git commit --no-status --quiet -m "[CI Skip] ${result.IpfsHash}
+
+
+skip-checks: true"`);
+  execSync(`git push ${repo} HEAD:${process.env.GITHUB_REF}`, true);
+
+  console.log(`Pinned ${result.IpfsHash}`);
+
+  return result.IpfsHash;
 }
 
-main()
+async function unpin (exclude) {
+  const result = await pinata.pinList({ status: 'pinned' });
+
+  if (result.count > 1) {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const filtered = result.rows.map(({ ipfs_pin_hash }) => ipfs_pin_hash).filter((hash) => hash !== exclude);
+
+    if (filtered.length) {
+      await Promise.all(
+        filtered.map((hash) => pinata.unpin(hash).then(() => console.log(`Unpinned ${hash}`)))
+      );
+    }
+  }
+}
+
+pin()
+  .then(unpin)
   .catch(console.error)
   .finally(() => process.exit());
