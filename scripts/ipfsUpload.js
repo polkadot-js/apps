@@ -6,6 +6,8 @@ const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
+const lerna = require('../lerna.json');
+
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
 const DST = 'packages/apps/build';
@@ -29,14 +31,15 @@ async function pin () {
     <p>Redirecting you to <a href="${url}">${url}</a></p>
   </body>
 </html>`;
+  const pinFile = JSON.stringify({ ...result, version: lerna.json });
 
   // write the redirect
   fs.writeFileSync(`${DST}/ipfs/index.html`, html, WOPTS);
   fs.writeFileSync(`${SRC}/ipfs/index.html`, html, WOPTS);
 
   // write the pin info
-  fs.writeFileSync(`${DST}/ipfs/pin.json`, JSON.stringify(result), WOPTS);
-  fs.writeFileSync(`${SRC}/ipfs/pin.json`, JSON.stringify(result), WOPTS);
+  fs.writeFileSync(`${DST}/ipfs/pin.json`, pinFile, WOPTS);
+  fs.writeFileSync(`${SRC}/ipfs/pin.json`, pinFile, WOPTS);
 
   execSync('git add --all .');
   execSync(`git commit --no-status --quiet -m "[CI Skip] ${result.IpfsHash}
