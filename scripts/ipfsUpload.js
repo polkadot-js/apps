@@ -38,7 +38,7 @@ async function pin () {
 <html>
   <head>
     <title>Redirecting to ipfs gateway</title>
-    <meta http-equiv="refresh" content="100; url=${url}" />
+    <meta http-equiv="refresh" content="0; url=${url}" />
     <style>
       body { font-family: sans-serif; line-height: 1.5rem; padding: 2rem; text-align: center }
       p { margin: 0 }
