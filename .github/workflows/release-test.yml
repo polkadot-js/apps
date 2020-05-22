@@ -5,9 +5,9 @@ jobs:
   release-electron:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.step }} - ${{ matrix.os }}
+    name: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v1
