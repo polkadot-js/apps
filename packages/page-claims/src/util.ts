@@ -117,46 +117,40 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
   }
 }
 
-export function getStatementUrl (kind?: StatementKind): string {
-  if (!kind) {
-    return '';
-  }
-
-  if (kind.isDefault) {
+export function getStatementUrl (kind?: StatementKind | null): string {
+  if (kind?.isDefault) {
     return DEFAULT_STATEMENT_URL;
-  } else {
+  } else if (kind?.isAlternative) {
     return ALTERNATIVE_STATEMENT_URL;
+  } else {
+    return '';
   }
 }
 
 // From a StatementKind, get the hardcoded actual statement to sign
-export function getStatementSentence (kind?: StatementKind): string {
+export function getStatementSentence (kind?: StatementKind | null): string {
   // FIXME Wait for actual legal statements
-
-  if (!kind) {
-    return '';
-  }
 
   const url = getStatementUrl(kind);
   let hash = '0x00';
 
-  if (kind.isDefault) {
+  if (kind?.isDefault) {
     hash = DEFAULT_STATEMENT_HASH;
-  } else {
+  } else if (kind?.isAlternative) {
     hash = ALTERNATIVE_STATEMENT_HASH;
-  }
-
-  return `FIXME with the actual legal statement ${hash} ${url}`;
-}
-
-export function getStatementMd (kind?: StatementKind): string {
-  if (!kind) {
+  } else {
     return '';
   }
 
-  if (kind.isDefault) {
+  return `FIXME with the actual legal statement sentence ${hash} ${url}`;
+}
+
+export function getStatementMd (kind?: StatementKind | null): string {
+  if (kind?.isDefault) {
     return statementRegular;
-  } else {
+  } else if (kind?.isAlternative) {
     return statementAlternative;
+  } else {
+    return '';
   }
 }
