@@ -27,8 +27,7 @@
     "afterSign": "electron-builder-notarize",
     "mac": {
       "hardenedRuntime": true,
-      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist",
-      "category": "public.app-category.finance"
+      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist"
     }
   },
   "resolutions": {
@@ -56,7 +55,7 @@
     "build:electronMain": "cd packages/apps-electron && NODE_ENV=production webpack --config webpack.main.config.js",
     "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
     "packElectron:test": "yarn build:release:electron && electron-builder --dir",
-    "packElectron:mac": "yarn build:release:electron && electron-builder build --mac",
+    "packElectron:mac": "electron-builder build --mac",
     "packElectron:win": "yarn build:release:electron && electron-builder build --win",
     "packElectron:linux": "yarn build:release:electron && electron-builder build --linux",
     "packElectron": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build -mwl",
