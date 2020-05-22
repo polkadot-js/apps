@@ -240,6 +240,10 @@ function ClaimsApp (): React.ReactElement {
               <Statement
                 kind={statementKind}
               />
+              <div>
+                {t('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
+                  :
+              </div>
               <CopyToClipboard
                 onCopy={onCopy}
                 text={payload}
@@ -256,10 +260,6 @@ function ClaimsApp (): React.ReactElement {
                 text={didCopy ? t('copied') : t('click to copy')}
                 trigger='tx-payload'
               />
-              <div>
-                {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
-                  :
-              </div>
               <Signature
                 onChange={onChangeSignature}
                 placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
