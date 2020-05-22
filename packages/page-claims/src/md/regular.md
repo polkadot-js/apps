@@ -1,138 +1,126 @@
-# Lorem Ipsum for Brackets
-An extension for [Brackets](https://github.com/adobe/brackets/) to generate
-Lorem Ipsum text automatically.
+Statement
+  
+  Please read these terms and conditions carefully.
+By submitting this statement, you are deemed to have accepted these Terms
+and Conditions. If you do not agree to these terms, please refrain from
+accessing or proceeding.
+By submitting this statement signed with the private key of either (i) the Ethereum
+address to which future DOTs would be allocated pursuant to a signed DOT allocation
+agreement made by and between the Web 3.0 Technologies Foundation (the
+“Foundation”) and the Contributor (as defined below) (the “DOT Allocation
+Agreement”), or (ii) the Polkadot address corresponding to the Ethereum address to
+which future DOTs would be allocated pursuant to the DOT Allocation Agreement (the
+applicable submitted key described in clauses (i) or (ii), the “Key”), and for good and
+valuable consideration, the receipt and sufficiency of which are hereby acknowledged,
+and with the intent to be legally bound hereby, the natural person or legal entity
+submitting the Key (the “Contributor”) hereby represents, warrants and covenants, in
+each case, as applicable, to, and for the benefit of, the Foundation (each, a
+“Certification” and, collectively, the “Certifications”) that:
 
-### How to Install
-1. Select **Brackets > File > Extension Manager...**
-2. Search for this extension.
-3. Click on the **Install** button.
+- if the Contributor is a legal entity:
 
-### How to Use Lorem Ipsum
-For plaintext Lorem Ipsum, type `lorem` then press the `Ctrl-Shift-L` keyboard shortcut.
-The default keyboard shortcut is the same for all supported platforms.
+  - the Contributor (i) is duly organized (or applicable legal equivalent),
+    validly existing and in good standing (or applicable legal equivalent)
+    under the laws of its jurisdiction or organization (or applicable legal
+    equivalent), and (ii) has all requisite organizational power and authority
+    (x) to make each of the Certifications, (ii) to perform each of its
+    obligations hereunder and under the DOT Allocation Agreement, (iii) to
+    submit the Key and (iv) to consummate all of the transactions
+    contemplated by any of the foregoing clauses (i) through and including
+    (iii) to be consummated by it;
 
-You can also add options to the `lorem` command with an underscore character
-followed by the option name. For example: `lorem_wrap40.` Multiple options
-can also be chained together. For example, typing `lorem_html_wrap40` and
-then pressing the **Tab** key will give you html formatted Lorem Ipsum text
-and a word wrap width of 40 characters.  Using an unrecognized option will
-insert an error message into the document.  Using more than one underscore
-character in a row (e.g. `lorem__html___p3`) will insert an error message
-into the document.
+  - none of (i) the making by the Contributor of each of the Certifications, (ii)
+    the performance by the Contributor of each of its obligations hereunder
+    and under the DOT Allocation Agreement, (iii) the submission by the
+    Contributor of the Key or (iv) the consummation of any of the
+    transactions contemplated by any of the foregoing clauses (i) through
+    and including (iii) to be consummated by it, will conflict with or violate (x)
+    any of the terms of any organizational document of the Contributor, or
+    (y) any applicable law of the Contributor’s jurisdiction of organization;
 
-**Note:** Options to the far right of the chain always have the highest
-priority. If two options in the chain conflict with each other, the option
-on the right will have precedence. For example, the command `lorem_nowrap_wrap40`
-will insert Lorem Ipsum text with a word wrap width of 40 characters and the
-command `lorem_wrap40_nowrap` will insert Lorem Ipsum text with no word wrapping.
+  - each of (i) the making by the Contributor of each of the Certifications, (ii)
+    the performance by the Contributor of each of its obligations hereunder
+    and under the DOT Allocation Agreement, (iii) the submission the
+    Contributor of the Key or (iv) the consummation of any of the
+    transactions contemplated by any of the foregoing clauses (i) through
+    and including (iii), has been duly authorized and approved by all requisite
+    organizational action of the Contributor, such authorization remains in
+    full force and effect on and as of the date hereof;
 
-##### List of Current Options
-**_p[count]:** Inserts a certain number of random Lorem Ipsum paragraphs into
-the current document. The `count` option indicates how many paragraphs to insert.
-For example, `lorem_p3` will insert three paragraphs into the document.
-If the `count` option is not provided, one paragraph will be inserted.
-If the type of Lorem Ipsum text is not specified, the extension will generate
-paragraphs by default.
+- the Contributor is the original purchaser of DOT allocations under the DOT
+Allocation Agreement;
 
-**_s[count]:** Inserts a certain number of random Lorem Ipsum sentences into
-the current document. The `count` option indicates how many sentences to insert.
-For example, `lorem_s3` will insert three sentences into the document.
-If the `count` option is not provided, one sentence will be inserted.
+- the Contributor continues to and will continue to own both the Ethereum
+address and the Polkadot address used to create the Polkadot address;
 
-**_w[count]:** Inserts a certain number of random Lorem Ipsum words into the
-current document. The `count` option indicates how many words to insert.
-For example, `lorem_w40` will insert 40 random words into the document.
-If the `count` option is not provided, one word will be inserted.
+- the Contributor is a party to and is legally bound by the DOT Allocation
+Agreement and any terms or agreements incorporated by reference therein and
+agrees that this Certification is valid, legally binding and enforceable against
+the Contributor;
 
-**_short:** Makes all sentences or paragraphs short length.
+- the Contributor is neither a citizen, resident nor tax resident of the United States
+of America (hereinafter referred to as the “U.S.”) or otherwise a “U.S. person”
+(as defined in Rule 902 of Regulation S under the U.S. Securities Act of 1933,
+as amended (the “U.S. Securities Act”)), and the Contributor is not otherwise
+present or located in the U.S. on the date hereof;
 
-**_medium:** Makes all sentences or paragraphs medium length.
-If no size options are provided, the extension will use `_medium`
-as the default option.
+- the Contributor understands that neither the DOT Allocation Agreement nor any
+DOTs to be allocated thereunder have been, or will be, registered under the
+U.S. Securities Act, and that each of the DOT Allocation Agreement and the
+DOTs to be allocated thereunder constitute securities under the U.S. Securities
+Act;
 
-**_long:** Makes all sentences or paragraphs long length.
+- the Contributor purchased DOT allocations pursuant to the DOT Allocation
+Agreement solely for the Contributor’s own benefit and account, for the
+purposes of personal consumption and utilization of DOTs on the Polkadot
+Network and not for any speculative purpose or with an expectation of profit,
+and not with a view to, or for resale in connection with, a public offering or other
+distribution of DOTs, whether in exchange for other any other digital asset, any
+currency, any security or otherwise, and all of the foregoing remains true,
+accurate and complete on and as of the date hereof;
 
-**_vlong:** Makes all sentences or paragraphs very long length.
+- (i) the documents provided by the Contributor to the Foundation to verify the
+identity of the Contributor for the purpose of the completion by the Foundation,
+or its duly authorized agent or designee, of know-your-customer (“KYC”) and
+anti-money laundering (“AML”) checks conducted in accordance with
+applicable law at the time of the Contributor’s entry into the DOT Allocation
+Agreement (collectively, the “Original Identity Verification Documents”) remain
+true and accurate in all respects on and as of the date hereof, or (ii) if any
+Original Identity Verification Document is not true and accurate on and as of
+the date hereof, the Contributor has submitted to the Foundation replacement
+identity verification documentation (collectively, the “Replacement Identity
+Verification Documents,” and, together with the Original Identity Verification
+Documents, collectively, the “Identity Verification Documentation”), in each
+case, that are (x) true and accurate on and as of the date hereof and (y)
+sufficient (as reasonably determined by the Foundation) to permit the
+Foundation or its agent or designee to conduct KYC and AML checks;
 
-**_nowrap:** Inserts Lorem Ipsum text without any word wrapping.
+- the Contributor hereby authorizes the Foundation, or its duly authorized agent
+or designee, to use the Identity Verification Documentation to conduct such new
+KYC and AML checks as may be deemed by the Foundation to be necessary
+or advisable in order to comply with applicable law;
 
-**_wrap[width]:** Word wraps Lorem Ipsum text using the specified `width`
-For example, `lorem_wrap40` will wrap the text at 40 characters. If a word wrap
-option is not provided, the extension will use `_wrap80` as the default option.
-If you want to turn word wrap off, use the `_nowrap` option.  This option has
-no effect on the `_link`, `_ol`, or `_ul` options.
+- the Contributor understands and agrees that the Foundation (i) will not honor
+any sale or other transfers of any DOT allocation agreements (including the
+DOT Allocation Agreement) or any allocations for future DOTs thereunder, (ii)
+is relying upon the Certifications (without independent investigation) to comply
+with applicable law and (iii) the inaccuracy or incompleteness of any of the
+Certifications will result in material financial, reputational and legal harm to the
+Foundation and the Polkadot Network; and
 
-**_link[count]:** Inserts a certain number of random Lorem Ipsum HTML links into
-the current document. The HTML link will always point to http://www.brackets.io.
-The `count` option indicates how many links to insert. For example, `lorem_link3`
-will insert three links, separated by page breaks, into the document. If the
-`count` option is not provided, one link will be inserted. To avoid badly
-formatted HTML, the `_link` option ignores any `_wrap` options and is always
-set to `_nowrap`.
+- each of the representations and warranties made by it in or otherwise pursuant
+to the DOT Allocation Agreement remain true, correct and complete on and as
+of the date hereof (except, in each case, to the extent that any such
+representation or warranty expressly relates to an earlier date, in which case
+such representation or warranty shall be true, correct and complete on and as
+of such earlier date).
 
-**_ol[count], _ul[count]:** Inserts a random Lorem Ipsum HTML list into
-the current document. Use `_ol` for an ordered list and `_ul` for an unordered
-list. The `count` option indicates how many list items to insert. For example,
-`lorem_ol3` will insert an ordered list with three list items into the document.
-If the `count` option is not provided, a list with one item will be inserted.
-To avoid badly formatted HTML, both of these options ignore any `_wrap` options
-and are always set to `_nowrap`.
+- Applicable law and jurisdiction: These terms and conditions shall be governed
+by and construed in accordance with the substantive laws of Switzerland
+without any reference to its conflict of law provisions. The provisions of the
+United Nation Convention on contracts for the International Sale of Goods
+(CISG) shall not apply.
 
-**_orig[count]:** This option will insert the original Lorem Ipsum paragraph
-into the current document. The `count` option indicates how many paragraphs to
-insert. For example, `lorem_orig3` will insert three original Lorem Ipsum paragraphs
-into the document. If the `count` option is not provided, one original Lorem Ipsum
-paragraph will be inserted. Only the `_nowrap`, `_wrap`, and `_html` options will
-work with this option.
-
-**_fortune[count]:** For when you get sick of nonsensical Latin phrases, this
-option will insert random fortunes (similar to the Unix fortune program) into
-the current document.  The `count` option indicates how many fortunes to insert.
-For example, `lorem_fortune3` will insert three fortunes into the document. If
-the `count` option is not provided, one fortune will be inserted.
-
-**_html:** Wraps Lorem Ipsum text in `<p></p>` tags so it displays correctly in
-HTML. For options `_p`, `_s`, and `_fortune` each individual paragraph, sentence,
-or fortune is wrapped. For options `_w` and `_link`, the entire collection of
-words or links is wrapped. This option is not available for lists since lists
-are not inline elements.
-
-**_?, _help:** Displays help for the Lorem Ipsum extension.  If this option is used,
-all other options will be ignored and no Lorem Ipsum text will be generated.
-
-**Note:** Any option that has a number associated with it (e.g. `_p3`, `_wrap40`)
-can also be entered with the number portion in front of the option
-(i.e. `_3p`, `_40wrap`) and it will work the same way.
-
-### Extension Preferences
-
-**`brackets-lorem-ipsum.onLoremCommand`** *(string)*<br/>
-This value determines the command used for the `lorem` command. Value is any valid `lorem`
-command including the default value of `"lorem"`.
-
-**`brackets-lorem-ipsum.onNoCommand`** *(string)*<br/>
-This value determines command used when there is no command at all. Value is any valid `lorem`
-command or the default value of `"nothing"`.
-
-For more information on setting preferences see [How to Use Brackets - Preferences](https://github.com/adobe/brackets/wiki/How-to-Use-Brackets#preferences)
-
-### Custom Key Bindings
-
-If you would like to change the current default keyboard shortcut and add your own
-customized keyboard shortcut to generate Lorem Ipsum, set your shortcut key to the
-following command id: `lkcampbell.loremIpsum`.
-
-For example, if you want the shortcut `Alt-Shift-X` to generate Lorem Ipsum,
-type the following entry into the `overrides` section of your `keyboardmap.json`
-file:
-
-`"Alt-Shift-X": "lkcampbell.loremIpsum"`
-
-For more information on setting Custom Key Bindings see
-[User Key Bindings](https://github.com/adobe/brackets/wiki/User-Key-Bindings).
-
-### License
-MIT-licensed -- see `main.js` for details.
-
-### Compatibility
-Tested on Brackets Release 1.8 on Mac OS 10.12.3 (Sierra) and Windows 10.
+- Any disputes arising out of or in connection with these terms and conditions
+and contracts entered into thereunder shall be submitted to the sole and
+exclusive jurisdiction of the courts of the city of Zug, Switzerland.
