@@ -1,16 +1,14 @@
 [![polkadotjs](https://img.shields.io/badge/polkadot-js-orange?style=flat-square)](https://polkadot.js.org)
 ![license](https://img.shields.io/badge/License-Apache%202.0-blue?logo=apache&style=flat-square)
-[![npm](https://img.shields.io/npm/v/@polkadot/apps?logo=npm&style=flat-square)](https://www.npmjs.com/package/@polkadot/apps)
-[![beta](https://img.shields.io/npm/v/@polkadot/apps/beta?label=beta&logo=npm&style=flat-square)](https://www.npmjs.com/package/@polkadot/apps)
 [![maintainability](https://img.shields.io/codeclimate/maintainability-percentage/polkadot-js/apps?logo=code-climate&style=flat-square)](https://codeclimate.com/github/polkadot-js/apps)
 
 # @polkadot/apps
 
 A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
 
-This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) or you can access the [IPFS hosted version](https://polkadot.js.org/apps/ipfs) to explore any of the supported Polkadot and Substrate chains.
+This can be accessed as a hosted application via [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/) or you can access the IPFS hosted version via https://polkadot.js.org/apps/ipfs or https://dotapps.io (via inpn) to explore any of the supported Polkadot and Substrate chains.
 
-If you run one or more IPFS node(s), pinning the UI will make it faster for you and others. You can find details about that below in the IPFS chapter below.
+If you run one or more IPFS node(s), pinning the UI (which only getes updated on releases) will make it faster for you and others. You can find details about that below in the IPFS chapter below.
 
 **Important** If you are a chain developer and would like to add support for your chain to the UI, all the local configuration (API types, settings, logos) can be customized in [the apps-config package](packages/apps-config#README.md), complete with instructions of what goes where.
 
