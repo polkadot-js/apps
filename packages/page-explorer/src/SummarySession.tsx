@@ -27,7 +27,7 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
     sessionInfo?.isEpoch
       ? t('epoch')
       : t('session')
-  , [sessionInfo, t]);
+  , [sessionInfo?.isEpoch, t]);
 
   return (
     <>

@@ -46,7 +46,7 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
           />
         )}
       </td>
-      <td className='mini hide-small'>
+      <td className='mini ui--media-1000'>
         <LinkExternal
           data={index}
           type='referendum'

@@ -4,19 +4,25 @@
 
 import { Props } from '../types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import Bytes from './Bytes';
 import BytesFile from './File';
 
 function Code ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
+
   // TODO: Validate that we have actual proper WASM code
   const _onChange = useCallback(
-    (value: Uint8Array) =>
+    (value: Uint8Array): void => {
+      const isValid = value.length !== 0;
+
       onChange && onChange({
-        isValid: value.length !== 0,
+        isValid,
         value
-      }),
+      });
+      setIsValid(isValid);
+    },
     [onChange]
   );
 
@@ -25,7 +31,7 @@ function Code ({ className, defaultValue, isDisabled, isError, label, onChange, 
       <Bytes
         className={className}
         defaultValue={defaultValue}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
         onEnter={onEnter}
         onEscape={onEscape}
@@ -40,7 +46,7 @@ function Code ({ className, defaultValue, isDisabled, isError, label, onChange, 
     <BytesFile
       className={className}
       defaultValue={defaultValue}
-      isError={isError}
+      isError={isError || !isValid}
       label={label}
       onChange={_onChange}
       style={style}

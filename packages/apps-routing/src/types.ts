@@ -23,8 +23,7 @@ export interface Route {
   isIgnored?: boolean;
   name: string;
   text: string;
-  useCheck?: () => boolean;
-  useCounter?: () => number;
+  useCounter?: () => number | string | null;
 }
 
 export type Routes = (Route | null)[];

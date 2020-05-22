@@ -37,17 +37,21 @@ export function createParam (hex: string | String, length = -1): StateParam {
 }
 
 function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+  const [, setIsValid] = useState(false);
   const [key, setKey] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
   const [value, setValue] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
 
   useEffect((): void => {
+    const isValid = key.isValid && value.isValid;
+
     onChange && onChange({
-      isValid: key.isValid && value.isValid,
+      isValid,
       value: u8aConcat(
         key.u8a,
         value.u8a
       )
     });
+    setIsValid(isValid);
   }, [key, onChange, value]);
 
   const _onChangeKey = useCallback(

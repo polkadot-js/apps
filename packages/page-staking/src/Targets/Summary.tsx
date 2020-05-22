@@ -26,7 +26,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
   const [percentage, setPercentage] = useState<string | undefined>();
 
   useEffect((): void => {
-    totalIssuance && totalStaked?.gtn(0) && setPercentage(
+    totalIssuance && totalStaked && totalStaked.gtn(0) && setPercentage(
       `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
     );
   }, [totalIssuance, totalStaked]);

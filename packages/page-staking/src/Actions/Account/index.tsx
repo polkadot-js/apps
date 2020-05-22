@@ -65,7 +65,6 @@ function Account ({ className, info: { controllerId, destination, destinationId,
         {isNominateOpen && controllerId && (
           <Nominate
             controllerId={controllerId}
-            isOpen={isNominateOpen}
             next={next}
             nominating={nominating}
             onClose={toggleNominate}
@@ -115,7 +114,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td className='number'>{destination}</td>
+      <td className='number ui--media-1200'>{destination}</td>
       <td className='number'>
         <StakingBonded stakingInfo={stakingAccount} />
         <StakingUnbonding stakingInfo={stakingAccount} />

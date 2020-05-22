@@ -19,6 +19,7 @@ function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
   return (
     <Badge
       info='64+'
+      isInline
       type='brown'
     />
   );

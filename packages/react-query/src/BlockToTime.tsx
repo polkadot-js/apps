@@ -63,7 +63,7 @@ function BlockToTime ({ blocks, children, className, label, style }: Props): Rea
       api.consts.timestamp?.minimumPeriod.muln(2) ||
       DEFAULT_TIME
     ).divn(1000);
-    const time = extractTime(blocks?.mul(blockTime).toNumber());
+    const time = extractTime(blocks && blocks.mul(blockTime).toNumber());
 
     return [
       time[0] ? (time[0] > 1) ? t('{{d}} days', { replace: { d: time[0] } }) : t('1 day') : null,

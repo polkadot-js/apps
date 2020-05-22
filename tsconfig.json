@@ -5,8 +5,11 @@
     "**/build/**/*"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
+      "@polkadot/apps/*": ["packages/apps/src/*"],
+      "@polkadot/apps": ["packages/apps/src"],
       "@polkadot/apps-config/*": [ "packages/apps-config/src/*" ],
       "@polkadot/apps-routing": [ "packages/apps-routing/src" ],
       "@polkadot/apps-routing/*": [ "packages/apps-routing/src/*" ],

@@ -13,7 +13,7 @@ import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-const DUMMY_COUNTER = (): number => 0;
+const DUMMY_COUNTER = (): null => null;
 
 interface Props {
   isCollapsed: boolean;
@@ -101,7 +101,7 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
     <>
       <Icon name={icon} />
       <span className='text'>{text}</span>
-      {count !== 0 && (
+      {!!count && (
         <Badge
           info={count}
           isInline
