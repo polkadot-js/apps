@@ -23,7 +23,7 @@ function Statement ({ className, kind }: Props): React.ReactElement<Props> | nul
   return (
     <div className={className}>
       {t('Please read the following statement carefully, it is also available at ')}
-      <a href={statementUrl}>{statementUrl}</a>
+      <a href={statementUrl} target="_blank">{statementUrl}</a>
       <ReactMd
         className='statement'
         escapeHtml={false}
