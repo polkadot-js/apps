@@ -16,13 +16,11 @@ import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from './translate';
-import { recoverFromJSON } from './util';
+import { recoverFromJSON, getStatementSentence } from './util';
 import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
+import Statement from './Statement';
 import Warning from './Warning';
-import ReactMd from 'react-markdown';
-import statementRegular from './md/regular.md';
-import statementAlternative from './md/saft.md';
 
 export { default as useCounter } from './useCounter';
 
@@ -34,8 +32,6 @@ enum Step {
 }
 
 const PRECLAIMS_LOADING = 'PRECLAIMS_LOADING';
-const DEFAULT_STATEMENT = 'Default';
-const ALTERNATIVE_STATEMENT = 'Alternative';
 
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
@@ -164,19 +160,15 @@ function ClaimsApp (): React.ReactElement {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const statementKind = useCall<string>(!isPreclaimed && !isOldClaimProcess && ethereumAddress && api.query.claims.signing, [ethereumAddress], {
+  const _statementKind = useCall<string>(!isPreclaimed && !isOldClaimProcess && ethereumAddress && api.query.claims.signing, [ethereumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr('').toString()
   });
-
-  const statement = statementKind
-    ? statementKind === ALTERNATIVE_STATEMENT
-      ? statementAlternative
-      : statementRegular
-    : null;
+  const statementKind = api.createType('StatementKind', _statementKind);
+  const statementSentence = statementKind ? getStatementSentence(statementKind) : '';
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
-    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind || ''}`
+    ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementSentence}`
     : '';
 
   return (
@@ -245,12 +237,9 @@ function ClaimsApp (): React.ReactElement {
             <Card>
               <h3>{t('{{step}}. Sign with you ETH address',
                 { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
-              <div>Please read the following statement carefully:</div>
-              {statement && <ReactMd
-                className='statement'
-                escapeHtml={false}
-                source={statement}
-              />}
+              <Statement
+                kind={statementKind}
+              />
               <CopyToClipboard
                 onCopy={onCopy}
                 text={payload}

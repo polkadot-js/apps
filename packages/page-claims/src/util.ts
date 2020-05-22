@@ -9,6 +9,9 @@ import { registry } from '@polkadot/react-api';
 import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
+import statementRegular from './md/regular.md';
+import statementAlternative from './md/saft.md';
+
 interface RecoveredSignature {
   error: Error | null;
   ethereumAddress: EthereumAddress | null;
@@ -19,6 +22,11 @@ interface SignatureParts {
   recovery: number;
   signature: Buffer;
 }
+
+const DEFAULT_STATEMENT_URL = 'https://statement.polkadot.network/regular.md';
+const ALTERNATIVE_STATEMENT_URL = 'https://statement.polkadot.network/saft.md';
+const DEFAULT_STATEMENT_HASH = '0x00';
+const ALTERNATIVE_STATEMENT_HASH = '0x00';
 
 // converts an Ethereum address to a checksum representation
 export function addrToChecksum (_address: string): string {
@@ -109,8 +117,46 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
   }
 }
 
+export function getStatementUrl (kind?: StatementKind): string {
+  if (!kind) {
+    return '';
+  }
+
+  if (kind.isDefault) {
+    return DEFAULT_STATEMENT_URL;
+  } else {
+    return ALTERNATIVE_STATEMENT_URL;
+  }
+}
+
 // From a StatementKind, get the hardcoded actual statement to sign
-export function getStatement (kind: StatementKind): string {
+export function getStatementSentence (kind?: StatementKind): string {
   // FIXME Wait for actual legal statements
-  return kind.toString();
+
+  if (!kind) {
+    return '';
+  }
+
+  const url = getStatementUrl(kind);
+  let hash = '0x00';
+
+  if (kind.isDefault) {
+    hash = DEFAULT_STATEMENT_HASH;
+  } else {
+    hash = ALTERNATIVE_STATEMENT_HASH;
+  }
+
+  return `FIXME with the actual legal statement ${hash} ${url}`;
+}
+
+export function getStatementMd (kind?: StatementKind): string {
+  if (!kind) {
+    return '';
+  }
+
+  if (kind.isDefault) {
+    return statementRegular;
+  } else {
+    return statementAlternative;
+  }
 }

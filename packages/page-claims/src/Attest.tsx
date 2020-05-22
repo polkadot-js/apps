@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect, useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -10,8 +10,9 @@ import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
+import Statement from './Statement';
 import { useTranslation } from './translate';
-import { getStatement } from './util';
+import { getStatementSentence } from './util';
 
 interface Props {
   accountId: string;
@@ -26,8 +27,6 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
   const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
-
-  const statement = useMemo(() => statementKind && getStatement(statementKind), [statementKind]);
 
   const _fetchClaim = useCallback(
     (address: EthereumAddress): void => {
@@ -55,21 +54,24 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
   }
 
   const hasClaim = claimValue && claimValue.gten(0);
+  const statementSentence = getStatementSentence(statementKind);
 
   return (
     <Card isSuccess>
       <div className={className}>
-        {t('By signing this transaction, you agree with the attestation available at the following address: XXX')}
+        <Statement
+          kind={statementKind}
+        />
         {hasClaim &&
           <h3>{t('Attestation for: ')} <FormatBalance value={claimValue} /></h3>}
         <Button.Group>
           <TxButton
             accountId={accountId}
             icon='send'
-            isDisabled={!statement}
+            isDisabled={!statementSentence}
             isPrimary
             label={t('Attest')}
-            params={[statement]}
+            params={[statementSentence]}
             tx='claims.attest'
           />
         </Button.Group>
