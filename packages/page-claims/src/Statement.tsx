@@ -34,5 +34,15 @@ function Statement ({ className, kind }: Props): React.ReactElement<Props> | nul
 }
 
 export default React.memo(styled(Statement)`
-  
+  .statement{
+    border: 1px solid #c2c2c2;
+    background: #f2f2f2;
+    height: 15rem;
+    overflow-y: scroll;
+    padding: 1rem;
+    width: 100%;
+    margin: 1rem 0;
+    white-space: normal;
+    word-break: break-all;
+  }
 `);
