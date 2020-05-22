@@ -33,7 +33,7 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     if: "! contains(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
-    name: ${{ matrix.step }}
+    name: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v1
