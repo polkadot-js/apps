@@ -7,6 +7,8 @@ const pinataSDK = require('@pinata/sdk');
 const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
+const lernaInfo = require('../lerna.json');
+
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
 const DOMAIN = 'dotapps.io';
@@ -86,10 +88,13 @@ async function dnslink (hash) {
 }
 
 async function main () {
-  const hash = await pin();
+  // only run on non-beta versions
+  if (!lernaInfo.version.includes('-beta.')) {
+    const hash = await pin();
 
-  await dnslink(hash);
-  await unpin(hash);
+    await dnslink(hash);
+    await unpin(hash);
+  }
 }
 
 main()
