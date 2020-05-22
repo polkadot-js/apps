@@ -5,13 +5,14 @@
 import { StatementKind } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import ReactMd from 'react-markdown';
 import styled from 'styled-components';
 
-import { getStatementMd, getStatementUrl } from './util';
+import RegularStatement from './statements/regular';
+import SaftStatement from './statements/saft';
 import { useTranslation } from './translate';
+import { getStatementUrl } from './util';
 
-export interface Props{
+export interface Props {
   className?: string;
   kind: StatementKind;
 }
@@ -26,11 +27,9 @@ function Statement ({ className, kind }: Props): React.ReactElement<Props> | nul
       <a href={statementUrl}
         rel='noopener noreferrer'
         target='_blank'>{statementUrl}</a>
-      <ReactMd
-        className='statement'
-        escapeHtml={false}
-        source={getStatementMd(kind)}
-      />
+      <div className='statement'>
+        {kind.isDefault ? <RegularStatement /> : <SaftStatement />}
+      </div>
     </div>
   );
 }
