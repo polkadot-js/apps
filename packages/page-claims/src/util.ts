@@ -9,9 +9,6 @@ import { registry } from '@polkadot/react-api';
 import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
-import statementRegular from './md/regular.md';
-import statementAlternative from './md/saft.md';
-
 interface RecoveredSignature {
   error: Error | null;
   ethereumAddress: EthereumAddress | null;
@@ -23,8 +20,8 @@ interface SignatureParts {
   signature: Buffer;
 }
 
-const DEFAULT_STATEMENT_URL = 'https://statement.polkadot.network/regular.md';
-const ALTERNATIVE_STATEMENT_URL = 'https://statement.polkadot.network/saft.md';
+const DEFAULT_STATEMENT_URL = 'https://statement.polkadot.network/regular.html';
+const ALTERNATIVE_STATEMENT_URL = 'https://statement.polkadot.network/saft.html';
 const DEFAULT_STATEMENT_HASH = '0x00';
 const ALTERNATIVE_STATEMENT_HASH = '0x00';
 
@@ -143,14 +140,4 @@ export function getStatementSentence (kind?: StatementKind | null): string {
   }
 
   return `FIXME with the actual legal statement sentence ${hash} ${url}`;
-}
-
-export function getStatementMd (kind?: StatementKind | null): string {
-  if (kind?.isDefault) {
-    return statementRegular;
-  } else if (kind?.isAlternative) {
-    return statementAlternative;
-  } else {
-    return '';
-  }
 }
