@@ -20,6 +20,9 @@ import { recoverFromJSON } from './util';
 import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
 import Warning from './Warning';
+import ReactMd from 'react-markdown';
+import statementRegular from './md/regular.md';
+import statementAlternative from './md/saft.md';
 
 export { default as useCounter } from './useCounter';
 
@@ -31,6 +34,8 @@ enum Step {
 }
 
 const PRECLAIMS_LOADING = 'PRECLAIMS_LOADING';
+const DEFAULT_STATEMENT = 'Default';
+const ALTERNATIVE_STATEMENT = 'Alternative';
 
 // FIXME no embedded components (hossible to tweak)
 const Payload = styled.pre`
@@ -163,6 +168,12 @@ function ClaimsApp (): React.ReactElement {
     transform: (option: Option<StatementKind>) => option.unwrapOr('').toString()
   });
 
+  const statement = statementKind
+    ? statementKind === ALTERNATIVE_STATEMENT
+      ? statementAlternative
+      : statementRegular
+    : null;
+
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
     ? `${prefix}${u8aToHex(decodeAddress(accountId), -1, false)}${statementKind || ''}`
@@ -234,6 +245,12 @@ function ClaimsApp (): React.ReactElement {
             <Card>
               <h3>{t('{{step}}. Sign with you ETH address',
                 { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
+              <div>Please read the following statement carefully:</div>
+              {statement && <ReactMd
+                className='statement'
+                escapeHtml={false}
+                source={statement}
+              />}
               <CopyToClipboard
                 onCopy={onCopy}
                 text={payload}
@@ -251,7 +268,6 @@ function ClaimsApp (): React.ReactElement {
                 trigger='tx-payload'
               />
               <div>
-                {/* FIXME Thibaut We need to present the statement clearly */}
                 {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                   :
               </div>
