@@ -235,7 +235,7 @@ function ClaimsApp (): React.ReactElement {
             )}
           {(step >= Step.Sign && !isPreclaimed) && (
             <Card>
-              {(isOldClaimProcess || (statementKind?.isAlternative || statementKind?.isDefault))
+              {(isOldClaimProcess || !!statementKind)
                 ? <>
                   <h3>{t('{{step}}. Sign with you ETH address',
                     { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
