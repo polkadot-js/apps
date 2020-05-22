@@ -159,7 +159,8 @@ function ClaimsApp (): React.ReactElement {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [api.createType('EthereumAddress', ethereumAddress)], {
+  const _ethreumAddress = ethereumAddress ? api.createType('EthereumAddress', ethereumAddress) : null;
+  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && _ethreumAddress && api.query.claims.signing, [_ethreumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr(null)
   });
 
