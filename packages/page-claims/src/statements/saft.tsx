@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-// Copy-pasted from https://statement.polkadot.network/regular.html
+// Copy-pasted from https://statement.polkadot.network/saft.html
 function SaftStatement (): React.ReactElement {
   return (
     <>
