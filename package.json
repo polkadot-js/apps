@@ -13,14 +13,17 @@
   ],
   "build": {
     "productName": "Polkadot",
+    "artifactName": "Polkadot-${version}.${ext}",
     "files": [
-      "./packages/apps-electron/build"
+      "./packages/apps-electron/build",
+      "./packages/apps-electron/assets"
     ],
     "appId": "com.polkadot.polkadot-app",
     "mac": {
       "category": "public.app-category.finance"
     },
     "directories": {
+      "buildResources": "./packages/apps-electron/assets",
       "output": "./packages/apps-electron/release"
     }
   },
@@ -52,7 +55,7 @@
     "packElectron:mac": "yarn build:release:electron && electron-builder build --mac",
     "packElectron:win": "yarn build:release:electron && electron-builder build --win",
     "packElectron:linux": "yarn build:release:electron && electron-builder build --linux",
-    "packElectron": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build --linux --win --mac",
+    "packElectron": "yarn build:release:electron && yarn clean:electronRelease && electron-builder build -mwl",
     "docs": "echo \"skipping docs\"",
     "clean": "polkadot-dev-clean-build",
     "clean:electronBuild": "cd packages/apps-electron polkadot-dev-clean-build",
