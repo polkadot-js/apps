@@ -1,8 +1,49 @@
-# 0.42.0-beta.x
+# 0.42.1 May 22, 2020
 
+- Adjust Subscan proposal links (Thanks to https://github.com/illlefr4u)
+- Add environment suport for docker images (Thanks to https://github.com/chevdor)
+- Adjust overflows on small screens (Thanks to https://github.com/dushaobindoudou)
+- Add links to Polkaassembly (Thanks to https://github.com/Tbaut)
+- Address popup with detailed info (Thanks to https://github.com/kwingram25)
+- Add Russian translation (Thanks to https://github.com/gregzaitsev)
+- Russian translation adjustments (Thanks to https://github.com/illlefr4u)
+- Add Nodle RPC endpoint (Thanks to https://github.com/ETeissonniere)
+- Update Kulupu types (Thanks to https://github.com/sorpaas)
+- Update Edgeware types (Thanks to https://github.com/drewstone)
+- Update Encointer types (Thanks to https://github.com/brenzi)
+- Update node-template types (Thanks to https://github.com/shawntabrizi)
+- Update node-template types (Thanks to https://github.com/JoshOrndorff)
+- Higher default contracts gas limit (Thanks to https://github.com/Stefie)
+- Add block number display to event overview (Thanks to https://github.com/danforbes)
+- Basic Electron support (Thanks to https://github.com/EthWorks)
+- Documentation around IPFS pinning (Thanks to https://github.com/chevdor)
+- Added IPFS/IPNS publishing (ipns via dotapps.io)
+- Support for multisig wallets
+- Ledger address on-wallet display option
+- Add support for new per-staker payouts
+- Allow for "best" selection in staking
+- Simplified nominator & validator creation flows
+- Display >64 nominators on staking pages (clipped payouts)
+- Remove tooltips on staking and elsewhere (large number causes performance issues)
+- Council isMember checks uses council in addition to elections
+- Allow closing of council proposals
 - Expand Treasury proposal inline in council (for approve/reject)
 - Expand external proposals in council (preimage lookups)
+- Allow for sudo with unchecked weight
+- Adjust referendums to display turnout and sentiment
+- Add columar modals with extra info
 - Add table summaries with totals for free, bonded & stash payouts
+- Add images to metadata update dropdowns
+- Ecdsa keypair support
+- Display delegations in voting breakdowns
+- Adjust registrar modal with per-account filters
+- Add i18n linting script
+- Add i18n editor with translation file generator
+- Custom i18n loader with caching
+- Add JS sample for storage key generation
+- Misc UI fixes & adjustments throughout
+- Allow for tabes with aliasses (on renames) & redirects
+- Align types and calls with latest substrate
 
 # 0.41.1 Apr 20, 2020
 
