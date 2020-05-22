@@ -22,7 +22,7 @@ function Statement ({ className, kind }: Props): React.ReactElement<Props> | nul
 
   return (
     <div className={className}>
-      {t('Please read the following statement carefully, it is also available at ')}
+      {t('Please read these terms and conditions carefully. By submitting this statement, you are deemed to have accepted these Terms and Conditions. If you do not agree to these terms, please refrain from accessing or proceeding. You can also find them at: ')}
       <a href={statementUrl}
         rel='noopener noreferrer'
         target='_blank'>{statementUrl}</a>
