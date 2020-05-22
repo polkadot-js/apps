@@ -70,7 +70,7 @@ const Signature = styled.textarea`
 
 function ClaimsApp (): React.ReactElement {
   const [didCopy, setDidCopy] = useState(false);
-  const [ethereumAddress, setEthereumAddress] = useState<EthereumAddress | null>(null);
+  const [ethereumAddress, setEthereumAddress] = useState<string | undefined | null>(null);
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
   const [step, setStep] = useState<Step>(Step.Account);
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -81,7 +81,7 @@ function ClaimsApp (): React.ReactElement {
   // - an `EthereumAddress` when there's a preclaim
   // - null if no preclaim
   // - `PRECLAIMS_LOADING` if we're fetching the results
-  const [preclaimEthereumAddress, setPreclaimEthereumAddress] = useState<EthereumAddress | null | typeof PRECLAIMS_LOADING>(PRECLAIMS_LOADING);
+  const [preclaimEthereumAddress, setPreclaimEthereumAddress] = useState<string | null | undefined | typeof PRECLAIMS_LOADING>(PRECLAIMS_LOADING);
   const isPreclaimed = !!preclaimEthereumAddress && preclaimEthereumAddress !== PRECLAIMS_LOADING;
 
   // Everytime we change account, reset everything, and check if the accountId
@@ -102,8 +102,8 @@ function ClaimsApp (): React.ReactElement {
     api.query.claims
       .preclaims<Option<EthereumAddress>>(accountId)
       .then((preclaim): void => {
-        setEthereumAddress(preclaim.unwrapOr(null));
-        setPreclaimEthereumAddress(preclaim.unwrapOr(null));
+        setEthereumAddress(preclaim.unwrapOr(null)?.toString());
+        setPreclaimEthereumAddress(preclaim.unwrapOr(null)?.toString());
       })
       .catch((): void => setPreclaimEthereumAddress(null));
   }, [accountId, api.query.claims, api.query.claims.preclaims]);
@@ -143,16 +143,15 @@ function ClaimsApp (): React.ReactElement {
 
     const { ethereumAddress, signature } = recoverFromJSON(signatureJson);
 
-    setEthereumAddress(ethereumAddress);
+    setEthereumAddress(ethereumAddress?.toString());
     setSignature(signature);
   }, []);
 
   const onChangeEthereumAddress = useCallback((value: string) => {
     // FIXME We surely need a better check than just a trim
-    const trimmedAddress = api.createType('EthereumAddress', value.trim());
 
-    setEthereumAddress(trimmedAddress);
-  }, [api]);
+    setEthereumAddress(value.trim());
+  }, []);
 
   const onCopy = useCallback(() => {
     setDidCopy(true);
@@ -160,7 +159,8 @@ function ClaimsApp (): React.ReactElement {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && ethereumAddress && api.query.claims.signing, [ethereumAddress], {
+  const _ethereumAddress = ethereumAddress ? api.createType('EthereumAddress', ethereumAddress) : null;
+  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && _ethereumAddress && api.query.claims.signing, [_ethereumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr(null)
   });
 
