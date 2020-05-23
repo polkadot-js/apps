@@ -20,18 +20,10 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
   const plugins = hasPublic
     ? [new CopyWebpackPlugin([{ from: 'public' }])]
     : [];
-  // disabled, smooths dev load, was -
-  // isProd ? 'source-map' : 'cheap-eval-source-map',
 
   return {
     context,
-    entry: [
-      '@babel/polyfill',
-      `./src/${name}.tsx`,
-      isProd
-        ? null
-        : null // 'webpack-plugin-serve/client'
-    ].filter((entry) => entry),
+    entry: ['@babel/polyfill', `./src/${name}.tsx`],
     mode: ENV,
     module: {
       rules: [
@@ -120,19 +112,19 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             chunks: 'initial',
             enforce: true,
             name: 'polkadotjs',
-            test: /node_modules\/(@polkadot\/wasm-crypto)/
+            test: /node_modules\/@polkadot\/(api|api-derive|extension-dapp|keyring|metadata|react-identicon|react-qr|rpc-core|rpc-provider|types|ui-keyring|ui-settings|ui-shared|util|util-crypto|vanitygen|wasm-crypto)/
           },
           vendorOther: {
             chunks: 'initial',
             enforce: true,
             name: 'vendor',
-            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs)/
+            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs|secp256k1|webrtc-adapter|remark-parse)/
           },
           vendorReact: {
             chunks: 'initial',
             enforce: true,
             name: 'react',
-            test: /node_modules\/(chart|i18next|react|semantic-ui)/
+            test: /node_modules\/(@semantic-ui-react|chart|i18next|jidenticon|qrcode-generator|react|react-dom|semantic-ui-css|semantic-ui-react|styled-components)/
           }
         }
       }
