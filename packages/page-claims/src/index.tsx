@@ -236,52 +236,50 @@ function ClaimsApp (): React.ReactElement {
           {(step >= Step.Sign && !isPreclaimed) && (
             <Card>
               {(isOldClaimProcess || !!statementKind)
-                ? <>
-                  <h3>{t('{{step}}. Sign with you ETH address',
-                    { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
-                  {!isOldClaimProcess && (<Statement
-                    kind={statementKind}
-                    systemChain={systemChain}
-                  />)}
-                  <div>
-                    {t('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
-                    :
-                  </div>
-                  <CopyToClipboard
-                    onCopy={onCopy}
-                    text={payload}
-                  >
-                    <Payload
-                      data-for='tx-payload'
-                      data-tip
+                ? (
+                  <>
+                    <h3>{t('{{step}}. Sign with you ETH address',
+                      { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
+                    {!isOldClaimProcess && (<Statement
+                      kind={statementKind}
+                      systemChain={systemChain}
+                    />)}
+                    <div>{t('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:')}</div>
+                    <CopyToClipboard
+                      onCopy={onCopy}
+                      text={payload}
                     >
-                      {payload}
-                    </Payload>
-                  </CopyToClipboard>
-                  <Tooltip
-                    place='right'
-                    text={didCopy ? t('copied') : t('click to copy')}
-                    trigger='tx-payload'
-                  />
-                  <Signature
-                    onChange={onChangeSignature}
-                    placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
-                    rows={10}
-                  />
-                  {(step === Step.Sign) && (
-                    <Button.Group>
-                      <Button
-                        icon='sign-in'
-                        isDisabled={!accountId || !signature}
-                        label={t('Confirm claim')}
-                        onClick={goToStepClaim}
-                      />
-                    </Button.Group>
-                  )}
-                </>
-                : <div>
-                  The Ethereum address you submitted could not be found in the genesis.
-                </div>}
+                      <Payload
+                        data-for='tx-payload'
+                        data-tip
+                      >
+                        {payload}
+                      </Payload>
+                    </CopyToClipboard>
+                    <Tooltip
+                      place='right'
+                      text={didCopy ? t('copied') : t('click to copy')}
+                      trigger='tx-payload'
+                    />
+                    <Signature
+                      onChange={onChangeSignature}
+                      placeholder={`{\n  "address": "0x ...",\n  "msg": "${prefix}:...",\n  "sig": "0x ...",\n  "version": "2"\n}`}
+                      rows={10}
+                    />
+                    {(step === Step.Sign) && (
+                      <Button.Group>
+                        <Button
+                          icon='sign-in'
+                          isDisabled={!accountId || !signature}
+                          label={t('Confirm claim')}
+                          onClick={goToStepClaim}
+                        />
+                      </Button.Group>
+                    )}
+                  </>
+                )
+                : <div>{t('This Ethereum address does not have a claim.')}</div>
+              }
             </Card>
           )}
         </Column>

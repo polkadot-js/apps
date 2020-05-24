@@ -84,5 +84,4 @@ function Attest ({ accountId, className, ethereumAddress, statementKind, systemC
   );
 }
 
-// FIXME Same styles as ./Claim.tsx
 export default React.memo(styled(Attest)`${ClaimStyles}`);
