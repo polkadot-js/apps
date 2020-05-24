@@ -12,6 +12,7 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 const findPackages = require('../../scripts/findPackages');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// const devtool = 'source-map'; //  : 'cheap-eval-source-map',
 const devtool = false;
 const ENV = process.env.NODE_ENV || 'development';
 const isProd = ENV === 'production';
