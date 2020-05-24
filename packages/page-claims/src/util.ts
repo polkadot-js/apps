@@ -9,9 +9,6 @@ import { registry } from '@polkadot/react-api';
 import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
-import statementRegular from './md/regular.md';
-import statementAlternative from './md/saft.md';
-
 interface RecoveredSignature {
   error: Error | null;
   ethereumAddress: EthereumAddress | null;
@@ -23,8 +20,8 @@ interface SignatureParts {
   signature: Buffer;
 }
 
-const REGULAR_STATEMENT_URL = 'https://statement.polkadot.network/regular.md';
-const SAFT_STATEMENT_URL = 'https://statement.polkadot.network/saft.md';
+const REGULAR_STATEMENT_URL = 'https://statement.polkadot.network/regular.html';
+const SAFT_STATEMENT_URL = 'https://statement.polkadot.network/saft.html';
 const REGULAR_STATEMENT_HASH = 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny';
 const SAFT_STATEMENT_HASH = 'Qmawwbu1KeZ46peRspbsTUot8Lq6KcHutuiUKJ142N4Reg';
 
@@ -143,14 +140,4 @@ export function getStatementSentence (kind?: StatementKind | null): string {
   }
 
   return `I hereby agree to the terms of the statement whose SHA-256 multihash is ${hash}. (This may be found at the URL: ${url})`;
-}
-
-export function getStatementHtml (kind?: StatementKind | null): string {
-  if (kind?.isDefault) {
-    return statementRegular;
-  } else if (kind?.isAlternative) {
-    return statementAlternative;
-  } else {
-    return '';
-  }
 }
