@@ -32,7 +32,7 @@ const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
 function parseFile (file: Uint8Array): FileState {
   try {
-    const json = JSON.parse(u8aToString(file));
+    const json = JSON.parse(u8aToString(file)) as KeyringPair$Json;
     const publicKey = keyring.decodeAddress(json.address, true);
     const address = keyring.encodeAddress(publicKey);
     const isFileValid = publicKey.length === 32 && isHex(json.encoded) && isObject(json.meta) && (
@@ -110,7 +110,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         <Modal.Columns>
           <Modal.Column>
             <AddressRow
-              defaultName={isFileValid && json ? json.meta.name : null}
+              defaultName={(isFileValid && json?.meta.name as string) || null}
               noDefaultNameOpacity
               value={isFileValid && address ? address : null}
             />

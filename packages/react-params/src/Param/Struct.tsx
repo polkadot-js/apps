@@ -21,7 +21,7 @@ function StructParam (props: Props): React.ReactElement<Props> {
     let typeDef;
 
     try {
-      const rawType = createType(registry, type.type as any).toRawType();
+      const rawType = createType(registry, type.type as 'u32').toRawType();
 
       typeDef = getTypeDef(rawType);
     } catch (e) {

@@ -22,7 +22,7 @@ function Moment ({ className = '', defaultValue, isDisabled, isError, label, onC
         className={className}
         defaultValue={
           (defaultValue && defaultValue.value)
-            ? defaultValue.value.toString()
+            ? (defaultValue.value as string).toString()
             : ''
         }
         isError={isError}

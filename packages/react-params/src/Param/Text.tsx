@@ -25,7 +25,7 @@ function Text ({ className = '', defaultValue: { value }, isDisabled, isError, l
     [onChange]
   );
 
-  const defaultValue = (value || '').toString();
+  const defaultValue = (value as string || '').toString();
 
   return (
     <Bare

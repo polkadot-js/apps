@@ -26,7 +26,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   const [{ options, subTypes }, setOptions] = useState<{ options: Option[]; subTypes: TypeDef[] }>({ options: [], subTypes: [] });
 
   useEffect((): void => {
-    const rawType = createType(registry, type.type as any).toRawType();
+    const rawType = createType(registry, type.type as 'u32').toRawType();
     const typeDef = getTypeDef(rawType);
     const subTypes = typeDef.sub as TypeDef[];
 
@@ -45,7 +45,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       defaultValue && defaultValue.value
         ? defaultValue.value instanceof Enum
           ? defaultValue.value.type
-          : Object.keys(defaultValue.value)[0]
+          : Object.keys(defaultValue.value as Record<string, unknown>)[0]
         : null
     );
   }, [defaultValue]);

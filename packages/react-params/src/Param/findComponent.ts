@@ -122,7 +122,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
 
   if (!Component) {
     try {
-      const instance = createType(registry, type as any);
+      const instance = createType(registry, type as 'u32');
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);

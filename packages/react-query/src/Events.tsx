@@ -62,16 +62,16 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
                   blockHash,
                   blockNumber,
                   index,
-                  key: `${blockNumber}-${blockHash}-${index}`,
+                  key: `${blockNumber.toNumber()}-${blockHash}-${index}`,
                   record
                 })),
                 ...events
               ].slice(0, MAX_EVENTS));
             }
-          });
+          }).catch(console.error);
         }
-      });
-    });
+      }).catch(console.error);
+    }).catch(console.error);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

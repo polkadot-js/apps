@@ -40,8 +40,8 @@ function Option ({ className = '', defaultValue, isDisabled, name, onChange, onE
           className='ui--Param-Option-toggle'
           label={
             isActive
-              ? t('include option')
-              : t('exclude option')
+              ? t<string>('include option')
+              : t<string>('exclude option')
           }
           onChange={setIsActive}
           value={isActive}

@@ -95,7 +95,7 @@ class Params extends React.PureComponent<Props, State> {
                 defaultValue={values[index]}
                 index={index}
                 isDisabled={isDisabled}
-                key={`${name}:${type}:${index}`}
+                key={`${name || ''}:${type.toString()}:${index}`}
                 name={name}
                 onChange={this.onChangeParam}
                 onEnter={onEnter}

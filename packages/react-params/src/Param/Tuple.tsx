@@ -19,7 +19,7 @@ function Tuple (props: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     try {
-      const rawType = createType(registry, type.type as any).toRawType();
+      const rawType = createType(registry, type.type as 'u32').toRawType();
       const typeDef = getTypeDef(rawType);
 
       setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));

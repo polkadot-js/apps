@@ -17,7 +17,6 @@ import { useTranslation } from '../translate';
 interface Props {
   deposit: BN | Compact<UInt>;
   fees: DeriveFees;
-  democracy_minimumDeposit?: BN;
   onChange: (fees: ExtraFees) => void;
 }
 

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -26,7 +27,7 @@ function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, la
   );
 
   const defaultValue = value
-    ? (value.toHex ? value.toHex() : value)
+    ? ((value as { toHex?: () => unknown }).toHex ? (value as Codec).toHex() : value)
     : '';
 
   return (

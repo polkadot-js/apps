@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import NetworkModal from '../modals/Network';
@@ -55,7 +54,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
 
   return (
     <Responsive
-      className={classes(className = '', 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}
       onUpdate={handleResize}
     >
       <ChainImg

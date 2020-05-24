@@ -58,7 +58,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
       const params: ParamDef[] = [];
       const values: RawParam[] = [];
 
-      (defaultValue.value || []).forEach((value: RawParam, index: number): void => {
+      (defaultValue.value as RawParam[] || []).forEach((value: RawParam, index: number): void => {
         values.push(
           isUndefined(value) || isUndefined(value.isValid)
             ? { isValid: !isUndefined(value), value }

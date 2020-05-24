@@ -31,7 +31,7 @@ const BYTES_TYPE = {
 const EMPTY_PLACEHOLDER = 'click to select or drag and drop JSON key/value (hex-encoded) file';
 
 function parseFile (raw: Uint8Array): Parsed {
-  const json = JSON.parse(u8aToString(raw));
+  const json = JSON.parse(u8aToString(raw)) as Record<string, string>;
   const keys = Object.keys(json);
   let isValid = keys.length !== 0;
   const value = keys.map((key): [Uint8Array, Uint8Array] => {

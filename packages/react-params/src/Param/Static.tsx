@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { Props as BareProps, RawParam } from '../types';
 
 import React from 'react';
@@ -22,9 +23,12 @@ function StaticParam ({ asHex, children, className = '', defaultValue, label, st
   const { t } = useTranslation();
   const value = defaultValue && defaultValue.value && (
     asHex
-      ? defaultValue.value.toHex()
+      ? (defaultValue.value as Codec).toHex()
       : JSON.stringify(
-        defaultValue.value.toHuman ? defaultValue.value.toHuman() : defaultValue.value, null, 2
+        (defaultValue.value as { toHuman?: () => unknown }).toHuman
+          ? (defaultValue.value as Codec).toHuman()
+          : defaultValue.value,
+        null, 2
       ).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')
   );
 

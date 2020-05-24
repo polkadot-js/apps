@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useTranslation as useTranslationBase, UseTranslationResponse } from 'react-i18next';
+import { useTranslation as useTranslationBase } from 'react-i18next';
 
-export function useTranslation (): UseTranslationResponse {
+interface Result {
+  t: (key: string) => string;
+}
+
+export function useTranslation (): Result {
   return useTranslationBase('app-accounts');
 }
