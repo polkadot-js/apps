@@ -10,18 +10,20 @@ import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
+import { ClaimStyles } from './Claim';
 import Statement from './Statement';
 import { useTranslation } from './translate';
-import { getStatementSentence } from './util';
+import { getStatement } from './util';
 
 interface Props {
   accountId: string;
   className?: string;
   ethereumAddress: EthereumAddress | null;
   statementKind?: StatementKind;
+  systemChain: string;
 }
 
-function Attest ({ accountId, className, ethereumAddress, statementKind }: Props): React.ReactElement<Props> | null {
+function Attest ({ accountId, className, ethereumAddress, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
@@ -54,16 +56,18 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
   }
 
   const hasClaim = claimValue && claimValue.gten(0);
-  const statementSentence = getStatementSentence(statementKind);
+  const statementSentence = getStatement(systemChain, statementKind)?.sentence;
 
   return (
     <Card isSuccess>
       <div className={className}>
         <Statement
           kind={statementKind}
+          systemChain={systemChain}
         />
         {hasClaim &&
-          <h3>{t('Attestation for: ')} <FormatBalance value={claimValue} /></h3>}
+          <h3><FormatBalance label={t('Attestation for:')}
+            value={claimValue} /></h3>}
         <Button.Group>
           <TxButton
             accountId={accountId}
@@ -81,29 +85,4 @@ function Attest ({ accountId, className, ethereumAddress, statementKind }: Props
 }
 
 // FIXME Same styles as ./Claim.tsx
-export default React.memo(styled(Attest)`
-  font-size: 1.15rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 12rem;
-  align-items: center;
-  margin: 0 1rem;
-
-  h3 {
-    font-family: monospace;
-    font-size: 1.5rem;
-    max-width: 100%;
-    margin: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  h2 {
-    margin: 0.5rem 0 2rem;
-    font-family: monospace;
-    font-size: 2.5rem;
-    font-weight: 200;
-  }
-`);
+export default React.memo(styled(Attest)`${ClaimStyles}`);

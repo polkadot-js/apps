@@ -20,11 +20,6 @@ interface SignatureParts {
   signature: Buffer;
 }
 
-const DEFAULT_STATEMENT_URL = 'https://statement.polkadot.network/regular.html';
-const ALTERNATIVE_STATEMENT_URL = 'https://statement.polkadot.network/saft.html';
-const DEFAULT_STATEMENT_HASH = '0x00';
-const ALTERNATIVE_STATEMENT_HASH = '0x00';
-
 // converts an Ethereum address to a checksum representation
 export function addrToChecksum (_address: string): string {
   const address = _address.toLowerCase();
@@ -114,30 +109,34 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
   }
 }
 
-export function getStatementUrl (kind?: StatementKind | null): string {
-  if (kind?.isDefault) {
-    return DEFAULT_STATEMENT_URL;
-  } else if (kind?.isAlternative) {
-    return ALTERNATIVE_STATEMENT_URL;
-  } else {
-    return '';
-  }
+export interface Statement {
+  hash: string;
+  sentence: string;
+  url: string;
 }
 
-// From a StatementKind, get the hardcoded actual statement to sign
-export function getStatementSentence (kind?: StatementKind | null): string {
-  // FIXME Wait for actual legal statements
+export function getStatement (network: string, kind?: StatementKind | null): Statement | undefined {
+  switch (network) {
+    case 'Polkadot CC1': {
+      if (!kind) {
+        return undefined;
+      }
 
-  const url = getStatementUrl(kind);
-  let hash = '0x00';
+      // FIXME isRegular
+      return kind.isDefault
+        ? {
+          hash: 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny',
+          sentence: 'I hereby agree to the terms of the statement whose SHA-256 multihash is Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny. (This may be found at the URL: https://statement.polkadot.network/regular.html)',
+          url: 'https://statement.polkadot.network/regular.html'
+        }
+        : {
+          hash: 'Qmawwbu1KeZ46peRspbsTUot8Lq6KcHutuiUKJ142N4Reg',
+          sentence: 'I hereby agree to the terms of the statement whose SHA-256 multihash is Qmawwbu1KeZ46peRspbsTUot8Lq6KcHutuiUKJ142N4Reg. (This may be found at the URL: https://statement.polkadot.network/saft.html)',
+          url: 'https://statement.polkadot.network/saft.html'
+        };
+    }
 
-  if (kind?.isDefault) {
-    hash = DEFAULT_STATEMENT_HASH;
-  } else if (kind?.isAlternative) {
-    hash = ALTERNATIVE_STATEMENT_HASH;
-  } else {
-    return '';
+    default:
+      return undefined;
   }
-
-  return `FIXME with the actual legal statement sentence ${hash} ${url}`;
 }

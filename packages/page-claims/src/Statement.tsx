@@ -7,28 +7,53 @@ import { StatementKind } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import RegularStatement from './statements/regular';
-import SaftStatement from './statements/saft';
+import PolkadotRegular from './statements/polkadot/regular';
+import PolkadotSaft from './statements/polkadot/saft';
 import { useTranslation } from './translate';
-import { getStatementUrl } from './util';
+import { getStatement } from './util';
 
 export interface Props {
   className?: string;
-  kind: StatementKind;
+  kind?: StatementKind;
+  systemChain: string;
 }
 
-function Statement ({ className, kind }: Props): React.ReactElement<Props> | null {
+// Get the full hardcoded text for a statement
+function StatementFullText ({ kind, systemChain }: { kind?: StatementKind; systemChain: string }): React.ReactElement | null {
   const { t } = useTranslation();
-  const statementUrl = getStatementUrl(kind);
+
+  switch (systemChain) {
+    case 'Polkadot CC1': {
+      if (!kind) {
+        return null;
+      }
+
+      // FIXME isRegular
+      return kind.isDefault
+        ? <PolkadotRegular />
+        : <PolkadotSaft />;
+    }
+
+    default:
+      return <p>{t('Warning: we did not find any attest statement for {{chain}}', { replace: { chain: systemChain } })}</p>;
+  }
+}
+
+function Statement ({ className, kind, systemChain }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const statementUrl = getStatement(systemChain, kind)?.url;
 
   return (
     <div className={className}>
-      {t('Please read these terms and conditions carefully. By submitting this statement, you are deemed to have accepted these Terms and Conditions. If you do not agree to these terms, please refrain from accessing or proceeding. You can also find them at: ')}
+      {t('Please read these terms and conditions carefully. By submitting this statement, you are deemed to have accepted these Terms and Conditions. If you do not agree to these terms, please refrain from accessing or proceeding. You can also find them at:')}
       <a href={statementUrl}
         rel='noopener noreferrer'
         target='_blank'>{statementUrl}</a>
       <div className='statement'>
-        {kind.isDefault ? <RegularStatement /> : <SaftStatement />}
+        <StatementFullText
+          kind={kind}
+          systemChain={systemChain}
+        />
       </div>
     </div>
   );

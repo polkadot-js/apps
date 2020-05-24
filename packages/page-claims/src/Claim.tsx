@@ -12,7 +12,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from './translate';
-import { addrToChecksum, getStatementSentence } from './util';
+import { addrToChecksum, getStatement } from './util';
 
 interface Props {
   accountId: string;
@@ -22,6 +22,7 @@ interface Props {
   // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
   isOldClaimProcess: boolean;
   statementKind?: StatementKind;
+  systemChain: string;
 }
 
 interface ConstructTx {
@@ -30,17 +31,23 @@ interface ConstructTx {
 }
 
 // Depending on isOldClaimProcess, construct the correct tx.
-function constructTx (accountId: string, ethereumSignature: string | null, kind: StatementKind | undefined, isOldClaimProcess: boolean): ConstructTx {
+function constructTx (
+  systemChain: string,
+  accountId: string,
+  ethereumSignature: string | null,
+  kind: StatementKind | undefined,
+  isOldClaimProcess: boolean
+): ConstructTx {
   if (!ethereumSignature || !kind) {
     return {};
   }
 
   return isOldClaimProcess
     ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
-    : { params: [accountId, ethereumSignature, getStatementSentence(kind)], tx: 'claims.claimAttest' };
+    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
 }
 
-function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, statementKind }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
@@ -94,7 +101,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
                   isPrimary
                   isUnsigned
                   label={t('Claim')}
-                  {...constructTx(accountId, ethereumSignature, statementKind, isOldClaimProcess)}
+                  {...constructTx(systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
               </Button.Group>
             </>
@@ -109,29 +116,31 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
   );
 }
 
-export default React.memo(styled(Claim)`
-  font-size: 1.15rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 12rem;
-  align-items: center;
-  margin: 0 1rem;
+export const ClaimStyles = `
+font-size: 1.15rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+min-height: 12rem;
+align-items: center;
+margin: 0 1rem;
 
-  h3 {
-    font-family: monospace;
-    font-size: 1.5rem;
-    max-width: 100%;
-    margin: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+h3 {
+  font-family: monospace;
+  font-size: 1.5rem;
+  max-width: 100%;
+  margin: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  h2 {
-    margin: 0.5rem 0 2rem;
-    font-family: monospace;
-    font-size: 2.5rem;
-    font-weight: 200;
-  }
-`);
+h2 {
+  margin: 0.5rem 0 2rem;
+  font-family: monospace;
+  font-size: 2.5rem;
+  font-weight: 200;
+}
+`;
+
+export default React.memo(styled(Claim)`${ClaimStyles}`);

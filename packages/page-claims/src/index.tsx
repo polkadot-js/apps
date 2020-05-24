@@ -16,7 +16,7 @@ import { u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import { useTranslation } from './translate';
-import { recoverFromJSON, getStatementSentence } from './util';
+import { recoverFromJSON, getStatement } from './util';
 import AttestDisplay from './Attest';
 import ClaimDisplay from './Claim';
 import Statement from './Statement';
@@ -164,7 +164,7 @@ function ClaimsApp (): React.ReactElement {
     transform: (option: Option<StatementKind>) => option.unwrapOr(null)
   });
 
-  const statementSentence = statementKind ? getStatementSentence(statementKind) : '';
+  const statementSentence = statementKind ? getStatement(systemChain, statementKind)?.sentence : '';
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
@@ -241,7 +241,8 @@ function ClaimsApp (): React.ReactElement {
                     { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
                   {!isOldClaimProcess && (<Statement
                     kind={statementKind}
-                  />) }
+                    systemChain={systemChain}
+                  />)}
                   <div>
                     {t('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                     :
@@ -279,7 +280,7 @@ function ClaimsApp (): React.ReactElement {
                   )}
                 </>
                 : <div>
-                    The Ethereum address you submitted could not be found in the genesis.
+                  The Ethereum address you submitted could not be found in the genesis.
                 </div>}
             </Card>
           )}
@@ -291,6 +292,7 @@ function ClaimsApp (): React.ReactElement {
                 accountId={accountId}
                 ethereumAddress={ethereumAddress}
                 statementKind={statementKind}
+                systemChain={systemChain}
               />
               : <ClaimDisplay
                 accountId={accountId}
@@ -298,6 +300,7 @@ function ClaimsApp (): React.ReactElement {
                 ethereumSignature={signature}
                 isOldClaimProcess={isOldClaimProcess}
                 statementKind={statementKind}
+                systemChain={systemChain}
               />
           )}
         </Column>
