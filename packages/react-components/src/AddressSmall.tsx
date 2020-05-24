@@ -20,7 +20,7 @@ interface Props {
   overrideName?: React.ReactNode;
   withIndex?: boolean;
   withSidebar?: boolean;
-  toggle?: any;
+  toggle?: unknown;
   value?: string | Address | AccountId | null | Uint8Array;
 }
 

@@ -39,7 +39,7 @@ function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactE
   const editorRef = useRef<typeof CodeFlask | null>(null);
 
   useEffect((): void => {
-    const editor = new CodeFlask(`#${editorId}`, {
+    const editor: CodeFlask = new CodeFlask(`#${editorId}`, {
       language: 'js',
       lineNumbers: true
     });

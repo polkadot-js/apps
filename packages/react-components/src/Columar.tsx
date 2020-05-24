@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 
-function Columar ({ children, className }: Props): React.ReactElement<Props> {
+function Columar ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--Columnar ${className}`}>
       {children}

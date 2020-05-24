@@ -6,7 +6,7 @@ import languageCache from './cache';
 
 type Callback = (error: string | null, data: any) => void;
 
-type LoadResult = [string | null, any];
+type LoadResult = [string | null, Record<string, string> | boolean];
 
 const loaders: Record<string, Promise<LoadResult>> = {};
 
@@ -37,7 +37,7 @@ export default class Backend {
       if (!response.ok) {
         return [`i18n: failed loading ${lng}`, response.status >= 500 && response.status < 600];
       } else {
-        languageCache[lng] = await response.json();
+        languageCache[lng] = await response.json() as Record<string, string>;
 
         return [null, languageCache[lng]];
       }

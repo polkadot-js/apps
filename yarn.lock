@@ -3391,6 +3391,7 @@ __metadata:
     "@polkadot/react-query": 0.43.0-beta.1
     "@polkadot/ui-keyring": ^0.54.0-beta.1
     "@polkadot/ui-settings": ^0.54.0-beta.1
+    "@types/codeflask": ^1.4.1
     chart.js: ^2.9.3
     codeflask: ^1.4.1
     i18next: ^19.4.4
@@ -3842,6 +3843,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/codeflask@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "@types/codeflask@npm:1.4.1"
+  dependencies:
+    "@types/prismjs": "*"
+  checksum: 3/3e21124d4b6ea360dd88db2807ddc83fc8fee6e21f4c68dba9322a56b8140295205339b825a3eea31b0dc90164e1d85d94abeab8ccd467e3ab58753510a2a1fe
+  languageName: node
+  linkType: hard
+
 "@types/color-name@npm:^1.1.1":
   version: 1.1.1
   resolution: "@types/color-name@npm:1.1.1"
@@ -4079,7 +4089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prismjs@npm:^1.9.1":
+"@types/prismjs@npm:*, @types/prismjs@npm:^1.9.1":
   version: 1.16.1
   resolution: "@types/prismjs@npm:1.16.1"
   checksum: 3/f3807984ec5df53c37a83d315851e620ff5038f37e748f18e68075c0184485abcf1b5de5fde94f5640922a24e3c0eb6f4ea424c27650322a25ab0f3de73d6ec1

@@ -37,5 +37,8 @@
     "semantic-ui-react": "^0.88.2",
     "store": "^2.0.12",
     "styled-theming": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/codeflask": "^1.4.1"
   }
 }
