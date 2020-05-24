@@ -14,7 +14,7 @@ import Base from './Base';
 import Static from './Static';
 
 function StructParam (props: Props): React.ReactElement<Props> {
-  const { className, isDisabled, label, onChange, overrides, style, type, withLabel } = props;
+  const { className = '', isDisabled, label, onChange, overrides, style, type, withLabel } = props;
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {

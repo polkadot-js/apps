@@ -31,7 +31,7 @@ function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className, empty, emptySpinner, filter, footer, header, isFixed }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, kids] = extractKids(children);
 
   return (

@@ -15,7 +15,7 @@ interface Props {
   prime?: AccountId | null;
 }
 
-function Members ({ className, members, prime }: Props): React.ReactElement<Props> {
+function Members ({ className = '', members, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

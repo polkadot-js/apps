@@ -20,7 +20,7 @@ interface Props extends BareProps {
   value?: any;
 }
 
-function CopyButton ({ children, className, icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className = '', icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 

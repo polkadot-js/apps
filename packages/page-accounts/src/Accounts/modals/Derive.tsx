@@ -67,7 +67,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
   return status;
 }
 
-function Derive ({ className, from, onClose }: Props): React.ReactElement {
+function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));

@@ -17,7 +17,7 @@ interface Props {
   onClick?: () => void;
 }
 
-function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
+function ChainInfo ({ className = '', onClick }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);

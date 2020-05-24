@@ -26,7 +26,7 @@ export const textMap = options.reduce((textMap, { text, value }): TextMap => {
   return textMap;
 }, {} as unknown as TextMap);
 
-function VoteThresholdParam ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function VoteThresholdParam ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: number) =>
       onChange && onChange({

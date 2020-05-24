@@ -77,7 +77,7 @@ interface Props {
 
 // NOTE Drag code above, disabled since it has massive performance implications
 
-function InputAddressMulti ({ available, availableLabel, className, defaultValue, maxCount, onChange, valueLabel }: Props): React.ReactElement<Props> {
+function InputAddressMulti ({ available, availableLabel, className = '', defaultValue, maxCount, onChange, valueLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);

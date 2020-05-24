@@ -17,7 +17,7 @@ interface Props {
   targets: string[];
 }
 
-function Nominate ({ className, ownNominators, targets }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [ids, setIds] = useState<{ controllerId?: string | null; stashId: string } | null>(null);
   const [filter, setFilter] = useState<string[]>([]);

@@ -18,7 +18,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function StaticParam ({ asHex, children, className, defaultValue, label, style }: Props): React.ReactElement<Props> {
+function StaticParam ({ asHex, children, className = '', defaultValue, label, style }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const value = defaultValue && defaultValue.value && (
     asHex

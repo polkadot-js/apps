@@ -16,7 +16,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-function BondedDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
+function BondedDisplay ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const controllerId = useCall<AccountId | null>(api.query.staking.bonded, [params], {
     transform: (value): AccountId | null =>

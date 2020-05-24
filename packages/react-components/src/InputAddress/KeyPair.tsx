@@ -16,7 +16,7 @@ interface Props {
   style?: Record<string, string>;
 }
 
-function KeyPair ({ address, className, style }: Props): React.ReactElement<Props> {
+function KeyPair ({ address, className = '', style }: Props): React.ReactElement<Props> {
   return (
     <div
       className={['ui--KeyPair', className].join(' ')}

@@ -16,7 +16,7 @@ interface Props extends OwnMembers {
   className?: string;
 }
 
-function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Candidates ({ allMembers, className = '', isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);

@@ -18,7 +18,7 @@ interface Props {
   tx: string;
 }
 
-function VoteActions ({ accountId, aye, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
+function VoteActions ({ accountId, aye, className = '', isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

@@ -29,7 +29,7 @@ function getPair (address?: string | null): KeyringPair | null {
   }
 }
 
-function Unlock ({ className, error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
+function Unlock ({ className = '', error, onChange, onEnter, password, tabIndex, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [pair, setPair] = useState<KeyringPair | null>(null);
 

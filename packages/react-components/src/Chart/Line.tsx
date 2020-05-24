@@ -84,7 +84,7 @@ function calculateOptions (colors: (string | undefined)[] = [], legends: string[
   };
 }
 
-function LineChart ({ className, colors, labels, legends, style, values }: LineProps): React.ReactElement<LineProps> | null {
+function LineChart ({ className = '', colors, labels, legends, style, values }: LineProps): React.ReactElement<LineProps> | null {
   const [{ chartData, chartOptions }, setState] = useState<State>({});
 
   useEffect((): void => {

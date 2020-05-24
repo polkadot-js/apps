@@ -16,7 +16,7 @@ interface Props {
   onForget: (id: string) => void;
 }
 
-function AssetCard ({ assetId, className, name, onForget, onSaveName }: Props): React.ReactElement<Props> {
+function AssetCard ({ assetId, className = '', name, onForget, onSaveName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const _onForget = useCallback(

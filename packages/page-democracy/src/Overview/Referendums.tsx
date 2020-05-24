@@ -15,7 +15,7 @@ interface Props {
   referendums?: DeriveReferendumExt[];
 }
 
-function Referendums ({ className, referendums }: Props): React.ReactElement<Props> {
+function Referendums ({ className = '', referendums }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

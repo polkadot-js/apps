@@ -49,7 +49,7 @@ function format (value: Compact<any> | BN | string, currency: string, withSi?: b
 //   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
 // }
 
-function FormatBalance ({ children, className, isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currency] = useState(formatBalance.getDefaults().unit);
 

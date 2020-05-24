@@ -17,7 +17,7 @@ interface Props {
   onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
 }
 
-function Account ({ className, defaultValue, isError, onChange }: Props): React.ReactElement<Props> {
+function Account ({ className = '', defaultValue, isError, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null | undefined>(defaultValue);
   const [accountNonce, setAccountNonce] = useState(new BN(0));

@@ -17,7 +17,7 @@ interface Props {
 
 const MAX_HELPERS = 16;
 
-function RecoverSetup ({ address, className, onClose }: Props): React.ReactElement {
+function RecoverSetup ({ address, className = '', onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const availableHelpers = useKnownAddresses(address);
   const [delay, setDelay] = useState<BN | undefined>();

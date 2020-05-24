@@ -17,7 +17,7 @@ interface Props extends ComponentProps {
   prime?: AccountId | null;
 }
 
-function Members ({ allVotes = {}, className, electionsInfo, prime }: Props): React.ReactElement<Props> {
+function Members ({ allVotes = {}, className = '', electionsInfo, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

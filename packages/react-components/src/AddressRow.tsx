@@ -91,7 +91,7 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_info = EMPTY_INFO, className, isContract, isDisabled, isInline, label, overlay, style } = this.props;
+    const { accounts_info = EMPTY_INFO, className = '', isContract, isDisabled, isInline, label, overlay, style } = this.props;
     const { accountId, accountIndex } = accounts_info;
     const isValid = this.props.isValid || accountId || accountIndex;
 

@@ -23,7 +23,7 @@ interface Props {
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);

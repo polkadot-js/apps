@@ -27,7 +27,7 @@ function remainingBlocks (remainingEras: BN, { eraLength, eraProgress }: DeriveS
     .add(eraLength.sub(eraProgress));
 }
 
-function StakingUnbonding ({ className, value }: Props): React.ReactElement<Props> | null {
+function StakingUnbonding ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress, []);
   const { t } = useTranslation();

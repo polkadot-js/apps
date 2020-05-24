@@ -368,7 +368,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const { children, className, extraInfo, withBalanceToggle, withHexSessionId } = props;
+  const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   return (
     <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>

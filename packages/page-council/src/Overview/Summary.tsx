@@ -16,7 +16,7 @@ interface Props extends ComponentProps {
   className?: string;
 }
 
-function Summary ({ bestNumber, className, electionsInfo }: Props): React.ReactElement<Props> | null {
+function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!electionsInfo) {

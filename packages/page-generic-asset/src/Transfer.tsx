@@ -30,7 +30,7 @@ interface Option {
   value: string;
 }
 
-function Transfer ({ assets, className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
+function Transfer ({ assets, className = '', onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [assetId, setAssetId] = useState('0');
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));

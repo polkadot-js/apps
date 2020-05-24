@@ -13,7 +13,7 @@ import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 
-function Amount ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState(
     isDisabled
       ? (

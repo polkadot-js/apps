@@ -63,7 +63,7 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className, data, hash, type, withShort }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, type, withShort }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(

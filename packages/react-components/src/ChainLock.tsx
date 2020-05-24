@@ -29,7 +29,7 @@ function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
   ).includes(genesisHash);
 }
 
-function ChainLock ({ className, genesisHash, isDisabled, onChange }: Props): React.ReactElement<Props> | null {
+function ChainLock ({ className = '', genesisHash, isDisabled, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
   const [isTiedToChain, setTied] = useState(calcLock(api.genesisHash.toHex(), genesisHash));

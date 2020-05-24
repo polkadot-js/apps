@@ -64,7 +64,7 @@ function renderItem ({ basePath, isSequence, items }: Props): (tabItem: TabItem,
 
 function Tabs (props: Props): React.ReactElement<Props> {
   const location = useLocation();
-  const { className, basePath, hidden = [], items, style } = props;
+  const { className = '', basePath, hidden = [], items, style } = props;
 
   // redirect on invalid tabs
   useEffect((): void => {

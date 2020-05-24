@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
-function Proposals ({ className, isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

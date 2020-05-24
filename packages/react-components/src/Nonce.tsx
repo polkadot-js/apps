@@ -15,7 +15,7 @@ export interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function NonceDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> | null {
+function NonceDisplay ({ className = '', label, params, style }: Props): React.ReactElement<Props> | null {
   if (!params) {
     return null;
   }

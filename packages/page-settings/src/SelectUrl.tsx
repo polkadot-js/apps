@@ -57,7 +57,7 @@ function getInitialState (t: (key: string) => string): State {
   };
 }
 
-function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
+function SelectUrl ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [info, setInfo] = useState(getInitialState(() => ''));
   const { isCustom, isValid, url } = info;

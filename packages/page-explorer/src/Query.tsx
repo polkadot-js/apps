@@ -26,7 +26,7 @@ function stateFromValue (value: string): State {
   };
 }
 
-function Query ({ className, value: propsValue }: Props): React.ReactElement<Props> {
+function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
 

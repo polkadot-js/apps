@@ -15,7 +15,7 @@ interface Props extends BareProps {
 }
 
 function Unknown (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type } = props;
+  const { className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type } = props;
 
   if (isDisabled) {
     return <Static {...props} />;

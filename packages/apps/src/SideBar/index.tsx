@@ -27,7 +27,7 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
@@ -55,7 +55,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
 
   return (
     <Responsive
-      className={classes(className, 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      className={classes(className = '', 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
       onUpdate={handleResize}
     >
       <ChainImg

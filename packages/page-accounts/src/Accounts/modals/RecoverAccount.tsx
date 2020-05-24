@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-function RecoverAccount ({ address, className, onClose }: Props): React.ReactElement {
+function RecoverAccount ({ address, className = '', onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [recover, setRecover] = useState<string | null>(null);
 

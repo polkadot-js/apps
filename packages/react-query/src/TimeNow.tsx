@@ -16,7 +16,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-function TimeNow ({ children, className, label, style }: Props): React.ReactElement<Props> {
+function TimeNow ({ children, className = '', label, style }: Props): React.ReactElement<Props> {
   const { api, isSubstrateV2 } = useApi();
   const timestamp = useCall<Moment>(api.query.timestamp.now, []);
   const [now, setNow] = useState<BN | undefined>();

@@ -90,7 +90,7 @@ class CodeRow extends Row<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isInline, style } = this.props;
+    const { className = '', isInline, style } = this.props;
 
     return (
       <div

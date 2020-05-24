@@ -21,7 +21,7 @@ interface Props {
   label?: React.ReactNode;
 }
 
-function Events ({ className, emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
+function Events ({ className = '', emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

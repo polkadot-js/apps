@@ -21,7 +21,7 @@ interface Props {
 
 const EMPTY_PROOF = new Uint8Array();
 
-function SessionKey ({ className, controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
+function SessionKey ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [keys, setKeys] = useState<string | null>(null);

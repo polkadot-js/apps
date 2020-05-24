@@ -28,7 +28,7 @@ const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, 
 
 const isEditable = true;
 
-function Address ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);

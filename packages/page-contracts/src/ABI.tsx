@@ -90,7 +90,7 @@ class ABI extends React.PureComponent<Props, State> {
   }
 
   private renderInputFile (): React.ReactNode {
-    const { className, help, isDisabled, isRequired, label, t } = this.props;
+    const { className = '', help, isDisabled, isRequired, label, t } = this.props;
     const { errorText, isAbiValid, isEmpty, isError } = this.state;
 
     return (

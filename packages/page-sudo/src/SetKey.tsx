@@ -13,7 +13,7 @@ import { useTranslation } from './translate';
 
 interface Props extends I18nProps, ComponentProps {}
 
-function SetKey ({ allAccounts, className, isMine, sudoKey }: Props): React.ReactElement<Props> {
+function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [selected, setSelected] = useState<string | null>(null);
 

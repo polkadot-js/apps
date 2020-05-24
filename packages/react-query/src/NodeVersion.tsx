@@ -12,7 +12,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-function NodeVersion ({ children, className, label, style }: Props): React.ReactElement<Props> {
+function NodeVersion ({ children, className = '', label, style }: Props): React.ReactElement<Props> {
   const { systemVersion } = useApi();
 
   return (

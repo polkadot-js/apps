@@ -30,7 +30,7 @@ function transform ({ value }: Props): (method: string) => ConstValueBase {
 }
 
 function SelectKey (props: Props): React.ReactElement<Props> | null {
-  const { className, isError, onChange, options, style, value } = props;
+  const { className = '', isError, onChange, options, style, value } = props;
 
   if (!options.length) {
     return null;

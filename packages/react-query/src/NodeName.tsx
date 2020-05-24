@@ -12,7 +12,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-function NodeName ({ children, className, label, style }: Props): React.ReactElement<Props> {
+function NodeName ({ children, className = '', label, style }: Props): React.ReactElement<Props> {
   const { systemName } = useApi();
 
   return (

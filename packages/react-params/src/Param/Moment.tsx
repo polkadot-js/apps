@@ -9,7 +9,7 @@ import { Static } from '@polkadot/react-components';
 
 import Amount from './Amount';
 
-function Moment ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+function Moment ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: RawParamOnChangeValue) =>
       onChange && onChange(value),

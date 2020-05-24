@@ -18,7 +18,7 @@ interface Props {
   info?: DeriveSociety;
 }
 
-function Summary ({ className, info }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<any[]>(api.derive.society.members, []);

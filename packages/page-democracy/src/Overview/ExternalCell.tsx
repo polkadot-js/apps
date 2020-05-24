@@ -17,7 +17,7 @@ interface Props {
   value: Hash;
 }
 
-function ExternalCell ({ className, value }: Props): React.ReactElement<Props> | null {
+function ExternalCell ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const preimage = useCall<DeriveProposalImage>(api.derive.democracy.preimage, [value]);

@@ -36,7 +36,7 @@ function transformVotes (entries: DeriveCouncilVotes): Record<string, AccountId[
   }, {});
 }
 
-function Overview ({ className, prime }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info, []);

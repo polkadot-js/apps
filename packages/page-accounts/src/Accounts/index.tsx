@@ -91,7 +91,7 @@ function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[
     );
 }
 
-function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();

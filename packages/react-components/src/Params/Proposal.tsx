@@ -10,7 +10,7 @@ import { useApi } from '@polkadot/react-hooks';
 
 import ExtrinsicDisplay from './Extrinsic';
 
-function ProposalDisplay ({ className, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();
   const _onChange = useCallback(
     ({ isValid, value }: RawParam): void => {

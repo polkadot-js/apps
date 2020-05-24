@@ -25,7 +25,7 @@ interface AllState {
   typesPlaceholder: string | null;
 }
 
-function Developer ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function Developer ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [code, setCode] = useState(EMPTY_CODE);
   const [isJsonValid, setIsJsonValid] = useState(true);

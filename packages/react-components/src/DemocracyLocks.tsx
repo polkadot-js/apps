@@ -24,7 +24,7 @@ const ZERO = new BN(0);
 
 let id = 0;
 
-function DemocracyLocks ({ className, value }: Props): React.ReactElement<Props> | null {
+function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber, []);

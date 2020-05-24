@@ -14,7 +14,7 @@ interface Props {
   type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {

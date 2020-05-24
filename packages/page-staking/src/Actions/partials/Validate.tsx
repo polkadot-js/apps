@@ -23,7 +23,7 @@ const COMM_MUL = new BN(10000000);
 const MAX_COMM = new BN(100);
 const ZERO = new BN(0);
 
-function Validate ({ className, controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
+function Validate ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 

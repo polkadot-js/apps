@@ -13,7 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-function NetworkModal ({ className, onClose }: Props): React.ReactElement<Props> {
+function NetworkModal ({ className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

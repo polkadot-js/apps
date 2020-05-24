@@ -30,7 +30,7 @@ function transform (api: ApiPromise, { value }: Props): (method: string) => Stor
 
 function SelectKey (props: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const { className, isError, onChange, options, style, value } = props;
+  const { className = '', isError, onChange, options, style, value } = props;
 
   if (!options.length) {
     return null;

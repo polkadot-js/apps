@@ -39,7 +39,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   </div>
 );
 
-function Output ({ children, className, logs }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
     <article className={`container ${className}`}>
       <div className='logs-wrapper'>

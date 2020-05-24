@@ -129,10 +129,10 @@ function renderMessage (props: Props, index: number, t: (key: string) => string)
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className, contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
 
   return (
-    <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
+    <div className={classes(className = '', 'ui--Messages', isLabelled && 'labelled')}>
       {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
       {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
       {isRemovable && (

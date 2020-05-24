@@ -23,7 +23,7 @@ interface Props {
   withLink?: boolean;
 }
 
-function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+function TreasuryProposal ({ asInset, className = '', insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
   const { api } = useApi();

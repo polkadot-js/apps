@@ -15,7 +15,7 @@ interface Props {
   dispatchQueue: UpwardMessage[];
 }
 
-function DispatchQueue ({ className, dispatchQueue = [] }: Props): React.ReactElement<Props> {
+function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

@@ -49,7 +49,7 @@ function parseFile (file: Uint8Array): FileState {
   return { address: null, isFileValid: false, json: null };
 }
 
-function Import ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
+function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ address, isFileValid, json }, setFile] = useState<FileState>({ address: null, isFileValid: false, json: null });
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });

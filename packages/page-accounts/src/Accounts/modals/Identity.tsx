@@ -53,7 +53,7 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
   );
 }
 
-function Identity ({ address, className, onClose }: Props): React.ReactElement<Props> {
+function Identity ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);

@@ -34,7 +34,7 @@ interface State {
   foundStashes?: StakerState[];
 }
 
-function Actions ({ className, isInElection, next, ownStashes, targets, validators }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, next, ownStashes, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {

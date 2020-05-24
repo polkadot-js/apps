@@ -24,7 +24,7 @@ interface OldPass {
   oldPass: string;
 }
 
-function ChangePass ({ address, className, onClose }: Props): React.ReactElement<Props> {
+function ChangePass ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isNewValid, newPass }, setNewPass] = useState<NewPass>({ isNewValid: false, newPass: '' });
   const [{ isOldValid, oldPass }, setOldPass] = useState<OldPass>({ isOldValid: false, oldPass: '' });

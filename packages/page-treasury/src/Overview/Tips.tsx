@@ -15,7 +15,7 @@ interface Props {
   members: string[];
 }
 
-function Tips ({ className, hashes, isMember, members }: Props): React.ReactElement<Props> {
+function Tips ({ className = '', hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

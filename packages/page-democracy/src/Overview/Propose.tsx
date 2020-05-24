@@ -16,7 +16,7 @@ interface Props {
   onClose: () => void;
 }
 
-function Propose ({ className, onClose }: Props): React.ReactElement<Props> {
+function Propose ({ className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);

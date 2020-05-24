@@ -21,7 +21,7 @@ interface Props {
   stashId: string;
 }
 
-function Unbond ({ className, controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
+function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const bondedBlocks = useUnbondDuration();
   const [maxBalance] = useState<BN | null>(stakingLedger?.active.unwrap() || null);

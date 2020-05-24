@@ -15,7 +15,7 @@ interface Props {
   value: DeriveSocietyMember;
 }
 
-function Member ({ className, isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

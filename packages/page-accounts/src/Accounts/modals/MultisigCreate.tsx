@@ -46,7 +46,7 @@ function createAccount (signatories: string[], threshold: BN | number, { genesis
   return status;
 }
 
-function Multisig ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
+function Multisig ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { api, isDevelopment } = useApi();
   const { t } = useTranslation();
   const availableSignatories = useKnownAddresses();

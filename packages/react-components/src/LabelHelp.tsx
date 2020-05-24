@@ -18,7 +18,7 @@ interface Props extends BareProps {
 
 let id = 0;
 
-function LabelHelp ({ className, help, style }: Props): React.ReactElement<Props> {
+function LabelHelp ({ className = '', help, style }: Props): React.ReactElement<Props> {
   const [trigger] = useState(`label-help-${++id}`);
   const [isTooltipOpen, toggleTooltip] = useToggle();
 

@@ -36,7 +36,7 @@ function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
   return events.filter(({ record: { phase } }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index));
 }
 
-function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { meta, method, section } = registry.findMetaCall(value.callIndex);
   const era = getEra(value, blockNumber);

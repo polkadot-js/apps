@@ -22,7 +22,7 @@ interface Props {
 const METHOD_EXTE = ['externalPropose', 'externalProposeDefault', 'externalProposeMajority'];
 const METHOD_TREA = ['approveProposal', 'rejectProposal'];
 
-function ProposalCell ({ className, imageHash, proposal }: Props): React.ReactElement<Props> {
+function ProposalCell ({ className = '', imageHash, proposal }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   if (!proposal) {

@@ -22,7 +22,7 @@ interface Props {
   value: string;
 }
 
-function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
+function BlockByHash ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], {

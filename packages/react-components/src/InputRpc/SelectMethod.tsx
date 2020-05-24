@@ -27,7 +27,7 @@ function transform ({ value: { section } }: Props): (method: string) => Definiti
 }
 
 function SelectMethod (props: Props): React.ReactElement<Props> | null {
-  const { className, isError, onChange, options, style, value } = props;
+  const { className = '', isError, onChange, options, style, value } = props;
 
   if (!options.length) {
     return null;

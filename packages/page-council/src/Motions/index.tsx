@@ -21,7 +21,7 @@ interface Props {
   prime: AccountId | null;
 }
 
-function Proposals ({ className, motions, prime }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isMember, members } = useMembers();
 

@@ -61,7 +61,7 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
   );
 }
 
-function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();

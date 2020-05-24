@@ -15,7 +15,7 @@ import { useTranslation } from './translate';
 
 const ZERO = new BN(0);
 
-function Propose ({ className, isMine, sudoKey }: Props): React.ReactElement<Props> {
+function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [withWeight, toggleWithWeight] = useToggle();

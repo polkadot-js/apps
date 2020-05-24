@@ -21,7 +21,7 @@ interface Props {
   withSend: boolean;
 }
 
-function ProposalDisplay ({ className, isMember, members, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
+function ProposalDisplay ({ className = '', isMember, members, proposal: { council, id, proposal }, withSend }: Props): React.ReactElement<Props> | null {
   return (
     <tr className={className}>
       <td className='number'>

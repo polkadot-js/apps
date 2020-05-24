@@ -34,7 +34,7 @@ interface Props extends BareProps {
  *  />
  * ```
  */
-function Editor ({ className, code, isValid, onEdit }: Props): React.ReactElement<Props> {
+function Editor ({ className = '', code, isValid, onEdit }: Props): React.ReactElement<Props> {
   const [editorId] = useState(`flask-${Date.now()}`);
   const editorRef = useRef<typeof CodeFlask | null>(null);
 
@@ -59,7 +59,7 @@ function Editor ({ className, code, isValid, onEdit }: Props): React.ReactElemen
 
   return (
     <div
-      className={classes('ui-Editor', className, isValid === false ? 'invalid' : '')}
+      className={classes('ui-Editor', className = '', isValid === false ? 'invalid' : '')}
       id={editorId}
     />
   );

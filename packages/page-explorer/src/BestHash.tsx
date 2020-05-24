@@ -12,7 +12,7 @@ interface Props extends BareProps, CallProps {
   label?: React.ReactNode;
 }
 
-function BestHash ({ className, label, style }: Props): React.ReactElement<Props> {
+function BestHash ({ className = '', label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const newHead = useCall<Header>(api.rpc.chain.subscribeNewHeads, []);
 

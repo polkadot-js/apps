@@ -18,7 +18,7 @@ interface Props extends BareProps {
 
 const CMD_MORTAL = 2;
 
-function Qr ({ address, className, isScanning, onSignature, payload }: Props): React.ReactElement<Props> {
+function Qr ({ address, className = '', isScanning, onSignature, payload }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       {

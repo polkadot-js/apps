@@ -23,7 +23,7 @@ interface Option {
   value: string;
 }
 
-function MultisigApprove ({ className, onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
+function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [multisig, setMultisig] = useState<[H256, Multisig] | null>(null);

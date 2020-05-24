@@ -14,7 +14,7 @@ import Bare from './Bare';
 import Unknown from './Unknown';
 
 function CallDisplay (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
+  const { className = '', defaultValue: { value }, isDisabled, label, style, withLabel } = props;
 
   if (!isDisabled) {
     return (
@@ -28,7 +28,7 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
   return (
     <Bare>
       <Static
-        className={classes(className, 'full')}
+        className={classes(className = '', 'full')}
         label={label}
         style={style}
         withLabel={withLabel}

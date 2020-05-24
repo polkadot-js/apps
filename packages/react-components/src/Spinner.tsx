@@ -14,7 +14,7 @@ interface Props {
   variant?: 'app' | 'push' | 'mini';
 }
 
-function Spinner ({ className, label, variant = 'app' }: Props): React.ReactElement<Props> | null {
+function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (

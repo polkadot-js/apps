@@ -26,7 +26,7 @@ const TAG_OPTS = {
   autoFocus: true
 };
 
-function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.ReactElement<Props> {
+function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();

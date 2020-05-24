@@ -17,7 +17,7 @@ interface Props {
   members: string[];
 }
 
-function ProposeExternal ({ className, isMember, members }: Props): React.ReactElement<Props> {
+function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();

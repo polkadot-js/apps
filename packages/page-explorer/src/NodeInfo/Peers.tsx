@@ -16,7 +16,7 @@ interface Props {
   peers?: PeerInfo[] | null;
 }
 
-function Peers ({ className, peers }: Props): React.ReactElement<Props> {
+function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [

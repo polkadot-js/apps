@@ -90,7 +90,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function Payouts ({ className, isInElection }: Props): React.ReactElement<Props> {
+function Payouts ({ className = '', isInElection }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashTotal, stashes, validators }, setPayouts] = useState<Available>({});
   const stakerPayoutsAfter = useStakerPayouts();

@@ -42,7 +42,7 @@ function convertInput (value: string): [boolean, Uint8Array] {
   return [value === '0x', new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState(
     value
       ? isHex(value)

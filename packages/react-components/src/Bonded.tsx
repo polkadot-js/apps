@@ -20,7 +20,7 @@ export interface Props extends BareProps {
 }
 
 function BondedDisplay (props: Props): React.ReactElement<Props> | null {
-  const { bonded, className, label, params, style } = props;
+  const { bonded, className = '', label, params, style } = props;
 
   if (!params) {
     return null;
@@ -29,7 +29,7 @@ function BondedDisplay (props: Props): React.ReactElement<Props> | null {
   return bonded
     ? (
       <>
-        {renderProvided({ className, label, value: bonded })}
+        {renderProvided({ className = '', label, value: bonded })}
       </>
     )
     : (

@@ -17,7 +17,7 @@ export interface Props extends BareProps {
   value: Event;
 }
 
-function EventDisplay ({ children, className, style, value }: Props): React.ReactElement<Props> {
+function EventDisplay ({ children, className = '', style, value }: Props): React.ReactElement<Props> {
   const params = value.typeDef.map(({ type }): { type: TypeDef } => ({
     type: getTypeDef(type)
   }));

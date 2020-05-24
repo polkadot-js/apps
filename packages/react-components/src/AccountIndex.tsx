@@ -17,7 +17,7 @@ interface Props extends BareProps {
   value?: string | AccountId | Address | null | Uint8Array;
 }
 
-function AccountIndex ({ children, className, defaultValue, label, style, value }: Props): React.ReactElement<Props> | null {
+function AccountIndex ({ children, className = '', defaultValue, label, style, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
   const [accountIndex, setAccountIndex] = useState<string | null>(null);

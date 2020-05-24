@@ -20,7 +20,7 @@ interface Props {
   ethereumAddress: EthereumAddress | null;
 }
 
-function Claim ({ button, className, ethereumAddress }: Props): React.ReactElement<Props> | null {
+function Claim ({ button, className = '', ethereumAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);

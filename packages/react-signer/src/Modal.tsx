@@ -179,7 +179,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, t } = this.props;
+    const { className = '', t } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem) {

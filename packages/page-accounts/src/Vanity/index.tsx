@@ -39,7 +39,7 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
-function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function VanityApp ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const results = useRef<GeneratorResult[]>([]);
   const runningRef = useRef(false);

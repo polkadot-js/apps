@@ -21,7 +21,7 @@ interface Props {
   onChange: (info: BondInfo) => void;
 }
 
-function Bond ({ className, onChange }: Props): React.ReactElement<Props> {
+function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();

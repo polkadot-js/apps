@@ -24,7 +24,7 @@ interface Props extends ComponentProps {
   paraInfoRef: React.MutableRefObject<DeriveParachainInfo | null>;
 }
 
-function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
+function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
   const { api } = useApi();

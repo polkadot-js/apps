@@ -22,7 +22,7 @@ interface Props {
 
 const ledgerConnOptions = uiSettings.availableLedgerConn;
 
-function General ({ className, isModalContent, onClose }: Props): React.ReactElement<Props> {
+function General ({ className = '', isModalContent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);

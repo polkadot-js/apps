@@ -22,7 +22,7 @@ interface Props extends ModalProps {
   className?: string;
 }
 
-function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
+function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);

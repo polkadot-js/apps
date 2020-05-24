@@ -10,7 +10,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import Bare from './Bare';
 
-function Account ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function Account ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState(value?.toString());
 
   const _onChange = useCallback(

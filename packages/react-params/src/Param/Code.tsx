@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 import Bytes from './Bytes';
 import BytesFile from './File';
 
-function Code ({ className, defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+function Code ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
   // TODO: Validate that we have actual proper WASM code

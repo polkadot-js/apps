@@ -12,7 +12,7 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-function Summary ({ className, members, proposals }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', members, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const proposalCount = useCall<u32>(api.query.technicalCommittee.proposalCount, []);

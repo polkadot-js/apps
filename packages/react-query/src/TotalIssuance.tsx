@@ -13,7 +13,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
 }
 
-function TotalIssuance ({ children, className, label, style }: Props): React.ReactElement<Props> {
+function TotalIssuance ({ children, className = '', label, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const totalIssuance = useCall<string>(api.query.balances?.totalIssuance, []);
 

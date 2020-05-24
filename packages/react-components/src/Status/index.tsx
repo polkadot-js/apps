@@ -159,7 +159,7 @@ function filterTx (txqueue?: QueueTx[]): [QueueTx[], QueueTx[]] {
   return [allTx, allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status))];
 }
 
-function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Props> | null {
+function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const allSt = useMemo(
     (): QueueStatus[] => filterSt(stqueue),

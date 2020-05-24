@@ -132,7 +132,7 @@ const Wrapper = styled.div`
   }
 `;
 
-function Labelled ({ className, children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, style, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {

@@ -28,7 +28,7 @@ const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
 let id = 0;
 
-function ReferendumVotes ({ change, className, count, index, isWinning, total, votes }: Props): React.ReactElement<Props> {
+function ReferendumVotes ({ change, className = '', count, index, isWinning, total, votes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [trigger] = useState(`votes-${index}-${++id}`);
   const [sorted, setSorted] = useState<DeriveReferendumVote[]>([]);

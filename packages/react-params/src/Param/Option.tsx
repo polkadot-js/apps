@@ -12,7 +12,7 @@ import { Toggle } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Param from './index';
 
-function Option ({ className, defaultValue, isDisabled, name, onChange, onEnter, onEscape, type: { sub } }: Props): React.ReactElement<Props> {
+function Option ({ className = '', defaultValue, isDisabled, name, onChange, onEnter, onEscape, type: { sub } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isActive, setIsActive] = useState(false);
 

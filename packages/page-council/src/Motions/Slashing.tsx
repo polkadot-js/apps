@@ -22,7 +22,7 @@ interface Option {
   value: number;
 }
 
-function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
+function Slashing ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const slashes = useAvailableSlashes();

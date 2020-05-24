@@ -14,10 +14,10 @@ interface Props {
   type?: 'error' | 'info' | 'warning';
 }
 
-function InfoForInput ({ children, className, type = 'info' }: Props): React.ReactElement<Props> {
+function InfoForInput ({ children, className = '', type = 'info' }: Props): React.ReactElement<Props> {
   return (
     <Labelled>
-      <div className={classes(className, type)}>{children}</div>
+      <div className={classes(className = '', type)}>{children}</div>
     </Labelled>
   );
 }

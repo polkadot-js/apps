@@ -13,7 +13,7 @@ interface Props {
   onChange: (value: string | null) => void;
 }
 
-function VoteAccount ({ className, filter, onChange }: Props): React.ReactElement<Props> {
+function VoteAccount ({ className = '', filter, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

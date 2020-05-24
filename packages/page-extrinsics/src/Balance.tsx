@@ -14,7 +14,7 @@ interface Props extends BareProps {
   params?: any;
 }
 
-function BalanceDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> {
+function BalanceDisplay ({ className = '', label, params, style }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [params]);
 

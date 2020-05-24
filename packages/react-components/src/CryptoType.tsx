@@ -15,7 +15,7 @@ interface Props extends BareProps {
   label?: string;
 }
 
-function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
+function CryptoType ({ accountId, className = '', label = '' }: Props): React.ReactElement<Props> {
   const [type, setType] = useState('unknown');
 
   useEffect((): void => {

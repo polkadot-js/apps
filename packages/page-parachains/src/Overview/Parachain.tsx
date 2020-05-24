@@ -17,7 +17,7 @@ interface Props {
   parachain: DeriveParachain;
 }
 
-function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
+function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
 

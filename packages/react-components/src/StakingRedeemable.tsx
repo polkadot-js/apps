@@ -16,7 +16,7 @@ interface Props {
   stakingInfo?: DeriveStakingAccount;
 }
 
-function StakingRedeemable ({ className, stakingInfo }: Props): React.ReactElement<Props> | null {
+function StakingRedeemable ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
 

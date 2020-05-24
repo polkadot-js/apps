@@ -19,7 +19,7 @@ interface Props {
   proposals?: DeriveTreasuryProposal[];
 }
 
-function ProposalsBase ({ className, isApprovals, isMember, members, proposals }: Props): React.ReactElement<Props> {
+function ProposalsBase ({ className = '', isApprovals, isMember, members, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
 

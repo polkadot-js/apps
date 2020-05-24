@@ -14,7 +14,7 @@ interface Props {
   value: boolean;
 }
 
-function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<Props> {
+function VoteToggle ({ className = '', onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (

@@ -17,7 +17,7 @@ type SortedAddress = { address: string; isFavorite: boolean };
 
 const STORE_FAVS = 'accounts:favorites';
 
-function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAddresses } = useAddresses();
   const [isCreateOpen, toggleCreate] = useToggle(false);
