@@ -42,9 +42,9 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     const meta = (currentPair && currentPair.meta) || {};
-    const isExternal = (meta as Record<string, boolean>).isExternal || false;
-    const isHardware = (meta as Record<string, boolean>).isHardware || false;
-    const isInjected = (meta as Record<string, boolean>).isInjected || false;
+    const isExternal = (meta.isExternal as boolean) || false;
+    const isHardware = (meta.isHardware as boolean) || false;
+    const isInjected = (meta.isInjected as boolean) || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({
@@ -62,7 +62,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
 
     // for injected, retrieve the signer
     if (meta.source && isInjected) {
-      web3FromSource(meta.source)
+      web3FromSource(meta.source as string)
         .catch((): null => null)
         .then((injected) => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),

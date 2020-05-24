@@ -29,7 +29,7 @@ function CryptoType ({ accountId, className = '', label = '' }: Props): React.Re
           current.meta.isInjected
             ? 'injected'
             : current.meta.isHardware
-              ? current.meta.hardwareType || 'hardware'
+              ? current.meta.hardwareType as string || 'hardware'
               : current.meta.isExternal
                 ? current.meta.isMultisig
                   ? 'multisig'

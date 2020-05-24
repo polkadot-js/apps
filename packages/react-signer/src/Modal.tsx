@@ -713,8 +713,8 @@ class Signer extends React.PureComponent<Props, State> {
 
       pair = keyring.getPair(signatory as string);
       tx = multiCall
-        ? api.tx.utility.asMulti(basePair.meta.threshold, others, timepoint, submittable.method)
-        : api.tx.utility.approveAsMulti(basePair.meta.threshold, others, timepoint, submittable.method.hash);
+        ? api.tx.utility.asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method)
+        : api.tx.utility.approveAsMulti(basePair.meta.threshold as number, others, timepoint, submittable.method.hash);
     }
 
     console.log('sendExtrinsic::', JSON.stringify(tx.method.toHuman()));
@@ -773,7 +773,7 @@ class Signer extends React.PureComponent<Props, State> {
         api.setSigner({ signPayload: this.signQrPayload });
         params.push(address);
       } else if (isInjected) {
-        const injected = await web3FromSource(source);
+        const injected = await web3FromSource(source as string);
 
         assert(injected, `Unable to find a signer for ${address}`);
 
@@ -859,7 +859,7 @@ class Signer extends React.PureComponent<Props, State> {
       queueSetTxStatus(id, 'qr');
       signer = { signPayload: this.signQrPayload };
     } else if (isInjected) {
-      const injected = await web3FromSource(source);
+      const injected = await web3FromSource(source as string);
 
       signer = injected?.signer;
     }
@@ -867,9 +867,8 @@ class Signer extends React.PureComponent<Props, State> {
     assert(signer || pair, `Unable to find a signer for ${address}`);
 
     try {
-      await extrinsic.signAsync((signer ? address : pair) as any, {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        era: blocks.toNumber() as any,
+      await extrinsic.signAsync((signer ? address : pair), {
+        era: blocks.toNumber(),
         nonce: nonce || 0,
         signer,
         tip: (showTip && tip) ? tip : undefined
