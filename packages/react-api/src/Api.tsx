@@ -74,7 +74,7 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
         address,
         meta: {
           ...meta,
-          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
         }
       })))
       .catch((error): InjectedAccountExt[] => {
@@ -103,7 +103,7 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
 
-  console.log(`chain: ${systemChain} (${systemChainType}), ${JSON.stringify(properties)}`);
+  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));

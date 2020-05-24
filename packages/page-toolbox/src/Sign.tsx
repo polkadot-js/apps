@@ -26,7 +26,7 @@ interface AccountState {
   isInjected: boolean;
 }
 
-function Sign ({ className }: Props): React.ReactElement<Props> {
+function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
@@ -42,9 +42,9 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     const meta = (currentPair && currentPair.meta) || {};
-    const isExternal = meta.isExternal || false;
-    const isHardware = meta.isHardware || false;
-    const isInjected = meta.isInjected || false;
+    const isExternal = (meta as Record<string, boolean>).isExternal || false;
+    const isHardware = (meta as Record<string, boolean>).isHardware || false;
+    const isInjected = (meta as Record<string, boolean>).isInjected || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({
@@ -67,7 +67,8 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
         .then((injected) => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),
           signer: injected?.signer || null
-        }));
+        }))
+        .catch(console.error);
     }
   }, [currentPair]);
 
@@ -98,7 +99,8 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
               : stringToHex(data),
             type: 'bytes'
           })
-          .then(({ signature }) => setSignature(signature));
+          .then(({ signature }) => setSignature(signature))
+          .catch(console.error);
       } else {
         setSignature(u8aToHex(
           currentPair.sign(

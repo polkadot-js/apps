@@ -43,7 +43,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
     const available = councilProposals
       .filter(({ votes }) => bestNumber && votes?.end.gt(bestNumber))
       .map(({ proposal: { methodName, sectionName }, votes }): Option => ({
-        text: `Council #${votes?.index.toNumber()}: ${sectionName}.${methodName} `,
+        text: `Council #${votes?.index.toNumber() || '-'}: ${sectionName}.${methodName} `,
         value: votes ? votes?.index.toNumber() : -1
       }))
       .filter(({ value }) => value !== -1);
@@ -104,7 +104,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
                   help={t<string>('The hash for the proposal this vote applies to')}
                   isDisabled
                   label={t<string>('proposal hash')}
-                  value={councilHash}
+                  value={councilHash?.toString()}
                 />
               </Modal.Column>
               <Modal.Column>

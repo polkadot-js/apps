@@ -44,7 +44,7 @@ interface Props extends BareProps {
   placeholder?: string;
   tabIndex?: number;
   type?: Input$Type;
-  value?: string;
+  value?: string | null;
   withLabel?: boolean;
   withEllipsis?: boolean;
 }

@@ -46,7 +46,7 @@ export interface ChangeProps {
 }
 
 export interface CallState {
-  callResult?: any;
+  callResult?: unknown;
   callUpdated?: boolean;
   callUpdatedAt?: number;
 }
