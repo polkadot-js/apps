@@ -28,16 +28,16 @@
     }
   },
   "resolutions": {
-    "@polkadot/api": "^1.15.0-beta.8",
-    "@polkadot/api-contract": "^1.15.0-beta.8",
+    "@polkadot/api": "^1.15.1",
+    "@polkadot/api-contract": "^1.15.1",
     "@polkadot/keyring": "^2.10.1",
-    "@polkadot/types": "^1.15.0-beta.8",
+    "@polkadot/types": "^1.15.1",
     "@polkadot/util": "^2.10.1",
     "@polkadot/util-crypto": "^2.10.1",
     "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
-    "analyze": "yarn run build && cd packages/apps && yarn run source-map-explorer build/main.*.js",
+    "analyze": "yarn run build && yarn source-map-explorer packages/apps/build/main.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
     "build:code": "NODE_ENV=production node_modules/@polkadot/dev/scripts/polkadot-dev-build-ts.js",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.js && node ./scripts/i18nSort.js",
@@ -97,6 +97,7 @@
     "i18next-scanner": "^2.11.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "source-map-explorer": "^2.4.2",
     "stylelint": "^13.5.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
