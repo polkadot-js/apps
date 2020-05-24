@@ -121,6 +121,10 @@ function ClaimsApp (): React.ReactElement {
     }
   }, [didCopy]);
 
+  const goToStepAccount = useCallback(() => {
+    setStep(Step.Account);
+  }, []);
+
   const goToStepSign = useCallback(() => {
     setStep(Step.Sign);
   }, []);
@@ -290,6 +294,7 @@ function ClaimsApp (): React.ReactElement {
               ? <AttestDisplay
                 accountId={accountId}
                 ethereumAddress={ethereumAddress}
+                onSuccess={goToStepAccount}
                 statementKind={statementKind}
                 systemChain={systemChain}
               />
@@ -298,6 +303,7 @@ function ClaimsApp (): React.ReactElement {
                 ethereumAddress={ethereumAddress}
                 ethereumSignature={signature}
                 isOldClaimProcess={isOldClaimProcess}
+                onSuccess={goToStepAccount}
                 statementKind={statementKind}
                 systemChain={systemChain}
               />

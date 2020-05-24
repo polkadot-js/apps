@@ -5,9 +5,10 @@
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
+import { TxCallback } from '@polkadot/react-components/Status/types';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -21,6 +22,7 @@ interface Props {
   ethereumSignature: string | null;
   // Do we sign with `claims.claimAttest` (new) instead of `claims.claim` (old)?
   isOldClaimProcess: boolean;
+  onSuccess?: TxCallback;
   statementKind?: StatementKind;
   systemChain: string;
 }
@@ -47,35 +49,29 @@ function constructTx (
     : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
 }
 
-function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
-  const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
-  const _fetchClaim = useCallback(
-    (address: EthereumAddress): void => {
-      setIsBusy(true);
-
-      api.query.claims
-        .claims<Option<BalanceOf>>(address)
-        .then((claim): void => {
-          setClaimValue(claim.unwrapOr(null));
-          setIsBusy(false);
-        })
-        .catch((): void => setIsBusy(false));
-    },
-    [api]
-  );
-
   useEffect((): void => {
-    setClaimAddress(ethereumAddress);
+    if (!ethereumAddress) {
+      return;
+    }
 
-    ethereumAddress && _fetchClaim(ethereumAddress);
-  }, [_fetchClaim, ethereumAddress]);
+    setIsBusy(true);
 
-  if (isBusy || !claimAddress) {
+    api.query.claims
+      .claims<Option<BalanceOf>>(ethereumAddress)
+      .then((claim): void => {
+        setClaimValue(claim.unwrapOr(null));
+        setIsBusy(false);
+      })
+      .catch((): void => setIsBusy(false));
+  }, [api, ethereumAddress]);
+
+  if (!ethereumAddress || isBusy) {
     return null;
   }
 
@@ -88,7 +84,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
     >
       <div className={className}>
         {t('Your Ethereum account')}
-        <h3>{addrToChecksum(claimAddress.toString())}</h3>
+        <h3>{addrToChecksum(ethereumAddress.toString())}</h3>
         {hasClaim && claimValue
           ? (
             <>
@@ -101,6 +97,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
                   isPrimary
                   isUnsigned
                   label={t('Claim')}
+                  onSuccess={onSuccess}
                   {...constructTx(systemChain, accountId, ethereumSignature, statementKind, isOldClaimProcess)}
                 />
               </Button.Group>

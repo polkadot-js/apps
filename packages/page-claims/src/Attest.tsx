@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
+import { TxCallback } from '@polkadot/react-components/Status/types';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
@@ -19,39 +20,34 @@ interface Props {
   accountId: string;
   className?: string;
   ethereumAddress: EthereumAddress | null;
+  onSuccess?: TxCallback;
   statementKind?: StatementKind;
   systemChain: string;
 }
 
-function Attest ({ accountId, className, ethereumAddress, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
-  const [claimAddress, setClaimAddress] = useState<EthereumAddress | null>(null);
   const [isBusy, setIsBusy] = useState(false);
 
-  const _fetchClaim = useCallback(
-    (address: EthereumAddress): void => {
-      setIsBusy(true);
-
-      api.query.claims
-        .claims<Option<BalanceOf>>(address)
-        .then((claim): void => {
-          setClaimValue(claim.unwrapOr(null));
-          setIsBusy(false);
-        })
-        .catch((): void => setIsBusy(false));
-    },
-    [api]
-  );
-
   useEffect((): void => {
-    setClaimAddress(ethereumAddress);
+    if (!ethereumAddress) {
+      return;
+    }
 
-    ethereumAddress && _fetchClaim(ethereumAddress);
-  }, [_fetchClaim, ethereumAddress]);
+    setIsBusy(true);
 
-  if (isBusy || !claimAddress) {
+    api.query.claims
+      .claims<Option<BalanceOf>>(ethereumAddress)
+      .then((claim): void => {
+        setClaimValue(claim.unwrapOr(null));
+        setIsBusy(false);
+      })
+      .catch((): void => setIsBusy(false));
+  }, [api, ethereumAddress]);
+
+  if (isBusy) {
     return null;
   }
 
@@ -75,6 +71,7 @@ function Attest ({ accountId, className, ethereumAddress, statementKind, systemC
             isDisabled={!statementSentence}
             isPrimary
             label={t('Attest')}
+            onSuccess={onSuccess}
             params={[statementSentence]}
             tx='claims.attest'
           />
