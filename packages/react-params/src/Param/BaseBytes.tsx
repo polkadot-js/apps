@@ -82,7 +82,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
     <Bare className={className}>
       <Input
         className={size}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue as string}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}

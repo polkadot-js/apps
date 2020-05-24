@@ -34,7 +34,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
   const [typesPlaceholder, setTypesPlaceholder] = useState<string | null>(null);
 
   useEffect((): void => {
-    const types = store.get('types') || {};
+    const types = store.get('types') as Record<string, unknown> || {};
 
     if (Object.keys(types).length) {
       setCode(JSON.stringify(types, null, 2));
@@ -74,7 +74,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
       const code = u8aToString(data);
 
       try {
-        const types = JSON.parse(code);
+        const types = JSON.parse(code) as Record<string, unknown>;
         const typesPlaceholder = Object.keys(types).join(', ');
 
         console.log('Detected types:', typesPlaceholder);
@@ -109,10 +109,10 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         }
 
         _onChangeTypes(stringToU8a(code));
-      } catch (e) {
+      } catch (error) {
         setCode(code);
         setIsJsonValid(false);
-        setTypesPlaceholder(e.message);
+        setTypesPlaceholder((error as Error).message);
       }
     },
     [_onChangeTypes, t]

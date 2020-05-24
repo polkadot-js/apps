@@ -36,7 +36,8 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
         extensions[selectedIndex]
           .update(chainInfo)
           .catch(() => false)
-          .then(() => toggleBusy());
+          .then(() => toggleBusy())
+          .catch(console.error);
       }
     },
     [chainInfo, extensions, selectedIndex, toggleBusy]

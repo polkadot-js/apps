@@ -21,7 +21,7 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     animated: isAnimated,
     basic: isBasic,
     circular: isCircular,
-    className: `${className} ${isIcon && 'isIcon'}`,
+    className: `${className} ${isIcon ? 'isIcon' : ''}`,
     'data-for': triggerId,
     'data-tip': !!tooltip,
     disabled: isDisabled,
@@ -37,7 +37,6 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
     size: size || (isIcon ? 'tiny' : undefined) || 'small',
-    style,
     tabIndex
   };
 

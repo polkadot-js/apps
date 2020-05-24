@@ -60,6 +60,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const _onSubmit = useCallback(
     (): void => queueRpc({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       rpc: { method: 'insertKey', section: 'author' } as any,
       values: [keyType, suri, publicKey]
     }),

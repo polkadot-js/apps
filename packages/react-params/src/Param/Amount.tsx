@@ -19,7 +19,7 @@ function Amount ({ className = '', defaultValue: { value }, isDisabled, isError,
       ? (
         value instanceof ClassOf(registry, 'AccountIndex')
           ? value.toString()
-          : formatNumber(value)
+          : formatNumber(value as number)
       )
       : bnToBn((value as number) || 0).toString()
   );

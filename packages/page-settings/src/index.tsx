@@ -52,7 +52,7 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
 
   return (
     <main className='settings--App'>
-      <HelpOverlay md={md} />
+      <HelpOverlay md={md as string} />
       <header>
         <Tabs
           basePath={basePath}

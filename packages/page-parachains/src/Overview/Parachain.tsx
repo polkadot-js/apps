@@ -40,7 +40,11 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
         <div>
           <Badge
             className='did-update'
-            hover={t(didUpdate ? 'Updated in the latest block' : 'Not updated in the last block')}
+            hover={
+              didUpdate
+                ? t<string>('Updated in the latest block')
+                : t<string>('Not updated in the last block')
+            }
             info={
               <Icon name='check' />
             }
@@ -50,14 +54,11 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
           />
           <Badge
             className='pending-messages'
-            hover={t(
-              '{{relayDispatchQueueSize}} dispatch messages pending',
-              {
-                replace: {
-                  relayDispatchQueueSize
-                }
+            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', {
+              replace: {
+                relayDispatchQueueSize
               }
-            )}
+            })}
             info={relayDispatchQueueSize}
             isGray={relayDispatchQueueSize <= 0}
             isTooltip

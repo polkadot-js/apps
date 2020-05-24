@@ -29,6 +29,7 @@ interface Config {
 }
 
 const alphaColor = (hexColor: string): string =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
 function calculateOptions (aspectRatio: number, values: HorizBarValue[], jsonValues: string, max: number, showLabels: boolean): State {
@@ -97,9 +98,9 @@ function ChartHorizBar ({ aspectRatio = 8, className = '', max = 100, showLabels
     <div className={className}>
       <HorizontalBar
         data={chartData}
-        height={null as number}
+        height={null as unknown as number}
         options={chartOptions}
-        width={null as number}
+        width={null as unknown as number}
       />
     </div>
   );

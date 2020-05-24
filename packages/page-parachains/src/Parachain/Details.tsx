@@ -23,14 +23,16 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
 
   const onDownload = (): void => {
     try {
-      api.query.parachains.code<Option<Bytes>>(id)
+      api.query.parachains
+        .code<Option<Bytes>>(id)
         .then((code) => {
-          if (code.unwrap()) {
+          if (code.isSome) {
             const blob = new Blob([code.unwrap().toU8a().buffer], { type: 'application/wasm' });
 
             FileSaver.saveAs(blob, `${id.toString()}_${parachainName(t, info)}.wasm`);
           }
-        });
+        })
+        .catch(console.error);
     } catch (error) {
       console.error(error);
     }

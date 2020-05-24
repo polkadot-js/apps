@@ -30,11 +30,9 @@ interface Config {
 
 // Ok, this does exists, but the export if not there in the typings - so it works,
 //  but we have to jiggle around here to get it to actually compile :(
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
 (Chart as any).Chart.pluginService.register({
-  beforeDraw: (chart: any) => {
-    const ctx = chart.chart.ctx;
-    const chartArea = chart.chartArea;
-
+  beforeDraw: ({ chart: { ctx }, chartArea }: { chart: { ctx: { fillStyle: string; fillRect: (left: number, top: number, width: number, height: number) => void; restore: () => void; save: () => void } }; chartArea: { bottom: number; left: number; right: number; top: number } }) => {
     ctx.save();
     ctx.fillStyle = '#fff';
     ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
@@ -45,6 +43,7 @@ interface Config {
 const COLORS = ['#ff8c00', '#008c8c', '#8c008c'];
 
 const alphaColor = (hexColor: string): string =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   ChartJs.helpers.color(hexColor).alpha(0.65).rgbString();
 
 const chartOptions = {

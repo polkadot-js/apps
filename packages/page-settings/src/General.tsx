@@ -41,8 +41,8 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
   );
 
   useEffect((): void => {
-    const prev = uiSettings.get();
-    const hasChanges = Object.entries(settings).some(([key, value]): boolean => (prev as any)[key] !== value);
+    const prev = uiSettings.get() as unknown as Record<string, unknown>;
+    const hasChanges = Object.entries(settings).some(([key, value]) => prev[key] !== value);
     const needsReload = prev.apiUrl !== settings.apiUrl || prev.prefix !== settings.prefix;
 
     setChanged(

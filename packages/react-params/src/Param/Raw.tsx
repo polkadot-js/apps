@@ -34,7 +34,7 @@ function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, la
     <Bare className={className}>
       <Input
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={defaultValue as string}
         isDisabled={isDisabled}
         isError={isError || !isValid}
         label={label}
