@@ -5,9 +5,7 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 
-type Props = {};
-
-function NotFound (): React.ReactElement<Props> {
+function NotFound (): React.ReactElement {
   return (
     <Redirect to='/explorer' />
   );

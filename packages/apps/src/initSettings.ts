@@ -12,13 +12,13 @@ import settings from '@polkadot/ui-settings';
 //  - http://localhost:3000/?rpc=wss://substrate-rpc.parity.io/#/explorer
 //  - http://localhost:3000/#/explorer?rpc=wss://substrate-rpc.parity.io
 const urlOptions = queryString.parse(location.href.split('?')[1]);
-const stored = store.get('settings') || {};
+const stored = store.get('settings') as Record<string, unknown> || {};
 
 if (Array.isArray(urlOptions.rpc)) {
   throw new Error('Invalid WS endpoint specified');
 }
 
-const fallbackUrl = createEndpoints(() => '').find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
+const fallbackUrl = createEndpoints(<T = string>(): T => ('' as unknown as T)).find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
 const apiUrl = urlOptions.rpc // we have a supplied value
   ? urlOptions.rpc.split('#')[0] // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer
   : [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl) // overridden, or stored
@@ -31,7 +31,7 @@ settings.set({ apiUrl });
 console.log('WS endpoint=', apiUrl);
 
 try {
-  const types = store.get('types') || {};
+  const types = store.get('types') as Record<string, Record<string, string>> || {};
   const names = Object.keys(types);
 
   if (names.length) {

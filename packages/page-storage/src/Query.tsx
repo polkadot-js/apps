@@ -103,6 +103,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           params: [key, ...values],
           withIndicator: true
         });

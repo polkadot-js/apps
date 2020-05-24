@@ -145,7 +145,7 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
   );
 
   return (
-    <tr className={`${className} ${(isAuthor || isNominating) && 'isHighlight'} ${!isVisible && 'staking--hidden'}`}>
+    <tr className={`${className} ${(isAuthor || isNominating) ? 'isHighlight' : ''} ${!isVisible ? 'staking--hidden' : ''}`}>
       <Favorite
         address={address}
         isFavorite={isFavorite}

@@ -76,12 +76,13 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
 //   value: The actual hosted secure websocket endpoint
 export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   const ENV: Option[] = [];
-  const WS_URL = process.env.WS_URL || (window as any).process_env?.WS_URL;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+  const WS_URL = process.env.WS_URL || (window as any).process_env?.WS_URL as string;
 
   if (WS_URL) {
     ENV.push({
       info: 'WS_URL',
-      text: 'WS_URL: ' + WS_URL,
+      text: `WS_URL: ${WS_URL}`,
       value: WS_URL
     });
   }

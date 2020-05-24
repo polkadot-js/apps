@@ -44,7 +44,7 @@ function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElem
       <td className='address'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
-            key={`${index}:${address}`}
+            key={`${index}:${address.toHex()}`}
             value={address}
             withBalance={false}
           />
@@ -53,7 +53,7 @@ function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElem
       <td className='address'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
-            key={`${index}:${address}`}
+            key={`${index}:${address.toHex()}`}
             value={address}
             withBalance={false}
           />

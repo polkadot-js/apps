@@ -654,6 +654,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetTxStatus(id, 'sending');
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { error, result, status } = await this.submitRpc(rpc, values);
 
     queueSetTxStatus(id, status, result, error);

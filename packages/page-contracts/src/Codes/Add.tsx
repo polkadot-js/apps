@@ -69,6 +69,7 @@ class Add extends ContractModal<Props, State> {
         isPrimary
         label={t<string>('Save')}
         onClick={this.onSave}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         ref={this.button}
       />
     );

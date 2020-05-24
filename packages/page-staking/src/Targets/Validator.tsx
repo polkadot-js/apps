@@ -34,7 +34,7 @@ function Validator ({ canSelect, info: { accountId, bondOther, bondOwn, bondTota
   );
 
   return (
-    <tr className={`${isNominating && 'isHighlight'}`}>
+    <tr className={`${isNominating ? 'isHighlight' : ''}`}>
       <Favorite
         address={key}
         isFavorite={isFavorite}

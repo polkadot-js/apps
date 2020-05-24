@@ -57,11 +57,11 @@ class CodeRow extends Row<Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_info, code: { json } }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accountsInfo, code: { json } }: Props, prevState: State): State | null {
     const codeHash = json.codeHash || DEFAULT_HASH;
     const name = json.name || DEFAULT_NAME;
     const tags = json.tags || [];
-    const { accountId } = accounts_info || {};
+    const { accountId } = accountsInfo || {};
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;

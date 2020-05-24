@@ -219,7 +219,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         />
       </Button.Group>
       <Table
-        empty={t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={header}

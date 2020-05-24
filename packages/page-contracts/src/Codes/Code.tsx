@@ -17,7 +17,7 @@ import RemoveABI from '../RemoveABI';
 import contracts from '../store';
 import translate from '../translate';
 
-interface Props extends I18nProps, RouteComponentProps<{}> {
+interface Props extends I18nProps, RouteComponentProps {
   code: CodeStored;
   showDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
 }
@@ -201,7 +201,7 @@ class Code extends React.PureComponent<Props, State> {
     this.setState(
       { isAbiOpen: true },
       (): void => {
-        contracts.saveCode(codeHash, { abi });
+        contracts.saveCode(codeHash, { abi }).catch(console.error);
       }
     );
   }

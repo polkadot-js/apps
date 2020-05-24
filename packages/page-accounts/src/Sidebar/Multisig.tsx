@@ -36,13 +36,13 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
         isFull
         label={t<string>('threshold')}
       >
-        {threshold}/{who.length}
+        {threshold}/{(who as string[]).length}
       </Static>
       <Static
         isFull
         label={t<string>('signatories')}
       >
-        {who?.map((address: string) => (
+        {(who as string[])?.map((address) => (
           <AddressMini
             key={address}
             value={address}
