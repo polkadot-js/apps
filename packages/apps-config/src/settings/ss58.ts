@@ -8,7 +8,7 @@ import { Option } from './types';
 //   info: the name of a logo as defined in ../logos, specifically in namedLogos
 //   text: The text you wish to display in the dropdown
 //   value: The actual ss5Format value (as registered)
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   return [
     {
       info: 'default',

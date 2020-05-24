@@ -23,7 +23,7 @@ interface Props {
 
 let prevEventHash: string;
 
-function filterEvents (allAccounts: string[], t: (key: string, opts?: object) => string, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
+function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts?: Record<string, unknown>) => T, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
   const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(events)));
 
   if (!optionsAll || !events || eventHash === prevEventHash) {

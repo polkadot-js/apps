@@ -43,7 +43,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini
                 className='identityIcon'
-                key={`${count}:${address}`}
+                key={`${count}:${address.toHex()}`}
                 value={address}
                 withBalance={false}
                 withShrink

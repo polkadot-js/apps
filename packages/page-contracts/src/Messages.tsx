@@ -51,7 +51,7 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: (key: string) => string): React.ReactNode {
+function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
   const { docs = [], name } = message;
 
   return (
@@ -107,7 +107,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
   );
 }
 
-function renderConstructor (props: Props, index: number, t: (key: string) => string): React.ReactNode {
+function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
   const { contractAbi: { abi: { contract: { constructors } } } } = props;
 
   if (!constructors[index]) {
@@ -117,7 +117,7 @@ function renderConstructor (props: Props, index: number, t: (key: string) => str
   return renderItem(props, constructors[index], index, true, t);
 }
 
-function renderMessage (props: Props, index: number, t: (key: string) => string): React.ReactNode {
+function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
   const { contractAbi: { abi: { contract: { messages } } } } = props;
 
   if (!messages[index]) {
@@ -132,7 +132,7 @@ function Messages (props: Props): React.ReactElement<Props> {
   const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
 
   return (
-    <div className={classes(className = '', 'ui--Messages', isLabelled && 'labelled')}>
+    <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
       {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
       {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
       {isRemovable && (

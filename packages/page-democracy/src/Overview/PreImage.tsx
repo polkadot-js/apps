@@ -29,7 +29,7 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isImminent, setIsImminent] = useState(propsIsImminent || false);
   const [{ encodedHash, encodedProposal }, setHash] = useState<{ encodedHash: string; encodedProposal: string }>({ encodedHash: ZERO_HASH, encodedProposal: '' });
-  const [proposal, setProposal] = useState<any>();
+  const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';

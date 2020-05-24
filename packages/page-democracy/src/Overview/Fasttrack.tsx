@@ -68,7 +68,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
               help={t<string>('The external proposal to send to the technical committee')}
               isDisabled
               label={t<string>('preimage hash')}
-              value={imageHash}
+              value={imageHash.toHex()}
             />
             <InputNumber
               autoFocus

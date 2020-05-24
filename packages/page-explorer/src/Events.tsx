@@ -46,7 +46,7 @@ function Events ({ className = '', emptyLabel, eventClassName, events, label }: 
               {blockNumber && (
                 <Link
                   className='event-link'
-                  to={`/explorer/query/${blockHash}`}>{formatNumber(blockNumber)}-{index}</Link>
+                  to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{index}</Link>
               )}
             </td>
           </tr>

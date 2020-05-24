@@ -69,7 +69,7 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
               {params && params[index]
                 ? (
                   <b>
-                    {truncate(params[index].toString())}
+                    {truncate((params as Record<string, string>)[index].toString())}
                   </b>
                 )
                 : displayType(type)}

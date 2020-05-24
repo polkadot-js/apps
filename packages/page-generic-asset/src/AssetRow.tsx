@@ -23,7 +23,7 @@ class AssetRow extends Row<Props, RowState> {
   }
 
   public render (): React.ReactNode {
-    const { className } = this.props;
+    const { className = '' } = this.props;
 
     return (
       <div

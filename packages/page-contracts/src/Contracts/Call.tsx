@@ -95,11 +95,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
     callContract
       .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
       .send(accountId)
-      .then(
-        (outcome: ContractCallOutcome): void => {
-          setOutcomes([outcome, ...outcomes]);
-        }
-      );
+      .then((outcome: ContractCallOutcome): void => {
+        setOutcomes([outcome, ...outcomes]);
+      })
+      .catch(console.error);
   };
 
   const _onClearOutcomes = (): void => setOutcomes([]);

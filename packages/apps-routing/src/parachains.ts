@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Parachains from '@polkadot/app-parachains';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component: Parachains,
     display: {

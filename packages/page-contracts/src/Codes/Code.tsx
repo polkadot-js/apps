@@ -201,10 +201,7 @@ class Code extends React.PureComponent<Props, State> {
     this.setState(
       { isAbiOpen: true },
       (): void => {
-        contracts.saveCode(
-          codeHash,
-          { abi }
-        );
+        contracts.saveCode(codeHash, { abi });
       }
     );
   }

@@ -65,7 +65,7 @@ function formatTuple (tuple: Tuple): React.ReactNode {
   );
 }
 
-function formatVector (vector: Vec<any>): React.ReactNode {
+function formatVector (vector: Vec<Codec>): React.ReactNode {
   const type = getTypeDef(vector.Type);
   const values = vector.toArray().map((value): { isValid: boolean; value: Codec } => ({
     isValid: true,

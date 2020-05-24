@@ -4,7 +4,7 @@
 
 import { Option } from './types';
 
-function createDev (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+function createDev (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   return [
     {
       info: 'local',
@@ -14,7 +14,7 @@ function createDev (t: (key: string, text: string, options: { ns: string }) => s
   ];
 }
 
-function createLive (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+function createLive (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   return [
     {
       info: 'kusama',
@@ -44,7 +44,7 @@ function createLive (t: (key: string, text: string, options: { ns: string }) => 
   ];
 }
 
-function createTest (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+function createTest (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   return [
     {
       info: 'westend',
@@ -74,7 +74,7 @@ function createTest (t: (key: string, text: string, options: { ns: string }) => 
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
 //   text: The text to display on teh dropdown
 //   value: The actual hosted secure websocket endpoint
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   const ENV: Option[] = [];
   const WS_URL = process.env.WS_URL || (window as any).process_env?.WS_URL;
 

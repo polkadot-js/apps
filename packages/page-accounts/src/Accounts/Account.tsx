@@ -188,7 +188,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
+          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />
@@ -283,8 +283,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             key='multisig-approve'
             onClose={_closeMultisig}
             ongoing={multiInfos}
-            threshold={meta.threshold}
-            who={meta.who}
+            threshold={meta.threshold as number}
+            who={meta.who as string[]}
           />
         )}
         {isRecoverAccountOpen && (

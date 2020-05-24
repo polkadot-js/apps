@@ -33,7 +33,7 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
 
   return (
     <main className='democracy--App'>
-      <HelpOverlay md={basicMd} />
+      <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}

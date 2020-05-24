@@ -16,7 +16,7 @@ import BlockByNumber from './ByNumber';
 function Entry (): React.ReactElement | null {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const { value } = useParams();
+  const { value } = useParams<{ value: string }>();
   const [stateValue, setStateValue] = useState<string | undefined>(value);
 
   useEffect((): void => {

@@ -38,7 +38,7 @@ function NodeInfo (): React.ReactElement {
 
   useEffect((): () => void => {
     const _getStatus = (): void => {
-      retrieveInfo(api).then(setInfo);
+      retrieveInfo(api).then(setInfo).catch(console.error);
     };
 
     _getStatus();

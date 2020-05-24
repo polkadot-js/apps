@@ -30,7 +30,7 @@ let id = 0;
 
 function ReferendumVotes ({ change, className = '', count, index, isWinning, total, votes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [trigger] = useState(`votes-${index}-${++id}`);
+  const [trigger] = useState(`votes-${index.toString()}-${++id}`);
   const [sorted, setSorted] = useState<DeriveReferendumVote[]>([]);
 
   useEffect((): void => {
