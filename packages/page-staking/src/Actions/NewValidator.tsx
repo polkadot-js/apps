@@ -57,12 +57,12 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
         icon='add'
         isDisabled={isDisabled}
         key='new-validator'
-        label={t('Validator')}
+        label={t<string>('Validator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t('Setup Validator {{step}}/{{NUM_STEPS}}', {
+          header={t<string>('Setup Validator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
@@ -93,7 +93,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
             <Button
               icon='step backward'
               isDisabled={step === 1}
-              label={t('prev')}
+              label={t<string>('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -103,7 +103,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                   icon='sign-in'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
                   isPrimary
-                  label={t('Bond & Validate')}
+                  label={t<string>('Bond & Validate')}
                   onStart={_toggle}
                   params={[
                     controllerId === stashId
@@ -118,7 +118,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                   icon='step forward'
                   isDisabled={!bondTx}
                   isPrimary
-                  label={t('next')}
+                  label={t<string>('next')}
                   onClick={_nextStep}
                 />
               )}

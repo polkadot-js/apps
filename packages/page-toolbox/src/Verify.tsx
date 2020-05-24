@@ -33,13 +33,13 @@ const AlignedIcon = styled(Icon)`
   }
 `;
 
-function Verify (): React.ReactElement<{}> {
+function Verify (): React.ReactElement {
   const { t } = useTranslation();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
   const [{ isValidSignature, signature }, setSignature] = useState<{ isValidSignature: boolean; signature: string }>({ isValidSignature: false, signature: '' });
-  const [cryptoOptions] = useState([{ text: t('Crypto not detected'), value: 'unknown' }].concat(uiSettings.availableCryptos as any[]));
+  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(uiSettings.availableCryptos as any[]));
 
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';
@@ -108,10 +108,10 @@ function Verify (): React.ReactElement<{}> {
       <div className='ui--row'>
         <InputAddress
           className='full'
-          help={t('The account that signed the input')}
+          help={t<string>('The account that signed the input')}
           isError={!isValidPk}
           isInput
-          label={t('verify using address')}
+          label={t<string>('verify using address')}
           onChange={_onChangeAddress}
         />
       </div>
@@ -119,8 +119,8 @@ function Verify (): React.ReactElement<{}> {
         <Input
           autoFocus
           className='full'
-          help={t('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
-          label={t('using the following data')}
+          help={t<string>('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
+          label={t<string>('using the following data')}
           onChange={_onChangeData}
           value={data}
         />
@@ -138,9 +138,9 @@ function Verify (): React.ReactElement<{}> {
         </div>
         <Input
           className='full'
-          help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
+          help={t<string>('The signature as by the account being checked, supplied as a hex-formatted string.')}
           isError={!isValidSignature}
-          label={t('the supplied signature')}
+          label={t<string>('the supplied signature')}
           onChange={_onChangeSignature}
           value={signature}
         />
@@ -148,19 +148,19 @@ function Verify (): React.ReactElement<{}> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={cryptoType}
-          help={t('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
+          help={t<string>('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
           isDisabled
-          label={t('signature crypto type')}
+          label={t<string>('signature crypto type')}
           options={cryptoOptions}
         />
         <Static
           className='medium'
-          help={t('Detection on the input string to determine if it is hex or non-hex.')}
-          label={t('hex input data')}
+          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
+          label={t<string>('hex input data')}
           value={
             isHexData
-              ? t('Yes')
-              : t('No')
+              ? t<string>('Yes')
+              : t<string>('No')
           }
         />
       </div>

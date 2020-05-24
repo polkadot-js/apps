@@ -28,7 +28,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, prime }: Props
   return (
     <Table
       className={className}
-      empty={electionsInfo && t('No members found')}
+      empty={electionsInfo && t<string>('No members found')}
       header={header}
     >
       {electionsInfo?.members.map(([accountId, balance]): React.ReactNode => (

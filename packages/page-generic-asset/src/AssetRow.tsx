@@ -56,7 +56,7 @@ class AssetRow extends Row<Props, RowState> {
     return (
       <div className='ui--Row-details'>
         <CopyButton value={assetId}>
-          <span>{t('Asset ID')}: {assetId}</span>
+          <span>{t<string>('Asset ID')}: {assetId}</span>
         </CopyButton>
       </div>
     );

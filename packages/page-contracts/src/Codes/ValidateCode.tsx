@@ -62,8 +62,8 @@ class ValidateCode extends React.PureComponent<Props, State> {
       <InfoForInput type='error'>
         {
           isValidHex
-            ? t('Unable to find on-chain WASM code for the supplied codeHash')
-            : t('The codeHash is not a valid hex hash')
+            ? t<string>('Unable to find on-chain WASM code for the supplied codeHash')
+            : t<string>('The codeHash is not a valid hex hash')
         }
       </InfoForInput>
     );

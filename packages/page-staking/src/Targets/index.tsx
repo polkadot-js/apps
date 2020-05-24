@@ -79,11 +79,11 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
 
   const labels = useMemo(
     (): Record<string, string> => ({
-      rankBondOther: t('other stake'),
-      rankBondOwn: t('own stake'),
-      rankBondTotal: t('total stake'),
-      rankComm: t('commission'),
-      rankOverall: t('profit/era est')
+      rankBondOther: t<string>('other stake'),
+      rankBondOwn: t<string>('own stake'),
+      rankBondTotal: t<string>('total stake'),
+      rankComm: t<string>('commission'),
+      rankOverall: t<string>('profit/era est')
     }),
     [t]
   );
@@ -103,9 +103,9 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
     sorted && (
       <InputBalance
         className='balanceInput'
-        help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
+        help={t<string>('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
         isFull
-        label={t('amount to use for estimation')}
+        label={t<string>('amount to use for estimation')}
         onChange={setCalcWith}
         value={calcWith}
       />
@@ -124,7 +124,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
-          label={t('Select best')}
+          label={t<string>('Select best')}
           onClick={_selectProfitable}
         />
         <Nominate
@@ -133,7 +133,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         />
       </Button.Group>
       <Table
-        empty={sorted && t('No active validators to check')}
+        empty={sorted && t<string>('No active validators to check')}
         filter={filter}
         header={header}
       >

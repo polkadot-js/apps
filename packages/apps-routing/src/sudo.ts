@@ -18,6 +18,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'unlock',
     name: 'sudo',
-    text: t('nav.sudo', 'Sudo', { ns: 'apps-routing' })
+    text: t<string>('nav.sudo', 'Sudo', { ns: 'apps-routing' })
   };
 }

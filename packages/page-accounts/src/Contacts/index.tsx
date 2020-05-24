@@ -53,7 +53,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Input
         autoFocus
         isFull
-        label={t('filter by name or tags')}
+        label={t<string>('filter by name or tags')}
         onChange={setFilter}
         value={filterOn}
       />
@@ -65,7 +65,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Button.Group>
         <Button
           icon='add'
-          label={t('Add contact')}
+          label={t<string>('Add contact')}
           onClick={toggleCreate}
         />
       </Button.Group>
@@ -76,7 +76,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         />
       )}
       <Table
-        empty={t('no addresses saved yet, add any existing address')}
+        empty={t<string>('no addresses saved yet, add any existing address')}
         filter={filter}
         header={header}
       >

@@ -107,7 +107,7 @@ function Logs (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Table
-      empty={t('No logs available')}
+      empty={t<string>('No logs available')}
       header={header}
     >
       {value?.map((log, index) => (

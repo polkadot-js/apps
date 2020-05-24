@@ -22,7 +22,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
   const { t } = useTranslation();
   const { api } = useApi();
   const councilThreshold = useCall<number>((api.query.electionsPhragmen || api.query.elections).members, [], {
-    transform: (value: any[]): number =>
+    transform: (value: unknown[]): number =>
       Math.ceil(value.length * 0.6)
   });
   const [isOpen, toggleOpen] = useToggle();
@@ -30,15 +30,15 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
   const [councilType, setCouncilType] = useState('reject');
   const [hasProposals, setHasProposals] = useState(true);
   const councilTypeOpt = useMemo(() => [
-    { text: t('Acceptance proposal to council'), value: 'accept' },
-    { text: t('Rejection proposal to council'), value: 'reject' }
+    { text: t<string>('Acceptance proposal to council'), value: 'accept' },
+    { text: t<string>('Rejection proposal to council'), value: 'reject' }
   ], [t]);
 
   useEffect((): void => {
     setHasProposals(
       !!councilProposals
-        .map(({ votes }): number => votes ? votes?.index.toNumber() : -1)
-        .filter((index): boolean => index !== -1)
+        .map(({ votes }): number => votes ? votes.index.toNumber() : -1)
+        .filter((index) => index !== -1)
         .length
     );
   }, [councilProposals]);
@@ -51,7 +51,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
     <>
       {isOpen && (
         <Modal
-          header={t('Send to council')}
+          header={t<string>('Send to council')}
           size='large'
         >
           <Modal.Content>
@@ -59,29 +59,29 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
               <Modal.Column>
                 <InputAddress
                   filter={members}
-                  help={t('Select the council account you wish to use to make the proposal.')}
-                  label={t('submit with council account')}
+                  help={t<string>('Select the council account you wish to use to make the proposal.')}
+                  label={t<string>('submit with council account')}
                   onChange={setAccountId}
                   type='account'
                   withLabel
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The council member that is proposing this, submission equates to an "aye" vote.')}</p>
+                <p>{t<string>('The council member that is proposing this, submission equates to an "aye" vote.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <Dropdown
-                  help={t('The type of council proposal to submit.')}
-                  label={t('council proposal type')}
+                  help={t<string>('The type of council proposal to submit.')}
+                  label={t<string>('council proposal type')}
                   onChange={setCouncilType}
                   options={councilTypeOpt}
                   value={councilType}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.')}</p>
+                <p>{t<string>('Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -91,7 +91,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
               icon='check'
               isDisabled={!accountId || !councilThreshold}
               isPrimary
-              label={t('Send to council')}
+              label={t<string>('Send to council')}
               onStart={toggleOpen}
               params={[
                 councilThreshold,
@@ -107,7 +107,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
       <Button
         icon='step forward'
         isDisabled={isDisabled}
-        label={t('To council')}
+        label={t<string>('To council')}
         onClick={toggleOpen}
       />
     </>

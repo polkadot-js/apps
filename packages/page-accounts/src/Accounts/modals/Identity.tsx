@@ -43,8 +43,8 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
         className='toggle-Toggle'
         label={
           value
-            ? t('include value')
-            : t('exclude value')
+            ? t<string>('include value')
+            : t<string>('exclude value')
         }
         onChange={onChange}
         value={value}
@@ -104,13 +104,13 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
   return (
     <Modal
       className={className}
-      header={t('Register identity')}
+      header={t<string>('Register identity')}
     >
       <Modal.Content>
         <Input
           autoFocus
-          help={t('The name that will be displayed in your accounts list.')}
-          label={t('display name')}
+          help={t<string>('The name that will be displayed in your accounts list.')}
+          label={t<string>('display name')}
           maxLength={32}
           onChange={setValDisplay}
           value={valDisplay}
@@ -120,9 +120,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           value={hasLegal}
         >
           <Input
-            help={t('The legal name for this identity.')}
+            help={t<string>('The legal name for this identity.')}
             isDisabled={!hasLegal}
-            label={t('legal name')}
+            label={t<string>('legal name')}
             maxLength={32}
             onChange={setValLegal}
             value={hasLegal ? valLegal : '<none>'}
@@ -133,9 +133,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           value={hasEmail}
         >
           <Input
-            help={t('The email address associated with this identity.')}
+            help={t<string>('The email address associated with this identity.')}
             isDisabled={!hasEmail}
-            label={t('email')}
+            label={t<string>('email')}
             maxLength={32}
             onChange={setValEmail}
             value={hasEmail ? valEmail : '<none>'}
@@ -146,9 +146,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           value={hasWeb}
         >
           <Input
-            help={t('An URL that is linked to this identity.')}
+            help={t<string>('An URL that is linked to this identity.')}
             isDisabled={!hasWeb}
-            label={t('web')}
+            label={t<string>('web')}
             maxLength={32}
             onChange={setValWeb}
             value={hasWeb ? valWeb : '<none>'}
@@ -159,9 +159,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           value={hasTwitter}
         >
           <Input
-            help={t('The twitter name for this identity.')}
+            help={t<string>('The twitter name for this identity.')}
             isDisabled={!hasTwitter}
-            label={t('twitter')}
+            label={t<string>('twitter')}
             onChange={setValTwitter}
             value={hasTwitter ? valTwitter : '<none>'}
           />
@@ -171,9 +171,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           value={hasRiot}
         >
           <Input
-            help={t('a riot name linked to this identity')}
+            help={t<string>('a riot name linked to this identity')}
             isDisabled={!hasRiot}
-            label={t('riot name')}
+            label={t<string>('riot name')}
             maxLength={32}
             onChange={setValRiot}
             value={hasRiot ? valRiot : '<none>'}
@@ -186,9 +186,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             isDisabled={!hasImg}
             isError={hasImg && errImg}
-            label={t('sha2 image hash')}
+            label={t<string>('sha2 image hash')}
             onChange={_onChangeImg}
-            placeholder={t('0x...')}
+            placeholder={t<string>('0x...')}
             maxLength={66}
             value={hasImg ? valImg : '<none>'}
           />
@@ -200,9 +200,9 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             isDisabled={!hasPgp}
             isError={hasPgp && errPgp}
-            label={t('pgp hash')}
+            label={t<string>('pgp hash')}
             onChange={_onChangePgp}
-            placeholder={t('0x...')}
+            placeholder={t<string>('0x...')}
             maxLength={42}
             value={hasPgp ? valPgp : '<none>'}
           />
@@ -213,7 +213,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           accountId={address}
           icon='send'
           isPrimary
-          label={t('Set Identity')}
+          label={t<string>('Set Identity')}
           onStart={onClose}
           params={[info]}
           tx='identity.setIdentity'

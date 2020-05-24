@@ -59,12 +59,12 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
                 ? (
                   <BlockToTime
                     blocks={blocks}
-                    label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                    label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
                   />
                 )
                 : isFinished
-                  ? t('lock expired')
-                  : t('ongoing referendum')
+                  ? t<string>('lock expired')
+                  : t<string>('ongoing referendum')
               }
             </div>
           </div>

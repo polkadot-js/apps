@@ -28,7 +28,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   if (!proposal) {
     return (
       <td className={`${className} all`}>
-        <label>{t('preimage hash')}</label>
+        <label>{t<string>('preimage hash')}</label>
         {imageHash.toString()}
       </td>
     );
@@ -41,7 +41,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
   return (
     <td className={`${className} all`}>
       <CallExpander
-        labelHash={t('proposal hash')}
+        labelHash={t<string>('proposal hash')}
         value={proposal}
         withHash={!isTreasury && !isExternal}
       >

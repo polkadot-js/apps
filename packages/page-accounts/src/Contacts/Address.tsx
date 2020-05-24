@@ -132,7 +132,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         try {
           keyring.forgetAddress(address);
           status.status = 'success';
-          status.message = t('address forgotten');
+          status.message = t<string>('address forgotten');
         } catch (error) {
           status.status = 'error';
           status.message = (error as Error).message;
@@ -150,7 +150,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
+          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />
@@ -203,9 +203,9 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         <Button
           icon='paper plane'
           key='deposit'
-          label={t('deposit')}
+          label={t<string>('deposit')}
           onClick={_toggleTransfer}
-          tooltip={t('Send funds to this address')}
+          tooltip={t<string>('Send funds to this address')}
         />
         <Popup
           className='theme--default'
@@ -227,7 +227,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
               disabled={!isEditable}
               onClick={_toggleForget}
             >
-              {t('Forget this address')}
+              {t<string>('Forget this address')}
             </Menu.Item>
             {!api.isDevelopment && (
               <>

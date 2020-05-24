@@ -14,6 +14,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'database',
     name: 'chainstate',
-    text: t('nav.storage', 'Chain state', { ns: 'apps-routing' })
+    text: t<string>('nav.storage', 'Chain state', { ns: 'apps-routing' })
   };
 }

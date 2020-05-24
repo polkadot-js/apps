@@ -44,12 +44,12 @@ function Transaction ({ children, className = '', hideDetails, isSendable, onErr
                   defaultValue={accountId}
                   isDisabled
                   isInput
-                  label={t('sending from my account')}
+                  label={t<string>('sending from my account')}
                   withLabel
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
+                <p>{t<string>('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
               </Modal.Column>
             </Modal.Columns>
           )}
@@ -59,7 +59,7 @@ function Transaction ({ children, className = '', hideDetails, isSendable, onErr
                 className='tx-details'
                 summary={
                   <>
-                    {t('Sending transaction')} <span className='highlight'>{section}.{method}({
+                    {t<string>('Sending transaction')} <span className='highlight'>{section}.{method}({
                       meta?.args.map(({ name }) => name).join(', ') || ''
                     })</span>
                   </>
@@ -83,7 +83,7 @@ function Transaction ({ children, className = '', hideDetails, isSendable, onErr
               )}
             </Modal.Column>
             <Modal.Column>
-              <p>{t('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}</p>
+              <p>{t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}</p>
             </Modal.Column>
           </Modal.Columns>
         </>

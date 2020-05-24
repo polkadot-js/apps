@@ -39,7 +39,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       </td>
       <td>
         {seconding.length !== 0 && (
-          <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
+          <Expander summary={t<string>('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini
                 className='identityIcon'

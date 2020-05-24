@@ -17,6 +17,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'star',
     name: 'claims',
-    text: t('nav.claims', 'Claim Tokens', { ns: 'apps-routing' })
+    text: t<string>('nav.claims', 'Claim Tokens', { ns: 'apps-routing' })
   };
 }

@@ -27,8 +27,8 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
         {isHead && (
           <Tag
             color='green'
-            hover={t('Current society head, exempt')}
-            label={t('society head')}
+            hover={t<string>('Current society head, exempt')}
+            label={t<string>('society head')}
           />
         )}
       </td>

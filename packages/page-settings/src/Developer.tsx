@@ -125,7 +125,7 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         store.set('types', types);
         setIsTypesValid(true);
         onStatusChange({
-          action: t('Your custom types have been added'),
+          action: t<string>('Your custom types have been added'),
           status: 'success'
         });
       } catch (error) {
@@ -151,9 +151,9 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
         <div className='full'>
           <InputFile
             clearContent={typesHasNoEntries && isTypesValid}
-            help={t('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
+            help={t<string>('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
             isError={!isTypesValid}
-            label={t('Additional types as a JSON file (or edit below)')}
+            label={t<string>('Additional types as a JSON file (or edit below)')}
             onChange={_onChangeTypes}
             placeholder={typesPlaceholder}
           />
@@ -177,13 +177,13 @@ function Developer ({ className = '', onStatusChange }: Props): React.ReactEleme
       <Button.Group>
         <Button
           icon='sync'
-          label={t('Reset')}
+          label={t<string>('Reset')}
           onClick={_clearTypes}
         />
         <Button
           icon='save'
           isDisabled={!isTypesValid || !isJsonValid}
-          label={t('Save')}
+          label={t<string>('Save')}
           onClick={_saveDeveloper}
         />
       </Button.Group>

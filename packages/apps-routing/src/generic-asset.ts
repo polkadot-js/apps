@@ -18,6 +18,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'cubes',
     name: 'generic-asset',
-    text: t('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
+    text: t<string>('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
   };
 }

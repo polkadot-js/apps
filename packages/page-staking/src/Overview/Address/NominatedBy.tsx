@@ -19,11 +19,11 @@ function NominatedBy ({ nominators }: Props): React.ReactElement<Props> {
     <td className='start all'>
       {nominators
         ? (nominators.length !== 0 && (
-          <Expander summary={t('Nominations ({{count}})', { replace: { count: formatNumber(nominators.length) } })}>
+          <Expander summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(nominators.length) } })}>
             {nominators.map(([who, index]): React.ReactNode =>
               <AddressMini
                 key={who}
-                summary={t('priority {{index}}', { replace: { index } })}
+                summary={t<string>('priority {{index}}', { replace: { index } })}
                 value={who}
               />
             )}

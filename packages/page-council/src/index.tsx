@@ -37,11 +37,11 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t('Council overview')
+      text: t<string>('Council overview')
     },
     {
       name: 'motions',
-      text: t('Motions ({{count}})', { replace: { count: numMotions } })
+      text: t<string>('Motions ({{count}})', { replace: { count: numMotions } })
     }
   ], [numMotions, t]);
 

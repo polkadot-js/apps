@@ -40,7 +40,7 @@ function AssetCard ({ assetId, className = '', name, onForget, onSaveName }: Pro
               isNegative
               key='forget'
               onClick={_onForget}
-              tooltip={t('Forget this asset')}
+              tooltip={t<string>('Forget this asset')}
             />
           )}
           defaultName={name}

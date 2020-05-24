@@ -78,7 +78,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
                   </React.Fragment>
                 )))
               : (
-                <i>{t('No documentation provided')}</i>
+                <i>{t<string>('No documentation provided')}</i>
               )
           }
         />
@@ -89,7 +89,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
             className='execute'
             icon='play'
             onClick={onSelect(props, index)}
-            tooltip={t('Call this message')}
+            tooltip={t<string>('Call this message')}
           />
         </div>
       )}
@@ -99,7 +99,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
             className='execute'
             icon='cloud upload'
             onClick={onSelectConstructor(props, index)}
-            tooltip={t('Deploy with this constructor')}
+            tooltip={t<string>('Deploy with this constructor')}
           />
         </div>
       )}
@@ -139,7 +139,7 @@ function Messages (props: Props): React.ReactElement<Props> {
         <IconLink
           className='remove-abi'
           icon='remove'
-          label={t('Remove ABI')}
+          label={t<string>('Remove ABI')}
           onClick={onRemove}
         />
       )}

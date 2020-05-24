@@ -58,8 +58,8 @@ function ChainLock ({ className = '', genesisHash, isDisabled, onChange }: Props
       isDisabled={isDisabled}
       label={
         isTiedToChain
-          ? t('only this network')
-          : t('use on any network')
+          ? t<string>('only this network')
+          : t<string>('use on any network')
       }
       onChange={_onChange}
       preventDefault

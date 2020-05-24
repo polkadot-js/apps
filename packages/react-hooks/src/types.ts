@@ -9,9 +9,9 @@ import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, SessionIndex, St
 import { IExtrinsic } from '@polkadot/types/types';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
-export type CallParam = unknown;
+export type CallParam = any;
 
-export type CallParams = CallParam[];
+export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;

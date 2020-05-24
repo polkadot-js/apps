@@ -67,7 +67,7 @@ function Expander ({ children, className = '', isOpen, summary, summaryMeta, sum
             : withDot
               ? <Icon name='circle outline' />
               : undefined
-          }{headerMain || t('Details')}
+          }{headerMain || t<string>('Details')}
         </div>
         {headerSub && (
           <div className='ui--Expander-summary-sub'>{headerSub}</div>

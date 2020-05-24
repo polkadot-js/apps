@@ -12,7 +12,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     display: {},
     icon: 'settings',
     name: 'settings',
-    text: t('nav.settings', 'Settings', { ns: 'apps-routing' }),
+    text: t<string>('nav.settings', 'Settings', { ns: 'apps-routing' }),
     useCounter
   };
 }

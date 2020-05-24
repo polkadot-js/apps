@@ -259,7 +259,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, className = ''
       onKeyDown={_onKeyDown}
       onKeyUp={_onKeyUp}
       onPaste={_onPaste}
-      placeholder={placeholder || t('Positive number')}
+      placeholder={placeholder || t<string>('Positive number')}
       style={style}
       type='text'
       value={value}

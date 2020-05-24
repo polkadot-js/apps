@@ -31,8 +31,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const [type, setType] = useState<string | null>('aye');
   const calltypes = useMemo<Option[]>(
     () => [
-      { text: t('Approve this call hash'), value: 'aye' },
-      { text: t('Cancel this call hash'), value: 'nay' }
+      { text: t<string>('Approve this call hash'), value: 'aye' },
+      { text: t<string>('Cancel this call hash'), value: 'nay' }
     ],
     [t]
   );
@@ -50,25 +50,25 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   return (
     <Modal
       className={className}
-      header={t('Pending call hashes')}
+      header={t<string>('Pending call hashes')}
     >
       <Modal.Content>
         <InputAddress
           filter={who}
-          help={t('The signatory to send the approval/cancel from')}
-          label={t('signatory')}
+          help={t<string>('The signatory to send the approval/cancel from')}
+          label={t<string>('signatory')}
           onChange={setSignatory}
         />
         <Dropdown
-          help={t('The call hashes that have not been executed as of yet.')}
-          label={t('pending hashes')}
+          help={t<string>('The call hashes that have not been executed as of yet.')}
+          label={t<string>('pending hashes')}
           onChange={setHash}
           options={hashes}
           value={hash}
         />
         <Dropdown
-          help={t('Either approve or reject this call.')}
-          label={t('approval type')}
+          help={t<string>('Either approve or reject this call.')}
+          label={t<string>('approval type')}
           onChange={setType}
           options={calltypes}
           value={type}

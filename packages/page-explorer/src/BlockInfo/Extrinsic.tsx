@@ -59,13 +59,13 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
             className='details'
             mortality={
               era
-                ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+                ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
                   replace: {
                     endsAt: formatNumber(era[1]),
                     startAt: formatNumber(era[0])
                   }
                 })
-                : t('immortal')
+                : t<string>('immortal')
             }
             tip={value.tip?.toBn()}
             value={value}
@@ -91,7 +91,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
             <>
               <AddressMini value={value.signer} />
               <div className='explorer--BlockByHash-nonce'>
-                {t('index')} {formatNumber(value.nonce)}
+                {t<string>('index')} {formatNumber(value.nonce)}
               </div>
               <LinkExternal
                 data={value.hash.toHex()}
@@ -99,7 +99,7 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
               />
             </>
           )
-          : <div className='explorer--BlockByHash-unsigned'>{t('not signed')}</div>
+          : <div className='explorer--BlockByHash-unsigned'>{t<string>('not signed')}</div>
         }
       </td>
     </tr>

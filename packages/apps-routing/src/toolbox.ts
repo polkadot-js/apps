@@ -14,6 +14,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'configure',
     name: 'toolbox',
-    text: t('nav.toolbox', 'Toolbox', { ns: 'apps-routing' })
+    text: t<string>('nav.toolbox', 'Toolbox', { ns: 'apps-routing' })
   };
 }

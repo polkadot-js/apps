@@ -17,6 +17,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'compress',
     name: 'contracts',
-    text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })
+    text: t<string>('nav.contracts', 'Contracts', { ns: 'apps-routing' })
   };
 }

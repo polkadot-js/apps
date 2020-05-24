@@ -102,14 +102,14 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
           <Button
             icon='add'
             isPrimary
-            label={t('Add item')}
+            label={t<string>('Add item')}
             onClick={_rowAdd}
           />
           <Button
             icon='minus'
             isDisabled={values.length === 0}
             isNegative
-            label={t('Remove item')}
+            label={t<string>('Remove item')}
             onClick={_rowRemove}
           />
         </div>

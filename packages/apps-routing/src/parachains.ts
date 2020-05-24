@@ -16,6 +16,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'chain',
     name: 'parachains',
-    text: t('nav.parachains', 'Parachains', { ns: 'apps-routing' })
+    text: t<string>('nav.parachains', 'Parachains', { ns: 'apps-routing' })
   };
 }

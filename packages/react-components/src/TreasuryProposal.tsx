@@ -49,7 +49,7 @@ function TreasuryProposal ({ asInset, className = '', insetProps, onClick, propo
 
   const inner = (
     <>
-      <Labelled label={t('proposed by')}>
+      <Labelled label={t<string>('proposed by')}>
         <InputAddress
           defaultValue={proposer}
           isDisabled
@@ -57,7 +57,7 @@ function TreasuryProposal ({ asInset, className = '', insetProps, onClick, propo
           withLabel={false}
         />
       </Labelled>
-      <Labelled label={t('beneficiary')}>
+      <Labelled label={t<string>('beneficiary')}>
         <InputAddress
           defaultValue={beneficiary}
           isDisabled
@@ -65,10 +65,10 @@ function TreasuryProposal ({ asInset, className = '', insetProps, onClick, propo
           withLabel={false}
         />
       </Labelled>
-      <Static label={t('value')}>
+      <Static label={t<string>('value')}>
         <FormatBalance value={value} />
       </Static>
-      <Static label={t('bond')}>
+      <Static label={t<string>('bond')}>
         <FormatBalance value={bond} />
       </Static>
     </>

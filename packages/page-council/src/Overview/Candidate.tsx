@@ -30,8 +30,8 @@ function Candidate ({ address, balance, className = '', isPrime, voters }: Props
         {isPrime && (
           <Tag
             color='green'
-            hover={t('Current prime member, default voting')}
-            label={t('prime voter')}
+            hover={t<string>('Current prime member, default voting')}
+            label={t<string>('prime voter')}
           />
         )}
       </td>

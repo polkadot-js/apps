@@ -88,7 +88,7 @@ function BlockByHash ({ className = '', value }: Props): React.ReactElement<Prop
               <Events
                 eventClassName='explorer--BlockByHash-block'
                 events={events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
-                label={t('system events')}
+                label={t<string>('system events')}
               />
             </Column>
             <Column>

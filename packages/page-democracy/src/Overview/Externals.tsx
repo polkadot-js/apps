@@ -30,7 +30,7 @@ function Externals ({ className }: Props): React.ReactElement<Props> | null {
   return (
     <Table
       className={className}
-      empty={external === null && t('No external proposal')}
+      empty={external === null && t<string>('No external proposal')}
       header={header}
     >
       {external && <External value={external} />}

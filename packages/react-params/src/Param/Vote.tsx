@@ -25,19 +25,19 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
   const { t } = useTranslation();
   const optAye = useMemo(() => {
     return [
-      { text: t('Nay'), value: 0 },
-      { text: t('Aye'), value: -1 }
+      { text: t<string>('Nay'), value: 0 },
+      { text: t<string>('Aye'), value: -1 }
     ];
   }, [t]);
   const optConv = useMemo(() => {
     return [
-      { text: t('None'), value: 0 },
-      { text: t('Locked1x'), value: 1 },
-      { text: t('Locked2x'), value: 2 },
-      { text: t('Locked3x'), value: 3 },
-      { text: t('Locked4x'), value: 4 },
-      { text: t('Locked5x'), value: 5 },
-      { text: t('Locked6x'), value: 6 }
+      { text: t<string>('None'), value: 0 },
+      { text: t<string>('Locked1x'), value: 1 },
+      { text: t<string>('Locked2x'), value: 2 },
+      { text: t<string>('Locked3x'), value: 3 },
+      { text: t<string>('Locked4x'), value: 4 },
+      { text: t<string>('Locked5x'), value: 5 },
+      { text: t<string>('Locked6x'), value: 6 }
     ];
   }, [t]);
   const defaultValue = value instanceof BN
@@ -59,7 +59,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isError={isError}
-        label={t('aye: bool')}
+        label={t<string>('aye: bool')}
         onChange={doChange(onChange)}
         options={optAye}
         withLabel={withLabel}
@@ -70,7 +70,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
           defaultValue={defaultConv}
           isDisabled={isDisabled}
           isError={isError}
-          label={t('conviction: Conviction')}
+          label={t<string>('conviction: Conviction')}
           options={optConv}
           withLabel={withLabel}
         />

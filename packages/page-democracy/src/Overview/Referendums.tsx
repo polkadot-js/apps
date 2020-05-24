@@ -32,7 +32,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
   return (
     <Table
       className={className}
-      empty={referendums && t('No active referendums')}
+      empty={referendums && t<string>('No active referendums')}
       header={header}
     >
       {referendums?.map((referendum): React.ReactNode => (

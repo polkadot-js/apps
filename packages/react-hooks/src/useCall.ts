@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { CallOptions, CallParam, CallParams } from './types';
 
 import { useEffect, useRef, useState } from 'react';
@@ -69,7 +70,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
         tracker.current.isActive = true;
         tracker.current.count = 0;
 
-        tracker.current.subscriber = fn(...params, (value: unknown): void => {
+        tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<() => void>)(...params, (value: Codec): void => {
           // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
           // since .subscriber may not be set on immeditae callback)
           if (mountedRef.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {

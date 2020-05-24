@@ -20,8 +20,8 @@ function BoolParam ({ className = '', defaultValue: { value }, isDisabled, isErr
 
   const options = useMemo(
     () => [
-      { text: t('No'), value: false },
-      { text: t('Yes'), value: true }
+      { text: t<string>('No'), value: false },
+      { text: t<string>('Yes'), value: true }
     ],
     [t]
   );

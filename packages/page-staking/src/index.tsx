@@ -57,11 +57,11 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t('Staking overview')
+      text: t<string>('Staking overview')
     },
     {
       name: 'actions',
-      text: t('Account actions')
+      text: t<string>('Account actions')
     },
     isFunction(api.query.staking.activeEra)
       ? {
@@ -72,16 +72,16 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       alias: 'returns',
       name: 'targets',
-      text: t('Targets')
+      text: t<string>('Targets')
     },
     {
       name: 'waiting',
-      text: t('Waiting')
+      text: t<string>('Waiting')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t('Validator stats')
+      text: t<string>('Validator stats')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
   const hiddenTabs = useMemo(

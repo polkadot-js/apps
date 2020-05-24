@@ -201,7 +201,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           <Column>
             <Dropdown
               isFull
-              label={t('the language to display translations for')}
+              label={t<string>('the language to display translations for')}
               onChange={setLng}
               options={keys}
               value={lng}
@@ -211,12 +211,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={modProgress[1]}
               value={modProgress[0]}
             />
-            {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
+            {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
           </Column>
           <Column>
             <Dropdown
               isFull
-              label={t('the module to display strings for')}
+              label={t<string>('the module to display strings for')}
               onChange={setRecord}
               options={modules}
               value={record}
@@ -226,7 +226,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
-            {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
+            {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
           </Column>
         </Columar>
       </header>
@@ -234,8 +234,8 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
         <Toggle
           label={
             withEmpty
-              ? t('include all empty strings in the generated file')
-              : t('do not include empty strings in the generated file')
+              ? t<string>('include all empty strings in the generated file')
+              : t<string>('do not include empty strings in the generated file')
           }
           onChange={toggleWithEmpty}
           value={withEmpty}
@@ -244,7 +244,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       <Button.Group>
         <Button
           icon='download'
-          label={t('Generate {{lng}}/translation.json', { replace: { lng } })}
+          label={t<string>('Generate {{lng}}/translation.json', { replace: { lng } })}
           onClick={_onDownload}
         />
       </Button.Group>

@@ -25,13 +25,13 @@ function Events ({ className = '', emptyLabel, eventClassName, events, label }: 
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [label || t('recent events'), 'start']
+    [label || t<string>('recent events'), 'start']
   ], [label, t]);
 
   return (
     <Table
       className={className}
-      empty={emptyLabel || t('No events available')}
+      empty={emptyLabel || t<string>('No events available')}
       header={header}
     >
       {events && events

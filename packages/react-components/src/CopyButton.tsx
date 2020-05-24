@@ -28,8 +28,8 @@ function CopyButton ({ children, className = '', icon = 'copy', isAddress = fals
     (): void => {
       isAddress && queueAction && queueAction({
         account: value,
-        action: t('clipboard'),
-        message: t('address copied'),
+        action: t<string>('clipboard'),
+        message: t<string>('address copied'),
         status: 'queued'
       });
     },

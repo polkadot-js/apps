@@ -19,14 +19,14 @@ function Summary ({ className = '', members, proposals }: Props): React.ReactEle
 
   return (
     <SummaryBox className={className}>
-      <CardSummary label={t('members')}>
+      <CardSummary label={t<string>('members')}>
         {formatNumber(members.length)}
       </CardSummary>
       <section>
-        <CardSummary label={t('proposals')}>
+        <CardSummary label={t<string>('proposals')}>
           {formatNumber(proposals?.length)}
         </CardSummary>
-        <CardSummary label={t('total')}>
+        <CardSummary label={t<string>('total')}>
           {formatNumber(proposalCount)}
         </CardSummary>
       </section>

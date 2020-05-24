@@ -43,17 +43,17 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withSend
             <InputAddress
               defaultValue={stashId}
               isDisabled
-              label={t('stash account')}
+              label={t<string>('stash account')}
             />
             <InputAddress
               className='medium'
               defaultValue={controllerId}
               isDisabled
-              label={t('controller account')}
+              label={t<string>('controller account')}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.')}</p>
+            <p>{t<string>('The stash and controller pair. This transaction, setting the session keys, will be sent from the controller.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
@@ -61,15 +61,15 @@ function SessionKey ({ className = '', controllerId, onChange, stashId, withSend
         <Modal.Column>
           <Input
             autoFocus
-            help={t('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
+            help={t<string>('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
             isError={!keys}
-            label={t('Keys from rotateKeys')}
+            label={t<string>('Keys from rotateKeys')}
             onChange={setKeys}
             placeholder='0x...'
           />
         </Modal.Column>
         <Modal.Column>
-          <p>{t('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}</p>
+          <p>{t<string>('The hex output from author_rotateKeys, as executed on the validator node. The keys will show as pending until applied at the start of a new session.')}</p>
         </Modal.Column>
       </Modal.Columns>
     </div>

@@ -40,8 +40,8 @@ function IdentityIcon ({ className = '', onCopy, prefix, size = 24, theme, value
       onCopy && onCopy(account);
       queueAction && queueAction({
         account,
-        action: t('clipboard'),
-        message: t('address copied'),
+        action: t<string>('clipboard'),
+        message: t<string>('address copied'),
         status: 'queued'
       });
     },

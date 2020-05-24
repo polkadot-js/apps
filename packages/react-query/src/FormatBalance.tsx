@@ -58,7 +58,7 @@ function FormatBalance ({ children, className = '', isShort, label, labelPost, v
       {label || ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
-            ? t('everything')
+            ? t<string>('everything')
             : format(value, currency, withSi, isShort)
           : '-'
       }</span>{labelPost}{children}

@@ -19,6 +19,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'send',
     name: 'transfer',
-    text: t('nav.transfer', 'Transfer', { ns: 'apps-routing' })
+    text: t<string>('nav.transfer', 'Transfer', { ns: 'apps-routing' })
   };
 }

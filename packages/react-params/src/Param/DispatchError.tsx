@@ -59,14 +59,14 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
       <Input
         className='full'
         isDisabled
-        label={t('type')}
+        label={t<string>('type')}
         value={type}
       />
       {details && (
         <Input
           className='full'
           isDisabled
-          label={t('details')}
+          label={t<string>('details')}
           value={details}
         />
       )}

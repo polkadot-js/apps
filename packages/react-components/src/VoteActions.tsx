@@ -32,8 +32,8 @@ function VoteActions ({ accountId, aye, className = '', isDisabled, onClick, par
         isDisabled={!accountId || isDisabled}
         isPrimary
         label={aye
-          ? t('Vote Aye')
-          : t('Vote Nay')}
+          ? t<string>('Vote Aye')
+          : t<string>('Vote Nay')}
         onStart={onClick}
         params={params}
         tx={tx}

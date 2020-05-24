@@ -79,7 +79,7 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
           <Modal.Columns>
             <Modal.Column>{networkSelector}</Modal.Column>
             <Modal.Column>
-              {t('The RPC node can be selected from the pre-defined list or manually entered, depending on the chain you wish to connect to.')}
+              {t<string>('The RPC node can be selected from the pre-defined list or manually entered, depending on the chain you wish to connect to.')}
             </Modal.Column>
           </Modal.Columns>
         )
@@ -90,8 +90,8 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
           <div className='ui--row'>
             <Dropdown
               defaultValue={prefix}
-              help={t('Override the default ss58 prefix for address generation')}
-              label={t('address prefix')}
+              help={t<string>('Override the default ss58 prefix for address generation')}
+              label={t<string>('address prefix')}
               onChange={_handleChange('prefix')}
               options={prefixOptions}
             />
@@ -99,8 +99,8 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
           <div className='ui--row'>
             <Dropdown
               defaultValue={icon}
-              help={t('Override the default identity icon display with a specific theme')}
-              label={t('default icon theme')}
+              help={t<string>('Override the default identity icon display with a specific theme')}
+              label={t<string>('default icon theme')}
               onChange={_handleChange('icon')}
               options={iconOptions}
             />
@@ -108,8 +108,8 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
           <div className='ui--row'>
             <Dropdown
               defaultValue={uiMode}
-              help={t('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
-              label={t('interface operation mode')}
+              help={t<string>('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
+              label={t<string>('interface operation mode')}
               onChange={_handleChange('uiMode')}
               options={uiSettings.availableUIModes}
             />
@@ -118,8 +118,8 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
             <div className='ui--row'>
               <Dropdown
                 defaultValue={ledgerConn}
-                help={t('Manage your connection to Ledger S')}
-                label={t('manage hardware connections')}
+                help={t<string>('Manage your connection to Ledger S')}
+                label={t<string>('manage hardware connections')}
                 onChange={_handleChange('ledgerConn')}
                 options={ledgerConnOptions}
               />
@@ -128,7 +128,7 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
           <div className='ui--row'>
             <Dropdown
               defaultValue={i18nLang}
-              label={t('default interface language')}
+              label={t<string>('default interface language')}
               onChange={_handleChange('i18nLang')}
               options={translateLanguages}
             />
@@ -145,8 +145,8 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
           isPrimary={isModalContent}
           label={
             changed
-              ? t('Save & Reload')
-              : t('Save')
+              ? t<string>('Save & Reload')
+              : t<string>('Save')
           }
           onClick={
             changed

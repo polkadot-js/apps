@@ -105,7 +105,7 @@ class ABI extends React.PureComponent<Props, State> {
             !isEmpty && !isAbiValid
               ? (
                 <>
-                  {t('invalid ABI file selected')}
+                  {t<string>('invalid ABI file selected')}
                   {!!errorText && (
                     <>
                       {' — '}
@@ -114,7 +114,7 @@ class ABI extends React.PureComponent<Props, State> {
                   )}
                 </>
               )
-              : t('click to select or drag and drop a JSON ABI file')
+              : t<string>('click to select or drag and drop a JSON ABI file')
           }
         />
       </div>

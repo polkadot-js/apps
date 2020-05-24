@@ -13,7 +13,7 @@ import Query from '../Query';
 import BlockByHash from './ByHash';
 import BlockByNumber from './ByNumber';
 
-function Entry (): React.ReactElement<{}> | null {
+function Entry (): React.ReactElement | null {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const { value } = useParams();

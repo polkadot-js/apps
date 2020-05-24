@@ -34,7 +34,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
           <div>
             <Icon name='address card' />
             &nbsp;
-            {t('identity')}
+            {t<string>('identity')}
           </div>
           <Tag
             color={
@@ -51,10 +51,10 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 {
                   identity.judgements.length
                     ? (identity.isGood
-                      ? (identity.isKnownGood ? t('Known good') : t('Reasonable'))
-                      : (identity.isErroneous ? t('Erroneous') : t('Low quality'))
+                      ? (identity.isKnownGood ? t<string>('Known good') : t<string>('Reasonable'))
+                      : (identity.isErroneous ? t<string>('Erroneous') : t<string>('Low quality'))
                     )
-                    : t('No judgments')
+                    : t<string>('No judgments')
                 }
               </>
             }
@@ -77,7 +77,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
           <div className='ui--AddressMenu-identityTable'>
             {identity.parent && (
               <div className='tr parent'>
-                <div className='th'>{t('parent')}</div>
+                <div className='th'>{t<string>('parent')}</div>
                 <div className='td'>
                   <AddressMini
                     className='parent'
@@ -89,13 +89,13 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.email && (
               <div className='tr'>
-                <div className='th'>{t('email')}</div>
+                <div className='th'>{t<string>('email')}</div>
                 <div className='td'>
                   {isHex(identity.email)
                     ? identity.email
                     : (
                       <a
-                        href={`mailto:${identity.email}`}
+                        href={`mailto:${identity.email as string}`}
                         rel='noopener noreferrer'
                         target='_blank'
                       >
@@ -107,7 +107,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.web && (
               <div className='tr'>
-                <div className='th'>{t('website')}</div>
+                <div className='th'>{t<string>('website')}</div>
                 <div className='td'>
                   {isHex(identity.web)
                     ? identity.web
@@ -125,13 +125,13 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.twitter && (
               <div className='tr'>
-                <div className='th'>{t('twitter')}</div>
+                <div className='th'>{t<string>('twitter')}</div>
                 <div className='td'>
                   {isHex(identity.twitter)
                     ? identity.twitter
                     : (
                       <a
-                        href={`https://twitter.com/${identity.twitter}`}
+                        href={`https://twitter.com/${identity.twitter as string}`}
                         rel='noopener noreferrer'
                         target='_blank'
                       >
@@ -143,7 +143,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {identity.riot && (
               <div className='tr'>
-                <div className='th'>{t('riot')}</div>
+                <div className='th'>{t<string>('riot')}</div>
                 <div className='td'>
                   {identity.riot}
                 </div>
@@ -159,7 +159,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <li>
                 <IconLink
                   icon='address card'
-                  label={t('Add identity judgment')}
+                  label={t<string>('Add identity judgment')}
                   onClick={toggleIsJudgementOpen}
                 />
               </li>

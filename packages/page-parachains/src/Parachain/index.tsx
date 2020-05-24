@@ -93,7 +93,7 @@ function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: 
                       onDeregisterOpen();
                     }}
                   >
-                    {t('Deregister this parachain')}
+                    {t<string>('Deregister this parachain')}
                   </Menu.Item>
                 </Menu>
               </Popup>
@@ -101,11 +101,11 @@ function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: 
           </ParachainInfo>
         </section>
         <section>
-          <CardSummary label={t('parachain id')}>
+          <CardSummary label={t<string>('parachain id')}>
             {id.toString()}
           </CardSummary>
           {parachain.pendingSwapId && (
-            <CardSummary label={t('pending swap id')}>
+            <CardSummary label={t<string>('pending swap id')}>
               {parachain.pendingSwapId.toString()}
             </CardSummary>
           )}

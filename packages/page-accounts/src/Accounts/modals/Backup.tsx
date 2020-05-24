@@ -69,7 +69,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t('Backup account')}
+      header={t<string>('Backup account')}
     >
       <Content
         address={address}
@@ -83,7 +83,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
         <Button
           icon='download'
           isDisabled={!isPassValid}
-          label={t('Download')}
+          label={t<string>('Download')}
           onClick={_doBackup}
         />
       </Modal.Actions>
@@ -100,14 +100,14 @@ function Content ({ address, doBackup, isPassTouched, isPassValid, onChangePass,
         isInline
         value={address}
       >
-        <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
-        <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
+        <p>{t<string>('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+        <p>{t<string>('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
         <div>
           <Password
             autoFocus
-            help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
+            help={t<string>('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
             isError={isPassTouched && !isPassValid}
-            label={t('password')}
+            label={t<string>('password')}
             onChange={onChangePass}
             onEnter={doBackup}
             tabIndex={0}

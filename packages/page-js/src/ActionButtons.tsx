@@ -59,7 +59,7 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
       }
       {isCustomExample && (
         <Popup
-          content={t('Delete this custom example')}
+          content={t<string>('Delete this custom example')}
           on='hover'
           trigger={
             <SUIB
@@ -91,7 +91,7 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
             min={1}
             onChange={_onChangeName}
             onEnter={_saveSnippet}
-            placeholder={t('Name your example')}
+            placeholder={t<string>('Name your example')}
             value={snippetName}
             withLabel={false}
           />
@@ -99,7 +99,7 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
             icon='save'
             isDisabled={!snippetName.length}
             isPrimary
-            label={t('Save snippet to local storage')}
+            label={t<string>('Save snippet to local storage')}
             onClick={_saveSnippet}
           />
         </Popup>

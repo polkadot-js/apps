@@ -80,7 +80,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                 />
               )
               : flags.isEditable
-                ? (name.toUpperCase() || t('<unknown>'))
+                ? (name.toUpperCase() || t<string>('<unknown>'))
                 : undefined
           }
           value={address}
@@ -121,7 +121,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                       size='tiny'
                     />
                   ))
-                  : <label>{t('no tags')}</label>
+                  : <label>{t<string>('no tags')}</label>
                 }
               </div>
             )
@@ -139,7 +139,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
           <Button.Group>
             <Button
               icon='send'
-              label={t('Deposit')}
+              label={t<string>('Deposit')}
               onClick={toggleIsTransferOpen}
             />
             {flags.isOwned && (
@@ -147,7 +147,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                 className='basic'
                 icon='check'
                 isPrimary
-                label={t('Owned')}
+                label={t<string>('Owned')}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
                 size='tiny'
@@ -157,7 +157,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
               <Button
                 icon='add'
                 isPositive
-                label={t('Save')}
+                label={t<string>('Save')}
                 onClick={_onUpdateName}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
@@ -178,12 +178,12 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                 <Button.Content visible>
                   <Icon name='check' />
                   &nbsp;
-                  {t('Saved')}
+                  {t<string>('Saved')}
                 </Button.Content>
                 <Button.Content hidden>
                   <Icon name='ban' />
                   &nbsp;
-                  {t('Remove')}
+                  {t<string>('Remove')}
                 </Button.Content>
               </Button>
             )}

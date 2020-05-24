@@ -8,7 +8,7 @@ function createDev (t: (key: string, text: string, options: { ns: string }) => s
   return [
     {
       info: 'local',
-      text: t('rpc.local', 'Local Node (Own, 127.0.0.1:9944)', { ns: 'apps-config' }),
+      text: t<string>('rpc.local', 'Local Node (Own, 127.0.0.1:9944)', { ns: 'apps-config' }),
       value: 'ws://127.0.0.1:9944/'
     }
   ];
@@ -18,27 +18,27 @@ function createLive (t: (key: string, text: string, options: { ns: string }) => 
   return [
     {
       info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
+      text: t<string>('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://kusama-rpc.polkadot.io/'
     },
     {
       info: 'kusama',
-      text: t('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
+      text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc3-5.kusama.network/'
     },
     {
       info: 'kusama',
-      text: t('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
+      text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
       value: 'wss://kusama.polkadot.cloud.ava.do/'
     },
     {
       info: 'edgeware',
-      text: t('rpc.edgeware', 'Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      text: t<string>('rpc.edgeware', 'Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
       value: 'wss://mainnet1.edgewa.re'
     },
     {
       info: 'substrate',
-      text: t('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
+      text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
       value: 'wss://rpc.kulupu.network/ws'
     }
   ];
@@ -48,22 +48,22 @@ function createTest (t: (key: string, text: string, options: { ns: string }) => 
   return [
     {
       info: 'westend',
-      text: t('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
     },
     {
       info: 'edgeware',
-      text: t('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
       value: 'wss://berlin1.edgewa.re'
     },
     {
       info: 'substrate',
-      text: t('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://substrate-rpc.parity.io/'
     },
     {
       info: 'nodle',
-      text: t('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io/'
     }
   ];
@@ -89,19 +89,19 @@ export default function create (t: (key: string, text: string, options: { ns: st
   let endpoints = [
     {
       isHeader: true,
-      text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
+      text: t<string>('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
       value: ''
     },
     ...createLive(t),
     {
       isHeader: true,
-      text: t('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
+      text: t<string>('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
       value: ''
     },
     ...createTest(t),
     {
       isHeader: true,
-      text: t('rpc.header.dev', 'Development', { ns: 'apps-config' }),
+      text: t<string>('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       value: ''
     },
     ...createDev(t)
@@ -111,7 +111,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     endpoints = [
       {
         isHeader: true,
-        text: t('rpc.custom', 'Custom environment', { ns: 'apps-config' }),
+        text: t<string>('rpc.custom', 'Custom environment', { ns: 'apps-config' }),
         value: ''
       },
       ...ENV

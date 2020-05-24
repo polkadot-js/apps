@@ -119,7 +119,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
         autoFocus
         className='ui--InputAddressMulti-Input label-small'
         onChange={setFilter}
-        placeholder={t('filter by name, address, or account index')}
+        placeholder={t<string>('filter by name, address, or account index')}
         value={_filter}
         withLabel={false}
       />

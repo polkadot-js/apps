@@ -125,9 +125,9 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
       <div className='ui--row'>
         <InputAddress
           className='full'
-          help={t('select the account you wish to sign data with')}
+          help={t<string>('select the account you wish to sign data with')}
           isInput={false}
-          label={t('account')}
+          label={t<string>('account')}
           onChange={_onChangeAccount}
           type='account'
         />
@@ -137,8 +137,8 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
           <Input
             autoFocus
             className='full'
-            help={t('The input data to sign. This can be either specified as a hex value (0x-prefix) or as a string.')}
-            label={t('sign the following data')}
+            help={t<string>('The input data to sign. This can be either specified as a hex value (0x-prefix) or as a string.')}
+            label={t<string>('sign the following data')}
             onChange={_onChangeData}
             value={data}
           />
@@ -146,22 +146,22 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
         <div className='ui--row'>
           <Static
             className='medium'
-            help={t('Detection on the input string to determine if it is hex or non-hex.')}
-            label={t('hex input data')}
+            help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
+            label={t<string>('hex input data')}
             value={
               isHexData
-                ? t('Yes')
-                : t('No')
+                ? t<string>('Yes')
+                : t<string>('No')
             }
           />
         </div>
         <div className='ui--row'>
           <Output
             className='full'
-            help={t('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
+            help={t<string>('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
             isHidden={signature.length === 0}
             isMonospace
-            label={t('signature of supplied data')}
+            label={t<string>('signature of supplied data')}
             value={signature}
             withCopy
           />
@@ -173,11 +173,11 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
           {isLocked && (
             <div className='unlock-overlay-warning'>
               <div className='unlock-overlay-content'>
-                {t('You need to unlock this account to be able to sign data.')}<br/>
+                {t<string>('You need to unlock this account to be able to sign data.')}<br/>
                 <Button.Group>
                   <Button
                     icon='unlock'
-                    label={t('Unlock account')}
+                    label={t<string>('Unlock account')}
                     onClick={toggleUnlock}
                   />
                 </Button.Group>
@@ -192,8 +192,8 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
           <div className='unlock-overlay-warning'>
             <div className='unlock-overlay-content'>
               {isInjected
-                ? t('This injected account cannot be used to sign data since the extension does not support raw signing.')
-                : t('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
+                ? t<string>('This injected account cannot be used to sign data since the extension does not support raw signing.')
+                : t<string>('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
             </div>
           </div>
         </div>
@@ -209,7 +209,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
         <Button
           icon='privacy'
           isDisabled={!(isUsable && !isLocked)}
-          label={t('Sign message')}
+          label={t<string>('Sign message')}
           onClick={_onSign}
         />
       </Button.Group>

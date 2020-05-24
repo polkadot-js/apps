@@ -25,7 +25,7 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
   return (
     <Table
       className={className}
-      empty={members && t('No members found')}
+      empty={members && t<string>('No members found')}
       header={header}
     >
       {members?.map((accountId): React.ReactNode => (
@@ -37,8 +37,8 @@ function Members ({ className = '', members, prime }: Props): React.ReactElement
             {prime?.eq(accountId) && (
               <Tag
                 color='green'
-                hover={t('Committee prime member, default voting')}
-                label={t('prime member')}
+                hover={t<string>('Committee prime member, default voting')}
+                label={t<string>('prime member')}
               />
             )}
           </td>

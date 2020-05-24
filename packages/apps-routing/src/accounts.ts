@@ -14,7 +14,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'users',
     name: 'accounts',
-    text: t('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
+    text: t<string>('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
     useCounter
   };
 }

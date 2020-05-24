@@ -31,7 +31,7 @@ function ProposalsBase ({ className = '', isApprovals, isMember, members, propos
   );
 
   const header = useMemo(() => [
-    [isApprovals ? t('Approved') : t('Proposals'), 'start', 2],
+    [isApprovals ? t<string>('Approved') : t<string>('Proposals'), 'start', 2],
     [t('beneficiary'), 'address'],
     [t('payment')],
     [t('bond')],
@@ -41,7 +41,7 @@ function ProposalsBase ({ className = '', isApprovals, isMember, members, propos
   return (
     <Table
       className={className}
-      empty={proposals && (isApprovals ? t('No approved proposals') : t('No pending proposals'))}
+      empty={proposals && (isApprovals ? t<string>('No approved proposals') : t<string>('No pending proposals'))}
       header={header}
     >
       {proposals?.map((proposal): React.ReactNode => (

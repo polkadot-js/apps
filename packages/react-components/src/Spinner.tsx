@@ -27,7 +27,7 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
         size='medium'
       >
         {variant === 'app' && (
-          label || t('Retrieving data')
+          label || t<string>('Retrieving data')
         )}
       </Loader>
     </div>

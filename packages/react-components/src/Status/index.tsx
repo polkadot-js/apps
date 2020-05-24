@@ -83,7 +83,7 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
             onClick={removeItem}
           />
           <div className='short'>
-            <Icon name={iconName(status)} />
+            <Icon name={iconName(status) as 'send'} />
           </div>
           <div className='desc'>
             <div className='header'>
@@ -114,7 +114,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
     }
   }
 
-  const icon = signerIconName(status);
+  const icon = signerIconName(status) as 'ban' | 'spinner';
 
   return (
     <div
@@ -140,7 +140,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
               {section}.{method}
             </div>
             <div className='status'>
-              {error ? (error as Error).message : status}
+              {error ? error.message : status}
             </div>
           </div>
         </div>
@@ -189,7 +189,7 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
             icon='cancel'
             isFluid
             isPrimary
-            label={t('Dismiss all notifications')}
+            label={t<string>('Dismiss all notifications')}
             onClick={_onDismiss}
           />
         </div>

@@ -16,7 +16,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'gem',
     name: 'treasury',
-    text: t('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
+    text: t<string>('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
     useCounter
   };
 }

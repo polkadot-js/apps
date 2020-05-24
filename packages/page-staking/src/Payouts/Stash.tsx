@@ -93,7 +93,7 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
             icon='credit card outline'
             isDisabled={!extrinsic || isDisabled}
             isPrimary={false}
-            label={t('Payout')}
+            label={t<string>('Payout')}
           />
         )}
       </td>

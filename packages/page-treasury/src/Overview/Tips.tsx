@@ -30,7 +30,7 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
   return (
     <Table
       className={className}
-      empty={hashes && t('No open tips')}
+      empty={hashes && t<string>('No open tips')}
       header={header}
     >
       {hashes?.map((hash): React.ReactNode => (

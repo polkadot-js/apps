@@ -39,10 +39,10 @@ class Add extends ContractModal<Props, State> {
       <>
         <Input
           autoFocus
-          help={t('The code hash for the on-chain deployed code.')}
+          help={t<string>('The code hash for the on-chain deployed code.')}
           isDisabled={isBusy}
           isError={!isCodeValid}
-          label={t('code hash')}
+          label={t<string>('code hash')}
           onChange={this.onChangeHash}
           onEnter={this.submit}
           value={codeHash}
@@ -67,7 +67,7 @@ class Add extends ContractModal<Props, State> {
         icon='save'
         isDisabled={!isValid}
         isPrimary
-        label={t('Save')}
+        label={t<string>('Save')}
         onClick={this.onSave}
         ref={this.button}
       />

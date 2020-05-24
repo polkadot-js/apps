@@ -14,6 +14,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'th',
     name: 'i18n',
-    text: t('nav.i18n', 'I18n Translator', { ns: 'apps-routing' })
+    text: t<string>('nav.i18n', 'I18n Translator', { ns: 'apps-routing' })
   };
 }

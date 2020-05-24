@@ -49,7 +49,7 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
           ? (
             <>
               <Dropdown
-                label={t('upgradable extensions')}
+                label={t<string>('upgradable extensions')}
                 onChange={setSelectedIndex}
                 options={options}
                 value={selectedIndex}
@@ -58,13 +58,13 @@ function Extensions ({ chainInfo, className }: Props): React.ReactElement<Props>
                 <Button
                   icon='upload'
                   isDisabled={isBusy}
-                  label={t('Update metadata')}
+                  label={t<string>('Update metadata')}
                   onClick={_updateMeta}
                 />
               </Button.Group>
             </>
           )
-          : <div>{t('No upgradable extensions found')}</div>
+          : <div>{t<string>('No upgradable extensions found')}</div>
         : <Spinner />
       }
     </div>

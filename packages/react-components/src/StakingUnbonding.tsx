@@ -60,11 +60,11 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
             className='row'
             key={index}
           >
-            <div>{t('Unbonding {{value}}, ', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
+            <div>{t<string>('Unbonding {{value}}, ', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
             <div className='faded'>
               <BlockToTime
                 blocks={blocks}
-                label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
               />
             </div>
           </div>

@@ -40,7 +40,7 @@ function StaticParam ({ asHex, children, className = '', defaultValue, label, st
       <Static
         className='full'
         label={label}
-        value={<pre>{value || t('<empty>')}</pre>}
+        value={<pre>{value || t<string>('<empty>')}</pre>}
       />
       {children}
     </Bare>

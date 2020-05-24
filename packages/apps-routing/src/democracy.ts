@@ -16,7 +16,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'calendar check',
     name: 'democracy',
-    text: t('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
+    text: t<string>('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
     useCounter
   };
 }

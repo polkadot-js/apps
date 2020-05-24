@@ -99,8 +99,8 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
           <em className='label' >
             {
               !file || clearContent
-                ? placeholder || t('click to select or drag and drop the file here')
-                : placeholder || t('{{name}} ({{size}} bytes)', {
+                ? placeholder || t<string>('click to select or drag and drop the file here')
+                : placeholder || t<string>('{{name}} ({{size}} bytes)', {
                   replace: {
                     name: file.name,
                     size: formatNumber(file.size)

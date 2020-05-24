@@ -115,7 +115,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   return (
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
-      header={t('Call a contract')}
+      header={t<string>('Call a contract')}
       onClose={onClose}
       open={isOpen}
     >
@@ -124,17 +124,17 @@ function Call (props: Props): React.ReactElement<Props> | null {
           <div className='contracts--CallControls'>
             <InputAddress
               defaultValue={accountId}
-              help={t('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
+              help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
               isDisabled={isBusy}
-              label={t('call from account')}
+              label={t<string>('call from account')}
               onChange={_onChangeAccountId}
               type='account'
               value={accountId}
             />
             <InputAddress
-              help={t('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
+              help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
               isDisabled={isBusy}
-              label={t('contract to use')}
+              label={t<string>('contract to use')}
               onChange={onChangeCallContractAddress}
               type='contract'
               value={callContract.address.toString()}
@@ -143,10 +143,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
               <>
                 <Dropdown
                   defaultValue={`${callMessage.index}`}
-                  help={t('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
+                  help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
                   isDisabled={isBusy}
                   isError={callMessage === null}
-                  label={t('message to send')}
+                  label={t<string>('message to send')}
                   onChange={_onChangeCallMessageIndexString}
                   options={getCallMessageOptions(callContract)}
                   value={`${callMessage.index}`}
@@ -163,21 +163,21 @@ function Call (props: Props): React.ReactElement<Props> | null {
               </>
             )}
             <InputBalance
-              help={t('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
+              help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
               isDisabled={isBusy}
               isError={!isEndowmentValid}
               isZeroable
-              label={t('value')}
+              label={t<string>('value')}
               onChange={_onChangeEndowment}
               value={endowment}
             />
             <InputNumber
               bitLength={128}
               defaultValue={DEFAULT_GAS_LIMIT}
-              help={t('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
+              help={t<string>('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
               isDisabled={isBusy}
               isError={!isGasValid}
-              label={t('maximum gas allowed')}
+              label={t<string>('maximum gas allowed')}
               onChange={_onChangeGasLimit}
               value={gasLimit}
             />
@@ -189,8 +189,8 @@ function Call (props: Props): React.ReactElement<Props> | null {
             isDisabled={!!callMessage && callMessage.def.mutates}
             label={
               useRpc
-                ? t('send as RPC call')
-                : t('send as transaction')
+                ? t<string>('send as RPC call')
+                : t<string>('send as transaction')
             }
             onChange={setUseRpc}
             value={useRpc || false}
@@ -204,7 +204,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 icon='sign-in'
                 isDisabled={!isValid}
                 isPrimary
-                label={t('Call')}
+                label={t<string>('Call')}
                 onClick={_onSubmitRpc}
               />
             )
@@ -214,7 +214,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 icon='sign-in'
                 isDisabled={!isValid}
                 isPrimary
-                label={t('Call')}
+                label={t<string>('Call')}
                 onClick={_toggleBusy}
                 onFailed={_toggleBusy}
                 onSuccess={_toggleBusy}
@@ -228,11 +228,11 @@ function Call (props: Props): React.ReactElement<Props> | null {
         {outcomes.length > 0 && (
           <>
             <h3>
-              {t('Call results')}
+              {t<string>('Call results')}
               <IconLink
                 className='clear-all'
                 icon='close'
-                label={t('Clear all')}
+                label={t<string>('Clear all')}
                 onClick={_onClearOutcomes}
               />
             </h3>

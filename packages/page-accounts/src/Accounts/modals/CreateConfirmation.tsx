@@ -18,7 +18,7 @@ function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React
   const { t } = useTranslation();
 
   return (
-    <Modal header={t('Important notice')}>
+    <Modal header={t<string>('Important notice')}>
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -26,15 +26,15 @@ function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React
           noDefaultNameOpacity
           value={address}
         >
-          <p>{t('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
-          <p>{t('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
+          <p>{t<string>('We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on "Backup" button from the Accounts section.')}</p>
+          <p>{t<string>('Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.')}</p>
         </AddressRow>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='plus'
           isPrimary
-          label={t('Create and backup account')}
+          label={t<string>('Create and backup account')}
           onClick={onCommit}
         />
       </Modal.Actions>

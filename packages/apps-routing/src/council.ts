@@ -19,7 +19,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'building',
     name: 'council',
-    text: t('nav.council', 'Council', { ns: 'apps-routing' }),
+    text: t<string>('nav.council', 'Council', { ns: 'apps-routing' }),
     useCounter
   };
 }

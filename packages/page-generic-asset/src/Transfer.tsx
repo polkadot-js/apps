@@ -64,16 +64,16 @@ function Transfer ({ assets, className = '', onClose, recipientId: propRecipient
     }
   };
 
-  const transferrable = <span className='label'>{t('transferrable')}</span>;
+  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
 
   return (
     <div>
       <div className={className}>
         <InputAddress
           defaultValue={propSenderId}
-          help={t('The account you will send funds from.')}
+          help={t<string>('The account you will send funds from.')}
           isDisabled={!!propSenderId}
-          label={t('send from account')}
+          label={t<string>('send from account')}
           labelExtra={
             <Available
               label={transferrable}
@@ -85,9 +85,9 @@ function Transfer ({ assets, className = '', onClose, recipientId: propRecipient
         />
         <InputAddress
           defaultValue={propRecipientId}
-          help={t('Select a contact or paste the address you want to send funds to.')}
+          help={t<string>('Select a contact or paste the address you want to send funds to.')}
           isDisabled={!!propRecipientId}
-          label={t('send to address')}
+          label={t<string>('send to address')}
           labelExtra={
             <Available
               label={transferrable}
@@ -99,17 +99,17 @@ function Transfer ({ assets, className = '', onClose, recipientId: propRecipient
         />
         <Dropdown
           allowAdd
-          help={t('Enter the Asset ID of the token you want to transfer.')}
-          label={t('asset id')}
+          help={t<string>('Enter the Asset ID of the token you want to transfer.')}
+          label={t<string>('asset id')}
           onAdd={_onAddAssetId}
           onChange={setAssetId}
           options={options}
           value={assetId}
         />
         <InputBalance
-          help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
+          help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
           isError={!hasAvailable}
-          label={t('amount')}
+          label={t<string>('amount')}
           onChange={setAmount}
         />
         <Checks
@@ -126,7 +126,7 @@ function Transfer ({ assets, className = '', onClose, recipientId: propRecipient
           icon='send'
           isDisabled={!hasAvailable}
           isPrimary
-          label={t('Make Transfer')}
+          label={t<string>('Make Transfer')}
           onStart={onClose}
         />
       </Button.Group>

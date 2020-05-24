@@ -227,7 +227,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
         <Dropdown
           className='js--Dropdown'
           isFull
-          label={t('Select example')}
+          label={t<string>('Select example')}
           onChange={_selectExample}
           options={options}
           value={selected.value}

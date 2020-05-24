@@ -150,7 +150,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Input
         autoFocus
         isFull
-        label={t('filter by name or tags')}
+        label={t<string>('filter by name or tags')}
         onChange={setFilter}
         value={filterOn}
       />
@@ -188,25 +188,25 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         <Button
           icon='add'
           isDisabled={isIpfs}
-          label={t('Add account')}
+          label={t<string>('Add account')}
           onClick={toggleCreate}
         />
         <Button
           icon='sync'
           isDisabled={isIpfs}
-          label={t('Restore JSON')}
+          label={t<string>('Restore JSON')}
           onClick={toggleImport}
         />
         <Button
           icon='qrcode'
-          label={t('Add via Qr')}
+          label={t<string>('Add via Qr')}
           onClick={toggleQr}
         />
         {isLedger() && (
           <>
             <Button
               icon='question'
-              label={t('Query Ledger')}
+              label={t<string>('Query Ledger')}
               onClick={queryLedger}
             />
           </>
@@ -214,7 +214,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         <Button
           icon='add'
           isDisabled={!api.tx.utility}
-          label={t('Multisig')}
+          label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
       </Button.Group>

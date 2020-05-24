@@ -73,7 +73,7 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
         {pendingSwapId?.toString()}
       </td>
       <td className='number ui--media-small'>
-        {info?.scheduling?.toString() || t('<unknown>')}
+        {info?.scheduling?.toString() || t<string>('<unknown>')}
       </td>
     </tr>
   );

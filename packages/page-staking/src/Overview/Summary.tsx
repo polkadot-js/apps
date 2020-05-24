@@ -32,17 +32,17 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
     >
       <section>
         {stakingOverview && (
-          <CardSummary label={t('validators')}>
+          <CardSummary label={t<string>('validators')}>
             {stakingOverview.validators.length}{`/${stakingOverview.validatorCount.toString()}`}
           </CardSummary>
         )}
         {!!next?.length && (
-          <CardSummary label={t('waiting')}>
+          <CardSummary label={t<string>('waiting')}>
             {next.length}
           </CardSummary>
         )}
         {!!nominators.length && (
-          <CardSummary label={t('nominators')}>
+          <CardSummary label={t<string>('nominators')}>
             {nominators.length}
           </CardSummary>
         )}
@@ -50,7 +50,7 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
       <section>
         <CardSummary
           className='validator--Summary-authors'
-          label={t('last block')}
+          label={t<string>('last block')}
         >
           {lastBlockAuthors?.map((author): React.ReactNode => (
             <IdentityIcon

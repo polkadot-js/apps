@@ -98,7 +98,7 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
           />
           {withTooltip && (
             <Tooltip
-              text={t('Mutates contract state')}
+              text={t<string>('Mutates contract state')}
               trigger={`mutates-${name}`}
             />
           )}

@@ -29,18 +29,18 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
         <div>
           <Icon name='handshake outline' />
           &nbsp;
-          {t('multisig')}
+          {t<string>('multisig')}
         </div>
       </div>
       <Static
         isFull
-        label={t('threshold')}
+        label={t<string>('threshold')}
       >
         {threshold}/{who.length}
       </Static>
       <Static
         isFull
-        label={t('signatories')}
+        label={t<string>('signatories')}
       >
         {who?.map((address: string) => (
           <AddressMini

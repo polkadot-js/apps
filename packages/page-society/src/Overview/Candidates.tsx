@@ -31,7 +31,7 @@ function Candidates ({ allMembers, className = '', isMember, ownMembers }: Props
   return (
     <Table
       className={className}
-      empty={candidates && t('No candidates')}
+      empty={candidates && t<string>('No candidates')}
       header={header}
     >
       {candidates?.map((candidate): React.ReactNode => (

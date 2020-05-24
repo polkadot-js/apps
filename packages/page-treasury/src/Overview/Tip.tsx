@@ -53,7 +53,7 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
       <TipReason hash={reason} />
       <td className='start all'>
         {tips.length !== 0 && (
-          <Expander summary={t('Endorsements ({{count}})', { replace: { count: tips.length } })}>
+          <Expander summary={t<string>('Endorsements ({{count}})', { replace: { count: tips.length } })}>
             {tips.map(([tipper, balance]) => (
               <AddressMini
                 balance={balance}

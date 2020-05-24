@@ -75,7 +75,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, style,
         {hash && (
           <Static
             className='hash'
-            label={labelHash || t('extrinsic hash')}
+            label={labelHash || t<string>('extrinsic hash')}
           >
             {hash.toHex()}
           </Static>
@@ -83,7 +83,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, style,
         {mortality && (
           <Static
             className='mortality'
-            label={t('lifetime')}
+            label={t<string>('lifetime')}
           >
             {mortality}
           </Static>
@@ -91,7 +91,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, style,
         {tip?.gtn(0) && (
           <Static
             className='tip'
-            label={t('tip')}
+            label={t<string>('tip')}
           >
             <FormatBalance value={tip} />
           </Static>

@@ -65,7 +65,7 @@ function Validator ({ className = '', isDisabled, payout }: Props): React.ReactE
         className='start'
         colSpan={2}
       >
-        <Expander summary={t('{{count}} own stashes', { replace: { count: numNominators } })}>
+        <Expander summary={t<string>('{{count}} own stashes', { replace: { count: numNominators } })}>
           {Object.entries(nominators).map(([stashId, balance]) =>
             <AddressMini
               balance={balance}

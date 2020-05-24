@@ -22,8 +22,8 @@ function VoteToggle ({ className = '', onChange, value }: Props): React.ReactEle
       className={`${className}`}
       label={
         value
-          ? t('Aye, I approve')
-          : t('Nay, I do not approve')
+          ? t<string>('Aye, I approve')
+          : t<string>('Nay, I do not approve')
       }
       onChange={onChange}
       value={value}

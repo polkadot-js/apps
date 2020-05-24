@@ -32,7 +32,7 @@ function Proposals ({ className = '', isMember, members, prime, proposals }: Pro
         />
       </Button.Group>
       <Table
-        empty={proposals && t('No committee proposals')}
+        empty={proposals && t<string>('No committee proposals')}
         header={header}
       >
         {proposals?.map((hash: Hash): React.ReactNode => (
