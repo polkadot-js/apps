@@ -155,7 +155,7 @@ class ABI extends React.PureComponent<Props, State> {
     try {
       const abi = JSON.parse(json) as ContractABIPre;
 
-      if (abi.deploy || abi.messages) {
+      if ((abi as unknown as Record<string, unknown>).deploy || (abi as unknown as Record<string, unknown>).messages) {
         throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
       }
 

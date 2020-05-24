@@ -143,7 +143,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
   return [own, other];
 }
 
-function renderExtended ({ address, balancesAll, withExtended }: Props, t: (key: string) => string): React.ReactNode {
+function renderExtended ({ address, balancesAll, withExtended }: Props, t: <T = string> (key: string) => T): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -173,7 +173,7 @@ function renderExtended ({ address, balancesAll, withExtended }: Props, t: (key:
   );
 }
 
-function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: (key: string) => string): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: <T = string> (key: string) => T): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
@@ -215,7 +215,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function renderBalances (props: Props, allAccounts: string[], t: (key: string) => string): React.ReactNode {
+function renderBalances (props: Props, allAccounts: string[], t: <T = string> (key: string) => T): React.ReactNode {
   const { address, balancesAll, democracyLocks, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES

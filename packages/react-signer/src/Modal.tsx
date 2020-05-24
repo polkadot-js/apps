@@ -868,7 +868,8 @@ class Signer extends React.PureComponent<Props, State> {
 
     try {
       await extrinsic.signAsync((signer ? address : pair) as any, {
-        era: blocks,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        era: blocks.toNumber() as any,
         nonce: nonce || 0,
         signer,
         tip: (showTip && tip) ? tip : undefined

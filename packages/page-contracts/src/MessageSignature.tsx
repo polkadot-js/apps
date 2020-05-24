@@ -67,12 +67,9 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
             {' '}
             <Type>
               {params && params[index]
-                ? (
-                  <b>
-                    {truncate((params as Record<string, string>)[index].toString())}
-                  </b>
-                )
-                : displayType(type)}
+                ? <b>{truncate((params as string[])[index].toString())}</b>
+                : displayType(type)
+              }
             </Type>
             {index < args.length - 1 && ', '}
           </React.Fragment>

@@ -70,7 +70,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    _setTags(account?.meta?.tags || []);
+    _setTags(account?.meta?.tags as string[] || []);
     setAccName(account?.meta?.name || '');
   }, [_setTags, address]);
 
