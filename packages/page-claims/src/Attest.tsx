@@ -54,6 +54,10 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
   const hasClaim = claimValue && claimValue.gten(0);
   const statementSentence = getStatement(systemChain, statementKind)?.sentence;
 
+  if (!hasClaim || !statementSentence) {
+    return null;
+  }
+
   return (
     <Card isSuccess>
       <div className={className}>
@@ -61,9 +65,8 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
           kind={statementKind}
           systemChain={systemChain}
         />
-        {hasClaim &&
-          <h3><FormatBalance label={t('Attestation for:')}
-            value={claimValue} /></h3>}
+        <h3><FormatBalance label={t('Attestation for:')}
+          value={claimValue} /></h3>
         <Button.Group>
           <TxButton
             accountId={accountId}
