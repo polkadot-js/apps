@@ -38,7 +38,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       try {
         pair.decodePkcs8(password);
       } catch (error) {
-        return setUnlockError(error.message);
+        return setUnlockError((error as Error).message);
       }
 
       onUnlock();

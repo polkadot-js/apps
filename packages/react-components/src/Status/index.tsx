@@ -140,7 +140,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
               {section}.{method}
             </div>
             <div className='status'>
-              {error ? error.message : status}
+              {error ? (error as Error).message : status}
             </div>
           </div>
         </div>

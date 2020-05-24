@@ -87,7 +87,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         setPass((state: PassState) => ({ ...state, isPassValid: false }));
 
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
         console.error(error);
       }
 

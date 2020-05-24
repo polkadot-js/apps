@@ -15,7 +15,7 @@ type Input$Type = 'number' | 'password' | 'text';
 interface Props extends BareProps {
   autoFocus?: boolean;
   children?: React.ReactNode;
-  defaultValue?: any;
+  defaultValue?: string | null;
   help?: React.ReactNode;
   icon?: React.ReactNode;
   inputClassName?: string;
@@ -29,9 +29,9 @@ interface Props extends BareProps {
   isReadOnly?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  max?: any;
+  max?: number;
   maxLength?: number;
-  min?: any;
+  min?: number;
   name?: string;
   onEnter?: boolean | VoidFn;
   onEscape?: () => void;
@@ -44,7 +44,7 @@ interface Props extends BareProps {
   placeholder?: string;
   tabIndex?: number;
   type?: Input$Type;
-  value?: any;
+  value?: string;
   withLabel?: boolean;
   withEllipsis?: boolean;
 }
@@ -115,12 +115,12 @@ function Input ({ autoFocus = false, children, className = '', defaultValue, hel
       onKeyUp && onKeyUp(event);
 
       if (onEnter && event.keyCode === 13) {
-        (event.target as any).blur();
+        (event.target as HTMLInputElement).blur();
         isFunction(onEnter) && onEnter();
       }
 
       if (onEscape && event.keyCode === 27) {
-        (event.target as any).blur();
+        (event.target as HTMLInputElement).blur();
         onEscape();
       }
     },

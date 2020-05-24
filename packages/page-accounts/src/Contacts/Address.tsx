@@ -135,7 +135,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           status.message = t('address forgotten');
         } catch (error) {
           status.status = 'error';
-          status.message = error.message;
+          status.message = (error as Error).message;
         }
       }
     },

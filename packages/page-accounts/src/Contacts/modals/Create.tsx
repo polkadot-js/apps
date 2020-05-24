@@ -76,7 +76,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         InputAddress.setLastValue('address', address);
       } catch (error) {
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
       }
 
       onStatusChange(status);

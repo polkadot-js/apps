@@ -42,7 +42,7 @@ export default class Backend {
         return [null, languageCache[lng]];
       }
     } catch (error) {
-      return [error.message, false];
+      return [(error as Error).message, false];
     }
   }
 }

@@ -34,7 +34,8 @@ function TreasuryProposal ({ asInset, className = '', insetProps, onClick, propo
         .proposals<Option<TreasuryProposalType>>(proposalId)
         .then((proposal): TreasuryProposalType | null => proposal.unwrapOr(null))
         .catch((): null => null)
-        .then(setProposal);
+        .then(setProposal)
+        .catch(console.error);
     } else {
       setProposal(proposal || null);
     }

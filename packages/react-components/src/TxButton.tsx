@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { TxButtonProps as Props } from './types';
 
 import React, { useCallback, useContext } from 'react';
@@ -40,7 +41,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
   const _onSend = useCallback(
     (): void => {
-      let extrinsic: any;
+      let extrinsic: SubmittableExtrinsic<'promise'>;
 
       if (propsExtrinsic) {
         extrinsic = propsExtrinsic;

@@ -31,7 +31,7 @@ function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
           label={`${id}: ${section}.${method}`}
           value={
             error
-              ? error.message
+              ? (error as Error).message
               : <pre>{JSON.stringify(result.toHuman(), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')}</pre>
           }
         />

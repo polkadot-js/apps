@@ -36,7 +36,7 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
       return 'Soft derivation paths are not allowed on ed25519';
     }
   } catch (error) {
-    return error.message;
+    return (error as Error).message;
   }
 
   return null;
@@ -61,7 +61,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
     downloadAccount(result);
   } catch (error) {
     status.status = 'error';
-    status.message = error.message;
+    status.message = (error as Error).message;
   }
 
   return status;

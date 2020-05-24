@@ -44,7 +44,7 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
 
   const mapped = filtered.map((unlock): [DeriveUnlocking, BN] => [unlock, remainingBlocks(unlock.remainingEras, progress)]);
   const total = mapped.reduce((total, [{ value }]) => total.add(value), new BN(0));
-  const trigger = `${value.accountId}-unlocking-trigger`;
+  const trigger = `${value.accountId.toHex()}-unlocking-trigger`;
 
   return (
     <div className={className}>

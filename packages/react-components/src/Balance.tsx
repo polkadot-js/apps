@@ -62,11 +62,7 @@ function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
   }
 
   return balance
-    ? (
-      <>
-        {renderProvided({ className = '', label, value: balance })}
-      </>
-    )
+    ? <>{renderProvided({ className, label, value: balance })}</>
     : (
       <Balance
         className={classes('ui--Balance', className)}

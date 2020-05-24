@@ -91,12 +91,12 @@ function extractExternal (accountId?: string | null): AccountFlags {
   const pair = keyring.getPair(publicKey);
 
   return {
-    hardwareType: pair.meta.hardwareType,
+    hardwareType: pair.meta.hardwareType as string,
     isExternal: !!pair.meta.isExternal,
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
-    threshold: pair.meta.threshold || 0,
-    who: pair.meta.who || []
+    threshold: (pair.meta.threshold as number) || 0,
+    who: (pair.meta.who as string[]) || []
   };
 }
 
@@ -174,7 +174,7 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     if (!isSubmit && currentItem?.accountId && accountNonce == null) {
-      this.updateNonce();
+      this.updateNonce().catch(console.error);
     }
   }
 
@@ -523,7 +523,7 @@ class Signer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error(error);
 
-      return error.message;
+      return (error as Error).message;
     }
 
     return null;
@@ -744,13 +744,13 @@ class Signer extends React.PureComponent<Props, State> {
       console.error(error);
 
       return {
-        error,
+        error: error as Error,
         status: 'error'
       };
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => Promise<() => void>, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
     const { showTip, tip } = this.state;
 

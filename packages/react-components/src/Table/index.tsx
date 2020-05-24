@@ -36,7 +36,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 
   return (
     <div className={`ui--Table ${className}`}>
-      <table className={`${isFixed && 'isFixed'}`}>
+      <table className={isFixed ? 'isFixed' : 'isNotFixed'}>
         <Head
           filter={filter}
           header={header}

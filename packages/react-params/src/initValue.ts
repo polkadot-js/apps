@@ -128,7 +128,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
           return getInitValue(raw);
         }
       } catch (error) {
-        // console.error(error.message);
+        // console.error((error as Error).message);
       }
 
       // we only want to want once, not spam

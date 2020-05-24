@@ -40,7 +40,7 @@ function createAccount (signatories: string[], threshold: BN | number, { genesis
     status.message = success;
   } catch (error) {
     status.status = 'error';
-    status.message = error.message;
+    status.message = (error as Error).message;
   }
 
   return status;

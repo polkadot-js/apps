@@ -123,7 +123,7 @@ class Add extends ContractModal<Props, State> {
       console.error(error);
 
       status.status = 'error';
-      status.message = error.message;
+      status.message = (error as Error).message;
     }
   }
 }

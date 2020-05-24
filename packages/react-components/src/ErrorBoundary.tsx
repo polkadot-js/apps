@@ -12,7 +12,7 @@ interface Props extends I18nProps {
   children: React.ReactNode;
   doThrow?: boolean;
   onError?: () => void;
-  trigger?: any;
+  trigger?: unknown;
 }
 
 interface State {
@@ -54,9 +54,7 @@ class ErrorBoundary extends React.Component<Props> {
       ? (
         <article className='error'>
           {t('Uncaught error. Something went wrong with the query and rendering of this component. {{message}}', {
-            replace: {
-              message: error.message
-            }
+            replace: { message: error.message }
           })}
         </article>
       )

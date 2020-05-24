@@ -135,7 +135,7 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         return findComponent(raw, overrides);
       }
     } catch (error) {
-      // console.error(error.message);
+      // console.error((error as Error).message);
     }
 
     // we only want to want once, not spam

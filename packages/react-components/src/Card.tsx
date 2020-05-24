@@ -5,8 +5,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { classes } from './util';
-
 interface Props {
   children: React.ReactNode;
   className?: string;
@@ -17,7 +15,7 @@ interface Props {
 
 function Card ({ children, className = '', isError, isSuccess, withBottomMargin }: Props): React.ReactElement<Props> {
   return (
-    <article className={classes('ui--Card', className = '', (isError && !isSuccess) && 'error', (!isError && isSuccess) && 'success', withBottomMargin && 'withBottomMargin')}>
+    <article className={`ui--Card ${className} ${(isError && !isSuccess) ? 'error' : ''}, ${(!isError && isSuccess) ? 'success' : ''} ${withBottomMargin ? 'withBottomMargin' : ''}`}>
       {children}
     </article>
   );

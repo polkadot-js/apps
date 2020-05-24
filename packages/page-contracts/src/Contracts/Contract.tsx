@@ -55,7 +55,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
       status.message = t('address forgotten');
     } catch (error) {
       status.status = 'error';
-      status.message = error.message;
+      status.message = (error as Error).message;
     }
 
     _toggleForget();

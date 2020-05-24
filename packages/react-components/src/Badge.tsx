@@ -26,7 +26,7 @@ function Badge ({ className = '', hover, info, isGray, isInline, isSmall, isTool
 
   return (
     <div
-      className={`ui--Badge ${isGray && 'isGray'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
+      className={`ui--Badge ${isGray ? 'isGray' : ''} ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${type} ${className}`}
       data-for={trigger}
       data-tip={true}
       data-tip-disable={!isTooltip}

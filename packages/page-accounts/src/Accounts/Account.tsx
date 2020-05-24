@@ -143,7 +143,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
         status.message = t('account forgotten');
       } catch (error) {
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
       }
     },
     [address, t]
@@ -174,7 +174,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       getLedger()
         .getAddress(true)
         .catch((error): void => {
-          console.error(`ledger: ${error.message}`);
+          console.error(`ledger: ${(error as Error).message}`);
         });
     },
     []
