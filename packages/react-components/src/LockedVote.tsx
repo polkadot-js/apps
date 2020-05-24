@@ -17,7 +17,7 @@ export interface Props extends BareProps {
 }
 
 function LockedVoteDisplay (props: Props): React.ReactElement<Props> | null {
-  const { className, label, params, style } = props;
+  const { className = '', label, params } = props;
 
   if (!params) {
     return null;
@@ -28,7 +28,6 @@ function LockedVoteDisplay (props: Props): React.ReactElement<Props> | null {
       className={classes('ui--LockedVote', className)}
       label={label}
       params={params}
-      style={style}
     />
   );
 }

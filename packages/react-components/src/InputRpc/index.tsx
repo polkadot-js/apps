@@ -24,11 +24,10 @@ interface Props {
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: DefinitionRpcExt) => void;
-  style?: any;
   withLabel?: boolean;
 }
 
-function InputRpc ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputRpc ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -69,7 +68,6 @@ function InputRpc ({ className, defaultValue, help, label, onChange, style, with
       className={className}
       help={help}
       label={label}
-      style={style}
       withLabel={withLabel}
     >
       <SelectSection

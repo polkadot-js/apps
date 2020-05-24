@@ -15,7 +15,7 @@ import { useTranslation } from './translate';
 
 const ZERO = new BN(0);
 
-function Propose ({ className, isMine, sudoKey }: Props): React.ReactElement<Props> {
+function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [withWeight, toggleWithWeight] = useToggle();
@@ -38,16 +38,16 @@ function Propose ({ className, isMine, sudoKey }: Props): React.ReactElement<Pro
       <section className={className}>
         <Extrinsic
           defaultValue={apiDefaultTxSudo}
-          label={t('submit the following change')}
+          label={t<string>('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
         <br />
         {withWeight && (
           <InputNumber
-            help={t('The unchecked weight as specified for the sudoUncheckedWeight call.')}
+            help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
             isError={weight.eq(ZERO)}
             isZeroable={false}
-            label={t('unchecked weight for this call')}
+            label={t<string>('unchecked weight for this call')}
             onChange={_onChangeWeight}
             value={weight}
           />
@@ -57,8 +57,8 @@ function Propose ({ className, isMine, sudoKey }: Props): React.ReactElement<Pro
             className='sudoToggle'
             label={
               withWeight
-                ? t('sudo with unchecked weight parameter')
-                : t('sudo without unchecked weight parameter')
+                ? t<string>('sudo with unchecked weight parameter')
+                : t<string>('sudo without unchecked weight parameter')
             }
             onChange={toggleWithWeight}
             value={withWeight}
@@ -69,7 +69,7 @@ function Propose ({ className, isMine, sudoKey }: Props): React.ReactElement<Pro
             accountId={sudoKey}
             icon='sign-in'
             isDisabled={!method || (withWeight ? weight.eq(ZERO) : false)}
-            label={t('Submit Sudo')}
+            label={t<string>('Submit Sudo')}
             params={
               withWeight
                 ? [method, weight]
@@ -88,7 +88,7 @@ function Propose ({ className, isMine, sudoKey }: Props): React.ReactElement<Pro
       <article className='error padded'>
         <div>
           <Icon name='ban' />
-          {t('You do not have access to the current sudo key')}
+          {t<string>('You do not have access to the current sudo key')}
         </div>
       </article>
     );

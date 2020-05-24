@@ -23,13 +23,13 @@ interface Props {
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isImminent, setIsImminent] = useState(propsIsImminent || false);
   const [{ encodedHash, encodedProposal }, setHash] = useState<{ encodedHash: string; encodedProposal: string }>({ encodedHash: ZERO_HASH, encodedProposal: '' });
-  const [proposal, setProposal] = useState<any>();
+  const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
@@ -44,18 +44,18 @@ function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose 
   return (
     <Modal
       className={className}
-      header={t('Submit preimage')}
+      header={t<string>('Submit preimage')}
       size='large'
     >
       <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              help={t('The account you want to register the preimage from')}
-              label={t('send from account')}
+              help={t<string>('The account you want to register the preimage from')}
+              label={t<string>('send from account')}
               labelExtra={
                 <Available
-                  label={<span className='label'>{t('transferrable')}</span>}
+                  label={<span className='label'>{t<string>('transferrable')}</span>}
                   params={accountId}
                 />
               }
@@ -64,40 +64,40 @@ function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose 
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('This account will pay the fees for the preimage, based on the size thereof.')}</p>
+            <p>{t<string>('This account will pay the fees for the preimage, based on the size thereof.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Extrinsic
               defaultValue={apiDefaultTxSudo}
-              label={t('propose')}
+              label={t<string>('propose')}
               onChange={setProposal}
             />
             <Input
-              help={t('The hash of the selected proposal, use it for submitting the proposal')}
+              help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
               isDisabled
               isDisabledError={!isMatched}
-              label={t('preimage hash')}
+              label={t<string>('preimage hash')}
               value={encodedHash}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
-            <p>{t('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
+            <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
+            <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Toggle
               className='toggleImminent'
-              label={t('imminent preimage (proposal already passed)')}
+              label={t<string>('imminent preimage (proposal already passed)')}
               onChange={setIsImminent}
               value={isImminent}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('Only applicable if the proposal has already passed and is ready for dispatch.')}</p>
+            <p>{t<string>('Only applicable if the proposal has already passed and is ready for dispatch.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -107,7 +107,7 @@ function PreImage ({ className, imageHash, isImminent: propsIsImminent, onClose 
           icon='add'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
           isPrimary
-          label={t('Submit preimage')}
+          label={t<string>('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}
           tx={isImminent ? 'democracy.noteImminentPreimage' : 'democracy.notePreimage'}

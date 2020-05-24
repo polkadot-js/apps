@@ -19,11 +19,11 @@ interface Props {
   value?: Extrinsic[] | null;
 }
 
-function Extrinsics ({ blockNumber, className, events, label, value }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [label || t('extrinsics'), 'start', 2],
+    [label || t<string>('extrinsics'), 'start', 2],
     [t('events'), 'start', 2],
     [t('signer'), 'address']
   ], [label, t]);
@@ -31,7 +31,7 @@ function Extrinsics ({ blockNumber, className, events, label, value }: Props): R
   return (
     <Table
       className={className}
-      empty={t('No pending extrinsics are in the queue')}
+      empty={t<string>('No pending extrinsics are in the queue')}
       header={header}
       isFixed
     >

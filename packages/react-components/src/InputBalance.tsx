@@ -56,7 +56,7 @@ function reformat (value: string | BN, isDisabled?: boolean): string {
   return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
 }
 
-function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function InputBalance ({ autoFocus, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const [defaultValue, setDefaultValue] = useState<string | undefined>();
 
   useEffect((): void => {
@@ -84,7 +84,6 @@ function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, is
       onEnter={onEnter}
       onEscape={onEscape}
       placeholder={placeholder}
-      style={style}
       value={value}
       withEllipsis={withEllipsis}
       withLabel={withLabel}

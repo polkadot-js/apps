@@ -20,11 +20,11 @@ function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Pro
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t('parachains')}>
+        <CardSummary label={t<string>('parachains')}>
           {parachainCount.toString()}
         </CardSummary>
         {nextFreeId && (
-          <CardSummary label={t('next id')}>
+          <CardSummary label={t<string>('next id')}>
             {nextFreeId.toString()}
           </CardSummary>
         )}
@@ -32,7 +32,7 @@ function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Pro
       <section>
         <CardSummary
           className='ui--media-small'
-          label={t('best block')}
+          label={t<string>('best block')}
         >
           <BestNumber withPound />
         </CardSummary>

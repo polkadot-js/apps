@@ -139,7 +139,7 @@ function isSingleRow (cols: Col[]): boolean {
 function renderCol ({ author, hash, isEmpty, isFinalized, parent, width }: Col, index: number): React.ReactNode {
   return (
     <td
-      className={`header ${isEmpty && 'isEmpty'} ${isFinalized && 'isFinalized'}`}
+      className={`header ${isEmpty ? 'isEmpty' : ''} ${isFinalized ? 'isFinalized' : ''}`}
       colSpan={width}
       key={`${hash}:${index}:${width}`}
     >
@@ -333,7 +333,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
           if (firstNumRef.current !== bn) {
             console.warn(`Retrieving missing header ${header.parentHash.toHex()}`);
 
-            api.rpc.chain.getHeader(header.parentHash).then(_newHeader);
+            api.rpc.chain.getHeader(header.parentHash).then(_newHeader).catch(console.error);
 
             // catch the refresh on the result
             return;
@@ -361,7 +361,7 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
     (async (): Promise<void> => {
       _subFinHead = await api.rpc.chain.subscribeFinalizedHeads(_newFinalized);
       _subNewHead = await api.rpc.chain.subscribeNewHeads(_newHeader);
-    })();
+    })().catch(console.error);
 
     return (): void => {
       _subFinHead && _subFinHead();
@@ -377,8 +377,8 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
     <div className={className}>
       <SummaryBox>
         <section>
-          <CardSummary label={t('blocks')}>{formatNumber(countRef.current.numBlocks)}</CardSummary>
-          <CardSummary label={t('forks')}>{formatNumber(countRef.current.numForks)}</CardSummary>
+          <CardSummary label={t<string>('blocks')}>{formatNumber(countRef.current.numBlocks)}</CardSummary>
+          <CardSummary label={t<string>('forks')}>{formatNumber(countRef.current.numForks)}</CardSummary>
         </section>
       </SummaryBox>
       <table>

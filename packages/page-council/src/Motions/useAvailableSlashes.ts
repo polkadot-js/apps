@@ -41,7 +41,7 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
                 .filter(([, slashes]): boolean => slashes.length !== 0)
             );
           });
-        })();
+        })().catch(console.error);
       }
     }
 

@@ -17,7 +17,7 @@ interface Props {
   onClick?: () => void;
 }
 
-function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
+function ChainInfo ({ className = '', onClick }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -32,7 +32,7 @@ function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
         <div className='info'>
           <Chain className='chain' />
           {runtimeVersion && (
-            <div className='runtimeVersion'>{t('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
+            <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
           )}
           <BestNumber label='#' />
         </div>

@@ -28,12 +28,12 @@
     }
   },
   "resolutions": {
-    "@polkadot/api": "^1.15.1",
-    "@polkadot/api-contract": "^1.15.1",
-    "@polkadot/keyring": "^2.10.1",
-    "@polkadot/types": "^1.15.1",
-    "@polkadot/util": "^2.10.1",
-    "@polkadot/util-crypto": "^2.10.1",
+    "@polkadot/api": "^1.16.0-beta.2",
+    "@polkadot/api-contract": "^1.16.0-beta.2",
+    "@polkadot/keyring": "^2.11.0-beta.2",
+    "@polkadot/types": "^1.16.0-beta.2",
+    "@polkadot/util": "^2.11.0-beta.2",
+    "@polkadot/util-crypto": "^2.11.0-beta.2",
     "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
@@ -75,8 +75,8 @@
     "@babel/register": "^7.9.0",
     "@babel/runtime": "^7.9.6",
     "@pinata/sdk": "^1.1.9",
-    "@polkadot/dev": "^0.53.5",
-    "@polkadot/ts": "^0.3.22",
+    "@polkadot/dev": "^0.54.1",
+    "@polkadot/ts": "^0.3.23",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.21",
     "@types/file-saver": "^2.0.1",

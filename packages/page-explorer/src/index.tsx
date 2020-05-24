@@ -32,20 +32,20 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'chain',
-      text: t('Chain info')
+      text: t<string>('Chain info')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t('Block details')
+      text: t<string>('Block details')
     },
     {
       name: 'forks',
-      text: t('Forks')
+      text: t<string>('Forks')
     },
     {
       name: 'node',
-      text: t('Node info')
+      text: t<string>('Node info')
     }
   ], [t]);
 

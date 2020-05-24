@@ -10,7 +10,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkgJson = require('../../package.json');
+const pkgJson = require('../../package.json') as { version: string };
 
 const uiInfo = `apps v${pkgJson.version}`;
 

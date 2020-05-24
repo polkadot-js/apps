@@ -15,7 +15,7 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const items = useMemo(() => [{
     isRoot: true,
     name: 'create',
-    text: t('Extrinsic submission')
+    text: t<string>('Extrinsic submission')
   }], [t]);
 
   return (

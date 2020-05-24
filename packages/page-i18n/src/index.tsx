@@ -5,7 +5,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function TranslateApp (): React.ReactElement<{}> {
+export default function TranslateApp (): React.ReactElement {
   return (
     <main>This app has been moved to <Link to='/settings/i18n'>#/settings/i18n</Link></main>
   );

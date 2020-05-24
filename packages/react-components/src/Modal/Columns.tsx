@@ -7,7 +7,7 @@ import { ColumnProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-function Columns ({ children, className }: ColumnProps): React.ReactElement<ColumnProps> {
+function Columns ({ children, className = '' }: ColumnProps): React.ReactElement<ColumnProps> {
   return (
     <div className={`ui--Modal-Columns ${className}`}>{children}</div>
   );

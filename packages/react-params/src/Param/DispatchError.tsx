@@ -13,17 +13,17 @@ import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';
 
+interface ModuleErrorDefault {
+  isModule?: boolean
+}
+
 interface Details {
   details?: string | null;
   type?: string;
 }
 
-interface RawModuleError {
-  value: DispatchError;
-}
-
-function isModuleError (defaultValue?: { value: any }): defaultValue is RawModuleError {
-  return !!defaultValue?.value?.isModule;
+function isModuleError (value?: ModuleErrorDefault): value is DispatchError {
+  return !!value?.isModule;
 }
 
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
@@ -31,9 +31,11 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   const [{ details, type }, setDetails] = useState<Details>({});
 
   useEffect((): void => {
-    if (isModuleError(props.defaultValue)) {
+    const { value } = props.defaultValue || {};
+
+    if (isModuleError(value as ModuleErrorDefault)) {
       try {
-        const { documentation, name, section } = registry.findMetaError(props.defaultValue.value.asModule);
+        const { documentation, name, section } = registry.findMetaError((value as DispatchError).asModule);
 
         return setDetails({
           details: documentation.join(', '),
@@ -57,14 +59,14 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
       <Input
         className='full'
         isDisabled
-        label={t('type')}
+        label={t<string>('type')}
         value={type}
       />
       {details && (
         <Input
           className='full'
           isDisabled
-          label={t('details')}
+          label={t<string>('details')}
           value={details}
         />
       )}

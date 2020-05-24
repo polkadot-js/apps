@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ContractABIPre } from '@polkadot/api-contract/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { CodeJson, CodeStored } from './types';
 
@@ -75,7 +76,7 @@ class Store extends EventEmitter {
   private addCode (json: CodeJson): void {
     try {
       const abi = json.abi
-        ? JSON.parse(json.abi)
+        ? JSON.parse(json.abi) as ContractABIPre
         : null;
 
       this.allCode[json.codeHash] = {

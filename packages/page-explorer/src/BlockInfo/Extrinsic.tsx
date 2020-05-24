@@ -36,7 +36,7 @@ function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
   return events.filter(({ record: { phase } }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(index));
 }
 
-function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { meta, method, section } = registry.findMetaCall(value.callIndex);
   const era = getEra(value, blockNumber);
@@ -59,13 +59,13 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
             className='details'
             mortality={
               era
-                ? t('mortal, valid from #{{startAt}} to #{{endsAt}}', {
+                ? t<string>('mortal, valid from #{{startAt}} to #{{endsAt}}', {
                   replace: {
                     endsAt: formatNumber(era[1]),
                     startAt: formatNumber(era[0])
                   }
                 })
-                : t('immortal')
+                : t<string>('immortal')
             }
             tip={value.tip?.toBn()}
             value={value}
@@ -91,7 +91,7 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
             <>
               <AddressMini value={value.signer} />
               <div className='explorer--BlockByHash-nonce'>
-                {t('index')} {formatNumber(value.nonce)}
+                {t<string>('index')} {formatNumber(value.nonce)}
               </div>
               <LinkExternal
                 data={value.hash.toHex()}
@@ -99,7 +99,7 @@ function ExtrinsicDisplay ({ blockNumber, className, events, index, value }: Pro
               />
             </>
           )
-          : <div className='explorer--BlockByHash-unsigned'>{t('not signed')}</div>
+          : <div className='explorer--BlockByHash-unsigned'>{t<string>('not signed')}</div>
         }
       </td>
     </tr>

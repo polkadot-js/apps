@@ -81,22 +81,22 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
       <div className='ui--Row-buttons'>
         <Button
           icon='add'
-          label={t('Register a parachain')}
+          label={t<string>('Register a parachain')}
           onClick={onOpen}
         />
       </div>
       {isOpen && (
         <Modal
-          header={t('Register a parachain')}
+          header={t<string>('Register a parachain')}
           onClose={onClose}
           small
         >
           <Modal.Content>
             <InputNumber
               defaultValue={nextFreeId.toString()}
-              help={t('The id number to assign to this parachain.')}
+              help={t<string>('The id number to assign to this parachain.')}
               isError={!isIdValid}
-              label={t('parachain id')}
+              label={t<string>('parachain id')}
               onChange={setId}
               onEnter={onSendRef.current}
               onEscape={onClose}
@@ -108,32 +108,32 @@ function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactEl
               }
             />
             <Dropdown
-              help={t('The scheduling preference for this parachain.')}
-              label={t('scheduling')}
+              help={t<string>('The scheduling preference for this parachain.')}
+              label={t<string>('scheduling')}
               onChange={setScheduling}
               options={schedulingOptions}
               value={scheduling}
             />
             <InputWasm
-              help={t('The compiled runtime WASM for the parachain you wish to register.')}
+              help={t<string>('The compiled runtime WASM for the parachain you wish to register.')}
               isError={!!code && code.length > 0 && !isCodeValid}
               isValidRef={isWasmValidRef}
-              label={t('code')}
+              label={t<string>('code')}
               onChange={setCode}
               placeholder={
                 code && code.length > 0 && !isCodeValid
-                  ? t('The code is not recognized as being in valid WASM format')
+                  ? t<string>('The code is not recognized as being in valid WASM format')
                   : null
               }
             />
             <InputFile
-              help={t('The initial head state for the parachain.')}
+              help={t<string>('The initial head state for the parachain.')}
               isError={!!initialHeadState && !isInitialHeadStateValid}
-              label={t('initial head state')}
+              label={t<string>('initial head state')}
               onChange={setInitialHeadState}
               placeholder={
                 initialHeadState && !isInitialHeadStateValid
-                  ? t('The initial head state is invalid.')
+                  ? t<string>('The initial head state is invalid.')
                   : null
               }
             />

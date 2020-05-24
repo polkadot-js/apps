@@ -33,7 +33,7 @@ function Banner ({ className }: Props): React.ReactElement<Props> | null {
     <div className={className}>
       <div className='box'>
         <div className='info'>
-          <p>{t('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
+          <p>{t<string>('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
             replace: {
               yourBrowser: stringUpperFirst(browserName)
             }
@@ -50,11 +50,11 @@ function Banner ({ className }: Props): React.ReactElement<Props> | null {
             </li>
           ))
           }</ul>
-          <p>{t('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;<a
+          <p>{t<string>('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;<a
             href='https://github.com/polkadot-js/extension'
             rel='noopener noreferrer'
             target='_blank'
-          >{t('Learn more...')}</a></p>
+          >{t<string>('Learn more...')}</a></p>
         </div>
       </div>
     </div>

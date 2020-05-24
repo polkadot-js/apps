@@ -7,5 +7,5 @@ import { KeyringItemType } from '@polkadot/ui-keyring/types';
 import getAddressMeta from './getAddressMeta';
 
 export default function getAddressTags (address: string, type: KeyringItemType | null = null): string[] {
-  return getAddressMeta(address, type).tags || [];
+  return getAddressMeta(address, type).tags as string[] || [];
 }

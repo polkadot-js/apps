@@ -14,15 +14,16 @@ interface Props {
   value: boolean;
 }
 
-function VoteToggle ({ className, onChange, value }: Props): React.ReactElement<Props> {
+function VoteToggle ({ className = '', onChange, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <Toggle
       className={`${className}`}
-      label={value
-        ? t('Aye, I approve')
-        : t('Nay, I do not approve')
+      label={
+        value
+          ? t<string>('Aye, I approve')
+          : t<string>('Nay, I do not approve')
       }
       onChange={onChange}
       value={value}

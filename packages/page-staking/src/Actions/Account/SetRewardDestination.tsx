@@ -21,7 +21,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
 
   return (
     <Modal
-      header={t('Bonding Preferences')}
+      header={t<string>('Bonding Preferences')}
       size='large'
     >
       <Modal.Content>
@@ -30,32 +30,32 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
             <InputAddress
               defaultValue={stashId}
               isDisabled
-              label={t('stash account')}
+              label={t<string>('stash account')}
             />
             <InputAddress
               defaultValue={controllerId}
-              help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
+              help={t<string>('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
               isDisabled
-              label={t('controller account')}
+              label={t<string>('controller account')}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The stash and controller pair as linked. This operation will be performed via the controller.')}</p>
+            <p>{t<string>('The stash and controller pair as linked. This operation will be performed via the controller.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Dropdown
               defaultValue={defaultDestination}
-              help={t('The destination account for any payments as either a nominator or validator')}
-              label={t('payment destination')}
+              help={t<string>('The destination account for any payments as either a nominator or validator')}
+              label={t<string>('payment destination')}
               onChange={setDestination}
               options={rewardDestinationOptions}
               value={destination}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('All rewards will go towards the selected output destination when a payout is made.')}</p>
+            <p>{t<string>('All rewards will go towards the selected output destination when a payout is made.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -65,7 +65,7 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           icon='sign-in'
           isDisabled={!controllerId}
           isPrimary
-          label={t('Set reward destination')}
+          label={t<string>('Set reward destination')}
           onStart={onClose}
           params={[destination]}
           tx={'staking.setPayee'}

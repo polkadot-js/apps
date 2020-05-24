@@ -18,7 +18,7 @@ interface Props {
   voters?: AccountId[];
 }
 
-function Candidate ({ address, balance, className, isPrime, voters }: Props): React.ReactElement<Props> {
+function Candidate ({ address, balance, className = '', isPrime, voters }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -30,8 +30,8 @@ function Candidate ({ address, balance, className, isPrime, voters }: Props): Re
         {isPrime && (
           <Tag
             color='green'
-            hover={t('Current prime member, default voting')}
-            label={t('prime voter')}
+            hover={t<string>('Current prime member, default voting')}
+            label={t<string>('prime voter')}
           />
         )}
       </td>

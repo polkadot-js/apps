@@ -43,9 +43,9 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   );
 
   const convictionOpts = useMemo(() => [
-    { text: t('0.1x voting balance, no lockup period'), value: 0 },
+    { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
-      text: t('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
+      text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
           period: (enact * lock).toFixed(2),
@@ -69,7 +69,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
     <>
       {isVotingOpen && (
         <Modal
-          header={t('Vote on proposal')}
+          header={t<string>('Vote on proposal')}
           size='large'
         >
           <Modal.Content>
@@ -81,7 +81,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}</p>
+                <p>{t<string>('If this proposal is passed, the changes will be applied via dispatch and the deposit returned.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -89,7 +89,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 <VoteAccount onChange={setAccountId} />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}</p>
+                <p>{t<string>('The vote will be recorded for this account. If another account delegated to this one, the delegated votes will also be counted.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -102,16 +102,16 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                   />
                 )}
                 <Dropdown
-                  help={t('The conviction to use for this vote, with an appropriate lock period.')}
-                  label={t('conviction')}
+                  help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
+                  label={t<string>('conviction')}
                   onChange={setConviction}
                   options={convictionOpts}
                   value={conviction}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
-                <p>{t('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
+                <p>{t<string>('The balance associated with the vote will be locked as per the conviction specified and will not be available for transfer during this period.')}</p>
+                <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -122,7 +122,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('Register the vote for or against the proposal.')}</p>
+                <p>{t<string>('Register the vote for or against the proposal.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -141,7 +141,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
       )}
       <Button
         icon='check'
-        label={t('Vote')}
+        label={t<string>('Vote')}
         onClick={toggleVoting}
       />
     </>

@@ -56,9 +56,9 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), []);
   const legends = useMemo(() => [
-    t('{{currency}} clipped', { replace: { currency } }),
-    t('{{currency}} total', { replace: { currency } }),
-    t('{{currency}} average', { replace: { currency } })
+    t<string>('{{currency}} clipped', { replace: { currency } }),
+    t<string>('{{currency}} total', { replace: { currency } }),
+    t<string>('{{currency}} average', { replace: { currency } })
   ], [currency, t]);
 
   useEffect((): void => {
@@ -69,7 +69,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <div className='staking--Chart'>
-      <h1>{t('elected stake')}</h1>
+      <h1>{t<string>('elected stake')}</h1>
       {chart && !!chart[0]?.length
         ? (
           <Chart.Line

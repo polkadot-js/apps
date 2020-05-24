@@ -32,7 +32,7 @@ const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
 function parseFile (file: Uint8Array): FileState {
   try {
-    const json = JSON.parse(u8aToString(file));
+    const json = JSON.parse(u8aToString(file)) as KeyringPair$Json;
     const publicKey = keyring.decodeAddress(json.address, true);
     const address = keyring.encodeAddress(publicKey);
     const isFileValid = publicKey.length === 32 && isHex(json.encoded) && isObject(json.meta) && (
@@ -49,7 +49,7 @@ function parseFile (file: Uint8Array): FileState {
   return { address: null, isFileValid: false, json: null };
 }
 
-function Import ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
+function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ address, isFileValid, json }, setFile] = useState<FileState>({ address: null, isFileValid: false, json: null });
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
@@ -80,14 +80,14 @@ function Import ({ className, onClose, onStatusChange }: Props): React.ReactElem
 
         status.status = pair ? 'success' : 'error';
         status.account = address;
-        status.message = t('account restored');
+        status.message = t<string>('account restored');
 
         InputAddress.setLastValue('account', address);
       } catch (error) {
         setPass((state: PassState) => ({ ...state, isPassValid: false }));
 
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
         console.error(error);
       }
 
@@ -103,14 +103,14 @@ function Import ({ className, onClose, onStatusChange }: Props): React.ReactElem
   return (
     <Modal
       className={className}
-      header={t('Add via backup file')}
+      header={t<string>('Add via backup file')}
       size='large'
     >
       <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <AddressRow
-              defaultName={isFileValid && json ? json.meta.name : null}
+              defaultName={(isFileValid && json?.meta.name as string) || null}
               noDefaultNameOpacity
               value={isFileValid && address ? address : null}
             />
@@ -121,15 +121,15 @@ function Import ({ className, onClose, onStatusChange }: Props): React.ReactElem
             <InputFile
               accept={acceptedFormats}
               className='full'
-              help={t('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
+              help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
               isError={!isFileValid}
-              label={t('backup file')}
+              label={t<string>('backup file')}
               onChange={_onChangeFile}
               withLabel
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('Supply a backed-up JSON file, encrypted with your account-specific password.')}</p>
+            <p>{t<string>('Supply a backed-up JSON file, encrypted with your account-specific password.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -137,16 +137,16 @@ function Import ({ className, onClose, onStatusChange }: Props): React.ReactElem
             <Password
               autoFocus
               className='full'
-              help={t('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
+              help={t<string>('Type the password chosen at the account creation. It was used to encrypt your account\'s private key in the backup file.')}
               isError={!isPassValid}
-              label={t('password')}
+              label={t<string>('password')}
               onChange={_onChangePass}
               onEnter={_onSave}
               value={password}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The password previously used to encrypt this account.')}</p>
+            <p>{t<string>('The password previously used to encrypt this account.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -155,7 +155,7 @@ function Import ({ className, onClose, onStatusChange }: Props): React.ReactElem
           icon='sync'
           isDisabled={!isFileValid || !isPassValid}
           isPrimary
-          label={t('Restore')}
+          label={t<string>('Restore')}
           onClick={_onSave}
         />
       </Modal.Actions>

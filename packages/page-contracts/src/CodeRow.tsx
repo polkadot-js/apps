@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
@@ -57,11 +57,11 @@ class CodeRow extends Row<Props, State> {
     this.state = this.createState();
   }
 
-  public static getDerivedStateFromProps ({ accounts_info, code: { json } }: Props, prevState: State): State | null {
+  public static getDerivedStateFromProps ({ accountsInfo, code: { json } }: Props, prevState: State): State | null {
     const codeHash = json.codeHash || DEFAULT_HASH;
     const name = json.name || DEFAULT_NAME;
     const tags = json.tags || [];
-    const { accountId } = accounts_info || {};
+    const { accountId } = accountsInfo || {};
     const address = accountId
       ? accountId.toString()
       : DEFAULT_ADDR;
@@ -90,13 +90,10 @@ class CodeRow extends Row<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, isInline, style } = this.props;
+    const { className = '', isInline } = this.props;
 
     return (
-      <div
-        className={classes('ui--Row', isInline && 'inline', className)}
-        style={style}
-      >
+      <div className={classes('ui--Row', isInline && 'inline', className)}>
         <div className='ui--Row-base'>
           {this.renderIcon()}
           <div className='ui--Row-details'>

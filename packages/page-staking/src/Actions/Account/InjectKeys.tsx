@@ -35,11 +35,11 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const [suri, setSuri] = useState('');
   const [keyType, setKeyType] = useState('babe');
   const keyTypeOpt = useMemo(() => [
-    { text: t('Aura'), value: 'aura' },
-    { text: t('Babe'), value: 'babe' },
-    { text: t('Grandpa'), value: 'gran' },
-    { text: t('I\'m Online'), value: 'imon' },
-    { text: t('Parachains'), value: 'para' }
+    { text: t<string>('Aura'), value: 'aura' },
+    { text: t<string>('Babe'), value: 'babe' },
+    { text: t<string>('Grandpa'), value: 'gran' },
+    { text: t<string>('I\'m Online'), value: 'imon' },
+    { text: t<string>('Parachains'), value: 'para' }
   ], [t]);
 
   useEffect((): void => {
@@ -60,6 +60,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
 
   const _onSubmit = useCallback(
     (): void => queueRpc({
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       rpc: { method: 'insertKey', section: 'author' } as any,
       values: [keyType, suri, publicKey]
     }),
@@ -68,8 +69,8 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const _cryptoOptions = useMemo(
     () => CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({
       text: value === 'ed25519'
-        ? t('ed25519, Edwards')
-        : t('sr15519, Schnorrkel'),
+        ? t<string>('ed25519, Edwards')
+        : t<string>('sr15519, Schnorrkel'),
       value
     })),
     [keyType, t]
@@ -77,7 +78,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
 
   return (
     <Modal
-      header={t('Inject Keys')}
+      header={t<string>('Inject Keys')}
       size='large'
     >
       <Modal.Content>
@@ -86,48 +87,48 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
             <Input
               autoFocus
               isError={publicKey.length !== 66}
-              label={t('suri (seed & derivation)')}
+              label={t<string>('suri (seed & derivation)')}
               onChange={setSuri}
               value={suri}
             />
             <article className='warning'>
-              <div><Icon name='warning sign' />{t('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
+              <div><Icon name='warning sign' />{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
             </article>
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}</p>
+            <p>{t<string>('The seed and derivation path will be submitted to the validator node. this is an advanced operation, only to be performed when you are sure of the security and connection risks.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Dropdown
-              label={t('key type to set')}
+              label={t<string>('key type to set')}
               onChange={setKeyType}
               options={keyTypeOpt}
               value={keyType}
             />
             <Dropdown
               isDisabled={_cryptoOptions.length === 1}
-              label={t('crypto type to use')}
+              label={t<string>('crypto type to use')}
               onChange={setCrypto}
               options={_cryptoOptions}
               value={crypto}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The key type and crypto type to use for this key. Be aware that different keys have different crypto requirements. You should be familiar with the type requirements for the different keys.')}</p>
+            <p>{t<string>('The key type and crypto type to use for this key. Be aware that different keys have different crypto requirements. You should be familiar with the type requirements for the different keys.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Input
               isDisabled
-              label={t('generated public key')}
+              label={t<string>('generated public key')}
               value={publicKey}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('This pubic key is what will be visible in your queued keys list. It is generated based on the seed and the crypto used.')}</p>
+            <p>{t<string>('This pubic key is what will be visible in your queued keys list. It is generated based on the seed and the crypto used.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -135,7 +136,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
         <Button
           icon='sign-in'
           isPrimary
-          label={t('Submit key')}
+          label={t<string>('Submit key')}
           onClick={_onSubmit}
         />
       </Modal.Actions>

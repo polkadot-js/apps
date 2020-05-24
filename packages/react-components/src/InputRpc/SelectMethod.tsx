@@ -27,7 +27,7 @@ function transform ({ value: { section } }: Props): (method: string) => Definiti
 }
 
 function SelectMethod (props: Props): React.ReactElement<Props> | null {
-  const { className, isError, onChange, options, style, value } = props;
+  const { className = '', isError, onChange, options, value } = props;
 
   if (!options.length) {
     return null;
@@ -39,7 +39,6 @@ function SelectMethod (props: Props): React.ReactElement<Props> | null {
       isError={isError}
       onChange={onChange}
       options={options}
-      style={style}
       transform={transform(props)}
       value={value.method}
       withLabel={false}

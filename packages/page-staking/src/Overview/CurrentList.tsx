@@ -132,7 +132,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     <Input
       autoFocus
       isFull
-      label={t('filter by name, address or index')}
+      label={t<string>('filter by name, address or index')}
       onChange={setNameFilter}
       value={nameFilter}
     />
@@ -165,7 +165,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
   return isIntentions
     ? (
       <Table
-        empty={waiting && t('No waiting validators found')}
+        empty={waiting && t<string>('No waiting validators found')}
         header={headerActive}
       >
         {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
@@ -173,7 +173,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     )
     : (
       <Table
-        empty={validators && t('No active validators found')}
+        empty={validators && t<string>('No active validators found')}
         filter={filter}
         header={headerWaiting}
       >

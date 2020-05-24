@@ -72,7 +72,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
         )
         .then((_unsub): void => {
           unsub = _unsub;
-        });
+        }).catch(console.error);
     }
 
     return (): void => {

@@ -47,8 +47,8 @@ function Hash (): React.ReactElement {
         <Input
           autoFocus
           className='full'
-          help={t('The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.')}
-          label={t('from the following data')}
+          help={t<string>('The input data to hash. This can be either specified as a hex value (0x-prefix) or as a string.')}
+          label={t<string>('from the following data')}
           onChange={_onChangeData}
           value={data}
         />
@@ -56,22 +56,22 @@ function Hash (): React.ReactElement {
       <div className='ui--row'>
         <Static
           className='medium'
-          help={t('Detection on the input string to determine if it is hex or non-hex.')}
-          label={t('hex input data')}
+          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
+          label={t<string>('hex input data')}
           value={
             isHexData
-              ? t('Yes')
-              : t('No')
+              ? t<string>('Yes')
+              : t<string>('No')
           }
         />
       </div>
       <div className='ui--row'>
         <Output
           className='full'
-          help={t('The blake2b 256-bit hash of the actual input data.')}
+          help={t<string>('The blake2b 256-bit hash of the actual input data.')}
           isHidden={hash.length === 0}
           isMonospace
-          label={t('the resulting hash is')}
+          label={t<string>('the resulting hash is')}
           value={hash}
           withCopy
         />

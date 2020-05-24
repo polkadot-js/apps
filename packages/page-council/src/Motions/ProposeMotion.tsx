@@ -54,12 +54,12 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
       <Button
         icon='add'
         isDisabled={!isMember}
-        label={t('Propose motion')}
+        label={t<string>('Propose motion')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
-          header={t('Propose a council motion')}
+          header={t<string>('Propose a council motion')}
           size='large'
         >
           <Modal.Content>
@@ -67,43 +67,43 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
               <Modal.Column>
                 <InputAddress
                   filter={members}
-                  help={t('Select the account you wish to make the proposal with.')}
-                  label={t('propose from account')}
+                  help={t<string>('Select the account you wish to make the proposal with.')}
+                  label={t<string>('propose from account')}
                   onChange={setAcountId}
                   type='account'
                   withLabel
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The council account for the proposal. The selection is filtered by the current members.')}</p>
+                <p>{t<string>('The council account for the proposal. The selection is filtered by the current members.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <InputNumber
                   className='medium'
-                  help={t('The minimum number of council votes required to approve this motion')}
+                  help={t<string>('The minimum number of council votes required to approve this motion')}
                   isError={!threshold || threshold.eqn(0) || threshold.gtn(members.length)}
-                  label={t('threshold')}
+                  label={t<string>('threshold')}
                   onChange={_setThreshold}
-                  placeholder={t('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
+                  placeholder={t<string>('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
                   value={threshold || new BN(0)}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The desired threshold. Here set to a default of 50%+1, as applicable for general proposals.')}</p>
+                <p>{t<string>('The desired threshold. Here set to a default of 50%+1, as applicable for general proposals.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <Extrinsic
                   defaultValue={apiDefaultTxSudo}
-                  label={t('proposal')}
+                  label={t<string>('proposal')}
                   onChange={_setMethod}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The actual proposal to make, based on the selected call and parameters thereof.')}</p>
+                <p>{t<string>('The actual proposal to make, based on the selected call and parameters thereof.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -111,7 +111,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               isDisabled={!method || !isThresholdValid}
-              label={t('Propose')}
+              label={t<string>('Propose')}
               params={[threshold, method]}
               tx='council.propose'
             />

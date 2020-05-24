@@ -36,7 +36,7 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
         return null;
       }
 
-      const trigger = `${name}-${type}-${data}`;
+      const trigger = `${name}-${type}-${data.toString()}`;
       const link = create(extChain, extPath, data, hash);
 
       return (
@@ -63,7 +63,7 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
     .filter((node): node is React.ReactNode => !!node);
 }
 
-function LinkExternal ({ className, data, hash, type, withShort }: Props): React.ReactElement<Props> | null {
+function LinkExternal ({ className = '', data, hash, type, withShort }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { systemChain } = useApi();
   const links = useMemo(
@@ -76,8 +76,8 @@ function LinkExternal ({ className, data, hash, type, withShort }: Props): React
   }
 
   return (
-    <div className={`${className} ${withShort && 'withShort'}`}>
-      {!withShort && <div>{t('View this externally')}</div>}
+    <div className={`${className} ${withShort ? 'withShort' : ''}`}>
+      {!withShort && <div>{t<string>('View this externally')}</div>}
       <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>
   );

@@ -10,21 +10,16 @@ import styled from 'styled-components';
 
 import Divider from './Divider';
 
-const DIVIDER_STYLE = { padding: '0em' };
-
-function ButtonGroup ({ children, className, isBasic, isCentered, style }: GroupProps): React.ReactElement<GroupProps> {
+function ButtonGroup ({ children, className = '', isBasic, isCentered }: GroupProps): React.ReactElement<GroupProps> {
   return (
-    <div
-      className={`ui--Button-Group ${isCentered && 'centered'} ${className}`}
-      style={style}
-    >
+    <div className={`ui--Button-Group ${isCentered ? 'centered' : ''} ${className}`}>
       <SUIButton.Group
         basic={isBasic}
         size='small'
       >
         {isBasic
           ? null
-          : <Divider style={DIVIDER_STYLE} />
+          : <Divider className='ui--Button-Group-Divider' />
         }
         {children}
       </SUIButton.Group>
@@ -50,6 +45,10 @@ const Memo = React.memo(styled(ButtonGroup)`
 
   &+.ui--Table {
     margin-top: 1.5rem;
+  }
+
+  .ui--Buttn-Group-Divider {
+    padding: 0;
   }
 `) as unknown as GroupType;
 

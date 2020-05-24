@@ -27,7 +27,7 @@ function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, 
 
   return (
     <Modal
-      header={t('Nominate Validators')}
+      header={t<string>('Nominate Validators')}
       size='large'
     >
       <Modal.Content>
@@ -49,7 +49,7 @@ function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, 
           icon='hand paper outline'
           isDisabled={!nominateTx}
           isPrimary
-          label={t('Nominate')}
+          label={t<string>('Nominate')}
           onStart={onClose}
         />
       </Modal.Actions>

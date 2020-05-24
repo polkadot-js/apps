@@ -18,7 +18,7 @@ interface Props extends BareProps {
   seed: Uint8Array;
 }
 
-function Match ({ address, className, count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
+function Match ({ address, className = '', count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
   const hexSeed = useMemo(
     () => u8aToHex(seed),
     [seed]

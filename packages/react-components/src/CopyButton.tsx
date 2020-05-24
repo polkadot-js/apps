@@ -17,10 +17,10 @@ interface Props extends BareProps {
   className?: string;
   icon?: string;
   isAddress?: boolean;
-  value?: any;
+  value?: string;
 }
 
-function CopyButton ({ children, className, icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className = '', icon = 'copy', isAddress = false, value = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -28,8 +28,8 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
     (): void => {
       isAddress && queueAction && queueAction({
         account: value,
-        action: t('clipboard'),
-        message: t('address copied'),
+        action: t<string>('clipboard'),
+        message: t<string>('address copied'),
         status: 'queued'
       });
     },

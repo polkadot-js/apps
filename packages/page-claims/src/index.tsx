@@ -115,15 +115,15 @@ class ClaimsApp extends TxModal<Props, State> {
         <Columar>
           <Column>
             <Card withBottomMargin>
-              <h3>{t('1. Select your {{chain}} account', {
+              <h3>{t<string>('1. Select your {{chain}} account', {
                 replace: {
                   chain: systemChain
                 }
               })}</h3>
               <InputAddress
                 defaultValue={this.state.accountId}
-                help={t('The account you want to claim to.')}
-                label={t('claim to account')}
+                help={t<string>('The account you want to claim to.')}
+                label={t<string>('claim to account')}
                 onChange={this.onChangeAccount}
                 type='all'
               />
@@ -131,7 +131,7 @@ class ClaimsApp extends TxModal<Props, State> {
                 <Button.Group>
                   <Button
                     icon='sign-in'
-                    label={t('Continue')}
+                    label={t<string>('Continue')}
                     onClick={this.setStep(Step.Sign)}
                   />
                 </Button.Group>
@@ -139,7 +139,7 @@ class ClaimsApp extends TxModal<Props, State> {
             </Card>
             {(step >= Step.Sign && !!accountId) && (
               <Card>
-                <h3>{t('2. Sign ETH transaction')}</h3>
+                <h3>{t<string>('2. Sign ETH transaction')}</h3>
                 <CopyToClipboard
                   onCopy={this.onCopy}
                   text={payload}
@@ -153,11 +153,11 @@ class ClaimsApp extends TxModal<Props, State> {
                 </CopyToClipboard>
                 <Tooltip
                   place='right'
-                  text={didCopy ? t('copied') : t('click to copy')}
+                  text={didCopy ? t<string>('copied') : t<string>('click to copy')}
                   trigger='tx-payload'
                 />
                 <div>
-                  {t('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
+                  {t<string>('Copy the above string and sign an Ethereum transaction with the account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below')}
                   :
                 </div>
                 <Signature
@@ -170,7 +170,7 @@ class ClaimsApp extends TxModal<Props, State> {
                     <Button
                       icon='sign-in'
                       isDisabled={!accountId || !signature}
-                      label={t('Confirm claim')}
+                      label={t<string>('Confirm claim')}
                       onClick={this.setStep(Step.Claim)}
                     />
                   </Button.Group>

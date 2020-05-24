@@ -31,7 +31,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={proposals && t('No active proposals')}
+      empty={proposals && t<string>('No active proposals')}
       header={header}
     >
       {proposals?.map((proposal): React.ReactNode => (

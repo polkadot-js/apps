@@ -45,7 +45,7 @@ function makeUrl (_url: string): StateUrl {
 
 // this allows us to retrieve the initial state by reading the settings and the applying
 // validation on-top of the values retrieved
-function getInitialState (t: (key: string) => string): State {
+function getInitialState (t: <T = string> (key: string) => T): State {
   const url = uiSettings.get().apiUrl;
 
   return {
@@ -57,9 +57,9 @@ function getInitialState (t: (key: string) => string): State {
   };
 }
 
-function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
+function SelectUrl ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [info, setInfo] = useState(getInitialState(() => ''));
+  const [info, setInfo] = useState(getInitialState(t));
   const { isCustom, isValid, url } = info;
   const translatedEndpoints = useMemo(
     () => createEndpoints(t).map((option) => createOption(option, ['local'])),
@@ -84,15 +84,15 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
       ...makeUrl(
         isCustom
           ? info.url
-          : (createEndpoints(() => '').find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
+          : (createEndpoints(t).find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' }).value as string
       ),
       isCustom
     }),
-    [info]
+    [info, t]
   );
 
-  const help = t('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
-  const label = t('remote node/endpoint to connect to');
+  const help = t<string>('Select the remote endpoint, either from the dropdown on manual entered via the custom toggle');
+  const label = t<string>('remote node/endpoint to connect to');
 
   return (
     <div className={className}>
@@ -116,7 +116,7 @@ function SelectUrl ({ className, onChange }: Props): React.ReactElement<Props> {
       <Toggle
         className='settings--customToggle'
         defaultValue={isCustom}
-        label={t('custom endpoint')}
+        label={t<string>('custom endpoint')}
         onChange={_onChangeCustom}
       />
     </div>

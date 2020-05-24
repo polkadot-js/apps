@@ -38,7 +38,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       try {
         pair.decodePkcs8(password);
       } catch (error) {
-        return setUnlockError(error.message);
+        return setUnlockError((error as Error).message);
       }
 
       onUnlock();
@@ -53,37 +53,37 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className='toolbox--Unlock'
-      header={t('Unlock account')}
+      header={t<string>('Unlock account')}
       size='large'
     >
       <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              help={t('The selected account to be unlocked.')}
+              help={t<string>('The selected account to be unlocked.')}
               isDisabled
-              label={t('account')}
+              label={t<string>('account')}
               value={address}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('This account that will perform the message signing.')}</p>
+            <p>{t<string>('This account that will perform the message signing.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Password
               autoFocus
-              help={t('The account\'s password specified at the creation of this account.')}
+              help={t<string>('The account\'s password specified at the creation of this account.')}
               isError={!!unlockError}
-              label={t('password')}
+              label={t<string>('password')}
               onChange={setPassword}
               onEnter={_onUnlock}
               value={password}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
+            <p>{t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -91,7 +91,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
         <Button
           icon='unlock'
           isPrimary
-          label={t('Unlock')}
+          label={t<string>('Unlock')}
           onClick={_onUnlock}
         />
       </Modal.Actions>

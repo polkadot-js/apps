@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import Queries from './Queries';
 import Selection from './Selection';
 
-function StorageApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
   const _onAdd = useCallback(

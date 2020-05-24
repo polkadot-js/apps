@@ -44,8 +44,8 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   const [{ chart, labels }, setChart] = useState<ChartInfo>({ chart: [], labels: [] });
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
   const legends = useMemo(() => [
-    t('points'),
-    t('average')
+    t<string>('points'),
+    t<string>('average')
   ], [t]);
 
   useEffect((): void => {
@@ -56,7 +56,7 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
 
   return (
     <div className='staking--Chart'>
-      <h1>{t('era points')}</h1>
+      <h1>{t<string>('era points')}</h1>
       {chart.length
         ? (
           <Chart.Line

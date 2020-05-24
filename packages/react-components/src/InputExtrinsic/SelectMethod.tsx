@@ -20,7 +20,7 @@ interface Props extends BareProps {
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
+function SelectMethod ({ api, className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
   const transform = useCallback(
     (method: string): SubmittableExtrinsicFunction<'promise'> =>
       api.tx[value.section][method],
@@ -37,7 +37,6 @@ function SelectMethod ({ api, className, isError, onChange, options, style, valu
       isError={isError}
       onChange={onChange}
       options={options}
-      style={style}
       transform={transform}
       value={value.method}
       withLabel={false}

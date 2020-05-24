@@ -30,7 +30,7 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   return (
     <Table
       className={className}
-      empty={queued && t('Nothing queued for execution')}
+      empty={queued && t<string>('Nothing queued for execution')}
       header={header}
     >
       {queued?.map((entry): React.ReactNode => (

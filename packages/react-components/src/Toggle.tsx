@@ -18,7 +18,7 @@ interface Props extends BareProps {
   value?: boolean;
 }
 
-function Toggle ({ asSwitch = true, className, defaultValue, isDisabled, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
+function Toggle ({ asSwitch = true, className = '', defaultValue, isDisabled, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (event: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
       if (preventDefault) {

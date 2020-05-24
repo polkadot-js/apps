@@ -28,14 +28,14 @@ function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isM
           ? (
             <Tag
               color='green'
-              label={t('Multisig')}
+              label={t<string>('Multisig')}
               size='tiny'
             />
           )
           : (
             <Tag
               color='grey'
-              label={t('External')}
+              label={t<string>('External')}
               size='tiny'
             />
           )
@@ -43,42 +43,42 @@ function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isM
       {isInjected && (
         <Tag
           color='grey'
-          label={t('Injected')}
+          label={t<string>('Injected')}
           size='tiny'
         />
       )}
       {isDevelopment && (
         <Tag
           color='grey'
-          label={t('Test account')}
+          label={t<string>('Test account')}
           size='tiny'
         />
       )}
       {isCouncil && (
         <Tag
           color='blue'
-          label={t('Council')}
+          label={t<string>('Council')}
           size='tiny'
         />
       )}
       {isSociety && (
         <Tag
           color='green'
-          label={t('Society')}
+          label={t<string>('Society')}
           size='tiny'
         />
       )}
       {isTechCommittee && (
         <Tag
           color='orange'
-          label={t('Technical committee')}
+          label={t<string>('Technical committee')}
           size='tiny'
         />
       )}
       {isSudo && (
         <Tag
           color='pink'
-          label={t('Sudo key')}
+          label={t<string>('Sudo key')}
           size='tiny'
         />
       )}
