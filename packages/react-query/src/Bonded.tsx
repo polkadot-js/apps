@@ -7,6 +7,7 @@ import { AccountId, AccountIndex, Address, StakingLedger } from '@polkadot/types
 
 import React from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
 import FormatBalance from './FormatBalance';
 
@@ -19,12 +20,10 @@ interface Props extends BareProps {
 function BondedDisplay ({ children, className = '', label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const controllerId = useCall<AccountId | null>(api.query.staking.bonded, [params], {
-    transform: (value): AccountId | null =>
-      value.unwrapOr(null)
+    transform: (value: Option<AccountId>) => value.unwrapOr(null)
   });
   const stakingLedger = useCall<StakingLedger | null>(controllerId && api.query.staking.ledger, [controllerId], {
-    transform: (value): StakingLedger | null =>
-      value.unwrapOr(null)
+    transform: (value: Option<StakingLedger>) => value.unwrapOr(null)
   });
 
   return (
