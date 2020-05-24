@@ -102,8 +102,10 @@ function ClaimsApp (): React.ReactElement {
     api.query.claims
       .preclaims<Option<EthereumAddress>>(accountId)
       .then((preclaim): void => {
-        setEthereumAddress(preclaim.unwrapOr(null)?.toString());
-        setPreclaimEthereumAddress(preclaim.unwrapOr(null)?.toString());
+        const address = preclaim.unwrapOr(null)?.toString();
+
+        setEthereumAddress(address);
+        setPreclaimEthereumAddress(address);
       })
       .catch((): void => setPreclaimEthereumAddress(null));
   }, [accountId, api.query.claims, api.query.claims.preclaims]);
@@ -159,8 +161,7 @@ function ClaimsApp (): React.ReactElement {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const _ethereumAddress = ethereumAddress ? api.createType('EthereumAddress', ethereumAddress) : null;
-  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && _ethereumAddress && api.query.claims.signing, [_ethereumAddress], {
+  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], {
     transform: (option: Option<StatementKind>) => option.unwrapOr(null)
   });
 
