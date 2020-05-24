@@ -23,10 +23,10 @@ interface SignatureParts {
   signature: Buffer;
 }
 
-const DEFAULT_STATEMENT_URL = 'https://statement.polkadot.network/regular.md';
-const ALTERNATIVE_STATEMENT_URL = 'https://statement.polkadot.network/saft.md';
-const DEFAULT_STATEMENT_HASH = '0x00';
-const ALTERNATIVE_STATEMENT_HASH = '0x00';
+const REGULAR_STATEMENT_URL = 'https://statement.polkadot.network/regular.md';
+const SAFT_STATEMENT_URL = 'https://statement.polkadot.network/saft.md';
+const REGULAR_STATEMENT_HASH = 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny';
+const SAFT_STATEMENT_HASH = 'Qmawwbu1KeZ46peRspbsTUot8Lq6KcHutuiUKJ142N4Reg';
 
 // converts an Ethereum address to a checksum representation
 export function addrToChecksum (_address: string): string {
@@ -119,9 +119,9 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
 
 export function getStatementUrl (kind?: StatementKind | null): string {
   if (kind?.isDefault) {
-    return DEFAULT_STATEMENT_URL;
+    return REGULAR_STATEMENT_URL;
   } else if (kind?.isAlternative) {
-    return ALTERNATIVE_STATEMENT_URL;
+    return SAFT_STATEMENT_URL;
   } else {
     return '';
   }
@@ -135,17 +135,17 @@ export function getStatementSentence (kind?: StatementKind | null): string {
   let hash = '0x00';
 
   if (kind?.isDefault) {
-    hash = DEFAULT_STATEMENT_HASH;
+    hash = REGULAR_STATEMENT_HASH;
   } else if (kind?.isAlternative) {
-    hash = ALTERNATIVE_STATEMENT_HASH;
+    hash = SAFT_STATEMENT_HASH;
   } else {
     return '';
   }
 
-  return `FIXME with the actual legal statement sentence ${hash} ${url}`;
+  return `I hereby agree to the terms of the statement whose SHA-256 multihash is ${hash}. (This may be found at the URL: ${url})`;
 }
 
-export function getStatementMd (kind?: StatementKind | null): string {
+export function getStatementHtml (kind?: StatementKind | null): string {
   if (kind?.isDefault) {
     return statementRegular;
   } else if (kind?.isAlternative) {
