@@ -17,7 +17,6 @@ export type VoidFn = () => void;
 
 export interface BareProps {
   className?: string;
-  style?: Record<string, string | number>;
 }
 
 export interface AppProps {

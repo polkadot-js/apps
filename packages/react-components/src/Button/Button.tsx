@@ -14,7 +14,7 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-function Button ({ children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
     animate: 'fade',

@@ -13,7 +13,7 @@ import Bare from './Bare';
 import Unknown from './Unknown';
 
 function CallDisplay (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue: { value }, isDisabled, label, style, withLabel } = props;
+  const { className = '', defaultValue: { value }, isDisabled, label, withLabel } = props;
 
   if (!isDisabled) {
     return (
@@ -29,7 +29,6 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
       <Static
         className={`${className} full`}
         label={label}
-        style={style}
         withLabel={withLabel}
       >
         {section}.{method}

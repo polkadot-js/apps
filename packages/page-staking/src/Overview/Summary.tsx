@@ -18,18 +18,14 @@ interface Props {
   next?: string[];
   nominators: string[];
   stakingOverview?: DeriveStakingOverview;
-  style?: any;
 }
 
-function Summary ({ className = '', isVisible, next, nominators, stakingOverview, style }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', isVisible, next, nominators, stakingOverview }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
 
   return (
-    <SummaryBox
-      className={`${className} ${!isVisible && 'staking--hidden'}`}
-      style={style}
-    >
+    <SummaryBox className={`${className} ${!isVisible ? 'staking--hidden' : ''}`}>
       <section>
         {stakingOverview && (
           <CardSummary label={t<string>('validators')}>

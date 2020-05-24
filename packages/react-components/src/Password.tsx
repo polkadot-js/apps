@@ -30,7 +30,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function Password ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, style, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+function Password ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
   const [isVisible, toggleVisible] = useToggle();
 
   return (
@@ -50,7 +50,6 @@ function Password ({ autoFocus, children, className = '', defaultValue, help, is
       onChange={onChange}
       onEnter={onEnter}
       onEscape={onEscape}
-      style={style}
       tabIndex={tabIndex}
       type={
         isVisible

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 import { I18nProps } from '@polkadot/react-components/types';
 import { CodeStored } from '@polkadot/app-contracts/types';
@@ -90,13 +90,10 @@ class CodeRow extends Row<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className = '', isInline, style } = this.props;
+    const { className = '', isInline } = this.props;
 
     return (
-      <div
-        className={classes('ui--Row', isInline && 'inline', className)}
-        style={style}
-      >
+      <div className={classes('ui--Row', isInline && 'inline', className)}>
         <div className='ui--Row-base'>
           {this.renderIcon()}
           <div className='ui--Row-details'>

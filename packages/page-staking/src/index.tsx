@@ -34,7 +34,7 @@ function reduceNominators (nominators: string[], additional: string[]): string[]
   return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
 }
 
-function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -103,7 +103,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   return (
     <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd} />
+      <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}

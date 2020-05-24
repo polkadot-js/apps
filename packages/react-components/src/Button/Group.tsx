@@ -12,12 +12,9 @@ import Divider from './Divider';
 
 const DIVIDER_STYLE = { padding: '0em' };
 
-function ButtonGroup ({ children, className = '', isBasic, isCentered, style }: GroupProps): React.ReactElement<GroupProps> {
+function ButtonGroup ({ children, className = '', isBasic, isCentered }: GroupProps): React.ReactElement<GroupProps> {
   return (
-    <div
-      className={`ui--Button-Group ${isCentered && 'centered'} ${className}`}
-      style={style}
-    >
+    <div className={`ui--Button-Group ${isCentered ? 'centered' : ''} ${className}`}>
       <SUIButton.Group
         basic={isBasic}
         size='small'

@@ -10,7 +10,7 @@ import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
   const _onChange = useCallback(
@@ -31,10 +31,7 @@ function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, la
     : '';
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='full'
         defaultValue={defaultValue}

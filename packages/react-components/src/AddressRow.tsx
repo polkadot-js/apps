@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 import { DeriveAccountInfo, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -91,15 +91,12 @@ class AddressRow extends Row<ApiProps & Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { accounts_info = EMPTY_INFO, className = '', isContract, isDisabled, isInline, label, overlay, style } = this.props;
+    const { accounts_info = EMPTY_INFO, className = '', isContract, isDisabled, isInline, label, overlay } = this.props;
     const { accountId, accountIndex } = accounts_info;
     const isValid = this.props.isValid || accountId || accountIndex;
 
     return (
-      <div
-        className={classes('ui--Row', isDisabled && 'isDisabled', !isValid && 'isInvalid', isInline && 'isInline', className)}
-        style={style}
-      >
+      <div className={classes('ui--Row', isDisabled && 'isDisabled', !isValid && 'isInvalid', isInline && 'isInline', className)}>
         <div className='ui--Row-base'>
           {this.renderIcon()}
           <div className='ui--Row-details'>

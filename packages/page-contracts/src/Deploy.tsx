@@ -188,7 +188,6 @@ class Deploy extends ContractModal<Props, State> {
                 label={t<string>('constructor')}
                 onChange={this.onChangeConstructorIndex}
                 options={constructOptions}
-                style={{ fontFamily: 'monospace' }}
                 value={`${constructorIndex}`}
                 withLabel
               />

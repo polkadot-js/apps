@@ -55,7 +55,7 @@ export function renderProvided ({ className = '', label, value }: RenderProps): 
 }
 
 function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
-  const { balance, className = '', label, params, style } = props;
+  const { balance, className = '', label, params } = props;
 
   if (!params) {
     return null;
@@ -68,7 +68,6 @@ function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
         className={classes('ui--Balance', className)}
         label={label}
         params={params}
-        style={style}
       />
     );
 }

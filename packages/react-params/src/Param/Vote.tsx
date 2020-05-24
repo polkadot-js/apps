@@ -21,7 +21,7 @@ function doChange (onChange?: (value: any) => void): (_: number) => void {
   };
 }
 
-function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const optAye = useMemo(() => {
     return [
@@ -50,10 +50,7 @@ function Vote ({ className = '', defaultValue: { value }, isDisabled, isError, o
     : 0;
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Dropdown
         className='full'
         defaultValue={defaultValue}

@@ -13,7 +13,6 @@ export type SubtractProps<T, K> = OmitProps<T, keyof K>;
 
 export interface BareProps {
   className?: string;
-  style?: Record<string, any>;
 }
 
 export interface ApiState {

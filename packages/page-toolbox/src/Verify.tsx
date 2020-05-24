@@ -5,16 +5,20 @@
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
-import styled from 'styled-components';
 
 import { useTranslation } from './translate';
 
 type CryptoTypes = KeypairType | 'unknown';
+
+interface Props {
+  className?: string;
+}
 
 const AlignedIcon = styled(Icon)`
   &&&::before {
@@ -33,7 +37,7 @@ const AlignedIcon = styled(Icon)`
   }
 `;
 
-function Verify (): React.ReactElement {
+function Verify ({ className = '' }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
@@ -104,7 +108,7 @@ function Verify (): React.ReactElement {
   );
 
   return (
-    <div className='toolbox--Verify'>
+    <div className={`toolbox--Verify ${className}`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
@@ -126,10 +130,7 @@ function Verify (): React.ReactElement {
         />
       </div>
       <div className='ui--row'>
-        <div
-          className='ui--AlignedIconContainer'
-          style={{ position: 'absolute', zIndex: 1 }}
-        >
+        <div className='ui--AlignedIconContainer'>
           <AlignedIcon
             color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
             name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
@@ -168,4 +169,9 @@ function Verify (): React.ReactElement {
   );
 }
 
-export default React.memo(Verify);
+export default React.memo(styled(Verify)`
+  .ui--AlignedIconContainer {
+    position: absolute;
+    z-index: 1;
+  }
+`);

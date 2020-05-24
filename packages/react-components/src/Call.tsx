@@ -38,7 +38,7 @@ interface Value {
   value: Codec;
 }
 
-function Call ({ children, className = '', labelHash, mortality, onError, style, tip, value, withBorder, withHash }: Props): React.ReactElement<Props> {
+function Call ({ children, className = '', labelHash, mortality, onError, tip, value, withBorder, withHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ hash, params, values }, setExtracted] = useState<{ hash: Hash | null; params: Param[]; values: Value[] }>({ hash: null, params: [], values: [] });
 
@@ -59,10 +59,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, style,
   }, [value, withHash]);
 
   return (
-    <div
-      className={classes('ui--Extrinsic', className)}
-      style={style}
-    >
+    <div className={classes('ui--Extrinsic', className)}>
       <Params
         isDisabled
         onError={onError}

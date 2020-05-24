@@ -21,7 +21,7 @@ function generateParam (type: TypeDef, index: number): ParamDef {
   };
 }
 
-function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, style, type, withLabel }: Props): React.ReactElement<Props> | null {
+function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
@@ -94,7 +94,6 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
       className={className}
       isOuter
       label={label}
-      style={style}
       withLabel={withLabel}
     >
       {!isDisabled && (

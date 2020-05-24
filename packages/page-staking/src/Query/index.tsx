@@ -15,7 +15,7 @@ interface Props {
 
 function Query ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { value } = useParams();
+  const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
   const _onQuery = useCallback(

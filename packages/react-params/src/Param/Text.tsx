@@ -9,7 +9,7 @@ import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function Text ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+function Text ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
   const _onChange = useCallback(
@@ -28,10 +28,7 @@ function Text ({ className = '', defaultValue: { value }, isDisabled, isError, l
   const defaultValue = (value as string || '').toString();
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='full'
         defaultValue={defaultValue}
