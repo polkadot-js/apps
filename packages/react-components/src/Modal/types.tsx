@@ -21,6 +21,5 @@ export interface ModalProps extends BareProps {
 export interface ActionsProps extends BareProps {
   cancelLabel?: string;
   children: React.ReactNode;
-  withOr?: boolean;
   onCancel: () => void;
 }

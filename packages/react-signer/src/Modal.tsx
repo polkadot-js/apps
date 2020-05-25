@@ -218,7 +218,6 @@ class Signer extends React.PureComponent<Props, State> {
               ? this.onCancelSign
               : this.onCancel
         }
-        withOr={!signedTx && !isQrVisible}
       >
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>

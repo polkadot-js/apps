@@ -8,7 +8,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { StatusContext } from '@polkadot/react-components';
 
-import Modal from './Modal';
+import SignerModal from './SignerModal';
 
 interface Props extends BareProps {
   children: React.ReactNode;
@@ -20,11 +20,9 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
   return (
     <>
       {children}
-      <Modal
+      <SignerModal
         className={className}
         key='signer-modal'
-        queue={txqueue}
-        queueSetTxStatus={queueSetTxStatus}
       />
     </>
   );
