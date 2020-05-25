@@ -129,8 +129,8 @@ export function getStatement (network: string, kind?: StatementKind | null): Sta
           url: 'https://statement.polkadot.network/regular.html'
         }
         : {
-          hash: 'Qmawwbu1KeZ46peRspbsTUot8Lq6KcHutuiUKJ142N4Reg',
-          sentence: 'I hereby agree to the terms of the statement whose SHA-256 multihash is Qmawwbu1KeZ46peRspbsTUot8Lq6KcHutuiUKJ142N4Reg. (This may be found at the URL: https://statement.polkadot.network/saft.html)',
+          hash: 'QmXEkMahfhHJPzT3RjkXiZVFi77ZeVeuxtAjhojGRNYckz',
+          sentence: 'I hereby agree to the terms of the statement whose SHA-256 multihash is QmXEkMahfhHJPzT3RjkXiZVFi77ZeVeuxtAjhojGRNYckz. (This may be found at the URL: https://statement.polkadot.network/saft.html)',
           url: 'https://statement.polkadot.network/saft.html'
         };
     }
