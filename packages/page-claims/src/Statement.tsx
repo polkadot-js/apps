@@ -7,8 +7,6 @@ import { StatementKind } from '@polkadot/types/interfaces';
 import React from 'react';
 import styled from 'styled-components';
 
-import PolkadotRegular from './statements/polkadot/regular';
-import PolkadotSaft from './statements/polkadot/saft';
 import { useTranslation } from './translate';
 import { getStatement } from './util';
 
@@ -19,18 +17,16 @@ export interface Props {
 }
 
 // Get the full hardcoded text for a statement
-function StatementFullText ({ kind, systemChain }: { kind?: StatementKind; systemChain: string }): React.ReactElement | null {
+function StatementFullText ({ statementUrl, systemChain }: { statementUrl?: string; systemChain: string }): React.ReactElement | null {
   const { t } = useTranslation();
 
   switch (systemChain) {
     case 'Polkadot CC1': {
-      if (!kind) {
+      if (!statementUrl) {
         return null;
       }
 
-      return kind.isRegular
-        ? <PolkadotRegular />
-        : <PolkadotSaft />;
+      return <iframe src={statementUrl} />;
     }
 
     default:
@@ -51,7 +47,7 @@ function Statement ({ className, kind, systemChain }: Props): React.ReactElement
         target='_blank'>{statementUrl}</a>
       <div className='statement'>
         <StatementFullText
-          kind={kind}
+          statementUrl={statementUrl}
           systemChain={systemChain}
         />
       </div>
@@ -64,14 +60,19 @@ export default React.memo(styled(Statement)`
     border: 1px solid #c2c2c2;
     background: #f2f2f2;
     height: 15rem;
-    overflow-y: scroll;
     padding: 1rem;
     width: 100%;
     margin: 1rem 0;
     white-space: normal;
 
     p {
-      color: #4e4e4e !important
+      color: #4e4e4e !important;
+    }
+
+    iframe {
+      border: 0;
+      height: 100%;
+      width: 100%;
     }
   }
 
