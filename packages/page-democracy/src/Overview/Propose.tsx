@@ -16,12 +16,17 @@ interface Props {
   onClose: () => void;
 }
 
+interface HashState {
+  hash?: string;
+  isHashValid: boolean;
+}
+
 function Propose ({ className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [{ hash, isHashValid }, setHash] = useState<{ hash?: string; isHashValid: boolean }>({ hash: '', isHashValid: false });
+  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),

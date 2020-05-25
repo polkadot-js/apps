@@ -22,6 +22,11 @@ interface Props {
   targets: SortedTargets;
 }
 
+interface SortState {
+  sortBy: TargetSortBy;
+  sortFromMax: boolean;
+}
+
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
   return [...Array(validators.length).keys()]
     .sort((a, b) =>
@@ -41,7 +46,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
-  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: TargetSortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
 
   useEffect((): void => {
     validators && setSorted(

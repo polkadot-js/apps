@@ -27,6 +27,14 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
+interface CallState {
+  fn: SubmittableExtrinsicFunction<'promise'>;
+  params: {
+    name: string;
+    type: TypeDef
+  }[];
+}
+
 function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
   return GenericCall.filterOrigin(meta).map((arg): { name: string; type: TypeDef } => ({
     name: arg.name.toString(),
@@ -35,7 +43,7 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
 }
 
 function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
-  const [extrinsic, setCall] = useState<{ fn: SubmittableExtrinsicFunction<'promise'>; params: { name: string; type: TypeDef }[] }>({ fn: defaultValue, params: getParams(defaultValue) });
+  const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {

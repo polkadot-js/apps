@@ -17,9 +17,14 @@ interface Props {
   targets: string[];
 }
 
+interface IdState {
+  controllerId?: string | null;
+  stashId: string;
+}
+
 function Nominate ({ className = '', ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [ids, setIds] = useState<{ controllerId?: string | null; stashId: string } | null>(null);
+  const [ids, setIds] = useState<IdState | null>(null);
   const [filter, setFilter] = useState<string[]>([]);
   const [isOpen, toggleOpen] = useToggle();
 

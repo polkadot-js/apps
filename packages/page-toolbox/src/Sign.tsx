@@ -26,17 +26,27 @@ interface AccountState {
   isInjected: boolean;
 }
 
+interface DataState {
+  data: string;
+  isHexData: boolean;
+}
+
+interface SignerState {
+  isUsable: boolean;
+  signer: Signer | null;
+}
+
 function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
-  const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
+  const [{ data, isHexData }, setData] = useState<DataState>({ data: '', isHexData: false });
   const [{ isInjected }, setAccountState] = useState<AccountState>({
     isExternal: false,
     isHardware: false,
     isInjected: false
   });
   const [isLocked, setIsLocked] = useState(false);
-  const [{ isUsable, signer }, setSigner] = useState<{ isUsable: boolean; signer: Signer | null }>({ isUsable: true, signer: null });
+  const [{ isUsable, signer }, setSigner] = useState<SignerState>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
   const [isUnlockVisible, toggleUnlock] = useToggle();
 
