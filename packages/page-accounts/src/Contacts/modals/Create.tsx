@@ -12,10 +12,21 @@ import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
 
+interface AddrState {
+  address: string;
+  isAddressExisting: boolean;
+  isAddressValid: boolean;
+}
+
+interface NameState {
+  isNameValid: boolean;
+  name: string;
+}
+
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ isNameValid, name }, setName] = useState<{ isNameValid: boolean; name: string }>({ isNameValid: false, name: '' });
-  const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
+  const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
+  const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', isAddressExisting: false, isAddressValid: false });
   const isValid = isAddressValid && isNameValid;
 
   const _onChangeAddress = useCallback(

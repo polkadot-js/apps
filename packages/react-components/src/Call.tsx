@@ -38,9 +38,15 @@ interface Value {
   value: Codec;
 }
 
+interface Extracted {
+  hash: Hash | null;
+  params: Param[];
+  values: Value[];
+}
+
 function Call ({ children, className = '', labelHash, mortality, onError, tip, value, withBorder, withHash }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ hash, params, values }, setExtracted] = useState<{ hash: Hash | null; params: Param[]; values: Value[] }>({ hash: null, params: [], values: [] });
+  const [{ hash, params, values }, setExtracted] = useState<Extracted>({ hash: null, params: [], values: [] });
 
   useEffect((): void => {
     const params = GenericCall.filterOrigin(value.meta).map(({ name, type }): Param => ({

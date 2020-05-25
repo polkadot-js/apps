@@ -17,13 +17,18 @@ interface Props {
   members: string[];
 }
 
+interface HashState {
+  hash?: string;
+  isHashValid: boolean;
+}
+
 function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [{ hash, isHashValid }, setHash] = useState<{ hash?: string; isHashValid: boolean }>({ hash: '', isHashValid: false });
+  const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
   const threshold = Math.ceil((members.length || 0) * 0.5);
 
   const _onChangeHash = useCallback(
