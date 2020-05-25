@@ -243,7 +243,7 @@ function ClaimsApp (): React.ReactElement {
               {(isOldClaimProcess || !!statementKind)
                 ? (
                   <>
-                    <h3>{t<string>('{{step}}. Sign with you ETH address',
+                    <h3>{t<string>('{{step}}. Sign with your ETH address',
                       { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
                     {!isOldClaimProcess && (<Statement
                       kind={statementKind}
