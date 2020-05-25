@@ -35,7 +35,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
     <SummaryBox>
       <section className='ui--media-small'>
         {totalStaked && (
-          <CardSummary label={t('total staked')}>
+          <CardSummary label={t<string>('total staked')}>
             <FormatBalance
               value={totalStaked}
               withSi
@@ -46,7 +46,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
           <CardSummary label=''>/</CardSummary>
         )}
         {totalIssuance && (
-          <CardSummary label={t('total issuance')}>
+          <CardSummary label={t<string>('total issuance')}>
             <FormatBalance
               value={totalIssuance}
               withSi
@@ -55,17 +55,17 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
         )}
       </section>
       {percentage && (
-        <CardSummary label={t('staked')}>
+        <CardSummary label={t<string>('staked')}>
           {percentage}
         </CardSummary>
       )}
       {numValidators && numNominators && (
-        <CardSummary label={t('validators/nominators')}>
+        <CardSummary label={t<string>('validators/nominators')}>
           {numValidators}/{numNominators}
         </CardSummary>
       )}
       {lastReward?.gtn(0) && (
-        <CardSummary label={t('last reward')}>
+        <CardSummary label={t<string>('last reward')}>
           <FormatBalance
             value={lastReward}
             withSi

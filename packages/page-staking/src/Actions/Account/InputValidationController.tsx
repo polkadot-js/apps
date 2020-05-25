@@ -18,6 +18,11 @@ interface Props {
   onError: (error: string | null, isFatal: boolean) => void;
 }
 
+interface ErrorState {
+  error: string | null;
+  isFatal: boolean;
+}
+
 function ValidateController ({ accountId, controllerId, defaultController, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -33,7 +38,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
         ? value.unwrap().stash.toString()
         : null
   });
-  const [{ error, isFatal }, setError] = useState<{ error: string | null; isFatal: boolean }>({ error: null, isFatal: false });
+  const [{ error, isFatal }, setError] = useState<ErrorState>({ error: null, isFatal: false });
 
   useEffect((): void => {
     // don't show an error if the selected controller is the default
@@ -44,12 +49,12 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
 
       if (bondedId) {
         isFatal = true;
-        newError = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
+        newError = t<string>('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
         isFatal = true;
-        newError = t('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
+        newError = t<string>('A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}', { replace: { stashId } });
       } else if (controllerId === accountId) {
-        newError = t('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
+        newError = t<string>('Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.');
       }
 
       onError(newError, isFatal);

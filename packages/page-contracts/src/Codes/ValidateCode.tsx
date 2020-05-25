@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 import { PrefabWasmModule } from '@polkadot/types/interfaces';
 import { I18nProps } from '@polkadot/react-components/types';
@@ -62,8 +62,8 @@ class ValidateCode extends React.PureComponent<Props, State> {
       <InfoForInput type='error'>
         {
           isValidHex
-            ? t('Unable to find on-chain WASM code for the supplied codeHash')
-            : t('The codeHash is not a valid hex hash')
+            ? t<string>('Unable to find on-chain WASM code for the supplied codeHash')
+            : t<string>('The codeHash is not a valid hex hash')
         }
       </InfoForInput>
     );

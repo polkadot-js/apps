@@ -64,7 +64,7 @@ function renderItem ({ basePath, isSequence, items }: Props): (tabItem: TabItem,
 
 function Tabs (props: Props): React.ReactElement<Props> {
   const location = useLocation();
-  const { className, basePath, hidden = [], items, style } = props;
+  const { className = '', basePath, hidden = [], items } = props;
 
   // redirect on invalid tabs
   useEffect((): void => {
@@ -84,10 +84,7 @@ function Tabs (props: Props): React.ReactElement<Props> {
   }, [basePath, hidden, items, location]);
 
   return (
-    <div
-      className={classes('ui--Menu ui menu tabular', className)}
-      style={style}
-    >
+    <div className={classes('ui--Menu ui menu tabular', className)}>
       {items
         .filter(({ name }): boolean => !hidden.includes(name))
         .map(renderItem(props))

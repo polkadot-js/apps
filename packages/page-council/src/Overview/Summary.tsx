@@ -16,7 +16,7 @@ interface Props extends ComponentProps {
   className?: string;
 }
 
-function Summary ({ bestNumber, className, electionsInfo }: Props): React.ReactElement<Props> | null {
+function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!electionsInfo) {
@@ -28,19 +28,19 @@ function Summary ({ bestNumber, className, electionsInfo }: Props): React.ReactE
   return (
     <SummaryBox className={className}>
       <section>
-        <CardSummary label={t('seats')}>
+        <CardSummary label={t<string>('seats')}>
           {formatNumber(members.length)}/{formatNumber(desiredSeats)}
         </CardSummary>
-        <CardSummary label={t('runners up')}>
+        <CardSummary label={t<string>('runners up')}>
           {formatNumber(runnersUp.length)}
         </CardSummary>
-        <CardSummary label={t('candidates')}>
+        <CardSummary label={t<string>('candidates')}>
           {formatNumber(candidateCount)}
         </CardSummary>
       </section>
       {voteCount && (
         <section>
-          <CardSummary label={t('voting round')}>
+          <CardSummary label={t<string>('voting round')}>
             #{formatNumber(voteCount)}
           </CardSummary>
         </section>
@@ -48,7 +48,7 @@ function Summary ({ bestNumber, className, electionsInfo }: Props): React.ReactE
       {bestNumber && termDuration?.gtn(0) && (
         <section>
           <CardSummary
-            label={t('term progress')}
+            label={t<string>('term progress')}
             progress={{
               total: termDuration,
               value: bestNumber.mod(termDuration),

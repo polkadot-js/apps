@@ -99,18 +99,18 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     setGenesisHash(accountOrAddress?.meta.genesisHash || null);
     setFlags((flags) => ({
       ...flags,
-      isDevelopment: accountOrAddress?.meta.isTesting || false,
-      isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
-      isExternal: accountOrAddress?.meta.isExternal || false,
-      isHardware: accountOrAddress?.meta.isHardware || false,
+      isDevelopment: (accountOrAddress?.meta.isTesting as boolean) || false,
+      isEditable: (!identity?.display && (isInContacts || (accountOrAddress?.meta.isMultisig as boolean) || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
+      isExternal: (accountOrAddress?.meta.isExternal as boolean) || false,
+      isHardware: (accountOrAddress?.meta.isHardware as boolean) || false,
       isInContacts,
-      isInjected: accountOrAddress?.meta.isInjected || false,
-      isMultisig: accountOrAddress?.meta.isMultisig || false,
+      isInjected: (accountOrAddress?.meta.isInjected as boolean) || false,
+      isMultisig: (accountOrAddress?.meta.isMultisig as boolean) || false,
       isOwned
     }));
     setMeta(accountOrAddress?.meta);
     setName(accountOrAddress?.meta.name || '');
-    setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
+    setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
   }, [identity?.display, isAccount, isAddress, value]);
 
   const onSaveName = useCallback(

@@ -52,34 +52,34 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
     <>
       {isFasttrackOpen && (
         <Modal
-          header={t('Fast track proposal')}
+          header={t<string>('Fast track proposal')}
           size='small'
         >
           <Modal.Content>
             <InputAddress
               filter={members}
-              help={t('Select the account you wish to make the proposal with.')}
-              label={t('propose from account')}
+              help={t<string>('Select the account you wish to make the proposal with.')}
+              label={t<string>('propose from account')}
               onChange={setAcountId}
               type='account'
               withLabel
             />
             <Input
-              help={t('The external proposal to send to the technical committee')}
+              help={t<string>('The external proposal to send to the technical committee')}
               isDisabled
-              label={t('preimage hash')}
-              value={imageHash}
+              label={t<string>('preimage hash')}
+              value={imageHash.toHex()}
             />
             <InputNumber
               autoFocus
-              help={t('The voting period to apply in blocks')}
-              label={t('voting period')}
+              help={t<string>('The voting period to apply in blocks')}
+              label={t<string>('voting period')}
               onChange={setVotingBlocks}
               value={votingBlocks}
             />
             <InputNumber
-              help={t('The delay period to apply in blocks')}
-              label={t('delay')}
+              help={t<string>('The delay period to apply in blocks')}
+              label={t<string>('delay')}
               onChange={setDelayBlocks}
               value={delayBlocks}
             />
@@ -90,7 +90,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
               icon='fast forward'
               isDisabled={!accountId || !proposal || !memberThreshold}
               isPrimary
-              label={t('Fast track')}
+              label={t<string>('Fast track')}
               onStart={toggleFasttrack}
               params={[memberThreshold, proposal]}
               tx='technicalCommittee.propose'
@@ -101,7 +101,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
       <Button
         icon='fast forward'
         isDisabled={!allowFast}
-        label={t('Fast track')}
+        label={t<string>('Fast track')}
         onClick={toggleFasttrack}
       />
     </>

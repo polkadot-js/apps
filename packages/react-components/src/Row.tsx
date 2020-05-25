@@ -190,7 +190,7 @@ export const styles = `
 `;
 
 export interface RowProps {
-  accounts_info?: DeriveAccountInfo;
+  accountsInfo?: DeriveAccountInfo;
   buttons?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;

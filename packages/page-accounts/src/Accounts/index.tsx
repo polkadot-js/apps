@@ -91,7 +91,7 @@ function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[
     );
 }
 
-function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -150,7 +150,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Input
         autoFocus
         isFull
-        label={t('filter by name or tags')}
+        label={t<string>('filter by name or tags')}
         onChange={setFilter}
         value={filterOn}
       />
@@ -188,25 +188,25 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         <Button
           icon='add'
           isDisabled={isIpfs}
-          label={t('Add account')}
+          label={t<string>('Add account')}
           onClick={toggleCreate}
         />
         <Button
           icon='sync'
           isDisabled={isIpfs}
-          label={t('Restore JSON')}
+          label={t<string>('Restore JSON')}
           onClick={toggleImport}
         />
         <Button
           icon='qrcode'
-          label={t('Add via Qr')}
+          label={t<string>('Add via Qr')}
           onClick={toggleQr}
         />
         {isLedger() && (
           <>
             <Button
               icon='question'
-              label={t('Query Ledger')}
+              label={t<string>('Query Ledger')}
               onClick={queryLedger}
             />
           </>
@@ -214,12 +214,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         <Button
           icon='add'
           isDisabled={!api.tx.utility}
-          label={t('Multisig')}
+          label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
       </Button.Group>
       <Table
-        empty={t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={header}

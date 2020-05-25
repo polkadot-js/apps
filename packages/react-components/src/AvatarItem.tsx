@@ -15,9 +15,9 @@ interface Props {
   subtitle: React.ReactNode;
 }
 
-function AvatarItem ({ children, className, icon, isBig, subtitle, title }: Props): React.ReactElement<Props> {
+function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--AvatarItem', className, isBig ? 'big' : ''].join(' ')}>
+    <div className={['ui--AvatarItem', className, isBig && 'big'].join(' ')}>
       <div className='ui--AvatarItem-icon'>
         {icon}
       </div>

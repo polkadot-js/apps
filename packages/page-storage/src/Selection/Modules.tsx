@@ -106,7 +106,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
         <InputStorage
           defaultValue={api.query.timestamp.now}
           help={meta?.documentation.join(' ')}
-          label={t('selected state query')}
+          label={t<string>('selected state query')}
           onChange={_onChangeKey}
         />
         <Params

@@ -49,7 +49,7 @@ function constructTx (
     : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
 }
 
-function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
@@ -83,12 +83,12 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
       isSuccess={!!hasClaim}
     >
       <div className={className}>
-        {t('Your Ethereum account')}
+        {t<string>('Your Ethereum account')}
         <h3>{addrToChecksum(ethereumAddress.toString())}</h3>
         {hasClaim && claimValue
           ? (
             <>
-              {t('has a valid claim for')}
+              {t<string>('has a valid claim for')}
               <h2><FormatBalance value={claimValue} /></h2>
               <Button.Group>
                 <TxButton
@@ -105,7 +105,7 @@ function Claim ({ accountId, className, ethereumAddress, ethereumSignature, isOl
           )
           : (
             <>
-              {t('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
+              {t<string>('does not appear to have a valid claim. Please double check that you have signed the transaction correctly on the correct ETH account.')}
             </>
           )}
       </div>

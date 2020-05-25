@@ -21,12 +21,12 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
   const eraLabel = useMemo(() =>
-    t('era')
+    t<string>('era')
   , [t]);
   const sessionLabel = useMemo(() =>
     sessionInfo?.isEpoch
-      ? t('epoch')
-      : t('session')
+      ? t<string>('epoch')
+      : t<string>('session')
   , [sessionInfo?.isEpoch, t]);
 
   return (

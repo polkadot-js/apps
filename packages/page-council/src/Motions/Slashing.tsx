@@ -22,7 +22,7 @@ interface Option {
   value: number;
 }
 
-function Slashing ({ className, isMember, members }: Props): React.ReactElement<Props> {
+function Slashing ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const slashes = useAvailableSlashes();
@@ -36,7 +36,7 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
   useEffect((): void => {
     setEras(
       (slashes || []).map(([era, slashes]): Option => ({
-        text: t('era {{era}}, {{count}} slashes', {
+        text: t<string>('era {{era}}, {{count}} slashes', {
           replace: {
             count: slashes.length,
             era: era.toNumber()
@@ -62,13 +62,13 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
       <Button
         icon='cancel'
         isDisabled={!isMember || !slashes.length}
-        label={t('Cancel slashes')}
+        label={t<string>('Cancel slashes')}
         onClick={toggleVisible}
       />
       {isVisible && (
         <Modal
           className={className}
-          header={t('Revert pending slashes')}
+          header={t<string>('Revert pending slashes')}
           size='large'
         >
           <Modal.Content>
@@ -76,15 +76,15 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
               <Modal.Column>
                 <InputAddress
                   filter={members}
-                  help={t('Select the account you wish to make the proposal with.')}
-                  label={t('propose from account')}
+                  help={t<string>('Select the account you wish to make the proposal with.')}
+                  label={t<string>('propose from account')}
                   onChange={setAcountId}
                   type='account'
                   withLabel
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The council account for the proposal. The selection is filtered by the current members.')}</p>
+                <p>{t<string>('The council account for the proposal. The selection is filtered by the current members.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -93,8 +93,8 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
                   ? (
                     <Dropdown
                       defaultValue={eras[0].value}
-                      help={t('The unapplied slashed era to cancel.')}
-                      label={t('the era to cancel for')}
+                      help={t<string>('The unapplied slashed era to cancel.')}
+                      label={t<string>('the era to cancel for')}
                       onChange={setSelectedEra}
                       options={eras}
                     />
@@ -102,14 +102,14 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
                   : (
                     <Input
                       isDisabled
-                      label={t('the era to cancel for')}
-                      value={t('no unapplied slashes found')}
+                      label={t<string>('the era to cancel for')}
+                      value={t<string>('no unapplied slashes found')}
                     />
                   )
                 }
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The specific eras on which there are unapplied slashes. For each era a separate proposal is to be made.')}</p>
+                <p>{t<string>('The specific eras on which there are unapplied slashes. For each era a separate proposal is to be made.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -119,7 +119,7 @@ function Slashing ({ className, isMember, members }: Props): React.ReactElement<
               icon='repeat'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
               isPrimary
-              label={t('Revert')}
+              label={t<string>('Revert')}
               onStart={toggleVisible}
               params={[threshold, proposal]}
               tx='council.propose'

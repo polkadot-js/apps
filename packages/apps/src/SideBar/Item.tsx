@@ -21,7 +21,7 @@ interface Props {
   route: Route;
 }
 
-const disabledLog: Map<string, string> = new Map();
+const disabledLog = new Map<string, string>();
 const TOOLTIP_OFFSET = { right: -4 };
 
 function logDisabled (route: string, message: string): void {
@@ -36,6 +36,7 @@ function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
   const [area, section, method] = endpoint.split('.');
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return isFunction((api as any)[area][section][method]);
   } catch (error) {
     return false;
@@ -66,7 +67,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   });
 
   if (notFound.length !== 0) {
-    logDisabled(name, `API not available: ${notFound}`);
+    logDisabled(name, `API not available: ${notFound.toString()}`);
   }
 
   return notFound.length === 0;

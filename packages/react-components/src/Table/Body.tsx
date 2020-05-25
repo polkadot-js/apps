@@ -15,7 +15,7 @@ interface Props {
   emptySpinner?: React.ReactNode;
 }
 
-function Body ({ children, className, empty, emptySpinner }: Props): React.ReactElement<Props> {
+function Body ({ children, className = '', empty, emptySpinner }: Props): React.ReactElement<Props> {
   return (
     <tbody className={className}>
       {children || (

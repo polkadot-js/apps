@@ -13,26 +13,26 @@ import { useTranslation } from './translate';
 
 const ONE_BLOCK = new BN(1);
 
-function Summary (): React.ReactElement<{}> {
+function Summary (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t('last block')}>
+        <CardSummary label={t<string>('last block')}>
           <TimeNow />
         </CardSummary>
         <CardSummary
           className='ui--media-small'
-          label={t('target')}
+          label={t<string>('target')}
         >
           <BlockToTime blocks={ONE_BLOCK} />
         </CardSummary>
         {api.query.balances && (
           <CardSummary
             className='ui--media-small'
-            label={t('total issuance')}
+            label={t<string>('total issuance')}
           >
             <TotalIssuance />
           </CardSummary>
@@ -42,10 +42,10 @@ function Summary (): React.ReactElement<{}> {
         <SummarySession withEra={false} />
       </section>
       <section>
-        <CardSummary label={t('finalized')}>
+        <CardSummary label={t<string>('finalized')}>
           <BestFinalized />
         </CardSummary>
-        <CardSummary label={t('best')}>
+        <CardSummary label={t<string>('best')}>
           <BestNumber />
         </CardSummary>
       </section>

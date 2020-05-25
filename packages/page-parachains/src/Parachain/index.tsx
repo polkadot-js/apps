@@ -24,11 +24,11 @@ interface Props extends ComponentProps {
   paraInfoRef: React.MutableRefObject<DeriveParachainInfo | null>;
 }
 
-function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
+function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
   const { api } = useApi();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [isMenuOpen, toggleMenu] = useToggle();
   const { isOpen: isDeregisterOpen, onClose: onDeregisterClose, onOpen: onDeregisterOpen } = useModal();
   const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info, [id || null]);
@@ -93,7 +93,7 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
                       onDeregisterOpen();
                     }}
                   >
-                    {t('Deregister this parachain')}
+                    {t<string>('Deregister this parachain')}
                   </Menu.Item>
                 </Menu>
               </Popup>
@@ -101,11 +101,11 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
           </ParachainInfo>
         </section>
         <section>
-          <CardSummary label={t('parachain id')}>
+          <CardSummary label={t<string>('parachain id')}>
             {id.toString()}
           </CardSummary>
           {parachain.pendingSwapId && (
-            <CardSummary label={t('pending swap id')}>
+            <CardSummary label={t<string>('pending swap id')}>
               {parachain.pendingSwapId.toString()}
             </CardSummary>
           )}

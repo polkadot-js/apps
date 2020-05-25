@@ -12,7 +12,7 @@ interface Props {
   value: EventRecord;
 }
 
-function Event ({ className, value: { event } }: Props): React.ReactElement<Props> {
+function Event ({ className = '', value: { event } }: Props): React.ReactElement<Props> {
   return (
     <Expander
       className={className}

@@ -14,14 +14,14 @@ import Base from './Base';
 import Static from './Static';
 
 function StructParam (props: Props): React.ReactElement<Props> {
-  const { className, isDisabled, label, onChange, overrides, style, type, withLabel } = props;
+  const { className = '', isDisabled, label, onChange, overrides, type, withLabel } = props;
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
     let typeDef;
 
     try {
-      const rawType = createType(registry, type.type as any).toRawType();
+      const rawType = createType(registry, type.type as 'u32').toRawType();
 
       typeDef = getTypeDef(rawType);
     } catch (e) {
@@ -54,7 +54,6 @@ function StructParam (props: Props): React.ReactElement<Props> {
       <Base
         className={className}
         label={label}
-        style={style}
         withLabel={withLabel}
       />
       <Params

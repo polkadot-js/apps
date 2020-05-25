@@ -7,7 +7,7 @@ import path from 'path';
 
 const environment = process.env.NODE_ENV || 'production';
 
-function createWindow (): void {
+function createWindow (): Promise<unknown> {
   // Create the browser window.
   const win = new BrowserWindow({
     height: 600,
@@ -18,13 +18,14 @@ function createWindow (): void {
   });
 
   if (environment === 'development') {
-    win.loadURL('http://0.0.0.0:9000/');
     win.webContents.openDevTools();
-  } else {
-    const mainFilePath = path.resolve(__dirname, 'index.html');
 
-    win.loadFile(mainFilePath);
+    return win.loadURL('http://0.0.0.0:9000/');
   }
+
+  const mainFilePath = path.resolve(__dirname, 'index.html');
+
+  return win.loadFile(mainFilePath);
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(createWindow).catch(console.error);

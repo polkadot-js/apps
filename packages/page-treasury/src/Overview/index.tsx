@@ -30,7 +30,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         mountedRef.current && setHashes(
           keys.map((key) => key.args[0].toHex())
         )
-      );
+      ).catch(console.error);
     }
   }, [api, hashTrigger, mountedRef]);
 

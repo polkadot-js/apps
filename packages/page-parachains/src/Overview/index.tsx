@@ -46,7 +46,7 @@ function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
         <article className='error padded'>
           <div>
             <Icon name='ban' />
-            {t('There are no registered parachains')}
+            {t<string>('There are no registered parachains')}
           </div>
         </article>
       </>

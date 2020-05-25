@@ -21,11 +21,11 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'index',
-      text: t('Sudo access')
+      text: t<string>('Sudo access')
     },
     {
       name: 'key',
-      text: t('Set sudo key')
+      text: t<string>('Set sudo key')
     }
   ], [t]);
 
@@ -60,7 +60,7 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
           <article className='error padded'>
             <div>
               <Icon name='ban' />
-              {t('You do not have access to the current sudo key')}
+              {t<string>('You do not have access to the current sudo key')}
             </div>
           </article>
         )

@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Translator from '@polkadot/app-i18n';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component: Translator,
     display: {
@@ -14,6 +14,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'th',
     name: 'i18n',
-    text: t('nav.i18n', 'I18n Translator', { ns: 'apps-routing' })
+    text: t<string>('nav.i18n', 'I18n Translator', { ns: 'apps-routing' })
   };
 }

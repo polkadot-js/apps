@@ -41,6 +41,7 @@ i18n
     ns: [
       'apps',
       'apps-config',
+      'apps-electron',
       'apps-routing',
       'app-123code',
       'app-accounts',
@@ -82,12 +83,13 @@ i18n
     console.log('i18n: failure', error)
   );
 
-uiSettings.on('change', (settings) => {
+uiSettings.on('change', (settings): void => {
   i18n.changeLanguage(
     settings.i18nLang === LANGUAGE_DEFAULT
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       ? i18n.services.languageDetector.detect()
       : settings.i18nLang
-  );
+  ).catch(console.error);
 });
 
 export default i18n;

@@ -27,7 +27,7 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
     <>
       {isOpen && (
         <Modal
-          header={t('Close proposal')}
+          header={t<string>('Close proposal')}
           size='large'
         >
           <Modal.Content>
@@ -39,21 +39,21 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted to council for a subsequent voting round.')}</p>
+                <p>{t<string>('The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted to council for a subsequent voting round.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
                   filter={members}
-                  help={t('Select the account you wish close the proposal with.')}
-                  label={t('sending account')}
+                  help={t<string>('Select the account you wish close the proposal with.')}
+                  label={t<string>('sending account')}
                   onChange={setAccountId}
                   type='account'
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The council account that will apply the close for the current round.')}</p>
+                <p>{t<string>('The council account that will apply the close for the current round.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -70,7 +70,7 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
       <Button
         icon='cancel'
         isDisabled={isDisabled}
-        label={t('Close')}
+        label={t<string>('Close')}
         onClick={toggleOpen}
       />
     </>

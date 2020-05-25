@@ -11,7 +11,7 @@ import { Button } from '@polkadot/react-components';
 import BaseBytes from './BaseBytes';
 import File from './File';
 
-function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, style, type, withLabel }: Props): React.ReactElement<Props> {
+function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
   const [isFileDrop, setIsFileDrop] = useState(false);
 
@@ -42,7 +42,6 @@ function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onC
         isError={isError || !isValid}
         label={label}
         onChange={_onChangeFile}
-        style={style}
         withLabel={withLabel}
       />
     )
@@ -58,7 +57,6 @@ function Bytes ({ className, defaultValue, isDisabled, isError, label, name, onC
         onChange={onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        style={style}
         type={type}
         withLabel={withLabel}
         withLength

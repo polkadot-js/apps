@@ -29,7 +29,7 @@ function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t('Parachains overview')
+      text: t<string>('Parachains overview')
     },
     ...(
       match && match.params.id

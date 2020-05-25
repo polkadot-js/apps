@@ -39,17 +39,17 @@ class Codes extends React.PureComponent<Props, State> {
             <Button.Group>
               <Button
                 icon='upload'
-                label={t('Upload WASM')}
+                label={t<string>('Upload WASM')}
                 onClick={this.showUpload}
               />
               <Button
                 icon='add'
-                label={t('Add an existing code hash')}
+                label={t<string>('Add an existing code hash')}
                 onClick={this.showAdd}
               />
             </Button.Group>
           }
-          emptyText={t('No code hashes available')}
+          emptyText={t<string>('No code hashes available')}
         >
           {contracts.getAllCode().map((code): React.ReactNode => {
             return (

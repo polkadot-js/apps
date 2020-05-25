@@ -17,7 +17,7 @@ interface Props {
   onChange: (accountId: string | undefined | null, accountNonce: BN) => void;
 }
 
-function Account ({ className, defaultValue, isError, onChange }: Props): React.ReactElement<Props> {
+function Account ({ className = '', defaultValue, isError, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null | undefined>(defaultValue);
   const [accountNonce, setAccountNonce] = useState(new BN(0));
@@ -32,7 +32,7 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
         <InputAddress
           defaultValue={defaultValue}
           isError={isError}
-          label={t('sign data from account')}
+          label={t<string>('sign data from account')}
           onChange={setAccountId}
           placeholder='0x...'
           type='account'
@@ -41,7 +41,7 @@ function Account ({ className, defaultValue, isError, onChange }: Props): React.
       {accountId && (
         <Labelled
           className='small'
-          label={t('with an index of')}
+          label={t<string>('with an index of')}
         >
           <Nonce
             callOnResult={setAccountNonce}

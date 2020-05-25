@@ -24,7 +24,7 @@ const ZERO = new BN(0);
 
 let id = 0;
 
-function DemocracyLocks ({ className, value }: Props): React.ReactElement<Props> | null {
+function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber, []);
@@ -59,12 +59,12 @@ function DemocracyLocks ({ className, value }: Props): React.ReactElement<Props>
                 ? (
                   <BlockToTime
                     blocks={blocks}
-                    label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                    label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
                   />
                 )
                 : isFinished
-                  ? t('lock expired')
-                  : t('ongoing referendum')
+                  ? t<string>('lock expired')
+                  : t<string>('ongoing referendum')
               }
             </div>
           </div>

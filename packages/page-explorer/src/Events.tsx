@@ -21,17 +21,17 @@ interface Props {
   label?: React.ReactNode;
 }
 
-function Events ({ className, emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
+function Events ({ className = '', emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [label || t('recent events'), 'start']
+    [label || t<string>('recent events'), 'start']
   ], [label, t]);
 
   return (
     <Table
       className={className}
-      empty={emptyLabel || t('No events available')}
+      empty={emptyLabel || t<string>('No events available')}
       header={header}
     >
       {events && events
@@ -46,7 +46,7 @@ function Events ({ className, emptyLabel, eventClassName, events, label }: Props
               {blockNumber && (
                 <Link
                   className='event-link'
-                  to={`/explorer/query/${blockHash}`}>{formatNumber(blockNumber)}-{index}</Link>
+                  to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{index}</Link>
               )}
             </td>
           </tr>

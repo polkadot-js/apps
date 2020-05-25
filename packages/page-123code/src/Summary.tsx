@@ -11,12 +11,9 @@ interface Props extends BareProps {
   children: React.ReactNode;
 }
 
-function Summary ({ children, className, style }: Props): React.ReactElement<Props> {
+function Summary ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div
-      className={className}
-      style={style}
-    >
+    <div className={className}>
       {children}
     </div>
   );

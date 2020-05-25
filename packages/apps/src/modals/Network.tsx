@@ -13,13 +13,13 @@ interface Props {
   onClose: () => void;
 }
 
-function NetworkModal ({ className, onClose }: Props): React.ReactElement<Props> {
+function NetworkModal ({ className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <Modal
       className={className}
-      header={t('Select Network')}
+      header={t<string>('Select Network')}
       size='large'
     >
       <Modal.Content>

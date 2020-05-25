@@ -48,7 +48,7 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
 
   return (
     <Modal
-      header={t('Deregister this parachain')}
+      header={t<string>('Deregister this parachain')}
       onClose={onClose}
       open={isOpen}
       small
@@ -59,8 +59,8 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
         <br />
         <Static
           className='full label-small'
-          help={t('The id of the parachain to be deregistered.')}
-          label={t('parachain id')}
+          help={t<string>('The id of the parachain to be deregistered.')}
+          label={t<string>('parachain id')}
           value={id}
         />
       </Modal.Content>

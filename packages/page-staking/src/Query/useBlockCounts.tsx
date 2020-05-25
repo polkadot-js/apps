@@ -29,7 +29,7 @@ export default function useBlockCounts (accountId: string, sessionRewards: Sessi
           ))
           .then((historic): void => {
             mountedRef.current && setHistoric(historic);
-          });
+          }).catch(console.error);
       }
     }
   }, [accountId, api, mountedRef, sessionRewards]);

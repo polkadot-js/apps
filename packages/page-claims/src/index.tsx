@@ -169,7 +169,7 @@ function ClaimsApp (): React.ReactElement {
     transform: (option: Option<StatementKind>) => option.unwrapOr(null)
   });
 
-  const statementSentence = statementKind ? getStatement(systemChain, statementKind)?.sentence : '';
+  const statementSentence = getStatement(systemChain, statementKind)?.sentence || '';
 
   const prefix = u8aToString(api.consts.claims.prefix.toU8a(true));
   const payload = accountId
@@ -186,15 +186,15 @@ function ClaimsApp (): React.ReactElement {
       <Columar>
         <Column>
           <Card withBottomMargin>
-            <h3>{t('1. Select your {{chain}} account', {
+            <h3>{t<string>('1. Select your {{chain}} account', {
               replace: {
                 chain: systemChain
               }
             })}</h3>
             <InputAddress
               defaultValue={accountId}
-              help={t('The account you want to claim to.')}
-              label={t('claim to account')}
+              help={t<string>('The account you want to claim to.')}
+              label={t<string>('claim to account')}
               onChange={setAccountId}
               type='all'
             />
@@ -204,8 +204,8 @@ function ClaimsApp (): React.ReactElement {
                   icon='sign-in'
                   isDisabled={preclaimEthereumAddress === PRECLAIMS_LOADING}
                   label={preclaimEthereumAddress === PRECLAIMS_LOADING
-                    ? t('Loading')
-                    : t('Continue')
+                    ? t<string>('Loading')
+                    : t<string>('Continue')
                   }
                   onClick={handleAccountStep}
                 />
@@ -217,12 +217,12 @@ function ClaimsApp (): React.ReactElement {
             // to be able to know the statement kind so that the users can sign it
             (step >= Step.ETHAddress && !isPreclaimed && !isOldClaimProcess) && (
               <Card withBottomMargin>
-                <h3>{t('2. Enter the ETH address from the sale.')}</h3>
+                <h3>{t<string>('2. Enter the ETH address from the sale.')}</h3>
                 <Input
                   autoFocus
                   className='full'
-                  help={t('The the Ethereum address you used during the pre-sale (starting by "0x")')}
-                  label={t('Pre-sale ethereum address')}
+                  help={t<string>('The the Ethereum address you used during the pre-sale (starting by "0x")')}
+                  label={t<string>('Pre-sale ethereum address')}
                   onChange={onChangeEthereumAddress}
                   value={ethereumAddress || ''}
                 />
@@ -231,7 +231,7 @@ function ClaimsApp (): React.ReactElement {
                     <Button
                       icon='sign-in'
                       isDisabled={!ethereumAddress}
-                      label={t('Continue')}
+                      label={t<string>('Continue')}
                       onClick={goToStepSign}
                     />
                   </Button.Group>
@@ -243,13 +243,13 @@ function ClaimsApp (): React.ReactElement {
               {(isOldClaimProcess || !!statementKind)
                 ? (
                   <>
-                    <h3>{t('{{step}}. Sign with you ETH address',
+                    <h3>{t<string>('{{step}}. Sign with you ETH address',
                       { replace: { step: isOldClaimProcess ? '2' : '3' } })}</h3>
                     {!isOldClaimProcess && (<Statement
                       kind={statementKind}
                       systemChain={systemChain}
                     />)}
-                    <div>{t('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:')}</div>
+                    <div>{t<string>('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:')}</div>
                     <CopyToClipboard
                       onCopy={onCopy}
                       text={payload}
@@ -263,7 +263,7 @@ function ClaimsApp (): React.ReactElement {
                     </CopyToClipboard>
                     <Tooltip
                       place='right'
-                      text={didCopy ? t('copied') : t('click to copy')}
+                      text={didCopy ? t<string>('copied') : t<string>('click to copy')}
                       trigger='tx-payload'
                     />
                     <Signature
@@ -276,14 +276,14 @@ function ClaimsApp (): React.ReactElement {
                         <Button
                           icon='sign-in'
                           isDisabled={!accountId || !signature}
-                          label={t('Confirm claim')}
+                          label={t<string>('Confirm claim')}
                           onClick={goToStepClaim}
                         />
                       </Button.Group>
                     )}
                   </>
                 )
-                : <div>{t('This Ethereum address does not have a claim.')}</div>
+                : <div>{t<string>('This Ethereum address does not have a claim.')}</div>
               }
             </Card>
           )}

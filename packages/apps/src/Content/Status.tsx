@@ -23,7 +23,7 @@ interface Props {
 
 let prevEventHash: string;
 
-function filterEvents (allAccounts: string[], t: (key: string, opts?: object) => string, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
+function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts?: Record<string, unknown>) => T, optionsAll?: KeyringOptions, events?: EventRecord[]): ActionStatus[] | null {
   const eventHash = xxhashAsHex(stringToU8a(JSON.stringify(events)));
 
   if (!optionsAll || !events || eventHash === prevEventHash) {
@@ -41,7 +41,7 @@ function filterEvents (allAccounts: string[], t: (key: string, opts?: object) =>
           return {
             account,
             action: `${section}.${method}`,
-            message: t('transfer received'),
+            message: t<string>('transfer received'),
             status: 'event'
           };
         }
@@ -50,7 +50,7 @@ function filterEvents (allAccounts: string[], t: (key: string, opts?: object) =>
 
         return {
           action: `${section}.${method}`,
-          message: t('update on #{{index}}', {
+          message: t<string>('update on #{{index}}', {
             replace: {
               index
             }

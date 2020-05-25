@@ -14,7 +14,7 @@ interface Props extends BareProps {
   withEllipsis?: boolean;
 }
 
-function Label ({ className, help, label, withEllipsis }: Props): React.ReactElement<Props> {
+function Label ({ className = '', help, label, withEllipsis }: Props): React.ReactElement<Props> {
   return (
     <label className={className}>
       {

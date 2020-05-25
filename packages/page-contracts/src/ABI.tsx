@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ContractABIPre } from '@polkadot/api-contract/types';
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -90,7 +91,7 @@ class ABI extends React.PureComponent<Props, State> {
   }
 
   private renderInputFile (): React.ReactNode {
-    const { className, help, isDisabled, isRequired, label, t } = this.props;
+    const { className = '', help, isDisabled, isRequired, label, t } = this.props;
     const { errorText, isAbiValid, isEmpty, isError } = this.state;
 
     return (
@@ -105,7 +106,7 @@ class ABI extends React.PureComponent<Props, State> {
             !isEmpty && !isAbiValid
               ? (
                 <>
-                  {t('invalid ABI file selected')}
+                  {t<string>('invalid ABI file selected')}
                   {!!errorText && (
                     <>
                       {' — '}
@@ -114,7 +115,7 @@ class ABI extends React.PureComponent<Props, State> {
                   )}
                 </>
               )
-              : t('click to select or drag and drop a JSON ABI file')
+              : t<string>('click to select or drag and drop a JSON ABI file')
           }
         />
       </div>
@@ -152,9 +153,9 @@ class ABI extends React.PureComponent<Props, State> {
     const json = u8aToString(u8a);
 
     try {
-      const abi = JSON.parse(json);
+      const abi = JSON.parse(json) as ContractABIPre;
 
-      if (abi.deploy || abi.messages) {
+      if ((abi as unknown as Record<string, unknown>).deploy || (abi as unknown as Record<string, unknown>).messages) {
         throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
       }
 
@@ -170,7 +171,7 @@ class ABI extends React.PureComponent<Props, State> {
       console.error(error);
 
       this.setState({
-        errorText: error,
+        errorText: error as string,
         isAbiValid: false,
         isEmpty: false,
         isError: true

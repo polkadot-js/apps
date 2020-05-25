@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -9,7 +10,7 @@ import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function Raw ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
   const _onChange = useCallback(
@@ -26,17 +27,14 @@ function Raw ({ className, defaultValue: { value }, isDisabled, isError, label, 
   );
 
   const defaultValue = value
-    ? (value.toHex ? value.toHex() : value)
+    ? ((value as { toHex?: () => unknown }).toHex ? (value as Codec).toHex() : value)
     : '';
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={defaultValue as string}
         isDisabled={isDisabled}
         isError={isError || !isValid}
         label={label}

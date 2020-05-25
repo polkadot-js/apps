@@ -16,12 +16,9 @@ interface Props {
   style?: Record<string, string>;
 }
 
-function KeyPair ({ address, className, style }: Props): React.ReactElement<Props> {
+function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div
-      className={['ui--KeyPair', className].join(' ')}
-      style={style}
-    >
+    <div className={['ui--KeyPair', className].join(' ')}>
       <IdentityIcon
         className='icon'
         value={address}

@@ -56,7 +56,7 @@ const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 const MULTI_DEFAULT: string[] = [];
 
-function transformToAddress (value: string | Uint8Array): string | null {
+function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
     return addressToAddress(value) || null;
   } catch (error) {
@@ -99,11 +99,11 @@ function createOption (address: string): Option {
   return createItem(createKeyringItem(address, name), !isRecent);
 }
 
-function readOptions (): Record<string, any> {
-  return store.get(STORAGE_KEY) || { defaults: {} };
+function readOptions (): Record<string, Record<string, string>> {
+  return store.get(STORAGE_KEY) as Record<string, Record<string, string>> || { defaults: {} };
 }
 
-function getLastValue (type: KeyringOption$Type = DEFAULT_TYPE): any {
+function getLastValue (type: KeyringOption$Type = DEFAULT_TYPE): string {
   const options = readOptions();
 
   return options.defaults[type];
@@ -132,7 +132,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className, defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, style, withEllipsis, withLabel } = this.props;
+    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
     const { value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -181,7 +181,6 @@ class InputAddress extends React.PureComponent<Props, State> {
             ? this.renderLabel
             : undefined
         }
-        style={style}
         value={
           isMultiple && !value
             ? MULTI_DEFAULT
@@ -209,8 +208,8 @@ class InputAddress extends React.PureComponent<Props, State> {
       : undefined;
   }
 
-  private hasValue (test?: Uint8Array | string): boolean {
-    return this.getFiltered().some(({ value }): boolean => test === value);
+  private hasValue (test?: Uint8Array | string | null): boolean {
+    return this.getFiltered().some(({ value }) => test === value);
   }
 
   private getFiltered (): Option[] {
@@ -218,7 +217,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return !optionsAll
       ? []
-      : optionsAll[type].filter(({ value }): boolean => !filter || (!!value && filter.includes(value)));
+      : optionsAll[type].filter(({ value }) => !filter || (!!value && filter.includes(value)));
   }
 
   private onChange = (address: string): void => {

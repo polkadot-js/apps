@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import NetworkModal from '../modals/Network';
@@ -27,7 +26,7 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
@@ -55,7 +54,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
 
   return (
     <Responsive
-      className={classes(className, 'apps--SideBar-Wrapper', isCollapsed ? 'collapsed' : 'expanded')}
+      className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}
       onUpdate={handleResize}
     >
       <ChainImg
@@ -113,7 +112,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='github' /><span className='text'>{t('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
+                <Icon name='github' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Item className='apps--SideBar-Item'>
@@ -123,7 +122,7 @@ function SideBar ({ className, collapse, handleResize, isCollapsed, isMenuOpen, 
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='book' /><span className='text'>{t('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
+                <Icon name='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Divider hidden />

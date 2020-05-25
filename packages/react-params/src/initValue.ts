@@ -12,12 +12,12 @@ import { isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
 
-export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
+export default function getInitValue (def: TypeDef): unknown | unknown[] {
   if (def.info === TypeDefInfo.Vec) {
     return [getInitValue(def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
     return Array.isArray(def.sub)
-      ? def.sub.map((def): any => getInitValue(def))
+      ? def.sub.map((def) => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
@@ -119,7 +119,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
 
     default: {
       try {
-        const instance = createType(registry, type as any);
+        const instance = createType(registry, type as 'u32');
         const raw = getTypeDef(instance.toRawType());
 
         if (isBn(instance)) {
@@ -128,7 +128,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
           return getInitValue(raw);
         }
       } catch (error) {
-        // console.error(error.message);
+        // console.error((error as Error).message);
       }
 
       // we only want to want once, not spam

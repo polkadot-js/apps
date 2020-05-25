@@ -69,7 +69,7 @@ class ContractsApp extends React.PureComponent<Props, State> {
 
     return (
       <main className='contracts--App'>
-        <HelpOverlay md={introMd} />
+        <HelpOverlay md={introMd as string} />
         <header>
           <Tabs
             basePath={basePath}

@@ -85,7 +85,7 @@ export function recoverAddress (message: string, { recovery, signature }: Signat
 // recover an address from a signature JSON (as supplied by e.g. MyCrypto)
 export function recoverFromJSON (signatureJson: string | null): RecoveredSignature {
   try {
-    const { msg, sig } = JSON.parse(signatureJson || '{}');
+    const { msg, sig } = JSON.parse(signatureJson || '{}') as Record<string, string>;
 
     if (!msg || !sig) {
       throw new Error('Invalid signature object');
@@ -102,7 +102,7 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
     console.error(error);
 
     return {
-      error,
+      error: error as Error,
       ethereumAddress: null,
       signature: null
     };

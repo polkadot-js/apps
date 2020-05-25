@@ -19,12 +19,9 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function Base ({ children, className, isOuter, label, size = 'full', style, withLabel }: Props): React.ReactElement<Props> {
+function Base ({ children, className = '', isOuter, label, size = 'full', withLabel }: Props): React.ReactElement<Props> {
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Labelled
         className={size}
         isOuter

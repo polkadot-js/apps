@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const fs = require('fs');
 const path = require('path');
@@ -12,6 +12,7 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 const findPackages = require('../../scripts/findPackages');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// const devtool = 'source-map'; //  : 'cheap-eval-source-map',
 const devtool = false;
 const ENV = process.env.NODE_ENV || 'development';
 const isProd = ENV === 'production';

@@ -30,11 +30,11 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'general',
-      text: t('General')
+      text: t<string>('General')
     },
     {
       name: 'metadata',
-      text: t('Metadata {{count}}', {
+      text: t<string>('Metadata {{count}}', {
         replace: {
           count: numExtensions ? `(${numExtensions})` : ''
         }
@@ -42,17 +42,17 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     },
     {
       name: 'developer',
-      text: t('Developer')
+      text: t<string>('Developer')
     },
     {
       name: 'i18n',
-      text: t('Translate')
+      text: t<string>('Translate')
     }
   ], [numExtensions, t]);
 
   return (
     <main className='settings--App'>
-      <HelpOverlay md={md} />
+      <HelpOverlay md={md as string} />
       <header>
         <Tabs
           basePath={basePath}

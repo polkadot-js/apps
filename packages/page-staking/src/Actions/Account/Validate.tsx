@@ -22,7 +22,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
 
   return (
     <Modal
-      header={t('Set validator preferences')}
+      header={t<string>('Set validator preferences')}
       size='large'
     >
       <Modal.Content className='ui--signer-Signer-Content'>
@@ -40,7 +40,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
           icon='check circle outline'
           isDisabled={!validateTx}
           isPrimary
-          label={t('Validate')}
+          label={t<string>('Validate')}
           onStart={onClose}
         />
       </Modal.Actions>

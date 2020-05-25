@@ -21,7 +21,7 @@ function generateParam (type: TypeDef, index: number): ParamDef {
   };
 }
 
-function Vector ({ className, defaultValue, isDisabled = false, label, onChange, overrides, style, type, withLabel }: Props): React.ReactElement<Props> | null {
+function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
@@ -58,7 +58,7 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
       const params: ParamDef[] = [];
       const values: RawParam[] = [];
 
-      (defaultValue.value || []).forEach((value: RawParam, index: number): void => {
+      (defaultValue.value as RawParam[] || []).forEach((value: RawParam, index: number): void => {
         values.push(
           isUndefined(value) || isUndefined(value.isValid)
             ? { isValid: !isUndefined(value), value }
@@ -94,7 +94,6 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
       className={className}
       isOuter
       label={label}
-      style={style}
       withLabel={withLabel}
     >
       {!isDisabled && (
@@ -102,14 +101,14 @@ function Vector ({ className, defaultValue, isDisabled = false, label, onChange,
           <Button
             icon='add'
             isPrimary
-            label={t('Add item')}
+            label={t<string>('Add item')}
             onClick={_rowAdd}
           />
           <Button
             icon='minus'
             isDisabled={values.length === 0}
             isNegative
-            label={t('Remove item')}
+            label={t<string>('Remove item')}
             onClick={_rowRemove}
           />
         </div>

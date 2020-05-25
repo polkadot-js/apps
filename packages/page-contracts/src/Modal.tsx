@@ -103,10 +103,10 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
 
     return (
       <InputAddress
-        help={t('Specify the user account to use for this deployment. And fees will be deducted from this account.')}
+        help={t<string>('Specify the user account to use for this deployment. And fees will be deducted from this account.')}
         isDisabled={isBusy}
         isInput={false}
-        label={t('deployment account')}
+        label={t<string>('deployment account')}
         onChange={this.onChangeAccount}
         type='account'
         value={accountId}
@@ -147,10 +147,10 @@ class ContractModal<P extends ContractModalProps, S extends ContractModalState> 
     return (
       <InputNumber
         bitLength={128}
-        help={t('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+        help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
         isDisabled={isBusy}
         isError={!isGasValid}
-        label={t('maximum gas allowed')}
+        label={t<string>('maximum gas allowed')}
         onChange={this.onChangeGas}
         onEnter={this.sendTx}
         value={gasLimit || ''}

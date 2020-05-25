@@ -23,13 +23,13 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'overview',
-      text: t('Treasury overview')
+      text: t<string>('Treasury overview')
     }
   ], [t]);
 
   return (
     <main className='treasury--App'>
-      <HelpOverlay md={basicMd} />
+      <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}
