@@ -28,10 +28,10 @@
     }
   },
   "resolutions": {
-    "@polkadot/api": "^1.16.0-beta.2",
-    "@polkadot/api-contract": "^1.16.0-beta.2",
+    "@polkadot/api": "^1.16.0-beta.3",
+    "@polkadot/api-contract": "^1.16.0-beta.3",
     "@polkadot/keyring": "^2.11.0-beta.2",
-    "@polkadot/types": "^1.16.0-beta.2",
+    "@polkadot/types": "^1.16.0-beta.3",
     "@polkadot/util": "^2.11.0-beta.2",
     "@polkadot/util-crypto": "^2.11.0-beta.2",
     "babel-core": "^7.0.0-bridge.0"
