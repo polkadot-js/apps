@@ -122,8 +122,7 @@ export function getStatement (network: string, kind?: StatementKind | null): Sta
         return undefined;
       }
 
-      // FIXME isRegular
-      return kind.isDefault
+      return kind.isRegular
         ? {
           hash: 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny',
           sentence: 'I hereby agree to the terms of the statement whose SHA-256 multihash is Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny. (This may be found at the URL: https://statement.polkadot.network/regular.html)',

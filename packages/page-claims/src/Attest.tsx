@@ -65,7 +65,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
           kind={statementKind}
           systemChain={systemChain}
         />
-        <h3><FormatBalance label={t('Attestation for:')}
+        <h3><FormatBalance label={t<string>('Attestation for:')}
           value={claimValue} /></h3>
         <Button.Group>
           <TxButton
@@ -73,7 +73,7 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
             icon='send'
             isDisabled={!statementSentence}
             isPrimary
-            label={t('Attest')}
+            label={t<string>('Attest')}
             onSuccess={onSuccess}
             params={[statementSentence]}
             tx='claims.attest'

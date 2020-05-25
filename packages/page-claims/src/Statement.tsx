@@ -28,8 +28,7 @@ function StatementFullText ({ kind, systemChain }: { kind?: StatementKind; syste
         return null;
       }
 
-      // FIXME isRegular
-      return kind.isDefault
+      return kind.isRegular
         ? <PolkadotRegular />
         : <PolkadotSaft />;
     }
