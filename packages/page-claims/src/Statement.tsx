@@ -68,5 +68,9 @@ export default React.memo(styled(Statement)`
     width: 100%;
     margin: 1rem 0;
     white-space: normal;
+
+    p {
+      color: #4e4e4e !important
+    }
   }
 `);
