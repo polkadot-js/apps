@@ -6,7 +6,7 @@ import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -20,8 +20,10 @@ interface Props {
 
 function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [proposalLength] = useState(proposal.encodedLength);
 
   return (
     <>
@@ -61,7 +63,12 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
             <TxButton
               accountId={accountId}
               onStart={toggleOpen}
-              params={[hash, idNumber]}
+              params={
+                api.tx.council.close.meta.args.length === 4
+                  // HACK max u64 for Weight param
+                  ? [hash, idNumber, '0xffffffffffffffff', proposalLength]
+                  : [hash, idNumber]
+              }
               tx='council.close'
             />
           </Modal.Actions>

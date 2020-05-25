@@ -21,12 +21,17 @@ interface Threshold {
   threshold?: BN;
 }
 
+interface MethodState {
+  method?: SubmittableExtrinsic<'promise'> | null;
+  methodLength: number;
+}
+
 function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiDefaultTxSudo } = useApi();
+  const { api, apiDefaultTxSudo } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
-  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null | undefined>();
+  const [{ method, methodLength }, setMethod] = useState<MethodState>({ methodLength: 0 });
   const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
 
   useEffect((): void => {
@@ -37,7 +42,10 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   }, [members]);
 
   const _setMethod = useCallback(
-    (method?: SubmittableExtrinsic<'promise'> | null) => setMethod(() => method),
+    (method?: SubmittableExtrinsic<'promise'> | null) => setMethod({
+      method,
+      methodLength: method?.encodedLength || 0
+    }),
     []
   );
 
@@ -112,7 +120,11 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
               accountId={accountId}
               isDisabled={!method || !isThresholdValid}
               label={t<string>('Propose')}
-              params={[threshold, method]}
+              params={
+                api.tx.council.propose.meta.args.length === 3
+                  ? [threshold, method, methodLength]
+                  : [threshold, method]
+              }
               tx='council.propose'
             />
           </Modal.Actions>
