@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { AccountId, BlockNumber, Votes } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ApiPromise } from '@polkadot/api';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -13,7 +14,7 @@ import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Close from './Close';
-import Votes from './Votes';
+import Voters from './Votes';
 import Voting from './Voting';
 
 interface Props {
@@ -24,9 +25,44 @@ interface Props {
   prime: AccountId | null;
 }
 
+interface Status {
+  isCloseable: boolean;
+  isVotable: boolean;
+}
+
+function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes): Status {
+  if (!votes.end) {
+    return {
+      isCloseable: false,
+      isVotable: true
+    };
+  }
+
+  const isEnd = bestNumber.gte(votes.end);
+
+  if (api.tx.council.close.meta.args.length === 2) {
+    return {
+      isCloseable: isEnd,
+      isVotable: !isEnd
+    };
+  }
+
+  return {
+    isCloseable: isEnd || votes.threshold.eq(votes.ayes.length),
+    isVotable: !isEnd
+  };
+}
+
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const [{ isCloseable, isVotable }, setStatus] = useState<Status>({ isCloseable: false, isVotable: false });
+
+  useEffect((): void => {
+    bestNumber && votes && setStatus(
+      getStatus(api, bestNumber, votes)
+    );
+  }, [api, bestNumber, votes]);
 
   if (!votes) {
     return null;
@@ -52,31 +88,27 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           </>
         )}
       </td>
-      <Votes votes={ayes} />
-      <Votes votes={nays} />
+      <Voters votes={ayes} />
+      <Voters votes={nays} />
       <td className='button'>
-        {bestNumber && (
-          // end may not be existing (older versions)
-          !end || end.gt(bestNumber)
-            ? (
-              <Voting
-                hash={hash}
-                idNumber={index}
-                isDisabled={!isMember}
-                members={members}
-                prime={prime}
-                proposal={proposal}
-              />
-            )
-            : (
-              <Close
-                hash={hash}
-                idNumber={index}
-                isDisabled={!isMember}
-                members={members}
-                proposal={proposal}
-              />
-            )
+        {isVotable && (
+          <Voting
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            prime={prime}
+            proposal={proposal}
+          />
+        )}
+        {isCloseable && (
+          <Close
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            proposal={proposal}
+          />
         )}
       </td>
       <td className='mini'>

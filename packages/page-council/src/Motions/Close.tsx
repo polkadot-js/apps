@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
+import { Hash, Proposal, ProposalIndex, Weight } from '@polkadot/types/interfaces';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -20,8 +20,18 @@ interface Props {
 
 function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [proposalLength] = useState(proposal.encodedLength);
+  const [proposalWeight, setProposalWeight] = useState<Weight | null>(null);
+
+  useEffect((): void => {
+    allAccounts.length && (async () => setProposalWeight(
+      (await api.tx(proposal).paymentInfo(allAccounts[0])).weight
+    ))().catch(console.error);
+  }, [api, allAccounts, proposal]);
 
   return (
     <>
@@ -60,8 +70,13 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
               accountId={accountId}
+              isDisabled={!proposalWeight}
               onStart={toggleOpen}
-              params={[hash, idNumber]}
+              params={
+                api.tx.council.close.meta.args.length === 4
+                  ? [hash, idNumber, proposalWeight, proposalLength]
+                  : [hash, idNumber]
+              }
               tx='council.close'
             />
           </Modal.Actions>

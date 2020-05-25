@@ -21,12 +21,17 @@ interface Threshold {
   threshold?: BN;
 }
 
+interface ProposalState {
+  proposal?: SubmittableExtrinsic<'promise'> | null;
+  proposalLength: number;
+}
+
 function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiDefaultTxSudo } = useApi();
+  const { api, apiDefaultTxSudo } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
-  const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null | undefined>();
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ isThresholdValid, threshold }, setThreshold] = useState<Threshold>({ isThresholdValid: false });
 
   useEffect((): void => {
@@ -37,7 +42,10 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   }, [members]);
 
   const _setMethod = useCallback(
-    (method?: SubmittableExtrinsic<'promise'> | null) => setMethod(() => method),
+    (proposal?: SubmittableExtrinsic<'promise'> | null) => setProposal({
+      proposal,
+      proposalLength: proposal?.encodedLength || 0
+    }),
     []
   );
 
@@ -110,9 +118,14 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
               accountId={accountId}
-              isDisabled={!method || !isThresholdValid}
+              isDisabled={!proposal || !isThresholdValid}
               label={t<string>('Propose')}
-              params={[threshold, method]}
+              onStart={toggleOpen}
+              params={
+                api.tx.council.propose.meta.args.length === 3
+                  ? [threshold, proposal, proposalLength]
+                  : [threshold, proposal]
+              }
               tx='council.propose'
             />
           </Modal.Actions>
