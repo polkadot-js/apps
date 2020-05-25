@@ -66,7 +66,7 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
               params={
                 api.tx.council.close.meta.args.length === 4
                   // HACK max u64 for Weight param
-                  ? [hash, idNumber, '0xffffffffffffffff', proposalLength]
+                  ? [hash, idNumber, '0x4444444444444444', proposalLength]
                   : [hash, idNumber]
               }
               tx='council.close'

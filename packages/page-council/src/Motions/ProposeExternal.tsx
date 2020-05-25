@@ -21,13 +21,17 @@ interface HashState {
   hash?: string;
   isHashValid: boolean;
 }
+interface ProposalState {
+  proposal?: SubmittableExtrinsic<'promise'> | null;
+  proposalLength: number;
+}
 
 function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
-  const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
   const threshold = Math.ceil((members.length || 0) * 0.5);
 
@@ -38,9 +42,17 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
 
   useEffect((): void => {
     if (isHashValid && hash) {
-      setProposal(() => api.tx.democracy.externalProposeMajority(hash));
+      const proposal = api.tx.democracy.externalProposeMajority(hash);
+
+      setProposal({
+        proposal,
+        proposalLength: proposal.encodedLength || 0
+      });
     } else {
-      setProposal(null);
+      setProposal({
+        proposal: null,
+        proposalLength: 0
+      });
     }
   }, [api, hash, isHashValid]);
 
@@ -97,7 +109,11 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               isPrimary
               label={t<string>('Propose')}
               onStart={toggleVisible}
-              params={[threshold, proposal]}
+              params={
+                api.tx.council.propose.meta.args.length === 3
+                  ? [threshold, proposal, proposalLength]
+                  : [threshold, proposal]
+              }
               tx='council.propose'
             />
           </Modal.Actions>
