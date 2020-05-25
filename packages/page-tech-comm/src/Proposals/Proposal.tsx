@@ -22,14 +22,16 @@ interface Props {
 function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [imageHash]);
-  const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [imageHash]);
+  const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], {
+    transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
+  });
 
-  if (!optProposal?.isSome || !votes?.isSome) {
+  if (!optProposal?.isSome || !votes) {
     return null;
   }
 
   const proposal = optProposal.unwrap();
-  const { ayes, index, nays, threshold } = votes.unwrap();
+  const { ayes, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
