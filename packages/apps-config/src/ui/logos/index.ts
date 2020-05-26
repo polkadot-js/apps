@@ -27,9 +27,7 @@ const chainLogos: Record<string, any> = [
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
-  ['Kusama CC3', chainKusama],
-  ['Polkadot', nodePolkadot],
-  ['Polkadot CC1', nodePolkadot]
+  ['Kusama CC3', chainKusama]
 ].reduce((logos, [chain, logo]): Record<string, any> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
