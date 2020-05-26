@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EthereumAddress, EcdsaSignature } from '@polkadot/types/interfaces';
+import { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
 
 import secp256k1 from 'secp256k1/elliptic';
 import { registry } from '@polkadot/react-api';
@@ -106,5 +106,36 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
       ethereumAddress: null,
       signature: null
     };
+  }
+}
+
+export interface Statement {
+  sentence: string;
+  url: string;
+}
+
+export function getStatement (network: string, kind?: StatementKind | null): Statement | undefined {
+  switch (network) {
+    case 'Polkadot CC1': {
+      if (!kind) {
+        return undefined;
+      }
+
+      const url = kind.isRegular
+        ? 'https://statement.polkadot.network/regular.html'
+        : 'https://statement.polkadot.network/saft.html';
+
+      const hash = kind.isRegular
+        ? 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny'
+        : 'QmXEkMahfhHJPzT3RjkXiZVFi77ZeVeuxtAjhojGRNYckz';
+
+      return {
+        sentence: `I hereby agree to the terms of the statement whose SHA-256 multihash is ${hash}. (This may be found at the URL: ${url})`,
+        url
+      };
+    }
+
+    default:
+      return undefined;
   }
 }

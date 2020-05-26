@@ -21,6 +21,11 @@ interface Props {
   onClose: () => void;
 }
 
+interface HashState {
+  encodedHash: string;
+  encodedProposal: string;
+}
+
 const ZERO_HASH = blake2AsHex('');
 
 function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
@@ -28,7 +33,7 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isImminent, setIsImminent] = useState(propsIsImminent || false);
-  const [{ encodedHash, encodedProposal }, setHash] = useState<{ encodedHash: string; encodedProposal: string }>({ encodedHash: ZERO_HASH, encodedProposal: '' });
+  const [{ encodedHash, encodedProposal }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '' });
   const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {

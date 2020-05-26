@@ -12,6 +12,11 @@ import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
+interface CouncilInfo {
+  councilHash: Hash | null;
+  councilId: ProposalIndex | null;
+}
+
 interface Props {
   councilProposals: DeriveCollectiveProposal[];
   isDisabled?: boolean;
@@ -31,7 +36,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ councilHash, councilId }, setCouncilInfo] = useState<{ councilHash: Hash | null; councilId: ProposalIndex | null }>({ councilHash: null, councilId: null });
+  const [{ councilHash, councilId }, setCouncilInfo] = useState<CouncilInfo>({ councilHash: null, councilId: null });
   const [isOpen, toggleOpen] = useToggle();
   const [voteValue, setVoteValue] = useState(true);
 
@@ -41,7 +46,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
 
   useEffect((): void => {
     const available = councilProposals
-      .filter(({ votes }) => bestNumber && votes?.end.gt(bestNumber))
+      .filter(({ votes }) => bestNumber && votes && (!votes.end || votes.end.gt(bestNumber)))
       .map(({ proposal: { methodName, sectionName }, votes }): Option => ({
         text: `Council #${votes?.index.toNumber() || '-'}: ${sectionName}.${methodName} `,
         value: votes ? votes?.index.toNumber() : -1
