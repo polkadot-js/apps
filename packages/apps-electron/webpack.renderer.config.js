@@ -4,36 +4,22 @@
 
 /* eslint-disable camelcase */
 
-const merge = require('webpack-merge');
-const baseConfig = require('@polkadot/apps/webpack.base.config');
 const path = require('path');
+const merge = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const findPackages = require('../../scripts/findPackages');
+const baseConfig = require('@polkadot/apps/webpack.base.config');
 
 const ENV = process.env.NODE_ENV || 'development';
 const isProd = ENV === 'production';
 const context = __dirname;
 
 module.exports = merge(
-  baseConfig({
-    alias: findPackages().reduce((alias, { dir, name }) => {
-      alias[name] = path.resolve(context, `../${dir}/src`);
-
-      return alias;
-    }, {}),
-    context
-  }),
+  baseConfig(context),
   {
-    devServer: {
-      compress: true,
-      contentBase: path.join(__dirname, 'build'),
-      hot: true,
-      liveReload: false,
-      port: 9000
-    },
     devtool: isProd ? 'none' : 'source-map',
     plugins: [
+      // It must be place before HtmlWebpackPlugin
       new CopyWebpackPlugin([{ from: '../apps/public' }]),
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
