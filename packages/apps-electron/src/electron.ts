@@ -8,7 +8,7 @@ import { autoUpdater } from 'electron-updater';
 
 const environment = process.env.NODE_ENV || 'production';
 
-async function createWindow (): Promise<unknown> {
+function createWindow (): Promise<unknown> {
   // Create the browser window.
   const win = new BrowserWindow({
     height: 600,
