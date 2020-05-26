@@ -33,6 +33,7 @@ const plugins = isProd
 
 module.exports = merge(
   baseConfig({
+    ENV,
     alias: findPackages().reduce((alias, { dir, name }) => {
       alias[name] = path.resolve(context, `../${dir}/src`);
 

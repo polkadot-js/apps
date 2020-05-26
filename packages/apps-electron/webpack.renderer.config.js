@@ -11,18 +11,20 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const findPackages = require('../../scripts/findPackages');
 
-const ENV = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || 'production';
 const isProd = ENV === 'production';
 const context = __dirname;
 
 module.exports = merge(
   baseConfig({
+    ENV,
     alias: findPackages().reduce((alias, { dir, name }) => {
       alias[name] = path.resolve(context, `../${dir}/src`);
 
       return alias;
     }, {}),
-    context
+    context,
+    isProd
   }),
   {
     devServer: {
