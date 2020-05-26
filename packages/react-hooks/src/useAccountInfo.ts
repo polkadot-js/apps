@@ -63,8 +63,6 @@ export default function useAccountInfo (value: string): UseAccountInfo {
       }
     } else if (nickname) {
       setName(nickname);
-    } else {
-      setName('');
     }
 
     if (identity) {
