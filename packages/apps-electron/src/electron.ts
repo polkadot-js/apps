@@ -11,11 +11,11 @@ function createWindow (): Promise<unknown> {
   const { height, width } = screen.getPrimaryDisplay().workAreaSize;
 
   const win = new BrowserWindow({
-    height: height,
+    height,
     webPreferences: {
       nodeIntegration: true
     },
-    width: width
+    width
   });
 
   if (environment === 'development') {
