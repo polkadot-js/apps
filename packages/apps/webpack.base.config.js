@@ -11,9 +11,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const ENV = process.env.NODE_ENV || 'development';
-
-function createWebpack ({ alias = {}, context, name = 'index' }) {
+function createWebpack ({ ENV, alias = {}, context, name = 'index' }) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));

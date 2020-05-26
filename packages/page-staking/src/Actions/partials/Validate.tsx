@@ -28,9 +28,18 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
   const { api } = useApi();
 
   const _setCommission = useCallback(
-    (commission?: BN) => onChange({
-      validateTx: api.tx.staking.validate({ commission: (commission || ZERO).mul(COMM_MUL) })
-    }),
+    (value?: BN): void => {
+      const commission = (value || ZERO).mul(COMM_MUL);
+
+      onChange({
+        validateTx: api.tx.staking.validate({
+          commission: commission.isZero()
+            // small non-zero set to avoid isEmpty
+            ? 1
+            : commission
+        })
+      });
+    },
     [api, onChange]
   );
 
