@@ -27,9 +27,11 @@ function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactEl
 
   useEffect((): void => {
     accountId && extrinsic && isFunction(api.rpc.payment?.queryInfo) &&
-      extrinsic
-        .paymentInfo(accountId)
-        .then(setDispatchInfo);
+      Promise.resolve(
+        extrinsic
+          .paymentInfo(accountId)
+          .then(setDispatchInfo)
+      ).catch(console.error);
   }, [api, accountId, extrinsic]);
 
   if (!dispatchInfo) {
