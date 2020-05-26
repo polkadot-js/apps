@@ -13,8 +13,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const context = __dirname;
 const hasPublic = fs.existsSync(path.join(context, 'public'));
 
+const ENV = process.env.NODE_ENV || 'development';
+
 module.exports = merge(
-  baseConfig(context),
+  baseConfig(ENV, context),
   {
     devtool: false,
     plugins: [

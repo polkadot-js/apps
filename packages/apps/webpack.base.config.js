@@ -12,9 +12,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const findPackages = require('../../scripts/findPackages');
 
-function createWebpack (context) {
+function createWebpack (ENV, context) {
   const pkgJson = require(path.join(context, 'package.json'));
-  const ENV = process.env.NODE_ENV || 'development';
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
   const plugins = hasPublic

@@ -10,12 +10,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const baseConfig = require('@polkadot/apps/webpack.base.config');
 
-const ENV = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || 'production';
 const isProd = ENV === 'production';
 const context = __dirname;
 
 module.exports = merge(
-  baseConfig(context),
+  baseConfig(ENV, context),
   {
     devtool: isProd ? 'none' : 'source-map',
     plugins: [
