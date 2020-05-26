@@ -1,3 +1,15 @@
+# 0.43.1 May 26, 2020
+
+- Support for Polkadot CC1 Claims (Thanks to https://github.com/amaurymartiny & https://github.com/Tbaut)
+- Small typo fixes (Thanks to https://github.com/Swader)
+- updates to russian translation (Thanks to https://github.com/illlefr4u)
+- Adjustments to Electron build support (Thanks to https://github.com/EthWorks)
+- Support for Polkadot CC1 types & RPC endpoints
+- Detect & support new proposal close process in Substrate
+- Adjust checks for on-click validator (immediate isActive)
+- `@polkadot/api` 1.16.1
+- `@polkadot/util` 2.11.1
+
 # 0.42.1 May 22, 2020
 
 - Adjust Subscan proposal links (Thanks to https://github.com/illlefr4u)
