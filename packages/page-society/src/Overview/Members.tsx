@@ -16,7 +16,7 @@ interface Props {
   info?: DeriveSociety;
 }
 
-function Members ({ className, info }: Props): React.ReactElement<Props> {
+function Members ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
@@ -36,7 +36,7 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={info && t('No active members')}
+      empty={info && t<string>('No active members')}
       header={header}
     >
       {filtered.map((member): React.ReactNode => (

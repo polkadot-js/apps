@@ -6,7 +6,7 @@ import { RuntimeVersion } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { ChainImg } from '@polkadot/react-components';
+import { ChainImg, Icon } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { BestNumber, Chain } from '@polkadot/react-query';
 
@@ -17,7 +17,7 @@ interface Props {
   onClick?: () => void;
 }
 
-function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
+function ChainInfo ({ className = '', onClick }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -32,10 +32,11 @@ function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
         <div className='info'>
           <Chain className='chain' />
           {runtimeVersion && (
-            <div className='runtimeVersion'>{t('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
+            <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
           )}
           <BestNumber label='#' />
         </div>
+        <Icon name='dropdown' />
       </div>
     </div>
   );
@@ -43,26 +44,39 @@ function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(ChainInfo)`
   border-top: 0.5rem solid transparent;
+  box-sizing: border-box;
   cursor: pointer;
-  padding: 0.75rem 1rem;
-  margin: 0 0 0.5rem -0.75rem;
+  padding: 0.75rem;
+  margin: 0 0 0.5rem -1rem;
 
   .apps--SideBar-logo-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 10rem;
+    width: 10.5rem;
 
     img {
+      flex: 0;
       height: 2.75rem;
       width: 2.75rem;
     }
 
+    .icon.dropdown,
     > div.info {
       color: white;
       opacity: 0.75;
       text-align: right;
       vertical-align: middle;
+    }
+
+    .icon.dropdown {
+      flex: 0;
+      margin: 0;
+    }
+
+    > div.info {
+      flex: 1;
+      padding-right: 0.5rem;
 
       > div.chain {
         font-size: 0.9rem;

@@ -103,6 +103,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
         renderHelper = withCallDiv('subscribe', {
           paramName: 'params',
           paramValid: true,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           params: [key, ...values],
           withIndicator: true
         });
@@ -127,7 +128,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
   return cache[id];
 }
 
-function Query ({ className, onRemove, value }: Props): React.ReactElement<Props> | null {
+function Query ({ className = '', onRemove, value }: Props): React.ReactElement<Props> | null {
   // const [inputs, setInputs] = useState<React.ReactNode[]>([]);
   const [{ Component }, setComponent] = useState<Partial<CacheInstance>>({});
   const [isSpreadable, setIsSpreadable] = useState(false);

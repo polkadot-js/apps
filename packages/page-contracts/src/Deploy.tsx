@@ -13,9 +13,10 @@ import { withRouter } from 'react-router-dom';
 import { SubmittableResult } from '@polkadot/api';
 import { Abi } from '@polkadot/api-contract';
 import { withApi, withMulti } from '@polkadot/react-api/hoc';
-import keyring from '@polkadot/ui-keyring';
 import { Dropdown, InputBalance, TxButton } from '@polkadot/react-components';
 import createValues from '@polkadot/react-params/values';
+import keyring from '@polkadot/ui-keyring';
+import { isFunction } from '@polkadot/util';
 
 import MessageSignature from './MessageSignature';
 import ContractModal, { ContractModalProps, ContractModalState } from './Modal';
@@ -164,10 +165,10 @@ class Deploy extends ContractModal<Props, State> {
         {this.renderInputAccount()}
         <Dropdown
           defaultValue={defaultCode}
-          help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
+          help={t<string>('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
           isDisabled={isBusy}
           isError={!isHashValid}
-          label={t('code for this contract')}
+          label={t<string>('code for this contract')}
           onChange={this.onChangeCode}
           options={codeOptions}
           value={codeHash}
@@ -182,12 +183,11 @@ class Deploy extends ContractModal<Props, State> {
           contractAbi
             ? (
               <Dropdown
-                help={t('The deployment constructor information for this contract, as provided by the ABI.')}
+                help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
                 isDisabled={contractAbi.abi.contract.constructors.length <= 1}
-                label={t('constructor')}
+                label={t<string>('constructor')}
                 onChange={this.onChangeConstructorIndex}
                 options={constructOptions}
-                style={{ fontFamily: 'monospace' }}
                 value={`${constructorIndex}`}
                 withLabel
               />
@@ -205,10 +205,10 @@ class Deploy extends ContractModal<Props, State> {
           }
         />
         <InputBalance
-          help={t('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
+          help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isDisabled={isBusy}
           isError={endowment.isZero()}
-          label={t('endowment')}
+          label={t<string>('endowment')}
           onChange={this.onChangeEndowment}
           onEnter={this.sendTx}
           value={endowment}
@@ -231,13 +231,13 @@ class Deploy extends ContractModal<Props, State> {
         icon='cloud upload'
         isDisabled={!isValid}
         isPrimary
-        label={t('Deploy')}
+        label={t<string>('Deploy')}
         onClick={this.toggleBusy(true)}
         onFailed={this.toggleBusy(false)}
         onSuccess={this.onSuccess}
         params={this.constructCall}
         tx={
-          api.tx.contracts.instantiate
+          isFunction(api.tx.contracts.instantiate)
             ? 'contracts.instantiate' // V2 (new)
             : 'contracts.create' // V2 (old)
         }

@@ -19,7 +19,7 @@ interface Props extends OwnMembers {
   info?: DeriveSociety;
 }
 
-function Defender ({ className, info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
+function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const votes = useCall<VoteType[]>(api.derive.society.members, [], {

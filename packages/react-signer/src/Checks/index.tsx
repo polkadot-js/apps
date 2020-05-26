@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { Expander } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { formatBalance, isFunction } from '@polkadot/util';
 
 interface Props {
   accountId?: string | null;
@@ -21,12 +21,12 @@ interface Props {
   tip?: BN;
 }
 
-function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
   useEffect((): void => {
-    accountId && extrinsic?.paymentInfo && api.rpc.payment?.queryInfo &&
+    accountId && extrinsic && isFunction(api.rpc.payment?.queryInfo) &&
       extrinsic
         .paymentInfo(accountId)
         .then(setDispatchInfo);

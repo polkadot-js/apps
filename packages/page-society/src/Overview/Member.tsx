@@ -15,7 +15,7 @@ interface Props {
   value: DeriveSocietyMember;
 }
 
-function Member ({ className, isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
+function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -27,8 +27,8 @@ function Member ({ className, isHead, value: { accountId, strikes } }: Props): R
         {isHead && (
           <Tag
             color='green'
-            hover={t('Current society head, exempt')}
-            label={t('society head')}
+            hover={t<string>('Current society head, exempt')}
+            label={t<string>('society head')}
           />
         )}
       </td>

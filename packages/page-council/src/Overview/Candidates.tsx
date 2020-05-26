@@ -32,7 +32,7 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
   return (
     <>
       <Table
-        empty={electionsInfo && t('No runners up found')}
+        empty={electionsInfo && t<string>('No runners up found')}
         header={headerRunners}
       >
         {electionsInfo?.runnersUp.map(([accountId, balance]): React.ReactNode => (
@@ -45,7 +45,7 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
         ))}
       </Table>
       <Table
-        empty={electionsInfo && t('No candidates found')}
+        empty={electionsInfo && t<string>('No candidates found')}
         header={headerCandidates}
       >
         {electionsInfo?.candidates.map((accountId): React.ReactNode => (

@@ -16,7 +16,7 @@ interface Props {
   stakingInfo?: DeriveStakingAccount;
 }
 
-function StakingRedeemable ({ className, stakingInfo }: Props): React.ReactElement<Props> | null {
+function StakingRedeemable ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
 
@@ -34,7 +34,7 @@ function StakingRedeemable ({ className, stakingInfo }: Props): React.ReactEleme
             isIcon
             key='unlock'
             params={[]}
-            tooltip={t('Withdraw these unbonded funds')}
+            tooltip={t<string>('Withdraw these unbonded funds')}
             tx='staking.withdrawUnbonded'
           />
         )}

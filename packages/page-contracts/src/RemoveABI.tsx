@@ -30,7 +30,7 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t('Confirm ABI removal')}
+      header={t<string>('Confirm ABI removal')}
       onClose={onClose}
     >
       <Modal.Content>
@@ -38,15 +38,15 @@ function RemoveABI ({ code, onClose, onRemove }: Props): React.ReactElement<Prop
           code={code}
           isInline
         >
-          <p>{t('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
-          <p>{t('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
+          <p>{t<string>('You are about to remove this code\'s ABI. Once completed, should you need to access it again, you will have to manually re-upload it.')}</p>
+          <p>{t<string>('This operation does not impact the associated on-chain code or any of its contracts.')}</p>
         </CodeRow>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='trash'
           isPrimary
-          label={t('Remove')}
+          label={t<string>('Remove')}
           onClick={_onRemove}
         />
       </Modal.Actions>

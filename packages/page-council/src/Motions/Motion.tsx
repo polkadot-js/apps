@@ -24,7 +24,7 @@ interface Props {
   prime: AccountId | null;
 }
 
-function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
@@ -56,7 +56,8 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
       <Votes votes={nays} />
       <td className='button'>
         {bestNumber && (
-          end.gt(bestNumber)
+          // end may not be existing (older versions)
+          !end || end.gt(bestNumber)
             ? (
               <Voting
                 hash={hash}

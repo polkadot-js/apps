@@ -4,10 +4,10 @@
 
 import { Option } from './types';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
   return [
     {
-      text: t('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
+      text: t<string>('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
       value: 'default'
     },
     {

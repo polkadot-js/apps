@@ -13,6 +13,7 @@ import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts, useApi, useCall, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
 import Actions from './Actions';
@@ -33,7 +34,7 @@ function reduceNominators (nominators: string[], additional: string[]): string[]
   return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
 }
 
-function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
@@ -56,36 +57,37 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t('Staking overview')
+      text: t<string>('Staking overview')
     },
     {
       name: 'actions',
-      text: t('Account actions')
+      text: t<string>('Account actions')
     },
-    api.query.staking.activeEra
+    isFunction(api.query.staking.activeEra)
       ? {
         name: 'payout',
         text: 'Payouts'
       }
       : null,
     {
+      alias: 'returns',
       name: 'targets',
-      text: t('Targets')
+      text: t<string>('Targets')
     },
     {
       name: 'waiting',
-      text: t('Waiting')
+      text: t<string>('Waiting')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t('Validator stats')
+      text: t<string>('Validator stats')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
   const hiddenTabs = useMemo(
     (): string[] =>
       !hasAccounts
-        ? ['actions', 'query']
+        ? ['actions', 'payouts', 'query']
         : !hasQueries
           ? ['returns', 'query']
           : [],
@@ -101,7 +103,7 @@ function StakingApp ({ basePath, className }: Props): React.ReactElement<Props> 
 
   return (
     <main className={`staking--App ${className}`}>
-      <HelpOverlay md={basicMd} />
+      <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,24 +13,24 @@ interface Props {
   onClose: () => void;
 }
 
-function RecoverAccount ({ address, className, onClose }: Props): React.ReactElement {
+function RecoverAccount ({ address, className = '', onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [recover, setRecover] = useState<string | null>(null);
 
   return (
     <Modal
       className={className}
-      header={t('Initiate account recovery')}
+      header={t<string>('Initiate account recovery')}
     >
       <Modal.Content>
         <InputAddress
           isDisabled
-          label={t('the account to recover to')}
+          label={t<string>('the account to recover to')}
           value={address}
         />
         <InputAddress
-          help={t('Select the account you wish to recover into this account.')}
-          label={t('recover this account')}
+          help={t<string>('Select the account you wish to recover into this account.')}
+          label={t<string>('recover this account')}
           onChange={setRecover}
           type='allPlus'
         />
@@ -40,7 +40,7 @@ function RecoverAccount ({ address, className, onClose }: Props): React.ReactEle
           accountId={address}
           icon='recycle'
           isDisabled={!recover || recover === address}
-          label={t('Start recovery')}
+          label={t<string>('Start recovery')}
           onStart={onClose}
           params={[recover]}
           tx='recovery.initiateRecovery'

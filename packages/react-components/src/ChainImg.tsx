@@ -17,10 +17,10 @@ function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
 }
 
-function ChainImg ({ className, logo, onClick }: Props): React.ReactElement<Props> {
+function ChainImg ({ className = '', logo, onClick }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
-  const img = useMemo((): any => {
-    return namedLogos[logo || ''] || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || emptyLogo;
+  const img = useMemo((): string => {
+    return (namedLogos[logo || ''] || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || emptyLogo) as string;
   }, [logo, systemChain, systemName]);
 
   return (

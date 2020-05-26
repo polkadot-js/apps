@@ -24,7 +24,7 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
     let newError: string | null = null;
 
     if (sessionId === stashId) {
-      newError = t('For fund security, your session key should not match your stash key.');
+      newError = t<string>('For fund security, your session key should not match your stash key.');
     }
 
     onError(newError);

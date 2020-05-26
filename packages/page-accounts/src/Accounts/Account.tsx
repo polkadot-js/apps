@@ -1,16 +1,19 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { H256, Multisig, RecoveryConfig } from '@polkadot/types/interfaces';
 import { SortedAccount } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, Tag } from '@polkadot/react-components';
+import { ApiPromise } from '@polkadot/api';
+import { getLedger } from '@polkadot/react-api';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useIncrement, useToggle } from '@polkadot/react-hooks';
 import { Option, StorageKey } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -33,6 +36,11 @@ interface Props extends SortedAccount {
   toggleFavorite: (address: string) => void;
 }
 
+interface DemocracyUnlockable {
+  democracyUnlockTx: SubmittableExtrinsic<'promise'> | null;
+  ids: BN[];
+}
+
 function calcVisible (filter: string, name: string, tags: string[]): boolean {
   if (filter.length === 0) {
     return true;
@@ -45,11 +53,22 @@ function calcVisible (filter: string, name: string, tags: string[]): boolean {
   }, name.toLowerCase().includes(_filter));
 }
 
-function Account ({ account: { address, meta }, className, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds: BN[]): SubmittableExtrinsic<'promise'> {
+  return api.tx.utility.batch(
+    unlockableIds
+      .map((id) => api.tx.democracy.removeVote(id))
+      .concat(api.tx.democracy.unlock(address))
+  );
+}
+
+function Account ({ account: { address, meta }, className = '', filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const [multiInc, refreshMulti] = useIncrement();
+  const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber, []);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
+  const democracyLocks = useCall<DeriveDemocracyLock[]>(api.api.derive.democracy?.locks, [address]);
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
@@ -59,7 +78,8 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
         .filter(([, opt]) => opt.isSome)
         .map(([key, opt]) => [key.args[1] as H256, opt.unwrap()])
   });
-  const { flags: { isDevelopment, isEditable, isExternal, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -82,8 +102,27 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
     );
   }, [accName, filter, tags]);
 
+  useEffect((): void => {
+    bestNumber && democracyLocks && setUnlockableIds(
+      (prev): DemocracyUnlockable => {
+        const ids = democracyLocks
+          .filter(({ isFinished, unlockAt }) => isFinished && bestNumber.gt(unlockAt))
+          .map(({ referendumId }) => referendumId);
+
+        if (JSON.stringify(prev.ids) === JSON.stringify(ids)) {
+          return prev;
+        }
+
+        return {
+          democracyUnlockTx: createClearDemocracyTx(api.api, address, ids),
+          ids
+        };
+      }
+    );
+  }, [address, api, bestNumber, democracyLocks]);
+
   const _onFavorite = useCallback(
-    (): void => toggleFavorite(address),
+    () => toggleFavorite(address),
     [address, toggleFavorite]
   );
 
@@ -101,10 +140,10 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
       try {
         keyring.forgetAccount(address);
         status.status = 'success';
-        status.message = t('account forgotten');
+        status.message = t<string>('account forgotten');
       } catch (error) {
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
       }
     },
     [address, t]
@@ -118,6 +157,29 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
     [refreshMulti, toggleMultisig]
   );
 
+  const _clearDemocracyLocks = useCallback(
+    (): void => {
+      democracyUnlockTx && queueExtrinsic({
+        accountId: address,
+        extrinsic: democracyUnlockTx
+      });
+    },
+    [address, democracyUnlockTx, queueExtrinsic]
+  );
+
+  const _showOnHardware = useCallback(
+    (): void => {
+      // TODO: we should check the hardwareType from metadata here as well,
+      // for now we are always assuming hardwareType === 'ledger'
+      getLedger()
+        .getAddress(true)
+        .catch((error): void => {
+          console.error(`ledger: ${(error as Error).message}`);
+        });
+    },
+    []
+  );
+
   if (!isVisible) {
     return null;
   }
@@ -126,7 +188,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
+          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />
@@ -136,12 +198,11 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           <Badge
             hover={
               <div>
-                <p>{t('This account is recoverable, with the following friends:')}</p>
+                <p>{t<string>('This account is recoverable, with the following friends:')}</p>
                 <div>
                   {recoveryInfo.friends.map((friend, index): React.ReactNode => (
                     <IdentityIcon
                       key={index}
-                      size={24}
                       value={friend}
                     />
                   ))}
@@ -149,15 +210,15 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
                 <table>
                   <tbody>
                     <tr>
-                      <td>{t('threshold')}</td>
+                      <td>{t<string>('threshold')}</td>
                       <td>{formatNumber(recoveryInfo.threshold)}</td>
                     </tr>
                     <tr>
-                      <td>{t('delay')}</td>
+                      <td>{t<string>('delay')}</td>
                       <td>{formatNumber(recoveryInfo.delayPeriod)}</td>
                     </tr>
                     <tr>
-                      <td>{t('deposit')}</td>
+                      <td>{t<string>('deposit')}</td>
                       <td>{formatBalance(recoveryInfo.deposit)}</td>
                     </tr>
                   </tbody>
@@ -222,8 +283,8 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
             key='multisig-approve'
             onClose={_closeMultisig}
             ongoing={multiInfos}
-            threshold={meta.threshold}
-            who={meta.who}
+            threshold={meta.threshold as number}
+            who={meta.who as string[]}
           />
         )}
         {isRecoverAccountOpen && (
@@ -259,7 +320,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           ))}
         </div>
       </td>
-      <td className='number'>
+      <td className='number ui--media-1500'>
         {balancesAll && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
@@ -273,10 +334,9 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
       <td className='button'>
         <Button
           icon='paper plane'
-          label={t('send')}
+          label={t<string>('send')}
           onClick={toggleTransfer}
-          size='small'
-          tooltip={t('Send funds from this account')}
+          tooltip={t<string>('Send funds from this account')}
         />
         <Popup
           className='theme--default'
@@ -284,9 +344,8 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           onClose={toggleSettings}
           trigger={
             <Button
-              icon='setting'
+              icon='ellipsis vertical'
               onClick={toggleSettings}
-              size='small'
             />
           }
         >
@@ -299,42 +358,56 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
               disabled={!api.api.tx.identity?.setIdentity}
               onClick={toggleIdentity}
             >
-              {t('Set on-chain identity')}
+              {t<string>('Set on-chain identity')}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isExternal}
+              disabled={!democracyUnlockTx}
+              onClick={_clearDemocracyLocks}
+            >
+              {t<string>('Clear expired democracy locks')}
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item
+              disabled={isExternal || isInjected || isMultisig}
               onClick={toggleDerive}
             >
-              {t('Derive account via derivation path')}
+              {t<string>('Derive account via derivation path')}
             </Menu.Item>
+            {isHardware && (
+              <Menu.Item onClick={_showOnHardware}
+              >
+                {t<string>('Show address on hardware device')}
+              </Menu.Item>
+            )}
+            <Menu.Divider />
             <Menu.Item
-              disabled={!isEditable || isExternal || isDevelopment}
+              disabled={isExternal || isInjected || isMultisig || isDevelopment}
               onClick={toggleBackup}
             >
-              {t('Create a backup file for this account')}
+              {t<string>('Create a backup file for this account')}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isExternal || isDevelopment}
+              disabled={isExternal || isInjected || isMultisig || isDevelopment}
               onClick={togglePassword}
             >
               {t("Change this account's password")}
             </Menu.Item>
             <Menu.Item
-              disabled={!isEditable || isDevelopment}
+              disabled={isInjected || isDevelopment}
               onClick={toggleForget}
             >
-              {t('Forget this account')}
+              {t<string>('Forget this account')}
             </Menu.Item>
             {api.api.tx.recovery?.createRecovery && (
               <>
                 <Menu.Divider />
                 {!recoveryInfo && (
                   <Menu.Item onClick={toggleRecoverSetup}>
-                    {t('Make recoverable')}
+                    {t<string>('Make recoverable')}
                   </Menu.Item>
                 )}
                 <Menu.Item onClick={toggleRecoverAccount}>
-                  {t('Initiate recovery for another')}
+                  {t<string>('Initiate recovery for another')}
                 </Menu.Item>
               </>
             )}
@@ -345,7 +418,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
                   disabled={!multiInfos || !multiInfos.length}
                   onClick={toggleMultisig}
                 >
-                  {t('Multisig approvals')}
+                  {t<string>('Multisig approvals')}
                 </Menu.Item>
               </>
             )}
@@ -362,7 +435,7 @@ function Account ({ account: { address, meta }, className, filter, isFavorite, s
           </Menu>
         </Popup>
       </td>
-      <td className='mini'>
+      <td className='mini ui--media-1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
+import { KeyedEvent } from '../types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -21,10 +22,17 @@ interface Props {
   value: string;
 }
 
-function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
+function BlockByHash ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const events = useCall<EventRecord[]>(api.query.system.events.at, [value], { isSingle: true });
+  const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], {
+    isSingle: true,
+    transform: (events: EventRecord[]): KeyedEvent[] =>
+      events.map((record, index) => ({
+        key: `${Date.now()}-${index}-${record.hash.toHex()}`,
+        record
+      }))
+  });
   const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock, [value], { isSingle: true });
   const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader, [value]);
 
@@ -56,7 +64,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
               )}
             </td>
             <td className='hash overflow'>{getHeader.hash.toHex()}</td>
-            <td className='hash overflow'><Link to={`/explorer/query/${parentHash}`}>{parentHash}</Link></td>
+            <td className='hash overflow'><Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link></td>
             <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
             <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
             <td>
@@ -79,8 +87,8 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
             <Column>
               <Events
                 eventClassName='explorer--BlockByHash-block'
-                events={(events || []).filter(({ phase }) => !phase.isApplyExtrinsic)}
-                label={t('system events')}
+                events={events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
+                label={t<string>('system events')}
               />
             </Column>
             <Column>

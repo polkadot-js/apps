@@ -15,7 +15,7 @@ interface Props {
   onChange: (accountId: string | null) => void;
 }
 
-function AccountSelector ({ className, onChange }: Props): React.ReactElement<Props> {
+function AccountSelector ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
 
   useEffect(

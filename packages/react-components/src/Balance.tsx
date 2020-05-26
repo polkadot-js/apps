@@ -24,7 +24,7 @@ export interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-export function renderProvided ({ className, label, value }: RenderProps): React.ReactNode {
+export function renderProvided ({ className = '', label, value }: RenderProps): React.ReactNode {
   let others: undefined | React.ReactNode;
 
   if (Array.isArray(value)) {
@@ -55,24 +55,19 @@ export function renderProvided ({ className, label, value }: RenderProps): React
 }
 
 function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
-  const { balance, className, label, params, style } = props;
+  const { balance, className = '', label, params } = props;
 
   if (!params) {
     return null;
   }
 
   return balance
-    ? (
-      <>
-        {renderProvided({ className, label, value: balance })}
-      </>
-    )
+    ? <>{renderProvided({ className, label, value: balance })}</>
     : (
       <Balance
         className={classes('ui--Balance', className)}
         label={label}
         params={params}
-        style={style}
       />
     );
 }

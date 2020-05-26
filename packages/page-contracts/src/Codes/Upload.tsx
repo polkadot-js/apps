@@ -42,7 +42,7 @@ class Upload extends ContractModal<Props, State> {
       wasm: null
     };
     this.state = this.defaultState;
-    this.headerText = t('Upload WASM');
+    this.headerText = t<string>('Upload WASM');
   }
 
   protected renderContent = (): React.ReactNode => {
@@ -53,14 +53,14 @@ class Upload extends ContractModal<Props, State> {
       <>
         {this.renderInputAccount()}
         <InputFile
-          help={t('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
+          help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
           isDisabled={isBusy}
           isError={!isWasmValid}
-          label={t('compiled contract WASM')}
+          label={t<string>('compiled contract WASM')}
           onChange={this.onAddWasm}
           placeholder={
             wasm && !isWasmValid
-              ? t('The code is not recognized as being in valid WASM format')
+              ? t<string>('The code is not recognized as being in valid WASM format')
               : null
           }
         />
@@ -82,7 +82,7 @@ class Upload extends ContractModal<Props, State> {
         icon='upload'
         isDisabled={!isValid}
         isPrimary
-        label={t('Upload')}
+        label={t<string>('Upload')}
         onClick={this.toggleBusy(true)}
         onFailed={this.toggleBusy(false)}
         onSuccess={this.onSuccess}

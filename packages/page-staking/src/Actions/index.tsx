@@ -8,7 +8,7 @@ import { SortedTargets } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
@@ -16,7 +16,9 @@ import { Option } from '@polkadot/types';
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
 import Account from './Account';
-import NewStake from './NewStake';
+import NewNominator from './NewNominator';
+import NewStash from './NewStash';
+import NewValidator from './NewValidator';
 
 interface Props {
   className?: string;
@@ -32,7 +34,7 @@ interface State {
   foundStashes?: StakerState[];
 }
 
-function Actions ({ className, isInElection, next, ownStashes, targets, validators }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, next, ownStashes, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeEra = useCall<EraIndex | undefined>(api.query.staking?.activeEra, [], {
@@ -56,7 +58,7 @@ function Actions ({ className, isInElection, next, ownStashes, targets, validato
   const header = useMemo(() => [
     [t('stashes'), 'start'],
     [t('controller'), 'address'],
-    [t('rewards'), 'number'],
+    [t('rewards'), 'number ui--media-1200'],
     [t('bonded'), 'number'],
     [undefined, undefined, 2]
   ], [t]);
@@ -73,10 +75,19 @@ function Actions ({ className, isInElection, next, ownStashes, targets, validato
 
   return (
     <div className={className}>
-      <NewStake />
+      <Button.Group>
+        <NewNominator
+          isInElection={isInElection}
+          next={next}
+          targets={targets}
+          validators={validators}
+        />
+        <NewValidator isInElection={isInElection} />
+        <NewStash />
+      </Button.Group>
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={foundStashes && t('No funds staked yet. Bond funds to validate or nominate a validator')}
+        empty={foundStashes && t<string>('No funds staked yet. Bond funds to validate or nominate a validator')}
         footer={footer}
         header={header}
       >

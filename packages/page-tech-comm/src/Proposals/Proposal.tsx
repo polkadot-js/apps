@@ -19,7 +19,7 @@ interface Props {
   prime?: AccountId | null;
 }
 
-function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [imageHash]);
   const votes = useCall<Option<Votes>>(api.query.technicalCommittee.voting, [imageHash]);
@@ -44,7 +44,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
       <td className='address'>
         {ayes.map((address, index): React.ReactNode => (
           <AddressMini
-            key={`${index}:${address}`}
+            key={`${index}:${address.toHex()}`}
             value={address}
             withBalance={false}
           />
@@ -53,7 +53,7 @@ function Proposal ({ className, imageHash, prime }: Props): React.ReactElement<P
       <td className='address'>
         {nays.map((address, index): React.ReactNode => (
           <AddressMini
-            key={`${index}:${address}`}
+            key={`${index}:${address.toHex()}`}
             value={address}
             withBalance={false}
           />

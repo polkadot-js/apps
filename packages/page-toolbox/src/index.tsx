@@ -22,19 +22,19 @@ function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'rpc',
-      text: t('RPC calls')
+      text: t<string>('RPC calls')
     },
     {
       name: 'hash',
-      text: t('Hash data')
+      text: t<string>('Hash data')
     },
     {
       name: 'sign',
-      text: t('Sign message')
+      text: t<string>('Sign message')
     },
     {
       name: 'verify',
-      text: t('Verify signature')
+      text: t<string>('Verify signature')
     }
   ], [t]);
 

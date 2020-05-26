@@ -70,13 +70,13 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         status.account = address;
         status.status = address ? 'success' : 'error';
         status.message = isAddressExisting
-          ? t('address edited')
-          : t('address created');
+          ? t<string>('address edited')
+          : t<string>('address created');
 
         InputAddress.setLastValue('address', address);
       } catch (error) {
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
       }
 
       onStatusChange(status);
@@ -86,7 +86,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   );
 
   return (
-    <Modal header={t('Add an address')}>
+    <Modal header={t<string>('Add an address')}>
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -96,19 +96,19 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           <Input
             autoFocus
             className='full'
-            help={t('Paste here the address of the contact you want to add to your address book.')}
+            help={t<string>('Paste here the address of the contact you want to add to your address book.')}
             isError={!isAddressValid}
-            label={t('address')}
+            label={t<string>('address')}
             onChange={_onChangeAddress}
             onEnter={_onCommit}
-            placeholder={t('new address')}
+            placeholder={t<string>('new address')}
             value={address}
           />
           <Input
             className='full'
-            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
+            help={t<string>('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
             isError={!isNameValid}
-            label={t('name')}
+            label={t<string>('name')}
             onChange={_onChangeName}
             onEnter={_onCommit}
             value={name}
@@ -120,7 +120,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           icon='save'
           isDisabled={!isValid}
           isPrimary
-          label={t('Save')}
+          label={t<string>('Save')}
           onClick={_onCommit}
         />
       </Modal.Actions>

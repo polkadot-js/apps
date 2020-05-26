@@ -17,7 +17,7 @@ interface Props {
   members: string[];
 }
 
-function ProposeExternal ({ className, isMember, members }: Props): React.ReactElement<Props> {
+function ProposeExternal ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
@@ -44,30 +44,45 @@ function ProposeExternal ({ className, isMember, members }: Props): React.ReactE
       <Button
         icon='add'
         isDisabled={!isMember}
-        label={t('Propose external')}
+        label={t<string>('Propose external')}
         onClick={toggleVisible}
       />
       {isVisible && (
         <Modal
           className={className}
-          header={t('Propose external (majority)')}
+          header={t<string>('Propose external (majority)')}
+          size='large'
         >
           <Modal.Content>
-            <InputAddress
-              filter={members}
-              help={t('Select the account you wish to make the proposal with.')}
-              label={t('propose from account')}
-              onChange={setAcountId}
-              type='account'
-              withLabel
-            />
-            <Input
-              autoFocus
-              help={t('The preimage hash of the proposal')}
-              label={t('preimage hash')}
-              onChange={_onChangeHash}
-              value={hash}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  filter={members}
+                  help={t<string>('Select the account you wish to make the proposal with.')}
+                  label={t<string>('propose from account')}
+                  onChange={setAcountId}
+                  type='account'
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The council account for the proposal. The selection is filtered by the current members.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  autoFocus
+                  help={t<string>('The preimage hash of the proposal')}
+                  label={t<string>('preimage hash')}
+                  onChange={_onChangeHash}
+                  value={hash}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The hash of the proposal image, either already submitted or valid for the specific call.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
@@ -75,7 +90,7 @@ function ProposeExternal ({ className, isMember, members }: Props): React.ReactE
               icon='plus'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
               isPrimary
-              label={t('Propose')}
+              label={t<string>('Propose')}
               onStart={toggleVisible}
               params={[threshold, proposal]}
               tx='council.propose'

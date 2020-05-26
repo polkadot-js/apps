@@ -11,11 +11,11 @@ import useApi from './useApi';
 export default function useCacheKey <T> (storageKeyBase: string): [(defaultValue?: T) => T | undefined, (value: T) => T] {
   const { api, isDevelopment } = useApi();
   const storageKey = useMemo(
-    () => `${storageKeyBase}:${isDevelopment ? 'development' : api.genesisHash}`,
+    () => `${storageKeyBase}:${isDevelopment ? 'development' : api.genesisHash.toHex()}`,
     [api, isDevelopment, storageKeyBase]
   );
-  const getter = useCallback((): T | undefined => store.get(storageKey), [storageKey]);
-  const setter = useCallback((value: T): T => store.set(storageKey, value), [storageKey]);
+  const getter = useCallback((): T | undefined => store.get(storageKey) as T, [storageKey]);
+  const setter = useCallback((value: T): T => store.set(storageKey, value) as T, [storageKey]);
 
   return [getter, setter];
 }

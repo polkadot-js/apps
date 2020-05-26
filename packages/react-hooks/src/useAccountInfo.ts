@@ -4,6 +4,7 @@
 
 import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { StringOrNull } from '@polkadot/react-components/types';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -21,7 +22,9 @@ const IS_NONE = {
   isEditable: false,
   isExternal: false,
   isFavorite: false,
+  isHardware: false,
   isInContacts: false,
+  isInjected: false,
   isMultisig: false,
   isOwned: false,
   isSociety: false,
@@ -40,6 +43,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
   const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
+  const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
   const [isEditingName, toggleIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags] = useToggle();
 
@@ -95,16 +99,19 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     setGenesisHash(accountOrAddress?.meta.genesisHash || null);
     setFlags((flags) => ({
       ...flags,
-      isDevelopment: accountOrAddress?.meta.isTesting || false,
-      isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
-      isExternal: accountOrAddress?.meta.isExternal || false,
+      isDevelopment: (accountOrAddress?.meta.isTesting as boolean) || false,
+      isEditable: (!identity?.display && (isInContacts || (accountOrAddress?.meta.isMultisig as boolean) || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
+      isExternal: (accountOrAddress?.meta.isExternal as boolean) || false,
+      isHardware: (accountOrAddress?.meta.isHardware as boolean) || false,
       isInContacts,
-      isMultisig: accountOrAddress?.meta.isMultisig || false,
+      isInjected: (accountOrAddress?.meta.isInjected as boolean) || false,
+      isMultisig: (accountOrAddress?.meta.isMultisig as boolean) || false,
       isOwned
     }));
+    setMeta(accountOrAddress?.meta);
     setName(accountOrAddress?.meta.name || '');
-    setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
-  }, [identity, isAccount, isAddress, value]);
+    setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
+  }, [identity?.display, isAccount, isAddress, value]);
 
   const onSaveName = useCallback(
     (): void => {
@@ -195,6 +202,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     identity,
     isEditingName,
     isEditingTags,
+    meta,
     name,
     onForgetAddress,
     onSaveName,

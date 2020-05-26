@@ -18,7 +18,7 @@ interface Props {
   tx: string;
 }
 
-function VoteActions ({ accountId, aye, className, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
+function VoteActions ({ accountId, aye, className = '', isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -32,8 +32,8 @@ function VoteActions ({ accountId, aye, className, isDisabled, onClick, params, 
         isDisabled={!accountId || isDisabled}
         isPrimary
         label={aye
-          ? t('Vote Aye')
-          : t('Vote Nay')}
+          ? t<string>('Vote Aye')
+          : t<string>('Vote Nay')}
         onStart={onClick}
         params={params}
         tx={tx}

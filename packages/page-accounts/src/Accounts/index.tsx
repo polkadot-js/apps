@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-staking authors & contributors
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,11 +11,12 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
-import { useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import useIsIpfs from './useIsIpfs';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
@@ -90,9 +91,11 @@ function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[
     );
 }
 
-function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const isIpfs = useIsIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -126,9 +129,10 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
     [t('parent'), 'address'],
     [t('type')],
     [t('tags'), 'start'],
-    [t('transactions')],
+    [t('transactions'), 'ui--media-1500'],
     [t('balances')],
-    [undefined, undefined, 2]
+    [undefined, undefined],
+    [undefined, 'ui--media-1400']
   ], [t]);
 
   const footer = useMemo(() => (
@@ -146,7 +150,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Input
         autoFocus
         isFull
-        label={t('filter by name or tags')}
+        label={t<string>('filter by name or tags')}
         onChange={setFilter}
         value={filterOn}
       />
@@ -183,40 +187,44 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Button.Group>
         <Button
           icon='add'
-          label={t('Add account')}
+          isDisabled={isIpfs}
+          label={t<string>('Add account')}
           onClick={toggleCreate}
         />
         <Button
           icon='sync'
-          label={t('Restore JSON')}
+          isDisabled={isIpfs}
+          label={t<string>('Restore JSON')}
           onClick={toggleImport}
         />
         <Button
           icon='qrcode'
-          label={t('Add via Qr')}
+          label={t<string>('Add via Qr')}
           onClick={toggleQr}
         />
         {isLedger() && (
           <>
             <Button
               icon='question'
-              label={t('Query Ledger')}
+              label={t<string>('Query Ledger')}
               onClick={queryLedger}
             />
           </>
         )}
         <Button
           icon='add'
-          label={t('Multisig')}
+          isDisabled={!api.tx.utility}
+          label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
       </Button.Group>
       <Table
-        empty={t('no accounts yet, create or import an existing')}
+        empty={t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={header}
       >
+        {}
         {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
           <Account
             account={account}

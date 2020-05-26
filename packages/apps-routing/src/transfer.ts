@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import TransferModal from '@polkadot/app-accounts/Accounts/modals/Transfer';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component: TransferModal,
     Modal: TransferModal,
@@ -19,6 +19,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'send',
     name: 'transfer',
-    text: t('nav.transfer', 'Transfer', { ns: 'apps-routing' })
+    text: t<string>('nav.transfer', 'Transfer', { ns: 'apps-routing' })
   };
 }

@@ -73,18 +73,18 @@ function Contracts (props: Props): React.ReactElement<Props> {
             {hasCode && (
               <Button
                 icon='cloud upload'
-                label={t('Deploy a code hash')}
+                label={t<string>('Deploy a code hash')}
                 onClick={showDeploy()}
               />
             )}
             <Button
               icon='add'
-              label={t('Add an existing contract')}
+              label={t<string>('Add an existing contract')}
               onClick={_toggleAdd}
             />
           </Button.Group>
         }
-        emptyText={t('No contracts available')}
+        emptyText={t<string>('No contracts available')}
       >
         {contracts.map((contract: ApiContract, index): React.ReactNode => (
           <ContractCard

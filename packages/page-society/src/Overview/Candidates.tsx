@@ -16,7 +16,7 @@ interface Props extends OwnMembers {
   className?: string;
 }
 
-function Candidates ({ allMembers, className, isMember, ownMembers }: Props): React.ReactElement<Props> {
+function Candidates ({ allMembers, className = '', isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
@@ -31,7 +31,7 @@ function Candidates ({ allMembers, className, isMember, ownMembers }: Props): Re
   return (
     <Table
       className={className}
-      empty={candidates && t('No candidates')}
+      empty={candidates && t<string>('No candidates')}
       header={header}
     >
       {candidates?.map((candidate): React.ReactNode => (

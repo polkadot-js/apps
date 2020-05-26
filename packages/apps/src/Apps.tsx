@@ -13,7 +13,6 @@ import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
-import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
@@ -30,10 +29,10 @@ interface SidebarState {
 export const PORTAL_ID = 'portals';
 
 function saveSidebar (sidebar: SidebarState): SidebarState {
-  return store.set('sidebar', sidebar);
+  return store.set('sidebar', sidebar) as SidebarState;
 }
 
-function Apps ({ className }: Props): React.ReactElement<Props> {
+function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
@@ -76,7 +75,7 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
-      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
+      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu ? 'fixed' : ''} ${isMenuOpen ? 'menu-open' : ''} theme--default ${className}`}>
         <div
           className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
           onClick={_handleResize}
@@ -92,7 +91,6 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
           <Content />
         </Signer>
         <ConnectingOverlay />
-        <AccountsOverlay />
         <div id={PORTAL_ID} />
       </div>
       <WarmUp />
@@ -101,11 +99,10 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Apps)`
-  align-items: stretch;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  height: 100vh;
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
