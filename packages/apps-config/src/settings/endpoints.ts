@@ -24,7 +24,7 @@ function createLive (t: <T= string> (key: string, text: string, options: { ns: s
     {
       info: 'polkadot',
       text: t<string>('rpc.polkadot.w3f', 'Polkadot (Live, hosted by Web3 Foundation)', { ns: 'apps-config' }),
-      value: 'wss://cc1-5.polkadot.network'
+      value: 'wss://cc1-1.polkadot.network'
     },
     {
       info: 'kusama',
