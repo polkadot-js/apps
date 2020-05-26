@@ -3193,7 +3193,6 @@ __metadata:
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^5.1.1
     electron-updater: ^4.3.1
-    electron-util: ^0.14.1
     html-webpack-plugin: ^4.3.0
     react: ^16.13.1
     react-dom: ^16.13.1
@@ -9295,20 +9294,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-is-dev@npm:^1.1.0":
-  version: 1.2.0
-  resolution: "electron-is-dev@npm:1.2.0"
-  checksum: 3/0d747f00370eda79c8df4eb13609f462acea48d055b9eeea6f54efb635d9dade98f903759ef908241098f90bf18a23d00f6a519f244d5b6b80107a249709e68d
-  languageName: node
-  linkType: hard
-
-"electron-log@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "electron-log@npm:4.2.0"
-  checksum: 3/25e43125b20820ecc2ad73aa3f25948e3819af60d3f472d86f3a8889ac217b88d784880023eb421c5b90b33ab55c626bdb73f7ed3edee1de51e86fb8fc653691
-  languageName: node
-  linkType: hard
-
 "electron-publish@npm:22.6.1":
   version: 22.6.1
   resolution: "electron-publish@npm:22.6.1"
@@ -9344,16 +9329,6 @@ __metadata:
     lodash.isequal: ^4.5.0
     semver: ^7.3.2
   checksum: 3/b0fefb08ead43139b56ad9e18f5c951e14e99e9a6798a315218db24b47263bf68ee30873e22d510215abe130f993b14f9cf648f95218095b853400be08c6a852
-  languageName: node
-  linkType: hard
-
-"electron-util@npm:^0.14.1":
-  version: 0.14.1
-  resolution: "electron-util@npm:0.14.1"
-  dependencies:
-    electron-is-dev: ^1.1.0
-    new-github-issue-url: ^0.2.1
-  checksum: 3/8522e1365f64761d142f31789337689e38367412dda7b8c71915f890e9088a5cb66da97e336b04b9601fa07c2c66e985f43526bcdf0757ee93d18aa2ba5ee120
   languageName: node
   linkType: hard
 
@@ -16181,13 +16156,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"new-github-issue-url@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "new-github-issue-url@npm:0.2.1"
-  checksum: 3/8a721a119dd8a135bc7346b0b3fabcf17de07b125c62662727eacf53e0357d3d0780f089bdf3536b823f7f904de588473a30b7b2ecf6191181fc601891ec905d
-  languageName: node
-  linkType: hard
-
 "next-tick@npm:1":
   version: 1.1.0
   resolution: "next-tick@npm:1.1.0"
@@ -17711,7 +17679,6 @@ __metadata:
     dnslink-cloudflare: ^2.0.4
     electron: 8.3.0
     electron-builder: ^22.6.1
-    electron-log: ^4.2.0
     i18next-scanner: ^2.11.0
     react: ^16.13.1
     react-dom: ^16.13.1
