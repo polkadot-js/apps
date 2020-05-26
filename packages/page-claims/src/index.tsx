@@ -181,7 +181,7 @@ function ClaimsApp (): React.ReactElement {
       <header />
       {!isOldClaimProcess && <Warning />}
       <h1>
-        <Trans>claim your <em>{TokenUnit.abbr}</em> tokens</Trans>
+        <Trans>Claim your <em>{TokenUnit.abbr}</em> tokens</Trans>
       </h1>
       <Columar>
         <Column>
@@ -249,7 +249,7 @@ function ClaimsApp (): React.ReactElement {
                       kind={statementKind}
                       systemChain={systemChain}
                     />)}
-                    <div>{t<string>('Copy the following string and sign it with the Ethreum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:')}</div>
+                    <div>{t<string>('Copy the following string and sign it with the Ethereum account you used during the pre-sale in the wallet of your choice, using the string as the payload, and then paste the transaction signature object below:')}</div>
                     <CopyToClipboard
                       onCopy={onCopy}
                       text={payload}
