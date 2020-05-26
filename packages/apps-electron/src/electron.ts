@@ -4,7 +4,7 @@
 
 import { BrowserWindow, app } from 'electron';
 import path from 'path';
-// import updateApp from './utils/updater';
+import { autoUpdater } from 'electron-updater';
 
 const environment = process.env.NODE_ENV || 'production';
 
@@ -26,10 +26,12 @@ async function createWindow (): Promise<unknown> {
 
   const mainFilePath = path.resolve(__dirname, 'index.html');
 
-  // TODO: handle asynchronous executing. It stops loading app
-  // await updateApp();
-
   return win.loadFile(mainFilePath);
 }
 
 app.whenReady().then(createWindow).catch(console.error);
+
+app.on('ready', function () {
+  // eslint-disable-next-line no-void
+  void autoUpdater.checkForUpdatesAndNotify();
+});

@@ -9302,6 +9302,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-log@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "electron-log@npm:4.2.0"
+  checksum: 3/25e43125b20820ecc2ad73aa3f25948e3819af60d3f472d86f3a8889ac217b88d784880023eb421c5b90b33ab55c626bdb73f7ed3edee1de51e86fb8fc653691
+  languageName: node
+  linkType: hard
+
 "electron-publish@npm:22.6.1":
   version: 22.6.1
   resolution: "electron-publish@npm:22.6.1"
@@ -17704,6 +17711,7 @@ __metadata:
     dnslink-cloudflare: ^2.0.4
     electron: 8.3.0
     electron-builder: ^22.6.1
+    electron-log: ^4.2.0
     i18next-scanner: ^2.11.0
     react: ^16.13.1
     react-dom: ^16.13.1
@@ -17714,6 +17722,7 @@ __metadata:
     terser-webpack-plugin: ^3.0.1
     webpack: ^4.43.0
     webpack-cli: ^3.3.11
+    webpack-dev-server: ^3.11.0
     webpack-merge: ^4.2.2
     webpack-plugin-serve: ^1.0.0
   languageName: unknown
@@ -23602,7 +23611,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^3.5.1":
+"webpack-dev-server@npm:^3.11.0, webpack-dev-server@npm:^3.5.1":
   version: 3.11.0
   resolution: "webpack-dev-server@npm:3.11.0"
   dependencies:
