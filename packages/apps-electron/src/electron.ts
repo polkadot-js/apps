@@ -4,10 +4,11 @@
 
 import { BrowserWindow, app } from 'electron';
 import path from 'path';
+// import updateApp from './utils/updater';
 
 const environment = process.env.NODE_ENV || 'production';
 
-function createWindow (): Promise<unknown> {
+async function createWindow (): Promise<unknown> {
   // Create the browser window.
   const win = new BrowserWindow({
     height: 600,
@@ -24,6 +25,9 @@ function createWindow (): Promise<unknown> {
   }
 
   const mainFilePath = path.resolve(__dirname, 'index.html');
+
+  // TODO: handle asynchronous executing. It stops loading app
+  // await updateApp();
 
   return win.loadFile(mainFilePath);
 }
