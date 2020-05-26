@@ -29,9 +29,9 @@ function createWindow (): Promise<unknown> {
   return win.loadFile(mainFilePath);
 }
 
-app.whenReady().then(createWindow).catch(console.error);
+const onReady = async () => {
+  await createWindow();
+  await autoUpdater.checkForUpdatesAndNotify();
+};
 
-app.on('ready', function () {
-  // eslint-disable-next-line no-void
-  void autoUpdater.checkForUpdatesAndNotify();
-});
+app.whenReady().then(onReady).catch(console.error);
