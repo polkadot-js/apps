@@ -2,19 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { LinkExternal } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Close from './Close';
-import Votes from './Votes';
+import Voters from './Votes';
 import Voting from './Voting';
+import useVotingStatus from './useVotingStatus';
 
 interface Props {
   className?: string;
@@ -25,8 +25,7 @@ interface Props {
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const { isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length);
 
   if (!votes) {
     return null;
@@ -45,38 +44,34 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
       </td>
       <td className='number together'>
-        {bestNumber && end && (
+        {remainingBlocks && end && (
           <>
-            <BlockToTime blocks={end.sub(bestNumber)} />
+            <BlockToTime blocks={remainingBlocks} />
             #{formatNumber(end)}
           </>
         )}
       </td>
-      <Votes votes={ayes} />
-      <Votes votes={nays} />
+      <Voters votes={ayes} />
+      <Voters votes={nays} />
       <td className='button'>
-        {bestNumber && (
-          // end may not be existing (older versions)
-          !end || end.gt(bestNumber)
-            ? (
-              <Voting
-                hash={hash}
-                idNumber={index}
-                isDisabled={!isMember}
-                members={members}
-                prime={prime}
-                proposal={proposal}
-              />
-            )
-            : (
-              <Close
-                hash={hash}
-                idNumber={index}
-                isDisabled={!isMember}
-                members={members}
-                proposal={proposal}
-              />
-            )
+        {isVoteable && (
+          <Voting
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            prime={prime}
+            proposal={proposal}
+          />
+        )}
+        {isCloseable && (
+          <Close
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            proposal={proposal}
+          />
         )}
       </td>
       <td className='mini'>
