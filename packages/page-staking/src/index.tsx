@@ -44,7 +44,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const targets = useSortedTargets();
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
+  const isInElection = useCall<boolean>(api.query.staking.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
   });
   const isPOA = useCall<boolean>(api.query.staking.forceEra, [], {
