@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import { isBoolean } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  hash: string;
+  hash: Hash | string;
   prime?: AccountId | null;
   proposalId: BN | number;
 }

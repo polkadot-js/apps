@@ -39,7 +39,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export default function useVotingStatus (votes: Votes | null, numMembers: number): State {
+export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number): State {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const [state, setState] = useState<State>({ isCloseable: false, isVoteable: false, remainingBlocks: null });
