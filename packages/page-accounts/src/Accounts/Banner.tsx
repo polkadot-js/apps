@@ -26,6 +26,14 @@ function Banner ({ children, className = '', type }: Props): React.ReactElement<
 export default React.memo(styled(Banner)`
   padding: 0 0.5rem 0.5rem;
 
+  &.error {
+    .box {
+      background: #fdd;
+      border-left-color: #9f3a38;
+      color: #9f3a38;
+    }
+  }
+
   &.warning {
     .box {
       background: #fff6e5;

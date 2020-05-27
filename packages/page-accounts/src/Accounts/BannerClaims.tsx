@@ -17,7 +17,7 @@ function BannerExtension (): React.ReactElement | null {
   }
 
   return (
-    <Banner type='warning'>
+    <Banner type='error'>
       <p>{t<string>('You have {{claimCount}} accounts that need attestations. Use the Claims Token app on the left navigation bar to complete the process. Until you do, your balances for those accounts will not be reflected.', { replace: { claimCount } })}</p>
     </Banner>
   );
