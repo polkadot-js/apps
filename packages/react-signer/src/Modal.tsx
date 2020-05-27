@@ -253,7 +253,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
-    const { t } = this.props;
+    const { api, t } = this.props;
     const { currentItem, isQrScanning, isQrVisible, isSendable, isSubmit, qrAddress, qrPayload, tip } = this.state;
 
     if (!currentItem) {
@@ -274,6 +274,7 @@ class Signer extends React.PureComponent<Props, State> {
               <Modal.Column>
                 <Qr
                   address={qrAddress}
+                  genesisHash={api.genesisHash}
                   isScanning={isQrScanning}
                   onSignature={this.addQrSignature}
                   payload={qrPayload}
