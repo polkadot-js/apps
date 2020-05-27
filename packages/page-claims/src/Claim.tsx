@@ -46,7 +46,7 @@ function constructTx (
 
   return isOldClaimProcess
     ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
-    ? !kind
+    : !kind
       ? {}
       : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
 }
