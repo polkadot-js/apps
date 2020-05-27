@@ -7,7 +7,7 @@ const emptyColor = '#999';
 
 const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
-const chainKusama = '#d32e79';
+const chainKusama = '#000'; // '#d32e79';
 const chainWestend = '#da68a7';
 
 const nodeCentrifuge = '#fcc367';
