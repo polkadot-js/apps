@@ -32,7 +32,8 @@ export default function CryptoType ({ accountId, className, label = '' }: Props)
               ? current.meta.hardwareType || 'hardware'
               : current.meta.isExternal
                 ? 'external'
-                : current.type
+                // @ts-ignore
+                : current?.type?.type || current?.type || 'unknown'
         );
       }
     } catch (error) {
