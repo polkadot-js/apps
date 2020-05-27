@@ -3,9 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { availableExtensions } from '@polkadot/apps-config/extensions';
 import useClaimCounter from '@polkadot/app-claims/useCounter'; // exceptionally CRAP idea
-import { stringUpperFirst } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Banner from './Banner';
@@ -20,28 +18,7 @@ function BannerExtension (): React.ReactElement | null {
 
   return (
     <Banner type='warning'>
-      <p>{t<string>('It is recommended that you create/store your accounts securely and externally from the app. On {{yourBrowser}} the following browser extensions are available for use -', {
-        replace: {
-          yourBrowser: stringUpperFirst(browserName)
-        }
-      })}</p>
-      <ul>{availableExtensions[browserName].map(({ desc, link, name }): React.ReactNode => (
-        <li key={name}>
-          <a
-            href={link}
-            rel='noopener noreferrer'
-            target='_blank'
-          >
-            {name}
-          </a> ({t(desc)})
-        </li>
-      ))
-      }</ul>
-      <p>{t<string>('Accounts injected from any of these extensions will appear in this application and be available for use. The above list is updated as more extensions with external signing capability become available.')}&nbsp;<a
-        href='https://github.com/polkadot-js/extension'
-        rel='noopener noreferrer'
-        target='_blank'
-      >{t<string>('Learn more...')}</a></p>
+      <p>{t<string>('You have {{claimCount}} accounts that need attestations. Use the Claims Token app on the left navigation bar to complete the process. Until you do, your balances for those accounts will not be reflected.', { replace: { claimCount } })}</p>
     </Banner>
   );
 }
