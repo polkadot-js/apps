@@ -46,7 +46,7 @@
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ipfs && yarn build:release:ghpages",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
     "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
-    "build:devElectronRenderer": "cd packages/apps-electron && NODE_ENV=development webpack-dev-server --color --progress --config webpack.renderer.config.js",
+    "build:devElectronRenderer": "cd packages/apps-electron && NODE_ENV=development webpack --config webpack.renderer.config.js",
     "build:electronRenderer": "cd packages/apps-electron && webpack --config webpack.renderer.config.js",
     "build:devElectronMain": "cd packages/apps-electron && NODE_ENV=development webpack --config webpack.main.config.js",
     "build:electronMain": "cd packages/apps-electron && webpack --config webpack.main.config.js",
