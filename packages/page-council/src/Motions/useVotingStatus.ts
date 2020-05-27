@@ -10,6 +10,8 @@ import { ApiPromise } from '@polkadot/api';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 interface State {
+  hasFailed: boolean;
+  hasPassed: boolean;
   isCloseable: boolean;
   isVoteable: boolean;
   remainingBlocks: BN | null;
@@ -18,6 +20,8 @@ interface State {
 function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number): State {
   if (!votes.end) {
     return {
+      hasFailed: false,
+      hasPassed: false,
       isCloseable: false,
       isVoteable: true,
       remainingBlocks: null
@@ -25,13 +29,15 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   }
 
   const isEnd = bestNumber.gte(votes.end);
-  const isPassing = votes.threshold.lten(votes.ayes.length);
-  const isFailing = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
+  const hasPassed = votes.threshold.lten(votes.ayes.length);
+  const hasFailed = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
 
   return {
+    hasFailed,
+    hasPassed,
     isCloseable: api.tx.council.close.meta.args.length === 2
       ? isEnd
-      : isEnd || isPassing || isFailing,
+      : isEnd || hasPassed || hasFailed,
     isVoteable: !isEnd,
     remainingBlocks: isEnd
       ? null
@@ -42,7 +48,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
 export default function useVotingStatus (votes: Votes | null, numMembers: number): State {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const [state, setState] = useState<State>({ isCloseable: false, isVoteable: false, remainingBlocks: null });
+  const [state, setState] = useState<State>({ hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null });
 
   useEffect((): void => {
     bestNumber && votes && setState(
