@@ -4,7 +4,7 @@
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { ElectionStatus, Forcing } from '@polkadot/types/interfaces';
+import { ElectionStatus } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { Route, Switch } from 'react-router';
@@ -44,11 +44,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const targets = useSortedTargets();
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
-  const isInElection = useCall<boolean>(api.query.staking.eraElectionStatus, [], {
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
-  });
-  const isPOA = useCall<boolean>(api.query.staking.forceEra, [], {
-    transform: (forcing: Forcing) => forcing.isForceNone
   });
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
   const hasQueries = useMemo(
@@ -145,7 +142,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       </Switch>
       <Actions
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
-        isInElection={isInElection && !isPOA}
+        isInElection={isInElection}
         next={next}
         ownStashes={ownStashes}
         targets={targets}
