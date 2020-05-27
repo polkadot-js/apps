@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { Forcing } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { CardSummary } from '@polkadot/react-components';
@@ -20,6 +21,9 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
+  const isForceNone = useCall<boolean>(api.query.staking?.forceEra, [], {
+    transform: (forcing: Forcing) => forcing.isForceNone
+  });
   const eraLabel = useMemo(() =>
     t<string>('era')
   , [t]);
@@ -51,7 +55,7 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
                 </CardSummary>
               )
           )}
-          {withEra && (
+          {!isForceNone && withEra && (
             sessionInfo.sessionLength.gtn(1)
               ? (
                 <CardSummary
