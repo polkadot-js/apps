@@ -34,7 +34,7 @@ function createWindow (): Promise<unknown> {
 
 const onReady = async () => {
   await createWindow();
-  
+
   if (features.autoUpdater) {
     await autoUpdater.checkForUpdatesAndNotify();
     // TODO: Check is promise above resolved
@@ -44,15 +44,15 @@ const onReady = async () => {
 app.whenReady().then(onReady).catch(console.error);
 
 if (features.autoUpdater) {
-  autoUpdater.on('update-not-available', async () => {
-    await dialog.showMessageBox({
+  autoUpdater.on('update-not-available', () => {
+    // eslint-disable-next-line no-void
+    void dialog.showMessageBox({
       message: 'Current version is up-to-date.',
       title: 'No Updates'
     });
   });
 
   if (isDev) {
-    console.log('subscribing to error')
     autoUpdater.on('error', (error) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
       dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString());
