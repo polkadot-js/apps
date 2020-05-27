@@ -15,7 +15,7 @@ interface State {
   remainingBlocks: BN | null;
 }
 
-function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number): State {
+function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee'): State {
   if (!votes.end) {
     return {
       isCloseable: false,
@@ -29,7 +29,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   const isFailing = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
 
   return {
-    isCloseable: api.tx.council.close.meta.args.length === 2
+    isCloseable: api.tx[section].close.meta.args.length === 2
       ? isEnd
       : isEnd || isPassing || isFailing,
     isVoteable: !isEnd,
@@ -39,16 +39,16 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number): State {
+export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const [state, setState] = useState<State>({ isCloseable: false, isVoteable: false, remainingBlocks: null });
 
   useEffect((): void => {
     bestNumber && votes && setState(
-      getStatus(api, bestNumber, votes, numMembers)
+      getStatus(api, bestNumber, votes, numMembers, section)
     );
-  }, [api, bestNumber, numMembers, votes]);
+  }, [api, bestNumber, numMembers, section, votes]);
 
   return state;
 }

@@ -25,7 +25,7 @@ interface Props {
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
-  const { isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length);
+  const { isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
 
   if (!votes) {
     return null;
