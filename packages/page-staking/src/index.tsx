@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Forcing } from '@polkadot/api/interfaces';
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
@@ -46,6 +47,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
+  });
+  const isPOA = useCall<boolean>(api.query.staking.forceEra, [], {
+    transform: (forcing: Forcing) => forcing.isForceNone
   });
   const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
   const hasQueries = useMemo(
@@ -142,7 +146,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       </Switch>
       <Actions
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
-        isInElection={isInElection}
+        isInElection={isInElection && !isPOA}
         next={next}
         ownStashes={ownStashes}
         targets={targets}
