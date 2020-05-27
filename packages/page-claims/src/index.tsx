@@ -196,7 +196,7 @@ function ClaimsApp (): React.ReactElement {
               help={t<string>('The account you want to claim to.')}
               label={t<string>('claim to account')}
               onChange={setAccountId}
-              type='all'
+              type='account'
             />
             {(step === Step.Account) && (
               <Button.Group>
