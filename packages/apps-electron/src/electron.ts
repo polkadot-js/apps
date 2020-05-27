@@ -34,6 +34,7 @@ function createWindow (): Promise<unknown> {
 
 const onReady = async () => {
   await createWindow();
+  
   if (features.autoUpdater) {
     await autoUpdater.checkForUpdatesAndNotify();
     // TODO: Check is promise above resolved
