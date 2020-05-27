@@ -40,13 +40,15 @@ function constructTx (
   kind: StatementKind | undefined,
   isOldClaimProcess: boolean
 ): ConstructTx {
-  if (!ethereumSignature || !kind) {
+  if (!ethereumSignature) {
     return {};
   }
 
   return isOldClaimProcess
     ? { params: [accountId, ethereumSignature], tx: 'claims.claim' }
-    : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
+    : !kind
+      ? {}
+      : { params: [accountId, ethereumSignature, getStatement(systemChain, kind)?.sentence], tx: 'claims.claimAttest' };
 }
 
 function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature, isOldClaimProcess, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
