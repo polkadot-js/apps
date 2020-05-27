@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BrowserWindow, app, screen, dialog } from 'electron';
-import path from 'path';
+import { BrowserWindow, app, dialog, screen } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import path from 'path';
 
 const ENV = process.env.NODE_ENV || 'production';
 const isDev = ENV === 'development';
