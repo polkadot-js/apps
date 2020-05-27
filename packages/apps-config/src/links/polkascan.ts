@@ -17,10 +17,10 @@ export default {
     `https://polkascan.io/${chain}/${path}/${data.toString()}`,
   isActive: true,
   paths: {
-    address: 'module/account',
-    block: 'system/block',
+    address: 'account',
+    block: 'block',
     council: 'council/motion',
-    extrinsic: 'system/extrinsic',
+    extrinsic: 'transaction',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     techcomm: 'techcomm/proposal',
