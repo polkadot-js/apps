@@ -56,16 +56,18 @@ export default function useAccountInfo (value: string): UseAccountInfo {
 
   useEffect((): void => {
     const { identity, nickname } = accountInfo || {};
+    const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
+    let name = accountOrAddress?.meta.name;
 
     if (api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
-        setName(identity.display);
+        name = identity.display;
       }
     } else if (nickname) {
-      setName(nickname);
-    } else {
-      setName('');
+      name = nickname;
     }
+
+    setName(name || '');
 
     if (identity) {
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
@@ -89,7 +91,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     } else {
       setIdentity(undefined);
     }
-  }, [accountInfo, api]);
+  }, [accountInfo, api, value]);
 
   useEffect((): void => {
     const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
@@ -109,7 +111,6 @@ export default function useAccountInfo (value: string): UseAccountInfo {
       isOwned
     }));
     setMeta(accountOrAddress?.meta);
-    setName(accountOrAddress?.meta.name || '');
     setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
   }, [identity?.display, isAccount, isAddress, value]);
 
