@@ -22,7 +22,8 @@ import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
-import Banner from './Banner';
+import BannerClaims from './BannerClaims';
+import BannerExtension from './BannerExtension';
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -159,7 +160,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <Banner />
+      <BannerExtension />
+      <BannerClaims />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
