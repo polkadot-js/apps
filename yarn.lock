@@ -6453,6 +6453,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"builder-util-runtime@npm:8.7.0":
+  version: 8.7.0
+  resolution: "builder-util-runtime@npm:8.7.0"
+  dependencies:
+    debug: ^4.1.1
+    sax: ^1.2.4
+  checksum: 3/acaef149866a840c134029ad9b6fa5acfae3398d3a5eabac34dc34a75e211b17dada89ebde6aec73885c813a1779c5b114a5638e93695bcfd2a5b3bc56e4574a
+  languageName: node
+  linkType: hard
+
 "builder-util-runtime@npm:8.7.1":
   version: 8.7.1
   resolution: "builder-util-runtime@npm:8.7.1"
