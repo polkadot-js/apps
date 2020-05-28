@@ -13,43 +13,21 @@ interface Props {
 
 function Banner ({ children, className = '', type }: Props): React.ReactElement<Props> | null {
   return (
-    <div className={`${className} ${type}`}>
+    <article className={`${className} ${type} nomargin`}>
       <div className='box'>
-        <div className='info'>
-          {children}
-        </div>
+        {children}
       </div>
-    </div>
+    </article>
   );
 }
 
 export default React.memo(styled(Banner)`
-  padding: 0 0.5rem 0.5rem;
-
-  &.error {
-    .box {
-      background: #fdd;
-      border-left-color: #9f3a38;
-      color: #9f3a38;
-    }
-  }
-
-  &.warning {
-    .box {
-      background: #fff6e5;
-      border-left-color: darkorange;
-    }
+  &+& {
+    margin-top: 0.5rem;
   }
 
   .box {
-    border-left-style: solid;
-    border-left-width: 0.25rem;
-    border-radius: 0 0.25rem 0.25rem 0;
-    box-sizing: border-box;
-    padding: 1rem 1.5rem;
-
-    .info {
-      max-width: 50rem;
-    }
+    max-width: 50rem;
+    padding: 0 0.5rem;
   }
 `);
