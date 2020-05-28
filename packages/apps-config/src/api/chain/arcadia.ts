@@ -3,28 +3,28 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export default {
-  CertificateId: "AccountId",
+  Amendment: 'Call',
   Application: {
-    candidate: "AccountId",
-    candidate_deposit: "Balance",
-    metadata: "Vec<u8>",
-    challenger: "Option<AccountId>",
-    challenger_deposit: "Option<Balance>",
-    votes_for: "Option<Balance>",
-    voters_for: "Vec<(AccountId, Balance)>",
-    votes_against: "Option<Balance>",
-    voters_against: "Vec<(AccountId, Balance)>",
-    created_block: "BlockNumber",
-    challenged_block: "BlockNumber"
+    candidate: 'AccountId',
+    candidate_deposit: 'Balance',
+    challenged_block: 'BlockNumber',
+    challenger: 'Option<AccountId>',
+    challenger_deposit: 'Option<Balance>',
+    created_block: 'BlockNumber',
+    metadata: 'Vec<u8>',
+    voters_against: 'Vec<(AccountId, Balance)>',
+    voters_for: 'Vec<(AccountId, Balance)>',
+    votes_against: 'Option<Balance>',
+    votes_for: 'Option<Balance>'
   },
+  CertificateId: 'AccountId',
   RootCertificate: {
-    owner: "AccountId",
-    key: "CertificateId",
-    created: "BlockNumber",
-    renewed: "BlockNumber",
-    revoked: "bool",
-    validity: "BlockNumber",
-    child_revocations: "Vec<CertificateId>"
-  },
-  Amendment: "Call"
+    child_revocations: 'Vec<CertificateId>',
+    created: 'BlockNumber',
+    key: 'CertificateId',
+    owner: 'AccountId',
+    renewed: 'BlockNumber',
+    revoked: 'bool',
+    validity: 'BlockNumber'
+  }
 };
