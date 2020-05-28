@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { Available } from '@polkadot/react-query';
+import { BalanceFree } from '@polkadot/react-query';
 
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
@@ -50,8 +50,8 @@ function BondExtra ({ onClose, stashId }: Props): React.ReactElement<Props> {
               isError={!!amountError || !maxAdditional || maxAdditional.eqn(0)}
               label={t<string>('additional bonded funds')}
               labelExtra={
-                <Available
-                  label={<span className='label'>{t<string>('available')}</span>}
+                <BalanceFree
+                  label={<span className='label'>{t<string>('balance')}</span>}
                   params={stashId}
                 />
               }
