@@ -37,8 +37,10 @@ function Proposals ({ className = '', isMember, members, prime, proposals }: Pro
       >
         {proposals?.map((hash: Hash): React.ReactNode => (
           <Proposal
-            imageHash={hash.toHex()}
+            imageHash={hash}
+            isMember={isMember}
             key={hash.toHex()}
+            members={members}
             prime={prime}
           />
         ))}

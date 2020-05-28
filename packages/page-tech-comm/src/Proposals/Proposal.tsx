@@ -2,36 +2,42 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+import { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useVotingStatus } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
+import Close from './Close';
 import Voting from './Voting';
 
 interface Props {
   className?: string;
-  imageHash: string;
+  imageHash: Hash;
+  isMember: boolean;
+  members: string[];
   prime?: AccountId | null;
 }
 
-function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className = '', imageHash, isMember, members, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const optProposal = useCall<Option<ProposalType>>(api.query.technicalCommittee.proposalOf, [imageHash]);
+  const proposal = useCall<ProposalType | null>(api.query.technicalCommittee.proposalOf, [imageHash], {
+    transform: (optProp: Option<ProposalType>) => optProp.unwrapOr(null)
+  });
   const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], {
     transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
   });
+  const { isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
 
-  if (!optProposal?.isSome || !votes) {
+  if (!proposal || !votes) {
     return null;
   }
 
-  const proposal = optProposal.unwrap();
-  const { ayes, index, nays, threshold } = votes;
+  const { ayes, end, index, nays, threshold } = votes;
 
   return (
     <tr className={className}>
@@ -42,6 +48,14 @@ function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElem
       />
       <td className='number'>
         {formatNumber(ayes.length)}/{formatNumber(threshold)}
+      </td>
+      <td className='number together'>
+        {remainingBlocks && end && (
+          <>
+            <BlockToTime blocks={remainingBlocks} />
+            #{formatNumber(end)}
+          </>
+        )}
       </td>
       <td className='address'>
         {ayes.map((address, index): React.ReactNode => (
@@ -62,11 +76,22 @@ function Proposal ({ className = '', imageHash, prime }: Props): React.ReactElem
         ))}
       </td>
       <td className='button'>
-        <Voting
-          hash={imageHash}
-          prime={prime}
-          proposalId={index}
-        />
+        {isVoteable && (
+          <Voting
+            hash={imageHash}
+            prime={prime}
+            proposalId={index}
+          />
+        )}
+        {isCloseable && (
+          <Close
+            hash={imageHash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            proposal={proposal}
+          />
+        )}
       </td>
     </tr>
   );
