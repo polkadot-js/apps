@@ -7,7 +7,7 @@ import { BondInfo } from './types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
-import { Available, BlockToTime } from '@polkadot/react-query';
+import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
@@ -92,12 +92,12 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
         <Modal.Column>
           <InputBalance
             autoFocus
-            help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the total amount available)')}
+            help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
             isError={!hasValue || !!amountError}
             label={t<string>('value bonded')}
             labelExtra={
-              <Available
-                label={<span className='label'>{t<string>('available')}</span>}
+              <BalanceFree
+                label={<span className='label'>{t<string>('balance')}</span>}
                 params={stashId}
               />
             }
