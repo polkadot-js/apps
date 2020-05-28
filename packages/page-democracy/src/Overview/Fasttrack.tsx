@@ -17,6 +17,11 @@ interface Props {
   threshold: VoteThreshold;
 }
 
+interface ProposalState {
+  proposal?: SubmittableExtrinsic<'promise'> | null;
+  proposalLength: number;
+}
+
 const ONE_MIN = (1 * 60) / 6;
 const DEF_DELAY = new BN(ONE_MIN);
 const DEF_VOTING = new BN(ONE_MIN * 60 * 3);
@@ -30,7 +35,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
   const [accountId, setAcountId] = useState<string | null>(null);
   const [delayBlocks, setDelayBlocks] = useState<BN | undefined>(DEF_DELAY);
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(DEF_VOTING);
-  const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const memberThreshold = useMemo(
     () => Math.ceil(members.length * 0.5),
     [members]
@@ -41,11 +46,11 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
   }, [isMember, threshold]);
 
   useEffect((): void => {
-    setProposal(
-      () => delayBlocks && delayBlocks.gtn(0) && votingBlocks && votingBlocks.gtn(0)
-        ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
-        : null
-    );
+    const proposal = delayBlocks && delayBlocks.gtn(0) && votingBlocks && votingBlocks.gtn(0)
+      ? api.tx.democracy.fastTrack(imageHash, votingBlocks, delayBlocks)
+      : null;
+
+    setProposal({ proposal, proposalLength: proposal?.length || 0 });
   }, [api, delayBlocks, imageHash, votingBlocks]);
 
   return (
@@ -92,7 +97,11 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
               isPrimary
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
-              params={[memberThreshold, proposal]}
+              params={
+                api.tx.technicalCommittee.propose.meta.args.length === 3
+                  ? [threshold, proposal, proposalLength]
+                  : [memberThreshold, proposal]
+              }
               tx='technicalCommittee.propose'
             />
           </Modal.Actions>
