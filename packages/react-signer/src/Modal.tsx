@@ -623,7 +623,7 @@ class Signer extends React.PureComponent<Props, State> {
       let qrIsHashed = false;
       let qrPayload = wrapper.toU8a();
 
-      if (qrPayload.length > 2048) {
+      if (qrPayload.length > 4000) {
         qrIsHashed = true;
         qrPayload = blake2AsU8a(wrapper.toU8a(true));
       }
