@@ -31,7 +31,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime }: Prop
   const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], {
     transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
   });
-  const { isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
+  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
 
   if (!proposal || !votes) {
     return null;
@@ -85,6 +85,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime }: Prop
         )}
         {isCloseable && (
           <Close
+            hasFailed={hasFailed}
             hash={imageHash}
             idNumber={index}
             isDisabled={!isMember}
