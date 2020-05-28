@@ -37,7 +37,6 @@ const onReady = async () => {
 
   if (features.autoUpdater) {
     await autoUpdater.checkForUpdatesAndNotify();
-    // TODO: Check is promise above resolved
   }
 };
 
@@ -45,17 +44,19 @@ app.whenReady().then(onReady).catch(console.error);
 
 if (features.autoUpdater) {
   autoUpdater.on('update-not-available', () => {
-    // eslint-disable-next-line no-void
-    void dialog.showMessageBox({
+    dialog.showMessageBox({
       message: 'Current version is up-to-date.',
       title: 'No Updates'
-    });
+    }).catch(console.error);
   });
 
-  if (isDev) {
-    autoUpdater.on('error', (error) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
-      dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString());
-    });
-  }
+  autoUpdater.on('error', (error) => {
+    if (!error) {
+      return;
+    }
+
+    const err: Error = error as Error;
+
+    dialog.showErrorBox('Auto update error: ', (err.stack || err).toString());
+  });
 }
