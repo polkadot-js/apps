@@ -17,6 +17,7 @@
   "The the Ethereum address you used during the pre-sale (starting by \"0x\")": "The the Ethereum address you used during the pre-sale (starting by \"0x\")",
   "This Ethereum address does not have a claim.": "This Ethereum address does not have a claim.",
   "Warning: we did not find any attest statement for {{chain}}": "Warning: we did not find any attest statement for {{chain}}",
+  "We found a pre-claim with this Polkadot address. However, attesting requires signing with this account. To continue with attesting, please add this account as an owned account first.": "We found a pre-claim with this Polkadot address. However, attesting requires signing with this account. To continue with attesting, please add this account as an owned account first.",
   "You need to sign an attestation for the following account:": "You need to sign an attestation for the following account:",
   "You need to sign an attestation for the following accounts:": "You need to sign an attestation for the following accounts:",
   "Your Ethereum account": "Your Ethereum account",
