@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Card, TxButton } from '@polkadot/react-components';
 import { TxCallback } from '@polkadot/react-components/Status/types';
-import { useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import { BalanceOf, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
@@ -26,6 +26,7 @@ interface Props {
 }
 
 function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKind, systemChain }: Props): React.ReactElement<Props> | null {
+  const accounts = useAccounts();
   const { t } = useTranslation();
   const { api } = useApi();
   const [claimValue, setClaimValue] = useState<BalanceOf | null>(null);
@@ -56,6 +57,23 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
 
   if (!hasClaim || !statementSentence) {
     return null;
+  }
+
+  // Attesting is impossible if the account is not owned.
+  if (!accounts.isAccount(accountId)) {
+    return (
+      <Card isError>
+        <div className={className}>
+          {t<string>('We found a pre-claim with this Polkadot address. However, attesting requires signing with this account. To continue with attesting, please add this account as an owned account first.')}
+          <h3>
+            <FormatBalance
+              label={t<string>('Account balance:')}
+              value={claimValue}
+            />
+          </h3>
+        </div>
+      </Card>
+    );
   }
 
   return (
