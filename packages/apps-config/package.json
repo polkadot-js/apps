@@ -11,7 +11,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.9.6",
+    "@babel/runtime": "^7.10.1",
     "edgeware-node-types": "^2.1.0"
   }
 }
