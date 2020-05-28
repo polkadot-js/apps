@@ -8,13 +8,13 @@ import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import React from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { LinkExternal } from '@polkadot/react-components';
+import { useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Close from './Close';
 import Voters from './Votes';
 import Voting from './Voting';
-import useVotingStatus from './useVotingStatus';
 
 interface Props {
   className?: string;

@@ -6,10 +6,9 @@ import { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/type
 
 import React from 'react';
 import { AddressMini } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import useVotingStatus from '@polkadot/app-council/Motions/useVotingStatus';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
