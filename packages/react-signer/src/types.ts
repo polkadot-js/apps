@@ -4,6 +4,15 @@
 
 import { SignerResult } from '@polkadot/api/types';
 
+export interface AccountFlags {
+  hardwareType?: string;
+  isExternal: boolean;
+  isHardware: boolean;
+  isMultisig: boolean;
+  threshold: number;
+  who: string[];
+}
+
 export interface Signed {
   data: Uint8Array;
   message: Uint8Array;

@@ -25,7 +25,7 @@ import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
-import { signQrPayload, unlockAccount } from './util';
+import { extractExternal, signQrPayload, unlockAccount } from './util';
 import ledgerSigner from './LedgerSigner';
 import Transaction from './Transaction';
 import Qr from './Qr';
@@ -58,50 +58,10 @@ interface State extends QrState {
   unlockError?: string | null;
 }
 
-interface AccountFlags {
-  hardwareType?: string;
-  isExternal: boolean;
-  isHardware: boolean;
-  isMultisig: boolean;
-  threshold: number;
-  who: string[];
-}
-
 let qrId = 0;
 
-function extractExternal (accountId?: string | null): AccountFlags {
-  if (!accountId) {
-    return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
-  }
-
-  let publicKey;
-
-  try {
-    publicKey = keyring.decodeAddress(accountId);
-  } catch (error) {
-    console.error(error);
-
-    return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
-  }
-
-  const pair = keyring.getPair(publicKey);
-
-  return {
-    hardwareType: pair.meta.hardwareType as string,
-    isExternal: !!pair.meta.isExternal,
-    isHardware: !!pair.meta.isHardware,
-    isMultisig: !!pair.meta.isMultisig,
-    threshold: (pair.meta.threshold as number) || 0,
-    who: (pair.meta.who as string[]) || []
-  };
-}
-
 // eslint-disable-next-line @typescript-eslint/require-await
-async function makeExtrinsicSignature (
-  payload: SignerPayloadJSON,
-  { id, signerCb }: QueueTx,
-  pair: KeyringPair
-): Promise<void> {
+async function makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
   console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
   const result = createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
@@ -588,19 +548,17 @@ class Signer extends React.PureComponent<Props, State> {
   };
 
   private addQrSignature = ({ signature }: { signature: string }): void => {
-    this.setState(
-      ({ qrResolve }: State): Pick<State, never> => {
-        qrResolve && qrResolve({
-          id: ++qrId,
-          signature
-        });
+    this.setState(({ qrResolve }: QrState): Pick<QrState, never> => {
+      qrResolve && qrResolve({
+        id: ++qrId,
+        signature
+      });
 
-        return {
-          isQrScanning: false,
-          isQrVisible: false
-        };
-      }
-    );
+      return {
+        isQrScanning: false,
+        isQrVisible: false
+      };
+    });
   };
 
   private activateQrScanning = (): void => {
