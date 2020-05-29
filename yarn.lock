@@ -3214,7 +3214,7 @@ __metadata:
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
     "@babel/polyfill": ^7.10.1
-    "@polkadot/dev": ^0.54.2
+    "@polkadot/dev": ^0.54.3
     "@polkadot/react-components": 0.44.0-beta.24
     "@types/react": ^16.9.35
     "@types/react-dom": ^16.9.8
@@ -3242,7 +3242,7 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.10.1
     "@babel/runtime": ^7.10.1
-    "@polkadot/dev": ^0.54.2
+    "@polkadot/dev": ^0.54.3
     "@polkadot/react-components": 0.44.0-beta.24
     "@polkadot/react-signer": 0.44.0-beta.24
     babel-loader: ^8.1.0
@@ -3261,9 +3261,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.54.2":
-  version: 0.54.2
-  resolution: "@polkadot/dev@npm:0.54.2"
+"@polkadot/dev@npm:^0.54.3":
+  version: 0.54.3
+  resolution: "@polkadot/dev@npm:0.54.3"
   dependencies:
     "@babel/cli": ^7.10.1
     "@babel/core": ^7.10.1
@@ -3320,7 +3320,7 @@ __metadata:
     typedoc: ^0.17.7
     typedoc-plugin-markdown: ^2.2.17
     typedoc-plugin-no-inherit: ^1.1.10
-    typescript: ^3.9.3
+    typescript: ^3.9.4
     vuepress: ^1.5.0
     webpack: ^4.43.0
     webpack-cli: ^3.3.11
@@ -3344,7 +3344,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 3/b0761220438963d9bb87eaf615a4dd9bfffadff234e8c34188653c00b34b397dc482af5ebf82ced84731a9bf2f4dc2c8e20c5c9bb7133751f91a7ea351d057ba
+  checksum: 3/97d07ace77ce8834977eb2a078ae1c7107724e1300c547570b048cfe169bfab30d723278b9a3925cbe634946e77cf43b5aeea62fa92eb165cd0381d53718d6fb
   languageName: node
   linkType: hard
 
@@ -15645,9 +15645,9 @@ __metadata:
   linkType: hard
 
 "min-indent@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "min-indent@npm:1.0.0"
-  checksum: 3/caed9fdecd22dbb2d73025c9fa5d808e6085ebeb1af355b4ac1b59018c7f9cd7dc9b2daf38af405367f80dcbd2f4e971d61d93476af27f65988488e808244cb1
+  version: 1.0.1
+  resolution: "min-indent@npm:1.0.1"
+  checksum: 3/c3aeea46bc432e6ce69b86717e98fbb544e338abb5e3c93cfa196c427e3d5a4a6ee4f76e6931a9e424fb53e83451b90fc417ce7db04440a92d68369704ad11d1
   languageName: node
   linkType: hard
 
@@ -17640,7 +17640,7 @@ __metadata:
     "@babel/register": ^7.10.1
     "@babel/runtime": ^7.10.1
     "@pinata/sdk": ^1.1.9
-    "@polkadot/dev": ^0.54.2
+    "@polkadot/dev": ^0.54.3
     "@polkadot/ts": ^0.3.24
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.21
@@ -18704,7 +18704,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"randombytes@npm:^2.0.0, randombytes@npm:^2.0.1, randombytes@npm:^2.0.5":
+"randombytes@npm:^2.0.0, randombytes@npm:^2.0.1, randombytes@npm:^2.0.5, randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
   dependencies:
@@ -20238,9 +20238,11 @@ __metadata:
   linkType: hard
 
 "serialize-javascript@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "serialize-javascript@npm:3.0.0"
-  checksum: 3/8a6f5d8a6c5ee18400ccf6e7faef206c9dd424ca3fa4ebc787289e19d0eb8c9e1d8afd4f12861017183738a0279339e3e36b84d5161d394154210f8e0f42a8e6
+  version: 3.1.0
+  resolution: "serialize-javascript@npm:3.1.0"
+  dependencies:
+    randombytes: ^2.1.0
+  checksum: 3/e3036658c26b4aa0c74b89c91dc702f1b98c34ffc108e7944e2e227f910896367e98374a1a8c9923385ddfccd1759bfbd133d7857f4e315070594bb8761740e7
   languageName: node
   linkType: hard
 
@@ -22429,23 +22431,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@^3.0.3, typescript@^3.7.5, typescript@^3.8.3, typescript@^3.9.3":
-  version: 3.9.3
-  resolution: "typescript@npm:3.9.3"
+"typescript@^3.0.3, typescript@^3.7.5, typescript@^3.8.3, typescript@^3.9.4":
+  version: 3.9.4
+  resolution: "typescript@npm:3.9.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 3/f05e6f1c50c635bd7afc95fbc9eb704042b5bec9a77b9c86ddc0c56650c928617d608b9ec9aa468d7b4cf14ac1ea5f540c540c725005a179b54a86665abd9a55
+  checksum: 3/f364e86609679566abda039acf35030b78d738c456dae201bad71722b47aa753ea42f3076a2767b72b63a1b8641f1ffb3984dcbdf088bd401b4e7118e3601893
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3.0.3#builtin<compat/typescript>, typescript@patch:typescript@^3.7.5#builtin<compat/typescript>, typescript@patch:typescript@^3.8.3#builtin<compat/typescript>, typescript@patch:typescript@^3.9.3#builtin<compat/typescript>":
-  version: 3.9.3
-  resolution: "typescript@patch:typescript@npm%3A3.9.3#builtin<compat/typescript>::version=3.9.3&hash=8cac75"
+"typescript@patch:typescript@^3.0.3#builtin<compat/typescript>, typescript@patch:typescript@^3.7.5#builtin<compat/typescript>, typescript@patch:typescript@^3.8.3#builtin<compat/typescript>, typescript@patch:typescript@^3.9.4#builtin<compat/typescript>":
+  version: 3.9.4
+  resolution: "typescript@patch:typescript@npm%3A3.9.4#builtin<compat/typescript>::version=3.9.4&hash=8cac75"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 3/a3780f6fdf0502bb152a3ad56cd004db46f70496f1b8317657d9e89dd93c911483625fd25867d6aec1cd2854ccf036ecc614989c9f1b36bec2d5daffa9bfc230
+  checksum: 3/6fe6acffaf466fe06116a9adb089914b070b8363c38fa1c80a4728452eb8fc88b7977930b61a860ab37080733eddf4dacf25dc88f0dd14efe6d8312ed6fcfb12
   languageName: node
   linkType: hard
 
