@@ -20,7 +20,8 @@
     ],
     "appId": "com.polkadot.polkadot-app",
     "mac": {
-      "category": "public.app-category.finance"
+      "category": "public.app-category.finance",
+      "target": "dmg"
     },
     "directories": {
       "buildResources": "./packages/apps-electron/assets",
