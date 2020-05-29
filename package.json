@@ -12,13 +12,13 @@
     "packages/*"
   ],
   "build": {
-    "productName": "Polkadot",
-    "artifactName": "Polkadot-${version}.${ext}",
+    "productName": "Polkadot-JS Apps",
+    "artifactName": "Polkadot-JS-Apps-${version}.${ext}",
     "files": [
       "./packages/apps-electron/build",
       "./packages/apps-electron/assets"
     ],
-    "appId": "com.polkadot.polkadot-app",
+    "appId": "com.polkadotjs.polkadotjs-apps",
     "mac": {
       "category": "public.app-category.finance",
       "target": "dmg"
