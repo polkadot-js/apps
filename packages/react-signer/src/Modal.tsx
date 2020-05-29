@@ -11,6 +11,7 @@ import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import { Timepoint } from '@polkadot/types/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
+import { QrState } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -22,9 +23,9 @@ import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 import { format } from '@polkadot/util/logger';
 
+import { signQrPayload, unlockAccount } from './util';
 import ledgerSigner from './LedgerSigner';
 import Transaction from './Transaction';
 import Qr from './Qr';
@@ -40,23 +41,16 @@ interface Props extends I18nProps, ApiProps, BaseProps {
   allAccounts?: SubjectInfo;
 }
 
-interface State {
+interface State extends QrState {
   accountNonce?: BN;
   blocks: BN;
   currentItem?: QueueTx;
-  isQrScanning: boolean;
-  isQrVisible: boolean;
   isRenderError: boolean;
   isSendable: boolean;
   isSubmit: boolean;
   multiCall: boolean;
   nonce?: BN;
   password: string;
-  qrAddress: string;
-  qrIsHashed: boolean;
-  qrPayload: Uint8Array;
-  qrResolve?: (result: SignerResult) => void;
-  qrReject?: (error: Error) => void;
   signatory?: string | null;
   showTip: boolean;
   signedTx?: string;
@@ -506,34 +500,6 @@ class Signer extends React.PureComponent<Props, State> {
     );
   }
 
-  private unlockAccount (accountId: string, password?: string): string | null {
-    let publicKey;
-
-    try {
-      publicKey = keyring.decodeAddress(accountId);
-    } catch (error) {
-      console.error(error);
-
-      return 'unable to decode address';
-    }
-
-    const pair = keyring.getPair(publicKey);
-
-    if (!pair.isLocked || pair.meta.isInjected || (pair.meta.isExternal && !pair.meta.isMultisig)) {
-      return null;
-    }
-
-    try {
-      pair.decodePkcs8(password);
-    } catch (error) {
-      console.error(error);
-
-      return (error as Error).message;
-    }
-
-    return null;
-  }
-
   private onChangePassword = (password: string): void => {
     this.setState({
       password,
@@ -618,33 +584,16 @@ class Signer extends React.PureComponent<Props, State> {
   };
 
   private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
-    return new Promise((resolve, reject): void => {
-      // method is a hex-string, so 4000 / 2 for the length - with extra details, this is max 5 frames
-      const qrIsHashed = (payload.method.length > 2000);
-      const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-      const qrPayload = qrIsHashed
-        ? blake2AsU8a(wrapper.toU8a(true))
-        : wrapper.toU8a();
-
-      this.setState({
-        isQrVisible: true,
-        qrAddress: payload.address,
-        qrIsHashed,
-        qrPayload,
-        qrReject: reject,
-        qrResolve: resolve
-      });
-    });
+    return signQrPayload(payload, (state: QrState) => this.setState(state));
   };
 
   private addQrSignature = ({ signature }: { signature: string }): void => {
     this.setState(
       ({ qrResolve }: State): Pick<State, never> => {
-        qrResolve &&
-          qrResolve({
-            id: ++qrId,
-            signature
-          });
+        qrResolve && qrResolve({
+          id: ++qrId,
+          signature
+        });
 
         return {
           isQrScanning: false,
@@ -681,7 +630,7 @@ class Signer extends React.PureComponent<Props, State> {
     if (!isUnsigned) {
       assert(accountId, 'Expected an accountId with signed transactions');
 
-      const unlockError = this.unlockAccount((signatory || accountId), password);
+      const unlockError = unlockAccount((signatory || accountId), password);
 
       if (unlockError) {
         this.setState({ unlockError });
