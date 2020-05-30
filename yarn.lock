@@ -3214,7 +3214,7 @@ __metadata:
   resolution: "@polkadot/apps-electron@workspace:packages/apps-electron"
   dependencies:
     "@babel/polyfill": ^7.10.1
-    "@polkadot/dev": ^0.55.3
+    "@polkadot/dev": ^0.55.4
     "@polkadot/react-components": 0.44.0-beta.29
     "@types/react": ^16.9.35
     "@types/react-dom": ^16.9.8
@@ -3242,7 +3242,7 @@ __metadata:
   dependencies:
     "@babel/polyfill": ^7.10.1
     "@babel/runtime": ^7.10.1
-    "@polkadot/dev": ^0.55.3
+    "@polkadot/dev": ^0.55.4
     "@polkadot/react-components": 0.44.0-beta.29
     "@polkadot/react-signer": 0.44.0-beta.29
     babel-loader: ^8.1.0
@@ -3261,9 +3261,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.3":
-  version: 0.55.3
-  resolution: "@polkadot/dev@npm:0.55.3"
+"@polkadot/dev@npm:^0.55.4":
+  version: 0.55.4
+  resolution: "@polkadot/dev@npm:0.55.4"
   dependencies:
     "@babel/cli": ^7.10.1
     "@babel/core": ^7.10.1
@@ -3346,7 +3346,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 3/254e81360f548ada9d6aaa43db4a002c8960483e387053be97e7b5b7ea1bf7acd1633f986747d76639a660b73041fed8f4e9196c62acae1a3f12589efed7bb8e
+  checksum: 3/cfb0bec9642cc08243f7bf7544dfd8845715070dded24ab45d0013a8e288e919192aa55bf6ff099671a40f4a959ba6e9bfda98ad6302ef415316fc0039932ffc
   languageName: node
   linkType: hard
 
@@ -3552,12 +3552,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/ts@npm:^0.3.24":
-  version: 0.3.24
-  resolution: "@polkadot/ts@npm:0.3.24"
+"@polkadot/ts@npm:^0.3.25":
+  version: 0.3.25
+  resolution: "@polkadot/ts@npm:0.3.25"
   dependencies:
     "@types/chrome": ^0.0.114
-  checksum: 3/6198c66b8cdbeb661540c8b231afb638a08bd5d6b48eaffb381785ea13e4bbdacfbc5b78d3492b14b438829a38af295cb404794d36faaa9b3304b3b122303c8d
+  checksum: 3/9cd069fca8d70ce56618ce45d98670f5d4c020518148d61413227e9b9aae2d59200897866e1b7513dd8445a37daaeb98546a48d0903ac5ba73409f932f24a44a
   languageName: node
   linkType: hard
 
@@ -17909,8 +17909,8 @@ __metadata:
     "@babel/register": ^7.10.1
     "@babel/runtime": ^7.10.1
     "@pinata/sdk": ^1.1.9
-    "@polkadot/dev": ^0.55.3
-    "@polkadot/ts": ^0.3.24
+    "@polkadot/dev": ^0.55.4
+    "@polkadot/ts": ^0.3.25
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.21
     "@types/file-saver": ^2.0.1

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.44.0-beta.x
+## 0.44.0-beta.30
 
 - Publish electron images on release (Thanks to https://github.com/EthWorks)
 - Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
