@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.44.0-beta.x
+
+- Publish electron images on release (Thanks to https://github.com/EthWorks)
+- Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
+- Extensions and fixes to the russian translations (Thanks to https://github.com/illlefr4u)
+- Adjust collective extrinsics to cater for weight & lengths
+- Allow bonding with full free amount (this fixes bonding for vesting)
+- Fixes for Kusama as well as Polkadot claims
+- Allow Polkadot CC1 links to Polkascan & Subscan
+- Update Polkascan links with new formats
+- Don't display era progress when Forcing `isForceNone`
+
 ## 0.43.1 May 26, 2020
 
 - Support for Polkadot CC1 Claims (Thanks to https://github.com/amaurymartiny & https://github.com/Tbaut)
