@@ -28,7 +28,7 @@ function writeFiles (name, content) {
 
 function updateGh (hash) {
   execSync('git add --all .');
-  execSync(`git commit --no-status --quiet -m "[CI Skip] ${hash}
+  execSync(`git commit --no-status --quiet -m "[CI Skip] release/ipfs ${hash}
 
 
 skip-checks: true"`);
