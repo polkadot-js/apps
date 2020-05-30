@@ -66,11 +66,18 @@ async function unpin (exclude) {
   const result = await pinata.pinList({ status: 'pinned' });
 
   if (result.count > 1) {
-    const filtered = result.rows.map(({ ipfs_pin_hash: hash }) => hash).filter((hash) => hash !== exclude);
+    const filtered = result.rows
+      .map(({ ipfs_pin_hash: hash }) => hash)
+      .filter((hash) => hash !== exclude);
 
     if (filtered.length) {
       await Promise.all(
-        filtered.map((hash) => pinata.unpin(hash).then(() => console.log(`Unpinned ${hash}`)))
+        filtered.map((hash) =>
+          pinata
+            .unpin(hash)
+            .then(() => console.log(`Unpinned ${hash}`))
+            .catch(console.error)
+        )
       );
     }
   }
