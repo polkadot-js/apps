@@ -1,4 +1,18 @@
-# 0.43.1 May 26, 2020
+# CHANGELOG
+
+## 0.44.0-beta.30
+
+- Publish electron images on release (Thanks to https://github.com/EthWorks)
+- Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
+- Extensions and fixes to the russian translations (Thanks to https://github.com/illlefr4u)
+- Adjust collective extrinsics to cater for weight & lengths
+- Allow bonding with full free amount (this fixes bonding for vesting)
+- Fixes for Kusama as well as Polkadot claims
+- Allow Polkadot CC1 links to Polkascan & Subscan
+- Update Polkascan links with new formats
+- Don't display era progress when Forcing `isForceNone`
+
+## 0.43.1 May 26, 2020
 
 - Support for Polkadot CC1 Claims (Thanks to https://github.com/amaurymartiny & https://github.com/Tbaut)
 - Small typo fixes (Thanks to https://github.com/Swader)
@@ -10,7 +24,7 @@
 - `@polkadot/api` 1.16.1
 - `@polkadot/util` 2.11.1
 
-# 0.42.1 May 22, 2020
+## 0.42.1 May 22, 2020
 
 - Adjust Subscan proposal links (Thanks to https://github.com/illlefr4u)
 - Add environment suport for docker images (Thanks to https://github.com/chevdor)
@@ -57,7 +71,7 @@
 - Allow for tabes with aliasses (on renames) & redirects
 - Align types and calls with latest substrate
 
-# 0.41.1 Apr 20, 2020
+## 0.41.1 Apr 20, 2020
 
 - Fix for searching child identities on parent name (Thanks to https://github.com/krogla)
 - Support chains with no balances module (Thanks to https://github.com/Voxelot)
@@ -79,7 +93,7 @@
 - More components to functional, specific focus on TxModal extends
 - Bumps to all @polkadot/* packages for latest support everywhere
 
-# 0.40.1 Apr 9, 2020
+## 0.40.1 Apr 9, 2020
 
 - Swap voting to aye/nay toggles (Thanks to https://github.com/Lowhearth)
 - Cater for chains where no tip is present (Thanks to https://github.com/Sushisource)
@@ -113,7 +127,7 @@
 - Cleanup all voting lock, consistent display
 - ... loads of other under-the-hood improvements and cleanups
 
-# 0.39.1 Jan 31, 2020
+## 0.39.1 Jan 31, 2020
 
 - **Breaking** Drop support for V1 Substrate chains
 - Translation into Chinese (Thanks to https://github.com/dushaobindoudou)
@@ -134,7 +148,7 @@
 - Adjust balance display formats
 - Update to latest libraries (incl. util 2.0 & api 1.0)
 
-# 0.38.1
+## 0.38.1
 
 - Fix summarybar in 123-code (Thanks to https://github.com/anakornk)
 - Update Edgeware with correct keys (Thanks to https://github.com/drewstone)
@@ -146,7 +160,7 @@
 - Improved staking page rendering (background)
 - Update to latest libraries
 
-# 0.37.1
+## 0.37.1
 
 - Support for Kusama CC3
 - Support for contracts with new ABI v2 (Thanks to https://github.com/kwingram25)
@@ -169,7 +183,7 @@
 - Account locks are applied on a genesis range (e.g. CC2 & CC3 allow availability)
 - ... lots of smaller enhancements & bug fixes
 
-# 0.36.1
+## 0.36.1
 
 - Api 0.95.1, Util 1.6.1, Extension 0.13.1
 - Support latest contracts ABI (via API), incl. rework of contracts UI
@@ -191,7 +205,7 @@
 - Make the network selection clickable on network name (via bounty)
 - ... and a number of cleanups all around
 
-# 0.35.1
+## 0.35.1
 
 - Api 0.91.1, Util 1.2.1, Extension 0.10.1
 - Support for accounts added via Qr (for instance, the Parity Signer)
@@ -204,7 +218,7 @@
 - Fix account derivation with `///password`
 - Lots of component & maintainability cleanups
 
-# 0.34.1
+## 0.34.1
 
 - Kusama support
 - Full support for Substrate 2.x & Polkadot 0.5.0 networks
@@ -213,7 +227,7 @@
 - Basic Council, Parachains & Treasury apps
 - Moved ui-* packages to react-*
 
-# 0.33.1
+## 0.33.1
 
 - Allow for externally injected accounts (i.e. via extension, polkadot-js & SingleSource)
 - Links to extrnisics & addresses on Polkascan
@@ -231,39 +245,39 @@
 - Latest @polkadot/util & @polkadot/api
 - A large number of optimizations and smaller fixes
 
-# 0.32.1
+## 0.32.1
 
 - Support for Substrate 1.0 release & metadata v4
 - @polkadot/api 0.77.1
 
-# 0.31.1
+## 0.31.1
 
 - Cleanups, fixes and features around the poc-4 staking module
 - Number of UI enhancements
 
-# 0.30.1
+## 0.30.1
 
 - Staking page indicator for offline nodes (count & block)
 - Rework page tabs and content layouts
 - Cleanup of all UI summary headers
 - Emberic Elem support (replaces Dried Danta)
 
-# 0.29.1
+## 0.29.1
 
 - @polkadot/util & @polkadot/api 0.75.1
 
-# 0.28.1
+## 0.28.1
 
 - Support for substrate 1.0-rc
 
-# 0.27.1
+## 0.27.1
 
 - Bring in new staking & nominating functions
 - Swap default keyring accounts (on creation) to sr25519
 - New faster crypto algorithms
 - Misc. bug fixes all around
 
-# 0.26.1
+## 0.26.1
 
 - Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)
 - Swap crypto to new WASM-backed version (and remove libsodium dependency)
@@ -271,23 +285,23 @@
 - New mobile-friendly sidebar
 - Fix issues with nominating (old non-bonds interface)
 
-# 0.25.1
+## 0.25.1
 
 - Swap to publishing -beta.x on merge (non-breaking testing)
 
- # 0.24.1
+ ## 0.24.1
 
  Storage now handles Option type properly
 
- # 0.23.1
+ ## 0.23.1
 
  JavaScript console introduced
 
-# 0.22.1
+## 0.22.1
 
 - Use new Compact<Index> transaction format - this requires the latest binaries from either Polkadot or Substrate
 
-# 0.21.1
+## 0.21.1
 
 - PoC-3 support with latest Substrate master & Polkadot master
 - Add support for Charred Cherry (Substrate) and Alexander (Polkadot) testnets
