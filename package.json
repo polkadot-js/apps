@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.42.0-beta.147",
+  "version": "0.44.0-beta.30",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -12,15 +12,16 @@
     "packages/*"
   ],
   "build": {
-    "productName": "Polkadot",
-    "artifactName": "Polkadot-${version}.${ext}",
+    "productName": "Polkadot-JS Apps",
+    "artifactName": "Polkadot-JS-Apps-${version}.${ext}",
     "files": [
       "./packages/apps-electron/build",
       "./packages/apps-electron/assets"
     ],
-    "appId": "com.polkadot.polkadot-app",
+    "appId": "com.polkadotjs.polkadotjs-apps",
     "mac": {
-      "category": "public.app-category.finance"
+      "category": "public.app-category.finance",
+      "target": "dmg"
     },
     "directories": {
       "buildResources": "./packages/apps-electron/assets",
@@ -41,6 +42,7 @@
     "build": "yarn run build:i18n && yarn run build:code",
     "build:code": "NODE_ENV=production node_modules/@polkadot/dev/scripts/polkadot-dev-build-ts.js",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.js && node ./scripts/i18nSort.js",
+    "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
     "build:release:ipfs": "node scripts/ipfsUpload.js",
     "build:release:ghpages": "yarn polkadot-ci-ghact-docs",
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ipfs && yarn build:release:ghpages",
@@ -50,7 +52,6 @@
     "build:electronRenderer": "cd packages/apps-electron && webpack --config webpack.renderer.config.js",
     "build:devElectronMain": "cd packages/apps-electron && NODE_ENV=development webpack --config webpack.main.config.js",
     "build:electronMain": "cd packages/apps-electron && webpack --config webpack.main.config.js",
-    "build:release:electron": "yarn build && yarn build:electron && yarn postinstall:electron",
     "packElectron:test": "yarn build:release:electron && electron-builder --dir",
     "packElectron:mac": "yarn build:release:electron && electron-builder build --mac",
     "packElectron:win": "yarn build:release:electron && electron-builder build --win",
@@ -75,8 +76,8 @@
     "@babel/register": "^7.10.1",
     "@babel/runtime": "^7.10.1",
     "@pinata/sdk": "^1.1.9",
-    "@polkadot/dev": "^0.54.2",
-    "@polkadot/ts": "^0.3.24",
+    "@polkadot/dev": "^0.55.5",
+    "@polkadot/ts": "^0.3.25",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.21",
     "@types/file-saver": "^2.0.1",
@@ -93,7 +94,7 @@
     "concurrently": "^5.2.0",
     "dnslink-cloudflare": "^2.0.4",
     "electron": "8.3.0",
-    "electron-builder": "^22.6.1",
+    "electron-builder": "^22.7.0",
     "i18next-scanner": "^2.11.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

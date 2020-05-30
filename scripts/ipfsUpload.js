@@ -16,8 +16,7 @@ const DST = 'packages/apps/build';
 const SRC = 'packages/apps/public';
 const WOPTS = { encoding: 'utf8', flag: 'w' };
 
-const token = process.env.GH_PAT || `x-access-token:${process.env.GITHUB_TOKEN}`;
-const repo = `https://${token}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
+const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
 
 function writeFiles (name, content) {
@@ -28,7 +27,7 @@ function writeFiles (name, content) {
 
 function updateGh (hash) {
   execSync('git add --all .');
-  execSync(`git commit --no-status --quiet -m "[CI Skip] ${hash}
+  execSync(`git commit --no-status --quiet -m "[CI Skip] publish/ipfs ${hash}
 
 
 skip-checks: true"`);
@@ -67,11 +66,18 @@ async function unpin (exclude) {
   const result = await pinata.pinList({ status: 'pinned' });
 
   if (result.count > 1) {
-    const filtered = result.rows.map(({ ipfs_pin_hash: hash }) => hash).filter((hash) => hash !== exclude);
+    const filtered = result.rows
+      .map(({ ipfs_pin_hash: hash }) => hash)
+      .filter((hash) => hash !== exclude);
 
     if (filtered.length) {
       await Promise.all(
-        filtered.map((hash) => pinata.unpin(hash).then(() => console.log(`Unpinned ${hash}`)))
+        filtered.map((hash) =>
+          pinata
+            .unpin(hash)
+            .then(() => console.log(`Unpinned ${hash}`))
+            .catch(console.error)
+        )
       );
     }
   }
