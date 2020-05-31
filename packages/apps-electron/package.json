@@ -5,7 +5,7 @@
   "version": "0.44.0-beta.30",
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
-    "@polkadot/dev": "^0.55.5",
+    "@polkadot/dev": "^0.55.6",
     "@polkadot/react-components": "0.44.0-beta.30"
   },
   "devDependencies": {
