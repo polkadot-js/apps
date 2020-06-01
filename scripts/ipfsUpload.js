@@ -86,8 +86,8 @@ async function unpin (exclude) {
 
 async function dnslink (hash) {
   const records = createEndpoints(() => '')
-    .filter(({ dnslink }) => !!dnslink)
     .map(({ dnslink }) => dnslink)
+    .filter((dnslink) => !!dnslink)
     .reduce((all, dnslink) => {
       if (!all.includes(dnslink)) {
         all.push(dnslink);
