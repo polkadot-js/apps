@@ -13,7 +13,6 @@
   "dependencies": {
     "@babel/runtime": "^7.9.6",
     "@nodefactory/metamask-polkadot-adapter": "^0.1.2",
-    "@nodefactory/metamask-polkadot-types": "^0.1.2",
     "@polkadot/react-components": "0.42.0-beta.81",
     "@polkadot/react-qr": "^0.53.0-beta.1",
     "@polkadot/vanitygen": "^0.11.1",

@@ -2702,15 +2702,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nodefactory/metamask-polkadot-types@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@nodefactory/metamask-polkadot-types@npm:0.1.2"
-  dependencies:
-    "@polkadot/api": ^1.10.1
-  checksum: 2/b2a8db0006581dfe0068e3c815357fc730aec81eb7a18c9fe439d5848a7d59127d7c4dfdfb5c080f1d0de55e93a4c45a7d3f4d7147ba8065206ef3b00f3af9e8
-  languageName: node
-  linkType: hard
-
 "@nodelib/fs.scandir@npm:2.1.3":
   version: 2.1.3
   resolution: "@nodelib/fs.scandir@npm:2.1.3"
@@ -2938,7 +2929,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.6
     "@nodefactory/metamask-polkadot-adapter": ^0.1.2
-    "@nodefactory/metamask-polkadot-types": ^0.1.2
     "@polkadot/react-components": 0.42.0-beta.81
     "@polkadot/react-qr": ^0.53.0-beta.1
     "@polkadot/vanitygen": ^0.11.1
