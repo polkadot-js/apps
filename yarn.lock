@@ -3220,6 +3220,7 @@ __metadata:
     "@types/react-dom": ^16.9.8
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^5.1.1
+    electron-updater: ^4.3.1
     html-webpack-plugin: ^4.3.0
     react: ^16.13.1
     react-dom: ^16.13.1
@@ -4221,6 +4222,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 3/e6e6613c800aeda63e2331e753e8d21df1a2c9aa7a4bc71ed792a848e4811fc96e609759089355314a2318c76eff1f161499cd242044838ab1e6f56e463ebb9c
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "@types/semver@npm:7.2.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 3/f72d56e80bc382e16e20e2370be4dc1d776fb67db91afcb88f7069f57450f8f1b282075d33ccb23d2455881c2e4279f31cd69e3d2f6f5f75d58a0d510e48bb6f
   languageName: node
   linkType: hard
 
@@ -6492,6 +6502,16 @@ __metadata:
     base64-js: ^1.0.2
     ieee754: ^1.1.4
   checksum: 3/e18fdf099c25cae354d673c7deee0391978bde5a47b785cf81e118c75853f0f36838b0a5ea5ee7adf8c02eedb9664292608efdcac9945f4f4f514d14054656f7
+  languageName: node
+  linkType: hard
+
+"builder-util-runtime@npm:8.7.0":
+  version: 8.7.0
+  resolution: "builder-util-runtime@npm:8.7.0"
+  dependencies:
+    debug: ^4.1.1
+    sax: ^1.2.4
+  checksum: 3/acaef149866a840c134029ad9b6fa5acfae3398d3a5eabac34dc34a75e211b17dada89ebde6aec73885c813a1779c5b114a5638e93695bcfd2a5b3bc56e4574a
   languageName: node
   linkType: hard
 
@@ -9449,6 +9469,21 @@ __metadata:
   version: 1.3.454
   resolution: "electron-to-chromium@npm:1.3.454"
   checksum: 3/fe1e8becb5bbd798007a3a39c11585d2abe7b28ef921075d2be70c2f6ebfc18f4d59bb5aea190238bcde621c15c3902a5ecf1117560e16050682a3ce7437173f
+  languageName: node
+  linkType: hard
+
+"electron-updater@npm:^4.3.1":
+  version: 4.3.2
+  resolution: "electron-updater@npm:4.3.2"
+  dependencies:
+    "@types/semver": ^7.2.0
+    builder-util-runtime: 8.7.0
+    fs-extra: ^9.0.0
+    js-yaml: ^3.13.1
+    lazy-val: ^1.0.4
+    lodash.isequal: ^4.5.0
+    semver: ^7.3.2
+  checksum: 3/b0fefb08ead43139b56ad9e18f5c951e14e99e9a6798a315218db24b47263bf68ee30873e22d510215abe130f993b14f9cf648f95218095b853400be08c6a852
   languageName: node
   linkType: hard
 
@@ -15078,6 +15113,13 @@ __metadata:
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
   checksum: 3/447e575e3caa5131ef44e5a0c135b1614f3c937d86b3be0568f9da7b0fd015010af3b6b4e41edf6e2698c9ce2dcc061ca71b31f274f799c991dceb018be16e4f
+  languageName: node
+  linkType: hard
+
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: 3/5b47e094641c18a915497343894c66f7da6aebb9aaa2a3fcc5643455aaf29d19df60ebbed664c8374fb959c8b4ce96810ee6becd8a71ac58c6c2ca8d29762947
   languageName: node
   linkType: hard
 
