@@ -16,7 +16,8 @@
     "artifactName": "Polkadot-JS-Apps-${version}.${ext}",
     "files": [
       "./packages/apps-electron/build",
-      "./packages/apps-electron/assets"
+      "./packages/apps-electron/assets",
+      "./packages/apps-electron/appleEntitlements"
     ],
     "appId": "com.polkadotjs.polkadotjs-apps",
     "mac": {
@@ -26,6 +27,11 @@
     "directories": {
       "buildResources": "./packages/apps-electron/assets",
       "output": "./packages/apps-electron/release"
+    },
+    "afterSign": "electron-builder-notarize",
+    "mac": {
+      "hardenedRuntime": true,
+      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist"
     }
   },
   "resolutions": {
@@ -95,6 +101,7 @@
     "dnslink-cloudflare": "^2.0.4",
     "electron": "8.3.0",
     "electron-builder": "^22.7.0",
+    "electron-builder-notarize": "^1.1.2",
     "i18next-scanner": "^2.11.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -9424,6 +9424,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-builder-notarize@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "electron-builder-notarize@npm:1.1.2"
+  dependencies:
+    electron-notarize: ^0.2.0
+    read-pkg-up: ^7.0.0
+  peerDependencies:
+    electron-builder: ">= 20.44.4"
+  checksum: 3/c12bad5083fe41f44b5bfa57484316bf40f12a8158704af4e9d312e16dab3d742b89b69ee2064924992f468a4959e4f977d3c0f1e02d1d34e87bb07cc440aab4
+  languageName: node
+  linkType: hard
+
 "electron-builder@npm:^22.7.0":
   version: 22.7.0
   resolution: "electron-builder@npm:22.7.0"
@@ -9446,6 +9458,16 @@ __metadata:
     electron-builder: out/cli/cli.js
     install-app-deps: out/cli/install-app-deps.js
   checksum: 3/52c8ce455e6167474ed4426e7cb059d405f4397954a8825436710be3a2aea5b9a3838fe4d4ec1e417e0ee8796cc93e01fe3dc84ca8220fb09880eb12076975e6
+  languageName: node
+  linkType: hard
+
+"electron-notarize@npm:^0.2.0":
+  version: 0.2.1
+  resolution: "electron-notarize@npm:0.2.1"
+  dependencies:
+    debug: ^4.1.1
+    fs-extra: ^8.1.0
+  checksum: 3/884d282a0b515f8ae6bba56d4b0871f335bbf5a1016cdfac4c74e4f0a77f0c92d05483d717b51fb659597b879191f55a7b9600d0f50c2eae8b309cdc1aa8578f
   languageName: node
   linkType: hard
 
@@ -17970,6 +17992,7 @@ __metadata:
     dnslink-cloudflare: ^2.0.4
     electron: 8.3.0
     electron-builder: ^22.7.0
+    electron-builder-notarize: ^1.1.2
     i18next-scanner: ^2.11.0
     react: ^16.13.1
     react-dom: ^16.13.1
@@ -19387,7 +19410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"read-pkg-up@npm:^7.0.1":
+"read-pkg-up@npm:^7.0.0, read-pkg-up@npm:^7.0.1":
   version: 7.0.1
   resolution: "read-pkg-up@npm:7.0.1"
   dependencies:
