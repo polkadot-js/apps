@@ -11,18 +11,18 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
-import { useApi, useAccounts, useFavorites, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAccounts, useFavorites, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import useIsIpfs from './useIsIpfs';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
 import QrModal from './modals/Qr';
 import Account from './Account';
-import Banner from './Banner';
+import BannerClaims from './BannerClaims';
+import BannerExtension from './BannerExtension';
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -91,11 +91,11 @@ function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[
     );
 }
 
-function Overview ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const isIpfs = useIsIpfs();
+  const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -150,7 +150,7 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
       <Input
         autoFocus
         isFull
-        label={t('filter by name or tags')}
+        label={t<string>('filter by name or tags')}
         onChange={setFilter}
         value={filterOn}
       />
@@ -159,7 +159,8 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
 
   return (
     <div className={className}>
-      <Banner />
+      <BannerExtension />
+      <BannerClaims />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -188,25 +189,25 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         <Button
           icon='add'
           isDisabled={isIpfs}
-          label={t('Add account')}
+          label={t<string>('Add account')}
           onClick={toggleCreate}
         />
         <Button
           icon='sync'
           isDisabled={isIpfs}
-          label={t('Restore JSON')}
+          label={t<string>('Restore JSON')}
           onClick={toggleImport}
         />
         <Button
           icon='qrcode'
-          label={t('Add via Qr')}
+          label={t<string>('Add via Qr')}
           onClick={toggleQr}
         />
         {isLedger() && (
           <>
             <Button
               icon='question'
-              label={t('Query Ledger')}
+              label={t<string>('Query Ledger')}
               onClick={queryLedger}
             />
           </>
@@ -214,12 +215,12 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         <Button
           icon='add'
           isDisabled={!api.tx.utility}
-          label={t('Multisig')}
+          label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
       </Button.Group>
       <Table
-        empty={t("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={header}

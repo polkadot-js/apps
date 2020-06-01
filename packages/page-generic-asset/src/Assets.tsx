@@ -33,12 +33,12 @@ function Assets ({ assets, t }: Props): React.ReactElement<Props> {
         <Button.Group>
           <Button
             icon='registered'
-            label={t('Register Asset')}
+            label={t<string>('Register Asset')}
             onClick={_toggleCreate}
           />
         </Button.Group>
       }
-      emptyText={t('No assets found.')}
+      emptyText={t<string>('No assets found.')}
       isEmpty={emptyScreen}
     >
       {isCreateOpen && (

@@ -22,7 +22,7 @@ interface Props {
   value: string;
 }
 
-function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
+function BlockByHash ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], {
@@ -64,7 +64,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
               )}
             </td>
             <td className='hash overflow'>{getHeader.hash.toHex()}</td>
-            <td className='hash overflow'><Link to={`/explorer/query/${parentHash}`}>{parentHash}</Link></td>
+            <td className='hash overflow'><Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link></td>
             <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
             <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
             <td>
@@ -88,7 +88,7 @@ function BlockByHash ({ className, value }: Props): React.ReactElement<Props> {
               <Events
                 eventClassName='explorer--BlockByHash-block'
                 events={events?.filter(({ record: { phase } }) => !phase.isApplyExtrinsic)}
-                label={t('system events')}
+                label={t<string>('system events')}
               />
             </Column>
             <Column>

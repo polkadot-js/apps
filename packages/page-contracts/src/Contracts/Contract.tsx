@@ -52,10 +52,10 @@ function Contract (props: Props): React.ReactElement<Props> | null {
     try {
       keyring.forgetContract(address.toString());
       status.status = 'success';
-      status.message = t('address forgotten');
+      status.message = t<string>('address forgotten');
     } catch (error) {
       status.status = 'error';
-      status.message = error.message;
+      status.message = (error as Error).message;
     }
 
     _toggleForget();
@@ -79,14 +79,14 @@ function Contract (props: Props): React.ReactElement<Props> | null {
               icon='trash'
               isNegative
               onClick={_toggleForget}
-              tooltip={t('Forget this contract')}
+              tooltip={t<string>('Forget this contract')}
             />
             <Button
               icon='play'
               isPrimary
-              label={t('execute')}
+              label={t<string>('execute')}
               onClick={onCall()}
-              tooltip={t('Call a method on this contract')}
+              tooltip={t<string>('Call a method on this contract')}
             />
           </div>
         }
@@ -98,7 +98,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
         withNonce={false}
         withTags
       >
-        <Expander summary={t('Messages')}>
+        <Expander summary={t<string>('Messages')}>
           <Messages
             address={address.toString()}
             contractAbi={abi}

@@ -7,7 +7,7 @@ import { BareProps } from '@polkadot/react-components/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
-export type RawParamValue = any | undefined;
+export type RawParamValue = unknown | undefined;
 
 export type RawParamValueArray = (RawParamValue | RawParamValue[])[];
 
@@ -22,6 +22,7 @@ export interface RawParamOnChangeValue {
   isValid: boolean;
   value: RawParamValues;
 }
+
 export type RawParamOnChange = (value: RawParamOnChangeValue) => void;
 export type RawParamOnEnter = () => void;
 export type RawParamOnEscape = () => void;

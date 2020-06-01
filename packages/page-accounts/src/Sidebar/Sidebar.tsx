@@ -26,7 +26,7 @@ const TAG_OPTS = {
   autoFocus: true
 };
 
-function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.ReactElement<Props> {
+function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
@@ -80,7 +80,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
                 />
               )
               : flags.isEditable
-                ? (name.toUpperCase() || t('<unknown>'))
+                ? (name.toUpperCase() || t<string>('<unknown>'))
                 : undefined
           }
           value={address}
@@ -121,7 +121,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
                       size='tiny'
                     />
                   ))
-                  : <label>{t('no tags')}</label>
+                  : <label>{t<string>('no tags')}</label>
                 }
               </div>
             )
@@ -139,7 +139,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
           <Button.Group>
             <Button
               icon='send'
-              label={t('Deposit')}
+              label={t<string>('Deposit')}
               onClick={toggleIsTransferOpen}
             />
             {flags.isOwned && (
@@ -147,7 +147,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
                 className='basic'
                 icon='check'
                 isPrimary
-                label={t('Owned')}
+                label={t<string>('Owned')}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
                 size='tiny'
@@ -157,7 +157,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
               <Button
                 icon='add'
                 isPositive
-                label={t('Save')}
+                label={t<string>('Save')}
                 onClick={_onUpdateName}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
@@ -178,12 +178,12 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
                 <Button.Content visible>
                   <Icon name='check' />
                   &nbsp;
-                  {t('Saved')}
+                  {t<string>('Saved')}
                 </Button.Content>
                 <Button.Content hidden>
                   <Icon name='ban' />
                   &nbsp;
-                  {t('Remove')}
+                  {t<string>('Remove')}
                 </Button.Content>
               </Button>
             )}

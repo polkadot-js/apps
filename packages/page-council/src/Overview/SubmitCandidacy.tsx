@@ -21,7 +21,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
     <>
       {isOpen && (
         <Modal
-          header={t('Submit your council candidacy')}
+          header={t<string>('Submit your council candidacy')}
           onClose={onClose}
           size='large'
         >
@@ -29,14 +29,14 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
-                  help={t('Select the account you wish to submit for candidacy.')}
-                  label={t('candidate account')}
+                  help={t<string>('Select the account you wish to submit for candidacy.')}
+                  label={t<string>('candidate account')}
                   onChange={setAcountId}
                   type='account'
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.')}</p>
+                <p>{t<string>('This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -58,7 +58,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
       <Button
         icon='add'
         isDisabled={!electionsInfo}
-        label={t('Submit candidacy')}
+        label={t<string>('Submit candidacy')}
         onClick={onOpen}
       />
     </>

@@ -143,7 +143,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
   return [own, other];
 }
 
-function renderExtended ({ address, balancesAll, withExtended }: Props, t: (key: string) => string): React.ReactNode {
+function renderExtended ({ address, balancesAll, withExtended }: Props, t: <T = string> (key: string) => T): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -156,13 +156,13 @@ function renderExtended ({ address, balancesAll, withExtended }: Props, t: (key:
     <div className='column'>
       {balancesAll && extendedDisplay.nonce && (
         <>
-          <Label label={t('transactions')} />
+          <Label label={t<string>('transactions')} />
           <div className='result'>{formatNumber(balancesAll.accountNonce)}</div>
         </>
       )}
       {extendedDisplay.crypto && (
         <>
-          <Label label={t('type')} />
+          <Label label={t<string>('type')} />
           <CryptoType
             accountId={address}
             className='result'
@@ -173,7 +173,7 @@ function renderExtended ({ address, balancesAll, withExtended }: Props, t: (key:
   );
 }
 
-function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: (key: string) => string): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: <T = string> (key: string) => T): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
@@ -187,7 +187,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
       <div />
       {validatorPrefsDisplay.unstakeThreshold && (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold && (
         <>
-          <Label label={t('unstake threshold')} />
+          <Label label={t<string>('unstake threshold')} />
           <div className='result'>
             {(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).unstakeThreshold.toString()}
           </div>
@@ -197,7 +197,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
         (stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment
           ? (
             <>
-              <Label label={t('commission')} />
+              <Label label={t<string>('commission')} />
               <FormatBalance
                 className='result'
                 value={(stakingInfo.validatorPrefs as any as ValidatorPrefsTo145).validatorPayment}
@@ -206,7 +206,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
           )
           : (
             <>
-              <Label label={t('commission')} />
+              <Label label={t<string>('commission')} />
               <span>{(stakingInfo.validatorPrefs.commission.unwrap().toNumber() / 10_000_000).toFixed(2)}%</span>
             </>
           )
@@ -215,7 +215,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function renderBalances (props: Props, allAccounts: string[], t: (key: string) => string): React.ReactNode {
+function renderBalances (props: Props, allAccounts: string[], t: <T = string> (key: string) => T): React.ReactNode {
   const { address, balancesAll, democracyLocks, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
@@ -228,17 +228,17 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
   const [ownBonded, otherBonded] = calcBonded(stakingInfo, balanceDisplay.bonded);
   const isAllLocked = !!balancesAll && balancesAll.lockedBreakdown.some(({ amount }): boolean => amount.isMax());
   const lookup = {
-    democrac: t('via Democracy/Vote'),
-    phrelect: t('via Council/Vote'),
-    'staking ': t('via Staking/Bond'),
-    'vesting ': t('via Vesting')
+    democrac: t<string>('via Democracy/Vote'),
+    phrelect: t<string>('via Council/Vote'),
+    'staking ': t<string>('via Staking/Bond'),
+    'vesting ': t<string>('via Vesting')
   };
 
   const allItems = (
     <>
       {!withBalanceToggle && balancesAll && balanceDisplay.total && (
         <>
-          <Label label={t('total')} />
+          <Label label={t<string>('total')} />
           <FormatBalance
             className='result'
             value={balancesAll.votingBalance}
@@ -247,7 +247,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balancesAll && balanceDisplay.available && (
         <>
-          <Label label={t('transferrable')} />
+          <Label label={t<string>('transferrable')} />
           <FormatBalance
             className='result'
             value={balancesAll.availableBalance}
@@ -256,7 +256,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.vested && balancesAll?.isVesting && (
         <>
-          <Label label={t('vested')} />
+          <Label label={t<string>('vested')} />
           <FormatBalance
             className='result'
             value={balancesAll.vestedBalance}
@@ -265,7 +265,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.locked && balancesAll && (isAllLocked || balancesAll.lockedBalance.gtn(0)) && (
         <>
-          <Label label={t('locked')} />
+          <Label label={t<string>('locked')} />
           <FormatBalance
             className='result'
             label={
@@ -281,7 +281,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
               text={balancesAll.lockedBreakdown.map(({ amount, id, reasons }, index): React.ReactNode => (
                 <div key={index}>
                   {amount.isMax()
-                    ? t('everything')
+                    ? t<string>('everything')
                     : formatBalance(amount, { forceUnit: '-' })
                   }{id && <div className='faded'>{lookupLock(lookup, id)}</div>}<div className='faded'>{reasons.toString()}</div>
                 </div>
@@ -293,7 +293,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.reserved && balancesAll?.reservedBalance?.gtn(0) && (
         <>
-          <Label label={t('reserved')} />
+          <Label label={t<string>('reserved')} />
           <FormatBalance
             className='result'
             value={balancesAll.reservedBalance}
@@ -302,7 +302,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.bonded && (ownBonded.gtn(0) || otherBonded.length !== 0) && (
         <>
-          <Label label={t('bonded')} />
+          <Label label={t<string>('bonded')} />
           <FormatBalance
             className='result'
             value={ownBonded}
@@ -320,7 +320,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.redeemable && stakingInfo?.redeemable?.gtn(0) && (
         <>
-          <Label label={t('redeemable')} />
+          <Label label={t<string>('redeemable')} />
           <StakingRedeemable
             className='result'
             stakingInfo={stakingInfo}
@@ -329,7 +329,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.unlocking && stakingInfo?.unlocking && (
         <>
-          <Label label={t('unbonding')} />
+          <Label label={t<string>('unbonding')} />
           <div className='result'>
             <StakingUnbonding value={stakingInfo} />
           </div>
@@ -337,7 +337,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
       )}
       {balanceDisplay.unlocking && democracyLocks && (democracyLocks.length !== 0) && (
         <>
-          <Label label={t('democracy')} />
+          <Label label={t<string>('democracy')} />
           <div className='result'>
             <DemocracyLocks value={democracyLocks} />
           </div>
@@ -368,7 +368,7 @@ function renderBalances (props: Props, allAccounts: string[], t: (key: string) =
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const { children, className, extraInfo, withBalanceToggle, withHexSessionId } = props;
+  const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   return (
     <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
@@ -376,13 +376,13 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
         {renderBalances(props, allAccounts, t)}
         {withHexSessionId && withHexSessionId[0] && (
           <>
-            <Label label={t('session keys')} />
+            <Label label={t<string>('session keys')} />
             <div className='result'>{withHexSessionId[0]}</div>
           </>
         )}
         {withHexSessionId && withHexSessionId[0] !== withHexSessionId[1] && (
           <>
-            <Label label={t('session next')} />
+            <Label label={t<string>('session next')} />
             <div className='result'>{withHexSessionId[1]}</div>
           </>
         )}

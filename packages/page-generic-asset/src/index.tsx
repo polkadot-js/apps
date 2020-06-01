@@ -21,11 +21,11 @@ function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
     {
       isRoot: true,
       name: 'assets',
-      text: t('Assets')
+      text: t<string>('Assets')
     },
     {
       name: 'transfer',
-      text: t('Transfer')
+      text: t<string>('Transfer')
     }
   ], [t]);
 

@@ -39,7 +39,7 @@ const BOOL_OPTIONS = [
   { text: 'Yes', value: true }
 ];
 
-function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+function VanityApp ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const results = useRef<GeneratorResult[]>([]);
   const runningRef = useRef(false);
@@ -182,19 +182,19 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
         <Input
           autoFocus
           className='medium'
-          help={t('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
+          help={t<string>('Type here what you would like your address to contain. This tool will generate the keys and show the associated addresses that best match your search. You can use "?" as a wildcard for a character.')}
           isDisabled={isRunning}
           isError={!isMatchValid}
-          label={t('Search for')}
+          label={t<string>('Search for')}
           onChange={_onChangeMatch}
           onEnter={_toggleStart}
           value={match}
         />
         <Dropdown
           className='medium'
-          help={t('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
+          help={t<string>('Should the search be case sensitive, e.g if you select "no" your search for "Some" may return addresses containing "somE" or "sOme"...')}
           isDisabled={isRunning}
-          label={t('case sensitive')}
+          label={t<string>('case sensitive')}
           onChange={setWithCase}
           options={BOOL_OPTIONS}
           value={withCase}
@@ -204,8 +204,8 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
         <Dropdown
           className='medium'
           defaultValue={type}
-          help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-          label={t('keypair crypto type')}
+          help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+          label={t<string>('keypair crypto type')}
           onChange={setType}
           options={uiSettings.availableCryptos}
         />
@@ -220,8 +220,8 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
           isDisabled={!isMatchValid}
           label={
             isRunning
-              ? t('Stop generation')
-              : t('Start generation')
+              ? t<string>('Stop generation')
+              : t<string>('Start generation')
           }
           onClick={_toggleStart}
         />
@@ -229,7 +229,7 @@ function VanityApp ({ className, onStatusChange }: Props): React.ReactElement<Pr
       {matches.length !== 0 && (
         <Table
           className='vanity--App-matches'
-          empty={t('No matches found')}
+          empty={t<string>('No matches found')}
           header={header}
         >
           {matches.map((match): React.ReactNode => (

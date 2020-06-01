@@ -4,9 +4,7 @@
 
 import React from 'react';
 
-type Props = {};
-
-function Spacer (): React.ReactElement<Props> {
+function Spacer (): React.ReactElement {
   return (
     <div />
   );

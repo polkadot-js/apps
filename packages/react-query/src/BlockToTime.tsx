@@ -54,7 +54,7 @@ function extractTime (value?: number): Time {
   return addTime([round, 0, 0, 0], extractTime(value - (round * DAY)));
 }
 
-function BlockToTime ({ blocks, children, className, label, style }: Props): React.ReactElement<Props> | null {
+function BlockToTime ({ blocks, children, className = '', label }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const time = useMemo((): string => {
@@ -66,10 +66,10 @@ function BlockToTime ({ blocks, children, className, label, style }: Props): Rea
     const time = extractTime(blocks && blocks.mul(blockTime).toNumber());
 
     return [
-      time[0] ? (time[0] > 1) ? t('{{d}} days', { replace: { d: time[0] } }) : t('1 day') : null,
-      time[1] ? (time[1] > 1) ? t('{{h}} hrs', { replace: { h: time[1] } }) : t('1 hr') : null,
-      time[2] ? (time[2] > 1) ? t('{{m}} mins', { replace: { m: time[2] } }) : t('1 min') : null,
-      time[3] ? (time[3] > 1) ? t('{{s}} s', { replace: { s: time[3] } }) : t('1 s') : null
+      time[0] ? (time[0] > 1) ? t<string>('{{d}} days', { replace: { d: time[0] } }) : t<string>('1 day') : null,
+      time[1] ? (time[1] > 1) ? t<string>('{{h}} hrs', { replace: { h: time[1] } }) : t<string>('1 hr') : null,
+      time[2] ? (time[2] > 1) ? t<string>('{{m}} mins', { replace: { m: time[2] } }) : t<string>('1 min') : null,
+      time[3] ? (time[3] > 1) ? t<string>('{{s}} s', { replace: { s: time[3] } }) : t<string>('1 s') : null
     ].filter((value): value is string => !!value).slice(0, 2).join(' ');
   }, [api, blocks, t]);
 
@@ -78,10 +78,7 @@ function BlockToTime ({ blocks, children, className, label, style }: Props): Rea
   }
 
   return (
-    <div
-      className={className}
-      style={style}
-    >
+    <div className={className}>
       {label || ''}{time}{children}
     </div>
   );

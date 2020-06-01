@@ -17,7 +17,7 @@ interface Props {
 
 const MAX_HELPERS = 16;
 
-function RecoverSetup ({ address, className, onClose }: Props): React.ReactElement {
+function RecoverSetup ({ address, className = '', onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const availableHelpers = useKnownAddresses(address);
   const [delay, setDelay] = useState<BN | undefined>();
@@ -31,7 +31,7 @@ function RecoverSetup ({ address, className, onClose }: Props): React.ReactEleme
   return (
     <Modal
       className={className}
-      header={t('Setup account as recoverable')}
+      header={t<string>('Setup account as recoverable')}
       size='large'
     >
       <Modal.Content>
@@ -39,49 +39,49 @@ function RecoverSetup ({ address, className, onClose }: Props): React.ReactEleme
           <Modal.Column>
             <InputAddress
               isDisabled
-              label={t('the account to make recoverable')}
+              label={t<string>('the account to make recoverable')}
               value={address}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The recoverable account is protected against the loss of seed/access by a social process.')}</p>
+            <p>{t<string>('The recoverable account is protected against the loss of seed/access by a social process.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <InputAddressMulti
               available={availableHelpers}
-              availableLabel={t('available social recovery helpers')}
-              help={t('The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
+              availableLabel={t<string>('available social recovery helpers')}
+              help={t<string>('The addresses that are able to help in recovery. You can select up to {{maxHelpers}} trusted helpers.', { replace: { maxHelpers: MAX_HELPERS } })}
               maxCount={MAX_HELPERS}
               onChange={setHelpers}
               value={helpers}
-              valueLabel={t('trusted social recovery helpers')}
+              valueLabel={t<string>('trusted social recovery helpers')}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
-            <p>{t('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
+            <p>{t<string>('These are trusted individuals that can verify and approve any recovery actions. With recovery, once the threshold is reached, the funds associated with the account can be moved to a new destination.')}</p>
+            <p>{t<string>('The helpers should be able to verify, via an off-chain mechanism, that the account owner indeed wishes to recover access and as such provide any approvals. In the cases of malicious recovery procedures, they will have the power to stop it.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <InputNumber
-              help={t('The threshold of vouches that is to be reached for the account to be recovered.')}
+              help={t<string>('The threshold of vouches that is to be reached for the account to be recovered.')}
               isError={isErrorThreshold}
-              label={t('recovery threshold')}
+              label={t<string>('recovery threshold')}
               onChange={setThreshold}
             />
             <InputNumber
-              help={t('The delay between vouching and the availability of the recovered account.')}
+              help={t<string>('The delay between vouching and the availability of the recovered account.')}
               isError={isErrorDelay}
               isZeroable
-              label={t('recovery block delay')}
+              label={t<string>('recovery block delay')}
               onChange={setDelay}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.')}</p>
+            <p>{t<string>('The threshold for approvals and the delay is the protection associated with the account. The delay should be such that any colluding recovery attempts does have a window to stop.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -90,7 +90,7 @@ function RecoverSetup ({ address, className, onClose }: Props): React.ReactEleme
           accountId={address}
           icon='share alternate'
           isDisabled={isErrorHelpers || isErrorThreshold || isErrorDelay}
-          label={t('Make recoverable')}
+          label={t<string>('Make recoverable')}
           onStart={onClose}
           params={[helpers, threshold, delay]}
           tx='recovery.createRecovery'

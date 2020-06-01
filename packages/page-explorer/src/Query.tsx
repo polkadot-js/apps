@@ -26,7 +26,7 @@ function stateFromValue (value: string): State {
   };
 }
 
-function Query ({ className, value: propsValue }: Props): React.ReactElement<Props> {
+function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
 
@@ -52,7 +52,7 @@ function Query ({ className, value: propsValue }: Props): React.ReactElement<Pro
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t('block hash or number to query')}
+        placeholder={t<string>('block hash or number to query')}
         withLabel={false}
       >
         <Button

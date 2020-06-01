@@ -31,7 +31,7 @@ interface Percentages {
   turnout: string;
 }
 
-function Referendum ({ className, value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
+function Referendum ({ className = '', value: { allAye, allNay, image, imageHash, index, isPassing, status, voteCountAye, voteCountNay, votedAye, votedNay, votedTotal } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
@@ -76,7 +76,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
       />
       <td className='number together ui--media-1200'>
         <BlockToTime blocks={remainBlock} />
-        {t('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
+        {t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(remainBlock) } })}
       </td>
       <td className='number together ui--media-1400'>
         <BlockToTime blocks={enactBlock.sub(bestNumber)} />
@@ -88,7 +88,7 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
             {/* <FormatBalance value={votedTotal} /> */}
             <div>{percentages.turnout}</div>
             {percentages.aye && (
-              <div>{t('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
+              <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
             )}
           </>
         )}
@@ -114,8 +114,8 @@ function Referendum ({ className, value: { allAye, allNay, image, imageHash, ind
           <Badge
             hover={
               isPassing
-                ? t('{{threshold}}, passing', { replace: { threshold } })
-                : t('{{threshold}}, not passing', { replace: { threshold } })
+                ? t<string>('{{threshold}}, passing', { replace: { threshold } })
+                : t<string>('{{threshold}}, not passing', { replace: { threshold } })
             }
             info={<Icon name={isPassing ? 'check' : 'cancel'} />}
             isTooltip

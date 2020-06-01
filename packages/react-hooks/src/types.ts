@@ -11,7 +11,7 @@ import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export type CallParam = any;
 
-export type CallParams = [] | [CallParam] | [CallParam, CallParam] | [CallParam, CallParam, CallParam] | any[];
+export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;

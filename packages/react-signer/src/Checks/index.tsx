@@ -21,15 +21,17 @@ interface Props {
   tip?: BN;
 }
 
-function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
+function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
 
   useEffect((): void => {
     accountId && extrinsic && isFunction(api.rpc.payment?.queryInfo) &&
-      extrinsic
-        .paymentInfo(accountId)
-        .then(setDispatchInfo);
+      Promise.resolve(
+        extrinsic
+          .paymentInfo(accountId)
+          .then(setDispatchInfo)
+      ).catch(console.error);
   }, [api, accountId, extrinsic]);
 
   if (!dispatchInfo) {

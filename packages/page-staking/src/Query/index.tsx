@@ -15,7 +15,7 @@ interface Props {
 
 function Query ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { value } = useParams();
+  const { value } = useParams<{ value: string }>();
   const [validatorId, setValidatorId] = useState<string | null>(value || null);
 
   const _onQuery = useCallback(
@@ -32,8 +32,8 @@ function Query ({ className }: Props): React.ReactElement<Props> {
       <InputAddressSimple
         className='staking--queryInput'
         defaultValue={value}
-        help={t('Display overview information for the selected validator, including blocks produced.')}
-        label={t('validator to query')}
+        help={t<string>('Display overview information for the selected validator, including blocks produced.')}
+        label={t<string>('validator to query')}
         onChange={setValidatorId}
         onEnter={_onQuery}
       >

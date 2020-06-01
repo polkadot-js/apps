@@ -10,16 +10,17 @@ export default {
     Kulupu: 'kulupu',
     Kusama: 'kusama',
     'Kusama CC3': 'kusama',
+    'Polkadot CC1': 'polkadot-cc1',
     Westend: 'westend'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://polkascan.io/pre/${chain}/${path}/${data.toString()}`,
+    `https://polkascan.io/${chain}/${path}/${data.toString()}`,
   isActive: true,
   paths: {
-    address: 'module/account',
-    block: 'system/block',
+    address: 'account',
+    block: 'block',
     council: 'council/motion',
-    extrinsic: 'system/extrinsic',
+    extrinsic: 'transaction',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     techcomm: 'techcomm/proposal',

@@ -45,7 +45,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
       // subscribe to all validators
       api.query.session && api.query.session.validators((validatorIds): void => {
         setValidators(validatorIds.map((validatorId) => validatorId.toString()));
-      });
+      }).catch(console.error);
 
       // subscribe to new headers
       api.derive.chain.subscribeNewHeads((lastHeader): void => {
@@ -76,8 +76,8 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
 
           setState({ byAuthor, eraPoints, lastBlockAuthors: lastBlockAuthors.slice(), lastBlockNumber, lastHeader, lastHeaders });
         }
-      });
-    });
+      }).catch(console.error);
+    }).catch(console.error);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

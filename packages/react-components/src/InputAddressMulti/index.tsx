@@ -77,7 +77,7 @@ interface Props {
 
 // NOTE Drag code above, disabled since it has massive performance implications
 
-function InputAddressMulti ({ available, availableLabel, className, defaultValue, maxCount, onChange, valueLabel }: Props): React.ReactElement<Props> {
+function InputAddressMulti ({ available, availableLabel, className = '', defaultValue, maxCount, onChange, valueLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);
@@ -119,7 +119,7 @@ function InputAddressMulti ({ available, availableLabel, className, defaultValue
         autoFocus
         className='ui--InputAddressMulti-Input label-small'
         onChange={setFilter}
-        placeholder={t('filter by name, address, or account index')}
+        placeholder={t<string>('filter by name, address, or account index')}
         value={_filter}
         withLabel={false}
       />

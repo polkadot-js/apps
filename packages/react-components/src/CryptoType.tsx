@@ -15,7 +15,7 @@ interface Props extends BareProps {
   label?: string;
 }
 
-function CryptoType ({ accountId, className, label = '' }: Props): React.ReactElement<Props> {
+function CryptoType ({ accountId, className = '', label = '' }: Props): React.ReactElement<Props> {
   const [type, setType] = useState('unknown');
 
   useEffect((): void => {
@@ -29,7 +29,7 @@ function CryptoType ({ accountId, className, label = '' }: Props): React.ReactEl
           current.meta.isInjected
             ? 'injected'
             : current.meta.isHardware
-              ? current.meta.hardwareType || 'hardware'
+              ? current.meta.hardwareType as string || 'hardware'
               : current.meta.isExternal
                 ? current.meta.isMultisig
                   ? 'multisig'

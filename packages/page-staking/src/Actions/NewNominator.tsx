@@ -59,12 +59,12 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
         icon='add'
         isDisabled={isDisabled}
         key='new-nominator'
-        label={t('Nominator')}
+        label={t<string>('Nominator')}
         onClick={_toggle}
       />
       {isVisible && (
         <Modal
-          header={t('Setup Nominator {{step}}/{{NUM_STEPS}}', {
+          header={t<string>('Setup Nominator {{step}}/{{NUM_STEPS}}', {
             replace: {
               NUM_STEPS,
               step
@@ -92,7 +92,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
             <Button
               icon='step backward'
               isDisabled={step === 1}
-              label={t('prev')}
+              label={t<string>('prev')}
               onClick={_prevStep}
             />
             {step === NUM_STEPS
@@ -102,7 +102,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                   icon='sign-in'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
                   isPrimary
-                  label={t('Bond & Nominate')}
+                  label={t<string>('Bond & Nominate')}
                   onStart={_toggle}
                   params={[
                     stashId === controllerId
@@ -117,7 +117,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                   icon='step forward'
                   isDisabled={!bondTx}
                   isPrimary
-                  label={t('next')}
+                  label={t<string>('next')}
                   onClick={_nextStep}
                 />
               )

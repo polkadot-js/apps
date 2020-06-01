@@ -56,7 +56,7 @@ function deriveValidate (seed: string, derivePath: string, pairType: KeypairType
       return 'Soft derivation paths are not allowed on ed25519';
     }
   } catch (error) {
-    return error.message;
+    return (error as Error).message;
   }
 
   return null;
@@ -150,13 +150,13 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
     downloadAccount(result);
   } catch (error) {
     status.status = 'error';
-    status.message = error.message;
+    status.message = (error as Error).message;
   }
 
   return status;
 }
 
-function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
+function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
@@ -167,11 +167,11 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid && isSeedValid;
   const seedOpt = useMemo(() => (
     isDevelopment
-      ? [{ text: t('Development'), value: 'dev' }]
+      ? [{ text: t<string>('Development'), value: 'dev' }]
       : []
   ).concat(
-    { text: t('Mnemonic'), value: 'bip' },
-    { text: t('Raw seed'), value: 'raw' }
+    { text: t<string>('Mnemonic'), value: 'bip' },
+    { text: t<string>('Raw seed'), value: 'raw' }
   ), [isDevelopment, t]);
 
   const _onChangePass = useCallback(
@@ -220,7 +220,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
       }
 
       const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
-      const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t('created account'));
+      const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
 
       toggleConfirmation();
       onStatusChange(status);
@@ -232,7 +232,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   return (
     <Modal
       className={className}
-      header={t('Add an account via seed')}
+      header={t<string>('Add an account via seed')}
       size='large'
     >
       {address && isConfirmationOpen && (
@@ -258,33 +258,33 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
             <Input
               autoFocus
               className='full'
-              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
               isError={!isNameValid}
-              label={t('name')}
+              label={t<string>('name')}
               onChange={_onChangeName}
               onEnter={_onCommit}
-              placeholder={t('new account')}
+              placeholder={t<string>('new account')}
               value={name}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
+            <p>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Input
               className='full'
-              help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
               isAction
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={
                 seedType === 'bip'
-                  ? t('mnemonic seed')
+                  ? t<string>('mnemonic seed')
                   : seedType === 'dev'
-                    ? t('development seed')
-                    : t('seed (hex or string)')
+                    ? t<string>('development seed')
+                    : t<string>('seed (hex or string)')
               }
               onChange={_onChangeSeed}
               onEnter={_onCommit}
@@ -299,66 +299,66 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
             </Input>
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
+            <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
             <Password
               className='full'
-              help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
+              help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
               isError={!isPassValid}
-              label={t('password')}
+              label={t<string>('password')}
               onChange={_onChangePass}
               onEnter={_onCommit}
               value={password}
             />
             <Password
               className='full'
-              help={t('Verify the password entered above.')}
+              help={t<string>('Verify the password entered above.')}
               isError={!isPass2Valid}
-              label={t('password (repeat)')}
+              label={t<string>('password (repeat)')}
               onChange={_onChangePass2}
               onEnter={_onCommit}
               value={password2}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
+            <p>{t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Expander
           className='accounts--Creator-advanced'
           isOpen
-          summary={t('Advanced creation options')}
+          summary={t<string>('Advanced creation options')}
         >
           <Modal.Columns>
             <Modal.Column>
               <Dropdown
                 defaultValue={pairType}
-                help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                label={t('keypair crypto type')}
+                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t<string>('keypair crypto type')}
                 onChange={_onChangePairType}
                 options={uiSettings.availableCryptos}
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
+              <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
             </Modal.Column>
           </Modal.Columns>
           <Modal.Columns>
             <Modal.Column>
               <Input
                 className='full'
-                help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
+                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
                 isError={!!deriveError}
-                label={t('secret derivation path')}
+                label={t<string>('secret derivation path')}
                 onChange={_onChangeDerive}
                 onEnter={_onCommit}
                 placeholder={
                   pairType === 'sr25519'
-                    ? t('//hard/soft///password')
-                    : t('//hard///password')
+                    ? t<string>('//hard/soft///password')
+                    : t<string>('//hard///password')
                 }
                 value={derivePath}
               />
@@ -367,7 +367,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
               )}
             </Modal.Column>
             <Modal.Column>
-              <p>{t('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+              <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
             </Modal.Column>
           </Modal.Columns>
         </Expander>
@@ -377,7 +377,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           icon='plus'
           isDisabled={!isValid}
           isPrimary
-          label={t('Save')}
+          label={t<string>('Save')}
           onClick={toggleConfirmation}
         />
       </Modal.Actions>

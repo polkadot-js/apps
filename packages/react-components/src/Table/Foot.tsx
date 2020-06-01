@@ -11,7 +11,7 @@ interface Props {
   isEmpty: boolean;
 }
 
-function Foot ({ className, footer, isEmpty }: Props): React.ReactElement<Props> | null {
+function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<Props> | null {
   if (!footer || isEmpty) {
     return null;
   }

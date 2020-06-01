@@ -2,36 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
+const findPackages = require('../../scripts/findPackages');
 
-const ENV = process.env.NODE_ENV || 'development';
-
-function createWebpack ({ alias = {}, context, name = 'index' }) {
+function createWebpack (ENV, context) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
   const plugins = hasPublic
     ? [new CopyWebpackPlugin([{ from: 'public' }])]
     : [];
-  // disabled, smooths dev load, was -
-  // isProd ? 'source-map' : 'cheap-eval-source-map',
+
+  !isProd && plugins.push(
+    new WebpackPluginServe({
+      hmr: false, // switch off, Chrome WASM memory leak
+      liveReload: false, // explict off, overrides hmr
+      port: 3000,
+      progress: false, // since we have hmr off, disable
+      static: path.join(process.cwd(), '/build')
+    })
+  );
+
+  const alias = findPackages().reduce((alias, { dir, name }) => {
+    alias[name] = path.resolve(context, `../${dir}/src`);
+
+    return alias;
+  }, {});
 
   return {
     context,
-    entry: [
-      '@babel/polyfill',
-      `./src/${name}.tsx`,
-      isProd
-        ? null
-        : null // 'webpack-plugin-serve/client'
-    ].filter((entry) => entry),
+    entry: ['@babel/polyfill', './src/index.tsx'],
     mode: ENV,
     module: {
       rules: [
@@ -120,19 +127,19 @@ function createWebpack ({ alias = {}, context, name = 'index' }) {
             chunks: 'initial',
             enforce: true,
             name: 'polkadotjs',
-            test: /node_modules\/(@polkadot\/wasm-crypto)/
+            test: /node_modules\/@polkadot\/(api|api-derive|extension-dapp|keyring|metadata|react-identicon|react-qr|rpc-core|rpc-provider|types|ui-keyring|ui-settings|ui-shared|util|util-crypto|vanitygen|wasm-crypto)/
           },
           vendorOther: {
             chunks: 'initial',
             enforce: true,
             name: 'vendor',
-            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs)/
+            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs|secp256k1|webrtc-adapter|remark-parse)/
           },
           vendorReact: {
             chunks: 'initial',
             enforce: true,
             name: 'react',
-            test: /node_modules\/(chart|i18next|react|semantic-ui)/
+            test: /node_modules\/(@semantic-ui-react|chart|i18next|jidenticon|qrcode-generator|react|react-dom|semantic-ui-css|semantic-ui-react|styled-components)/
           }
         }
       }

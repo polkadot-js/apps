@@ -15,7 +15,7 @@ interface Props {
   tabIndex?: number;
 }
 
-function ButtonCancel ({ className, isDisabled, label, onClick, tabIndex }: Props): React.ReactElement<Props> {
+function ButtonCancel ({ className = '', isDisabled, label, onClick, tabIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -24,7 +24,7 @@ function ButtonCancel ({ className, isDisabled, label, onClick, tabIndex }: Prop
       icon='cancel'
       isDisabled={isDisabled}
       isNegative
-      label={label || t('Cancel')}
+      label={label || t<string>('Cancel')}
       onClick={onClick}
       tabIndex={tabIndex}
     />

@@ -90,7 +90,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .sort((a, b) => b.available.cmp(a.available));
 }
 
-function Payouts ({ className, isInElection }: Props): React.ReactElement<Props> {
+function Payouts ({ className = '', isInElection }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashTotal, stashes, validators }, setPayouts] = useState<Available>({});
   const stakerPayoutsAfter = useStakerPayouts();
@@ -152,8 +152,8 @@ function Payouts ({ className, isInElection }: Props): React.ReactElement<Props>
       )}
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={stashes && t('No pending payouts for your stashes')}
-        emptySpinner={t('Retrieving info for all applicable eras, this will take some time')}
+        empty={stashes && t<string>('No pending payouts for your stashes')}
+        emptySpinner={t<string>('Retrieving info for all applicable eras, this will take some time')}
         footer={footer}
         header={headerStashes}
         isFixed

@@ -60,21 +60,21 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
     <>
       {payout && isVisible && (
         <Modal
-          header={t('Payout all stakers')}
+          header={t<string>('Payout all stakers')}
           size='large'
         >
           <Modal.Content>
             <Modal.Columns>
               <Modal.Column>
                 <InputAddress
-                  label={t('request payout from')}
+                  label={t<string>('request payout from')}
                   onChange={setAccount}
                   type='account'
                   value={accountId}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}</p>
+                <p>{t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -82,7 +82,7 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
                 {Array.isArray(payout)
                   ? (
                     <Static
-                      label={t('payout stakers for (multiple)')}
+                      label={t<string>('payout stakers for (multiple)')}
                       value={
                         payout.map(({ validatorId }) => (
                           <AddressMini
@@ -97,13 +97,13 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
                     <InputAddress
                       defaultValue={payout.validatorId}
                       isDisabled
-                      label={t('payout stakers for (single)')}
+                      label={t<string>('payout stakers for (single)')}
                     />
                   )
                 }
               </Modal.Column>
               <Modal.Column>
-                <p>{t('All the listed validators and all their nominators will receive their rewards.')}</p>
+                <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
@@ -113,7 +113,7 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
               extrinsic={extrinsic}
               icon='credit card outline'
               isDisabled={!extrinsic || !accountId}
-              label={t('Payout')}
+              label={t<string>('Payout')}
               onStart={togglePayout}
             />
           </Modal.Actions>
@@ -124,8 +124,8 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
         isDisabled={isDisabled || isPayoutEmpty}
         label={
           (isAll || Array.isArray(payout))
-            ? t('Payout all')
-            : t('Payout')
+            ? t<string>('Payout all')
+            : t<string>('Payout')
         }
         onClick={togglePayout}
       />

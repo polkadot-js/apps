@@ -15,7 +15,7 @@ interface Props {
   members: string[];
 }
 
-function Tips ({ className, hashes, isMember, members }: Props): React.ReactElement<Props> {
+function Tips ({ className = '', hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
@@ -30,7 +30,7 @@ function Tips ({ className, hashes, isMember, members }: Props): React.ReactElem
   return (
     <Table
       className={className}
-      empty={hashes && t('No open tips')}
+      empty={hashes && t<string>('No open tips')}
       header={header}
     >
       {hashes?.map((hash): React.ReactNode => (

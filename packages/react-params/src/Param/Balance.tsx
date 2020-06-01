@@ -10,7 +10,7 @@ import { InputBalance } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function Balance ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
+function Balance ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
   const [defaultValue] = useState(new BN((value as BN || '0').toString()).toString(10));
 
@@ -28,10 +28,7 @@ function Balance ({ className, defaultValue: { value }, isDisabled, isError, lab
   );
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <InputBalance
         className='full'
         defaultValue={defaultValue}

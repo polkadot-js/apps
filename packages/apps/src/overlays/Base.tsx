@@ -14,7 +14,7 @@ interface Props {
   type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {
@@ -26,7 +26,7 @@ function BaseOverlay ({ children, className, icon, type }: Props): React.ReactEl
       <div className='content'>
         <Icon
           className='contentIcon'
-          name={icon as any}
+          name={icon as 'send'}
           size='big'
         />
         <div className='contentItem'>

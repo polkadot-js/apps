@@ -21,7 +21,7 @@ type ModalType = React.FC<ModalProps> & {
 };
 
 function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
-  const { children, className, header, open = true } = props;
+  const { children, className = '', header, open = true } = props;
 
   return (
     <SUIModal

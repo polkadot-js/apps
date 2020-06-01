@@ -53,7 +53,7 @@ function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className, clearContent, convertHex, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, convertHex, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -99,8 +99,8 @@ function InputFile ({ accept, className, clearContent, convertHex, help, isDisab
           <em className='label' >
             {
               !file || clearContent
-                ? placeholder || t('click to select or drag and drop the file here')
-                : placeholder || t('{{name}} ({{size}} bytes)', {
+                ? placeholder || t<string>('click to select or drag and drop the file here')
+                : placeholder || t<string>('{{name}} ({{size}} bytes)', {
                   replace: {
                     name: file.name,
                     size: formatNumber(file.size)

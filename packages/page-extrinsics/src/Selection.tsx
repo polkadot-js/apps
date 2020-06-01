@@ -26,10 +26,10 @@ function Selection (): React.ReactElement {
   return (
     <div className='extrinsics--Selection'>
       <InputAddress
-        label={t('using the selected account')}
+        label={t<string>('using the selected account')}
         labelExtra={
           <BalanceFree
-            label={<label>{t('free balance')}</label>}
+            label={<label>{t<string>('free balance')}</label>}
             params={accountId}
           />
         }
@@ -38,7 +38,7 @@ function Selection (): React.ReactElement {
       />
       <Extrinsic
         defaultValue={apiDefaultTxSudo}
-        label={t('submit the following extrinsic')}
+        label={t<string>('submit the following extrinsic')}
         onChange={_onExtrinsicChange}
       />
       <Button.Group>
@@ -48,7 +48,7 @@ function Selection (): React.ReactElement {
           isBasic
           isDisabled={!extrinsic}
           isUnsigned
-          label={t('Submit Unsigned')}
+          label={t<string>('Submit Unsigned')}
           withSpinner
         />
         <TxButton
@@ -57,7 +57,7 @@ function Selection (): React.ReactElement {
           icon='sign-in'
           isDisabled={!extrinsic || !accountId}
           isPrimary={false}
-          label={t('Submit Transaction')}
+          label={t<string>('Submit Transaction')}
         />
       </Button.Group>
     </div>

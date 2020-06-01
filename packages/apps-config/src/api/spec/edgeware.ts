@@ -9,7 +9,7 @@ import * as edgewareDefinitions from 'edgeware-node-types/dist/definitions';
 
 const edgTypes = Object
   .values(edgewareDefinitions)
-  .reduce((res, { default: { types } }): object => ({ ...res, ...types }), {});
+  .reduce((res, { default: { types } }) => ({ ...res, ...types }), {});
 
 export default {
   ...edgTypes,

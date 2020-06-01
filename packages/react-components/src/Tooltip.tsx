@@ -29,7 +29,7 @@ interface Props extends BareProps {
   trigger: string;
 }
 
-function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering

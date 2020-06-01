@@ -24,7 +24,7 @@ interface OldPass {
   oldPass: string;
 }
 
-function ChangePass ({ address, className, onClose }: Props): React.ReactElement<Props> {
+function ChangePass ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isNewValid, newPass }, setNewPass] = useState<NewPass>({ isNewValid: false, newPass: '' });
   const [{ isOldValid, oldPass }, setOldPass] = useState<OldPass>({ isOldValid: false, oldPass: '' });
@@ -77,28 +77,28 @@ function ChangePass ({ address, className, onClose }: Props): React.ReactElement
   return (
     <Modal
       className={`${className} app--accounts-Modal`}
-      header={t('Change account password')}
+      header={t<string>('Change account password')}
     >
       <Modal.Content>
         <AddressRow
           isInline
           value={address}
         >
-          <p>{t('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
+          <p>{t<string>('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
           <div>
             <Password
               autoFocus
-              help={t('The existing account password as specified when this account was created or when it was last changed.')}
+              help={t<string>('The existing account password as specified when this account was created or when it was last changed.')}
               isError={!isOldValid}
-              label={t('your current password')}
+              label={t<string>('your current password')}
               onChange={_onChangeOld}
               tabIndex={1}
               value={oldPass}
             />
             <Password
-              help={t('The new account password. Once set, all future account unlocks will be performed with this new password.')}
+              help={t<string>('The new account password. Once set, all future account unlocks will be performed with this new password.')}
               isError={!isNewValid}
-              label={t('your new password')}
+              label={t<string>('your new password')}
               onChange={_onChangeNew}
               onEnter={_doChange}
               tabIndex={2}
@@ -112,7 +112,7 @@ function ChangePass ({ address, className, onClose }: Props): React.ReactElement
           icon='sign-in'
           isDisabled={!isNewValid || !isOldValid}
           isPrimary
-          label={t('Change')}
+          label={t<string>('Change')}
           onClick={_doChange}
         />
       </Modal.Actions>

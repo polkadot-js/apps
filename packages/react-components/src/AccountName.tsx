@@ -35,8 +35,8 @@ const KNOWN: [AccountId, string][] = [
   [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
 ];
 
-const displayCache: Map<string, React.ReactNode> = new Map();
-const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
+const displayCache = new Map<string, React.ReactNode>();
+const nameCache = new Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]>();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
@@ -126,8 +126,8 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
     )
     : undefined;
   const nameElem = displayParent
-    ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
-    : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>;
+    ? <span className={`name ${isGood ? 'isGood' : ''}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
+    : <span className={`name ${isGood ? 'isGood' : ''}`}>{displayName}</span>;
   const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
   const badgeType = isGood ? 'green' : (isBad ? 'brown' : 'gray');
 
@@ -137,7 +137,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return createIdElem(badgeType, nameElem, infoElem);
 }
 
-function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
@@ -175,7 +175,7 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
 
   return (
     <div
-      className={`ui--AccountName ${withSidebar && 'withSidebar'} ${className}`}
+      className={`ui--AccountName ${withSidebar ? 'withSidebar' : ''} ${className}`}
       onClick={
         withSidebar
           ? _onToggleSidebar

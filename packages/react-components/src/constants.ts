@@ -7,11 +7,11 @@ export enum BitLengthOption {
   NORMAL_NUMBERS = 32
 }
 
-export enum ScreenSizes {
-  DESKTOP = 992,
-  TABLET = 768,
-  PHONE = 576
-}
+export const ScreenSizes = {
+  DESKTOP: 992,
+  PHONE: 576,
+  TABLET: 768
+};
 
 export const rewardDestinationOptions = [
   { text: 'Stash account (increase the amount at stake)', value: 0 },

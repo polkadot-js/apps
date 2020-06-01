@@ -7,6 +7,7 @@ const pinataSDK = require('@pinata/sdk');
 const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
+const createEndpoints = require('../packages/apps-config/build/settings/endpoints');
 const lernaInfo = require('../lerna.json');
 
 // https://gateway.pinata.cloud/ipfs/
@@ -16,8 +17,7 @@ const DST = 'packages/apps/build';
 const SRC = 'packages/apps/public';
 const WOPTS = { encoding: 'utf8', flag: 'w' };
 
-const token = process.env.GH_PAT || `x-access-token:${process.env.GITHUB_TOKEN}`;
-const repo = `https://${token}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
+const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
 
 function writeFiles (name, content) {
@@ -28,7 +28,7 @@ function writeFiles (name, content) {
 
 function updateGh (hash) {
   execSync('git add --all .');
-  execSync(`git commit --no-status --quiet -m "[CI Skip] ${hash}
+  execSync(`git commit --no-status --quiet -m "[CI Skip] publish/ipfs ${hash}
 
 
 skip-checks: true"`);
@@ -67,24 +67,48 @@ async function unpin (exclude) {
   const result = await pinata.pinList({ status: 'pinned' });
 
   if (result.count > 1) {
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    const filtered = result.rows.map(({ ipfs_pin_hash }) => ipfs_pin_hash).filter((hash) => hash !== exclude);
+    const filtered = result.rows
+      .map(({ ipfs_pin_hash: hash }) => hash)
+      .filter((hash) => hash !== exclude);
 
     if (filtered.length) {
       await Promise.all(
-        filtered.map((hash) => pinata.unpin(hash).then(() => console.log(`Unpinned ${hash}`)))
+        filtered.map((hash) =>
+          pinata
+            .unpin(hash)
+            .then(() => console.log(`Unpinned ${hash}`))
+            .catch(console.error)
+        )
       );
     }
   }
 }
 
 async function dnslink (hash) {
-  await cloudflare(
-    { token: process.env.CF_API_TOKEN },
-    { link: `/ipfs/${hash}`, record: `_dnslink.${DOMAIN}`, zone: DOMAIN }
-  );
+  const records = createEndpoints(() => '')
+    .map(({ dnslink }) => dnslink)
+    .filter((dnslink) => !!dnslink)
+    .reduce((all, dnslink) => {
+      if (!all.includes(dnslink)) {
+        all.push(dnslink);
+      }
 
-  console.log(`Dnslink ${hash}`);
+      return all;
+    }, [null])
+    .map((sub) =>
+      ['_dnslink', sub, DOMAIN]
+        .filter((entry) => !!entry)
+        .join('.')
+    );
+
+  await Promise.all(records.map((record) =>
+    cloudflare(
+      { token: process.env.CF_API_TOKEN },
+      { link: `/ipfs/${hash}`, record, zone: DOMAIN }
+    )
+  ));
+
+  console.log(`Dnslink ${hash} for ${records.join(', ')}`);
 }
 
 async function main () {

@@ -23,14 +23,16 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
 
   const onDownload = (): void => {
     try {
-      api.query.parachains.code<Option<Bytes>>(id)
+      api.query.parachains
+        .code<Option<Bytes>>(id)
         .then((code) => {
-          if (code.unwrap()) {
+          if (code.isSome) {
             const blob = new Blob([code.unwrap().toU8a().buffer], { type: 'application/wasm' });
 
             FileSaver.saveAs(blob, `${id.toString()}_${parachainName(t, info)}.wasm`);
           }
-        });
+        })
+        .catch(console.error);
     } catch (error) {
       console.error(error);
     }
@@ -41,18 +43,18 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       <div className='ui--row'>
         <Static
           className='full label-small'
-          help={t('The scheduling setting for this parachain.')}
-          label={t('scheduling')}
-          value={info?.scheduling?.toString() || t('Unknown')}
+          help={t<string>('The scheduling setting for this parachain.')}
+          label={t<string>('scheduling')}
+          value={info?.scheduling?.toString() || t<string>('Unknown')}
         />
       </div>
       {heads && (
         <div className='ui--row'>
           <Output
             className='full label-small'
-            help={t('Most recent head data')}
+            help={t<string>('Most recent head data')}
             isMonospace
-            label={t('heads')}
+            label={t<string>('heads')}
             value={heads.toHex()}
             withCopy
           />
@@ -61,8 +63,8 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       <div className='ui--row'>
         <Labelled
           className='full label-small'
-          help={t('The compiled runtime WASM for this parachain.')}
-          label={t('code')}
+          help={t<string>('The compiled runtime WASM for this parachain.')}
+          label={t<string>('code')}
         >
           <div
             className='ui--Static ui selection dropdown'
@@ -70,7 +72,7 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
           >
             <IconLink
               icon='download'
-              label={t('Download')}
+              label={t<string>('Download')}
               onClick={onDownload}
             />
           </div>

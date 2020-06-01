@@ -19,12 +19,9 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function File ({ className, isDisabled, isError = false, label, onChange, placeholder, style, withLabel }: Props): React.ReactElement<Props> {
+function File ({ className = '', isDisabled, isError = false, label, onChange, placeholder, withLabel }: Props): React.ReactElement<Props> {
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <InputFile
         convertHex
         isDisabled={isDisabled}

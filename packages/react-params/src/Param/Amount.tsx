@@ -13,13 +13,13 @@ import { bnToBn, formatNumber } from '@polkadot/util';
 
 import Bare from './Bare';
 
-function Amount ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, withLabel }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState(
     isDisabled
       ? (
         value instanceof ClassOf(registry, 'AccountIndex')
           ? value.toString()
-          : formatNumber(value)
+          : formatNumber(value as number)
       )
       : bnToBn((value as number) || 0).toString()
   );
@@ -34,10 +34,7 @@ function Amount ({ className, defaultValue: { value }, isDisabled, isError, labe
   );
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='full'
         defaultValue={defaultValue}

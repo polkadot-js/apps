@@ -23,14 +23,23 @@ const COMM_MUL = new BN(10000000);
 const MAX_COMM = new BN(100);
 const ZERO = new BN(0);
 
-function Validate ({ className, controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
+function Validate ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
 
   const _setCommission = useCallback(
-    (commission?: BN) => onChange({
-      validateTx: api.tx.staking.validate({ commission: (commission || ZERO).mul(COMM_MUL) })
-    }),
+    (value?: BN): void => {
+      const commission = (value || ZERO).mul(COMM_MUL);
+
+      onChange({
+        validateTx: api.tx.staking.validate({
+          commission: commission.isZero()
+            // small non-zero set to avoid isEmpty
+            ? 1
+            : commission
+        })
+      });
+    },
     [api, onChange]
   );
 
@@ -42,31 +51,31 @@ function Validate ({ className, controllerId, onChange, stashId, withSenders }: 
             <InputAddress
               defaultValue={stashId}
               isDisabled
-              label={t('stash account')}
+              label={t<string>('stash account')}
             />
             <InputAddress
               defaultValue={controllerId}
               isDisabled
-              label={t('controller account')}
+              label={t<string>('controller account')}
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The stash and controller pair. This transaction, managing preferences, will be sent from the controller.')}</p>
+            <p>{t<string>('The stash and controller pair. This transaction, managing preferences, will be sent from the controller.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
       <Modal.Columns>
         <Modal.Column>
           <InputNumber
-            help={t('The percentage reward (0-100) that should be applied for the validator')}
+            help={t<string>('The percentage reward (0-100) that should be applied for the validator')}
             isZeroable
-            label={t('reward commission percentage')}
+            label={t<string>('reward commission percentage')}
             maxValue={MAX_COMM}
             onChange={_setCommission}
           />
         </Modal.Column>
         <Modal.Column>
-          <p>{t('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
+          <p>{t<string>('The commission is deducted from all rewards before the remainder is split with nominators.')}</p>
         </Modal.Column>
       </Modal.Columns>
     </div>

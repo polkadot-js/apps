@@ -68,7 +68,7 @@ function Transfer ({ amount, fees, onChange, recipientId }: Props): React.ReactE
       {isNoEffect && (
         <div>
           <Icon name='warning sign' />
-          {t('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected', {
+          {t<string>('The final recipient balance is less or equal to {{existentialDeposit}} (the existential amount) and will not be reflected', {
             replace: {
               existentialDeposit: formatBalance(fees.existentialDeposit)
             }
@@ -78,7 +78,7 @@ function Transfer ({ amount, fees, onChange, recipientId }: Props): React.ReactE
       {isCreation && (
         <div>
           <Icon name='warning sign' />
-          {t('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
+          {t<string>('A fee of {{creationFee}} will be deducted from the sender since the destination account does not exist', {
             replace: {
               creationFee: formatBalance(fees.creationFee)
             }

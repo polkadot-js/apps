@@ -1,4 +1,5 @@
 {
+  "//hard///password": "//硬///密码",
   "//hard/soft": "//硬/软",
   "//hard/soft///password": "//硬/软///密码",
   "1. Select your {{chain}} account": "1. 选择你的 {{chain}} 账户",
@@ -182,7 +183,7 @@
   "Type the name of your contact. This name will be used across all the apps. It can be edited later on.": "输入联系人的名字. 这个名字在整个app内可用. 稍后课编辑.",
   "Type the password chosen at the account creation. It was used to encrypt your account's private key in the backup file.": "输入在创建帐户时选择的密码。 它用于加密备份文件中帐户的私钥。",
   "Unable to find deployed contract code at the specified address": "在指定的地址找不到部署的合约代码",
-  "Unable to find on-chain WASM code for the supplied codeHash": "找不到所提供codeHash的链上WASM代码  ",
+  "Unable to find on-chain WASM code for the supplied codeHash": "找不到所提供codeHash的链上WASM代码",
   "Unbond": "解除抵押",
   "Unbond funds": "解除抵押资金",
   "Unit": "单位",

@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import Accounts, { useCounter } from '@polkadot/app-accounts';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component: Accounts,
     display: {
@@ -14,7 +14,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'users',
     name: 'accounts',
-    text: t('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
+    text: t<string>('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
     useCounter
   };
 }

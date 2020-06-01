@@ -25,15 +25,15 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       isRoot: true,
       name: 'overview',
-      text: t('My accounts')
+      text: t<string>('My accounts')
     },
     {
       name: 'contacts',
-      text: t('My contacts')
+      text: t<string>('My contacts')
     },
     {
       name: 'vanity',
-      text: t('Vanity generator')
+      text: t<string>('Vanity generator')
     }
   ], [t]);
   const hidden = useMemo(
@@ -43,7 +43,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
 
   return (
     <main className='accounts--App'>
-      <HelpOverlay md={basicMd} />
+      <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}

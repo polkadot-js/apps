@@ -17,7 +17,7 @@ interface Props {
   value: DeriveProposalExternal;
 }
 
-function External ({ className, value: { image, imageHash, threshold } }: Props): React.ReactElement<Props> | null {
+function External ({ className = '', value: { image, imageHash, threshold } }: Props): React.ReactElement<Props> | null {
   return (
     <tr className={className}>
       <ProposalCell

@@ -28,7 +28,7 @@ const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, 
 
 const isEditable = true;
 
-function Address ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
@@ -70,7 +70,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    _setTags(account?.meta?.tags || []);
+    _setTags(account?.meta?.tags as string[] || []);
     setAccName(account?.meta?.name || '');
   }, [_setTags, address]);
 
@@ -132,10 +132,10 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         try {
           keyring.forgetAddress(address);
           status.status = 'success';
-          status.message = t('address forgotten');
+          status.message = t<string>('address forgotten');
         } catch (error) {
           status.status = 'error';
-          status.message = error.message;
+          status.message = (error as Error).message;
         }
       }
     },
@@ -150,7 +150,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
+          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
           name={isFavorite ? 'star' : 'star outline'}
           onClick={_onFavorite}
         />
@@ -203,9 +203,9 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         <Button
           icon='paper plane'
           key='deposit'
-          label={t('deposit')}
+          label={t<string>('deposit')}
           onClick={_toggleTransfer}
-          tooltip={t('Send funds to this address')}
+          tooltip={t<string>('Send funds to this address')}
         />
         <Popup
           className='theme--default'
@@ -227,7 +227,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
               disabled={!isEditable}
               onClick={_toggleForget}
             >
-              {t('Forget this address')}
+              {t<string>('Forget this address')}
             </Menu.Item>
             {!api.isDevelopment && (
               <>
