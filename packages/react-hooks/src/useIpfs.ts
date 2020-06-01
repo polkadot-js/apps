@@ -8,8 +8,8 @@ const KNOWN = ['ipfs', 'ipns'];
 const SECTIONS = KNOWN.map((part) => `/${part}/`);
 
 interface State {
-  dnsChain: string | null;
-  dnsDomain: string | null;
+  ipnsChain: string | null;
+  ipnsDomain: string | null;
   ipfsHash: string | null;
   ipfsPath: string | null;
   isIpfs: boolean;
@@ -27,10 +27,10 @@ export function extractIpfsDetails (): State {
   const index = urlParts.indexOf(isIpns ? KNOWN[1] : KNOWN[0]);
 
   // the parts of the path for ipfs re-construction
-  let dnsChain: string | null = null;
-  let dnsDomain: string | null = null;
   let ipfsHash: string | null = null;
   let ipfsPath: string | null = null;
+  let ipnsChain: string | null = null;
+  let ipnsDomain: string | null = null;
 
   // setup the ipfs part and dnslink domain (if available)
   if (index !== -1) {
@@ -41,10 +41,10 @@ export function extractIpfsDetails (): State {
       const linkParts = dnsLink.split('.');
 
       if (linkParts.length > 2) {
-        dnsChain = linkParts[0];
-        dnsDomain = linkParts.slice(1).join('.');
+        ipnsChain = linkParts[0];
+        ipnsDomain = linkParts.slice(1).join('.');
       } else {
-        dnsDomain = dnsLink;
+        ipnsDomain = dnsLink;
       }
     } else {
       ipfsHash = urlParts[index + 1];
@@ -52,10 +52,10 @@ export function extractIpfsDetails (): State {
   }
 
   return {
-    dnsChain,
-    dnsDomain,
     ipfsHash,
     ipfsPath,
+    ipnsChain,
+    ipnsDomain,
     isIpfs,
     isIpns
   };

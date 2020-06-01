@@ -25,11 +25,11 @@ function getApiUrl (): string {
   }
 
   const endpoints = createEndpoints(<T = string>(): T => ('' as unknown as T));
-  const { dnsChain, isIpns } = extractIpfsDetails();
+  const { ipnsChain } = extractIpfsDetails();
 
   // check against ipns domains (could be expanded to others)
-  if (isIpns && dnsChain) {
-    const option = endpoints.find(({ dnslink }) => dnslink === dnsChain);
+  if (ipnsChain) {
+    const option = endpoints.find(({ dnslink }) => dnslink === ipnsChain);
 
     if (option) {
       return option.value as string;
