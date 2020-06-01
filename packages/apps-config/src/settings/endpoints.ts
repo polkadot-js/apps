@@ -4,7 +4,11 @@
 
 import { Option } from './types';
 
-function createDev (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
+interface LinkOption extends Option {
+  dnslink?: string;
+}
+
+function createDev (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   return [
     {
       info: 'local',
@@ -14,39 +18,46 @@ function createDev (t: <T= string> (key: string, text: string, options: { ns: st
   ];
 }
 
-function createLive (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
+function createLive (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   return [
     {
+      dnslink: 'polkadot',
       info: 'polkadot',
       text: t<string>('rpc.polkadot.parity', 'Polkadot (Live, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://rpc.polkadot.io'
     },
     {
+      dnslink: 'polkadot',
       info: 'polkadot',
       text: t<string>('rpc.polkadot.w3f', 'Polkadot (Live, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc1-1.polkadot.network'
     },
     {
+      dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://kusama-rpc.polkadot.io/'
     },
     {
+      dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc3-5.kusama.network/'
     },
     {
+      dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
       value: 'wss://kusama.polkadot.cloud.ava.do/'
     },
     {
+      dnslink: 'edgeware',
       info: 'edgeware',
       text: t<string>('rpc.edgeware', 'Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
       value: 'wss://mainnet1.edgewa.re'
     },
     {
+      dnslink: 'kulupu',
       info: 'substrate',
       text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
       value: 'wss://rpc.kulupu.network/ws'
@@ -54,9 +65,10 @@ function createLive (t: <T= string> (key: string, text: string, options: { ns: s
   ];
 }
 
-function createTest (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
+function createTest (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   return [
     {
+      dnslink: 'westend',
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
@@ -84,8 +96,8 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
 //   text: The text to display on teh dropdown
 //   value: The actual hosted secure websocket endpoint
-export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): Option[] {
-  const ENV: Option[] = [];
+export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
+  const ENV: LinkOption[] = [];
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
   const WS_URL = process.env.WS_URL || (window as any).process_env?.WS_URL as string;
 

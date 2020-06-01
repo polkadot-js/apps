@@ -7,6 +7,7 @@ const pinataSDK = require('@pinata/sdk');
 const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
+const createEndpoints = require('../packages/apps-config/build/settings/endpoints');
 const lernaInfo = require('../lerna.json');
 
 // https://gateway.pinata.cloud/ipfs/
@@ -84,12 +85,30 @@ async function unpin (exclude) {
 }
 
 async function dnslink (hash) {
-  await cloudflare(
-    { token: process.env.CF_API_TOKEN },
-    { link: `/ipfs/${hash}`, record: `_dnslink.${DOMAIN}`, zone: DOMAIN }
-  );
+  const records = createEndpoints(() => '')
+    .map(({ dnslink }) => dnslink)
+    .filter((dnslink) => !!dnslink)
+    .reduce((all, dnslink) => {
+      if (!all.includes(dnslink)) {
+        all.push(dnslink);
+      }
 
-  console.log(`Dnslink ${hash}`);
+      return all;
+    }, [null])
+    .map((sub) =>
+      ['_dnslink', sub, DOMAIN]
+        .filter((entry) => !!entry)
+        .join('.')
+    );
+
+  await Promise.all(records.map((record) =>
+    cloudflare(
+      { token: process.env.CF_API_TOKEN },
+      { link: `/ipfs/${hash}`, record, zone: DOMAIN }
+    )
+  ));
+
+  console.log(`Dnslink ${hash} for ${records.join(', ')}`);
 }
 
 async function main () {
