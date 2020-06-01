@@ -13,6 +13,7 @@ export { default as useFormField } from './useFormField';
 export { default as useDebounce } from './useDebounce';
 export { default as useFavorites } from './useFavorites';
 export { default as useIncrement } from './useIncrement';
+export { default as useIpfs } from './useIpfs';
 export { default as useIsMountedRef } from './useIsMountedRef';
 export { default as useMembers } from './useMembers';
 export { default as useModal } from './useModal';
