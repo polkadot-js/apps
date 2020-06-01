@@ -37,12 +37,14 @@ function getApiUrl (): string {
   }
 
   const stored = store.get('settings') as Record<string, unknown> || {};
-  const fallbackUrl = endpoints.find(({ value }) => !!value) || { value: 'ws://127.0.0.1:9944' };
+  const fallbackUrl = endpoints.find(({ value }) => !!value);
 
   // via settings, or the default chain
   return [stored.apiUrl, process.env.WS_URL].includes(settings.apiUrl)
     ? settings.apiUrl // keep as-is
-    : fallbackUrl.value as string; // grab the fallback
+    : fallbackUrl
+      ? fallbackUrl.value as string // grab the fallback
+      : 'ws://127.0.0.1:9944'; // nothing found, go local
 }
 
 const apiUrl = getApiUrl();
