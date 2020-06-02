@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.44.0-beta.37 Jun 1, 2020
+## 0.44.0-beta.38
 
 - Publish electron images on release (Thanks to https://github.com/EthWorks)
 - Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
