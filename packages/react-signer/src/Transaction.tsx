@@ -23,7 +23,7 @@ interface Props {
   value: QueueTx;
 }
 
-function Transaction ({ children, className, hideDetails, isSendable, onError, tip, value: { accountId, extrinsic, isUnsigned } }: Props): React.ReactElement<Props> | null {
+function Transaction ({ children, className = '', hideDetails, isSendable, onError, tip, value: { accountId, extrinsic, isUnsigned } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {
@@ -37,42 +37,56 @@ function Transaction ({ children, className, hideDetails, isSendable, onError, t
       {!hideDetails && (
         <>
           {!isUnsigned && accountId && (
-            <InputAddress
-              className='full'
-              defaultValue={accountId}
-              isDisabled
-              isInput
-              label={t('sending from my account')}
-              withLabel
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <InputAddress
+                  className='full'
+                  defaultValue={accountId}
+                  isDisabled
+                  isInput
+                  label={t<string>('sending from my account')}
+                  withLabel
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           )}
-          <Expander
-            className='tx-details'
-            summary={
-              <>
-                {t('Sending transaction')} <span className='highlight'>{section}.{method}({
-                  meta?.args.map(({ name }) => name).join(', ') || ''
-                })</span>
-              </>
-            }
-            summaryMeta={meta}
-          >
-            <Call
-              onError={onError}
-              value={extrinsic}
-              withBorder={false}
-            />
-          </Expander>
+          <Modal.Columns>
+            <Modal.Column>
+              <Expander
+                className='tx-details'
+                summary={
+                  <>
+                    {t<string>('Sending transaction')} <span className='highlight'>{section}.{method}({
+                      meta?.args.map(({ name }) => name).join(', ') || ''
+                    })</span>
+                  </>
+                }
+                summaryMeta={meta}
+              >
+                <Call
+                  onError={onError}
+                  value={extrinsic}
+                  withBorder={false}
+                />
+              </Expander>
+              {!isUnsigned && (
+                <Checks
+                  accountId={accountId}
+                  className='tx-details'
+                  extrinsic={extrinsic}
+                  isSendable={isSendable}
+                  tip={tip}
+                />
+              )}
+            </Modal.Column>
+            <Modal.Column>
+              <p>{t<string>('The details of the transaction including the type, the description (as available from the chain metadata) as well as any parameters and fee estimations (as available) for the specific type of call.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
         </>
-      )}
-      {!hideDetails && !isUnsigned && (
-        <Checks
-          accountId={accountId}
-          className='tx-details'
-          extrinsic={extrinsic}
-          isSendable={isSendable}
-          tip={tip}
-        />
       )}
       {children}
     </Modal.Content>

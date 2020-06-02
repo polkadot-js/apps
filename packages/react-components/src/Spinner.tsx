@@ -14,7 +14,7 @@ interface Props {
   variant?: 'app' | 'push' | 'mini';
 }
 
-function Spinner ({ className, label, variant = 'app' }: Props): React.ReactElement<Props> | null {
+function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -27,7 +27,7 @@ function Spinner ({ className, label, variant = 'app' }: Props): React.ReactElem
         size='medium'
       >
         {variant === 'app' && (
-          label || t('Retrieving data')
+          label || t<string>('Retrieving data')
         )}
       </Loader>
     </div>

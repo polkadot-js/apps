@@ -15,11 +15,11 @@ import Static from './Static';
 
 function Tuple (props: Props): React.ReactElement<Props> {
   const [params, setParams] = useState<ParamDef[]>([]);
-  const { className, isDisabled, label, onChange, overrides, style, type, withLabel } = props;
+  const { className = '', isDisabled, label, onChange, overrides, type, withLabel } = props;
 
   useEffect((): void => {
     try {
-      const rawType = createType(registry, type.type as any).toRawType();
+      const rawType = createType(registry, type.type as 'u32').toRawType();
       const typeDef = getTypeDef(rawType);
 
       setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
@@ -47,7 +47,6 @@ function Tuple (props: Props): React.ReactElement<Props> {
       <Base
         className={className}
         label={label}
-        style={style}
         withLabel={withLabel}
       />
       <Params

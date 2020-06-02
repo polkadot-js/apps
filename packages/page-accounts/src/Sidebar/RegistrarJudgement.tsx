@@ -44,24 +44,24 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
 
   return (
     <Modal
-      header={t('Provide judgement')}
+      header={t<string>('Provide judgement')}
       onClose={toggleJudgement}
       size='small'
     >
       <Modal.Content>
         <InputAddress
           filter={addresses}
-          label={t('registrar account')}
+          label={t<string>('registrar account')}
           onChange={setJudgementAccountId}
           type='account'
         />
         <Input
           isDisabled
-          label={t('registrar index')}
-          value={registrarIndex === -1 ? t('invalid/unknown registrar account') : registrarIndex}
+          label={t<string>('registrar index')}
+          value={registrarIndex === -1 ? t<string>('invalid/unknown registrar account') : registrarIndex.toString()}
         />
         <Dropdown
-          label={t('judgement')}
+          label={t<string>('judgement')}
           onChange={setJudgementEnum}
           options={JUDGEMENT_ENUM}
           value={judgementEnum}
@@ -72,7 +72,7 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
           accountId={judgementAccountId}
           icon='check'
           isDisabled={registrarIndex === -1}
-          label={t('Judge')}
+          label={t<string>('Judge')}
           onStart={toggleJudgement}
           params={[registrarIndex, address, judgementEnum]}
           tx='identity.provideJudgement'

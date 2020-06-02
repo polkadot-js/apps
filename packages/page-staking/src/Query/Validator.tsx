@@ -11,7 +11,7 @@ import ChartPoints from './ChartPoints';
 import ChartRewards from './ChartRewards';
 import ChartStake from './ChartStake';
 
-function Validator ({ className, validatorId }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', validatorId }: Props): React.ReactElement<Props> {
   return (
     <Columar className={className}>
       <Column>

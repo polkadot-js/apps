@@ -17,7 +17,7 @@ interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function LockedVote ({ children, className, label, params }: Props): React.ReactElement<Props> | null {
+function LockedVote ({ children, className = '', label, params }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveCouncilVote>(api.derive.council.votesOf, [params]);
 

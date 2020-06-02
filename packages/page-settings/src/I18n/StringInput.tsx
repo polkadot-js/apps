@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-i18n authors & contributors
+// Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -14,7 +14,7 @@ interface Props {
   tval: string;
 }
 
-function StringInput ({ className, onChange, original, tkey, tval }: Props): React.ReactElement<Props> {
+function StringInput ({ className = '', onChange, original, tkey, tval }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: string) => onChange(tkey, value),
     [onChange, tkey]

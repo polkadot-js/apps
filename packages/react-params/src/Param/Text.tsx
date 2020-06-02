@@ -4,38 +4,38 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function onChange ({ onChange }: Props): (_: string) => void {
-  return function (value: string): void {
-    const isValid = value.length !== 0;
+function Text ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
 
-    onChange && onChange({
-      isValid,
-      value
-    });
-  };
-}
+  const _onChange = useCallback(
+    (value: string): void => {
+      const isValid = value.length !== 0;
 
-function Text (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
-  const defaultValue = (value || '').toString();
+      onChange && onChange({
+        isValid,
+        value
+      });
+      setIsValid(isValid);
+    },
+    [onChange]
+  );
+
+  const defaultValue = (value as string || '').toString();
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='full'
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
         placeholder='<any string>'

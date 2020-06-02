@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
 import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export type CallParam = any;
 
-export type CallParams = [] | [CallParam] | [CallParam, CallParam] | [CallParam, CallParam, CallParam] | any[];
+export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
@@ -79,7 +80,9 @@ export interface AddressFlags extends DeriveAccountFlags {
   isEditable: boolean;
   isExternal: boolean;
   isFavorite: boolean;
+  isHardware: boolean;
   isInContacts: boolean;
+  isInjected: boolean;
   isMultisig: boolean;
   isOwned: boolean;
 }
@@ -105,6 +108,7 @@ export interface UseAccountInfo {
   genesisHash: StringOrNull;
   identity?: AddressIdentity;
   isEditingName: boolean;
+  meta?: KeyringJson$Meta;
   toggleIsEditingName: VoidFn;
   isEditingTags: boolean;
   isNull: boolean;

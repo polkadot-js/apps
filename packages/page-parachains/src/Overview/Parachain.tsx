@@ -17,7 +17,7 @@ interface Props {
   parachain: DeriveParachain;
 }
 
-function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
+function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -40,7 +40,11 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
         <div>
           <Badge
             className='did-update'
-            hover={t(didUpdate ? 'Updated in the latest block' : 'Not updated in the last block')}
+            hover={
+              didUpdate
+                ? t<string>('Updated in the latest block')
+                : t<string>('Not updated in the last block')
+            }
             info={
               <Icon name='check' />
             }
@@ -50,14 +54,11 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
           />
           <Badge
             className='pending-messages'
-            hover={t(
-              '{{relayDispatchQueueSize}} dispatch messages pending',
-              {
-                replace: {
-                  relayDispatchQueueSize
-                }
+            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', {
+              replace: {
+                relayDispatchQueueSize
               }
-            )}
+            })}
             info={relayDispatchQueueSize}
             isGray={relayDispatchQueueSize <= 0}
             isTooltip
@@ -73,7 +74,7 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
         {pendingSwapId?.toString()}
       </td>
       <td className='number ui--media-small'>
-        {info?.scheduling?.toString() || t('<unknown>')}
+        {info?.scheduling?.toString() || t<string>('<unknown>')}
       </td>
     </tr>
   );

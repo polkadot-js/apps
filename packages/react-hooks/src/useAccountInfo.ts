@@ -4,6 +4,7 @@
 
 import { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { StringOrNull } from '@polkadot/react-components/types';
+import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
@@ -21,7 +22,9 @@ const IS_NONE = {
   isEditable: false,
   isExternal: false,
   isFavorite: false,
+  isHardware: false,
   isInContacts: false,
+  isInjected: false,
   isMultisig: false,
   isOwned: false,
   isSociety: false,
@@ -41,6 +44,7 @@ export default function useAccountInfo (value: string | null, isContract = false
   const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
   const [identity, setIdentity] = useState<AddressIdentity | undefined>();
   const [flags, setFlags] = useState<AddressFlags>(IS_NONE);
+  const [meta, setMeta] = useState<KeyringJson$Meta | undefined>();
   const [isEditingName, toggleIsEditingName] = useToggle();
   const [isEditingTags, toggleIsEditingTags] = useToggle();
 
@@ -58,15 +62,16 @@ export default function useAccountInfo (value: string | null, isContract = false
       setAccountIndex(anAccountIndex.toString());
     }
 
+    let name;
     if (api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
-        setName(identity.display);
+        name = identity.display;
       }
     } else if (nickname) {
-      setName(nickname);
-    } else {
-      setName('');
+      name = nickname;
     }
+
+    setName(name || '');
 
     if (identity) {
       const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
@@ -108,6 +113,7 @@ export default function useAccountInfo (value: string | null, isContract = false
         isMultisig: accountOrAddress?.meta.isMultisig || false,
         isOwned
       }));
+      setMeta(accountOrAddress?.meta);
       setName(accountOrAddress?.meta.name || '');
       setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
     }
@@ -226,6 +232,7 @@ export default function useAccountInfo (value: string | null, isContract = false
     isEditingName,
     isEditingTags,
     isNull: !value,
+    meta,
     name,
     onForgetAddress,
     onSaveName,

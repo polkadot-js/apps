@@ -21,7 +21,7 @@ interface Props {
   prime: AccountId | null;
 }
 
-function Proposals ({ className, motions, prime }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', motions, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isMember, members } = useMembers();
 
@@ -51,7 +51,7 @@ function Proposals ({ className, motions, prime }: Props): React.ReactElement<Pr
         />
       </Button.Group>
       <Table
-        empty={motions && t('No council motions')}
+        empty={motions && t<string>('No council motions')}
         header={header}
       >
         {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (

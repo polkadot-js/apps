@@ -79,12 +79,12 @@ function Contracts (props: Props): React.ReactElement<Props> {
             )}
             <Button
               icon='add'
-              label={t('Add an existing contract')}
+              label={t<string>('Add an existing contract')}
               onClick={_toggleAdd}
             />
           </Button.Group>
         }
-        emptyText={t('No contracts available')}
+        emptyText={t<string>('No contracts available')}
       >
         {contracts.map((contract: ApiContract, index): React.ReactNode => (
           <ContractCard

@@ -15,7 +15,7 @@ type Input$Type = 'number' | 'password' | 'text';
 interface Props extends BareProps {
   autoFocus?: boolean;
   children?: React.ReactNode;
-  defaultValue?: any;
+  defaultValue?: string | null;
   help?: React.ReactNode;
   icon?: React.ReactNode;
   inputClassName?: string;
@@ -30,9 +30,9 @@ interface Props extends BareProps {
   isReadOnly?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  max?: any;
+  max?: number;
   maxLength?: number;
-  min?: any;
+  min?: number;
   name?: string;
   onEnter?: boolean | VoidFn;
   onEscape?: () => void;
@@ -45,7 +45,7 @@ interface Props extends BareProps {
   placeholder?: string;
   tabIndex?: number;
   type?: Input$Type;
-  value?: any;
+  value?: string | null;
   withLabel?: boolean;
   withEllipsis?: boolean;
 }
@@ -91,7 +91,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = useCallback(
@@ -116,12 +116,12 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       onKeyUp && onKeyUp(event);
 
       if (onEnter && event.keyCode === 13) {
-        (event.target as any).blur();
+        (event.target as HTMLInputElement).blur();
         isFunction(onEnter) && onEnter();
       }
 
       if (onEscape && event.keyCode === 27) {
-        (event.target as any).blur();
+        (event.target as HTMLInputElement).blur();
         onEscape();
       }
     },
@@ -141,7 +141,6 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
-      style={style}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
     >

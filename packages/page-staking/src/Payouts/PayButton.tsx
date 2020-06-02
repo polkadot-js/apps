@@ -18,7 +18,7 @@ interface Props {
   payout?: PayoutValidator | PayoutValidator[];
 }
 
-function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> {
+function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> | null {
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
       return createExtrinsic(api, payout[0]);
@@ -49,46 +49,63 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   useEffect((): void => {
-    payout && setExtrinsic(
+    api.tx.utility && payout && setExtrinsic(
       () => createExtrinsic(api, payout)
     );
-  }, [api, payout]);
+  }, [api, isDisabled, payout]);
 
   const isPayoutEmpty = !payout || (Array.isArray(payout) && payout.length === 0);
 
   return (
     <>
       {payout && isVisible && (
-        <Modal header={t('Payout all stakers')}>
+        <Modal
+          header={t<string>('Payout all stakers')}
+          size='large'
+        >
           <Modal.Content>
-            {Array.isArray(payout)
-              ? (
-                <Static
-                  label={t('payout stakers for (multiple)')}
-                  value={
-                    payout.map(({ validatorId }) => (
-                      <AddressMini
-                        key={validatorId}
-                        value={validatorId}
-                      />
-                    ))
-                  }
-                />
-              )
-              : (
+            <Modal.Columns>
+              <Modal.Column>
                 <InputAddress
-                  defaultValue={payout.validatorId}
-                  isDisabled
-                  label={t('payout stakers for (single)')}
+                  label={t<string>('request payout from')}
+                  onChange={setAccount}
+                  type='account'
+                  value={accountId}
                 />
-              )
-            }
-            <InputAddress
-              label={t('request payout from')}
-              onChange={setAccount}
-              type='account'
-              value={accountId}
-            />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('Any account can request payout for stakers, this is not limited to accounts that will be rewarded.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                {Array.isArray(payout)
+                  ? (
+                    <Static
+                      label={t<string>('payout stakers for (multiple)')}
+                      value={
+                        payout.map(({ validatorId }) => (
+                          <AddressMini
+                            key={validatorId}
+                            value={validatorId}
+                          />
+                        ))
+                      }
+                    />
+                  )
+                  : (
+                    <InputAddress
+                      defaultValue={payout.validatorId}
+                      isDisabled
+                      label={t<string>('payout stakers for (single)')}
+                    />
+                  )
+                }
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={togglePayout}>
             <TxButton
@@ -96,16 +113,20 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
               extrinsic={extrinsic}
               icon='credit card outline'
               isDisabled={!extrinsic || !accountId}
-              label={t('Payout')}
+              label={t<string>('Payout')}
               onStart={togglePayout}
             />
           </Modal.Actions>
         </Modal>
       )}
       <Button
-        icon='percent'
+        icon='credit card outline'
         isDisabled={isDisabled || isPayoutEmpty}
-        label={(isAll || Array.isArray(payout)) ? t('Payout all') : t('Payout')}
+        label={
+          (isAll || Array.isArray(payout))
+            ? t<string>('Payout all')
+            : t<string>('Payout')
+        }
         onClick={togglePayout}
       />
     </>

@@ -51,10 +51,10 @@ class Add extends ContractModal<Props, State> {
       >
         <Input
           autoFocus
-          help={t('The address for the deployed contract instance.')}
+          help={t<string>('The address for the deployed contract instance.')}
           isDisabled={isBusy}
           isError={!isAddressValid}
-          label={t('contract address')}
+          label={t<string>('contract address')}
           onChange={this.onChangeAddress}
           onEnter={this.submit}
           value={address || ''}
@@ -79,7 +79,7 @@ class Add extends ContractModal<Props, State> {
         icon='save'
         isDisabled={!isValid}
         isPrimary
-        label={t('Save')}
+        label={t<string>('Save')}
         onClick={this.onAdd}
       />
     );
@@ -123,7 +123,7 @@ class Add extends ContractModal<Props, State> {
       console.error(error);
 
       status.status = 'error';
-      status.message = error.message;
+      status.message = (error as Error).message;
     }
   }
 }

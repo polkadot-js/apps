@@ -34,7 +34,7 @@ interface Props {
   validators?: string[];
 }
 
-function Account ({ className, info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
+function Account ({ className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
@@ -65,7 +65,6 @@ function Account ({ className, info: { controllerId, destination, destinationId,
         {isNominateOpen && controllerId && (
           <Nominate
             controllerId={controllerId}
-            isOpen={isNominateOpen}
             next={next}
             nominating={nominating}
             onClose={toggleNominate}
@@ -86,12 +85,14 @@ function Account ({ className, info: { controllerId, destination, destinationId,
             controllerId={controllerId}
             defaultDestination={destinationId}
             onClose={toggleRewardDestination}
+            stashId={stashId}
           />
         )}
         {isSetSessionOpen && controllerId && (
           <SetSessionKey
             controllerId={controllerId}
             onClose={toggleSetSession}
+            stashId={stashId}
           />
         )}
         {isUnbondOpen && (
@@ -113,7 +114,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td className='number'>{destination}</td>
+      <td className='number ui--media-1200'>{destination}</td>
       <td className='number'>
         <StakingBonded stakingInfo={stakingAccount} />
         <StakingUnbonding stakingInfo={stakingAccount} />
@@ -154,7 +155,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                     isDisabled={!isOwnController || isDisabled}
                     isPrimary={false}
                     key='stop'
-                    label={t('Stop')}
+                    label={t<string>('Stop')}
                     tx='staking.chill'
                   />
                 )
@@ -166,7 +167,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                           icon='sign-in'
                           isDisabled={!isOwnController || isDisabled}
                           key='set'
-                          label={t('Session Key')}
+                          label={t<string>('Session Key')}
                           onClick={toggleSetSession}
                         />
                       )
@@ -175,7 +176,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                           icon='check circle outline'
                           isDisabled={!isOwnController || isDisabled}
                           key='validate'
-                          label={t('Validate')}
+                          label={t<string>('Validate')}
                           onClick={toggleValidate}
                         />
                       )
@@ -184,7 +185,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                       icon='hand paper outline'
                       isDisabled={!isOwnController || isDisabled}
                       key='nominate'
-                      label={t('Nominate')}
+                      label={t<string>('Nominate')}
                       onClick={toggleNominate}
                     />
                   </Button.Group>
@@ -196,7 +197,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                 onClose={toggleSettings}
                 trigger={
                   <Button
-                    icon='setting'
+                    icon='ellipsis vertical'
                     isDisabled={isDisabled}
                     onClick={toggleSettings}
                   />
@@ -211,33 +212,33 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                     disabled={!isOwnStash && !balancesAll?.freeBalance.gtn(0)}
                     onClick={toggleBondExtra}
                   >
-                    {t('Bond more funds')}
+                    {t<string>('Bond more funds')}
                   </Menu.Item>
                   <Menu.Item
                     disabled={!isOwnController}
                     onClick={toggleUnbond}
                   >
-                    {t('Unbond funds')}
+                    {t<string>('Unbond funds')}
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item
                     disabled={!isOwnStash}
                     onClick={toggleSetController}
                   >
-                    {t('Change controller account')}
+                    {t<string>('Change controller account')}
                   </Menu.Item>
                   <Menu.Item
                     disabled={!isOwnController}
                     onClick={toggleRewardDestination}
                   >
-                    {t('Change reward destination')}
+                    {t<string>('Change reward destination')}
                   </Menu.Item>
                   {isStashValidating &&
                     <Menu.Item
                       disabled={!isOwnController}
                       onClick={toggleValidate}
                     >
-                      {t('Change validator preferences')}
+                      {t<string>('Change validator preferences')}
                     </Menu.Item>
                   }
                   <Menu.Divider />
@@ -246,7 +247,7 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                       disabled={!isOwnController}
                       onClick={toggleSetSession}
                     >
-                      {t('Change session keys')}
+                      {t<string>('Change session keys')}
                     </Menu.Item>
                   }
                   {isStashNominating &&
@@ -254,12 +255,12 @@ function Account ({ className, info: { controllerId, destination, destinationId,
                       disabled={!isOwnController}
                       onClick={toggleNominate}
                     >
-                      {t('Set nominees')}
+                      {t<string>('Set nominees')}
                     </Menu.Item>
                   }
                   {!isStashNominating &&
                     <Menu.Item onClick={toggleInject}>
-                      {t('Inject session keys (advanced)')}
+                      {t<string>('Inject session keys (advanced)')}
                     </Menu.Item>
                   }
                 </Menu>

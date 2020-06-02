@@ -22,7 +22,7 @@ interface Props extends ModalProps {
   className?: string;
 }
 
-function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactElement<Props> {
+function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);
@@ -57,7 +57,7 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
       onStatusChange({
         account: address,
         action: 'create',
-        message: t('created account'),
+        message: t<string>('created account'),
         status: 'success'
       });
       onClose();
@@ -68,35 +68,53 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
   return (
     <Modal
       className={className}
-      header={t('Add account via Qr')}
+      header={t<string>('Add account via Qr')}
+      size='large'
     >
       <Modal.Content>
-        {
-          scanned
-            ? (
-              <>
-                <AddressRow
-                  defaultName={name}
-                  noDefaultNameOpacity
-                  value={scanned.address}
-                />
-                <Input
-                  autoFocus
-                  className='full'
-                  help={t('Name given to this account. You can change it at any point in the future.')}
-                  isError={!isNameValid}
-                  label={t('name')}
-                  onChange={_onNameChange}
-                  onEnter={_onSave}
-                  value={name}
-                />
-              </>
-            )
-            : (
-              <div className='qr-wrapper'>
-                <QrScanAddress onScan={_onScan} />
-              </div>
-            )
+        {scanned
+          ? (
+            <>
+              <Modal.Columns>
+                <Modal.Column>
+                  <AddressRow
+                    defaultName={name}
+                    noDefaultNameOpacity
+                    value={scanned.address}
+                  />
+                </Modal.Column>
+              </Modal.Columns>
+              <Modal.Columns>
+                <Modal.Column>
+                  <Input
+                    autoFocus
+                    className='full'
+                    help={t<string>('Name given to this account. You can change it at any point in the future.')}
+                    isError={!isNameValid}
+                    label={t<string>('name')}
+                    onChange={_onNameChange}
+                    onEnter={_onSave}
+                    value={name}
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+            </>
+          )
+          : (
+            <Modal.Columns>
+              <Modal.Column>
+                <div className='qr-wrapper'>
+                  <QrScanAddress onScan={_onScan} />
+                </div>
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+          )
         }
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
@@ -104,7 +122,7 @@ function QrModal ({ className, onClose, onStatusChange }: Props): React.ReactEle
           icon='sign-in'
           isDisabled={!scanned || !isNameValid}
           isPrimary
-          label={t('Create')}
+          label={t<string>('Create')}
           onClick={_onSave}
         />
       </Modal.Actions>

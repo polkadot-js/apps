@@ -19,7 +19,7 @@ function WarmUp (): React.ReactElement {
   }, []);
 
   return (
-    <div className={`apps--api-warm ${hasValues}`} />
+    <div className={`apps--api-warm ${hasValues.toString()}`} />
   );
 }
 

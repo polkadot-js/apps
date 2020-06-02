@@ -25,7 +25,7 @@ interface Props {
 }
 
 interface EraInfo {
-  eraStr: string;
+  eraStr: React.ReactNode;
   oldestEra?: BN;
 }
 
@@ -43,7 +43,7 @@ function createPrevPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[])
     : api.tx.utility.batch(payoutRewards.map((reward) => createPrevPayoutType(api, reward)));
 }
 
-function Stash ({ className, isDisabled, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
+function Stash ({ className = '', isDisabled, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
@@ -63,7 +63,7 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
       const available = rewards.filter(({ era }) => era.lt(stakerPayoutsAfter));
 
       setExtrinsic(
-        available.length
+        api.tx.utility && available.length
           ? createPrevPayout(api, available)
           : null
       );
@@ -93,7 +93,7 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
             icon='credit card outline'
             isDisabled={!extrinsic || isDisabled}
             isPrimary={false}
-            label={t('Payout')}
+            label={t<string>('Payout')}
           />
         )}
       </td>

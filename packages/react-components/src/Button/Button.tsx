@@ -14,14 +14,14 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-function Button ({ children, className, floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
     animate: 'fade',
     animated: isAnimated,
     basic: isBasic,
     circular: isCircular,
-    className: `${className} ${isIcon && 'isIcon'}`,
+    className: `${className} ${isIcon ? 'isIcon' : ''}`,
     'data-for': triggerId,
     'data-tip': !!tooltip,
     disabled: isDisabled,
@@ -36,8 +36,7 @@ function Button ({ children, className, floated, icon, isAnimated, isBasic = fal
     positive: isPositive,
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
-    size: size || (isIcon ? 'tiny' : undefined),
-    style,
+    size: size || (isIcon ? 'tiny' : undefined) || 'small',
     tabIndex
   };
 

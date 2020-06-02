@@ -4,6 +4,7 @@
 
 import { BareProps } from '@polkadot/react-components/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
+import { Codec } from '@polkadot/types/types';
 
 import React from 'react';
 import { Output } from '@polkadot/react-components';
@@ -32,7 +33,7 @@ function Results ({ queue = [] }: Props): React.ReactElement<Props> | null {
           value={
             error
               ? error.message
-              : <pre>{JSON.stringify(result.toHuman(), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')}</pre>
+              : <pre>{JSON.stringify((result as Codec).toHuman(), null, 2).replace(/"/g, '').replace(/\\/g, '').replace(/\],\[/g, '],\n[')}</pre>
           }
         />
       ))}

@@ -20,7 +20,7 @@ interface Props {
   value: DeriveProposal;
 }
 
-function Proposal ({ className, value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
+function Proposal ({ className = '', value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const seconding = seconds.filter((_address, index): boolean => index !== 0);
 
@@ -34,16 +34,16 @@ function Proposal ({ className, value: { balance, image, imageHash, index, propo
       <td className='address'>
         <AddressMini value={proposer} />
       </td>
-      <td className='number together'>
+      <td className='number together ui--media-1200'>
         <FormatBalance value={balance} />
       </td>
       <td>
         {seconding.length !== 0 && (
-          <Expander summary={t('Seconds ({{count}})', { replace: { count: seconding.length } })}>
+          <Expander summary={t<string>('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (
               <AddressMini
                 className='identityIcon'
-                key={`${count}:${address}`}
+                key={`${count}:${address.toHex()}`}
                 value={address}
                 withBalance={false}
                 withShrink
@@ -64,7 +64,7 @@ function Proposal ({ className, value: { balance, image, imageHash, index, propo
           )}
         </Button.Group>
       </td>
-      <td className='mini'>
+      <td className='mini ui--media-1000'>
         <LinkExternal
           data={index}
           type='proposal'

@@ -48,7 +48,7 @@ interface State {
   isRenderError: boolean;
   isSendable: boolean;
   isSubmit: boolean;
-  multiApproval: boolean;
+  multiCall: boolean;
   nonce?: BN;
   password: string;
   qrAddress: string;
@@ -91,12 +91,12 @@ function extractExternal (accountId?: string | null): AccountFlags {
   const pair = keyring.getPair(publicKey);
 
   return {
-    hardwareType: pair.meta.hardwareType,
+    hardwareType: pair.meta.hardwareType as string,
     isExternal: !!pair.meta.isExternal,
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
-    threshold: pair.meta.threshold || 0,
-    who: pair.meta.who || []
+    threshold: (pair.meta.threshold as number) || 0,
+    who: (pair.meta.who as string[]) || []
   };
 }
 
@@ -123,7 +123,7 @@ const initialState: State = {
   isRenderError: false,
   isSendable: false,
   isSubmit: true,
-  multiApproval: false,
+  multiCall: false,
   nonce: undefined,
   password: '',
   qrAddress: '',
@@ -136,8 +136,8 @@ const initialState: State = {
 class Signer extends React.PureComponent<Props, State> {
   public state: State = initialState;
 
-  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, password, unlockError }: State): Partial<State> {
-    const nextItem = queue.find(({ status }): boolean => ['queued', 'qr'].includes(status));
+  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, multiCall, password, unlockError }: State): Partial<State> {
+    const nextItem = queue.find(({ status }) => ['queued', 'qr'].includes(status));
     const isSame =
       !!nextItem &&
       !!currentItem &&
@@ -159,8 +159,10 @@ class Signer extends React.PureComponent<Props, State> {
     return {
       currentItem: nextItem,
       isSendable,
-      password: isSame ? password : '',
-      unlockError: isSame ? unlockError : null
+      ...(isSame
+        ? { multiCall, password, unlockError }
+        : { multiCall: false, password: '', signatory: null, unlockError: null }
+      )
     };
   }
 
@@ -172,12 +174,12 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     if (!isSubmit && currentItem?.accountId && accountNonce == null) {
-      this.updateNonce();
+      this.updateNonce().catch(console.error);
     }
   }
 
   public render (): React.ReactNode {
-    const { className, t } = this.props;
+    const { className = '', t } = this.props;
     const { currentItem } = this.state;
 
     if (!currentItem) {
@@ -187,7 +189,8 @@ class Signer extends React.PureComponent<Props, State> {
     return (
       <Modal
         className={`ui--signer-Signer ${className}`}
-        header={t('Authorize transaction')}
+        header={t<string>('Authorize transaction')}
+        size='large'
       >
         <ErrorBoundary onError={this.onRenderError}>{this.renderContent()}</ErrorBoundary>
         {this.renderButtons()}
@@ -207,7 +210,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <Modal.Actions
-        cancelLabel={signedTx ? t('Close') : undefined}
+        cancelLabel={signedTx ? t<string>('Close') : undefined}
         onCancel={
           isQrVisible
             ? this.onCancelQr
@@ -219,7 +222,6 @@ class Signer extends React.PureComponent<Props, State> {
       >
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
-            {!currentItem.isUnsigned && this.renderSignToggle()}
             <Button
               className='ui--signer-Signer-Submit'
               icon={isQrVisible ? 'qrcode' : currentItem.isUnsigned ? 'sign-in' : (isExternal && !isMultisig) ? 'qrcode' : 'sign-in'}
@@ -227,22 +229,23 @@ class Signer extends React.PureComponent<Props, State> {
               isPrimary
               label={
                 isQrVisible
-                  ? t('Scan Signature Qr')
+                  ? t<string>('Scan Signature Qr')
                   : currentItem.isUnsigned
-                    ? t('Submit (no signature)')
+                    ? t<string>('Submit (no signature)')
                     : isHardware
-                      ? t('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
+                      ? t<string>('Sign via {{hardwareType}}', { replace: { hardwareType: hardwareType || 'hardware' } })
                       : isExternal
                         ? isMultisig
-                          ? t('Sign for multisig')
-                          : t('Sign via Qr')
+                          ? t<string>('Sign for multisig')
+                          : t<string>('Sign via Qr')
                         : isSubmit
-                          ? t('Sign and Submit')
-                          : t('Sign (no submission)')
+                          ? t<string>('Sign and Submit')
+                          : t<string>('Sign (no submission)')
               }
               onClick={isQrVisible ? this.activateQrScanning : this.onSend}
               tabIndex={2}
             />
+            {!currentItem.isUnsigned && this.renderSignToggle()}
           </>
         )}
       </Modal.Actions>
@@ -250,6 +253,7 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private renderContent (): React.ReactNode {
+    const { api, t } = this.props;
     const { currentItem, isQrScanning, isQrVisible, isSendable, isSubmit, qrAddress, qrPayload, tip } = this.state;
 
     if (!currentItem) {
@@ -266,12 +270,23 @@ class Signer extends React.PureComponent<Props, State> {
       >
         {isQrVisible
           ? (
-            <Qr
-              address={qrAddress}
-              isScanning={isQrScanning}
-              onSignature={this.addQrSignature}
-              payload={qrPayload}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <Qr
+                  address={qrAddress}
+                  genesisHash={api.genesisHash}
+                  isScanning={isQrScanning}
+                  onSignature={this.addQrSignature}
+                  payload={qrPayload}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                {isQrScanning
+                  ? <p>{t<string>('Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.')}</p>
+                  : <p>{t<string>('Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.')}</p>
+                }
+              </Modal.Column>
+            </Modal.Columns>
           )
           : (
             <>
@@ -287,7 +302,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderSignatory (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, multiApproval } = this.state;
+    const { currentItem, multiCall } = this.state;
     const { isMultisig, who } = currentItem
       ? extractExternal(currentItem.accountId)
       : { isMultisig: false, who: [] };
@@ -298,23 +313,37 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <InputAddress
-          filter={who}
-          help={t('The multisig signatory for this transaction.')}
-          label={t('signatory')}
-          onChange={this.onChangeSignatory}
-          type='account'
-        />
-        <Toggle
-          className='tipToggle'
-          label={
-            multiApproval
-              ? t('Multisig approval with hash (not message with call)')
-              : t('Multisig message with call (not approval with hash)')
-          }
-          onChange={this.onToggleMultiApproval}
-          value={multiApproval}
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              filter={who}
+              help={t<string>('The multisig signatory for this transaction.')}
+              label={t<string>('signatory')}
+              onChange={this.onChangeSignatory}
+              type='account'
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Toggle
+              className='tipToggle'
+              label={
+                multiCall
+                  ? t<string>('Multisig message with call (for final approval)')
+                  : t<string>('Multisig approval with hash (non-final approval)')
+              }
+              onChange={this.onToggleMultiCall}
+              value={multiCall}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </>
     );
   }
@@ -328,29 +357,34 @@ class Signer extends React.PureComponent<Props, State> {
     }
 
     return (
-      <>
-        <Toggle
-          className='tipToggle'
-          isDisabled={!!signedTx}
-          label={
-            showTip
-              ? t('Include an optional tip for faster processing')
-              : t('Do not include a tip for the block author')
-          }
-          onChange={this.onShowTip}
-          value={showTip}
-        />
-        {showTip && (
-          <InputBalance
-            defaultValue={new BN(0)}
-            help={t('Add a tip to this extrinsic, paying the block author for greater priority')}
+      <Modal.Columns>
+        <Modal.Column>
+          <Toggle
+            className='tipToggle'
             isDisabled={!!signedTx}
-            isZeroable
-            label={t('Tip (optional)')}
-            onChange={this.onChangeTip}
+            label={
+              showTip
+                ? t<string>('Include an optional tip for faster processing')
+                : t<string>('Do not include a tip for the block author')
+            }
+            onChange={this.onShowTip}
+            value={showTip}
           />
-        )}
-      </>
+          {showTip && (
+            <InputBalance
+              defaultValue={new BN(0)}
+              help={t<string>('Add a tip to this extrinsic, paying the block author for greater priority')}
+              isDisabled={!!signedTx}
+              isZeroable
+              label={t<string>('Tip (optional)')}
+              onChange={this.onChangeTip}
+            />
+          )}
+        </Modal.Column>
+        <Modal.Column>
+          <p>{t<string>('Adding an optional tip to the transaction could allow for higher priority, especially when the chain is busy.')}</p>
+        </Modal.Column>
+      </Modal.Columns>
     );
   }
 
@@ -364,8 +398,8 @@ class Signer extends React.PureComponent<Props, State> {
         isDisabled={isQrVisible || isQrScanning}
         label={
           isSubmit
-            ? t('Sign and Submit')
-            : t('Sign (no submission)')
+            ? t<string>('Sign and Submit')
+            : t<string>('Sign (no submission)')
         }
         onChange={this.onToggleSign}
         value={isSubmit}
@@ -383,26 +417,32 @@ class Signer extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <br />
-        <InputNumber
-          isDisabled={!!signedTx}
-          isZeroable
-          label={t('Nonce')}
-          labelExtra={t('Current account nonce: {{accountNonce}}', { replace: { accountNonce } })}
-          onChange={this.onChangeNonce}
-          value={accountNonce}
-        />
-        <InputNumber
-          isDisabled={!!signedTx}
-          isZeroable
-          label={t('Lifetime (# of blocks)')}
-          labelExtra={t('Set to 0 to make transaction immortal')}
-          onChange={this.onChangeBlocks}
-          value={blocks}
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <InputNumber
+              isDisabled={!!signedTx}
+              isZeroable
+              label={t<string>('Nonce')}
+              labelExtra={t<string>('Current account nonce: {{accountNonce}}', { replace: { accountNonce } })}
+              onChange={this.onChangeNonce}
+              value={accountNonce}
+            />
+            <InputNumber
+              isDisabled={!!signedTx}
+              isZeroable
+              label={t<string>('Lifetime (# of blocks)')}
+              labelExtra={t<string>('Set to 0 to make transaction immortal')}
+              onChange={this.onChangeBlocks}
+              value={blocks}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
         {!!signedTx && (
           <Output
-            label={t('Signed transaction')}
+            label={t<string>('Signed transaction')}
             value={signedTx}
             withCopy
           />
@@ -419,8 +459,8 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ showTip });
   };
 
-  private onToggleMultiApproval = (multiApproval: boolean): void => {
-    this.setState({ multiApproval });
+  private onToggleMultiCall = (multiCall: boolean): void => {
+    this.setState({ multiCall });
   }
 
   private onToggleSign = (isSubmit: boolean): void => {
@@ -484,7 +524,7 @@ class Signer extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error(error);
 
-      return error.message;
+      return (error as Error).message;
     }
 
     return null;
@@ -615,6 +655,7 @@ class Signer extends React.PureComponent<Props, State> {
 
     queueSetTxStatus(id, 'sending');
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { error, result, status } = await this.submitRpc(rpc, values);
 
     queueSetTxStatus(id, status, result, error);
@@ -622,7 +663,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
-    const { isSubmit, multiApproval, showTip, signatory, tip } = this.state;
+    const { isSubmit, multiCall, showTip, signatory, tip } = this.state;
     const { accountId, extrinsic, id, isUnsigned, payload } = queueTx;
 
     if (!isUnsigned) {
@@ -663,7 +704,7 @@ class Signer extends React.PureComponent<Props, State> {
     let tx = submittable;
 
     if (basePair.meta.isMultisig) {
-      const others = basePair.meta.who.filter((who: string) => who !== signatory);
+      const others = (basePair.meta.who as string[]).filter((who: string) => who !== signatory);
       const info = await api.query.utility.multisigs(accountId as string, submittable.method.hash);
       let timepoint: Timepoint | null = null;
 
@@ -672,9 +713,9 @@ class Signer extends React.PureComponent<Props, State> {
       }
 
       pair = keyring.getPair(signatory as string);
-      tx = multiApproval
-        ? api.tx.utility.approveAsMulti(basePair.meta.threshold, others, timepoint, submittable.method.hash)
-        : api.tx.utility.asMulti(basePair.meta.threshold, others, timepoint, submittable.method);
+      tx = multiCall
+        ? api.tx.utility.asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method)
+        : api.tx.utility.approveAsMulti(basePair.meta.threshold as number, others, timepoint, submittable.method.hash);
     }
 
     console.log('sendExtrinsic::', JSON.stringify(tx.method.toHuman()));
@@ -689,11 +730,11 @@ class Signer extends React.PureComponent<Props, State> {
 
     try {
       assert(
-        isFunction((api.rpc as any)[section] && (api.rpc as any)[section][method]),
+        isFunction((api.rpc as Record<string, unknown>)[section] && (api.rpc as Record<string, Record<string, unknown>>)[section][method]),
         `api.rpc.${section}.${method} does not exist`
       );
 
-      const result = await (api.rpc as any)[section][method](...values);
+      const result = await (api.rpc as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>)[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 
@@ -705,13 +746,13 @@ class Signer extends React.PureComponent<Props, State> {
       console.error(error);
 
       return {
-        error,
+        error: error as Error,
         status: 'error'
       };
     }
   }
 
-  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => any, pair?: KeyringPair): Promise<void> {
+  private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => Promise<() => void>, pair?: KeyringPair): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
     const { showTip, tip } = this.state;
 
@@ -733,7 +774,7 @@ class Signer extends React.PureComponent<Props, State> {
         api.setSigner({ signPayload: this.signQrPayload });
         params.push(address);
       } else if (isInjected) {
-        const injected = await web3FromSource(source);
+        const injected = await web3FromSource(source as string);
 
         assert(injected, `Unable to find a signer for ${address}`);
 
@@ -819,7 +860,7 @@ class Signer extends React.PureComponent<Props, State> {
       queueSetTxStatus(id, 'qr');
       signer = { signPayload: this.signQrPayload };
     } else if (isInjected) {
-      const injected = await web3FromSource(source);
+      const injected = await web3FromSource(source as string);
 
       signer = injected?.signer;
     }
@@ -827,9 +868,9 @@ class Signer extends React.PureComponent<Props, State> {
     assert(signer || pair, `Unable to find a signer for ${address}`);
 
     try {
-      await extrinsic.signAsync((signer ? address : pair) as any, {
-        era: +blocks as any,
-        nonce: +(nonce || 0),
+      await extrinsic.signAsync((signer ? address : pair), {
+        era: blocks.toNumber(),
+        nonce: nonce || 0,
         signer,
         tip: (showTip && tip) ? tip : undefined
       });

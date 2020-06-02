@@ -51,7 +51,7 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: (key: string) => string): React.ReactNode {
+function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
   const { docs = [], name } = message;
 
   return (
@@ -78,7 +78,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
                   </React.Fragment>
                 )))
               : (
-                <i>{t('No documentation provided')}</i>
+                <i>{t<string>('No documentation provided')}</i>
               )
           }
         />
@@ -89,7 +89,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
             className='execute'
             icon='play'
             onClick={onSelect(props, index)}
-            tooltip={t('Call this message')}
+            tooltip={t<string>('Call this message')}
           />
         </div>
       )}
@@ -99,7 +99,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
             className='execute'
             icon='cloud upload'
             onClick={onSelectConstructor(props, index)}
-            tooltip={t('Deploy with this constructor')}
+            tooltip={t<string>('Deploy with this constructor')}
           />
         </div>
       )}
@@ -107,7 +107,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
   );
 }
 
-function renderConstructor (props: Props, index: number, t: (key: string) => string): React.ReactNode {
+function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
   const { contractAbi: { abi: { contract: { constructors } } } } = props;
 
   if (!constructors[index]) {
@@ -117,7 +117,7 @@ function renderConstructor (props: Props, index: number, t: (key: string) => str
   return renderItem(props, constructors[index], index, true, t);
 }
 
-function renderMessage (props: Props, index: number, t: (key: string) => string): React.ReactNode {
+function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
   const { contractAbi: { abi: { contract: { messages } } } } = props;
 
   if (!messages[index]) {
@@ -129,7 +129,7 @@ function renderMessage (props: Props, index: number, t: (key: string) => string)
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className, contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
 
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
@@ -139,7 +139,7 @@ function Messages (props: Props): React.ReactElement<Props> {
         <IconLink
           className='remove-abi'
           icon='remove'
-          label={t('Remove ABI')}
+          label={t<string>('Remove ABI')}
           onClick={onRemove}
         />
       )}

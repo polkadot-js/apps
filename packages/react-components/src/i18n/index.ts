@@ -4,10 +4,10 @@
 
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-xhr-backend';
 import { initReactI18next } from 'react-i18next';
-
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
+
+import Backend from './Backend';
 
 const languageDetector = new LanguageDetector();
 
@@ -23,13 +23,11 @@ languageDetector.addDetector({
 });
 
 i18n
-  .use(Backend)
   .use(languageDetector)
   .use(initReactI18next)
+  .use(Backend)
   .init({
-    backend: {
-      loadPath: 'locales/{{lng}}/{{ns}}.json'
-    },
+    backend: {},
     debug: false,
     detection: {
       order: ['i18nLangDetector', 'navigator']
@@ -41,6 +39,10 @@ i18n
     keySeparator: false,
     load: 'languageOnly',
     ns: [
+      'apps',
+      'apps-config',
+      'apps-electron',
+      'apps-routing',
       'app-123code',
       'app-accounts',
       'app-claims',
@@ -51,6 +53,7 @@ i18n
       'app-explorer',
       'app-extrinsics',
       'app-generic-asset',
+      'app-i18n',
       'app-js',
       'app-parachains',
       'app-settings',
@@ -61,31 +64,32 @@ i18n
       'app-tech-comm',
       'app-toolbox',
       'app-treasury',
-      'apps',
-      'apps-config',
-      'apps-routing',
       'react-api',
       'react-components',
       'react-hooks',
       'react-params',
       'react-query',
-      'react-signer'
+      'react-signer',
+      'translation'
     ],
     nsSeparator: false,
     react: {
       wait: true
-    }
+    },
+    returnEmptyString: false,
+    returnNull: false
   })
   .catch((error: Error): void =>
     console.log('i18n: failure', error)
   );
 
-uiSettings.on('change', (settings) => {
+uiSettings.on('change', (settings): void => {
   i18n.changeLanguage(
     settings.i18nLang === LANGUAGE_DEFAULT
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       ? i18n.services.languageDetector.detect()
       : settings.i18nLang
-  );
+  ).catch(console.error);
 });
 
 export default i18n;

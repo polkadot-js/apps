@@ -12,7 +12,7 @@ import { useTranslation } from '../translate';
 import Proposal from './Proposal';
 import Propose from './Propose';
 
-function Proposals ({ className, isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', isMember, members, prime, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
@@ -32,13 +32,15 @@ function Proposals ({ className, isMember, members, prime, proposals }: Props): 
         />
       </Button.Group>
       <Table
-        empty={proposals && t('No committee proposals')}
+        empty={proposals && t<string>('No committee proposals')}
         header={header}
       >
         {proposals?.map((hash: Hash): React.ReactNode => (
           <Proposal
-            imageHash={hash.toHex()}
+            imageHash={hash}
+            isMember={isMember}
             key={hash.toHex()}
+            members={members}
             prime={prime}
           />
         ))}

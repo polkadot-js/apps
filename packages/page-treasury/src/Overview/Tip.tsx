@@ -21,7 +21,7 @@ interface Props {
   members: string[];
 }
 
-function Tip ({ className, hash, isMember, members }: Props): React.ReactElement<Props> | null {
+function Tip ({ className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const tip = useCall<OpenTip | null>(api.query.treasury.tips, [hash], {
@@ -53,7 +53,7 @@ function Tip ({ className, hash, isMember, members }: Props): React.ReactElement
       <TipReason hash={reason} />
       <td className='start all'>
         {tips.length !== 0 && (
-          <Expander summary={t('Endorsements ({{count}})', { replace: { count: tips.length } })}>
+          <Expander summary={t<string>('Endorsements ({{count}})', { replace: { count: tips.length } })}>
             {tips.map(([tipper, balance]) => (
               <AddressMini
                 balance={balance}

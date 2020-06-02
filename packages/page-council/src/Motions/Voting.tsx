@@ -46,25 +46,46 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
     <>
       {isVotingOpen && (
         <Modal
-          header={t('Vote on proposal')}
-          size='small'
+          header={t<string>('Vote on proposal')}
+          size='large'
         >
           <Modal.Content>
-            <ProposedAction
-              idNumber={idNumber}
-              proposal={proposal}
-            />
-            <VoteAccount
-              filter={members}
-              onChange={setAccountId}
-            />
-            <VoteToggle
-              onChange={_onChangeVote}
-              value={voteValue}
-            />
+            <Modal.Columns>
+              <Modal.Column>
+                <ProposedAction
+                  idNumber={idNumber}
+                  proposal={proposal}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The proposal that is being voted on. It will pass when the threshold is reached.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteAccount
+                  filter={members}
+                  onChange={setAccountId}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The council account for this vote. The selection is filtered by the current members.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <VoteToggle
+                  onChange={_onChangeVote}
+                  value={voteValue}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The vote to record for this proposal, either for or against.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
             {isPrime && (
               <article className='warning'>
-                <div><Icon name='warning sign' />{t('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
+                <div><Icon name='warning sign' />{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>
             )}
           </Modal.Content>
@@ -80,7 +101,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
       <Button
         icon='check'
         isDisabled={isDisabled}
-        label={t('Vote')}
+        label={t<string>('Vote')}
         onClick={toggleVoting}
       />
     </>

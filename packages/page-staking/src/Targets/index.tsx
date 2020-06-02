@@ -22,6 +22,11 @@ interface Props {
   targets: SortedTargets;
 }
 
+interface SortState {
+  sortBy: TargetSortBy;
+  sortFromMax: boolean;
+}
+
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
   return [...Array(validators.length).keys()]
     .sort((a, b) =>
@@ -36,12 +41,12 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
     );
 }
 
-function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
-  const [{ sortBy, sortFromMax }, setSortBy] = useState<{ sortBy: TargetSortBy; sortFromMax: boolean }>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
 
   useEffect((): void => {
     validators && setSorted(
@@ -79,11 +84,11 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
 
   const labels = useMemo(
     (): Record<string, string> => ({
-      rankBondOther: t('other stake'),
-      rankBondOwn: t('own stake'),
-      rankBondTotal: t('total stake'),
-      rankComm: t('commission'),
-      rankOverall: t('profit/era est')
+      rankBondOther: t<string>('other stake'),
+      rankBondOwn: t<string>('own stake'),
+      rankBondTotal: t<string>('total stake'),
+      rankComm: t<string>('commission'),
+      rankOverall: t<string>('profit/era est')
     }),
     [t]
   );
@@ -92,20 +97,20 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
     [t('validators'), 'start', 4],
     ...['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
-      `isClickable ${sortBy === header && 'ui--highlight--border'} number`,
+      sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number',
       1,
       (): void => _sort(header as 'rankComm')
     ]),
     []
-  ], [_sort, labels, sortBy, sortFromMax, t]);
+  ], [_sort, labels, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     sorted && (
       <InputBalance
         className='balanceInput'
-        help={t('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
+        help={t<string>('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
         isFull
-        label={t('amount to use for estimation')}
+        label={t<string>('amount to use for estimation')}
         onChange={setCalcWith}
         value={calcWith}
       />
@@ -124,7 +129,7 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
-          label={t('Select best')}
+          label={t<string>('Select best')}
           onClick={_selectProfitable}
         />
         <Nominate
@@ -133,7 +138,7 @@ function Targets ({ className, ownStashes, targets: { calcWith, lastReward, nomi
         />
       </Button.Group>
       <Table
-        empty={sorted && t('No active validators to check')}
+        empty={sorted && t<string>('No active validators to check')}
         filter={filter}
         header={header}
       >

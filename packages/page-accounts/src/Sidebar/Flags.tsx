@@ -13,9 +13,9 @@ interface Props {
   flags: AddressFlags;
 }
 
-function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
+function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isMultisig, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const hasFlags = isDevelopment || isExternal || isSociety || isCouncil || isTechCommittee || isSudo;
+  const hasFlags = isCouncil || isDevelopment || isExternal || isInjected || isMultisig || isSociety || isSudo || isTechCommittee;
 
   if (!hasFlags) {
     return null;
@@ -24,44 +24,61 @@ function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isSociety, isSu
   return (
     <div className='ui--AddressMenu-flags'>
       {isExternal && (
+        isMultisig
+          ? (
+            <Tag
+              color='green'
+              label={t<string>('Multisig')}
+              size='tiny'
+            />
+          )
+          : (
+            <Tag
+              color='grey'
+              label={t<string>('External')}
+              size='tiny'
+            />
+          )
+      )}
+      {isInjected && (
         <Tag
           color='grey'
-          label={t('Injected')}
+          label={t<string>('Injected')}
           size='tiny'
         />
       )}
       {isDevelopment && (
         <Tag
           color='grey'
-          label={t('Test account')}
+          label={t<string>('Test account')}
           size='tiny'
         />
       )}
       {isCouncil && (
         <Tag
           color='blue'
-          label={t('Council')}
+          label={t<string>('Council')}
           size='tiny'
         />
       )}
       {isSociety && (
         <Tag
           color='green'
-          label={t('Society')}
+          label={t<string>('Society')}
           size='tiny'
         />
       )}
       {isTechCommittee && (
         <Tag
           color='orange'
-          label={t('Technical committee')}
+          label={t<string>('Technical committee')}
           size='tiny'
         />
       )}
       {isSudo && (
         <Tag
           color='pink'
-          label={t('Sudo key')}
+          label={t<string>('Sudo key')}
           size='tiny'
         />
       )}

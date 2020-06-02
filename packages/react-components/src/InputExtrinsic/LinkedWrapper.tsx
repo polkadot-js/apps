@@ -12,16 +12,12 @@ interface Props {
   className?: string;
   help?: React.ReactNode;
   label: React.ReactNode;
-  style?: any;
   withLabel?: boolean;
 }
 
-function LinkedWrapper ({ children, className, help, label, style, withLabel }: Props): React.ReactElement<Props> {
+function LinkedWrapper ({ children, className = '', help, label, withLabel }: Props): React.ReactElement<Props> {
   return (
-    <div
-      className={className}
-      style={style}
-    >
+    <div className={className}>
       <Labelled
         help={help}
         label={label}

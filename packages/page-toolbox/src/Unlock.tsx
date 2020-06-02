@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -23,7 +23,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
 
   useEffect((): void => {
     setAddress(pair?.address || '');
-  }, [pair]);
+  }, [pair?.address]);
 
   useEffect((): void => {
     setUnlockError(null);
@@ -38,7 +38,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       try {
         pair.decodePkcs8(password);
       } catch (error) {
-        return setUnlockError(error.message);
+        return setUnlockError((error as Error).message);
       }
 
       onUnlock();
@@ -53,32 +53,45 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
   return (
     <Modal
       className='toolbox--Unlock'
-      header={t('Unlock account')}
+      header={t<string>('Unlock account')}
+      size='large'
     >
       <Modal.Content>
-        <AddressRow
-          isInline
-          value={address}
-        >
-          <p>{t('You are about to unlock your account to allow for the signing of messages. Once active the signature will be generated based on the content provided.')}</p>
-          <div>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              help={t<string>('The selected account to be unlocked.')}
+              isDisabled
+              label={t<string>('account')}
+              value={address}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('This account that will perform the message signing.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
             <Password
               autoFocus
-              help={t('The account\'s password specified at the creation of this account.')}
+              help={t<string>('The account\'s password specified at the creation of this account.')}
               isError={!!unlockError}
-              label={t('password')}
+              label={t<string>('password')}
               onChange={setPassword}
               onEnter={_onUnlock}
               value={password}
             />
-          </div>
-        </AddressRow>
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('Unlock the account for signing. Once active the signature will be generated based on the content provided.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='unlock'
           isPrimary
-          label={t('Unlock')}
+          label={t<string>('Unlock')}
           onClick={_onUnlock}
         />
       </Modal.Actions>

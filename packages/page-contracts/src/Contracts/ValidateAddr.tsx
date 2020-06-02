@@ -35,7 +35,7 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
 
   useEffect((): void => {
     setIsStored(!!contractInfo?.isSome);
-  }, [contractInfo]);
+  }, [contractInfo?.isSome]);
 
   useEffect((): void => {
     onChange(isAddress && isStored);
@@ -48,8 +48,8 @@ function ValidateAddr ({ address, onChange }: Props): React.ReactElement<Props> 
   return (
     <InfoForInput type='error'>
       {isAddress
-        ? t('Unable to find deployed contract code at the specified address')
-        : t('The value is not in a valid address format')
+        ? t<string>('Unable to find deployed contract code at the specified address')
+        : t<string>('The value is not in a valid address format')
       }
     </InfoForInput>
   );

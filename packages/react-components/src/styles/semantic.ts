@@ -109,13 +109,17 @@ export default css`
       padding: 1rem !important;
     }
 
+    /* approx h1, color, size, font */
     > .header:not(.ui) {
       background: #f9f9f9;
       border-bottom: none;
-      font-size: 1.25rem !important;
-      font-weight: normal;
+      color: rgba(0, 0, 0, .6);
+      font-family: sans-serif;
+      font-size: 1.75rem;
+      font-weight: 100;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
+      text-transform: lowercase;
 
       > label {
         margin-top: 0.5rem;
@@ -164,7 +168,7 @@ export default css`
   }
 
   .ui.button+.ui.button {
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
   }
 
   /* modals aligned to top, not center */

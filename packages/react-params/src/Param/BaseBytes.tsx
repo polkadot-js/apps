@@ -4,7 +4,7 @@
 
 import { Props as BaseProps, Size } from '../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
@@ -42,20 +42,15 @@ function convertInput (value: string): [boolean, Uint8Array] {
   return [value === '0x', new Uint8Array([])];
 }
 
-function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', style, validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+  const [defaultValue] = useState(
+    value
+      ? isHex(value)
+        ? value
+        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      : undefined
+  );
   const [isValid, setIsValid] = useState(false);
-
-  useEffect((): void => {
-    const [isValid, converted] = convertInput(value);
-
-    setIsValid(
-      isValid && validate(converted) && (
-        length !== -1
-          ? converted.length === length
-          : true
-      )
-    );
-  }, [length, validate, value]);
 
   const _onChange = useCallback(
     (hex: string): void => {
@@ -83,22 +78,11 @@ function BaseBytes ({ asHex, children, className, defaultValue: { value }, isDis
     [asHex, length, onChange, validate, withLength]
   );
 
-  const defaultValue = value
-    ? (
-      isHex(value)
-        ? value
-        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
-    )
-    : undefined;
-
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className={size}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue as string}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}

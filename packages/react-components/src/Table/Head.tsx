@@ -12,7 +12,7 @@ interface Props {
   isEmpty: boolean;
 }
 
-function Head ({ className, filter, header, isEmpty }: Props): React.ReactElement<Props> {
+function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> {
   return (
     <thead className={className}>
       {filter && (

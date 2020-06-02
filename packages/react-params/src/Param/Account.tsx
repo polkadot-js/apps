@@ -4,42 +4,39 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { InputAddress } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import Bare from './Bare';
 
-function onChange ({ onChange }: Props): (_?: string | null) => void {
-  return (value?: string | null): void => {
-    let isValid = false;
+function Account ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+  const [defaultValue] = useState((value as string)?.toString());
 
-    if (value) {
-      try {
-        keyring.decodeAddress(value);
+  const _onChange = useCallback(
+    (value?: string | null): void => {
+      let isValid = false;
 
-        isValid = true;
-      } catch (err) {
-        console.error(err);
+      if (value) {
+        try {
+          keyring.decodeAddress(value);
+
+          isValid = true;
+        } catch (err) {
+          console.error(err);
+        }
       }
-    }
 
-    onChange && onChange({
-      isValid,
-      value
-    });
-  };
-}
-
-function Account (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, style, withLabel } = props;
-  const defaultValue = value && value.toString();
+      onChange && onChange({
+        isValid,
+        value
+      });
+    },
+    [onChange]
+  );
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <InputAddress
         className='full'
         defaultValue={defaultValue}
@@ -47,7 +44,7 @@ function Account (props: Props): React.ReactElement<Props> {
         isError={isError}
         isInput
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         placeholder='5...'
         type='allPlus'
         withEllipsis

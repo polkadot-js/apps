@@ -23,7 +23,12 @@ function transform (file, enc, done) {
 
     const parserHandler = (key, options) => {
       options.defaultValue = key;
-      options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1].replace('page-', 'app-');
+
+      if (process.platform !== 'win32') {
+        options.ns = /packages\/(.*?)\/src/g.exec(file.path)[1].replace('page-', 'app-');
+      } else {
+        options.ns = /packages\\(.*?)\\src/g.exec(file.path)[1].replace('page-', 'app-');
+      }
 
       this.parser.set(key, options);
     };

@@ -10,39 +10,40 @@ import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-const ZERO = new BN(0);
+interface Props {
+  referendumCount?: number;
+}
 
-function Summary (): React.ReactElement<{}> {
+function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const activeProposals = useCall<any[]>(api.derive.democracy.proposals, []);
   const bestNumber = useCall<BN>(api.derive.chain.bestNumber, []);
-  const nextActive = useCall<BN>(api.query.democracy.lowestUnbaked, []);
   const publicPropCount = useCall<BN>(api.query.democracy.publicPropCount, []);
-  const referendumCount = useCall<BN>(api.query.democracy.referendumCount, []);
+  const referendumTotal = useCall<BN>(api.query.democracy.referendumCount, []);
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t('proposals')}>
+        <CardSummary label={t<string>('proposals')}>
           {formatNumber(activeProposals?.length)}
         </CardSummary>
-        <CardSummary label={t('total')}>
+        <CardSummary label={t<string>('total')}>
           {formatNumber(publicPropCount)}
         </CardSummary>
       </section>
       <section>
-        <CardSummary label={t('referenda')}>
-          {formatNumber(referendumCount && nextActive ? referendumCount.sub(nextActive) : ZERO)}
+        <CardSummary label={t<string>('referenda')}>
+          {formatNumber(referendumCount || 0)}
         </CardSummary>
-        <CardSummary label={t('total')}>
-          {formatNumber(referendumCount)}
+        <CardSummary label={t<string>('total')}>
+          {formatNumber(referendumTotal || 0)}
         </CardSummary>
       </section>
       {bestNumber && (
         <section className='ui--media-medium'>
           <CardSummary
-            label={t('launch period')}
+            label={t<string>('launch period')}
             progress={{
               total: api.consts.democracy.launchPeriod,
               value: bestNumber.mod(api.consts.democracy.launchPeriod).addn(1),

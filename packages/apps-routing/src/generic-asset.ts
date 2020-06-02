@@ -6,7 +6,7 @@ import { Route } from './types';
 
 import GenericAsset from '@polkadot/app-generic-asset';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component: GenericAsset,
     display: {
@@ -18,6 +18,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'cubes',
     name: 'generic-asset',
-    text: t('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
+    text: t<string>('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
   };
 }

@@ -2,54 +2,46 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SessionInfo } from '../partials/types';
+
 import React, { useState } from 'react';
-import { Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
+import SessionKeyPartital from '../partials/SessionKey';
 
 interface Props {
   controllerId: string;
   onClose: () => void;
+  stashId: string;
 }
 
-const EMPTY_PROOF = new Uint8Array();
-
-function SetSessionKey ({ controllerId, onClose }: Props): React.ReactElement<Props> | null {
+function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [keys, setKeys] = useState<string | null>(null);
+  const [{ sessionTx }, setTx] = useState<SessionInfo>({});
 
   return (
     <Modal
-      className='staking--SetSessionAccount'
-      header={t('Set Session Key')}
-      size='small'
+      header={t<string>('Set Session Key')}
+      size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          defaultValue={controllerId}
-          isDisabled
-          label={t('controller account')}
-        />
-        <Input
-          autoFocus
-          className='medium'
-          help={t('Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command')}
-          isError={!keys}
-          label={t('Keys from rotateKeys')}
-          onChange={setKeys}
+      <Modal.Content>
+        <SessionKeyPartital
+          controllerId={controllerId}
+          onChange={setTx}
+          stashId={stashId}
+          withSenders
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
+          extrinsic={sessionTx}
           icon='sign-in'
-          isDisabled={!keys}
+          isDisabled={!sessionTx}
           isPrimary
-          label={t('Set Session Key')}
+          label={t<string>('Set Session Key')}
           onStart={onClose}
-          params={[keys, EMPTY_PROOF]}
-          tx='session.setKeys'
         />
       </Modal.Actions>
     </Modal>

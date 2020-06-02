@@ -30,20 +30,20 @@ function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <Modal header={t('Register an Asset')}>
+    <Modal header={t<string>('Register an Asset')}>
       <Modal.Content>
         <InputNumber
-          help={t('Enter the Asset ID of the token you want to manage.')}
-          label={t('asset id')}
+          help={t<string>('Enter the Asset ID of the token you want to manage.')}
+          label={t<string>('asset id')}
           onChange={_onChangeAssetId}
           onEnter={_onCommit}
           value={assetId}
         />
         <Input
           className='full'
-          help={t('Type the name of this Asset. This name will be used across all the apps. It can be edited later on.')}
+          help={t<string>('Type the name of this Asset. This name will be used across all the apps. It can be edited later on.')}
           isError={!name}
-          label={t('name')}
+          label={t<string>('name')}
           onChange={setName}
           onEnter={_onCommit}
           value={name}
@@ -54,7 +54,7 @@ function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
           icon='registered'
           isDisabled={!name}
           isPrimary
-          label={t('Register')}
+          label={t<string>('Register')}
           onClick={onClose}
         />
       </Modal.Actions>

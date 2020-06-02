@@ -16,6 +16,8 @@ import keyring from '@polkadot/ui-keyring';
 import { Dropdown, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useFormField, useNonEmptyString, useNonZeroBn, useApi } from '@polkadot/react-hooks';
 import createValues from '@polkadot/react-params/values';
+import keyring from '@polkadot/ui-keyring';
+import { isFunction } from '@polkadot/util';
 
 import { ABI, InputAccount, InputGas, InputName, MessageSignature, Params } from './shared';
 import store from './store';
@@ -208,12 +210,11 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
           contractAbi
             ? (
               <Dropdown
-                help={t('The deployment constructor information for this contract, as provided by the ABI.')}
+                help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
                 isDisabled={contractAbi.abi.contract.constructors.length <= 1}
                 label={t('deployment constructor')}
                 onChange={setConstructorIndex}
                 options={constructOptions}
-                style={{ fontFamily: 'monospace' }}
                 value={`${constructorIndex}`}
               />
             )
