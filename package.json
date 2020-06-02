@@ -21,8 +21,10 @@
     ],
     "appId": "com.polkadotjs.polkadotjs-apps",
     "mac": {
+      "category": "public.app-category.finance",
+      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist",
       "hardenedRuntime": true,
-      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist"
+      "target": "dmg"
     },
     "directories": {
       "buildResources": "./packages/apps-electron/assets",
