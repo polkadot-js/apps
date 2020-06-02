@@ -29,12 +29,13 @@ const IS_NONE = {
   isTechCommittee: false
 };
 
-export default function useAccountInfo (value: string): UseAccountInfo {
+export default function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
   const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags as any, [value]);
+  const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [genesisHash, setGenesisHash] = useState<StringOrNull>(null);
@@ -51,7 +52,11 @@ export default function useAccountInfo (value: string): UseAccountInfo {
   }, [accountFlags]);
 
   useEffect((): void => {
-    const { identity, nickname } = accountInfo || {};
+    const { accountIndex: anAccountIndex, identity, nickname } = accountInfo || {};
+
+    if (anAccountIndex && accountIndex !== anAccountIndex.toString()) {
+      setAccountIndex(anAccountIndex.toString());
+    }
 
     if (api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
@@ -85,25 +90,27 @@ export default function useAccountInfo (value: string): UseAccountInfo {
     } else {
       setIdentity(undefined);
     }
-  }, [accountInfo, api]);
+  }, [accountIndex, accountInfo, api]);
 
   useEffect((): void => {
-    const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
-    const isOwned = isAccount(value);
-    const isInContacts = isAddress(value);
+    if (value) {
+      const accountOrAddress = keyring.getAccount(value) || keyring.getAddress(value);
+      const isOwned = isAccount(value);
+      const isInContacts = isAddress(value);
 
-    setGenesisHash(accountOrAddress?.meta.genesisHash || null);
-    setFlags((flags) => ({
-      ...flags,
-      isDevelopment: accountOrAddress?.meta.isTesting || false,
-      isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
-      isExternal: accountOrAddress?.meta.isExternal || false,
-      isInContacts,
-      isMultisig: accountOrAddress?.meta.isMultisig || false,
-      isOwned
-    }));
-    setName(accountOrAddress?.meta.name || '');
-    setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
+      setGenesisHash(accountOrAddress?.meta.genesisHash || null);
+      setFlags((flags) => ({
+        ...flags,
+        isDevelopment: accountOrAddress?.meta.isTesting || false,
+        isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
+        isExternal: accountOrAddress?.meta.isExternal || false,
+        isInContacts,
+        isMultisig: accountOrAddress?.meta.isMultisig || false,
+        isOwned
+      }));
+      setName(accountOrAddress?.meta.name || '');
+      setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
+    }
   }, [identity, isAccount, isAddress, value]);
 
   const onSaveName = useCallback(
@@ -114,7 +121,17 @@ export default function useAccountInfo (value: string): UseAccountInfo {
 
       const meta = { name, whenEdited: Date.now() };
 
-      if (value) {
+      if (isContract) {
+        try {
+          if (value) {
+            const originalMeta = keyring.getAddress(value)?.meta;
+
+            keyring.saveContract(value, { ...originalMeta, ...meta });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (value) {
         try {
           const pair = keyring.getPair(value);
 
@@ -130,7 +147,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
         }
       }
     },
-    [api, isEditingName, name, toggleIsEditingName, value]
+    [api, isContract, isEditingName, name, toggleIsEditingName, value]
   );
 
   const onSaveTags = useCallback(
@@ -141,7 +158,17 @@ export default function useAccountInfo (value: string): UseAccountInfo {
 
       const meta = { tags, whenEdited: Date.now() };
 
-      if (value) {
+      if (isContract) {
+        try {
+          if (value) {
+            const originalMeta = keyring.getAddress(value)?.meta;
+
+            value && keyring.saveContract(value, { ...originalMeta, ...meta });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else if (value) {
         try {
           const currentKeyring = keyring.getPair(value);
 
@@ -151,7 +178,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
         }
       }
     },
-    [isEditingTags, tags, toggleIsEditingTags, value]
+    [isContract, isEditingTags, tags, toggleIsEditingTags, value]
   );
 
   const onForgetAddress = useCallback(
@@ -165,7 +192,7 @@ export default function useAccountInfo (value: string): UseAccountInfo {
       }
 
       try {
-        keyring.forgetAddress(value);
+        value && keyring.forgetAddress(value);
       } catch (e) {
         console.error(e);
       }
@@ -175,11 +202,13 @@ export default function useAccountInfo (value: string): UseAccountInfo {
 
   const onSetGenesisHash = useCallback(
     (genesisHash: string | null): void => {
-      const account = keyring.getPair(value);
+      if (value) {
+        const account = keyring.getPair(value);
 
-      account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
+        account && keyring.saveAccountMeta(account, { ...account.meta, genesisHash });
 
-      setGenesisHash(genesisHash);
+        setGenesisHash(genesisHash);
+      }
     },
     [value]
   );
@@ -190,11 +219,13 @@ export default function useAccountInfo (value: string): UseAccountInfo {
   );
 
   return {
+    accountIndex,
     flags,
     genesisHash,
     identity,
     isEditingName,
     isEditingTags,
+    isNull: !value,
     name,
     onForgetAddress,
     onSaveName,

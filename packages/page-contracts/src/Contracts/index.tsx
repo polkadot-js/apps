@@ -18,15 +18,15 @@ import Call from './Call';
 import { getContractForAddress } from './util';
 
 function filterContracts (api: ApiPromise, { accounts, contracts: keyringContracts }: Props): ApiContract[] {
-  return accounts && keyringContracts && Object.keys(keyringContracts)
-    .map((address): ApiContract | null => getContractForAddress(api, address))
+  return accounts && keyringContracts && keyringContracts
+    .map((address): ApiContract | null => getContractForAddress(api, address.toString()))
     .filter((contract: ApiContract | null): boolean => !!contract) as ApiContract[];
 }
 
 function Contracts (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { accounts, basePath, contracts: keyringContracts, hasCode, showDeploy } = props;
+  const { accounts, basePath, contracts: keyringContracts, hasCode, onShowDeploy } = props;
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(api, props));
   const [callContractIndex, setCallContractIndex] = useState<number>(0);
   const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
@@ -74,7 +74,7 @@ function Contracts (props: Props): React.ReactElement<Props> {
               <Button
                 icon='cloud upload'
                 label={t('Deploy a code hash')}
-                onClick={showDeploy()}
+                onClick={onShowDeploy()}
               />
             )}
             <Button

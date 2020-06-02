@@ -198,6 +198,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, className, def
         const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
 
         if (!getRegex(isDecimal || !!si).test(newValue)) {
+          console.log('fuckoff');
           event.preventDefault();
         }
       }

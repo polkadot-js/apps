@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { useAccountInfo, useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { classes } from '@polkadot/react-components/util';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, InputTags, LinkExternal, Tag, Transfer } from '@polkadot/react-components';
+import { AccountName, AddressMini, AvatarItem, Button, Icon, IconLink, IdentityIcon, Input, LinkExternal, Tag, Tags, Transfer } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -77,8 +77,8 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 ? (
                   <Input
                     autoFocus
-                    className='name--input'
                     defaultValue={name}
+                    isInPlaceEditor
                     onBlur={(flags.isInContacts || flags.isOwned) ? _onUpdateName : undefined}
                     onChange={setName}
                     withLabel={false}
@@ -98,39 +98,16 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
               />
             )}
           </AccountName>
-          <div className='ui--AddressMenu-tags'>
-            {isEditingTags
-              ? (
-                <InputTags
-                  defaultValue={tags}
-                  onBlur={onSaveTags}
-                  onChange={setTags}
-                  onClose={onSaveTags}
-                  openOnFocus
-                  searchInput={{ autoFocus: true }}
-                  value={tags}
-                  withLabel={false}
-                />
-              )
-              : (
-                <div
-                  className='tags--toggle'
-                  onClick={toggleIsEditingTags}
-                >
-                  {tags.length
-                    ? tags.map((tag): React.ReactNode => (
-                      <Tag
-                        color='grey'
-                        key={tag}
-                        label={tag}
-                        size='tiny'
-                      />
-                    ))
-                    : <label>{t('no tags')}</label>
-                  }
-                </div>
-              )
-            }
+          <Tags
+            className='ui--AddressMenu-tags'
+            isEditable
+            isEditing={isEditingTags}
+            onChange={setTags}
+            onSave={onSaveTags}
+            onToggleIsEditing={toggleIsEditingTags}
+            size='tiny'
+            value={tags}
+          >
             {(!isEditingTags && (flags.isInContacts || flags.isOwned)) && (
               <Icon
                 className='inline-icon'
@@ -138,7 +115,7 @@ function Sidebar ({ address, className, onClose, onUpdateName, style }: Props): 
                 onClick={toggleIsEditingTags}
               />
             )}
-          </div>
+          </Tags>
           <Flags flags={flags} />
           <div className='ui-AddressMenu--button'>
             <Button.Group>

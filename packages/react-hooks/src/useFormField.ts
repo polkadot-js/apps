@@ -4,7 +4,7 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-type FormField<T> = [
+export type FormField<T> = [
   T | null,
   boolean,
   (_?: T | null) => void
@@ -14,10 +14,10 @@ function isTruthy<T> (value?: T | null): boolean {
   return !!value;
 }
 
-export default function useFormField<T> (defaultValue: T | null, validate: (_?: T | null) => boolean = (): boolean => true): FormField<T> {
+export default function useFormField<T> (defaultValue: T | null, validate: (_: T) => boolean = (): boolean => true): FormField<T> {
   const [value, setValue] = useState<T | null>(defaultValue);
   const isValid = useMemo(
-    (): boolean => isTruthy<T>(value) && validate(value),
+    (): boolean => !!value && validate(value),
     [validate, value]
   );
   const setter = useCallback((value?: T | null): void => setValue(value || null), []);

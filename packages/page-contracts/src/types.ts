@@ -12,7 +12,7 @@ export interface ComponentProps extends AppProps {
   accounts: SubjectInfo[];
   contracts: SubjectInfo[];
   hasCode: boolean;
-  showDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
+  onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
   updated: number;
 }
 

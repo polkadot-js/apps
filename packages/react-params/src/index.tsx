@@ -45,6 +45,9 @@ class Params extends React.PureComponent<Props, State> {
       return null;
     }
 
+    console.log('fucktarded');
+    console.log(params);
+
     return {
       params,
       values: params.reduce(

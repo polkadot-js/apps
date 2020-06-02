@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AddressMini, Button, Output } from '@polkadot/react-components';
 
-import MessageSignature from '../MessageSignature';
+import MessageSignature from '../shared/MessageSignature';
 
 interface Props {
   className?: string;

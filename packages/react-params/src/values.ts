@@ -10,6 +10,7 @@ import { isUndefined } from '@polkadot/util';
 import getInitValue from './initValue';
 
 export function createValue (param: { type: TypeDef }): RawParam {
+  console.log(param);
   const value = getInitValue(param.type);
 
   return {

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
 import { displayType } from '@polkadot/types';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 const MAX_PARAM_LENGTH = 20;
 

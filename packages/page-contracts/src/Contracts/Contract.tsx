@@ -11,8 +11,9 @@ import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { AddressRow, Button, Card, Expander, Forget } from '@polkadot/react-components';
+import { useAccountInfo } from '@polkadot/react-hooks';
 
-import Messages from '../Messages';
+import Messages from '../shared/Messages';
 import { useTranslation } from '../translate';
 
 interface Props extends RouteComponentProps {
@@ -31,6 +32,7 @@ const ContractCard = styled(Card)`
 function Contract (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { contract: { abi, address }, onCall } = props;
+
   const [isForgetOpen, setIsForgetOpen] = useState(false);
 
   if (!address || !abi) {
@@ -93,12 +95,12 @@ function Contract (props: Props): React.ReactElement<Props> | null {
           </div>
         }
         isContract
-        isEditable
+        isEditableName
+        isEditableTags
         type='contract'
         value={address}
         withBalance={false}
         withNonce={false}
-        withTags
       >
         <Expander summary={t('Messages')}>
           <Messages

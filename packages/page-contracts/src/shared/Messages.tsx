@@ -11,7 +11,7 @@ import { classes } from '@polkadot/react-components/util';
 import { Button, Expander, IconLink } from '@polkadot/react-components';
 
 import MessageSignature from './MessageSignature';
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 export interface Props {
   address?: string;
@@ -196,7 +196,7 @@ export default React.memo(styled(Messages)`
 
       .execute {
         display: none;
-        background: transparent;
+        background: transparent !important;
         font-size: 1.5rem;
         margin: 0;
         padding: 0;

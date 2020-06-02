@@ -9,7 +9,7 @@ import React from 'react';
 import { Abi } from '@polkadot/api-contract';
 import { Input, InputAddress, InputNumber, Modal, TxComponent } from '@polkadot/react-components';
 
-import ABI from './ABI';
+import ABI from './shared/ABI';
 
 export interface ContractModalProps extends I18nProps {
   basePath: string;
