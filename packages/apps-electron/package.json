@@ -5,9 +5,9 @@
   "version": "0.44.0-beta.40",
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
-    "@polkadot/dev": "^0.55.6",
+    "@polkadot/dev": "^0.55.7",
     "@polkadot/react-components": "0.44.0-beta.40",
-    "electron-updater": "^4.3.1"
+    "electron-updater": "^4.3.3"
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
