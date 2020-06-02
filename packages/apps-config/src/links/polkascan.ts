@@ -11,7 +11,7 @@ export default {
     Kusama: 'kusama',
     'Kusama CC3': 'kusama',
     'Polkadot CC1': 'polkadot-cc1',
-    Westend: 'westend'
+    Westend: 'westend-m2'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://polkascan.io/${chain}/${path}/${data.toString()}`,
