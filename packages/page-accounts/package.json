@@ -14,7 +14,7 @@
     "@babel/runtime": "^7.10.2",
     "@polkadot/react-components": "0.44.0-beta.42",
     "@polkadot/react-qr": "^0.54.0-beta.4",
-    "@polkadot/vanitygen": "^0.13.1",
+    "@polkadot/vanitygen": "^0.14.0-beta.0",
     "detect-browser": "^5.1.0",
     "file-saver": "^2.0.2"
   }
