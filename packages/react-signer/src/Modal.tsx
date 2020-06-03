@@ -619,8 +619,8 @@ class Signer extends React.PureComponent<Props, State> {
 
   private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
     return new Promise((resolve, reject): void => {
-      // method is a hex-string, so 4000 / 2 for the length - with extra details, this is max 5 frames
-      const qrIsHashed = (payload.method.length > 2000);
+      // limit size of the transaction
+      const qrIsHashed = (payload.method.length > 5000);
       const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
       const qrPayload = qrIsHashed
         ? blake2AsU8a(wrapper.toU8a(true))
