@@ -17,7 +17,7 @@ function ButtonGroup ({ children, className = '', isBasic, isCentered }: GroupPr
         basic={isBasic}
         size='small'
       >
-        {isBasic
+        {isBasic || isCentered
           ? null
           : <Divider className='ui--Button-Group-Divider' />
         }

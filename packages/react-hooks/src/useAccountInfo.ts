@@ -63,6 +63,7 @@ export default function useAccountInfo (value: string | null, isContract = false
     }
 
     let name;
+
     if (api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
         name = identity.display;
@@ -104,18 +105,18 @@ export default function useAccountInfo (value: string | null, isContract = false
       const isInContacts = isAddress(value);
 
       setGenesisHash(accountOrAddress?.meta.genesisHash || null);
-      setFlags((flags) => ({
+      setFlags((flags): AddressFlags => ({
         ...flags,
         isDevelopment: accountOrAddress?.meta.isTesting || false,
-        isEditable: (!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
-        isExternal: accountOrAddress?.meta.isExternal || false,
+        isEditable: !!(!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
+        isExternal: !!accountOrAddress?.meta.isExternal || false,
         isInContacts,
-        isMultisig: accountOrAddress?.meta.isMultisig || false,
+        isMultisig: !!accountOrAddress?.meta.isMultisig || false,
         isOwned
       }));
       setMeta(accountOrAddress?.meta);
       setName(accountOrAddress?.meta.name || '');
-      setSortedTags(accountOrAddress?.meta.tags ? accountOrAddress.meta.tags.sort() : []);
+      setSortedTags(accountOrAddress?.meta.tags ? (accountOrAddress.meta.tags as string[]).sort() : []);
     }
   }, [identity, isAccount, isAddress, value]);
 

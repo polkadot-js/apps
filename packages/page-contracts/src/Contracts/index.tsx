@@ -26,11 +26,10 @@ function filterContracts (api: ApiPromise, { accounts, contracts: keyringContrac
 function Contracts (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { accounts, basePath, contracts: keyringContracts, hasCode, onShowDeploy } = props;
+  const { accounts, contracts: keyringContracts, hasCode, onShowDeploy } = props;
   const [contracts, setContracts] = useState<ApiContract[]>(filterContracts(api, props));
   const [callContractIndex, setCallContractIndex] = useState<number>(0);
   const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
-  const [isAddOpen, setIsAddOpen] = useState(false);
   const [isCallOpen, setIsCallOpen] = useState(false);
 
   useEffect((): void => {
@@ -39,7 +38,6 @@ function Contracts (props: Props): React.ReactElement<Props> {
 
   const callContract = contracts[callContractIndex] || null;
 
-  const _toggleAdd = (): void => setIsAddOpen(!isAddOpen);
   const _toggleCall = (): void => setIsCallOpen(!isCallOpen);
 
   const _onChangeCallContractAddress = (newCallContractAddress: StringOrNull): void => {
@@ -69,7 +67,7 @@ function Contracts (props: Props): React.ReactElement<Props> {
     <>
       <CardGrid
         buttons={
-          <Button.Group>
+          <Button.Group isCentered>
             {hasCode && (
               <Button
                 icon='cloud upload'
@@ -77,29 +75,19 @@ function Contracts (props: Props): React.ReactElement<Props> {
                 onClick={onShowDeploy()}
               />
             )}
-            <Button
-              icon='add'
-              label={t<string>('Add an existing contract')}
-              onClick={_toggleAdd}
-            />
+            <Add />
           </Button.Group>
         }
         emptyText={t<string>('No contracts available')}
       >
         {contracts.map((contract: ApiContract, index): React.ReactNode => (
           <ContractCard
-            basePath={basePath}
             contract={contract}
             key={contract.address.toString()}
             onCall={_onCall(index)}
           />
         ))}
       </CardGrid>
-      <Add
-        basePath={basePath}
-        isOpen={isAddOpen}
-        onClose={_toggleAdd}
-      />
       <Call
         callContract={callContract}
         callMessageIndex={callMessageIndex}

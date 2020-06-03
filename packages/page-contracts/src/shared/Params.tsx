@@ -29,10 +29,7 @@ function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): 
   }, [propParams]);
 
   const _onChange = useCallback(
-    (values: RawParams) => {
-      console.log(values);
-      return onChange(values.map(({ value }): any => value));
-    },
+    (values: RawParams) => onChange(values.map(({ value }): any => value)),
     [onChange]
   );
 

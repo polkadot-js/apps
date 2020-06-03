@@ -4,7 +4,7 @@
 
 import { VoidFn } from './types';
 
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { classes } from './util';
 
@@ -30,16 +30,27 @@ interface Props {
 function Tags ({ children, className, color = 'grey', isEditable, isEditing, onChange, onSave, onToggleIsEditing, size = 'small', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const contents = value.length
-    ? value.map((tag): React.ReactNode => (
-      <Tag
-        color={color}
-        key={tag}
-        label={tag}
-        size={size}
-      />
-    ))
-    : <label>{t('no tags')}</label>;
+  const contents = useMemo(
+    (): React.ReactNode => value.length
+      ? value.map((tag): React.ReactNode => (
+        <Tag
+          color={color}
+          key={tag}
+          label={tag}
+          size={size}
+        />
+      ))
+      : <label>{t<string>('no tags')}</label>,
+    [color, size, t, value]
+  );
+
+  const _onSave = useCallback(
+    (): void => {
+      onSave && onSave();
+      onToggleIsEditing && onToggleIsEditing();
+    },
+    [onSave, onToggleIsEditing]
+  );
 
   return (
     <div className={classes('ui--Tags', className)}>
@@ -47,9 +58,8 @@ function Tags ({ children, className, color = 'grey', isEditable, isEditing, onC
         ? (
           <InputTags
             defaultValue={value}
-            onBlur={onSave}
+            onBlur={_onSave}
             onChange={onChange}
-            onClose={onSave}
             openOnFocus
             searchInput={{ autoFocus: true }}
             value={value}

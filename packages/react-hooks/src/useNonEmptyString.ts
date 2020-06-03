@@ -4,7 +4,7 @@
 
 import useFormField, { FormField } from './useFormField';
 
-export default function useNonZeroBn (initialValue = ''): FormField<string> {
+export default function useNonEmptyString (initialValue = ''): FormField<string> {
   return useFormField(
     initialValue,
     (value?: string | null): boolean => (value && value.length > 0) || false

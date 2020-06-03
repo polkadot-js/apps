@@ -19,7 +19,7 @@ interface Props {
   onChange: React.Dispatch<boolean>;
 }
 
-export default function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props> | null {
+function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
   const codeStorage = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
@@ -54,50 +54,4 @@ export default function ValidateCode ({ codeHash, onChange }: Props): React.Reac
   );
 }
 
-// class ValidateCode2 extends React.PureComponent<Props, State> {
-//   public state: State = {
-//     isStored: false,
-//     isValid: false,
-//     isValidHex: false
-//   };
-
-//   public static getDerivedStateFromProps ({ codeHash, contracts_codeStorage, onChange }: Props): State {
-//     const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
-//     const isStored = !!contracts_codeStorage && contracts_codeStorage.isSome;
-//     const isValid = isValidHex && isStored;
-
-//     // FIXME Really not convinced this is the correct place to do this type of callback?
-//     onChange(isValid);
-
-//     return {
-//       isStored,
-//       isValid,
-//       isValidHex
-//     };
-//   }
-
-//   public render (): React.ReactNode {
-//     const { t } = this.props;
-//     const { isValid, isValidHex } = this.state;
-
-//     if (isValid || !isValidHex) {
-//       return null;
-//     }
-
-//     return (
-//       <InfoForInput type='error'>
-//         {
-//           isValidHex
-//             ? t('Unable to find on-chain WASM code for the supplied codeHash')
-//             : t('The codeHash is not a valid hex hash')
-//         }
-//       </InfoForInput>
-//     );
-//   }
-// }
-
-// export default translate(
-//   withCalls<Props>(
-//     ['query.contracts.codeStorage', { fallbacks: ['query.contract.codeStorage'], paramName: 'codeHash' }]
-//   )(ValidateCode)
-// );
+export default React.memo(ValidateCode);

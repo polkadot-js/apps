@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoidFn } from '@polkadot/react-components/types';
+import { BareProps, VoidFn } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
-interface Props {
-  className?: string;
+interface Props extends BareProps {
   isBusy?: boolean;
   isContract?: boolean;
   isError?: boolean;
@@ -26,14 +25,14 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
   return (
     <Input
       className={className}
-      help={t(
+      help={t<string>(
         isContract
           ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
           : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
       )}
       isDisabled={isBusy}
       isError={isError}
-      label={t(
+      label={t<string>(
         isContract
           ? 'contract name'
           : 'code bundle name'

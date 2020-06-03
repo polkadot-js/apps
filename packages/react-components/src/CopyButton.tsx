@@ -19,7 +19,7 @@ interface Props extends BareProps {
   icon?: string;
   isAddress?: boolean;
   size?: IconProps['size'];
-  value?: any;
+  value: string;
 }
 
 function CopyButton ({ children, className, icon = 'copy', isAddress = false, size = 'small', value }: Props): React.ReactElement<Props> {

@@ -28,7 +28,6 @@ export function getContractForAddress (api: ApiPromise, address: StringOrNull): 
   if (!address) {
     return null;
   } else {
-    console.log(address);
     const abi = getContractAbi(address);
 
     return abi

@@ -4,11 +4,11 @@
 
 import React, { useState } from 'react';
 import { CopyButton } from '@polkadot/react-components';
-import Row, { RowProps } from '@polkadot/react-components/RowNew';
+import Row, { RowProps } from '@polkadot/react-components/Row';
 
 import { useTranslation } from './translate';
 
-interface Props extends RowProps {
+interface Props extends Omit<RowProps, 'onSaveName'> {
   onSaveName: (name: string) => void;
   assetId: string;
 }

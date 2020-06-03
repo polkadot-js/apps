@@ -10,11 +10,11 @@ import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useFormField, useNonZeroBn, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
 import { isNull } from '@polkadot/util';
 
-import { InputGas, Params } from '../shared';
+import { Params } from '../shared';
 import Outcome from './Outcome';
 
 import { useTranslation } from '../translate';
@@ -36,10 +36,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const hasRpc = callContract?.hasRpcContractsCall;
   const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
-  const [accountId, setAccountId] = useState<StringOrNull>(null);
-  const [endowment, setEndowment] = useState<BN>(new BN(0));
-  const [gasLimit, setGasLimit] = useState<BN>(new BN(GAS_LIMIT));
-  const [isBusy, toggleIsBusy, setIsBusy] = useToggle();
+  const [accountId, setAccountId] = useAccountId();
+  const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(new BN(0));
+  const [gasLimit, isGasLimitValid, setGasLimit] = useNonZeroBn(new BN(GAS_LIMIT));
+  const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
   const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
@@ -64,11 +64,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
     setOutcomes([]);
   }, [callContract]);
 
-  const _onChangeAccountId = useCallback(
-    (accountId: StringOrNull): void => setAccountId(accountId),
-    []
-  );
-
   const _onChangeCallMessageIndexString = useCallback(
     (callMessageIndexString: string): void => {
       onChangeCallMessageIndex && onChangeCallMessageIndex(
@@ -77,24 +72,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
     },
     [onChangeCallMessageIndex]
   );
-
-  const _onChangeEndowment = useCallback(
-    (endowment?: BN): void => endowment && setEndowment(endowment),
-    []
-  );
-  const _onChangeGasLimit = useCallback(
-    (gasLimit?: BN): void => gasLimit && setGasLimit(gasLimit),
-    []
-  );
-
-  const _onChangeParams = useCallback(
-    (params: any[]): void => setParams(params),
-    []
-  );
-  // const _toggleBusy = useCallback(
-  //   (): void => setIsBusy(!isBusy),
-  //   [isBusy]
-  // );
 
   const _constructTx = useCallback(
     (): any[] => {
@@ -109,9 +86,9 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !callMessage) return;
+      if (!accountId || !callContract || !callMessage || !endowment || !gasLimit) return;
 
-      callContract && callContract
+      !!callContract && callContract
         .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
         .send(accountId)
         .then(
@@ -135,18 +112,9 @@ function Call (props: Props): React.ReactElement<Props> | null {
     [outcomes]
   );
 
-  const [isEndowmentValid, isGasLimitValid, isValid] = useMemo(
-    (): [boolean, boolean, boolean] => {
-      const isEndowmentValid = true;
-      const isGasLimitValid = !gasLimit.isZero();
-
-      return [
-        isEndowmentValid,
-        isGasLimitValid,
-        !!accountId && isEndowmentValid && isGasLimitValid && !!callContract && !!callContract.address && !!callContract.abi
-      ];
-    },
-    [accountId, callContract, gasLimit]
+  const isValid = useMemo(
+    (): boolean => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isGasLimitValid && isEndowmentValid,
+    [accountId, callContract, isEndowmentValid, isGasLimitValid]
   );
 
   if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
@@ -168,7 +136,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
               isDisabled={isBusy}
               label={t<string>('call from account')}
-              onChange={_onChangeAccountId}
+              onChange={setAccountId}
               type='account'
               value={accountId}
             />
@@ -194,7 +162,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 />
                 <Params
                   isDisabled={isBusy}
-                  onChange={_onChangeParams}
+                  onChange={setParams}
                   params={
                     callMessage
                       ? callMessage.def.args
@@ -209,13 +177,16 @@ function Call (props: Props): React.ReactElement<Props> | null {
               isError={!isEndowmentValid}
               isZeroable
               label={t<string>('value')}
-              onChange={_onChangeEndowment}
+              onChange={setEndowment}
               value={endowment}
             />
-            <InputGas
+            <InputNumber
+              bitLength={128}
+              help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
               isError={!isGasLimitValid}
-              onChange={_onChangeGasLimit}
-              value={gasLimit}
+              label={t<string>('maximum gas allowed')}
+              onChange={setGasLimit}
+              value={gasLimit && gasLimit}
             />
           </div>
         )}

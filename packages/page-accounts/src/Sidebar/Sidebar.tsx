@@ -22,10 +22,6 @@ interface Props extends BareProps {
   onUpdateName: () => void;
 }
 
-const TAG_OPTS = {
-  autoFocus: true
-};
-
 function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
@@ -94,7 +90,15 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
           )}
         </AccountName>
         <div className='ui--AddressMenu-tags'>
-          <Tags value={tags} />
+          <Tags
+            isEditable
+            isEditing={isEditingTags}
+            onChange={setTags}
+            onSave={onSaveTags}
+            onToggleIsEditing={toggleIsEditingTags}
+            size='small'
+            value={tags}
+          />
         </div>
         <Flags flags={flags} />
         <div className='ui-AddressMenu--button'>

@@ -34,7 +34,7 @@ interface Props extends BareProps {
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
-  value?: BN;
+  value?: BN | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
@@ -202,7 +202,6 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, className = ''
         const newValue = `${value.substring(0, i || 0)}${event.key}${value.substring(j || 0)}`;
 
         if (!getRegex(isDecimal || !!si).test(newValue)) {
-          console.log('fuckoff');
           event.preventDefault();
         }
       }

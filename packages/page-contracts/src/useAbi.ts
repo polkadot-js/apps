@@ -23,6 +23,11 @@ interface UseAbi {
   onRemoveAbi: () => void;
 }
 
+interface ContractABIOutdated {
+  deploy?: any;
+  messages?: any;
+}
+
 export default function useAbi (initialValue: [string | null, Abi | null] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
   const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
@@ -42,24 +47,22 @@ export default function useAbi (initialValue: [string | null, Abi | null] = [nul
       const json = u8aToString(u8a);
 
       try {
-        const abi = JSON.parse(json);
+        const abiOutdated = JSON.parse(json) as ContractABIOutdated;
 
-        if (abi.deploy || abi.messages) {
+        if (abiOutdated.deploy || abiOutdated.messages) {
           throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
         }
 
-        setAbi([abi, new Abi(registry, abi), true, true]);
+        setAbi([json, new Abi(registry, JSON.parse(json)), true, true]);
         codeHash && store.saveCode(
           codeHash,
-          { abi: JSON.stringify(abi) }
+          { abi: json }
         );
-        // onChange(json, contractAbi);
       } catch (error) {
         console.error(error);
 
         setAbi([null, null, false, false]);
         setError([true, error]);
-        // onChange(null, null);
       }
     },
     [codeHash, t]

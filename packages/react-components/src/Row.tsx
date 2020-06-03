@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { KeyringItemType } from '@polkadot/ui-keyring/types';
+import { BareProps } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
 
-import Button from './Button';
-import { classes, toShortAddress } from './util';
-import CopyButton from './CopyButton';
+import { classes } from './util';
+import EditButton from './EditButton';
 import Input from './Input';
-import InputTags from './InputTags';
-import Tag from './Tag';
+import Tags from './Tags';
 
 export const styles = `
   text-align: left;
@@ -41,52 +40,9 @@ export const styles = `
     }
   }
 
-  button.ui.icon.editButton {
-    padding: 0em .3em .3em .3em;
-    color: #2e86ab;
-    background: none;
-    /*trick to let the button in the flow but keep the content centered regardless*/
-    margin-left: -2em;
-    position: relative;
-    right: -2.3em;
-    z-index: 1;
-  }
-
-  .editSpan {
-    white-space: nowrap;
-
-    &:before {
-      content: '';
-    }
-  }
-
-  .ui--Row-accountId,
-  .ui--Row-accountIndex {
-    font-family: monospace;
-    font-size: 1.25em;
-    padding: 0;
-    margin-bottom: 0.25rem;
-  }
-
-  .ui--Row-balances {
-    display: flex;
-    .column {
-      display: block;
-
-      label,
-      .result {
-        display: inline-block;
-        vertical-align: middle;
-      }
-    }
-
-    > span {
-      text-align: left;
-    }
-  }
-
   .ui--Row-base {
     display: flex;
+    min-width: 16rem;
   }
 
   .ui--Row-buttons {
@@ -124,6 +80,28 @@ export const styles = `
     }
   }
 
+  .ui--Row-address,
+  .ui--Row-accountIndex {
+    font-family: monospace;
+    font-size: 1.25em;
+    padding: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .ui--Row-name {
+    display: flex;
+    box-sizing: border-box;
+    height: 1.5rem;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: inherit;
+  }
+
   .ui--Row-icon {
     flex: 0;
     margin-right: 1em;
@@ -136,30 +114,12 @@ export const styles = `
     }
   }
 
-  .ui--Row-address-or-name {
-    display: flex;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-
-    .withName {
-      white-space: nowrap;
-      text-transform: uppercase;
-      overflow: hidden;
-      text-overflow: inherit;
-    }
-  }
-
   .ui--Row-name-input {
     input {
       height: 1em;
       text-transform: uppercase;
       margin-top: -0.3em;
     }
-
   }
 
   .ui--Row-tags {
@@ -189,195 +149,113 @@ export const styles = `
   }
 `;
 
-export interface RowProps {
-  accountsInfo?: DeriveAccountInfo;
+export interface RowProps extends BareProps {
+  address?: string;
   buttons?: React.ReactNode;
-  children?: React.ReactNode;
-  className?: string;
   defaultName?: string;
-  extraInfo?: React.ReactNode;
+  details?: React.ReactNode;
+  icon?: React.ReactNode;
   iconInfo?: React.ReactNode;
-  isEditable?: boolean;
+  isDisabled?: boolean;
   isInline?: boolean;
-  type?: KeyringItemType;
-  withIcon?: boolean;
-  withTags?: boolean;
+  isEditableName?: boolean;
+  isEditableTags?: boolean;
+  name?: string;
+  onChangeName?: (_: string) => void;
+  onChangeTags?: (_: string[]) => void;
+  onSaveName?: () => void;
+  onSaveTags?: () => void;
+  tags?: string[];
 }
 
-export interface RowState {
-  address: string;
-  isEditingName: boolean;
-  isEditingTags: boolean;
-  name: string;
-  tags: string[];
-}
+function Row ({ address, buttons, children, className, defaultName, details, icon, iconInfo, isDisabled, isEditableName, isEditableTags, isInline, name, onChangeName, onChangeTags, onSaveName, onSaveTags, tags }: RowProps): React.ReactElement<RowProps> {
+  const [isEditingName, toggleIsEditingName] = useToggle();
+  const [isEditingTags, toggleIsEditingTags] = useToggle();
 
-// const DEFAULT_ADDR = '5'.padEnd(16, 'x');
-// const ICON_SIZE = 48;
-
-export default class Row<P extends RowProps, S extends RowState> extends React.PureComponent<P, S> {
-  public state: S = {
-    isEditingName: false,
-    isEditingTags: false
-  } as unknown as S;
-
-  public static defaultProps = {
-    defaultName: '<unknown>'
+  const _onSaveName = (): void => {
+    onSaveName && onSaveName();
+    toggleIsEditingName();
   };
 
-  protected onChangeName = (name: string): void => {
-    this.setState({ name });
-  }
-
-  protected onChangeTags = (tags: string[]): void => {
-    this.setState({ tags });
-  }
-
-  protected renderButtons (): React.ReactNode {
-    const { buttons } = this.props;
-
-    return buttons
-      ? <div className='ui--Row-buttons'>{buttons}</div>
-      : null;
-  }
-
-  protected renderChildren (): React.ReactNode {
-    const { children } = this.props;
-    const hasChildren = !children
-      ? false
-      : Array.isArray(children)
-        ? children.filter((child): boolean => !!child).length !== 0
-        : true;
-
-    if (!hasChildren) {
-      return null;
-    }
-
-    return (
-      <div className='ui--Row-children'>
-        {children}
-      </div>
-    );
-  }
-
-  protected renderEditIcon (): React.ReactNode {
-    return (
-      <span className='editSpan'>
-        <Button
-          className='icon-button'
-          icon='edit'
-          isPrimary
-          key='unlock'
-          size='mini'
-        />
-      </span>
-
-    );
-  }
-
-  protected renderName (withCopy = false): React.ReactNode {
-    const { defaultName, isEditable } = this.props;
-    const { address, isEditingName, name } = this.state;
-    const withName = name !== defaultName;
-
-    // can't be both editable and copyable
-    return isEditingName
-      ? (
-        <Input
-          autoFocus
-          className='ui--Row-name-input'
-          defaultValue={name}
-          onBlur={this.saveName}
-          onChange={this.onChangeName}
-          onEnter={this.saveName}
-          withLabel={false}
-        />
-      )
-      : (
-        <div
-          className={classes('ui--Row-address-or-name', isEditable && 'editable')}
-          onClick={isEditable ? this.toggleNameEditor : undefined}
-        >
-          {withCopy && !isEditable
-            ? (
-              <CopyButton
-                isAddress
-                value={address}
-              >
-                <span className={`${withName ? 'withName' : 'withAddr'}`}>{
-                  withName ? name : toShortAddress(address)
-                }
-                </span>
-              </CopyButton>
-            )
-            : (
-              <>
-                <span className='withName'>
-                  {name}
-                </span>
-                {isEditable && this.renderEditIcon()}
-              </>
-            )
-          }
-        </div>
-      );
-  }
-
-  protected renderTags (): React.ReactNode {
-    const { isEditingTags, tags } = this.state;
-    const { isEditable, withTags = false } = this.props;
-
-    if (!withTags) {
-      return null;
-    }
-
-    return isEditingTags
-      ? (
-        <InputTags
-          className='ui--Row-tags-input'
-          defaultValue={tags}
-          onBlur={this.saveTags}
-          onChange={this.onChangeTags}
-          onClose={this.saveTags}
-          openOnFocus
-          searchInput={{ autoFocus: true }}
-          value={tags}
-          withLabel={false}
-        />
-      )
-      : (
-        <div
-          className={classes('ui--Row-tags', isEditable && 'editable')}
-          onClick={isEditable ? this.toggleTagsEditor : undefined}
-        >
-          {
-            !tags.length
-              ? (isEditable ? <span className='addTags'>add tags</span> : undefined)
-              : tags.map((tag): React.ReactNode => (
-                <Tag
-                  key={tag}
-                  label={tag}
+  return (
+    <div
+      className={classes('ui--Row', isDisabled && 'isDisabled', isInline && 'isInline', className)}
+    >
+      <div className='ui--Row-base'>
+        {icon && (
+          <div className='ui--Row-icon'>
+            {icon}
+            {iconInfo && (
+              <div className='ui--Row-icon-info'>
+                {iconInfo}
+              </div>
+            )}
+          </div>
+        )}
+        <div className='ui--Row-details'>
+          {(name || defaultName) && (
+            isEditableName && isEditingName
+              ? (
+                <Input
+                  autoFocus
+                  defaultValue={name || defaultName}
+                  isInPlaceEditor
+                  onBlur={_onSaveName}
+                  onChange={onChangeName}
+                  onEnter
+                  withLabel={false}
                 />
-              ))
-          }
-          {isEditable && this.renderEditIcon()}
+              )
+              : (
+                <div className='ui--Row-name'>
+                  {
+                    isEditableName
+                      ? (
+                        <EditButton onClick={toggleIsEditingName}>
+                          {name || defaultName}
+                        </EditButton>
+                      )
+                      : name
+                  }
+                </div>
+              )
+          )}
+          {address && (
+            <div className='ui--Row-address'>
+              {address}
+            </div>
+          )}
+          {details}
+          {tags && (
+            <Tags
+              className='ui--Row-tags'
+              isEditable={isEditableTags}
+              isEditing={isEditingTags}
+              onChange={onChangeTags}
+              onSave={onSaveTags}
+              onToggleIsEditing={toggleIsEditingTags}
+              size='tiny'
+              value={tags}
+            />
+          )}
         </div>
-      );
-  }
-
-  protected saveName!: () => void;
-
-  protected saveTags!: () => void;
-
-  protected toggleNameEditor = (): void => {
-    this.setState(({ isEditingName }): S => ({
-      isEditingName: !isEditingName
-    }) as unknown as S);
-  }
-
-  protected toggleTagsEditor = (): void => {
-    this.setState(({ isEditingTags }): S => ({
-      isEditingTags: !isEditingTags
-    }) as unknown as S);
-  }
+        {buttons && (
+          <div className='ui--Row-buttons'>
+            {buttons}
+          </div>
+        )}
+      </div>
+      {children && (
+        <div className='ui--Row-children'>
+          {children}
+        </div>
+      )}
+    </div>
+  );
 }
+
+export default React.memo(
+  styled(Row)`${
+    styles
+  }`
+);

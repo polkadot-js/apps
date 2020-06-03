@@ -5,19 +5,20 @@
 import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags, Transfer } from '@polkadot/react-components';
+import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { formatNumber } from '@polkadot/util';
 
+import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 
-interface Props {
+interface Props extends BareProps {
   address: string;
-  className?: string;
   filter: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;

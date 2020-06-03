@@ -4,8 +4,6 @@
 
 export { default as ABI } from './ABI';
 export { default as CodeRow } from './CodeRow';
-export { default as InputAccount } from './InputAccount';
-export { default as InputGas } from './InputGas';
 export { default as InputName } from './InputName';
 export { default as Messages } from './Messages';
 export { default as MessageSignature } from './MessageSignature';
