@@ -7,6 +7,7 @@ import React from 'react';
 import { availableExtensions } from '@polkadot/apps-config/extensions';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { stringUpperFirst } from '@polkadot/util';
+import { onlyOnWeb } from '@polkadot/react-api/hoc';
 
 import { useTranslation } from '../translate';
 import Banner from './Banner';
@@ -53,4 +54,4 @@ function BannerExtension (): React.ReactElement | null {
   );
 }
 
-export default React.memo(BannerExtension);
+export default onlyOnWeb(React.memo(BannerExtension));

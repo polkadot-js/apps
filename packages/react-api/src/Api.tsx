@@ -15,6 +15,8 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
+import { KeyringStore } from '@polkadot/ui-keyring/types';
+
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/ApiSigner';
 import { formatBalance, isTestChain } from '@polkadot/util';
@@ -27,6 +29,7 @@ import registry from './typeRegistry';
 interface Props {
   children: React.ReactNode;
   url?: string;
+  store?: KeyringStore;
 }
 
 interface InjectedAccountExt {
@@ -94,7 +97,7 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   };
 }
 
-async function loadOnReady (api: ApiPromise): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiState> {
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -123,6 +126,7 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,
+    store,
     type: 'ed25519'
   }, injectedAccounts);
 
@@ -146,7 +150,7 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
   };
 }
 
-function Api ({ children, url }: Props): React.ReactElement<Props> | null {
+function Api ({ children, store, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -168,7 +172,7 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('ready', async (): Promise<void> => {
       try {
-        setState(await loadOnReady(api));
+        setState(await loadOnReady(api, store));
       } catch (error) {
         console.error('Unable to load chain', error);
       }
