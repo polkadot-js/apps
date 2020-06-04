@@ -129,7 +129,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
               </SideBarItem>
               <SideBarItem>
                 <SideBarItemLink
-                  href='https://github.com/cennznet/api.js/wiki'
+                  href='https://github.com/cennznet/cennznet/wiki'
                   rel='noopener noreferrer'
                   target='_blank'
                 >

@@ -267,12 +267,11 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           />
           <details
             className='accounts--Creator-advanced'
-            open
           >
             <summary>{t('Advanced creation options')}</summary>
             <Dropdown
               defaultValue={pairType}
-              help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+              help={t('(Advanced) Select the signature scheme for this account.')}
               label={t('keypair crypto type')}
               onChange={_onChangePairType}
               options={uiSettings.availableCryptos}

@@ -163,7 +163,7 @@ class VanityApp extends TxComponent<Props, State> {
           <Dropdown
             className='medium'
             defaultValue={type}
-            help={t('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+            help={t('(Advanced) Select the signature scheme for this account.')}
             label={t('keypair crypto type')}
             onChange={this.onChangeType}
             options={uiSettings.availableCryptos}

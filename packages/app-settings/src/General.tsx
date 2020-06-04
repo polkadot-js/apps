@@ -68,7 +68,8 @@ export default function General ({ className, isModalContent, onClose }: Props):
       <SelectUrl onChange={_handleChange('apiUrl')} />
       {!isModalContent && (
         <>
-          <div className='ui--row'>
+          {/* No need to change address prefix on CENNZnet */}
+          {/* <div className='ui--row'>
             <Dropdown
               defaultValue={prefix}
               help={t('Override the default ss58 prefix for address generation')}
@@ -76,7 +77,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
               onChange={_handleChange('prefix')}
               options={prefixOptions}
             />
-          </div>
+          </div> */}
           <div className='ui--row'>
             <Dropdown
               defaultValue={icon}

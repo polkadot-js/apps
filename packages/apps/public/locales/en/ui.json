@@ -871,5 +871,7 @@
   "recovery threshold": "",
   "recovery block delay": "",
   "Uncaught error. Something went wrong with the query and rendering of this component.": "",
-  "validators/nominators": ""
+  "validators/nominators": "",
+  "(Advanced) Select the signature scheme for this account.": "",
+  "Advanced": ""
 }
