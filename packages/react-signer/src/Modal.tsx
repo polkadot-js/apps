@@ -22,6 +22,7 @@ import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import { assert, isFunction } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 import { format } from '@polkadot/util/logger';
 
 import ledgerSigner from './LedgerSigner';
@@ -52,6 +53,7 @@ interface State {
   nonce?: BN;
   password: string;
   qrAddress: string;
+  qrIsHashed: boolean;
   qrPayload: Uint8Array;
   qrResolve?: (result: SignerResult) => void;
   qrReject?: (error: Error) => void;
@@ -127,6 +129,7 @@ const initialState: State = {
   nonce: undefined,
   password: '',
   qrAddress: '',
+  qrIsHashed: false,
   qrPayload: new Uint8Array(),
   showTip: false,
   signedTx: '',
@@ -254,7 +257,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderContent (): React.ReactNode {
     const { api, t } = this.props;
-    const { currentItem, isQrScanning, isQrVisible, isSendable, isSubmit, qrAddress, qrPayload, tip } = this.state;
+    const { currentItem, isQrScanning, isQrVisible, isSendable, isSubmit, qrAddress, qrIsHashed, qrPayload, tip } = this.state;
 
     if (!currentItem) {
       return null;
@@ -275,6 +278,7 @@ class Signer extends React.PureComponent<Props, State> {
                 <Qr
                   address={qrAddress}
                   genesisHash={api.genesisHash}
+                  isHashed={qrIsHashed}
                   isScanning={isQrScanning}
                   onSignature={this.addQrSignature}
                   payload={qrPayload}
@@ -615,10 +619,18 @@ class Signer extends React.PureComponent<Props, State> {
 
   private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
     return new Promise((resolve, reject): void => {
+      // method is a hex-string, so 4000 / 2 for the length - with extra details, this is max 5 frames
+      const qrIsHashed = (payload.method.length > 2000);
+      const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
+      const qrPayload = qrIsHashed
+        ? blake2AsU8a(wrapper.toU8a(true))
+        : wrapper.toU8a();
+
       this.setState({
         isQrVisible: true,
         qrAddress: payload.address,
-        qrPayload: registry.createType('ExtrinsicPayload', payload, { version: payload.version }).toU8a(),
+        qrIsHashed,
+        qrPayload,
         qrReject: reject,
         qrResolve: resolve
       });

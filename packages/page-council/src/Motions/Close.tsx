@@ -11,6 +11,7 @@ import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
+  hasFailed: boolean;
   hash: Hash;
   idNumber: ProposalIndex;
   isDisabled: boolean;
@@ -18,7 +19,7 @@ interface Props {
   proposal: Proposal;
 }
 
-function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
+function Close ({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -74,7 +75,9 @@ function Close ({ hash, idNumber, isDisabled, members, proposal }: Props): React
               onStart={toggleOpen}
               params={
                 api.tx.council.close.meta.args.length === 4
-                  ? [hash, idNumber, proposalWeight, proposalLength]
+                  ? hasFailed
+                    ? [hash, idNumber, 0, 0]
+                    : [hash, idNumber, proposalWeight, proposalLength]
                   : [hash, idNumber]
               }
               tx='council.close'

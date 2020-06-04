@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-query",
-  "version": "0.44.0-beta.16",
+  "version": "0.44.0-beta.42",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
   "dependencies": {
-    "@babel/runtime": "^7.10.1"
+    "@babel/runtime": "^7.10.2"
   }
 }
