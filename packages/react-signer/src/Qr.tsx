@@ -12,14 +12,16 @@ interface Props extends BareProps {
   address: string;
   className?: string;
   genesisHash: Uint8Array;
+  isHashed: boolean;
   isScanning: boolean;
   onSignature: (signature: { signature: string }) => void;
   payload: Uint8Array;
 }
 
+const CMD_HASH = 1;
 const CMD_MORTAL = 2;
 
-function Qr ({ address, className = '', genesisHash, isScanning, onSignature, payload }: Props): React.ReactElement<Props> {
+function Qr ({ address, className = '', genesisHash, isHashed, isScanning, onSignature, payload }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       {
@@ -27,7 +29,11 @@ function Qr ({ address, className = '', genesisHash, isScanning, onSignature, pa
           ? <QrScanSignature onScan={onSignature} />
           : <QrDisplayPayload
             address={address}
-            cmd={CMD_MORTAL}
+            cmd={
+              isHashed
+                ? CMD_HASH
+                : CMD_MORTAL
+            }
             genesisHash={genesisHash}
             payload={payload}
           />

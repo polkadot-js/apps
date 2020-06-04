@@ -2,10 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BrowserWindow, app, screen } from 'electron';
+import { app, BrowserWindow, dialog, screen } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import path from 'path';
+import { features } from './featureToggles';
 
-const environment = process.env.NODE_ENV || 'production';
+const ENV = process.env.NODE_ENV || 'production';
+const isDev = ENV === 'development';
 
 function createWindow (): Promise<unknown> {
   const { height, width } = screen.getPrimaryDisplay().workAreaSize;
@@ -19,7 +22,7 @@ function createWindow (): Promise<unknown> {
     width
   });
 
-  if (environment === 'development') {
+  if (isDev) {
     win.webContents.openDevTools();
 
     return win.loadURL('http://0.0.0.0:3000/');
@@ -30,4 +33,31 @@ function createWindow (): Promise<unknown> {
   return win.loadFile(mainFilePath);
 }
 
-app.whenReady().then(createWindow).catch(console.error);
+const onReady = async () => {
+  await createWindow();
+
+  if (features.autoUpdater) {
+    await autoUpdater.checkForUpdatesAndNotify();
+  }
+};
+
+app.whenReady().then(onReady).catch(console.error);
+
+if (features.autoUpdater) {
+  autoUpdater.on('update-not-available', () => {
+    dialog.showMessageBox({
+      message: 'Current version is up-to-date.',
+      title: 'No Updates'
+    }).catch(console.error);
+  });
+
+  autoUpdater.on('error', (error) => {
+    if (!error) {
+      return;
+    }
+
+    const err: Error = error as Error;
+
+    dialog.showErrorBox('Auto update error: ', (err.stack || err).toString());
+  });
+}
