@@ -16,7 +16,6 @@ import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import QrModal from './modals/Qr';
 import Account from './Account';
-import Banner from './Banner';
 import { useTranslation } from './translate';
 
 type SortedAccount = { address: string; isFavorite: boolean };
@@ -72,7 +71,6 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
 
   return (
     <div className={className}>
-      <Banner />
       {isCreateOpen && (
         <CreateModal
           onClose={_toggleCreate}

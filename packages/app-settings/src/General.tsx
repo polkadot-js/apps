@@ -11,7 +11,7 @@ import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
 
 import { availableLanguages } from './available';
 import { useTranslation } from './translate';
-import { createIdenticon, createOption, save, saveAndReload } from './util';
+import { createIdenticon, save, saveAndReload } from './util';
 import SelectUrl from './SelectUrl';
 
 interface Props {
@@ -30,9 +30,10 @@ export default function General ({ className, isModalContent, onClose }: Props):
   const iconOptions = useMemo((): Option[] => {
     return uiSettings.availableIcons.map((o): Option => createIdenticon(t, o, ['default']));
   }, [t]);
-  const prefixOptions = useMemo((): Option[] => {
-    return uiSettings.availablePrefixes.map((o): Option => createOption(t, o, ['default']));
-  }, [t]);
+  // Address prefixes are unused in CENNZnet
+  // const prefixOptions = useMemo((): Option[] => {
+  //   return uiSettings.availablePrefixes.map((o): Option => createOption(t, o, ['default']));
+  // }, [t]);
   const translateLanguages = useMemo((): Option[] => {
     return availableLanguages.map(({ text, value, withI18n }) => ({
       value,
@@ -61,14 +62,15 @@ export default function General ({ className, isModalContent, onClose }: Props):
     setChanged(null);
   };
 
-  const { icon, i18nLang, ledgerConn, prefix, uiMode } = settings;
+  const { icon, i18nLang, ledgerConn, uiMode } = settings;
 
   return (
     <div className={className}>
       <SelectUrl onChange={_handleChange('apiUrl')} />
       {!isModalContent && (
         <>
-          <div className='ui--row'>
+          {/* No need to change address prefix on CENNZnet */}
+          {/* <div className='ui--row'>
             <Dropdown
               defaultValue={prefix}
               help={t('Override the default ss58 prefix for address generation')}
@@ -76,7 +78,7 @@ export default function General ({ className, isModalContent, onClose }: Props):
               onChange={_handleChange('prefix')}
               options={prefixOptions}
             />
-          </div>
+          </div> */}
           <div className='ui--row'>
             <Dropdown
               defaultValue={icon}
