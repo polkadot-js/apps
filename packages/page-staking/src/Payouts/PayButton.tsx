@@ -28,7 +28,8 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
       payout.reduce((calls: SubmittableExtrinsic<'promise'>[], { eras, validatorId }): SubmittableExtrinsic<'promise'>[] =>
         calls.concat(
           ...eras.map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
-        ), [])
+        ), []
+      ).filter((_, index) => index < 40)
     );
   }
 
