@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-api/types';
-import { DerivedBalancesAll } from '@polkadot/api-derive/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import { AccountId, Balance, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -19,13 +18,17 @@ interface Props extends BareProps {
 
 export default function AvailableDisplay ({ children, className, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [params]);
+
+  // TODO: query asset IDs from chain metadata
+  const cennzBalance = useCall<Balance>(api.query.genericAsset.freeBalance as any, [1, params]);
+  const cpayBalance = useCall<Balance>(api.query.genericAsset.freeBalance as any, [2, params]);
 
   return (
     <FormatBalance
       className={className}
       label={label}
-      value={allBalances?.availableBalance}
+      value={cpayBalance! > cennzBalance! ? cpayBalance : cennzBalance}
+      symbol={cpayBalance! > cennzBalance! ? "CPAY" : "CENNZ"}
     >
       {children}
     </FormatBalance>

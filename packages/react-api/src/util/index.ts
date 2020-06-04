@@ -6,10 +6,12 @@ import getHistoric from './historic';
 import intervalObservable from './intervalObservable';
 import isEqual from './isEqual';
 import triggerChange from './triggerChange';
+import formatGenericAssetBalance from './formatGenericAssetBalance';
 
 export {
+  formatGenericAssetBalance,
   getHistoric,
   intervalObservable,
   isEqual,
-  triggerChange
+  triggerChange,
 };

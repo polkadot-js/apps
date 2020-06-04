@@ -3,6 +3,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { formatGenericAssetBalance } from '@polkadot/react-api/util';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DerivedFees, DerivedBalancesAll, DerivedContractFees } from '@polkadot/api-derive/types';
 import { AccountId, RuntimeDispatchInfo } from '@polkadot/types/interfaces';
@@ -285,11 +286,7 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
     >
       <div>
         <Icon name='arrow right' />
-        {t('Fees of {{fees}} will be applied to the submission', {
-          replace: {
-            fees: formatBalance(dispatchInfo.partialFee, { withSiFull: true })
-          }
-        })}
+        Fees of { formatGenericAssetBalance(dispatchInfo.partialFee, "CPAY") } will be applied to the submission
       </div>
     </article>
   );
