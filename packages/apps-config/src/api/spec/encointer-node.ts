@@ -67,6 +67,11 @@ export default {
     attendee_public: 'AccountId',
     attendee_signature: 'Signature'
   },
+  ShardIdentifier: 'Hash',
+  Request: {
+    shard: 'ShardIdentifier',
+    cyphertext: 'Vec<u8>'
+  },
   // substrate
   Weight: 'u32'
 };
