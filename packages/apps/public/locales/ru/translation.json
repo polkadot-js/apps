@@ -9,7 +9,6 @@
   "1 s": "1 сек",
   "1. Select your {{chain}} account": "1. Выберите свой {{chain}} аккаунт",
   "2. Enter the ETH address from the sale.": "2. Введите Ваш адрес Ethereum, который использовался при покупке/продаже.",
-  "2. Enter the ETH address from the sale.": "2. Введите Ваш адрес Ethereum, который использовался при покупке/продаже.",
   "2. Sign ETH transaction": "2. Подпишите ETH транзакцию",
   "<unknown>": "<неизвестный>",
   "A controller account should not be set to manages multiple stashes. The selected controller is already controlling {{stashId}}": "Аккаунт контроллера не должен управлять несколькими копилками. Выбранный контроллер уже управляется {{stashId}}",
