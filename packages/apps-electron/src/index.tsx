@@ -7,8 +7,6 @@ import '@polkadot/apps/initSettings';
 import 'semantic-ui-css/semantic.min.css';
 import '@polkadot/react-components/i18n';
 
-import electron from 'electron';
-import path from 'path';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
@@ -20,14 +18,13 @@ import { BlockAuthors, Events } from '@polkadot/react-query';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Apps from '@polkadot/apps/Apps';
-import { FileStore } from '@polkadot/ui-keyring/stores';
+import { RemoteElectronStore } from './renderer/remote-electron-store';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 const theme = { theme: settings.uiTheme };
 
-const defaultStorePath = path.join((electron.app || electron.remote.app).getPath('userData'), 'polkadot');
-const store = new FileStore(defaultStorePath);
+const store = new RemoteElectronStore();
 
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
