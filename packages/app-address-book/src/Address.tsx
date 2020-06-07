@@ -24,7 +24,6 @@ interface Props {
   toggleFavorite: (address: string) => void;
 }
 
-const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true };
 const WITH_EXTENDED = { nonce: true };
 
 const isEditable = true;
@@ -233,8 +232,6 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       <td className='top'>
         <AddressInfo
           address={address}
-          withBalance={WITH_BALANCE}
-          withBalanceToggle
           withExtended={false}
         />
       </td>

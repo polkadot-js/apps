@@ -9,7 +9,8 @@ import { RecoveryConfig } from '@polkadot/types/interfaces';
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressInfo, AddressSmall, Badge, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Input } from '@polkadot/react-components';
+import { AddressSmall, Badge, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Input } from '@polkadot/react-components';
+import AddressInfo from './AddressInfoMvp';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -305,13 +306,6 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           withBalance
           withBalanceToggle
           withExtended={false}
-        />
-      </td>
-      <td className='top'>
-        <AddressInfo
-          address={address}
-          withBalance={false}
-          withExtended
         />
       </td>
       <td className='mini top'>

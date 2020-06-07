@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { Available } from '@polkadot/react-query';
+import Available from './Available';
 import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 

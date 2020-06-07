@@ -136,5 +136,10 @@
   "recoverey block delay": "recoverey block delay",
   "recovery threshold": "recovery threshold",
   "recovery block delay": "recovery block delay",
-  "(Advanced) Select the signature scheme for this account.": "(Advanced) Select the signature scheme for this account."
+  "(Advanced) Select the signature scheme for this account.": "(Advanced) Select the signature scheme for this account.",
+  "total": "total",
+  "balances": "balances",
+  "session keys": "session keys",
+  "session next": "session next",
+  "rewards": "rewards"
 }
