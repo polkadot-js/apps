@@ -72,6 +72,7 @@
   "Targets": "Targets",
   "The Threshold must be a positive number": "The Threshold must be a positive number",
   "The Threshold must lower than 11": "The Threshold must lower than 11",
+  "The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.": "The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.",
   "The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.": "The amount of funds to unbond, this is adjusted using the bonded funds on the stash account.",
   "The amount placed at-stake should be no more that 95% of your available amount to protect against slashing events.": "The amount placed at-stake should be no more that 95% of your available amount to protect against slashing events.",
   "The amount that will be used on a per-validator basis to calculate profits for that validator.": "The amount that will be used on a per-validator basis to calculate profits for that validator.",
