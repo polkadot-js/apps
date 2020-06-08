@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { formatBalance, isBn } from '@polkadot/util';
+import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
 import InputNumber from './InputNumber';
 
 interface Props extends BareProps {
@@ -33,12 +33,10 @@ interface Props extends BareProps {
 }
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
-const TEN = new BN(10);
-const THOUSAND = new BN(1000);
 
 function reformat (value: string | BN, isDisabled?: boolean): string {
   if (isBn(value)) {
-    let fmt = (value.mul(THOUSAND).div(TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
+    let fmt = (value.mul(BN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
 
     while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
       const isLast = fmt.endsWith('.');

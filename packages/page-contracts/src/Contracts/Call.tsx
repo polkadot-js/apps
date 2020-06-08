@@ -8,18 +8,17 @@ import { BareProps, StringOrNull } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useAccountId, useFormField, useNonZeroBn, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
-import { isNull } from '@polkadot/util';
+import { BN_ZERO, isNull } from '@polkadot/util';
 
-import { Params } from '../shared';
+import { InputMegaGas, Params } from '../shared';
 import Outcome from './Outcome';
-
 import { useTranslation } from '../translate';
-import { GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
+import useWeight from '../useWeight';
 
 interface Props extends BareProps {
   callContract: ApiContract | null;
@@ -37,12 +36,13 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
   const [accountId, setAccountId] = useAccountId();
-  const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(new BN(0));
-  const [gasLimit, isGasLimitValid, setGasLimit] = useNonZeroBn(new BN(GAS_LIMIT));
+  const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
   const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
+  const useWeightHook = useWeight();
+  const { isValid: isWeightValid, weight } = useWeightHook;
 
   useEffect((): void => {
     if (callContract && callMessageIndex) {
@@ -79,17 +79,17 @@ function Call (props: Props): React.ReactElement<Props> | null {
         return [];
       }
 
-      return [callContract.address.toString(), endowment, gasLimit, callMessage.fn(...params)];
+      return [callContract.address.toString(), endowment, weight, callMessage.fn(...params)];
     },
-    [accountId, callContract, callMessage, endowment, gasLimit, params]
+    [accountId, callContract, callMessage, endowment, weight, params]
   );
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !callContract || !callMessage || !endowment || !gasLimit) return;
+      if (!accountId || !callContract || !callMessage || !endowment || !weight) return;
 
       !!callContract && callContract
-        .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
+        .call('rpc', callMessage.def.name, endowment, weight, ...params)
         .send(accountId)
         .then(
           (outcome: ContractCallOutcome): void => {
@@ -97,7 +97,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
           }
         );
     },
-    [accountId, callContract, callMessage, endowment, gasLimit, outcomes, params]
+    [accountId, callContract, callMessage, endowment, weight, outcomes, params]
   );
 
   const _onClearOutcomes = useCallback(
@@ -113,8 +113,8 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 
   const isValid = useMemo(
-    (): boolean => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isGasLimitValid && isEndowmentValid,
-    [accountId, callContract, isEndowmentValid, isGasLimitValid]
+    (): boolean => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
+    [accountId, callContract, isEndowmentValid, isWeightValid]
   );
 
   if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
@@ -180,13 +180,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
               onChange={setEndowment}
               value={endowment}
             />
-            <InputNumber
-              bitLength={128}
+            <InputMegaGas
               help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-              isError={!isGasLimitValid}
               label={t<string>('maximum gas allowed')}
-              onChange={setGasLimit}
-              value={gasLimit && gasLimit}
+              {...useWeightHook}
             />
           </div>
         )}

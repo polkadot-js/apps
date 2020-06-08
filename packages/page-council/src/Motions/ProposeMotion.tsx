@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -95,7 +96,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
                   label={t<string>('threshold')}
                   onChange={_setThreshold}
                   placeholder={t<string>('Positive number between 1 and {{memberCount}}', { replace: { memberCount: members.length } })}
-                  value={threshold || new BN(0)}
+                  value={threshold || BN_ZERO}
                 />
               </Modal.Column>
               <Modal.Column>

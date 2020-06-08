@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import useFormField, { FormField } from './useFormField';
 
-export default function useNonZeroBn (initialValue: BN = new BN(0)): FormField<BN> {
+export default function useNonZeroBn (initialValue: BN = ZERO): FormField<BN> {
   return useFormField(
     initialValue,
     (value: BN): boolean => !value.isZero()

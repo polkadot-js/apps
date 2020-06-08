@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
-import { formatBalance } from '@polkadot/util';
+import { BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
 
 import { STORE_FAVS_BASE } from './constants';
 
@@ -63,9 +63,9 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedInfo: DeriveStakingElected, favorites: string[], lastReward = new BN(1)): Partial<SortedTargets> {
+function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedInfo: DeriveStakingElected, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
   const nominators: string[] = [];
-  let totalStaked = new BN(0);
+  let totalStaked = BN_ZERO;
   const perValidatorReward = lastReward.divn(electedInfo.info.length);
   const validators = sortValidators(
     electedInfo.info.map(({ accountId, exposure: _exposure, validatorPrefs }): ValidatorInfo => {
@@ -86,7 +86,7 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
       const rewardSplit = perValidatorReward.sub(validatorPayment);
       const rewardPayout = rewardSplit.gtn(0)
         ? amount.mul(rewardSplit).div(amount.add(bondTotal))
-        : new BN(0);
+        : BN_ZERO;
       const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
         const nominator = indv.who.toString();
 
@@ -105,7 +105,7 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
         bondOwn,
         bondShare: 0,
         bondTotal,
-        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || new BN(0)).toNumber() / 10_000_000),
+        commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
         isCommission: !!(prefs as ValidatorPrefs).commission,
         isFavorite: favorites.includes(key),
         isNominating,
@@ -134,7 +134,7 @@ export default function useSortedTargets (): SortedTargets {
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
   const lastEra = useCall<BN>(api.derive.session.indexes, [], {
-    transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : new BN(0)
+    transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : BN_ZERO
   });
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], {
     transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()

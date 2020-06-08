@@ -10,15 +10,16 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SubmittableResult } from '@polkadot/api';
-import { Dropdown, InputAddress, InputBalance, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useFormField, useNonEmptyString, useNonZeroBn, useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import { ABI, InputName, MessageSignature, Params } from './shared';
+import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
 import store from './store';
 import { useTranslation } from './translate';
 import useAbi from './useAbi';
-import { ENDOWMENT, GAS_LIMIT } from './constants';
+import useWeight from './useWeight';
+import { ENDOWMENT } from './constants';
 
 type CodeOptions = { text: string; value: string }[];
 type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
@@ -42,6 +43,8 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
   const { t } = useTranslation();
   const { api } = useApi();
   const history = useHistory();
+  const useWeightHook = useWeight();
+  const { isValid: isWeightValid, weight } = useWeightHook;
 
   const code = useMemo(
     (): CodeStored => store.getCode(codeHash),
@@ -49,13 +52,12 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
   );
   const [accountId, isAccountIdValid, setAccountId] = useFormField<StringOrNull>(null);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(new BN(ENDOWMENT));
-  const [gasLimit, isGasLimitValid, setGasLimit] = useNonZeroBn(new BN(GAS_LIMIT));
   const [name, isNameValid, setName] = useNonEmptyString(t(defaultContractName(code.json.name)));
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
 
   const isValid = useMemo(
-    (): boolean => isNameValid && isEndowmentValid && isGasLimitValid && isAccountIdValid,
-    [isAccountIdValid, isEndowmentValid, isGasLimitValid, isNameValid]
+    (): boolean => isNameValid && isEndowmentValid && isWeightValid && isAccountIdValid,
+    [isAccountIdValid, isEndowmentValid, isNameValid, isWeightValid]
   );
   const codeOptions = useMemo(
     (): CodeOptions => allCodes.map(({ json: { codeHash, name } }): { text: string; value: string } => ({
@@ -112,9 +114,9 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
         return [];
       }
 
-      return [endowment, gasLimit, codeHash, contractAbi.constructors[constructorIndex](...params)];
+      return [endowment, weight, codeHash, contractAbi.constructors[constructorIndex](...params)];
     },
-    [codeHash, constructorIndex, contractAbi, endowment, gasLimit, params]
+    [codeHash, constructorIndex, contractAbi, endowment, params, weight]
   );
 
   const _onSuccess = useCallback(
@@ -222,13 +224,10 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
           onChange={setEndowment}
           value={endowment}
         />
-        <InputNumber
-          bitLength={128}
+        <InputMegaGas
           help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-          isError={!isGasLimitValid}
           label={t<string>('maximum gas allowed')}
-          onChange={setGasLimit}
-          value={gasLimit}
+          {...useWeightHook}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>

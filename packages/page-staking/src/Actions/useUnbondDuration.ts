@@ -7,8 +7,7 @@ import { DeriveSessionInfo } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
-
-const ONE = new BN(1);
+import { BN_ONE } from '@polkadot/util';
 
 export default function useUnbondDuration (): BN | undefined {
   const { api } = useApi();
@@ -18,7 +17,7 @@ export default function useUnbondDuration (): BN | undefined {
   useEffect((): void => {
     // We check sessionLength, for aura this is not properly calculated (not exposed),
     // so the actual real block value would be invalid here
-    sessionInfo && sessionInfo.sessionLength.gt(ONE) && setDuration(
+    sessionInfo && sessionInfo.sessionLength.gt(BN_ONE) && setDuration(
       sessionInfo.eraLength.mul(api.consts.staking.bondingDuration)
     );
   }, [api, sessionInfo]);

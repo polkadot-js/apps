@@ -7,8 +7,7 @@ import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
-
-const ONE = new BN(1);
+import { BN_ONE } from '@polkadot/util';
 
 export default function useEraBlocks (era?: BN): BN | undefined {
   const { api } = useApi();
@@ -17,12 +16,12 @@ export default function useEraBlocks (era?: BN): BN | undefined {
   const [duration, setDuration] = useState<BN | undefined>();
 
   useEffect((): void => {
-    depth && era && progress && progress.sessionLength.gt(ONE) && setDuration(
+    depth && era && progress && progress.sessionLength.gt(BN_ONE) && setDuration(
       progress.eraLength
         .mul(
           depth
             .sub(progress.activeEra.sub(era))
-            .add(ONE)
+            .add(BN_ONE)
         )
         .sub(progress.eraProgress)
     );

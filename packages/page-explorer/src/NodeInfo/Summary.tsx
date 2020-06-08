@@ -4,11 +4,10 @@
 
 import { Info } from './types';
 
-import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
 import { BestNumber, Elapsed } from '@polkadot/react-query';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -17,12 +16,11 @@ interface Props {
   info: Info;
 }
 
-const ZERO = new BN(0);
 const EMPTY_INFO = { extrinsics: null, health: null, peers: null };
 
 function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefresh }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [peerBest, setPeerBest] = useState(ZERO);
+  const [peerBest, setPeerBest] = useState(BN_ZERO);
 
   useEffect((): void => {
     if (peers) {
@@ -31,7 +29,7 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
       setPeerBest(
         bestPeer
           ? bestPeer.bestNumber
-          : new BN(0)
+          : BN_ZERO
       );
     }
   }, [peers]);

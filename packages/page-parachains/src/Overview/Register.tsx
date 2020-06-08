@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
 import { useApi, useFormField, useModal } from '@polkadot/react-hooks';
 import { createType } from '@polkadot/types';
-import { u8aToHex, u8aToString } from '@polkadot/util';
+import { BN_THOUSAND, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Button, Dropdown, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
 
@@ -30,9 +30,7 @@ const schedulingOptions = [{
   value: 'Dynamic'
 }];
 
-const ONE_THOUSAND = new BN(1000);
-
-function Register ({ nextFreeId = ONE_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
+function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
