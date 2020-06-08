@@ -6,9 +6,9 @@ import { BareProps } from './types';
 
 import React from 'react';
 import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
-import { useToggle } from '@polkadot/react-hooks';
+// import { useToggle } from '@polkadot/react-hooks';
 
-import Button from './Button';
+// import Button from './Button';
 import Input from './Input';
 
 interface Props extends BareProps {
@@ -31,7 +31,7 @@ interface Props extends BareProps {
 }
 
 function Password ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
-  const [isVisible, toggleVisible] = useToggle();
+  // const [isVisible, toggleVisible] = useToggle();
 
   return (
     <Input
@@ -39,7 +39,6 @@ function Password ({ autoFocus, children, className = '', defaultValue, help, is
       className={`ui--Password ${className}`}
       defaultValue={defaultValue}
       help={help}
-      isAction
       isDisabled={isDisabled}
       isError={isError}
       isFull={isFull}
@@ -51,22 +50,23 @@ function Password ({ autoFocus, children, className = '', defaultValue, help, is
       onEnter={onEnter}
       onEscape={onEscape}
       tabIndex={tabIndex}
-      type={
-        isVisible
-          ? 'text'
-          : 'password'
-      }
+      // type={
+      //   isVisible
+      //     ? 'text'
+      //     : 'password'
+      // }
+      type='password'
       value={value}
       withLabel={withLabel}
     >
-      <Button
+      {/* <Button
         icon={
           isVisible
             ? 'hide'
             : 'unhide'
         }
         onClick={toggleVisible}
-      />
+      /> */}
       {children}
     </Input>
   );
