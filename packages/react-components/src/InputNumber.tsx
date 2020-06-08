@@ -82,7 +82,8 @@ function getSiPowers (si: SiDef | null): [BN, number, number] {
     return [ZERO, 0, 0];
   }
 
-  const basePower = formatBalance.getDefaults().decimals;
+  // const basePower = formatBalance.getDefaults().decimals;
+  const basePower = 4; // TODO: fetch the value from chain
 
   return [new BN(basePower + si.power), basePower, si.power];
 }
