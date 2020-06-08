@@ -4,8 +4,9 @@
 
 import BN from 'bn.js';
 import useFormField, { FormField } from './useFormField';
+import { BN_ZERO } from '@polkadot/util';
 
-export default function useNonZeroBn (initialValue: BN = ZERO): FormField<BN> {
+export default function useNonZeroBn (initialValue: BN = BN_ZERO): FormField<BN> {
   return useFormField(
     initialValue,
     (value: BN): boolean => !value.isZero()
