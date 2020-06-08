@@ -46,13 +46,8 @@ export interface GroupProps extends BareProps {
   isCentered?: boolean;
 }
 
-export type GroupType = React.ComponentType<GroupProps> & {
-  Divider: React.ComponentType<DividerProps>;
-};
-
 export type ButtonType = React.ComponentType<ButtonProps> & {
   Content: React.ComponentType<ContentProps>;
-  Divider: React.ComponentType<DividerProps>;
-  Group: GroupType;
+  Group: React.ComponentType<GroupProps>;
   Or: React.ComponentType<BareProps>;
 };
