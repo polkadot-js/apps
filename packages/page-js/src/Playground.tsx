@@ -66,6 +66,9 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
       : null,
     setIsRunning,
     types,
+    uiKeyring: isDevelopment
+      ? uiKeyring
+      : null,
     util
   };
 }
