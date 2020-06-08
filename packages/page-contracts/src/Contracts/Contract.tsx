@@ -89,6 +89,7 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
         value={address}
         withBalance={false}
         withNonce={false}
+        withTags
       >
         <Expander summary={t<string>('Messages')}>
           <Messages
