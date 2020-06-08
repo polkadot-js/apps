@@ -62,6 +62,7 @@ interface State {
   signedTx?: string;
   tip?: BN;
   unlockError?: string | null;
+  whoFiltered: string[] | null;
 }
 
 interface AccountFlags {
@@ -133,7 +134,8 @@ const initialState: State = {
   qrPayload: new Uint8Array(),
   showTip: false,
   signedTx: '',
-  unlockError: null
+  unlockError: null,
+  whoFiltered: null
 };
 
 class Signer extends React.PureComponent<Props, State> {
@@ -164,13 +166,13 @@ class Signer extends React.PureComponent<Props, State> {
       isSendable,
       ...(isSame
         ? { multiCall, password, unlockError }
-        : { multiCall: false, password: '', signatory: null, unlockError: null }
+        : { multiCall: false, password: '', signatory: null, unlockError: null, whoFiltered: null }
       )
     };
   }
 
   public async componentDidUpdate (): Promise<void> {
-    const { accountNonce, currentItem, isSendable, isSubmit } = this.state;
+    const { accountNonce, currentItem, isSendable, isSubmit, whoFiltered } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       return this.sendRpc(currentItem);
@@ -181,7 +183,7 @@ class Signer extends React.PureComponent<Props, State> {
         this.updateNonce().catch(console.error);
       }
 
-      if (isSendable) {
+      if (isSendable && !whoFiltered) {
         const { isMultisig } = extractExternal(currentItem.accountId);
 
         if (isMultisig) {
@@ -316,7 +318,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderSignatory (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, multiCall } = this.state;
+    const { currentItem, multiCall, whoFiltered } = this.state;
     const { isMultisig, who } = currentItem
       ? extractExternal(currentItem.accountId)
       : { isMultisig: false, who: [] };
@@ -330,7 +332,7 @@ class Signer extends React.PureComponent<Props, State> {
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              filter={who}
+              filter={whoFiltered || who}
               help={t<string>('The multisig signatory for this transaction.')}
               label={t<string>('signatory')}
               onChange={this.onChangeSignatory}
@@ -633,12 +635,15 @@ class Signer extends React.PureComponent<Props, State> {
 
     if (currentItem?.accountId && currentItem?.extrinsic) {
       const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-      const { threshold } = extractExternal(currentItem.accountId);
+      const { threshold, who } = extractExternal(currentItem.accountId);
       const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(currentItem.accountId, currentItem.extrinsic.method.hash);
       const multi = optMulti.unwrapOr(null);
 
-      if (multi && ((multi.approvals.length + 1) >= threshold)) {
-        this.setState({ multiCall: true });
+      if (multi) {
+        this.setState({
+          multiCall: ((multi.approvals.length + 1) >= threshold),
+          whoFiltered: who.filter((w) => !multi.approvals.some((a) => a.eq(w)))
+        });
       }
     }
   }
