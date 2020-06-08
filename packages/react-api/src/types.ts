@@ -60,3 +60,5 @@ export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
 };
 
 export type Formatter = (value?: any) => string;
+
+export type Environment = 'web' | 'app';

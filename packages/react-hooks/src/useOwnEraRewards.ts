@@ -20,7 +20,7 @@ function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][
   const allRewards: Record<string, DeriveStakerReward[]> = {};
 
   stashIds.forEach((stashId, index): void => {
-    allRewards[stashId] = available[index];
+    allRewards[stashId] = available[index].filter(({ eraReward }) => !eraReward.isZero());
   });
 
   return {

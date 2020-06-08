@@ -17,6 +17,7 @@ import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../../translate';
 import CreateConfirmation from './CreateConfirmation';
@@ -132,7 +133,6 @@ export function downloadAccount ({ json, pair }: CreateResult): void {
   const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
   FileSaver.saveAs(blob, `${pair.address}.json`);
-  InputAddress.setLastValue('account', pair.address);
 }
 
 function createAccount (suri: string, pairType: KeypairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
@@ -147,7 +147,11 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
     status.status = 'success';
     status.message = success;
 
-    downloadAccount(result);
+    InputAddress.setLastValue('account', address);
+
+    if (getEnvironment() === 'web') {
+      downloadAccount(result);
+    }
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;

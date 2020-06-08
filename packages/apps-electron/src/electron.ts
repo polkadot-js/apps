@@ -16,7 +16,7 @@ function createWindow (): Promise<unknown> {
   const win = new BrowserWindow({
     height,
     webPreferences: {
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       nodeIntegration: true
     },
     width

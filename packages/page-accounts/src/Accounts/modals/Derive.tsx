@@ -64,6 +64,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
     status.message = success;
 
     downloadAccount(result);
+    InputAddress.setLastValue('account', address);
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;

@@ -6,6 +6,7 @@ import { H256, Multisig } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 
@@ -25,6 +26,7 @@ interface Option {
 
 function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [multisig, setMultisig] = useState<[H256, Multisig] | null>(null);
   const [signatory, setSignatory] = useState<string | null>(null);
@@ -82,11 +84,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           label={type === 'aye' ? 'Approve' : 'Reject'}
           onStart={onClose}
           params={[threshold, who.filter((who) => who !== signatory), multisig ? multisig[1].when : null, hash]}
-          tx={
-            type === 'aye'
-              ? 'utility.approveAsMulti'
-              : 'utility.cancelAsMulti'
-          }
+          tx={`${api.tx.multisig ? 'multisig' : 'utility'}.${type === 'aye' ? 'approveAsMulti' : 'cancelAsMulti'}`}
         />
       </Modal.Actions>
     </Modal>
