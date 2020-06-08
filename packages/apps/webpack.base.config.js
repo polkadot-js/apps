@@ -17,7 +17,7 @@ function createWebpack (ENV, context) {
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
   const plugins = hasPublic
-    ? [new CopyWebpackPlugin([{ from: 'public' }])]
+    ? [new CopyWebpackPlugin({ patterns: [{ from: 'public' }] })]
     : [];
 
   !isProd && plugins.push(

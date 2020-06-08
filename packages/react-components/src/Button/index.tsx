@@ -6,13 +6,11 @@ import { ButtonType } from './types';
 
 import IButton from './Button';
 import Content from './Content';
-import Divider from './Divider';
 import Group from './Group';
 
 const Button = IButton as unknown as ButtonType;
 
 Button.Content = Content;
-Button.Divider = Divider;
 Button.Group = Group;
 
 export default Button;

@@ -40,6 +40,7 @@ const ZERO_FEES_CONTRACT: DeriveContractFees = {
   creationFee: BN_ZERO,
   rentByteFee: BN_ZERO,
   rentDepositOffset: BN_ZERO,
+  surchargeReward: BN_ZERO,
   tombstoneDeposit: BN_ZERO,
   transactionBaseFee: BN_ZERO,
   transactionByteFee: BN_ZERO,
