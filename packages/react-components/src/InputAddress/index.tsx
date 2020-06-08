@@ -49,6 +49,7 @@ type ExportedType = React.ComponentType<Props> & {
 };
 
 interface State {
+  lastValue?: string;
   value?: string | string[];
 }
 
@@ -140,7 +141,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const lastValue = getLastValue(type);
+    const lastValue = this.getLastValue();
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
@@ -238,6 +239,21 @@ class InputAddress extends React.PureComponent<Props, State> {
           .filter((address): string => address as string) as string[]
       );
     }
+  }
+
+  private getLastValue (): string {
+    const { type } = this.props;
+    const { lastValue: stateLast } = this.state;
+
+    if (stateLast) {
+      return stateLast;
+    }
+
+    const lastValue = getLastValue(type);
+
+    this.setState({ lastValue });
+
+    return lastValue;
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
