@@ -96,7 +96,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
             onChange={setTags}
             onSave={onSaveTags}
             onToggleIsEditing={toggleIsEditingTags}
-            size='small'
+            size='tiny'
             value={tags}
           />
         </div>

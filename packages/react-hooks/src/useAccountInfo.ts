@@ -159,10 +159,6 @@ export default function useAccountInfo (value: string | null, isContract = false
 
   const onSaveTags = useCallback(
     (): void => {
-      if (isEditingTags) {
-        toggleIsEditingTags();
-      }
-
       const meta = { tags, whenEdited: Date.now() };
 
       if (isContract) {
@@ -185,7 +181,7 @@ export default function useAccountInfo (value: string | null, isContract = false
         }
       }
     },
-    [isContract, isEditingTags, tags, toggleIsEditingTags, value]
+    [isContract, tags, value]
   );
 
   const onForgetAddress = useCallback(

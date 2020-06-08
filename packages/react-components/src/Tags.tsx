@@ -46,6 +46,7 @@ function Tags ({ children, className, color = 'grey', isEditable, isEditing, onC
 
   const _onSave = useCallback(
     (): void => {
+      console.log('_onSave');
       onSave && onSave();
       onToggleIsEditing && onToggleIsEditing();
     },
