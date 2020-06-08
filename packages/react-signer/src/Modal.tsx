@@ -170,14 +170,24 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   public async componentDidUpdate (): Promise<void> {
-    const { accountNonce, currentItem, isSubmit } = this.state;
+    const { accountNonce, currentItem, isSendable, isSubmit } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       return this.sendRpc(currentItem);
     }
 
-    if (!isSubmit && currentItem?.accountId && accountNonce == null) {
-      this.updateNonce().catch(console.error);
+    if (currentItem?.accountId) {
+      if (!isSubmit && accountNonce == null) {
+        this.updateNonce().catch(console.error);
+      }
+
+      if (isSendable) {
+        const { isMultisig } = extractExternal(currentItem.accountId);
+
+        if (isMultisig) {
+          this.checkMultisig().catch(console.error);
+        }
+      }
     }
   }
 
@@ -616,6 +626,22 @@ class Signer extends React.PureComponent<Props, State> {
 
     this.setState({ accountNonce, nonce: accountNonce });
   };
+
+  private checkMultisig = async (): Promise<void> => {
+    const { api } = this.props;
+    const { currentItem } = this.state;
+
+    if (currentItem?.accountId && currentItem?.extrinsic) {
+      const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+      const { threshold } = extractExternal(currentItem.accountId);
+      const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(currentItem.accountId, currentItem.extrinsic.method.hash);
+      const multi = optMulti.unwrapOr(null);
+
+      if (multi && ((multi.approvals.length + 1) >= threshold)) {
+        this.setState({ multiCall: true });
+      }
+    }
+  }
 
   private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
     return new Promise((resolve, reject): void => {

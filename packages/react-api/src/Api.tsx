@@ -37,6 +37,7 @@ interface InjectedAccountExt {
   meta: {
     name: string;
     source: string;
+    whenCreated: number;
   };
 }
 
@@ -73,11 +74,12 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
     api.rpc.system.version(),
     injectedPromise
       .then(() => web3Accounts())
-      .then((accounts) => accounts.map(({ address, meta }): InjectedAccountExt => ({
+      .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
         address,
         meta: {
           ...meta,
-          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
+          whenCreated
         }
       })))
       .catch((error): InjectedAccountExt[] => {

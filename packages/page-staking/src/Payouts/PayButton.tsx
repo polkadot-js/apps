@@ -12,6 +12,8 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
+const MAX_BATCH_SIZE = 40;
+
 interface Props {
   isAll?: boolean;
   isDisabled?: boolean;
@@ -29,7 +31,7 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
         calls.concat(
           ...eras.map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
         ), []
-      ).filter((_, index) => index < 40)
+      ).filter((_, index) => index < MAX_BATCH_SIZE)
     );
   }
 
@@ -38,7 +40,9 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
   return eras.length === 1
     ? api.tx.staking.payoutStakers(validatorId, eras[0].era)
     : api.tx.utility.batch(
-      eras.map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
+      eras
+        .map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
+        .filter((_, index) => index < MAX_BATCH_SIZE)
     );
 }
 
@@ -105,6 +109,7 @@ function PayButton ({ isAll, isDisabled, payout }: Props): React.ReactElement<Pr
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('All the listed validators and all their nominators will receive their rewards.')}</p>
+                <p>{t<string>('The UI puts a limit of 40 payouts at a time, where each payout is a single validator for a single era.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
