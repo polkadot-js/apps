@@ -505,6 +505,14 @@ class Signer extends React.PureComponent<Props, State> {
       return null;
     }
 
+    if (isMultisig) {
+      const { isExternal, isHardware } = extractExternal(signatory);
+
+      if (isExternal || isHardware) {
+        return null;
+      }
+    }
+
     return (
       <Unlock
         autoFocus
