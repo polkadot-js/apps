@@ -72,7 +72,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
-  const multiInfos = useCall<[H256, Multisig][]>(multiInc && api.api.query.utility?.multisigs.entries as any, [address], {
+  const multiInfos = useCall<[H256, Multisig][]>(multiInc && (api.api.query.multisig || api.api.query.utility)?.multisigs.entries as any, [address], {
     transform: (infos: [StorageKey, Option<Multisig>][]): [H256, Multisig][] =>
       infos
         .filter(([, opt]) => opt.isSome)
