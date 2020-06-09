@@ -46,7 +46,6 @@ function Tags ({ children, className, color = 'grey', isEditable, isEditing, onC
 
   const _onSave = useCallback(
     (): void => {
-      console.log('_onSave');
       onSave && onSave();
       onToggleIsEditing && onToggleIsEditing();
     },
@@ -61,6 +60,7 @@ function Tags ({ children, className, color = 'grey', isEditable, isEditing, onC
             defaultValue={value}
             onBlur={_onSave}
             onChange={onChange}
+            onClose={_onSave}
             openOnFocus
             searchInput={{ autoFocus: true }}
             value={value}
