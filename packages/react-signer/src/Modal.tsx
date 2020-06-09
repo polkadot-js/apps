@@ -756,7 +756,9 @@ class Signer extends React.PureComponent<Props, State> {
 
     if (basePair.meta.isMultisig) {
       const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-      const others = (basePair.meta.who as string[]).filter((who: string) => who !== signatory);
+      const others = (basePair.meta.who as string[])
+        .map((w) => keyring.encodeAddress(keyring.decodeAddress(w)))
+        .filter((w) => w !== signatory);
       const info = await api.query[multiModule].multisigs<Option<Multisig>>(accountId as string, submittable.method.hash);
       let timepoint: Timepoint | null = null;
 
