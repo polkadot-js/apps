@@ -33,17 +33,17 @@ export default React.memo(styled(Body)`
   background: white;
 
   td {
-    // border-top: 1px solid #ececec;
+    // border-top: 1px solid #e4e6e8;
     padding: 0.75rem 1rem;
     text-align: left;
     vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid #ececec;
+      border-left: 1px solid #e4e6e8;
     }
 
     &:last-child {
-      border-right: 1px solid #ececec;
+      border-right: 1px solid #e4e6e8;
     }
 
     label {
@@ -143,7 +143,7 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #fafafa;
+      background: #f8f8f8;
     }
 
     // &.isHighlight {
@@ -157,11 +157,11 @@ export default React.memo(styled(Body)`
     // }
 
     &:first-child td {
-      border-top: 1px solid #ececec;
+      border-top: 1px solid #e4e6e8;
     }
 
     &:last-child td {
-      border-bottom: 1px solid #ececec;
+      border-bottom: 1px solid #e4e6e8;
     }
 
     &:first-child {
