@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import TechComm, { useCounter } from '@polkadot/app-tech-comm';
+import RootComm, { useCounter } from '@polkadot/app-root-comm';
 
 export default function create(t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: TechComm,
+    Component: RootComm,
     display: {
       needsAccounts: true,
       needsApi: [

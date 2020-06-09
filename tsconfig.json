@@ -8,65 +8,195 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@polkadot/apps/*": ["packages/apps/src/*"],
-      "@polkadot/apps": ["packages/apps/src"],
-      "@polkadot/apps-config/*": [ "packages/apps-config/src/*" ],
-      "@polkadot/apps-routing": [ "packages/apps-routing/src" ],
-      "@polkadot/apps-routing/*": [ "packages/apps-routing/src/*" ],
-      "@polkadot/app-123code": [ "packages/page-123code/src" ],
-      "@polkadot/app-123code/*": [ "packages/page-123code/src/*" ],
-      "@polkadot/app-accounts": [ "packages/page-accounts/src" ],
-      "@polkadot/app-accounts/*": [ "packages/page-accounts/src/*" ],
-      "@polkadot/app-claims": [ "packages/page-claims/src" ],
-      "@polkadot/app-claims/*": [ "packages/page-claims/src/*" ],
-      "@polkadot/app-contracts": [ "packages/page-contracts/src" ],
-      "@polkadot/app-contracts/*": [ "packages/page-contracts/src/*" ],
-      "@polkadot/app-council": [ "packages/page-council/src" ],
-      "@polkadot/app-council/*": [ "packages/page-council/src/*" ],
-      "@polkadot/app-dashboard": [ "packages/page-dashboard/src" ],
-      "@polkadot/app-dashboard/*": [ "packages/page-dashboard/src/*" ],
-      "@polkadot/app-democracy": [ "packages/page-democracy/src" ],
-      "@polkadot/app-democracy/*": [ "packages/page-democracy/src/*" ],
-      "@polkadot/app-extrinsics": [ "packages/page-extrinsics/src" ],
-      "@polkadot/app-extrinsics/*": [ "packages/page-extrinsics/src/*" ],
-      "@polkadot/app-explorer": [ "packages/page-explorer/src" ],
-      "@polkadot/app-explorer/*": [ "packages/page-explorer/src/*" ],
-      "@polkadot/app-generic-asset": [ "packages/page-generic-asset/src" ],
-      "@polkadot/app-generic-asset/*": [ "packages/page-generic-asset/src/*" ],
-      "@polkadot/app-i18n": [ "packages/page-i18n/src" ],
-      "@polkadot/app-i18n/*": [ "packages/page-i18n/src/*" ],
-      "@polkadot/app-js": [ "packages/page-js/src" ],
-      "@polkadot/app-js/*": [ "packages/page-js/src/*" ],
-      "@polkadot/app-parachains": [ "packages/page-parachains/src" ],
-      "@polkadot/app-parachains/*": [ "packages/page-parachains/src/*" ],
-      "@polkadot/app-settings": [ "packages/page-settings/src" ],
-      "@polkadot/app-settings/*": [ "packages/page-settings/src/*" ],
-      "@polkadot/app-society": [ "packages/page-society/src" ],
-      "@polkadot/app-society/*": [ "packages/page-society/src/*" ],
-      "@polkadot/app-staking": [ "packages/page-staking/src" ],
-      "@polkadot/app-staking/*": [ "packages/page-staking/src/*" ],
-      "@polkadot/app-storage": [ "packages/page-storage/src" ],
-      "@polkadot/app-storage/*": [ "packages/page-storage/src/*" ],
-      "@polkadot/app-sudo": [ "packages/page-sudo/src" ],
-      "@polkadot/app-sudo/*": [ "packages/page-sudo/src/*" ],
-      "@polkadot/app-tech-comm": [ "packages/page-tech-comm/src" ],
-      "@polkadot/app-tech-comm/*": [ "packages/page-tech-comm/src/*" ],
-      "@polkadot/app-toolbox": [ "packages/page-toolbox/src" ],
-      "@polkadot/app-toolbox/*": [ "packages/page-toolbox/src/*" ],
-      "@polkadot/app-treasury": [ "packages/page-treasury/src" ],
-      "@polkadot/app-treasury/*": [ "packages/page-treasury/src/*" ],
-      "@polkadot/react-api": [ "packages/react-api/src" ],
-      "@polkadot/react-api/*": [ "packages/react-api/src/*" ],
-      "@polkadot/react-components": [ "packages/react-components/src" ],
-      "@polkadot/react-components/*": [ "packages/react-components/src/*" ],
-      "@polkadot/react-hooks": [ "packages/react-hooks/src" ],
-      "@polkadot/react-hooks/*": [ "packages/react-hooks/src/*" ],
-      "@polkadot/react-params": [ "packages/react-params/src" ],
-      "@polkadot/react-params/*": [ "packages/react-params/src/*" ],
-      "@polkadot/react-query": [ "packages/react-query/src" ],
-      "@polkadot/react-query/*": [ "packages/react-query/src/*" ],
-      "@polkadot/react-signer": [ "packages/react-signer/src" ],
-      "@polkadot/react-signer/*": [ "packages/react-signer/src/*" ]
+      "@polkadot/apps/*": [
+        "packages/apps/src/*"
+      ],
+      "@polkadot/apps": [
+        "packages/apps/src"
+      ],
+      "@polkadot/apps-config/*": [
+        "packages/apps-config/src/*"
+      ],
+      "@polkadot/apps-routing": [
+        "packages/apps-routing/src"
+      ],
+      "@polkadot/apps-routing/*": [
+        "packages/apps-routing/src/*"
+      ],
+      "@polkadot/app-123code": [
+        "packages/page-123code/src"
+      ],
+      "@polkadot/app-123code/*": [
+        "packages/page-123code/src/*"
+      ],
+      "@polkadot/app-accounts": [
+        "packages/page-accounts/src"
+      ],
+      "@polkadot/app-accounts/*": [
+        "packages/page-accounts/src/*"
+      ],
+      "@polkadot/app-claims": [
+        "packages/page-claims/src"
+      ],
+      "@polkadot/app-claims/*": [
+        "packages/page-claims/src/*"
+      ],
+      "@polkadot/app-contracts": [
+        "packages/page-contracts/src"
+      ],
+      "@polkadot/app-contracts/*": [
+        "packages/page-contracts/src/*"
+      ],
+      "@polkadot/app-council": [
+        "packages/page-council/src"
+      ],
+      "@polkadot/app-council/*": [
+        "packages/page-council/src/*"
+      ],
+      "@polkadot/app-dashboard": [
+        "packages/page-dashboard/src"
+      ],
+      "@polkadot/app-dashboard/*": [
+        "packages/page-dashboard/src/*"
+      ],
+      "@polkadot/app-democracy": [
+        "packages/page-democracy/src"
+      ],
+      "@polkadot/app-democracy/*": [
+        "packages/page-democracy/src/*"
+      ],
+      "@polkadot/app-extrinsics": [
+        "packages/page-extrinsics/src"
+      ],
+      "@polkadot/app-extrinsics/*": [
+        "packages/page-extrinsics/src/*"
+      ],
+      "@polkadot/app-explorer": [
+        "packages/page-explorer/src"
+      ],
+      "@polkadot/app-explorer/*": [
+        "packages/page-explorer/src/*"
+      ],
+      "@polkadot/app-generic-asset": [
+        "packages/page-generic-asset/src"
+      ],
+      "@polkadot/app-generic-asset/*": [
+        "packages/page-generic-asset/src/*"
+      ],
+      "@polkadot/app-i18n": [
+        "packages/page-i18n/src"
+      ],
+      "@polkadot/app-i18n/*": [
+        "packages/page-i18n/src/*"
+      ],
+      "@polkadot/app-js": [
+        "packages/page-js/src"
+      ],
+      "@polkadot/app-js/*": [
+        "packages/page-js/src/*"
+      ],
+      "@polkadot/app-parachains": [
+        "packages/page-parachains/src"
+      ],
+      "@polkadot/app-parachains/*": [
+        "packages/page-parachains/src/*"
+      ],
+      "@polkadot/app-settings": [
+        "packages/page-settings/src"
+      ],
+      "@polkadot/app-settings/*": [
+        "packages/page-settings/src/*"
+      ],
+      "@polkadot/app-society": [
+        "packages/page-society/src"
+      ],
+      "@polkadot/app-society/*": [
+        "packages/page-society/src/*"
+      ],
+      "@polkadot/app-staking": [
+        "packages/page-staking/src"
+      ],
+      "@polkadot/app-staking/*": [
+        "packages/page-staking/src/*"
+      ],
+      "@polkadot/app-storage": [
+        "packages/page-storage/src"
+      ],
+      "@polkadot/app-storage/*": [
+        "packages/page-storage/src/*"
+      ],
+      "@polkadot/app-sudo": [
+        "packages/page-sudo/src"
+      ],
+      "@polkadot/app-sudo/*": [
+        "packages/page-sudo/src/*"
+      ],
+      "@polkadot/app-tech-comm": [
+        "packages/page-tech-comm/src"
+      ],
+      "@polkadot/app-tech-comm/*": [
+        "packages/page-tech-comm/src/*"
+      ],
+      "@polkadot/app-finance-comm": [
+        "packages/page-finance-comm/src"
+      ],
+      "@polkadot/app-finance-comm/*": [
+        "packages/page-finance-comm/src/*"
+      ],
+      "@polkadot/app-root-comm": [
+        "packages/page-root-comm/src"
+      ],
+      "@polkadot/app-root-comm/*": [
+        "packages/page-root-comm/src/*"
+      ],
+      "@polkadot/app-toolbox": [
+        "packages/page-toolbox/src"
+      ],
+      "@polkadot/app-toolbox/*": [
+        "packages/page-toolbox/src/*"
+      ],
+      "@polkadot/app-treasury": [
+        "packages/page-treasury/src"
+      ],
+      "@polkadot/app-treasury/*": [
+        "packages/page-treasury/src/*"
+      ],
+      "@polkadot/react-api": [
+        "packages/react-api/src"
+      ],
+      "@polkadot/react-api/*": [
+        "packages/react-api/src/*"
+      ],
+      "@polkadot/react-components": [
+        "packages/react-components/src"
+      ],
+      "@polkadot/react-components/*": [
+        "packages/react-components/src/*"
+      ],
+      "@polkadot/react-hooks": [
+        "packages/react-hooks/src"
+      ],
+      "@polkadot/react-hooks/*": [
+        "packages/react-hooks/src/*"
+      ],
+      "@polkadot/react-params": [
+        "packages/react-params/src"
+      ],
+      "@polkadot/react-params/*": [
+        "packages/react-params/src/*"
+      ],
+      "@polkadot/react-query": [
+        "packages/react-query/src"
+      ],
+      "@polkadot/react-query/*": [
+        "packages/react-query/src/*"
+      ],
+      "@polkadot/react-signer": [
+        "packages/react-signer/src"
+      ],
+      "@polkadot/react-signer/*": [
+        "packages/react-signer/src/*"
+      ]
     },
     "skipLibCheck": true,
     "typeRoots": [

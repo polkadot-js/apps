@@ -19,7 +19,7 @@ interface State {
   remainingBlocks: BN | null;
 }
 
-function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee'): State {
+function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee' | 'financialCommittee' | 'rootCommittee'): State {
   if (!votes.end) {
     return {
       hasFailed: false,
@@ -47,7 +47,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
+export default function useVotingStatus(votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee' | 'financialCommittee' | 'rootCommittee'): State {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const [state, setState] = useState<State>({ hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null });

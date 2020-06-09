@@ -12,7 +12,7 @@ interface Result {
   members: string[];
 }
 
-export default function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
+export default function useMembers(collective: 'council' | 'technicalCommittee' | 'financialCommittee' | 'rootCommittee' = 'council'): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const [state, setState] = useState<Result>({ isMember: false, members: [] });
