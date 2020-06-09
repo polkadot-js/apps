@@ -35,10 +35,10 @@
   "resolutions": {
     "@polkadot/api": "^1.18.1",
     "@polkadot/api-contract": "^1.18.1",
-    "@polkadot/keyring": "^2.13.1",
+    "@polkadot/keyring": "^2.14.0-beta.0",
     "@polkadot/types": "^1.18.1",
-    "@polkadot/util": "^2.13.1",
-    "@polkadot/util-crypto": "^2.13.1",
+    "@polkadot/util": "^2.14.0-beta.0",
+    "@polkadot/util-crypto": "^2.14.0-beta.0",
     "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
@@ -80,7 +80,7 @@
     "@babel/register": "^7.10.1",
     "@babel/runtime": "^7.10.2",
     "@pinata/sdk": "^1.1.10",
-    "@polkadot/dev": "^0.55.8",
+    "@polkadot/dev": "^0.55.9",
     "@polkadot/ts": "^0.3.26",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.21",
