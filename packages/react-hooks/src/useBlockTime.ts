@@ -25,7 +25,7 @@ export default function useBlockTime (blocks = BN_ONE): Result {
         api.consts.babe?.expectedBlockTime ||
         api.consts.timestamp?.minimumPeriod.muln(2) ||
         DEFAULT_TIME
-      ).divn(1000);
+      );
 
       return [
         blockTime.toNumber(),
