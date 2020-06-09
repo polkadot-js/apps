@@ -22,7 +22,7 @@ export default function useWeight (initialValue: BN = BN_MILLION): UseWeight {
 
       const weight = megaGas.mul(BN_MILLION);
       const executionTime = megaGas.toNumber() / 1e6;
-      const percentage = Math.round((executionTime / blockTime) * 100);
+      const percentage = Math.round((executionTime / (blockTime / 1000)) * 100);
       const isValid = !megaGas.isZero() && percentage < 100;
 
       return [executionTime, isValid, percentage, weight];
