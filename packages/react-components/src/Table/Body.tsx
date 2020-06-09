@@ -33,18 +33,18 @@ export default React.memo(styled(Body)`
   background: white;
 
   td {
-    // border-top: 1px solid #e6e6e6;
+    // border-top: 1px solid #ececec;
     padding: 0.75rem 1rem;
     text-align: left;
     vertical-align: middle;
 
-    // &:first-child {
-    //   border-left: 1px solid #e6e6e6;
-    // }
+    &:first-child {
+      border-left: 1px solid #ececec;
+    }
 
-    // &:last-child {
-    //   border-right: 1px solid #e6e6e6;
-    // }
+    &:last-child {
+      border-right: 1px solid #ececec;
+    }
 
     label {
       display: block !important;
@@ -74,7 +74,6 @@ export default React.memo(styled(Body)`
 
     &.address {
       min-width: 11rem;
-      padding: 0.85rem 1rem;
     }
 
     &.badge {
@@ -157,13 +156,13 @@ export default React.memo(styled(Body)`
     //   }
     // }
 
-    // &:first-child td {
-    //   border-top: 1px solid #e6e6e6;
-    // }
+    &:first-child td {
+      border-top: 1px solid #ececec;
+    }
 
-    // &:last-child td {
-    //   border-bottom: 1px solid #e6e6e6;
-    // }
+    &:last-child td {
+      border-bottom: 1px solid #ececec;
+    }
 
     &:first-child {
       td:first-child {
