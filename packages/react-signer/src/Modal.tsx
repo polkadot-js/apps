@@ -21,7 +21,7 @@ import { Button, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import { assert, isFunction } from '@polkadot/util';
+import { BN_ZERO, assert, isFunction } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 import { format } from '@polkadot/util/logger';
 
@@ -388,7 +388,7 @@ class Signer extends React.PureComponent<Props, State> {
           />
           {showTip && (
             <InputBalance
-              defaultValue={new BN(0)}
+              defaultValue={BN_ZERO}
               help={t<string>('Add a tip to this extrinsic, paying the block author for greater priority')}
               isDisabled={!!signedTx}
               isZeroable
@@ -484,11 +484,11 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private onChangeNonce = (value?: BN): void => {
-    this.setState({ nonce: value || new BN(0) });
+    this.setState({ nonce: value || BN_ZERO });
   }
 
   private onChangeBlocks = (value?: BN): void => {
-    this.setState({ blocks: value || new BN(0) });
+    this.setState({ blocks: value || BN_ZERO });
   }
 
   private onChangeSignatory = (signatory?: string | null): void => {

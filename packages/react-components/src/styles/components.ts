@@ -83,6 +83,18 @@ export default css`
       }
     }
 
+    &.inPlaceEditor {
+      margin: 0 !important;
+
+      input {
+        padding: 0 !important;
+        background: rgba(230, 230, 230, 0.8) !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: 0 3px 3px rgba(0,0,0,.2);
+      }
+    }
+
     .ui--SiDropdown {
       width: 6rem;
       text-align: center;

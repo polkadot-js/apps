@@ -3,47 +3,23 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
 import { displayType } from '@polkadot/types';
 
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
 const MAX_PARAM_LENGTH = 20;
 
-export interface Props {
+export interface Props extends BareProps {
   asConstructor?: boolean;
   message: ContractABIMessage;
   params?: any[];
   withTooltip?: boolean;
 }
-
-const Signature = styled.div`
-  font-family: monospace;
-  font-weight: normal;
-  flex-grow: 1;
-
-  .mutates {
-    color: #ff8600;
-    margin-left: 0.5rem;
-    opacity: 0.6;
-  }
-`;
-
-const Name = styled.span`
-  color: #2f8ddb;
-  font-weight: bold;
-`;
-
-const Type = styled.span`
-  color: #21a2b2;
-`;
-
-const ReturnType = styled.span`
-  color: #ff8600;
-`;
 
 function truncate (param: string): string {
   return param.length > MAX_PARAM_LENGTH
@@ -51,26 +27,26 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
-    <Signature>
-      <Name>
+    <div className={className}>
+      <span className='ui--MessageSignature-name'>
         {name}
-      </Name>
+      </span>
       (
       {args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
             {name}:
             {' '}
-            <Type>
+            <span className='ui--MessageSignature-type'>
               {params && params[index]
                 ? <b>{truncate((params as string[])[index].toString())}</b>
                 : displayType(type)
               }
-            </Type>
+            </span>
             {index < args.length - 1 && ', '}
           </React.Fragment>
         );
@@ -80,15 +56,15 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
         <>
           :
           {' '}
-          <ReturnType>
+          <span className='ui--MessageSignature-returnType'>
             {displayType(returnType)}
-          </ReturnType>
+          </span>
         </>
       )}
       {mutates && (
         <>
           <Icon
-            className='mutates'
+            className='ui--MessageSignature-mutates'
             data-for={`mutates-${name}`}
             data-tip
             name='database'
@@ -101,8 +77,33 @@ function MessageSignature ({ message: { args, mutates, name, returnType }, param
           )}
         </>
       )}
-    </Signature>
+    </div>
   );
 }
 
-export default React.memo(MessageSignature);
+export default React.memo(
+  styled(MessageSignature)`
+    font-family: monospace;
+    font-weight: normal;
+    flex-grow: 1;
+
+    .ui--MessageSignature-mutates {
+      color: #ff8600;
+      margin-left: 0.5rem;
+      opacity: 0.6;
+    }
+
+    .ui--MessageSignature-name {
+      color: #2f8ddb;
+      font-weight: bold;  
+    }
+
+    .ui--MessageSignature-type {
+      color: #21a2b2;
+    }
+
+    .ui--MessageSignature-returnType {
+      color: #ff8600;
+    }
+  `
+);

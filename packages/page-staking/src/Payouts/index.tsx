@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Button, Table } from '@polkadot/react-components';
 import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { isFunction } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
@@ -81,7 +81,7 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
     .map(([stashId, rewards]): PayoutStash => ({
       available: rewards.reduce((result, { validators }) =>
         Object.values(validators).reduce((result, { value }) =>
-          result.iadd(value), result), new BN(0)
+          result.iadd(value), result), BN_ZERO
       ),
       rewards,
       stashId
@@ -102,7 +102,7 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
     if (allRewards) {
       const stashes = extractStashes(allRewards);
       const stashTotal = stashes.length
-        ? stashes.reduce((total: BN, { available }) => total.add(available), new BN(0))
+        ? stashes.reduce((total: BN, { available }) => total.add(available), BN_ZERO)
         : null;
 
       setPayouts({

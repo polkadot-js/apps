@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -11,11 +12,10 @@ import { classes } from '@polkadot/react-components/util';
 import { Button, Expander, IconLink } from '@polkadot/react-components';
 
 import MessageSignature from './MessageSignature';
-import { useTranslation } from './translate';
+import { useTranslation } from '../translate';
 
-export interface Props {
+export interface Props extends BareProps {
   address?: string;
-  className?: string;
   contractAbi: Abi;
   isLabelled?: boolean;
   isRemovable: boolean;
@@ -196,7 +196,7 @@ export default React.memo(styled(Messages)`
 
       .execute {
         display: none;
-        background: transparent;
+        background: transparent !important;
         font-size: 1.5rem;
         margin: 0;
         padding: 0;

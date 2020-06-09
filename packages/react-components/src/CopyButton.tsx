@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import { BareProps } from './types';
 
 import React, { useCallback, useContext } from 'react';
@@ -17,10 +18,11 @@ interface Props extends BareProps {
   className?: string;
   icon?: string;
   isAddress?: boolean;
-  value?: string;
+  size?: IconProps['size'];
+  value: string;
 }
 
-function CopyButton ({ children, className = '', icon = 'copy', isAddress = false, value = '' }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy', isAddress = false, size = 'small', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -46,10 +48,10 @@ function CopyButton ({ children, className = '', icon = 'copy', isAddress = fals
           {children}
           <span className='copySpan'>
             <Button
-              className='icon-button'
+              className='icon-button show-on-hover'
               icon={icon}
               isPrimary
-              size='mini'
+              size={size}
             />
           </span>
         </div>
@@ -61,7 +63,7 @@ function CopyButton ({ children, className = '', icon = 'copy', isAddress = fals
 export default React.memo(styled(CopyButton)`
   cursor: copy;
 
-  button.ui.mini.icon.primary.button.icon-button {
+  button.ui.icon.primary.button.icon-button {
     cursor: copy;
   }
 

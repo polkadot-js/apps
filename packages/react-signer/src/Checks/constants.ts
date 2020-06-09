@@ -4,9 +4,9 @@
 
 import { DeriveFees, DeriveBalancesAll, DeriveContractFees } from '@polkadot/api-derive/types';
 
-import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
+import { BN_ZERO } from '@polkadot/util';
 
 const ZERO_BALANCE: DeriveBalancesAll = {
   accountId: createType(registry, 'AccountId'),
@@ -35,16 +35,16 @@ const ZERO_FEES_BALANCES: DeriveFees = {
 const ZERO_FEES = ZERO_FEES_BALANCES;
 
 const ZERO_FEES_CONTRACT: DeriveContractFees = {
-  callBaseFee: new BN(0),
-  contractFee: new BN(0),
-  creationFee: new BN(0),
-  rentByteFee: new BN(0),
-  rentDepositOffset: new BN(0),
-  surchargeReward: new BN(0),
-  tombstoneDeposit: new BN(0),
-  transactionBaseFee: new BN(0),
-  transactionByteFee: new BN(0),
-  transferFee: new BN(0)
+  callBaseFee: BN_ZERO,
+  contractFee: BN_ZERO,
+  creationFee: BN_ZERO,
+  rentByteFee: BN_ZERO,
+  rentDepositOffset: BN_ZERO,
+  surchargeReward: BN_ZERO,
+  tombstoneDeposit: BN_ZERO,
+  transactionBaseFee: BN_ZERO,
+  transactionByteFee: BN_ZERO,
+  transferFee: BN_ZERO
 };
 
 const MAX_SIZE_MB = 10;

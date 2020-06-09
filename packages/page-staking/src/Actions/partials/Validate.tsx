@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback } from 'react';
 import { InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { BN_ZERO, BN_HUNDRED as MAX_COMM } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -19,9 +20,7 @@ interface Props {
   withSenders?: boolean;
 }
 
-const COMM_MUL = new BN(10000000);
-const MAX_COMM = new BN(100);
-const ZERO = new BN(0);
+const COMM_MUL = new BN(1e7);
 
 function Validate ({ className = '', controllerId, onChange, stashId, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -29,7 +28,7 @@ function Validate ({ className = '', controllerId, onChange, stashId, withSender
 
   const _setCommission = useCallback(
     (value?: BN): void => {
-      const commission = (value || ZERO).mul(COMM_MUL);
+      const commission = (value || BN_ZERO).mul(COMM_MUL);
 
       onChange({
         validateTx: api.tx.staking.validate({

@@ -3,21 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
+import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { AddressMini, Button, Output } from '@polkadot/react-components';
 
-import MessageSignature from '../MessageSignature';
+import MessageSignature from '../shared/MessageSignature';
 
-interface Props {
-  className?: string;
+interface Props extends BareProps {
   onClear?: () => void;
   outcome: ContractCallOutcome;
 }
 
-function Outcome (props: Props): React.ReactElement<Props> | null {
-  const { className = '', onClear, outcome: { isSuccess, message, origin, output, params, time } } = props;
+function Outcome ({ className = '', onClear, outcome: { isSuccess, message, origin, output, params, time } }: Props): React.ReactElement<Props> | null {
   const dateTime = new Date(time);
 
   return (

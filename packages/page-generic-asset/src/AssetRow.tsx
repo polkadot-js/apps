@@ -2,65 +2,41 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import { CopyButton } from '@polkadot/react-components';
-import Row, { styles, RowProps, RowState } from '@polkadot/react-components/Row';
-import { I18nProps } from '@polkadot/react-components/types';
+import Row, { RowProps } from '@polkadot/react-components/Row';
 
-import translate from './translate';
+import { useTranslation } from './translate';
 
-type Props = I18nProps & RowProps & {
+interface Props extends Omit<RowProps, 'onSaveName'> {
   onSaveName: (name: string) => void;
   assetId: string;
 }
 
-class AssetRow extends Row<Props, RowState> {
-  constructor (props: Props) {
-    super(props);
+export default function AssetRow ({ assetId, buttons, children, className, defaultName = 'New Asset', isDisabled, isInline, onSaveName }: Props): React.ReactElement<Props> {
+  const { t } =
+   useTranslation();
+  const [name, setName] = useState(defaultName);
 
-    this.state.name = this.props.defaultName || 'New Asset';
-  }
-
-  public render (): React.ReactNode {
-    const { className = '' } = this.props;
-
-    return (
-      <div
-        className={`ui--Row ${className}`}
-      >
-        <div className='ui--Row-base'>
-          <div className='ui--Row-details'>
-            {this.renderName()}
-            {this.renderAssetId()}
-          </div>
-          {this.renderButtons()}
+  return (
+    <Row
+      buttons={buttons}
+      className={className}
+      details={
+        <div>
+          <CopyButton value={assetId}>
+            <span>{t('Asset ID')}: {assetId}</span>
+          </CopyButton>
         </div>
-      </div>
-    );
-  }
-
-  protected saveName = (): void => {
-    const { name } = this.state;
-    const { onSaveName } = this.props;
-
-    const trimmedName = name.trim();
-
-    onSaveName(trimmedName);
-    this.setState({ isEditingName: false });
-  }
-
-  private renderAssetId (): React.ReactNode {
-    const { assetId, t } = this.props;
-
-    return (
-      <div className='ui--Row-details'>
-        <CopyButton value={assetId}>
-          <span>{t<string>('Asset ID')}: {assetId}</span>
-        </CopyButton>
-      </div>
-    );
-  }
+      }
+      isDisabled={isDisabled}
+      isEditableName
+      isInline={isInline}
+      name={name}
+      onChangeName={setName}
+      onSaveName={onSaveName}
+    >
+      {children}
+    </Row>
+  );
 }
-
-export default translate(styled(AssetRow)`${styles}`);

@@ -6,6 +6,7 @@ import BN from 'bn.js';
 import React, { useState } from 'react';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
@@ -14,8 +15,6 @@ interface Props {
   onClose: () => void;
   stashId: string;
 }
-
-const ZERO = new BN(0);
 
 function BondExtra ({ onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -73,7 +72,7 @@ function BondExtra ({ onClose, stashId }: Props): React.ReactElement<Props> {
         <TxButton
           accountId={stashId}
           icon='sign-in'
-          isDisabled={!maxAdditional?.gt(ZERO)}
+          isDisabled={!maxAdditional?.gt(BN_ZERO)}
           isPrimary
           label={t<string>('Bond more')}
           onStart={onClose}

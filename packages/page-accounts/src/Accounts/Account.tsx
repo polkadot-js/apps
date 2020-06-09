@@ -13,7 +13,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useIncrement, useToggle } from '@polkadot/react-hooks';
 import { Option, StorageKey } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -312,12 +312,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       </td>
       <td className='all'>
         <div className='tags'>
-          {tags.map((tag): React.ReactNode => (
-            <Tag
-              key={tag}
-              label={tag}
-            />
-          ))}
+          <Tags value={tags} />
         </div>
       </td>
       <td className='number ui--media-1500'>

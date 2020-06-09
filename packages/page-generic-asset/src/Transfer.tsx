@@ -13,6 +13,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
+import { BN_ZERO } from '@polkadot/util';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';
@@ -33,7 +34,7 @@ interface Option {
 function Transfer ({ assets, className = '', onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [assetId, setAssetId] = useState('0');
-  const [amount, setAmount] = useState<BN | undefined>(new BN(0));
+  const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
   const [hasAvailable, setHasAvailable] = useState(true);
   const [options, setOptions] = useState<Option[]>([]);

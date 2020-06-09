@@ -99,6 +99,7 @@ export interface AddressIdentity extends DeriveAccountRegistration {
 }
 
 export interface UseAccountInfo {
+  accountIndex?: string;
   flags: AddressFlags;
   name: string;
   setName: React.Dispatch<string>;
@@ -110,6 +111,7 @@ export interface UseAccountInfo {
   meta?: KeyringJson$Meta;
   toggleIsEditingName: VoidFn;
   isEditingTags: boolean;
+  isNull: boolean;
   toggleIsEditingTags: VoidFn;
   onSaveName: VoidFn;
   onSaveTags: VoidFn;

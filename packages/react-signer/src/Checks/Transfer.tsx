@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { Compact, UInt } from '@polkadot/types';
 import { Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { formatBalance } from '@polkadot/util';
+import { BN_ZERO, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -32,8 +32,8 @@ function Transfer ({ amount, fees, onChange, recipientId }: Props): React.ReactE
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [recipientId]);
   const [{ isCreation, isNoEffect }, setState] = useState<State>({
-    extraAmount: new BN(0),
-    extraFees: new BN(0),
+    extraAmount: BN_ZERO,
+    extraFees: BN_ZERO,
     extraWarn: false,
     isCreation: false,
     isNoEffect: false

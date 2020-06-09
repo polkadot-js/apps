@@ -14,6 +14,7 @@ import { getLedger, isLedger } from '@polkadot/react-api';
 import { useApi, useAccounts, useFavorites, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
@@ -118,7 +119,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
         return {
           accounts,
-          balanceTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), new BN(0))
+          balanceTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), BN_ZERO)
         };
       }),
     []
