@@ -99,7 +99,7 @@ function extractExternal (accountId?: string | null): AccountFlags {
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
     threshold: (pair.meta.threshold as number) || 0,
-    who: (pair.meta.who as string[]) || []
+    who: ((pair.meta.who as string[]) || []).map((w) => keyring.encodeAddress(keyring.decodeAddress(w)))
   };
 }
 
