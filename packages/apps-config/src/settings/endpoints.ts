@@ -11,6 +11,7 @@ interface LinkOption extends Option {
 function createDev (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   return [
     {
+      dnslink: 'local',
       info: 'local',
       text: t<string>('rpc.local', 'Local Node (Own, 127.0.0.1:9944)', { ns: 'apps-config' }),
       value: 'ws://127.0.0.1:9944/'

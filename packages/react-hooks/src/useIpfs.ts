@@ -6,6 +6,8 @@ import { useState } from 'react';
 
 const KNOWN = ['ipfs', 'ipns'];
 const SECTIONS = KNOWN.map((part) => `/${part}/`);
+const LOCAL_IPFS = '.ipfs.localhost';
+const LOCAL_IPNS = '.ipns.localhost';
 
 interface State {
   ipnsChain: string | null;
@@ -16,9 +18,47 @@ interface State {
   isIpns: boolean;
 }
 
-export function extractIpfsDetails (): State {
-  // get url and check to see if we are ipfs/ipns
-  const [url] = window.location.href.split('#');
+function extractLocalIpfs (url: string): State {
+  const [,, _ipfsPath] = url.split('/');
+  const ipfsPath = _ipfsPath.split(':')[0];
+
+  return {
+    ipfsHash: ipfsPath.replace(LOCAL_IPFS, ''),
+    ipfsPath,
+    ipnsChain: null,
+    ipnsDomain: null,
+    isIpfs: true,
+    isIpns: false
+  };
+}
+
+function extractLocalIpns (url: string): State {
+  const [,, _ipfsPath] = url.split('/');
+  const ipfsPath = _ipfsPath.split(':')[0];
+
+  const dnsLink = ipfsPath.replace(LOCAL_IPNS, '');
+  const linkParts = dnsLink.split('.');
+  let ipnsChain: string | null = null;
+  let ipnsDomain: string | null = null;
+
+  if (linkParts.length > 2) {
+    ipnsChain = linkParts[0];
+    ipnsDomain = linkParts.slice(1).join('.');
+  } else {
+    ipnsDomain = dnsLink;
+  }
+
+  return {
+    ipfsHash: null,
+    ipfsPath,
+    ipnsChain,
+    ipnsDomain,
+    isIpfs: true,
+    isIpns: true
+  };
+}
+
+function extractOther (url: string): State {
   const isIpfs = SECTIONS.some((part) => url.includes(part));
   const isIpns = url.includes(SECTIONS[1]);
 
@@ -59,6 +99,17 @@ export function extractIpfsDetails (): State {
     isIpfs,
     isIpns
   };
+}
+
+export function extractIpfsDetails (): State {
+  // get url and check to see if we are ipfs/ipns
+  const [url] = window.location.href.split('#');
+
+  return url.includes(LOCAL_IPFS)
+    ? extractLocalIpfs(url)
+    : url.includes(LOCAL_IPNS)
+      ? extractLocalIpns(url)
+      : extractOther(url);
 }
 
 export default function useIpfs (): State {
