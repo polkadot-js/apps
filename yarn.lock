@@ -4973,6 +4973,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"accessibility-developer-tools@npm:^2.11.0":
+  version: 2.12.0
+  resolution: "accessibility-developer-tools@npm:2.12.0"
+  checksum: 3/edb92620161e1fbf9a81ed02269b2148b3245e2c96b7bbeaf47e65a4259bfa69a015ef662958fe9cdd9def26b105ff3d525be6328f637c3a7820ab90e47d7dea
+  languageName: node
+  linkType: hard
+
 "acorn-bigint@npm:^0.4.0":
   version: 0.4.0
   resolution: "acorn-bigint@npm:0.4.0"
@@ -9043,6 +9050,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"devtron@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "devtron@npm:1.4.0"
+  dependencies:
+    accessibility-developer-tools: ^2.11.0
+    highlight.js: ^9.3.0
+    humanize-plus: ^1.8.1
+  checksum: 3/c481527b34c0c3a90e0ccd88bb2d04b1d9ffb97c4b7a1b2431a12ade59998c3b8aa7755e2392ea06db5ab44d0b82c1f7aedc092c8be8533de65c35de7c764d73
+  languageName: node
+  linkType: hard
+
 "dezalgo@npm:^1.0.0":
   version: 1.0.3
   resolution: "dezalgo@npm:1.0.3"
@@ -9530,16 +9548,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:8.3.1":
-  version: 8.3.1
-  resolution: "electron@npm:8.3.1"
+"electron@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "electron@npm:9.0.2"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^12.0.12
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 3/309d57ef152be5bf4145387bee47f5e2ff866636745b3b257d5d1b2bd7ddf2e4f7094e2f2d355affccf2872e2072c3aeb5ef43e28473373b5cb77b78fd42ebb2
+  checksum: 3/bd73108257b830c24710bb8aae28deebc3e6fefb026f0bd3ae71819791405b63904e62d654cd9611f0f11292d85682117e40e296cd58430de3506e36de4c691c
   languageName: node
   linkType: hard
 
@@ -12129,6 +12147,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"highlight.js@npm:^9.3.0":
+  version: 9.18.1
+  resolution: "highlight.js@npm:9.18.1"
+  checksum: 3/3fe99105e4cda17ae8dac7b49b791065b9b8306c1de40955cd59ce1a2cd2bed2683135a26f9ffd8f872a1d6e9d77935c48ffbb2557c228e647fe940a3bbbc4f2
+  languageName: node
+  linkType: hard
+
 "history@npm:^4.9.0":
   version: 4.10.1
   resolution: "history@npm:4.10.1"
@@ -12543,6 +12568,13 @@ __metadata:
   dependencies:
     ms: ^2.0.0
   checksum: 3/4a08769434132a229a6153e77c869a9fe7132dc003d90119d54958e7b75feb65a3c4eca19fb18921568878ac455b6f399013279ad33248d94bd61a25def1fdda
+  languageName: node
+  linkType: hard
+
+"humanize-plus@npm:^1.8.1":
+  version: 1.8.2
+  resolution: "humanize-plus@npm:1.8.2"
+  checksum: 3/5b728bf5ca8a3cfbcec8fc6e381cda889a76e2486f3f7a7b6a867ed26cb63307bbe61a7f205f61c2588ccc46a755a4f6db80c73c3a74a9a6a95b90e2f9412a48
   languageName: node
   linkType: hard
 
@@ -18030,8 +18062,9 @@ __metadata:
     "@types/styled-components": ^5.1.0
     "@types/styled-theming": ^2.2.3
     concurrently: ^5.2.0
+    devtron: ^1.4.0
     dnslink-cloudflare: ^2.0.4
-    electron: 8.3.1
+    electron: ^9.0.2
     electron-builder: ^22.7.0
     electron-builder-notarize: ^1.1.2
     i18next-scanner: ^2.11.0
