@@ -68,10 +68,6 @@ export default React.memo(styled(Body)`
       }
     }
 
-    &:hover label {
-      opacity: 1;
-    }
-
     &.address {
       min-width: 11rem;
     }
@@ -81,7 +77,7 @@ export default React.memo(styled(Body)`
     }
 
     &.button {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 0.75rem;
       text-align: right;
       white-space: nowrap;
 
@@ -143,7 +139,7 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #f8f8f8;
+      background: #f7f8f9;
     }
 
     // &.isHighlight {
@@ -184,24 +180,26 @@ export default React.memo(styled(Body)`
       }
     }
 
-    &:not(:hover) {
-      .ui.button:not(.isIcon):not(.disabled) {
-        color: #555 !important;
+    .ui.button:not(.isIcon):not(.disabled):not(:hover) {
+      color: #555 !important;
 
-        &:not(.basic) {
-          background: #eee !important;
-        }
-
-        &.basic {
-          background: transparent !important;
-          box-shadow: none !important;
-        }
+      &:not(.basic) {
+        background: transparent !important;
       }
 
-      .ui.toggle.checkbox input:checked~.box:before,
-      .ui.toggle.checkbox input:checked~label:before {
-        background-color: #eee !important;
+      &.basic {
+        background: transparent !important;
+        box-shadow: none !important;
       }
+    }
+
+    .ui.button+.ui.button {
+      margin-left: 0rem;
+    }
+
+    .ui.toggle.checkbox input:checked~.box:before,
+    .ui.toggle.checkbox input:checked~label:before {
+      background-color: #eee !important;
     }
   }
 `);

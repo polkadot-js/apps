@@ -331,7 +331,6 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
           icon='paper plane'
           label={t<string>('send')}
           onClick={toggleTransfer}
-          tooltip={t<string>('Send funds from this account')}
         />
         <Popup
           className='theme--default'

@@ -77,7 +77,11 @@ export default React.memo(styled(Table)`
       width: 100%;
 
       label {
-        opacity: 0.42;
+        opacity: 0.6;
+      }
+
+      &:hover label {
+        opacity: 1;
       }
 
       td, &:not(.filter) th {

@@ -200,7 +200,6 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           key='deposit'
           label={t<string>('deposit')}
           onClick={_toggleTransfer}
-          tooltip={t<string>('Send funds to this address')}
         />
         <Popup
           className='theme--default'
