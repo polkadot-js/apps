@@ -768,7 +768,11 @@ class Signer extends React.PureComponent<Props, State> {
 
       pair = keyring.getPair(signatory as string);
       tx = multiCall
-        ? api.tx[multiModule].asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method)
+        ? api.tx[multiModule].asMulti.meta.args.length === 5
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          ? api.tx[multiModule].asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method, false)
+          : api.tx[multiModule].asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method)
         : api.tx[multiModule].approveAsMulti(basePair.meta.threshold as number, others, timepoint, submittable.method.hash);
     }
 
