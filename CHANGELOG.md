@@ -1,16 +1,26 @@
 # CHANGELOG
 
-## 0.44.0-beta.39
+## 0.44.0-beta.68
 
 - Publish electron images on release (Thanks to https://github.com/EthWorks)
 - Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
 - Extensions and fixes to the russian translations (Thanks to https://github.com/illlefr4u)
+- Rewrite of the contracts app (Thanks to https://github.com/kwingram25)
+- New types for SubstrateTEE (Thanks to https://github.com/brenzi)
+- Adjust for new Polkadot CC1 & Kusama types
+- Cater for new multisig module location
+- filter multisig signatories based on approvals, set final state based on threshold
+- Adapt QR codes to cater for hashing on large payloads
 - Adjust collective extrinsics to cater for weight & lengths
 - Allow bonding with full free amount (this fixes bonding for vesting)
 - Fixes for Kusama as well as Polkadot claims
 - Allow Polkadot CC1 links to Polkascan & Subscan
 - Update Polkascan links with new formats
 - Don't display era progress when Forcing `isForceNone`
+- Overall styling adjustments
+- Cater for `{kusama,polkadot,westend}.dotapps.io` redirects
+- `@polkadot/api` 1.18.1
+- `@polkadot/util` 2.13.1
 
 ## 0.43.1 May 26, 2020
 
