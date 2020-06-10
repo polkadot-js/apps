@@ -3,10 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import { SlashingSpans } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { Option } from '@polkadot/types';
 
 import TxButton from './TxButton';
 import { useTranslation } from './translate';
@@ -17,8 +19,20 @@ interface Props {
 }
 
 function StakingRedeemable ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
+  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stakingInfo?.stashId], {
+    transform: (optSpans: Option<SlashingSpans>): number => {
+      if (optSpans.isNone) {
+        return 0;
+      }
+
+      const { lastStart, spanIndex } = optSpans.unwrap();
+
+      return spanIndex.sub(lastStart).toNumber();
+    }
+  });
 
   if (!stakingInfo?.redeemable?.gtn(0)) {
     return null;
@@ -33,7 +47,11 @@ function StakingRedeemable ({ className = '', stakingInfo }: Props): React.React
             icon='lock'
             isIcon
             key='unlock'
-            params={[]}
+            params={
+              api.tx.staking.withdrawUnbonded.meta.args.length === 1
+                ? [spanCount]
+                : []
+            }
             tooltip={t<string>('Withdraw these unbonded funds')}
             tx='staking.withdrawUnbonded'
           />
