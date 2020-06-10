@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Hash from "@polkadot/app-toolbox/Hash";
+
 // structs need to be in order
 /* eslint-disable sort-keys */
 /* eslint-disable camelcase */
@@ -71,6 +73,12 @@ export default {
   Request: {
     shard: 'ShardIdentifier',
     cyphertext: 'Vec<u8>'
+  },
+  Enclave: {
+    pubkey: 'AccountId',
+    mrenclave: 'Hash',
+    timestamp: 'u64',
+    url: 'Text'
   },
   // substrate
   Weight: 'u32'
