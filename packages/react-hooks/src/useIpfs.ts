@@ -19,7 +19,8 @@ interface State {
 }
 
 function extractLocalIpfs (url: string): State {
-  const [,, ipfsPath] = url.split('/');
+  const [,, _ipfsPath] = url.split('/');
+  const ipfsPath = _ipfsPath.split(':')[0];
 
   return {
     ipfsHash: ipfsPath.replace(LOCAL_IPFS, ''),
@@ -32,7 +33,8 @@ function extractLocalIpfs (url: string): State {
 }
 
 function extractLocalIpns (url: string): State {
-  const [,, ipfsPath] = url.split('/');
+  const [,, _ipfsPath] = url.split('/');
+  const ipfsPath = _ipfsPath.split(':')[0];
 
   const dnsLink = ipfsPath.replace(LOCAL_IPNS, '');
   const linkParts = dnsLink.split('.');
