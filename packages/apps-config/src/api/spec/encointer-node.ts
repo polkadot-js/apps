@@ -72,6 +72,12 @@ export default {
     shard: 'ShardIdentifier',
     cyphertext: 'Vec<u8>'
   },
+  Enclave: {
+    pubkey: 'AccountId',
+    mrenclave: 'Hash',
+    timestamp: 'u64',
+    url: 'Text'
+  },
   // substrate
   Weight: 'u32'
 };
