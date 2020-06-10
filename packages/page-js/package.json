@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-js",
   "private": true,
-  "version": "0.45.0-beta.8",
+  "version": "0.45.0-beta.9",
   "description": "A simple JavaScript console for playing with the API",
   "main": "index.js",
   "scripts": {},
@@ -12,6 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@polkadot/react-components": "0.45.0-beta.8"
+    "@polkadot/react-components": "0.45.0-beta.9"
   }
 }
