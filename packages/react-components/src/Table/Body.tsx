@@ -180,7 +180,7 @@ export default React.memo(styled(Body)`
       }
     }
 
-    .ui.button:not(.isIcon):not(.disabled):not(:hover) {
+    .ui.button:not(.isIcon):not(:hover) {
       color: #555 !important;
 
       &:not(.basic) {
