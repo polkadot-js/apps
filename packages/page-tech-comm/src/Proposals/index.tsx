@@ -18,6 +18,7 @@ function Proposals ({ className = '', isMember, members, prime, proposals }: Pro
   const header = useMemo(() => [
     [t('proposals'), 'start', 2],
     [t('threshold')],
+    [t('voting end')],
     [t('aye'), 'address'],
     [t('nay'), 'address'],
     []
