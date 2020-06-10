@@ -23,15 +23,10 @@ function StakingRedeemable ({ className = '', stakingInfo }: Props): React.React
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
   const spanCount = useCall<number>(api.query.staking.slashingSpans, [stakingInfo?.stashId], {
-    transform: (optSpans: Option<SlashingSpans>): number => {
-      if (optSpans.isNone) {
-        return 0;
-      }
-
-      const { lastStart, spanIndex } = optSpans.unwrap();
-
-      return spanIndex.sub(lastStart).toNumber();
-    }
+    transform: (optSpans: Option<SlashingSpans>): number =>
+      optSpans.isNone
+        ? 0
+        : optSpans.unwrap().prior.length + 1
   });
 
   if (!stakingInfo?.redeemable?.gtn(0)) {
