@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
 import { FileStore } from '@polkadot/ui-keyring/stores';
 import { KeyringJson } from '@polkadot/ui-keyring/types';
 import { app, ipcMain } from 'electron';
