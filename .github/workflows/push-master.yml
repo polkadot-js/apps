@@ -32,6 +32,19 @@ jobs:
         yarn ${{ matrix.step }}
 
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
+  docker:
+    name: docker
+    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/') && github.repository == 'polkadot-js/apps'"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: docker
+      env:
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+      run: |
+        ./scripts/docker.sh
+
+  # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   electron:
     strategy:
       matrix:
@@ -49,7 +62,6 @@ jobs:
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.API_KEY }}' > ~/private_keys/AuthKey_${{ secrets.API_KEY_ID }}.p8
-
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
