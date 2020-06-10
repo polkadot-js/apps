@@ -66,7 +66,7 @@ export default css`
         background-color: #666;
         border-color: transparent;
         border-left-color: transparent;
-        color: #f9f9f9;
+        color: #f9f8f7;
         opacity: 0.5;
 
         .dropdown.icon {
@@ -93,7 +93,7 @@ export default css`
   }
 
   .ui.modal {
-    background: #f9f9f9;
+    background: #f9f8f7;
     box-shadow: none;
     color: #4e4e4e;
     font-family: sans-serif;
@@ -111,7 +111,7 @@ export default css`
 
     /* approx h1, color, size, font */
     > .header:not(.ui) {
-      background: #f9f9f9;
+      background: transparent;
       border-bottom: none;
       color: rgba(0, 0, 0, .6);
       font-family: sans-serif;

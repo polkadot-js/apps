@@ -188,7 +188,7 @@ export default React.memo(styled(Sidebar)`
   right: 0;
   bottom: 0;
   max-width: 24rem;
-  background: #f5f5f5;
+  background: #f5f4f3;
   padding: 1rem;
   box-shadow: -6px 0px 20px 0px rgba(0,0,0,0.2);
   z-index: 999;
