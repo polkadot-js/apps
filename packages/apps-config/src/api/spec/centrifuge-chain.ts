@@ -32,9 +32,8 @@ export default {
     deposit: 'Balance',
     depositor: 'AccountId'
   },
-  // Overwrites to Substrate types
-  Address: 'AccountId',
-  LookupSource: 'AccountId',
+  Address: 'GenericAddress',
+  LookupSource: 'GenericAddress',
   // Bridge constants
   ChainId: 'u8',
   ResourceId: '[u8; 32]',
