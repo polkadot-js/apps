@@ -42,7 +42,7 @@ export default React.memo(styled(Signer)`
     }
 
     .code {
-      background: #f5f5f5;
+      background: #f5f4f3;
       font-family: monospace;
       margin: 0 0.25em;
       overflow-wrap: break-word;

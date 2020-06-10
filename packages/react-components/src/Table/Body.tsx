@@ -139,7 +139,7 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #f7f8f9;
+      background: #f9f8f7;
     }
 
     // &.isHighlight {

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.44.0-beta.68
+## 0.44.1 Jun 10, 2020
 
 - Publish electron images on release (Thanks to https://github.com/EthWorks)
 - Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
@@ -9,7 +9,7 @@
 - New types for SubstrateTEE (Thanks to https://github.com/brenzi)
 - Adjust for new Polkadot CC1 & Kusama types
 - Cater for new multisig module location
-- filter multisig signatories based on approvals, set final state based on threshold
+- Filter multisig signatories based on approvals, set final state based on threshold
 - Adapt QR codes to cater for hashing on large payloads
 - Adjust collective extrinsics to cater for weight & lengths
 - Allow bonding with full free amount (this fixes bonding for vesting)

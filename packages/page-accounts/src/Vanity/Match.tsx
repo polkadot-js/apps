@@ -73,7 +73,7 @@ export default React.memo(styled(Match)`
   text-align: center;
 
   &:hover {
-    background: #f9f9f9;
+    background: #f9f8f7;
   }
 
   .vanity--Match-addr {
