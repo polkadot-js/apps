@@ -13,7 +13,10 @@ const isProd = ENV === 'production';
 function createWebpack () {
   return [
     {
-      entry: './src/electron.ts',
+      entry: {
+        electron: './src/electron.ts',
+        preload: './src/preload.ts'
+      },
       mode: ENV,
       module: {
         rules: [
@@ -38,7 +41,7 @@ function createWebpack () {
         minimizer: [new TerserPlugin()]
       },
       output: {
-        filename: 'electron.js',
+        filename: '[name].js',
         path: path.join(__dirname, '/build')
       },
       resolve: {

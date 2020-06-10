@@ -27,6 +27,6 @@ module.exports = merge(
         template: path.join(context, '../apps/public/index.html')
       })
     ],
-    target: 'electron-renderer'
+    target: 'web'
   }
 );

@@ -30,8 +30,6 @@ if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
-console.log('Opened in electron app');
-
 ReactDOM.render(
   <Suspense fallback='...'>
     <ThemeProvider theme={theme}>

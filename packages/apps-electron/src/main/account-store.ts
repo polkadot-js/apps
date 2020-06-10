@@ -6,8 +6,10 @@ import { KeyringJson } from '@polkadot/ui-keyring/types';
 import { app, ipcMain } from 'electron';
 import path from 'path';
 
+const ACCOUNTS_SUBFOLDER = 'polkadot-accounts';
+
 export const registerAccountStoreHandlers = (): void => {
-  const defaultStorePath = path.join(app.getPath('userData'), 'polkadot');
+  const defaultStorePath = path.join(app.getPath('userData'), ACCOUNTS_SUBFOLDER);
   const fileStore = new FileStore(defaultStorePath);
 
   ipcMain.handle('account-store-set', async (_, key: string, value: KeyringJson) => new Promise((resolve) =>
