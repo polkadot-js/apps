@@ -56,6 +56,7 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
                 <InputBalance
                   help={t<string>('The tip amount that should be allocated')}
                   isError={!hasValue}
+                  isZeroable
                   label={t<string>('value')}
                   onChange={setValue}
                 />
