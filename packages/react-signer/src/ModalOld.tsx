@@ -9,7 +9,7 @@ import { I18nProps, BareProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
-import { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import { Multisig, ProxyType, Timepoint } from '@polkadot/types/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -44,14 +44,19 @@ interface State {
   accountNonce?: BN;
   blocks: BN;
   currentItem?: QueueTx;
+  isMultiCall: boolean;
+  isProxyAble: boolean;
+  isProxyCall: boolean;
   isQrScanning: boolean;
   isQrVisible: boolean;
   isRenderError: boolean;
   isSendable: boolean;
   isSubmit: boolean;
-  multiCall: boolean;
   nonce?: BN;
   password: string;
+  proxies: [string, ProxyType][] | null;
+  proxiesFilter: string[] | null;
+  proxy?: string | null;
   qrAddress: string;
   qrIsHashed: boolean;
   qrPayload: Uint8Array;
@@ -62,7 +67,7 @@ interface State {
   signedTx?: string;
   tip?: BN;
   unlockError?: string | null;
-  whoFiltered: string[] | null;
+  whoFilter: string[] | null;
 }
 
 interface AccountFlags {
@@ -121,27 +126,31 @@ async function makeExtrinsicSignature (
 const initialState: State = {
   accountNonce: undefined,
   blocks: new BN(50),
+  isMultiCall: false,
+  isProxyAble: false,
+  isProxyCall: false,
   isQrScanning: false,
   isQrVisible: false,
   isRenderError: false,
   isSendable: false,
   isSubmit: true,
-  multiCall: false,
   nonce: undefined,
   password: '',
+  proxies: null,
+  proxiesFilter: null,
   qrAddress: '',
   qrIsHashed: false,
   qrPayload: new Uint8Array(),
   showTip: false,
   signedTx: '',
   unlockError: null,
-  whoFiltered: null
+  whoFilter: null
 };
 
 class Signer extends React.PureComponent<Props, State> {
   public state: State = initialState;
 
-  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, multiCall, password, unlockError }: State): Partial<State> {
+  public static getDerivedStateFromProps ({ allAccounts, queue }: Props, { currentItem, isMultiCall, password, unlockError }: State): Partial<State> {
     const nextItem = queue.find(({ status }) => ['queued', 'qr'].includes(status));
     const isSame =
       !!nextItem &&
@@ -165,30 +174,34 @@ class Signer extends React.PureComponent<Props, State> {
       currentItem: nextItem,
       isSendable,
       ...(isSame
-        ? { multiCall, password, unlockError }
-        : { multiCall: false, password: '', signatory: null, unlockError: null, whoFiltered: null }
+        ? { isMultiCall, password, unlockError }
+        : { isMultiCall: false, isProxyAble: false, isProxyCall: false, password: '', proxies: null, proxiesFilter: null, proxy: null, signatory: null, unlockError: null, whoFilter: null }
       )
     };
   }
 
   public async componentDidUpdate (): Promise<void> {
-    const { accountNonce, currentItem, isSendable, isSubmit, whoFiltered } = this.state;
+    const { accountNonce, currentItem, isSendable, isSubmit, whoFilter } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       return this.sendRpc(currentItem);
     }
 
     if (currentItem?.accountId) {
-      if (!isSubmit && accountNonce == null) {
+      if (!isSubmit && !accountNonce) {
         this.updateNonce().catch(console.error);
       }
 
-      if (isSendable && !whoFiltered) {
-        const { isMultisig } = extractExternal(currentItem.accountId);
+      if (isSendable) {
+        if (!whoFilter) {
+          const { isMultisig } = extractExternal(currentItem.accountId);
 
-        if (isMultisig) {
-          this.checkMultisig().catch(console.error);
+          if (isMultisig) {
+            this.checkMultisig().catch(console.error);
+          }
         }
+
+        this.checkProxyStatus().catch(console.error);
       }
     }
   }
@@ -318,7 +331,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderSignatory (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, multiCall, whoFiltered } = this.state;
+    const { currentItem, isMultiCall, whoFilter } = this.state;
     const { isMultisig, who } = currentItem
       ? extractExternal(currentItem.accountId)
       : { isMultisig: false, who: [] };
@@ -332,7 +345,7 @@ class Signer extends React.PureComponent<Props, State> {
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              filter={whoFiltered || who}
+              filter={whoFilter || who}
               help={t<string>('The multisig signatory for this transaction.')}
               label={t<string>('signatory')}
               onChange={this.onChangeSignatory}
@@ -348,12 +361,12 @@ class Signer extends React.PureComponent<Props, State> {
             <Toggle
               className='tipToggle'
               label={
-                multiCall
+                isMultiCall
                   ? t<string>('Multisig message with call (for final approval)')
                   : t<string>('Multisig approval with hash (non-final approval)')
               }
               onChange={this.onToggleMultiCall}
-              value={multiCall}
+              value={isMultiCall}
             />
           </Modal.Column>
           <Modal.Column>
@@ -475,8 +488,8 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ showTip });
   };
 
-  private onToggleMultiCall = (multiCall: boolean): void => {
-    this.setState({ multiCall });
+  private onToggleMultiCall = (isMultiCall: boolean): void => {
+    this.setState({ isMultiCall });
   }
 
   private onToggleSign = (isSubmit: boolean): void => {
@@ -640,18 +653,34 @@ class Signer extends React.PureComponent<Props, State> {
   private checkMultisig = async (): Promise<void> => {
     const { api } = this.props;
     const { currentItem } = this.state;
+    const multiModule = api.tx.multisig ? 'multisig' : 'utility';
 
-    if (currentItem?.accountId && currentItem?.extrinsic) {
-      const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+    if (currentItem?.accountId && currentItem?.extrinsic && api.query[multiModule].multisigs) {
       const { threshold, who } = extractExternal(currentItem.accountId);
       const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(currentItem.accountId, currentItem.extrinsic.method.hash);
       const multi = optMulti.unwrapOr(null);
 
       if (multi) {
         this.setState({
-          multiCall: ((multi.approvals.length + 1) >= threshold),
-          whoFiltered: who.filter((w) => !multi.approvals.some((a) => a.eq(w)))
+          isMultiCall: ((multi.approvals.length + 1) >= threshold),
+          whoFilter: who.filter((w) => !multi.approvals.some((a) => a.eq(w)))
         });
+      }
+    }
+  }
+
+  private checkProxyStatus = async (): Promise<void> => {
+    const { api } = this.props;
+    const { currentItem } = this.state;
+
+    if (currentItem?.accountId && currentItem?.extrinsic && api.query.proxy) {
+      const [_proxies] = await api.query.proxy.proxies(currentItem?.accountId);
+
+      if (_proxies.length) {
+        const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
+        const proxiesFilter: string[] = proxies.map(([proxy]) => proxy);
+
+        this.setState({ proxies, proxiesFilter });
       }
     }
   }
@@ -714,7 +743,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
-    const { isSubmit, multiCall, showTip, signatory, tip } = this.state;
+    const { isMultiCall, isSubmit, showTip, signatory, tip } = this.state;
     const { accountId, extrinsic, id, isUnsigned, payload } = queueTx;
 
     if (!isUnsigned) {
@@ -767,7 +796,7 @@ class Signer extends React.PureComponent<Props, State> {
       }
 
       pair = keyring.getPair(signatory as string);
-      tx = multiCall
+      tx = isMultiCall
         ? api.tx[multiModule].asMulti.meta.args.length === 5
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
