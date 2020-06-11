@@ -29,7 +29,9 @@ function publish () {
   docker login -u $REPO -p $DOCKER_PASS
 
   echo "*** Tagging $REPO/$NAME"
-  # docker tag $NAME $REPO/$NAME:$VERSION
+  if [[ $VERSION != *"beta"* ]]; then
+    docker tag $NAME $REPO/$NAME:$VERSION
+  fi
   docker tag $NAME $REPO/$NAME
 
   echo "*** Publishing $NAME"
