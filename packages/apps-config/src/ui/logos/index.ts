@@ -36,6 +36,7 @@ const chainLogos: Record<string, any> = [
 // overrides based on the actual software node type (all '-' converted to ' ')
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
+  ['Centrifuge Chain Node', nodeCentrifuge],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointer],
   ['kulupu', nodeSubstrate],
