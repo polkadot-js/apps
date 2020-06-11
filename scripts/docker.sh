@@ -18,25 +18,16 @@ VERSION=$(cat package.json \
   | sed 's/[",]//g' \
   | sed 's/ //g')
 
-# helper function for the build logic
-function build () {
-  echo "*** Building $NAME"
-  docker build -t $NAME .
-}
+echo "*** Building $NAME"
+docker build -t $NAME .
 
-# helper function for the publishing logic
-function publish () {
-  docker login -u $REPO -p $DOCKER_PASS
+docker login -u $REPO -p $DOCKER_PASS
 
-  echo "*** Tagging $REPO/$NAME"
-  if [[ $VERSION != *"beta"* ]]; then
-    docker tag $NAME $REPO/$NAME:$VERSION
-  fi
-  docker tag $NAME $REPO/$NAME
+echo "*** Tagging $REPO/$NAME"
+if [[ $VERSION != *"beta"* ]]; then
+  docker tag $NAME $REPO/$NAME:$VERSION
+fi
+docker tag $NAME $REPO/$NAME
 
-  echo "*** Publishing $NAME"
-  docker push $REPO/$NAME
-}
-
-build
-publish
+echo "*** Publishing $NAME"
+docker push $REPO/$NAME
