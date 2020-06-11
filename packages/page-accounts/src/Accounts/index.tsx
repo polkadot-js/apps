@@ -132,8 +132,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],
     [t('balances')],
-    [undefined, undefined],
-    [undefined, 'ui--media-1400']
+    [],
+    [undefined, 'mini ui--media-1400']
   ], [t]);
 
   const footer = useMemo(() => (

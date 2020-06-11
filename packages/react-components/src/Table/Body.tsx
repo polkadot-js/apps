@@ -125,11 +125,15 @@ export default React.memo(styled(Body)`
     }
 
     &.mini {
-      max-width: 4rem;
-      min-width: 4rem;
-      padding: 0 0.75rem 0 0;
-      width: 4rem;
+      padding: 0 !important;
+      width: fit-content;
       white-space: normal;
+
+      > div {
+        margin-right: 0.75rem;
+        max-width: 3.8rem;
+        min-width: 3.8rem;
+      }
     }
 
     &.favorite i.icon.isSelected {
