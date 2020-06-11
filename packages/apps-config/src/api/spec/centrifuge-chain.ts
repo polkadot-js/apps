@@ -32,8 +32,8 @@ export default {
     deposit: 'Balance',
     depositor: 'AccountId'
   },
-  Address: 'GenericAddress',
-  LookupSource: 'GenericAddress',
+  Address: 'AccountId',
+  LookupSource: 'AccountId',
   // Bridge constants
   ChainId: 'u8',
   ResourceId: '[u8; 32]',
