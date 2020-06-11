@@ -20,7 +20,6 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [value, setValue] = useState<BN | undefined>();
-  const hasValue = value?.gtn(0);
 
   return (
     <>
@@ -55,7 +54,6 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
               <Modal.Column>
                 <InputBalance
                   help={t<string>('The tip amount that should be allocated')}
-                  isError={!hasValue}
                   isZeroable
                   label={t<string>('value')}
                   onChange={setValue}
@@ -70,7 +68,7 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
             <TxButton
               accountId={accountId}
               icon='add'
-              isDisabled={!accountId || !hasValue }
+              isDisabled={!accountId}
               isPrimary
               label={t<string>('Submit tip')}
               onStart={toggleOpen}
