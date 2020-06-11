@@ -14,6 +14,7 @@ import { useTranslation } from '../../translate';
 
 interface AddrState {
   address: string;
+  addressInput: string;
   isAddressExisting: boolean;
   isAddressValid: boolean;
 }
@@ -26,18 +27,18 @@ interface NameState {
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
-  const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', isAddressExisting: false, isAddressValid: false });
+  const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false });
   const isValid = isAddressValid && isNameValid;
 
   const _onChangeAddress = useCallback(
-    (input: string): void => {
+    (addressInput: string): void => {
       let address = '';
       let isAddressValid = true;
       let isAddressExisting = false;
 
       try {
         address = keyring.encodeAddress(
-          keyring.decodeAddress(input)
+          keyring.decodeAddress(addressInput)
         );
         isAddressValid = keyring.isAvailable(address);
 
@@ -57,7 +58,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         isAddressValid = false;
       }
 
-      setAddress({ address: address || input, isAddressExisting, isAddressValid });
+      setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid });
     },
     [name]
   );
@@ -113,7 +114,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
             onChange={_onChangeAddress}
             onEnter={_onCommit}
             placeholder={t<string>('new address')}
-            value={address}
+            value={addressInput}
           />
           <Input
             className='full'
