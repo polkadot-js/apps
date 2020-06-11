@@ -602,30 +602,6 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState(initialState);
   }
 
-  private onCancel = (): void => {
-    const { queueSetTxStatus } = this.props;
-    const { currentItem } = this.state;
-
-    // This should never be executed
-    if (!currentItem) {
-      return;
-    }
-
-    const { id, signerCb, txFailedCb } = currentItem;
-
-    queueSetTxStatus(id, 'cancelled');
-
-    if (isFunction(signerCb)) {
-      signerCb(id, null);
-    }
-
-    if (isFunction(txFailedCb)) {
-      txFailedCb(null);
-    }
-
-    this.setState(initialState);
-  };
-
   private onSend = async (): Promise<void> => {
     const { currentItem, password } = this.state;
 
@@ -726,21 +702,6 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ isQrScanning: true });
   };
 
-  private sendRpc = async ({ id, rpc, values = [] }: QueueTx): Promise<void> => {
-    if (!rpc) {
-      return;
-    }
-
-    const { queueSetTxStatus } = this.props;
-
-    queueSetTxStatus(id, 'sending');
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { error, result, status } = await this.submitRpc(rpc, values);
-
-    queueSetTxStatus(id, status, result, error);
-  };
-
   private async sendExtrinsic (queueTx: QueueTx, password?: string): Promise<void> {
     const { api, queueSetTxStatus } = this.props;
     const { isMultiCall, isSubmit, showTip, signatory, tip } = this.state;
@@ -810,33 +771,6 @@ class Signer extends React.PureComponent<Props, State> {
     return isSubmit
       ? this.makeExtrinsicCall(tx, queueTx, tx.signAndSend.bind(tx), pair)
       : this.makeSignedTransaction(tx, queueTx, pair);
-  }
-
-  private async submitRpc ({ method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
-    const { api } = this.props;
-
-    try {
-      assert(
-        isFunction((api.rpc as Record<string, unknown>)[section] && (api.rpc as Record<string, Record<string, unknown>>)[section][method]),
-        `api.rpc.${section}.${method} does not exist`
-      );
-
-      const result = await (api.rpc as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>)[section][method](...values);
-
-      console.log('submitRpc: result ::', format(result));
-
-      return {
-        result,
-        status: 'sent'
-      };
-    } catch (error) {
-      console.error(error);
-
-      return {
-        error: error as Error,
-        status: 'error'
-      };
-    }
   }
 
   private async makeExtrinsicCall (extrinsic: SubmittableExtrinsic, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, extrinsicCall: (...params: any[]) => Promise<() => void>, pair?: KeyringPair): Promise<void> {

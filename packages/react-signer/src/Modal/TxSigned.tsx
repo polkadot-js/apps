@@ -5,16 +5,18 @@
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
+import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { assert, isFunction } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
 import { useTranslation } from '../translate';
 import AddressOrProxy from './AddressOrProxy';
+import Tip from './Tip';
 import Transaction from './Transaction';
 import Unlock from './Unlock';
 import { extractExternal } from './util';
@@ -27,9 +29,11 @@ interface Props {
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isRenderError, toggleRenderError] = useToggle();
   const [address, setAddress] = useState<string>(requestAddress);
+  const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
     setFlags(extractExternal(address));
@@ -37,9 +41,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _onCancel = useCallback(
     (): void => {
-      // nothing
+      const { id, signerCb, txFailedCb } = currentItem;
+
+      queueSetTxStatus(id, 'cancelled');
+      isFunction(signerCb) && signerCb(id, null);
+      isFunction(txFailedCb) && txFailedCb(null);
     },
-    []
+    [currentItem, queueSetTxStatus]
   );
 
   return (
@@ -54,6 +62,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             currentItem={currentItem}
             onError={toggleRenderError}
           />
+          <Tip onChange={setTip} />
           <Unlock address={address} />
         </ErrorBoundary>
       </Modal.Content>

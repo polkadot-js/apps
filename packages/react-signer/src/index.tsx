@@ -83,11 +83,10 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
   return (
     <>
       {children}
-      {currentItem && requestAddress && (
+      {currentItem && (
         <Modal
           className={className}
           currentItem={currentItem}
-          requestAddress={requestAddress}
         />
       )}
     </>

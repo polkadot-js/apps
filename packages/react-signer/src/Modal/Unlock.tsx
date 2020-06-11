@@ -29,7 +29,7 @@ function getPair (address?: string | null): KeyringPair | null {
   }
 }
 
-function Unlock ({ address, className = '', error, onChange, onEnter, password, tabIndex }: Props): React.ReactElement<Props> | null {
+function Unlock ({ address, className, error, onChange, onEnter, password, tabIndex }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [pair, setPair] = useState<KeyringPair | null>(null);
 
@@ -42,7 +42,7 @@ function Unlock ({ address, className = '', error, onChange, onEnter, password, 
   }
 
   return (
-    <div className={`ui--signer-Signer-Unlock ${className}`}>
+    <div className={className}>
       <Modal.Columns>
         <Modal.Column>
           <Password
