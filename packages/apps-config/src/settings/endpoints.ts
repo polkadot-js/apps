@@ -52,9 +52,15 @@ function createLive (t: <T= string> (key: string, text: string, options: { ns: s
       value: 'wss://kusama.polkadot.cloud.ava.do/'
     },
     {
+      dnslink: 'centrifuge',
+      info: 'centrifuge',
+      text: t<string>('rpc.centrifuge', 'Centrifuge (Mainnet, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.centrifuge.io'
+    },
+    {
       dnslink: 'edgeware',
       info: 'edgeware',
-      text: t<string>('rpc.edgeware', 'Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      text: t<string>('rpc.edgeware', 'Edgeware (Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
       value: 'wss://mainnet1.edgewa.re'
     },
     {
