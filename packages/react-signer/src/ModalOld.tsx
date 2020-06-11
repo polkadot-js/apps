@@ -246,7 +246,6 @@ class Signer extends React.PureComponent<Props, State> {
               ? this.onCancelSign
               : this.onCancel
         }
-        withOr={!signedTx && !isQrVisible}
       >
         {!isRenderError && (!isQrVisible || !isQrScanning) && !signedTx && (
           <>
@@ -537,34 +536,6 @@ class Signer extends React.PureComponent<Props, State> {
         value={isMultisig ? signatory : currentItem.accountId}
       />
     );
-  }
-
-  private unlockAccount (accountId: string, password?: string): string | null {
-    let publicKey;
-
-    try {
-      publicKey = keyring.decodeAddress(accountId);
-    } catch (error) {
-      console.error(error);
-
-      return 'unable to decode address';
-    }
-
-    const pair = keyring.getPair(publicKey);
-
-    if (!pair.isLocked || pair.meta.isInjected || (pair.meta.isExternal && !pair.meta.isMultisig)) {
-      return null;
-    }
-
-    try {
-      pair.decodePkcs8(password);
-    } catch (error) {
-      console.error(error);
-
-      return (error as Error).message;
-    }
-
-    return null;
   }
 
   private onChangePassword = (password: string): void => {

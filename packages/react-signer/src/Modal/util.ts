@@ -8,7 +8,7 @@ import keyring from '@polkadot/ui-keyring';
 
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
-    return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
+    return { isHardware: false, isMultisig: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
   }
 
   let publicKey;
@@ -18,16 +18,17 @@ export function extractExternal (accountId: string | null): AddressFlags {
   } catch (error) {
     console.error(error);
 
-    return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
+    return { isHardware: false, isMultisig: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
   }
 
   const pair = keyring.getPair(publicKey);
 
   return {
     hardwareType: pair.meta.hardwareType as string,
-    isExternal: !!pair.meta.isExternal,
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
+    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig,
+    isUnlockable: !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)
   };

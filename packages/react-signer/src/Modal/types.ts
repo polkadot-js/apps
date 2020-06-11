@@ -4,9 +4,10 @@
 
 export interface AddressFlags {
   hardwareType?: string;
-  isExternal: boolean;
   isHardware: boolean;
   isMultisig: boolean;
+  isQr: boolean;
+  isUnlockable: boolean;
   threshold: number;
   who: string[];
 }
