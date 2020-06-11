@@ -2,37 +2,54 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
-import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
+import { QueueTx } from '@polkadot/react-components/Status/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
-import { Modal, StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import { assert, isFunction } from '@polkadot/util';
-import { format } from '@polkadot/util/logger';
+import { Modal } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import TxSigned from './TxSigned';
+import TxUnsigned from './TxUnsigned';
 
 interface Props {
   className?: string;
   currentItem: QueueTx;
 }
 
-function SignerModal ({ className = '', currentItem }: Props): React.ReactElement<Props> | null {
+function SignerModal ({ className, currentItem }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const [requestAddress, setRequestAddress] = useState<string | null>(null);
+
+  useEffect((): void => {
+    setRequestAddress(
+      currentItem
+        ? currentItem.accountId && !currentItem.isUnsigned
+          ? currentItem.accountId
+          : null
+        : null
+    );
+  }, [currentItem]);
 
   return (
     <Modal
-      className={`ui--signer-Signer ${className}`}
+      className={className}
       header={t('Authorize transaction')}
       size='large'
     >
-      <ErrorBoundary onError={this.onRenderError}>
-        {this.renderContent()}
-      </ErrorBoundary>
-      {this.renderButtons()}
+      {requestAddress
+        ? (
+          <TxSigned
+            currentItem={currentItem}
+            requestAddress={requestAddress}
+          />
+        )
+        : (
+          <TxUnsigned
+            currentItem={currentItem}
+          />
+        )
+      }
     </Modal>
   );
 }

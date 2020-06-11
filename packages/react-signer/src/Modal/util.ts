@@ -2,18 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AddressFlags } from './types';
+
 import keyring from '@polkadot/ui-keyring';
 
-interface AccountFlags {
-  hardwareType?: string;
-  isExternal: boolean;
-  isHardware: boolean;
-  isMultisig: boolean;
-  threshold: number;
-  who: string[];
-}
-
-export function extractExternal (accountId?: string | null): AccountFlags {
+export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
     return { isExternal: false, isHardware: false, isMultisig: false, threshold: 0, who: [] };
   }
