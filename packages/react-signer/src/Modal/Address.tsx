@@ -136,7 +136,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
         </Modal.Column>
       </Modal.Columns>
-      {multisigInfo && !currentItem.isUnsigned && (
+      {multisigInfo && (
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
@@ -159,7 +159,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           onChange={setPassword}
         />
       )}
-      {multisigInfo && !currentItem.isUnsigned && (
+      {multisigInfo && (
         <Modal.Columns>
           <Modal.Column>
             <Toggle

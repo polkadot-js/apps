@@ -4,22 +4,19 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
-import { AddressProxy } from './types';
 
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import Address from './Address';
 import Transaction from './Transaction';
 import { handleTxResults } from './util';
 
 interface Props {
   className?: string;
   currentItem: QueueTx;
-  requestAddress: string;
 }
 
 const NOOP = () => undefined;
@@ -39,11 +36,10 @@ async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: Que
   }
 }
 
-function TxUnsigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
+function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [, toggleRenderError] = useToggle();
-  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false, password: '' });
 
   const _onCancel = useCallback(
     (): void => {
@@ -58,13 +54,13 @@ function TxUnsigned ({ className, currentItem, requestAddress }: Props): React.R
 
   const _onSend = useCallback(
     async (): Promise<void> => {
-      if (!senderInfo.address || !currentItem.extrinsic) {
+      if (!currentItem.extrinsic) {
         return;
       }
 
       await send(queueSetTxStatus, currentItem, currentItem.extrinsic);
     },
-    [currentItem, queueSetTxStatus, senderInfo]
+    [currentItem, queueSetTxStatus]
   );
 
   return (
@@ -74,12 +70,6 @@ function TxUnsigned ({ className, currentItem, requestAddress }: Props): React.R
           <Transaction
             currentItem={currentItem}
             onError={toggleRenderError}
-          />
-          <Address
-            currentItem={currentItem}
-            onChange={setSenderInfo}
-            passwordError={null}
-            requestAddress={requestAddress}
           />
         </ErrorBoundary>
       </Modal.Content>
