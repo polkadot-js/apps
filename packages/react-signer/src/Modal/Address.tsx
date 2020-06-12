@@ -136,7 +136,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
         </Modal.Column>
       </Modal.Columns>
-      {multisigInfo && (
+      {multisigInfo && !currentItem.isUnsigned && (
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
@@ -152,14 +152,14 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           </Modal.Column>
         </Modal.Columns>
       )}
-      {address && flags.isUnlockable && (
+      {address && !currentItem.isUnsigned && flags.isUnlockable && (
         <Password
           address={address}
           error={passwordError}
           onChange={setPassword}
         />
       )}
-      {multisigInfo && (
+      {multisigInfo && !currentItem.isUnsigned && (
         <Modal.Columns>
           <Modal.Column>
             <Toggle

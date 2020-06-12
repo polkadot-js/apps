@@ -4,14 +4,14 @@
 
 import { SignerOptions, SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { AddressProxy } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { SubmittableResult } from '@polkadot/api';
+import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { registry } from '@polkadot/react-api';
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
@@ -27,7 +27,7 @@ import Address from './Address';
 import Qr from './Qr';
 import Tip from './Tip';
 import Transaction from './Transaction';
-import { extractExternal } from './util';
+import { extractExternal, handleTxResults } from './util';
 
 interface Props {
   className?: string;
@@ -73,44 +73,18 @@ function unlockAccount (accountId: string, password: string): string | null {
   return null;
 }
 
-async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txStartCb = NOOP, txSuccessCb = NOOP, txUpdateCb = NOOP }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<void> {
-  txStartCb();
+async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<void> {
+  currentItem.txStartCb && currentItem.txStartCb();
 
   try {
-    const unsubscribe = await tx.signAndSend(pairOrAddress, options, (result: SubmittableResult): void => {
-      if (!result || !result.status) {
-        return;
-      }
-
-      const status = result.status.type.toLowerCase() as QueueTxStatus;
-
-      console.log('signAndSend: updated status ::', JSON.stringify(result));
-      queueSetTxStatus(id, status, result);
-      txUpdateCb(result);
-
-      if (result.status.isFinalized || result.status.isInBlock) {
-        result.events
-          .filter(({ event: { section } }) => section === 'system')
-          .forEach(({ event: { method } }): void => {
-            if (method === 'ExtrinsicFailed') {
-              txFailedCb(result);
-            } else if (method === 'ExtrinsicSuccess') {
-              txSuccessCb(result);
-            }
-          });
-      } else if (result.isError) {
-        txFailedCb(result);
-      }
-
-      if (result.isCompleted) {
-        unsubscribe();
-      }
-    });
+    const unsubscribe = await tx.signAndSend(pairOrAddress, options, handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {
+      unsubscribe();
+    }));
   } catch (error) {
     console.error('signAndSend: error:', error);
-    queueSetTxStatus(id, 'error', {}, error);
+    queueSetTxStatus(currentItem.id, 'error', {}, error);
 
-    txFailedCb(null);
+    currentItem.txFailedCb && currentItem.txFailedCb(null);
   }
 }
 
@@ -135,6 +109,45 @@ function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerP
         qrResolve: resolve
       });
     });
+}
+
+async function wrapMultisig (api: ApiPromise, multisig: string, { address, isMultiCall }: AddressProxy, tx: SubmittableExtrinsic<'promise'>): Promise<SubmittableExtrinsic<'promise'>> {
+  const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+  const info = await api.query[multiModule].multisigs<Option<Multisig>>(multisig, tx.method.hash);
+  const { threshold, who } = extractExternal(multisig);
+  const others = who.filter((w) => w !== address);
+  let timepoint: Timepoint | null = null;
+
+  if (info.isSome) {
+    timepoint = info.unwrap().when;
+  }
+
+  return isMultiCall
+    ? api.tx[multiModule].asMulti.meta.args.length === 5
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method, false)
+      : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
+    : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
+}
+
+async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', KeyringPair | string, Partial<SignerOptions>]> {
+  const pair = keyring.getPair(address);
+  const { meta: { isExternal, isHardware, isInjected, source } } = pair;
+
+  if (isHardware) {
+    return ['signing', address, { ...options, signer: ledgerSigner }];
+  } else if (isExternal) {
+    return ['qr', address, { ...options, signer: { signPayload: signQrPayload(setQrState) } }];
+  } else if (isInjected) {
+    const injected = await web3FromSource(source as string);
+
+    assert(injected, `Unable to find a signer for ${address}`);
+
+    return ['signing', address, { ...options, signer: injected.signer }];
+  }
+
+  return ['signing', pair, options];
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -203,52 +216,12 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         return;
       }
 
-      const options: Partial<SignerOptions> = { tip };
-      const pair = keyring.getPair(senderInfo.address);
-      const submittable = currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
-      let tx = submittable;
+      const tx = senderInfo.isMultiAddress
+        ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
+        : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+      const [status, pairOrAddress, options] = await extractParams(senderInfo.address, { tip }, setQrState);
 
-      if (senderInfo.isMultiAddress) {
-        const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-        const info = await api.query[multiModule].multisigs<Option<Multisig>>(requestAddress, submittable.method.hash);
-        const { threshold, who } = extractExternal(requestAddress);
-        const others = who.filter((w) => w !== senderInfo.address);
-        let timepoint: Timepoint | null = null;
-
-        if (info.isSome) {
-          timepoint = info.unwrap().when;
-        }
-
-        tx = senderInfo.isMultiCall
-          ? api.tx[multiModule].asMulti.meta.args.length === 5
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            ? api.tx[multiModule].asMulti(threshold, others, timepoint, submittable.method, false)
-            : api.tx[multiModule].asMulti(threshold, others, timepoint, submittable.method)
-          : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, submittable.method.hash);
-      }
-
-      const { meta: { isExternal, isHardware, isInjected, source } } = pair;
-      let pairOrAddress: KeyringPair | string = senderInfo.address;
-
-      // set the signer
-      if (isHardware) {
-        queueSetTxStatus(currentItem.id, 'signing');
-        options.signer = ledgerSigner;
-      } else if (isExternal) {
-        queueSetTxStatus(currentItem.id, 'qr');
-        options.signer = { signPayload: signQrPayload(setQrState) };
-      } else if (isInjected) {
-        const injected = await web3FromSource(source as string);
-
-        assert(injected, `Unable to find a signer for ${senderInfo.address}`);
-
-        queueSetTxStatus(currentItem.id, 'signing');
-        options.signer = injected.signer;
-      } else {
-        queueSetTxStatus(currentItem.id, 'signing');
-        pairOrAddress = pair;
-      }
+      queueSetTxStatus(currentItem.id, status);
 
       await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
     },
