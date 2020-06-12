@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import PasswordInput from '@polkadot/app-accounts/Accounts/PasswordInput';
 import { ModalProps } from '../../types';
 
 import React, { useCallback, useState } from 'react';
@@ -13,7 +14,8 @@ import keyring from '@polkadot/ui-keyring';
 import { useTranslation } from '../../translate';
 
 interface Scanned {
-  address: string;
+  isAddress: boolean;
+  content: string;
   genesisHash: string;
   name?: string;
 }
@@ -26,6 +28,15 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);
+  const [isAddress, setIsAddress] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>('');
+  const defaultPasswordState = { isPassValid: false, password: '' };
+  const passwordStateHooks = useState(defaultPasswordState);
+  const [{ isPassValid, password }] = passwordStateHooks;
+  const password2StateHooks = useState(defaultPasswordState);
+  const [{ isPassValid: isPass2Valid }] = password2StateHooks;
+
+  const isValid = !!address && isNameValid && isPassValid && isPass2Valid;
 
   const _onNameChange = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
@@ -35,25 +46,40 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const _onScan = useCallback(
     (scanned: Scanned): void => {
       setScanned(scanned);
+      const { content, genesisHash } = scanned;
+
+      setIsAddress(scanned.isAddress);
+
+      if (scanned.isAddress) {
+        setAddress(content);
+      } else {
+        const pair = keyring.createFromUri(content, { genesisHash, name: name.trim() }, 'sr25519');
+
+        setAddress(pair.address);
+      }
 
       if (scanned.name) {
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange]
+    [_onNameChange, name]
   );
 
   const _onSave = useCallback(
     (): void => {
-      if (!scanned || !isNameValid) {
+      if (!scanned || !isValid) {
         return;
       }
 
-      const { address, genesisHash } = scanned;
+      const { content, genesisHash, isAddress } = scanned;
 
-      keyring.addExternal(address, { genesisHash, name: name.trim() });
+      if (isAddress) {
+        keyring.addExternal(content, { genesisHash, name: name.trim() });
+      } else {
+        keyring.addUri(content, password, { genesisHash, name: name.trim() }, 'sr25519');
+      }
+
       InputAddress.setLastValue('account', address);
-
       onStatusChange({
         account: address,
         action: 'create',
@@ -62,7 +88,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       });
       onClose();
     },
-    [isNameValid, name, onClose, onStatusChange, scanned, t]
+    [address, isValid, name, onClose, onStatusChange, password, scanned, t]
   );
 
   return (
@@ -80,7 +106,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   <AddressRow
                     defaultName={name}
                     noDefaultNameOpacity
-                    value={scanned.address}
+                    value={address}
                   />
                 </Modal.Column>
               </Modal.Columns>
@@ -101,6 +127,8 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   <p>{t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}</p>
                 </Modal.Column>
               </Modal.Columns>
+              {!isAddress && <PasswordInput onEnter={_onSave}
+                passwordStates={[passwordStateHooks, password2StateHooks]}/>}
             </>
           )
           : (
@@ -120,7 +148,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in'
-          isDisabled={!scanned || !isNameValid}
+          isDisabled={!scanned || !isValid}
           isPrimary
           label={t<string>('Create')}
           onClick={_onSave}
