@@ -34,7 +34,7 @@ function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactEl
           .then((info): void => {
             mountedRef.current && setDispatchInfo(info);
           })
-      ).catch(console.error);
+      ).catch((error: Error) => console.error(error.message));
   }, [api, accountId, extrinsic, mountedRef]);
 
   if (!dispatchInfo) {

@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { QueueTx } from '@polkadot/react-components/Status/types';
-import { Multisig } from '@polkadot/types/interfaces';
+import { Multisig, ProxyType } from '@polkadot/types/interfaces';
+import { AddressProxy } from './types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
@@ -19,28 +20,50 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   currentItem: QueueTx;
-  onChange: (address: string | null) => void;
+  onChange: (address: AddressProxy) => void;
   requestAddress: string;
 }
 
 interface MultiState {
   isMultiCall: boolean;
+  who: string[];
   whoFilter: string[];
 }
 
-async function queryMultisig (api: ApiPromise, currentItem: QueueTx, address: string): Promise<MultiState | null> {
-  const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+interface ProxyState {
+  proxies: [string, ProxyType][] | null;
+  proxiesFilter: string[] | null;
+}
 
-  if (currentItem.extrinsic && isFunction(api.query[multiModule].multisigs)) {
-    const { threshold, who } = extractExternal(address);
+async function queryForMultisig (api: ApiPromise, currentItem: QueueTx, address: string): Promise<MultiState> {
+  const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+  const { threshold, who } = extractExternal(address);
+
+  if (currentItem.extrinsic && isFunction(api.query[multiModule]?.multisigs)) {
     const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(address, currentItem.extrinsic.method.hash);
     const multi = optMulti.unwrapOr(null);
 
     if (multi) {
       return {
         isMultiCall: ((multi.approvals.length + 1) >= threshold),
+        who,
         whoFilter: who.filter((w) => !multi.approvals.some((a) => a.eq(w)))
       };
+    }
+  }
+
+  return { isMultiCall: false, who, whoFilter: who };
+}
+
+async function queryForProxy (api: ApiPromise, address: string): Promise<ProxyState | null> {
+  if (isFunction(api.query.proxy?.proxies)) {
+    const [_proxies] = await api.query.proxy.proxies(address);
+
+    if (_proxies.length) {
+      const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
+      const proxiesFilter: string[] = proxies.map(([proxy]) => proxy);
+
+      return { proxies, proxiesFilter };
     }
   }
 
@@ -52,28 +75,41 @@ function Address ({ children, className, currentItem, onChange, requestAddress }
   const mountedRef = useIsMountedRef();
   const { t } = useTranslation();
   const [address, setAddress] = useState<string | null>(requestAddress);
+  const [isMultiCall, setIsMultiCall] = useState(false);
   const [multisigInfo, setMultsigInfo] = useState<MultiState | null>(null);
+  const [, setProxyInfo] = useState<ProxyState | null>(null);
 
   useEffect((): void => {
-    if (extractExternal(requestAddress).isMultisig) {
-      queryMultisig(api, currentItem, requestAddress)
-        .then((info) => mountedRef.current && setMultsigInfo(info))
+    const { isMultisig, who } = extractExternal(requestAddress);
+
+    if (isMultisig) {
+      setMultsigInfo({ isMultiCall: false, who, whoFilter: who });
+
+      queryForMultisig(api, currentItem, requestAddress)
+        .then((info): void => {
+          if (mountedRef.current) {
+            setMultsigInfo(info);
+            setIsMultiCall(info?.isMultiCall || false);
+          }
+        })
         .catch(console.error);
+    } else {
+      setMultsigInfo(null);
     }
+
+    queryForProxy(api, requestAddress)
+      .then((info) => mountedRef.current && setProxyInfo(info))
+      .catch(console.error);
   }, [api, currentItem, mountedRef, requestAddress]);
 
   useEffect((): void => {
-    onChange(address);
-  }, [address, onChange]);
-
-  const _onToggleMultiCall = useCallback(
-    () => setMultsigInfo((multisigInfo) =>
-      multisigInfo
-        ? { ...multisigInfo, isMultiCall: !multisigInfo.isMultiCall }
-        : null
-    ),
-    []
-  );
+    onChange({
+      address,
+      isMultiAddress: !!multisigInfo,
+      isMultiCall: isMultiCall,
+      isProxyAddress: false
+    });
+  }, [address, isMultiCall, multisigInfo, onChange]);
 
   return (
     <>
@@ -92,34 +128,36 @@ function Address ({ children, className, currentItem, onChange, requestAddress }
           <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
         </Modal.Column>
       </Modal.Columns>
+      {multisigInfo && (
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              filter={multisigInfo.whoFilter}
+              help={t<string>('The multisig signatory for this transaction.')}
+              label={t<string>('signatory')}
+              onChange={setAddress}
+              type='account'
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      )}
       {children}
       {multisigInfo && (
         <>
           <Modal.Columns>
             <Modal.Column>
-              <InputAddress
-                filter={multisigInfo.whoFilter}
-                help={t<string>('The multisig signatory for this transaction.')}
-                label={t<string>('signatory')}
-                onChange={setAddress}
-                type='account'
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
-            </Modal.Column>
-          </Modal.Columns>
-          <Modal.Columns>
-            <Modal.Column>
               <Toggle
                 className='tipToggle'
                 label={
-                  multisigInfo.isMultiCall
+                  isMultiCall
                     ? t<string>('Multisig message with call (for final approval)')
                     : t<string>('Multisig approval with hash (non-final approval)')
                 }
-                onChange={_onToggleMultiCall}
-                value={multisigInfo.isMultiCall}
+                onChange={setIsMultiCall}
+                value={isMultiCall}
               />
             </Modal.Column>
             <Modal.Column>

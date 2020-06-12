@@ -4,22 +4,28 @@
 
 import { SignerOptions, SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
+import { AddressProxy } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiPromise, SubmittableResult } from '@polkadot/api';
+import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
+import { registry } from '@polkadot/react-api';
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
-import { useApi, useIsMountedRef, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
-import { BN_ZERO, assert, isFunction } from '@polkadot/util';
+import { BN_ZERO, assert } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import ledgerSigner from '../LedgerSigner';
 import { useTranslation } from '../translate';
 import Address from './Address';
 import Password from './Password';
+import Qr from './Qr';
 import Tip from './Tip';
 import Transaction from './Transaction';
 import { extractExternal } from './util';
@@ -29,6 +35,20 @@ interface Props {
   currentItem: QueueTx;
   requestAddress: string;
 }
+
+interface QrState {
+  isQrHashed: boolean;
+  isQrScanning: boolean;
+  isQrVisible: boolean;
+  qrAddress: string;
+  qrPayload: Uint8Array;
+  qrResolve?: (result: SignerResult) => void;
+  qrReject?: (error: Error) => void;
+}
+
+const NOOP = () => undefined;
+
+let qrId = 0;
 
 function unlockAccount (accountId: string, password: string): string | null {
   let publicKey;
@@ -54,17 +74,8 @@ function unlockAccount (accountId: string, password: string): string | null {
   return null;
 }
 
-async function makeExtrinsicCall (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<void> {
-  // const { api, queueSetTxStatus } = this.props;
-  // const { showTip, tip } = this.state;
-
-  console.log('makeExtrinsicCall: extrinsic ::', tx.toHex());
-
-  queueSetTxStatus(id, 'signing');
-
-  if (isFunction(txStartCb)) {
-    txStartCb();
-  }
+async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txStartCb = NOOP, txSuccessCb = NOOP, txUpdateCb = NOOP }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<void> {
+  txStartCb();
 
   try {
     const unsubscribe = await tx.signAndSend(pairOrAddress, options, (result: SubmittableResult): void => {
@@ -74,24 +85,21 @@ async function makeExtrinsicCall (api: ApiPromise, queueSetTxStatus: QueueTxMess
 
       const status = result.status.type.toLowerCase() as QueueTxStatus;
 
-      console.log('makeExtrinsicCall: updated status ::', JSON.stringify(result));
+      console.log('signAndSend: updated status ::', JSON.stringify(result));
       queueSetTxStatus(id, status, result);
-
-      if (isFunction(txUpdateCb)) {
-        txUpdateCb(result);
-      }
+      txUpdateCb(result);
 
       if (result.status.isFinalized || result.status.isInBlock) {
         result.events
-          .filter(({ event: { section } }): boolean => section === 'system')
+          .filter(({ event: { section } }) => section === 'system')
           .forEach(({ event: { method } }): void => {
-            if (isFunction(txFailedCb) && method === 'ExtrinsicFailed') {
+            if (method === 'ExtrinsicFailed') {
               txFailedCb(result);
-            } else if (isFunction(txSuccessCb) && method === 'ExtrinsicSuccess') {
+            } else if (method === 'ExtrinsicSuccess') {
               txSuccessCb(result);
             }
           });
-      } else if (result.isError && isFunction(txFailedCb)) {
+      } else if (result.isError) {
         txFailedCb(result);
       }
 
@@ -99,66 +107,35 @@ async function makeExtrinsicCall (api: ApiPromise, queueSetTxStatus: QueueTxMess
         unsubscribe();
       }
     });
-
-    queueSetTxStatus(id, 'sending');
   } catch (error) {
-    console.error('makeExtrinsicCall: error:', error);
+    console.error('signAndSend: error:', error);
     queueSetTxStatus(id, 'error', {}, error);
 
-    if (isFunction(txFailedCb)) {
-      txFailedCb(null);
-    }
+    txFailedCb(null);
   }
 }
 
-function signQrPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
-  return new Promise((resolve, reject): void => {
-    // limit size of the transaction
-    const qrIsHashed = (payload.method.length > 5000);
-    const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-    const qrPayload = qrIsHashed
-      ? blake2AsU8a(wrapper.toU8a(true))
-      : wrapper.toU8a();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerPayloadJSON) => Promise<SignerResult> {
+  return (payload: SignerPayloadJSON): Promise<SignerResult> =>
+    new Promise((resolve, reject): void => {
+      // limit size of the transaction
+      const isQrHashed = (payload.method.length > 5000);
+      const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
+      const qrPayload = isQrHashed
+        ? blake2AsU8a(wrapper.toU8a(true))
+        : wrapper.toU8a();
 
-    this.setState({
-      isQrVisible: true,
-      qrAddress: payload.address,
-      qrIsHashed,
-      qrPayload,
-      qrReject: reject,
-      qrResolve: resolve
+      setQrState({
+        isQrHashed,
+        isQrScanning: false,
+        isQrVisible: true,
+        qrAddress: payload.address,
+        qrPayload,
+        qrReject: reject,
+        qrResolve: resolve
+      });
     });
-  });
-};
-
-async function sendTx (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, address: string, currentItem: QueueTx, options: Partial<SignerOptions>): Promise<void> {
-  const pair = keyring.getPair(address);
-  const submittable = currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
-  const tx = submittable;
-
-  // do multisig stuff here
-  // ...
-
-  const { meta: { isExternal, isHardware, isInjected, source } } = pair;
-  let pairOrAddress: KeyringPair | string = address;
-
-  // set the signer
-  if (isHardware) {
-    options.signer = ledgerSigner;
-  } else if (isExternal) {
-    queueSetTxStatus(currentItem.id, 'qr');
-    options.signer = { signPayload: signQrPayload };
-  } else if (isInjected) {
-    const injected = await web3FromSource(source as string);
-
-    assert(injected, `Unable to find a signer for ${address}`);
-
-    options.signer = injected.signer;
-  } else {
-    pairOrAddress = pair;
-  }
-
-  return makeExtrinsicCall(api, queueSetTxStatus, currentItem, tx, pairOrAddress, options);
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -166,51 +143,118 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { t } = useTranslation();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
-  const [isQrVisible, setIsQrVisible] = useState(false);
-  const [isRenderError, toggleRenderError] = useToggle();
+  const [{ isQrHashed, isQrScanning, isQrVisible, qrAddress, qrPayload }, setQrState] = useState<QrState>({ isQrHashed: false, isQrScanning: false, isQrVisible: false, qrAddress: '', qrPayload: new Uint8Array() });
+  const [, toggleRenderError] = useToggle();
   const [isSubmit] = useState(true);
-  const [address, setAddress] = useState<string | null>(requestAddress);
+  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false });
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [tip, setTip] = useState(BN_ZERO);
-  const mountedRef = useIsMountedRef();
 
   useEffect((): void => {
-    setFlags(extractExternal(address));
+    setFlags(extractExternal(senderInfo.address));
     setPasswordError(null);
-  }, [address, api, currentItem, mountedRef]);
+  }, [senderInfo]);
 
-  const _activateQr = useCallback(
-    () => setIsQrVisible(true),
+  const _onQrSend = useCallback(
+    () => setQrState((state) => ({ ...state, isQrScanning: state.isQrVisible, isQrVisible: true })),
+    []
+  );
+
+  const _addQrSignature = useCallback(
+    ({ signature }: { signature: string }): void => {
+      setQrState(
+        (state): QrState => {
+          state.qrResolve &&
+            state.qrResolve({
+              id: ++qrId,
+              signature
+            });
+
+          return {
+            ...state,
+            isQrScanning: false,
+            isQrVisible: false
+          };
+        }
+      );
+    },
     []
   );
 
   const _onCancel = useCallback(
     (): void => {
-      const { id, signerCb, txFailedCb } = currentItem;
+      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
 
       queueSetTxStatus(id, 'cancelled');
-      isFunction(signerCb) && signerCb(id, null);
-      isFunction(txFailedCb) && txFailedCb(null);
+      signerCb(id, null);
+      txFailedCb(null);
     },
     [currentItem, queueSetTxStatus]
   );
 
   const _onSend = useCallback(
-    (): void => {
-      const passwordError = address && flags.isUnlockable
-        ? unlockAccount(address, password)
+    async (): Promise<void> => {
+      const passwordError = senderInfo.address && flags.isUnlockable
+        ? unlockAccount(senderInfo.address, password)
         : null;
 
-      if (passwordError || !address) {
+      if (passwordError || !senderInfo.address) {
         setPasswordError(passwordError);
 
         return;
       }
 
-      sendTx(api, queueSetTxStatus, address, currentItem, { tip }).catch(console.error);
+      const options: Partial<SignerOptions> = { tip };
+      const pair = keyring.getPair(senderInfo.address);
+      const submittable = currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+      let tx = submittable;
+
+      if (senderInfo.isMultiAddress) {
+        const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+        const info = await api.query[multiModule].multisigs<Option<Multisig>>(requestAddress, submittable.method.hash);
+        const { threshold, who } = extractExternal(requestAddress);
+        const others = who.filter((w) => w !== senderInfo.address);
+        let timepoint: Timepoint | null = null;
+
+        if (info.isSome) {
+          timepoint = info.unwrap().when;
+        }
+
+        tx = senderInfo.isMultiCall
+          ? api.tx[multiModule].asMulti.meta.args.length === 5
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            ? api.tx[multiModule].asMulti(threshold, others, timepoint, submittable.method, false)
+            : api.tx[multiModule].asMulti(threshold, others, timepoint, submittable.method)
+          : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, submittable.method.hash);
+      }
+
+      const { meta: { isExternal, isHardware, isInjected, source } } = pair;
+      let pairOrAddress: KeyringPair | string = senderInfo.address;
+
+      // set the signer
+      if (isHardware) {
+        queueSetTxStatus(currentItem.id, 'signing');
+        options.signer = ledgerSigner;
+      } else if (isExternal) {
+        queueSetTxStatus(currentItem.id, 'qr');
+        options.signer = { signPayload: signQrPayload(setQrState) };
+      } else if (isInjected) {
+        const injected = await web3FromSource(source as string);
+
+        assert(injected, `Unable to find a signer for ${senderInfo.address}`);
+
+        queueSetTxStatus(currentItem.id, 'signing');
+        options.signer = injected.signer;
+      } else {
+        queueSetTxStatus(currentItem.id, 'signing');
+        pairOrAddress = pair;
+      }
+
+      await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
     },
-    [address, api, currentItem, flags, password, queueSetTxStatus, tip]
+    [api, currentItem, flags, password, queueSetTxStatus, requestAddress, senderInfo, tip]
   );
 
   const _setPassword = useCallback(
@@ -227,31 +271,20 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         <ErrorBoundary onError={toggleRenderError}>
           {isQrVisible
             ? (
-              // <Modal.Columns>
-              //   <Modal.Column>
-              //     <Qr
-              //       address={qrAddress}
-              //       genesisHash={api.genesisHash}
-              //       isHashed={qrIsHashed}
-              //       isScanning={isQrScanning}
-              //       onSignature={this.addQrSignature}
-              //       payload={qrPayload}
-              //     />
-              //   </Modal.Column>
-              //   <Modal.Column>
-              //     {isQrScanning
-              //       ? <p>{t<string>('Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.')}</p>
-              //       : <p>{t<string>('Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.')}</p>
-              //     }
-              //   </Modal.Column>
-              // </Modal.Columns>
-              <div>QR!!!!</div>
+              <Qr
+                address={qrAddress}
+                genesisHash={api.genesisHash}
+                isHashed={isQrHashed}
+                isScanning={isQrScanning}
+                onSignature={_addQrSignature}
+                payload={qrPayload}
+              />
             )
             : (
               <>
                 <Address
                   currentItem={currentItem}
-                  onChange={setAddress}
+                  onChange={setSenderInfo}
                   requestAddress={requestAddress}
                 >
                   <Transaction
@@ -262,7 +295,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                 </Address>
                 {flags.isUnlockable && (
                   <Password
-                    address={address}
+                    address={senderInfo.address}
                     error={passwordError}
                     onChange={_setPassword}
                   />
@@ -279,7 +312,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
               ? 'qrcode'
               : 'sign-in'
           }
-          isDisabled={!address}
+          isDisabled={!senderInfo.address}
           isPrimary
           label={
             isQrVisible
@@ -290,7 +323,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   ? t<string>('Sign and Submit')
                   : t<string>('Sign (no submission)')
           }
-          onClick={isQrVisible ? _activateQr : _onSend}
+          onClick={isQrVisible ? _onQrSend : _onSend}
           tabIndex={2}
         />
       </Modal.Actions>
@@ -298,4 +331,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   );
 }
 
-export default React.memo(styled(TxSigned)``);
+export default React.memo(styled(TxSigned)`
+  .tipToggle {
+    width: 100%;
+    text-align: right;
+  }
+
+  .ui--Checks {
+    margin-top: 0.75rem;
+  }
+`);

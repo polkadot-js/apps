@@ -27,7 +27,7 @@ import { format } from '@polkadot/util/logger';
 
 import ledgerSigner from './LedgerSigner';
 import Transaction from './Transaction';
-import Qr from './Qr';
+import Qr from './Modal/Qr';
 import Unlock from './Unlock';
 import translate from './translate';
 

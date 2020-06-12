@@ -118,15 +118,6 @@ export default React.memo(styled(Signer)`
     .hl {
       font-weight: 700;
     }
-
-    .tipToggle {
-      width: 100%;
-      text-align: right;
-    }
-
-    .ui--Checks {
-      margin-top: 0.75rem;
-    }
   }
 
   .signToggle {

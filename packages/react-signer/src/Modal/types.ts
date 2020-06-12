@@ -11,3 +11,10 @@ export interface AddressFlags {
   threshold: number;
   who: string[];
 }
+
+export interface AddressProxy {
+  address: string| null;
+  isMultiAddress: boolean;
+  isMultiCall: boolean;
+  isProxyAddress: boolean;
+}
