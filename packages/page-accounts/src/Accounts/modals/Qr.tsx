@@ -13,7 +13,8 @@ import keyring from '@polkadot/ui-keyring';
 import { useTranslation } from '../../translate';
 
 interface Scanned {
-  address: string;
+  content: string;
+  isAddress: boolean;
   genesisHash: string;
   name?: string;
 }
@@ -49,13 +50,14 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         return;
       }
 
-      const { address, genesisHash } = scanned;
+      // TODO Handle where !isAddress
+      const { content, genesisHash } = scanned;
 
-      keyring.addExternal(address, { genesisHash, name: name.trim() });
-      InputAddress.setLastValue('account', address);
+      keyring.addExternal(content, { genesisHash, name: name.trim() });
+      InputAddress.setLastValue('account', content);
 
       onStatusChange({
-        account: address,
+        account: content,
         action: 'create',
         message: t<string>('created account'),
         status: 'success'
@@ -80,7 +82,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   <AddressRow
                     defaultName={name}
                     noDefaultNameOpacity
-                    value={scanned.address}
+                    value={scanned.content}
                   />
                 </Modal.Column>
               </Modal.Columns>
