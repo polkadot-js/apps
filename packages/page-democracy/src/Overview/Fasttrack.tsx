@@ -99,7 +99,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
               onStart={toggleFasttrack}
               params={
                 api.tx.technicalCommittee.propose.meta.args.length === 3
-                  ? [threshold, proposal, proposalLength]
+                  ? [memberThreshold, proposal, proposalLength]
                   : [memberThreshold, proposal]
               }
               tx='technicalCommittee.propose'
