@@ -2,21 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SignerOptions, SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { SignerPayloadJSON } from '@polkadot/types/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
+import { ApiPromise, SubmittableResult } from '@polkadot/api';
+import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useApi, useIsMountedRef, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
-import { BN_ZERO, isFunction } from '@polkadot/util';
+import { BN_ZERO, assert, isFunction } from '@polkadot/util';
 
+import ledgerSigner from '../LedgerSigner';
 import { useTranslation } from '../translate';
-import AddressOrProxy from './Address';
+import Address from './Address';
+import Password from './Password';
 import Tip from './Tip';
 import Transaction from './Transaction';
-import Password from './Password';
 import { extractExternal } from './util';
 
 interface Props {
@@ -47,6 +52,113 @@ function unlockAccount (accountId: string, password: string): string | null {
   }
 
   return null;
+}
+
+async function makeExtrinsicCall (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb, txStartCb, txSuccessCb, txUpdateCb }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<void> {
+  // const { api, queueSetTxStatus } = this.props;
+  // const { showTip, tip } = this.state;
+
+  console.log('makeExtrinsicCall: extrinsic ::', tx.toHex());
+
+  queueSetTxStatus(id, 'signing');
+
+  if (isFunction(txStartCb)) {
+    txStartCb();
+  }
+
+  try {
+    const unsubscribe = await tx.signAndSend(pairOrAddress, options, (result: SubmittableResult): void => {
+      if (!result || !result.status) {
+        return;
+      }
+
+      const status = result.status.type.toLowerCase() as QueueTxStatus;
+
+      console.log('makeExtrinsicCall: updated status ::', JSON.stringify(result));
+      queueSetTxStatus(id, status, result);
+
+      if (isFunction(txUpdateCb)) {
+        txUpdateCb(result);
+      }
+
+      if (result.status.isFinalized || result.status.isInBlock) {
+        result.events
+          .filter(({ event: { section } }): boolean => section === 'system')
+          .forEach(({ event: { method } }): void => {
+            if (isFunction(txFailedCb) && method === 'ExtrinsicFailed') {
+              txFailedCb(result);
+            } else if (isFunction(txSuccessCb) && method === 'ExtrinsicSuccess') {
+              txSuccessCb(result);
+            }
+          });
+      } else if (result.isError && isFunction(txFailedCb)) {
+        txFailedCb(result);
+      }
+
+      if (result.isCompleted) {
+        unsubscribe();
+      }
+    });
+
+    queueSetTxStatus(id, 'sending');
+  } catch (error) {
+    console.error('makeExtrinsicCall: error:', error);
+    queueSetTxStatus(id, 'error', {}, error);
+
+    if (isFunction(txFailedCb)) {
+      txFailedCb(null);
+    }
+  }
+}
+
+function signQrPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
+  return new Promise((resolve, reject): void => {
+    // limit size of the transaction
+    const qrIsHashed = (payload.method.length > 5000);
+    const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
+    const qrPayload = qrIsHashed
+      ? blake2AsU8a(wrapper.toU8a(true))
+      : wrapper.toU8a();
+
+    this.setState({
+      isQrVisible: true,
+      qrAddress: payload.address,
+      qrIsHashed,
+      qrPayload,
+      qrReject: reject,
+      qrResolve: resolve
+    });
+  });
+};
+
+async function sendTx (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, address: string, currentItem: QueueTx, options: Partial<SignerOptions>): Promise<void> {
+  const pair = keyring.getPair(address);
+  const submittable = currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+  const tx = submittable;
+
+  // do multisig stuff here
+  // ...
+
+  const { meta: { isExternal, isHardware, isInjected, source } } = pair;
+  let pairOrAddress: KeyringPair | string = address;
+
+  // set the signer
+  if (isHardware) {
+    options.signer = ledgerSigner;
+  } else if (isExternal) {
+    queueSetTxStatus(currentItem.id, 'qr');
+    options.signer = { signPayload: signQrPayload };
+  } else if (isInjected) {
+    const injected = await web3FromSource(source as string);
+
+    assert(injected, `Unable to find a signer for ${address}`);
+
+    options.signer = injected.signer;
+  } else {
+    pairOrAddress = pair;
+  }
+
+  return makeExtrinsicCall(api, queueSetTxStatus, currentItem, tx, pairOrAddress, options);
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -90,9 +202,15 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         ? unlockAccount(address, password)
         : null;
 
-      setPasswordError(passwordError);
+      if (passwordError || !address) {
+        setPasswordError(passwordError);
+
+        return;
+      }
+
+      sendTx(api, queueSetTxStatus, address, currentItem, { tip }).catch(console.error);
     },
-    [address, flags, password]
+    [address, api, currentItem, flags, password, queueSetTxStatus, tip]
   );
 
   const _setPassword = useCallback(
@@ -131,7 +249,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             )
             : (
               <>
-                <AddressOrProxy
+                <Address
                   currentItem={currentItem}
                   onChange={setAddress}
                   requestAddress={requestAddress}
@@ -141,7 +259,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                     onError={toggleRenderError}
                   />
                   <Tip onChange={setTip} />
-                </AddressOrProxy>
+                </Address>
                 {flags.isUnlockable && (
                   <Password
                     address={address}

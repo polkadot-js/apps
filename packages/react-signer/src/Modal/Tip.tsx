@@ -21,8 +21,8 @@ function Tip ({ className, onChange }: Props): React.ReactElement<Props> | null 
   const [showTip, setShowTip] = useState(false);
 
   useEffect((): void => {
-    onChange(tip);
-  }, [onChange, tip]);
+    onChange(showTip ? tip : BN_ZERO);
+  }, [onChange, showTip, tip]);
 
   return (
     <Modal.Columns className={className}>

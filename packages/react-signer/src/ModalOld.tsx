@@ -109,11 +109,7 @@ function extractExternal (accountId?: string | null): AccountFlags {
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-async function makeExtrinsicSignature (
-  payload: SignerPayloadJSON,
-  { id, signerCb }: QueueTx,
-  pair: KeyringPair
-): Promise<void> {
+async function makeExtrinsicSignature (payload: SignerPayloadJSON, { id, signerCb }: QueueTx, pair: KeyringPair): Promise<void> {
   console.log('makeExtrinsicSignature: payload ::', JSON.stringify(payload));
 
   const result = createType(registry, 'ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
