@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import PasswordInput from '@polkadot/app-accounts/Accounts/PasswordInput';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { CreateResult } from '@polkadot/ui-keyring/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
@@ -21,6 +20,7 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../../translate';
+import PasswordInput from '../PasswordInput';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends ModalProps {
