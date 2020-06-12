@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignerOptions, SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
+import { Signer, SignerOptions, SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces';
@@ -86,6 +86,26 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
 
     currentItem.txFailedCb && currentItem.txFailedCb(null);
   }
+}
+
+async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txStartCb = NOOP }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<string | null> {
+  txStartCb();
+
+  try {
+    await tx.signAsync(pairOrAddress, options);
+
+    const signedTx = tx.toJSON()?.toString();
+
+    console.log('signAsync: result ::', signedTx);
+
+    return signedTx;
+  } catch (error) {
+    queueSetTxStatus(id, 'error', undefined, error);
+
+    txFailedCb(error);
+  }
+
+  return null;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -228,6 +248,30 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [api, currentItem, flags, queueSetTxStatus, requestAddress, senderInfo, tip]
   );
 
+  const _onSign = useCallback(
+    async (): Promise<void> => {
+      const passwordError = senderInfo.address && flags.isUnlockable
+        ? unlockAccount(senderInfo.address, senderInfo.password)
+        : null;
+
+      if (passwordError || !senderInfo.address) {
+        setPasswordError(passwordError);
+
+        return;
+      }
+
+      const tx = senderInfo.isMultiAddress
+        ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
+        : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+      const [status, pairOrAddress, options] = await extractParams(senderInfo.address, { era: blocks.toNumber(), nonce, tip }, setQrState);
+
+      queueSetTxStatus(currentItem.id, status);
+
+      await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
+    },
+    [api, currentItem, flags.isUnlockable, queueSetTxStatus, requestAddress, senderInfo, tip]
+  );
+
   return (
     <>
       <Modal.Content className={className}>
@@ -279,7 +323,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   ? t<string>('Sign and Submit')
                   : t<string>('Sign (no submission)')
           }
-          onClick={isQrVisible ? _onQrSend : _onSend}
+          onClick={
+            isQrVisible
+              ? _onQrSend
+              : isSubmit
+                ? _onSend
+                : _onSign
+          }
           tabIndex={2}
         />
       </Modal.Actions>
