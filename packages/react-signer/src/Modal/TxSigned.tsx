@@ -24,7 +24,6 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import ledgerSigner from '../LedgerSigner';
 import { useTranslation } from '../translate';
 import Address from './Address';
-import Password from './Password';
 import Qr from './Qr';
 import Tip from './Tip';
 import Transaction from './Transaction';
@@ -146,9 +145,8 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [{ isQrHashed, isQrScanning, isQrVisible, qrAddress, qrPayload }, setQrState] = useState<QrState>({ isQrHashed: false, isQrScanning: false, isQrVisible: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [, toggleRenderError] = useToggle();
   const [isSubmit] = useState(true);
-  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false });
-  const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false, password: '' });
   const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
@@ -196,7 +194,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _onSend = useCallback(
     async (): Promise<void> => {
       const passwordError = senderInfo.address && flags.isUnlockable
-        ? unlockAccount(senderInfo.address, password)
+        ? unlockAccount(senderInfo.address, senderInfo.password)
         : null;
 
       if (passwordError || !senderInfo.address) {
@@ -254,15 +252,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
       await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
     },
-    [api, currentItem, flags, password, queueSetTxStatus, requestAddress, senderInfo, tip]
-  );
-
-  const _setPassword = useCallback(
-    (password: string): void => {
-      setPassword(password);
-      setPasswordError(null);
-    },
-    []
+    [api, currentItem, flags, queueSetTxStatus, requestAddress, senderInfo, tip]
   );
 
   return (
@@ -282,24 +272,17 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             )
             : (
               <>
+                <Transaction
+                  currentItem={currentItem}
+                  onError={toggleRenderError}
+                />
                 <Address
                   currentItem={currentItem}
                   onChange={setSenderInfo}
+                  passwordError={passwordError}
                   requestAddress={requestAddress}
-                >
-                  <Transaction
-                    currentItem={currentItem}
-                    onError={toggleRenderError}
-                  />
-                  <Tip onChange={setTip} />
-                </Address>
-                {flags.isUnlockable && (
-                  <Password
-                    address={senderInfo.address}
-                    error={passwordError}
-                    onChange={_setPassword}
-                  />
-                )}
+                />
+                <Tip onChange={setTip} />
               </>
             )
           }

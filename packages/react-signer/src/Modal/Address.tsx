@@ -14,13 +14,14 @@ import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Password from './Password';
 import { extractExternal } from './util';
 
 interface Props {
-  children: React.ReactNode;
   className?: string;
   currentItem: QueueTx;
   onChange: (address: AddressProxy) => void;
+  passwordError: string | null;
   requestAddress: string;
 }
 
@@ -70,14 +71,20 @@ async function queryForProxy (api: ApiPromise, address: string): Promise<ProxySt
   return null;
 }
 
-function Address ({ children, className, currentItem, onChange, requestAddress }: Props): React.ReactElement<Props> {
+function Address ({ className, currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const { t } = useTranslation();
   const [address, setAddress] = useState<string | null>(requestAddress);
+  const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
   const [multisigInfo, setMultsigInfo] = useState<MultiState | null>(null);
+  const [password, setPassword] = useState('');
   const [, setProxyInfo] = useState<ProxyState | null>(null);
+
+  useEffect((): void => {
+    setFlags(extractExternal(address));
+  }, [address]);
 
   useEffect((): void => {
     const { isMultisig, who } = extractExternal(requestAddress);
@@ -107,9 +114,10 @@ function Address ({ children, className, currentItem, onChange, requestAddress }
       address,
       isMultiAddress: !!multisigInfo,
       isMultiCall: isMultiCall,
-      isProxyAddress: false
+      isProxyAddress: false,
+      password
     });
-  }, [address, isMultiCall, multisigInfo, onChange]);
+  }, [address, isMultiCall, multisigInfo, onChange, password]);
 
   return (
     <>
@@ -144,7 +152,13 @@ function Address ({ children, className, currentItem, onChange, requestAddress }
           </Modal.Column>
         </Modal.Columns>
       )}
-      {children}
+      {address && flags.isUnlockable && (
+        <Password
+          address={address}
+          error={passwordError}
+          onChange={setPassword}
+        />
+      )}
       {multisigInfo && (
         <>
           <Modal.Columns>
