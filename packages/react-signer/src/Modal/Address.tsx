@@ -71,7 +71,7 @@ async function queryForProxy (api: ApiPromise, address: string): Promise<ProxySt
   return null;
 }
 
-function Address ({ className, currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
+function Address ({ currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const { t } = useTranslation();
@@ -79,8 +79,8 @@ function Address ({ className, currentItem, onChange, passwordError, requestAddr
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
   const [multisigInfo, setMultsigInfo] = useState<MultiState | null>(null);
-  const [password, setPassword] = useState('');
   const [, setProxyInfo] = useState<ProxyState | null>(null);
+  const [password, setPassword] = useState('');
 
   useEffect((): void => {
     setFlags(extractExternal(address));
@@ -121,7 +121,7 @@ function Address ({ className, currentItem, onChange, passwordError, requestAddr
 
   return (
     <>
-      <Modal.Columns className={className}>
+      <Modal.Columns>
         <Modal.Column>
           <InputAddress
             className='full'
@@ -141,14 +141,14 @@ function Address ({ className, currentItem, onChange, passwordError, requestAddr
           <Modal.Column>
             <InputAddress
               filter={multisigInfo.whoFilter}
-              help={t<string>('The multisig signatory for this transaction.')}
-              label={t<string>('signatory')}
+              help={t('The multisig signatory for this transaction.')}
+              label={t('signatory')}
               onChange={setAddress}
               type='account'
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
+            <p>{t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
@@ -160,25 +160,23 @@ function Address ({ className, currentItem, onChange, passwordError, requestAddr
         />
       )}
       {multisigInfo && (
-        <>
-          <Modal.Columns>
-            <Modal.Column>
-              <Toggle
-                className='tipToggle'
-                label={
-                  isMultiCall
-                    ? t<string>('Multisig message with call (for final approval)')
-                    : t<string>('Multisig approval with hash (non-final approval)')
-                }
-                onChange={setIsMultiCall}
-                value={isMultiCall}
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
-            </Modal.Column>
-          </Modal.Columns>
-        </>
+        <Modal.Columns>
+          <Modal.Column>
+            <Toggle
+              className='tipToggle'
+              label={
+                isMultiCall
+                  ? t<string>('Multisig message with call (for final approval)')
+                  : t<string>('Multisig approval with hash (non-final approval)')
+              }
+              onChange={setIsMultiCall}
+              value={isMultiCall}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       )}
     </>
   );
