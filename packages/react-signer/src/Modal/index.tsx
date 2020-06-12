@@ -54,4 +54,9 @@ function SignerModal ({ className, currentItem }: Props): React.ReactElement<Pro
   );
 }
 
-export default React.memo(styled(SignerModal)``);
+export default React.memo(styled(SignerModal)`
+  .signToggle {
+    position: absolute;
+    left: 1.5rem;
+  }
+`);

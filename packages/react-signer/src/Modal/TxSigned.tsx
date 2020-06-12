@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Signer, SignerOptions, SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
+import { SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
+import { SignerOptions } from '@polkadot/api/submittable/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces';
@@ -14,7 +15,7 @@ import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { registry } from '@polkadot/react-api';
-import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
+import { Button, ErrorBoundary, Modal, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -25,6 +26,7 @@ import ledgerSigner from '../LedgerSigner';
 import { useTranslation } from '../translate';
 import Address from './Address';
 import Qr from './Qr';
+import SignFields from './SignFields';
 import Tip from './Tip';
 import Transaction from './Transaction';
 import { extractExternal, handleTxResults } from './util';
@@ -177,9 +179,11 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [{ isQrHashed, isQrScanning, isQrVisible, qrAddress, qrPayload }, setQrState] = useState<QrState>({ isQrHashed: false, isQrScanning: false, isQrVisible: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [, toggleRenderError] = useToggle();
-  const [isSubmit] = useState(true);
+  const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false, password: '' });
+  const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
+  const [signedTx, setSignedTx] = useState<string | null>(null);
   const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
@@ -263,13 +267,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       const tx = senderInfo.isMultiAddress
         ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
         : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
-      const [status, pairOrAddress, options] = await extractParams(senderInfo.address, { era: blocks.toNumber(), nonce, tip }, setQrState);
+      const [status, pairOrAddress, options] = await extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState);
 
       queueSetTxStatus(currentItem.id, status);
 
-      await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
+      setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
     },
-    [api, currentItem, flags.isUnlockable, queueSetTxStatus, requestAddress, senderInfo, tip]
+    [api, currentItem, flags.isUnlockable, queueSetTxStatus, requestAddress, senderInfo, signedOptions, tip]
   );
 
   return (
@@ -300,6 +304,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   requestAddress={requestAddress}
                 />
                 <Tip onChange={setTip} />
+                {!isSubmit && (
+                  <SignFields
+                    address={senderInfo.address}
+                    onChange={setSignedOptions}
+                    signedTx={signedTx}
+                  />
+                )}
               </>
             )
           }
@@ -331,6 +342,17 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                 : _onSign
           }
           tabIndex={2}
+        />
+        <Toggle
+          className='signToggle'
+          isDisabled={isQrVisible || isQrScanning}
+          label={
+            isSubmit
+              ? t<string>('Sign and Submit')
+              : t<string>('Sign (no submission)')
+          }
+          onChange={setIsSubmit}
+          value={isSubmit}
         />
       </Modal.Actions>
     </>
