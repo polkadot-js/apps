@@ -267,9 +267,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       const tx = senderInfo.isMultiAddress
         ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
         : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
-      const [status, pairOrAddress, options] = await extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState);
-
-      queueSetTxStatus(currentItem.id, status);
+      const [, pairOrAddress, options] = await extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState);
 
       setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
     },

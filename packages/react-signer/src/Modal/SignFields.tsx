@@ -19,7 +19,7 @@ interface Props {
   signedTx: string | null;
 }
 
-function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement<Props> | null {
+function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [blocks, setBlocks] = useState(new BN(64));
   const [nonce, setNonce] = useState(BN_ZERO);
@@ -38,18 +38,14 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
   }, [blocks, nonce, onChange]);
 
   const _setBlocks = useCallback(
-    (blocks?: BN) => setBlocks(blocks || BN_ZERO),
+    (blocks = BN_ZERO) => setBlocks(blocks),
     []
   );
 
   const _setNonce = useCallback(
-    (blocks?: BN) => setNonce(blocks || BN_ZERO),
+    (nonce = BN_ZERO) => setNonce(nonce),
     []
   );
-
-  if (address) {
-    return null;
-  }
 
   return (
     <>
