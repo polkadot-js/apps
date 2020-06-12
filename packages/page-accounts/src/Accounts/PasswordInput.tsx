@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useTranslation } from '@polkadot/app-accounts/translate';
 import { Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
+
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
+
+import { useTranslation } from '../translate';
 
 type PasswordState = { isPassValid: boolean, password: string }
 type PasswordStateHooks = [PasswordState, Dispatch<SetStateAction<PasswordState>>];
