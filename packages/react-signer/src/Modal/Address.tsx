@@ -75,8 +75,6 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
     const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(address, hash);
     const multi = optMulti.unwrapOr(null);
 
-    console.error('queryForMultisig', JSON.stringify({ address, multi }));
-
     return multi
       ? {
         address,
@@ -153,8 +151,6 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
       queryForMultisig(api, requestAddress, proxyAddress, currentItem.extrinsic)
         .then((info): void => {
           if (mountedRef.current) {
-            console.error('useEffect', JSON.stringify({ proxyAddress, requestAddress }), JSON.stringify(info));
-
             setMultInfo(info);
             setIsMultiCall(info?.isMultiCall || false);
           }
