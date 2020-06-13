@@ -77,7 +77,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #f5f5f5;
+  background: #f5f4f3;
   flex-grow: 1;
   height: 100%;
   min-height: 100vh;

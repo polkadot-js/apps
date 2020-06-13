@@ -4,10 +4,10 @@
 
 import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Button, InputAddress, InputAddressMulti, Modal, TxButton, VoteValue } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -26,7 +26,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
   const [available, setAvailable] = useState<string[]>([]);
   const [defaultVotes, setDefaultVotes] = useState<string[]>([]);
   const [votes, setVotes] = useState<string[]>([]);
-  const [voteValue, setVoteValue] = useState(new BN(0));
+  const [voteValue, setVoteValue] = useState(BN_ZERO);
 
   useEffect((): void => {
     if (electionsInfo) {

@@ -2,275 +2,64 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable camelcase */
-
-import { DeriveAccountInfo, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-components/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { withCalls, withMulti } from '@polkadot/react-api/hoc';
+import { useAccountInfo } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
-import keyring from '@polkadot/ui-keyring';
 
-import AddressInfo, { BalanceActiveType, ValidatorPrefsType } from './AddressInfo';
-import { classes, getAddressName, getAddressTags, toShortAddress } from './util';
-import IdentityIcon, { getIdentityTheme } from './IdentityIcon';
-import Row, { RowProps, RowState as State, styles } from './Row';
-import translate from './translate';
+import { toShortAddress } from './util';
+import IdentityIcon from './IdentityIcon';
+import Row, { RowProps } from './Row';
 
-export interface Props extends I18nProps, RowProps {
-  bonded?: BN | BN[];
-  extraInfo?: [React.ReactNode, React.ReactNode][];
+export interface Props extends RowProps {
   isContract?: boolean;
-  isDisabled?: boolean;
   isValid?: boolean;
   label?: string;
-  accountsInfo?: DeriveAccountInfo;
   noDefaultNameOpacity?: boolean;
   overlay?: React.ReactNode;
-  stakingInfo?: DeriveStakingAccount;
-  value: AccountId | AccountIndex | Address | string | null;
-  withAddressOrName?: boolean;
-  withBalance?: boolean | BalanceActiveType;
-  withIndex?: boolean;
-  withIndexOrAddress?: boolean;
-  withSmallIcon?: boolean;
-  withValidatorPrefs?: boolean | ValidatorPrefsType;
+  value: AccountId | AccountIndex | Address | string;
+  withSidebar?: boolean;
+  withTags?: boolean;
 }
 
-const DEFAULT_ADDR = '5'.padEnd(16, 'x');
+const DEFAULT_ADDR = '5'.padEnd(48, 'x');
 const ICON_SIZE = 48;
-const ICON_SIZE_SMALL = 32;
-const EMPTY_INFO: DeriveAccountInfo = {
-  identity: {
-    judgements: []
-  }
-};
 
-class AddressRow extends Row<ApiProps & Props, State> {
-  public state: State;
+function AddressRow ({ buttons, children, className, defaultName, isContract = false, isDisabled, isInline, isValid: propsIsValid, overlay, value, withTags = false }: Props): React.ReactElement<Props> | null {
+  const { accountIndex, isNull, name, onSaveName, onSaveTags, setName, setTags, tags } = useAccountInfo(value ? value.toString() : null, isContract);
 
-  constructor (props: ApiProps & Props) {
-    super(props);
+  const isValid = !isNull && (propsIsValid || value || accountIndex);
+  const Icon = value ? IdentityIcon : BaseIdentityIcon;
 
-    this.state = this.createState();
-  }
-
-  public static getDerivedStateFromProps ({ accountsInfo = EMPTY_INFO, defaultName, isEditable, noDefaultNameOpacity, type, value }: Props, prevState: State): State | null {
-    const accountId = accountsInfo.accountId || value;
-    const address = accountId
-      ? accountId.toString()
-      : DEFAULT_ADDR;
-    const [, isDefault, nameInner] = accountsInfo.nickname
-      ? [true, false, accountsInfo.nickname.toUpperCase()]
-      : getAddressName(address, type, defaultName || '<unknown>');
-    const name = isDefault && !noDefaultNameOpacity && !isEditable
-      ? <div className='ui--Row-placeholder'>{nameInner}</div>
-      : nameInner;
-    const tags = getAddressTags(address, type);
-    const state: Partial<State> = { tags };
-    let hasChanged = false;
-
-    if (address !== prevState.address) {
-      state.address = address;
-      hasChanged = true;
-    }
-
-    if (!prevState.isEditingName && name !== prevState.name) {
-      state.name = name as string;
-      hasChanged = true;
-    }
-
-    return hasChanged
-      ? state as State
-      : null;
-  }
-
-  public render (): React.ReactNode {
-    const { accountsInfo = EMPTY_INFO, className = '', isContract, isDisabled, isInline, label, overlay } = this.props;
-    const { accountId, accountIndex } = accountsInfo;
-    const isValid = this.props.isValid || accountId || accountIndex;
-
-    return (
-      <div className={classes('ui--Row', isDisabled && 'isDisabled', !isValid && 'isInvalid', isInline && 'isInline', className)}>
-        <div className='ui--Row-base'>
-          {this.renderIcon()}
-          <div className='ui--Row-details'>
-            {label && <label className='account-label'>{label}</label>}
-            {this.renderAddressAndName()}
-            {this.renderAccountIndex()}
-            {!isContract && this.renderBalances()}
-            {this.renderTags()}
-          </div>
-          {this.renderButtons()}
-        </div>
-        {this.renderChildren()}
-        {overlay}
-      </div>
-    );
-  }
-
-  private createState (): State {
-    const { accountsInfo = EMPTY_INFO, defaultName, type, value } = this.props;
-    const accountId = accountsInfo.accountId || value;
-    const address = accountId
-      ? accountId.toString()
-      : DEFAULT_ADDR;
-    const [, , name] = getAddressName(address, type, defaultName || '<unknown>');
-    const tags = getAddressTags(address, type);
-
-    return {
-      ...this.state,
-      address,
-      name,
-      tags
-    };
-  }
-
-  protected renderAddressAndName (): React.ReactNode {
-    const { withAddressOrName = false } = this.props;
-
-    if (withAddressOrName) {
-      return this.renderName(true);
-    } else {
-      return (
-        <>
-          {this.renderName()}
-          {this.renderAddress()}
-        </>
-      );
-    }
-  }
-
-  private renderAddress (): React.ReactNode {
-    const { accountsInfo = EMPTY_INFO, withIndexOrAddress = true } = this.props;
-    const { address } = this.state;
-    const { accountIndex } = accountsInfo;
-
-    if (accountIndex && withIndexOrAddress) {
-      return null;
-    }
-
-    return (
-      <div className='ui--Row-accountId'>
-        {toShortAddress(address)}
-      </div>
-    );
-  }
-
-  private renderAccountIndex (): React.ReactNode {
-    const { accountsInfo = EMPTY_INFO, withIndex = true, withIndexOrAddress = true, withSmallIcon } = this.props;
-    const { accountIndex } = accountsInfo;
-
-    if (withSmallIcon || !accountIndex || !(withIndex || withIndexOrAddress)) {
-      return null;
-    }
-
-    return (
-      <div className='ui--Row-accountIndex'>
-        {accountIndex.toString()}
-      </div>
-    );
-  }
-
-  private renderBalances (): React.ReactNode {
-    const { accountsInfo = EMPTY_INFO, extraInfo, stakingInfo, withBalance, withValidatorPrefs } = this.props;
-    const { accountId } = accountsInfo;
-
-    if (!(withBalance || withValidatorPrefs) || !accountId) {
-      return null;
-    }
-
-    return (
-      <div className='ui--Row-balances'>
-        <AddressInfo
-          address={accountId}
-          extraInfo={extraInfo}
-          stakingInfo={stakingInfo}
-          withBalance={withBalance}
-          withValidatorPrefs={withValidatorPrefs}
+  return (
+    <Row
+      address={toShortAddress(value && isValid ? value : DEFAULT_ADDR)}
+      buttons={buttons}
+      className={className}
+      defaultName={defaultName}
+      icon={
+        <Icon
+          size={ICON_SIZE}
+          value={value ? value.toString() : null}
         />
-      </div>
-    );
-  }
-
-  private renderIcon (): React.ReactNode {
-    const { accountsInfo = EMPTY_INFO, iconInfo, systemName, withIcon = true, withSmallIcon = false } = this.props;
-    const { address } = this.state;
-    const { accountId } = accountsInfo;
-
-    if (!withIcon) {
-      return null;
-    }
-
-    // Since we do queries to storage in the wrapped example, we don't want
-    // to follow that route if we don't have a valid address.
-    const Component = accountId
-      ? IdentityIcon
-      : BaseIdentityIcon;
-    const theme = getIdentityTheme(systemName);
-
-    return (
-      <div className='ui--Row-icon'>
-        <Component
-          size={withSmallIcon ? ICON_SIZE_SMALL : ICON_SIZE}
-          theme={theme}
-          value={address}
-        />
-        {iconInfo && (
-          <div className='ui--Row-icon-info'>
-            {iconInfo}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  protected saveName = (): void => {
-    const { address, name } = this.state;
-    const trimmedName = name.trim();
-    const meta = {
-      name: trimmedName,
-      whenEdited: Date.now()
-    };
-
-    // Save only if the name was changed or if it's no empty.
-    if (trimmedName && address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
       }
-    }
-
-    this.setState({ isEditingName: false });
-  }
-
-  protected saveTags = (): void => {
-    const { address, tags } = this.state;
-    const meta = {
-      tags,
-      whenEdited: Date.now()
-    };
-
-    if (address) {
-      try {
-        const currentKeyring = keyring.getPair(address);
-
-        currentKeyring && keyring.saveAccountMeta(currentKeyring, meta);
-      } catch (error) {
-        keyring.saveAddress(address, meta);
-      }
-
-      this.setState({ isEditingTags: false });
-    }
-  }
+      isDisabled={isDisabled}
+      isEditableName
+      isEditableTags
+      isInline={isInline}
+      name={name}
+      onChangeName={setName}
+      onChangeTags={setTags}
+      onSaveName={onSaveName}
+      onSaveTags={onSaveTags}
+      tags={withTags && tags}
+    >
+      {children}
+      {overlay}
+    </Row>
+  );
 }
 
 export {
@@ -278,21 +67,46 @@ export {
   AddressRow
 };
 
-export default withMulti(
-  styled(AddressRow as React.ComponentClass<Props & ApiProps, State>)`
-    ${styles}
+export default React.memo(
+  styled(AddressRow)`
+    button.ui.icon.editButton {
+      padding: 0em .3em .3em .3em;
+      color: #2e86ab;
+      background: none;
+      /*trick to let the button in the flow but keep the content centered regardless*/
+      margin-left: -2em;
+      position: relative;
+      right: -2.3em;
+      z-index: 1;
+    }
 
-    .ui--Row-placeholder {
+    .editSpan {
+      white-space: nowrap;
+
+      &:before {
+        content: '';
+      }
+    }
+
+    .ui--AddressRow-balances {
+      display: flex;
+      .column {
+        display: block;
+
+        label,
+        .result {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+
+      > span {
+        text-align: left;
+      }
+    }
+
+    .ui--AddressRow-placeholder {
       opacity: 0.5;
     }
-
-    .ui--Row-accountId,
-    .ui--Row-accountIndex {
-      font-family: monospace;
-    }
-  `,
-  translate,
-  withCalls<Props>(
-    ['derive.accounts.info', { paramName: 'value', propName: 'accountsInfo' }]
-  )
+  `
 );

@@ -6,19 +6,19 @@ import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { BareProps, StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
+import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
-import { isNull } from '@polkadot/util';
+import { BN_ZERO, isNull } from '@polkadot/util';
 
-import Params from '../Params';
+import { InputMegaGas, Params } from '../shared';
 import Outcome from './Outcome';
-
 import { useTranslation } from '../translate';
-import { DEFAULT_GAS_LIMIT } from '../constants';
 import { getCallMessageOptions } from './util';
+import useWeight from '../useWeight';
 
 interface Props extends BareProps {
   callContract: ApiContract | null;
@@ -35,13 +35,14 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const hasRpc = callContract?.hasRpcContractsCall;
   const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
 
-  const [accountId, setAccountId] = useState<StringOrNull>(null);
-  const [endowment, setEndowment] = useState<BN>(new BN(0));
-  const [gasLimit, setGasLimit] = useState<BN>(new BN(DEFAULT_GAS_LIMIT));
-  const [isBusy, setIsBusy] = useState(false);
+  const [accountId, setAccountId] = useAccountId();
+  const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
+  const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
   const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
+  const useWeightHook = useWeight();
+  const { isValid: isWeightValid, weight } = useWeightHook;
 
   useEffect((): void => {
     if (callContract && callMessageIndex) {
@@ -63,53 +64,62 @@ function Call (props: Props): React.ReactElement<Props> | null {
     setOutcomes([]);
   }, [callContract]);
 
+  const _onChangeCallMessageIndexString = useCallback(
+    (callMessageIndexString: string): void => {
+      onChangeCallMessageIndex && onChangeCallMessageIndex(
+        parseInt(callMessageIndexString, 10) || 0
+      );
+    },
+    [onChangeCallMessageIndex]
+  );
+
+  const _constructTx = useCallback(
+    (): any[] => {
+      if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
+        return [];
+      }
+
+      return [callContract.address.toString(), endowment, weight, callMessage.fn(...params)];
+    },
+    [accountId, callContract, callMessage, endowment, weight, params]
+  );
+
+  const _onSubmitRpc = useCallback(
+    (): void => {
+      if (!accountId || !callContract || !callMessage || !endowment || !weight) return;
+
+      !!callContract && callContract
+        .call('rpc', callMessage.def.name, endowment, weight, ...params)
+        .send(accountId)
+        .then(
+          (outcome: ContractCallOutcome): void => {
+            setOutcomes([outcome, ...outcomes]);
+          }
+        );
+    },
+    [accountId, callContract, callMessage, endowment, weight, outcomes, params]
+  );
+
+  const _onClearOutcomes = useCallback(
+    (): void => setOutcomes([]),
+    []
+  );
+
+  const _onClearOutcome = useCallback(
+    (outcomeIndex: number) => (): void => {
+      setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
+    },
+    [outcomes]
+  );
+
+  const isValid = useMemo(
+    (): boolean => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
+    [accountId, callContract, isEndowmentValid, isWeightValid]
+  );
+
   if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
     return null;
   }
-
-  const _onChangeAccountId = (accountId: StringOrNull): void => setAccountId(accountId);
-
-  const _onChangeCallMessageIndexString = (callMessageIndexString: string): void => {
-    onChangeCallMessageIndex && onChangeCallMessageIndex(
-      parseInt(callMessageIndexString, 10) || 0
-    );
-  };
-
-  const _onChangeEndowment = (endowment?: BN): void => endowment && setEndowment(endowment);
-  const _onChangeGasLimit = (gasLimit?: BN): void => gasLimit && setGasLimit(gasLimit);
-
-  const _onChangeParams = (params: any[]): void => setParams(params);
-  const _toggleBusy = (): void => setIsBusy(!isBusy);
-
-  const _constructTx = (): any[] => {
-    if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
-      return [];
-    }
-
-    return [callContract.address.toString(), endowment, gasLimit, callMessage.fn(...params)];
-  };
-
-  const _onSubmitRpc = (): void => {
-    if (!accountId || !callMessage) return;
-
-    callContract
-      .call('rpc', callMessage.def.name, endowment, gasLimit, ...params)
-      .send(accountId)
-      .then((outcome: ContractCallOutcome): void => {
-        setOutcomes([outcome, ...outcomes]);
-      })
-      .catch(console.error);
-  };
-
-  const _onClearOutcomes = (): void => setOutcomes([]);
-
-  const _onClearOutcome = (outcomeIndex: number) => (): void => {
-    setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
-  };
-
-  const isEndowmentValid = true;
-  const isGasValid = !gasLimit.isZero();
-  const isValid = !!accountId && isEndowmentValid && isGasValid && callContract && callContract.address && callContract.abi;
 
   return (
     <Modal
@@ -126,7 +136,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
               isDisabled={isBusy}
               label={t<string>('call from account')}
-              onChange={_onChangeAccountId}
+              onChange={setAccountId}
               type='account'
               value={accountId}
             />
@@ -152,7 +162,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 />
                 <Params
                   isDisabled={isBusy}
-                  onChange={_onChangeParams}
+                  onChange={setParams}
                   params={
                     callMessage
                       ? callMessage.def.args
@@ -167,25 +177,19 @@ function Call (props: Props): React.ReactElement<Props> | null {
               isError={!isEndowmentValid}
               isZeroable
               label={t<string>('value')}
-              onChange={_onChangeEndowment}
+              onChange={setEndowment}
               value={endowment}
             />
-            <InputNumber
-              bitLength={128}
-              defaultValue={DEFAULT_GAS_LIMIT}
-              help={t<string>('The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.')}
-              isDisabled={isBusy}
-              isError={!isGasValid}
+            <InputMegaGas
+              help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
               label={t<string>('maximum gas allowed')}
-              onChange={_onChangeGasLimit}
-              value={gasLimit}
+              {...useWeightHook}
             />
           </div>
         )}
         {hasRpc && (
           <Toggle
             className='rpc-toggle'
-            isDisabled={!!callMessage && callMessage.def.mutates}
             label={
               useRpc
                 ? t<string>('send as RPC call')
@@ -213,10 +217,10 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 icon='sign-in'
                 isDisabled={!isValid}
                 isPrimary
-                label={t<string>('Call')}
-                onClick={_toggleBusy}
-                onFailed={_toggleBusy}
-                onSuccess={_toggleBusy}
+                label={t('Call')}
+                onClick={(): void => setIsBusy(true)}
+                onFailed={(): void => setIsBusy(false)}
+                onSuccess={(): void => setIsBusy(false)}
                 params={_constructTx}
                 tx='contracts.call'
                 withSpinner

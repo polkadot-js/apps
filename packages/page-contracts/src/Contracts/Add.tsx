@@ -2,130 +2,129 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiProps } from '@polkadot/react-api/types';
-import { I18nProps } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React from 'react';
-import { withApi } from '@polkadot/react-api/hoc';
-import { AddressRow, Button, Input } from '@polkadot/react-components';
+import React, { useCallback, useMemo, useState } from 'react';
+import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
+import { useApi, useNonEmptyString, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import ContractModal, { ContractModalProps, ContractModalState } from '../Modal';
 import ValidateAddr from './ValidateAddr';
+import { ABI, InputName } from '../shared';
+import { useTranslation } from '../translate';
+import useAbi from '../useAbi';
 
-import translate from '../translate';
+function Add (): React.ReactElement {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const [isOpen, toggleIsOpen, setIsOpen] = useToggle();
+  const [address, setAddress] = useState<StringOrNull>(null);
+  const [isAddressValid, setIsAddressValid] = useState(false);
+  const [name, isNameValid, setName] = useNonEmptyString('New Contract');
+  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([null, null], null, true);
 
-interface Props extends ContractModalProps, ApiProps, I18nProps {}
+  const isValid = useMemo(
+    (): boolean => isAddressValid && isNameValid && isAbiValid,
+    [isAbiValid, isAddressValid, isNameValid]
+  );
 
-interface State extends ContractModalState {
-  address?: string | null;
-  isAddressValid: boolean;
-}
+  const _onAdd = useCallback(
+    (): void => {
+      const status: Partial<ActionStatus> = { action: 'create' };
 
-class Add extends ContractModal<Props, State> {
-  constructor (props: Props) {
-    super(props);
-    this.defaultState = {
-      ...this.defaultState,
-      address: null,
-      isAddressValid: false,
-      isNameValid: true,
-      name: 'New Contract'
-    };
-    this.state = this.defaultState;
-    this.headerText = props.t('Add an existing contract');
-  }
+      if (!address || !abi || !name) {
+        return;
+      }
 
-  public isContract = true;
+      try {
+        const json = {
+          contract: {
+            abi,
+            genesisHash: api.genesisHash.toHex()
+          },
+          name,
+          tags: []
+        };
 
-  protected renderContent = (): React.ReactNode => {
-    const { t } = this.props;
-    const { address, isAddressValid, isBusy, name } = this.state;
+        keyring.saveContract(address, json);
 
-    return (
-      <AddressRow
-        defaultName={name}
-        isValid
-        value={address || null}
-      >
-        <Input
-          autoFocus
-          help={t<string>('The address for the deployed contract instance.')}
-          isDisabled={isBusy}
-          isError={!isAddressValid}
-          label={t<string>('contract address')}
-          onChange={this.onChangeAddress}
-          onEnter={this.submit}
-          value={address || ''}
-        />
-        <ValidateAddr
-          address={address}
-          onChange={this.onValidateAddr}
-        />
-        {this.renderInputName()}
-        {this.renderInputAbi()}
-      </AddressRow>
-    );
-  }
+        status.account = address;
+        status.status = address ? 'success' : 'error';
+        status.message = 'contract added';
 
-  protected renderButtons = (): React.ReactNode => {
-    const { t } = this.props;
-    const { isAbiValid, isAddressValid, isNameValid } = this.state;
-    const isValid = isNameValid && isAddressValid && isAbiValid;
+        setIsOpen(false);
+      } catch (error) {
+        console.error(error);
 
-    return (
+        status.status = 'error';
+        status.message = (error as Error).message;
+      }
+    },
+    [abi, address, api, name, setIsOpen]
+  );
+
+  return (
+    <>
       <Button
-        icon='save'
-        isDisabled={!isValid}
-        isPrimary
-        label={t<string>('Save')}
-        onClick={this.onAdd}
+        icon='add'
+        label={t('Add an existing contract')}
+        onClick={toggleIsOpen}
       />
-    );
-  }
-
-  private onChangeAddress = (address: string): void => {
-    this.setState({ address, isAddressValid: false });
-  }
-
-  private onValidateAddr = (isAddressValid: boolean): void => {
-    this.setState({ isAddressValid });
-  }
-
-  private onAdd = (): void => {
-    const { api } = this.props;
-    const status: Partial<ActionStatus> = { action: 'create' };
-    const { abi, address, name, tags } = this.state;
-
-    if (!address || !abi || !name) {
-      return;
-    }
-
-    try {
-      const json = {
-        contract: {
-          abi,
-          genesisHash: api.genesisHash.toHex()
-        },
-        name,
-        tags
-      };
-
-      keyring.saveContract(address, json);
-
-      status.account = address;
-      status.status = address ? 'success' : 'error';
-      status.message = 'contract added';
-
-      this.onClose();
-    } catch (error) {
-      console.error(error);
-
-      status.status = 'error';
-      status.message = (error as Error).message;
-    }
-  }
+      <Modal
+        header={t('Add an existing contract')}
+        onClose={toggleIsOpen}
+        open={isOpen}
+      >
+        <Modal.Content>
+          <AddressRow
+            defaultName={name}
+            isValid
+            value={address || null}
+          >
+            <Input
+              autoFocus
+              help={t<string>('The address for the deployed contract instance.')}
+              isError={!isAddressValid}
+              label={t<string>('contract address')}
+              onChange={setAddress}
+              value={address || ''}
+            />
+            <ValidateAddr
+              address={address}
+              onChange={setIsAddressValid}
+            />
+            <InputName
+              isContract
+              isError={!isNameValid}
+              onChange={setName}
+              value={name || undefined}
+            />
+            <ABI
+              contractAbi={contractAbi}
+              errorText={errorText}
+              isContract
+              isError={isAbiError}
+              isSupplied={isAbiSupplied}
+              isValid={isAbiValid}
+              onChange={onChangeAbi}
+              onRemove={onRemoveAbi}
+              withLabel
+            />
+          </AddressRow>
+        </Modal.Content>
+        <Modal.Actions onCancel={toggleIsOpen}>
+          <Button
+            icon='save'
+            isDisabled={!isValid}
+            isPrimary
+            label={t<string>('Save')}
+            onClick={_onAdd}
+          />
+        </Modal.Actions>
+      </Modal>
+    </>
+  );
 }
 
-export default translate(withApi(Add));
+export default React.memo(Add);

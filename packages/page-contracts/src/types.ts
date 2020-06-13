@@ -2,17 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { Abi } from '@polkadot/api-contract';
 import { AppProps } from '@polkadot/react-components/types';
-import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
-
-// export interface LocationProps extends RouteComponentProps {}
 
 export interface ComponentProps extends AppProps {
-  accounts: SubjectInfo[];
-  contracts: SubjectInfo[];
+  accounts: string[];
+  contracts: string[];
   hasCode: boolean;
-  showDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
+  onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
   updated: number;
 }
 
@@ -34,4 +32,13 @@ export interface ContractJsonOld {
   abi: string;
   address: string;
   name: string;
+}
+
+export interface UseWeight {
+  isValid: boolean;
+  weight: BN;
+  executionTime: number;
+  megaGas: BN;
+  percentage: number;
+  setMegaGas: React.Dispatch<BN | undefined>
 }

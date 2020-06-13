@@ -6,6 +6,7 @@ import { app, BrowserWindow, dialog, screen } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import { features } from './featureToggles';
+import { registerAccountStoreHandlers } from './main/account-store';
 
 const ENV = process.env.NODE_ENV || 'production';
 const isDev = ENV === 'development';
@@ -16,8 +17,10 @@ function createWindow (): Promise<unknown> {
   const win = new BrowserWindow({
     height,
     webPreferences: {
+      contextIsolation: true,
       enableRemoteModule: false,
-      nodeIntegration: true
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js')
     },
     width
   });
@@ -34,6 +37,7 @@ function createWindow (): Promise<unknown> {
 }
 
 const onReady = async () => {
+  registerAccountStoreHandlers();
   await createWindow();
 
   if (features.autoUpdater) {

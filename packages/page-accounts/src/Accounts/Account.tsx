@@ -13,7 +13,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useIncrement, useToggle } from '@polkadot/react-hooks';
 import { Option, StorageKey } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -72,7 +72,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const recoveryInfo = useCall<RecoveryConfig | null>(api.api.query.recovery?.recoverable, [address], {
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
-  const multiInfos = useCall<[H256, Multisig][]>(multiInc && api.api.query.utility?.multisigs.entries as any, [address], {
+  const multiInfos = useCall<[H256, Multisig][]>(multiInc && (api.api.query.multisig || api.api.query.utility)?.multisigs.entries as any, [address], {
     transform: (infos: [StorageKey, Option<Multisig>][]): [H256, Multisig][] =>
       infos
         .filter(([, opt]) => opt.isSome)
@@ -312,12 +312,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       </td>
       <td className='all'>
         <div className='tags'>
-          {tags.map((tag): React.ReactNode => (
-            <Tag
-              key={tag}
-              label={tag}
-            />
-          ))}
+          <Tags value={tags} />
         </div>
       </td>
       <td className='number ui--media-1500'>
@@ -336,7 +331,6 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
           icon='paper plane'
           label={t<string>('send')}
           onClick={toggleTransfer}
-          tooltip={t<string>('Send funds from this account')}
         />
         <Popup
           className='theme--default'

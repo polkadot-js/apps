@@ -12,6 +12,7 @@ import { Button, Table } from '@polkadot/react-components';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
+import { BN_ZERO } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
@@ -48,7 +49,7 @@ function Actions ({ className = '', isInElection, next, ownStashes, targets, val
         stakingLedger
           ? total.add(stakingLedger.total.unwrap())
           : total,
-      new BN(0)),
+      BN_ZERO),
       foundStashes: ownStashes.sort((a, b) =>
         (a.isStashValidating ? 1 : (a.isStashNominating ? 5 : 99)) - (b.isStashValidating ? 1 : (b.isStashNominating ? 5 : 99))
       )

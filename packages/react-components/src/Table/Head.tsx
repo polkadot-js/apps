@@ -66,6 +66,10 @@ export default React.memo(styled(Head)`
       cursor: pointer;
     }
 
+    &.mini {
+      padding: 0 !important;
+    }
+
     &.start {
       text-align: left;
     }

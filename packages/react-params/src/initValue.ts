@@ -5,10 +5,9 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { RawParamValue } from './types';
 
-import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
 import { Bytes, Raw, createType, getTypeDef } from '@polkadot/types';
-import { isBn } from '@polkadot/util';
+import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
 
@@ -61,7 +60,7 @@ export default function getInitValue (def: TypeDef): unknown | unknown[] {
     case 'u64':
     case 'u128':
     case 'VoteIndex':
-      return new BN(0);
+      return BN_ZERO;
 
     case 'bool':
       return false;
@@ -71,7 +70,7 @@ export default function getInitValue (def: TypeDef): unknown | unknown[] {
       return '';
 
     case 'Moment':
-      return new BN(0);
+      return BN_ZERO;
 
     case 'Vote':
       return -1;
@@ -123,7 +122,7 @@ export default function getInitValue (def: TypeDef): unknown | unknown[] {
         const raw = getTypeDef(instance.toRawType());
 
         if (isBn(instance)) {
-          return new BN(0);
+          return BN_ZERO;
         } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
           return getInitValue(raw);
         }

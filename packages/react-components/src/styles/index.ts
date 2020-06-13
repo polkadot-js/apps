@@ -137,7 +137,7 @@ export default createGlobalStyle<Props>`
         }
       }
 
-      .ui.button.mini {
+      .ui.button.show-on-hover {
         visibility: hidden;
       }
     }

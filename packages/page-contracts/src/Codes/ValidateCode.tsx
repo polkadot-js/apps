@@ -5,73 +5,53 @@
 /* eslint-disable camelcase */
 
 import { PrefabWasmModule } from '@polkadot/types/interfaces';
-import { I18nProps } from '@polkadot/react-components/types';
-import { ApiProps } from '@polkadot/react-api/types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Option } from '@polkadot/types';
-import { withCalls } from '@polkadot/react-api/hoc';
 import { InfoForInput } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends ApiProps, I18nProps {
+interface Props {
   codeHash?: string | null;
-  contracts_codeStorage?: Option<PrefabWasmModule>;
-  onChange: (isValid: boolean) => void;
+  onChange: React.Dispatch<boolean>;
 }
 
-interface State {
-  isStored: boolean;
-  isValidHex: boolean;
-  isValid: boolean;
-}
+function ValidateCode ({ codeHash, onChange }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const { t } = useTranslation();
+  const codeStorage = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
+  const [isValidHex, isValid] = useMemo(
+    (): [boolean, boolean] => {
+      const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
+      const isStored = !!codeStorage && codeStorage.isSome;
+      const isValid = isValidHex && isStored;
 
-class ValidateCode extends React.PureComponent<Props, State> {
-  public state: State = {
-    isStored: false,
-    isValid: false,
-    isValidHex: false
-  };
+      onChange(isValid);
 
-  public static getDerivedStateFromProps ({ codeHash, contracts_codeStorage, onChange }: Props): State {
-    const isValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
-    const isStored = !!contracts_codeStorage && contracts_codeStorage.isSome;
-    const isValid = isValidHex && isStored;
+      return [
+        isValidHex,
+        isValid
+      ];
+    },
+    [codeHash, codeStorage, onChange]
+  );
 
-    // FIXME Really not convinced this is the correct place to do this type of callback?
-    onChange(isValid);
-
-    return {
-      isStored,
-      isValid,
-      isValidHex
-    };
+  if (isValid || !isValidHex) {
+    return null;
   }
 
-  public render (): React.ReactNode {
-    const { t } = this.props;
-    const { isValid, isValidHex } = this.state;
-
-    if (isValid || !isValidHex) {
-      return null;
-    }
-
-    return (
-      <InfoForInput type='error'>
-        {
-          isValidHex
-            ? t<string>('Unable to find on-chain WASM code for the supplied codeHash')
-            : t<string>('The codeHash is not a valid hex hash')
-        }
-      </InfoForInput>
-    );
-  }
+  return (
+    <InfoForInput type='error'>
+      {
+        isValidHex
+          ? t('Unable to find on-chain WASM code for the supplied codeHash')
+          : t('The codeHash is not a valid hex hash')
+      }
+    </InfoForInput>
+  );
 }
 
-export default translate(
-  withCalls<Props>(
-    ['query.contracts.codeStorage', { fallbacks: ['query.contract.codeStorage'], paramName: 'codeHash' }]
-  )(ValidateCode)
-);
+export default React.memo(ValidateCode);

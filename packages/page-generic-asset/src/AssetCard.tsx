@@ -44,7 +44,6 @@ function AssetCard ({ assetId, className = '', name, onForget, onSaveName }: Pro
             />
           )}
           defaultName={name}
-          isEditable
           onSaveName={_onSaveName}
         />
       </div>

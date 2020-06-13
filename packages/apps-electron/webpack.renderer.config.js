@@ -20,13 +20,13 @@ module.exports = merge(
     devtool: isProd ? 'none' : 'source-map',
     plugins: [
       // It must be placed before HtmlWebpackPlugin
-      new CopyWebpackPlugin([{ from: '../apps/public' }]),
+      new CopyWebpackPlugin({ patterns: [{ from: '../apps/public' }] }),
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',
         inject: true,
         template: path.join(context, '../apps/public/index.html')
       })
     ],
-    target: 'electron-renderer'
+    target: 'web'
   }
 );

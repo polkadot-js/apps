@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import Icon from './Icon';
 import Tooltip from './Tooltip';
@@ -43,7 +43,7 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
   }
 
   const mapped = filtered.map((unlock): [DeriveUnlocking, BN] => [unlock, remainingBlocks(unlock.remainingEras, progress)]);
-  const total = mapped.reduce((total, [{ value }]) => total.add(value), new BN(0));
+  const total = mapped.reduce((total, [{ value }]) => total.add(value), BN_ZERO);
   const trigger = `${value.accountId.toHex()}-unlocking-trigger`;
 
   return (

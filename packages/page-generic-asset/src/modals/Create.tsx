@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, Input, InputNumber, Modal } from '@polkadot/react-components';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,10 +20,10 @@ interface Props extends ModalProps {
 
 function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [assetId, setAssetId] = useState(new BN(0));
+  const [assetId, setAssetId] = useState(BN_ZERO);
   const [name, setName] = useState('new asset');
 
-  const _onChangeAssetId = (assetId: BN | undefined): void => setAssetId(assetId || new BN(0));
+  const _onChangeAssetId = (assetId: BN | undefined): void => setAssetId(assetId || BN_ZERO);
 
   const _onCommit = (): void => {
     onRegister(assetId, name);

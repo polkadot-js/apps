@@ -9,19 +9,19 @@ import { I18nProps, BareProps } from '@polkadot/react-components/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult, QueueTxStatus } from '@polkadot/react-components/Status/types';
-import { Timepoint } from '@polkadot/types/interfaces';
+import { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { createType } from '@polkadot/types';
+import { Option, createType } from '@polkadot/types';
 import { Button, InputBalance, Modal, Toggle, Output, ErrorBoundary, InputNumber, InputAddress } from '@polkadot/react-components';
 import { registry } from '@polkadot/react-api';
 import { withApi, withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import { assert, isFunction } from '@polkadot/util';
+import { BN_ZERO, assert, isFunction } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 import { format } from '@polkadot/util/logger';
 
@@ -62,6 +62,7 @@ interface State {
   signedTx?: string;
   tip?: BN;
   unlockError?: string | null;
+  whoFiltered: string[] | null;
 }
 
 interface AccountFlags {
@@ -98,7 +99,7 @@ function extractExternal (accountId?: string | null): AccountFlags {
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
     threshold: (pair.meta.threshold as number) || 0,
-    who: (pair.meta.who as string[]) || []
+    who: ((pair.meta.who as string[]) || []).map((w) => keyring.encodeAddress(keyring.decodeAddress(w)))
   };
 }
 
@@ -133,7 +134,8 @@ const initialState: State = {
   qrPayload: new Uint8Array(),
   showTip: false,
   signedTx: '',
-  unlockError: null
+  unlockError: null,
+  whoFiltered: null
 };
 
 class Signer extends React.PureComponent<Props, State> {
@@ -164,20 +166,30 @@ class Signer extends React.PureComponent<Props, State> {
       isSendable,
       ...(isSame
         ? { multiCall, password, unlockError }
-        : { multiCall: false, password: '', signatory: null, unlockError: null }
+        : { multiCall: false, password: '', signatory: null, unlockError: null, whoFiltered: null }
       )
     };
   }
 
   public async componentDidUpdate (): Promise<void> {
-    const { accountNonce, currentItem, isSubmit } = this.state;
+    const { accountNonce, currentItem, isSendable, isSubmit, whoFiltered } = this.state;
 
     if (currentItem && currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       return this.sendRpc(currentItem);
     }
 
-    if (!isSubmit && currentItem?.accountId && accountNonce == null) {
-      this.updateNonce().catch(console.error);
+    if (currentItem?.accountId) {
+      if (!isSubmit && accountNonce == null) {
+        this.updateNonce().catch(console.error);
+      }
+
+      if (isSendable && !whoFiltered) {
+        const { isMultisig } = extractExternal(currentItem.accountId);
+
+        if (isMultisig) {
+          this.checkMultisig().catch(console.error);
+        }
+      }
     }
   }
 
@@ -306,7 +318,7 @@ class Signer extends React.PureComponent<Props, State> {
 
   private renderSignatory (): React.ReactNode {
     const { t } = this.props;
-    const { currentItem, multiCall } = this.state;
+    const { currentItem, multiCall, whoFiltered } = this.state;
     const { isMultisig, who } = currentItem
       ? extractExternal(currentItem.accountId)
       : { isMultisig: false, who: [] };
@@ -320,7 +332,7 @@ class Signer extends React.PureComponent<Props, State> {
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              filter={who}
+              filter={whoFiltered || who}
               help={t<string>('The multisig signatory for this transaction.')}
               label={t<string>('signatory')}
               onChange={this.onChangeSignatory}
@@ -376,7 +388,7 @@ class Signer extends React.PureComponent<Props, State> {
           />
           {showTip && (
             <InputBalance
-              defaultValue={new BN(0)}
+              defaultValue={BN_ZERO}
               help={t<string>('Add a tip to this extrinsic, paying the block author for greater priority')}
               isDisabled={!!signedTx}
               isZeroable
@@ -472,11 +484,11 @@ class Signer extends React.PureComponent<Props, State> {
   }
 
   private onChangeNonce = (value?: BN): void => {
-    this.setState({ nonce: value || new BN(0) });
+    this.setState({ nonce: value || BN_ZERO });
   }
 
   private onChangeBlocks = (value?: BN): void => {
-    this.setState({ blocks: value || new BN(0) });
+    this.setState({ blocks: value || BN_ZERO });
   }
 
   private onChangeSignatory = (signatory?: string | null): void => {
@@ -491,6 +503,14 @@ class Signer extends React.PureComponent<Props, State> {
 
     if (!isSendable || !currentItem || currentItem.isUnsigned || (isExternal && !isMultisig)) {
       return null;
+    }
+
+    if (isMultisig) {
+      const { isExternal, isHardware } = extractExternal(signatory);
+
+      if (isExternal || isHardware) {
+        return null;
+      }
     }
 
     return (
@@ -617,10 +637,29 @@ class Signer extends React.PureComponent<Props, State> {
     this.setState({ accountNonce, nonce: accountNonce });
   };
 
+  private checkMultisig = async (): Promise<void> => {
+    const { api } = this.props;
+    const { currentItem } = this.state;
+
+    if (currentItem?.accountId && currentItem?.extrinsic) {
+      const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+      const { threshold, who } = extractExternal(currentItem.accountId);
+      const optMulti = await api.query[multiModule].multisigs<Option<Multisig>>(currentItem.accountId, currentItem.extrinsic.method.hash);
+      const multi = optMulti.unwrapOr(null);
+
+      if (multi) {
+        this.setState({
+          multiCall: ((multi.approvals.length + 1) >= threshold),
+          whoFiltered: who.filter((w) => !multi.approvals.some((a) => a.eq(w)))
+        });
+      }
+    }
+  }
+
   private signQrPayload = (payload: SignerPayloadJSON): Promise<SignerResult> => {
     return new Promise((resolve, reject): void => {
-      // method is a hex-string, so 4000 / 2 for the length - with extra details, this is max 5 frames
-      const qrIsHashed = (payload.method.length > 2000);
+      // limit size of the transaction
+      const qrIsHashed = (payload.method.length > 5000);
       const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
       const qrPayload = qrIsHashed
         ? blake2AsU8a(wrapper.toU8a(true))
@@ -716,8 +755,11 @@ class Signer extends React.PureComponent<Props, State> {
     let tx = submittable;
 
     if (basePair.meta.isMultisig) {
-      const others = (basePair.meta.who as string[]).filter((who: string) => who !== signatory);
-      const info = await api.query.utility.multisigs(accountId as string, submittable.method.hash);
+      const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+      const others = (basePair.meta.who as string[])
+        .map((w) => keyring.encodeAddress(keyring.decodeAddress(w)))
+        .filter((w) => w !== signatory);
+      const info = await api.query[multiModule].multisigs<Option<Multisig>>(accountId as string, submittable.method.hash);
       let timepoint: Timepoint | null = null;
 
       if (info.isSome) {
@@ -726,8 +768,12 @@ class Signer extends React.PureComponent<Props, State> {
 
       pair = keyring.getPair(signatory as string);
       tx = multiCall
-        ? api.tx.utility.asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method)
-        : api.tx.utility.approveAsMulti(basePair.meta.threshold as number, others, timepoint, submittable.method.hash);
+        ? api.tx[multiModule].asMulti.meta.args.length === 5
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          ? api.tx[multiModule].asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method, false)
+          : api.tx[multiModule].asMulti(basePair.meta.threshold as number, others, timepoint, submittable.method)
+        : api.tx[multiModule].approveAsMulti(basePair.meta.threshold as number, others, timepoint, submittable.method.hash);
     }
 
     console.log('sendExtrinsic::', JSON.stringify(tx.method.toHuman()));

@@ -2,73 +2,65 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BareProps } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { AddressRow, Button, Card, Expander, Forget } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
-import Messages from '../Messages';
+import Messages from '../shared/Messages';
 import { useTranslation } from '../translate';
 
-interface Props extends RouteComponentProps {
-  basePath: string;
+interface Props extends BareProps {
   contract: ApiContract;
   onCall: (_?: number) => () => void;
 }
 
-const ContractCard = styled(Card)`
-  && {
-    min-width: 100%;
-    max-width: 100%;
-  }
-`;
-
-function Contract (props: Props): React.ReactElement<Props> | null {
+function Contract ({ className, contract: { abi, address }, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { contract: { abi, address }, onCall } = props;
-  const [isForgetOpen, setIsForgetOpen] = useState(false);
+  const [isForgetOpen, toggleIsForgetOpen] = useToggle();
+
+  const _onForget = useCallback(
+    (): void => {
+      if (!address) {
+        return;
+      }
+
+      const status: Partial<ActionStatus> = {
+        account: address,
+        action: 'forget'
+      };
+
+      try {
+        keyring.forgetContract(address.toString());
+        status.status = 'success';
+        status.message = t<string>('address forgotten');
+      } catch (error) {
+        status.status = 'error';
+        status.message = (error as Error).message;
+      }
+
+      toggleIsForgetOpen();
+    },
+    [address, t, toggleIsForgetOpen]
+  );
 
   if (!address || !abi) {
     return null;
   }
 
-  const _toggleForget = (): void => setIsForgetOpen(!isForgetOpen);
-
-  const _onForget = (): void => {
-    if (!address) {
-      return;
-    }
-
-    const status: Partial<ActionStatus> = {
-      account: address,
-      action: 'forget'
-    };
-
-    try {
-      keyring.forgetContract(address.toString());
-      status.status = 'success';
-      status.message = t<string>('address forgotten');
-    } catch (error) {
-      status.status = 'error';
-      status.message = (error as Error).message;
-    }
-
-    _toggleForget();
-  };
-
   return (
-    <ContractCard>
+    <Card className={className}>
       {isForgetOpen && (
         <Forget
           address={address.toString()}
           key='modal-forget-contract'
           mode='contract'
-          onClose={_toggleForget}
+          onClose={toggleIsForgetOpen}
           onForget={_onForget}
         />
       )}
@@ -78,7 +70,7 @@ function Contract (props: Props): React.ReactElement<Props> | null {
             <Button
               icon='trash'
               isNegative
-              onClick={_toggleForget}
+              onClick={toggleIsForgetOpen}
               tooltip={t<string>('Forget this contract')}
             />
             <Button
@@ -91,7 +83,8 @@ function Contract (props: Props): React.ReactElement<Props> | null {
           </div>
         }
         isContract
-        isEditable
+        isEditableName
+        isEditableTags
         type='contract'
         value={address}
         withBalance={false}
@@ -107,8 +100,13 @@ function Contract (props: Props): React.ReactElement<Props> | null {
           />
         </Expander>
       </AddressRow>
-    </ContractCard>
+    </Card>
   );
 }
 
-export default withRouter(Contract);
+export default React.memo(
+  styled(Contract)`
+    min-width: 100%;
+    max-width: 100%;
+  `
+);

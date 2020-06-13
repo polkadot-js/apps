@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -21,9 +22,9 @@ interface Props {
 function Transfer ({ className = '', onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amount, setAmount] = useState<BN | undefined>(new BN(0));
+  const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [hasAvailable] = useState(true);
-  const [maxBalance] = useState(new BN(0));
+  const [maxBalance] = useState(BN_ZERO);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
 

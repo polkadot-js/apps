@@ -7,7 +7,7 @@ const pinataSDK = require('@pinata/sdk');
 const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
-const createEndpoints = require('../packages/apps-config/build/settings/endpoints');
+const createEndpoints = require('../packages/apps-config/build/settings/endpoints').default;
 const lernaInfo = require('../lerna.json');
 
 // https://gateway.pinata.cloud/ipfs/

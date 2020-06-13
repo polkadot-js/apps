@@ -38,6 +38,10 @@ function Statement ({ className, kind, systemChain }: Props): React.ReactElement
   const { t } = useTranslation();
   const statementUrl = getStatement(systemChain, kind)?.url;
 
+  if (!statementUrl) {
+    return null;
+  }
+
   return (
     <div className={className}>
       {t('Please read these terms and conditions carefully. By submitting this statement, you are deemed to have accepted these Terms and Conditions. If you do not agree to these terms, please refrain from accessing or proceeding. You can also find them at:')}

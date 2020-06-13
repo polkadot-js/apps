@@ -2,111 +2,106 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import { StringOrNull } from '@polkadot/react-components/types';
+
+import React, { useCallback, useMemo, useState } from 'react';
 import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
-import { Button, Input } from '@polkadot/react-components';
+import { Button, Input, Modal } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
+import { isNull } from '@polkadot/util';
+import { ABI, InputName } from '../shared';
 
-import ContractModal, { ContractModalProps as Props, ContractModalState } from '../Modal';
 import ValidateCode from './ValidateCode';
 import store from '../store';
-import translate from '../translate';
+import { useTranslation } from '../translate';
+import useAbi from '../useAbi';
 
-interface State extends ContractModalState {
-  codeHash: string;
-  isBusy: boolean;
-  isCodeValid: boolean;
-}
+function Add (): React.ReactElement {
+  const { t } = useTranslation();
+  const [isOpen, toggleIsOpen, setIsOpen] = useToggle();
+  const [codeHash, setCodeHash] = useState('');
+  const [isCodeHashValid, setIsCodeHashValid] = useState(false);
+  const [name, setName] = useState<StringOrNull>(null);
+  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
-class Add extends ContractModal<Props, State> {
-  constructor (props: Props) {
-    super(props);
-    this.defaultState = {
-      ...this.defaultState,
-      codeHash: '',
-      isBusy: false,
-      isCodeValid: false
-    };
-    this.state = this.defaultState;
-    this.headerText = props.t('Add an existing code hash');
-  }
+  const isNameValid = useMemo(
+    (): boolean => !isNull(name) && name.length > 0,
+    [name]
+  );
 
-  protected renderContent = (): React.ReactNode => {
-    const { t } = this.props;
-    const { codeHash, isBusy, isCodeValid } = this.state;
+  const isValid = useMemo(
+    (): boolean => isCodeHashValid && isNameValid,
+    [isCodeHashValid, isNameValid]
+  );
 
-    return (
-      <>
-        <Input
-          autoFocus
-          help={t<string>('The code hash for the on-chain deployed code.')}
-          isDisabled={isBusy}
-          isError={!isCodeValid}
-          label={t<string>('code hash')}
-          onChange={this.onChangeHash}
-          onEnter={this.submit}
-          value={codeHash}
-        />
-        <ValidateCode
-          codeHash={codeHash}
-          onChange={this.onValidateCode}
-        />
-        {this.renderInputName()}
-        {this.renderInputAbi()}
-      </>
-    );
-  }
+  const _onSave = useCallback(
+    (): void => {
+      if (!codeHash || !name) {
+        return;
+      }
 
-  protected renderButtons = (): React.ReactNode => {
-    const { t } = this.props;
-    const { isBusy, isCodeValid, isNameValid } = this.state;
-    const isValid = !isBusy && isCodeValid && isNameValid;
-
-    return (
-      <Button
-        icon='save'
-        isDisabled={!isValid}
-        isPrimary
-        label={t<string>('Save')}
-        onClick={this.onSave}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        ref={this.button}
-      />
-    );
-  }
-
-  private onChangeHash = (codeHash: string): void => {
-    this.setState({ codeHash, isCodeValid: false });
-  }
-
-  private onValidateCode = (isCodeValid: boolean): void => {
-    this.setState({ isCodeValid });
-  }
-
-  private onSave = (): void => {
-    const { abi, codeHash, name, tags } = this.state;
-
-    if (!codeHash || !name) {
-      return;
-    }
-
-    this.setState({ isBusy: true }, (): void => {
       store
-        .saveCode(createType(registry, 'Hash', codeHash), { abi, name, tags })
-        .then((): void => {
-          this.setState(
-            { isBusy: false },
-            (): void => this.onClose()
-          );
-        })
+        .saveCode(createType(registry, 'Hash', codeHash), { abi, name, tags: [] })
+        .then((): void => setIsOpen(false))
         .catch((error): void => {
           console.error('Unable to save code', error);
-          this.setState({ isBusy: false });
         });
-    });
+    },
+    [abi, codeHash, name, setIsOpen]
+  );
 
-    // this.redirect();
-  }
+  return (
+    <>
+      <Button
+        icon='add'
+        label={t('Add an existing code hash')}
+        onClick={toggleIsOpen}
+      />
+      {isOpen && (
+        <Modal header={t('Add an existing code hash')}>
+          <Modal.Content>
+            <Input
+              autoFocus
+              help={t('The code hash for the on-chain deployed code.')}
+              isError={codeHash.length > 0 && !isCodeHashValid}
+              label={t('code hash')}
+              onChange={setCodeHash}
+              value={codeHash}
+            />
+            <ValidateCode
+              codeHash={codeHash}
+              onChange={setIsCodeHashValid}
+            />
+            <InputName
+              isError={!isNameValid}
+              onChange={setName}
+              value={name || undefined}
+            />
+            <ABI
+              contractAbi={contractAbi}
+              errorText={errorText}
+              isError={isAbiError}
+              isSupplied={isAbiSupplied}
+              isValid={isAbiValid}
+              onChange={onChangeAbi}
+              onRemove={onRemoveAbi}
+              withLabel
+            />
+          </Modal.Content>
+          <Modal.Actions onCancel={toggleIsOpen}>
+            <Button
+              icon='save'
+              isDisabled={!isValid}
+              isPrimary
+              label={t('Save')}
+              onClick={_onSave}
+            />
+          </Modal.Actions>
+        </Modal>
+      )}
+    </>
+  );
 }
 
-export default translate(Add);
+export default React.memo(Add);

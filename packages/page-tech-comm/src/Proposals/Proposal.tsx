@@ -76,7 +76,7 @@ function Proposal ({ className = '', imageHash, isMember, members, prime }: Prop
         ))}
       </td>
       <td className='button'>
-        {isVoteable && (
+        {isVoteable && !isCloseable && (
           <Voting
             hash={imageHash}
             prime={prime}

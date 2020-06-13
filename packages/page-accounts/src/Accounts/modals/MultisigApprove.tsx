@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { H256, Multisig } from '@polkadot/types/interfaces';
+import { AccountId, H256, Multisig } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { registry } from '@polkadot/react-api';
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 
@@ -25,9 +27,12 @@ interface Option {
 
 function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [multisig, setMultisig] = useState<[H256, Multisig] | null>(null);
+  const [others, setOthers] = useState<AccountId[]>([]);
   const [signatory, setSignatory] = useState<string | null>(null);
+  const [whoFilter, setWhoFilter] = useState<string[]>([]);
   const [type, setType] = useState<string | null>('aye');
   const calltypes = useMemo<Option[]>(
     () => [
@@ -47,6 +52,20 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     );
   }, [hash, ongoing]);
 
+  useEffect((): void => {
+    setOthers(
+      who
+        .map((w) => registry.createType('AccountId', w))
+        .filter((w) => !w.eq(signatory))
+    );
+  }, [signatory, who]);
+
+  useEffect((): void => {
+    setWhoFilter(
+      who.map((w) => registry.createType('AccountId', w).toString())
+    );
+  }, [who]);
+
   return (
     <Modal
       className={className}
@@ -54,7 +73,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     >
       <Modal.Content>
         <InputAddress
-          filter={who}
+          filter={whoFilter}
           help={t<string>('The signatory to send the approval/cancel from')}
           label={t<string>('signatory')}
           onChange={setSignatory}
@@ -81,12 +100,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           isDisabled={!multisig}
           label={type === 'aye' ? 'Approve' : 'Reject'}
           onStart={onClose}
-          params={[threshold, who.filter((who) => who !== signatory), multisig ? multisig[1].when : null, hash]}
-          tx={
-            type === 'aye'
-              ? 'utility.approveAsMulti'
-              : 'utility.cancelAsMulti'
-          }
+          params={[threshold, others, multisig ? multisig[1].when : null, hash]}
+          tx={`${api.tx.multisig ? 'multisig' : 'utility'}.${type === 'aye' ? 'approveAsMulti' : 'cancelAsMulti'}`}
         />
       </Modal.Actions>
     </Modal>

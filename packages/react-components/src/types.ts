@@ -16,7 +16,9 @@ import { TxCallback, TxFailedCallback } from './Status/types';
 export type VoidFn = () => void;
 
 export interface BareProps {
+  children?: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface AppProps {

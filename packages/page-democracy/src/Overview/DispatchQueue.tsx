@@ -23,8 +23,8 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const header = useMemo(() => [
     [t('dispatch queue'), 'start', 2],
     [t('enact')],
-    [undefined, undefined],
-    [undefined, 'ui--media-1000']
+    [],
+    [undefined, 'mini ui--media-1000']
   ], [t]);
 
   return (

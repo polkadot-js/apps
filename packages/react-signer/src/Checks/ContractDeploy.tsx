@@ -8,6 +8,7 @@ import { ExtraFees as State } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Compact, UInt } from '@polkadot/types';
+import { BN_ZERO } from '@polkadot/util';
 
 interface Props {
   endowment: BN | Compact<UInt>;
@@ -17,8 +18,8 @@ interface Props {
 
 function ContractDeploy ({ endowment, fees, onChange }: Props): React.ReactElement<Props> | null {
   const [, setState] = useState<State>({
-    extraAmount: new BN(0),
-    extraFees: new BN(0),
+    extraAmount: BN_ZERO,
+    extraFees: BN_ZERO,
     extraWarn: false
   });
 

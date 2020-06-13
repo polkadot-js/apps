@@ -18,22 +18,26 @@ import { BlockAuthors, Events } from '@polkadot/react-query';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Apps from '@polkadot/apps/Apps';
+import { RemoteElectronStore } from './renderer/remote-electron-store';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
 const theme = { theme: settings.uiTheme };
 
+const store = new RemoteElectronStore();
+
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
-
-console.log('Opened in electron app');
 
 ReactDOM.render(
   <Suspense fallback='...'>
     <ThemeProvider theme={theme}>
       <Queue>
-        <Api url={settings.apiUrl}>
+        <Api
+          store={store}
+          url={settings.apiUrl}
+        >
           <BlockAuthors>
             <Events>
               <AccountSidebar>

@@ -35,7 +35,8 @@ function ProposalsBase ({ className = '', isApprovals, isMember, members, propos
     [t('beneficiary'), 'address'],
     [t('payment')],
     [t('bond')],
-    [undefined, undefined, 2]
+    [],
+    [undefined, 'mini']
   ], [isApprovals, t]);
 
   return (

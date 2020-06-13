@@ -10,17 +10,16 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, Extrinsic, Toggle, TxButton, InputNumber } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';
-
-const ZERO = new BN(0);
 
 function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [withWeight, toggleWithWeight] = useToggle();
   const [method, setMethod] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  const [weight, setWeight] = useState<BN>(ZERO);
+  const [weight, setWeight] = useState<BN>(BN_ZERO);
 
   const _onChangeExtrinsic = useCallback(
     (method: SubmittableExtrinsic<'promise'> | null = null) =>
@@ -29,7 +28,7 @@ function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElemen
   );
 
   const _onChangeWeight = useCallback(
-    (weight: BN = ZERO) => setWeight(weight),
+    (weight: BN = BN_ZERO) => setWeight(weight),
     []
   );
 
@@ -45,7 +44,7 @@ function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElemen
         {withWeight && (
           <InputNumber
             help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
-            isError={weight.eq(ZERO)}
+            isError={weight.eq(BN_ZERO)}
             isZeroable={false}
             label={t<string>('unchecked weight for this call')}
             onChange={_onChangeWeight}
@@ -68,7 +67,7 @@ function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElemen
           <TxButton
             accountId={sudoKey}
             icon='sign-in'
-            isDisabled={!method || (withWeight ? weight.eq(ZERO) : false)}
+            isDisabled={!method || (withWeight ? weight.eq(BN_ZERO) : false)}
             label={t<string>('Submit Sudo')}
             params={
               withWeight

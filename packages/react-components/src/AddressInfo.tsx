@@ -9,7 +9,7 @@ import { BareProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
+import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -128,7 +128,7 @@ function skipStakingIf ({ stakingInfo, withBalance = true, withValidatorPrefs = 
 // calculates the bonded, first being the own, the second being nominated
 function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
-  let own = new BN(0);
+  let own = BN_ZERO;
 
   if (Array.isArray(bonded)) {
     other = bonded

@@ -10,6 +10,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, Input, InputAddressMulti, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
+import { BN_ONE } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import useKnownAddresses from '../useKnownAddresses';
@@ -52,7 +53,7 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
   const availableSignatories = useKnownAddresses();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [signatories, setSignatories] = useState<string[]>(['']);
-  const [{ isThresholdValid, threshold }, setThreshold] = useState({ isThresholdValid: true, threshold: new BN(1) });
+  const [{ isThresholdValid, threshold }, setThreshold] = useState({ isThresholdValid: true, threshold: BN_ONE });
 
   const _createMultisig = useCallback(
     (): void => {

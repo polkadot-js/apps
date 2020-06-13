@@ -7,7 +7,7 @@ import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
-import { formatBalance, isBn } from '@polkadot/util';
+import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
 import { classes } from './util';
 import { BitLengthOption } from './constants';
@@ -34,15 +34,13 @@ interface Props extends BareProps {
   onEnter?: () => void;
   onEscape?: () => void;
   placeholder?: string;
-  value?: BN;
+  value?: BN | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
   withMax?: boolean;
 }
 
 const DEFAULT_BITLENGTH = BitLengthOption.NORMAL_NUMBERS as BitLength;
-const ZERO = new BN(0);
-const TEN = new BN(10);
 
 export class TokenUnit {
   public static abbr = 'Unit';
@@ -75,7 +73,7 @@ function getSiOptions (): { text: string; value: string }[] {
 
 function getSiPowers (si: SiDef | null): [BN, number, number] {
   if (!si) {
-    return [ZERO, 0, 0];
+    return [BN_ZERO, 0, 0];
   }
 
   const basePower = formatBalance.getDefaults().decimals;
@@ -86,11 +84,11 @@ function getSiPowers (si: SiDef | null): [BN, number, number] {
 function isValidNumber (bn: BN, bitLength: BitLength, isZeroable: boolean, maxValue?: BN): boolean {
   if (
     // cannot be negative
-    bn.lt(ZERO) ||
+    bn.lt(BN_ZERO) ||
     // cannot be > than allowed max
     !bn.lt(getGlobalMaxValue(bitLength)) ||
     // check if 0 and it should be a value
-    (!isZeroable && bn.eq(ZERO)) ||
+    (!isZeroable && bn.isZero()) ||
     // check that the bitlengths fit
     bn.bitLength() > (bitLength || DEFAULT_BITLENGTH) ||
     // cannot be > max (if specified)
@@ -120,11 +118,11 @@ function inputToBn (input: string, si: SiDef | null, bitLength: BitLength, isZer
     const mod = new BN(modString);
 
     result = div
-      .mul(TEN.pow(siPower))
-      .add(mod.mul(TEN.pow(new BN(basePower + siUnitPower - modString.length))));
+      .mul(BN_TEN.pow(siPower))
+      .add(mod.mul(BN_TEN.pow(new BN(basePower + siUnitPower - modString.length))));
   } else {
     result = new BN(input.replace(/[^\d]/g, ''))
-      .mul(TEN.pow(siPower));
+      .mul(BN_TEN.pow(siPower));
   }
 
   return [
@@ -145,7 +143,7 @@ function getValuesFromString (value: string, si: SiDef | null, bitLength: BitLen
 
 function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] {
   const value = si
-    ? valueBn.div(TEN.pow(new BN(formatBalance.getDefaults().decimals + si.power))).toString()
+    ? valueBn.div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals + si.power))).toString()
     : valueBn.toString();
 
   return [
@@ -155,13 +153,13 @@ function getValuesFromBn (valueBn: BN, si: SiDef | null): [string, BN, boolean] 
   ];
 }
 
-function getValues (value: BN | string = ZERO, si: SiDef | null, bitLength: BitLength, isZeroable: boolean, maxValue?: BN): [string, BN, boolean] {
+function getValues (value: BN | string = BN_ZERO, si: SiDef | null, bitLength: BitLength, isZeroable: boolean, maxValue?: BN): [string, BN, boolean] {
   return isBn(value)
     ? getValuesFromBn(value, si)
     : getValuesFromString(value, si, bitLength, isZeroable, maxValue);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -272,6 +270,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, className = ''
           options={getSiOptions()}
         />
       )}
+      {children}
     </Input>
   );
 }

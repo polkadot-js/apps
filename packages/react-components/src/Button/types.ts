@@ -8,7 +8,6 @@ import { BareProps } from '../types';
 export type Button$Callback = () => void | Promise<void>;
 
 export interface ButtonProps extends BareProps {
-  children?: React.ReactNode;
   floated?: 'left' | 'right';
   icon?: string;
   isAnimated?: SUIButtonProps['animated'];
@@ -46,13 +45,8 @@ export interface GroupProps extends BareProps {
   isCentered?: boolean;
 }
 
-export type GroupType = React.ComponentType<GroupProps> & {
-  Divider: React.ComponentType<DividerProps>;
-};
-
 export type ButtonType = React.ComponentType<ButtonProps> & {
   Content: React.ComponentType<ContentProps>;
-  Divider: React.ComponentType<DividerProps>;
-  Group: GroupType;
+  Group: React.ComponentType<GroupProps>;
   Or: React.ComponentType<BareProps>;
 };

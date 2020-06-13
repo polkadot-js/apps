@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { InputAddress, Labelled } from '@polkadot/react-components';
 import { Nonce } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -20,7 +21,7 @@ interface Props {
 function Account ({ className = '', defaultValue, isError, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [accountId, setAccountId] = useState<string | null | undefined>(defaultValue);
-  const [accountNonce, setAccountNonce] = useState(new BN(0));
+  const [accountNonce, setAccountNonce] = useState(BN_ZERO);
 
   useEffect((): void => {
     onChange(accountId, accountNonce);
