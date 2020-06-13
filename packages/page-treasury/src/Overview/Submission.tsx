@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
@@ -18,6 +19,11 @@ interface Props {
   members: string[];
 }
 
+interface ProposalState {
+  proposal?: SubmittableExtrinsic<'promise'> | null;
+  proposalLength: number;
+}
+
 function Submission ({ councilProposals, id, isDisabled, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -28,6 +34,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [councilType, setCouncilType] = useState('reject');
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [hasProposals, setHasProposals] = useState(true);
   const councilTypeOpt = useMemo(() => [
     { text: t<string>('Acceptance proposal to council'), value: 'accept' },
@@ -42,6 +49,14 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
         .length
     );
   }, [councilProposals]);
+
+  useEffect((): void => {
+    const proposal = councilType === 'reject'
+      ? api.tx.treasury.rejectProposal(id)
+      : api.tx.treasury.approveProposal(id);
+
+    setProposal({ proposal, proposalLength: proposal.length });
+  }, [api, councilType, id]);
 
   if (hasProposals) {
     return null;
@@ -93,12 +108,11 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
               isPrimary
               label={t<string>('Send to council')}
               onStart={toggleOpen}
-              params={[
-                councilThreshold,
-                councilType === 'reject'
-                  ? api.tx.treasury.rejectProposal(id)
-                  : api.tx.treasury.approveProposal(id)
-              ]}
+              params={
+                api.tx.council.propose.meta.args.length === 3
+                  ? [councilThreshold, proposal, proposalLength]
+                  : [councilThreshold, proposal]
+              }
               tx='council.propose'
             />
           </Modal.Actions>
