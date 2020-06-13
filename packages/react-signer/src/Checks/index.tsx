@@ -27,7 +27,8 @@ function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactEl
   const mountedRef = useIsMountedRef();
 
   useEffect((): void => {
-    accountId && extrinsic && isFunction(api.rpc.payment?.queryInfo) &&
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    accountId && extrinsic && isFunction(extrinsic.paymentInfo) && isFunction(api.rpc.payment?.queryInfo) &&
       Promise.resolve(
         extrinsic
           .paymentInfo(accountId)

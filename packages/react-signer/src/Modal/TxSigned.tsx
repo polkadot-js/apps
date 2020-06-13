@@ -177,7 +177,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [{ isQrHashed, isQrScanning, isQrVisible, qrAddress, qrPayload }, setQrState] = useState<QrState>({ isQrHashed: false, isQrScanning: false, isQrVisible: false, qrAddress: '', qrPayload: new Uint8Array() });
-  const [, toggleRenderError] = useToggle();
+  const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false, password: '' });
@@ -227,15 +227,42 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     [currentItem, queueSetTxStatus]
   );
 
-  const _onSend = useCallback(
-    async (): Promise<void> => {
+  const _unlock = useCallback(
+    (): boolean => {
       const passwordError = senderInfo.address && flags.isUnlockable
         ? unlockAccount(senderInfo.address, senderInfo.password)
         : null;
 
-      if (passwordError || !senderInfo.address) {
+      if (passwordError) {
         setPasswordError(passwordError);
 
+        return false;
+      }
+
+      return true;
+    },
+    [flags, senderInfo]
+  );
+
+  const _onSendPayload = useCallback(
+    (): void => {
+      if (!_unlock() || !senderInfo.address || !currentItem.payload) {
+        return;
+      }
+
+      const { id, payload, signerCb = NOOP } = currentItem;
+      const pair = keyring.getPair(senderInfo.address);
+      const result = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
+
+      signerCb(id, { id, ...result });
+      queueSetTxStatus(id, 'completed');
+    },
+    [_unlock, currentItem, queueSetTxStatus, senderInfo]
+  );
+
+  const _onSend = useCallback(
+    async (): Promise<void> => {
+      if (!_unlock() || !senderInfo.address) {
         return;
       }
 
@@ -248,18 +275,12 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
       await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
     },
-    [api, currentItem, flags, queueSetTxStatus, requestAddress, senderInfo, tip]
+    [_unlock, api, currentItem, queueSetTxStatus, requestAddress, senderInfo, tip]
   );
 
   const _onSign = useCallback(
     async (): Promise<void> => {
-      const passwordError = senderInfo.address && flags.isUnlockable
-        ? unlockAccount(senderInfo.address, senderInfo.password)
-        : null;
-
-      if (passwordError || !senderInfo.address) {
-        setPasswordError(passwordError);
-
+      if (!_unlock() || !senderInfo.address) {
         return;
       }
 
@@ -270,7 +291,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
       setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
     },
-    [api, currentItem, flags.isUnlockable, queueSetTxStatus, requestAddress, senderInfo, signedOptions, tip]
+    [_unlock, api, currentItem, queueSetTxStatus, requestAddress, senderInfo, signedOptions, tip]
   );
 
   return (
@@ -300,7 +321,9 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   passwordError={passwordError}
                   requestAddress={requestAddress}
                 />
-                <Tip onChange={setTip} />
+                {!currentItem.payload && (
+                  <Tip onChange={setTip} />
+                )}
                 {!isSubmit && (
                   <SignFields
                     address={senderInfo.address}
@@ -320,7 +343,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
               ? 'qrcode'
               : 'sign-in'
           }
-          isDisabled={!senderInfo.address}
+          isDisabled={!senderInfo.address || isRenderError}
           isPrimary
           label={
             isQrVisible
@@ -335,14 +358,16 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
             isQrVisible
               ? _onQrSend
               : isSubmit
-                ? _onSend
+                ? currentItem.payload
+                  ? _onSendPayload
+                  : _onSend
                 : _onSign
           }
           tabIndex={2}
         />
         <Toggle
           className='signToggle'
-          isDisabled={isQrVisible || isQrScanning}
+          isDisabled={isQrVisible || isQrScanning || !!currentItem.payload}
           label={
             isSubmit
               ? t<string>('Sign and Submit')

@@ -21,7 +21,7 @@ interface Props {
   tip?: BN;
 }
 
-function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsigned }, isSendable, onError, tip }: Props): React.ReactElement<Props> | null {
+function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsigned, payload }, isSendable, onError, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   if (!extrinsic) {
@@ -48,7 +48,7 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
             withBorder={false}
           />
         </Expander>
-        {!isUnsigned && (
+        {!isUnsigned && !payload && (
           <Checks
             accountId={accountId}
             className='tx-details'

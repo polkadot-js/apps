@@ -39,7 +39,7 @@ async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: Que
 function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueSetTxStatus } = useContext(StatusContext);
-  const [, toggleRenderError] = useToggle();
+  const [isRenderError, toggleRenderError] = useToggle();
 
   const _onCancel = useCallback(
     (): void => {
@@ -76,6 +76,7 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
       <Modal.Actions onCancel={_onCancel}>
         <Button
           icon='sign-in'
+          isDisabled={isRenderError}
           isPrimary
           label={t('Submit (no signature)')}
           onClick={_onSend}
