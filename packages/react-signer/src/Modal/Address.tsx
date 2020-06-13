@@ -112,7 +112,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
   const [addressProxy, setAddressProxy] = useState<string | null>(requestAddress);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
-  const [isProxyCall, setIsProxyCall] = useState(true);
+  const [isProxyActive, setIsProxyActive] = useState(true);
   const [multiInfo, setMultInfo] = useState<MultiState | null>(null);
   const [proxyInfo, setProxyInfo] = useState<ProxyState | null>(null);
   const [password, setPassword] = useState('');
@@ -151,21 +151,21 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
   // address
   useEffect((): void => {
     setAddress(
-      (isProxyCall && proxyInfo && addressProxy) ||
+      (isProxyActive && proxyInfo && addressProxy) ||
       (multiInfo && addressMulti) ||
       requestAddress
     );
-  }, [addressMulti, addressProxy, isProxyCall, multiInfo, proxyInfo, requestAddress]);
+  }, [addressMulti, addressProxy, isProxyActive, multiInfo, proxyInfo, requestAddress]);
 
   useEffect((): void => {
     onChange({
       address,
       isMultiAddress: !!multiInfo && (address === addressMulti),
       isMultiCall: isMultiCall,
-      isProxyAddress: isProxyCall && !!proxyInfo && (address === addressProxy),
+      isProxyAddress: isProxyActive && !!proxyInfo && (address === addressProxy),
       password
     });
-  }, [address, addressMulti, addressProxy, isProxyCall, isMultiCall, multiInfo, onChange, password, proxyInfo]);
+  }, [address, addressMulti, addressProxy, isProxyActive, isMultiCall, multiInfo, onChange, password, proxyInfo]);
 
   return (
     <>
@@ -200,7 +200,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           </Modal.Column>
         </Modal.Columns>
       )}
-      {proxyInfo && isProxyCall && (
+      {proxyInfo && isProxyActive && (
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
@@ -229,12 +229,12 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
             <Toggle
               className='tipToggle'
               label={
-                isProxyCall
+                isProxyActive
                   ? t<string>('Use a proxy for this call')
                   : t<string>("Don't use a proxy for this call")
               }
-              onChange={setIsProxyCall}
-              value={isProxyCall}
+              onChange={setIsProxyActive}
+              value={isProxyActive}
             />
           </Modal.Column>
           <Modal.Column>
