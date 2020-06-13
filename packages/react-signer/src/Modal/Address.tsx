@@ -112,6 +112,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
   const [addressProxy, setAddressProxy] = useState<string | null>(requestAddress);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
+  const [isProxyCall, setIsProxyCall] = useState(true);
   const [multiInfo, setMultInfo] = useState<MultiState | null>(null);
   const [proxyInfo, setProxyInfo] = useState<ProxyState | null>(null);
   const [password, setPassword] = useState('');
@@ -150,21 +151,21 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
   // address
   useEffect((): void => {
     setAddress(
-      (proxyInfo && addressProxy) ||
+      (isProxyCall && proxyInfo && addressProxy) ||
       (multiInfo && addressMulti) ||
       requestAddress
     );
-  }, [addressMulti, addressProxy, multiInfo, proxyInfo, requestAddress]);
+  }, [addressMulti, addressProxy, isProxyCall, multiInfo, proxyInfo, requestAddress]);
 
   useEffect((): void => {
     onChange({
       address,
       isMultiAddress: !!multiInfo && (address === addressMulti),
       isMultiCall: isMultiCall,
-      isProxyAddress: !!proxyInfo && (address === addressProxy),
+      isProxyAddress: isProxyCall && !!proxyInfo && (address === addressProxy),
       password
     });
-  }, [address, addressMulti, addressProxy, isMultiCall, multiInfo, onChange, password, proxyInfo]);
+  }, [address, addressMulti, addressProxy, isProxyCall, isMultiCall, multiInfo, onChange, password, proxyInfo]);
 
   return (
     <>
@@ -199,7 +200,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           </Modal.Column>
         </Modal.Columns>
       )}
-      {proxyInfo && (
+      {proxyInfo && isProxyCall && (
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
@@ -221,6 +222,25 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           error={passwordError}
           onChange={setPassword}
         />
+      )}
+      {proxyInfo && (
+        <Modal.Columns>
+          <Modal.Column>
+            <Toggle
+              className='tipToggle'
+              label={
+                isProxyCall
+                  ? t<string>('Use a proxy for this call')
+                  : t<string>("Don't use a proxy for this call")
+              }
+              onChange={setIsProxyCall}
+              value={isProxyCall}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       )}
       {multiInfo && (
         <Modal.Columns>
