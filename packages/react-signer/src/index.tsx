@@ -7,7 +7,6 @@ import { BareProps } from '@polkadot/react-components/types';
 import { DefinitionRpcExt } from '@polkadot/types/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -93,35 +92,4 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(styled(Signer)`
-  .ui--signer-Signer-Content {
-    .modal-Text {
-      margin-bottom: 1em;
-      padding: 1em;
-    }
-
-    .expanded h3 {
-      margin-bottom: 0.75rem;
-    }
-
-    .code {
-      background: #f5f4f3;
-      font-family: monospace;
-      margin: 0 0.25em;
-      overflow-wrap: break-word;
-      padding: 0.25em 0.5em;
-      word-break: break-all;
-      word-break: break-word;
-      word-wrap: break-word;
-    }
-
-    .hl {
-      font-weight: 700;
-    }
-  }
-
-  .signToggle {
-    position: absolute;
-    left: 1.5rem;
-  }
-`);
+export default React.memo(Signer);

@@ -4,7 +4,6 @@
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { InputBalance, Modal, Toggle } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -53,4 +52,4 @@ function Tip ({ className, onChange }: Props): React.ReactElement<Props> | null 
   );
 }
 
-export default React.memo(styled(Tip)``);
+export default React.memo(Tip);

@@ -94,13 +94,7 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
   txStartCb();
 
   try {
-    await tx.signAsync(pairOrAddress, options);
-
-    const signedTx = tx.toJSON()?.toString();
-
-    console.log('signAsync: result ::', signedTx);
-
-    return signedTx;
+    return (await tx.signAsync(pairOrAddress, options)).toJSON();
   } catch (error) {
     queueSetTxStatus(id, 'error', undefined, error);
 

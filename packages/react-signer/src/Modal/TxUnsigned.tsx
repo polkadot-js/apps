@@ -6,7 +6,6 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useContext } from 'react';
-import styled from 'styled-components';
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -87,4 +86,4 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
   );
 }
 
-export default React.memo(styled(TxUnsigned)``);
+export default React.memo(TxUnsigned);

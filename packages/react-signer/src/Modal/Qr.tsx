@@ -30,7 +30,7 @@ function Qr ({ address, className, genesisHash, isHashed, isScanning, onSignatur
   return (
     <Modal.Columns className={className}>
       <Modal.Column>
-        <div className={className}>
+        <div className='qrDisplay'>
           {isScanning
             ? <QrScanSignature onScan={onSignature} />
             : <QrDisplayPayload
@@ -47,12 +47,10 @@ function Qr ({ address, className, genesisHash, isHashed, isScanning, onSignatur
         </div>
       </Modal.Column>
       <Modal.Column>
-        <p>
-          {isScanning
-            ? t('Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.')
-            : t('Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.')
-          }
-        </p>
+        <p>{isScanning
+          ? t('Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.')
+          : t('Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.')
+        }</p>
       </Modal.Column>
     </Modal.Columns>
   );
