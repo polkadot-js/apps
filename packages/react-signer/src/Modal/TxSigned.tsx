@@ -146,6 +146,18 @@ async function wrapMultisig (api: ApiPromise, multisig: string, { address, isMul
     : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
 }
 
+function wrapProxy (api: ApiPromise, real: string, tx: SubmittableExtrinsic<'promise'>): SubmittableExtrinsic<'promise'> {
+  return api.tx.proxy.proxy(real, null, tx);
+}
+
+async function wrapTx (api: ApiPromise, currentItem: QueueTx, requestAddress: string, senderInfo: AddressProxy): Promise<SubmittableExtrinsic<'promise'>> {
+  return senderInfo.isMultiAddress
+    ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
+    : senderInfo.isProxyAddress
+      ? wrapProxy(api, requestAddress, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
+      : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+}
+
 async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', KeyringPair | string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
   const { meta: { isExternal, isHardware, isInjected, source } } = pair;
@@ -260,10 +272,10 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         return;
       }
 
-      const tx = senderInfo.isMultiAddress
-        ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
-        : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
-      const [status, pairOrAddress, options] = await extractParams(senderInfo.address, { tip }, setQrState);
+      const [tx, [status, pairOrAddress, options]] = await Promise.all([
+        wrapTx(api, currentItem, requestAddress, senderInfo),
+        extractParams(senderInfo.address, { tip }, setQrState)
+      ]);
 
       queueSetTxStatus(currentItem.id, status);
 
@@ -278,10 +290,10 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         return;
       }
 
-      const tx = senderInfo.isMultiAddress
-        ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
-        : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
-      const [, pairOrAddress, options] = await extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState);
+      const [tx, [, pairOrAddress, options]] = await Promise.all([
+        wrapTx(api, currentItem, requestAddress, senderInfo),
+        extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState)
+      ]);
 
       setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
     },

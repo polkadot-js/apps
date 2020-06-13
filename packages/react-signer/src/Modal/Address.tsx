@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 import { Multisig, ProxyType } from '@polkadot/types/interfaces';
 import { AddressProxy } from './types';
 
 import React, { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
+import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -26,17 +28,44 @@ interface Props {
 }
 
 interface MultiState {
+  address: string;
   isMultiCall: boolean;
   who: string[];
   whoFilter: string[];
 }
 
 interface ProxyState {
-  proxies: [string, ProxyType][] | null;
-  proxiesFilter: string[] | null;
+  address: string;
+  proxies: [string, ProxyType][];
+  proxiesFilter: string[];
 }
 
-async function queryForMultisig (api: ApiPromise, currentItem: QueueTx, address: string): Promise<MultiState> {
+function filterProxies (tx: SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
+  const { method, section } = registry.findMetaCall(tx.callIndex);
+
+  return proxies
+    .filter(([, proxy]): boolean => {
+      switch (proxy.toString()) {
+        case 'Any':
+          return true;
+        case 'Governance':
+          return ['council', 'democracy', 'elections', 'electionsPhragmen', 'society', 'technicalCommittee', 'treasury'].includes(section);
+        case 'NonTransfer':
+          return !(section === 'balances' || (section === 'indices' && method === 'transfer') || (section === 'vesting' && method === 'vestedTransfer'));
+        case 'Staking':
+          // Call::Utility(utility::Call::batch(..)) | Call::Utility(utility::Call::as_limited_sub(..))
+          return section === 'staking' || section === 'utility';
+        case 'SudoBalances':
+          // return Sudo(sudo::Call::sudo(ref x)) => matches!(x.as_ref(), &Call::Balances(..)), Call::Utility(utility::Call::batch(..))
+          return section === 'sudo' || section === 'utility';
+        default:
+          return false;
+      }
+    })
+    .map(([address]) => address);
+}
+
+async function queryForMultisig (api: ApiPromise, currentItem: QueueTx, address: string): Promise<MultiState | null> {
   const multiModule = api.tx.multisig ? 'multisig' : 'utility';
   const { threshold, who } = extractExternal(address);
 
@@ -46,6 +75,7 @@ async function queryForMultisig (api: ApiPromise, currentItem: QueueTx, address:
 
     if (multi) {
       return {
+        address,
         isMultiCall: ((multi.approvals.length + 1) >= threshold),
         who,
         whoFilter: who.filter((w) => !multi.approvals.some((a) => a.eq(w)))
@@ -53,18 +83,20 @@ async function queryForMultisig (api: ApiPromise, currentItem: QueueTx, address:
     }
   }
 
-  return { isMultiCall: false, who, whoFilter: who };
+  return null;
 }
 
-async function queryForProxy (api: ApiPromise, address: string): Promise<ProxyState | null> {
+async function queryForProxy (api: ApiPromise, address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const [_proxies] = await api.query.proxy.proxies(address);
 
     if (_proxies.length) {
       const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
-      const proxiesFilter: string[] = proxies.map(([proxy]) => proxy);
+      const proxiesFilter = filterProxies(tx, proxies);
 
-      return { proxies, proxiesFilter };
+      return proxiesFilter.length
+        ? { address, proxies, proxiesFilter }
+        : null;
     }
   }
 
@@ -76,48 +108,63 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
   const mountedRef = useIsMountedRef();
   const { t } = useTranslation();
   const [address, setAddress] = useState<string | null>(requestAddress);
+  const [addressMulti, setAddressMulti] = useState<string | null>(requestAddress);
+  const [addressProxy, setAddressProxy] = useState<string | null>(requestAddress);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
-  const [multisigInfo, setMultsigInfo] = useState<MultiState | null>(null);
-  const [, setProxyInfo] = useState<ProxyState | null>(null);
+  const [multiInfo, setMultInfo] = useState<MultiState | null>(null);
+  const [proxyInfo, setProxyInfo] = useState<ProxyState | null>(null);
   const [password, setPassword] = useState('');
 
   useEffect((): void => {
     setFlags(extractExternal(address));
   }, [address]);
 
+  // multisig & proxy for requestor
   useEffect((): void => {
-    const { isMultisig, who } = extractExternal(requestAddress);
+    const { isMultisig } = extractExternal(requestAddress);
 
     if (isMultisig) {
-      setMultsigInfo({ isMultiCall: false, who, whoFilter: who });
-
+      setMultInfo(null);
       queryForMultisig(api, currentItem, requestAddress)
         .then((info): void => {
           if (mountedRef.current) {
-            setMultsigInfo(info);
+            setMultInfo(info);
             setIsMultiCall(info?.isMultiCall || false);
           }
         })
         .catch(console.error);
     } else {
-      setMultsigInfo(null);
+      setMultInfo(null);
     }
 
-    queryForProxy(api, requestAddress)
-      .then((info) => mountedRef.current && setProxyInfo(info))
-      .catch(console.error);
+    if (currentItem.extrinsic) {
+      queryForProxy(api, requestAddress, currentItem.extrinsic)
+        .then((info) => mountedRef.current && setProxyInfo(info))
+        .catch(console.error);
+    } else {
+      setProxyInfo(null);
+    }
   }, [api, currentItem, mountedRef, requestAddress]);
+
+  // address
+  useEffect((): void => {
+    setAddress(
+      (proxyInfo && addressProxy) ||
+      (multiInfo && addressMulti) ||
+      requestAddress
+    );
+  }, [addressMulti, addressProxy, multiInfo, proxyInfo, requestAddress]);
 
   useEffect((): void => {
     onChange({
       address,
-      isMultiAddress: !!multisigInfo,
+      isMultiAddress: !!multiInfo && (address === addressMulti),
       isMultiCall: isMultiCall,
-      isProxyAddress: false,
+      isProxyAddress: !!proxyInfo && (address === addressProxy),
       password
     });
-  }, [address, isMultiCall, multisigInfo, onChange, password]);
+  }, [address, addressMulti, addressProxy, isMultiCall, multiInfo, onChange, password, proxyInfo]);
 
   return (
     <>
@@ -136,19 +183,35 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
         </Modal.Column>
       </Modal.Columns>
-      {multisigInfo && (
+      {multiInfo && (
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              filter={multisigInfo.whoFilter}
+              filter={multiInfo.whoFilter}
               help={t('The multisig signatory for this transaction.')}
               label={t('signatory')}
-              onChange={setAddress}
+              onChange={setAddressMulti}
               type='account'
             />
           </Modal.Column>
           <Modal.Column>
             <p>{t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      )}
+      {proxyInfo && (
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              filter={proxyInfo.proxiesFilter}
+              help={t('The proxy to be used for this transaction.')}
+              label={t('proxy')}
+              onChange={setAddressProxy}
+              type='account'
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
@@ -159,7 +222,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           onChange={setPassword}
         />
       )}
-      {multisigInfo && (
+      {multiInfo && (
         <Modal.Columns>
           <Modal.Column>
             <Toggle
