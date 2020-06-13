@@ -126,10 +126,10 @@ function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerP
     });
 }
 
-async function wrapMultisig (api: ApiPromise, multisig: string, { address, isMultiCall }: AddressProxy, tx: SubmittableExtrinsic<'promise'>): Promise<SubmittableExtrinsic<'promise'>> {
+async function wrapMultisig (api: ApiPromise, { address, isMultiCall, multiRoot }: AddressProxy, tx: SubmittableExtrinsic<'promise'>): Promise<SubmittableExtrinsic<'promise'>> {
   const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-  const info = await api.query[multiModule].multisigs<Option<Multisig>>(multisig, tx.method.hash);
-  const { threshold, who } = extractExternal(multisig);
+  const info = await api.query[multiModule].multisigs<Option<Multisig>>(multiRoot as string, tx.method.hash);
+  const { threshold, who } = extractExternal(multiRoot);
   const others = who.filter((w) => w !== address);
   let timepoint: Timepoint | null = null;
 
@@ -146,16 +146,22 @@ async function wrapMultisig (api: ApiPromise, multisig: string, { address, isMul
     : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
 }
 
-function wrapProxy (api: ApiPromise, real: string, tx: SubmittableExtrinsic<'promise'>): SubmittableExtrinsic<'promise'> {
-  return api.tx.proxy.proxy(real, null, tx);
+function wrapProxy (api: ApiPromise, { proxyRoot }: AddressProxy, tx: SubmittableExtrinsic<'promise'>): SubmittableExtrinsic<'promise'> {
+  return api.tx.proxy.proxy(proxyRoot as string, null, tx);
 }
 
-async function wrapTx (api: ApiPromise, currentItem: QueueTx, requestAddress: string, senderInfo: AddressProxy): Promise<SubmittableExtrinsic<'promise'>> {
-  return senderInfo.isMultiAddress
-    ? await wrapMultisig(api, requestAddress, senderInfo, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
-    : senderInfo.isProxyAddress
-      ? wrapProxy(api, requestAddress, currentItem.extrinsic as SubmittableExtrinsic<'promise'>)
-      : currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+async function wrapTx (api: ApiPromise, currentItem: QueueTx, senderInfo: AddressProxy): Promise<SubmittableExtrinsic<'promise'>> {
+  let tx = currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
+
+  if (senderInfo.proxyRoot) {
+    tx = wrapProxy(api, senderInfo, tx);
+  }
+
+  if (senderInfo.multiRoot) {
+    tx = await wrapMultisig(api, senderInfo, tx);
+  }
+
+  return tx;
 }
 
 async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', KeyringPair | string, Partial<SignerOptions>]> {
@@ -186,7 +192,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiAddress: false, isMultiCall: false, isProxyAddress: false, password: '' });
+  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiCall: false, multiRoot: null, password: '', proxyRoot: null });
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [tip, setTip] = useState(BN_ZERO);
@@ -273,7 +279,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       }
 
       const [tx, [status, pairOrAddress, options]] = await Promise.all([
-        wrapTx(api, currentItem, requestAddress, senderInfo),
+        wrapTx(api, currentItem, senderInfo),
         extractParams(senderInfo.address, { tip }, setQrState)
       ]);
 
@@ -281,7 +287,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
       await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
     },
-    [_unlock, api, currentItem, queueSetTxStatus, requestAddress, senderInfo, tip]
+    [_unlock, api, currentItem, queueSetTxStatus, senderInfo, tip]
   );
 
   const _onSign = useCallback(
@@ -291,13 +297,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       }
 
       const [tx, [, pairOrAddress, options]] = await Promise.all([
-        wrapTx(api, currentItem, requestAddress, senderInfo),
+        wrapTx(api, currentItem, senderInfo),
         extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState)
       ]);
 
       setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
     },
-    [_unlock, api, currentItem, queueSetTxStatus, requestAddress, senderInfo, signedOptions, tip]
+    [_unlock, api, currentItem, queueSetTxStatus, senderInfo, signedOptions, tip]
   );
 
   return (
