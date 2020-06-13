@@ -6,10 +6,8 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Modal } from '@polkadot/react-components';
+import { Columar } from '@polkadot/react-components';
 import { QrDisplayPayload, QrScanSignature } from '@polkadot/react-qr';
-
-import { useTranslation } from '../translate';
 
 interface Props extends BareProps {
   address: string;
@@ -24,35 +22,29 @@ interface Props extends BareProps {
 const CMD_HASH = 1;
 const CMD_MORTAL = 2;
 
-function Qr ({ address, className, genesisHash, isHashed, isScanning, onSignature, payload }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-
+function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }: Props): React.ReactElement<Props> {
   return (
-    <Modal.Columns className={className}>
-      <Modal.Column>
+    <Columar className={className}>
+      <Columar.Column>
         <div className='qrDisplay'>
-          {isScanning
-            ? <QrScanSignature onScan={onSignature} />
-            : <QrDisplayPayload
-              address={address}
-              cmd={
-                isHashed
-                  ? CMD_HASH
-                  : CMD_MORTAL
-              }
-              genesisHash={genesisHash}
-              payload={payload}
-            />
-          }
+          <QrDisplayPayload
+            address={address}
+            cmd={
+              isHashed
+                ? CMD_HASH
+                : CMD_MORTAL
+            }
+            genesisHash={genesisHash}
+            payload={payload}
+          />
         </div>
-      </Modal.Column>
-      <Modal.Column>
-        <p>{isScanning
-          ? t('Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.')
-          : t('Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.')
-        }</p>
-      </Modal.Column>
-    </Modal.Columns>
+      </Columar.Column>
+      <Columar.Column>
+        <div className='qrDisplay'>
+          <QrScanSignature onScan={onSignature} />
+        </div>
+      </Columar.Column>
+    </Columar>
   );
 }
 

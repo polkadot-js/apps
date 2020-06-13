@@ -39,7 +39,6 @@ interface Props {
 
 interface QrState {
   isQrHashed: boolean;
-  isQrScanning: boolean;
   isQrVisible: boolean;
   qrAddress: string;
   qrPayload: Uint8Array;
@@ -116,7 +115,6 @@ function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerP
 
       setQrState({
         isQrHashed,
-        isQrScanning: false,
         isQrVisible: true,
         qrAddress: payload.address,
         qrPayload,
@@ -180,7 +178,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { t } = useTranslation();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
-  const [{ isQrHashed, isQrScanning, isQrVisible, qrAddress, qrPayload }, setQrState] = useState<QrState>({ isQrHashed: false, isQrScanning: false, isQrVisible: false, qrAddress: '', qrPayload: new Uint8Array() });
+  const [{ isQrHashed, isQrVisible, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, isQrVisible: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -194,30 +192,12 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     setPasswordError(null);
   }, [senderInfo]);
 
-  const _onQrSend = useCallback(
-    () => setQrState((state) => ({ ...state, isQrScanning: state.isQrVisible, isQrVisible: true })),
-    []
-  );
-
   const _addQrSignature = useCallback(
-    ({ signature }: { signature: string }): void => {
-      setQrState(
-        (state): QrState => {
-          state.qrResolve &&
-            state.qrResolve({
-              id: ++qrId,
-              signature
-            });
-
-          return {
-            ...state,
-            isQrScanning: false,
-            isQrVisible: false
-          };
-        }
-      );
-    },
-    []
+    ({ signature }: { signature: string }) => qrResolve && qrResolve({
+      id: ++qrId,
+      signature
+    }),
+    [qrResolve]
   );
 
   const _onCancel = useCallback(
@@ -308,7 +288,6 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                 address={qrAddress}
                 genesisHash={api.genesisHash}
                 isHashed={isQrHashed}
-                isScanning={isQrScanning}
                 onSignature={_addQrSignature}
                 payload={qrPayload}
               />
@@ -341,45 +320,45 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         </ErrorBoundary>
       </Modal.Content>
       <Modal.Actions onCancel={_onCancel}>
-        <Button
-          icon={
-            flags.isQr
-              ? 'qrcode'
-              : 'sign-in'
-          }
-          isDisabled={!senderInfo.signAddress || isRenderError}
-          isPrimary
-          label={
-            isQrVisible
-              ? t<string>('Scan Signature Qr')
-              : flags.isQr
-                ? t<string>('Sign via Qr')
-                : isSubmit
+        {!isQrVisible && (
+          <>
+            <Button
+              icon={
+                flags.isQr
+                  ? 'qrcode'
+                  : 'sign-in'
+              }
+              isDisabled={!senderInfo.signAddress || isRenderError}
+              isPrimary
+              label={
+                flags.isQr
+                  ? t<string>('Sign via Qr')
+                  : isSubmit
+                    ? t<string>('Sign and Submit')
+                    : t<string>('Sign (no submission)')
+              }
+              onClick={
+                isSubmit
+                  ? currentItem.payload
+                    ? _onSendPayload
+                    : _onSend
+                  : _onSign
+              }
+              tabIndex={2}
+            />
+            <Toggle
+              className='signToggle'
+              isDisabled={isQrVisible || !!currentItem.payload}
+              label={
+                isSubmit
                   ? t<string>('Sign and Submit')
                   : t<string>('Sign (no submission)')
-          }
-          onClick={
-            isQrVisible
-              ? _onQrSend
-              : isSubmit
-                ? currentItem.payload
-                  ? _onSendPayload
-                  : _onSend
-                : _onSign
-          }
-          tabIndex={2}
-        />
-        <Toggle
-          className='signToggle'
-          isDisabled={isQrVisible || isQrScanning || !!currentItem.payload}
-          label={
-            isSubmit
-              ? t<string>('Sign and Submit')
-              : t<string>('Sign (no submission)')
-          }
-          onChange={setIsSubmit}
-          value={isSubmit}
-        />
+              }
+              onChange={setIsSubmit}
+              value={isSubmit}
+            />
+          </>
+        )}
       </Modal.Actions>
     </>
   );
