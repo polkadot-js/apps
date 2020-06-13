@@ -126,39 +126,31 @@ function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerP
     });
 }
 
-async function wrapMultisig (api: ApiPromise, { address, isMultiCall, multiRoot }: AddressProxy, tx: SubmittableExtrinsic<'promise'>): Promise<SubmittableExtrinsic<'promise'>> {
-  const multiModule = api.tx.multisig ? 'multisig' : 'utility';
-  const info = await api.query[multiModule].multisigs<Option<Multisig>>(multiRoot as string, tx.method.hash);
-  const { threshold, who } = extractExternal(multiRoot);
-  const others = who.filter((w) => w !== address);
-  let timepoint: Timepoint | null = null;
-
-  if (info.isSome) {
-    timepoint = info.unwrap().when;
-  }
-
-  return isMultiCall
-    ? api.tx[multiModule].asMulti.meta.args.length === 5
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method, false)
-      : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
-    : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
-}
-
-function wrapProxy (api: ApiPromise, { proxyRoot }: AddressProxy, tx: SubmittableExtrinsic<'promise'>): SubmittableExtrinsic<'promise'> {
-  return api.tx.proxy.proxy(proxyRoot as string, null, tx);
-}
-
-async function wrapTx (api: ApiPromise, currentItem: QueueTx, senderInfo: AddressProxy): Promise<SubmittableExtrinsic<'promise'>> {
+async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, multiRoot, proxyRoot, signAddress }: AddressProxy): Promise<SubmittableExtrinsic<'promise'>> {
   let tx = currentItem.extrinsic as SubmittableExtrinsic<'promise'>;
 
-  if (senderInfo.proxyRoot) {
-    tx = wrapProxy(api, senderInfo, tx);
+  if (proxyRoot) {
+    tx = api.tx.proxy.proxy(proxyRoot, null, tx);
   }
 
-  if (senderInfo.multiRoot) {
-    tx = await wrapMultisig(api, senderInfo, tx);
+  if (multiRoot) {
+    const multiModule = api.tx.multisig ? 'multisig' : 'utility';
+    const info = await api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash);
+    const { threshold, who } = extractExternal(multiRoot);
+    const others = who.filter((w) => w !== signAddress);
+    let timepoint: Timepoint | null = null;
+
+    if (info.isSome) {
+      timepoint = info.unwrap().when;
+    }
+
+    tx = isMultiCall
+      ? api.tx[multiModule].asMulti.meta.args.length === 5
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method, false)
+        : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
+      : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
   }
 
   return tx;
@@ -192,13 +184,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ address: requestAddress, isMultiCall: false, multiRoot: null, password: '', proxyRoot: null });
+  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ isMultiCall: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
-    setFlags(extractExternal(senderInfo.address));
+    setFlags(extractExternal(senderInfo.signAddress));
     setPasswordError(null);
   }, [senderInfo]);
 
@@ -241,8 +233,8 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _unlock = useCallback(
     (): boolean => {
-      const passwordError = senderInfo.address && flags.isUnlockable
-        ? unlockAccount(senderInfo.address, senderInfo.password)
+      const passwordError = senderInfo.signAddress && flags.isUnlockable
+        ? unlockAccount(senderInfo.signAddress, senderInfo.signPassword)
         : null;
 
       if (passwordError) {
@@ -258,12 +250,12 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _onSendPayload = useCallback(
     (): void => {
-      if (!_unlock() || !senderInfo.address || !currentItem.payload) {
+      if (!_unlock() || !senderInfo.signAddress || !currentItem.payload) {
         return;
       }
 
       const { id, payload, signerCb = NOOP } = currentItem;
-      const pair = keyring.getPair(senderInfo.address);
+      const pair = keyring.getPair(senderInfo.signAddress);
       const result = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
 
       signerCb(id, { id, ...result });
@@ -274,13 +266,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _onSend = useCallback(
     async (): Promise<void> => {
-      if (!_unlock() || !senderInfo.address) {
+      if (!_unlock() || !senderInfo.signAddress) {
         return;
       }
 
       const [tx, [status, pairOrAddress, options]] = await Promise.all([
         wrapTx(api, currentItem, senderInfo),
-        extractParams(senderInfo.address, { tip }, setQrState)
+        extractParams(senderInfo.signAddress, { tip }, setQrState)
       ]);
 
       queueSetTxStatus(currentItem.id, status);
@@ -292,13 +284,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _onSign = useCallback(
     async (): Promise<void> => {
-      if (!_unlock() || !senderInfo.address) {
+      if (!_unlock() || !senderInfo.signAddress) {
         return;
       }
 
       const [tx, [, pairOrAddress, options]] = await Promise.all([
         wrapTx(api, currentItem, senderInfo),
-        extractParams(senderInfo.address, { ...signedOptions, tip }, setQrState)
+        extractParams(senderInfo.signAddress, { ...signedOptions, tip }, setQrState)
       ]);
 
       setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
@@ -338,7 +330,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                 )}
                 {!isSubmit && (
                   <SignFields
-                    address={senderInfo.address}
+                    address={senderInfo.signAddress}
                     onChange={setSignedOptions}
                     signedTx={signedTx}
                   />
@@ -355,7 +347,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
               ? 'qrcode'
               : 'sign-in'
           }
-          isDisabled={!senderInfo.address || isRenderError}
+          isDisabled={!senderInfo.signAddress || isRenderError}
           isPrimary
           label={
             isQrVisible

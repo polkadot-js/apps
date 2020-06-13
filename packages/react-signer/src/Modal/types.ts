@@ -13,9 +13,9 @@ export interface AddressFlags {
 }
 
 export interface AddressProxy {
-  address: string| null;
   isMultiCall: boolean;
   multiRoot: string | null;
-  password: string;
   proxyRoot: string | null;
+  signAddress: string | null;
+  signPassword: string;
 }
