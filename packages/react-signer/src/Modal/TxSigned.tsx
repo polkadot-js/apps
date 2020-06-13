@@ -110,7 +110,6 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
   return null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerPayloadJSON) => Promise<SignerResult> {
   return (payload: SignerPayloadJSON): Promise<SignerResult> =>
     new Promise((resolve, reject): void => {
