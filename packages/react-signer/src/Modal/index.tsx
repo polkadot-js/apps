@@ -44,11 +44,7 @@ function SignerModal ({ className, currentItem }: Props): React.ReactElement<Pro
             requestAddress={requestAddress}
           />
         )
-        : (
-          <TxUnsigned
-            currentItem={currentItem}
-          />
-        )
+        : <TxUnsigned currentItem={currentItem} />
       }
     </Modal>
   );

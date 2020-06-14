@@ -29,17 +29,14 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
   }
 
   const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+  const args = meta?.args.map(({ name }) => name).join(', ') || '';
 
   return (
     <Modal.Columns className={className}>
       <Modal.Column>
         <Expander
           className='tx-details'
-          summary={
-            <>{t<string>('Sending transaction')} <span className='highlight'>{section}.{method}({
-              meta?.args.map(({ name }) => name).join(', ') || ''
-            })</span></>
-          }
+          summary={<>{t<string>('Sending transaction')} <span className='highlight'>{section}.{method}({args})</span></>}
           summaryMeta={meta}
         >
           <Call

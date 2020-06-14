@@ -42,7 +42,7 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
     onChange(password);
   }, [onChange, password]);
 
-  if (!pair || !(pair.isLocked) || pair.meta.isInjected) {
+  if (!pair || !pair.isLocked || pair.meta.isInjected) {
     return null;
   }
 

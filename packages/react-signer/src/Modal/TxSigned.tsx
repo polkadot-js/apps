@@ -50,11 +50,11 @@ const NOOP = () => undefined;
 
 let qrId = 0;
 
-function unlockAccount (accountId: string, password: string): string | null {
+function unlockAccount ({ signAddress, signPassword }: AddressProxy): string | null {
   let publicKey;
 
   try {
-    publicKey = keyring.decodeAddress(accountId);
+    publicKey = keyring.decodeAddress(signAddress as string);
   } catch (error) {
     console.error(error);
 
@@ -64,7 +64,7 @@ function unlockAccount (accountId: string, password: string): string | null {
   const pair = keyring.getPair(publicKey);
 
   try {
-    pair.decodePkcs8(password);
+    pair.decodePkcs8(signPassword);
   } catch (error) {
     console.error(error);
 
@@ -214,66 +214,56 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _unlock = useCallback(
     (): boolean => {
       const passwordError = senderInfo.signAddress && flags.isUnlockable
-        ? unlockAccount(senderInfo.signAddress, senderInfo.signPassword)
+        ? unlockAccount(senderInfo)
         : null;
 
-      if (passwordError) {
-        setPasswordError(passwordError);
+      setPasswordError(passwordError);
 
-        return false;
-      }
-
-      return true;
+      return !passwordError;
     },
     [flags, senderInfo]
   );
 
   const _onSendPayload = useCallback(
     (): void => {
-      if (!_unlock() || !senderInfo.signAddress || !currentItem.payload) {
-        return;
+      if (_unlock() && senderInfo.signAddress && currentItem.payload) {
+        const { id, payload, signerCb = NOOP } = currentItem;
+        const pair = keyring.getPair(senderInfo.signAddress);
+        const result = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
+
+        signerCb(id, { id, ...result });
+        queueSetTxStatus(id, 'completed');
       }
-
-      const { id, payload, signerCb = NOOP } = currentItem;
-      const pair = keyring.getPair(senderInfo.signAddress);
-      const result = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(pair);
-
-      signerCb(id, { id, ...result });
-      queueSetTxStatus(id, 'completed');
     },
     [_unlock, currentItem, queueSetTxStatus, senderInfo]
   );
 
   const _onSend = useCallback(
     async (): Promise<void> => {
-      if (!_unlock() || !senderInfo.signAddress) {
-        return;
+      if (_unlock() && senderInfo.signAddress) {
+        const [tx, [status, pairOrAddress, options]] = await Promise.all([
+          wrapTx(api, currentItem, senderInfo),
+          extractParams(senderInfo.signAddress, { tip }, setQrState)
+        ]);
+
+        queueSetTxStatus(currentItem.id, status);
+
+        await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
-
-      const [tx, [status, pairOrAddress, options]] = await Promise.all([
-        wrapTx(api, currentItem, senderInfo),
-        extractParams(senderInfo.signAddress, { tip }, setQrState)
-      ]);
-
-      queueSetTxStatus(currentItem.id, status);
-
-      await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
     },
     [_unlock, api, currentItem, queueSetTxStatus, senderInfo, tip]
   );
 
   const _onSign = useCallback(
     async (): Promise<void> => {
-      if (!_unlock() || !senderInfo.signAddress) {
-        return;
+      if (_unlock() && senderInfo.signAddress) {
+        const [tx, [, pairOrAddress, options]] = await Promise.all([
+          wrapTx(api, currentItem, senderInfo),
+          extractParams(senderInfo.signAddress, { ...signedOptions, tip }, setQrState)
+        ]);
+
+        setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
       }
-
-      const [tx, [, pairOrAddress, options]] = await Promise.all([
-        wrapTx(api, currentItem, senderInfo),
-        extractParams(senderInfo.signAddress, { ...signedOptions, tip }, setQrState)
-      ]);
-
-      setSignedTx(await signAsync(queueSetTxStatus, currentItem, tx, pairOrAddress, options));
     },
     [_unlock, api, currentItem, queueSetTxStatus, senderInfo, signedOptions, tip]
   );

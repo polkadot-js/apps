@@ -145,9 +145,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
 
   // multisig
   useEffect((): void => {
-    const { isMultisig } = extractExternal(proxyAddress || requestAddress);
-
-    if (isMultisig) {
+    if (extractExternal(proxyAddress || requestAddress).isMultisig) {
       queryForMultisig(api, requestAddress, proxyAddress, currentItem.extrinsic)
         .then((info): void => {
           if (mountedRef.current) {

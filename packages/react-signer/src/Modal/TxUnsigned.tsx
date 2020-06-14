@@ -53,11 +53,9 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
 
   const _onSend = useCallback(
     async (): Promise<void> => {
-      if (!currentItem.extrinsic) {
-        return;
+      if (currentItem.extrinsic) {
+        await send(queueSetTxStatus, currentItem, currentItem.extrinsic);
       }
-
-      await send(queueSetTxStatus, currentItem, currentItem.extrinsic);
     },
     [currentItem, queueSetTxStatus]
   );
