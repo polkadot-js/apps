@@ -10,8 +10,8 @@ import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Call, Expander, Modal } from '@polkadot/react-components';
 
-import Checks from '../Checks';
 import { useTranslation } from '../translate';
+import PaymentInfo from './PaymentInfo';
 
 interface Props {
   className?: string;
@@ -46,7 +46,7 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
           />
         </Expander>
         {!isUnsigned && !payload && (
-          <Checks
+          <PaymentInfo
             accountId={accountId}
             className='tx-details'
             extrinsic={extrinsic}

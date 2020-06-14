@@ -21,7 +21,7 @@ interface Props {
   tip?: BN;
 }
 
-function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
+function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const [dispatchInfo, setDispatchInfo] = useState<RuntimeDispatchInfo | null>(null);
   const mountedRef = useIsMountedRef();
@@ -55,4 +55,4 @@ function Checks ({ accountId, className = '', extrinsic }: Props): React.ReactEl
   );
 }
 
-export default React.memo(Checks);
+export default React.memo(PaymentInfo);

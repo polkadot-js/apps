@@ -44,15 +44,13 @@ async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt
 }
 
 async function sendRpc (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, { id, rpc, values = [] }: QueueTx): Promise<void> {
-  if (!rpc) {
-    return;
+  if (rpc) {
+    queueSetTxStatus(id, 'sending');
+
+    const reply = await submitRpc(api, rpc, values);
+
+    queueSetTxStatus(id, reply.status, reply.result, reply.error);
   }
-
-  queueSetTxStatus(id, 'sending');
-
-  const reply = await submitRpc(api, rpc, values);
-
-  queueSetTxStatus(id, reply.status, reply.result, reply.error);
 }
 
 function Signer ({ children, className = '' }: Props): React.ReactElement<Props> {
