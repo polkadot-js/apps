@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { EraIndex } from '@polkadot/types/interfaces';
 import { PayoutValidator } from './types';
 
 import React, { useState, useEffect } from 'react';
@@ -20,6 +21,11 @@ interface Props {
   payout?: PayoutValidator | PayoutValidator[];
 }
 
+interface SinglePayout {
+  era: EraIndex;
+  validatorId: string;
+}
+
 function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> | null {
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
@@ -27,11 +33,17 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
     }
 
     return api.tx.utility.batch(
-      payout.reduce((calls: SubmittableExtrinsic<'promise'>[], { eras, validatorId }): SubmittableExtrinsic<'promise'>[] =>
-        calls.concat(
-          ...eras.map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
-        ), []
-      ).filter((_, index) => index < MAX_BATCH_SIZE)
+      payout
+        .reduce((payouts: SinglePayout[], { eras, validatorId }): SinglePayout[] => {
+          eras.forEach(({ era }): void => {
+            payouts.push({ era, validatorId });
+          });
+
+          return payouts;
+        }, [])
+        .sort((a, b) => a.era.cmp(b.era))
+        .filter((_, index) => index < MAX_BATCH_SIZE)
+        .map(({ era, validatorId }) => api.tx.staking.payoutStakers(validatorId, era))
     );
   }
 
@@ -41,8 +53,9 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
     ? api.tx.staking.payoutStakers(validatorId, eras[0].era)
     : api.tx.utility.batch(
       eras
-        .map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
+        .sort((a, b) => a.era.cmp(b.era))
         .filter((_, index) => index < MAX_BATCH_SIZE)
+        .map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
     );
 }
 
