@@ -9,7 +9,7 @@ import React, { useCallback, useContext } from 'react';
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
 import Transaction from './Transaction';
 import { handleTxResults } from './util';
 

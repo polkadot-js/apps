@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
 
 interface Props {
   address: string;

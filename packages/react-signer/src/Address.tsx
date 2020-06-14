@@ -15,7 +15,7 @@ import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
 import Password from './Password';
 import { extractExternal } from './util';
 

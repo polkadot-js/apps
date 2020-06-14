@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { Call, Expander, Modal } from '@polkadot/react-components';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
 import PaymentInfo from './PaymentInfo';
 
 interface Props {

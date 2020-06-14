@@ -10,7 +10,7 @@ import { InputNumber, Modal, Output } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
+import { useTranslation } from './translate';
 
 interface Props {
   address: string | null;

@@ -22,8 +22,8 @@ import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, assert } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import ledgerSigner from '../LedgerSigner';
-import { useTranslation } from '../translate';
+import ledgerSigner from './LedgerSigner';
+import { useTranslation } from './translate';
 import Address from './Address';
 import Qr from './Qr';
 import SignFields from './SignFields';

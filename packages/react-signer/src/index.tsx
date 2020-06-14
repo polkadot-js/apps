@@ -6,17 +6,25 @@ import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react
 import { BareProps } from '@polkadot/react-components/types';
 import { DefinitionRpcExt } from '@polkadot/types/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
-import { StatusContext } from '@polkadot/react-components';
+import { Modal, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
-import Modal from './Modal';
+import { useTranslation } from './translate';
+import TxSigned from './TxSigned';
+import TxUnsigned from './TxUnsigned';
 
 interface Props extends BareProps {
   children: React.ReactNode;
+}
+
+interface ItemState {
+  currentItem: QueueTx | null;
+  requestAddress: string | null;
 }
 
 async function submitRpc (api: ApiPromise, { method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
@@ -47,35 +55,39 @@ async function sendRpc (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStat
   if (rpc) {
     queueSetTxStatus(id, 'sending');
 
-    const reply = await submitRpc(api, rpc, values);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { error, result, status } = await submitRpc(api, rpc, values);
 
-    queueSetTxStatus(id, reply.status, reply.result, reply.error);
+    queueSetTxStatus(id, status, result, error);
   }
+}
+
+function extractCurrent (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, txqueue: QueueTx[]): ItemState {
+  const nextItem = txqueue.find(({ status }) => ['queued', 'qr'].includes(status)) || null;
+  let currentItem = null;
+
+  // when the next up is an RPC, send it immediately
+  if (nextItem && nextItem.status === 'queued' && !(nextItem.extrinsic || nextItem.payload)) {
+    sendRpc(api, queueSetTxStatus, nextItem).catch(console.error);
+  } else {
+    currentItem = nextItem;
+  }
+
+  return {
+    currentItem,
+    requestAddress: (currentItem && currentItem.accountId) || null
+  };
 }
 
 function Signer ({ children, className = '' }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const { t } = useTranslation();
   const { queueSetTxStatus, txqueue } = useContext(StatusContext);
-  const [currentItem, setCurrentItem] = useState<QueueTx | null>(null);
-
-  const _sendRpc = useCallback(
-    (currentItem: QueueTx) => sendRpc(api, queueSetTxStatus, currentItem),
-    [api, queueSetTxStatus]
-  );
+  const [{ currentItem, requestAddress }, setItem] = useState<ItemState>({ currentItem: null, requestAddress: null });
 
   useEffect((): void => {
-    const nextItem = txqueue.find(({ status }) => ['queued', 'qr'].includes(status)) || null;
-    let currentItem = null;
-
-    // when the next up is an RPC, send it immediately
-    if (nextItem && nextItem.status === 'queued' && !(nextItem.extrinsic || nextItem.payload)) {
-      _sendRpc(nextItem).catch(console.error);
-    } else {
-      currentItem = nextItem;
-    }
-
-    setCurrentItem(currentItem);
-  }, [_sendRpc, txqueue]);
+    setItem(extractCurrent(api, queueSetTxStatus, txqueue));
+  }, [api, queueSetTxStatus, txqueue]);
 
   return (
     <>
@@ -83,11 +95,27 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
       {currentItem && (
         <Modal
           className={className}
-          currentItem={currentItem}
-        />
+          header={t('Authorize transaction')}
+          size='large'
+        >
+          {currentItem.isUnsigned
+            ? <TxUnsigned currentItem={currentItem} />
+            : (
+              <TxSigned
+                currentItem={currentItem}
+                requestAddress={requestAddress}
+              />
+            )
+          }
+        </Modal>
       )}
     </>
   );
 }
 
-export default React.memo(Signer);
+export default React.memo(styled(Signer)`
+  .signToggle {
+    position: absolute;
+    left: 1.5rem;
+  }
+`);
