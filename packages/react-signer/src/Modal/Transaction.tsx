@@ -67,11 +67,9 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
 
 export default React.memo(styled(Transaction)`
   .tx-details {
-    margin-left: 2rem;
-
     .ui--Expander-summary {
       font-size: 1.1rem;
-      margin: 0.5rem 0;
+      margin: 0 0 0.5rem;
     }
 
     .highlight {
