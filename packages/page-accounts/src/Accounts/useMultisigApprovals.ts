@@ -4,16 +4,33 @@
 
 import { H256, Multisig } from '@polkadot/types/interfaces';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useApi, useIncrement, useIsMountedRef } from '@polkadot/react-hooks';
+import { EventsContext } from '@polkadot/react-query';
 import { Option, StorageKey } from '@polkadot/types';
 
 export default function useMultisigApprovals (address: string): [H256, Multisig][] {
+  const events = useContext(EventsContext);
   const { api } = useApi();
   const [multiInfos, setMultiInfos] = useState<[H256, Multisig][]>([]);
-  const [trigger] = useIncrement();
+  const [trigger, incTrigger] = useIncrement();
   const mountedRef = useIsMountedRef();
 
+  // increment the trigger by looking at all events
+  //   - filter the by multisig module (old utility is not supported)
+  //   - find anything data item where the type is AccountId
+  //   - increment the trigger when at least one matches our address
+  useEffect((): void => {
+    events
+      .filter(({ record: { event: { section } } }) => section === 'multisig')
+      .reduce((hasMultisig: boolean, { record: { event: { data } } }) =>
+        data.reduce((hasMultisig: boolean, item) =>
+          hasMultisig || (item.toRawType() === 'AccountId' && item.eq(address)),
+        hasMultisig),
+      false) && incTrigger();
+  }, [address, events, incTrigger]);
+
+  // query all the entries for the multisig, extracting approvals with their hash
   useEffect((): void => {
     const multiModule = api.query.multisig || api.query.utility;
 
