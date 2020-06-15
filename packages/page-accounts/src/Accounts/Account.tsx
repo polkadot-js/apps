@@ -29,6 +29,7 @@ import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
 import useMultisigApprovals from './useMultisigApprovals';
+import useProxies from './useProxies';
 
 interface Props extends SortedAccount {
   className?: string;
@@ -73,7 +74,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
     transform: (opt: Option<RecoveryConfig>) => opt.unwrapOr(null)
   });
   const multiInfos = useMultisigApprovals(address);
-  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const proxyInfo = useProxies(address);
+  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
@@ -222,6 +224,15 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
           <Badge
             hover={t<string>('Multisig approvals pending')}
             info={multiInfos.length}
+            isInline
+            isTooltip
+            type='brown'
+          />
+        )}
+        {isProxied && !proxyInfo.hasOwned && (
+          <Badge
+            hover={t<string>('Proxied account has no owned proxies')}
+            info='0'
             isInline
             isTooltip
             type='brown'

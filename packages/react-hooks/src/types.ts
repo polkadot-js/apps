@@ -84,6 +84,7 @@ export interface AddressFlags extends DeriveAccountFlags {
   isInContacts: boolean;
   isInjected: boolean;
   isMultisig: boolean;
+  isProxied: boolean;
   isOwned: boolean;
 }
 
