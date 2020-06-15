@@ -20,7 +20,7 @@ export default function useSudo (): UseSudo {
   const [isMine, setIsMine] = useState(false);
 
   useEffect((): void => {
-    setIsMine(!!sudoKey && !!allAccounts && allAccounts.some((key): boolean => key === sudoKey));
+    setIsMine(!!sudoKey && !!allAccounts && allAccounts.some((key) => key === sudoKey));
   }, [allAccounts, sudoKey]);
 
   return { allAccounts, isMine, sudoKey };
