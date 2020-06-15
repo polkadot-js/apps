@@ -167,12 +167,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const defaultPasswordState = { isPassValid: false, password: '' };
-  const passwordStateHooks = useState(defaultPasswordState);
-  const [{ isPassValid, password }] = passwordStateHooks;
-  const password2StateHooks = useState(defaultPasswordState);
-  const [{ isPassValid: isPass2Valid }] = password2StateHooks;
-  const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid && isSeedValid;
+  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
+  const isValid = !!address && !deriveError && isNameValid && isPasswordValid && isSeedValid;
   const seedOpt = useMemo(() => (
     isDevelopment
       ? [{ text: t<string>('Development'), value: 'dev' }]
@@ -208,6 +204,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   const _onChangeName = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
+
+  const _onPasswordChange = useCallback(
+    (password: string, isPasswordValid: boolean) => setPassword({ isPasswordValid, password }),
     []
   );
 
@@ -300,8 +301,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
           </Modal.Column>
         </Modal.Columns>
-        <PasswordInput onEnter={_onCommit}
-          passwordStates={[passwordStateHooks, password2StateHooks]}/>
+        <PasswordInput onChange={_onPasswordChange}
+          onEnter={_onCommit}
+          password={password}/>
         <Expander
           className='accounts--Creator-advanced'
           isOpen

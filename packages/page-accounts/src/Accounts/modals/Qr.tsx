@@ -30,16 +30,17 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const [scanned, setScanned] = useState<Scanned | null>(null);
   const [isAddress, setIsAddress] = useState<boolean>(false);
   const [address, setAddress] = useState<string>('');
-  const defaultPasswordState = { isPassValid: false, password: '' };
-  const passwordStateHooks = useState(defaultPasswordState);
-  const [{ isPassValid, password }] = passwordStateHooks;
-  const password2StateHooks = useState(defaultPasswordState);
-  const [{ isPassValid: isPass2Valid }] = password2StateHooks;
+  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
-  const isValid = isAddress ? (!!address && isNameValid) : (!!address && isNameValid && isPassValid && isPass2Valid);
+  const isValid = isAddress ? (!!address && isNameValid) : (!!address && isNameValid && isPasswordValid);
 
   const _onNameChange = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
+
+  const _onPasswordChange = useCallback(
+    (password: string, isPasswordValid: boolean) => setPassword({ isPasswordValid, password }),
     []
   );
 
@@ -127,8 +128,9 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   <p>{t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              {!isAddress && <PasswordInput onEnter={_onSave}
-                passwordStates={[passwordStateHooks, password2StateHooks]}/>}
+              {!isAddress && <PasswordInput onChange={_onPasswordChange}
+                onEnter={_onSave}
+                password={password}/>}
             </>
           )
           : (

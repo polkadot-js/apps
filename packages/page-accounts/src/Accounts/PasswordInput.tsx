@@ -5,30 +5,43 @@
 import { Modal, Password } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from '../translate';
 
-type PasswordState = { isPassValid: boolean, password: string }
-type PasswordStateHooks = [PasswordState, Dispatch<SetStateAction<PasswordState>>];
-type PasswordStates = [PasswordStateHooks, PasswordStateHooks]
 type Props = {
-  onEnter: ()=> void;
-  passwordStates: PasswordStates;
+  password: string;
+  onChange: (password: string, isPasswordValid: boolean) => void;
+  onEnter: () => void;
 }
 
-export default function PasswordInput ({ onEnter, passwordStates }: Props): React.ReactElement {
+export default function PasswordInput ({ onChange, onEnter, password }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const [{ isPassValid, password }, setPassword] = passwordStates[0];
-  const [{ isPassValid: isPass2Valid, password: password2 }, setPassword2] = passwordStates[1];
-  const _onChangePass = useCallback(
-    (password: string) => setPassword({ isPassValid: keyring.isPassValid(password), password }),
-    [setPassword]
+  const [isPassValid, setPassValid] = useState<boolean>(false);
+  const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
+
+  const _onChangePassword = useCallback(
+    (password: string) => {
+      const isPassValid = keyring.isPassValid(password);
+
+      setPassValid(isPassValid);
+      const isValid = isPassValid && isPass2Valid;
+
+      onChange(password, isValid);
+    },
+    [onChange, isPass2Valid]
   );
 
-  const _onChangePass2 = useCallback(
-    (password2: string) => setPassword2({ isPassValid: keyring.isPassValid(password2) && (password2 === password), password: password2 }),
-    [password, setPassword2]
+  const _onChangePassword2 = useCallback(
+    (password2: string) => {
+      const isPass2Valid = keyring.isPassValid(password2) && (password2 === password);
+
+      setPassword2({ isPass2Valid, password2 });
+      const isValid = isPassValid && isPass2Valid;
+
+      onChange(password, isValid);
+    },
+    [password, onChange, isPassValid]
   );
 
   return (
@@ -39,7 +52,7 @@ export default function PasswordInput ({ onEnter, passwordStates }: Props): Reac
           help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
           isError={!isPassValid}
           label={t<string>('password')}
-          onChange={_onChangePass}
+          onChange={_onChangePassword}
           onEnter={onEnter}
           value={password}
         />
@@ -48,7 +61,7 @@ export default function PasswordInput ({ onEnter, passwordStates }: Props): Reac
           help={t<string>('Verify the password entered above.')}
           isError={!isPass2Valid}
           label={t<string>('password (repeat)')}
-          onChange={_onChangePass2}
+          onChange={_onChangePassword2}
           onEnter={onEnter}
           value={password2}
         />
