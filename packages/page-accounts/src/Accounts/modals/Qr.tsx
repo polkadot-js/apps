@@ -83,7 +83,6 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       keyring.addExternal(content, { genesisHash, name: name.trim() });
       InputAddress.setLastValue('account', content);
 
-      InputAddress.setLastValue('account', address);
       onStatusChange({
         account: content,
         action: 'create',
