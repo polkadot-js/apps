@@ -32,7 +32,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const [address, setAddress] = useState<string>('');
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
-  const isValid = isAddress ? (!!address && isNameValid) : (!!address && isNameValid && isPasswordValid);
+  const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
 
   const _onNameChange = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
