@@ -91,7 +91,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       });
       onClose();
     },
-    [address, isValid, name, onClose, onStatusChange, password, scanned, t]
+    [isValid, name, onClose, onStatusChange, password, scanned, t]
   );
 
   return (
