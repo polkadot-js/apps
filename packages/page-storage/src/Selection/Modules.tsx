@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { QueryableStorageEntry } from '@polkadot/api/types';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
-import { ComponentProps as Props, StorageEntryPromise } from '../types';
+import { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
@@ -21,11 +22,11 @@ type ParamsType = { type: TypeDef }[];
 interface KeyState {
   defaultValues: RawParams | undefined | null;
   isIterable: boolean;
-  key: StorageEntryPromise;
+  key: QueryableStorageEntry<'promise'>;
   params: ParamsType;
 }
 
-function areParamsValid ({ creator: { meta: { type } } }: StorageEntryPromise, values: RawParams): boolean {
+function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value): boolean => {
     return isValid &&
     !isUndefined(value) &&
@@ -38,7 +39,7 @@ function areParamsValid ({ creator: { meta: { type } } }: StorageEntryPromise, v
   ));
 }
 
-function expandKey (api: ApiPromise, key: StorageEntryPromise): KeyState {
+function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
 
   return {
@@ -82,16 +83,15 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   );
 
   const _onChangeValues = useCallback(
-    (values: RawParams): void =>
-      setValues({
-        isValid: areParamsValid(key, values),
-        values
-      }),
+    (values: RawParams) => setValues({
+      isValid: areParamsValid(key, values),
+      values
+    }),
     [key]
   );
 
   const _onChangeKey = useCallback(
-    (key: StorageEntryPromise): void => {
+    (key: QueryableStorageEntry<'promise'>): void => {
       setKey(expandKey(api, key));
       _onChangeValues([]);
     },

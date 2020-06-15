@@ -88,22 +88,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
       <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
-            <Input
-              autoFocus
-              className='full'
-              help={t<string>('Name given to this multisig. You can edit it at any later point in time.')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              placeholder={t<string>('multisig name')}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The name is for unique identification of the account in your owner lists.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
             <InputAddressMulti
               available={availableSignatories}
               availableLabel={t<string>('available signatories')}
@@ -130,6 +114,22 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
           </Modal.Column>
           <Modal.Column>
             <p>{t<string>('The threshold for approval should be less or equal to the number of signatories for this multisig.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Input
+              autoFocus
+              className='full'
+              help={t<string>('Name given to this multisig. You can edit it at any later point in time.')}
+              isError={!isNameValid}
+              label={t<string>('name')}
+              onChange={_onChangeName}
+              placeholder={t<string>('multisig name')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The name is for unique identification of the account in your owner lists.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>

@@ -14,8 +14,8 @@ import PasswordInput from '../PasswordInput';
 import { useTranslation } from '../../translate';
 
 interface Scanned {
-  isAddress: boolean;
   content: string;
+  isAddress: boolean;
   genesisHash: string;
   name?: string;
 }
@@ -80,9 +80,12 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         keyring.addUri(content, password, { genesisHash, name: name.trim() }, 'sr25519');
       }
 
+      keyring.addExternal(content, { genesisHash, name: name.trim() });
+      InputAddress.setLastValue('account', content);
+
       InputAddress.setLastValue('account', address);
       onStatusChange({
-        account: address,
+        account: content,
         action: 'create',
         message: t<string>('created account'),
         status: 'success'
@@ -107,7 +110,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   <AddressRow
                     defaultName={name}
                     noDefaultNameOpacity
-                    value={address}
+                    value={scanned.content}
                   />
                 </Modal.Column>
               </Modal.Columns>

@@ -8,12 +8,14 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import { getLedger, registry } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
 
+let id = 0;
+
 export class LedgerSigner implements Signer {
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     const raw = createType(registry, 'ExtrinsicPayload', payload, { version: payload.version });
     const { signature } = await getLedger().sign(raw.toU8a(true));
 
-    return { id: 0, signature };
+    return { id: ++id, signature };
   }
 }
 
