@@ -8,7 +8,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Dropdown, InputAddress, Modal, TxButton, Input } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -37,6 +37,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [callData, setCallData] = useState<Call | null>(null);
+  const [callWeight] = useWeight(callData);
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>({ isMultiCall: false, multisig: null });
   const [others, setOthers] = useState<AccountId[]>([]);
@@ -94,17 +95,21 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         ? type === 'aye'
           ? isMultiCall
             ? callData
-              ? multiMod.asMulti.meta.args.length === 5
+              ? multiMod.asMulti.meta.args.length === 6
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                ? multiMod.asMulti(threshold, others, multisig.when, callData, false)
+                // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+                ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, callWeight)
                 : multiMod.asMulti(threshold, others, multisig.when, callData)
               : null
-            : multiMod.approveAsMulti(threshold, others, multisig.when, hash)
+            : multiMod.asMulti.meta.args.length === 5
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, callWeight)
+              : multiMod.approveAsMulti(threshold, others, multisig.when, hash)
           : multiMod.cancelAsMulti(threshold, others, multisig.when, hash)
         : null
     );
-  }, [api, callData, hash, isMultiCall, others, multisig, threshold, type]);
+  }, [api, callData, callWeight, hash, isMultiCall, others, multisig, threshold, type]);
 
   // when the actual call input changes, create a call and set it
   const _setCallData = useCallback(
