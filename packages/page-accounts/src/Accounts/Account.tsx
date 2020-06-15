@@ -218,6 +218,15 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             type='online'
           />
         )}
+        {multiInfos && multiInfos.length !== 0 && (
+          <Badge
+            hover={t<string>('Multisig approvals pending')}
+            info={multiInfos.length}
+            isInline
+            isTooltip
+            type='brown'
+          />
+        )}
       </td>
       <td className='address'>
         <AddressSmall value={address} />
