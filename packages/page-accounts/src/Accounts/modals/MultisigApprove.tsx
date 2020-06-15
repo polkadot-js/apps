@@ -101,7 +101,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
                 ? multiMod.asMulti(threshold, others, multisig.when, callData.toHex(), false, callWeight)
                 : multiMod.asMulti(threshold, others, multisig.when, callData)
               : null
-            : multiMod.asMulti.meta.args.length === 5
+            : multiMod.approveAsMulti.meta.args.length === 5
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               ? multiMod.approveAsMulti(threshold, others, multisig.when, hash, callWeight)
