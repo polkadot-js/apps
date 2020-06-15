@@ -80,7 +80,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
 
   // Filter the who by those not approved yet that is an actual account we own. In the case of
   // rejections, we defer to the the first approver, since he is the only one to send the cancel
-  // On reaching thershold, we include all possible signatories in the list
+  // On reaching threshold, we include all possible signatories in the list
   useEffect((): void => {
     const hasThreshold = multisig && (multisig.approvals.length >= threshold);
 

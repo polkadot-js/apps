@@ -232,7 +232,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
         {isProxied && !proxyInfo.hasOwned && (
           <Badge
             hover={t<string>('Proxied account has no owned proxies')}
-            info='!!'
+            info='0'
             isInline
             isTooltip
             type='brown'
