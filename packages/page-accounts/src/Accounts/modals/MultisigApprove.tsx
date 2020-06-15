@@ -6,8 +6,9 @@ import { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
-import { Dropdown, InputAddress, Modal, TxButton, Input } from '@polkadot/react-components';
+import { Dropdown, InputAddress, Modal, Toggle, TxButton, Input } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
@@ -39,6 +40,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   const [callData, setCallData] = useState<Call | null>(null);
   const [hash, setHash] = useState<string | null>(ongoing[0][0].toHex());
   const [{ isMultiCall, multisig }, setMultisig] = useState<MultiInfo>({ isMultiCall: false, multisig: null });
+  const [isCallOverride, setCallOverride] = useState(true);
   const [others, setOthers] = useState<AccountId[]>([]);
   const [signatory, setSignatory] = useState<string | null>(null);
   const [whoFilter, setWhoFilter] = useState<string[]>([]);
@@ -76,14 +78,19 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     );
   }, [signatory, who]);
 
-  // filter the who by those not approved yet that is an actual account we own
+  // filter the who by those not approved yet that is an actual account we own. In the case of
+  // rejections, we defer to the the first approver, since he is the only one to send the cancel
   useEffect((): void => {
     setWhoFilter(
       who
         .map((w) => registry.createType('AccountId', w).toString())
-        .filter((w) => multisig && !multisig.approvals.some((a) => a.eq(w)) && allAccounts.some((a) => a === w))
+        .filter((w) => allAccounts.some((a) => a === w) && multisig && (
+          type === 'nay'
+            ? multisig.approvals[0].eq(w)
+            : !multisig.approvals.some((a) => a.eq(w))
+        ))
     );
-  }, [allAccounts, multisig, who]);
+  }, [allAccounts, multisig, type, who]);
 
   // based on the type, multisig, others create the tx. This can be either an approval or final call
   useEffect((): void => {
@@ -92,7 +99,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     setTx(() =>
       hash && multisig
         ? type === 'aye'
-          ? isMultiCall
+          ? isMultiCall && isCallOverride
             ? callData
               ? multiMod.asMulti.meta.args.length === 5
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -104,7 +111,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           : multiMod.cancelAsMulti(threshold, others, multisig.when, hash)
         : null
     );
-  }, [api, callData, hash, isMultiCall, others, multisig, threshold, type]);
+  }, [api, callData, hash, isCallOverride, isMultiCall, others, multisig, threshold, type]);
 
   // when the actual call input changes, create a call and set it
   const _setCallData = useCallback(
@@ -139,6 +146,13 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
           options={hashes}
           value={hash}
         />
+        <Dropdown
+          help={t<string>('Either approve or reject this call.')}
+          label={t<string>('approval type')}
+          onChange={setType}
+          options={calltypes}
+          value={type}
+        />
         {whoFilter.length !== 0 && (
           <>
             <InputAddress
@@ -147,21 +161,26 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
               label={t<string>('signatory')}
               onChange={setSignatory}
             />
-            <Dropdown
-              help={t<string>('Either approve or reject this call.')}
-              label={t<string>('approval type')}
-              onChange={setType}
-              options={calltypes}
-              value={type}
-            />
             {type === 'aye' && isMultiCall && (
-              <Input
-                autoFocus
-                help={t('For final approvals, the actual full call data is required to execute the transaction')}
-                isError={!callData}
-                label={t('call data for final approval')}
-                onChange={_setCallData}
-              />
+              <>
+                <Input
+                  autoFocus
+                  help={t('For final approvals, the actual full call data is required to execute the transaction')}
+                  isError={!callData}
+                  label={t('call data for final approval')}
+                  onChange={_setCallData}
+                />
+                <Toggle
+                  className='tipToggle'
+                  label={
+                    isMultiCall
+                      ? t<string>('Multisig message with call (for final approval)')
+                      : t<string>('Multisig approval with hash (non-final approval)')
+                  }
+                  onChange={setCallOverride}
+                  value={isCallOverride}
+                />
+              </>
             )}
           </>
         )}
@@ -180,4 +199,9 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
   );
 }
 
-export default React.memo(MultisigApprove);
+export default React.memo(styled(MultisigApprove)`
+  .tipToggle {
+    width: 100%;
+    text-align: right;
+  }
+`);

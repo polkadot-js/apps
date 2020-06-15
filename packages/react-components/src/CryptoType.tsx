@@ -33,7 +33,9 @@ function CryptoType ({ accountId, className = '', label = '' }: Props): React.Re
               : current.meta.isExternal
                 ? current.meta.isMultisig
                   ? 'multisig'
-                  : 'external'
+                  : current.meta.isProxied
+                    ? 'proxied'
+                    : 'external'
                 : current.type
         );
       }

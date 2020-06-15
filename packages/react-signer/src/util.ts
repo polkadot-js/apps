@@ -12,7 +12,7 @@ const NOOP = () => undefined;
 
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
-    return { isHardware: false, isMultisig: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
+    return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
   }
 
   let publicKey;
@@ -22,7 +22,7 @@ export function extractExternal (accountId: string | null): AddressFlags {
   } catch (error) {
     console.error(error);
 
-    return { isHardware: false, isMultisig: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
+    return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
   }
 
   const pair = keyring.getPair(publicKey);
@@ -31,7 +31,8 @@ export function extractExternal (accountId: string | null): AddressFlags {
     hardwareType: pair.meta.hardwareType as string,
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
-    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig,
+    isProxied: !!pair.meta.isProxied,
+    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied,
     isUnlockable: !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)

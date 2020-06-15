@@ -13,9 +13,9 @@ interface Props {
   flags: AddressFlags;
 }
 
-function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isMultisig, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
+function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isMultisig, isProxied, isSociety, isSudo, isTechCommittee } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const hasFlags = isCouncil || isDevelopment || isExternal || isInjected || isMultisig || isSociety || isSudo || isTechCommittee;
+  const hasFlags = isCouncil || isDevelopment || isExternal || isInjected || isMultisig || isProxied || isSociety || isSudo || isTechCommittee;
 
   if (!hasFlags) {
     return null;
@@ -32,13 +32,21 @@ function Flags ({ flags: { isCouncil, isDevelopment, isExternal, isInjected, isM
               size='tiny'
             />
           )
-          : (
-            <Tag
-              color='grey'
-              label={t<string>('External')}
-              size='tiny'
-            />
-          )
+          : isProxied
+            ? (
+              <Tag
+                color='grey'
+                label={t<string>('External')}
+                size='tiny'
+              />
+            )
+            : (
+              <Tag
+                color='grey'
+                label={t<string>('External')}
+                size='tiny'
+              />
+            )
       )}
       {isInjected && (
         <Tag

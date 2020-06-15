@@ -27,6 +27,7 @@ const IS_NONE = {
   isInjected: false,
   isMultisig: false,
   isOwned: false,
+  isProxied: false,
   isSociety: false,
   isSudo: false,
   isTechCommittee: false
@@ -112,7 +113,8 @@ export default function useAccountInfo (value: string | null, isContract = false
         isExternal: !!accountOrAddress?.meta.isExternal || false,
         isInContacts,
         isMultisig: !!accountOrAddress?.meta.isMultisig || false,
-        isOwned
+        isOwned,
+        isProxied: !!accountOrAddress?.meta.isProxied || false
       }));
       setMeta(accountOrAddress?.meta);
       setName(accountOrAddress?.meta.name || '');
