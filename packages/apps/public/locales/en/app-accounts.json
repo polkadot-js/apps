@@ -78,6 +78,7 @@
   "Provide judgement": "Provide judgement",
   "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.",
   "Proxied": "Proxied",
+  "Proxied account has no owned proxies": "Proxied account has no owned proxies",
   "Query Ledger": "Query Ledger",
   "Raw seed": "Raw seed",
   "Reasonable": "Reasonable",
