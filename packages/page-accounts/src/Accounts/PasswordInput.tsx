@@ -20,7 +20,7 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
   const [isPassValid, setPassValid] = useState<boolean>(false);
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
 
-  const _onChangePassword = useCallback(
+  const _onPasswordChange = useCallback(
     (password: string) => {
       const isPassValid = keyring.isPassValid(password);
 
@@ -32,7 +32,7 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
     [onChange, isPass2Valid]
   );
 
-  const _onChangePassword2 = useCallback(
+  const onPassword2Change = useCallback(
     (password2: string) => {
       const isPass2Valid = keyring.isPassValid(password2) && (password2 === password);
 
@@ -52,7 +52,7 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
           help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
           isError={!isPassValid}
           label={t<string>('password')}
-          onChange={_onChangePassword}
+          onChange={_onPasswordChange}
           onEnter={onEnter}
           value={password}
         />
@@ -61,7 +61,7 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
           help={t<string>('Verify the password entered above.')}
           isError={!isPass2Valid}
           label={t<string>('password (repeat)')}
-          onChange={_onChangePassword2}
+          onChange={onPassword2Change}
           onEnter={onEnter}
           value={password2}
         />
