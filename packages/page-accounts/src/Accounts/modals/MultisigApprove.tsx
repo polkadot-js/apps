@@ -163,13 +163,15 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
             />
             {type === 'aye' && isMultiCall && (
               <>
-                <Input
-                  autoFocus
-                  help={t('For final approvals, the actual full call data is required to execute the transaction')}
-                  isError={!callData}
-                  label={t('call data for final approval')}
-                  onChange={_setCallData}
-                />
+                {isCallOverride && (
+                  <Input
+                    autoFocus
+                    help={t('For final approvals, the actual full call data is required to execute the transaction')}
+                    isError={!callData}
+                    label={t('call data for final approval')}
+                    onChange={_setCallData}
+                  />
+                )}
                 <Toggle
                   className='tipToggle'
                   label={
