@@ -27,7 +27,5 @@ export default function useWeight (call: Call): BN {
       .catch(console.error);
   }, [api, call, mountedRef]);
 
-  console.error(JSON.stringify({ weight }));
-
   return weight;
 }
