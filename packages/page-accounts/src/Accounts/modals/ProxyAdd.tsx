@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProxyType } from '@polkadot/types/interfaces';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../../types';
 
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-components';
-import { useAccounts, useApi } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
+import useProxies from '../useProxies';
 
 interface Props extends ModalProps {
   className?: string;
@@ -22,17 +22,6 @@ interface CreateOptions {
   genesisHash?: string;
   name: string;
   tags?: string[];
-}
-
-interface Proxy {
-  address: string;
-  isOwned: boolean;
-  type: ProxyType;
-}
-
-interface ProxyState {
-  hasOwned: boolean;
-  proxies: Proxy[];
 }
 
 function createProxy (address: string, { genesisHash, name, tags = [] }: CreateOptions, success: string): ActionStatus {
@@ -55,28 +44,10 @@ function createProxy (address: string, { genesisHash, name, tags = [] }: CreateO
 
 function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { api, isDevelopment } = useApi();
-  const { allAccounts } = useAccounts();
   const { t } = useTranslation();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [stashAddress, setStashAddress] = useState<string | null>(null);
-  const [{ hasOwned }, setProxies] = useState<ProxyState>({ hasOwned: false, proxies: [] });
-
-  useEffect((): void => {
-    if (stashAddress) {
-      api.query.proxy
-        .proxies(stashAddress)
-        .then(([_proxies]): void => {
-          const proxies = _proxies.map(([accountId, type]): Proxy => ({
-            address: accountId.toString(),
-            isOwned: allAccounts.includes(accountId.toString()),
-            type
-          }));
-
-          setProxies({ hasOwned: proxies.some(({ isOwned }) => isOwned), proxies });
-        })
-        .catch(console.error);
-    }
-  }, [allAccounts, api, stashAddress]);
+  const { hasOwned } = useProxies(stashAddress);
 
   const _createProxied = useCallback(
     (): void => {
@@ -96,14 +67,6 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
     []
   );
 
-  const _onChangeStash = useCallback(
-    (address: string | null): void => {
-      setProxies({ hasOwned: false, proxies: [] });
-      setStashAddress(address);
-    },
-    []
-  );
-
   const isValid = isNameValid && !!stashAddress && hasOwned;
 
   return (
@@ -120,7 +83,7 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
               help={t<string>('The address that you have a valid proxy setup for.')}
               isError={!hasOwned}
               label={t<string>('proxied account')}
-              onChange={_onChangeStash}
+              onChange={setStashAddress}
               placeholder={t<string>('stash address')}
             />
           </Modal.Column>
