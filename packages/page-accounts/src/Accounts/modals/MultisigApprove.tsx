@@ -78,19 +78,22 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     );
   }, [signatory, who]);
 
-  // filter the who by those not approved yet that is an actual account we own. In the case of
+  // Filter the who by those not approved yet that is an actual account we own. In the case of
   // rejections, we defer to the the first approver, since he is the only one to send the cancel
+  // On reaching threshold, we include all possible signatories in the list
   useEffect((): void => {
+    const hasThreshold = multisig && (multisig.approvals.length >= threshold);
+
     setWhoFilter(
       who
         .map((w) => registry.createType('AccountId', w).toString())
         .filter((w) => allAccounts.some((a) => a === w) && multisig && (
           type === 'nay'
             ? multisig.approvals[0].eq(w)
-            : !multisig.approvals.some((a) => a.eq(w))
+            : hasThreshold || !multisig.approvals.some((a) => a.eq(w))
         ))
     );
-  }, [allAccounts, multisig, type, who]);
+  }, [allAccounts, multisig, threshold, type, who]);
 
   // based on the type, multisig, others create the tx. This can be either an approval or final call
   useEffect((): void => {

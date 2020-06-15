@@ -240,7 +240,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         footer={footer}
         header={header}
       >
-        {}
         {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
           <Account
             account={account}
