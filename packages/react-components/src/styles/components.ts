@@ -11,10 +11,9 @@ export default css`
     border: 1px dashed #eee;
     box-sizing: border-box;
     line-height: 1rem;
-    margin: 0.25rem;
     padding: .75rem 1rem;
     position: relative;
-    word-wrap: break-word;
+    word-break: break-all;
 
     &.error {
       background: #fff6f6;

@@ -15,25 +15,31 @@ interface Props extends BareProps {
   children?: React.ReactNode;
   help?: React.ReactNode;
   isError?: boolean;
+  isFull?: boolean;
   isHidden?: boolean;
   isMonospace?: boolean;
+  isTrimmed?: boolean;
   label?: React.ReactNode;
   value?: string;
   withCopy?: boolean;
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isHidden, isMonospace, label, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
       help={help}
+      isFull={isFull}
       isHidden={isHidden}
       label={label}
       withLabel={withLabel}
     >
       <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
-        {value}
+        {isTrimmed && value && (value.length > 256)
+          ? `${value.substr(0, 96)}…${value.substr(-96)}`
+          : value
+        }
         {children}
         {withCopy
           ? (

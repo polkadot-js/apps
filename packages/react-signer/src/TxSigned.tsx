@@ -15,7 +15,7 @@ import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { registry } from '@polkadot/react-api';
-import { Button, ErrorBoundary, Modal, StatusContext, Toggle } from '@polkadot/react-components';
+import { Button, ErrorBoundary, Modal, Output, StatusContext, Toggle } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -185,12 +185,24 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [senderInfo, setSenderInfo] = useState<AddressProxy>({ isMultiCall: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
+  const [multiCall, setMultiCall] = useState<string | null>(null);
   const [tip, setTip] = useState(BN_ZERO);
 
   useEffect((): void => {
     setFlags(extractExternal(senderInfo.signAddress));
     setPasswordError(null);
   }, [senderInfo]);
+
+  // when we are sending the hash only, get the wrapped call for display (proxies if required)
+  useEffect((): void => {
+    setMultiCall(
+      currentItem.extrinsic && senderInfo.multiRoot
+        ? senderInfo.proxyRoot
+          ? api.tx.proxy.proxy(senderInfo.proxyRoot, null, currentItem.extrinsic).method.toHex()
+          : currentItem.extrinsic.method.toHex()
+        : null
+    );
+  }, [api, currentItem, senderInfo]);
 
   const _addQrSignature = useCallback(
     ({ signature }: { signature: string }) => qrResolve && qrResolve({
@@ -303,6 +315,22 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                     onChange={setSignedOptions}
                     signedTx={signedTx}
                   />
+                )}
+                {isSubmit && !senderInfo.isMultiCall && multiCall && (
+                  <Modal.Columns>
+                    <Modal.Column>
+                      <Output
+                        isFull
+                        isTrimmed
+                        label={t<string>('multisig call data')}
+                        value={multiCall}
+                        withCopy
+                      />
+                    </Modal.Column>
+                    <Modal.Column>
+                      {t('The call data that can be supplied to a final call to multi approvals')}
+                    </Modal.Column>
+                  </Modal.Columns>
                 )}
               </>
             )

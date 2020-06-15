@@ -73,11 +73,20 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
         </Modal.Column>
       </Modal.Columns>
       {!!signedTx && (
-        <Output
-          label={t<string>('Signed transaction')}
-          value={signedTx}
-          withCopy
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <Output
+              isFull
+              isTrimmed
+              label={t<string>('Signed transaction')}
+              value={signedTx}
+              withCopy
+            />
+          </Modal.Column>
+          <Modal.Column>
+            {t('The actual fully constructed signed output. This can be used for submission via other channels.')}
+          </Modal.Column>
+        </Modal.Columns>
       )}
     </>
   );
