@@ -20,7 +20,8 @@ import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
-import QrModal from './modals/Qr';
+import Proxy from './modals/ProxyAdd';
+import Qr from './modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
@@ -100,6 +101,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
+  const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
@@ -180,8 +182,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isProxyOpen && (
+        <Proxy
+          onClose={toggleProxy}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isQrOpen && (
-        <QrModal
+        <Qr
           onClose={toggleQr}
           onStatusChange={onStatusChange}
         />
@@ -215,9 +223,15 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         )}
         <Button
           icon='add'
-          isDisabled={!api.tx.utility}
+          isDisabled={!api.tx.multisig && api.tx.utility}
           label={t<string>('Multisig')}
           onClick={toggleMultisig}
+        />
+        <Button
+          icon='add'
+          isDisabled={!api.tx.proxy}
+          label={t<string>('Proxied')}
+          onClick={toggleProxy}
         />
       </Button.Group>
       <Table

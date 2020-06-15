@@ -40,11 +40,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
   const [{ data, isHexData }, setData] = useState<DataState>({ data: '', isHexData: false });
-  const [{ isInjected }, setAccountState] = useState<AccountState>({
-    isExternal: false,
-    isHardware: false,
-    isInjected: false
-  });
+  const [{ isInjected }, setAccountState] = useState<AccountState>({ isExternal: false, isHardware: false, isInjected: false });
   const [isLocked, setIsLocked] = useState(false);
   const [{ isUsable, signer }, setSigner] = useState<SignerState>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
@@ -57,11 +53,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
     const isInjected = (meta.isInjected as boolean) || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
-    setAccountState({
-      isExternal,
-      isHardware,
-      isInjected
-    });
+    setAccountState({ isExternal, isHardware, isInjected });
     setIsLocked(
       isInjected
         ? false

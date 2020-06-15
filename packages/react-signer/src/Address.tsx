@@ -36,6 +36,7 @@ interface MultiState {
 
 interface ProxyState {
   address: string;
+  isProxied: boolean;
   proxies: [string, ProxyType][];
   proxiesFilter: string[];
 }
@@ -96,13 +97,14 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
 async function queryForProxy (api: ApiPromise, address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const [_proxies] = await api.query.proxy.proxies(address);
+    const { isProxied } = extractExternal(address);
 
     if (_proxies.length) {
       const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
       const proxiesFilter = filterProxies(tx, proxies);
 
       return proxiesFilter.length
-        ? { address, proxies, proxiesFilter }
+        ? { address, isProxied, proxies, proxiesFilter }
         : null;
     }
   }
@@ -239,6 +241,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           <Modal.Column>
             <Toggle
               className='tipToggle'
+              isDisabled={proxyInfo.isProxied}
               label={
                 isProxyActive
                   ? t<string>('Use a proxy for this call')
