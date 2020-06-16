@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 0.45.1 Jun 16, 2020
+
+- I18n for ja (Thanks to https://github.com/SotaWatanabe)
+- Ia8n for pt (thanks to https://github.com/laurogripa)
+- I18n for ru (Thanks to https://github.com/illlefr4u)
+- Update Encointer types (thanks to https://github.com/brenzi)
+- Improve Electron app security settings (Thanks to https://github.com/EthWorks)
+- Rework signer dialog to cater for proxies (and multisig/proxy combinations)
+- Construct payouts with oldest eras first (expire first)
+- Show outstanding multisig approvals on accounts page
+- Allow for addition of proxied accounts (access to proxy account only)
+- Change claims to handle no statements required (new module now on Kusama)
+- Publish docker image on release
+- update collective calls to handle weights enhancements for latest Substrate
+- Allow for tip endorsements with 0 value
+- add Centrifuge live as a connection option
+- Adjust Polkascan links with current active chains
+- When collective proposal is in close state, hide vote buttons
+- Cleanup technical committee display (header alignment)
+- Adjust IPFS/IPNS network extraction for local gateways
+- `@polkadot/api` 1.19.1
+- `@polkadot/util` 2.14.1
+
 ## 0.44.1 Jun 10, 2020
 
 - Publish electron images on release (Thanks to https://github.com/EthWorks)
