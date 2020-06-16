@@ -18,7 +18,7 @@ import keyring from '@polkadot/ui-keyring';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
 
 import uiSettings from '@polkadot/ui-settings';
-import ApiSigner from '@polkadot/react-signer/ApiSigner';
+import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';

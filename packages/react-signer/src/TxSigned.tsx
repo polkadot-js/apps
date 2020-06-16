@@ -22,7 +22,9 @@ import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, assert } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import ledgerSigner from './LedgerSigner';
+import AccountSigner from './signers/AccountSigner';
+import ledgerSigner from './signers/LedgerSigner';
+import ProxySigner from './signers/ProxySigner';
 import { useTranslation } from './translate';
 import Address from './Address';
 import Qr from './Qr';
@@ -78,9 +80,13 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
   currentItem.txStartCb && currentItem.txStartCb();
 
   try {
-    const unsubscribe = await tx.signAndSend(pairOrAddress, options, handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {
-      unsubscribe();
-    }));
+    const unsubscribe = await tx.signAndSend(
+      pairOrAddress,
+      { ...options, signer: new ProxySigner(options.signer, () => queueSetTxStatus(currentItem.id, 'sending')) },
+      handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {
+        unsubscribe();
+      })
+    );
   } catch (error) {
     console.error('signAndSend: error:', error);
     queueSetTxStatus(currentItem.id, 'error', {}, error);
@@ -170,7 +176,7 @@ async function extractParams (address: string, options: Partial<SignerOptions>, 
     return ['signing', address, { ...options, signer: injected.signer }];
   }
 
-  return ['signing', pair, options];
+  return ['signing', pair, { ...options, signer: new AccountSigner(pair) }];
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
