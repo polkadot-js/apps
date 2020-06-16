@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { InputAddressMulti, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+import { sortAddresses } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../../translate';
 import useKnownAddresses from '../useKnownAddresses';
@@ -92,7 +93,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
           isDisabled={isErrorHelpers || isErrorThreshold || isErrorDelay}
           label={t<string>('Make recoverable')}
           onStart={onClose}
-          params={[helpers, threshold, delay]}
+          params={[sortAddresses(helpers), threshold, delay]}
           tx='recovery.createRecovery'
         />
       </Modal.Actions>
