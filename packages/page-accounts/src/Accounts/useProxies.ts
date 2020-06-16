@@ -34,7 +34,7 @@ export default function useProxies (address?: string | null): State {
   useEffect((): void => {
     setState(EMPTY_STATE);
 
-    address &&
+    address && api.query.proxy &&
       api.query.proxy
         .proxies(address)
         .then(([_proxies]): void => {

@@ -66,10 +66,10 @@ function filterProxies (tx: SubmittableExtrinsic<'promise'>, proxies: [string, P
     .map(([address]) => address);
 }
 
-async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx?: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
+async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
   const multiModule = api.tx.multisig ? 'multisig' : 'utility';
 
-  if (tx && isFunction(api.query[multiModule]?.multisigs)) {
+  if (isFunction(api.query[multiModule]?.multisigs)) {
     const address = proxyAddress || requestAddress;
     const { threshold, who } = extractExternal(address);
     const hash = (proxyAddress ? api.tx.proxy.proxy(requestAddress, null, tx) : tx).method.hash;
@@ -96,16 +96,13 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
 
 async function queryForProxy (api: ApiPromise, address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
-    const [_proxies] = await api.query.proxy.proxies(address);
     const { isProxied } = extractExternal(address);
+    const [_proxies] = await api.query.proxy.proxies(address);
+    const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
+    const proxiesFilter = filterProxies(tx, proxies);
 
-    if (_proxies.length) {
-      const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
-      const proxiesFilter = filterProxies(tx, proxies);
-
-      return proxiesFilter.length
-        ? { address, isProxied, proxies, proxiesFilter }
-        : null;
+    if (proxiesFilter.length) {
+      return { address, isProxied, proxies, proxiesFilter };
     }
   }
 
@@ -132,13 +129,12 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
 
   // proxy for requestor
   useEffect((): void => {
-    if (currentItem.extrinsic) {
+    setProxyInfo(null);
+
+    currentItem.extrinsic &&
       queryForProxy(api, requestAddress, currentItem.extrinsic)
         .then((info) => mountedRef.current && setProxyInfo(info))
         .catch(console.error);
-    } else {
-      setProxyInfo(null);
-    }
   }, [api, currentItem, mountedRef, requestAddress]);
 
   useEffect((): void => {
@@ -147,7 +143,9 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
 
   // multisig
   useEffect((): void => {
-    if (extractExternal(proxyAddress || requestAddress).isMultisig) {
+    setMultInfo(null);
+
+    currentItem.extrinsic && extractExternal(proxyAddress || requestAddress).isMultisig &&
       queryForMultisig(api, requestAddress, proxyAddress, currentItem.extrinsic)
         .then((info): void => {
           if (mountedRef.current) {
@@ -156,9 +154,6 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           }
         })
         .catch(console.error);
-    } else {
-      setMultInfo(null);
-    }
   }, [proxyAddress, api, currentItem, mountedRef, requestAddress]);
 
   // address
