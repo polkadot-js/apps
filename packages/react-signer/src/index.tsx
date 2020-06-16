@@ -96,6 +96,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
         <Modal
           className={className}
           header={t('Authorize transaction')}
+          key={currentItem.id}
           size='large'
         >
           {currentItem.isUnsigned
