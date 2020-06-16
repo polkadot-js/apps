@@ -3,6 +3,7 @@
 ## 0.45.1 Jun 16, 2020
 
 - I18n for ja (Thanks to https://github.com/SotaWatanabe)
+- Ia8n for pt (thanks to https://github.com/laurogripa)
 - I18n for ru (Thanks to https://github.com/illlefr4u)
 - Update Encointer types (thanks to https://github.com/brenzi)
 - Improve Electron app security settings (Thanks to https://github.com/EthWorks)
