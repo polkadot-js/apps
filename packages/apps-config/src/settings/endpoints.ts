@@ -110,22 +110,12 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
 //   text: The text to display on teh dropdown
 //   value: The actual hosted secure websocket endpoint
-export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
-  const ENV: LinkOption[] = [];
+export default function create (t: <T= string> (key: string, text: string, options: { ns: string, replace?: Record<string, string> }) => T): LinkOption[] {
   const WS_URL = (
     (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
     (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
   );
-
-  if (WS_URL) {
-    ENV.push({
-      info: 'WS_URL',
-      text: `WS_URL: ${WS_URL}`,
-      value: WS_URL
-    });
-  }
-
-  let endpoints = [
+  const endpoints = [
     {
       isHeader: true,
       text: t<string>('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
@@ -146,16 +136,18 @@ export default function create (t: <T= string> (key: string, text: string, optio
     ...createDev(t)
   ];
 
-  if (ENV.length > 0) {
-    endpoints = [
+  return WS_URL
+    ? ([
       {
         isHeader: true,
         text: t<string>('rpc.custom', 'Custom environment', { ns: 'apps-config' }),
         value: ''
       },
-      ...ENV
-    ].concat(endpoints);
-  }
-
-  return endpoints;
+      {
+        info: 'WS_URL',
+        text: t<string>('rpc.custom.entry', 'Custom {{WS_URL}}', { ns: 'apps-config', replace: { WS_URL } }),
+        value: WS_URL
+      }
+    ] as LinkOption[]).concat(endpoints)
+    : endpoints;
 }
