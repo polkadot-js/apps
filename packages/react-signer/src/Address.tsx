@@ -66,10 +66,10 @@ function filterProxies (tx: SubmittableExtrinsic<'promise'>, proxies: [string, P
     .map(([address]) => address);
 }
 
-async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx?: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
+async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
   const multiModule = api.tx.multisig ? 'multisig' : 'utility';
 
-  if (tx && isFunction(api.query[multiModule]?.multisigs)) {
+  if (isFunction(api.query[multiModule]?.multisigs)) {
     const address = proxyAddress || requestAddress;
     const { threshold, who } = extractExternal(address);
     const hash = (proxyAddress ? api.tx.proxy.proxy(requestAddress, null, tx) : tx).method.hash;
@@ -145,7 +145,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
   useEffect((): void => {
     setMultInfo(null);
 
-    extractExternal(proxyAddress || requestAddress).isMultisig &&
+    currentItem.extrinsic && extractExternal(proxyAddress || requestAddress).isMultisig &&
       queryForMultisig(api, requestAddress, proxyAddress, currentItem.extrinsic)
         .then((info): void => {
           if (mountedRef.current) {
