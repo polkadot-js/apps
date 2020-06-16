@@ -29,7 +29,7 @@ export default class ProxySigner implements Signer {
     this.#completeCb();
 
     return new Promise((resolve): void => {
-      setTimeout(() => resolve(result), 0);
+      setTimeout(() => resolve(result), 1);
     });
   }
 
