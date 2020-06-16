@@ -6,6 +6,7 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Columar, Column, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
+import i18n from '@polkadot/react-components/i18n';
 import languageCache from '@polkadot/react-components/i18n/cache';
 import { useToggle } from '@polkadot/react-hooks';
 import uiSettings from '@polkadot/ui-settings';
@@ -185,6 +186,13 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
     [english, lng]
   );
 
+  const _doApply = useCallback(
+    (): void => {
+      i18n.reloadResources().catch(console.error);
+    },
+    []
+  );
+
   const _onDownload = useCallback(
     () => doDownload(strings || {}, withEmpty),
     [strings, withEmpty]
@@ -242,6 +250,11 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
         />
       </div>
       <Button.Group>
+        <Button
+          icon='refresh'
+          label={t<string>('Apply to UI')}
+          onClick={_doApply}
+        />
         <Button
           icon='download'
           label={t<string>('Generate {{lng}}/translation.json', { replace: { lng } })}
