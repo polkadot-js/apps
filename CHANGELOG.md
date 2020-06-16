@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.45.1 Jun 16, 2020
+## 0.45.2 Jun 16, 2020
 
 - I18n for ja (Thanks to https://github.com/SotaWatanabe)
 - Ia8n for pt (thanks to https://github.com/laurogripa)
