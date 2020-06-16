@@ -8,6 +8,13 @@ interface LinkOption extends Option {
   dnslink?: string;
 }
 
+interface EnvWindow {
+  // eslint-disable-next-line camelcase
+  process_env?: {
+    WS_URL: string;
+  }
+}
+
 function createDev (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   return [
     {
@@ -105,11 +112,10 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
 //   value: The actual hosted secure websocket endpoint
 export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   const ENV: LinkOption[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,camelcase
   const WS_URL = (
-    (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) || 
-    (typeof window !== 'undefined' ? (window as any).process_env?.WS_URL : undefined)
-  ) as string;
+    (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
+    (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
+  );
 
   if (WS_URL) {
     ENV.push({
