@@ -130,9 +130,13 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                   <p>{t<string>('The local name for this account. Changing this does not affect your on-line identity, so this is only used to indicate the name of the account locally.')}</p>
                 </Modal.Column>
               </Modal.Columns>
-              {!isAddress && <PasswordInput onChange={_onPasswordChange}
-                onEnter={_onSave}
-                password={password}/>}
+              {!isAddress && (
+                <PasswordInput
+                  onChange={_onPasswordChange}
+                  onEnter={_onSave}
+                  password={password}
+                />
+              )}
             </>
           )
           : (
