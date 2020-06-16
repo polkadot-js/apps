@@ -106,7 +106,10 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
 export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
   const ENV: LinkOption[] = [];
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,camelcase
-  const WS_URL = (process?.env?.WS_URL || (typeof window !== 'undefined' ? (window as any).process_env?.WS_URL : undefined)) as string;
+  const WS_URL = (
+    (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) || 
+    (typeof window !== 'undefined' ? (window as any).process_env?.WS_URL : undefined)
+  ) as string;
 
   if (WS_URL) {
     ENV.push({
