@@ -25,6 +25,7 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
       const isPassValid = keyring.isPassValid(password);
 
       setPassValid(isPassValid);
+
       const isValid = isPassValid && isPass2Valid;
 
       onChange(password, isValid);
