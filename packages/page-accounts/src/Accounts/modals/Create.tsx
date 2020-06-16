@@ -301,7 +301,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
           </Modal.Column>
         </Modal.Columns>
-        <PasswordInput onChange={_onPasswordChange}
+        <PasswordInput
+          onChange={_onPasswordChange}
           onEnter={_onCommit}
           password={password}/>
         <Expander
