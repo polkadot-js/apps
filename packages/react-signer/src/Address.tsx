@@ -4,7 +4,7 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
-import { Multisig, ProxyType } from '@polkadot/types/interfaces';
+import { Call, Multisig, ProxyType } from '@polkadot/types/interfaces';
 import { AddressProxy } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -41,8 +41,18 @@ interface ProxyState {
   proxiesFilter: string[];
 }
 
+function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
+  try {
+    const { method, section } = registry.findMetaCall(tx.callIndex);
+
+    return { method, section };
+  } catch (error) {
+    return { method: 'unknown', section: 'unknown' };
+  }
+}
+
 function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
-  const { method, section } = registry.findMetaCall(tx.callIndex);
+  const { method, section } = findCall(tx);
 
   return proxies
     .filter(([, proxy]): boolean => {
@@ -59,7 +69,7 @@ function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise
         case 'SudoBalances':
           // Sudo(sudo::Call::sudo(ref x)) => matches!(x.as_ref(), &Call::Balances(..)),
           // Call::Utility(utility::Call::batch(..))
-          return (section === 'sudo' && method === 'sudo' && registry.findMetaCall((tx.args[0] as GenericCall).callIndex).section === 'balances') ||
+          return (section === 'sudo' && method === 'sudo' && findCall(tx.args[0] as GenericCall).section === 'balances') ||
             (section === 'utility' && method === 'batch');
         default:
           return false;
