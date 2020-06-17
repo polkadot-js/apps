@@ -15,20 +15,24 @@ export default function create (t: <T= string> (key: string, text: string, optio
       value: 'en'
     },
     {
-      text: 'Português',
-      value: 'pt'
+      text: 'Español',
+      value: 'es'
     },
     {
-      text: '汉语',
-      value: 'zh'
+      text: '日本語',
+      value: 'ja'
+    },
+    {
+      text: 'Português',
+      value: 'pt'
     },
     {
       text: 'русский',
       value: 'ru'
     },
     {
-      text: '日本語',
-      value: 'ja'
+      text: '汉语',
+      value: 'zh'
     }
   ];
 }
