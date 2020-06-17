@@ -11,7 +11,7 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -20,6 +20,7 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../../translate';
+import PasswordInput from '../PasswordInput';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends ModalProps {
@@ -166,9 +167,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
-  const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
-  const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid && isSeedValid;
+  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
+  const isValid = !!address && !deriveError && isNameValid && isPasswordValid && isSeedValid;
   const seedOpt = useMemo(() => (
     isDevelopment
       ? [{ text: t<string>('Development'), value: 'dev' }]
@@ -177,16 +177,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     { text: t<string>('Mnemonic'), value: 'bip' },
     { text: t<string>('Raw seed'), value: 'raw' }
   ), [isDevelopment, t]);
-
-  const _onChangePass = useCallback(
-    (password: string) => setPassword({ isPassValid: keyring.isPassValid(password), password }),
-    []
-  );
-
-  const _onChangePass2 = useCallback(
-    (password2: string) => setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 }),
-    [password]
-  );
 
   const _onChangeDerive = useCallback(
     (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
@@ -214,6 +204,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   const _onChangeName = useCallback(
     (name: string) => setName({ isNameValid: !!name.trim(), name }),
+    []
+  );
+
+  const _onPasswordChange = useCallback(
+    (password: string, isPasswordValid: boolean) => setPassword({ isPasswordValid, password }),
     []
   );
 
@@ -306,31 +301,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
           </Modal.Column>
         </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Password
-              className='full'
-              help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-              isError={!isPassValid}
-              label={t<string>('password')}
-              onChange={_onChangePass}
-              onEnter={_onCommit}
-              value={password}
-            />
-            <Password
-              className='full'
-              help={t<string>('Verify the password entered above.')}
-              isError={!isPass2Valid}
-              label={t<string>('password (repeat)')}
-              onChange={_onChangePass2}
-              onEnter={_onCommit}
-              value={password2}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
+        <PasswordInput
+          onChange={_onPasswordChange}
+          onEnter={_onCommit}
+          password={password}/>
         <Expander
           className='accounts--Creator-advanced'
           isOpen
