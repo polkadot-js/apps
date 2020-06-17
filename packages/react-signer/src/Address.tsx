@@ -12,7 +12,7 @@ import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
+import { GenericCall, Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -57,8 +57,10 @@ function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise
           // Call::Utility(utility::Call::batch(..)) | Call::Utility(utility::Call::as_limited_sub(..))
           return section === 'staking' || section === 'utility';
         case 'SudoBalances':
-          // return Sudo(sudo::Call::sudo(ref x)) => matches!(x.as_ref(), &Call::Balances(..)), Call::Utility(utility::Call::batch(..))
-          return section === 'sudo' || section === 'utility';
+          // Sudo(sudo::Call::sudo(ref x)) => matches!(x.as_ref(), &Call::Balances(..)),
+          // Call::Utility(utility::Call::batch(..))
+          return (section === 'sudo' && method === 'sudo' && registry.findMetaCall((tx.args[0] as GenericCall).callIndex).section === 'balances') ||
+            (section === 'utility' && method === 'batch');
         default:
           return false;
       }
