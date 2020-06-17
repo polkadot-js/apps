@@ -4,7 +4,7 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
-import { Multisig, ProxyType } from '@polkadot/types/interfaces';
+import { Call, Multisig, ProxyType } from '@polkadot/types/interfaces';
 import { AddressProxy } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
+import { GenericCall, Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -41,11 +41,25 @@ interface ProxyState {
   proxiesFilter: string[];
 }
 
+function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
+  try {
+    const { method, section } = registry.findMetaCall(tx.callIndex);
+
+    return { method, section };
+  } catch (error) {
+    return { method: 'unknown', section: 'unknown' };
+  }
+}
+
 function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
-  const { method, section } = registry.findMetaCall(tx.callIndex);
+  const { method, section } = findCall(tx);
 
   return proxies
-    .filter(([, proxy]): boolean => {
+    .filter(([address, proxy]): boolean => {
+      if (!allAccounts.includes(address)) {
+        return false;
+      }
+
       switch (proxy.toString()) {
         case 'Any':
           return true;
@@ -54,17 +68,15 @@ function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise
         case 'NonTransfer':
           return !(section === 'balances' || (section === 'indices' && method === 'transfer') || (section === 'vesting' && method === 'vestedTransfer'));
         case 'Staking':
-          // Call::Utility(utility::Call::batch(..)) | Call::Utility(utility::Call::as_limited_sub(..))
-          return section === 'staking' || section === 'utility';
+          return section === 'staking' || (section === 'utility' && ['batch', 'asLimitedSub'].includes(method));
         case 'SudoBalances':
-          // return Sudo(sudo::Call::sudo(ref x)) => matches!(x.as_ref(), &Call::Balances(..)), Call::Utility(utility::Call::batch(..))
-          return section === 'sudo' || section === 'utility';
+          return (section === 'sudo' && method === 'sudo' && findCall(tx.args[0] as GenericCall).section === 'balances') ||
+            (section === 'utility' && method === 'batch');
         default:
           return false;
       }
     })
-    .map(([address]) => address)
-    .filter((address) => allAccounts.includes(address));
+    .map(([address]) => address);
 }
 
 async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
