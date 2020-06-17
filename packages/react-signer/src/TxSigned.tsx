@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces';
-import { SignerPayloadJSON } from '@polkadot/types/types';
-import { AddressProxy } from './types';
+import { AddressProxy, QrState } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -20,9 +19,8 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, assert } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import ledgerSigner from './LedgerSigner';
+import { LedgerSigner, QrSigner } from './signers';
 import { useTranslation } from './translate';
 import Address from './Address';
 import Qr from './Qr';
@@ -35,15 +33,6 @@ interface Props {
   className?: string;
   currentItem: QueueTx;
   requestAddress: string;
-}
-
-interface QrState {
-  isQrHashed: boolean;
-  isQrVisible: boolean;
-  qrAddress: string;
-  qrPayload: Uint8Array;
-  qrResolve?: (result: SignerResult) => void;
-  qrReject?: (error: Error) => void;
 }
 
 const NOOP = () => undefined;
@@ -78,7 +67,11 @@ async function signAndSend (queueSetTxStatus: QueueTxMessageSetStatus, currentIt
   currentItem.txStartCb && currentItem.txStartCb();
 
   try {
-    const unsubscribe = await tx.signAndSend(pairOrAddress, options, handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {
+    await tx.signAsync(pairOrAddress, options);
+
+    queueSetTxStatus(currentItem.id, 'sending');
+
+    const unsubscribe = await tx.send(handleTxResults('signAndSend', queueSetTxStatus, currentItem, (): void => {
       unsubscribe();
     }));
   } catch (error) {
@@ -93,7 +86,9 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
   txStartCb();
 
   try {
-    return (await tx.signAsync(pairOrAddress, options)).toJSON();
+    await tx.signAsync(pairOrAddress, options);
+
+    return tx.toJSON();
   } catch (error) {
     queueSetTxStatus(id, 'error', undefined, error);
 
@@ -101,27 +96,6 @@ async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFai
   }
 
   return null;
-}
-
-function signQrPayload (setQrState: (state: QrState) => void): (payload: SignerPayloadJSON) => Promise<SignerResult> {
-  return (payload: SignerPayloadJSON): Promise<SignerResult> =>
-    new Promise((resolve, reject): void => {
-      // limit size of the transaction
-      const isQrHashed = (payload.method.length > 5000);
-      const wrapper = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-      const qrPayload = isQrHashed
-        ? blake2AsU8a(wrapper.toU8a(true))
-        : wrapper.toU8a();
-
-      setQrState({
-        isQrHashed,
-        isQrVisible: true,
-        qrAddress: payload.address,
-        qrPayload,
-        qrReject: reject,
-        qrResolve: resolve
-      });
-    });
 }
 
 async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, multiRoot, proxyRoot, signAddress }: AddressProxy): Promise<SubmittableExtrinsic<'promise'>> {
@@ -159,9 +133,9 @@ async function extractParams (address: string, options: Partial<SignerOptions>, 
   const { meta: { isExternal, isHardware, isInjected, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: ledgerSigner }];
+    return ['signing', address, { ...options, signer: new LedgerSigner() }];
   } else if (isExternal) {
-    return ['qr', address, { ...options, signer: { signPayload: signQrPayload(setQrState) } }];
+    return ['qr', address, { ...options, signer: new QrSigner(setQrState) }];
   } else if (isInjected) {
     const injected = await web3FromSource(source as string);
 
