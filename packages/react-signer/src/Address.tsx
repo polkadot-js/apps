@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
-import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
@@ -41,7 +41,7 @@ interface ProxyState {
   proxiesFilter: string[];
 }
 
-function filterProxies (tx: SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
+function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
   const { method, section } = registry.findMetaCall(tx.callIndex);
 
   return proxies
@@ -63,7 +63,8 @@ function filterProxies (tx: SubmittableExtrinsic<'promise'>, proxies: [string, P
           return false;
       }
     })
-    .map(([address]) => address);
+    .map(([address]) => address)
+    .filter((address) => allAccounts.includes(address));
 }
 
 async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyAddress: string | null, tx: SubmittableExtrinsic<'promise'>): Promise<MultiState | null> {
@@ -94,12 +95,12 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
   return null;
 }
 
-async function queryForProxy (api: ApiPromise, address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
+async function queryForProxy (api: ApiPromise, allAccounts: string[], address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
     const [_proxies] = await api.query.proxy.proxies(address);
     const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
-    const proxiesFilter = filterProxies(tx, proxies);
+    const proxiesFilter = filterProxies(allAccounts, tx, proxies);
 
     if (proxiesFilter.length) {
       return { address, isProxied, proxies, proxiesFilter };
@@ -111,6 +112,7 @@ async function queryForProxy (api: ApiPromise, address: string, tx: SubmittableE
 
 function Address ({ currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
   const { t } = useTranslation();
   const [multiAddress, setMultiAddress] = useState<string | null>(null);
@@ -132,10 +134,10 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
     setProxyInfo(null);
 
     currentItem.extrinsic &&
-      queryForProxy(api, requestAddress, currentItem.extrinsic)
+      queryForProxy(api, allAccounts, requestAddress, currentItem.extrinsic)
         .then((info) => mountedRef.current && setProxyInfo(info))
         .catch(console.error);
-  }, [api, currentItem, mountedRef, requestAddress]);
+  }, [allAccounts, api, currentItem, mountedRef, requestAddress]);
 
   useEffect((): void => {
     !proxyInfo && setProxyAddress(null);
