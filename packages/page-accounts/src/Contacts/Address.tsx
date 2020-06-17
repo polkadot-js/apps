@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
@@ -184,7 +184,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         </div>
       </td>
       <td className='number ui--media-1500'>
-        {balancesAll && formatNumber(balancesAll.accountNonce)}
+        {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
         <AddressInfo

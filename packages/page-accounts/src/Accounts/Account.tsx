@@ -17,7 +17,7 @@ import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, Crypt
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Backup from './modals/Backup';
@@ -323,7 +323,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
         </div>
       </td>
       <td className='number ui--media-1500'>
-        {balancesAll && formatNumber(balancesAll.accountNonce)}
+        {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
         <AddressInfo
