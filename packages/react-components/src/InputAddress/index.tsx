@@ -251,7 +251,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     const lastValue = getLastValue(type);
 
-    this.setState({ lastValue });
+    this.setState(() => ({ lastValue }));
 
     return lastValue;
   }

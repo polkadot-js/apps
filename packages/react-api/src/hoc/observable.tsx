@@ -36,13 +36,9 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
             observable
               .pipe(
                 map(transform),
-                catchError((): Observable<any> =>
-                  of(undefined)
-                )
+                catchError(() => of(undefined))
               )
-              .subscribe((value: any): void =>
-                this.triggerUpdate(this.props, value)
-              ),
+              .subscribe((value: any) => this.triggerUpdate(this.props, value)),
             intervalObservable(this)
           ]
         });
@@ -61,8 +57,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
             return;
           }
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          triggerChange(callResult, callOnResult, (props as any).callOnResult || defaultProps.callOnResult);
+          triggerChange(callResult, callOnResult, (props as Options).callOnResult || defaultProps.callOnResult);
 
           this.setState({
             callResult,

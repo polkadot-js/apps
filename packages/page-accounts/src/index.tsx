@@ -6,7 +6,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { useAccounts } from '@polkadot/react-hooks';
+import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
@@ -21,6 +21,7 @@ export { useCounter };
 function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
+  const { isIpfs } = useIpfs();
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -37,8 +38,8 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     }
   ], [t]);
   const hidden = useMemo(
-    () => hasAccounts ? [] : ['vanity'],
-    [hasAccounts]
+    () => (hasAccounts && !isIpfs) ? [] : ['vanity'],
+    [hasAccounts, isIpfs]
   );
 
   return (

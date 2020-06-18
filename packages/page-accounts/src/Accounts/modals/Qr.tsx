@@ -7,6 +7,7 @@ import { ModalProps } from '../../types';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { useIpfs } from '@polkadot/react-hooks';
 import { QrScanAddress } from '@polkadot/react-qr';
 import keyring from '@polkadot/ui-keyring';
 
@@ -26,6 +27,7 @@ interface Props extends ModalProps {
 
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isIpfs } = useIpfs();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [scanned, setScanned] = useState<Scanned | null>(null);
   const [isAddress, setIsAddress] = useState<boolean>(false);
@@ -156,7 +158,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in'
-          isDisabled={!scanned || !isValid}
+          isDisabled={!scanned || !isValid || (isAddress && isIpfs)}
           isPrimary
           label={t<string>('Create')}
           onClick={_onSave}
