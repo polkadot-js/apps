@@ -94,6 +94,13 @@ export default css`
       }
     }
 
+    &.isWarning {
+      input {
+        background: #ffffe0;
+        border-color: #eeeeae;
+      }
+    }
+
     .ui--SiDropdown {
       width: 6rem;
       text-align: center;
