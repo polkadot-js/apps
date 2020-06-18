@@ -23,6 +23,7 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onChange: (method?: SubmittableExtrinsic<'promise'>) => void;
   onEnter?: () => void;
+  onError?: (error?: Error | null) => void;
   onEscape?: () => void;
   withLabel?: boolean;
 }
@@ -42,7 +43,7 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
   }));
 }
 
-function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
@@ -64,12 +65,14 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
       try {
         method = extrinsic.fn(...values.map(({ value }): any => value));
       } catch (error) {
-        // swallow
+        onError && onError(error);
       }
+    } else {
+      onError && onError(null);
     }
 
     onChange(method);
-  }, [extrinsic, onChange, values]);
+  }, [extrinsic, onChange, onError, values]);
 
   const _onChangeMethod = useCallback(
     (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) }),
