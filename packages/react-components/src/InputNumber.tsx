@@ -25,6 +25,7 @@ interface Props extends BareProps {
   isFull?: boolean;
   isSi?: boolean;
   isDecimal?: boolean;
+  isWarning?: boolean;
   isZeroable?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
@@ -159,7 +160,7 @@ function getValues (value: BN | string = BN_ZERO, si: SiDef | null, bitLength: B
     : getValuesFromString(value, si, bitLength, isZeroable, maxValue);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isWarning, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -248,6 +249,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
       isDisabled={isDisabled}
       isError={!isValid || isError}
       isFull={isFull}
+      isWarning={isWarning}
       label={label}
       labelExtra={labelExtra}
       maxLength={maxLength || maxValueLength}

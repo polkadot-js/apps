@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AmountValidateState } from '../types';
 import { BondInfo } from './types';
 
 import BN from 'bn.js';
@@ -25,7 +26,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>();
-  const [amountError, setAmountError] = useState<string | null>(null);
+  const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [controllerError, setControllerError] = useState<boolean>(false);
   const [controllerId, setControllerId] = useState<string | null>(null);
   const [destination, setDestination] = useState(0);
@@ -40,7 +41,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
 
   useEffect((): void => {
     onChange(
-      (amount && amount.gtn(0) && !controllerError && controllerId && stashId)
+      (amount && amount.gtn(0) && !amountError?.error && !controllerError && controllerId && stashId)
         ? {
           bondOwnTx: api.tx.staking.bond(stashId, amount, destination),
           bondTx: api.tx.staking.bond(controllerId, amount, destination),
@@ -56,7 +57,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
           stashId: null
         }
     );
-  }, [api, amount, controllerError, controllerId, destination, stashId, onChange]);
+  }, [api, amount, amountError, controllerError, controllerId, destination, stashId, onChange]);
 
   const hasValue = !!amount?.gtn(0);
 
@@ -93,7 +94,8 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
           <InputBalance
             autoFocus
             help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
-            isError={!hasValue || !!amountError}
+            isError={!hasValue || !!amountError?.error}
+            isWarning={!!amountError?.warning}
             label={t<string>('value bonded')}
             labelExtra={
               <BalanceFree
@@ -103,6 +105,11 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
             }
             onChange={setAmount}
           />
+          <InputValidateAmount
+            accountId={stashId}
+            onError={setAmountError}
+            value={amount}
+          />
           {bondedBlocks?.gtn(0) && (
             <Static
               help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
@@ -111,11 +118,6 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
               <BlockToTime blocks={bondedBlocks} />
             </Static>
           )}
-          <InputValidateAmount
-            accountId={stashId}
-            onError={setAmountError}
-            value={amount}
-          />
         </Modal.Column>
         <Modal.Column>
           <p>{t<string>('The amount placed at-stake should be no more that 95% of your available amount to protect against slashing events.')}</p>
