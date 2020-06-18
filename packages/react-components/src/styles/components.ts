@@ -94,8 +94,9 @@ export default css`
       }
     }
 
-    &.isWarning {
-      input {
+    &.isWarning.ui.input {
+      > input,
+      input:focus {
         background: #ffffe0;
         border-color: #eeeeae;
       }

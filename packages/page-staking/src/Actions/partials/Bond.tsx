@@ -95,6 +95,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
             autoFocus
             help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
             isError={!hasValue || !!amountError?.error}
+            isWarning={!!amountError?.warning}
             label={t<string>('value bonded')}
             labelExtra={
               <BalanceFree

@@ -32,11 +32,11 @@ function ValidateAmount ({ accountId, currentAmount, onError, value }: Props): R
     if (allBalances && value) {
       let newError: string | null = null;
       let newWarning: string | null = null;
-      const top = allBalances.freeBalance.sub(currentAmount || BN_ZERO);
+      const check = value.add(currentAmount || BN_ZERO);
 
-      if (value.gte(top)) {
+      if (check.gte(allBalances.freeBalance)) {
         newError = t<string>('The specified value is greater than your free balance. The node will bond the maximum amount available.');
-      } else if (value.gt(top.muln(95).divn(100))) {
+      } else if (check.gt(allBalances.freeBalance.muln(95).divn(100))) {
         newWarning = t<string>('The specified value is greater than the recommended amount. You may not be adequately protected against slashing events or have funds for future fees.');
       }
 

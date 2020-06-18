@@ -55,6 +55,7 @@ function BondExtra ({ onClose, stakingInfo, stashId }: Props): React.ReactElemen
               autoFocus
               help={t<string>('Amount to add to the currently bonded funds. This is adjusted using the available funds on the account.')}
               isError={!!amountError?.error || !maxAdditional || maxAdditional.eqn(0)}
+              isWarning={!!amountError?.warning}
               label={t<string>('additional bonded funds')}
               labelExtra={
                 <BalanceFree
