@@ -21,9 +21,7 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
-  const isForceNone = useCall<boolean>(api.query.staking?.forceEra, [], {
-    transform: (forcing: Forcing) => forcing.isForceNone
-  });
+  const forcing = useCall<Forcing>(api.query.staking?.forceEra, []);
   const eraLabel = useMemo(() =>
     t<string>('era')
   , [t]);
@@ -55,14 +53,14 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
                 </CardSummary>
               )
           )}
-          {!isForceNone && withEra && (
+          {forcing && !forcing.isForceNone && withEra && (
             sessionInfo.sessionLength.gtn(1)
               ? (
                 <CardSummary
                   label={eraLabel}
                   progress={{
-                    total: sessionInfo.eraLength,
-                    value: sessionInfo.eraProgress,
+                    total: forcing.isForceAlways ? sessionInfo.sessionLength : sessionInfo.eraLength,
+                    value: forcing.isForceAlways ? sessionInfo.sessionProgress : sessionInfo.eraProgress,
                     withTime: true
                   }}
                 />
