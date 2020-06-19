@@ -110,6 +110,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         className='balanceInput'
         help={t<string>('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
         isFull
+        isZeroable={false}
         label={t<string>('amount to use for estimation')}
         onChange={setCalcWith}
         value={calcWith}
