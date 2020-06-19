@@ -84,7 +84,7 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
         : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
       const key = accountId.toString();
       const rewardSplit = perValidatorReward.sub(validatorPayment);
-      const rewardPayout = rewardSplit.gtn(0)
+      const rewardPayout = !amount.isZero() && !rewardSplit.isZero()
         ? amount.mul(rewardSplit).div(amount.add(bondTotal))
         : BN_ZERO;
       const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
