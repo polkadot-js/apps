@@ -23,6 +23,10 @@ export default function create (t: <T= string> (key: string, text: string, optio
       value: 'ja'
     },
     {
+      text: '한국어',
+      value: 'ko'
+    },
+    {
       text: 'Português',
       value: 'pt'
     },
