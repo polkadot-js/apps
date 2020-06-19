@@ -55,8 +55,8 @@ export default React.memo(styled(Option)`
   position: relative;
 
   .ui--Param-Option-toggle {
+    bottom: 1.375rem;
     position: absolute;
     right: 3.5rem;
-    top: 0.5rem;
   }
 `);
