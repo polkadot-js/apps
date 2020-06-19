@@ -50,4 +50,8 @@ export default React.memo(styled(StaticParam)`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .ui--Static {
+    margin-bottom: 0 !important;
+  }
 `);
