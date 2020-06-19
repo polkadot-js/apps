@@ -34,7 +34,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
-  const { queueAction, stqueue, txqueue } = useContext(StatusContext);
+  const { queueAction } = useContext(StatusContext);
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
@@ -64,11 +64,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                 />
               </ErrorBoundary>
             </Suspense>
-            <Status
-              queueAction={queueAction}
-              stqueue={stqueue}
-              txqueue={txqueue}
-            />
+            <Status />
           </>
         )
       }

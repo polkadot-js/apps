@@ -4,10 +4,10 @@
 
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
-import { ActionStatus, QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/react-components/Status/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useEffect } from 'react';
-import { Status as StatusDisplay } from '@polkadot/react-components';
+import React, { useContext, useEffect } from 'react';
+import { Status as StatusDisplay, StatusContext } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
@@ -16,9 +16,6 @@ import { useTranslation } from '../translate';
 
 interface Props {
   optionsAll?: KeyringOptions;
-  queueAction: QueueAction$Add;
-  stqueue: QueueStatus[];
-  txqueue: QueueTx[];
 }
 
 let prevEventHash: string;
@@ -64,7 +61,8 @@ function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts
     .filter((item): item is ActionStatus => !!item);
 }
 
-function Status ({ optionsAll, queueAction, stqueue, txqueue }: Props): React.ReactElement<Props> {
+function Status ({ optionsAll }: Props): React.ReactElement<Props> {
+  const { queueAction } = useContext(StatusContext);
   const { api, isApiReady } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
@@ -77,10 +75,7 @@ function Status ({ optionsAll, queueAction, stqueue, txqueue }: Props): React.Re
   }, [allAccounts, events, optionsAll, queueAction, t]);
 
   return (
-    <StatusDisplay
-      stqueue={stqueue}
-      txqueue={txqueue}
-    />
+    <StatusDisplay />
   );
 }
 

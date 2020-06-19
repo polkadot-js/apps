@@ -4,7 +4,7 @@
 
 import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 
@@ -21,8 +21,6 @@ export { StatusContext };
 
 interface Props {
   className?: string;
-  stqueue?: QueueStatus[];
-  txqueue?: QueueTx[];
 }
 
 function iconName (status: string): any {
@@ -150,29 +148,33 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
 }
 
 function filterSt (stqueue?: QueueStatus[]): QueueStatus[] {
-  return (stqueue || []).filter(({ isCompleted }): boolean => !isCompleted);
+  return (stqueue || []).filter(({ isCompleted }) => !isCompleted);
 }
 
 function filterTx (txqueue?: QueueTx[]): [QueueTx[], QueueTx[]] {
-  const allTx = (txqueue || []).filter(({ status }): boolean => !['completed', 'incomplete'].includes(status));
+  const allTx = (txqueue || []).filter(({ status }) => !['completed', 'incomplete'].includes(status));
 
-  return [allTx, allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status))];
+  return [allTx, allTx.filter(({ status }) => STATUS_COMPLETE.includes(status))];
 }
 
-function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElement<Props> | null {
+function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
+  const { stqueue, txqueue } = useContext(StatusContext);
+  const [allSt, setAllSt] = useState<QueueStatus[]>([]);
+  const [[allTx, completedTx], setAllTx] = useState<[QueueTx[], QueueTx[]]>([[], []]);
   const { t } = useTranslation();
-  const allSt = useMemo(
-    (): QueueStatus[] => filterSt(stqueue),
-    [stqueue]
-  );
-  const [allTx, completedTx] = useMemo(
-    (): [QueueTx[], QueueTx[]] => filterTx(txqueue),
-    [txqueue]
-  );
+
+  useEffect((): void => {
+    setAllSt(filterSt(stqueue));
+  }, [stqueue]);
+
+  useEffect((): void => {
+    setAllTx(filterTx(txqueue));
+  }, [txqueue]);
+
   const _onDismiss = useCallback(
     (): void => {
-      allSt.map((s): void => s.removeItem());
-      completedTx.map((t): void => t.removeItem());
+      allSt.map((s) => s.removeItem());
+      completedTx.map((t) => t.removeItem());
     },
     [allSt, completedTx]
   );
