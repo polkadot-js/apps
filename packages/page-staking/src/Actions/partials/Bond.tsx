@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { AmountValidateState } from '../types';
 import { BondInfo } from './types';
 
@@ -9,7 +10,8 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
 import { BalanceFree, BlockToTime } from '@polkadot/react-query';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import InputValidateAmount from '../Account/InputValidateAmount';
@@ -31,6 +33,8 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const [controllerId, setControllerId] = useState<string | null>(null);
   const [destination, setDestination] = useState(0);
   const [stashId, setStashId] = useState<string | null>(null);
+  const [startBalance, setStartBalance] = useState<BN | null>(null);
+  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const bondedBlocks = useUnbondDuration();
 
   const _setError = useCallback(
@@ -38,6 +42,18 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
     (error: string | null, isFatal: boolean) => setControllerError(isFatal),
     []
   );
+
+  useEffect((): void => {
+    stashBalance && setStartBalance(
+      stashBalance.freeBalance.gt(api.consts.balances.existentialDeposit)
+        ? stashBalance.freeBalance.sub(api.consts.balances.existentialDeposit)
+        : BN_ZERO
+    );
+  }, [api, stashBalance]);
+
+  useEffect((): void => {
+    setStartBalance(null);
+  }, [stashId]);
 
   useEffect((): void => {
     onChange(
@@ -89,41 +105,44 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
           <p>{t<string>('To ensure optimal fund security using the same stash/controller is strongly discouraged, but not forbidden.')}</p>
         </Modal.Column>
       </Modal.Columns>
-      <Modal.Columns>
-        <Modal.Column>
-          <InputBalance
-            autoFocus
-            help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
-            isError={!hasValue || !!amountError?.error}
-            isWarning={!!amountError?.warning}
-            label={t<string>('value bonded')}
-            labelExtra={
-              <BalanceFree
-                label={<span className='label'>{t<string>('balance')}</span>}
-                params={stashId}
-              />
-            }
-            onChange={setAmount}
-          />
-          <InputValidateAmount
-            accountId={stashId}
-            onError={setAmountError}
-            value={amount}
-          />
-          {bondedBlocks?.gtn(0) && (
-            <Static
-              help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
-              label={t<string>('on-chain bonding duration')}
-            >
-              <BlockToTime blocks={bondedBlocks} />
-            </Static>
-          )}
-        </Modal.Column>
-        <Modal.Column>
-          <p>{t<string>('The amount placed at-stake should be no more that 95% of your available amount to protect against slashing events.')}</p>
-          <p>{t<string>('Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
-        </Modal.Column>
-      </Modal.Columns>
+      {startBalance && (
+        <Modal.Columns>
+          <Modal.Column>
+            <InputBalance
+              autoFocus
+              defaultValue={startBalance}
+              help={t<string>('The total amount of the stash balance that will be at stake in any forthcoming rounds (should be less than the free amount available)')}
+              isError={!hasValue || !!amountError?.error}
+              label={t<string>('value bonded')}
+              labelExtra={
+                <BalanceFree
+                  label={<span className='label'>{t<string>('balance')}</span>}
+                  params={stashId}
+                />
+              }
+              onChange={setAmount}
+            />
+            <InputValidateAmount
+              controllerId={controllerId}
+              onError={setAmountError}
+              stashId={stashId}
+              value={amount}
+            />
+            {bondedBlocks?.gtn(0) && (
+              <Static
+                help={t<string>('The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.')}
+                label={t<string>('on-chain bonding duration')}
+              >
+                <BlockToTime blocks={bondedBlocks} />
+              </Static>
+            )}
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The amount placed at-stake should not be your full available available amount to allow for transaction fees.')}</p>
+            <p>{t<string>('Once bonded, it wil need to be unlocked/withdrawn and will be locked for at least the bonding duration.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+      )}
       <Modal.Columns>
         <Modal.Column>
           <Dropdown
