@@ -166,6 +166,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     ? (
       <Table
         empty={waiting && t<string>('No waiting validators found')}
+        filter={filter}
         header={headerActive}
       >
         {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
