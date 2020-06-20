@@ -27,7 +27,6 @@ export default class QrSigner implements Signer {
 
       this.#setState({
         isQrHashed,
-        isQrVisible: true,
         qrAddress: payload.address,
         qrPayload,
         qrReject: reject,

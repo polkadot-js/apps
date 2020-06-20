@@ -25,7 +25,6 @@ export interface AddressProxy {
 
 export interface QrState {
   isQrHashed: boolean;
-  isQrVisible: boolean;
   qrAddress: string;
   qrPayload: Uint8Array;
   qrResolve?: (result: SignerResult) => void;

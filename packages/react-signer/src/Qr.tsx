@@ -6,8 +6,10 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Columar } from '@polkadot/react-components';
+import { Columar, Spinner } from '@polkadot/react-components';
 import { QrDisplayPayload, QrScanSignature } from '@polkadot/react-qr';
+
+import { useTranslation } from './translate';
 
 interface Props extends BareProps {
   address: string;
@@ -23,6 +25,14 @@ const CMD_HASH = 1;
 const CMD_MORTAL = 2;
 
 function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
+  if (!address) {
+    return (
+      <Spinner label={<div>{t('Preparing QR for signing')}</div>} />
+    );
+  }
+
   return (
     <Columar className={className}>
       <Columar.Column>
