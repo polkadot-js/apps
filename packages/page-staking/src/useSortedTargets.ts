@@ -65,7 +65,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN): [ValidatorInfo[], string[], BN] {
+function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[], BN] {
   const nominators: string[] = [];
   let totalStaked = BN_ZERO;
   const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
@@ -114,6 +114,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
       hasIdentity: false,
       isCommission: !!(prefs as ValidatorPrefs).commission,
+      isElected,
       isFavorite: favorites.includes(key),
       isNominating,
       key,
@@ -137,8 +138,8 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators, totalStaked] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward);
-  const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward);
+  const [elected, nominators, totalStaked] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
+  const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward, false);
   const validators = sortValidators(elected.concat(waiting));
 
   return { nominators, totalStaked, validators };

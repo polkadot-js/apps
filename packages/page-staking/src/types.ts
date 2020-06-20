@@ -48,6 +48,7 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   commissionPer: number;
   hasIdentity: boolean;
   isCommission: boolean;
+  isElected: boolean;
   isFavorite: boolean;
   isNominating: boolean;
   key: string;

@@ -7,7 +7,7 @@ import { ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Icon, Toggle } from '@polkadot/react-components';
+import { AddressSmall, Badge, Icon, Toggle } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -75,7 +75,7 @@ function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelecte
     return null;
   }
 
-  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment } = info;
+  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment } = info;
 
   return (
     <tr className={`${isNominating ? 'isHighlight' : ''}`}>
@@ -84,7 +84,14 @@ function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelecte
         isFavorite={isFavorite}
         toggleFavorite={toggleFavorite}
       />
-      <td className='badge'>
+      <td className='badge together'>
+        {isElected && (
+          <Badge
+            info={<Icon name='chevron right' />}
+            isInline
+            type='next'
+          />
+        )}
         <MaxBadge numNominators={numNominators} />
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
