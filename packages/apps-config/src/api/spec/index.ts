@@ -13,6 +13,7 @@ import stablePoc from './stable-poc';
 export default {
   'centrifuge-chain': centrifugeChain,
   edgeware,
+  'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   kulupu,

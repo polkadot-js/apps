@@ -39,6 +39,7 @@ const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['Edgeware Node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['kulupu', nodeSubstrate],
