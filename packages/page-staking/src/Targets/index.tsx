@@ -81,8 +81,8 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
 
   const _selectProfitable = useCallback(
     () => setSelected(
-      (validators || []).reduce((result: string[], { hasIdentity, key, rewardPayout }): string[] => {
-        if ((result.length < MAX_NOMINATIONS) && (withoutName || hasIdentity) && !rewardPayout.isZero()) {
+      (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, rewardPayout }): string[] => {
+        if ((result.length < MAX_NOMINATIONS) && (withoutName || hasIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
           result.push(key);
         }
 
