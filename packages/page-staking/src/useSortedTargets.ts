@@ -31,7 +31,7 @@ function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) =>
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
-    // .filter((a) => a.bondTotal.gtn(0))
+    .filter((a) => a.bondTotal.gtn(0))
     .sort((a, b) => b.commissionPer - a.commissionPer)
     .map(mapIndex('rankComm'))
     .sort((a, b) => b.bondOther.cmp(a.bondOther))
