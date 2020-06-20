@@ -12,6 +12,7 @@ import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Tags } fr
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
+import Balances from './Balances';
 import Flags from './Flags';
 import Identity from './Identity';
 import Multisig from './Multisig';
@@ -167,6 +168,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
         address={address}
         identity={identity}
       />
+      <Balances address={address} />
       <Multisig
         isMultisig={flags.isMultisig}
         meta={meta}
@@ -255,7 +257,7 @@ export default React.memo(styled(Sidebar)`
 
   .ui--AddressMenu-identity {
     .ui--AddressMenu-identityTable {
-      font-size: 13px;
+      font-size: 0.93rem;
       margin-top: 0.3rem;
 
       .tr {
