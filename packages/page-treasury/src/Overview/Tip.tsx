@@ -76,9 +76,9 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
       <td className='button'>
         {isMember && (
           <Badge
-            info={<Icon name={!isTipper ? 'check' : 'question'} />}
+            info={<Icon name={isTipper ? 'check' : 'question'} />}
             isInline
-            type={!isTipper ? 'green' : 'gray'}
+            type={isTipper ? 'green' : 'gray'}
           />
         )}
         <TipEndorse
