@@ -291,6 +291,7 @@
   "Positive number greater than or equal to {{nextFreeId}}": "",
   "Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address": "",
   "Preimage": "",
+  "Preparing QR for signing": "",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "",
   "Proposal can either be to approve or reject this spend. One approved, the change is applied by either removing the proposal or scheduling payout.": "",
   "Proposals": "",

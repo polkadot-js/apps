@@ -15,6 +15,7 @@
   "Multisig message with call (not approval with hash)": "Multisig message with call (not approval with hash)",
   "Nonce": "Nonce",
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.",
+  "Preparing QR for signing": "Preparing QR for signing",
   "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.": "Present the QR code containing the signature to the UI. Once scanned it will be submitted for on-chain processing and execution.",
   "Scan Signature Qr": "Scan Signature Qr",
   "Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.": "Scan the QR code with your QR scanner. Once approved, you will be required to present the signed QR back to the UI for submission.",
