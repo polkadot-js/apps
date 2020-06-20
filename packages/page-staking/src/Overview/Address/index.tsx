@@ -44,9 +44,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-/* stylelint-disable */
 const PERBILL_PERCENT = 10_000_000;
-/* stylelint-enable */
 
 function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
   let nominators: [string, Balance][] = [];
