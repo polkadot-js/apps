@@ -51,7 +51,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
-  const [withoutName, setWithoutName] = useState(true);
+  const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
 
   useEffect((): void => {
@@ -82,14 +82,14 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
   const _selectProfitable = useCallback(
     () => setSelected(
       (validators || []).reduce((result: string[], { hasIdentity, key, rewardPayout }): string[] => {
-        if ((result.length < MAX_NOMINATIONS) && (withoutName || hasIdentity) && !rewardPayout.isZero()) {
+        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && !rewardPayout.isZero()) {
           result.push(key);
         }
 
         return result;
       }, [])
     ),
-    [validators, withoutName]
+    [validators, withIdentity]
   );
 
   const labels = useMemo(
@@ -131,19 +131,15 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
           {api.query.identity && (
             <Toggle
               className='staking--buttonToggle'
-              label={
-                withoutName
-                  ? t<string>('with/without identity')
-                  : t<string>('only with an identity')
-              }
-              onChange={setWithoutName}
-              value={withoutName}
+              label={t<string>('only with an identity')}
+              onChange={setWithIdentity}
+              value={withIdentity}
             />
           )}
         </div>
       </div>
     )
-  ), [api, calcWith, setCalcWith, sorted, t, withoutName]);
+  ), [api, calcWith, setCalcWith, sorted, t, withIdentity]);
 
   return (
     <div className={className}>
@@ -178,7 +174,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
             key={validators[index].key}
             toggleFavorite={toggleFavorite}
             toggleSelected={_toggleSelected}
-            withoutName={withoutName}
+            withIdentity={withIdentity}
           />
         )}
       </Table>
