@@ -7,11 +7,12 @@ import { AccountId, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Input, Table, Toggle } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 import { Option, StorageKey } from '@polkadot/types';
 
+import Filtering from '../Filtering';
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
 import Address from './Address';
@@ -98,7 +99,7 @@ function CurrentList ({ hasQueries, isIntentions, next, stakingOverview }: Props
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
   const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
-  const [withoutName, setWithoutName] = useState(true);
+  const [withIdentity, setWithIdentity] = useState(false);
 
   useEffect((): void => {
     stakingOverview && setFiltered(
@@ -129,32 +130,6 @@ function CurrentList ({ hasQueries, isIntentions, next, stakingOverview }: Props
     []
   ], [t]);
 
-  const filter = useMemo(() => (
-    <div>
-      <Input
-        autoFocus
-        isFull
-        label={t<string>('filter by name, address or index')}
-        onChange={setNameFilter}
-        value={nameFilter}
-      />
-      <div className='staking--optionsBar'>
-        {api.query.identity && (
-          <Toggle
-            className='staking--buttonToggle'
-            label={
-              withoutName
-                ? t<string>('with/without identity')
-                : t<string>('only with an identity')
-            }
-            onChange={setWithoutName}
-            value={withoutName}
-          />
-        )}
-      </div>
-    </div>
-  ), [api, nameFilter, t, withoutName]);
-
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
       (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
@@ -173,17 +148,24 @@ function CurrentList ({ hasQueries, isIntentions, next, stakingOverview }: Props
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
-          withoutName={withoutName}
+          withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withoutName]
+    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions
     ? (
       <Table
         empty={waiting && t<string>('No waiting validators found')}
-        filter={filter}
+        filter={
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+            setWithIdentity={setWithIdentity}
+            withIdentity={withIdentity}
+          />
+        }
         header={headerActive}
       >
         {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
@@ -192,7 +174,14 @@ function CurrentList ({ hasQueries, isIntentions, next, stakingOverview }: Props
     : (
       <Table
         empty={validators && t<string>('No active validators found')}
-        filter={filter}
+        filter={
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+            setWithIdentity={setWithIdentity}
+            withIdentity={withIdentity}
+          />
+        }
         header={headerWaiting}
       >
         {_renderRows(validators, true)}
