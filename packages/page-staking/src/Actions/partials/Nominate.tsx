@@ -31,9 +31,9 @@ interface Selected {
 }
 
 function autoPick (targets: SortedTargets): string[] {
-  return (targets.validators || []).reduce((result: string[], { key, numNominators, rewardPayout }): string[] => {
+  return (targets.validators || []).reduce((result: string[], { isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
     if (result.length < MAX_NOMINATIONS) {
-      if (numNominators && (numNominators < MAX_PAYOUTS) && !rewardPayout.isZero()) {
+      if (numNominators && (numNominators < MAX_PAYOUTS) && (isElected || isFavorite) && !rewardPayout.isZero()) {
         result.push(key);
       }
     }
