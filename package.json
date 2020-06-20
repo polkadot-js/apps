@@ -33,10 +33,10 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^1.20.0-beta.4",
-    "@polkadot/api-contract": "^1.20.0-beta.4",
+    "@polkadot/api": "^1.20.0-beta.5",
+    "@polkadot/api-contract": "^1.20.0-beta.5",
     "@polkadot/keyring": "^2.15.0-beta.0",
-    "@polkadot/types": "^1.20.0-beta.4",
+    "@polkadot/types": "^1.20.0-beta.5",
     "@polkadot/util": "^2.15.0-beta.0",
     "@polkadot/util-crypto": "^2.15.0-beta.0",
     "babel-core": "^7.0.0-bridge.0"
