@@ -13,18 +13,16 @@ interface Props extends BareProps {
   hasQueries: boolean;
   isIntentions?: boolean;
   next?: string[];
-  setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
 }
 
-function Overview ({ className = '', hasQueries, isIntentions, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', hasQueries, isIntentions, next, stakingOverview }: Props): React.ReactElement<Props> {
   return (
     <div className={`staking--Overview ${className}`}>
       <CurrentList
         hasQueries={hasQueries}
         isIntentions={isIntentions}
         next={next}
-        setNominators={setNominators}
         stakingOverview={stakingOverview}
       />
     </div>

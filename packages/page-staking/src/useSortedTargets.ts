@@ -44,6 +44,8 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     .map(mapIndex('rankPayment'))
     .sort((a, b) => a.rewardSplit.cmp(b.rewardSplit))
     .map(mapIndex('rankReward'))
+    .sort((a, b) => b.numNominators - a.numNominators)
+    .map(mapIndex('rankNumNominators'))
     .sort((a, b): number => {
       const cmp = b.rewardPayout.cmp(a.rewardPayout);
 
@@ -106,6 +108,7 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
         bondShare: 0,
         bondTotal,
         commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
+        hasIdentity: false,
         isCommission: !!(prefs as ValidatorPrefs).commission,
         isFavorite: favorites.includes(key),
         isNominating,
@@ -115,6 +118,7 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
         rankBondOwn: 0,
         rankBondTotal: 0,
         rankComm: 0,
+        rankNumNominators: 0,
         rankOverall: 0,
         rankPayment: 0,
         rankReward: 0,

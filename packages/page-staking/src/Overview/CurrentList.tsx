@@ -7,7 +7,7 @@ import { AccountId, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Input, Table } from '@polkadot/react-components';
+import { Input, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 import { Option, StorageKey } from '@polkadot/types';
@@ -88,7 +88,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
   }, {});
 }
 
-function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ hasQueries, isIntentions, next, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints, lastBlockAuthors } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -98,6 +98,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
   const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
+  const [withoutName, setWithoutName] = useState(true);
 
   useEffect((): void => {
     stakingOverview && setFiltered(
@@ -129,14 +130,30 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
   ], [t]);
 
   const filter = useMemo(() => (
-    <Input
-      autoFocus
-      isFull
-      label={t<string>('filter by name, address or index')}
-      onChange={setNameFilter}
-      value={nameFilter}
-    />
-  ), [nameFilter, t]);
+    <div>
+      <Input
+        autoFocus
+        isFull
+        label={t<string>('filter by name, address or index')}
+        onChange={setNameFilter}
+        value={nameFilter}
+      />
+      <div className='staking--optionsBar'>
+        {api.query.identity && (
+          <Toggle
+            className='staking--buttonToggle'
+            label={
+              withoutName
+                ? t<string>('with/without identity')
+                : t<string>('only with an identity')
+            }
+            onChange={setWithoutName}
+            value={withoutName}
+          />
+        )}
+      </div>
+    </div>
+  ), [api, nameFilter, t, withoutName]);
 
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
@@ -155,11 +172,11 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
           onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
-          setNominators={setNominators}
           toggleFavorite={toggleFavorite}
+          withoutName={withoutName}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, setNominators, toggleFavorite]
+    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withoutName]
   );
 
   return isIntentions

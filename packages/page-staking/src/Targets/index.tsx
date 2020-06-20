@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Icon, InputBalance, Table, Button } from '@polkadot/react-components';
+import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
@@ -18,7 +20,9 @@ import useOwnNominators from './useOwnNominators';
 
 interface Props {
   className?: string;
+  next?: string[];
   ownStashes?: StakerState[];
+  stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
 }
 
@@ -43,9 +47,11 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
 
 function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
+  const [withoutName, setWithoutName] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
 
   useEffect((): void => {
@@ -75,11 +81,15 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
 
   const _selectProfitable = useCallback(
     () => setSelected(
-      (validators || [])
-        .filter((_, index) => index < MAX_NOMINATIONS)
-        .map(({ key }) => key)
+      (validators || []).reduce((result: string[], { hasIdentity, key, rewardPayout }): string[] => {
+        if ((result.length < MAX_NOMINATIONS) && (withoutName || hasIdentity) && !rewardPayout.isZero()) {
+          result.push(key);
+        }
+
+        return result;
+      }, [])
     ),
-    [validators]
+    [validators, withoutName]
   );
 
   const labels = useMemo(
@@ -87,15 +97,16 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
       rankBondOther: t<string>('other stake'),
       rankBondOwn: t<string>('own stake'),
       rankBondTotal: t<string>('total stake'),
-      rankComm: t<string>('commission'),
-      rankOverall: t<string>('profit/era est')
+      rankComm: t<string>('comm.'),
+      rankNumNominators: t<string>('nominators'),
+      rankOverall: t<string>('profit/era')
     }),
     [t]
   );
 
   const header = useMemo(() => [
     [t('validators'), 'start', 4],
-    ...['rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
+    ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
       sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number',
       1,
@@ -106,17 +117,33 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
 
   const filter = useMemo(() => (
     sorted && (
-      <InputBalance
-        className='balanceInput'
-        help={t<string>('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
-        isFull
-        isZeroable={false}
-        label={t<string>('amount to use for estimation')}
-        onChange={setCalcWith}
-        value={calcWith}
-      />
+      <div>
+        <InputBalance
+          className='balanceInput'
+          help={t<string>('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
+          isFull
+          isZeroable={false}
+          label={t<string>('amount to use for estimation')}
+          onChange={setCalcWith}
+          value={calcWith}
+        />
+        <div className='staking--optionsBar'>
+          {api.query.identity && (
+            <Toggle
+              className='staking--buttonToggle'
+              label={
+                withoutName
+                  ? t<string>('with/without identity')
+                  : t<string>('only with an identity')
+              }
+              onChange={setWithoutName}
+              value={withoutName}
+            />
+          )}
+        </div>
+      </div>
     )
-  ), [calcWith, setCalcWith, sorted, t]);
+  ), [api, calcWith, setCalcWith, sorted, t, withoutName]);
 
   return (
     <div className={className}>
@@ -151,6 +178,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
             key={validators[index].key}
             toggleFavorite={toggleFavorite}
             toggleSelected={_toggleSelected}
+            withoutName={withoutName}
           />
         )}
       </Table>
@@ -166,6 +194,7 @@ export default React.memo(styled(Targets)`
       margin-left: 0.5rem;
     }
   }
+
   .ui--Table {
     overflow-x: auto;
   }

@@ -35,6 +35,21 @@ interface State {
   foundStashes?: StakerState[];
 }
 
+function sortStashes (a: StakerState, b: StakerState): number {
+  return (a.isStashValidating ? 1 : (a.isStashNominating ? 5 : 99)) - (b.isStashValidating ? 1 : (b.isStashNominating ? 5 : 99));
+}
+
+function extractState (ownStashes: StakerState[]): State {
+  return {
+    bondedTotal: ownStashes.reduce((total: BN, { stakingLedger }) =>
+      stakingLedger
+        ? total.add(stakingLedger.total.unwrap())
+        : total,
+    BN_ZERO),
+    foundStashes: ownStashes.sort(sortStashes)
+  };
+}
+
 function Actions ({ className = '', isInElection, next, ownStashes, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -44,16 +59,7 @@ function Actions ({ className = '', isInElection, next, ownStashes, targets, val
   const [{ bondedTotal, foundStashes }, setState] = useState<State>({});
 
   useEffect((): void => {
-    ownStashes && setState({
-      bondedTotal: ownStashes.reduce((total: BN, { stakingLedger }) =>
-        stakingLedger
-          ? total.add(stakingLedger.total.unwrap())
-          : total,
-      BN_ZERO),
-      foundStashes: ownStashes.sort((a, b) =>
-        (a.isStashValidating ? 1 : (a.isStashNominating ? 5 : 99)) - (b.isStashValidating ? 1 : (b.isStashNominating ? 5 : 99))
-      )
-    });
+    ownStashes && setState(extractState(ownStashes));
   }, [ownStashes]);
 
   const header = useMemo(() => [

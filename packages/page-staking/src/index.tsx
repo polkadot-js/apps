@@ -6,7 +6,7 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -30,10 +30,6 @@ interface Validators {
   validators?: string[];
 }
 
-function reduceNominators (nominators: string[], additional: string[]): string[] {
-  return nominators.concat(...additional.filter((nominator): boolean => !nominators.includes(nominator)));
-}
-
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -47,7 +43,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
   });
-  const [nominators, dispatchNominators] = useReducer(reduceNominators, [] as string[]);
   const hasQueries = useMemo(
     (): boolean =>
       hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -114,7 +109,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <Summary
         isVisible={pathname === basePath}
         next={next}
-        nominators={nominators}
+        nominators={targets.nominators}
         stakingOverview={stakingOverview}
       />
       <Switch>
@@ -126,7 +121,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         </Route>
         <Route path={`${basePath}/targets`}>
           <Targets
+            next={next}
             ownStashes={ownStashes}
+            stakingOverview={stakingOverview}
             targets={targets}
           />
         </Route>
@@ -152,7 +149,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={basePath === pathname ? '' : 'staking--hidden'}
         hasQueries={hasQueries}
         next={next}
-        setNominators={dispatchNominators}
         stakingOverview={stakingOverview}
       />
     </main>
@@ -173,6 +169,15 @@ export default React.memo(styled(StakingApp)`
 
     .ui--Spinner {
       margin: 2.5rem auto;
+    }
+  }
+
+  .staking--optionsBar {
+    text-align: right;
+
+    .staking--buttonToggle {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
     }
   }
 `);
