@@ -4,9 +4,9 @@
 
 import { OpenTip } from '@polkadot/types/interfaces';
 
-import React from 'react';
-import { AddressSmall, AddressMini, Expander } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import React, { useEffect, useState } from 'react';
+import { AddressSmall, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 
@@ -24,9 +24,17 @@ interface Props {
 function Tip ({ className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const [isTipper, setIsTipper] = useState(false);
   const tip = useCall<OpenTip | null>(api.query.treasury.tips, [hash], {
     transform: (optTip: Option<OpenTip>) => optTip.unwrapOr(null)
   });
+
+  useEffect((): void => {
+    tip && setIsTipper(
+      tip.tips.some(([address]) => allAccounts.includes(address.toString()))
+    );
+  }, [allAccounts, tip]);
 
   if (!tip) {
     return null;
@@ -71,6 +79,13 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
           isMember={isMember}
           members={members}
         />
+        {isMember && (
+          <Badge
+            info={<Icon name={isTipper ? 'check' : 'question'} />}
+            isInline
+            type={isTipper ? 'green' : 'gray'}
+          />
+        )}
       </td>
     </tr>
   );
