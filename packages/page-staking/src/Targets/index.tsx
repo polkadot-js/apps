@@ -9,8 +9,8 @@ import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
+import Filtering from '../Filtering';
 import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
 import Nominate from './Nominate';
@@ -47,10 +47,10 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
 
 function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
+  const [nameFilter, setNameFilter] = useState<string>('');
   const [withElected, setWithElected] = useState(false);
   const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
@@ -128,9 +128,22 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
           onChange={setCalcWith}
           value={calcWith}
         />
+        <Filtering
+          nameFilter={nameFilter}
+          setNameFilter={setNameFilter}
+          setWithIdentity={setWithIdentity}
+          withIdentity={withIdentity}
+        >
+          <Toggle
+            className='staking--buttonToggle'
+            label={t<string>('limit to elected')}
+            onChange={setWithElected}
+            value={withElected}
+          />
+        </Filtering>
       </div>
     )
-  ), [calcWith, setCalcWith, sorted, t]);
+  ), [calcWith, setCalcWith, nameFilter, sorted, t, withElected, withIdentity]);
 
   return (
     <div className={className}>
@@ -141,22 +154,6 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         totalStaked={totalStaked}
       />
       <Button.Group>
-        <span className='staking--optionsBar'>
-          <Toggle
-            className='staking--buttonToggle'
-            label={t<string>('limit to elected')}
-            onChange={setWithElected}
-            value={withElected}
-          />
-          {api.query.identity && (
-            <Toggle
-              className='staking--buttonToggle'
-              label={t<string>('only with an identity')}
-              onChange={setWithIdentity}
-              value={withIdentity}
-            />
-          )}
-        </span>
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
@@ -176,6 +173,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         {validators && sorted && (validators.length === sorted.length) && sorted.map((index): React.ReactNode =>
           <Validator
             canSelect={selected.length < MAX_NOMINATIONS}
+            filterName={nameFilter}
             info={validators[index]}
             isSelected={selected.includes(validators[index].key)}
             key={validators[index].key}

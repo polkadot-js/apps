@@ -80,6 +80,10 @@ export default React.memo(styled(Table)`
         opacity: 0.6;
       }
 
+      th label {
+        opacity: 1;
+      }
+
       &:hover label {
         opacity: 1;
       }

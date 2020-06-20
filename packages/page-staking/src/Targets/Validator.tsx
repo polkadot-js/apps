@@ -15,9 +15,11 @@ import keyring from '@polkadot/ui-keyring';
 
 import MaxBadge from '../MaxBadge';
 import Favorite from '../Overview/Address/Favorite';
+import { checkVisibility } from '../util';
 
 interface Props {
   canSelect: boolean;
+  filterName: string;
   info: ValidatorInfo;
   isSelected: boolean;
   toggleFavorite: (accountId: string) => void;
@@ -26,39 +28,37 @@ interface Props {
   withIdentity: boolean;
 }
 
-function checkVisibility (api: ApiPromise, accountInfo: DeriveAccountInfo): boolean {
-  let isVisible = false;
+function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): boolean {
+  let hasIdentity = false;
 
   const { accountId, identity, nickname } = accountInfo;
 
   if (api.query.identity && api.query.identity.identityOf) {
-    isVisible = !!(identity?.display && identity.display.toString());
+    hasIdentity = !!(identity?.display && identity.display.toString());
   } else if (nickname) {
-    isVisible = !!nickname.toString();
+    hasIdentity = !!nickname.toString();
   }
 
-  if (!isVisible && accountId) {
+  if (!hasIdentity && accountId) {
     const account = keyring.getAddress(accountId.toString());
 
-    isVisible = !!account?.meta?.name;
+    hasIdentity = !!account?.meta?.name;
   }
 
-  return isVisible;
+  return hasIdentity;
 }
 
-function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
+function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
-  const [hasName, setHasName] = useState(true);
+  const [isVisible, setVisibility] = useState(true);
 
   useEffect((): void => {
     if (accountInfo) {
-      const hasIdentity = checkVisibility(api, accountInfo);
-
-      info.hasIdentity = hasIdentity;
-      setHasName(hasIdentity);
+      info.hasIdentity = checkIdentity(api, accountInfo);
+      setVisibility(checkVisibility(api, info.key, filterName, withIdentity, accountInfo));
     }
-  }, [accountInfo, api, info]);
+  }, [accountInfo, api, filterName, info, withIdentity]);
 
   const _onQueryStats = useCallback(
     (): void => {
@@ -72,7 +72,7 @@ function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelecte
     [info.key, toggleSelected]
   );
 
-  if ((withIdentity && !hasName) || (withElected && !info.isElected)) {
+  if (!isVisible || (withElected && !info.isElected)) {
     return null;
   }
 
