@@ -27,7 +27,7 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
         size='medium'
       >
         {variant === 'app' && (
-          label || t<string>('Retrieving data')
+          <div className='text'>{label || t<string>('Retrieving data')}</div>
         )}
       </Loader>
     </div>
@@ -36,8 +36,7 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
 
 export default React.memo(styled(Spinner)`
   .text {
-    margin: 0 auto 1.5rem auto;
+    color: inherit !important;
     opacity: 0.6;
-    text-align: center;
   }
 `);
