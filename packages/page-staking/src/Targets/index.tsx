@@ -51,6 +51,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
+  const [withElected, setWithElected] = useState(false);
   const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
 
@@ -127,19 +128,9 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
           onChange={setCalcWith}
           value={calcWith}
         />
-        <div className='staking--optionsBar'>
-          {api.query.identity && (
-            <Toggle
-              className='staking--buttonToggle'
-              label={t<string>('only with an identity')}
-              onChange={setWithIdentity}
-              value={withIdentity}
-            />
-          )}
-        </div>
       </div>
     )
-  ), [api, calcWith, setCalcWith, sorted, t, withIdentity]);
+  ), [calcWith, setCalcWith, sorted, t]);
 
   return (
     <div className={className}>
@@ -150,6 +141,22 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         totalStaked={totalStaked}
       />
       <Button.Group>
+        <span className='staking--optionsBar'>
+          <Toggle
+            className='staking--buttonToggle'
+            label={t<string>('limit to elected')}
+            onChange={setWithElected}
+            value={withElected}
+          />
+          {api.query.identity && (
+            <Toggle
+              className='staking--buttonToggle'
+              label={t<string>('only with an identity')}
+              onChange={setWithIdentity}
+              value={withIdentity}
+            />
+          )}
+        </span>
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
@@ -174,6 +181,7 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
             key={validators[index].key}
             toggleFavorite={toggleFavorite}
             toggleSelected={_toggleSelected}
+            withElected={withElected}
             withIdentity={withIdentity}
           />
         )}
