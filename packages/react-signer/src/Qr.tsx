@@ -29,7 +29,7 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
 
   if (!address) {
     return (
-      <Spinner label={<div>{t('Preparing QR for signing')}</div>} />
+      <Spinner label={t<string>('Preparing QR for signing')} />
     );
   }
 
