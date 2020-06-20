@@ -99,13 +99,15 @@ function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelecte
             : <FormatBalance value={validatorPayment} />
         }
       </td>
-      <td className='number together'><FormatBalance value={bondTotal} /></td>
-      <td className='number together'><FormatBalance value={bondOwn} /></td>
+      <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
+      <td className='number together'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
       <td className='number together'>
-        <FormatBalance
-          labelPost={` (${numNominators})`}
-          value={bondOther}
-        />
+        {!bondOther.isZero() && (
+          <FormatBalance
+            labelPost={` (${numNominators})`}
+            value={bondOther}
+          />
+        )}
       </td>
       <td className='number together'>{!rewardPayout.isZero() && <FormatBalance value={rewardPayout} />}</td>
       <td>
