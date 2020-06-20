@@ -33,6 +33,7 @@ interface ValidatorInfoRank {
   rankBondOwn: number;
   rankBondTotal: number;
   rankComm: number;
+  rankNumNominators: number;
   rankOverall: number;
   rankPayment: number;
   rankReward: number;
@@ -45,6 +46,7 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   bondShare: number;
   bondTotal: Balance;
   commissionPer: number;
+  hasIdentity: boolean;
   isCommission: boolean;
   isFavorite: boolean;
   isNominating: boolean;

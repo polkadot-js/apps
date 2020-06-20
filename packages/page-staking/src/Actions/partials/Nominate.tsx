@@ -31,9 +31,9 @@ interface Selected {
 }
 
 function autoPick (targets: SortedTargets): string[] {
-  return (targets.validators || []).reduce((result: string[], { key, numNominators }): string[] => {
+  return (targets.validators || []).reduce((result: string[], { key, numNominators, rewardPayout }): string[] => {
     if (result.length < MAX_NOMINATIONS) {
-      if (numNominators && (numNominators < MAX_PAYOUTS)) {
+      if (numNominators && (numNominators < MAX_PAYOUTS) && !rewardPayout.isZero()) {
         result.push(key);
       }
     }
@@ -137,6 +137,7 @@ function Nominate ({ className = '', controllerId, next, nominating, onChange, s
                   value={
                     selected.map((validatorId) => (
                       <AddressMini
+                        isHighlight={favorites.includes(validatorId)}
                         key={validatorId}
                         value={validatorId}
                       />

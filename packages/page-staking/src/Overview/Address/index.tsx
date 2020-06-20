@@ -32,8 +32,8 @@ interface Props {
   onlineCount?: false | number;
   onlineMessage?: boolean;
   points?: string;
-  setNominators?: false | ((nominators: string[]) => void);
   toggleFavorite: (accountId: string) => void;
+  withoutName: boolean;
 }
 
 interface StakingState {
@@ -44,9 +44,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-/* stylelint-disable */
 const PERBILL_PERCENT = 10_000_000;
-/* stylelint-enable */
 
 function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
   let nominators: [string, Balance][] = [];
@@ -74,15 +72,15 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   };
 }
 
-function checkVisibility (api: ApiPromise, address: string, filterName: string, accountInfo?: DeriveAccountInfo): boolean {
+function checkVisibility (api: ApiPromise, address: string, filterName: string, withoutName: boolean, accountInfo?: DeriveAccountInfo): boolean {
   let isVisible = false;
   const filterLower = filterName.toLowerCase();
 
-  if (filterLower) {
+  if (filterLower || !withoutName) {
     if (accountInfo) {
       const { accountId, accountIndex, identity, nickname } = accountInfo;
 
-      if (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName)) {
+      if (withoutName && (accountId?.toString().includes(filterName) || accountIndex?.toString().includes(filterName))) {
         isVisible = true;
       } else if (api.query.identity && api.query.identity.identityOf) {
         isVisible = (!!identity?.display && identity.display.toLowerCase().includes(filterLower)) ||
@@ -106,7 +104,7 @@ function checkVisibility (api: ApiPromise, address: string, filterName: string, 
   return isVisible;
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, setNominators, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withoutName }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
@@ -116,19 +114,14 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
   const [isNominating, setIsNominating] = useState(false);
 
   useEffect((): void => {
-    if (stakingInfo) {
-      const info = expandInfo(stakingInfo);
-
-      setNominators && setNominators(info.nominators.map(([who]): string => who.toString()));
-      setStakingState(info);
-    }
-  }, [setNominators, stakingInfo]);
+    stakingInfo && setStakingState(expandInfo(stakingInfo));
+  }, [stakingInfo]);
 
   useEffect((): void => {
     setIsVisible(
-      checkVisibility(api, address, filterName, accountInfo)
+      checkVisibility(api, address, filterName, withoutName, accountInfo)
     );
-  }, [api, accountInfo, address, filterName]);
+  }, [api, accountInfo, address, filterName, withoutName]);
 
   useEffect((): void => {
     !isMain && setIsNominating(
@@ -144,8 +137,12 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
     [address]
   );
 
+  if (!isVisible) {
+    return null;
+  }
+
   return (
-    <tr className={`${className} ${(isAuthor || isNominating) ? 'isHighlight' : ''} ${!isVisible ? 'staking--hidden' : ''}`}>
+    <tr className={`${className} ${(isAuthor || isNominating) ? 'isHighlight' : ''}`}>
       <Favorite
         address={address}
         isFavorite={isFavorite}

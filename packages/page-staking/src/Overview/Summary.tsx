@@ -16,7 +16,7 @@ interface Props {
   className?: string;
   isVisible: boolean;
   next?: string[];
-  nominators: string[];
+  nominators?: string[];
   stakingOverview?: DeriveStakingOverview;
 }
 
@@ -37,7 +37,7 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
             {next.length}
           </CardSummary>
         )}
-        {!!nominators.length && (
+        {!!nominators?.length && (
           <CardSummary label={t<string>('nominators')}>
             {nominators.length}
           </CardSummary>

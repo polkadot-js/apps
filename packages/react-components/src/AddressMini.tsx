@@ -22,6 +22,7 @@ interface Props extends BareProps {
   bonded?: BN | BN[];
   children?: React.ReactNode;
   iconInfo?: React.ReactNode;
+  isHighlight?: boolean;
   isPadded?: boolean;
   isShort?: boolean;
   label?: React.ReactNode;
@@ -39,13 +40,13 @@ interface Props extends BareProps {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className = '', iconInfo, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   return (
-    <div className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
+    <div className={classes('ui--AddressMini', isHighlight ? 'isHighlight' : '', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
