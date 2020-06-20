@@ -257,7 +257,7 @@ export default React.memo(styled(Sidebar)`
 
   .ui--AddressMenu-identity {
     .ui--AddressMenu-identityTable {
-      font-size: 13px;
+      font-size: 0.93rem;
       margin-top: 0.3rem;
 
       .tr {
