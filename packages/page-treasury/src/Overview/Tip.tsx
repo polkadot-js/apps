@@ -74,6 +74,11 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
         )}
       </td>
       <td className='button'>
+        <TipEndorse
+          hash={hash}
+          isMember={isMember}
+          members={members}
+        />
         {isMember && (
           <Badge
             info={<Icon name={isTipper ? 'check' : 'question'} />}
@@ -81,11 +86,6 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
             type={isTipper ? 'green' : 'gray'}
           />
         )}
-        <TipEndorse
-          hash={hash}
-          isMember={isMember}
-          members={members}
-        />
       </td>
     </tr>
   );
