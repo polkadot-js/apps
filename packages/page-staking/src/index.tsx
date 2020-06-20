@@ -176,7 +176,8 @@ export default React.memo(styled(StakingApp)`
     text-align: right;
 
     .staking--buttonToggle {
-      margin-left: 1.5rem;
+      display: inline-block;
+      margin-right: 1rem;
       margin-top: 0.5rem;
     }
   }

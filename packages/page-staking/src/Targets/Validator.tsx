@@ -22,7 +22,8 @@ interface Props {
   isSelected: boolean;
   toggleFavorite: (accountId: string) => void;
   toggleSelected: (accountId: string) => void;
-  withoutName: boolean;
+  withElected: boolean;
+  withIdentity: boolean;
 }
 
 function checkVisibility (api: ApiPromise, accountInfo: DeriveAccountInfo): boolean {
@@ -45,7 +46,7 @@ function checkVisibility (api: ApiPromise, accountInfo: DeriveAccountInfo): bool
   return isVisible;
 }
 
-function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelected, withoutName }: Props): React.ReactElement<Props> | null {
+function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
   const [hasName, setHasName] = useState(true);
@@ -71,7 +72,7 @@ function Validator ({ canSelect, info, isSelected, toggleFavorite, toggleSelecte
     [info.key, toggleSelected]
   );
 
-  if (!hasName && !withoutName) {
+  if ((withIdentity && !hasName) || (withElected && !info.isElected)) {
     return null;
   }
 

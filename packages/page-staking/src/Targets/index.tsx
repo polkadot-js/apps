@@ -51,7 +51,8 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
-  const [withoutName, setWithoutName] = useState(true);
+  const [withElected, setWithElected] = useState(false);
+  const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
 
   useEffect((): void => {
@@ -82,14 +83,14 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
   const _selectProfitable = useCallback(
     () => setSelected(
       (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, rewardPayout }): string[] => {
-        if ((result.length < MAX_NOMINATIONS) && (withoutName || hasIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
+        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
           result.push(key);
         }
 
         return result;
       }, [])
     ),
-    [validators, withoutName]
+    [validators, withIdentity]
   );
 
   const labels = useMemo(
@@ -127,23 +128,9 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
           onChange={setCalcWith}
           value={calcWith}
         />
-        <div className='staking--optionsBar'>
-          {api.query.identity && (
-            <Toggle
-              className='staking--buttonToggle'
-              label={
-                withoutName
-                  ? t<string>('with/without identity')
-                  : t<string>('only with an identity')
-              }
-              onChange={setWithoutName}
-              value={withoutName}
-            />
-          )}
-        </div>
       </div>
     )
-  ), [api, calcWith, setCalcWith, sorted, t, withoutName]);
+  ), [calcWith, setCalcWith, sorted, t]);
 
   return (
     <div className={className}>
@@ -154,6 +141,22 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
         totalStaked={totalStaked}
       />
       <Button.Group>
+        <span className='staking--optionsBar'>
+          <Toggle
+            className='staking--buttonToggle'
+            label={t<string>('limit to elected')}
+            onChange={setWithElected}
+            value={withElected}
+          />
+          {api.query.identity && (
+            <Toggle
+              className='staking--buttonToggle'
+              label={t<string>('only with an identity')}
+              onChange={setWithIdentity}
+              value={withIdentity}
+            />
+          )}
+        </span>
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
@@ -178,7 +181,8 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
             key={validators[index].key}
             toggleFavorite={toggleFavorite}
             toggleSelected={_toggleSelected}
-            withoutName={withoutName}
+            withElected={withElected}
+            withIdentity={withIdentity}
           />
         )}
       </Table>
