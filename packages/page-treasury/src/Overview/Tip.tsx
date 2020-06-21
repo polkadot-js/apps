@@ -5,7 +5,7 @@
 import { BlockNumber, OpenTip } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { AddressSmall, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
+import { AddressSmall, AddressMini, Expander, Icon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
@@ -97,12 +97,8 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         )}
       </td>
       <td className='badge'>
-        {isMember && (
-          <Badge
-            info={<Icon name={isTipper ? 'check' : 'question'} />}
-            isInline
-            type={isTipper ? 'green' : 'gray'}
-          />
+        {isMember && isTipper && (
+          <Icon name='check square outline' />
         )}
       </td>
     </tr>
