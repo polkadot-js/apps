@@ -9,24 +9,23 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
+  color: 'counter' | 'green' | 'blue' | 'gray' | 'purple' | 'red';
   hover?: React.ReactNode;
   info: React.ReactNode;
-  isGray?: boolean;
   isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
   onClick?: () => void;
-  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray' | 'purple';
 }
 
 let badgeId = 0;
 
-function Badge ({ className = '', hover, info, isGray, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color, hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
 
   return (
     <div
-      className={`ui--Badge ${isGray ? 'isGray' : ''} ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${type} ${className}`}
+      className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color} ${className}`}
       data-for={trigger}
       data-tip={true}
       data-tip-disable={!isTooltip}
@@ -94,33 +93,25 @@ export default React.memo(styled(Badge)`
     vertical-align: middle;
   }
 
-  &.next,
   &.blue {
     background: steelblue;
   }
 
-  &.offline,
   &.counter {
     background: red;
-  }
-
-  &.counter {
     margin: 0 0.5rem;
     vertical-align: middle;
   }
 
-  &.gray, &.isGray {
+  &.gray {
     background: #eee !important;
     color: #aaa;
   }
 
-  &.runnerup,
-  &.brown {
-    background: brown;
+  &.red {
+    background: darkred;
   }
 
-  &.online,
-  &.selected,
   &.green {
     background: green;
   }

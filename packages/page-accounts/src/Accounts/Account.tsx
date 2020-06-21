@@ -185,6 +185,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       <td className='together'>
         {recoveryInfo && (
           <Badge
+            color='green'
             hover={
               <div>
                 <p>{t<string>('This account is recoverable, with the following friends:')}</p>
@@ -217,25 +218,24 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             info={<Icon name='shield' />}
             isInline
             isTooltip
-            type='online'
           />
         )}
         {multiInfos && multiInfos.length !== 0 && (
           <Badge
+            color='red'
             hover={t<string>('Multisig approvals pending')}
             info={multiInfos.length}
             isInline
             isTooltip
-            type='brown'
           />
         )}
         {isProxied && !proxyInfo.hasOwned && (
           <Badge
+            color='red'
             hover={t<string>('Proxied account has no owned proxies')}
             info='0'
             isInline
             isTooltip
-            type='brown'
           />
         )}
       </td>

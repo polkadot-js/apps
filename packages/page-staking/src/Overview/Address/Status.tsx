@@ -19,16 +19,16 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
     <td className='together'>
       {isElected && (
         <Badge
+          color='blue'
           info={<Icon name='chevron right' />}
           isInline
-          type='next'
         />
       )}
       {(!!onlineCount || onlineMessage) && (
         <Badge
+          color='green'
           info={onlineCount || <Icon name='envelope' />}
           isInline
-          type='online'
         />
       )}
       <MaxBadge numNominators={numNominators} />
