@@ -2,26 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { OpenTip } from '@polkadot/types/interfaces';
+import { BlockNumber, OpenTip } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { AddressSmall, AddressMini, Badge, Expander, Icon } from '@polkadot/react-components';
+import { AddressSmall, AddressMini, Expander, Icon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import TipClose from './TipClose';
 import TipEndorse from './TipEndorse';
 import TipReason from './TipReason';
 
 interface Props {
+  bestNumber?: BlockNumber;
   className?: string;
   hash: string;
   isMember: boolean;
   members: string[];
 }
 
-function Tip ({ className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -40,8 +43,9 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
     return null;
   }
 
-  const { finder, reason, tips, who } = tip;
+  const { closes, finder, reason, tips, who } = tip;
   const finderInfo = finder.unwrapOr(null);
+  const closesAt = closes.unwrapOr(null);
 
   return (
     <tr className={className}>
@@ -74,17 +78,33 @@ function Tip ({ className = '', hash, isMember, members }: Props): React.ReactEl
         )}
       </td>
       <td className='button'>
-        <TipEndorse
-          hash={hash}
-          isMember={isMember}
-          members={members}
-        />
-        {isMember && (
-          <Badge
-            info={<Icon name={isTipper ? 'check' : 'question'} />}
-            isInline
-            type={isTipper ? 'green' : 'gray'}
+        {!closesAt && (
+          <TipEndorse
+            hash={hash}
+            isMember={isMember}
+            members={members}
           />
+        )}
+        {bestNumber && closesAt && (
+          closesAt.gt(bestNumber)
+            ? (
+              <>
+                <BlockToTime blocks={closesAt.sub(bestNumber)} />
+                #{formatNumber(closesAt)}
+              </>
+            )
+            : (
+              <TipClose
+                hash={hash}
+                isMember={isMember}
+                members={members}
+              />
+            )
+        )}
+      </td>
+      <td className='badge'>
+        {isMember && isTipper && (
+          <Icon name='check square outline' />
         )}
       </td>
     </tr>
