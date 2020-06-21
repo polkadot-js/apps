@@ -9,7 +9,7 @@ const SideBarItem = styled(Menu.Item).attrs({
 })`
   align-self: flex-end;
   flex-grow: 0;
-  margin: 0;
+  margin: 0 !important;
   padding: 0 !important;
 
   .text {
@@ -86,9 +86,22 @@ const SideBarItemNavLink = styled(NavLink).attrs({
   }
 `;
 
+const SideBarParentItem = styled.div`
+  min-height: 46rem;
+  .expanded & {
+    width: 100%;
+  }
+
+  .collapsed & {
+    margin: 0 !important;
+    width: 3rem;
+  }
+`;
+
 export {
   SideBarItem,
   SideBarItemDivider,
   SideBarItemNavLink,
-  SideBarItemLink
+  SideBarItemLink,
+  SideBarParentItem
 };

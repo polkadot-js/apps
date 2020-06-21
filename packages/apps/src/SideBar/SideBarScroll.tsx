@@ -4,6 +4,11 @@ import { colors } from '../../../../styled-theming';
 const SideBarScroll = styled.div.attrs({
   className: 'apps--SideBar-Scroll'
 })`
+  @media (min-width:1000px){
+    .expanded & {
+      position: fixed;
+    }
+  }
   align-items: center;
   color: ${colors.textMuted};
   display: flex;

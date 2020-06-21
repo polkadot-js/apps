@@ -14,14 +14,15 @@ import NodeInfo from './NodeInfo';
 import NetworkModal from '../modals/Network';
 
 import SideBar from './SideBar';
-import { SideBarItem, SideBarItemDivider, SideBarItemLink } from './SideBarItem';
+import { SideBarItem, SideBarItemDivider, SideBarItemLink, SideBarParentItem } from './SideBarItem';
 import SideBarCollapseButton from './SideBarCollapseButton';
 import { SideBarAdvancedContainer, SideBarAdvancedSummary } from './SideBarAdvanced';
 import SideBarHeader from './SideBarHeader';
 import SideBarScroll from './SideBarScroll';
 import SideBarToggle from './SideBarToggle';
 import SideBarWrapper from './SideBarWrapper';
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 interface Props {
   className?: string;
   collapse: () => void;
@@ -80,6 +81,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
         >
           <SideBarScroll>
             {runtimeVersion && <SideBarHeader {...{ _toggleModal, runtimeVersion }} />}
+            <SideBarParentItem>
             {routing.routes.map((route, index): React.ReactNode => (
               route && !route.isAdvanced
                 ? (
@@ -138,6 +140,17 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
                 </SideBarItemLink>
               </SideBarItem>
             </SideBarAdvancedContainer>
+            <SideBarItem>
+              <SideBarItemLink
+                  href='https://www.reddit.com/r/Centrality/'
+                  rel='noopener noreferrer'
+                  target='_blank'
+              >
+                <FontAwesomeIcon icon={faQuestionCircle}/>
+                <span className='text'>{t('Support')}</span>
+              </SideBarItemLink>
+            </SideBarItem>
+            </SideBarParentItem>
             {
               isCollapsed
                 ? undefined

@@ -3,7 +3,6 @@ import { colors } from '../../../../styled-theming';
 
 const SideBarAdvancedContainer = styled.details`
   margin-top: 0.5rem;
-  min-height: 29rem;
 
   .expanded & {
     width: 100%;
@@ -16,6 +15,7 @@ const SideBarAdvancedContainer = styled.details`
 `;
 
 const SideBarAdvancedSummary = styled.summary`
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
   padding-left: 0.75rem;
 
