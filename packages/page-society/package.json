@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-society",
   "private": true,
-  "version": "0.46.0-beta.41",
+  "version": "0.46.0-beta.42",
   "description": "A society",
   "main": "index.js",
   "scripts": {},
@@ -9,6 +9,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@polkadot/react-components": "0.46.0-beta.41"
+    "@polkadot/react-components": "0.46.0-beta.42"
   }
 }
