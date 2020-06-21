@@ -107,16 +107,24 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
     [t]
   );
 
+  const classes = useMemo(
+    (): Record<string, string> => ({
+      rankBondOther: 'ui--media-1600',
+      rankNumNominators: 'ui--media-1200'
+    }),
+    []
+  );
+
   const header = useMemo(() => [
     [t('validators'), 'start', 4],
     ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
-      sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number',
+      `${sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number'} ${classes[header] || ''}`,
       1,
       (): void => _sort(header as 'rankComm')
     ]),
     []
-  ], [_sort, labels, sortBy, sorted, sortFromMax, t]);
+  ], [_sort, classes, labels, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     sorted && (

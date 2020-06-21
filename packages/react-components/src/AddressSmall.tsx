@@ -69,7 +69,31 @@ export default React.memo(styled(AddressSmall)`
     }
 
     > div {
-      max-width: 12rem;
+      max-width: 24rem;
+
+      @media only screen and (max-width: 1800px) {
+        max-width: 22rem;
+      }
+
+      @media only screen and (max-width: 1700px) {
+        max-width: 20rem;
+      }
+
+      @media only screen and (max-width: 1600px) {
+        max-width: 18rem;
+      }
+
+      @media only screen and (max-width: 1500px) {
+        max-width: 16rem;
+      }
+
+      @media only screen and (max-width: 1400px) {
+        max-width: 14rem;
+      }
+
+      @media only screen and (max-width: 1300px) {
+        max-width: 12rem;
+      }
     }
   }
 `);
