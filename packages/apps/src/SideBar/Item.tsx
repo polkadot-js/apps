@@ -104,9 +104,9 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
       <span className='text'>{text}</span>
       {!!count && (
         <Badge
+          color='counter'
           info={count}
           isInline
-          type='counter'
         />
       )}
       <Tooltip

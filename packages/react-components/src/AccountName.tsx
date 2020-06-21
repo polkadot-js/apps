@@ -81,10 +81,10 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
     <div className='via-identity'>
       {isSpecial && (
         <Badge
+          color='green'
           info={<Icon name='simplybuilt' />}
           isInline
           isSmall
-          type='green'
         />
       )}
       <span className={`name ${(isLocal || isSpecial) ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
@@ -96,15 +96,15 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   );
 }
 
-function createIdElem (badgeType: 'green' | 'brown' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode): React.ReactNode {
+function createIdElem (color: 'green' | 'red' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode): React.ReactNode {
   return (
     <div className='via-identity'>
       <Badge
+        color={color}
         info={infoElem}
         isInline
         isSmall
         isTooltip
-        type={badgeType}
       />
       {nameElem}
     </div>
@@ -129,12 +129,12 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
     ? <span className={`name ${isGood ? 'isGood' : ''}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
     : <span className={`name ${isGood ? 'isGood' : ''}`}>{displayName}</span>;
   const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
-  const badgeType = isGood ? 'green' : (isBad ? 'brown' : 'gray');
+  const color = isGood ? 'green' : (isBad ? 'red' : 'gray');
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
-  displayCache.set(address, createIdElem(badgeType, nameElem, infoElem));
+  displayCache.set(address, createIdElem(color, nameElem, infoElem));
 
-  return createIdElem(badgeType, nameElem, infoElem);
+  return createIdElem(color, nameElem, infoElem);
 }
 
 function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {

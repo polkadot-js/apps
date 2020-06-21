@@ -88,9 +88,9 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
       <td className='badge together'>
         {isElected && (
           <Badge
+            color='blue'
             info={<Icon name='chevron right' />}
             isInline
-            type='next'
           />
         )}
         <MaxBadge numNominators={numNominators} />
