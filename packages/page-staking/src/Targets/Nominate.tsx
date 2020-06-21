@@ -89,6 +89,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
                   value={
                     targets.map((validatorId) => (
                       <AddressMini
+                        className='addressStatic'
                         key={validatorId}
                         value={validatorId}
                       />
@@ -118,7 +119,12 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
 }
 
 export default React.memo(styled(Nominate)`
-  .ui--AddressMini.padded {
+  .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
+
+    .ui--AddressMini-address {
+      min-width: 10rem;
+      max-width: 10rem;
+    }
   }
 `);

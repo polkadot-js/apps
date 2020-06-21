@@ -22,61 +22,6 @@ interface Props {
   valueLabel: React.ReactNode;
 }
 
-// import { DragDropContext, Droppable, DraggableLocation, DroppableProvided, DropResult } from 'react-beautiful-dnd';
-
-// <DragDropContext onDragEnd={_onDragEnd}>
-//           <Droppable droppableId='available'>
-//             {(provided: DroppableProvided): React.ReactElement => (
-//               <div
-//                 className='ui--InputAddressMulti-items'
-//                 // eslint-disable-next-line @typescript-eslint/unbound-method
-//                 ref={provided.innerRef}
-//               >
-//                 {value.map((address, index): React.ReactNode => (
-//                   <Selected
-//                     address={address}
-//                     index={index}
-//                     key={address}
-//                     onDeselect={_onDeselect}
-//                   />
-//                 ))}
-//                 {provided.placeholder}
-//               </div>
-//             )}
-//           </Droppable>
-//         </DragDropContext>
-
-// const _onReorder = useCallback(
-//   (source: DraggableLocation, destination: DraggableLocation): void => {
-//     const result = Array.from(value);
-//     const [removed] = result.splice(source.index, 1);
-
-//     result.splice(destination.index, 0, removed);
-
-//     onChange(uniquesOf(result));
-//   },
-//   [onChange, value]
-// );
-
-// const _onDeselect = useCallback(
-//   (index: number): void =>
-//     onChange(
-//       uniquesOf([...value.slice(0, index), ...value.slice(index + 1)])
-//     ),
-//   [onChange, value]
-// );
-
-// const _onDragEnd = useCallback(
-//   (result: DropResult): void => {
-//     const { destination, source } = result;
-
-//     !!destination && _onReorder(source, destination);
-//   },
-//   [_onReorder]
-// );
-
-// NOTE Drag code above, disabled since it has massive performance implications
-
 function InputAddressMulti ({ available, availableLabel, className = '', defaultValue, maxCount, onChange, valueLabel }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [_filter, setFilter] = useState<string>('');
@@ -189,9 +134,15 @@ export default React.memo(styled(InputAddressMulti)`
         border-radius: 0.286rem 0.286rem;
         flex: 1;
         overflow-y: auto;
+        overflow-x: hidden;
 
         .ui--AddressToggle {
           padding-left: 0.75rem;
+        }
+
+        .ui--AddressMini-address {
+          min-width: auto;
+          max-width: 100%;
         }
       }
     }

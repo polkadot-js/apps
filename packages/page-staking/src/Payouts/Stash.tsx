@@ -9,7 +9,7 @@ import { PayoutStash } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import { AddressMini, TxButton } from '@polkadot/react-components';
+import { AddressSmall, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
@@ -76,7 +76,12 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
 
   return (
     <tr className={className}>
-      <td className='address'><AddressMini value={stashId} /></td>
+      <td
+        className='address'
+        colSpan={2}
+      >
+        <AddressSmall value={stashId} />
+      </td>
       <td className='start'>
         <span className='payout-eras'>{eraStr}</span>
       </td>

@@ -6,7 +6,7 @@ import { PayoutValidator } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { AddressMini, Expander } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Expander } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -55,7 +55,12 @@ function Validator ({ className = '', isDisabled, payout }: Props): React.ReactE
 
   return (
     <tr className={className}>
-      <td className='address'><AddressMini value={payout.validatorId} /></td>
+      <td
+        className='address'
+        colSpan={2}
+      >
+        <AddressSmall value={payout.validatorId} />
+      </td>
       <td className='start'>
         <span className='payout-eras'>{eraStr}</span>
       </td>

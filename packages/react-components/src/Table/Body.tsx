@@ -70,6 +70,7 @@ export default React.memo(styled(Body)`
 
     &.address {
       min-width: 11rem;
+      overflow-x: hidden;
     }
 
     &.badge {
