@@ -137,6 +137,7 @@ function Nominate ({ className = '', controllerId, next, nominating, onChange, s
                   value={
                     selected.map((validatorId) => (
                       <AddressMini
+                        className='addressStatic'
                         isHighlight={favorites.includes(validatorId)}
                         key={validatorId}
                         value={validatorId}
@@ -193,8 +194,13 @@ export default React.memo(styled(Nominate)`
     width: 100%;
   }
 
-  .ui--Static .ui--AddressMini.padded {
+  .ui--Static .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
+
+    .ui--AddressMini-address {
+      min-width: 10rem;
+      max-width: 10rem;
+    }
   }
 
   .shortlist {
