@@ -9,6 +9,7 @@ import { AddressSmall, AddressMini, Expander, Icon } from '@polkadot/react-compo
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -86,7 +87,12 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         )}
         {bestNumber && closesAt && (
           closesAt.gt(bestNumber)
-            ? <BlockToTime blocks={closesAt.sub(bestNumber)} />
+            ? (
+              <>
+                <BlockToTime blocks={closesAt.sub(bestNumber)} />
+                #{formatNumber(closesAt)}
+              </>
+            )
             : (
               <TipClose
                 hash={hash}
