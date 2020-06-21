@@ -99,7 +99,7 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number ui--media-1100'>{numNominators || ''}</td>
+      <td className='number ui--media-1200'>{numNominators || ''}</td>
       <td className='number'>
         {
           isCommission
