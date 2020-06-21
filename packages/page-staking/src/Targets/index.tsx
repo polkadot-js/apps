@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
 
+import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
 import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
@@ -20,6 +21,7 @@ import useOwnNominators from './useOwnNominators';
 
 interface Props {
   className?: string;
+  isInElection: boolean;
   next?: string[];
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
@@ -45,7 +47,7 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
     );
 }
 
-function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, toggleFavorite, totalStaked, validators } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
@@ -161,10 +163,12 @@ function Targets ({ className = '', ownStashes, targets: { calcWith, lastReward,
           onClick={_selectProfitable}
         />
         <Nominate
+          isDisabled={isInElection}
           ownNominators={ownNominators}
           targets={selected}
         />
       </Button.Group>
+      <ElectionBanner isInElection={isInElection} />
       <Table
         empty={sorted && t<string>('No active validators to check')}
         filter={filter}
