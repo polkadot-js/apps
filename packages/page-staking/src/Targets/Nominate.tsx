@@ -13,6 +13,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isDisabled: boolean;
   ownNominators?: StakerState[];
   targets: string[];
 }
@@ -22,7 +23,7 @@ interface IdState {
   stashId: string;
 }
 
-function Nominate ({ className = '', ownNominators, targets }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [ids, setIds] = useState<IdState | null>(null);
   const [filter, setFilter] = useState<string[]>([]);
@@ -51,7 +52,7 @@ function Nominate ({ className = '', ownNominators, targets }: Props): React.Rea
     <>
       <Button
         icon='hand paper outline'
-        isDisabled={!filter.length || !targets.length}
+        isDisabled={isDisabled || !filter.length || !targets.length}
         label={t<string>('Nominate selected')}
         onClick={toggleOpen}
       />
