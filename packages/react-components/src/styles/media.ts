@@ -30,9 +30,33 @@ export default css`
     display: none;
   }
 
+  .ui--media-2000 {
+    @media only screen and (max-width: 1900px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1900 {
+    @media only screen and (max-width: 1900px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1800 {
+    @media only screen and (max-width: 1800px) {
+      display: none;
+    }
+  }
+
+  .ui--media-1700 {
+    @media only screen and (max-width: 1700px) {
+      display: none;
+    }
+  }
+
   .ui--media-1600 {
     @media only screen and (max-width: 1600px) {
-      width: none;
+      display: none;
     }
   }
 
@@ -84,7 +108,7 @@ export default css`
     }
   }
 
-  .ui--media-8700 {
+  .ui--media-700 {
     @media only screen and (max-width: 700px) {
       display: none;
     }
@@ -92,6 +116,18 @@ export default css`
 
   .ui--media-600 {
     @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .ui--media-500 {
+    @media only screen and (max-width: 500px) {
+      display: none;
+    }
+  }
+
+  .ui--media-400 {
+    @media only screen and (max-width: 400px) {
       display: none;
     }
   }
