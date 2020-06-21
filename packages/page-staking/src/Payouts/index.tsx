@@ -114,7 +114,7 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
   }, [allRewards, stakerPayoutsAfter]);
 
   const headerStashes = useMemo(() => [
-    [t('payout/stash'), 'start'],
+    [t('payout/stash'), 'start', 2],
     [t('eras'), 'start'],
     [t('available')],
     [('remaining')],
@@ -122,7 +122,7 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
   ], [t]);
 
   const headerValidators = useMemo(() => [
-    [t('payout/validator'), 'start'],
+    [t('payout/validator'), 'start', 2],
     [t('eras'), 'start'],
     [t('available')],
     [('remaining')],
@@ -131,7 +131,7 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
 
   const footer = useMemo(() => (
     <tr>
-      <td colSpan={2} />
+      <td colSpan={3} />
       <td className='number'>
         {stashTotal && <FormatBalance value={stashTotal} />}
       </td>
