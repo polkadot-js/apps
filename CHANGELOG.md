@@ -22,6 +22,7 @@
 - Expand targets page to include waiting validators (full overview of all)
 - Apply shared filters (name, toggles) on all validator lists
 - Display balances in account view sidebar
+- Adjust signer dialog ith split sign/send (better status displays)
 - Adjust proxy checks for sudo calls to closer align with Polkadot
 - Apply i18n caching, with no reload on translation page
 - Add "Apply" i18n button to reflect editing changes in the UI
