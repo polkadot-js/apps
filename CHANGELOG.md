@@ -1,18 +1,34 @@
 # CHANGELOG
 
-## 0.46.0-beta.x
+## 0.46.1 Jun 22, 2020
 
 - I18n for es (thanks to https://github.com/wimel)
 - Support for importing mini secrets via QR (Thanks to https://github.com/hanwencheng)
+- Update SubstrateTEE types (thanks to https://github.com/brenzi)
 - Support for multisig calls with new weight parameters
 - Split sign and send updates in the signer modal for better UI tracking
 - Hide zero nonce of accounts/contracts pages
 - Display API extrinsic construction errors in the extrinsics app
 - Do not display signer proxies when there are none matching against accounts
+- Sort recovery addresses to align with the Substrate implementation
+- Check for funded controller on bonding
+- Suggest max values for bonding (& bonding extra), adjusting checks
+- Handle isForceEra to adjust era displays
+- Display candidacy bond on council submission
+- Adjust AddressMni & AddressSmall components to take advantage of bigger screens
+- Display referendum & treasury tips voting status
+- Add tips close buttons & countdown timer
+- Disabled nominations via targets when in election
+- Expand targets page to include waiting validators (full overview of all)
+- Apply shared filters (name, toggles) on all validator lists
+- Display balances in account view sidebar
+- Adjust signer dialog ith split sign/send (better status displays)
 - Adjust proxy checks for sudo calls to closer align with Polkadot
 - Apply i18n caching, with no reload on translation page
 - Add "Apply" i18n button to reflect editing changes in the UI
-- Sort recovery addresses to align with the Substrate implementation
+- Support Tuple inputs (params/extrinsics) for custom names
+- `@polkadot/api` 1.20.1
+- `@polkadot/util` 2.15.1
 
 ## 0.45.2 Jun 16, 2020
 

@@ -64,6 +64,8 @@ export default React.memo(styled(AddressSmall)`
   }
 
   .nameInfo {
+    overflow: hidden;
+
     &.withSidebar {
       cursor: help;
     }
