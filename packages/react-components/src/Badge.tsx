@@ -9,9 +9,9 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'counter' | 'green' | 'blue' | 'gray' | 'purple' | 'red';
+  color: 'counter' | 'green' | 'blue' | 'gray' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
-  info: React.ReactNode;
+  info?: React.ReactNode;
   isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
@@ -119,6 +119,11 @@ export default React.memo(styled(Badge)`
 
   &.purple {
     background: indigo;
+  }
+
+  &.transparent {
+    background: transparent;
+    box-shadow: none;
   }
 
   & > * {
