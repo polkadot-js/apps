@@ -17,13 +17,22 @@ interface Props {
 function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
     <td className='together'>
-      {isElected && (
-        <Badge
-          color='blue'
-          info={<Icon name='chevron right' />}
-          isInline
-        />
-      )}
+      {isElected
+        ? (
+          <Badge
+            color='blue'
+            info={<Icon name='chevron right' />}
+            isInline
+          />
+        )
+        : (
+          <Badge
+            color='transparent'
+            info={<>&nbsp;</>}
+            isInline
+          />
+        )
+      }
       {(!!onlineCount || onlineMessage) && (
         <Badge
           color='green'
