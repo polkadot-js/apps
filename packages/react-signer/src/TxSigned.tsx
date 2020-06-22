@@ -119,14 +119,15 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
 
     tx = isMultiCall
       ? api.tx[multiModule].asMulti.meta.args.length === 6
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+        // We are doing toHex here since we have a Vec<u8> input
         ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method.toHex(), false, weight)
-        : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
-      : api.tx[multiModule].approveAsMulti.meta.args.length === 5
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
+        : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
+      : api.tx[multiModule].approveAsMulti.meta.args.length === 5
         ? api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash, weight)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
   }
 
