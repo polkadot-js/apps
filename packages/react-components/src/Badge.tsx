@@ -77,6 +77,7 @@ export default React.memo(styled(Badge)`
     font-size: 10px;
     height: 16px;
     line-height: 16px;
+    min-width: 16px;
     padding: 0;
     width: 16px;
   }
