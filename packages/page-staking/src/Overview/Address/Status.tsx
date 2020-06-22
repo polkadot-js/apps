@@ -16,7 +16,7 @@ interface Props {
 
 function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
-    <td className='together'>
+    <td className='badge together'>
       {isElected
         ? (
           <Badge
@@ -28,7 +28,6 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
         : (
           <Badge
             color='transparent'
-            info={<>&nbsp;</>}
             isInline
           />
         )

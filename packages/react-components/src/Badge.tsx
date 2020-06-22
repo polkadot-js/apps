@@ -11,7 +11,7 @@ interface Props {
   className?: string;
   color: 'counter' | 'green' | 'blue' | 'gray' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
-  info: React.ReactNode;
+  info?: React.ReactNode;
   isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
