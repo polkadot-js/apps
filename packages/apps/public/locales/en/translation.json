@@ -466,6 +466,7 @@
   "The beneficiary will receive the full amount if the proposal passes.": "",
   "The beneficiary will received the tip as approved by council members.": "",
   "The blake2b 256-bit hash of the actual input data.": "",
+  "The bond will be reserved for the duration of your candidacy and membership.": "",
   "The bonded amount is less than the minimum bond amount of {{existentialDeposit}}": "",
   "The bonding duration for any staked funds. After this period needs to be withdrawn.": "",
   "The bonding duration for any staked funds. Needs to be unlocked and withdrawn to become available.": "",
