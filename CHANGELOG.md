@@ -26,6 +26,8 @@
 - Apply i18n caching, with no reload on translation page
 - Add "Apply" i18n button to reflect editing changes in the UI
 - Support Tuple inputs (params/extrinsics) for custom names
+- `@polkadot/api` 1.20.1
+- `@polkadot/util` 2.15.1
 
 ## 0.45.2 Jun 16, 2020
 
