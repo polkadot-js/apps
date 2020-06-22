@@ -164,11 +164,11 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
           )}
         </div>
       </div>
+      <Balances address={address} />
       <Identity
         address={address}
         identity={identity}
       />
-      <Balances address={address} />
       <Multisig
         isMultisig={flags.isMultisig}
         meta={meta}
