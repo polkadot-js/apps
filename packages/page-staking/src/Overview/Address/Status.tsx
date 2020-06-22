@@ -16,7 +16,7 @@ interface Props {
 
 function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
-    <td className='together'>
+    <td className='badge together'>
       {isElected && (
         <Badge
           color='blue'

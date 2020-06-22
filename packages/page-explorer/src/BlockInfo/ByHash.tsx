@@ -8,7 +8,7 @@ import { KeyedEvent } from '../types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { AddressMini, Columar, Column, LinkExternal, Table } from '@polkadot/react-components';
+import { AddressSmall, Columar, Column, LinkExternal, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
@@ -60,7 +60,7 @@ function BlockByHash ({ className = '', value }: Props): React.ReactElement<Prop
           <tr>
             <td className='address'>
               {getHeader.author && (
-                <AddressMini value={getHeader.author} />
+                <AddressSmall value={getHeader.author} />
               )}
             </td>
             <td className='hash overflow'>{getHeader.hash.toHex()}</td>
