@@ -11,7 +11,9 @@ export default css`
     border: 1px dashed #eee;
     box-sizing: border-box;
     line-height: 1rem;
-    padding: .75rem 1rem;
+    max-height: 25rem;
+    overflow-y: auto;
+    padding: 0.75rem 1rem;
     position: relative;
     word-break: break-all;
 
