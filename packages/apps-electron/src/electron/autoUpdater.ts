@@ -1,12 +1,18 @@
-export function setupAutoUpdater () {
-  const { autoUpdater } = require('electron-updater');
+// Copyright 2017-2020 @polkadot/apps authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-  setLogger(autoUpdater)
-  autoUpdater.checkForUpdatesAndNotify()
+import { AppUpdater } from 'electron-updater';
+
+export async function setupAutoUpdater (): Promise<void> {
+  const { autoUpdater } = await import('electron-updater');
+
+  await setLogger(autoUpdater);
+  void autoUpdater.checkForUpdatesAndNotify();
 }
 
-function setLogger (autoUpdater: any) {
-  const log = require('electron-log')
-  log.transports.file.level = "debug"
-  autoUpdater.logger = log
+async function setLogger (autoUpdater: AppUpdater): Promise<void> {
+  const log = await import('electron-log');
+  log.transports.file.level = 'debug';
+  autoUpdater.logger = log;
 }

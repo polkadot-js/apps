@@ -15,7 +15,7 @@ const onReady = async () => {
   await createWindow(ENV);
 
   if (features.autoUpdater) {
-    setupAutoUpdater()
+    await setupAutoUpdater();
   }
 };
 
