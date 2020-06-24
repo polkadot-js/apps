@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import styled from 'styled-components';
 import { Input, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -46,14 +45,4 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
   );
 }
 
-export default React.memo(styled(Filtering)`
-  .staking--optionsBar {
-    text-align: right;
-
-    .staking--buttonToggle {
-      display: inline-block;
-      margin-right: 1rem;
-      margin-top: 0.5rem;
-    }
-  }
-`);
+export default React.memo(Filtering);

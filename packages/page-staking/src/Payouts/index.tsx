@@ -8,9 +8,10 @@ import { PayoutStash, PayoutValidator } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Table } from '@polkadot/react-components';
-import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
+import { Button, Table, Toggle } from '@polkadot/react-components';
+import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { u32 } from '@polkadot/types';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
@@ -93,8 +94,11 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
 function Payouts ({ className = '', isInElection }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashTotal, stashes, validators }, setPayouts] = useState<Available>({});
+  const [isPartialEras, setIsPartialEras] = useState(true);
+  const [partialEras, setPartialEras] = useState(21);
+  const historyDepth = useCall<u32>(api.query.staking.historyDepth, []);
   const stakerPayoutsAfter = useStakerPayouts();
-  const { allRewards } = useOwnEraRewards();
+  const { allRewards } = useOwnEraRewards(!historyDepth || isPartialEras ? partialEras : historyDepth.toNumber());
   const { t } = useTranslation();
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
@@ -112,6 +116,12 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
       });
     }
   }, [allRewards, stakerPayoutsAfter]);
+
+  useEffect((): void => {
+    historyDepth && setPartialEras(
+      Math.ceil(historyDepth.toNumber() / 4)
+    );
+  }, [historyDepth, isPartialEras]);
 
   const headerStashes = useMemo(() => [
     [t('payout/stash'), 'start', 2],
@@ -142,13 +152,27 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
   return (
     <div className={className}>
       {api.tx.staking.payoutStakers && (
-        <Button.Group>
-          <PayButton
-            isAll
-            isDisabled={isDisabled}
-            payout={validators}
-          />
-        </Button.Group>
+        <>
+          <Button.Group>
+            <PayButton
+              isAll
+              isDisabled={isDisabled}
+              payout={validators}
+            />
+          </Button.Group>
+          {historyDepth && (
+            <div className='staking--optionsBar'>
+              <Toggle
+                className='staking--buttonToggle'
+                label={t<string>('only query most recent {{partialEras}} of {{historyDepth}} eras', {
+                  replace: { historyDepth: historyDepth.toNumber(), partialEras }
+                })}
+                onChange={setIsPartialEras}
+                value={isPartialEras}
+              />
+            </div>
+          )}
+        </>
       )}
       <ElectionBanner isInElection={isInElection} />
       <Table
