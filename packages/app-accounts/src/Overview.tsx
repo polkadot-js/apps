@@ -93,22 +93,15 @@ function Overview ({ className, onStatusChange }: Props): React.ReactElement<Pro
         <Button
           icon='add'
           isPrimary
-          label={t('Add account')}
+          label={t('Create account')}
           onClick={_toggleCreate}
         />
         <Button.Or />
         <Button
           icon='sync'
           isPrimary
-          label={t('Restore JSON')}
+          label={t('Import account')}
           onClick={_toggleImport}
-        />
-        <Button.Or />
-        <Button
-          icon='qrcode'
-          isPrimary
-          label={t('Add via Qr')}
-          onClick={_toggleQr}
         />
         {isLedger() && (
           <>

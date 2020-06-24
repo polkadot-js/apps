@@ -22,10 +22,10 @@ This password is also used to encrypt the private key in the backup file downloa
 
 You can recover an account from its:
 - seed or mnemonic:
-  Click on the "Add account" button, type your seed or mnemonic in the associated field.
+  Click on the "Create account" button, type your seed or mnemonic in the associated field.
 
 - backup file (also called JSON keystore file) and the account's password:
-  Click on "Restore JSON" button. Upload your backup file and type in the password associated.
+  Click on "Import account" button. Upload your backup file and type in the password associated.
 
 # Cryptography
 
