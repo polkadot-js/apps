@@ -98,7 +98,7 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
   const [partialEras, setPartialEras] = useState(21);
   const historyDepth = useCall<u32>(api.query.staking.historyDepth, []);
   const stakerPayoutsAfter = useStakerPayouts();
-  const { allRewards } = useOwnEraRewards(!historyDepth || isPartialEras ? partialEras : historyDepth.toNumber());
+  const { allRewards, isLoadingRewards } = useOwnEraRewards(!historyDepth || isPartialEras ? partialEras : historyDepth.toNumber());
   const { t } = useTranslation();
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
@@ -176,13 +176,13 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
       )}
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={stashes && t<string>('No pending payouts for your stashes')}
+        empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}
         emptySpinner={t<string>('Retrieving info for all applicable eras, this will take some time')}
         footer={footer}
         header={headerStashes}
         isFixed
       >
-        {stashes?.map((payout): React.ReactNode => (
+        {!isLoadingRewards && stashes?.map((payout): React.ReactNode => (
           <Stash
             isDisabled={isDisabled}
             key={payout.stashId}
@@ -191,12 +191,12 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
           />
         ))}
       </Table>
-      {api.tx.staking.payoutStakers && validators && (validators.length !== 0) && (
+      {api.tx.staking.payoutStakers && !isLoadingRewards && validators && (validators.length !== 0) && (
         <Table
           header={headerValidators}
           isFixed
         >
-          {validators.map((payout): React.ReactNode => (
+          {!isLoadingRewards && validators.map((payout): React.ReactNode => (
             <Validator
               isDisabled={isDisabled}
               key={payout.validatorId}

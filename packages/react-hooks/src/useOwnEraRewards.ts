@@ -14,6 +14,7 @@ import { useOwnStashIds } from './useOwnStashes';
 
 interface OwnRewards {
   allRewards?: Record<string, DeriveStakerReward[]>;
+  isLoadingRewards: boolean;
   rewardCount: number;
 }
 
@@ -26,6 +27,7 @@ function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][
 
   return {
     allRewards,
+    isLoadingRewards: false,
     rewardCount: Object.values(allRewards).filter((rewards) => rewards.length !== 0).length
   };
 }
@@ -37,7 +39,11 @@ export default function useOwnEraRewards (maxEras = 1000): OwnRewards {
   const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric, []);
   const [filteredEras, setFilteredEras] = useState<EraIndex[]>([]);
   const available = useCall<[[string[]], DeriveStakerReward[][]]>((filteredEras?.length > 0) && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });
-  const [state, setState] = useState<OwnRewards>({ rewardCount: 0 });
+  const [state, setState] = useState<OwnRewards>({ isLoadingRewards: true, rewardCount: 0 });
+
+  useEffect((): void => {
+    setState({ isLoadingRewards: true, rewardCount: 0 });
+  }, [maxEras]);
 
   useEffect((): void => {
     mountedRef.current && available && setState(
