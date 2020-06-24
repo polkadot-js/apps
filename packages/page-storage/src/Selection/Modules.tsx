@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { QueryableStorageEntry } from '@polkadot/api/types';
+import { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 import { ComponentProps as Props } from '../types';
@@ -17,14 +18,23 @@ import { isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
-type ParamsType = { type: TypeDef }[];
-
 interface KeyState {
   defaultValues: RawParams | undefined | null;
   isIterable: boolean;
   key: QueryableStorageEntry<'promise'>;
   params: ParamsType;
 }
+
+interface ValState {
+  isValid: boolean;
+  values: RawParams;
+}
+
+interface TypeDefExt extends TypeDef {
+  withOptionActive?: boolean;
+}
+
+type ParamsType = { type: TypeDefExt }[];
 
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value): boolean => {
@@ -39,29 +49,40 @@ function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<
   ));
 }
 
+function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsType {
+  let types: string[] = [];
+
+  if (st.isDoubleMap) {
+    types = [st.asDoubleMap.key1.toString(), st.asDoubleMap.key2.toString()];
+  } else if (st.isMap) {
+    types = [st.asMap.key.toString()];
+  }
+
+  return types.map((str, index) => {
+    let type: TypeDefExt;
+
+    if (isIterable && index === (types.length - 1)) {
+      type = getTypeDef(`Option<${str}>`);
+      type.withOptionActive = true;
+    } else {
+      type = getTypeDef(str);
+    }
+
+    return { type };
+  });
+}
+
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
+  const isIterable = (!!api.rpc.state.queryStorageAt && (type.isMap || type.isDoubleMap)) || (type.isMap && type.asMap.linked.isTrue);
 
   return {
     defaultValues: section === 'session' && type.isDoubleMap
       ? [{ isValid: true, value: api.consts.session.dedupKeyPrefix.toHex() }]
       : null,
-    isIterable: type.isMap && type.asMap.linked.isTrue,
+    isIterable,
     key,
-    params: type.isDoubleMap
-      ? [
-        { type: getTypeDef(type.asDoubleMap.key1.toString()) },
-        { type: getTypeDef(type.asDoubleMap.key2.toString()) }
-      ]
-      : type.isMap
-        ? [{
-          type: getTypeDef(
-            type.asMap.linked.isTrue
-              ? `Option<${type.asMap.key.toString()}>`
-              : type.asMap.key.toString()
-          )
-        }]
-        : []
+    params: expandParams(type, isIterable)
   };
 }
 
@@ -69,14 +90,14 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ defaultValues, isIterable, key, params }, setKey] = useState<KeyState>({ defaultValues: undefined, isIterable: false, key: api.query.timestamp.now, params: [] });
-  const [{ isValid, values }, setValues] = useState<{ isValid: boolean; values: RawParams }>({ isValid: true, values: [] });
+  const [{ isValid, values }, setValues] = useState<ValState>({ isValid: true, values: [] });
 
   const _onAdd = useCallback(
     (): void => {
       isValid && onAdd({
         isConst: false,
         key,
-        params: values.filter(({ value }): boolean => !isIterable || !isNull(value))
+        params: values.filter(({ value }) => !isIterable || !isNull(value))
       });
     },
     [isIterable, isValid, key, onAdd, values]

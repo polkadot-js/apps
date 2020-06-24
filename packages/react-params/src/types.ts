@@ -36,12 +36,13 @@ export interface BaseProps extends BareProps {
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   overrides?: ComponentMap;
-  type: TypeDef;
+  type: TypeDef & { withOptionActive?: boolean };
 }
 
 export interface Props extends BaseProps {
   isDisabled?: boolean;
   isError?: boolean;
+  isInOption?: boolean;
   isReadOnly?: boolean;
   label?: React.ReactNode;
   withLabel?: boolean;

@@ -10,7 +10,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import Bare from './Bare';
 
-function Account ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function Account ({ className = '', defaultValue: { value }, isDisabled, isError, isInOption, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState((value as string)?.toString());
 
   const _onChange = useCallback(
@@ -40,6 +40,7 @@ function Account ({ className = '', defaultValue: { value }, isDisabled, isError
       <InputAddress
         className='full'
         defaultValue={defaultValue}
+        hideAddress={isInOption}
         isDisabled={isDisabled}
         isError={isError}
         isInput
