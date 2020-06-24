@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, OpenTip } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, OpenTip } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { AddressSmall, AddressMini, Expander, Icon } from '@polkadot/react-components';
+import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
@@ -24,28 +24,43 @@ interface Props {
   members: string[];
 }
 
+interface TipState {
+  closesAt: BlockNumber | null;
+  finder: AccountId | null;
+  findersFee: Balance | null;
+  isFinder: boolean;
+  isTipper: boolean;
+}
+
 function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [isTipper, setIsTipper] = useState(false);
+  const [{ closesAt, finder, findersFee, isFinder, isTipper }, setTipState] = useState<TipState>({ closesAt: null, finder: null, findersFee: null, isFinder: false, isTipper: false });
   const tip = useCall<OpenTip | null>(api.query.treasury.tips, [hash], {
     transform: (optTip: Option<OpenTip>) => optTip.unwrapOr(null)
   });
 
   useEffect((): void => {
-    tip && setIsTipper(
-      tip.tips.some(([address]) => allAccounts.includes(address.toString()))
-    );
+    if (tip) {
+      const finderInfo = tip.finder.unwrapOr(null);
+      const finder = (finderInfo && finderInfo[0]) || null;
+
+      setTipState({
+        closesAt: tip.closes.unwrapOr(null),
+        finder,
+        findersFee: (finderInfo && finderInfo[1]) || null,
+        isFinder: !!finder && allAccounts.includes(finder.toString()),
+        isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
+      });
+    }
   }, [allAccounts, tip]);
 
   if (!tip) {
     return null;
   }
 
-  const { closes, finder, reason, tips, who } = tip;
-  const finderInfo = finder.unwrapOr(null);
-  const closesAt = closes.unwrapOr(null);
+  const { reason, tips, who } = tip;
 
   return (
     <tr className={className}>
@@ -53,19 +68,19 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         <AddressSmall value={who} />
       </td>
       <td className='address'>
-        {finderInfo && (
-          <AddressMini value={finderInfo[0]} />
+        {finder && (
+          <AddressMini value={finder} />
         )}
       </td>
       <td className='number'>
-        {finderInfo && (
-          <FormatBalance value={finderInfo[1]} />
+        {findersFee && (
+          <FormatBalance value={findersFee} />
         )}
       </td>
       <TipReason hash={reason} />
       <td className='start all'>
         {tips.length !== 0 && (
-          <Expander summary={t<string>('Endorsements ({{count}})', { replace: { count: tips.length } })}>
+          <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>
             {tips.map(([tipper, balance]) => (
               <AddressMini
                 balance={balance}
@@ -86,29 +101,43 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         )}
       </td>
       <td className='button'>
-        {!closesAt && (
-          <TipEndorse
-            hash={hash}
-            isMember={isMember}
-            members={members}
-          />
-        )}
-        {bestNumber && closesAt && (
-          closesAt.gt(bestNumber)
-            ? (
-              <>
-                <BlockToTime blocks={closesAt.sub(bestNumber)} />
-                #{formatNumber(closesAt)}
-              </>
-            )
-            : (
-              <TipClose
+        {closesAt
+          ? bestNumber && (
+            closesAt.gt(bestNumber)
+              ? (
+                <>
+                  <BlockToTime blocks={closesAt.sub(bestNumber)} />
+                  #{formatNumber(closesAt)}
+                </>
+              )
+              : (
+                <TipClose
+                  hash={hash}
+                  isMember={isMember}
+                  members={members}
+                />
+              )
+          )
+          : (
+            <>
+              {finder && (
+                <TxButton
+                  accountId={finder}
+                  icon='cancel'
+                  isDisabled={!isFinder}
+                  label={t('Cancel')}
+                  params={[hash]}
+                  tx='treasury.retractTip'
+                />
+              )}
+              <TipEndorse
                 hash={hash}
                 isMember={isMember}
                 members={members}
               />
-            )
-        )}
+            </>
+          )
+        }
       </td>
     </tr>
   );
