@@ -25,7 +25,8 @@ export default function useEraBlocks (era?: BN): BN | undefined {
           : progress.eraLength
       ).mul(
         depth
-          .sub(progress.activeEra.sub(era))
+          .sub(progress.activeEra)
+          .iadd(era)
           .iadd(BN_ONE)
       ).isub(
         forcing.isForceAlways
