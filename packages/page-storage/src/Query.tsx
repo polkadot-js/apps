@@ -65,8 +65,7 @@ function createComponent (type: string, Component: React.ComponentType<any>, def
     // In order to modify the parameters which are used to render the default component, we can use this method
     refresh: (swallowErrors: boolean, contentShorten: boolean): React.ComponentType<any> =>
       renderHelper(
-        (value: any): React.ReactNode =>
-          <pre>{valueToText(type, value, swallowErrors, contentShorten)}</pre>,
+        (value: any) => <pre>{valueToText(type, value, swallowErrors, contentShorten)}</pre>,
         defaultProps
       ),
     // In order to replace the default component during runtime we can provide a RenderFn to create a new 'plugged' component
@@ -88,8 +87,6 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
       renderHelper = withCallDiv(`consts.${section}.${method}`, { withIndicator: true });
       type = meta.type.toString();
     } else {
-      const values: any[] = params.map(({ value }): any => value);
-
       if (isU8a(key)) {
         // subscribe to the raw key here
         renderHelper = withCallDiv('rpc.state.subscribeStorage', {
@@ -100,14 +97,30 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
           withIndicator: true
         });
       } else {
-        // render function to create an element for the query results which is plugged to the api
-        renderHelper = withCallDiv('subscribe', {
-          paramName: 'params',
-          paramValid: true,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          params: [key, ...values],
-          withIndicator: true
-        });
+        const values: unknown[] = params.map(({ value }) => value);
+        const { creator: { meta: { type } } } = key;
+        const allCount = type.isPlain
+          ? 0
+          : type.isMap
+            ? 1
+            : 2;
+
+        if ((values.length === allCount) || (type.isMap && type.asMap.linked.isTrue)) {
+          // render function to create an element for the query results which is plugged to the api
+          renderHelper = withCallDiv('subscribe', {
+            paramName: 'params',
+            paramValid: true,
+            params: [key, ...values],
+            withIndicator: true
+          });
+        } else {
+          renderHelper = withCallDiv('subscribe', {
+            paramName: 'params',
+            paramValid: true,
+            params: [key.entries, ...values],
+            withIndicator: true
+          });
+        }
       }
 
       type = key.creator && key.creator.meta
@@ -118,8 +131,7 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
     const defaultProps = { className: 'ui--output' };
     const Component = renderHelper(
       // By default we render a simple div node component with the query results in it
-      (value: any): React.ReactNode =>
-        <pre>{valueToText(type, value, true, true)}</pre>,
+      (value: any) => <pre>{valueToText(type, value, true, true)}</pre>,
       defaultProps
     );
 

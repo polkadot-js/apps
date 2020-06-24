@@ -14,11 +14,12 @@ import Static from './Static';
 
 interface Props extends BaseProps {
   isDisabled?: boolean;
+  isInOption?: boolean;
   isOptional?: boolean;
   overrides?: ComponentMap;
 }
 
-function Param ({ className = '', defaultValue, isDisabled, isOptional, name, onChange, onEnter, onEscape, overrides, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, type }: Props): React.ReactElement<Props> | null {
   const compRef = useRef<React.ComponentType<CProps> | null>(findComponent(type, overrides));
 
   if (!compRef.current) {
@@ -42,6 +43,7 @@ function Param ({ className = '', defaultValue, isDisabled, isOptional, name, on
         className={classes('ui--Param', className)}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
+        isInOption={isInOption}
         key={`${name || 'unknown'}:${type.toString()}`}
         label={label}
         name={name}

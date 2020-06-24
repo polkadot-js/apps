@@ -319,7 +319,7 @@ const ExportedComponent = withMulti(
       }
     }
 
-    &.hideAddress .ui--KeyPair .address {
+    &.hideAddress .ui.search.selection.dropdown > .text > .ui--KeyPair .address {
       flex: 0;
       max-width: 0;
     }

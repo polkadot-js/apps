@@ -15,15 +15,11 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
   const _onAdd = useCallback(
-    (query: QueryTypes): void => setQueue((queue: QueryTypes[]) =>
-      [query, ...queue]
-    ),
+    (query: QueryTypes) => setQueue((queue: QueryTypes[]) => [query, ...queue]),
     []
   );
   const _onRemove = useCallback(
-    (id: number): void => setQueue((queue: QueryTypes[]) =>
-      queue.filter((item): boolean => item.id !== id)
-    ),
+    (id: number) => setQueue((queue: QueryTypes[]) => queue.filter((item) => item.id !== id)),
     []
   );
 
