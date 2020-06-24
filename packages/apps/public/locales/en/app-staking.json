@@ -149,6 +149,7 @@
   "nominated accounts": "nominated accounts",
   "nominators": "nominators",
   "on-chain bonding duration": "on-chain bonding duration",
+  "only query most recent {{partialEras}} of {{historyDepth}} eras": "only query most recent {{partialEras}} of {{historyDepth}} eras",
   "only with an identity": "only with an identity",
   "other stake": "other stake",
   "own stake": "own stake",
