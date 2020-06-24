@@ -7,6 +7,7 @@ files:
   - ./packages/apps-electron/appleEntitlements
 appId: com.polkadotjs.polkadotjs-apps
 mac:
+  artifactName: 'Polkadot-JS-Apps-mac-${version}.${ext}'
   category: public.app-category.finance
   entitlements: ./packages/apps-electron/appleEntitlements/entitlements.mac.plist
   hardenedRuntime: true
