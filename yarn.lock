@@ -3193,6 +3193,7 @@ __metadata:
     "@types/react-dom": ^16.9.8
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.0.2
+    electron-log: ^4.2.2
     electron-updater: ^4.3.3
     html-webpack-plugin: ^4.3.0
     react: ^16.13.1
@@ -9465,6 +9466,13 @@ __metadata:
     electron-builder: out/cli/cli.js
     install-app-deps: out/cli/install-app-deps.js
   checksum: 3/52c8ce455e6167474ed4426e7cb059d405f4397954a8825436710be3a2aea5b9a3838fe4d4ec1e417e0ee8796cc93e01fe3dc84ca8220fb09880eb12076975e6
+  languageName: node
+  linkType: hard
+
+"electron-log@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "electron-log@npm:4.2.2"
+  checksum: 3/ff801eb7aa62ed1246b2eddb6edc92f90a20b90f7169191687914d3adc3c387c222c369b1ebacfdfa9aef993f893dbad89fa0430a99c56c8303afee92e2a8532
   languageName: node
   linkType: hard
 

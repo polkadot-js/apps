@@ -14,7 +14,7 @@ function createWebpack () {
   return [
     {
       entry: {
-        electron: './src/electron.ts',
+        electron: './src/electron',
         preload: './src/preload.ts'
       },
       mode: ENV,
