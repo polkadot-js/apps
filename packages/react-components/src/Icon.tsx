@@ -14,8 +14,6 @@ interface Props {
   icon: IconName;
   isSpinning?: boolean;
   onClick?: () => void;
-  onMouseOut?: () => void;
-  onMouseOver?: () => void;
   size?: '1x' | '2x';
   tooltip?: string;
 }
@@ -23,16 +21,17 @@ interface Props {
 // one-time init of FA libraries
 library.add(fas);
 
-function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, onMouseOut, onMouseOver, size = '1x', tooltip }: Props): React.ReactElement<Props> {
+function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, size = '1x', tooltip }: Props): React.ReactElement<Props> {
+  const extraProps = tooltip
+    ? { 'data-for': tooltip, 'data-tip': true }
+    : {};
+
   return (
     <FontAwesomeIcon
+      {...extraProps}
       className={`ui--Icon ${color}Color ${onClick ? 'isClickable' : ''} ${className}`}
-      data-for={tooltip}
-      data-tip={!!tooltip}
       icon={icon}
       onClick={onClick}
-      onMouseOut={onMouseOut}
-      onMouseOver={onMouseOver}
       size={size}
       spin={isSpinning}
     />

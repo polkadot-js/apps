@@ -28,7 +28,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
         <Icon
           className='contentIcon'
           icon={icon}
-          size='large'
+          size='2x'
         />
         <div className='contentItem'>
           {children}
