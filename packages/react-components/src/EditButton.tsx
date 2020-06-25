@@ -6,9 +6,10 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { BareProps, VoidFn } from './types';
 
 import React from 'react';
-
-import Button from './Button';
 import styled from 'styled-components';
+
+import { colorLink } from './styles/theme';
+import Icon from './Icon';
 
 interface Props extends BareProps {
   children?: React.ReactNode;
@@ -25,8 +26,8 @@ function EditButton ({ children, className, icon = 'edit', onClick, size = 'smal
     >
       {children}
       <span className='editSpan'>
-        <Button
-          className='icon-button show-on-hover'
+        <Icon
+          className='icon-button'
           icon={icon}
           isPrimary
           size={size}
@@ -39,8 +40,10 @@ function EditButton ({ children, className, icon = 'edit', onClick, size = 'smal
 export default React.memo(styled(EditButton)`
   cursor: pointer;
 
-  button.u.ui--Icon.primary.button.icon-button {
+  .ui--Icon.icon-button {
+    color: ${colorLink};
     cursor: pointer;
+    margin: 0 0 0 0.5rem;
   }
 
   .editSpan {

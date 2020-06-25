@@ -328,7 +328,7 @@ export default React.memo(styled(Sidebar)`
 
   .inline-icon {
     cursor: pointer;
-    margin: 0 0 0 0.6rem;
+    margin: 0 0 0 0.5rem;
     color:  ${colorLink};
   }
 
