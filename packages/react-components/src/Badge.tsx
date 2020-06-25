@@ -22,13 +22,14 @@ let badgeId = 0;
 
 function Badge ({ className = '', color = 'normal', hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
+  const extraProps = isTooltip && hover
+    ? { 'data-for': trigger, 'data-tip': true }
+    : {};
 
   return (
     <div
+      {...extraProps}
       className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
-      data-for={trigger}
-      data-tip={isTooltip && !!hover}
-      data-tip-disable={!isTooltip}
       onClick={onClick}
     >
       <div className='badge'>

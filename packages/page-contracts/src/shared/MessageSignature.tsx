@@ -65,9 +65,8 @@ function MessageSignature ({ className, message: { args, mutates, name, returnTy
         <>
           <Icon
             className='ui--MessageSignature-mutates'
-            data-for={`mutates-${name}`}
-            data-tip
             icon='database'
+            tooltip={`mutates-${name}`}
           />
           {withTooltip && (
             <Tooltip

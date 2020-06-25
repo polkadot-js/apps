@@ -26,7 +26,7 @@ function Connecting ({ className }: Props): React.ReactElement<Props> | null {
     return (
       <BaseOverlay
         className={className}
-        icon='puzzle'
+        icon='puzzle-piece'
         type='info'
       >
         <div>{t<string>('Waiting for authorization from the extension. Please open the installed extension and approve or reject access.')}</div>
