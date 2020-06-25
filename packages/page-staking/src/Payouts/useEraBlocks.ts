@@ -19,14 +19,16 @@ export default function useEraBlocks (era?: BN): BN | undefined {
 
   useEffect((): void => {
     depth && era && forcing && progress && progress.sessionLength.gt(BN_ONE) && setDuration(
-      (forcing.isForceAlways
-        ? progress.sessionLength
-        : progress.eraLength
+      (
+        forcing.isForceAlways
+          ? progress.sessionLength
+          : progress.eraLength
       ).mul(
         depth
-          .sub(progress.activeEra.sub(era))
-          .add(BN_ONE)
-      ).sub(
+          .sub(progress.activeEra)
+          .iadd(era)
+          .iadd(BN_ONE)
+      ).isub(
         forcing.isForceAlways
           ? progress.sessionProgress
           : progress.eraProgress

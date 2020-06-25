@@ -2,6 +2,7 @@
 
 ## 0.47.0-beta.x
 
+- Default (via toggle) to only last 25% of eras for payouts
 - Allow retracting of tips by proposer
 - Enable the full retrieval of all Map/Doublemap entries
 

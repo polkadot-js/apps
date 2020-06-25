@@ -172,4 +172,14 @@ export default React.memo(styled(StakingApp)`
       margin: 2.5rem auto;
     }
   }
+
+  .staking--optionsBar {
+    text-align: right;
+
+    .staking--buttonToggle {
+      display: inline-block;
+      margin-right: 1rem;
+      margin-top: 0.5rem;
+    }
+  }
 `);

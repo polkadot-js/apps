@@ -8,9 +8,10 @@ import { PayoutStash, PayoutValidator } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Table } from '@polkadot/react-components';
-import { useApi, useOwnEraRewards } from '@polkadot/react-hooks';
+import { Button, Table, Toggle } from '@polkadot/react-components';
+import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { u32 } from '@polkadot/types';
 import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
@@ -93,8 +94,11 @@ function extractStashes (allRewards: Record<string, DeriveStakerReward[]>): Payo
 function Payouts ({ className = '', isInElection }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [{ stashTotal, stashes, validators }, setPayouts] = useState<Available>({});
+  const [isPartialEras, setIsPartialEras] = useState(true);
+  const [partialEras, setPartialEras] = useState(21);
+  const historyDepth = useCall<u32>(api.query.staking.historyDepth, []);
   const stakerPayoutsAfter = useStakerPayouts();
-  const { allRewards } = useOwnEraRewards();
+  const { allRewards, isLoadingRewards } = useOwnEraRewards(!historyDepth || isPartialEras ? partialEras : historyDepth.toNumber());
   const { t } = useTranslation();
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
@@ -112,6 +116,12 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
       });
     }
   }, [allRewards, stakerPayoutsAfter]);
+
+  useEffect((): void => {
+    historyDepth && setPartialEras(
+      Math.ceil(historyDepth.toNumber() / 4)
+    );
+  }, [historyDepth, isPartialEras]);
 
   const headerStashes = useMemo(() => [
     [t('payout/stash'), 'start', 2],
@@ -142,23 +152,37 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
   return (
     <div className={className}>
       {api.tx.staking.payoutStakers && (
-        <Button.Group>
-          <PayButton
-            isAll
-            isDisabled={isDisabled}
-            payout={validators}
-          />
-        </Button.Group>
+        <>
+          <Button.Group>
+            <PayButton
+              isAll
+              isDisabled={isDisabled}
+              payout={validators}
+            />
+          </Button.Group>
+          {historyDepth && (
+            <div className='staking--optionsBar'>
+              <Toggle
+                className='staking--buttonToggle'
+                label={t<string>('only query most recent {{partialEras}} of {{historyDepth}} eras', {
+                  replace: { historyDepth: historyDepth.toNumber(), partialEras }
+                })}
+                onChange={setIsPartialEras}
+                value={isPartialEras}
+              />
+            </div>
+          )}
+        </>
       )}
       <ElectionBanner isInElection={isInElection} />
       <Table
-        empty={stashes && t<string>('No pending payouts for your stashes')}
+        empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}
         emptySpinner={t<string>('Retrieving info for all applicable eras, this will take some time')}
         footer={footer}
         header={headerStashes}
         isFixed
       >
-        {stashes?.map((payout): React.ReactNode => (
+        {!isLoadingRewards && stashes?.map((payout): React.ReactNode => (
           <Stash
             isDisabled={isDisabled}
             key={payout.stashId}
@@ -167,12 +191,12 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
           />
         ))}
       </Table>
-      {api.tx.staking.payoutStakers && validators && (validators.length !== 0) && (
+      {api.tx.staking.payoutStakers && !isLoadingRewards && validators && (validators.length !== 0) && (
         <Table
           header={headerValidators}
           isFixed
         >
-          {validators.map((payout): React.ReactNode => (
+          {!isLoadingRewards && validators.map((payout): React.ReactNode => (
             <Validator
               isDisabled={isDisabled}
               key={payout.validatorId}
