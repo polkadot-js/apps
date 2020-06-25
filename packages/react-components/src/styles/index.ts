@@ -54,12 +54,6 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  .ui--highlight--spinner {
-    &:after {
-      border-color: ${getHighlight} transparent transparent !important;
-    }
-  }
-
   .ui--highlight--stroke {
     stroke: ${getHighlight} !important;
   }
