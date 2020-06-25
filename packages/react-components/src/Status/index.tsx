@@ -258,6 +258,7 @@ export default React.memo(styled(Status)`
         padding: 0.5rem 0 0.5rem 0.5rem;
 
         .ui--Icon {
+          color: white !important;
           line-height: 1;
         }
       }
@@ -266,10 +267,10 @@ export default React.memo(styled(Status)`
         padding: 0.25rem 0 0 0 !important;
       }
 
-      i.close {
+      .ui--Icon.isClickable {
         position: absolute;
-        top: 0.25rem;
-        right: 0rem;
+        top: 0.5rem;
+        right: 0.5rem;
         cursor: pointer;
       }
     }
