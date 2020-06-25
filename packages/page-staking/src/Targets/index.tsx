@@ -118,7 +118,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   const header = useMemo(() => [
     [t('validators'), 'start', 4],
     ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
-      <>{labels[header]}<Icon name={sortBy === header ? (sortFromMax ? 'chevron down' : 'chevron up') : 'minus'} /></>,
+      <>{labels[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number'} ${classes[header] || ''}`,
       1,
       (): void => _sort(header as 'rankComm')

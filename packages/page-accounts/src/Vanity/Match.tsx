@@ -59,7 +59,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
           size='tiny'
         />
         <Button
-          icon='close'
+          icon='times'
           isNegative
           onClick={_onRemove}
           size='tiny'

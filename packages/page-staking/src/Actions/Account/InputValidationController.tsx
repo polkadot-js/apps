@@ -73,7 +73,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
 
   return (
     <article className={isFatal ? 'error' : 'warning'}>
-      <div><Icon name='warning sign' />{error}</div>
+      <div><Icon icon='exclamation-triangle' />{error}</div>
     </article>
   );
 }

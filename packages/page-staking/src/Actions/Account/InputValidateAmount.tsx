@@ -73,7 +73,7 @@ function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): Rea
   if (error || warning) {
     return (
       <article className={error ? 'error' : 'warning'}>
-        <div><Icon name='warning sign' />{error || warning}</div>
+        <div><Icon icon='exclamation-triangle' />{error || warning}</div>
       </article>
     );
   }

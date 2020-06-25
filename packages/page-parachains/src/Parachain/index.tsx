@@ -44,7 +44,7 @@ function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: 
       <>
         <article className='error padded'>
           <div>
-            <Icon name='ban' />
+            <Icon icon='ban' />
             {t(`No parachain with ${id ? `id ${id.toString()}` : 'this id'} exists`)}
           </div>
         </article>
@@ -76,7 +76,7 @@ function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: 
                 trigger={
                   <Button
                     className='menu-button'
-                    icon='ellipsis vertical'
+                    icon='ellipsis-v'
                     isPrimary
                     onClick={toggleMenu}
                   />

@@ -150,7 +150,7 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
       <td>
         {hasQueries && (
           <Icon
-            name='line graph'
+            icon='chart-line'
             onClick={_onQueryStats}
           />
         )}

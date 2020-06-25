@@ -178,7 +178,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       <td className='favorite'>
         <Icon
           className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
-          name={isFavorite ? 'star' : 'star outline'}
+          icon={isFavorite ? 'star' : 'star'}
           onClick={_onFavorite}
         />
       </td>
@@ -215,7 +215,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
                 </table>
               </div>
             }
-            info={<Icon name='shield' />}
+            info={<Icon icon='shield' />}
             isInline
             isTooltip
           />
@@ -335,7 +335,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       </td>
       <td className='button'>
         <Button
-          icon='paper plane'
+          icon='paper-plane'
           label={t<string>('send')}
           onClick={toggleTransfer}
         />
@@ -345,7 +345,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
           onClose={toggleSettings}
           trigger={
             <Button
-              icon='ellipsis vertical'
+              icon='ellipsis-v'
               onClick={toggleSettings}
             />
           }

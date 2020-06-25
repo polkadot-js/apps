@@ -67,7 +67,7 @@ function Add (): React.ReactElement {
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         label={t('Add an existing contract')}
         onClick={toggleIsOpen}
       />

@@ -4,13 +4,14 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   children: React.ReactNode;
   className?: string;
-  icon: string;
+  icon: IconName;
   type: 'error' | 'info';
 }
 
@@ -26,15 +27,15 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
       <div className='content'>
         <Icon
           className='contentIcon'
-          name={icon as 'send'}
-          size='big'
+          icon={icon}
+          size='large'
         />
         <div className='contentItem'>
           {children}
         </div>
         <Icon
           className='closeIcon'
-          name='close'
+          icon='times'
           onClick={toggleHidden}
         />
       </div>

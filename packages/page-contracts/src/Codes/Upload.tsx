@@ -62,7 +62,7 @@ function Upload (): React.ReactElement {
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         label={t('Upload WASM')}
         onClick={toggleIsOpen}
       />

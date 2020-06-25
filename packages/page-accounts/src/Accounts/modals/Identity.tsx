@@ -211,7 +211,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={address}
-          icon='send'
+          icon='paper-plane'
           isPrimary
           label={t<string>('Set Identity')}
           onStart={onClose}

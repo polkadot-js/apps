@@ -211,7 +211,7 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
       </div>
       <Button.Group>
         <Button
-          icon='privacy'
+          icon='key'
           isDisabled={!(isUsable && !isLocked)}
           label={t<string>('Sign message')}
           onClick={_onSign}

@@ -175,7 +175,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                       )
                       : (
                         <Button
-                          icon='check circle outline'
+                          icon='check-circle'
                           isDisabled={!isOwnController || isDisabled}
                           key='validate'
                           label={t<string>('Validate')}
@@ -184,7 +184,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                       )
                     }
                     <Button
-                      icon='hand paper outline'
+                      icon='hand-paper'
                       isDisabled={!isOwnController || isDisabled}
                       key='nominate'
                       label={t<string>('Nominate')}
@@ -199,7 +199,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                 onClose={toggleSettings}
                 trigger={
                   <Button
-                    icon='ellipsis vertical'
+                    icon='ellipsis-v'
                     isDisabled={isDisabled}
                     onClick={toggleSettings}
                   />

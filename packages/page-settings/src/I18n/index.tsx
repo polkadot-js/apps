@@ -260,7 +260,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       </div>
       <Button.Group>
         <Button
-          icon='refresh'
+          icon='sync'
           label={t<string>('Apply to UI')}
           onClick={_doApply}
         />

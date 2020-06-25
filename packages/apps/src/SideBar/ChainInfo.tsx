@@ -36,7 +36,7 @@ function ChainInfo ({ className = '', onClick }: Props): React.ReactElement<Prop
           )}
           <BestNumber label='#' />
         </div>
-        <Icon name='dropdown' />
+        <Icon icon='caret-down' />
       </div>
     </div>
   );

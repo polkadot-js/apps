@@ -46,7 +46,7 @@ function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, 
         <TxButton
           accountId={controllerId}
           extrinsic={nominateTx}
-          icon='hand paper outline'
+          icon='hand-paper'
           isDisabled={!nominateTx}
           isPrimary
           label={t<string>('Nominate')}

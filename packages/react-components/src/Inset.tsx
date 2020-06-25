@@ -60,7 +60,7 @@ function Inset ({ children, className = '', header, href, isCollapsible, isError
           <h3>{header}</h3>
           <Icon
             className={classes(isCollapsed && 'collapsed')}
-            name='angle up'
+            icon='angle-up'
           />
         </div>
       )}

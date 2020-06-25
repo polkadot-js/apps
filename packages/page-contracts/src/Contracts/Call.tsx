@@ -234,7 +234,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
               {t<string>('Call results')}
               <IconLink
                 className='clear-all'
-                icon='close'
+                icon='times'
                 label={t<string>('Clear all')}
                 onClick={_onClearOutcomes}
               />

@@ -112,7 +112,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='github' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
+                <Icon icon='github' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Item className='apps--SideBar-Item'>
@@ -122,7 +122,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon name='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
+                <Icon icon='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Divider hidden />
@@ -137,7 +137,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             minWidth={SIDEBAR_MENU_THRESHOLD}
           >
             <Button
-              icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
+              icon={isCollapsed ? 'angle-double-right' : 'angle-double-left'}
               isBasic
               isCircular
               onClick={collapse}

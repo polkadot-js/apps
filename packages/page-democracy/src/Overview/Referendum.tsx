@@ -129,14 +129,14 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
                   ? t<string>('{{threshold}}, passing', { replace: { threshold } })
                   : t<string>('{{threshold}}, not passing', { replace: { threshold } })
               }
-              info={<Icon name={isPassing ? 'check' : 'cancel'} />}
+              info={<Icon icon={isPassing ? 'check' : 'cancel'} />}
               isInline
               isTooltip
             />
             {hasVoted && (
               <Icon
                 color={hasVotedAye ? 'green' : 'red'}
-                name='check square outline'
+                icon='check square outline'
               />
             )}
           </>

@@ -52,7 +52,7 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
         : (
           <SUIButton {...props}>
             {icon && (
-              <><Icon className={icon} />{isIcon ? '' : '  '}</>
+              <><Icon icon={icon} />{isIcon ? '' : '  '}</>
             )}
             {label}
             {children}

@@ -51,7 +51,7 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
       <Icon
         data-for={trigger}
         data-tip
-        name='clock'
+        icon='clock'
       />
       <FormatBalance value={total} />
       <Tooltip

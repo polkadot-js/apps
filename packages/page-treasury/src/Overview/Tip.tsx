@@ -96,7 +96,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         {isMember && isTipper && (
           <Icon
             color='green'
-            name='check square outline'
+            icon='check-square'
           />
         )}
       </td>
@@ -123,7 +123,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
               {finder && (
                 <TxButton
                   accountId={finder}
-                  icon='cancel'
+                  icon='times'
                   isDisabled={!isFinder}
                   label={t('Cancel')}
                   params={[hash]}

@@ -70,7 +70,7 @@ function Contracts (props: Props): React.ReactElement<Props> {
           <Button.Group isCentered>
             {hasCode && (
               <Button
-                icon='cloud upload'
+                icon='upload'
                 label={t('Deploy a code hash')}
                 onClick={onShowDeploy()}
               />

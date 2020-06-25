@@ -272,7 +272,7 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
               <Icon
                 data-for={`${address}-locks-trigger`}
                 data-tip
-                name='info circle'
+                icon='info-circle'
               />
             }
             value={isAllLocked ? 'all' : balancesAll.lockedBalance}

@@ -235,7 +235,7 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         <TxButton
           accountId={signatory}
           extrinsic={tx}
-          icon={type === 'aye' ? 'check' : 'cancel'}
+          icon={type === 'aye' ? 'check' : 'times'}
           isDisabled={!tx || !whoFilter.length}
           label={type === 'aye' ? 'Approve' : 'Reject'}
           onStart={onClose}

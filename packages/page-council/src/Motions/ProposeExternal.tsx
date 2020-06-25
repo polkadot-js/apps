@@ -59,7 +59,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         isDisabled={!isMember}
         label={t<string>('Propose external')}
         onClick={toggleVisible}

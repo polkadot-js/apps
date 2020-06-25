@@ -22,7 +22,7 @@ function Balances ({ address, className }: Props): React.ReactElement<Props> | n
     <section className={className}>
       <div className='ui--AddressMenu-sectionHeader'>
         <div>
-          <Icon name='sort amount down' />
+          <Icon icon='sort-amount-down' />
           &nbsp;
           {t<string>('balance')}
         </div>

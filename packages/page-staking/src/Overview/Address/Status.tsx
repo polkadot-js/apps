@@ -21,7 +21,7 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
         ? (
           <Badge
             color='blue'
-            info={<Icon name='chevron right' />}
+            info={<Icon icon='chevron-right' />}
             isInline
           />
         )
@@ -35,7 +35,7 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
       {(!!onlineCount || onlineMessage) && (
         <Badge
           color='green'
-          info={onlineCount || <Icon name='envelope' />}
+          info={onlineCount || <Icon icon='envelope' />}
           isInline
         />
       )}

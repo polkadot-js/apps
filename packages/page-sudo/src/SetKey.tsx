@@ -65,7 +65,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
       {willLose && (
         <article className='warning padded'>
           <div>
-            <Icon name='warning' />
+            <Icon icon='exclamation-triangle' />
             {t<string>('You will no longer have sudo access')}
           </div>
         </article>

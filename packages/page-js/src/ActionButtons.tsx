@@ -107,7 +107,7 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
       {isRunning
         ? (
           <Button
-            icon='close'
+            icon='times'
             isCircular
             isNegative
             onClick={stopJs}

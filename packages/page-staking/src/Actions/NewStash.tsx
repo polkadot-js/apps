@@ -27,7 +27,7 @@ function NewStash (): React.ReactElement {
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         key='new-stash'
         label={t<string>('Stash')}
         onClick={_toggle}

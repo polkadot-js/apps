@@ -22,7 +22,7 @@ function TipClose ({ hash, isMember, members }: Props): React.ReactElement<Props
   return (
     <>
       <Button
-        icon='cancel'
+        icon='times'
         isDisabled={!isMember}
         label={t<string>('Close')}
         onClick={toggleOpen}

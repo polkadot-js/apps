@@ -99,7 +99,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
       {!isDisabled && (
         <div className='ui--Param-Vector-buttons'>
           <Button
-            icon='add'
+            icon='plus'
             isPrimary
             label={t<string>('Add item')}
             onClick={_rowAdd}

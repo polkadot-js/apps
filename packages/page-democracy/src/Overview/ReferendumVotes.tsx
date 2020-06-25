@@ -61,7 +61,7 @@ function ReferendumVotes ({ change, className = '', count, index, isWinning, tot
                   className='double-icon'
                   data-for={trigger}
                   data-tip
-                  name={isWinning ? 'arrow alternate circle down' : 'arrow alternate circle up'}
+                  icon={isWinning ? 'arrow alternate circle down' : 'arrow alternate circle up'}
                 />
                 <FormatBalance value={change} />
                 <Tooltip

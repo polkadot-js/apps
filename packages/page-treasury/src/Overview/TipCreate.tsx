@@ -109,7 +109,7 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
               accountId={accountId}
-              icon='add'
+              icon='plus'
               isDisabled={!accountId || (isMember ? !hasValue : false) || !hasReason}
               isPrimary
               label={t<string>('Propose tip')}

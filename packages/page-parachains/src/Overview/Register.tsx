@@ -78,7 +78,7 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
     <>
       <div className='ui--Row-buttons'>
         <Button
-          icon='add'
+          icon='plus'
           label={t<string>('Register a parachain')}
           onClick={onOpen}
         />

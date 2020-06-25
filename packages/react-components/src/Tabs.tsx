@@ -55,7 +55,7 @@ function renderItem ({ basePath, isSequence, items }: Props): (tabItem: TabItem,
           {text}
         </NavLink>
         {(isSequence && index < items.length - 1) && (
-          <MyIcon name='arrow right' />
+          <MyIcon icon='arrow-right' />
         )}
       </React.Fragment>
     );

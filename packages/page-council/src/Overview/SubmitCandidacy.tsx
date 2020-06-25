@@ -69,7 +69,7 @@ function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {
         </Modal>
       )}
       <Button
-        icon='add'
+        icon='plus'
         isDisabled={!electionsInfo}
         label={t<string>('Submit candidacy')}
         onClick={onOpen}

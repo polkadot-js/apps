@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { BareProps } from './types';
 
 import React, { useCallback, useContext } from 'react';
@@ -16,9 +16,9 @@ import styled from 'styled-components';
 interface Props extends BareProps {
   children?: React.ReactNode;
   className?: string;
-  icon?: string;
+  icon?: IconName;
   isAddress?: boolean;
-  size?: IconProps['size'];
+  size?: 'large' | 'small';
   value: string;
 }
 

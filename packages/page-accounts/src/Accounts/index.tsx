@@ -196,7 +196,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       )}
       <Button.Group>
         <Button
-          icon='add'
+          icon='plus'
           isDisabled={isIpfs}
           label={t<string>('Add account')}
           onClick={toggleCreate}
@@ -222,13 +222,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           </>
         )}
         <Button
-          icon='add'
+          icon='plus'
           isDisabled={!api.tx.multisig && api.tx.utility}
           label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
         <Button
-          icon='add'
+          icon='plus'
           isDisabled={!api.tx.proxy}
           label={t<string>('Proxied')}
           onClick={toggleProxy}

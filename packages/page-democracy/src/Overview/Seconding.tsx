@@ -85,7 +85,7 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
         </Modal>
       )}
       <Button
-        icon='toggle off'
+        icon='toggle-off'
         label={t<string>('Second')}
         onClick={toggleSeconding}
       />
