@@ -42,7 +42,7 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
       return (
         <a
           data-for={trigger}
-          data-tip={true}
+          data-tip
           href={link}
           key={name}
           rel='noopener noreferrer'
