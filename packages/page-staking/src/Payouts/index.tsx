@@ -98,7 +98,7 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
   const [partialEras, setPartialEras] = useState(21);
   const historyDepth = useCall<u32>(api.query.staking.historyDepth, []);
   const stakerPayoutsAfter = useStakerPayouts();
-  const { allRewards, isLoadingRewards } = useOwnEraRewards(!historyDepth || isPartialEras ? partialEras : historyDepth.toNumber());
+  const { allRewards, isLoadingRewards } = useOwnEraRewards((!historyDepth || isPartialEras) ? partialEras : historyDepth.toNumber());
   const { t } = useTranslation();
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 
@@ -177,7 +177,9 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
       <ElectionBanner isInElection={isInElection} />
       <Table
         empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}
-        emptySpinner={t<string>('Retrieving info for all applicable eras, this will take some time')}
+        emptySpinner={t<string>('Retrieving info for last {{numEras}} eras, this will take some time', {
+          replace: { numEras: (!historyDepth || isPartialEras) ? partialEras : historyDepth.toNumber() }
+        })}
         footer={footer}
         header={headerStashes}
         isFixed
