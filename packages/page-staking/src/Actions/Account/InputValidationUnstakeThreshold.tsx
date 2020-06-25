@@ -38,7 +38,7 @@ function InputValidationUnstakeThreshold ({ onError, unstakeThreshold }: Props):
 
   return (
     <article className='warning'>
-      <div><Icon name='warning sign' />{error}</div>
+      <div><Icon icon='exclamation-triangle' />{error}</div>
     </article>
   );
 }

@@ -47,7 +47,7 @@ export default css`
       }
 
       &.isIcon {
-        i.icon {
+        .ui--Icon {
           color: ${colorLink};
         }
       }

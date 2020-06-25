@@ -95,7 +95,7 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
           <TxButton
             accountId={stakingAccount.controllerId}
             extrinsic={extrinsic}
-            icon='credit card outline'
+            icon='credit-card'
             isDisabled={!extrinsic || isDisabled}
             isPrimary={false}
             label={t<string>('Payout')}

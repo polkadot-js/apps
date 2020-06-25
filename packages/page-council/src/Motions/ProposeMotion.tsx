@@ -61,7 +61,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         isDisabled={!isMember}
         label={t<string>('Propose motion')}
         onClick={toggleOpen}

@@ -34,12 +34,12 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       <Summary referendumCount={referendums?.length} />
       <Button.Group>
         <Button
-          icon='add'
+          icon='plus'
           label={t<string>('Submit preimage')}
           onClick={togglePreimage}
         />
         <Button
-          icon='add'
+          icon='plus'
           label={t<string>('Submit proposal')}
           onClick={togglePropose}
         />

@@ -82,7 +82,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
       {isSpecial && (
         <Badge
           color='green'
-          info={<Icon name='simplybuilt' />}
+          info={<Icon icon='simplybuilt' />}
           isInline
           isSmall
         />
@@ -125,10 +125,15 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
         : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
     )
     : undefined;
-  const nameElem = displayParent
-    ? <span className={`name ${isGood ? 'isGood' : ''}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
-    : <span className={`name ${isGood ? 'isGood' : ''}`}>{displayName}</span>;
-  const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
+  const nameElem = (
+    <span className={`name ${isGood ? 'isGood' : ''}`}>
+      {displayParent
+        ? <><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></>
+        : displayName
+      }
+    </span>
+  );
+  const infoElem = <Icon icon={identity.parent ? 'link' : (isGood ? 'check' : 'minus')} />;
   const color = isGood ? 'green' : (isBad ? 'red' : 'gray');
 
   nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);

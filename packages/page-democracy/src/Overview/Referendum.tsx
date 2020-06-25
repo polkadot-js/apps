@@ -119,27 +119,19 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         total={votedNay}
         votes={allNay}
       />
-      <td className='badge together'>
+      <td className='badge'>
         {isBoolean(isPassing) && (
-          <>
-            <Badge
-              color={isPassing ? 'green' : 'red'}
-              hover={
-                isPassing
-                  ? t<string>('{{threshold}}, passing', { replace: { threshold } })
-                  : t<string>('{{threshold}}, not passing', { replace: { threshold } })
-              }
-              info={<Icon name={isPassing ? 'check' : 'cancel'} />}
-              isInline
-              isTooltip
-            />
-            {hasVoted && (
-              <Icon
-                color={hasVotedAye ? 'green' : 'red'}
-                name='check square outline'
-              />
-            )}
-          </>
+          <Badge
+            color={isPassing ? 'green' : 'red'}
+            hover={
+              isPassing
+                ? t<string>('{{threshold}}, passing', { replace: { threshold } })
+                : t<string>('{{threshold}}, not passing', { replace: { threshold } })
+            }
+            info={<Icon icon={isPassing ? 'check' : 'times'} />}
+            isInline
+            isTooltip
+          />
         )}
       </td>
       <td className='button'>
@@ -152,6 +144,12 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             <PreImageButton imageHash={imageHash} />
           )}
         </Button.Group>
+      </td>
+      <td className='badge'>
+        <Icon
+          color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
+          icon='asterisk'
+        />
       </td>
       <td className='mini ui--media-1000'>
         <LinkExternal

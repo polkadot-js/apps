@@ -344,7 +344,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
               icon={
                 flags.isQr
                   ? 'qrcode'
-                  : 'sign-in'
+                  : 'sign-in-alt'
               }
               isDisabled={!senderInfo.signAddress || isRenderError}
               isPrimary

@@ -55,7 +55,7 @@ function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> 
             />
             {isPrime && (
               <article className='warning'>
-                <div><Icon name='warning sign' />{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
+                <div><Icon icon='exclamation-triangle' />{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>
             )}
           </Modal.Content>

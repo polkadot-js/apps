@@ -56,7 +56,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         isDisabled={isDisabled}
         key='new-nominator'
         label={t<string>('Nominator')}
@@ -90,7 +90,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
             <Button
-              icon='step backward'
+              icon='step-backward'
               isDisabled={step === 1}
               label={t<string>('prev')}
               onClick={_prevStep}
@@ -99,7 +99,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
               ? (
                 <TxButton
                   accountId={stashId}
-                  icon='sign-in'
+                  icon='sign-in-alt'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
                   isPrimary
                   label={t<string>('Bond & Nominate')}
@@ -114,7 +114,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
               )
               : (
                 <Button
-                  icon='step forward'
+                  icon='step-forward'
                   isDisabled={!bondTx}
                   isPrimary
                   label={t<string>('next')}

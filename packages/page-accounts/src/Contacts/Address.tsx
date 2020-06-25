@@ -150,8 +150,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
-          name={isFavorite ? 'star' : 'star outline'}
+          color={isFavorite ? 'orange' : 'gray'}
+          icon='star'
           onClick={_onFavorite}
         />
       </td>
@@ -196,7 +196,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       </td>
       <td className='button'>
         <Button
-          icon='paper plane'
+          icon='paper-plane'
           key='deposit'
           label={t<string>('deposit')}
           onClick={_toggleTransfer}
@@ -207,7 +207,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           onClose={_toggleSettingPopup}
           trigger={
             <Button
-              icon='ellipsis vertical'
+              icon='ellipsis-v'
               onClick={_toggleSettingPopup}
             />
           }

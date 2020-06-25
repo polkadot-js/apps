@@ -73,7 +73,7 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
       icon={
         <div className='ui--CodeRow-icon'>
           <Icon
-            name='code'
+            icon='code'
             size='large'
           />
         </div>
@@ -104,7 +104,7 @@ export default React.memo(
       padding: 0.5rem;
       display: flex;
       justify-content: flex-end;
-      align-items: flex-end;  
+      align-items: flex-end;
     }
   `
 );

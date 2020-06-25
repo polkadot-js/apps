@@ -29,9 +29,9 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
     [t('fee')],
     [t('reason'), 'start'],
     [],
-    [undefined, 'mini'],
-    []
-  ], [t]);
+    [],
+    isMember ? [] : null
+  ].filter((v) => v), [isMember, t]);
 
   return (
     <Table

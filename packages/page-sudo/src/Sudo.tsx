@@ -66,7 +66,7 @@ function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElemen
         <Button.Group>
           <TxButton
             accountId={sudoKey}
-            icon='sign-in'
+            icon='sign-in-alt'
             isDisabled={!method || (withWeight ? weight.eq(BN_ZERO) : false)}
             label={t<string>('Submit Sudo')}
             params={
@@ -86,7 +86,7 @@ function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElemen
     : (
       <article className='error padded'>
         <div>
-          <Icon name='ban' />
+          <Icon icon='ban' />
           {t<string>('You do not have access to the current sudo key')}
         </div>
       </article>

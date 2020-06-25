@@ -1568,6 +1568,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-common-types@npm:^0.2.29":
+  version: 0.2.29
+  resolution: "@fortawesome/fontawesome-common-types@npm:0.2.29"
+  checksum: 3/4a427503e1420a274f88082b6c0fb0c831a1c97fe58f7d6feb98daf096007a47d40f53adec281a31c9195dea79df84b4ea878a7d1a09dfcfb800e790218c37d2
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-svg-core@npm:^1.2.29":
+  version: 1.2.29
+  resolution: "@fortawesome/fontawesome-svg-core@npm:1.2.29"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": ^0.2.29
+  checksum: 3/3058b6ee89a3c998016a18510bee99ccac1648ac10c59a7095d60f285259f89b2fc42e65d534e38388f39e3145f0ebd2c4b5ea9659a73f7246d55c767b7c7e57
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:^5.13.1":
+  version: 5.13.1
+  resolution: "@fortawesome/free-solid-svg-icons@npm:5.13.1"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": ^0.2.29
+  checksum: 3/601b03728a1370667dfc860d9d70cd00d1a0eb0a02d83f1a581ad87595838e1d9d9d95327a18e0d6c9c885a7a4236d91d3e26789489e8b54b8ff46a2183b0ed3
+  languageName: node
+  linkType: hard
+
+"@fortawesome/react-fontawesome@npm:^0.1.11":
+  version: 0.1.11
+  resolution: "@fortawesome/react-fontawesome@npm:0.1.11"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    "@fortawesome/fontawesome-svg-core": ^1.2.20
+    react: 16.x
+  checksum: 3/ede137d0f7d205295d30caeaabb1651f2d60ee2adcefda14578e4259c2c80e8ca47a4f1f6c4a22cca98d6acb19e8cfa3357e3c5dd3897fcc48269a93b1104af6
+  languageName: node
+  linkType: hard
+
 "@hapi/address@npm:2.x.x":
   version: 2.1.4
   resolution: "@hapi/address@npm:2.1.4"
@@ -3391,6 +3428,9 @@ __metadata:
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
     "@babel/runtime": ^7.10.3
+    "@fortawesome/fontawesome-svg-core": ^1.2.29
+    "@fortawesome/free-solid-svg-icons": ^5.13.1
+    "@fortawesome/react-fontawesome": ^0.1.11
     "@polkadot/keyring": ^2.15.1
     "@polkadot/react-api": 0.47.0-beta.9
     "@polkadot/react-identicon": ^0.55.0-beta.1

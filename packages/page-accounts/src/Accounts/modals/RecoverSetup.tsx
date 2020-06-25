@@ -89,7 +89,7 @@ function RecoverSetup ({ address, className = '', onClose }: Props): React.React
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={address}
-          icon='share alternate'
+          icon='share-alt'
           isDisabled={isErrorHelpers || isErrorThreshold || isErrorDelay}
           label={t<string>('Make recoverable')}
           onStart={onClose}

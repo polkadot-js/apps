@@ -119,7 +119,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
         </Modal>
       )}
       <Button
-        icon='step forward'
+        icon='step-forward'
         isDisabled={isDisabled}
         label={t<string>('To council')}
         onClick={toggleOpen}

@@ -36,7 +36,10 @@ function ChainInfo ({ className = '', onClick }: Props): React.ReactElement<Prop
           )}
           <BestNumber label='#' />
         </div>
-        <Icon name='dropdown' />
+        <Icon
+          className='dropdown'
+          icon='caret-down'
+        />
       </div>
     </div>
   );
@@ -61,7 +64,7 @@ export default React.memo(styled(ChainInfo)`
       width: 2.75rem;
     }
 
-    .icon.dropdown,
+    .ui--Icon.dropdown,
     > div.info {
       color: white;
       opacity: 0.75;
@@ -69,7 +72,7 @@ export default React.memo(styled(ChainInfo)`
       vertical-align: middle;
     }
 
-    .icon.dropdown {
+    .ui--Icon.dropdown {
       flex: 0;
       margin: 0;
     }

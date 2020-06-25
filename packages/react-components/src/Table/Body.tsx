@@ -51,7 +51,7 @@ export default React.memo(styled(Body)`
       white-space: nowrap;
     }
 
-    i.icon {
+    .ui--Icon {
       cursor: pointer;
     }
 
@@ -137,7 +137,7 @@ export default React.memo(styled(Body)`
       }
     }
 
-    &.favorite i.icon.isSelected {
+    &.favorite .ui--Icon.isSelected {
       color: darkorange;
     }
   }

@@ -9,7 +9,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'counter' | 'green' | 'blue' | 'gray' | 'purple' | 'red' | 'transparent';
+  color: 'counter' | 'green' | 'blue' | 'gray' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
   info?: React.ReactNode;
   isInline?: boolean;
@@ -20,12 +20,12 @@ interface Props {
 
 let badgeId = 0;
 
-function Badge ({ className = '', color, hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
 
   return (
     <div
-      className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color} ${className}`}
+      className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
       data-for={trigger}
       data-tip={true}
       data-tip-disable={!isTooltip}
@@ -62,7 +62,7 @@ export default React.memo(styled(Badge)`
     cursor: help;
   }
 
-  i.icon {
+  .ui--Icon {
     cursor: inherit !important;
     margin: 0;
     width: 1em;
@@ -94,34 +94,34 @@ export default React.memo(styled(Badge)`
     vertical-align: middle;
   }
 
-  &.blue {
+  &.blueColor {
     background: steelblue;
   }
 
-  &.counter {
+  &.counterColor {
     background: red;
     margin: 0 0.5rem;
     vertical-align: middle;
   }
 
-  &.gray {
+  &.grayColor {
     background: #eee !important;
     color: #aaa;
   }
 
-  &.red {
+  &.redColor {
     background: darkred;
   }
 
-  &.green {
+  &.greenColor {
     background: green;
   }
 
-  &.purple {
+  &.purpleColor {
     background: indigo;
   }
 
-  &.transparent {
+  &.transparentColor {
     background: transparent;
     box-shadow: none;
   }

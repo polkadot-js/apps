@@ -54,7 +54,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
   return (
     <>
       <Button
-        icon='add'
+        icon='plus'
         isDisabled={isDisabled}
         key='new-validator'
         label={t<string>('Validator')}
@@ -91,7 +91,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
           </Modal.Content>
           <Modal.Actions onCancel={_toggle}>
             <Button
-              icon='step backward'
+              icon='step-backward'
               isDisabled={step === 1}
               label={t<string>('prev')}
               onClick={_prevStep}
@@ -100,7 +100,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               ? (
                 <TxButton
                   accountId={stashId}
-                  icon='sign-in'
+                  icon='sign-in-alt'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
                   isPrimary
                   label={t<string>('Bond & Validate')}
@@ -115,7 +115,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               )
               : (
                 <Button
-                  icon='step forward'
+                  icon='step-forward'
                   isDisabled={!bondTx}
                   isPrimary
                   label={t<string>('next')}

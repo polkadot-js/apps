@@ -51,7 +51,7 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
       <Icon
         data-for={trigger}
         data-tip
-        name='clock'
+        icon='clock'
       />
       <FormatBalance value={total} />
       <Tooltip
@@ -78,7 +78,7 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
 export default React.memo(styled(StakingUnbonding)`
   white-space: nowrap;
 
-  i.icon {
+  .ui--Icon {
     margin-left: 0;
     margin-right: 0.25rem;
   }

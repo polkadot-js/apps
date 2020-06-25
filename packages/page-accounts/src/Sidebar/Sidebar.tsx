@@ -49,7 +49,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
     <div className={className}>
       <Button
         className='ui--AddressMenu-close'
-        icon='close'
+        icon='times'
         isBasic
         isCircular
         onClick={onClose}
@@ -86,7 +86,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
           {(!isEditingName && flags.isEditable) && (
             <Icon
               className='inline-icon'
-              name='edit'
+              icon='edit'
             />
           )}
         </AccountName>
@@ -105,7 +105,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
         <div className='ui-AddressMenu--button'>
           <Button.Group>
             <Button
-              icon='send'
+              icon='paper-plane'
               label={t<string>('Deposit')}
               onClick={toggleIsTransferOpen}
             />
@@ -122,7 +122,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
             )}
             {!flags.isOwned && !flags.isInContacts && (
               <Button
-                icon='add'
+                icon='plus'
                 isPositive
                 label={t<string>('Save')}
                 onClick={_onUpdateName}
@@ -143,12 +143,12 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                 size='tiny'
               >
                 <Button.Content visible>
-                  <Icon name='check' />
+                  <Icon icon='check' />
                   &nbsp;
                   {t<string>('Saved')}
                 </Button.Content>
                 <Button.Content hidden>
-                  <Icon name='ban' />
+                  <Icon icon='ban' />
                   &nbsp;
                   {t<string>('Remove')}
                 </Button.Content>

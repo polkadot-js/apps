@@ -108,7 +108,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={senderId}
-          icon='send'
+          icon='paper-plane'
           isDisabled={!hasAvailable || !recipientId || !amount}
           isPrimary
           label={t<string>('Make Transfer')}

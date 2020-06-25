@@ -201,7 +201,7 @@ function ClaimsApp (): React.ReactElement {
             {(step === Step.Account) && (
               <Button.Group>
                 <Button
-                  icon='sign-in'
+                  icon='sign-in-alt'
                   isDisabled={preclaimEthereumAddress === PRECLAIMS_LOADING}
                   label={preclaimEthereumAddress === PRECLAIMS_LOADING
                     ? t<string>('Loading')
@@ -229,7 +229,7 @@ function ClaimsApp (): React.ReactElement {
                 {(step === Step.ETHAddress) && (
                   <Button.Group>
                     <Button
-                      icon='sign-in'
+                      icon='sign-in-alt'
                       isDisabled={!ethereumAddress}
                       label={t<string>('Continue')}
                       onClick={goToStepSign}
@@ -272,7 +272,7 @@ function ClaimsApp (): React.ReactElement {
               {(step === Step.Sign) && (
                 <Button.Group>
                   <Button
-                    icon='sign-in'
+                    icon='sign-in-alt'
                     isDisabled={!accountId || !signature}
                     label={t<string>('Confirm claim')}
                     onClick={goToStepClaim}

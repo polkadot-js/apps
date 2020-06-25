@@ -6,6 +6,7 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { registry } from '@polkadot/react-api';
 
 import AddressMini from '../AddressMini';
@@ -23,23 +24,23 @@ interface Props {
   className?: string;
 }
 
-function iconName (status: string): any {
+function iconName (status: string): IconName {
   switch (status) {
     case 'error':
       return 'ban';
 
     case 'event':
-      return 'assistive listening devices';
+      return 'assistive-listening-systems';
 
     case 'received':
-      return 'telegram plane';
+      return 'telegram-plane';
 
     default:
       return 'check';
   }
 }
 
-function signerIconName (status: QueueTxStatus): any {
+function signerIconName (status: QueueTxStatus): IconName {
   switch (status) {
     case 'cancelled':
       return 'ban';
@@ -53,11 +54,11 @@ function signerIconName (status: QueueTxStatus): any {
     case 'dropped':
     case 'invalid':
     case 'usurped':
-      return 'arrow down';
+      return 'arrow-down';
 
     case 'error':
     case 'finalitytimeout':
-      return 'warning sign';
+      return 'exclamation-triangle';
 
     case 'queued':
     // case 'retracted':
@@ -77,11 +78,11 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
       <div className='wrapper'>
         <div className='container'>
           <Icon
-            name='close'
+            icon='times'
             onClick={removeItem}
           />
           <div className='short'>
-            <Icon name={iconName(status) as 'send'} />
+            <Icon icon={iconName(status)} />
           </div>
           <div className='desc'>
             <div className='header'>
@@ -123,14 +124,14 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
         <div className='container'>
           {STATUS_COMPLETE.includes(status) && (
             <Icon
-              name='close'
+              icon='times'
               onClick={removeItem}
             />
           )}
           <div className='short'>
             {icon === 'spinner'
               ? <Spinner variant='push' />
-              : <Icon name={icon} />
+              : <Icon icon={icon} />
             }
           </div>
           <div className='desc'>
@@ -188,7 +189,7 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
       {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
-            icon='cancel'
+            icon='times'
             isFluid
             isPrimary
             label={t<string>('Dismiss all notifications')}
@@ -263,7 +264,7 @@ export default React.memo(styled(Status)`
         opacity:  0.75;
         padding: 0.5rem 0 0.5rem 0.5rem;
 
-        i.icon {
+        .ui--Icon {
           line-height: 1;
         }
       }

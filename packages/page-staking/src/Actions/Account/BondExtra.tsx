@@ -101,7 +101,7 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={stashId}
-          icon='sign-in'
+          icon='sign-in-alt'
           isDisabled={!maxAdditional?.gt(BN_ZERO) || !!amountError?.error}
           isPrimary
           label={t<string>('Bond more')}

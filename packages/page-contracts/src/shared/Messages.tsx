@@ -97,7 +97,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
         <div className='accessory'>
           <Button
             className='execute'
-            icon='cloud upload'
+            icon='upload'
             onClick={onSelectConstructor(props, index)}
             tooltip={t<string>('Deploy with this constructor')}
           />

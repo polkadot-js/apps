@@ -89,7 +89,7 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
         {isElected && (
           <Badge
             color='blue'
-            info={<Icon name='chevron right' />}
+            info={<Icon icon='chevron-right' />}
             isInline
           />
         )}
@@ -123,7 +123,7 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
       <td>
         <Icon
           className='staking--stats'
-          name='line graph'
+          icon='chart-line'
           onClick={_onQueryStats}
         />
       </td>

@@ -45,7 +45,7 @@ export default css`
     margin: 0;
   }
 
-  button.ui.icon.icon-button {
+  button.u.ui--Icon.icon-button {
     padding-top: 0;
     padding-right: 0;
     padding-bottom: 0.3em;

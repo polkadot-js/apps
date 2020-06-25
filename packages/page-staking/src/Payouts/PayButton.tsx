@@ -134,7 +134,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
             <TxButton
               accountId={accountId}
               extrinsic={extrinsic}
-              icon='credit card outline'
+              icon='credit-card'
               isDisabled={!extrinsic || !accountId}
               label={t<string>('Payout')}
               onStart={togglePayout}
@@ -143,7 +143,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         </Modal>
       )}
       <Button
-        icon='credit card outline'
+        icon='credit-card'
         isDisabled={isDisabled || isPayoutEmpty}
         label={
           (isAll || Array.isArray(payout))

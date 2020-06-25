@@ -37,7 +37,7 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
 
   return (
     <article className='warning'>
-      <div><Icon name='warning sign' />{error}</div>
+      <div><Icon icon='exclamation-triangle' />{error}</div>
     </article>
   );
 }

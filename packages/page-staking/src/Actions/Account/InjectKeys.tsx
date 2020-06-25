@@ -92,7 +92,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
               value={suri}
             />
             <article className='warning'>
-              <div><Icon name='warning sign' />{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
+              <div><Icon icon='exclamation-triangle' />{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
             </article>
           </Modal.Column>
           <Modal.Column>
@@ -134,7 +134,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          icon='sign-in'
+          icon='sign-in-alt'
           isPrimary
           label={t<string>('Submit key')}
           onClick={_onSubmit}

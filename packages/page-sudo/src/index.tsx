@@ -59,7 +59,7 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
         : (
           <article className='error padded'>
             <div>
-              <Icon name='ban' />
+              <Icon icon='ban' />
               {t<string>('You do not have access to the current sudo key')}
             </div>
           </article>

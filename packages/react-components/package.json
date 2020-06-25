@@ -11,6 +11,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@polkadot/keyring": "^2.15.1",
     "@polkadot/react-api": "0.47.0-beta.9",
     "@polkadot/react-identicon": "^0.55.0-beta.1",

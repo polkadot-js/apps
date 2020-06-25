@@ -109,7 +109,7 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
-          icon='add'
+          icon='plus'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
           isPrimary
           label={t<string>('Submit preimage')}

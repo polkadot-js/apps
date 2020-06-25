@@ -233,7 +233,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
-          icon='cloud upload'
+          icon='upload'
           isDisabled={!isValid}
           isPrimary
           label={t('Deploy')}

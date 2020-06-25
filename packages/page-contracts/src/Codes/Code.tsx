@@ -83,7 +83,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
               tooltip={t('Forget this code hash')}
             />
             <Button
-              icon='cloud upload'
+              icon='upload'
               isPrimary
               label={t('deploy')}
               onClick={_onShowDeploy}

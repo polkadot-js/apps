@@ -51,7 +51,7 @@ function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props
   return (
     <>
       <Button
-        icon='hand paper outline'
+        icon='hand-paper'
         isDisabled={isDisabled || !filter.length || !targets.length}
         label={t<string>('Nominate selected')}
         onClick={toggleOpen}

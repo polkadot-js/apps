@@ -7,7 +7,6 @@ import { ButtonProps } from './types';
 import React, { useState } from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import styled from 'styled-components';
-import { isUndefined } from '@polkadot/util';
 
 import Icon from '../Icon';
 import Tooltip from '../Tooltip';
@@ -21,7 +20,7 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     animated: isAnimated,
     basic: isBasic,
     circular: isCircular,
-    className: `${className} ${isIcon ? 'isIcon' : ''}`,
+    className: `${className} ${isCircular ? 'isCircular' : ''} ${isIcon ? 'isIcon' : ''} ${(isCircular || isIcon || !(children || label)) ? 'icon' : ''}`,
     'data-for': triggerId,
     'data-tip': !!tooltip,
     disabled: isDisabled,
@@ -36,29 +35,19 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     positive: isPositive,
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
-    size: size || (isIcon ? 'tiny' : undefined) || 'small',
+    size: size || (isCircular ? undefined : (isIcon ? 'tiny' : 'small')),
     tabIndex
   };
 
   return (
     <>
-      {isUndefined(label) && isUndefined(children)
-        ? (
-          <SUIButton
-            {...props}
-            icon={icon}
-          />
-        )
-        : (
-          <SUIButton {...props}>
-            {icon && (
-              <><Icon className={icon} />{isIcon ? '' : '  '}</>
-            )}
-            {label}
-            {children}
-          </SUIButton>
-        )
-      }
+      <SUIButton {...props}>
+        {icon && (
+          <><Icon icon={icon} />{(isIcon || isCircular) ? '' : '  '}</>
+        )}
+        {label}
+        {children}
+      </SUIButton>
       {tooltip && (
         <Tooltip
           place='top'
@@ -71,8 +60,14 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
 }
 
 export default React.memo(styled(Button)`
-  &:not(.isIcon) > i.icon {
-    margin-left: 0.25rem;
+  &:not(.icon) {
+    > .ui--Icon {
+      margin-right: 0.25rem;
+    }
+  }
+
+  &.icon > .ui--Icon {
+    width: 1rem;
   }
 
   &.isIcon {
@@ -80,7 +75,7 @@ export default React.memo(styled(Button)`
     margin: 0 !important;
     padding: 0 !important;
 
-    i.icon {
+    .ui--Icon {
       margin: 0 0 0 0.25rem !important;
     }
   }

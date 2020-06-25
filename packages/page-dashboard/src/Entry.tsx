@@ -19,7 +19,7 @@ function Entry ({ className = '', route: { icon, name, text } }: Props): React.R
     <div className={className}>
       <Link to={`/${name}`}>
         <Icon
-          name={icon}
+          icon={icon}
           size='massive'
         />
         <div className='name'>

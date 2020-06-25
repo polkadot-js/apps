@@ -17,7 +17,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.balances.transfer'
       ]
     },
-    icon: 'send',
+    icon: 'paper-plane',
     name: 'transfer',
     text: t<string>('nav.transfer', 'Transfer', { ns: 'apps-routing' })
   };

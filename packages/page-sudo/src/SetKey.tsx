@@ -42,7 +42,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
               />
               <TxButton
                 accountId={sudoKey}
-                icon='sign-in'
+                icon='sign-in-alt'
                 isDisabled={!isMine || sudoKey === selected}
                 isPrimary
                 label={t<string>('Reassign')}
@@ -65,7 +65,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
       {willLose && (
         <article className='warning padded'>
           <div>
-            <Icon name='warning' />
+            <Icon icon='exclamation-triangle' />
             {t<string>('You will no longer have sudo access')}
           </div>
         </article>

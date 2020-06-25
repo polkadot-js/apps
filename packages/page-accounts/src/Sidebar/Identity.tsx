@@ -32,7 +32,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
       <div className='ui--AddressMenu-section ui--AddressMenu-identity'>
         <div className='ui--AddressMenu-sectionHeader'>
           <div>
-            <Icon name='address card' />
+            <Icon icon='address-card' />
             &nbsp;
             {t<string>('identity')}
           </div>
@@ -158,7 +158,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             <ul>
               <li>
                 <IconLink
-                  icon='address card'
+                  icon='address-card'
                   label={t<string>('Add identity judgment')}
                   onClick={toggleIsJudgementOpen}
                 />

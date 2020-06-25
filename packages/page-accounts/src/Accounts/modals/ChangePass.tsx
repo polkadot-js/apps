@@ -125,7 +125,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
-          icon='sign-in'
+          icon='sign-in-alt'
           isDisabled={!newPass1.isValid || !newPass2.isValid || !isOldValid}
           isPrimary
           label={t<string>('Change')}

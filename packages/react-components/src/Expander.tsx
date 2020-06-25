@@ -63,9 +63,9 @@ function Expander ({ children, className = '', isOpen, summary, summaryMeta, sum
       >
         <div className='ui--Expander-summary-header'>
           {hasContent
-            ? <Icon name={isExpanded ? 'angle double down' : 'angle double right'} />
+            ? <Icon icon={isExpanded ? 'angle-double-down' : 'angle-double-right'} />
             : withDot
-              ? <Icon name='circle outline' />
+              ? <Icon icon='circle' />
               : undefined
           }{headerMain || t<string>('Details')}
         </div>
@@ -115,7 +115,7 @@ export default React.memo(styled(Expander)`
       text-overflow: ellipsis;
     }
 
-    i.icon {
+    .ui--Icon {
       margin-right: 0.5rem;
     }
 

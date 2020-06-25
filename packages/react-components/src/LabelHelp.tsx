@@ -27,7 +27,7 @@ function LabelHelp ({ className = '', help }: Props): React.ReactElement<Props> 
       <Icon
         data-for={trigger}
         data-tip
-        name='help circle'
+        icon='question-circle'
         onMouseOut={toggleTooltip}
         onMouseOver={toggleTooltip}
       />

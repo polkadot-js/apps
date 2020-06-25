@@ -98,7 +98,6 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
           <Button
             icon='save'
             isDisabled={!snippetName.length}
-            isPrimary
             label={t<string>('Save snippet to local storage')}
             onClick={_saveSnippet}
           />
@@ -107,9 +106,8 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
       {isRunning
         ? (
           <Button
-            icon='close'
+            icon='times'
             isCircular
-            isNegative
             onClick={stopJs}
           />
         )
@@ -118,7 +116,6 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
             className='play-button'
             icon='play'
             isCircular
-            isPrimary
             onClick={runJs}
           />
         )

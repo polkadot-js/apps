@@ -206,13 +206,13 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
         <div className='container'>
           {isSpreadable && (
             <Button
-              icon='ellipsis horizontal'
+              icon='ellipsis-h'
               key='spread'
               onClick={_spreadHandler(id)}
             />
           )}
           <Button
-            icon='close'
+            icon='times'
             isNegative
             key='close'
             onClick={_onRemove}

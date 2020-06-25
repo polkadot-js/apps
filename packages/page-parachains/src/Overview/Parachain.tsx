@@ -47,7 +47,7 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
                 : t<string>('Not updated in the last block')
             }
             info={
-              <Icon name='check' />
+              <Icon icon='check' />
             }
             isGray={!didUpdate}
             isTooltip

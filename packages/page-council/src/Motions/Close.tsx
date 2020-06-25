@@ -77,7 +77,7 @@ function Close ({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Pr
         </Modal>
       )}
       <Button
-        icon='cancel'
+        icon='times'
         isDisabled={isDisabled}
         label={t<string>('Close')}
         onClick={toggleOpen}

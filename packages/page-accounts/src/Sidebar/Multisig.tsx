@@ -27,7 +27,7 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
     <section>
       <div className='ui--AddressMenu-sectionHeader'>
         <div>
-          <Icon name='handshake outline' />
+          <Icon icon='handshake' />
           &nbsp;
           {t<string>('multisig')}
         </div>
