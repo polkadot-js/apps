@@ -11,27 +11,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "build": {
-    "productName": "Polkadot-JS Apps",
-    "artifactName": "Polkadot-JS-Apps-${version}.${ext}",
-    "files": [
-      "./packages/apps-electron/build",
-      "./packages/apps-electron/assets",
-      "./packages/apps-electron/appleEntitlements"
-    ],
-    "appId": "com.polkadotjs.polkadotjs-apps",
-    "mac": {
-      "category": "public.app-category.finance",
-      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist",
-      "hardenedRuntime": true,
-      "target": "dmg"
-    },
-    "directories": {
-      "buildResources": "./packages/apps-electron/assets",
-      "output": "./packages/apps-electron/release"
-    },
-    "afterSign": "electron-builder-notarize"
-  },
   "resolutions": {
     "@polkadot/api": "^1.22.0-beta.3",
     "@polkadot/api-contract": "^1.22.0-beta.3",
