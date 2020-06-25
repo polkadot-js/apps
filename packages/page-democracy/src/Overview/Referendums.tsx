@@ -26,6 +26,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
     [t('aye')],
     [t('nay')],
     [undefined, undefined, 2],
+    [undefined, 'badge'],
     [undefined, 'mini ui--media-1000']
   ], [t]);
 

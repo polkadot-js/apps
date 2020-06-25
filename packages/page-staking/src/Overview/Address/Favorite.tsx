@@ -20,8 +20,8 @@ function Favorite ({ address, isFavorite, toggleFavorite }: Props): React.ReactE
   return (
     <td className='favorite'>
       <Icon
-        className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
-        name={isFavorite ? 'star' : 'star outline'}
+        color={isFavorite ? 'orange' : 'gray'}
+        icon='star'
         onClick={_onFavorite}
       />
     </td>

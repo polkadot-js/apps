@@ -150,8 +150,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
-          icon={isFavorite ? 'star' : 'star'}
+          color={isFavorite ? 'orange' : 'gray'}
+          icon='star'
           onClick={_onFavorite}
         />
       </td>

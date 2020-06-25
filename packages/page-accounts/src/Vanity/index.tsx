@@ -215,7 +215,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           icon={
             isRunning
               ? 'stop'
-              : 'sign-in'
+              : 'sign-in-alt'
           }
           isDisabled={!isMatchValid}
           label={

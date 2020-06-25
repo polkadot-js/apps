@@ -260,7 +260,6 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
             className='action-button'
             icon='eraser'
             isCircular
-            isNegative
             onClick={_clearConsole}
           />
         </Output>

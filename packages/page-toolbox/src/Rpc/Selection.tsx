@@ -95,7 +95,7 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
       />
       <Button.Group>
         <Button
-          icon='sign-in'
+          icon='sign-in-alt'
           isDisabled={!isValid}
           label={t<string>('Submit RPC call')}
           onClick={_onSubmit}

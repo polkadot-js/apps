@@ -112,7 +112,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
                 rel='noopener noreferrer'
                 target='_blank'
               >
-                <Icon icon='github' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
+                <Icon icon='code-branch' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
               </a>
             </Menu.Item>
             <Menu.Item className='apps--SideBar-Item'>
@@ -126,11 +126,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
               </a>
             </Menu.Item>
             <Menu.Divider hidden />
-            {
-              isCollapsed
-                ? undefined
-                : <NodeInfo />
-            }
+            {!isCollapsed && <NodeInfo />}
           </div>
           <Responsive
             className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}

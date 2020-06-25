@@ -39,7 +39,7 @@ function EditButton ({ children, className, icon = 'edit', onClick, size = 'smal
 export default React.memo(styled(EditButton)`
   cursor: pointer;
 
-  button.ui.icon.primary.button.icon-button {
+  button.u.ui--Icon.primary.button.icon-button {
     cursor: pointer;
   }
 

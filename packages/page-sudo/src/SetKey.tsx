@@ -42,7 +42,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
               />
               <TxButton
                 accountId={sudoKey}
-                icon='sign-in'
+                icon='sign-in-alt'
                 isDisabled={!isMine || sudoKey === selected}
                 isPrimary
                 label={t<string>('Reassign')}

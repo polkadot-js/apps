@@ -69,7 +69,7 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
           <Modal.Actions onCancel={toggleSeconding}>
             <TxButton
               accountId={accountId}
-              icon='sign-in'
+              icon='sign-in-alt'
               isDisabled={!accountId || isDepositor}
               isPrimary
               label={t<string>('Second')}

@@ -154,7 +154,7 @@ export default css`
     padding-left: 4rem !important;
   }
 
-  .ui[class*="left icon"].input.left.icon > i.icon.big {
+  .ui[class*="left icon"].input.left.icon > .ui--Icon.big {
     left: -7px;
     opacity: 1;
   }

@@ -99,7 +99,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
               ? (
                 <TxButton
                   accountId={stashId}
-                  icon='sign-in'
+                  icon='sign-in-alt'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
                   isPrimary
                   label={t<string>('Bond & Nominate')}

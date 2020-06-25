@@ -90,7 +90,7 @@ function ReferendumVotes ({ change, className = '', count, index, isWinning, tot
 
 export default React.memo(styled(ReferendumVotes)`
   .ui--Expander-summary {
-    i.icon+i.icon {
+    .ui--Icon+.ui--Icon {
       margin-left: -0.375rem;
     }
   }

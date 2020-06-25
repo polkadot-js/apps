@@ -264,7 +264,7 @@ export default React.memo(styled(Status)`
         opacity:  0.75;
         padding: 0.5rem 0 0.5rem 0.5rem;
 
-        i.icon {
+        .ui--Icon {
           line-height: 1;
         }
       }

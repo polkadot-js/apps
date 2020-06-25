@@ -204,7 +204,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
           {useRpc
             ? (
               <Button
-                icon='sign-in'
+                icon='sign-in-alt'
                 isDisabled={!isValid}
                 isPrimary
                 label={t<string>('Call')}
@@ -214,7 +214,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
             : (
               <TxButton
                 accountId={accountId}
-                icon='sign-in'
+                icon='sign-in-alt'
                 isDisabled={!isValid}
                 isPrimary
                 label={t('Call')}

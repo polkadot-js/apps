@@ -62,7 +62,7 @@ export default React.memo(styled(Badge)`
     cursor: help;
   }
 
-  i.icon {
+  .ui--Icon {
     cursor: inherit !important;
     margin: 0;
     width: 1em;

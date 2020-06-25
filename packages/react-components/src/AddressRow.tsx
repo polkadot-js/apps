@@ -69,7 +69,7 @@ export {
 
 export default React.memo(
   styled(AddressRow)`
-    button.ui.icon.editButton {
+    button.u.ui--Icon.editButton {
       padding: 0em .3em .3em .3em;
       color: #2e86ab;
       background: none;

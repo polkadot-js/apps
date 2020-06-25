@@ -76,7 +76,7 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
 export default React.memo(styled(DemocracyLocks)`
   white-space: nowrap;
 
-  i.icon {
+  .ui--Icon {
     margin-left: 0;
     margin-right: 0.25rem;
   }

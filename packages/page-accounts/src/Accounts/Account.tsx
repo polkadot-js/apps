@@ -177,8 +177,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite ? 'isSelected isColorHighlight' : ''}`}
-          icon={isFavorite ? 'star' : 'star'}
+          color={isFavorite ? 'orange' : 'gray'}
+          icon='star'
           onClick={_onFavorite}
         />
       </td>

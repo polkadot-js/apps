@@ -204,7 +204,7 @@ export default React.memo(styled(Targets)`
   text-align: center;
 
   th {
-    i.icon {
+    .ui--Icon {
       margin-left: 0.5rem;
     }
   }

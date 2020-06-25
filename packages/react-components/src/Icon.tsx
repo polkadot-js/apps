@@ -4,14 +4,13 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconName, library } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
   className?: string;
-  color?: 'green' | 'red' | 'normal';
+  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red';
   icon: IconName;
   onClick?: () => void;
   onMouseOut?: () => void;
@@ -20,12 +19,12 @@ interface Props {
 }
 
 // one-time init of FA libraries
-library.add(fab, fas);
+library.add(fas);
 
 function Icon ({ className = '', color = 'normal', icon, onClick, onMouseOut, onMouseOver, size }: Props): React.ReactElement<Props> {
   return (
     <FontAwesomeIcon
-      className={`ui--Icon ${color}Color ${className}`}
+      className={`ui--Icon ${color}Color ${onClick ? 'isClickable' : ''} ${className}`}
       icon={icon}
       onClick={onClick}
       onMouseOut={onMouseOut}
@@ -36,11 +35,23 @@ function Icon ({ className = '', color = 'normal', icon, onClick, onMouseOut, on
 }
 
 export default React.memo(styled(Icon)`
+  &.isClickable {
+    cursor: pointer;
+  }
+
+  &.grayColor {
+    opacity: 0.25;
+  }
+
   &.greenColor {
     color: green;
   }
 
+  &.orangeColor {
+    color: darkorange;
+  }
+
   &.redColor {
-    color: red;
+    color: darkred;
   }
 `);

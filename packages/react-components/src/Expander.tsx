@@ -115,7 +115,7 @@ export default React.memo(styled(Expander)`
       text-overflow: ellipsis;
     }
 
-    i.icon {
+    .ui--Icon {
       margin-right: 0.5rem;
     }
 

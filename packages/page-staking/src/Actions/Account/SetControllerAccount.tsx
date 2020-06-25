@@ -62,7 +62,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={stashId}
-          icon='sign-in'
+          icon='sign-in-alt'
           isDisabled={!controllerId}
           isPrimary
           label={t<string>('Set controller')}

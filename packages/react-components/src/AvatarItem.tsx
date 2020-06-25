@@ -53,7 +53,7 @@ export default React.memo(styled(AvatarItem)`
         height: 100%;
       }
 
-      > i.icon {
+      > .ui--Icon {
         color: white;
         line-height: 2.4rem;
         margin-right: 0 !important;
@@ -83,7 +83,7 @@ export default React.memo(styled(AvatarItem)`
         height: 3.4rem;
         margin-right: 0.6rem;
 
-        > i.icon {
+        > .ui--Icon {
           font-size: 1.6rem;
           line-height: 3.4rem;
         }

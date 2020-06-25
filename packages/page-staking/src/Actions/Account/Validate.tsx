@@ -37,7 +37,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
         <TxButton
           accountId={controllerId}
           extrinsic={validateTx}
-          icon='check-circle'
+          icon='certificate'
           isDisabled={!validateTx}
           isPrimary
           label={t<string>('Validate')}

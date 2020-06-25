@@ -100,7 +100,7 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
               ? (
                 <TxButton
                   accountId={stashId}
-                  icon='sign-in'
+                  icon='sign-in-alt'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
                   isPrimary
                   label={t<string>('Bond & Validate')}

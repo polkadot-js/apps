@@ -166,7 +166,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                     {(!sessionIds.length || hexSessionIdNext === '0x')
                       ? (
                         <Button
-                          icon='sign-in'
+                          icon='sign-in-alt'
                           isDisabled={!isOwnController || isDisabled}
                           key='set'
                           label={t<string>('Session Key')}
@@ -175,7 +175,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                       )
                       : (
                         <Button
-                          icon='check-circle'
+                          icon='certificate'
                           isDisabled={!isOwnController || isDisabled}
                           key='validate'
                           label={t<string>('Validate')}
