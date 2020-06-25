@@ -49,9 +49,8 @@ function StakingUnbonding ({ className = '', value }: Props): React.ReactElement
   return (
     <div className={className}>
       <Icon
-        data-for={trigger}
-        data-tip
         icon='clock'
+        tooltip={trigger}
       />
       <FormatBalance value={total} />
       <Tooltip

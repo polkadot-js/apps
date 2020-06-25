@@ -91,4 +91,13 @@ export default React.memo(styled(FormatBalance)`
       vertical-align: baseline;
     }
   }
+
+  .ui--Icon {
+    margin-top: 0.25rem;
+    margin-bottom: -0.25rem;
+  }
+
+  .ui--Icon+.ui--FormatBalance-value {
+    margin-left: 0.375rem;
+  }
 `);

@@ -168,7 +168,7 @@ export default css`
   }
 
   .ui.button+.ui.button {
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
   }
 
   /* modals aligned to top, not center */
