@@ -111,6 +111,7 @@ export default function useAccountInfo (value: string | null, isContract = false
         isDevelopment: accountOrAddress?.meta.isTesting || false,
         isEditable: !!(!identity?.display && (isInContacts || accountOrAddress?.meta.isMultisig || (accountOrAddress && !(accountOrAddress.meta.isInjected || accountOrAddress.meta.isHardware)))) || false,
         isExternal: !!accountOrAddress?.meta.isExternal || false,
+        isHardware: !!accountOrAddress?.meta.isHardware || false,
         isInContacts,
         isMultisig: !!accountOrAddress?.meta.isMultisig || false,
         isOwned,
