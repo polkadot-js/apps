@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-settings",
   "private": true,
-  "version": "0.47.0-beta.8",
+  "version": "0.47.0-beta.9",
   "description": "Settings management",
   "main": "index.js",
   "scripts": {},
@@ -12,9 +12,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.3",
-    "@polkadot/apps-config": "0.47.0-beta.8",
-    "@polkadot/react-components": "0.47.0-beta.8",
-    "@polkadot/react-query": "0.47.0-beta.8",
+    "@polkadot/apps-config": "0.47.0-beta.9",
+    "@polkadot/react-components": "0.47.0-beta.9",
+    "@polkadot/react-query": "0.47.0-beta.9",
     "query-string": "^6.13.1"
   }
 }
