@@ -270,9 +270,8 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
             className='result'
             label={
               <Icon
-                data-for={`${address}-locks-trigger`}
-                data-tip
                 icon='info-circle'
+                tooltip={`${address}-locks-trigger`}
               />
             }
             value={isAllLocked ? 'all' : balancesAll.lockedBalance}

@@ -248,4 +248,10 @@ export default React.memo(styled(Query)`
       text-overflow: ellipsis;
     }
   }
+
+  .storage--actionrow-buttons {
+    .container {
+      margin-top: -0.25rem; /* offset parent spacing for buttons */
+    }
+  }
 `);

@@ -33,10 +33,6 @@ export default css`
     }
   }
 
-  .ui--Button-Group .button {
-    border-radius: .28571429rem !important;
-  }
-
   header .ui--Button-Group {
     text-align: center;
   }

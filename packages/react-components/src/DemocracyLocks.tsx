@@ -40,9 +40,8 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
   return (
     <div className={className}>
       <Icon
-        data-for={trigger}
-        data-tip
         icon='clock'
+        tooltip={trigger}
       />
       <FormatBalance value={max} />
       <Tooltip
