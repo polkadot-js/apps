@@ -39,6 +39,7 @@
     "@babel/register": "^7.8.3",
     "@babel/runtime": "^7.8.4",
     "@cennznet/types": "1.0.0",
+    "@cennznet/api": "1.0.2",
     "@polkadot/dev": "^0.40.19",
     "@polkadot/ts": "^0.2.3",
     "@types/bn.js": "^4.11.6",

@@ -5,9 +5,7 @@
 import { ApiState } from './types';
 
 import React, { useContext, useEffect, useState } from 'react';
-import ApiPromise from '@polkadot/api/promise';
 import { isWeb3Injected, web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
@@ -20,7 +18,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
-import CENNZRuntimeTypes from '@cennznet/types/injects';
+import {Api as ApiPromise} from '@cennznet/api';
 
 interface Props {
   children: React.ReactNode;
@@ -123,10 +121,9 @@ export default function Api ({ children, url }: Props): React.ReactElement<Props
 
   // initial initialization
   useEffect((): void => {
-    const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 
-    api = new ApiPromise({ provider, registry, signer, types: { ...CENNZRuntimeTypes as any } });
+    api = new ApiPromise({ provider: url, registry, signer });
 
     api.on('connected', (): void => setIsApiConnected(true));
     api.on('disconnected', (): void => setIsApiConnected(false));
