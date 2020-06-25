@@ -6,8 +6,7 @@ import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Columar, Spinner } from '@polkadot/react-components';
-import { QrDisplayPayload, QrScanSignature } from '@polkadot/react-qr';
+import { Columar, QrDisplayPayload, QrScanSignature, Spinner } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 

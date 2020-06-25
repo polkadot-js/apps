@@ -16,6 +16,7 @@ interface Props {
 
 function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const isApp = variant === 'app';
 
   return (
     <div className={`${className} ui--Spinner ${variant}`}>
@@ -23,13 +24,9 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
         className='ui--highlight--color'
         icon='spinner'
         isSpinning
-        size='2x'
+        size={isApp ? '2x' : '1x'}
       />
-      <div className='text'>
-        {variant === 'app' && (
-          label || t<string>('Retrieving data')
-        )}
-      </div>
+      {isApp && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
   );
 }
