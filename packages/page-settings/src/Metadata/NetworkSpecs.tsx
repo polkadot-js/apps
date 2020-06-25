@@ -6,9 +6,8 @@ import { ChainInfo } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ChainImg, Columar, Column, Input, Spinner } from '@polkadot/react-components';
+import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
-import { QrNetworkSpecs } from '@polkadot/react-qr';
 import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
 import ChainColorIndicator from './ChainColorIndicator';
