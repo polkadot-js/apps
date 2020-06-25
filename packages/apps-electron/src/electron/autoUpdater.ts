@@ -8,8 +8,7 @@ export async function setupAutoUpdater (): Promise<void> {
   const { autoUpdater } = await import('electron-updater');
 
   await setLogger(autoUpdater);
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdatesAndNotify().catch(console.error);
 }
 
 async function setLogger (autoUpdater: AppUpdater): Promise<void> {
