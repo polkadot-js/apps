@@ -6,7 +6,6 @@ import { BareProps } from './types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 import { classes } from './util';
@@ -20,22 +19,17 @@ let id = 0;
 
 function LabelHelp ({ className = '', help }: Props): React.ReactElement<Props> {
   const [trigger] = useState(`label-help-${++id}`);
-  const [isTooltipOpen, toggleTooltip] = useToggle();
 
   return (
     <div className={classes('ui--LabelHelp', className)}>
       <Icon
         icon='question-circle'
-        onMouseOut={toggleTooltip}
-        onMouseOver={toggleTooltip}
         tooltip={trigger}
       />
-      {isTooltipOpen && (
-        <Tooltip
-          text={help}
-          trigger={trigger}
-        />
-      )}
+      <Tooltip
+        text={help}
+        trigger={trigger}
+      />
     </div>
   );
 }
