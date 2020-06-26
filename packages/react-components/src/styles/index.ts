@@ -75,7 +75,7 @@ export default createGlobalStyle<Props>`
 
     .ui.negative.button,
     .ui.buttons .negative.button {
-      background: #666 !important;
+      background: #FFF;
     }
 
     .ui.primary.button,
@@ -99,8 +99,8 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
-    font-family: sans-serif;
+    color: var(--grey20);
+    font-family: var(--default-font-family, sans-serif);
     height: 100%;
   }
 
@@ -211,9 +211,9 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: rgba(0, 0, 0, .6);
-    font-family: sans-serif;
-    font-weight: 100;
+    color: var(--grey20);
+    font-family: var(--default-font-family, sans-serif);
+    font-weight: 300;
   }
 
   h1 {
@@ -244,11 +244,11 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: var(--grey20);
     display: block;
-    font-family: sans-serif;
+    font-family: var(--default-font-family, sans-serif);
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: 500;
   }
 
   main {
