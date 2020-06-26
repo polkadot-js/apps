@@ -101,6 +101,11 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
       info: 'nodle',
       text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io/'
+    },
+    {
+      info: 'datahighway',
+      text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
+      value: 'wss://testnet-harbour.datahighway.com'
     }
   ];
 }
