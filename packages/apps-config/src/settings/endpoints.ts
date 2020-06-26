@@ -104,7 +104,7 @@ function createTest (t: <T= string> (key: string, text: string, options: { ns: s
     },
     {
       info: 'datahighway',
-      text: t<string>('rpc.datahighway.harbour', 'DataHighway (Harbour Testnet, hosted by MXC)', { ns: 'apps-config' }),
+      text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
       value: 'wss://testnet-harbour.datahighway.com'
     }
   ];
