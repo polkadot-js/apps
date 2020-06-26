@@ -136,13 +136,13 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
       </td>
       <td className='button'>
         <Button.Group>
+          {!image?.proposal && (
+            <PreImageButton imageHash={imageHash} />
+          )}
           <Voting
             proposal={image?.proposal}
             referendumId={index}
           />
-          {!image?.proposal && (
-            <PreImageButton imageHash={imageHash} />
-          )}
         </Button.Group>
       </td>
       <td className='badge'>
