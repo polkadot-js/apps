@@ -36,7 +36,7 @@ const KNOWN: [AccountId, string][] = [
 ];
 
 const displayCache = new Map<string, React.ReactNode>();
-const nameCache = new Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]>();
+const indexCache = new Map<string, string>();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
@@ -46,21 +46,16 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   }
 
   const accountId = _address.toString();
-  const accountIndex = (_accountIndex || '').toString();
 
   if (!accountId) {
     return [[defaultName, null], false, false, false];
   }
 
   const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
-  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, [null, null]];
+  const accountIndex = (_accountIndex || '').toString() || indexCache.get(accountId);
 
-  if (extracted && isAddressCached && !isAddressExtracted) {
-    // skip, default return
-  } else if (nameCached[0]) {
-    return [nameCached, false, isAddressCached, false];
-  } else if (isAddressExtracted && accountIndex) {
-    nameCache.set(accountId, [true, [accountIndex, null]]);
+  if (isAddressExtracted && accountIndex) {
+    indexCache.set(accountId, accountIndex);
 
     return [[accountIndex, null], false, true, false];
   }
@@ -136,7 +131,6 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   const infoElem = <Icon icon={identity.parent ? 'link' : (isGood ? 'check' : 'minus')} />;
   const color = isGood ? 'green' : (isBad ? 'red' : 'gray');
 
-  nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
   displayCache.set(address, createIdElem(color, nameElem, infoElem));
 
   return createIdElem(color, nameElem, infoElem);
@@ -160,8 +154,6 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
           : extractName(cacheAddr, accountIndex)
       );
     } else if (nickname) {
-      nameCache.set(cacheAddr, [false, [nickname, null]]);
-
       setName(nickname);
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));

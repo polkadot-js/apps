@@ -31,12 +31,14 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
     return null;
   }
 
-  const strings = meta.documentation.map((doc): string => doc.toString().trim());
-  const firstEmpty = strings.findIndex((doc): boolean => !doc.length);
+  const strings = meta.documentation.map((doc) => doc.toString().trim());
+  const firstEmpty = strings.findIndex((doc) => !doc.length);
 
-  return firstEmpty === -1
-    ? strings.join(' ')
-    : strings.slice(0, firstEmpty).join(' ');
+  return (
+    firstEmpty === -1
+      ? strings
+      : strings.slice(0, firstEmpty)
+  ).join(' ');
 }
 
 function Expander ({ children, className = '', isOpen, summary, summaryMeta, summarySub, withDot, withHidden }: Props): React.ReactElement<Props> {
@@ -51,7 +53,7 @@ function Expander ({ children, className = '', isOpen, summary, summaryMeta, sum
     [summary, summaryMeta, summarySub]
   );
   const hasContent = useMemo(
-    (): boolean => !!children && (!Array.isArray(children) || children.length !== 0),
+    () => !!children && (!Array.isArray(children) || children.length !== 0),
     [children]
   );
 
