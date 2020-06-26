@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { RawParamValue } from './types';
 
 import { registry } from '@polkadot/react-api';
 import { Bytes, Raw, createType, getTypeDef } from '@polkadot/types';
@@ -11,7 +10,7 @@ import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
 
-export default function getInitValue (def: TypeDef): unknown | unknown[] {
+export default function getInitValue (def: TypeDef): unknown {
   if (def.info === TypeDefInfo.Vec) {
     return [getInitValue(def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
@@ -20,11 +19,11 @@ export default function getInitValue (def: TypeDef): unknown | unknown[] {
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
-      ? def.sub.reduce((result, def): Record<string, RawParamValue | RawParamValue[]> => {
+      ? def.sub.reduce((result: Record<string, unknown>, def): Record<string, unknown> => {
         result[def.name as string] = getInitValue(def);
 
         return result;
-      }, {} as unknown as Record<string, RawParamValue | RawParamValue[]>)
+      }, {})
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
@@ -123,7 +122,7 @@ export default function getInitValue (def: TypeDef): unknown | unknown[] {
 
         if (isBn(instance)) {
           return BN_ZERO;
-        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
           return getInitValue(raw);
         }
       } catch (error) {
