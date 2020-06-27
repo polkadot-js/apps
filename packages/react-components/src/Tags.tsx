@@ -34,7 +34,6 @@ function Tags ({ children, className, isEditable, isEditing, onChange, onSave, o
         <Tag
           key={tag}
           label={tag}
-          size='tiny'
         />
       ))
       : <label>{t<string>('no tags')}</label>,
