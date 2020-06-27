@@ -4,7 +4,7 @@
 
 import { QueryableStorageEntry } from '@polkadot/api/types';
 import { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import { TypeDef } from '@polkadot/types/types';
+import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 import { ComponentProps as Props } from '../types';
 
@@ -72,9 +72,25 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
   });
 }
 
+function checkIterable (api: ApiPromise, type: StorageEntryTypeLatest): boolean {
+  let def;
+
+  if (!api.rpc.state.queryStorageAt) {
+    return type.isMap && type.asMap.linked.isTrue;
+  } else if (type.isMap) {
+    def = getTypeDef(type.asMap.key.toString());
+  } else if (type.isDoubleMap) {
+    def = getTypeDef(type.asDoubleMap.key2.toString());
+  }
+
+  // in the case of Option<type> keys, we don't allow map iteration, in this case
+  // we would have option for the iterable and then option for the key value
+  return !!def && def.info !== TypeDefInfo.Option;
+}
+
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
-  const isIterable = (!!api.rpc.state.queryStorageAt && (type.isMap || type.isDoubleMap)) || (type.isMap && type.asMap.linked.isTrue);
+  const isIterable = checkIterable(api, type);
 
   return {
     defaultValues: section === 'session' && type.isDoubleMap
@@ -97,7 +113,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       isValid && onAdd({
         isConst: false,
         key,
-        params: values.filter(({ value }) => !isIterable || !isNull(value))
+        params: values.filter(({ value }, index) => !isIterable || (index !== values.length - 1) || !isNull(value))
       });
     },
     [isIterable, isValid, key, onAdd, values]
