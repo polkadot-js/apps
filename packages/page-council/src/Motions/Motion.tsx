@@ -103,7 +103,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
         )}
       </td>
       <td className='badge'>
-        {isVoteable && (
+        {isMember && (
           <Icon
             color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
             icon='asterisk'

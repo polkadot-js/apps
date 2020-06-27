@@ -61,6 +61,10 @@ export default React.memo(styled(Head)`
       text-align: left;
     }
 
+    &.badge {
+      padding: 0;
+    }
+
     &.isClickable {
       border-bottom: 2px solid transparent;
       cursor: pointer;
