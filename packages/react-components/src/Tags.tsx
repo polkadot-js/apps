@@ -17,31 +17,27 @@ import { useTranslation } from './translate';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  color?: 'green' | 'grey' | 'red';
   isEditable?: boolean;
   isEditing?: boolean;
   onChange?: (_: string[]) => void;
   onToggleIsEditing?: () => void;
   onSave?: VoidFn;
-  size?: 'small' | 'tiny';
   value: string[];
 }
 
-function Tags ({ children, className, color = 'grey', isEditable, isEditing, onChange, onSave, onToggleIsEditing, size = 'small', value }: Props): React.ReactElement<Props> {
+function Tags ({ children, className, isEditable, isEditing, onChange, onSave, onToggleIsEditing, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const contents = useMemo(
-    (): React.ReactNode => value.length
+    () => value.length
       ? value.map((tag): React.ReactNode => (
         <Tag
-          color={color}
           key={tag}
           label={tag}
-          size={size}
         />
       ))
       : <label>{t<string>('no tags')}</label>,
-    [color, size, t, value]
+    [t, value]
   );
 
   const _onSave = useCallback(
