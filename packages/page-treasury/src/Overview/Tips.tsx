@@ -30,8 +30,8 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
     [t('reason'), 'start'],
     [],
     [],
-    isMember ? [] : null
-  ].filter((v) => v), [isMember, t]);
+    [undefined, 'badge']
+  ].filter((v) => v), [t]);
 
   return (
     <Table

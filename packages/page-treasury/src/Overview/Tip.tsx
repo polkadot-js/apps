@@ -131,14 +131,14 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
           )
         }
       </td>
-      {isMember && (
-        <td className='badge'>
+      <td className='badge'>
+        {isMember && (
           <Icon
             color={isTipper ? 'green' : 'gray'}
             icon='asterisk'
           />
-        </td>
-      )}
+        )}
+      </td>
     </tr>
   );
 }
