@@ -4,13 +4,12 @@
 
 import { IdentityProps as Props } from '@polkadot/react-identicon/types';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { getSystemIcon } from '@polkadot/apps-config/ui';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 import uiSettings from '@polkadot/ui-settings';
-import { ValidatorsContext } from '@polkadot/react-query';
 
 import StatusContext from './Status/Context';
 import { useTranslation } from './translate';
@@ -23,22 +22,12 @@ function IdentityIcon ({ className = '', onCopy, prefix, size = 24, theme, value
   const { systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
-  const validators = useContext(ValidatorsContext);
-  const [isValidator, setIsValidator] = useState(false);
-  const [address, setAddress] = useState(value?.toString());
   const thisTheme = theme || getIdentityTheme(systemName);
-
-  useEffect((): void => {
-    value && setIsValidator(
-      validators.includes(value.toString())
-    );
-    value && setAddress(value.toString());
-  }, [value, validators]);
 
   const _onCopy = useCallback(
     (account: string): void => {
       onCopy && onCopy(account);
-      queueAction && queueAction({
+      queueAction({
         account,
         action: t<string>('clipboard'),
         message: t<string>('address copied'),
@@ -51,12 +40,11 @@ function IdentityIcon ({ className = '', onCopy, prefix, size = 24, theme, value
   return (
     <span className={`ui--IdentityIcon-Outer ${className}`}>
       <BaseIdentityIcon
-        isHighlight={isValidator}
         onCopy={_onCopy}
         prefix={prefix}
         size={size}
         theme={thisTheme as 'substrate'}
-        value={address}
+        value={value}
       />
     </span>
   );
