@@ -5,10 +5,10 @@
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { LinkExternal } from '@polkadot/react-components';
-import { useVotingStatus } from '@polkadot/react-hooks';
+import { Icon, LinkExternal } from '@polkadot/react-components';
+import { useAccounts, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -24,8 +24,26 @@ interface Props {
   prime: AccountId | null;
 }
 
+interface VoterState {
+  hasVoted: boolean;
+  hasVotedAye: boolean;
+}
+
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+  const { allAccounts } = useAccounts();
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
+  const [{ hasVoted, hasVotedAye }, setIsVoter] = useState<VoterState>({ hasVoted: false, hasVotedAye: false });
+
+  useEffect((): void => {
+    if (votes) {
+      const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+
+      setIsVoter({
+        hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
+        hasVotedAye
+      });
+    }
+  }, [allAccounts, votes]);
 
   if (!votes) {
     return null;
@@ -41,7 +59,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
         proposal={proposal}
       />
       <td className='number together'>
-        {formatNumber(ayes.length)}/{formatNumber(threshold)}
+        {formatNumber(threshold)}
       </td>
       <td className='number together'>
         {remainingBlocks && end && (
@@ -51,8 +69,17 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           </>
         )}
       </td>
-      <Voters votes={ayes} />
-      <Voters votes={nays} />
+      <Voters
+        isAye
+        members={members}
+        threshold={threshold}
+        votes={ayes}
+      />
+      <Voters
+        members={members}
+        threshold={threshold}
+        votes={nays}
+      />
       <td className='button'>
         {isVoteable && !isCloseable && (
           <Voting
@@ -72,6 +99,14 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
             isDisabled={!isMember}
             members={members}
             proposal={proposal}
+          />
+        )}
+      </td>
+      <td className='badge'>
+        {isVoteable && (
+          <Icon
+            color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
+            icon='asterisk'
           />
         )}
       </td>

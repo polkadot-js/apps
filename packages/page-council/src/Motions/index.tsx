@@ -29,9 +29,10 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
     [t('motions'), 'start', 2],
     [t('threshold')],
     [t('voting end')],
-    [t('aye'), 'address'],
-    [t('nay'), 'address'],
+    [undefined, 'address'],
+    [undefined, 'address'],
     [],
+    [undefined, 'badge'],
     [undefined, 'mini']
   ], [t]);
 
