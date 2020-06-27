@@ -1,4 +1,5 @@
 {
+  "Aye {{counter}}": "Aye {{counter}}",
   "Cancel slashes": "Cancel slashes",
   "Close": "Close",
   "Close proposal": "Close proposal",
@@ -6,6 +7,7 @@
   "Current prime member, default voting": "Current prime member, default voting",
   "In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.": "In calculating the election outcome, this prioritized vote ordering will be used to determine the final score for the candidates.",
   "Motions ({{count}})": "Motions ({{count}})",
+  "Nay {{counter}}": "Nay {{counter}}",
   "No candidates found": "No candidates found",
   "No council motions": "No council motions",
   "No members found": "No members found",
