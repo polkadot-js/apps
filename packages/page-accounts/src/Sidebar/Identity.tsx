@@ -69,7 +69,10 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               //   ? <img src={identity.image} />
               //   : <i className='icon user ui--AddressMenu-identityIcon' />
               //
-              <i className='icon user ui--AddressMenu-identityIcon' />
+              <Icon
+                className='ui--AddressMenu-identityIcon'
+                icon='user'
+              />
             }
             subtitle={identity.legal}
             title={identity.display}
