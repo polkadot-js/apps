@@ -101,7 +101,7 @@ export default React.memo(styled(Badge)`
 
   &.offline,
   &.counter {
-    background: red;
+    background: var(--red-primary);
   }
 
   &.counter {
@@ -122,7 +122,7 @@ export default React.memo(styled(Badge)`
   &.online,
   &.selected,
   &.green {
-    background: green;
+    background: var(--green-primary);
   }
 
   &.purple {

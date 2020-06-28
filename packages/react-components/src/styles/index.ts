@@ -78,7 +78,7 @@ export default createGlobalStyle<Props>`
 
     .ui.negative.button,
     .ui.buttons .negative.button {
-      background: #666 !important;
+      background: #FFF;
     }
 
     .ui.primary.button,
@@ -102,8 +102,8 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: ${MED_EMPH_HEX};
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--grey20);
+    font-family: var(--default-font-family, sans-serif);
     height: 100%;
   }
 
@@ -216,9 +216,9 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: ${HIGH_EMPH_HEX};
-    font-family: sans-serif;
-    font-weight: 100;
+    color: var(--grey20);
+    font-family: var(--default-font-family, sans-serif);
+    font-weight: 300;
   }
 
   h1 {
@@ -254,11 +254,11 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: ${HIGH_EMPH_HEX};
+    color: var(--grey20);
     display: block;
-    font-family: sans-serif;
+    font-family: var(--default-font-family, sans-serif);
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   main {

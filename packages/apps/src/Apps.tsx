@@ -107,7 +107,7 @@ export default React.memo(styled(Apps)`
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
       border-radius: 0.25rem;
-      color: ${MED_EMPH_HEX};
+      color: var(--grey70);
       display: block;
       margin: 0 0 0.24rem;
       padding: 0.75em 0.75em;
@@ -118,14 +118,23 @@ export default React.memo(styled(Apps)`
       }
 
       &:hover {
-        background: #1C2429;
+        background: var(--grey30);
+        border-radius: var(--btn-radius-default);
+        color: var(--grey80);
       }
     }
 
     a.apps--SideBar-Item-NavLink-active {
-      background: #2B3840;
+      background: var(--grey30);
+      border-radius: 4px;
       /* border-bottom: 2px solid transparent; */
-      color: #FFFFFF;
+      color: var(--grey80);
+
+      &:hover {
+        background: var(--grey30);
+        color: var(--grey80);
+        /* margin-right: 0; */
+      }
     }
   }
 

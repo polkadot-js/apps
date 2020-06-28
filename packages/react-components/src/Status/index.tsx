@@ -292,7 +292,7 @@ export default React.memo(styled(Status)`
     &.sent,
     &.success {
       & > .wrapper > .container {
-        background: green;
+        background: var(--green-primary);
       }
     }
 
@@ -302,7 +302,7 @@ export default React.memo(styled(Status)`
     &.invalid,
     &.usurped {
       & > .wrapper > .container {
-        background: red;
+        background: var(--red-primary);
       }
     }
   }

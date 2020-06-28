@@ -173,7 +173,9 @@ export default React.memo(styled(InputFile)`
   padding: 1rem;
 
   &.isEmpty {
-    ${ELEV_0_CSS}
+    background: #fff;
+    border: 1px solid var(--grey80);
+    border-radius: 0.28571429rem;
     width: 100% !important;
     text-align: center;
 
@@ -183,12 +185,12 @@ export default React.memo(styled(InputFile)`
   }
 
   &:not(.isEmpty) {
-    ${ELEV_2_CSS};
+    border-radius: 0.28571429rem;
+    background: var(--grey10);
   }
 
   &.error {
-    background: ${ERROR_BG_HEX};
-    border-color: ${ERROR_FOCUS_HEX};
+    border-color: var(--red-primary);
   }
 
   &:hover {

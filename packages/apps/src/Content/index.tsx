@@ -24,7 +24,6 @@ const NOT_FOUND: Route = {
   display: {
     needsApi: undefined
   },
-  icon: 'cancel',
   isIgnored: false,
   name: 'unknown',
   text: 'Unknown'

@@ -45,7 +45,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 export default React.memo(styled(Head)`
   th {
     color: rgba(78, 78, 78, .66);
-    font-family: sans-serif;
+    font-family: var(--default-font-family, sans-serif);;
     font-weight: 100;
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
