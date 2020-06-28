@@ -69,7 +69,7 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
   );
 }
 
-function Identity ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
+function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
@@ -267,7 +267,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
   );
 }
 
-export default styled(Identity)`
+export default styled(IdentityMain)`
   .toggle-Wrap {
     position: relative;
 

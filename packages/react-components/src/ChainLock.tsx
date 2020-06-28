@@ -56,11 +56,7 @@ function ChainLock ({ className = '', genesisHash, isDisabled, onChange }: Props
     <Toggle
       className={className}
       isDisabled={isDisabled}
-      label={
-        isTiedToChain
-          ? t<string>('only this network')
-          : t<string>('use on any network')
-      }
+      label={t<string>('only this network')}
       onChange={_onChange}
       preventDefault
       value={isTiedToChain}

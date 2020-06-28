@@ -223,17 +223,13 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
             >
               {t<string>('Forget this address')}
             </Menu.Item>
-            {!api.isDevelopment && (
-              <>
-                <Menu.Divider />
-                <ChainLock
-                  className='addresses--network-toggle'
-                  genesisHash={genesisHash}
-                  isDisabled={!isEditable}
-                  onChange={_onGenesisChange}
-                />
-              </>
-            )}
+            <Menu.Divider />
+            <ChainLock
+              className='addresses--network-toggle'
+              genesisHash={genesisHash}
+              isDisabled={!isEditable || api.isDevelopment}
+              onChange={_onGenesisChange}
+            />
           </Menu>
         </Popup>
       </td>
