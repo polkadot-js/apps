@@ -3,12 +3,34 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/types';
-import { ParamDef, Props, RawParam } from '../types';
+import { ParamDef } from '../types';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { registry } from '@polkadot/react-api';
+import { getTypeDef } from '@polkadot/types';
+
+function expandDef (td: TypeDef): TypeDef {
+  try {
+    const rawType = registry.createType(td.type as 'u32').toRawType();
+
+    return getTypeDef(rawType);
+  } catch (e) {
+    return td;
+  }
+}
 
 export default function useParamDefs (type: TypeDef): ParamDef[] {
   const [params, setParams] = useState<ParamDef[]>([]);
+
+  useEffect((): void => {
+    const typeDef = expandDef(type);
+
+    if (!typeDef.sub) {
+      return setParams([]);
+    }
+
+    setParams((Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((type): ParamDef => ({ name: type.name, type })));
+  }, [type]);
 
   return params;
 }
