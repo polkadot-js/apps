@@ -5,11 +5,11 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import * as edgewareDefinitions from 'edgeware-node-types/dist/definitions';
+import * as edgewareDefinitions from 'edgeware-node-types/interfaces/definitions';
 
 const edgTypes = Object
   .values(edgewareDefinitions)
-  .reduce((res, { default: { types } }) => ({ ...res, ...types }), {});
+  .reduce((res, { types }) => ({ ...res, ...types }), {});
 
 export default {
   ...edgTypes,
