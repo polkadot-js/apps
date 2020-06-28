@@ -20,7 +20,7 @@ import SideBar from './SideBar';
 import BN from 'bn.js';
 import routing from '@polkadot/apps-routing';
 import { useLocation } from 'react-router-dom';
-import CheckAccountModal from './modals/CheckAccount';
+import AccountCheckingModal from './modals/AccountChecking';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -102,8 +102,8 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     <>
       <GlobalStyle />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
-        {hasAccounts && ( // Todo binary-check change
-          <CheckAccountModal
+        {!hasAccounts && (
+          <AccountCheckingModal
             onClose={_toggleAccountCheckingModal}
             onStatusChange={onStatusChange}
           />
