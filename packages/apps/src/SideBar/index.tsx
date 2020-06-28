@@ -172,7 +172,7 @@ export default React.memo(styled(SideBar)`
 
   .apps--SideBar {
     align-items: center;
-    background: #4f5255;
+    background: var(--grey20);
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
@@ -234,7 +234,6 @@ export default React.memo(styled(SideBar)`
     }
 
     .apps--SideBar-collapse {
-      background: #4f5255;
       bottom: 0;
       left: 0;
       padding: 0.75rem 0 .75rem 0.65rem;

@@ -129,7 +129,7 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
 
 export default React.memo(styled(InputFile)`
   background: #fff;
-  border: 1px solid rgba(34, 36, 38, 0.15);
+  border: 1px solid var(--grey80);
   border-radius: 0.28571429rem;
   font-size: 1rem;
   margin: 0.25rem 0;
@@ -137,8 +137,7 @@ export default React.memo(styled(InputFile)`
   width: 100% !important;
 
   &.error {
-    background: #fff6f6;
-    border-color: #e0b4b4;
+    border-color: var(--red-primary);
   }
 
   &:hover {
@@ -147,6 +146,6 @@ export default React.memo(styled(InputFile)`
   }
 
   .label {
-    color: rgba(0, 0, 0, .6);
+    color: var(--grey20);
   }
 `);

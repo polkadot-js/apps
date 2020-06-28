@@ -93,10 +93,10 @@ export default css`
   }
 
   .ui.modal {
-    background: #f9f8f7;
+    background: #fff;
     box-shadow: none;
-    color: #4e4e4e;
-    font-family: sans-serif;
+    /* color: var(--grey20); */
+    font-family: var(--default-font-family, sans-serif);;
 
     > .actions,
     > .content {
@@ -114,7 +114,7 @@ export default css`
       background: transparent;
       border-bottom: none;
       color: rgba(0, 0, 0, .6);
-      font-family: sans-serif;
+      font-family: var(--default-font-family, sans-serif);;
       font-size: 1.75rem;
       font-weight: 100;
       line-height: 1.25rem;
@@ -175,6 +175,10 @@ export default css`
   .ui.dimmer {
     background-color: rgba(0,0,0,0.5);
     justify-content: flex-start;
+  }
+
+  .ui.menu {
+    font-family: var(--default-font-family, sans-serif);;
   }
 
   .ui.menu.tabular {

@@ -4,53 +4,77 @@
 
 import { css } from 'styled-components';
 
-/* default buttons, dark gray */
-export const colorBtnDefault = '#666';
-
 /* highlighted buttons, orange */
 export const colorBtnHighlight = '#f19135';
 
-/* primary buttons, blue */
-export const colorBtnPrimary = colorBtnDefault; // '#2e86ab';
-
-/* button text color */
-export const colorBtnText = '#f9f8f7';
-
-export const colorLink = '#2e86ab';
-
 export default css`
+  :root {
+    /* colors */
+    --blue-primary: #2477B3;
+    --blue-secondary: #195580;
+    --green-primary: #16DB9A;
+    --red-primary: #F54E4E;
+
+    --grey00: #000;
+    --grey10: #151B1F;
+    --grey15: #202B33;
+    --grey20: #2B3840; /* header text */
+    --grey30: #33434D;
+    --grey50: #777B80;
+    --grey70: #A0A2A3;
+    --grey80: #DFE2E6;
+
+    --white: #FFF;
+
+    /* radii*/
+    --btn-radius-default: 4px;
+
+    /* typography */
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  }
+
   .theme--default {
     a {
-      color: ${colorLink};
+      color: var(--blue-primary);
 
       &:hover,
       a:visited {
-        color: ${colorLink};
+        color: var(--blue-primary);
       }
     }
 
     .ui.button,
     .ui.buttons .button {
-      background-color: ${colorBtnDefault};
-      color: ${colorBtnText};
+      background-color: var(--white);
+      border: 1px solid var(--grey80);
+      color: var(--grey50);
+      font-family: var(--default-font-family, sans-serif);
+      font-weight: 500;
 
       &.active,
       &:active,
       &:focus,
       &:hover {
-        background-color: ${colorBtnDefault};
-        color: ${colorBtnText};
+        background-color: var(--white);
+        border: 1px solid var(--blue-primary);
+        color: var(--blue-primary);
       }
 
-      &:hover {
+      /* &:hover {
         filter: brightness(120%);
-      }
+      } */
 
       &.isIcon {
         i.icon {
-          color: ${colorLink};
+          color: var(--blue-primary);
         }
       }
+    }
+
+    .ui.small.button,
+    .ui.small.buttons .button,
+    .ui.small.buttons .or {
+      font-size: 14px;
     }
 
     .ui.basic.negative.button {
@@ -60,26 +84,27 @@ export default css`
 
     .ui.negative.button,
     .ui.buttons .negative.button {
-      // background-color: ${colorBtnHighlight};
 
-      // &.active,
-      // &:active,
-      // &:focus,
-      // &:hover {
-      //   background-color: ${colorBtnHighlight};
-      // }
+      &:active,
+      &:active,
+      &:focus,
+      &:hover {
+        background-color: var(--red-primary);
+        border: 1px solid var(--red-primary);
+        color: white;
+      }
     }
 
     .ui.primary.button,
     .ui.buttons .primary.button
     /*, .ui.primary.buttons .button (for dropdowns) */ {
-      // background-color: ${colorBtnPrimary};
+      // background-color: var(--blue-primary);
 
       // &.active,
       // &:active,
       // &:focus,
       // &:hover {
-      //   background-color: ${colorBtnPrimary};
+      //   background-color: var(--blue-secondary);
       // }
     }
 
@@ -87,8 +112,10 @@ export default css`
       background-color: ${colorBtnHighlight};
     }
 
+    &.ui.modal > .header:not(.ui),
     .ui.modal > .header:not(.ui) {
-      border-bottom-color: ${colorBtnHighlight};
+      color: var(--grey20);
+      font-weight: 300;
     }
 
     .ui.menu.tabular .item.active {
@@ -103,13 +130,21 @@ export default css`
       }
 
       > .text:not(.default) {
-        color: ${colorBtnText};
+        color: var(--grey-50);
       }
     }
 
     .ui.toggle.checkbox input:checked~.box:before,
     .ui.toggle.checkbox input:checked~label:before {
       // background-color: ${colorBtnHighlight} !important;
+    }
+
+    .ui.input>input {
+      color: var(--grey20);
+    }
+
+    .ui.selection.dropdown {
+      border-color: var(--grey80);
     }
   }
 `;
