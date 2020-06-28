@@ -78,6 +78,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const proxyInfo = useProxies(address);
   const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
+  const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
@@ -91,8 +92,15 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const [isTransferOpen, toggleTransfer] = useToggle();
 
   useEffect((): void => {
-    balancesAll && setBalance(address, balancesAll.freeBalance);
-  }, [address, balancesAll, setBalance]);
+    if (balancesAll) {
+      setBalance(address, balancesAll.freeBalance);
+      setVestingTx(() =>
+        balancesAll.vestingLocked.isZero() && api.api.tx.vesting?.vest
+          ? null
+          : api.api.tx.vesting.vest()
+      );
+    }
+  }, [address, api, balancesAll, setBalance]);
 
   useEffect((): void => {
     setIsVisible(
@@ -148,13 +156,19 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   );
 
   const _clearDemocracyLocks = useCallback(
-    (): void => {
-      democracyUnlockTx && queueExtrinsic({
-        accountId: address,
-        extrinsic: democracyUnlockTx
-      });
-    },
+    () => democracyUnlockTx && queueExtrinsic({
+      accountId: address,
+      extrinsic: democracyUnlockTx
+    }),
     [address, democracyUnlockTx, queueExtrinsic]
+  );
+
+  const _vestingVest = useCallback(
+    () => vestingVestTx && queueExtrinsic({
+      accountId: address,
+      extrinsic: vestingVestTx
+    }),
+    [address, queueExtrinsic, vestingVestTx]
   );
 
   const _showOnHardware = useCallback(
@@ -371,6 +385,14 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
                   onClick={_clearDemocracyLocks}
                 >
                   {t('Clear expired democracy locks')}
+                </Menu.Item>
+              ),
+              api.api.tx.vesting?.vest && vestingVestTx && (
+                <Menu.Item
+                  key='vestingVest'
+                  onClick={_vestingVest}
+                >
+                  {t('Unlock vested amount')}
                 </Menu.Item>
               )
             ])}
