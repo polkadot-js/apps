@@ -13,28 +13,30 @@ import { useTranslation } from '../translate';
 import getInitValue from '../initValue';
 import Params from '../';
 import Base from './Base';
+import useParamDefs from './useParamDefs';
 
-function generateParam (type: TypeDef, index: number): ParamDef {
+function generateParam ([{ name, type }]: ParamDef[], td: TypeDef, index: number): ParamDef {
   return {
-    name: `${index}: ${type.type}`,
+    name: `${index}: ${name || td.type}`,
     type
   };
 }
 
 function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, type, withLabel }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const inputParams = useParamDefs(type);
   const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
 
   // when !isDisable, generating an input & params based on count
   useEffect((): void => {
-    if (!isDisabled) {
+    if (!isDisabled && inputParams.length) {
       const subType = type.sub as TypeDef;
       const params: ParamDef[] = [];
 
       for (let index = 0; index < count; index++) {
-        params.push(generateParam(subType, index));
+        params.push(generateParam(inputParams, subType, index));
       }
 
       setParams(params);
@@ -49,11 +51,11 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         setValues(values.slice(0, count));
       }
     }
-  }, [count, isDisabled, type, values]);
+  }, [count, inputParams, isDisabled, type, values]);
 
   // when isDisabled, set the params & values based on the defaultValue input
   useEffect((): void => {
-    if (isDisabled) {
+    if (isDisabled && inputParams.length) {
       const subType = type.sub as TypeDef;
       const params: ParamDef[] = [];
       const values: RawParam[] = [];
@@ -64,19 +66,19 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
             ? { isValid: !isUndefined(value), value }
             : value
         );
-        params.push(generateParam(subType, index));
+        params.push(generateParam(inputParams, subType, index));
       });
 
       setParams(params);
       setValues(values);
     }
-  }, [defaultValue, isDisabled, type]);
+  }, [defaultValue, isDisabled, inputParams, type]);
 
   // when our values has changed, alert upstream
   useEffect((): void => {
     onChange && onChange({
-      isValid: values.reduce((result: boolean, { isValid }): boolean => result && isValid, true),
-      value: values.map(({ value }): any => value)
+      isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+      value: values.map(({ value }) => value)
     });
   }, [values, onChange]);
 
