@@ -46,11 +46,7 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
       {children}
       <Toggle
         className='toggle-Toggle'
-        label={
-          value
-            ? t<string>('include value')
-            : t<string>('exclude value')
-        }
+        label={t<string>('include field')}
         onChange={onChange}
         value={value}
       />
