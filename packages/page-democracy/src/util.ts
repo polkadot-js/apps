@@ -94,8 +94,12 @@ export function approxChanges (threshold: VoteThreshold, sqrtElectorate: BN, sta
       : state.votedNay.sub(state.votedAye);
 
     return {
-      changeAye: change,
-      changeNay: change
+      changeAye: state.votedNay.isZero()
+        ? BN_ZERO
+        : change,
+      changeNay: state.votedAye.isZero()
+        ? BN_ZERO
+        : change
     };
   }
 
