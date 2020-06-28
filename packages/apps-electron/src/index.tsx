@@ -40,11 +40,9 @@ ReactDOM.render(
         >
           <BlockAuthors>
             <Events>
-              <AccountSidebar>
-                <HashRouter>
-                  <Apps />
-                </HashRouter>
-              </AccountSidebar>
+              <HashRouter>
+                <Apps />
+              </HashRouter>
             </Events>
           </BlockAuthors>
         </Api>

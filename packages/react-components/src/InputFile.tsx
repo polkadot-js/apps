@@ -4,12 +4,16 @@
 
 import { BareProps } from './types';
 
-import React, { useCallback, useState, createRef } from 'react';
+import React, { useCallback, useState, createRef, MouseEvent } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
 import { formatNumber, isHex, u8aToString, hexToU8a } from '@polkadot/util';
 
+import { ACCENT_DARK_HEX, ELEV_0_CSS, ELEV_2_CSS, ERROR_BG_HEX, ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './styles/constants';
 import { classes } from './util';
+import Icon from './Icon';
+import Button from './Button';
+import FileSupplied from './FileSupplied';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
 
@@ -19,11 +23,13 @@ export interface InputFileProps extends BareProps {
   accept?: string;
   clearContent?: boolean;
   convertHex?: boolean;
+  errorText?: React.ReactNode;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (contents: Uint8Array, name: string) => void;
+  onRemove?: () => void;
   placeholder?: React.ReactNode | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
@@ -53,7 +59,7 @@ function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, convertHex, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, children, className = '', clearContent, convertHex, errorText, help, isDisabled, isError = false, label, onChange, onRemove, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -85,6 +91,16 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
     [convertHex, dropRef, onChange]
   );
 
+  const _onRemove = useCallback(
+    (event: MouseEvent<HTMLDivElement>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+      setFile(undefined);
+      onRemove && onRemove();
+    },
+    [onRemove]
+  );
+
   const dropZone = (
     <Dropzone
       accept={accept}
@@ -93,23 +109,45 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
       onDrop={_onDrop}
       ref={dropRef}
     >
-      {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: classes('ui--InputFile', isError ? 'error' : '', className) })} >
-          <input {...getInputProps()} />
-          <em className='label' >
+      {({ getInputProps, getRootProps }): JSX.Element => {
+        const rootProps = getRootProps({
+          className: classes('ui--InputFile', isError ? 'error' : '', !file ? 'isEmpty' : '', className)
+        });
+        const inputProps = getInputProps();
+
+        return (
+          <div {...rootProps} >
+            <input {...inputProps} />
             {
-              !file || clearContent
-                ? placeholder || t<string>('click to select or drag and drop the file here')
-                : placeholder || t<string>('{{name}} ({{size}} bytes)', {
-                  replace: {
-                    name: file.name,
-                    size: formatNumber(file.size)
-                  }
-                })
+              !file
+                ? (
+                  <>
+                    <Icon
+                      name='upload'
+                      size='large'
+                    />
+                    <div>
+                      {t<string>('Click to select or drag & drop to upload file.')}
+                    </div>
+                  </>
+                )
+                : (
+                  <FileSupplied
+                    errorText={errorText}
+                    isError={isError}
+                    onRemove={_onRemove}
+                    text={file.name}
+                  />
+                )
             }
-          </em>
-        </div>
-      )}
+            {children && (
+              <div className='children'>
+                {children}
+              </div>
+            )}
+          </div>
+        );
+      }}
     </Dropzone>
   );
 
@@ -128,25 +166,36 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
 }
 
 export default React.memo(styled(InputFile)`
-  background: #fff;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  border-radius: 0.28571429rem;
+  cursor: pointer;
+  display: table;
   font-size: 1rem;
   margin: 0.25rem 0;
   padding: 1rem;
-  width: 100% !important;
+
+  &.isEmpty {
+    ${ELEV_0_CSS}
+    width: 100% !important;
+    text-align: center;
+
+    i.icon {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &:not(.isEmpty) {
+    ${ELEV_2_CSS};
+  }
 
   &.error {
-    background: #fff6f6;
-    border-color: #e0b4b4;
+    background: ${ERROR_BG_HEX};
+    border-color: ${ERROR_FOCUS_HEX};
   }
 
   &:hover {
-    background: #fefefe;
     cursor: pointer;
   }
 
-  .label {
-    color: rgba(0, 0, 0, .6);
+  .children {
+    margin-top: 1.5rem;
   }
 `);

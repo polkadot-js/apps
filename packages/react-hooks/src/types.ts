@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
@@ -137,4 +138,13 @@ export interface StakerState {
   stakingLedger?: StakingLedger;
   stashId: string;
   validatorPrefs?: ValidatorPrefs;
+}
+
+export interface UseWeight {
+  isValid: boolean;
+  weight: BN;
+  executionTime: number;
+  megaGas: BN;
+  percentage: number;
+  setMegaGas: React.Dispatch<BN | undefined>
 }

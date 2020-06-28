@@ -3,18 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
+import { HIGH_EMPH_HEX } from './constants';
 
 /* default buttons, dark gray */
 export const colorBtnDefault = '#666';
 
 /* highlighted buttons, orange */
-export const colorBtnHighlight = '#f19135';
+export const colorBtnHighlight = '#2477B3';
 
 /* primary buttons, blue */
-export const colorBtnPrimary = colorBtnDefault; // '#2e86ab';
+export const colorBtnPrimary = '#2477B3'; // '#2e86ab';
 
 /* button text color */
-export const colorBtnText = '#f9f8f7';
+export const colorBtnText = HIGH_EMPH_HEX;
 
 export const colorLink = '#2e86ab';
 
@@ -100,10 +101,6 @@ export default css`
       &:hover {
         /* reset opacity, this is now open */
         opacity: 1;
-      }
-
-      > .text:not(.default) {
-        color: ${colorBtnText};
       }
     }
 

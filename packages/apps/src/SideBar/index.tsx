@@ -105,27 +105,6 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
                 )
             ))}
             <Menu.Divider hidden />
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://github.com/polkadot-js/apps'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon name='github' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://wiki.polkadot.network'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon name='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Divider hidden />
             {
               isCollapsed
                 ? undefined
@@ -167,12 +146,12 @@ export default React.memo(styled(SideBar)`
   }
 
   &.expanded {
-    width: 12rem;
+    width: 228px;
   }
 
   .apps--SideBar {
     align-items: center;
-    background: #4f5255;
+    background: #202b33;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;

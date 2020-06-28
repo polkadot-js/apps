@@ -10,15 +10,18 @@ import cssMedia from './media';
 import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
+import { ACCENT_DARK_HEX, BG_HEX, HIGH_EMPH_HEX, MED_EMPH_HEX } from './constants';
 
 interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#f19135'; // #999
+const defaultHighlight = '#2477B3'; // #999
 
 const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
+
+export * from './constants';
 
 export default createGlobalStyle<Props>`
   .ui--highlight--all {
@@ -99,8 +102,8 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
-    font-family: sans-serif;
+    color: ${MED_EMPH_HEX};
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     height: 100%;
   }
 
@@ -179,6 +182,8 @@ export default createGlobalStyle<Props>`
   }
 
   body {
+    background: ${BG_HEX};
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     height: 100%;
     margin: 0;
   }
@@ -211,13 +216,13 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: rgba(0, 0, 0, .6);
+    color: ${HIGH_EMPH_HEX};
     font-family: sans-serif;
     font-weight: 100;
   }
 
   h1 {
-    text-transform: lowercase;
+    font-size: 1.8rem;
 
     em {
       font-style: normal;
@@ -230,8 +235,9 @@ export default createGlobalStyle<Props>`
   }
 
   header {
-    margin-bottom: 1.5rem;
-    text-align: center;
+    margin: 2rem 0;
+    padding: 0 0 2rem;
+    border-bottom: 1px solid ${ACCENT_DARK_HEX};
 
     > article {
       background: transparent;
@@ -242,17 +248,22 @@ export default createGlobalStyle<Props>`
     height: 100%;
   }
 
+  input {
+    color: ${HIGH_EMPH_HEX};
+  }
+
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: ${HIGH_EMPH_HEX};
     display: block;
     font-family: sans-serif;
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: 600;
   }
 
   main {
-    min-height: 100vh;
+    margin: 0px auto;
+    max-width: 556px;
 
     > section {
       margin-bottom: 2em;

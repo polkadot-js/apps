@@ -300,6 +300,8 @@ const ExportedComponent = withMulti(
     }
 
     .ui.search.selection.dropdown {
+      height: 4.25rem;
+
       > .text > .ui--KeyPair {
         .ui--IdentityIcon-Outer {
           border: 1px solid #888;

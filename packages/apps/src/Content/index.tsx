@@ -77,13 +77,11 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #f5f4f3;
   flex-grow: 1;
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 1.5rem;
   position: relative;
   width: 100%;
 

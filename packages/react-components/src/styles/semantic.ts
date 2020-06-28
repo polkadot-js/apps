@@ -3,10 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
+import { ELEV_0_CSS, ELEV_1_CSS, ELEV_2_CSS, ELEV_3_CSS, ELEV_4_CSS, ACCENT_LIGHT_HEX, ACCENT_DARK_HEX, ERROR_BG_HEX, ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './constants';
 
 export default css`
   .ui.hidden.divider {
     margin: 0.5rem 0;
+  }
+
+  .ui.button {
+    border-radius: 3px;
+    padding: 0.5rem 0.8rem;
+    font-size: 1rem !important;
+    font-weight: normal;
   }
 
   .ui.dropdown {
@@ -20,9 +28,27 @@ export default css`
     margin: 0.25rem 0;
   }
 
-  .ui.selection.dropdown,
-  .ui.input > input {
-    color: inherit;
+  .ui.input {
+    > input, > input:focus {
+      color: ${HIGH_EMPH_HEX};
+      ${ELEV_3_CSS}
+    }
+
+    > input:focus {
+      border: 1px solid ${ACCENT_LIGHT_HEX};
+    }
+
+    &.error {
+      > input {
+        background: ${ERROR_BG_HEX};
+        border: 1px solid ${ERROR_FOCUS_HEX};
+      }
+    }
+  }
+
+  .ui.selection.dropdown {
+    ${ELEV_3_CSS}
+    color: ${HIGH_EMPH_HEX};
   }
 
   .ui.dropdown {
@@ -39,6 +65,10 @@ export default css`
     > .text {
       min-height: 1em;
     }
+
+    .menu {
+      ${ELEV_3_CSS}
+    }
   }
 
   .ui.dropdown .menu > .item.header.disabled {
@@ -46,10 +76,53 @@ export default css`
     opacity: 1;
   }
 
-  .ui.dropdown .menu > .item.header.disabled:hover,
-  .ui.dropdown .menu > .item.header.disabled.selected {
-    background: white;
+  .ui.dropdown .menu .item {
+    border-radius: 0 !important;
   }
+
+  .ui.dropdown .menu .selected.item {
+    ${ELEV_2_CSS}
+  }
+
+  .ui.dropdown .menu > .header {
+    color: ${HIGH_EMPH_HEX};
+  }
+
+  .ui.selection.active.dropdown {
+    border-color: ${ACCENT_LIGHT_HEX};
+  }
+
+  .ui.selection.active.dropdown .menu {
+    border-color: ${ACCENT_LIGHT_HEX};
+
+    &:hover {
+      border-color: ${ACCENT_LIGHT_HEX}
+    }
+  }
+
+  .ui.selection.visible.dropdown>.text:not(.default) {
+    color: ${HIGH_EMPH_HEX};
+  }
+
+  .ui.selection.dropdown .menu > .item {
+    &, &:hover {
+      border-top: 0;
+      color: ${HIGH_EMPH_HEX};
+    }
+
+    &:hover {
+      ${ELEV_1_CSS}
+    }
+  }
+
+  .ui.dropdown .menu .selected.item {
+    color: ${HIGH_EMPH_HEX};
+  }
+
+  // .ui.dropdown .menu > .item.header.disabled:hover,
+  // .ui.dropdown .menu > .item.header.disabled.selected {
+  //   background: white;
+  // }
 
   .ui.input {
     width: 100%;

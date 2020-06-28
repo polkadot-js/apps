@@ -31,6 +31,10 @@ const Wrapper = styled.div`
   display: block;
   position: relative;
 
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
   .withEllipsis {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -48,20 +52,12 @@ const Wrapper = styled.div`
   }
 
   &:not(.label-small) {
-    padding-left: 2rem;
-
     &:not(.label-outer) {
       > label,
       .labelExtra {
-        position: absolute;
+        margin-bottom: 0.75rem;
         text-align: left;
-        top: 0.5rem;
         z-index: 1;
-      }
-
-      > label {
-        left: 3.55rem;
-        text-align: left;
       }
     }
 
@@ -86,11 +82,6 @@ const Wrapper = styled.div`
       min-width: 0;
 
       .ui.selection.dropdown {
-        &:not(.floating) {
-          padding-left: 1.45rem;
-          padding-top: 1.75rem;
-        }
-
         &.floating {
           > .dropdown.icon {
             top: 1.25rem;
@@ -102,8 +93,9 @@ const Wrapper = styled.div`
         }
 
         &.search:not(.multiple) > input.search {
-          padding-left: 1.45rem;
-          padding-top: 1.75rem;
+          height: 100%;
+          // padding-left: 1.45rem;
+          // padding-top: 1.75rem;
         }
 
         > .delete.icon,
@@ -115,14 +107,8 @@ const Wrapper = styled.div`
 
       .ui.input > input,
       .ui--output {
-        padding-left: 1.45rem;
-        padding-top: 1.75rem;
-      }
-
-      .ui--InputFile,
-      .ui--Messages {
-        padding-left: 1.45rem;
-        padding-top: 2rem;
+        // padding-left: 1.45rem;
+        // padding-top: 1.75rem;
       }
 
       .ui--Messages {

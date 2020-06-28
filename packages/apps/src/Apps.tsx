@@ -9,7 +9,7 @@ import store from 'store';
 import styled from 'styled-components';
 import { getSystemChainColor } from '@polkadot/apps-config/ui';
 import { defaultColor } from '@polkadot/apps-config/ui/general';
-import GlobalStyle from '@polkadot/react-components/styles';
+import GlobalStyle, { MED_EMPH_HEX } from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
@@ -106,30 +106,26 @@ export default React.memo(styled(Apps)`
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
-      color: #f5f4f3;
+      border-radius: 0.25rem;
+      color: ${MED_EMPH_HEX};
       display: block;
+      margin: 0 0 0.24rem;
       padding: 0.75em 0.75em;
       white-space: nowrap;
 
+      i.icon {
+        float: right;
+      }
+
       &:hover {
-        background: #5f5f5f;
-        border-radius: 0.28571429rem 0 0 0.28571429rem;
-        color: #eee;
-        margin-right: 0.25rem;
+        background: #1C2429;
       }
     }
 
     a.apps--SideBar-Item-NavLink-active {
-      background: #f5f4f3;
-      border-radius: 0.28571429rem 0 0 0.28571429rem;
+      background: #2B3840;
       /* border-bottom: 2px solid transparent; */
-      color: #3f3f3f;
-
-      &:hover {
-        background: #f5f4f3;
-        color: #3f3f3f;
-        margin-right: 0;
-      }
+      color: #FFFFFF;
     }
   }
 
@@ -173,7 +169,7 @@ export default React.memo(styled(Apps)`
     text-align: left;
 
     .apps--SideBar-Scroll {
-      padding-left: 0.75rem;
+      padding: 0 0.75rem;
     }
   }
 
