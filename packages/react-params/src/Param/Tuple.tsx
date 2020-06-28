@@ -18,14 +18,17 @@ function Tuple (props: Props): React.ReactElement<Props> {
   const { className = '', isDisabled, label, onChange, overrides, type, withLabel } = props;
 
   useEffect((): void => {
+    let typeDef;
+
     try {
       const rawType = createType(registry, type.type as 'u32').toRawType();
-      const typeDef = getTypeDef(rawType);
 
-      setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
+      typeDef = getTypeDef(rawType);
     } catch (e) {
-      setParams(((Array.isArray(type.sub) ? type.sub : [type.sub]) as TypeDef[]).map((subType): ParamDef => ({ name: subType.name, type: subType })));
+      typeDef = type;
     }
+
+    setParams(((Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]) as TypeDef[]).map((subType): ParamDef => ({ name: subType.name, type: subType })));
   }, [type]);
 
   const _onChangeParams = useCallback(

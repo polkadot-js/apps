@@ -34,7 +34,7 @@ function StructParam (props: Props): React.ReactElement<Props> {
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
-        isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
+        isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
         value: params.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
           value[name as string] = values[index].value;
 
