@@ -256,11 +256,24 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
       )}
       {balanceDisplay.vested && balancesAll?.isVesting && (
         <>
-          <Label label={t<string>('vested')} />
+          <Label label={t<string>('vesting')} />
           <FormatBalance
             className='result'
+            label={
+              <Icon
+                icon='info-circle'
+                tooltip={`${address}-vested-trigger`}
+              />
+            }
             value={balancesAll.vestedBalance}
-          />
+          >
+            <Tooltip
+              text={
+                <div>{formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}<div className='faded'>{t('available to be unlocked')}</div></div>
+              }
+              trigger={`${address}-vested-trigger`}
+            />
+          </FormatBalance>
         </>
       )}
       {balanceDisplay.locked && balancesAll && (isAllLocked || balancesAll.lockedBalance.gtn(0)) && (
