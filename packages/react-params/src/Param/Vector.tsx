@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -15,9 +14,9 @@ import Params from '../';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 
-function generateParam ([{ name, type }]: ParamDef[], td: TypeDef, index: number): ParamDef {
+function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   return {
-    name: `${index}: ${name || td.type}`,
+    name: `${index}: ${name || type.type}`,
     type
   };
 }
@@ -29,50 +28,49 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
 
-  // when !isDisable, generating an input & params based on count
+  // build up the list of parameters we are using
   useEffect((): void => {
-    if (!isDisabled && inputParams.length) {
-      const subType = type.sub as TypeDef;
+    if (inputParams.length) {
+      const max = isDisabled ? (defaultValue.value as RawParam[] || []).length : count;
       const params: ParamDef[] = [];
 
-      for (let index = 0; index < count; index++) {
-        params.push(generateParam(inputParams, subType, index));
+      for (let index = 0; index < max; index++) {
+        params.push(generateParam(inputParams, index));
       }
 
       setParams(params);
+    }
+  }, [count, defaultValue, isDisabled, inputParams]);
 
-      if (values.length !== count) {
+  // when !isDisable, generating an input list based on count
+  useEffect((): void => {
+    !isDisabled && inputParams.length &&
+      setValues((values): RawParam[] => {
+        if (values.length === count) {
+          return values;
+        }
+
         while (values.length < count) {
-          const value = getInitValue(type.sub as TypeDef);
+          const value = getInitValue(inputParams[0].type);
 
           values.push({ isValid: !isUndefined(value), value });
         }
 
-        setValues(values.slice(0, count));
-      }
-    }
-  }, [count, inputParams, isDisabled, type, values]);
+        return values.slice(0, count);
+      });
+  }, [count, inputParams, isDisabled]);
 
-  // when isDisabled, set the params & values based on the defaultValue input
+  // when isDisabled, set the values based on the defaultValue input
   useEffect((): void => {
-    if (isDisabled && inputParams.length) {
-      const subType = type.sub as TypeDef;
-      const params: ParamDef[] = [];
-      const values: RawParam[] = [];
-
-      (defaultValue.value as RawParam[] || []).forEach((value: RawParam, index: number): void => {
-        values.push(
+    isDisabled &&
+      setValues(
+        (defaultValue.value as RawParam[] || []).map((value: RawParam) =>
           isUndefined(value) || isUndefined(value.isValid)
             ? { isValid: !isUndefined(value), value }
             : value
-        );
-        params.push(generateParam(inputParams, subType, index));
-      });
-
-      setParams(params);
-      setValues(values);
-    }
-  }, [defaultValue, isDisabled, inputParams, type]);
+        )
+      );
+  }, [defaultValue, isDisabled]);
 
   // when our values has changed, alert upstream
   useEffect((): void => {

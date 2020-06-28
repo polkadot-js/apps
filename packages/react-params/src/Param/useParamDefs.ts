@@ -29,11 +29,10 @@ export default function useParamDefs (type: TypeDef): ParamDef[] {
       return setParams([]);
     }
 
-    setParams((Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((td): ParamDef => {
-      const type = expandDef(td);
-
-      return { name: type.name, type };
-    }));
+    setParams((Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((td): ParamDef => ({
+      name: td.name,
+      type: expandDef(td)
+    })));
   }, [type]);
 
   return params;
