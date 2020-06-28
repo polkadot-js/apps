@@ -27,8 +27,14 @@ interface WrapProps {
 }
 
 interface ValueState {
-  canSubmit: boolean;
   info: Record<string, unknown>;
+  okAll: boolean;
+  okDisplay?: boolean;
+  okEmail?: boolean;
+  okLegal?: boolean;
+  okRiot?: boolean;
+  okTwitter?: boolean;
+  okWeb?: boolean;
 }
 
 function setData (data: Data, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): void {
@@ -54,11 +60,20 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
   );
 }
 
+function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], starting: string[]): boolean {
+  return !hasValue || (
+    !!value &&
+    (value.length >= minLength) &&
+    includes.reduce((hasIncludes: boolean, check) => hasIncludes && value.includes(check), true) &&
+    starting.reduce((hasStarting: boolean, check) => hasStarting || value.startsWith(check), starting.length === 0)
+  );
+}
+
 function Identity ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
-  const [{ canSubmit, info }, setInfo] = useState<ValueState>({ canSubmit: false, info: {} });
+  const [{ info, okAll, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb }, setInfo] = useState<ValueState>({ info: {}, okAll: false });
   const [hasEmail, setHasEmail] = useState(false);
   // const [hasImg, setHasImg] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
@@ -89,18 +104,31 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
   }, [identityOpt]);
 
   useEffect((): void => {
+    const okDisplay = checkValue(true, valDisplay, 1, [], []);
+    const okEmail = checkValue(hasEmail, valEmail, 3, ['@'], []);
+    const okLegal = checkValue(hasLegal, valLegal, 1, [], []);
+    const okRiot = checkValue(hasRiot, valRiot, 6, [':'], ['@', '~']);
+    const okTwitter = checkValue(hasTwitter, valTwitter, 3, [], ['@']);
+    const okWeb = checkValue(hasWeb, valWeb, 8, ['.'], ['https://', 'http://']);
+
     setInfo({
-      canSubmit: !!(valDisplay && (!hasEmail || valEmail) && (!hasLegal || valLegal) && (!hasRiot || valRiot) && (!hasTwitter || valTwitter) && (!hasWeb || valWeb)),
       info: {
-        display: { [valDisplay ? 'raw' : 'none']: valDisplay || null },
-        email: { [hasEmail ? 'raw' : 'none']: hasEmail ? valEmail : null },
-        legal: { [hasLegal ? 'raw' : 'none']: hasLegal ? valLegal : null },
-        riot: { [hasRiot ? 'raw' : 'none']: hasRiot ? valRiot : null },
-        twitter: { [hasTwitter ? 'raw' : 'none']: hasTwitter ? valTwitter : null },
-        web: { [hasWeb ? 'raw' : 'none']: hasWeb ? valWeb : null }
+        display: { [okDisplay ? 'raw' : 'none']: valDisplay || null },
+        email: { [okEmail ? 'raw' : 'none']: hasEmail ? valEmail : null },
+        legal: { [okLegal ? 'raw' : 'none']: hasLegal ? valLegal : null },
+        riot: { [okRiot ? 'raw' : 'none']: hasRiot ? valRiot : null },
+        twitter: { [okTwitter ? 'raw' : 'none']: hasTwitter ? valTwitter : null },
+        web: { [okWeb ? 'raw' : 'none']: hasWeb ? valWeb : null }
         // image: { [hasImg ? 'sha256' : 'none']: hasImg ? valImg : null },
         // pgpFingerprint: hasPgp ? valPgp : null
-      }
+      },
+      okAll: okDisplay && okEmail && okLegal && okRiot && okTwitter && okWeb,
+      okDisplay,
+      okEmail,
+      okLegal,
+      okRiot,
+      okTwitter,
+      okWeb
     });
     //  errImg, errPgp, hasImg, hasPgp, valImg, valPgp,
   }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
@@ -114,7 +142,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
         <Input
           autoFocus
           help={t<string>('The name that will be displayed in your accounts list.')}
-          isError={!valDisplay}
+          isError={!okDisplay}
           label={t<string>('display name')}
           maxLength={32}
           onChange={setValDisplay}
@@ -128,7 +156,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('The legal name for this identity.')}
             isDisabled={!hasLegal}
-            isError={hasLegal && !valLegal}
+            isError={!okLegal}
             label={t<string>('legal name')}
             maxLength={32}
             onChange={setValLegal}
@@ -143,7 +171,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('The email address associated with this identity.')}
             isDisabled={!hasEmail}
-            isError={hasEmail && !valEmail}
+            isError={!okEmail}
             label={t<string>('email')}
             maxLength={32}
             onChange={setValEmail}
@@ -158,7 +186,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('An URL that is linked to this identity.')}
             isDisabled={!hasWeb}
-            isError={hasWeb && !valWeb}
+            isError={!okWeb}
             label={t<string>('web')}
             maxLength={32}
             onChange={setValWeb}
@@ -173,7 +201,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('The twitter name for this identity.')}
             isDisabled={!hasTwitter}
-            isError={hasTwitter && !valTwitter}
+            isError={!okTwitter}
             label={t<string>('twitter')}
             onChange={setValTwitter}
             placeholder={t('@YourTwitterName')}
@@ -187,7 +215,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('a riot name linked to this identity')}
             isDisabled={!hasRiot}
-            isError={hasRiot && !valRiot}
+            isError={!okRiot}
             label={t<string>('riot name')}
             maxLength={32}
             onChange={setValRiot}
@@ -227,7 +255,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={address}
-          isDisabled={!canSubmit}
+          isDisabled={!okAll}
           isPrimary
           label={t<string>('Set Identity')}
           onStart={onClose}
