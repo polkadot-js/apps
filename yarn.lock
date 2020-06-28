@@ -3214,7 +3214,7 @@ __metadata:
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
     "@babel/runtime": ^7.10.3
-    edgeware-node-types: ^2.3.0
+    edgeware-node-types: ^2.3.2
   languageName: unknown
   linkType: soft
 
@@ -3226,12 +3226,12 @@ __metadata:
     "@babel/polyfill": ^7.10.1
     "@polkadot/dev": ^0.55.13
     "@polkadot/react-components": 0.47.0-beta.28
-    "@types/react": ^16.9.38
+    "@types/react": ^16.9.41
     "@types/react-dom": ^16.9.8
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.0.2
     electron-log: ^4.2.2
-    electron-updater: ^4.3.3
+    electron-updater: ^4.3.1
     html-webpack-plugin: ^4.3.0
     react: ^16.13.1
     react-dom: ^16.13.1
@@ -4050,7 +4050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.0":
+"@types/jest@npm:^26.0.3":
   version: 26.0.3
   resolution: "@types/jest@npm:26.0.3"
   dependencies:
@@ -4226,7 +4226,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.9.38":
+"@types/react@npm:*, @types/react@npm:^16.9.41":
   version: 16.9.41
   resolution: "@types/react@npm:16.9.41"
   dependencies:
@@ -4287,7 +4287,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-theming@npm:^2.2.3":
+"@types/styled-theming@npm:^2.2.4":
   version: 2.2.4
   resolution: "@types/styled-theming@npm:2.2.4"
   dependencies:
@@ -9458,7 +9458,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"edgeware-node-types@npm:^2.3.0":
+"edgeware-node-types@npm:^2.3.2":
   version: 2.3.2
   resolution: "edgeware-node-types@npm:2.3.2"
   checksum: 3/d8422c5eba8977a0aa2787a33b4cb4926b06fb9af910d463a9a64f958649058c777a3922215c0d554301d1602325c819b7a89a34868936b16626bb52c4498ada
@@ -9570,7 +9570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-updater@npm:^4.3.3":
+"electron-updater@npm:^4.3.1":
   version: 4.3.3
   resolution: "electron-updater@npm:4.3.3"
   dependencies:
@@ -18016,7 +18016,7 @@ __metadata:
     "@types/chart.js": ^2.9.22
     "@types/file-saver": ^2.0.1
     "@types/i18next": ^13.0.0
-    "@types/jest": ^26.0.0
+    "@types/jest": ^26.0.3
     "@types/react-beautiful-dnd": ^13.0.0
     "@types/react-copy-to-clipboard": ^4.3.0
     "@types/react-dom": ^16.9.8
@@ -18024,7 +18024,7 @@ __metadata:
     "@types/react-tooltip": ^4.2.4
     "@types/store": ^2.0.2
     "@types/styled-components": ^5.1.0
-    "@types/styled-theming": ^2.2.3
+    "@types/styled-theming": ^2.2.4
     concurrently: ^5.2.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^2.0.4
