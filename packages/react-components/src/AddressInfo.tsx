@@ -256,7 +256,7 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
       )}
       {balanceDisplay.vested && balancesAll?.isVesting && (
         <>
-          <Label label={t<string>('vesting')} />
+          <Label label={t<string>('vested')} />
           <FormatBalance
             className='result'
             label={
