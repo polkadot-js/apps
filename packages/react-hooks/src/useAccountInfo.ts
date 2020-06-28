@@ -113,6 +113,7 @@ export default function useAccountInfo (value: string | null, isContract = false
         isExternal: !!accountOrAddress?.meta.isExternal || false,
         isHardware: !!accountOrAddress?.meta.isHardware || false,
         isInContacts,
+        isInjected: !!accountOrAddress?.meta.isInjected || false,
         isMultisig: !!accountOrAddress?.meta.isMultisig || false,
         isOwned,
         isProxied: !!accountOrAddress?.meta.isProxied || false
