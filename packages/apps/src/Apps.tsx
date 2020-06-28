@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import GlobalStyle from '@polkadot/react-components/styles';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
 import AccountsOverlay from './overlays/Accounts';
@@ -20,6 +20,7 @@ import SideBar from './SideBar';
 import BN from 'bn.js';
 import routing from '@polkadot/apps-routing';
 import { useLocation } from 'react-router-dom';
+import CheckAccountModal from './modals/CheckAccount';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -60,14 +61,18 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
   const location = useLocation();
   const app = location.pathname.slice(1) || '';
-  let openAdvance : boolean;
+  let openAdvance: boolean;
 
   const element = routing.routes.find(route => route && route.name === app);
   if (element && element.isAdvanced) {
-    openAdvance = element.isAdvanced
+    openAdvance = element.isAdvanced;
   } else {
     openAdvance = false;
   }
+
+  const { hasAccounts } = useAccounts();
+  const [isAccountCheckingModalOpen, setAccountCheckingModalOpen] = useState(false);
+
   // const advancedInput = useRef(null);
   const _setSidebar = (update: Partial<SidebarState>): void =>
     setSidebar(store.set('sidebar', { ...sidebar, ...update }));
@@ -87,10 +92,22 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     });
   };
 
+  const _toggleAccountCheckingModal = (): void => setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+
+  const onStatusChange = (): void => {
+    console.log('object');
+  };
+
   return (
     <>
       <GlobalStyle />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
+        {hasAccounts && ( // Todo binary-check change
+          <CheckAccountModal
+            onClose={_toggleAccountCheckingModal}
+            onStatusChange={onStatusChange}
+          />
+        )}
         <MenuOverlay {...{ _handleResize, isMenuOpen }} />
         <SideBar
           collapse={_collapse}
