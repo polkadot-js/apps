@@ -5,6 +5,7 @@
 import { AccountId, Balance, BlockNumber, OpenTip } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -97,10 +98,10 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
           ? bestNumber && (
             closesAt.gt(bestNumber)
               ? (
-                <>
+                <div className='closingTimer'>
                   <BlockToTime blocks={closesAt.sub(bestNumber)} />
                   #{formatNumber(closesAt)}
-                </>
+                </div>
               )
               : (
                 <TipClose
@@ -143,4 +144,8 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
   );
 }
 
-export default React.memo(Tip);
+export default React.memo(styled(Tip)`
+  .closingTimer {
+    padding: 0 0.5rem;
+  }
+`);
