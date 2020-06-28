@@ -26,6 +26,11 @@ interface WrapProps {
   value: boolean;
 }
 
+interface ValueState {
+  canSubmit: boolean;
+  info: Record<string, unknown>;
+}
+
 function setData (data: Data, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): void {
   if (data.isRaw) {
     setActive && setActive(true);
@@ -57,7 +62,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
   const { t } = useTranslation();
   const { api } = useApi();
   const identityOpt = useCall<Option<Registration>>(api.query.identity.identityOf, [address]);
-  const [info, setInfo] = useState<Record<string, any>>({});
+  const [{ canSubmit, info }, setInfo] = useState<ValueState>({ canSubmit: false, info: {} });
   const [hasEmail, setHasEmail] = useState(false);
   // const [hasImg, setHasImg] = useState(false);
   const [hasLegal, setHasLegal] = useState(false);
@@ -89,14 +94,17 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
 
   useEffect((): void => {
     setInfo({
-      display: { [valDisplay ? 'raw' : 'none']: valDisplay || null },
-      email: { [hasEmail ? 'raw' : 'none']: hasEmail ? valEmail : null },
-      legal: { [hasLegal ? 'raw' : 'none']: hasLegal ? valLegal : null },
-      riot: { [hasRiot ? 'raw' : 'none']: hasRiot ? valRiot : null },
-      twitter: { [hasTwitter ? 'raw' : 'none']: hasTwitter ? valTwitter : null },
-      web: { [hasWeb ? 'raw' : 'none']: hasWeb ? valWeb : null }
-      // image: { [hasImg ? 'sha256' : 'none']: hasImg ? valImg : null },
-      // pgpFingerprint: hasPgp ? valPgp : null
+      canSubmit: !!(valDisplay && (!hasEmail || valEmail) && (!hasLegal || valLegal) && (!hasRiot || valRiot) && (!hasTwitter || valTwitter) && (!hasWeb || valWeb)),
+      info: {
+        display: { [valDisplay ? 'raw' : 'none']: valDisplay || null },
+        email: { [hasEmail ? 'raw' : 'none']: hasEmail ? valEmail : null },
+        legal: { [hasLegal ? 'raw' : 'none']: hasLegal ? valLegal : null },
+        riot: { [hasRiot ? 'raw' : 'none']: hasRiot ? valRiot : null },
+        twitter: { [hasTwitter ? 'raw' : 'none']: hasTwitter ? valTwitter : null },
+        web: { [hasWeb ? 'raw' : 'none']: hasWeb ? valWeb : null }
+        // image: { [hasImg ? 'sha256' : 'none']: hasImg ? valImg : null },
+        // pgpFingerprint: hasPgp ? valPgp : null
+      }
     });
     //  errImg, errPgp, hasImg, hasPgp, valImg, valPgp,
   }, [hasEmail, hasLegal, hasRiot, hasTwitter, hasWeb, valDisplay, valEmail, valLegal, valRiot, valTwitter, valWeb]);
@@ -110,9 +118,11 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
         <Input
           autoFocus
           help={t<string>('The name that will be displayed in your accounts list.')}
+          isError={!valDisplay}
           label={t<string>('display name')}
           maxLength={32}
           onChange={setValDisplay}
+          placeholder={t('My On-Chain Name')}
           value={valDisplay}
         />
         <WrapToggle
@@ -122,9 +132,11 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('The legal name for this identity.')}
             isDisabled={!hasLegal}
+            isError={hasLegal && !valLegal}
             label={t<string>('legal name')}
             maxLength={32}
             onChange={setValLegal}
+            placeholder={t('Full Legal Name')}
             value={hasLegal ? valLegal : '<none>'}
           />
         </WrapToggle>
@@ -135,9 +147,11 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('The email address associated with this identity.')}
             isDisabled={!hasEmail}
+            isError={hasEmail && !valEmail}
             label={t<string>('email')}
             maxLength={32}
             onChange={setValEmail}
+            placeholder={t('somebody@example.com')}
             value={hasEmail ? valEmail : '<none>'}
           />
         </WrapToggle>
@@ -148,9 +162,11 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('An URL that is linked to this identity.')}
             isDisabled={!hasWeb}
+            isError={hasWeb && !valWeb}
             label={t<string>('web')}
             maxLength={32}
             onChange={setValWeb}
+            placeholder={t('https://example.com')}
             value={hasWeb ? valWeb : '<none>'}
           />
         </WrapToggle>
@@ -161,8 +177,10 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('The twitter name for this identity.')}
             isDisabled={!hasTwitter}
+            isError={hasTwitter && !valTwitter}
             label={t<string>('twitter')}
             onChange={setValTwitter}
+            placeholder={t('@YourTwitterName')}
             value={hasTwitter ? valTwitter : '<none>'}
           />
         </WrapToggle>
@@ -173,9 +191,11 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
           <Input
             help={t<string>('a riot name linked to this identity')}
             isDisabled={!hasRiot}
+            isError={hasRiot && !valRiot}
             label={t<string>('riot name')}
             maxLength={32}
             onChange={setValRiot}
+            placeholder={t('@yourname:matrix.org')}
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
@@ -211,7 +231,7 @@ function Identity ({ address, className = '', onClose }: Props): React.ReactElem
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={address}
-          icon='paper-plane'
+          isDisabled={!canSubmit}
           isPrimary
           label={t<string>('Set Identity')}
           onStart={onClose}
@@ -230,7 +250,7 @@ export default styled(Identity)`
     .toggle-Toggle {
       position: absolute;
       right: 3.5rem;
-      top: 0.5rem;
+      bottom: 1.375rem;
     }
   }
 `;
