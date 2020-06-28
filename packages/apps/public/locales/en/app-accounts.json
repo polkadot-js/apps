@@ -162,6 +162,7 @@
   "Type the name of your contact. This name will be used across all the apps. It can be edited later on.": "Type the name of your contact. This name will be used across all the apps. It can be edited later on.",
   "Type the password chosen at the account creation. It was used to encrypt your account's private key in the backup file.": "Type the password chosen at the account creation. It was used to encrypt your account's private key in the backup file.",
   "Unlock": "Unlock",
+  "Unlock vested amount": "Unlock vested amount",
   "Vanity generator": "Vanity generator",
   "Verify the password entered above.": "Verify the password entered above.",
   "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.": "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.",
