@@ -21,6 +21,8 @@ import BN from 'bn.js';
 import routing from '@polkadot/apps-routing';
 import { useLocation } from 'react-router-dom';
 import AccountCheckingModal from './modals/AccountChecking';
+import CreateModal from '../../app-accounts/src/modals/Create';
+import ImportModal from '../../app-accounts/src/modals/Import';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -49,7 +51,7 @@ function WarmUp (): React.ReactElement {
   );
 }
 
-function Apps ({ className }: Props): React.ReactElement<Props> {
+function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
     isMenuOpen: false,
@@ -72,6 +74,8 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
 
   const { hasAccounts } = useAccounts();
   const [isAccountCheckingModalOpen, setAccountCheckingModalOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
 
   // const advancedInput = useRef(null);
   const _setSidebar = (update: Partial<SidebarState>): void =>
@@ -94,18 +98,41 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
 
   const _toggleAccountCheckingModal = (): void => setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
 
-  const onStatusChange = (): void => {
-    console.log('object');
+  const _toggleCreate = (): void => {
+    setIsCreateOpen(true);
+    setAccountCheckingModalOpen(false);
   };
+
+  const _toggleImport = (): void => {
+    setIsImportOpen(true);
+    setAccountCheckingModalOpen(false);
+  };
+
+  // const onStatusChange = (): void => {
+  //   console.log('object');
+  // };
 
   return (
     <>
       <GlobalStyle />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
+        {isCreateOpen && (
+          <CreateModal
+            onClose={_toggleCreate}
+            onStatusChange={onStatusChange}
+          />
+        )}
+        {isImportOpen && (
+          <ImportModal
+            onClose={_toggleImport}
+            onStatusChange={onStatusChange}
+          />
+        )}
         {!hasAccounts && (
           <AccountCheckingModal
             onClose={_toggleAccountCheckingModal}
-            onStatusChange={onStatusChange}
+            onCreateAccount={_toggleCreate}
+            onImportaccount={_toggleImport}
           />
         )}
         <MenuOverlay {...{ _handleResize, isMenuOpen }} />

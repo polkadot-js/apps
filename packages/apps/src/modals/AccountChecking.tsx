@@ -6,7 +6,6 @@ import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 import { Button, Modal, TxComponent } from '@polkadot/react-components';
-
 import { ModalProps } from '../../../app-accounts/src/types';
 import translate from '../translate';
 
@@ -30,8 +29,7 @@ const Paragraph = styled.div`
   line-height: 1.5rem;
 `;
 
-class AccountCheckingModal extends TxComponent<Props, State> {
-
+class AccountCheckingModal {
   public state: State = {
     address: null,
     isFileValid: false,
@@ -40,21 +38,8 @@ class AccountCheckingModal extends TxComponent<Props, State> {
     password: ''
   };
 
-  public render (): React.ReactNode {
-    const { onClose, t } = this.props;
-
-    const [isCreateOpen, setIsCreateOpen] = useState(false);
-    const [isImportOpen, setIsImportOpen] = useState(false);
-
-    const _toggleCreate = (): void => {
-      setIsCreateOpen(!isCreateOpen);
-      onClose();
-    };
-
-    const _toggleImport = (): void => {
-      setIsImportOpen(!isImportOpen);
-      onClose();
-    };
+  public render () {
+    const { onClose, t, onCreateAccount, onImportAccount } = this.props;
 
     return (
       <Modal header={t('Welcome to CENNZnet')}>
@@ -67,14 +52,14 @@ class AccountCheckingModal extends TxComponent<Props, State> {
           <Button
             icon='add'
             isPrimary
-            onClick={_toggleCreate}
+            onClick={onCreateAccount}
             label={t('Create account')}
           />
           <Button.Or />
           <Button
             icon='sync'
             isPrimary
-            onClick={_toggleImport}
+            onClick={onImportAccount}
             label={t('Import account')}
           />
         </Modal.Actions>
@@ -84,4 +69,3 @@ class AccountCheckingModal extends TxComponent<Props, State> {
 }
 
 export default translate(AccountCheckingModal);
-// export default AccountCheckingModal;
