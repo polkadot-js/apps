@@ -13,8 +13,15 @@ const getCustomTypesDhx = async (): Promise<any> => {
     method: 'GET'
   });
 
+  if (!response) {
+    console.error('Error fetching DataHighway custom types');
+
+    return;
+  }
+
   if (response.status !== 200) {
-    throw new Error(response.statusText);
+    // throw new Error(response.statusText);
+    console.error(response.statusText);
   }
 
   return await response.json() as Promise<any>;
