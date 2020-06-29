@@ -524,7 +524,7 @@
   "ss58.centrifuge": "Centrifuge (live)",
   "ss58.default": "デフォルト接続ノード",
   "ss58.edgeware": "Edgeware (live)",
-  "ss58.kusmaa": "Kusama (canary)",
+  "ss58.kusama": "Kusama (canary)",
   "ss58.polkadot": "Kusama (canary)",
   "ss58.substrate": "Substrate (generic)",
   "submit the following change": "以下の変更を提出する",
