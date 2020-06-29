@@ -96,8 +96,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       setBalance(address, balancesAll.freeBalance);
       setVestingTx(() =>
         balancesAll.vestingLocked.isZero() && api.api.tx.vesting?.vest
-          ? null
-          : api.api.tx.vesting.vest()
+          ? api.api.tx.vesting.vest()
+          : null
       );
     }
   }, [address, api, balancesAll, setBalance]);
