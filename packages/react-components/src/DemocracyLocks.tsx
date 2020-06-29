@@ -37,7 +37,7 @@ let id = 0;
 // group by header & details
 //   - all unlockable together
 //   - all ongoing together
-//   - unlcokes are displayed individually
+//   - unlocks are displayed individually
 function groupLocks (t: <T = string> (key: string, options?: { replace?: Record<string, string> }) => T, bestNumber: BN, locks: DeriveDemocracyLock[] = []): State {
   return {
     maxBalance: bnMax(...locks.map(({ balance }) => balance)),
