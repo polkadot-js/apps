@@ -94,8 +94,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   useEffect((): void => {
     if (balancesAll) {
       setBalance(address, balancesAll.freeBalance);
-      setVestingTx(() =>
-        balancesAll.vestingLocked.isZero() && api.api.tx.vesting?.vest
+      api.api.tx.vesting?.vest && setVestingTx(() =>
+        balancesAll.vestingLocked.isZero()
           ? null
           : api.api.tx.vesting.vest()
       );
