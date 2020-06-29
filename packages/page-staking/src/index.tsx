@@ -61,7 +61,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     isFunction(api.query.staking.activeEra)
       ? {
         name: 'payout',
-        text: 'Payouts'
+        text: t<string>('Payouts')
       }
       : null,
     {

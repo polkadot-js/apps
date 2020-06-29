@@ -53,6 +53,7 @@
   "Payout": "Payout",
   "Payout all": "Payout all",
   "Payout all stakers": "Payout all stakers",
+  "Payouts": "Payouts",
   "Retrieving info for all applicable eras, this will take some time": "Retrieving info for all applicable eras, this will take some time",
   "Retrieving info for last {{numEras}} eras, this will take some time": "Retrieving info for last {{numEras}} eras, this will take some time",
   "Rewards (once paid) can be deposited to either the stash or controller, with different effects.": "Rewards (once paid) can be deposited to either the stash or controller, with different effects.",
