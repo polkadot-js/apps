@@ -9,6 +9,7 @@ import chainKusama from './chains/kusama-128.gif';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeDataHighway from './nodes/datahighway.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -38,6 +39,7 @@ const chainLogos: Record<string, any> = [
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['DataHighway Chain Node', nodeDataHighway],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -57,6 +59,7 @@ const nodeLogos: Record<string, any> = [
 const namedLogos: Record<string, any> = {
   alexander: nodePolkadot,
   centrifuge: nodeCentrifuge,
+  datahighway: nodeDataHighway,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   kusama: chainKusama,
