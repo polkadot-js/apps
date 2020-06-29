@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import centrifugeChain from './centrifuge-chain';
+import dataHighwayChain from './datahighway-chain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
@@ -12,6 +13,7 @@ import stablePoc from './stable-poc';
 
 export default {
   'centrifuge-chain': centrifugeChain,
+  'datahighway-chain': dataHighwayChain,
   edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
