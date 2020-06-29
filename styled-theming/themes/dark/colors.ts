@@ -6,7 +6,7 @@
 
 import { rgba } from 'polished';
 
-/** Nuetral */
+/** Neutral */
 export const N0 = '#FFFFFF';
 export const N50 = '#F8F9F9';
 export const N100 = '#EBECED';
@@ -92,7 +92,8 @@ export const textMuted = rgba(255, 255, 255, 0.6);
 export const textHover = N200;
 export const link = B500;
 export const linkHover = B600;
-/**
+export const popUpBackground = '#1B1C1D';
+/*
  * NOTICE: this file only contains basic color defination of basic elements like border,
  * text, link, etc.
  *
