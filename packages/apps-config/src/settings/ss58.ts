@@ -27,7 +27,7 @@ export default function create (t: <T= string> (key: string, text: string, optio
     },
     {
       info: 'kusama',
-      text: t<string>('ss58.kusmaa', 'Kusama (canary)', { ns: 'apps-config' }),
+      text: t<string>('ss58.kusama', 'Kusama (canary)', { ns: 'apps-config' }),
       value: 2
     },
     {

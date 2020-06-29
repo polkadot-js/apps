@@ -17,7 +17,7 @@
   "ss58.centrifuge": "Centrifuge (live)",
   "ss58.default": "Default for the connected node",
   "ss58.edgeware": "Edgeware (live)",
-  "ss58.kusmaa": "Kusama (canary)",
+  "ss58.kusama": "Kusama (canary)",
   "ss58.polkadot": "Polkadot (live)",
   "ss58.substrate": "Substrate (generic)"
 }
