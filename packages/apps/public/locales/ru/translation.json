@@ -1021,7 +1021,7 @@
   "ss58.centrifuge": "Centrifuge (рабочая)",
   "ss58.default": "Значение по умолчанию для подключенной ноды",
   "ss58.edgeware": "Edgeware (рабочая)",
-  "ss58.kusmaa": "Kusama (canary)",
+  "ss58.kusama": "Kusama (canary)",
   "ss58.polkadot": "Polkadot (рабочая)",
   "ss58.substrate": "Substrate (generic)",
   "staked": "застейкано",

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Balance, BlockNumber, OpenTip } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -10,7 +10,7 @@ import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/r
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -27,30 +27,44 @@ interface Props {
 
 interface TipState {
   closesAt: BlockNumber | null;
+  deposit: Balance | null;
   finder: AccountId | null;
-  findersFee: Balance | null;
   isFinder: boolean;
   isTipper: boolean;
+}
+
+function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
+  return isBoolean((tip as OpenTip).findersFee);
 }
 
 function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [{ closesAt, finder, findersFee, isFinder, isTipper }, setTipState] = useState<TipState>({ closesAt: null, finder: null, findersFee: null, isFinder: false, isTipper: false });
-  const tip = useCall<OpenTip | null>(api.query.treasury.tips, [hash], {
+  const [{ closesAt, deposit, finder, isFinder, isTipper }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipper: false });
+  const tip = useCall<OpenTip | OpenTipTo225 | null>(api.query.treasury.tips, [hash], {
     transform: (optTip: Option<OpenTip>) => optTip.unwrapOr(null)
   });
 
   useEffect((): void => {
     if (tip) {
-      const finderInfo = tip.finder.unwrapOr(null);
-      const finder = (finderInfo && finderInfo[0]) || null;
+      let finder: AccountId | null = null;
+      let deposit: Balance | null = null;
+
+      if (isCurrentTip(tip)) {
+        finder = tip.finder;
+        deposit = tip.deposit;
+      } else if (tip.finder.isSome) {
+        const finderInfo = tip.finder.unwrap();
+
+        finder = finderInfo[0];
+        deposit = finderInfo[1];
+      }
 
       setTipState({
         closesAt: tip.closes.unwrapOr(null),
+        deposit,
         finder,
-        findersFee: (finderInfo && finderInfo[1]) || null,
         isFinder: !!finder && allAccounts.includes(finder.toString()),
         isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
       });
@@ -74,8 +88,8 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         )}
       </td>
       <td className='number'>
-        {findersFee && (
-          <FormatBalance value={findersFee} />
+        {deposit && !deposit.isEmpty && (
+          <FormatBalance value={deposit} />
         )}
       </td>
       <TipReason hash={reason} />

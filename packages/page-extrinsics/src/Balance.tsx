@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-api/types';
-
 import React from 'react';
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { InputBalance } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   label?: React.ReactNode;
   params?: any;
 }

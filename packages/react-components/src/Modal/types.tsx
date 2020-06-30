@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
-
 import React from 'react';
 
 export interface ColumnProps {
@@ -11,14 +9,16 @@ export interface ColumnProps {
   className?: string;
 }
 
-export interface ModalProps extends BareProps {
+export interface ModalProps {
   children: React.ReactNode;
+  className?: string;
   header?: React.ReactNode;
   open?: boolean;
   [index: string]: any;
 }
 
-export interface ActionsProps extends BareProps {
+export interface ActionsProps {
+  className?: string;
   cancelLabel?: string;
   children: React.ReactNode;
   withOr?: boolean;

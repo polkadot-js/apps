@@ -2,17 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props as BareProps, RawParam } from '../types';
+import { Props } from '../types';
 
 import React from 'react';
 
 import BaseBytes from './BaseBytes';
 import Static from './Static';
-
-interface Props extends BareProps {
-  defaultValue: RawParam;
-  withLabel?: boolean;
-}
 
 function Unknown (props: Props): React.ReactElement<Props> {
   const { className = '', defaultValue, isDisabled, isError, label, name, onChange, onEnter, onEscape, type } = props;

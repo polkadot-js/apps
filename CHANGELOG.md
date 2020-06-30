@@ -2,15 +2,25 @@
 
 ## 0.47.0-beta.x
 
+- Add DataHighway Harbour testnet endpoint (Thanks to https://github.com/ltfschoen)
+- Small I18N key fix (Thanks to https://github.com/ltfschoen)
+- Allow for Electron auto-update on Mac (Thanks to https://github.com/EthWorks)
 - Default (via toggle) to only last 25% of eras for payouts
 - Allow retracting of tips by proposer
 - Enable the full retrieval of all Map/Doublemap entries
+- Support correct display of vesting with locks (& unlock via account)
+- Adjust on-chain identity inputs with field validation
+- Resolve identity links starting with https://twitter
+- Display voted & unvoted council motions, referendums & tips
+- Adjust toggles for file/bytes uploads
+- Swap icons to use font-awesome directly, including official components
+- Additional small UI cleanups and fixes
 
 ## 0.46.1 Jun 22, 2020
 
-- I18n for es (thanks to https://github.com/wimel)
+- I18n for es (Thanks to https://github.com/wimel)
 - Support for importing mini secrets via QR (Thanks to https://github.com/hanwencheng)
-- Update SubstrateTEE types (thanks to https://github.com/brenzi)
+- Update SubstrateTEE types (Thanks to https://github.com/brenzi)
 - Support for multisig calls with new weight parameters
 - Split sign and send updates in the signer modal for better UI tracking
 - Hide zero nonce of accounts/contracts pages

@@ -8,14 +8,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { classes } from '@polkadot/react-components/util';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   code: string;
   isValid?: boolean;
   onEdit: (code: string) => void;

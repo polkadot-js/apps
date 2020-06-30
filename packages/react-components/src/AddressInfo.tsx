@@ -4,7 +4,6 @@
 
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -45,10 +44,11 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-interface Props extends BareProps {
+interface Props {
   address: string;
   balancesAll?: DeriveBalancesAll;
   children?: React.ReactNode;
+  className?: string;
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;
@@ -259,8 +259,21 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
           <Label label={t<string>('vested')} />
           <FormatBalance
             className='result'
+            label={
+              <Icon
+                icon='info-circle'
+                tooltip={`${address}-vested-trigger`}
+              />
+            }
             value={balancesAll.vestedBalance}
-          />
+          >
+            <Tooltip
+              text={
+                <div>{formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}<div className='faded'>{t('available to be unlocked')}</div></div>
+              }
+              trigger={`${address}-vested-trigger`}
+            />
+          </FormatBalance>
         </>
       )}
       {balanceDisplay.locked && balancesAll && (isAllLocked || balancesAll.lockedBalance.gtn(0)) && (
@@ -330,7 +343,7 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
         <>
           <Label label={t<string>('unbonding')} />
           <div className='result'>
-            <StakingUnbonding value={stakingInfo} />
+            <StakingUnbonding stakingInfo={stakingInfo} />
           </div>
         </>
       )}

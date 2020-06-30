@@ -16,6 +16,8 @@ export interface ModalProps {
 
 interface Props extends ModalProps {
   className?: string;
+  onClose: () => void;
+  onRegister: (id: BN, name: string) => void;
 }
 
 function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {

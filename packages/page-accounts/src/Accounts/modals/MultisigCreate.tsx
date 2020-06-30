@@ -18,6 +18,7 @@ import useKnownAddresses from '../useKnownAddresses';
 interface Props extends ModalProps {
   className?: string;
   onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 interface CreateOptions {

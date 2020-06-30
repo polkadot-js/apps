@@ -5,7 +5,6 @@
 import { Option } from '@polkadot/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposals } from '@polkadot/api-derive/types';
-import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -21,7 +20,10 @@ import { useTranslation } from './translate';
 
 export { useCounter };
 
-interface Props extends AppProps, BareProps {}
+interface Props {
+  basePath: string;
+  className?: string;
+}
 
 function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

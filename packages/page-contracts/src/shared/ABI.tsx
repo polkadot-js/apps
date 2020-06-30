@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
@@ -12,7 +10,8 @@ import { InputFile, Labelled } from '@polkadot/react-components';
 import Messages from './Messages';
 import { useTranslation } from '../translate';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   contractAbi?: Abi | null;
   errorText?: string | null;
   isContract?: boolean;

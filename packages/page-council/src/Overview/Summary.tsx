@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import { BlockNumber } from '@polkadot/types/interfaces';
 import { ComponentProps } from './types';
 
@@ -14,6 +15,7 @@ import { useTranslation } from '../translate';
 interface Props extends ComponentProps {
   bestNumber?: BlockNumber;
   className?: string;
+  electionsInfo?: DeriveElectionsInfo;
 }
 
 function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.ReactElement<Props> | null {

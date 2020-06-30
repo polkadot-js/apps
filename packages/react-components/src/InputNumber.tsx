@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SiDef } from '@polkadot/util/types';
-import { BareProps, BitLength } from './types';
+import { BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -15,9 +15,11 @@ import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
   bitLength?: BitLength;
+  children?: React.ReactNode;
+  className?: string;
   defaultValue?: string;
   help?: React.ReactNode;
   isDisabled?: boolean;

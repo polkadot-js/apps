@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Header } from '@polkadot/types/interfaces';
-import { BareProps, CallProps } from '@polkadot/react-api/types';
 
 import React from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-interface Props extends BareProps, CallProps {
+interface Props {
+  className?: string;
   label?: React.ReactNode;
 }
 

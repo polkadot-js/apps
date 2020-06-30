@@ -7,7 +7,7 @@ import { EraIndex } from '@polkadot/types/interfaces';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets } from '../../types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
@@ -48,6 +48,13 @@ function Account ({ className = '', info: { controllerId, destination, destinati
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
+  const [hasBonded, setHasBonded] = useState(false);
+
+  useEffect((): void => {
+    stakingAccount?.stakingLedger && setHasBonded(
+      !stakingAccount.stakingLedger.active.isEmpty
+    );
+  }, [stakingAccount]);
 
   return (
     <tr className={className}>
@@ -176,7 +183,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                       : (
                         <Button
                           icon='certificate'
-                          isDisabled={!isOwnController || isDisabled}
+                          isDisabled={!isOwnController || isDisabled || !hasBonded}
                           key='validate'
                           label={t<string>('Validate')}
                           onClick={toggleValidate}
@@ -185,7 +192,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                     }
                     <Button
                       icon='hand-paper'
-                      isDisabled={!isOwnController || isDisabled}
+                      isDisabled={!isOwnController || isDisabled || !hasBonded}
                       key='nominate'
                       label={t<string>('Nominate')}
                       onClick={toggleNominate}
