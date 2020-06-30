@@ -126,7 +126,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
       <td className='number ui--media-1200'>{destination}</td>
       <td className='number'>
         <StakingBonded stakingInfo={stakingAccount} />
-        <StakingUnbonding value={stakingAccount} />
+        <StakingUnbonding stakingInfo={stakingAccount} />
         <StakingRedeemable stakingInfo={stakingAccount} />
       </td>
       {isStashValidating

@@ -343,7 +343,7 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
         <>
           <Label label={t<string>('unbonding')} />
           <div className='result'>
-            <StakingUnbonding value={stakingInfo} />
+            <StakingUnbonding stakingInfo={stakingInfo} />
           </div>
         </>
       )}
