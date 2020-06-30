@@ -80,7 +80,7 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
               onChange={setProposal}
             />
             <Input
-              className={'disabledLook'}
+              className='disabledLook'
               help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
               isDisabledError={!isMatched}
               label={t<string>('preimage hash')}
