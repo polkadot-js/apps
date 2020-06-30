@@ -116,6 +116,8 @@ export default function getInitValue (def: TypeDef): unknown {
       return null;
 
     default: {
+      let error: string | null = null;
+
       try {
         const instance = createType(registry, type as 'u32');
         const raw = getTypeDef(instance.toRawType());
@@ -125,14 +127,15 @@ export default function getInitValue (def: TypeDef): unknown {
         } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
           return getInitValue(raw);
         }
-      } catch (error) {
-        // console.error((error as Error).message);
+      } catch (e) {
+        error = (e as Error).message;
       }
 
       // we only want to want once, not spam
       if (!warnList.includes(type)) {
         warnList.push(type);
-        console.info(`params: No default value for type ${type} from ${JSON.stringify(def)}, using defaults`);
+        error && console.error(`params: initValue: ${error}`);
+        console.info(`params: initValue: No default value for type ${type} from ${JSON.stringify(def)}, using defaults`);
       }
 
       return '0x';
