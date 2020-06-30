@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React, { useCallback, useState } from 'react';
 import { Button as SUIB, Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   isCustomExample: boolean;
   isRunning: boolean;
   removeSnippet: () => void;

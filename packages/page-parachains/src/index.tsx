@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveParachainInfo } from '@polkadot/api-derive/types';
-import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React, { useMemo, useRef } from 'react';
 import { matchPath, Route, Switch } from 'react-router';
@@ -16,7 +15,9 @@ import Parachain from './Parachain';
 import { useTranslation } from './translate';
 import { parachainName } from './util';
 
-interface Props extends AppProps, BareProps {}
+interface Props {
+  basePath: string;
+}
 
 function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

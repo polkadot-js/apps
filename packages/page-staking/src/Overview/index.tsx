@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 
 import CurrentList from './CurrentList';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   hasQueries: boolean;
   isIntentions?: boolean;
   next?: string[];

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import BN from 'bn.js';
 import React from 'react';
 import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progress';
@@ -15,8 +13,9 @@ import { classes } from './util';
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;
 
-interface Props extends BareProps {
+interface Props {
   color?: Colors;
+  className?: string;
   percent?: BN | number;
   total?: UInt | BN | number;
   value?: UInt | BN | number;

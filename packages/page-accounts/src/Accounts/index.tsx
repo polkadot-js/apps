@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
-import { ComponentProps as Props } from '../types';
 import { SortedAccount } from './types';
 
 import BN from 'bn.js';
@@ -29,6 +29,11 @@ import BannerExtension from './BannerExtension';
 interface Balances {
   accounts: Record<string, BN>;
   balanceTotal?: BN;
+}
+
+interface Props {
+  className?: string;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 const STORE_FAVS = 'accounts:favorites';

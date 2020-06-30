@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
@@ -17,8 +15,9 @@ import Flags from './Flags';
 import Identity from './Identity';
 import Multisig from './Multisig';
 
-interface Props extends BareProps {
+interface Props {
   address: string;
+  className?: string;
   onClose: () => void;
   onUpdateName: () => void;
 }

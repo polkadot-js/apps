@@ -4,14 +4,14 @@
 
 import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
-import { BareProps } from '../types';
 
 import React from 'react';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue?: string;
   isError?: boolean;
   onChange: (value: string) => void;

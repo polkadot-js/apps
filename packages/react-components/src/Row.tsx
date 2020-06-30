@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
 import { useToggle } from '@polkadot/react-hooks';
@@ -149,9 +147,11 @@ export const styles = `
   }
 `;
 
-export interface RowProps extends BareProps {
+export interface RowProps {
   address?: string;
   buttons?: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
   defaultName?: string;
   details?: React.ReactNode;
   icon?: React.ReactNode;

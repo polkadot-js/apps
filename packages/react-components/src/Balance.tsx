@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -12,14 +11,15 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { classes } from './util';
 
-export interface RenderProps extends BareProps {
+export interface RenderProps {
   className?: string;
   label?: React.ReactNode;
   value?: BN | BN[];
 }
 
-export interface Props extends BareProps {
+export interface Props {
   balance?: BN | BN[];
+  className?: string;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   withLabel?: boolean;

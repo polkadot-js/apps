@@ -4,7 +4,6 @@
 
 import { Event } from '@polkadot/types/interfaces';
 import { Codec, TypeDef } from '@polkadot/types/types';
-import { BareProps } from './types';
 
 import React from 'react';
 import { getTypeDef } from '@polkadot/types';
@@ -12,8 +11,9 @@ import Params from '@polkadot/react-params';
 
 import { classes } from './util';
 
-export interface Props extends BareProps {
+export interface Props {
   children?: React.ReactNode;
+  className?: string;
   value: Event;
 }
 

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps } from '@polkadot/react-components/types';
 import { KeyedEvent } from './types';
 
 import React, { useContext, useMemo } from 'react';
@@ -19,7 +18,9 @@ import Main from './Main';
 import NodeInfo from './NodeInfo';
 import { useTranslation } from './translate';
 
-interface Props extends AppProps, BareProps {
+interface Props {
+  basePath: string;
+  className?: string;
   newEvents?: KeyedEvent[];
 }
 

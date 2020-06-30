@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
@@ -15,7 +13,8 @@ const rootElement = typeof document === 'undefined'
   ? null // This hack is required for server side rendering
   : document.getElementById('tooltips');
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   dataFor?: string;
   effect?: 'solid' | 'float';
   offset?: {

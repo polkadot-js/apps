@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,7 +25,8 @@ export interface TabItem {
   text: React.ReactNode;
 }
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   basePath: string;
   hidden?: (string | boolean | undefined)[];
   items: TabItem[];
