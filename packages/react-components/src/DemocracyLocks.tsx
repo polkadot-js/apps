@@ -89,9 +89,16 @@ function DemocracyLocks ({ className = '', value }: Props): React.ReactElement<P
   const [{ maxBalance, sorted }, setState] = useState<State>({ maxBalance: BN_ZERO, sorted: [] });
 
   useEffect((): void => {
-    bestNumber && setState(
-      groupLocks(t, bestNumber, value)
-    );
+    bestNumber && setState((state): State => {
+      const newState = groupLocks(t, bestNumber, value);
+
+      // only update when the structure of new is different
+      //   - it has a new overall breakdown with sections
+      //   - one of the sections has a different number of headers
+      return state.sorted.length !== newState.sorted.length || state.sorted.some((s, i) => s.headers.length !== newState.sorted[i].headers.length)
+        ? newState
+        : state;
+    });
   }, [bestNumber, t, value]);
 
   if (!sorted.length) {
