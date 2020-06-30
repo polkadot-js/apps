@@ -4,7 +4,6 @@
 
 import { Hash } from '@polkadot/types/interfaces';
 import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
-import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -17,8 +16,9 @@ import Static from './Static';
 import { classes } from './util';
 import { useTranslation } from './translate';
 
-export interface Props extends BareProps {
+export interface Props {
   children?: React.ReactNode;
+  className?: string;
   labelHash?: React.ReactNode;
   mortality?: string;
   onError?: () => void;

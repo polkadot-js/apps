@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
@@ -11,7 +9,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
 
-interface Props extends BareProps {
+interface Props {
   onClose: () => void;
   address: string;
 }

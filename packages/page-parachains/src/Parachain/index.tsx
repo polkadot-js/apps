@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveParachainInfo, DeriveParachainFull } from '@polkadot/api-derive/types';
-import { ComponentProps } from '../types';
 
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
@@ -19,9 +18,12 @@ import Details from './Details';
 
 import { useTranslation } from '../translate';
 
-interface Props extends ComponentProps {
+interface Props {
   basePath: string;
+  className?: string;
+  isMine?: boolean;
   paraInfoRef: React.MutableRefObject<DeriveParachainInfo | null>;
+  sudoKey?: string;
 }
 
 function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {

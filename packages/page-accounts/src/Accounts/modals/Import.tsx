@@ -15,6 +15,8 @@ import { useTranslation } from '../../translate';
 
 interface Props extends ModalProps {
   className?: string;
+  onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 interface FileState {

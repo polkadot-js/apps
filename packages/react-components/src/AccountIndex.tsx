@@ -4,14 +4,14 @@
 
 import { AccountId, Address } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { BareProps } from '@polkadot/react-api/types';
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
+  className?: string;
   defaultValue?: string;
   label?: React.ReactNode;
   value?: string | AccountId | Address | null | Uint8Array;

@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSocietyCandidate } from '@polkadot/api-derive/types';
-import { OwnMembers } from '../types';
 
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -12,8 +11,11 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 import Candidate from './Candidate';
 
-interface Props extends OwnMembers {
+interface Props {
+  allMembers: string[];
   className?: string;
+  isMember: boolean;
+  ownMembers: string[];
 }
 
 function Candidates ({ allMembers, className = '', isMember, ownMembers }: Props): React.ReactElement<Props> {

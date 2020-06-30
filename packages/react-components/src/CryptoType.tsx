@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import React, { useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 
 import { classes } from './util';
 
-interface Props extends BareProps {
+interface Props {
   accountId: AccountId | AccountIndex | Address | string | Uint8Array | null;
+  className?: string;
   label?: string;
 }
 

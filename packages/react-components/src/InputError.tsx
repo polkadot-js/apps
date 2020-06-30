@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React from 'react';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
 import { classes } from './util';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   label?: React.ReactNode;
 }
 

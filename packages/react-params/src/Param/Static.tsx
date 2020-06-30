@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '@polkadot/types/types';
-import { Props as BareProps, RawParam } from '../types';
+import { RawParam } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -12,10 +12,12 @@ import { Static } from '@polkadot/react-components';
 import { useTranslation } from '../translate';
 import Bare from './Bare';
 
-interface Props extends BareProps {
+interface Props {
   asHex?: boolean;
   children?: React.ReactNode;
+  className?: string;
   defaultValue: RawParam;
+  label?: React.ReactNode;
   withLabel?: boolean;
 }
 

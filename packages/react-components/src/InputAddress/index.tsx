@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
-import { BareProps } from '../types';
 import { Option } from './types';
 
 import React from 'react';
@@ -21,7 +20,8 @@ import Dropdown from '../Dropdown';
 import createHeader from './createHeader';
 import createItem from './createItem';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue?: Uint8Array | string | null;
   filter?: string[];
   help?: React.ReactNode;

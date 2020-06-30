@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 import { Codec } from '@polkadot/types/types';
 
@@ -10,7 +9,7 @@ import React from 'react';
 import { Output } from '@polkadot/react-components';
 import { isUndefined } from '@polkadot/util';
 
-interface Props extends BareProps {
+interface Props {
   queue: QueueTx[];
 }
 

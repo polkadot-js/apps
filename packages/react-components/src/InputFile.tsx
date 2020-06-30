@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useCallback, useState, createRef } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
@@ -13,10 +11,11 @@ import { classes } from './util';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
 
-export interface InputFileProps extends BareProps {
+export interface InputFileProps {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string;
+  className?: string;
   clearContent?: boolean;
   convertHex?: boolean;
   help?: React.ReactNode;

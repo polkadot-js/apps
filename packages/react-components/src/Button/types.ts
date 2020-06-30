@@ -8,7 +8,9 @@ import { BareProps } from '../types';
 
 export type Button$Callback = () => void | Promise<void>;
 
-export interface ButtonProps extends BareProps {
+export interface ButtonProps {
+  children?: React.ReactNode;
+  className?: string;
   floated?: 'left' | 'right';
   icon?: IconName;
   isAnimated?: SUIButtonProps['animated'];
@@ -34,14 +36,15 @@ export interface ButtonProps extends BareProps {
 
 export type DividerProps = BareProps;
 
-export interface ContentProps extends BareProps {
+export interface ContentProps {
   children?: React.ReactNode;
   hidden?: boolean;
   visible?: boolean;
 }
 
-export interface GroupProps extends BareProps {
+export interface GroupProps {
   children?: React.ReactNode;
+  className?: string;
   isBasic?: boolean;
   isCentered?: boolean;
 }

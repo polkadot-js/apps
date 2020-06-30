@@ -5,10 +5,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BareProps } from '@polkadot/react-components/types';
-
-interface Props extends BareProps {
+interface Props {
   color: string;
+  className?: string;
 }
 
 function ChainColorIndicator ({ className = '', color }: Props): React.ReactElement<Props> {

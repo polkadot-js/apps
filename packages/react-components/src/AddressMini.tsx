@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -17,10 +16,11 @@ import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import LockedVote from './LockedVote';
 
-interface Props extends BareProps {
+interface Props {
   balance?: BN | BN[];
   bonded?: BN | BN[];
   children?: React.ReactNode;
+  className?: string;
   iconInfo?: React.ReactNode;
   isHighlight?: boolean;
   isPadded?: boolean;

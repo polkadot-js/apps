@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React from 'react';
 import ReactMd from 'react-markdown';
 import styled from 'styled-components';
@@ -11,7 +9,8 @@ import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   md: string;
 }
 

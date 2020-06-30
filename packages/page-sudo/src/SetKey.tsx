@@ -1,17 +1,20 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
 import { AddressMini, Icon, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
-import { ComponentProps } from './types';
 
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
 
-interface Props extends I18nProps, ComponentProps {}
+interface Props {
+  allAccounts: string[];
+  className?: string;
+  isMine?: boolean;
+  sudoKey?: string;
+}
 
 function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

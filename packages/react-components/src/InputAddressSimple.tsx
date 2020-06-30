@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
@@ -11,9 +9,10 @@ import addressToAddress from './util/toAddress';
 import IdentityIcon from './IdentityIcon';
 import Input from './Input';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
   children?: React.ReactNode;
+  className?: string;
   defaultValue?: string | null;
   help?: React.ReactNode;
   isError?: boolean;

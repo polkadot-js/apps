@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps as Props } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
@@ -23,6 +23,11 @@ interface AllState {
   isTypesValid: boolean;
   types: Record<string, any>;
   typesPlaceholder: string | null;
+}
+
+interface Props {
+  className?: string;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 function Developer ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {

@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef } from '@polkadot/types/types';
-import { BareProps } from '@polkadot/react-components/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
@@ -29,22 +28,21 @@ export type RawParamOnEscape = () => void;
 
 export type RawParams = RawParam[];
 
-export interface BaseProps extends BareProps {
+export interface Props {
+  className?: string;
   defaultValue: RawParam;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isInOption?: boolean;
+  isReadOnly?: boolean;
+  isOptional?: boolean;
+  label?: React.ReactNode;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   overrides?: ComponentMap;
   type: TypeDef & { withOptionActive?: boolean };
-}
-
-export interface Props extends BaseProps {
-  isDisabled?: boolean;
-  isError?: boolean;
-  isInOption?: boolean;
-  isReadOnly?: boolean;
-  label?: React.ReactNode;
   withLabel?: boolean;
 }
 

@@ -2,15 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import styled from 'styled-components';
 import { Columar, QrDisplayPayload, QrScanSignature, Spinner } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
-interface Props extends BareProps {
+interface Props {
   address: string;
   className?: string;
   genesisHash: Uint8Array;

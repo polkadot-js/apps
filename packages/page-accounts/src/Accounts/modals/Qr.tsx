@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../../types';
 
 import React, { useCallback, useState } from 'react';
@@ -22,6 +23,8 @@ interface Scanned {
 
 interface Props extends ModalProps {
   className?: string;
+  onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {

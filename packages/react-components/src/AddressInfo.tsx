@@ -4,7 +4,6 @@
 
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -45,10 +44,11 @@ export interface ValidatorPrefsType {
   validatorPayment?: boolean;
 }
 
-interface Props extends BareProps {
+interface Props {
   address: string;
   balancesAll?: DeriveBalancesAll;
   children?: React.ReactNode;
+  className?: string;
   democracyLocks?: DeriveDemocracyLock[];
   extraInfo?: [string, string][];
   stakingInfo?: DeriveStakingAccount;

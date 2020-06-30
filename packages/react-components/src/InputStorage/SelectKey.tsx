@@ -4,7 +4,6 @@
 
 import { QueryableStorageEntry } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
-import { BareProps } from '../types';
 
 import React from 'react';
 import { ApiPromise } from '@polkadot/api';
@@ -13,7 +12,8 @@ import { useApi } from '@polkadot/react-hooks';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   isError?: boolean;
   onChange: (value: QueryableStorageEntry<'promise'>) => void;
   options: DropdownOptions;

@@ -25,6 +25,8 @@ import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends ModalProps {
   className?: string;
+  onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
   seed?: string;
   type?: KeypairType;
 }

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -11,8 +9,9 @@ import Icon from './Icon';
 import { classes } from './util';
 import Tooltip from './Tooltip';
 
-interface Props extends BareProps {
+interface Props {
   help: React.ReactNode;
+  className?: string;
 }
 
 let id = 0;
