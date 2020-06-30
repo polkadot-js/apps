@@ -81,7 +81,6 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
             />
             <Input
               help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
-              isDisabled
               isDisabledError={!isMatched}
               label={t<string>('preimage hash')}
               value={encodedHash}
