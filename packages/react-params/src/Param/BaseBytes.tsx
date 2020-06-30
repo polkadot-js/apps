@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TypeDef } from '@polkadot/types/types';
 import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
 
 import React, { useCallback, useState } from 'react';
@@ -21,10 +22,12 @@ interface Props {
   isError?: boolean;
   label?: React.ReactNode;
   length?: number;
+  name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   size?: Size;
+  type: TypeDef & { withOptionActive?: boolean };
   validate?: (u8a: Uint8Array) => boolean;
   withLabel?: boolean;
   withLength?: boolean;
