@@ -9,27 +9,27 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
+  color: 'counter' | 'green' | 'blue' | 'gray' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
-  info: React.ReactNode;
-  isGray?: boolean;
+  info?: React.ReactNode;
   isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
   onClick?: () => void;
-  type: 'counter' | 'online' | 'offline' | 'next' | 'runnerup' | 'selected' | 'green' | 'blue' | 'brown' | 'gray' | 'purple';
 }
 
 let badgeId = 0;
 
-function Badge ({ className, hover, info, isGray, isInline, isSmall, isTooltip, onClick, type }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
+  const extraProps = isTooltip && hover
+    ? { 'data-for': trigger, 'data-tip': true }
+    : {};
 
   return (
     <div
-      className={`ui--Badge ${isGray && 'isGray'} ${isInline && 'isInline'} ${isTooltip && 'isTooltip'} ${isSmall && 'isSmall'} ${onClick && 'isClickable'} ${type} ${className}`}
-      data-for={trigger}
-      data-tip={true}
-      data-tip-disable={!isTooltip}
+      {...extraProps}
+      className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       <div className='badge'>
@@ -63,7 +63,7 @@ export default React.memo(styled(Badge)`
     cursor: help;
   }
 
-  i.icon {
+  .ui--Icon {
     cursor: inherit !important;
     margin: 0;
     width: 1em;
@@ -78,6 +78,7 @@ export default React.memo(styled(Badge)`
     font-size: 10px;
     height: 16px;
     line-height: 16px;
+    min-width: 16px;
     padding: 0;
     width: 16px;
   }
@@ -94,39 +95,36 @@ export default React.memo(styled(Badge)`
     vertical-align: middle;
   }
 
-  &.next,
-  &.blue {
+  &.blueColor {
     background: steelblue;
   }
 
-  &.offline,
-  &.counter {
+  &.counterColor {
     background: red;
-  }
-
-  &.counter {
     margin: 0 0.5rem;
     vertical-align: middle;
   }
 
-  &.gray, &.isGray {
+  &.grayColor {
     background: #eee !important;
     color: #aaa;
   }
 
-  &.runnerup,
-  &.brown {
-    background: brown;
+  &.redColor {
+    background: darkred;
   }
 
-  &.online,
-  &.selected,
-  &.green {
+  &.greenColor {
     background: green;
   }
 
-  &.purple {
+  &.purpleColor {
     background: indigo;
+  }
+
+  &.transparentColor {
+    background: transparent;
+    box-shadow: none;
   }
 
   & > * {

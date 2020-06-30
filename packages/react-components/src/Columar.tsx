@@ -5,12 +5,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Column from './Column';
+
 interface Props {
   children: React.ReactNode;
   className?: string;
 }
 
-function Columar ({ children, className }: Props): React.ReactElement<Props> {
+type ColumarType = React.ComponentType<Props> & {
+  Column: React.ComponentType<Props>;
+};
+
+function Columar ({ children, className = '' }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--Columnar ${className}`}>
       {children}
@@ -18,7 +24,7 @@ function Columar ({ children, className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Columar)`
+const ColumarExp = React.memo(styled(Columar)`
   display: flex;
   flex-wrap: wrap;
 
@@ -28,4 +34,8 @@ export default React.memo(styled(Columar)`
       min-width: 50%;
     }
   }
-`);
+`) as unknown as ColumarType;
+
+ColumarExp.Column = Column;
+
+export default ColumarExp;

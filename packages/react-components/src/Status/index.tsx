@@ -4,8 +4,9 @@
 
 import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { registry } from '@polkadot/react-api';
 
 import AddressMini from '../AddressMini';
@@ -21,27 +22,25 @@ export { StatusContext };
 
 interface Props {
   className?: string;
-  stqueue?: QueueStatus[];
-  txqueue?: QueueTx[];
 }
 
-function iconName (status: string): any {
+function iconName (status: string): IconName {
   switch (status) {
     case 'error':
       return 'ban';
 
     case 'event':
-      return 'assistive listening devices';
+      return 'assistive-listening-systems';
 
     case 'received':
-      return 'telegram plane';
+      return 'telegram-plane';
 
     default:
       return 'check';
   }
 }
 
-function signerIconName (status: QueueTxStatus): any {
+function signerIconName (status: QueueTxStatus): IconName {
   switch (status) {
     case 'cancelled':
       return 'ban';
@@ -55,11 +54,11 @@ function signerIconName (status: QueueTxStatus): any {
     case 'dropped':
     case 'invalid':
     case 'usurped':
-      return 'arrow down';
+      return 'arrow-down';
 
     case 'error':
     case 'finalitytimeout':
-      return 'warning sign';
+      return 'exclamation-triangle';
 
     case 'queued':
     // case 'retracted':
@@ -79,11 +78,11 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
       <div className='wrapper'>
         <div className='container'>
           <Icon
-            name='close'
+            icon='times'
             onClick={removeItem}
           />
           <div className='short'>
-            <Icon name={iconName(status)} />
+            <Icon icon={iconName(status)} />
           </div>
           <div className='desc'>
             <div className='header'>
@@ -114,7 +113,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
     }
   }
 
-  const icon = signerIconName(status);
+  const icon = signerIconName(status) as 'ban' | 'spinner';
 
   return (
     <div
@@ -125,14 +124,14 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
         <div className='container'>
           {STATUS_COMPLETE.includes(status) && (
             <Icon
-              name='close'
+              icon='times'
               onClick={removeItem}
             />
           )}
           <div className='short'>
             {icon === 'spinner'
               ? <Spinner variant='push' />
-              : <Icon name={icon} />
+              : <Icon icon={icon} />
             }
           </div>
           <div className='desc'>
@@ -150,29 +149,33 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
 }
 
 function filterSt (stqueue?: QueueStatus[]): QueueStatus[] {
-  return (stqueue || []).filter(({ isCompleted }): boolean => !isCompleted);
+  return (stqueue || []).filter(({ isCompleted }) => !isCompleted);
 }
 
 function filterTx (txqueue?: QueueTx[]): [QueueTx[], QueueTx[]] {
-  const allTx = (txqueue || []).filter(({ status }): boolean => !['completed', 'incomplete'].includes(status));
+  const allTx = (txqueue || []).filter(({ status }) => !['completed', 'incomplete'].includes(status));
 
-  return [allTx, allTx.filter(({ status }): boolean => STATUS_COMPLETE.includes(status))];
+  return [allTx, allTx.filter(({ status }) => STATUS_COMPLETE.includes(status))];
 }
 
-function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Props> | null {
+function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
+  const { stqueue, txqueue } = useContext(StatusContext);
+  const [allSt, setAllSt] = useState<QueueStatus[]>([]);
+  const [[allTx, completedTx], setAllTx] = useState<[QueueTx[], QueueTx[]]>([[], []]);
   const { t } = useTranslation();
-  const allSt = useMemo(
-    (): QueueStatus[] => filterSt(stqueue),
-    [stqueue]
-  );
-  const [allTx, completedTx] = useMemo(
-    (): [QueueTx[], QueueTx[]] => filterTx(txqueue),
-    [txqueue]
-  );
+
+  useEffect((): void => {
+    setAllSt(filterSt(stqueue));
+  }, [stqueue]);
+
+  useEffect((): void => {
+    setAllTx(filterTx(txqueue));
+  }, [txqueue]);
+
   const _onDismiss = useCallback(
     (): void => {
-      allSt.map((s): void => s.removeItem());
-      completedTx.map((t): void => t.removeItem());
+      allSt.map((s) => s.removeItem());
+      completedTx.map((t) => t.removeItem());
     },
     [allSt, completedTx]
   );
@@ -186,10 +189,10 @@ function Status ({ className, stqueue, txqueue }: Props): React.ReactElement<Pro
       {(allSt.length + completedTx.length) > 1 && (
         <div className='dismiss'>
           <Button
-            icon='cancel'
+            icon='times'
             isFluid
             isPrimary
-            label={t('Dismiss all notifications')}
+            label={t<string>('Dismiss all notifications')}
             onClick={_onDismiss}
           />
         </div>
@@ -228,13 +231,6 @@ export default React.memo(styled(Status)`
       vertical-align: middle;
       position: relative;
 
-      .ui--highlight--spinner {
-        &:after {
-          border-color: #fff transparent transparent !important;
-          font-size: 1rem;
-        }
-      }
-
       .desc {
         flex: 1;
         overflow: hidden;
@@ -261,7 +257,8 @@ export default React.memo(styled(Status)`
         opacity:  0.75;
         padding: 0.5rem 0 0.5rem 0.5rem;
 
-        i.icon {
+        .ui--Icon {
+          color: white !important;
           line-height: 1;
         }
       }
@@ -270,10 +267,10 @@ export default React.memo(styled(Status)`
         padding: 0.25rem 0 0 0 !important;
       }
 
-      i.close {
+      .ui--Icon.isClickable {
         position: absolute;
-        top: 0.25rem;
-        right: 0rem;
+        top: 0.5rem;
+        right: 0.5rem;
         cursor: pointer;
       }
     }

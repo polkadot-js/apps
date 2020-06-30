@@ -8,14 +8,17 @@ import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
+import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
+import { KeyringStore } from '@polkadot/ui-keyring/types';
+
 import uiSettings from '@polkadot/ui-settings';
-import ApiSigner from '@polkadot/react-signer/ApiSigner';
+import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
@@ -26,6 +29,7 @@ import registry from './typeRegistry';
 interface Props {
   children: React.ReactNode;
   url?: string;
+  store?: KeyringStore;
 }
 
 interface InjectedAccountExt {
@@ -33,6 +37,7 @@ interface InjectedAccountExt {
   meta: {
     name: string;
     source: string;
+    whenCreated: number;
   };
 }
 
@@ -51,7 +56,7 @@ interface ChainData {
 //   });
 // });
 
-const DEFAULT_DECIMALS = registry.createType('u32', 12);
+const DEFAULT_DECIMALS = registry.createType('u32', 15);
 const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
@@ -69,11 +74,12 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
     api.rpc.system.version(),
     injectedPromise
       .then(() => web3Accounts())
-      .then((accounts) => accounts.map(({ address, meta }): InjectedAccountExt => ({
+      .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
         address,
         meta: {
           ...meta,
-          name: `${meta.name} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`
+          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
+          whenCreated
         }
       })))
       .catch((error): InjectedAccountExt[] => {
@@ -93,7 +99,7 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   };
 }
 
-async function loadOnReady (api: ApiPromise): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiState> {
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -102,7 +108,7 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
 
-  console.log(`chain: ${systemChain} (${systemChainType}), ${JSON.stringify(properties)}`);
+  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));
@@ -122,6 +128,7 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,
+    store,
     type: 'ed25519'
   }, injectedAccounts);
 
@@ -130,6 +137,8 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
   const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
   const isSubstrateV2 = !!Object.keys(api.consts).length;
+
+  setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
   return {
     apiDefaultTx,
@@ -143,7 +152,7 @@ async function loadOnReady (api: ApiPromise): Promise<ApiState> {
   };
 }
 
-function Api ({ children, url }: Props): React.ReactElement<Props> | null {
+function Api ({ children, store, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -165,7 +174,7 @@ function Api ({ children, url }: Props): React.ReactElement<Props> | null {
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('ready', async (): Promise<void> => {
       try {
-        setState(await loadOnReady(api));
+        setState(await loadOnReady(api, store));
       } catch (error) {
         console.error('Unable to load chain', error);
       }

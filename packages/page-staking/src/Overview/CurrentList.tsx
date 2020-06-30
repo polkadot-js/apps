@@ -7,11 +7,12 @@ import { AccountId, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Input, Table } from '@polkadot/react-components';
+import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 import { Option, StorageKey } from '@polkadot/types';
 
+import Filtering from '../Filtering';
 import { STORE_FAVS_BASE } from '../constants';
 import { useTranslation } from '../translate';
 import Address from './Address';
@@ -88,7 +89,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
   }, {});
 }
 
-function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ hasQueries, isIntentions, next, stakingOverview }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints, lastBlockAuthors } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -98,6 +99,7 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
   const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
+  const [withIdentity, setWithIdentity] = useState(false);
 
   useEffect((): void => {
     stakingOverview && setFiltered(
@@ -128,16 +130,6 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     []
   ], [t]);
 
-  const filter = useMemo(() => (
-    <Input
-      autoFocus
-      isFull
-      label={t('filter by name, address or index')}
-      onChange={setNameFilter}
-      value={nameFilter}
-    />
-  ), [nameFilter, t]);
-
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
       (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
@@ -155,17 +147,25 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
           onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
-          setNominators={setNominators}
           toggleFavorite={toggleFavorite}
+          withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, setNominators, toggleFavorite]
+    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions
     ? (
       <Table
-        empty={waiting && t('No waiting validators found')}
+        empty={waiting && t<string>('No waiting validators found')}
+        filter={
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+            setWithIdentity={setWithIdentity}
+            withIdentity={withIdentity}
+          />
+        }
         header={headerActive}
       >
         {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
@@ -173,8 +173,15 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     )
     : (
       <Table
-        empty={validators && t('No active validators found')}
-        filter={filter}
+        empty={validators && t<string>('No active validators found')}
+        filter={
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+            setWithIdentity={setWithIdentity}
+            withIdentity={withIdentity}
+          />
+        }
         header={headerWaiting}
       >
         {_renderRows(validators, true)}

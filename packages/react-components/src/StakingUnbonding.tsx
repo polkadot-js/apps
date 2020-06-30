@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { formatBalance, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import Icon from './Icon';
 import Tooltip from './Tooltip';
@@ -17,7 +17,7 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  stakingInfo?: DeriveStakingAccount;
+  value?: DeriveStakingAccount;
 }
 
 function remainingBlocks (remainingEras: BN, { eraLength, eraProgress }: DeriveSessionProgress): BN {
@@ -27,31 +27,30 @@ function remainingBlocks (remainingEras: BN, { eraLength, eraProgress }: DeriveS
     .add(eraLength.sub(eraProgress));
 }
 
-function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElement<Props> | null {
+function StakingUnbonding ({ className = '', value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress, []);
   const { t } = useTranslation();
 
-  if (!stakingInfo?.unlocking || !progress) {
+  if (!value?.unlocking || !progress) {
     return null;
   }
 
-  const filtered = stakingInfo.unlocking.filter(({ remainingEras, value }) => value.gtn(0) && remainingEras.gtn(0));
+  const filtered = value.unlocking.filter(({ remainingEras, value }) => value.gtn(0) && remainingEras.gtn(0));
 
   if (!filtered.length) {
     return null;
   }
 
   const mapped = filtered.map((unlock): [DeriveUnlocking, BN] => [unlock, remainingBlocks(unlock.remainingEras, progress)]);
-  const total = mapped.reduce((total, [{ value }]) => total.add(value), new BN(0));
-  const trigger = `${stakingInfo.accountId}-unlocking-trigger`;
+  const total = mapped.reduce((total, [{ value }]) => total.add(value), BN_ZERO);
+  const trigger = `${value.accountId.toHex()}-unlocking-trigger`;
 
   return (
     <div className={className}>
       <Icon
-        data-for={trigger}
-        data-tip
-        name='clock'
+        icon='clock'
+        tooltip={trigger}
       />
       <FormatBalance value={total} />
       <Tooltip
@@ -60,11 +59,13 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
             className='row'
             key={index}
           >
-            <div>{t('Unbonding {{value}}, ', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
-            <BlockToTime
-              blocks={blocks}
-              label={`${t('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
-            />
+            <div>{t<string>('Unbonding {{value}}, ', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
+            <div className='faded'>
+              <BlockToTime
+                blocks={blocks}
+                label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+              />
+            </div>
           </div>
         ))}
         trigger={trigger}
@@ -76,7 +77,7 @@ function StakingUnbonding ({ className, stakingInfo }: Props): React.ReactElemen
 export default React.memo(styled(StakingUnbonding)`
   white-space: nowrap;
 
-  i.icon {
+  .ui--Icon {
     margin-left: 0;
     margin-right: 0.25rem;
   }

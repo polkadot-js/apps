@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader/Loader';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
+import Icon from './Icon';
 
 interface Props {
   className?: string;
@@ -14,30 +14,36 @@ interface Props {
   variant?: 'app' | 'push' | 'mini';
 }
 
-function Spinner ({ className, label, variant = 'app' }: Props): React.ReactElement<Props> | null {
+function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const isApp = variant === 'app';
 
   return (
     <div className={`${className} ui--Spinner ${variant}`}>
-      <Loader
-        active
-        className='ui--highlight--spinner'
-        indeterminate
-        inline='centered'
-        size='medium'
-      >
-        {variant === 'app' && (
-          label || t('Retrieving data')
-        )}
-      </Loader>
+      <Icon
+        className='ui--highlight--color'
+        icon='spinner'
+        isSpinning
+        size={isApp ? '2x' : '1x'}
+      />
+      {isApp && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
   );
 }
 
 export default React.memo(styled(Spinner)`
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+
+  .ui--Icon {
+    margin-bottom: 0.5rem;
+    opacity: 0.75;
+  }
+
   .text {
+    color: inherit !important;
     margin: 0 auto 1.5rem auto;
     opacity: 0.6;
-    text-align: center;
   }
 `);

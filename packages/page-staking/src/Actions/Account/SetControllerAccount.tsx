@@ -21,40 +21,51 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
 
   return (
     <Modal
-      className='staking--SetControllerAccount'
-      header={t('Change controller account')}
-      size='small'
+      header={t<string>('Change controller account')}
+      size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          isDisabled
-          label={t('stash account')}
-          value={stashId}
-        />
-        <InputAddress
-          className='medium'
-          defaultValue={defaultControllerId}
-          help={t('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
-          label={t('controller account')}
-          onChange={setControllerId}
-          type='account'
-          value={controllerId}
-        />
-        <InputValidationController
-          accountId={stashId}
-          controllerId={controllerId}
-          defaultController={defaultControllerId}
-          onError={setControllerError}
-        />
+      <Modal.Content>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              isDisabled
+              label={t<string>('stash account')}
+              value={stashId}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The stash account that is used. This will allow the controller to perform all non-funds related operations on behalf of the account.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={defaultControllerId}
+              help={t<string>('The controller is the account that will be used to control any nominating or validating actions. Should not match another stash or controller.')}
+              label={t<string>('controller account')}
+              onChange={setControllerId}
+              type='account'
+              value={controllerId}
+            />
+            <InputValidationController
+              accountId={stashId}
+              controllerId={controllerId}
+              defaultController={defaultControllerId}
+              onError={setControllerError}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The selected controller tied to this stash. Once set, this account will be able to control the actions performed by the stash account.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={stashId}
-          icon='sign-in'
+          icon='sign-in-alt'
           isDisabled={!controllerId}
           isPrimary
-          label={t('Set controller')}
+          label={t<string>('Set controller')}
           onStart={onClose}
           params={[controllerId]}
           tx='staking.setController'

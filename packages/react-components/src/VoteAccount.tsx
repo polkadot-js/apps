@@ -13,15 +13,15 @@ interface Props {
   onChange: (value: string | null) => void;
 }
 
-function VoteAccount ({ className, filter, onChange }: Props): React.ReactElement<Props> {
+function VoteAccount ({ className = '', filter, onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <InputAddress
       className={className}
       filter={filter}
-      help={t('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
-      label={t('vote with account')}
+      help={t<string>('Select the account you wish to vote with. You can approve "aye" or deny "nay" the proposal.')}
+      label={t<string>('vote with account')}
       onChange={onChange}
       type='account'
       withLabel

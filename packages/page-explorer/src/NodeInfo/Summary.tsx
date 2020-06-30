@@ -4,11 +4,10 @@
 
 import { Info } from './types';
 
-import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { formatNumber } from '@polkadot/util';
 import { BestNumber, Elapsed } from '@polkadot/react-query';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -17,12 +16,11 @@ interface Props {
   info: Info;
 }
 
-const ZERO = new BN(0);
 const EMPTY_INFO = { extrinsics: null, health: null, peers: null };
 
 function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefresh }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [peerBest, setPeerBest] = useState(ZERO);
+  const [peerBest, setPeerBest] = useState(BN_ZERO);
 
   useEffect((): void => {
     if (peers) {
@@ -31,7 +29,7 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
       setPeerBest(
         bestPeer
           ? bestPeer.bestNumber
-          : new BN(0)
+          : BN_ZERO
       );
     }
   }, [peers]);
@@ -39,12 +37,12 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t('refresh in')}>
+        <CardSummary label={t<string>('refresh in')}>
           <Elapsed value={nextRefresh} />
         </CardSummary>
         <CardSummary
           className='ui--media-small'
-          label={t('total peers')}
+          label={t<string>('total peers')}
         >
           {
             health
@@ -54,21 +52,21 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
         </CardSummary>
         <CardSummary
           className='ui--media-small'
-          label={t('syncing')}
+          label={t<string>('syncing')}
         >
           {
             health
               ? (
                 health.isSyncing.valueOf()
-                  ? t('yes')
-                  : t('no')
+                  ? t<string>('yes')
+                  : t<string>('no')
               )
               : '-'
           }
         </CardSummary>
       </section>
       <section className='ui--media-large'>
-        <CardSummary label={t('queued tx')}>
+        <CardSummary label={t<string>('queued tx')}>
           {
             extrinsics
               ? `${extrinsics.length}`
@@ -77,10 +75,10 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
         </CardSummary>
       </section>
       <section>
-        <CardSummary label={t('peer best')}>
+        <CardSummary label={t<string>('peer best')}>
           {formatNumber(peerBest)}
         </CardSummary>
-        <CardSummary label={t('our best')}>
+        <CardSummary label={t<string>('our best')}>
           <BestNumber />
         </CardSummary>
       </section>

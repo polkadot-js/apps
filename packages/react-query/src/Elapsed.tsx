@@ -57,7 +57,7 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): string {
 
 tick();
 
-function Elapsed ({ className, style, value }: Props): React.ReactElement<Props> {
+function Elapsed ({ className = '', value }: Props): React.ReactElement<Props> {
   const [now, setNow] = useState(lastNow);
 
   useEffect((): () => void => {
@@ -71,10 +71,7 @@ function Elapsed ({ className, style, value }: Props): React.ReactElement<Props>
   }, []);
 
   return (
-    <div
-      className={['ui--Elapsed', className].join(' ')}
-      style={style}
-    >
+    <div className={['ui--Elapsed', className].join(' ')}>
       {getDisplayValue(now, value)}
     </div>
   );

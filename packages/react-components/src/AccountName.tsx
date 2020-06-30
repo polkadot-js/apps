@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import { useCall, useApi } from '@polkadot/react-hooks';
-import { stringToU8a } from '@polkadot/util';
+import { isFunction, stringToU8a } from '@polkadot/util';
 
 import { getAddressName } from './util';
 import Badge from './Badge';
@@ -35,8 +35,8 @@ const KNOWN: [AccountId, string][] = [
   [registry.createType('AccountId', stringToU8a('modlpy/trsry'.padEnd(32, '\0'))), 'Treasury']
 ];
 
-const displayCache: Map<string, React.ReactNode> = new Map();
-const nameCache: Map<string, [boolean, [React.ReactNode, React.ReactNode | null]]> = new Map();
+const displayCache = new Map<string, React.ReactNode>();
+const indexCache = new Map<string, string>();
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
@@ -46,21 +46,16 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   }
 
   const accountId = _address.toString();
-  const accountIndex = (_accountIndex || '').toString();
 
   if (!accountId) {
     return [[defaultName, null], false, false, false];
   }
 
   const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
-  const [isAddressCached, nameCached] = nameCache.get(accountId) || [false, [null, null]];
+  const accountIndex = (_accountIndex || '').toString() || indexCache.get(accountId);
 
-  if (extracted && isAddressCached && !isAddressExtracted) {
-    // skip, default return
-  } else if (nameCached[0]) {
-    return [nameCached, false, isAddressCached, false];
-  } else if (isAddressExtracted && accountIndex) {
-    nameCache.set(accountId, [true, [accountIndex, null]]);
+  if (isAddressExtracted && accountIndex) {
+    indexCache.set(accountId, accountIndex);
 
     return [[accountIndex, null], false, true, false];
   }
@@ -81,10 +76,10 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
     <div className='via-identity'>
       {isSpecial && (
         <Badge
-          info={<Icon name='simplybuilt' />}
+          color='green'
+          info={<Icon icon='simplybuilt' />}
           isInline
           isSmall
-          type='green'
         />
       )}
       <span className={`name ${(isLocal || isSpecial) ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
@@ -96,15 +91,15 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   );
 }
 
-function createIdElem (badgeType: 'green' | 'brown' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode): React.ReactNode {
+function createIdElem (color: 'green' | 'red' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode): React.ReactNode {
   return (
     <div className='via-identity'>
       <Badge
+        color={color}
         info={infoElem}
         isInline
         isSmall
         isTooltip
-        type={badgeType}
       />
       {nameElem}
     </div>
@@ -125,19 +120,23 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
         : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
     )
     : undefined;
-  const nameElem = displayParent
-    ? <span className={`name ${isGood && 'isGood'}`}><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></span>
-    : <span className={`name ${isGood && 'isGood'}`}>{displayName}</span>;
-  const infoElem = <Icon name={identity.parent ? 'caret square up outline' : (isGood ? 'check' : 'minus')} />;
-  const badgeType = isGood ? 'green' : (isBad ? 'brown' : 'gray');
+  const nameElem = (
+    <span className={`name ${isGood ? 'isGood' : ''}`}>
+      {displayParent
+        ? <><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></>
+        : displayName
+      }
+    </span>
+  );
+  const infoElem = <Icon icon={identity.parent ? 'link' : (isGood ? 'check' : 'minus')} />;
+  const color = isGood ? 'green' : (isBad ? 'red' : 'gray');
 
-  nameCache.set(address, [false, displayParent ? [displayParent, displayName] : [displayName, null]]);
-  displayCache.set(address, createIdElem(badgeType, nameElem, infoElem));
+  displayCache.set(address, createIdElem(color, nameElem, infoElem));
 
-  return createIdElem(badgeType, nameElem, infoElem);
+  return createIdElem(color, nameElem, infoElem);
 }
 
-function AccountName ({ children, className, defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
@@ -148,15 +147,13 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
     const { accountId, accountIndex, identity, nickname } = info || {};
     const cacheAddr = (accountId || value || '').toString();
 
-    if (api.query.identity?.identityOf) {
+    if (isFunction(api.query.identity?.identityOf)) {
       setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)
           : extractName(cacheAddr, accountIndex)
       );
     } else if (nickname) {
-      nameCache.set(cacheAddr, [false, [nickname, null]]);
-
       setName(nickname);
     } else {
       setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
@@ -175,7 +172,7 @@ function AccountName ({ children, className, defaultName, label, noLookup, onCli
 
   return (
     <div
-      className={`ui--AccountName ${withSidebar && 'withSidebar'} ${className}`}
+      className={`ui--AccountName ${withSidebar ? 'withSidebar' : ''} ${className}`}
       onClick={
         withSidebar
           ? _onToggleSidebar

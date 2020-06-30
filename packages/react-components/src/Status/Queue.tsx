@@ -187,7 +187,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
               ? item.error
               : error,
             result: result === undefined
-              ? item.result
+              ? item.result as SubmittableResult
               : result,
             status: item.status === 'completed'
               ? item.status

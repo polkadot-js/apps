@@ -29,7 +29,7 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={bids && t('No bids')}
+      empty={bids && t<string>('No bids')}
       header={header}
     >
       {bids?.map((bid): React.ReactNode => (

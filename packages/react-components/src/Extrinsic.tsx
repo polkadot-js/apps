@@ -23,8 +23,17 @@ interface Props extends BareProps {
   label?: React.ReactNode;
   onChange: (method?: SubmittableExtrinsic<'promise'>) => void;
   onEnter?: () => void;
+  onError?: (error?: Error | null) => void;
   onEscape?: () => void;
   withLabel?: boolean;
+}
+
+interface CallState {
+  fn: SubmittableExtrinsicFunction<'promise'>;
+  params: {
+    name: string;
+    type: TypeDef
+  }[];
 }
 
 function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: string; type: TypeDef }[] {
@@ -34,8 +43,8 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
   }));
 }
 
-function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
-  const [extrinsic, setCall] = useState<{ fn: SubmittableExtrinsicFunction<'promise'>; params: { name: string; type: TypeDef }[] }>({ fn: defaultValue, params: getParams(defaultValue) });
+function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
+  const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>([]);
 
   useEffect((): void => {
@@ -56,12 +65,14 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
       try {
         method = extrinsic.fn(...values.map(({ value }): any => value));
       } catch (error) {
-        // swallow
+        onError && onError(error);
       }
+    } else {
+      onError && onError(null);
     }
 
     onChange(method);
-  }, [extrinsic, onChange, values]);
+  }, [extrinsic, onChange, onError, values]);
 
   const _onChangeMethod = useCallback(
     (fn: SubmittableExtrinsicFunction<'promise'>): void => setCall({ fn, params: getParams(fn) }),

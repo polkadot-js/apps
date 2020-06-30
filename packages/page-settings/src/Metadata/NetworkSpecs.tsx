@@ -6,9 +6,8 @@ import { ChainInfo } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ChainImg, Columar, Column, Input, Spinner } from '@polkadot/react-components';
+import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
-import { QrNetworkSpecs } from '@polkadot/react-qr';
 import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
 import ChainColorIndicator from './ChainColorIndicator';
@@ -92,18 +91,18 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         <div className='settings--networkSpecs-name'>
           <Input
             className='full'
-            help={t('Name of the network. It is only for display purposes.')}
+            help={t<string>('Name of the network. It is only for display purposes.')}
             isDisabled
-            label={t('Network Name')}
+            label={t<string>('Network Name')}
             value={networkSpecs.title}
           />
           <ChainImg className='settings--networkSpecs-logo' />
         </div>
         <Input
           className='full'
-          help={t('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
+          help={t<string>('The color used to distinguish this network with others, use color code with 3 or 6 digits, like "#FFF" or "#111111"')}
           isError={!_checkColorValid()}
-          label={t('Color')}
+          label={t<string>('Color')}
           onChange={_onChangeColor}
           value={networkSpecs.color}
         >
@@ -111,7 +110,7 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
             <Button
               icon='sync'
               key='spread'
-              label={t('Random')}
+              label={t<string>('Random')}
               onClick={_onSetRandomColor}
             />
             <ChainColorIndicator color={networkSpecs.color}/>
@@ -119,31 +118,31 @@ function NetworkSpecs ({ chainInfo, className }: Props): React.ReactElement<Prop
         </Input>
         <Input
           className='full'
-          help={t('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
+          help={t<string>('Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched')}
           isDisabled
-          label={t('Genesis Hash')}
+          label={t<string>('Genesis Hash')}
           value={networkSpecs.genesisHash}
         />
         <Input
           className='full'
-          help={t('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
+          help={t<string>('Unit decides the name of 1 unit token, e.g. "DOT" for Polkadot')}
           isDisabled
-          label={t('Unit')}
+          label={t<string>('Unit')}
           value={networkSpecs.unit}
         />
         <Input
           className='full'
-          help={t('Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address')}
+          help={t<string>('Prefix indicates the ss58 address format in this network, it is a number between 0 ~ 255 that describes the precise format of the bytes of the address')}
           isDisabled
-          label={t('Address Prefix')}
-          value={networkSpecs.prefix}
+          label={t<string>('Address Prefix')}
+          value={networkSpecs.prefix.toString()}
         />
         <Input
           className='full'
-          help={t('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
+          help={t<string>('Decimals decides the smallest unit of the token, which is 1/10^decimals')}
           isDisabled
-          label={t('Decimals')}
-          value={networkSpecs.decimals}
+          label={t<string>('Decimals')}
+          value={networkSpecs.decimals.toString()}
         />
       </Column>
       <Column>

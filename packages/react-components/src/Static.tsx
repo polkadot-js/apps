@@ -14,20 +14,21 @@ interface Props extends BareProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
+  isFull?: boolean;
   isHidden?: boolean;
   label?: React.ReactNode;
   value?: React.ReactNode;
   withLabel?: boolean;
 }
 
-function Static ({ children, className, defaultValue, help, isHidden, label, style, value, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ children, className = '', defaultValue, help, isFull, isHidden, label, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
       help={help}
+      isFull={isFull}
       isHidden={isHidden}
       label={label}
-      style={style}
       withLabel={withLabel}
     >
       <div className='ui--Static ui dropdown selection disabled'>

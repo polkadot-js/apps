@@ -14,7 +14,7 @@ interface Props extends BareProps {
   logs: Log[];
 }
 
-const format = (value: any): string => {
+const format = (value: unknown): string => {
   if (isError(value)) {
     return value.stack ? value.stack : value.toString();
   } else if (isUndefined(value)) {
@@ -24,10 +24,10 @@ const format = (value: any): string => {
   } else if (Array.isArray(value)) {
     return `[${value.map((value): string => format(value)).join(', ')}]`;
   } else if (value instanceof Map) {
-    return `{${[...value.entries()].map(([key, value]): string => key + ': ' + format(value)).join(', ')}}`;
+    return `{${[...value.entries()].map(([key, value]): string => (key as string) + ': ' + format(value)).join(', ')}}`;
   }
 
-  return value.toString();
+  return (value as string).toString();
 };
 
 const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
@@ -39,7 +39,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   </div>
 );
 
-function Output ({ children, className, logs }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
     <article className={`container ${className}`}>
       <div className='logs-wrapper'>

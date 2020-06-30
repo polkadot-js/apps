@@ -17,57 +17,54 @@ interface Props {
 
 const defaultHighlight = '#f19135'; // #999
 
+const getHighlight = (props: Props): string =>
+  (props.uiHighlight || defaultHighlight);
+
 export default createGlobalStyle<Props>`
   .ui--highlight--all {
-    background: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-    border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-    color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    background: ${getHighlight} !important;
+    border-color: ${getHighlight} !important;
+    color: ${getHighlight} !important;
   }
 
   .ui--highlight--bg {
-    background: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    background: ${getHighlight} !important;
   }
 
   .ui--highlight--border {
     /* .theme--default .ui.menu.tabular > .item.active */
-    border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    border-color: ${getHighlight} !important;
   }
 
   .ui--highlight--color {
-    color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    color: ${getHighlight} !important;
   }
 
   .ui--highlight--fill {
-    fill: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    fill: ${getHighlight} !important;
   }
 
   .ui--highlight--gradient {
-    background: ${(props): string => `linear-gradient(90deg, ${props.uiHighlight}, transparent)`};
+    background: ${(props: Props): string => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .ui--highlight--icon {
-    i.icon {
-      color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-    }
-  }
-
-  .ui--highlight--spinner {
-    &:after {
-      border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} transparent transparent !important;
+    .ui--Icon {
+      color: ${getHighlight} !important;
     }
   }
 
   .ui--highlight--stroke {
-    stroke: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    stroke: ${getHighlight} !important;
   }
 
   .theme--default {
     .ui.menu.tabular .item.active {
-      border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+      border-color: ${getHighlight} !important;
     }
 
     .ui.blue.progress > .bar {
-      background-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+      background-color: ${getHighlight} !important;
     }
 
     .ui.negative.button,
@@ -77,20 +74,20 @@ export default createGlobalStyle<Props>`
 
     .ui.primary.button,
     .ui.buttons .primary.button {
-      background: ${(props): string => (props.uiHighlight || defaultHighlight)};
+      background: ${getHighlight};
 
       &.active,
       &:active,
       &:focus,
       &:hover {
-        background-color: ${(props): string => (props.uiHighlight || defaultHighlight)};
+        background-color: ${getHighlight};
       }
     }
 
     .ui.toggle.checkbox {
       input:checked~.box:before,
       input:checked~label:before {
-        background-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+        background-color: ${getHighlight} !important;
       }
     }
   }
@@ -134,7 +131,7 @@ export default createGlobalStyle<Props>`
         }
       }
 
-      .ui.button.mini {
+      .ui.button.show-on-hover {
         visibility: hidden;
       }
     }

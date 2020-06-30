@@ -17,12 +17,9 @@ const defaultLabel: React.ReactNode = (
   <div>&nbsp;</div>
 );
 
-function InputError ({ className, label = defaultLabel, style }: Props): React.ReactElement<Props> {
+function InputError ({ className = '', label = defaultLabel }: Props): React.ReactElement<Props> {
   return (
-    <div
-      className={classes('ui--InputError', className)}
-      style={style}
-    >
+    <div className={classes('ui--InputError', className)}>
       <Label
         color='red'
         pointing='left'

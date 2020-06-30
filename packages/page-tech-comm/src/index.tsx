@@ -31,11 +31,11 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'overview',
-      text: t('Tech. committee')
+      text: t<string>('Tech. committee')
     },
     {
       name: 'proposals',
-      text: t('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
+      text: t<string>('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
     }
   ], [proposals, t]);
 

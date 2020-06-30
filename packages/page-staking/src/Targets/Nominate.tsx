@@ -13,13 +13,19 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
+  isDisabled: boolean;
   ownNominators?: StakerState[];
   targets: string[];
 }
 
-function Nominate ({ className, ownNominators, targets }: Props): React.ReactElement<Props> {
+interface IdState {
+  controllerId?: string | null;
+  stashId: string;
+}
+
+function Nominate ({ className = '', isDisabled, ownNominators, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [ids, setIds] = useState<{ controllerId?: string | null; stashId: string } | null>(null);
+  const [ids, setIds] = useState<IdState | null>(null);
   const [filter, setFilter] = useState<string[]>([]);
   const [isOpen, toggleOpen] = useToggle();
 
@@ -31,7 +37,7 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
 
   const _onChangeStash = useCallback(
     (accountId?: string | null): void => {
-      const acc = ownNominators?.find(({ stashId }) => stashId === accountId);
+      const acc = ownNominators && ownNominators.find(({ stashId }) => stashId === accountId);
 
       setIds(
         acc
@@ -45,15 +51,15 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
   return (
     <>
       <Button
-        icon='hand paper outline'
-        isDisabled={!filter.length || !targets.length}
-        label={t('Nominate selected')}
+        icon='hand-paper'
+        isDisabled={isDisabled || !filter.length || !targets.length}
+        label={t<string>('Nominate selected')}
         onClick={toggleOpen}
       />
       {isOpen && (
         <Modal
           className={className}
-          header={t('Nominate validators')}
+          header={t<string>('Nominate validators')}
           size='large'
         >
           <Modal.Content>
@@ -61,28 +67,29 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
               <Modal.Column>
                 <InputAddress
                   filter={filter}
-                  help={t('Your stash account. The transaction will be sent from the associated controller.')}
-                  label={t('the stash account to nominate with')}
+                  help={t<string>('Your stash account. The transaction will be sent from the associated controller.')}
+                  label={t<string>('the stash account to nominate with')}
                   onChange={_onChangeStash}
                   value={ids?.stashId}
                 />
                 <InputAddress
                   isDisabled
-                  label={t('the associated controller')}
+                  label={t<string>('the associated controller')}
                   value={ids?.controllerId}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}</p>
+                <p>{t<string>('One of your available nomination accounts, keyed by the stash. The transaction will be sent from the controller.')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <Static
-                  label={t('selected validators')}
+                  label={t<string>('selected validators')}
                   value={
                     targets.map((validatorId) => (
                       <AddressMini
+                        className='addressStatic'
                         key={validatorId}
                         value={validatorId}
                       />
@@ -91,15 +98,15 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
-                <p>{t('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
+                <p>{t<string>('The selected validators to nominate, either via the "currently best algorithm" or via a manual selection.')}</p>
+                <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
               accountId={ids?.controllerId}
-              label={t('Nominate')}
+              label={t<string>('Nominate')}
               onStart={toggleOpen}
               params={[targets]}
               tx='staking.nominate'
@@ -112,7 +119,12 @@ function Nominate ({ className, ownNominators, targets }: Props): React.ReactEle
 }
 
 export default React.memo(styled(Nominate)`
-  .ui--AddressMini.padded {
+  .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
+
+    .ui--AddressMini-address {
+      min-width: 10rem;
+      max-width: 10rem;
+    }
   }
 `);

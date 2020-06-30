@@ -2,42 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';
 
-function onChange ({ onChange }: Props): (_: string) => void {
-  return function (value: string): void {
-    const isValid = value.length !== 0;
+function Raw ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
 
-    onChange && onChange({
-      isValid,
-      value
-    });
-  };
-}
+  const _onChange = useCallback(
+    (value: string): void => {
+      const isValid = value.length !== 0;
 
-function Raw (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, isError, label, onEnter, onEscape, style, withLabel } = props;
+      onChange && onChange({
+        isValid,
+        value
+      });
+      setIsValid(isValid);
+    },
+    [onChange]
+  );
+
   const defaultValue = value
-    ? (value.toHex ? value.toHex() : value)
+    ? ((value as { toHex?: () => unknown }).toHex ? (value as Codec).toHex() : value)
     : '';
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={defaultValue as string}
         isDisabled={isDisabled}
-        isError={isError}
+        isError={isError || !isValid}
         label={label}
-        onChange={onChange(props)}
+        onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
         placeholder='Hex data'

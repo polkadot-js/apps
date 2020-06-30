@@ -15,21 +15,21 @@ interface Props extends BareProps {
   md: string;
 }
 
-function HelpOverlay ({ className, md }: Props): React.ReactElement<Props> {
+function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> {
   const [isVisible, toggleVisible] = useToggle();
 
   return (
     <div className={className}>
       <div className='help-button'>
         <Icon
-          name='help circle'
+          icon='question-circle'
           onClick={toggleVisible}
         />
       </div>
       <div className={`help-slideout ${isVisible ? 'open' : 'closed'}`}>
         <div className='help-button'>
           <Icon
-            name='close'
+            icon='times'
             onClick={toggleVisible}
           />
         </div>

@@ -19,7 +19,7 @@ interface Props extends BareProps {
   value: ConstValueBase;
 }
 
-function SelectSection ({ className, defaultValue, isError, onChange, options, style, value: { section } }: Props): React.ReactElement<Props> {
+function SelectSection ({ className = '', defaultValue, isError, onChange, options, value: { section } }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}
@@ -27,7 +27,6 @@ function SelectSection ({ className, defaultValue, isError, onChange, options, s
       isError={isError}
       onChange={onChange}
       options={options}
-      style={style}
       value={section}
       withLabel={false}
     />

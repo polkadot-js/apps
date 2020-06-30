@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { QueryableStorageEntry } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
 import { BareProps } from '../types';
-import { StorageEntryPromise } from './types';
 
 import React from 'react';
 
@@ -12,14 +12,14 @@ import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
 interface Props extends BareProps {
-  defaultValue?: StorageEntryPromise;
+  defaultValue?: QueryableStorageEntry<'promise'>;
   isError?: boolean;
   onChange: (value: string) => void;
   options: DropdownOptions;
-  value: StorageEntryPromise;
+  value: QueryableStorageEntry<'promise'>;
 }
 
-function SelectSection ({ className, defaultValue, isError, onChange, options, style, value: { creator: { section } } }: Props): React.ReactElement<Props> {
+function SelectSection ({ className = '', defaultValue, isError, onChange, options, value: { creator: { section } } }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}
@@ -27,7 +27,6 @@ function SelectSection ({ className, defaultValue, isError, onChange, options, s
       isError={isError}
       onChange={onChange}
       options={options}
-      style={style}
       value={section}
       withLabel={false}
     />

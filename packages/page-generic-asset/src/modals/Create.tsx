@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import { Button, Input, InputNumber, Modal } from '@polkadot/react-components';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -19,10 +20,10 @@ interface Props extends ModalProps {
 
 function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [assetId, setAssetId] = useState(new BN(0));
+  const [assetId, setAssetId] = useState(BN_ZERO);
   const [name, setName] = useState('new asset');
 
-  const _onChangeAssetId = (assetId: BN | undefined): void => setAssetId(assetId || new BN(0));
+  const _onChangeAssetId = (assetId: BN | undefined): void => setAssetId(assetId || BN_ZERO);
 
   const _onCommit = (): void => {
     onRegister(assetId, name);
@@ -30,20 +31,20 @@ function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
   };
 
   return (
-    <Modal header={t('Register an Asset')}>
+    <Modal header={t<string>('Register an Asset')}>
       <Modal.Content>
         <InputNumber
-          help={t('Enter the Asset ID of the token you want to manage.')}
-          label={t('asset id')}
+          help={t<string>('Enter the Asset ID of the token you want to manage.')}
+          label={t<string>('asset id')}
           onChange={_onChangeAssetId}
           onEnter={_onCommit}
           value={assetId}
         />
         <Input
           className='full'
-          help={t('Type the name of this Asset. This name will be used across all the apps. It can be edited later on.')}
+          help={t<string>('Type the name of this Asset. This name will be used across all the apps. It can be edited later on.')}
           isError={!name}
-          label={t('name')}
+          label={t<string>('name')}
           onChange={setName}
           onEnter={_onCommit}
           value={name}
@@ -54,7 +55,7 @@ function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
           icon='registered'
           isDisabled={!name}
           isPrimary
-          label={t('Register')}
+          label={t<string>('Register')}
           onClick={onClose}
         />
       </Modal.Actions>

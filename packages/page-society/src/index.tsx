@@ -19,7 +19,7 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
     {
       isRoot: true,
       name: 'overview',
-      text: t('Society overview')
+      text: t<string>('Society overview')
     }
   ], [t]);
 

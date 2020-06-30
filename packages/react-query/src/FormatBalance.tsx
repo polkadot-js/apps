@@ -49,7 +49,7 @@ function format (value: Compact<any> | BN | string, currency: string, withSi?: b
 //   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
 // }
 
-function FormatBalance ({ children, className, isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currency] = useState(formatBalance.getDefaults().unit);
 
@@ -58,7 +58,7 @@ function FormatBalance ({ children, className, isShort, label, labelPost, value,
       {label || ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
-            ? t('everything')
+            ? t<string>('everything')
             : format(value, currency, withSi, isShort)
           : '-'
       }</span>{labelPost}{children}
@@ -90,5 +90,14 @@ export default React.memo(styled(FormatBalance)`
       opacity: 0.75;
       vertical-align: baseline;
     }
+  }
+
+  .ui--Icon {
+    margin-top: 0.25rem;
+    margin-bottom: -0.25rem;
+  }
+
+  .ui--Icon+.ui--FormatBalance-value {
+    margin-left: 0.375rem;
   }
 `);

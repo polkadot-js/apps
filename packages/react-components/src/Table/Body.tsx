@@ -15,7 +15,7 @@ interface Props {
   emptySpinner?: React.ReactNode;
 }
 
-function Body ({ children, className, empty, emptySpinner }: Props): React.ReactElement<Props> {
+function Body ({ children, className = '', empty, emptySpinner }: Props): React.ReactElement<Props> {
   return (
     <tbody className={className}>
       {children || (
@@ -33,17 +33,17 @@ export default React.memo(styled(Body)`
   background: white;
 
   td {
-    border-top: 1px solid #e6e6e6;
+    // border-top: 1px solid #e4e6e8;
     padding: 0.75rem 1rem;
     text-align: left;
     vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid #e6e6e6;
+      border-left: 1px solid #e4e6e8;
     }
 
     &:last-child {
-      border-right: 1px solid #e6e6e6;
+      border-right: 1px solid #e4e6e8;
     }
 
     label {
@@ -51,7 +51,7 @@ export default React.memo(styled(Body)`
       white-space: nowrap;
     }
 
-    i.icon {
+    .ui--Icon {
       cursor: pointer;
     }
 
@@ -68,13 +68,9 @@ export default React.memo(styled(Body)`
       }
     }
 
-    &:hover label {
-      opacity: 1;
-    }
-
     &.address {
       min-width: 11rem;
-      padding: 0.85rem 1rem;
+      overflow-x: hidden;
     }
 
     &.badge {
@@ -82,11 +78,16 @@ export default React.memo(styled(Body)`
     }
 
     &.button {
+      padding: 0.5rem 0.25rem;
       text-align: right;
       white-space: nowrap;
 
       > * {
         vertical-align: middle;
+      }
+
+      .ui.button {
+        margin-right: 0;
       }
     }
 
@@ -125,25 +126,43 @@ export default React.memo(styled(Body)`
     }
 
     &.mini {
-      max-width: 4rem;
-      min-width: 4rem;
-      padding: 0 0.75rem 0 0;
-      width: 4rem;
+      padding: 0 !important;
+      width: fit-content;
       white-space: normal;
+
+      > div {
+        margin-right: 0.75rem;
+        max-width: 3.8rem;
+        min-width: 3.8rem;
+      }
     }
 
-    &.favorite i.icon.isSelected {
+    &.favorite .ui--Icon.isSelected {
       color: darkorange;
     }
   }
 
   tr {
-    &.isHighlight td {
-      background: #ffffed;
+    &:nth-child(even) {
+      background: #f9f8f7;
+    }
+
+    // &.isHighlight {
+    //   &:nth-child(even) td {
+    //     background: #fffff4;
+    //   }
+
+    //   &:nth-child(odd) td {
+    //     background: #f4ffff;
+    //   }
+    // }
+
+    &:first-child td {
+      border-top: 1px solid #e4e6e8;
     }
 
     &:last-child td {
-      border-bottom: 1px solid #e6e6e6;
+      border-bottom: 1px solid #e4e6e8;
     }
 
     &:first-child {
@@ -166,16 +185,26 @@ export default React.memo(styled(Body)`
       }
     }
 
-    &:not(:hover) {
-      .ui.button:not(.isIcon):not(.disabled) {
-        background: #eee !important;
-        color: #555 !important;
+    .ui.button:not(.isIcon):not(:hover) {
+      color: #555 !important;
+
+      &:not(.basic) {
+        background: transparent !important;
       }
 
-      .ui.toggle.checkbox input:checked~.box:before,
-      .ui.toggle.checkbox input:checked~label:before {
-        background-color: #eee !important;
+      &.basic {
+        background: transparent !important;
+        box-shadow: none !important;
       }
+    }
+
+    .ui.button+.ui.button {
+      margin-left: 0rem;
+    }
+
+    .ui.toggle.checkbox input:checked~.box:before,
+    .ui.toggle.checkbox input:checked~label:before {
+      background-color: #eee !important;
     }
   }
 `);

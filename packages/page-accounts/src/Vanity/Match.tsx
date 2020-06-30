@@ -18,7 +18,7 @@ interface Props extends BareProps {
   seed: Uint8Array;
 }
 
-function Match ({ address, className, count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
+function Match ({ address, className = '', count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
   const hexSeed = useMemo(
     () => u8aToHex(seed),
     [seed]
@@ -40,7 +40,6 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
       >
         <IdentityIcon
           className='vanity--Match-icon'
-          size={32}
           value={address}
         />
       </td>
@@ -60,7 +59,7 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
           size='tiny'
         />
         <Button
-          icon='close'
+          icon='times'
           isNegative
           onClick={_onRemove}
           size='tiny'
@@ -74,7 +73,7 @@ export default React.memo(styled(Match)`
   text-align: center;
 
   &:hover {
-    background: #f9f9f9;
+    background: #f9f8f7;
   }
 
   .vanity--Match-addr {

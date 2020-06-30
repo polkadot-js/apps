@@ -22,6 +22,7 @@ interface Props extends BareProps {
   bonded?: BN | BN[];
   children?: React.ReactNode;
   iconInfo?: React.ReactNode;
+  isHighlight?: boolean;
   isPadded?: boolean;
   isShort?: boolean;
   label?: React.ReactNode;
@@ -39,21 +40,18 @@ interface Props extends BareProps {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className, iconInfo, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
 
   return (
-    <div className={classes('ui--AddressMini', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
+    <div className={classes('ui--AddressMini', isHighlight ? 'isHighlight' : '', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}
       <div className='ui--AddressMini-icon'>
-        <IdentityIcon
-          size={24}
-          value={value as Uint8Array}
-        />
+        <IdentityIcon value={value as Uint8Array} />
         {iconInfo && (
           <div className='ui--AddressMini-icon-info'>
             {iconInfo}
@@ -120,11 +118,41 @@ export default React.memo(styled(AddressMini)`
   }
 
   .ui--AddressMini-address {
-    max-width: 9rem;
-    min-width: 9rem;
+    max-width: 12rem;
+    min-width: 12rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+
+    @media only screen and (max-width: 1800px) {
+      max-width: 11.5rem;
+      min-width: 11.5rem;
+    }
+
+    @media only screen and (max-width: 1700px) {
+      max-width: 11rem;
+      min-width: 11rem;
+    }
+
+    @media only screen and (max-width: 1600px) {
+      max-width: 10.5rem;
+      min-width: 10.5rem;
+    }
+
+    @media only screen and (max-width: 1500px) {
+      max-width: 10rem;
+      min-width: 10rem;
+    }
+
+    @media only screen and (max-width: 1400px) {
+      max-width: 9.5rem;
+      min-width: 9.5rem;
+    }
+
+    @media only screen and (max-width: 1300px) {
+      max-width: 9rem;
+      min-width: 9rem;
+    }
 
     > div {
       overflow: hidden;

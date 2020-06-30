@@ -20,37 +20,34 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   return (
     <>
       {nomsActive && nomsActive.length !== 0 && (
-        <Expander summary={t('Active nominations ({{count}})', { replace: { count: nomsActive.length } })}>
+        <Expander summary={t<string>('Active nominations ({{count}})', { replace: { count: nomsActive.length } })}>
           {nomsActive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
               value={nomineeId}
               withBalance={false}
-              withBonded
             />
           ))}
         </Expander>
       )}
       {nomsInactive && nomsInactive.length !== 0 && (
-        <Expander summary={t('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}>
+        <Expander summary={t<string>('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}>
           {nomsInactive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
               value={nomineeId}
               withBalance={false}
-              withBonded
             />
           ))}
         </Expander>
       )}
       {nomsWaiting && nomsWaiting.length !== 0 && (
-        <Expander summary={t('Waiting nominations ({{count}})', { replace: { count: nomsWaiting.length } })}>
+        <Expander summary={t<string>('Waiting nominations ({{count}})', { replace: { count: nomsWaiting.length } })}>
           {nomsWaiting.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
               value={nomineeId}
               withBalance={false}
-              withBonded
             />
           ))}
         </Expander>

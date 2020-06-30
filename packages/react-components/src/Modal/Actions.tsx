@@ -10,7 +10,7 @@ import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 import Button from '../Button';
 import ButtonCancel from '../ButtonCancel';
 
-function Actions ({ cancelLabel, children, className, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+function Actions ({ cancelLabel, children, className = '', onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
   return (
     <SUIModal.Actions>
       <Button.Group className={className}>

@@ -17,7 +17,7 @@ interface Props {
   parachain: DeriveParachain;
 }
 
-function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
+function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -40,28 +40,29 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
         <div>
           <Badge
             className='did-update'
-            hover={t(didUpdate ? 'Updated in the latest block' : 'Not updated in the last block')}
+            color='green'
+            hover={
+              didUpdate
+                ? t<string>('Updated in the latest block')
+                : t<string>('Not updated in the last block')
+            }
             info={
-              <Icon name='check' />
+              <Icon icon='check' />
             }
             isGray={!didUpdate}
             isTooltip
-            type='online'
           />
           <Badge
             className='pending-messages'
-            hover={t(
-              '{{relayDispatchQueueSize}} dispatch messages pending',
-              {
-                replace: {
-                  relayDispatchQueueSize
-                }
+            color='counter'
+            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', {
+              replace: {
+                relayDispatchQueueSize
               }
-            )}
+            })}
             info={relayDispatchQueueSize}
             isGray={relayDispatchQueueSize <= 0}
             isTooltip
-            type='counter'
           />
         </div>
       </td>
@@ -73,7 +74,7 @@ function Parachain ({ className, parachain: { didUpdate, id, info, pendingSwapId
         {pendingSwapId?.toString()}
       </td>
       <td className='number ui--media-small'>
-        {info?.scheduling?.toString() || t('<unknown>')}
+        {info?.scheduling?.toString() || t<string>('<unknown>')}
       </td>
     </tr>
   );

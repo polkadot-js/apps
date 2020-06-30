@@ -44,12 +44,12 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
-  const [stored, setStored] = useState<any>();
+  const [stored, setStored] = useState<string | undefined>();
 
   const _setStored = useCallback(
-    (value: any): void => {
+    (value: string): void => {
       const json = JSON.stringify({ v: value });
 
       if (lastUpdate.current !== json) {
@@ -79,7 +79,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
 
   const _onChange = useCallback(
     (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void =>
-      _setStored(value),
+      _setStored(value as string),
     [_setStored]
   );
 
@@ -120,7 +120,6 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
         isFull={isFull}
         label={label}
         labelExtra={labelExtra}
-        style={style}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
@@ -167,6 +166,7 @@ const Dropdown = React.memo(styled(BaseDropdown)`
   }
 `) as unknown as IDropdown<any>;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 (Dropdown as any).Header = SUIDropdown.Header;
 
 export default Dropdown;

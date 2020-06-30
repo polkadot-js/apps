@@ -2,10 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import * as edgewareDefinitions from 'edgeware-node-types/dist/definitions';
+// structs need to be in order
+/* eslint-disable sort-keys */
 
-const edgTypes = Object.values(edgewareDefinitions)
-  .reduce((res, { default: { types } }): object => ({ ...res, ...types }), {});
+import * as edgewareDefinitions from 'edgeware-node-types/interfaces/definitions';
+
+const edgTypes = Object
+  .values(edgewareDefinitions)
+  .reduce((res, { types }) => ({ ...res, ...types }), {});
 
 export default {
   ...edgTypes,
@@ -19,5 +23,5 @@ export default {
   StakingLedger: 'StakingLedgerTo223',
   Votes: 'VotesTo230',
   ReferendumInfo: 'ReferendumInfoTo239',
-  Weight: 'u32',
+  Weight: 'u32'
 };

@@ -13,7 +13,6 @@ export type SubtractProps<T, K> = OmitProps<T, keyof K>;
 
 export interface BareProps {
   className?: string;
-  style?: Record<string, any>;
 }
 
 export interface ApiState {
@@ -47,7 +46,7 @@ export interface ChangeProps {
 }
 
 export interface CallState {
-  callResult?: any;
+  callResult?: unknown;
   callUpdated?: boolean;
   callUpdatedAt?: number;
 }
@@ -61,3 +60,5 @@ export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
 };
 
 export type Formatter = (value?: any) => string;
+
+export type Environment = 'web' | 'app';

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { TxButtonProps as Props } from './types';
 
 import React, { useCallback, useContext } from 'react';
@@ -13,7 +14,7 @@ import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, isBasic, isDisabled, isIcon, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, size, tooltip, tx, withSpinner }: Props): React.ReactElement<Props> {
+function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isDisabled, isIcon, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, size, tooltip, tx, withSpinner }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -40,7 +41,7 @@ function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, isBa
 
   const _onSend = useCallback(
     (): void => {
-      let extrinsic: any;
+      let extrinsic: SubmittableExtrinsic<'promise'>;
 
       if (propsExtrinsic) {
         extrinsic = propsExtrinsic;
@@ -95,7 +96,7 @@ function TxButton ({ accountId, className, extrinsic: propsExtrinsic, icon, isBa
           ? (!isNegative && !isBasic)
           : isPrimary
       }
-      label={label || (isIcon ? '' : t('Submit'))}
+      label={label || (isIcon ? '' : t<string>('Submit'))}
       onClick={_onSend}
       size={size}
       tooltip={tooltip}

@@ -15,7 +15,7 @@ export interface Props extends BareProps {
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function AvailableDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> | null {
+function AvailableDisplay ({ className = '', label, params }: Props): React.ReactElement<Props> | null {
   if (!params) {
     return null;
   }
@@ -25,7 +25,6 @@ function AvailableDisplay ({ className, label, params, style }: Props): React.Re
       className={classes('ui--Available', className)}
       label={label}
       params={params}
-      style={style}
     />
   );
 }

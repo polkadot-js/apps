@@ -23,7 +23,6 @@ interface Props {
   isError?: boolean;
   label: React.ReactNode;
   onChange?: (value: ConstValue) => void;
-  style?: any;
   withLabel?: boolean;
 }
 
@@ -40,7 +39,7 @@ function getValue (api: ApiPromise, { method, section }: ConstValueBase): ConstV
   };
 }
 
-function InputConsts ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputConsts ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -81,7 +80,6 @@ function InputConsts ({ className, defaultValue, help, label, onChange, style, w
       className={className}
       help={help}
       label={label}
-      style={style}
       withLabel={withLabel}
     >
       <SelectSection

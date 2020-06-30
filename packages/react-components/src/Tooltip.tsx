@@ -29,7 +29,7 @@ interface Props extends BareProps {
   trigger: string;
 }
 
-function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -93,7 +93,7 @@ export default React.memo(styled(Tooltip)`
   .faded {
     margin-top: -0.25rem;
     opacity: 0.75 !important;
-    font-size: 0.75em !important;
+    font-size: 0.85em !important;
   }
 
   .faded+.faded {

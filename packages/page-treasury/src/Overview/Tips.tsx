@@ -2,8 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BlockNumber } from '@polkadot/types/interfaces';
+
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Tip from './Tip';
@@ -15,8 +18,10 @@ interface Props {
   members: string[];
 }
 
-function Tips ({ className, hashes, isMember, members }: Props): React.ReactElement<Props> {
+function Tips ({ className = '', hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
   const header = useMemo(() => [
     [t('tips'), 'start'],
@@ -24,17 +29,19 @@ function Tips ({ className, hashes, isMember, members }: Props): React.ReactElem
     [t('fee')],
     [t('reason'), 'start'],
     [],
-    []
-  ], [t]);
+    [],
+    [undefined, 'badge']
+  ].filter((v) => v), [t]);
 
   return (
     <Table
       className={className}
-      empty={hashes && t('No open tips')}
+      empty={hashes && t<string>('No open tips')}
       header={header}
     >
       {hashes?.map((hash): React.ReactNode => (
         <Tip
+          bestNumber={bestNumber}
           hash={hash}
           isMember={isMember}
           key={hash}

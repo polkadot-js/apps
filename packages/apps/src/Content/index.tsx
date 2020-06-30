@@ -24,7 +24,7 @@ const NOT_FOUND: Route = {
   display: {
     needsApi: undefined
   },
-  icon: 'cancel',
+  icon: 'times',
   isIgnored: false,
   name: 'unknown',
   text: 'Unknown'
@@ -34,7 +34,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
-  const { queueAction, stqueue, txqueue } = useContext(StatusContext);
+  const { queueAction } = useContext(StatusContext);
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
@@ -50,7 +50,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
       {needsApi && (!isApiReady || !isApiConnected)
         ? (
           <div className='connecting'>
-            <Spinner label={t('Initializing connection')} />
+            <Spinner label={t<string>('Initializing connection')} />
           </div>
         )
         : (
@@ -64,11 +64,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                 />
               </ErrorBoundary>
             </Suspense>
-            <Status
-              queueAction={queueAction}
-              stqueue={stqueue}
-              txqueue={txqueue}
-            />
+            <Status />
           </>
         )
       }
@@ -77,7 +73,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #f5f5f5;
+  background: #f5f4f3;
   flex-grow: 1;
   height: 100%;
   min-height: 100vh;
