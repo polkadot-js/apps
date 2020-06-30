@@ -28,26 +28,21 @@ export type RawParamOnEscape = () => void;
 
 export type RawParams = RawParam[];
 
-export interface BaseProps {
+export interface Props {
   className?: string;
   defaultValue: RawParam;
   isDisabled?: boolean;
+  isError?: boolean;
   isInOption?: boolean;
+  isReadOnly?: boolean;
   isOptional?: boolean;
+  label?: React.ReactNode;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
   overrides?: ComponentMap;
   type: TypeDef & { withOptionActive?: boolean };
-}
-
-export interface Props extends BaseProps {
-  isDisabled?: boolean;
-  isError?: boolean;
-  isInOption?: boolean;
-  isReadOnly?: boolean;
-  label?: React.ReactNode;
   withLabel?: boolean;
 }
 

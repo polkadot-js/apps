@@ -16,7 +16,7 @@ import contracts from '../store';
 
 interface Props {
   buttons?: React.ReactNode;
-  children?: Reat.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   code: CodeStored;
   isInline?: boolean;

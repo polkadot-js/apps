@@ -18,7 +18,7 @@ import { useTranslation } from './translate';
 interface Props {
   autoFocus?: boolean;
   bitLength?: BitLength;
-  children?: react.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   defaultValue?: string;
   help?: React.ReactNode;

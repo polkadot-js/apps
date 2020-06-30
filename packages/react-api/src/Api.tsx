@@ -158,7 +158,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
-  const props = useMemo<ApiProps>(
+  const value = useMemo<ApiProps>(
     () => ({ ...state, api, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
     [extensions, isApiConnected, isApiInitialized, state]
   );
@@ -182,18 +182,18 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
     injectedPromise
       .then(setExtensions)
-      .catch((error) => console.error(error));
+      .catch((error: Error) => console.error(error));
 
     setIsApiInitialized(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!props.isApiInitialized) {
+  if (!value.isApiInitialized) {
     return null;
   }
 
   return (
-    <ApiContext.Provider value={props}>
+    <ApiContext.Provider value={value}>
       {children}
     </ApiContext.Provider>
   );

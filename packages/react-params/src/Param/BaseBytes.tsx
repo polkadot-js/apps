@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props as BaseProps, Size } from '../types';
+import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
@@ -12,12 +12,21 @@ import { decodeAddress } from '@polkadot/util-crypto';
 
 import Bare from './Bare';
 
-interface Props extends BaseProps {
+interface Props {
   asHex?: boolean;
   children?: React.ReactNode;
+  className?: string;
+  defaultValue: RawParam;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: React.ReactNode;
   length?: number;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  onEscape?: RawParamOnEscape;
   size?: Size;
   validate?: (u8a: Uint8Array) => boolean;
+  withLabel?: boolean;
   withLength?: boolean;
 }
 

@@ -15,6 +15,7 @@ export interface InputFileProps {
   // Reference Example Usage: https://github.com/react-dropzone/react-dropzone/tree/master/examples/Accept
   // i.e. MIME types: 'application/json, text/plain', or '.json, .txt'
   accept?: string;
+  className?: string;
   clearContent?: boolean;
   convertHex?: boolean;
   help?: React.ReactNode;
