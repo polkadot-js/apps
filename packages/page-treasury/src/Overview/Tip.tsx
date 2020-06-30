@@ -33,7 +33,7 @@ interface TipState {
   isTipper: boolean;
 }
 
-function isNewTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
+function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return isBoolean((tip as OpenTip).findersFee);
 }
 
@@ -48,17 +48,17 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
 
   useEffect((): void => {
     if (tip) {
-      let finder: AccountId | null;
-      let deposit: Balance | null;
+      let finder: AccountId | null = null;
+      let deposit: Balance | null = null;
 
-      if (isNewTip(tip)) {
+      if (isCurrentTip(tip)) {
         finder = tip.finder;
-        deposit = tip.findersFee ? tip.deposit : null;
-      } else {
-        const finderInfo = tip.finder.unwrapOr(null);
+        deposit = tip.deposit;
+      } else if (tip.finder.isSome) {
+        const finderInfo = tip.finder.unwrap();
 
-        finder = (finderInfo && finderInfo[0]) || null;
-        deposit = (finderInfo && finderInfo[1]) || null;
+        finder = finderInfo[0];
+        deposit = finderInfo[1];
       }
 
       setTipState({
