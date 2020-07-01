@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.48.0-beta.x
+
+- Fix identity set dialogs to never pass empty fields
+- Optimize favorites retrieval & selection for staking (shared)
+- Support new registrar ProxyType in the signer
+
 ## 0.47.1 Jul 1, 2020
 
 - Update zh translation (Thanks to https://github.com/dushaobindoudou)
