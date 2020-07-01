@@ -128,7 +128,7 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
             onStatusChange={onStatusChange}
           />
         )}
-        {!hasAccounts && (
+        {hasAccounts && (
           <AccountCheckingModal
             onClose={_toggleAccountCheckingModal}
             onCreateAccount={_toggleCreate}

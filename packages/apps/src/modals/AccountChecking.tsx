@@ -7,16 +7,12 @@ import { I18nProps } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 import { Button, Modal, TxComponent } from '@polkadot/react-components';
 import { ModalProps } from '../../../app-accounts/src/types';
-import translate from '../translate';
+import { useTranslation } from '../translate';
 
-interface Props extends ModalProps, I18nProps { }
-
-interface State {
-  address: string | null;
-  isFileValid: boolean;
-  isPassValid: boolean;
-  json: KeyringPair$Json | null;
-  password: string;
+interface Props {
+  onClose: () => void;
+  onCreateAccount: () => void;
+  onImportAccount: () => void;
 }
 
 const ModalHeader = styled.div`
@@ -29,43 +25,31 @@ const Paragraph = styled.div`
   line-height: 1.5rem;
 `;
 
-class AccountCheckingModal {
-  public state: State = {
-    address: null,
-    isFileValid: false,
-    isPassValid: false,
-    json: null,
-    password: ''
-  };
+export default function AccountCheckingModal ({ onClose, onCreateAccount, onImportAccount }: Props): React.ReactElement {
+  const { t } = useTranslation();
 
-  public render () {
-    const { onClose, t, onCreateAccount, onImportAccount } = this.props;
-
-    return (
-      <Modal header={t('Welcome to CENNZnet')}>
-        <Modal.Content>
-          <ModalHeader>{'You don\'t have any accounts'}</ModalHeader>
-          <Paragraph>{t('Create or import an account so that you can deposit or withdraw directly from the CENNZnet UI.')}</Paragraph>
-          <Paragraph>{t('You will need to have at least one account connected to participate in the network.')}</Paragraph>
-        </Modal.Content>
-        <Modal.Actions onCancel={onClose} cancelLabel={t('Later')}>
-          <Button
-            icon='add'
-            isPrimary
-            onClick={onCreateAccount}
-            label={t('Create account')}
-          />
-          <Button.Or />
-          <Button
-            icon='sync'
-            isPrimary
-            onClick={onImportAccount}
-            label={t('Import account')}
-          />
-        </Modal.Actions>
-      </Modal>
-    );
-  }
+  return (
+    <Modal header={t('Welcome to CENNZnet')}>
+      <Modal.Content>
+        <ModalHeader>{t('You don\'t have any accounts')}</ModalHeader>
+        <Paragraph>{t('Create or import an account so that you can deposit or withdraw directly from the CENNZnet UI.')}</Paragraph>
+        <Paragraph>{t('You will need to have at least one account connected to participate in the network.')}</Paragraph>
+      </Modal.Content>
+      <Modal.Actions onCancel={onClose} cancelLabel={t('Later')}>
+        <Button
+          icon='add'
+          isPrimary
+          onClick={onCreateAccount}
+          label={t('Create account')}
+        />
+        <Button.Or />
+        <Button
+          icon='sync'
+          isPrimary
+          onClick={onImportAccount}
+          label={t('Import account')}
+        />
+      </Modal.Actions>
+    </Modal>
+  );
 }
-
-export default translate(AccountCheckingModal);
