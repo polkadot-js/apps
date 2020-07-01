@@ -114,11 +114,11 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
     setInfo({
       info: {
         display: { [okDisplay ? 'raw' : 'none']: valDisplay || null },
-        email: { [okEmail ? 'raw' : 'none']: hasEmail ? valEmail : null },
-        legal: { [okLegal ? 'raw' : 'none']: hasLegal ? valLegal : null },
-        riot: { [okRiot ? 'raw' : 'none']: hasRiot ? valRiot : null },
-        twitter: { [okTwitter ? 'raw' : 'none']: hasTwitter ? valTwitter : null },
-        web: { [okWeb ? 'raw' : 'none']: hasWeb ? valWeb : null }
+        email: { [okEmail && hasEmail ? 'raw' : 'none']: okEmail && hasEmail ? valEmail : null },
+        legal: { [okLegal && hasLegal ? 'raw' : 'none']: okLegal && hasLegal ? valLegal : null },
+        riot: { [okRiot && hasRiot ? 'raw' : 'none']: okRiot && hasRiot ? valRiot : null },
+        twitter: { [okTwitter && hasTwitter ? 'raw' : 'none']: okTwitter && hasTwitter ? valTwitter : null },
+        web: { [okWeb && hasWeb ? 'raw' : 'none']: okWeb && hasWeb ? valWeb : null }
         // image: { [hasImg ? 'sha256' : 'none']: hasImg ? valImg : null },
         // pgpFingerprint: hasPgp ? valPgp : null
       },
