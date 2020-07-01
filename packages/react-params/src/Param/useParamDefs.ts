@@ -11,9 +11,9 @@ import { getTypeDef } from '@polkadot/types';
 
 function expandDef (td: TypeDef): TypeDef {
   try {
-    const rawType = registry.createType(td.type as 'u32').toRawType();
-
-    return getTypeDef(rawType);
+    return getTypeDef(
+      registry.createType(td.type as 'u32').toRawType()
+    );
   } catch (e) {
     return td;
   }
@@ -29,10 +29,12 @@ export default function useParamDefs (type: TypeDef): ParamDef[] {
       return setParams([]);
     }
 
-    setParams((Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((td): ParamDef => ({
-      name: td.name,
-      type: expandDef(td)
-    })));
+    setParams(
+      (Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((td): ParamDef => ({
+        name: td.name,
+        type: td // expandDef(td)
+      }))
+    );
   }, [type]);
 
   return params;

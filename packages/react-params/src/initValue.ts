@@ -124,7 +124,9 @@ export default function getInitValue (def: TypeDef): unknown {
 
         if (isBn(instance)) {
           return BN_ZERO;
-        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
+        } else if ([TypeDefInfo.Struct].includes(raw.info)) {
+          return undefined;
+        } else if ([TypeDefInfo.Enum, TypeDefInfo.Tuple].includes(raw.info)) {
           return getInitValue(raw);
         }
       } catch (e) {
