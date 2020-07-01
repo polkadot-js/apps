@@ -99,13 +99,13 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
   const _toggleAccountCheckingModal = (): void => setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
 
   const _toggleCreate = (): void => {
-    setIsCreateOpen(true);
-    setAccountCheckingModalOpen(false);
+    setIsCreateOpen(!isCreateOpen);
+    setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
   };
 
   const _toggleImport = (): void => {
-    setIsImportOpen(true);
-    setAccountCheckingModalOpen(false);
+    setIsImportOpen(!isImportOpen);
+    setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
   };
 
   // const onStatusChange = (): void => {
@@ -132,7 +132,7 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
           <AccountCheckingModal
             onClose={_toggleAccountCheckingModal}
             onCreateAccount={_toggleCreate}
-            onImportaccount={_toggleImport}
+            onImportAccount={_toggleImport}
           />
         )}
         <MenuOverlay {...{ _handleResize, isMenuOpen }} />
