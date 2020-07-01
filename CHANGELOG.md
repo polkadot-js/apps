@@ -1,18 +1,25 @@
 # CHANGELOG
 
-## 0.47.0-beta.x
+## 0.47.1 Jul 1, 2020
 
+- Update zh translation (Thanks to https://github.com/dushaobindoudou)
 - Add DataHighway Harbour testnet endpoint (Thanks to https://github.com/ltfschoen)
 - Small I18N key fix (Thanks to https://github.com/ltfschoen)
 - Allow for Electron auto-update on Mac (Thanks to https://github.com/EthWorks)
+- Swap to default conviction of 1x (Thanks to https://github.com/Tbaut)
+- Make preimage hash selectable on FF (Thanks to https://github.com/Tbaut)
+- show unbonding value in staking actions (Thanks to https://github.com/Tbaut)
 - Default (via toggle) to only last 25% of eras for payouts
 - Allow retracting of tips by proposer
+- Allow tipping with new Substrate types (dual old/new support)
 - Enable the full retrieval of all Map/Doublemap entries
 - Support correct display of vesting with locks (& unlock via account)
 - Adjust on-chain identity inputs with field validation
+- Enable grouping of democracy locks by type
 - Resolve identity links starting with https://twitter
 - Display voted & unvoted council motions, referendums & tips
 - Adjust toggles for file/bytes uploads
+- Correct handling of recursive param structures in extrinsics
 - Swap icons to use font-awesome directly, including official components
 - Additional small UI cleanups and fixes
 
