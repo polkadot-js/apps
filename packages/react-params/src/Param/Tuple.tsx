@@ -2,37 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDef } from '@polkadot/types/types';
-import { ParamDef, Props, RawParam } from '../types';
+import { Props, RawParam } from '../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
-import { createType, getTypeDef } from '@polkadot/types';
+import React, { useCallback } from 'react';
 
 import Params from '../';
 import Base from './Base';
 import Static from './Static';
+import useParamDefs from './useParamDefs';
 
 function Tuple (props: Props): React.ReactElement<Props> {
-  const [params, setParams] = useState<ParamDef[]>([]);
-  const { className = '', isDisabled, label, onChange, overrides, type, withLabel } = props;
-
-  useEffect((): void => {
-    try {
-      const rawType = createType(registry, type.type as 'u32').toRawType();
-      const typeDef = getTypeDef(rawType);
-
-      setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
-    } catch (e) {
-      setParams(((Array.isArray(type.sub) ? type.sub : [type.sub]) as TypeDef[]).map((subType): ParamDef => ({ name: subType.name, type: subType })));
-    }
-  }, [type]);
+  const params = useParamDefs(props.type);
+  const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
-        isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-        value: values.map(({ value }): any => value)
+        isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+        value: values.map(({ value }) => value)
       });
     },
     [onChange]
