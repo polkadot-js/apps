@@ -9,11 +9,9 @@ import { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
-import { useAccounts, useApi, useCall, useDebounce, useFavorites } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useDebounce } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
-
-import { STORE_FAVS_BASE } from './constants';
 
 const PERBILL = new BN(1_000_000_000);
 
@@ -145,10 +143,9 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
   return { nominators, totalStaked, validators };
 }
 
-export default function useSortedTargets (): SortedTargets {
+export default function useSortedTargets (favorites: string[]): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, []);
   const lastEra = useCall<BN>(api.derive.session.indexes, [], {
@@ -159,15 +156,14 @@ export default function useSortedTargets (): SortedTargets {
   });
   const [calcWith, setCalcWith] = useState<BN | undefined>(baseBalance());
   const calcWithDebounce = useDebounce(calcWith);
-  const [state, setState] = useState<SortedTargets>({ setCalcWith, toggleFavorite });
+  const [state, setState] = useState<SortedTargets>({ setCalcWith });
 
   useEffect((): void => {
-    electedInfo && waitingInfo && setState(({ calcWith, setCalcWith, toggleFavorite }) => ({
+    electedInfo && waitingInfo && setState(({ calcWith, setCalcWith }) => ({
       ...extractInfo(allAccounts, calcWithDebounce, electedInfo, waitingInfo, favorites, lastReward),
       calcWith,
       lastReward,
-      setCalcWith,
-      toggleFavorite
+      setCalcWith
     }));
   }, [allAccounts, calcWithDebounce, electedInfo, favorites, lastReward, waitingInfo]);
 

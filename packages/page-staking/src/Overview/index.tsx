@@ -10,20 +10,24 @@ import CurrentList from './CurrentList';
 
 interface Props {
   className?: string;
+  favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
   next?: string[];
   stakingOverview?: DeriveStakingOverview;
+  toggleFavorite: (address: string) => void;
 }
 
-function Overview ({ className = '', hasQueries, isIntentions, next, stakingOverview }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', favorites, hasQueries, isIntentions, next, stakingOverview, toggleFavorite }: Props): React.ReactElement<Props> {
   return (
     <div className={`staking--Overview ${className}`}>
       <CurrentList
+        favorites={favorites}
         hasQueries={hasQueries}
         isIntentions={isIntentions}
         next={next}
         stakingOverview={stakingOverview}
+        toggleFavorite={toggleFavorite}
       />
     </div>
   );

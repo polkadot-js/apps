@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useCall, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
@@ -22,6 +22,7 @@ import Payouts from './Payouts';
 import Query from './Query';
 import Summary from './Overview/Summary';
 import Targets from './Targets';
+import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
@@ -36,9 +37,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [{ next, validators }, setValidators] = useState<Validators>({});
+  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
-  const targets = useSortedTargets();
+  const targets = useSortedTargets(favorites);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
@@ -126,15 +128,18 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             ownStashes={ownStashes}
             stakingOverview={stakingOverview}
             targets={targets}
+            toggleFavorite={toggleFavorite}
           />
         </Route>
         <Route path={`${basePath}/waiting`}>
           <Overview
             className={`${basePath}/waiting` === pathname ? '' : 'staking--hidden'}
+            favorites={favorites}
             hasQueries={hasQueries}
             isIntentions
             next={next}
             stakingOverview={stakingOverview}
+            toggleFavorite={toggleFavorite}
           />
         </Route>
       </Switch>
@@ -148,9 +153,11 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
+        favorites={favorites}
         hasQueries={hasQueries}
         next={next}
         stakingOverview={stakingOverview}
+        toggleFavorite={toggleFavorite}
       />
     </main>
   );
