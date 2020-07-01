@@ -73,7 +73,7 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
   }
 
   const { hasAccounts } = useAccounts();
-  const [isAccountCheckingModalOpen, setAccountCheckingModalOpen] = useState(false);
+  const [isAccountCheckingModalOpen, setAccountCheckingModalOpen] = useState(true);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
 
@@ -100,12 +100,12 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
 
   const _toggleCreate = (): void => {
     setIsCreateOpen(!isCreateOpen);
-    setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+    // setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
   };
 
   const _toggleImport = (): void => {
     setIsImportOpen(!isImportOpen);
-    setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+    // setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
   };
 
   // const onStatusChange = (): void => {
@@ -128,7 +128,7 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
             onStatusChange={onStatusChange}
           />
         )}
-        {hasAccounts && (
+        {isAccountCheckingModalOpen && hasAccounts && (
           <AccountCheckingModal
             onClose={_toggleAccountCheckingModal}
             onCreateAccount={_toggleCreate}
