@@ -13,17 +13,17 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/polyfill": "^7.10.1",
-    "@babel/runtime": "^7.10.3",
-    "@polkadot/dev": "^0.55.17",
+    "@babel/core": "^7.10.4",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/runtime": "^7.10.4",
+    "@polkadot/dev": "^0.55.19",
     "@polkadot/react-components": "0.48.0-beta.4",
     "@polkadot/react-signer": "0.48.0-beta.4",
     "query-string": "^6.13.1"
   },
   "devDependencies": {
     "babel-loader": "^8.1.0",
-    "copy-webpack-plugin": "^6.0.2",
+    "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.6.0",
     "empty": "^0.10.1",
     "file-loader": "^6.0.0",
