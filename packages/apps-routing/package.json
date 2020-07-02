@@ -11,6 +11,6 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.10.3"
+    "@babel/runtime": "^7.10.4"
   }
 }
