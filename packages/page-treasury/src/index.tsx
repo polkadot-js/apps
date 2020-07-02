@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps } from '@polkadot/react-components/types';
-
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
@@ -15,7 +13,9 @@ import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
 
-interface Props extends AppProps, BareProps {}
+interface Props {
+  basePath: string;
+}
 
 function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

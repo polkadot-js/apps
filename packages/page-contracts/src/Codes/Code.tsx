@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
 import { CodeStored } from '../types';
 
 import React, { useCallback } from 'react';
@@ -16,7 +15,8 @@ import store from '../store';
 import useAbi from '../useAbi';
 import { useTranslation } from '../translate';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   code: CodeStored;
   onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
 }

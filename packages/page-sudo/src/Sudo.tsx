@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { ComponentProps as Props } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
@@ -14,7 +13,13 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
-function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElement<Props> {
+interface Props {
+  className?: string;
+  isMine: boolean;
+  sudoKey?: string;
+}
+
+function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [withWeight, toggleWithWeight] = useToggle();
@@ -93,7 +98,7 @@ function Propose ({ className = '', isMine, sudoKey }: Props): React.ReactElemen
     );
 }
 
-export default React.memo(styled(Propose)`
+export default React.memo(styled(Sudo)`
   .sudoToggle {
     width: 100%;
     text-align: right;

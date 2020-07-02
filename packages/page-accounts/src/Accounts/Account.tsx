@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
-import { SortedAccount } from './types';
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useState, useEffect } from 'react';
@@ -32,9 +32,11 @@ import Transfer from './modals/Transfer';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 
-interface Props extends SortedAccount {
+interface Props {
+  account: KeyringAddress;
   className?: string;
   filter: string;
+  isFavorite: boolean;
   setBalance: (address: string, value: BN) => void;
   toggleFavorite: (address: string) => void;
 }

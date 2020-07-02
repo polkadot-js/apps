@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodeStored } from '@polkadot/app-contracts/types';
-import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -15,8 +14,10 @@ import { CopyButton, Icon } from '@polkadot/react-components';
 
 import contracts from '../store';
 
-interface Props extends BareProps {
+interface Props {
   buttons?: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
   code: CodeStored;
   isInline?: boolean;
   withTags?: boolean;

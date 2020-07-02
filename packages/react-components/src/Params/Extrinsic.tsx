@@ -4,13 +4,13 @@
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
-import { BareProps } from '../types';
 
 import React, { useCallback } from 'react';
 
 import BaseExtrinsic from '../Extrinsic';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
   isDisabled?: boolean;
   isError?: boolean;

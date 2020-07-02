@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React from 'react';
 import styled from 'styled-components';
 import { classes } from '@polkadot/react-components/util';
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
+  className?: string;
 }
 
 function Bare ({ children, className = '' }: Props): React.ReactElement<Props> {

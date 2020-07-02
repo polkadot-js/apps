@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
-import { BareProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -14,8 +13,9 @@ import { Button, Expander, IconLink } from '@polkadot/react-components';
 import MessageSignature from './MessageSignature';
 import { useTranslation } from '../translate';
 
-export interface Props extends BareProps {
+export interface Props {
   address?: string;
+  className?: string;
   contractAbi: Abi;
   isLabelled?: boolean;
   isRemovable: boolean;

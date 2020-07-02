@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { BareProps, VoidFn } from './types';
+import { VoidFn } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -11,8 +11,9 @@ import styled from 'styled-components';
 import { colorLink } from './styles/theme';
 import Icon from './Icon';
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
+  className?: string;
   icon?: IconName;
   onClick: VoidFn;
   size?: 'mini' | 'tiny' | 'small' | 'large' | 'big' | 'huge' | 'massive';

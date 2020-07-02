@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { BareProps, StringOrNull } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
@@ -20,9 +20,10 @@ import { useTranslation } from '../translate';
 import { getCallMessageOptions } from './util';
 import useWeight from '../useWeight';
 
-interface Props extends BareProps {
+interface Props {
   callContract: ApiContract | null;
   callMessageIndex: number | null;
+  className?: string;
   isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
   onChangeCallMessageIndex: (callMessageIndex: number) => void;

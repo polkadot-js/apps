@@ -65,7 +65,6 @@ export interface SortedTargets {
   lastReward?: BN;
   nominators?: string[];
   setCalcWith: (amount?: BN) => void;
-  toggleFavorite: (accountId: string) => void;
   totalStaked?: BN;
   validators?: ValidatorInfo[];
 }

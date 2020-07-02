@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { BareProps } from '@polkadot/react-components/types';
 import { RawParam } from '@polkadot/react-params/types';
 import { TypeDef } from '@polkadot/types/types';
 
@@ -15,7 +14,8 @@ import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue: SubmittableExtrinsicFunction<'promise'>;
   isDisabled?: boolean;
   isError?: boolean;

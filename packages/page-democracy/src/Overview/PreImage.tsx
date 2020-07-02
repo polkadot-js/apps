@@ -80,8 +80,8 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
               onChange={setProposal}
             />
             <Input
+              className='disabledLook'
               help={t<string>('The hash of the selected proposal, use it for submitting the proposal')}
-              isDisabled
               isDisabledError={!isMatched}
               label={t<string>('preimage hash')}
               value={encodedHash}
@@ -126,5 +126,14 @@ export default React.memo(styled(PreImage)`
   .toggleImminent {
     margin: 0.5rem 0;
     text-align: right;
+  }
+
+  .disabledLook input {
+    background: transparent;
+    border-style: dashed;
+    &:focus{
+      background: transparent;
+      border-color: #d9d8d7;
+    }
   }
 `);

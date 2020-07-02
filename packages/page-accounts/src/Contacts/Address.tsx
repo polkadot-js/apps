@@ -5,7 +5,6 @@
 import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { BareProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -17,8 +16,9 @@ import { BN_ZERO, formatNumber } from '@polkadot/util';
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 
-interface Props extends BareProps {
+interface Props {
   address: string;
+  className?: string;
   filter: string;
   isFavorite: boolean;
   toggleFavorite: (address: string) => void;

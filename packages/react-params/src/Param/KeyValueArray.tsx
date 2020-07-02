@@ -3,10 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyValue as Pair } from '@polkadot/types/interfaces';
-import { Props as BaseProps, RawParam } from '../types';
+import { Props, RawParam } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import { WithTranslation } from 'react-i18next';
 import { Vec } from '@polkadot/types';
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
@@ -15,8 +14,6 @@ import Base from './Base';
 import Bytes from './Bytes';
 import File from './File';
 import { createParam } from './KeyValue';
-
-interface Props extends BaseProps, WithTranslation {}
 
 interface Parsed {
   isValid: boolean;

@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, VoidFn } from '@polkadot/react-components/types';
+import { VoidFn } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   isBusy?: boolean;
   isContract?: boolean;
   isError?: boolean;

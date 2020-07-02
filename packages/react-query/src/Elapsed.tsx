@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-api/types';
-
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   value?: BN | Date | number;
 }
 

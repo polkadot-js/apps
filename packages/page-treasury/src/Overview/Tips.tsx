@@ -26,7 +26,7 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
   const header = useMemo(() => [
     [t('tips'), 'start'],
     [t('finder'), 'address'],
-    [t('fee')],
+    [t('deposit')],
     [t('reason'), 'start'],
     [],
     [],

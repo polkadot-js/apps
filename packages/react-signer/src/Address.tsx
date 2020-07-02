@@ -60,11 +60,14 @@ function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise
         return false;
       }
 
+      // TODO It should be able to do batch inspection as applicable
       switch (proxy.toString()) {
         case 'Any':
           return true;
         case 'Governance':
           return ['council', 'democracy', 'elections', 'electionsPhragmen', 'society', 'technicalCommittee', 'treasury'].includes(section);
+        case 'IdentityJudgement':
+          return section === 'identity' && method === 'provideJudgement';
         case 'NonTransfer':
           return !(section === 'balances' || (section === 'indices' && method === 'transfer') || (section === 'vesting' && method === 'vestedTransfer'));
         case 'Staking':

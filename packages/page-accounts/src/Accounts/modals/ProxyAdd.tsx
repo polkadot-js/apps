@@ -16,6 +16,7 @@ import useProxies from '../useProxies';
 interface Props extends ModalProps {
   className?: string;
   onClose: () => void;
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 interface CreateOptions {

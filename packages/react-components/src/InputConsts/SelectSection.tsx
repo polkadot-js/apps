@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DropdownOptions } from '../util/types';
-import { BareProps } from '../types';
 import { ConstValueBase, StorageEntryPromise } from './types';
 
 import React from 'react';
@@ -11,7 +10,8 @@ import React from 'react';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue?: StorageEntryPromise;
   isError?: boolean;
   onChange: (value: string) => void;

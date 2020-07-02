@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { BareProps } from './types';
 
 import React, { useCallback, useContext } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -13,7 +12,7 @@ import Button from './Button';
 import { useTranslation } from './translate';
 import styled from 'styled-components';
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
   className?: string;
   icon?: IconName;

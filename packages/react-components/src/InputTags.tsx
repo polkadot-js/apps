@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React from 'react';
 import store from 'store';
 
@@ -15,8 +13,9 @@ interface Option {
   value: string;
 }
 
-interface Props extends BareProps {
+interface Props {
   allowAdd?: boolean;
+  className?: string;
   defaultValue?: string[];
   help?: React.ReactNode;
   isDisabled?: boolean;

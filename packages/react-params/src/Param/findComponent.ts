@@ -123,6 +123,8 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   let Component = findOne(type);
 
   if (!Component) {
+    let error: string | null = null;
+
     try {
       const instance = createType(registry, type as 'u32');
       const raw = getTypeDef(instance.toRawType());
@@ -136,14 +138,15 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
         return findComponent(raw, overrides);
       }
-    } catch (error) {
-      // console.error((error as Error).message);
+    } catch (e) {
+      error = (e as Error).message;
     }
 
     // we only want to want once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
-      console.info(`params: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
+      error && console.error(`params: findComponent: ${error}`);
+      console.info(`params: findComponent: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
     }
   }
 
