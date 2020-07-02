@@ -8,7 +8,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useToggle } from '@polkadot/react-hooks';
-import { Voting } from '@polkadot/types/interfaces';
+import { AccountId, Balance, Conviction, Voting } from '@polkadot/types/interfaces';
+import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
@@ -16,6 +17,14 @@ import { useTranslation } from '../translate';
 import { sortAccounts } from '../util';
 
 const STORE_FAVS = 'accounts:favorites';
+
+interface DelegatingAccount {
+  accountDelegated: AccountId
+  accountDelegating: KeyringAddress
+  amount: Balance
+  conviction: Conviction
+  isFavorite: boolean
+}
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -25,21 +34,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
   const [filterOn, setFilter] = useState<string>('');
-  const delegatingAccounts = useCall<Voting[]>(api.query.democracy.votingOf.multi, [allAccounts]);
+  const [delegatingAccounts, setDelegatingAccounts] = useState<DelegatingAccount[] | undefined>(undefined);
+  const [sortedAddresses, setSortedAddresses] = useState<string[]>([]);
 
-  console.log('allAccounts', allAccounts);
-
-  (delegatingAccounts || []).forEach((delegatingAccount, index) => {
-    console.log(allAccounts[index].toString());
-    delegatingAccount.isDelegating
-      ? console.log(
-        delegatingAccount?.asDelegating.balance.toString(),
-        delegatingAccount?.asDelegating.target.toString(),
-        delegatingAccount?.asDelegating.conviction.toString()
-      )
-      : console.log('nop');
-  }
-  );
+  const delegations = useCall<Voting[]>(api.query.democracy.votingOf.multi, [sortedAddresses]);
 
   useEffect((): void => {
     setSortedAccounts(
@@ -47,12 +45,34 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     );
   }, [allAccounts, favorites]);
 
+  useEffect(() => {
+    setSortedAddresses(sortedAccounts.map((a) => a.account.address));
+  }, [sortedAccounts]);
+
+  useEffect(() => {
+    const result = delegations?.map((delegation, index) => ({
+      accountDelegating: sortedAccounts[index].account,
+      delegation,
+      isFavorite: sortedAccounts[index].isFavorite
+    }))
+    .filter(({ delegation }) => delegation.isDelegating)
+    .map((account) => (
+      {
+        accountDelegated: account.delegation.asDelegating.target,
+        amount: account.delegation.asDelegating.balance,
+        conviction: account.delegation.asDelegating.conviction,
+        ...account
+      }
+    ), [delegations]);
+
+    setDelegatingAccounts(result);
+  }, [delegations, sortedAccounts]);
+
   const header = useMemo(() => [
     [t('account'), 'start', 2],
-    [t('tags'), 'start'],
     [t('delegates'), 'start'],
-    [t('amount'), 'ui--media-1500'],
-    [t('conviction')],
+    [t('amount'), 'start'],
+    [t('conviction'), 'start'],
     [undefined, 'mini ui--media-1400']
   ], [t]);
 
@@ -73,7 +93,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Button.Group>
         <Button
           icon='plus'
-          label={t<string>('Add contact')}
+          label={t<string>('Add delegation')}
           onClick={toggleCreate}
         />
       </Button.Group>
@@ -85,15 +105,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       )}
       <Table
         empty={t<string>('no delegation yet, add a new one')}
-        filter={filter}
         header={header}
       >
-        {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
+        {(delegatingAccounts || []).map(({ accountDelegated, accountDelegating, amount, conviction, isFavorite }, index): React.ReactNode => (
           <Address
-            address={account.address}
-            filter={filterOn}
+            accountDelegated={accountDelegated}
+            accountDelegating={accountDelegating}
+            amount={amount}
+            conviction={conviction}
             isFavorite={isFavorite}
-            key={account.address}
+            key={accountDelegating.address}
             toggleFavorite={toggleFavorite}
           />
         ))}
