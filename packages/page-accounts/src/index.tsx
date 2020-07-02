@@ -13,6 +13,7 @@ import basicMd from './md/basic.md';
 import { useTranslation } from './translate';
 import useCounter from './useCounter';
 import Accounts from './Accounts';
+import Delegations from './Delegations';
 import Contacts from './Contacts';
 import Vanity from './Vanity';
 
@@ -31,6 +32,10 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     {
       name: 'contacts',
       text: t<string>('My contacts')
+    },
+    {
+      name: 'delegations',
+      text: t<string>('My delegations')
     },
     {
       name: 'vanity',
@@ -55,6 +60,12 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       <Switch>
         <Route path={`${basePath}/contacts`}>
           <Contacts
+            basePath={basePath}
+            onStatusChange={onStatusChange}
+          />
+        </Route>
+        <Route path={`${basePath}/delegations`}>
+          <Delegations
             basePath={basePath}
             onStatusChange={onStatusChange}
           />

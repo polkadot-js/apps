@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
-import { SortedAccount } from './types';
+import { SortedAccount } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -25,6 +24,7 @@ import Qr from './modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
+import { sortAccounts } from '../util';
 
 interface Balances {
   accounts: Record<string, BN>;
@@ -49,53 +49,6 @@ async function queryLedger (): Promise<void> {
   } catch (error) {
     console.error(error);
   }
-}
-
-function expandList (mapped: SortedAccount[], entry: SortedAccount): SortedAccount[] {
-  mapped.push(entry);
-
-  entry.children.forEach((entry): void => {
-    expandList(mapped, entry);
-  });
-
-  return mapped;
-}
-
-function sortAccounts (addresses: string[], favorites: string[]): SortedAccount[] {
-  const mapped = addresses
-    .map((address) => keyring.getAccount(address))
-    .filter((account): account is KeyringAddress => !!account)
-    .map((account): SortedAccount => ({
-      account,
-      children: [],
-      isFavorite: favorites.includes(account.address)
-    }))
-    .sort((a, b) => (a.account.meta.whenCreated || 0) - (b.account.meta.whenCreated || 0));
-
-  return mapped
-    .filter((entry): boolean => {
-      const parentAddress = entry.account.meta.parentAddress;
-
-      if (parentAddress) {
-        const parent = mapped.find(({ account: { address } }) => address === parentAddress);
-
-        if (parent) {
-          parent.children.push(entry);
-
-          return false;
-        }
-      }
-
-      return true;
-    })
-    .reduce(expandList, [])
-    .sort((a, b): number =>
-      a.isFavorite === b.isFavorite
-        ? 0
-        : b.isFavorite
-          ? 1
-          : -1
-    );
 }
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
