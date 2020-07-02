@@ -18,7 +18,7 @@ import SideBar from './SideBar';
 import BN from 'bn.js';
 import routing from '@polkadot/apps-routing';
 import { useLocation } from 'react-router-dom';
-import AccountCheckingModal from './modals/AccountChecking';
+import AccountCheckingModal from '../../app-accounts/src/modals/Checking';
 import AccountCreateModal from '../../app-accounts/src/modals/Create';
 import AccountImportModal from '../../app-accounts/src/modals/Import';
 
@@ -145,9 +145,6 @@ function Apps ({ className }: any): React.ReactElement<Props> {
           <Content />
         </Signer>
         <ConnectingOverlay />
-        {/* AccountCheckingModal is used instead
-          <AccountsOverlay />
-        */}
       </div>
       <WarmUp />
     </>
