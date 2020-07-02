@@ -19,8 +19,6 @@ interface Props {
   sudoKey?: string;
 }
 
-// horribly broken
-// eslint-disable-next-line react/prop-types
 function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();

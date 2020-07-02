@@ -12,8 +12,6 @@ import { isUndefined } from '@polkadot/util';
 import findComponent from './findComponent';
 import Static from './Static';
 
-// horribly broken
-// eslint-disable-next-line react/prop-types
 function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, type }: Props): React.ReactElement<Props> | null {
   const compRef = useRef<React.ComponentType<CProps> | null>(findComponent(type, overrides));
 

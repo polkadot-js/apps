@@ -18,8 +18,6 @@ interface Props {
   className?: string;
 }
 
-// horribly broken
-// eslint-disable-next-line react/prop-types
 function Connecting ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { isApiConnected, isWaitingInjected } = useApi();

@@ -56,8 +56,6 @@ export function renderProvided ({ className = '', label, value }: RenderProps): 
 }
 
 function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
-  // horribly broken
-  // eslint-disable-next-line react/prop-types
   const { balance, className = '', label, params } = props;
 
   if (!params) {
