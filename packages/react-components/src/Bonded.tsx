@@ -20,6 +20,8 @@ export interface Props {
 }
 
 function BondedDisplay (props: Props): React.ReactElement<Props> | null {
+  // horribly broken
+  // eslint-disable-next-line react/prop-types
   const { bonded, className = '', label, params } = props;
 
   if (!params) {

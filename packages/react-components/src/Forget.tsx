@@ -60,6 +60,8 @@ function getHeaderText (mode: Mode, t: <T = string> (key: string) => T): string 
 }
 
 function renderContent (props: Props, t: <T = string> (key: string) => T): React.ReactNode | null {
+  // horribly broken
+  // eslint-disable-next-line react/prop-types
   const { address, mode = 'account' } = props;
 
   switch (mode) {

@@ -37,6 +37,8 @@ function formatExistential (value: BN): string {
   return fmt;
 }
 
+// horribly broken
+// eslint-disable-next-line react/prop-types
 function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
