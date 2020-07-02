@@ -17,9 +17,10 @@ export default css`
 
     --grey00: #000;
     --grey10: #151B1F;
-    --grey15: #202B33;
-    --grey20: #2B3840; /* header text */
-    --grey30: #33434D;
+    --grey15: #1C2429;
+    --grey20: #202B33; /* header text */
+    --grey30: #2B3840;
+    --grey40: #33434D;
     --grey50: #777B80;
     --grey70: #A0A2A3;
     --grey80: #DFE2E6;

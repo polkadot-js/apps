@@ -14,6 +14,7 @@ import { useApi } from '@polkadot/react-hooks';
 import Status from './Status';
 import { useTranslation } from '../translate';
 import NotFound from './NotFound';
+import HelpWidget from '../HelpWidget';
 
 interface Props {
   className?: string;
@@ -62,6 +63,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                   location={location}
                   onStatusChange={queueAction}
                 />
+                <HelpWidget />
               </ErrorBoundary>
             </Suspense>
             <Status
