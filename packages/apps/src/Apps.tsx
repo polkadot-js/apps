@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
-// import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
@@ -20,8 +19,8 @@ import BN from 'bn.js';
 import routing from '@polkadot/apps-routing';
 import { useLocation } from 'react-router-dom';
 import AccountCheckingModal from './modals/AccountChecking';
-import CreateModal from '../../app-accounts/src/modals/Create';
-import ImportModal from '../../app-accounts/src/modals/Import';
+import AccountCreateModal from '../../app-accounts/src/modals/Create';
+import AccountImportModal from '../../app-accounts/src/modals/Import';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -74,8 +73,8 @@ function Apps ({ className }: any): React.ReactElement<Props> {
 
   const { hasAccounts } = useAccounts();
   const [isAccountCheckingModalOpen, setAccountCheckingModalOpen] = useState(true);
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isAccountCreateModalOpen, setIsAccountCreateModalOpen] = useState(false);
+  const [isAccountImportModalOpen, setIsAccountImportModalOpen] = useState(false);
 
   // const advancedInput = useRef(null);
   const _setSidebar = (update: Partial<SidebarState>): void =>
@@ -96,21 +95,14 @@ function Apps ({ className }: any): React.ReactElement<Props> {
     });
   };
 
-  const _toggleAccountCheckingModal = (): void => setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+  const onAccountCheckingModalClose = (): void => setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+  const onAccountCreateModalClose = (): void =>
+    setIsAccountCreateModalOpen(!isAccountCreateModalOpen);
+  const onAccountImportModalClose = (): void =>
+    setIsAccountImportModalOpen(!isAccountImportModalOpen);
 
-  const _toggleCreate = (): void => {
-    setIsCreateOpen(!isCreateOpen);
-    // setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
-  };
-
-  const _toggleImport = (): void => {
-    setIsImportOpen(!isImportOpen);
-    // setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
-  };
-
-  const onStatusChange = (): void => {
+  const onStatusChange = (): void =>
     setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
-  };
 
   return (
     <>
@@ -121,23 +113,23 @@ function Apps ({ className }: any): React.ReactElement<Props> {
         } ${isMenu && 'fixed'} ${isMenuOpen &&
           'menu-open'} theme--default ${className}`}
       >
-        {isCreateOpen && (
-          <CreateModal
-            onClose={_toggleCreate}
+        {isAccountCreateModalOpen && (
+          <AccountCreateModal
+            onClose={onAccountCreateModalClose}
             onStatusChange={onStatusChange}
           />
         )}
-        {isImportOpen && (
-          <ImportModal
-            onClose={_toggleImport}
+        {isAccountImportModalOpen && (
+          <AccountImportModal
+            onClose={onAccountImportModalClose}
             onStatusChange={onStatusChange}
           />
         )}
         {isApiReady && isAccountCheckingModalOpen && !hasAccounts && (
           <AccountCheckingModal
-            onClose={_toggleAccountCheckingModal}
-            onCreateAccount={_toggleCreate}
-            onImportAccount={_toggleImport}
+            onClose={onAccountCheckingModalClose}
+            onCreateAccount={onAccountCreateModalClose}
+            onImportAccount={onAccountImportModalClose}
           />
         )}
         <MenuOverlay {...{ _handleResize, isMenuOpen }} />
