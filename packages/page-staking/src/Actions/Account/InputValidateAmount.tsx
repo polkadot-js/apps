@@ -48,6 +48,7 @@ function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): Rea
   useEffect((): void => {
     if (stashBalance && value) {
       // also used in bond extra, take check against total of current bonded and new
+      // eslint-disable-next-line react/prop-types
       const check = value.add(currentAmount || BN_ZERO);
       const existentialDeposit = api.consts.balances.existentialDeposit;
       const maxBond = stashBalance.freeBalance.sub(existentialDeposit.divn(2));
