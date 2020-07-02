@@ -10,8 +10,7 @@ import styled from 'styled-components';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
-
-import AccountsOverlay from './overlays/Accounts';
+// import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
@@ -51,7 +50,8 @@ function WarmUp (): React.ReactElement {
   );
 }
 
-function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
+function Apps ({ className }: any): React.ReactElement<Props> {
+  const { isApiReady } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
     isMenuOpen: false,
@@ -108,14 +108,19 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
     // setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
   };
 
-  // const onStatusChange = (): void => {
-  //   console.log('object');
-  // };
+  const onStatusChange = (): void => {
+    setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+  };
 
   return (
     <>
       <GlobalStyle />
-      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
+      <div
+        className={`apps--Wrapper ${
+          isCollapsed ? 'collapsed' : 'expanded'
+        } ${isMenu && 'fixed'} ${isMenuOpen &&
+          'menu-open'} theme--default ${className}`}
+      >
         {isCreateOpen && (
           <CreateModal
             onClose={_toggleCreate}
@@ -128,7 +133,7 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
             onStatusChange={onStatusChange}
           />
         )}
-        {isAccountCheckingModalOpen && hasAccounts && (
+        {isApiReady && isAccountCheckingModalOpen && !hasAccounts && (
           <AccountCheckingModal
             onClose={_toggleAccountCheckingModal}
             onCreateAccount={_toggleCreate}
@@ -148,7 +153,9 @@ function Apps ({ className, onStatusChange }: any): React.ReactElement<Props> {
           <Content />
         </Signer>
         <ConnectingOverlay />
-        <AccountsOverlay />
+        {/* AccountCheckingModal is used instead
+          <AccountsOverlay />
+        */}
       </div>
       <WarmUp />
     </>
