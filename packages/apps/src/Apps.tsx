@@ -8,10 +8,8 @@ import React, { useEffect, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import GlobalStyle from '@polkadot/react-components/styles';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
-
-import AccountsOverlay from './overlays/Accounts';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
@@ -20,6 +18,9 @@ import SideBar from './SideBar';
 import BN from 'bn.js';
 import routing from '@polkadot/apps-routing';
 import { useLocation } from 'react-router-dom';
+import AccountCheckingModal from '../../app-accounts/src/modals/Checking';
+import AccountCreateModal from '../../app-accounts/src/modals/Create';
+import AccountImportModal from '../../app-accounts/src/modals/Import';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -48,7 +49,8 @@ function WarmUp (): React.ReactElement {
   );
 }
 
-function Apps ({ className }: Props): React.ReactElement<Props> {
+function Apps ({ className }: any): React.ReactElement<Props> {
+  const { isApiReady } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
     isMenuOpen: false,
@@ -60,14 +62,20 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
   const location = useLocation();
   const app = location.pathname.slice(1) || '';
-  let openAdvance : boolean;
+  let openAdvance: boolean;
 
   const element = routing.routes.find(route => route && route.name === app);
   if (element && element.isAdvanced) {
-    openAdvance = element.isAdvanced
+    openAdvance = element.isAdvanced;
   } else {
     openAdvance = false;
   }
+
+  const { hasAccounts } = useAccounts();
+  const [isAccountCheckingModalOpen, setAccountCheckingModalOpen] = useState(true);
+  const [isAccountCreateModalOpen, setIsAccountCreateModalOpen] = useState(false);
+  const [isAccountImportModalOpen, setIsAccountImportModalOpen] = useState(false);
+
   // const advancedInput = useRef(null);
   const _setSidebar = (update: Partial<SidebarState>): void =>
     setSidebar(store.set('sidebar', { ...sidebar, ...update }));
@@ -87,10 +95,43 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
     });
   };
 
+  const onAccountCheckingModalClose = (): void => setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+  const onAccountCreateModalClose = (): void =>
+    setIsAccountCreateModalOpen(!isAccountCreateModalOpen);
+  const onAccountImportModalClose = (): void =>
+    setIsAccountImportModalOpen(!isAccountImportModalOpen);
+
+  const onStatusChange = (): void =>
+    setAccountCheckingModalOpen(!isAccountCheckingModalOpen);
+
   return (
     <>
       <GlobalStyle />
-      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu && 'fixed'} ${isMenuOpen && 'menu-open'} theme--default ${className}`}>
+      <div
+        className={`apps--Wrapper ${
+          isCollapsed ? 'collapsed' : 'expanded'
+        } ${isMenu && 'fixed'} ${isMenuOpen &&
+          'menu-open'} theme--default ${className}`}
+      >
+        {isAccountCreateModalOpen && (
+          <AccountCreateModal
+            onClose={onAccountCreateModalClose}
+            onStatusChange={onStatusChange}
+          />
+        )}
+        {isAccountImportModalOpen && (
+          <AccountImportModal
+            onClose={onAccountImportModalClose}
+            onStatusChange={onStatusChange}
+          />
+        )}
+        {isApiReady && isAccountCheckingModalOpen && !hasAccounts && (
+          <AccountCheckingModal
+            onClose={onAccountCheckingModalClose}
+            onCreateAccount={onAccountCreateModalClose}
+            onImportAccount={onAccountImportModalClose}
+          />
+        )}
         <MenuOverlay {...{ _handleResize, isMenuOpen }} />
         <SideBar
           collapse={_collapse}
@@ -104,7 +145,6 @@ function Apps ({ className }: Props): React.ReactElement<Props> {
           <Content />
         </Signer>
         <ConnectingOverlay />
-        <AccountsOverlay />
       </div>
       <WarmUp />
     </>
