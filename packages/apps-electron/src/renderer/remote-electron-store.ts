@@ -6,7 +6,6 @@ import { KeyringJson, KeyringStore } from '@polkadot/ui-keyring/types';
 import { AccountStoreApi } from '../api/account-store-api';
 
 export class RemoteElectronStore implements KeyringStore {
-  // eslint-disable-next-line no-useless-constructor
   constructor (private accountStore: AccountStoreApi) {}
 
   all (cb: (key: string, value: KeyringJson) => void): void {
