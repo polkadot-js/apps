@@ -23,6 +23,7 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
+  setClosed: (hash: string, blockNumber: BlockNumber) => void;
 }
 
 interface TipState {
@@ -37,7 +38,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return isBoolean((tip as OpenTip).findersFee);
 }
 
-function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', hash, isMember, members, setClosed }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -61,6 +62,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         deposit = finderInfo[1];
       }
 
+      tip.closes.isSome && setClosed(hash, tip.closes.unwrap());
       setTipState({
         closesAt: tip.closes.unwrapOr(null),
         deposit,
@@ -69,7 +71,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
       });
     }
-  }, [allAccounts, tip]);
+  }, [allAccounts, hash, setClosed, tip]);
 
   if (!tip) {
     return null;
