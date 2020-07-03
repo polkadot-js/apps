@@ -246,7 +246,7 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                     {t<string>('Bond more funds')}
                   </Menu.Item>
                   <Menu.Item
-                    disabled={!isOwnController}
+                    disabled={!isOwnController || !stakingAccount || !stakingAccount.stakingLedger || stakingAccount.stakingLedger.active.isEmpty}
                     onClick={toggleUnbond}
                   >
                     {t<string>('Unbond funds')}
