@@ -11,7 +11,7 @@ import { useAccounts, useApi, useCall, useFavorites, useToggle } from '@polkadot
 import { AccountId, Balance, Conviction, Voting } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
-import CreateModal from './modals/Create';
+import DelegateModal from './modals/Delegate';
 import Address from './Address';
 import { useTranslation } from '../translate';
 import { sortAccounts } from '../util';
@@ -26,14 +26,13 @@ interface DelegatingAccount {
   isFavorite: boolean
 }
 
-function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
+function Overview ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const [isCreateOpen, toggleCreate] = useToggle(false);
+  const [isDelegateOpen, toggleDelegate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
-  const [filterOn, setFilter] = useState<string>('');
   const [delegatingAccounts, setDelegatingAccounts] = useState<DelegatingAccount[] | undefined>(undefined);
   const [sortedAddresses, setSortedAddresses] = useState<string[]>([]);
 
@@ -76,31 +75,18 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [undefined, 'mini ui--media-1400']
   ], [t]);
 
-  const filter = useMemo(() => (
-    <div className='filter--tags'>
-      <Input
-        autoFocus
-        isFull
-        label={t<string>('filter by name or tags')}
-        onChange={setFilter}
-        value={filterOn}
-      />
-    </div>
-  ), [filterOn, t]);
-
   return (
     <div className={className}>
       <Button.Group>
         <Button
           icon='plus'
           label={t<string>('Add delegation')}
-          onClick={toggleCreate}
+          onClick={toggleDelegate}
         />
       </Button.Group>
-      {isCreateOpen && (
-        <CreateModal
-          onClose={toggleCreate}
-          onStatusChange={onStatusChange}
+      {isDelegateOpen && (
+        <DelegateModal
+          onClose={toggleDelegate}
         />
       )}
       <Table

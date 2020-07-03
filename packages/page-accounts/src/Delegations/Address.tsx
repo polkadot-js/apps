@@ -13,7 +13,7 @@ import { AddressSmall, Button, Icon, LinkExternal, Menu, Popup } from '@polkadot
 // import { useApi, useCall } from '@polkadot/react-hooks';
 // import keyring from '@polkadot/ui-keyring';
 
-import Transfer from '../Accounts/modals/Transfer';
+import Delegate from './modals/Delegate';
 import { useTranslation } from '../translate';
 import { FormatBalance } from '@polkadot/react-query';
 
@@ -31,7 +31,7 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
   const { t } = useTranslation();
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
-  const [isTransferOpen, setIsTransferOpen] = useState(false);
+  const [isDelegateOpen, setIsDelegateOpen] = useState(false);
 
   useEffect((): void => {
     const current = accountDelegating;
@@ -50,9 +50,9 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
     [isSettingPopupOpen]
   );
 
-  const _toggleTransfer = useCallback(
-    (): void => setIsTransferOpen(!isTransferOpen),
-    [isTransferOpen]
+  const _toggleDelegate = useCallback(
+    (): void => setIsDelegateOpen(!isDelegateOpen),
+    [isDelegateOpen]
   );
 
   return (
@@ -68,11 +68,10 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
         <AddressSmall value={accountDelegating.address} />
         {accountDelegating && current && (
           <>
-            {isTransferOpen && (
-              <Transfer
-                key='modal-transfer'
-                onClose={_toggleTransfer}
-                recipientId={accountDelegating}
+            {isDelegateOpen && (
+              <Delegate
+                key='modal-delegate'
+                onClose={_toggleDelegate}
               />
             )}
           </>
@@ -93,8 +92,8 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
         <Button
           icon='paper-plane'
           key='deposit'
-          label={t<string>('deposit')}
-          onClick={_toggleTransfer}
+          label={t<string>('delegate')}
+          onClick={_toggleDelegate}
         />
         <Popup
           className='theme--default'
