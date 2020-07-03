@@ -2,42 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import fs from 'fs';
 import { FileStore } from '@polkadot/ui-keyring/stores';
-
 import { accountStoreIpcHandler } from './account-store';
 import { KeyringJson } from '@polkadot/ui-keyring/types';
+import { IpcMainHandler } from './ipc-main-handler';
+import * as tmp from 'tmp';
 
 const exampleAccount = (address: string): KeyringJson => ({
   address,
   meta: {}
 });
-const testPath = './packages/apps-electron/test-data-accounts';
-
-const rmdir = (path = testPath) => {
-  fs.readdirSync(path).forEach((file) => {
-    const currentPath = `${path}/${file}`;
-
-    if (fs.lstatSync(currentPath).isDirectory()) {
-      rmdir(currentPath);
-    } else {
-      fs.unlinkSync(currentPath);
-    }
-  });
-  fs.rmdirSync(path);
-};
-
-const accountStore = accountStoreIpcHandler(new FileStore(testPath));
 
 describe('Account store', () => {
+  let accountStore: IpcMainHandler;
+  let tmpDir: tmp.DirResult;
+
   beforeEach(() => {
-    if (!fs.existsSync(testPath)) {
-      fs.mkdirSync(testPath);
-    }
+    tmpDir = tmp.dirSync({ unsafeCleanup: true });
+    accountStore = accountStoreIpcHandler(new FileStore(tmpDir.name));
   });
 
   afterEach(() => {
-    rmdir();
+    tmpDir.removeCallback();
   });
 
   it('all returns empty array at first', () => {
