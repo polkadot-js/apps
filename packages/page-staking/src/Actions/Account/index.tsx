@@ -7,9 +7,9 @@ import { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets } from '../../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
@@ -38,6 +38,7 @@ interface Props {
 function Account ({ className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const { queueExtrinsic } = useContext(StatusContext);
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
   const spanCount = useCall<number>(api.query.staking.slashingSpans, [stashId], {
@@ -65,9 +66,16 @@ function Account ({ className = '', info: { controllerId, destination, destinati
 
   const withdrawFunds = useCallback(
     () => {
-      // nothing
+      queueExtrinsic({
+        accountId: controllerId,
+        extrinsic: api.tx.staking.withdrawUnbonded.meta.args.length === 1
+          ? api.tx.staking.withdrawUnbonded(spanCount || 0)
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore (We are doing toHex here since we have a Vec<u8> input)
+          : api.tx.staking.withdrawUnbonded()
+      });
     },
-    [api, spanAccount]
+    [api, controllerId, queueExtrinsic, spanCount]
   );
 
   return (
