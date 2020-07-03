@@ -12,8 +12,8 @@ export interface Props {
   className?: string;
   help?: string
   label?: React.ReactNode;
-  onChange?:(value: string) => void;
-  value?: string;
+  onChange?:(value: number) => void;
+  value?: number;
 }
 
 const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
