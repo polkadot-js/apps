@@ -128,7 +128,7 @@ export default React.memo(styled(SelectUrl)`
 
   .settings--customToggle {
     position: absolute;
-    top: .5rem;
+    bottom: 1.375rem;
     right: 3.5rem;
   }
 `);
