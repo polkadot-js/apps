@@ -49,6 +49,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, setClosed }
 
   useEffect((): void => {
     if (tip) {
+      const closesAt = tip.closes.unwrapOr(null);
       let finder: AccountId | null = null;
       let deposit: Balance | null = null;
 
@@ -62,9 +63,9 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, setClosed }
         deposit = finderInfo[1];
       }
 
-      tip.closes.isSome && setClosed(hash, tip.closes.unwrap());
+      closesAt && setClosed(hash, closesAt);
       setTipState({
-        closesAt: tip.closes.unwrapOr(null),
+        closesAt,
         deposit,
         finder,
         isFinder: !!finder && allAccounts.includes(finder.toString()),
