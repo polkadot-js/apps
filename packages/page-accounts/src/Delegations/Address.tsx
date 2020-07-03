@@ -16,6 +16,7 @@ import { AddressSmall, Button, Icon, LinkExternal, Menu, Popup } from '@polkadot
 import Delegate from './modals/Delegate';
 import { useTranslation } from '../translate';
 import { FormatBalance } from '@polkadot/react-query';
+import Undelegate from './modals/Undelegate';
 
 interface Props {
   accountDelegated: AccountId
@@ -32,6 +33,7 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
   const [current, setCurrent] = useState<KeyringAddress | null>(null);
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isDelegateOpen, setIsDelegateOpen] = useState(false);
+  const [isUndelegateOpen, setIsUndelegateOpen] = useState(false);
 
   useEffect((): void => {
     const current = accountDelegating;
@@ -48,6 +50,11 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
   const _toggleSettingPopup = useCallback(
     (): void => setIsSettingPopupOpen(!isSettingPopupOpen),
     [isSettingPopupOpen]
+  );
+
+  const _toggleUndelegate = useCallback(
+    (): void => setIsUndelegateOpen(!isUndelegateOpen),
+    [isUndelegateOpen]
   );
 
   const _toggleDelegate = useCallback(
@@ -70,8 +77,19 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
           <>
             {isDelegateOpen && (
               <Delegate
+                amount={amount}
+                conviction={conviction}
+                delegatedAccount={accountDelegated}
+                delegatingAccount={accountDelegating}
                 key='modal-delegate'
                 onClose={_toggleDelegate}
+              />
+            )}
+            {isUndelegateOpen && (
+              <Undelegate
+                accountDelegating={accountDelegating.address}
+                key='modal-delegate'
+                onClose={_toggleUndelegate}
               />
             )}
           </>
@@ -90,10 +108,10 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
       </td>
       <td className='button'>
         <Button
-          icon='paper-plane'
-          key='deposit'
-          label={t<string>('delegate')}
-          onClick={_toggleDelegate}
+          icon='trash'
+          key='undelegate'
+          label={t<string>('undelegate')}
+          onClick={_toggleUndelegate}
         />
         <Popup
           className='theme--default'
@@ -111,7 +129,11 @@ function Address ({ accountDelegated, accountDelegating, amount, className = '',
             text
             vertical
           >
-            NOTHING HERE
+            <Menu.Item
+              onClick={_toggleDelegate}
+            >
+              {t<string>('Change this delegation')}
+            </Menu.Item>
           </Menu>
         </Popup>
       </td>

@@ -6,7 +6,7 @@ import { ComponentProps as Props, SortedAccount } from '../types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useToggle } from '@polkadot/react-hooks';
 import { AccountId, Balance, Conviction, Voting } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';

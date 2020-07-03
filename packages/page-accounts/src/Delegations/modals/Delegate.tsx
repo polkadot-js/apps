@@ -5,20 +5,18 @@
 import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
-import React, { useState, useMemo } from 'react';
-import { InputAddress, InputBalance, Modal, TxButton, Dropdown } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import React, { useState } from 'react';
+import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
+import ConvictionDropdown from '../../../../react-components/src/ConvictionDropdown';
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props {
   onClose: () => void;
 }
-
-const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
 
 function Delegate ({ onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -28,25 +26,6 @@ function Delegate ({ onClose }: Props): React.ReactElement<Props> {
   const [delegatingAccount, setDelegatingAccount] = useState<string | null>(null);
   const [delegatedAccount, setDelegatedAccount] = useState<string | null>(null);
   const [conviction, setConviction] = useState(1);
-
-  const { api } = useApi();
-  const [enact] = useState(
-    (api.consts.democracy.enactmentPeriod.toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / 60 / 60 / 24
-  );
-
-  const convictionOpts = useMemo(() => [
-    { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
-    ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
-      text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
-        replace: {
-          lock,
-          period: (enact * lock).toFixed(2),
-          value
-        }
-      }),
-      value
-    }))
-  ], [t, enact]);
 
   return (
     <Modal
@@ -62,18 +41,14 @@ function Delegate ({ onClose }: Props): React.ReactElement<Props> {
               onChange={setDelegatingAccount}
               value={delegatingAccount}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account with the selected amount of funds and conviction')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
             <InputAddress
               label={t<string>('delegated account')}
               onChange={setDelegatedAccount}
               value={delegatedAccount}
             />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account with the selected amount of funds and conviction. Note that this is effective immediatly, if the delegated account takes part in a vote currently, the delegating votes and conviction will we added.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -96,11 +71,10 @@ function Delegate ({ onClose }: Props): React.ReactElement<Props> {
               delegatingAccount={delegatingAccount}
               onError={setAmountError}
             />
-            <Dropdown
+            <ConvictionDropdown
               help={t<string>('The conviction that will be used for each delegated vote.')}
               label={t<string>('conviction')}
               onChange={setConviction}
-              options={convictionOpts}
               value={conviction}
             />
           </Modal.Column>

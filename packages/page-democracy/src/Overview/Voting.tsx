@@ -6,18 +6,17 @@ import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Dropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
+import { Button, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
+import ConvictionDropdown from '../../../react-components/src/ConvictionDropdown';
 import { useTranslation } from '../translate';
 
 interface Props {
   proposal?: Proposal;
   referendumId: PropIndex;
 }
-
-const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
 
 function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
@@ -37,24 +36,6 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
     () => !!api.query.democracy.votingOf,
     [api]
   );
-
-  const [enact] = useState(
-    (api.consts.democracy.enactmentPeriod.toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / 60 / 60 / 24
-  );
-
-  const convictionOpts = useMemo(() => [
-    { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
-    ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
-      text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
-        replace: {
-          lock,
-          period: (enact * lock).toFixed(2),
-          value
-        }
-      }),
-      value
-    }))
-  ], [t, enact]);
 
   const _onChangeVote = useCallback(
     (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true),
@@ -101,11 +82,10 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                     onChange={setBalance}
                   />
                 )}
-                <Dropdown
+                <ConvictionDropdown
                   help={t<string>('The conviction to use for this vote, with an appropriate lock period.')}
                   label={t<string>('conviction')}
                   onChange={setConviction}
-                  options={convictionOpts}
                   value={conviction}
                 />
               </Modal.Column>

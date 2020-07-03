@@ -9,6 +9,7 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -25,11 +26,11 @@ function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.R
   const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
 
   useEffect((): void => {
-    if (delegatingAccountBalance && amount) {
-      let newError: string;
+    if (delegatingAccountBalance?.freeBalance && amount?.gt(BN_ZERO)) {
+      let newError: string | null = null;
 
       if (amount.gte(delegatingAccountBalance.freeBalance)) {
-        newError = t('You cannot delegate more funds thans those available on the delegating account.');
+        newError = t('The maximum amount you can delegate is the amount of funds available on the delegating account.');
       }
 
       setResult((state): AmountValidateState => {
