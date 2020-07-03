@@ -3,14 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { EraIndex } from '@polkadot/types/interfaces';
+import { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets } from '../../types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
@@ -39,6 +40,12 @@ function Account ({ className = '', info: { controllerId, destination, destinati
   const { api } = useApi();
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
+  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stashId], {
+    transform: (optSpans: Option<SlashingSpans>): number =>
+      optSpans.isNone
+        ? 0
+        : optSpans.unwrap().prior.length + 1
+  });
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -55,6 +62,13 @@ function Account ({ className = '', info: { controllerId, destination, destinati
       !stakingAccount.stakingLedger.active.isEmpty
     );
   }, [stakingAccount]);
+
+  const withdrawFunds = useCallback(
+    () => {
+      // nothing
+    },
+    [api, spanAccount]
+  );
 
   return (
     <tr className={className}>
@@ -228,6 +242,12 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                     onClick={toggleUnbond}
                   >
                     {t<string>('Unbond funds')}
+                  </Menu.Item>
+                  <Menu.Item
+                    disabled={!isOwnController || !stakingAccount || !stakingAccount.redeemable || !stakingAccount.redeemable.gtn(0)}
+                    onClick={withdrawFunds}
+                  >
+                    {t<string>('Withdraw unbonded funds')}
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item
