@@ -8,8 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Table } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useFavorites, useToggle } from '@polkadot/react-hooks';
-import { AccountId, Balance, Conviction, Voting } from '@polkadot/types/interfaces';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
+import { Balance, Conviction, Voting } from '@polkadot/types/interfaces';
 
 import DelegateModal from './modals/Delegate';
 import Address from './Address';
@@ -19,8 +18,8 @@ import { sortAccounts } from '../util';
 const STORE_FAVS = 'accounts:favorites';
 
 interface DelegatingAccount {
-  accountDelegated: AccountId
-  accountDelegating: KeyringAddress
+  accountDelegated: string
+  accountDelegating: string
   amount: Balance
   conviction: Conviction
   isFavorite: boolean
@@ -50,14 +49,14 @@ function Overview ({ className = '' }: Props): React.ReactElement<Props> {
 
   useEffect(() => {
     const result = delegations?.map((delegation, index) => ({
-      accountDelegating: sortedAccounts[index].account,
+      accountDelegating: sortedAccounts[index].account.address,
       delegation,
       isFavorite: sortedAccounts[index].isFavorite
     }))
     .filter(({ delegation }) => delegation.isDelegating)
     .map((account) => (
       {
-        accountDelegated: account.delegation.asDelegating.target,
+        accountDelegated: account.delegation.asDelegating.target.toString(),
         amount: account.delegation.asDelegating.balance,
         conviction: account.delegation.asDelegating.conviction,
         ...account
@@ -93,14 +92,14 @@ function Overview ({ className = '' }: Props): React.ReactElement<Props> {
         empty={t<string>('no delegation yet, add a new one')}
         header={header}
       >
-        {(delegatingAccounts || []).map(({ accountDelegated, accountDelegating, amount, conviction, isFavorite }, index): React.ReactNode => (
+        {(delegatingAccounts || []).map(({ accountDelegated, accountDelegating, amount, conviction, isFavorite }): React.ReactNode => (
           <Address
             accountDelegated={accountDelegated}
             accountDelegating={accountDelegating}
             amount={amount}
             conviction={conviction}
             isFavorite={isFavorite}
-            key={accountDelegating.address}
+            key={accountDelegating}
             toggleFavorite={toggleFavorite}
           />
         ))}

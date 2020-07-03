@@ -8,6 +8,7 @@ import BN from 'bn.js';
 import React, { useState } from 'react';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
+import { Conviction } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
 import ConvictionDropdown from '../../../../react-components/src/ConvictionDropdown';
@@ -15,17 +16,21 @@ import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props {
+  amount?: BN;
+  conviction?: Conviction;
+  delegatedAccount?: string;
+  delegatingAccount?: string;
   onClose: () => void;
 }
 
-function Delegate ({ onClose }: Props): React.ReactElement<Props> {
+function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount: _delegatedAccount, delegatingAccount: _delegatingAccount, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [maxBalance] = useState<BN | undefined>();
-  const [amount, setAmount] = useState<BN | undefined>();
-  const [delegatingAccount, setDelegatingAccount] = useState<string | null>(null);
-  const [delegatedAccount, setDelegatedAccount] = useState<string | null>(null);
-  const [conviction, setConviction] = useState(1);
+  const [amount, setAmount] = useState<BN | undefined>(_amount);
+  const [delegatingAccount, setDelegatingAccount] = useState<string | null>(_delegatingAccount || null);
+  const [delegatedAccount, setDelegatedAccount] = useState<string | null>(_delegatedAccount || null);
+  const [conviction, setConviction] = useState(_conviction?.toNumber() || 1);
 
   return (
     <Modal
@@ -65,6 +70,7 @@ function Delegate ({ onClose }: Props): React.ReactElement<Props> {
               }
               maxValue={maxBalance}
               onChange={setAmount}
+              value={amount}
             />
             <ValidateAmount
               amount={amount}
