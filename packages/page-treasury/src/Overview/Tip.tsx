@@ -7,9 +7,8 @@ import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkado
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { Option } from '@polkadot/types';
 import { formatNumber, isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -23,7 +22,7 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
-  setClosed: (hash: string, blockNumber: BlockNumber) => void;
+  tip: OpenTip | OpenTipTo225;
 }
 
 interface TipState {
@@ -38,45 +37,34 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return isBoolean((tip as OpenTip).findersFee);
 }
 
-function Tip ({ bestNumber, className = '', hash, isMember, members, setClosed }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [{ closesAt, deposit, finder, isFinder, isTipper }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipper: false });
-  const tip = useCall<OpenTip | OpenTipTo225 | null>(api.query.treasury.tips, [hash], {
-    transform: (optTip: Option<OpenTip>) => optTip.unwrapOr(null)
-  });
 
   useEffect((): void => {
-    if (tip) {
-      const closesAt = tip.closes.unwrapOr(null);
-      let finder: AccountId | null = null;
-      let deposit: Balance | null = null;
+    const closesAt = tip.closes.unwrapOr(null);
+    let finder: AccountId | null = null;
+    let deposit: Balance | null = null;
 
-      if (isCurrentTip(tip)) {
-        finder = tip.finder;
-        deposit = tip.deposit;
-      } else if (tip.finder.isSome) {
-        const finderInfo = tip.finder.unwrap();
+    if (isCurrentTip(tip)) {
+      finder = tip.finder;
+      deposit = tip.deposit;
+    } else if (tip.finder.isSome) {
+      const finderInfo = tip.finder.unwrap();
 
-        finder = finderInfo[0];
-        deposit = finderInfo[1];
-      }
-
-      closesAt && setClosed(hash, closesAt);
-      setTipState({
-        closesAt,
-        deposit,
-        finder,
-        isFinder: !!finder && allAccounts.includes(finder.toString()),
-        isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
-      });
+      finder = finderInfo[0];
+      deposit = finderInfo[1];
     }
-  }, [allAccounts, hash, setClosed, tip]);
 
-  if (!tip) {
-    return null;
-  }
+    setTipState({
+      closesAt,
+      deposit,
+      finder,
+      isFinder: !!finder && allAccounts.includes(finder.toString()),
+      isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
+    });
+  }, [allAccounts, hash, tip]);
 
   const { reason, tips, who } = tip;
 
