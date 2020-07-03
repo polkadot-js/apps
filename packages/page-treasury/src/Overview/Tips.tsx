@@ -28,12 +28,7 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
 
   useEffect((): void => {
     hashes && setSorted(
-      hashes.sort((a, b) => {
-        const bnA = closed[a] || BN_ZERO;
-        const bnB = closed[b] || BN_ZERO;
-
-        return bnA.cmp(bnB);
-      })
+      hashes.sort((a, b) => (closed[a] || BN_ZERO).cmp(closed[b] || BN_ZERO))
     );
   }, [closed, hashes]);
 
