@@ -23,6 +23,7 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
+  setClosed: (hash: string, blockNumber: BlockNumber) => void;
 }
 
 interface TipState {
@@ -37,7 +38,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return isBoolean((tip as OpenTip).findersFee);
 }
 
-function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', hash, isMember, members, setClosed }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -48,6 +49,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
 
   useEffect((): void => {
     if (tip) {
+      const closesAt = tip.closes.unwrapOr(null);
       let finder: AccountId | null = null;
       let deposit: Balance | null = null;
 
@@ -61,15 +63,16 @@ function Tip ({ bestNumber, className = '', hash, isMember, members }: Props): R
         deposit = finderInfo[1];
       }
 
+      closesAt && setClosed(hash, closesAt);
       setTipState({
-        closesAt: tip.closes.unwrapOr(null),
+        closesAt,
         deposit,
         finder,
         isFinder: !!finder && allAccounts.includes(finder.toString()),
         isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
       });
     }
-  }, [allAccounts, tip]);
+  }, [allAccounts, hash, setClosed, tip]);
 
   if (!tip) {
     return null;
