@@ -50,12 +50,6 @@ interface ChainData {
   systemVersion: string;
 }
 
-// const injectedPromise = new Promise<InjectedExtension[]>((resolve): void => {
-//   window.addEventListener('load', (): void => {
-//     resolve(web3Enable('polkadot-js/apps'));
-//   });
-// });
-
 const DEFAULT_DECIMALS = registry.createType('u32', 15);
 const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
@@ -143,6 +137,7 @@ async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiS
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
+    hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment,
     isSubstrateV2,
@@ -154,7 +149,7 @@ async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiS
 
 function Api ({ children, store, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
-  const [state, setState] = useState<ApiState>({ isApiReady: false } as unknown as ApiState);
+  const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();

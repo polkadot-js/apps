@@ -3017,7 +3017,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.4
     "@polkadot/react-components": 0.48.0-beta.15
-    "@polkadot/vanitygen": ^0.16.1
+    "@polkadot/vanitygen": ^0.16.2
     detect-browser: ^5.1.1
     file-saver: ^2.0.2
   languageName: unknown
@@ -3389,14 +3389,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/keyring@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@polkadot/keyring@npm:2.16.1"
+"@polkadot/keyring@npm:^2.17.0-beta.3":
+  version: 2.17.0-beta.3
+  resolution: "@polkadot/keyring@npm:2.17.0-beta.3"
   dependencies:
-    "@babel/runtime": ^7.10.3
-    "@polkadot/util": 2.16.1
-    "@polkadot/util-crypto": 2.16.1
-  checksum: 3/29c78ec278ffa04a5b658471509c8311bb390bcb42613bc15d3197a88dcbec499252f6cd197ddb14a802580b20729d935fb316830798632fc082ae2a3143c529
+    "@babel/runtime": ^7.10.4
+    "@polkadot/util": 2.17.0-beta.3
+    "@polkadot/util-crypto": 2.17.0-beta.3
+  checksum: 3/92fb6c900fe8fa2bf5315ca9f30217b1974a6d237471c4e20938a926a8af0b6c6ca6b01a9f921117db74d4b45ff66bc31663deda119c4a4b1ec0d795f26a6444
   languageName: node
   linkType: hard
 
@@ -3433,15 +3433,15 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^1.2.29
     "@fortawesome/free-solid-svg-icons": ^5.13.1
     "@fortawesome/react-fontawesome": ^0.1.11
-    "@polkadot/keyring": ^2.16.1
+    "@polkadot/keyring": ^2.17.0-beta.3
     "@polkadot/react-api": 0.48.0-beta.15
     "@polkadot/react-identicon": ^0.55.1
     "@polkadot/react-qr": ^0.55.1
     "@polkadot/react-query": 0.48.0-beta.15
     "@polkadot/ui-keyring": ^0.55.1
     "@polkadot/ui-settings": ^0.55.1
-    "@polkadot/util": ^2.16.1
-    "@polkadot/util-crypto": ^2.16.1
+    "@polkadot/util": ^2.17.0-beta.3
+    "@polkadot/util-crypto": ^2.17.0-beta.3
     "@types/codeflask": ^1.4.1
     chart.js: ^2.9.3
     codeflask: ^1.4.1
@@ -3659,54 +3659,53 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/util-crypto@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@polkadot/util-crypto@npm:2.16.1"
+"@polkadot/util-crypto@npm:^2.17.0-beta.3":
+  version: 2.17.0-beta.3
+  resolution: "@polkadot/util-crypto@npm:2.17.0-beta.3"
   dependencies:
-    "@babel/runtime": ^7.10.3
-    "@polkadot/util": 2.16.1
+    "@babel/runtime": ^7.10.4
+    "@polkadot/util": 2.17.0-beta.3
     "@polkadot/wasm-crypto": ^1.2.1
     base-x: ^3.0.8
     bip39: ^3.0.2
     blakejs: ^1.1.0
     bn.js: ^5.1.2
-    bs58: ^4.0.1
     elliptic: ^6.5.3
     js-sha3: ^0.8.0
     pbkdf2: ^3.1.1
     tweetnacl: ^1.0.3
     xxhashjs: ^0.2.2
-  checksum: 3/d54f2b17e629066a4010473fe35150c80ad1d3e2260fb8770aad7692312a172e6b2ed2816f7baf7489eb08cee85090acc1c7f245555b06181317ee00817a719b
+  checksum: 3/8d5409ecae399076ebce64f69938ca5d7c07a88ea207a27dad112b7a7880750b894d915021d70a63feb1fb2d3fc5ff7c2b7aea1ef9ba28f8b31076888116edd7
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:^2.16.1":
-  version: 2.16.1
-  resolution: "@polkadot/util@npm:2.16.1"
+"@polkadot/util@npm:^2.17.0-beta.3":
+  version: 2.17.0-beta.3
+  resolution: "@polkadot/util@npm:2.17.0-beta.3"
   dependencies:
-    "@babel/runtime": ^7.10.3
+    "@babel/runtime": ^7.10.4
     "@types/bn.js": ^4.11.6
     bn.js: ^5.1.2
     camelcase: ^5.3.1
     chalk: ^4.1.0
     ip-regex: ^4.1.0
-  checksum: 3/0ad64354a6735f81bcc682d57d6ed013b4f34acdfdad7496cb22b19f28bda2013d6ab6fb689334472baa5102cba72e37ab181194dc6b1cfad3deb07621f33fb0
+  checksum: 3/e8449ec3739fcf19f0677de58d3422dfe754e919e3904e8f2c947d826482d46cb83e0c2f594a35f118ca01e69071585b3dca3be77d825233ad7c9c9ebf011723
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.16.1":
-  version: 0.16.1
-  resolution: "@polkadot/vanitygen@npm:0.16.1"
+"@polkadot/vanitygen@npm:^0.16.2":
+  version: 0.16.2
+  resolution: "@polkadot/vanitygen@npm:0.16.2"
   dependencies:
     "@babel/core": ^7.10.4
     "@babel/runtime": ^7.10.4
     "@polkadot/util": ^2.16.1
     "@polkadot/util-crypto": ^2.16.1
     chalk: ^4.1.0
-    yargs: ^15.3.1
+    yargs: ^15.4.0
   bin:
     polkadot-js-vanitygen: index.js
-  checksum: 3/fdad806e5ef191c83a0930b1b6f4d229a5650b25a73cf4da0d6f67a00bd50f0361da9ef0883c1bed198c2fa8446e083a290809a57fdbee0d76bbabaab8641622
+  checksum: 3/6f0a219e40f8265eac04573216b63e46c48f22099321d77aea9904d347ccdbba916e763bf824b5a0c6755d109bfb60733405218c59d5fdc8d3359b762e2ae6ef
   languageName: node
   linkType: hard
 
@@ -24814,7 +24813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^15.0.1, yargs@npm:^15.3.1":
+"yargs@npm:^15.0.1, yargs@npm:^15.3.1, yargs@npm:^15.4.0":
   version: 15.4.0
   resolution: "yargs@npm:15.4.0"
   dependencies:
