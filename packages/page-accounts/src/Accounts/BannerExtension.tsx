@@ -8,6 +8,7 @@ import { availableExtensions } from '@polkadot/apps-config/extensions';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { stringUpperFirst } from '@polkadot/util';
 import { onlyOnWeb } from '@polkadot/react-api/hoc';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Banner from './Banner';
@@ -21,9 +22,23 @@ const isSupported = browserName && Object.keys(availableExtensions).includes(bro
 
 function BannerExtension (): React.ReactElement | null {
   const { t } = useTranslation();
+  const { hasInjectedAccounts } = useApi();
 
-  if (isWeb3Injected || !isSupported || !browserName) {
+  if (!isSupported || !browserName) {
     return null;
+  }
+
+  if (isWeb3Injected) {
+    if (hasInjectedAccounts) {
+      return null;
+    }
+
+    return (
+      <Banner type='warning'>
+        <p>{t<string>('One of more extensions has been detected in your browser, however no accounts has been injected.')}</p>
+        <p>{t<string>('Ensure that the extension has accounts, some accounts are visible globally and available for this chain and that you gave the application permission to access accounts from the extension to use them.')}</p>
+      </Banner>
+    );
   }
 
   return (
