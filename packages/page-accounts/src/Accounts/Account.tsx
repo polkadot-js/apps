@@ -25,6 +25,7 @@ import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
 import Derive from './modals/Derive';
 import IdentityMain from './modals/IdentityMain';
+import IdentitySub from './modals/IdentitySub';
 import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
@@ -78,7 +79,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   });
   const multiInfos = useMultisigApprovals(address);
   const proxyInfo = useProxies(address);
-  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
+  const { flags: { isDevelopment, isExternal, isHardware, isInjected, isMultisig, isProxied }, genesisHash, identity, name: accName, onSetGenesisHash, tags } = useAccountInfo(address);
   const [{ democracyUnlockTx }, setUnlockableIds] = useState<DemocracyUnlockable>({ democracyUnlockTx: null, ids: [] });
   const [vestingVestTx, setVestingTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -86,6 +87,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const [isDeriveOpen, toggleDerive] = useToggle();
   const [isForgetOpen, toggleForget] = useToggle();
   const [isIdentityMainOpen, toggleIdentityMain] = useToggle();
+  const [isIdentitySubOpen, toggleIdentitySub] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
@@ -287,6 +289,13 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             onClose={toggleIdentityMain}
           />
         )}
+        {isIdentitySubOpen && (
+          <IdentitySub
+            address={address}
+            key='modal-identity-sub'
+            onClose={toggleIdentitySub}
+          />
+        )}
         {isPasswordOpen && (
           <ChangePass
             address={address}
@@ -379,6 +388,14 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
                   onClick={toggleIdentityMain}
                 >
                   {t('Set on-chain identity')}
+                </Menu.Item>
+              ),
+              api.api.tx.identity?.setSubs && identity?.display && (
+                <Menu.Item
+                  key='identitySub'
+                  onClick={toggleIdentitySub}
+                >
+                  {t('Set on-chain sub-identities')}
                 </Menu.Item>
               ),
               api.api.tx.democracy?.unlock && democracyUnlockTx && (
