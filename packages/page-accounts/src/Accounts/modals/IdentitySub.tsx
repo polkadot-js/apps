@@ -5,10 +5,11 @@
 import { AccountId, Balance } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option, Vec } from '@polkadot/types';
+import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -21,21 +22,32 @@ interface Props {
 function IdentitySub ({ address, className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const subIds = useCall<string[]>(api.query.identity.subsOf, [address], {
+  const queryIds = useCall<string[]>(api.query.identity.subsOf, [address], {
     transform: ([, ids]: ITuple<[Balance, Vec<AccountId>]>) => ids.map((a) => a.toString())
   });
-  const subInfos = useCall<Record<string, Data>>(subIds && subIds.length !== 0 && api.query.identity.superOf.multi, [subIds], {
+  const queryInfos = useCall<Record<string, string>>(queryIds && queryIds.length !== 0 && api.query.identity.superOf.multi, [queryIds], {
     transform: (optInfos: Option<ITuple<[AccountId, Data]>>[]) =>
-      optInfos.reduce((result: Record<string, Data>, optInfo): Record<string, Data> => {
+      optInfos.reduce((result: Record<string, string>, optInfo): Record<string, string> => {
         if (optInfo.isSome) {
           const [accountId, data] = optInfo.unwrap();
 
-          result[accountId.toString()] = data;
+          if (data.isRaw) {
+            result[accountId.toString()] = u8aToString(data.asRaw);
+          }
         }
 
         return result;
       }, {})
   });
+  const [infos, setInfos] = useState<Record<string, string> | undefined>();
+
+  useEffect((): void => {
+    if (queryIds && !queryIds.length) {
+      setInfos({});
+    } else if (queryInfos) {
+      setInfos(queryInfos);
+    }
+  }, [queryIds, queryInfos]);
 
   return (
     <Modal
@@ -43,7 +55,7 @@ function IdentitySub ({ address, className, onClose }: Props): React.ReactElemen
       header={t<string>('Register sub-identities')}
     >
       <Modal.Content>
-        {!subIds || (subIds.length !== 0 && !subInfos)
+        {!infos
           ? <Spinner label={t<string>('retrieving sub-identities')} />
           : (
             <div>something</div>
