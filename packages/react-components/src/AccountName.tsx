@@ -77,7 +77,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
       {isSpecial && (
         <Badge
           color='green'
-          info={<Icon icon='simplybuilt' />}
+          info={<Icon icon='archway' />}
           isInline
           isSmall
         />
