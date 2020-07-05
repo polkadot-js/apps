@@ -6,7 +6,7 @@ import { AccountId, Balance } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Modal, Spinner, TxButton } from '@polkadot/react-components';
+import { Button, Columar, Input, InputAddress, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option, Vec } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
@@ -17,6 +17,15 @@ interface Props {
   address: string;
   className?: string;
   onClose: () => void;
+}
+
+interface SubProps {
+  address: string;
+  index: number;
+  name: string;
+  setAddress: (index: number, value: string) => void;
+  setName: (index: number, value: string) => void;
+  t: (key: string, opts?: { replace: Record<string, string | number> }) => string;
 }
 
 function extractInfo ([[ids], opts]: [[string[]], Option<ITuple<[AccountId, Data]>>[]]): [string, string][] {
@@ -35,7 +44,42 @@ function extractInfo ([[ids], opts]: [[string[]], Option<ITuple<[AccountId, Data
   }, []);
 }
 
-function IdentitySub ({ address, className, onClose }: Props): React.ReactElement<Props> {
+function IdentitySub ({ address, index, name, setAddress, setName, t }: SubProps): React.ReactElement<SubProps> {
+  const _setAddress = useCallback(
+    (value?: string | null) => setAddress(index, value || ''),
+    [index, setAddress]
+  );
+
+  const _setName = useCallback(
+    (value: string) => setName(index, value || ''),
+    [index, setName]
+  );
+
+  return (
+    <Columar>
+      <Columar.Column>
+        <InputAddress
+          defaultValue={address}
+          label={t('address {{index}}', { replace: { index: index + 1 } })}
+          onChange={_setAddress}
+        />
+      </Columar.Column>
+      <Columar.Column>
+        <Input
+          defaultValue={name}
+          isError={!name}
+          isFull
+          label={t('sub name')}
+          onChange={_setName}
+        />
+      </Columar.Column>
+    </Columar>
+  );
+}
+
+const IdentitySubMemo = React.memo(IdentitySub);
+
+function IdentitySubModal ({ address, className, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -51,7 +95,7 @@ function IdentitySub ({ address, className, onClose }: Props): React.ReactElemen
     } else if (queryIds && !queryIds.length) {
       setInfos([]);
     }
-  }, [queryIds, queryInfos]);
+  }, [allAccounts, queryIds, queryInfos]);
 
   const _rowAdd = useCallback(
     () => setInfos((infos) => infos && infos.concat([[allAccounts[0], '']])),
@@ -63,19 +107,41 @@ function IdentitySub ({ address, className, onClose }: Props): React.ReactElemen
     []
   );
 
+  const _setAddress = useCallback(
+    (index: number, address: string) => setInfos((infos) => (infos || []).map(([a, n], i) => [index === i ? address : a, n])),
+    []
+  );
+
+  const _setName = useCallback(
+    (index: number, name: string) => setInfos((infos) => (infos || []).map(([a, n], i) => [a, index === i ? name : n])),
+    []
+  );
+
   return (
     <Modal
       className={className}
       header={t<string>('Register sub-identities')}
+      size='large'
     >
       <Modal.Content>
         {!infos
           ? <Spinner label={t<string>('Retrieving sub-identities')} />
           : (
             <div>
-              {infos.map(([address, name], index) =>
-                <div key={`${address}:${index}`}>{address}&nbsp;{name}</div>
-              )}
+              {!infos.length
+                ? <article>{t('No sub identities set.')}</article>
+                : infos.map(([address, name], index) =>
+                  <IdentitySubMemo
+                    address={address}
+                    index={index}
+                    key={index}
+                    name={name}
+                    setAddress={_setAddress}
+                    setName={_setName}
+                    t={t}
+                  />
+                )
+              }
               <Button.Group>
                 <Button
                   icon='plus'
@@ -99,7 +165,7 @@ function IdentitySub ({ address, className, onClose }: Props): React.ReactElemen
         {infos && (
           <TxButton
             accountId={address}
-            isDisabled={!infos.length || infos.some(([, raw]) => !raw)}
+            isDisabled={infos.some(([address, raw]) => !address || !raw)}
             isPrimary
             label={t<string>('Set Subs')}
             onStart={onClose}
@@ -114,4 +180,4 @@ function IdentitySub ({ address, className, onClose }: Props): React.ReactElemen
   );
 }
 
-export default React.memo(IdentitySub);
+export default React.memo(IdentitySubModal);
