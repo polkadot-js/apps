@@ -3224,7 +3224,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.10.4
     "@babel/polyfill": ^7.10.4
-    "@polkadot/dev": ^0.55.19
+    "@polkadot/dev": ^0.55.20
     "@polkadot/react-components": 0.48.0-beta.16
     "@types/react": ^16.9.41
     "@types/react-dom": ^16.9.8
@@ -3255,7 +3255,7 @@ __metadata:
     "@babel/core": ^7.10.4
     "@babel/polyfill": ^7.10.4
     "@babel/runtime": ^7.10.4
-    "@polkadot/dev": ^0.55.19
+    "@polkadot/dev": ^0.55.20
     "@polkadot/react-components": 0.48.0-beta.16
     "@polkadot/react-signer": 0.48.0-beta.16
     babel-loader: ^8.1.0
@@ -3275,9 +3275,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.55.19":
-  version: 0.55.19
-  resolution: "@polkadot/dev@npm:0.55.19"
+"@polkadot/dev@npm:^0.55.20":
+  version: 0.55.20
+  resolution: "@polkadot/dev@npm:0.55.20"
   dependencies:
     "@babel/cli": ^7.10.4
     "@babel/core": ^7.10.4
@@ -3306,10 +3306,10 @@ __metadata:
     babel-jest: ^26.1.0
     babel-plugin-module-resolver: ^4.0.0
     babel-plugin-styled-components: ^1.10.7
-    browserslist: ^4.12.2
+    browserslist: ^4.13.0
     coveralls: ^3.1.0
     cpx: ^1.5.0
-    eslint: ^7.3.1
+    eslint: ^7.4.0
     eslint-config-standard: ^14.1.1
     eslint-import-resolver-node: ^0.3.4
     eslint-plugin-header: ^3.0.0
@@ -3339,7 +3339,7 @@ __metadata:
     vuepress: ^1.5.2
     webpack: ^4.43.0
     webpack-cli: ^3.3.12
-    yargs: ^15.3.1
+    yargs: ^15.4.0
   bin:
     polkadot-ci-ghact-build: scripts/polkadot-ci-ghact-build.js
     polkadot-ci-ghact-docs: scripts/polkadot-ci-ghact-docs.js
@@ -3360,7 +3360,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: 3/5f690f0995be5cbbf0b3522f7e494c3a23c1e35632918af0c34842363b5c93431192b058878c9cc91a1110a84c5aef1fd3100ed84ea2371d2c5af5322f877d31
+  checksum: 3/6cf7767a27f96be988064b43071898f9216e1ddedfc1de3d5c7dc4f4f0dddc2091de4127b15837ec572d3adaf4e29046e5c4704958fb73af9fd5a18761a2ca1f
   languageName: node
   linkType: hard
 
@@ -5266,14 +5266,14 @@ __metadata:
   linkType: hard
 
 "ajv@npm:^6.1.0, ajv@npm:^6.10.0, ajv@npm:^6.10.2, ajv@npm:^6.12.0, ajv@npm:^6.12.2, ajv@npm:^6.5.5":
-  version: 6.12.2
-  resolution: "ajv@npm:6.12.2"
+  version: 6.12.3
+  resolution: "ajv@npm:6.12.3"
   dependencies:
     fast-deep-equal: ^3.1.1
     fast-json-stable-stringify: ^2.0.0
     json-schema-traverse: ^0.4.1
     uri-js: ^4.2.2
-  checksum: 3/09f3d7992c4a6e554e65accab279878c2da2a7e3ca782032de51c7c91d80a43a3e2aeb26efb8e8950b3941a89882f21aaca1170dafada784a7a0f275b5e6e745
+  checksum: 3/b20a171bf30ede1635c6b1955bcc1db5a6b3e7dfa77f75aace9fb0db87375430c46d5cdd84158a0bf0a8da91e4da97bdb1afe5604a0969d8468b7c11143fdbba
   languageName: node
   linkType: hard
 
@@ -6479,17 +6479,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.12.2, browserslist@npm:^4.8.5":
-  version: 4.12.2
-  resolution: "browserslist@npm:4.12.2"
+"browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.13.0, browserslist@npm:^4.8.5":
+  version: 4.13.0
+  resolution: "browserslist@npm:4.13.0"
   dependencies:
-    caniuse-lite: ^1.0.30001088
-    electron-to-chromium: ^1.3.483
+    caniuse-lite: ^1.0.30001093
+    electron-to-chromium: ^1.3.488
     escalade: ^3.0.1
     node-releases: ^1.1.58
   bin:
     browserslist: cli.js
-  checksum: 3/d590e11792902564ad943367ff68b121be573f3868ff505c6d939aa14ff55eab772898f2141a1125f370983bfa86cc06cd4e6c36cd12490304d1769c6df97ba0
+  checksum: 3/91657dcc024f03f7b8a03f897e4a15c73774f39040f4e2fa9cb0e10b057113d71c97b29721590a80bf03dccfae1d69ad3fdf7326644c2c41cdd0410fb1a679a0
   languageName: node
   linkType: hard
 
@@ -6915,10 +6915,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001087, caniuse-lite@npm:^1.0.30001088":
-  version: 1.0.30001093
-  resolution: "caniuse-lite@npm:1.0.30001093"
-  checksum: 3/0171e3afbf7721e2f5e2e848c2acca2f7d31fe393540fccafa7d01d16e980c4b3b2ac33a80d9e816069fd9d14aa0e45bade05f9165c821faa480f08fe6662402
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001087, caniuse-lite@npm:^1.0.30001093":
+  version: 1.0.30001094
+  resolution: "caniuse-lite@npm:1.0.30001094"
+  checksum: 3/7b3ee77fda7b03fd613f39098452eecba004345c511779ed242393c06e45c9540dbb7deb9b21fc7a355ae6d8194e014395630d9a11172749f02f355a71665213
   languageName: node
   linkType: hard
 
@@ -7544,9 +7544,9 @@ __metadata:
   linkType: hard
 
 "colorette@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "colorette@npm:1.2.0"
-  checksum: 3/eed33a36778d6038f217a322960b775fa1603c301edc223ad13ad03f3c33e035b4ae12ac5ff3aa06637d0b8234b95f86d7f36f128845ddd11bcff5d1f5cf6237
+  version: 1.2.1
+  resolution: "colorette@npm:1.2.1"
+  checksum: 3/1cc21ad4b84777a424794f78b6bb6a44b614ae17dcea91762199339f8047598e6d981249eeef7ea588c99eaf062be8fcdcd4866c112998922ed854db6dde96f9
   languageName: node
   linkType: hard
 
@@ -9608,10 +9608,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.3.483":
-  version: 1.3.485
-  resolution: "electron-to-chromium@npm:1.3.485"
-  checksum: 3/e1d01a40ea673c72e9a836d09eb3fea11d490a42a8f41cf01cbe912ed3e28fd01e873f08959ea26f58256976c4d00631a8e9ef06587faa945279c2cc93e19c59
+"electron-to-chromium@npm:^1.3.488":
+  version: 1.3.488
+  resolution: "electron-to-chromium@npm:1.3.488"
+  checksum: 3/55f9f86483a2ba998b128de2f659a09ebe0ff46ac3518ebe948306999bfeab7567a1e40111ba65251ee84198dee575c6970ce4e91a59182ee923eb5234cc39ac
   languageName: node
   linkType: hard
 
@@ -10200,9 +10200,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.3.1":
-  version: 7.3.1
-  resolution: "eslint@npm:7.3.1"
+"eslint@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "eslint@npm:7.4.0"
   dependencies:
     "@babel/code-frame": ^7.0.0
     ajv: ^6.10.0
@@ -10242,7 +10242,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 3/5d9fd38514ffb43d0c326488bae2338861a654d507e40594f0d6b39efee5d91ec3105d5408f2add6891e8b47d512a75f06b4ce974c2d70bc6d9ae62574b31deb
+  checksum: 3/ef144e684ce031b045aca156439af5c5ec8a9b843613ed2948bb28ed767dc5e106d9f057a9bf93c752071b7833656bc7affa1d28daa9609c6ea59d1311f0a8de
   languageName: node
   linkType: hard
 
@@ -12749,11 +12749,11 @@ __metadata:
   linkType: hard
 
 "i18next@npm:*, i18next@npm:^19.5.3":
-  version: 19.5.3
-  resolution: "i18next@npm:19.5.3"
+  version: 19.5.4
+  resolution: "i18next@npm:19.5.4"
   dependencies:
     "@babel/runtime": ^7.10.1
-  checksum: 3/86d1036a5473c32746a6eb873dc41aadbf0bc94db411d59e667d193a263de5c7178dd66712624851d53eec54cdc4073001569921d98f632681704dc37ed0cd57
+  checksum: 3/ef5009f2104ba494bd4ac10b861d9c61554722f2a303de7e23ca29ccc80c466f9c7bc0a907ee180241b4a6f271ed19d8183fa69e0367626cec0f16c673a66d2b
   languageName: node
   linkType: hard
 
@@ -18068,7 +18068,7 @@ __metadata:
     "@babel/register": ^7.10.4
     "@babel/runtime": ^7.10.4
     "@pinata/sdk": ^1.1.10
-    "@polkadot/dev": ^0.55.19
+    "@polkadot/dev": ^0.55.20
     "@polkadot/ts": ^0.3.27
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.22
@@ -24630,8 +24630,8 @@ __metadata:
   linkType: hard
 
 "ws@npm:^7.1.0, ws@npm:^7.2.3":
-  version: 7.3.0
-  resolution: "ws@npm:7.3.0"
+  version: 7.3.1
+  resolution: "ws@npm:7.3.1"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ^5.0.2
@@ -24640,7 +24640,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 3/c1f386013bd30afa9e4d0aa28eee85767a9e1b8fa74fc482eac503840f1012c2c1339745be36b0737f0245515646892b6073e376deac911a7bdf1ec90fc0f86f
+  checksum: 3/9302f1f6658c5f3ecd6d35d1c5a38ad708d8e5404cba66ad884ead072ef7a4c948f54d728649a2cb3af1865ca0e15f903e0e2ac9df30c1a0d4dd00d00e6e0d4a
   languageName: node
   linkType: hard
 
