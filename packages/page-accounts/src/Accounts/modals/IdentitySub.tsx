@@ -99,7 +99,7 @@ function IdentitySub ({ address, className, onClose }: Props): React.ReactElemen
         {infos && (
           <TxButton
             accountId={address}
-            isDisabled={!infos.length}
+            isDisabled={!infos.length || infos.some(([, raw]) => !raw)}
             isPrimary
             label={t<string>('Set Subs')}
             onStart={onClose}
