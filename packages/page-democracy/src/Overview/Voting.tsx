@@ -6,11 +6,10 @@ import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
+import { Button, ConvictionDropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
-import ConvictionDropdown from '../../../react-components/src/ConvictionDropdown';
 import { useTranslation } from '../translate';
 
 interface Props {

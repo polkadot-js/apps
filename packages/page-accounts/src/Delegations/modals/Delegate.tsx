@@ -6,12 +6,11 @@ import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { ConvictionDropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
 import { Conviction } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
-import ConvictionDropdown from '../../../../react-components/src/ConvictionDropdown';
 import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
 
