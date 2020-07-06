@@ -6,7 +6,7 @@ import { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import map from '@polkadot/jsonrpc';
+import map from '../CennznetJsonRpc';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {
   const section = map[sectionName];
@@ -25,7 +25,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
     })
     .map((value): DropdownOption => {
       const { description, params } = section.methods[value];
-      const inputs = params.map(({ name }): string => name).join(', ');
+      const inputs = params.map(({ name }: { name : string }): string => name).join(', ');
 
       return {
         className: 'ui--DropdownLinked-Item',
