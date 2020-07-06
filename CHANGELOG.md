@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.48.0-beta.x
+## 0.48.1 Jul 6, 2020
 
 - Fix identity set dialogs to never pass empty fields
 - Optimize favorites retrieval & selection for staking (shared)
