@@ -5,6 +5,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { FormatBalance } from '@polkadot/react-query';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
@@ -32,10 +33,9 @@ import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
 import UndelegateModal from './modals/Undelegate';
+import { Delegation } from '../types';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
-import { Delegation } from '../types';
-import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
   account: KeyringAddress;
@@ -91,8 +91,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
   const [isForgetOpen, toggleForget] = useToggle();
-  const [isDelegateOpen, toggleDelegate] = useToggle();
-  const [isUndelegateOpen, toggleUndelegate] = useToggle();
   const [isIdentityMainOpen, toggleIdentityMain] = useToggle();
   const [isIdentitySubOpen, toggleIdentitySub] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -101,6 +99,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
+  const [isDelegateOpen, toggleDelegate] = useToggle();
+  const [isUndelegateOpen, toggleUndelegate] = useToggle();
 
   useEffect((): void => {
     if (balancesAll) {
