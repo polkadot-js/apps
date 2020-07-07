@@ -57,11 +57,14 @@ export default function useAccountInfo (value: string | null, isContract = false
   }, [accountFlags]);
 
   useEffect((): void => {
-    const { accountIndex: anAccountIndex, identity, nickname } = accountInfo || {};
+    const { accountIndex, identity, nickname } = accountInfo || {};
+    const newIndex = accountIndex?.toString();
 
-    if (accountIndex !== anAccountIndex?.toString()) {
-      setAccountIndex(anAccountIndex?.toString());
-    }
+    setAccountIndex((oldIndex) =>
+      oldIndex !== newIndex
+        ? newIndex
+        : oldIndex
+    );
 
     let name;
 
