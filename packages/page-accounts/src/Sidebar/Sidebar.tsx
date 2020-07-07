@@ -24,7 +24,7 @@ interface Props {
 
 function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { accountIndex, flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
@@ -61,6 +61,11 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
         <div className='ui--AddressMenu-addr'>
           {address}
         </div>
+        {accountIndex && (
+          <div className='ui--AddressMenu-addr'>
+            {accountIndex}
+          </div>
+        )}
         <AccountName
           onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
           override={
@@ -233,8 +238,13 @@ export default React.memo(styled(Sidebar)`
     font-family: monospace;
     margin: 0.5rem 0;
     overflow: hidden;
+    text-align: center;
     text-overflow: ellipsis;
     width: 100%;
+  }
+
+  .ui--AddressMenu-addr+.ui--AddressMenu-addr {
+    margin-top: -0.25rem;
   }
 
   section {
