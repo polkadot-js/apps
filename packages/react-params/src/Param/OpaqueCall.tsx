@@ -6,35 +6,25 @@ import { Props } from '../types';
 
 import React from 'react';
 import { registry } from '@polkadot/react-api';
-import { Call, Static } from '@polkadot/react-components';
 import { Bytes } from '@polkadot/types';
 
-import Bare from './Bare';
+import CallDisplay from './Call';
 import Unknown from './Unknown';
 
 function OpaqueCall (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue: { value }, isDisabled, label, withLabel } = props;
-
-  if (!isDisabled) {
+  if (!props.isDisabled) {
     return (
       <Unknown {...props} />
     );
   }
 
-  const call = registry.createType('Call', (value as Bytes).toHex());
-  const { method, section } = registry.findMetaCall(call.callIndex);
+  const value = registry.createType('Call', (props.defaultValue.value as Bytes).toHex());
 
   return (
-    <Bare>
-      <Static
-        className={`${className} full`}
-        label={label}
-        withLabel={withLabel}
-      >
-        {section}.{method}
-      </Static>
-      <Call value={call} />
-    </Bare>
+    <CallDisplay
+      {...props}
+      defaultValue={{ isValid: true, value }}
+    />
   );
 }
 
