@@ -187,6 +187,7 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
 export default React.memo(styled(AccountName)`
   border: 1px dotted transparent;
   height: 24px; // align with IdentityIcon
+  padding-top: 1px;
 
   &.withSidebar:hover {
     border-bottom-color: #333;
