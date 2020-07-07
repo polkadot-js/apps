@@ -24,6 +24,7 @@ import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Moment from './Moment';
 import Null from './Null';
+import OpaqueCall from './OpaqueCall';
 import Option from './Option';
 import Raw from './Raw';
 import Struct from './Struct';
@@ -56,6 +57,7 @@ const componentDef: TypeToComponent[] = [
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
   { c: Null, t: ['Null'] },
+  { c: OpaqueCall, t: ['OpaqueCall'] },
   { c: Option, t: ['Option'] },
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
