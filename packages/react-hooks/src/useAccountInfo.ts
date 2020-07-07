@@ -100,7 +100,7 @@ export default function useAccountInfo (value: string | null, isContract = false
     } else {
       setIdentity(undefined);
     }
-  }, [accountIndex, accountInfo, api]);
+  }, [accountInfo, api]);
 
   useEffect((): void => {
     if (value) {
