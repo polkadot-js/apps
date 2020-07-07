@@ -1,10 +1,20 @@
 # CHANGELOG
 
-## 0.48.0-beta.x
+## 0.48.1 Jul 6, 2020
 
+- Fix for electron package build (Thanks to https://github.com/EthWorks)
+- Allow for setting of sub identities via account action
+- Adjust known account icons (Society & Treasury)
+- Add Westend chain to Subscan link generator
+- Display a warning with extensions and no injected accounts
+- Retrieve all tips at once and sort by closing
 - Fix identity set dialogs to never pass empty fields
-- Optimize favorites retrieval & selection for staking (shared)
+- Optimize favorites retrieval & selection for staking (shared between)
 - Support new registrar ProxyType in the signer
+- Hide funds unbonding when non bonded
+- Add withdraw action to staking menu (as available)
+- Fix InputAddress component with state change warnings
+- Bump to latest API and utilities
 
 ## 0.47.1 Jul 1, 2020
 

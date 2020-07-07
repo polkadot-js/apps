@@ -120,9 +120,10 @@ function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): 
 class InputAddress extends React.PureComponent<Props, State> {
   public state: State = {};
 
-  public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> | null {
+  public static getDerivedStateFromProps ({ type, value }: Props, { lastValue }: State): Pick<State, never> | null {
     try {
       return {
+        lastValue: lastValue || getLastValue(type),
         value: Array.isArray(value)
           ? value.map(addressToAddress)
           : (addressToAddress(value) || undefined)
@@ -134,14 +135,13 @@ class InputAddress extends React.PureComponent<Props, State> {
 
   public render (): React.ReactNode {
     const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
-    const { value } = this.state;
+    const { lastValue, value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
     if (!hasOptions && !isDisabled) {
       return null;
     }
 
-    const lastValue = this.getLastValue();
     const lastOption = this.getLastOptionValue();
     const actualValue = transformToAddress(
       isDisabled || (defaultValue && this.hasValue(defaultValue))
@@ -239,21 +239,6 @@ class InputAddress extends React.PureComponent<Props, State> {
           .filter((address): string => address as string) as string[]
       );
     }
-  }
-
-  private getLastValue (): string {
-    const { type } = this.props;
-    const { lastValue: stateLast } = this.state;
-
-    if (stateLast) {
-      return stateLast;
-    }
-
-    const lastValue = getLastValue(type);
-
-    this.setState(() => ({ lastValue }));
-
-    return lastValue;
   }
 
   private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {

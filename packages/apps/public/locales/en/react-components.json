@@ -1,4 +1,5 @@
 {
+  "0.1x voting balance, no lockup period": "0.1x voting balance, no lockup period",
   "Aye, I approve": "Aye, I approve",
   "Cancel": "Cancel",
   "Confirm account removal": "Confirm account removal",
@@ -72,5 +73,6 @@
   "vote with account": "vote with account",
   "voting balance": "voting balance",
   "{{blocks}} blocks": "{{blocks}} blocks",
-  "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)"
+  "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
+  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
 }

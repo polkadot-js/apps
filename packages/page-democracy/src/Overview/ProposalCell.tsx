@@ -30,7 +30,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
 
     return (
       <td className={`${className} all`}>
-        <label>{t('preimage {{hash}}', { replace: { hash: `${textHash.slice(0, 8)}…${textHash.slice(-8)}` } })}</label>
+        {t('preimage {{hash}}', { replace: { hash: `${textHash.slice(0, 8)}…${textHash.slice(-8)}` } })}
       </td>
     );
   }

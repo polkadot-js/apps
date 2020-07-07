@@ -30,6 +30,7 @@ export { default as ChainLock } from './ChainLock';
 export { default as Chart } from './Chart';
 export { default as Columar } from './Columar';
 export { default as Column } from './Column';
+export { default as ConvictionDropdown } from './ConvictionDropdown';
 export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';
