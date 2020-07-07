@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.49.0-beta.x
+
+- Allow input & display of OpaqueCall type from multisig
+- Indicate own nominees on targets page (re-added with badges)
+
 ## 0.48.1 Jul 6, 2020
 
 - Fix for electron package build (Thanks to https://github.com/EthWorks)
