@@ -3,11 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringJson, KeyringStore } from '@polkadot/ui-keyring/types';
-import { electronMainApi } from '../api/global-exported-api';
+import { AccountStoreApi } from '../api/account-store-api';
 
 export class RemoteElectronStore implements KeyringStore {
+  readonly #accountStore: AccountStoreApi;
+
+  constructor (accountStore: AccountStoreApi) {
+    this.#accountStore = accountStore;
+  }
+
   all (cb: (key: string, value: KeyringJson) => void): void {
-    electronMainApi.accountStore.all()
+    this.#accountStore.all()
       .then((result: { key: string, value: KeyringJson }[]) => result.forEach(({ key, value }) => cb(key, value)))
       .catch(() => {
         throw new Error('error getting all accounts');
@@ -15,20 +21,20 @@ export class RemoteElectronStore implements KeyringStore {
   }
 
   get (key: string, cb: (value: KeyringJson) => void): void {
-    electronMainApi.accountStore.get(key)
+    this.#accountStore.get(key)
       .then(cb).catch(() => {
         throw new Error('error storing account');
       });
   }
 
   remove (key: string, cb: (() => void) | undefined): void {
-    electronMainApi.accountStore.remove(key).then(cb).catch(() => {
+    this.#accountStore.remove(key).then(cb).catch(() => {
       throw new Error('error removing account');
     });
   }
 
   set (key: string, value: KeyringJson, cb: (() => void) | undefined): void {
-    electronMainApi.accountStore.set(key, value).then(cb).catch(() => {
+    this.#accountStore.set(key, value).then(cb).catch(() => {
       throw new Error('error saving account');
     });
   }
