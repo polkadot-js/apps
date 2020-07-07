@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
@@ -14,7 +15,6 @@ import { isFunction, stringToU8a } from '@polkadot/util';
 
 import { getAddressName } from './util';
 import Badge from './Badge';
-import Icon from './Icon';
 
 interface Props {
   children?: React.ReactNode;
@@ -77,7 +77,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
       {isSpecial && (
         <Badge
           color='green'
-          info={<Icon icon='archway' />}
+          icon='archway'
           isInline
           isSmall
         />
@@ -91,12 +91,12 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
   );
 }
 
-function createIdElem (color: 'green' | 'red' | 'gray', nameElem: React.ReactNode, infoElem: React.ReactNode): React.ReactNode {
+function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray', icon: IconName): React.ReactNode {
   return (
     <div className='via-identity'>
       <Badge
         color={color}
-        info={infoElem}
+        icon={icon}
         isInline
         isSmall
         isTooltip
@@ -113,27 +113,27 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   const displayName = isGood
     ? identity.display
     : (identity.display || '').replace(/[^\x20-\x7E]/g, '');
-  const displayParent = identity.displayParent
-    ? (
-      isGood
-        ? identity.displayParent
-        : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
-    )
-    : undefined;
-  const nameElem = (
-    <span className={`name ${isGood ? 'isGood' : ''}`}>
-      {displayParent
-        ? <><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></>
-        : displayName
-      }
-    </span>
+  const displayParent = identity.displayParent && (
+    isGood
+      ? identity.displayParent
+      : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
   );
-  const infoElem = <Icon icon={identity.parent ? 'link' : (isGood ? 'check' : 'minus')} />;
-  const color = isGood ? 'green' : (isBad ? 'red' : 'gray');
+  const elem = createIdElem(
+    (
+      <span className={`name ${isGood ? 'isGood' : ''}`}>
+        {displayParent
+          ? <><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></>
+          : displayName
+        }
+      </span>
+    ),
+    isGood ? 'green' : (isBad ? 'red' : 'gray'),
+    identity.parent ? 'link' : (isGood ? 'check' : 'minus')
+  );
 
-  displayCache.set(address, createIdElem(color, nameElem, infoElem));
+  displayCache.set(address, elem);
 
-  return createIdElem(color, nameElem, infoElem);
+  return elem;
 }
 
 function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {

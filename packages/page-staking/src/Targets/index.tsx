@@ -53,6 +53,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
+  const [myNominees, setMyNominees] = useState<string[]>([]);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [withElected, setWithElected] = useState(false);
   const [withIdentity, setWithIdentity] = useState(false);
@@ -63,6 +64,17 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
       sort(sortBy, sortFromMax, validators)
     );
   }, [sortBy, sortFromMax, validators]);
+
+  useEffect((): void => {
+    ownNominators && setMyNominees(
+      ownNominators.reduce((myNominees: string[], nominator): string[] =>
+        (nominator.nominating || []).reduce((myNominees: string[], nominee): string[] => {
+          !myNominees.includes(nominee) && myNominees.push(nominee);
+
+          return myNominees;
+        }, myNominees), [])
+    );
+  }, [ownNominators]);
 
   const _sort = useCallback(
     (newSortBy: TargetSortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
@@ -188,6 +200,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
             canSelect={selected.length < MAX_NOMINATIONS}
             filterName={nameFilter}
             info={validators[index]}
+            isNominated={myNominees.includes(validators[index].key)}
             isSelected={selected.includes(validators[index].key)}
             key={validators[index].key}
             toggleFavorite={toggleFavorite}
