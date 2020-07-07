@@ -13,7 +13,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, Label, LinkExternal, Menu, Popup, StatusContext, Tags, Expander } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -35,6 +35,7 @@ import Undelegate from './modals/Undelegate';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 import { Delegation } from '../types';
+import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
   account: KeyringAddress;
@@ -348,7 +349,23 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       </td>
       <td className='address'>
         {delegation && (
-          <AddressMini value={delegation.accountDelegated} />
+          <Expander
+            className='addressExpander'
+            summary={<AddressMini value={delegation.accountDelegated} />}
+          >
+            <div className='body column'>
+              <Label label={t<string>('amount')} />
+              <div className='result'>
+                <FormatBalance
+                  value={delegation.amount}
+                />
+              </div>
+              <Label label={t<string>('conviction')} />
+              <div className='result'>
+                {delegation.conviction.toString()}
+              </div>
+            </div>
+          </Expander>
         )}
       </td>
       <td className='number'>
@@ -520,5 +537,28 @@ export default React.memo(styled(Account)`
   .tags {
     width: 100%;
     min-height: 1.5rem;
+  }
+
+  .addressExpander {
+    display: flex;
+    align-items: center;
+  }
+
+  .column {
+    flex: 1;
+    display: grid;
+    opacity: 1;
+    justify-content: start;
+
+    label {
+      grid-column: 1;
+      padding-right: 0.5rem;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    .result {
+      grid-column: 2;
+    }
   }
 `);
