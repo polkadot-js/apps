@@ -119,7 +119,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(() => [
     [t('accounts'), 'start', 3],
     [t('parent'), 'address'],
-    [t('delgate'), 'address ui--media-1500'],
+    [t('delegation'), 'address ui--media-1500'],
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],

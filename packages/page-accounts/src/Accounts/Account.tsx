@@ -23,7 +23,7 @@ import { useTranslation } from '../translate';
 import { createMenuGroup } from '../util';
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
-import Delegate from './modals/Delegate';
+import DelegateModal from './modals/Delegate';
 import Derive from './modals/Derive';
 import IdentityMain from './modals/IdentityMain';
 import IdentitySub from './modals/IdentitySub';
@@ -31,7 +31,7 @@ import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
-import Undelegate from './modals/Undelegate';
+import UndelegateModal from './modals/Undelegate';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 import { Delegation } from '../types';
@@ -348,6 +348,23 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         )}
       </td>
       <td className='address'>
+        {isDelegateOpen && (
+          <DelegateModal
+            amount={delegation?.amount}
+            conviction={delegation?.conviction}
+            delegatedAccount={delegation?.accountDelegated}
+            delegatingAccount={address}
+            key='modal-delegate'
+            onClose={toggleDelegate}
+          />
+        )}
+        {isUndelegateOpen && (
+          <UndelegateModal
+            accountDelegating={address}
+            key='modal-delegate'
+            onClose={toggleUndelegate}
+          />
+        )}
         {delegation && (
           <Expander
             className='addressExpander'
@@ -512,6 +529,28 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 {t('Multisig approvals')}
               </Menu.Item>
             ])}
+            {delegation?.accountDelegated && createMenuGroup([
+              (<Menu.Item
+                key='changeDelegate'
+                onClick={toggleDelegate}
+              >
+                {t('Change delegation')}
+              </Menu.Item>),
+              (<Menu.Item
+                key='undelegate'
+                onClick={toggleUndelegate}
+              >
+                {t('Undelegate')}
+              </Menu.Item>)
+            ])}
+            {!delegation?.accountDelegated && createMenuGroup([
+              (<Menu.Item
+                key='delegate'
+                onClick={toggleDelegate}
+              >
+                {t('Delegate')}
+              </Menu.Item>)
+            ])}
             <ChainLock
               className='accounts--network-toggle'
               genesisHash={genesisHash}
@@ -534,21 +573,21 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 }
 
 export default React.memo(styled(Account)`
+  .addressExpander .ui--Expander-summary-header{
+    display: flex;
+    align-items: center;
+  }
+
   .tags {
     width: 100%;
     min-height: 1.5rem;
-  }
-
-  .addressExpander {
-    display: flex;
-    align-items: center;
   }
 
   .column {
     flex: 1;
     display: grid;
     opacity: 1;
-    justify-content: start;
+    justify-content: start !important;
 
     label {
       grid-column: 1;
