@@ -197,6 +197,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
               : 'off'
           }
           autoCorrect='off'
+          data-testid={label}
           onPaste={_onPaste}
           spellCheck={false}
         />
