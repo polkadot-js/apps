@@ -4,9 +4,11 @@
 
 import { DeriveSocietyMember } from '@polkadot/api-derive/types';
 
-import React from 'react';
-import { AddressSmall, Tag } from '@polkadot/react-components';
+import React, { useEffect, useRef } from 'react';
+import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
+import drawCanary from '../draw/canary';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -15,8 +17,25 @@ interface Props {
   value: DeriveSocietyMember;
 }
 
+const CANVAS_STYLE = {
+  display: 'block',
+  margin: '0 auto'
+};
+
 function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isInkShowing, toggleInk] = useToggle();
+
+  useEffect((): void => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext('2d');
+
+      if (ctx) {
+        drawCanary(ctx, accountId);
+      }
+    }
+  });
 
   return (
     <tr className={className}>
@@ -35,6 +54,30 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
       <td className='all'>&nbsp;</td>
       <td className='number top'>
         {strikes.toString()}
+      </td>
+      <td>
+        <Icon
+          icon='pen-nib'
+          onClick={toggleInk}
+        />
+        {isInkShowing && (
+          <Modal
+            header={t('design samples')}
+            size='large'
+          >
+            <Modal.Content>
+              <canvas
+                height={500}
+                ref={canvasRef}
+                style={CANVAS_STYLE}
+                width={750}
+              />
+            </Modal.Content>
+            <Modal.Actions onCancel={toggleInk}>
+              &nbsp;
+            </Modal.Actions>
+          </Modal>
+        )}
       </td>
     </tr>
   );
