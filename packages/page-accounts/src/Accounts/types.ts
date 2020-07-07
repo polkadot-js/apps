@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { Balance, Conviction } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import { WithTranslation } from 'react-i18next';
@@ -21,15 +20,13 @@ export interface ModalProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-export interface Delegation {
-  accountDelegated: string
-  amount: Balance
-  conviction: Conviction
-}
-
 export interface SortedAccount {
   account: KeyringAddress;
   children: SortedAccount[];
   isFavorite: boolean;
-  delegation?: Delegation;
+}
+
+export interface AmountValidateState {
+  error: string | null;
+  warning: string | null;
 }

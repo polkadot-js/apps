@@ -23,6 +23,7 @@ import { useTranslation } from '../translate';
 import { createMenuGroup } from '../util';
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
+import Delegate from './modals/Delegate';
 import Derive from './modals/Derive';
 import IdentityMain from './modals/IdentityMain';
 import IdentitySub from './modals/IdentitySub';
@@ -30,12 +31,15 @@ import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
+import Undelegate from './modals/Undelegate';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
+import { Delegation } from '../types';
 
 interface Props {
   account: KeyringAddress;
   className?: string;
+  delegation?: Delegation;
   filter: string;
   isFavorite: boolean;
   setBalance: (address: string, value: BN) => void;
@@ -67,7 +71,7 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
   );
 }
 
-function Account ({ account: { address, meta }, className = '', filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
@@ -86,6 +90,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const [isBackupOpen, toggleBackup] = useToggle();
   const [isDeriveOpen, toggleDerive] = useToggle();
   const [isForgetOpen, toggleForget] = useToggle();
+  const [isDelegateOpen, toggleDelegate] = useToggle();
+  const [isUndelegateOpen, toggleUndelegate] = useToggle();
   const [isIdentityMainOpen, toggleIdentityMain] = useToggle();
   const [isIdentitySubOpen, toggleIdentitySub] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
@@ -338,6 +344,11 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
       <td className='address'>
         {meta.parentAddress && (
           <AddressMini value={meta.parentAddress} />
+        )}
+      </td>
+      <td className='address'>
+        {delegation && (
+          <AddressMini value={delegation.accountDelegated} />
         )}
       </td>
       <td className='number'>

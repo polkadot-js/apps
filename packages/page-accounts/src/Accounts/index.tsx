@@ -3,16 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { SortedAccount } from '../types';
+import { SortedAccount, Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
-import { useApi, useAccounts, useFavorites, useIpfs, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAccounts, useFavorites, useIpfs, useToggle, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
+import { Voting } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -65,12 +66,42 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
   const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
   const [filterOn, setFilter] = useState<string>('');
+  const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
+  const sortedAddresses = sortedAccounts.map((a) => a.account.address);
+  const delegations = useCall<Voting[]>(api.query.democracy.votingOf.multi, [sortedAddresses]);
 
   useEffect((): void => {
     setSortedAccounts(
       sortAccounts(allAccounts, favorites)
     );
   }, [allAccounts, favorites]);
+
+  useEffect(() => {
+    if (!delegations?.length) {
+      return;
+    }
+
+    const sortedAccountsWithDelegation = sortedAccounts?.map((account, index) => {
+      let delegation: Delegation | undefined;
+
+      if (delegations[index].isDelegating) {
+        const _delegation = delegations[index].asDelegating;
+
+        delegation = {
+          accountDelegated: _delegation.target.toString(),
+          amount: _delegation.balance,
+          conviction: _delegation.conviction
+        };
+      }
+
+      return ({
+        ...account,
+        delegation
+      });
+    });
+
+    setSortedAccountsWithDelegation(sortedAccountsWithDelegation);
+  }, [delegations, sortedAccounts]);
 
   const _setBalance = useCallback(
     (account: string, balance: BN) =>
@@ -88,6 +119,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(() => [
     [t('accounts'), 'start', 3],
     [t('parent'), 'address'],
+    [t('delgate'), 'address'],
+    [],
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],
@@ -198,9 +231,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         footer={footer}
         header={header}
       >
-        {sortedAccounts.map(({ account, isFavorite }): React.ReactNode => (
+        {sortedAccountsWithDelegation.map(({ account, delegation, isFavorite }): React.ReactNode => (
           <Account
             account={account}
+            delegation={delegation}
             filter={filterOn}
             isFavorite={isFavorite}
             key={account.address}
