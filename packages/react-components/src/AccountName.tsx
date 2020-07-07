@@ -200,14 +200,13 @@ export default React.memo(styled(AccountName)`
     width: 100%;
 
     .name {
-      display: inline-block;
       font-weight: normal !important;
       filter: grayscale(100%);
       height: 16px; // align with Badge
       line-height: 1;
       opacity: 0.6;
       text-transform: uppercase;
-      vertical-align: bottom;
+      vertical-align: middle;
 
       &.isAddress {
         font-family: monospace;
@@ -222,11 +221,6 @@ export default React.memo(styled(AccountName)`
       .sub {
         font-size: 0.75rem;
         opacity: 0.75;
-      }
-
-      .sub,
-      .top {
-        vertical-align: bottom;
       }
     }
   }
