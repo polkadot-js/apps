@@ -18,6 +18,7 @@ import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 
+import { colors } from '../../../../styled-theming';
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
 
@@ -210,7 +211,7 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
   return (
     <Modal
       className={className}
-      header={t('Add an account via seed')}
+      header={t('Create an account')}
     >
       {address && isConfirmationOpen && (
         <CreateConfirmation
@@ -229,17 +230,44 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
           <Input
             autoFocus
             className='full'
-            help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
             isError={!isNameValid}
-            label={t('name')}
+            label={t('Name your account (you can edit later)')}
             onChange={_onChangeName}
             onEnter={_onCommit}
-            placeholder={t('new account')}
+            placeholder={t('e.g. validate, nominate')}
             value={name}
           />
+          <Password
+            className='full'
+            isError={!isPassValid}
+            label={t('Password')}
+            onChange={_onChangePass}
+            onEnter={_onCommit}
+            value={password}
+          />
+          <Password
+              className='full'
+              isError={!isRepeatPassValid}
+              label={t('Confirm password')}
+              onChange={_onChangeRepeatPass}
+              onEnter={_onCommit}
+              value={repeatPassword}
+          />
+          <ul className='bullet-points'>
+            <li>
+              {t('This password encrypts your private key.')}
+            </li>
+            <li>
+              {t('This does not act as a seed to generate your keys.')}
+            </li>
+            <li>
+              {t('You will need this')}
+              <span className='password-info'> {t('password + your keystore file (download next step)')}</span>
+                {t(' to unlock your CENNZnet account.')}
+            </li>
+          </ul>
           <Input
             className='full'
-            help={t('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
             isAction
             isError={!isSeedValid}
             isReadOnly={seedType === 'dev'}
@@ -247,8 +275,8 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
               seedType === 'bip'
                 ? t('mnemonic seed')
                 : seedType === 'dev'
-                  ? t('development seed')
-                  : t('seed (hex or string)')
+                ? t('development seed')
+                : t('seed (hex or string)')
             }
             onChange={_onChangeSeed}
             onEnter={_onCommit}
@@ -261,24 +289,11 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
               options={seedOpt}
             />
           </Input>
-          <Password
-            className='full'
-            help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-            isError={!isPassValid}
-            label={t('password')}
-            onChange={_onChangePass}
-            onEnter={_onCommit}
-            value={password}
-          />
-          <Password
-              className='full'
-              help={t('Verify the password entered above.')}
-              isError={!isRepeatPassValid}
-              label={t('Confirm password')}
-              onChange={_onChangeRepeatPass}
-              onEnter={_onCommit}
-              value={repeatPassword}
-          />
+          <ul className='bullet-points'>
+            <li>
+              {t('Back it up on paper or hard drive.')}
+            </li>
+          </ul>
           <details
             className='accounts--Creator-advanced'
           >
@@ -322,5 +337,12 @@ function Create ({ className, onClose, onStatusChange, seed: propsSeed, type: pr
 export default styled(Create)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
+  }
+  .bullet-points {
+    margin-left: 0.3rem;
+    color: ${colors.grey};
+    .password-info {
+      color: black;
+    }
   }
 `;

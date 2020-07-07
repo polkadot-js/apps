@@ -72,6 +72,7 @@ export const red = '#F04E50';
 export const yellow = '#F3C321';
 export const green = '#60E497';
 export const blue = '#118FDE';
+export const grey = rgba(78,78,78,.66);
 
 
 export const brandPrimary = rgba(17, 48, 255, 0.9);

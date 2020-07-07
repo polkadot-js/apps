@@ -4,12 +4,13 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
+import { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import {useApi, useCall} from '@polkadot/react-hooks';
 import Available from './Available';
 import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
@@ -36,9 +37,13 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
   const [amount, setAmount] = useState<BN | undefined>(new BN(0));
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
   const [hasAvailable, setHasAvailable] = useState(true);
+  const [hasBalance, setHasBalance] = useState(false);
   const [options, setOptions] = useState<Option[]>([]);
   const [recipientId, setRecipientId] = useState(propRecipientId || null);
   const [senderId, setSenderId] = useState(propSenderId || null);
+  let id = assetId;
+  let user = senderId;
+  const assetBalance = useCall<Balance>(api.query.genericAsset.freeBalance as any, [id, user]);
 
   // build up our list of options via assets
   useEffect((): void => {
@@ -47,6 +52,11 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
       text: `${name} (${id})`
     })));
   }, [assets]);
+
+  useEffect((): void => {
+    setHasBalance( (assetBalance !== undefined) && !assetBalance.isZero());
+    setHasAvailable((amount !== undefined) && !amount.isZero());
+  }, [assetBalance, amount]);
 
   // create an extrinsic if we have correct values
   useEffect((): void => {
@@ -75,6 +85,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           isDisabled={!!propSenderId}
           label={t('send from account')}
           labelExtra={<Available label={transferrable} params={senderId} />}
+          isError={!hasBalance}
           onChange={setSenderId}
           type='account'
         />
@@ -113,7 +124,7 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
         <TxButton
           accountId={senderId}
           extrinsic={extrinsic}
-          isDisabled={!hasAvailable}
+          isDisabled={!hasAvailable || !hasBalance}
           isPrimary
           label={t('Make Transfer')}
           icon='send'
