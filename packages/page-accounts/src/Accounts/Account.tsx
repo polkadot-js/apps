@@ -234,7 +234,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
                 </table>
               </div>
             }
-            info={<Icon icon='shield' />}
+            icon='shield'
             isInline
             isTooltip
           />

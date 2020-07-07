@@ -2,15 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Icon from './Icon';
 import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
   color: 'counter' | 'green' | 'blue' | 'gray' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
+  icon?: IconName;
   info?: React.ReactNode;
   isInline?: boolean;
   isSmall?: boolean;
@@ -20,7 +24,7 @@ interface Props {
 
 let badgeId = 0;
 
-function Badge ({ className = '', color = 'normal', hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, icon, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
   const extraProps = isTooltip && hover
     ? { 'data-for': trigger, 'data-tip': true }
@@ -33,7 +37,7 @@ function Badge ({ className = '', color = 'normal', hover, info, isInline, isSma
       onClick={onClick}
     >
       <div className='badge'>
-        {info}
+        {info || (icon && <Icon icon={icon} />)}
       </div>
       <div className='detail'>
         {hover}

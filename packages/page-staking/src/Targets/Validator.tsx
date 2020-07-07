@@ -91,7 +91,7 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
           ? (
             <Badge
               color='green'
-              info={<Icon icon='hand-paper' />}
+              icon='hand-paper'
               isInline
             />
           )
@@ -106,7 +106,7 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
           ? (
             <Badge
               color='blue'
-              info={<Icon icon='chevron-right' />}
+              icon='chevron-right'
               isInline
             />
           )
