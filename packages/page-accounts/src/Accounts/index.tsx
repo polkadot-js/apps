@@ -32,6 +32,11 @@ interface Balances {
   balanceTotal?: BN;
 }
 
+interface Sorted {
+  sortedAccounts: SortedAccount[];
+  sortedAddresses: string[];
+}
+
 interface Props {
   className?: string;
   onStatusChange: (status: ActionStatus) => void;
@@ -64,16 +69,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
-  const [sortedAccounts, setSortedAccounts] = useState<SortedAccount[]>([]);
   const [filterOn, setFilter] = useState<string>('');
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
-  const sortedAddresses = sortedAccounts.map((a) => a.account.address);
+  const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
   const delegations = useCall<Voting[]>(api.query.democracy.votingOf.multi, [sortedAddresses]);
 
   useEffect((): void => {
-    setSortedAccounts(
-      sortAccounts(allAccounts, favorites)
-    );
+    const sortedAccounts = sortAccounts(allAccounts, favorites);
+    const sortedAddresses = sortedAccounts.map((a) => a.account.address);
+
+    setSorted({ sortedAccounts, sortedAddresses });
   }, [allAccounts, favorites]);
 
   useEffect(() => {
