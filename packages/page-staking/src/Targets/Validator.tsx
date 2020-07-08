@@ -21,6 +21,7 @@ interface Props {
   canSelect: boolean;
   filterName: string;
   info: ValidatorInfo;
+  isNominated: boolean;
   isSelected: boolean;
   toggleFavorite: (accountId: string) => void;
   toggleSelected: (accountId: string) => void;
@@ -48,7 +49,7 @@ function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): boolea
   return hasIdentity;
 }
 
-function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
+function Validator ({ canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
   const [isVisible, setVisibility] = useState(true);
@@ -86,13 +87,36 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
         toggleFavorite={toggleFavorite}
       />
       <td className='badge together'>
-        {isElected && (
-          <Badge
-            color='blue'
-            info={<Icon icon='chevron-right' />}
-            isInline
-          />
-        )}
+        {isNominated
+          ? (
+            <Badge
+              color='green'
+              icon='hand-paper'
+              isInline
+            />
+          )
+          : (
+            <Badge
+              color='transparent'
+              isInline
+            />
+          )
+        }
+        {isElected
+          ? (
+            <Badge
+              color='blue'
+              icon='chevron-right'
+              isInline
+            />
+          )
+          : (
+            <Badge
+              color='transparent'
+              isInline
+            />
+          )
+        }
         <MaxBadge numNominators={numNominators} />
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>

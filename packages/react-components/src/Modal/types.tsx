@@ -20,7 +20,7 @@ export interface ModalProps {
 export interface ActionsProps {
   className?: string;
   cancelLabel?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   withOr?: boolean;
   onCancel: () => void;
 }

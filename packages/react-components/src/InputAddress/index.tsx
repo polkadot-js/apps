@@ -300,7 +300,15 @@ const ExportedComponent = withMulti(
 
         .name {
           margin-left: 0;
+
+          > .ui--AccountName {
+            height: auto;
+          }
         }
+      }
+
+      > .menu > div.item > .ui--KeyPair > .name  > .ui--AccountName {
+        height: auto;
       }
     }
 

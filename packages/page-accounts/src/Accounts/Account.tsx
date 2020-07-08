@@ -241,7 +241,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 </table>
               </div>
             }
-            info={<Icon icon='shield' />}
+            icon='shield'
             isInline
             isTooltip
           />
