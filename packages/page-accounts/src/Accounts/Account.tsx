@@ -14,7 +14,7 @@ import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, Label, LinkExternal, Menu, Popup, StatusContext, Tags, Expander } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Expander, Forget, Icon, IdentityIcon, Label, LinkExternal, Menu, Popup, StatusContext, Tag } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -347,7 +347,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
-      <td className='address'>
+      <td className='address ui--media-1500'>
         {isDelegateOpen && (
           <DelegateModal
             amount={delegation?.amount}
@@ -573,7 +573,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 }
 
 export default React.memo(styled(Account)`
-  .addressExpander .ui--Expander-summary-header{
+  .addressExpander .ui--Expander-summary-header {
     display: flex;
     align-items: center;
   }
