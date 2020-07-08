@@ -57,10 +57,10 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   const [sorted, setSorted] = useState<number[] | undefined>();
   const [myNominees, setMyNominees] = useState<string[]>([]);
   const [nameFilter, setNameFilter] = useState<string>((): string => {
-    const name = queryString.parse(location.href.split('?')[1]).name;
+    const filter = queryString.parse(location.href.split('?')[1]).filter;
 
-    return isString(name)
-      ? name
+    return isString(filter)
+      ? filter
       : '';
   });
   const [withElected, setWithElected] = useState(false);
