@@ -6,9 +6,11 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
+import queryString from 'query-string';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
+import { isString } from '@polkadot/util';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
@@ -54,7 +56,13 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
   const [myNominees, setMyNominees] = useState<string[]>([]);
-  const [nameFilter, setNameFilter] = useState<string>('');
+  const [nameFilter, setNameFilter] = useState<string>((): string => {
+    const name = queryString.parse(location.href.split('?')[1]).name;
+
+    return isString(name)
+      ? name
+      : '';
+  });
   const [withElected, setWithElected] = useState(false);
   const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
