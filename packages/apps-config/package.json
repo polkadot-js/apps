@@ -12,6 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.4",
-    "edgeware-node-types": "^2.3.2"
+    "edgeware-node-types": "^2.3.3"
   }
 }
