@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { Voting } from '@polkadot/types/interfaces';
 import { Delegation, SortedAccount } from '../types';
 
 import BN from 'bn.js';
@@ -13,7 +14,6 @@ import { getLedger, isLedger } from '@polkadot/react-api';
 import { useApi, useAccounts, useCall, useFavorites, useIpfs, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
-import { Voting } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

@@ -8,6 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { FormatBalance } from '@polkadot/react-query';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
+import { Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useState, useEffect } from 'react';
@@ -33,7 +34,6 @@ import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
 import UndelegateModal from './modals/Undelegate';
-import { Delegation } from '../types';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 

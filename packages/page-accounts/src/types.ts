@@ -30,6 +30,6 @@ export interface Delegation {
 export interface SortedAccount {
   account: KeyringAddress;
   children: SortedAccount[];
-  isFavorite: boolean;
   delegation?: Delegation;
+  isFavorite: boolean;
 }
