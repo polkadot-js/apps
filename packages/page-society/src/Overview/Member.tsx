@@ -4,9 +4,9 @@
 
 import { DeriveSocietyMember } from '@polkadot/api-derive/types';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import drawCanary from '../draw/canary';
 import { useTranslation } from '../translate';
@@ -24,7 +24,9 @@ const CANVAS_STYLE = {
 
 function Member ({ className = '', isHead, value: { accountId, strikes } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [canInk] = useState(api.genesisHash.eq('0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe'));
   const [isInkShowing, toggleInk] = useToggle();
 
   useEffect((): void => {
@@ -56,27 +58,32 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
         {strikes.toString()}
       </td>
       <td>
-        <Icon
-          icon='pen-nib'
-          onClick={toggleInk}
-        />
-        {isInkShowing && (
-          <Modal
-            header={t('design samples')}
-            size='large'
-          >
-            <Modal.Content>
-              <canvas
-                height={500}
-                ref={canvasRef}
-                style={CANVAS_STYLE}
-                width={750}
-              />
-            </Modal.Content>
-            <Modal.Actions onCancel={toggleInk}>
-              &nbsp;
-            </Modal.Actions>
-          </Modal>
+        {canInk && (
+          <>
+            <Icon
+              icon='pen-nib'
+              onClick={toggleInk}
+            />
+            {isInkShowing && (
+              <Modal
+                header={t('design samples')}
+                size='large'
+              >
+                <Modal.Content>
+                  <canvas
+                    height={525}
+                    ref={canvasRef}
+                    style={CANVAS_STYLE}
+                    width={800}
+                  />
+                </Modal.Content>
+                <Modal.Actions
+                  cancelLabel={t<string>('Close')}
+                  onCancel={toggleInk}
+                />
+              </Modal>
+            )}
+          </>
         )}
       </td>
     </tr>
