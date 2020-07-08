@@ -22,17 +22,13 @@ function canary (ctx: CanvasRenderingContext2D, w: number, h: number, s: number,
 }
 
 function addressToBits (publicKey: Uint8Array): boolean[] {
-  const bits: boolean[] = [];
-
-  for (let i = 0; i < 32; i++) {
-    const byte = publicKey[i];
-
+  return publicKey.reduce((bits: boolean[], byte): boolean[] => {
     for (let j = 0; j < 8; ++j) {
       bits.push((byte & (1 << (7 - j))) !== 0);
     }
-  }
 
-  return bits;
+    return bits;
+  }, []);
 }
 
 function ring (ctx: CanvasRenderingContext2D, r: number, bits: boolean[], f: (ctx: CanvasRenderingContext2D, on: boolean) => void): void {
