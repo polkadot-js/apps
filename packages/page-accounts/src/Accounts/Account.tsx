@@ -7,6 +7,7 @@ import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/typ
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
+import { Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useState, useEffect } from 'react';
@@ -15,6 +16,7 @@ import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
@@ -23,6 +25,7 @@ import { useTranslation } from '../translate';
 import { createMenuGroup } from '../util';
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
+import DelegateModal from './modals/Delegate';
 import Derive from './modals/Derive';
 import IdentityMain from './modals/IdentityMain';
 import IdentitySub from './modals/IdentitySub';
@@ -30,12 +33,14 @@ import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
+import UndelegateModal from './modals/Undelegate';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 
 interface Props {
   account: KeyringAddress;
   className?: string;
+  delegation?: Delegation;
   filter: string;
   isFavorite: boolean;
   setBalance: (address: string, value: BN) => void;
@@ -67,7 +72,7 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
   );
 }
 
-function Account ({ account: { address, meta }, className = '', filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
@@ -94,6 +99,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
+  const [isDelegateOpen, toggleDelegate] = useToggle();
+  const [isUndelegateOpen, toggleUndelegate] = useToggle();
 
   useEffect((): void => {
     if (balancesAll) {
@@ -340,6 +347,36 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
+      <td className='address ui--media-1500'>
+        {isDelegateOpen && (
+          <DelegateModal
+            amount={delegation?.amount}
+            conviction={delegation?.conviction}
+            delegatedAccount={delegation?.accountDelegated}
+            delegatingAccount={address}
+            key='modal-delegate'
+            onClose={toggleDelegate}
+          />
+        )}
+        {isUndelegateOpen && (
+          <UndelegateModal
+            accountDelegating={address}
+            key='modal-delegate'
+            onClose={toggleUndelegate}
+          />
+        )}
+        {delegation && (
+          <AddressMini
+            summary={
+              <div>
+                <FormatBalance value={delegation.amount} />
+                <div>{delegation.conviction.toString()}</div>
+              </div>
+            }
+            value={delegation.accountDelegated}
+          />
+        )}
+      </td>
       <td className='number'>
         <CryptoType accountId={address} />
       </td>
@@ -483,6 +520,28 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
               >
                 {t('Multisig approvals')}
               </Menu.Item>
+            ])}
+            {delegation?.accountDelegated && createMenuGroup([
+              (<Menu.Item
+                key='changeDelegate'
+                onClick={toggleDelegate}
+              >
+                {t('Change democracy delegation')}
+              </Menu.Item>),
+              (<Menu.Item
+                key='undelegate'
+                onClick={toggleUndelegate}
+              >
+                {t('Undelegate')}
+              </Menu.Item>)
+            ])}
+            {!delegation?.accountDelegated && createMenuGroup([
+              (<Menu.Item
+                key='delegate'
+                onClick={toggleDelegate}
+              >
+                {t('Delegate democracy votes')}
+              </Menu.Item>)
             ])}
             <ChainLock
               className='accounts--network-toggle'

@@ -213,8 +213,9 @@ export default React.memo(styled(AddressMini)`
 
   .ui--AddressMini-summary {
     font-size: 0.75rem;
+    line-height: 1.2;
     margin-left: 2.25rem;
-    margin-top: -0.5rem;
+    margin-top: -0.2rem;
     text-align: left;
   }
 `);
