@@ -17,29 +17,25 @@ interface Props {
   icon?: IconName;
   info?: React.ReactNode;
   isSmall?: boolean;
-  isTooltip?: boolean;
   onClick?: () => void;
 }
 
 let badgeId = 0;
 
-function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
-  const extraProps = isTooltip && hover
+  const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};
 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
+      className={`ui--Badge ${hover ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       <div className='badge'>
         {info || (icon && <Icon icon={icon} />)}
-      </div>
-      <div className='detail'>
-        {hover}
       </div>
       {hover && (
         <Tooltip
@@ -128,22 +124,5 @@ export default React.memo(styled(Badge)`
 
   &.isSmall > * {
     line-height: 16px;
-  }
-
-  .detail {
-    height: 0;
-    width: 0;
-  }
-
-  &.expand {
-    width: 300px;
-
-    .badge {
-      width: 0;
-    }
-
-    .detail {
-      width: auto;
-    }
   }
 `);
