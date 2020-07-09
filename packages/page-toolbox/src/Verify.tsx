@@ -116,8 +116,8 @@ function Verify ({ className = '' }: Props): React.ReactElement {
         <div className='ui--AlignedIconContainer'>
           <Badge
             className='alignedBadge'
-            color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
-            icon={isValid ? 'check' : (isValidSignature ? 'exclamation' : 'help')}
+            color={isValid ? 'green' : (isValidSignature ? 'red' : 'gray')}
+            icon={isValid ? 'check' : (isValidSignature ? 'exclamation' : 'question')}
           />
         </div>
         <Input
