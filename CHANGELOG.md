@@ -2,8 +2,16 @@
 
 ## 0.49.0-beta.x
 
+- Activate Electron update feature by default (Thanks to https://github.com/EthWorks)
+- Add testing around Electron features (Thanks to https://github.com/EthWorks)
+- Support democracy account delegation (Thanks to https://github.com/Tbaut)
 - Allow input & display of OpaqueCall type from multisig
 - Indicate own nominees on targets page (re-added with badges)
+- Re-add indicator for own nominators in staking targets
+- Add `?filter=<string>` query param support on staking URLs
+- Add generator for Kusama society designs
+- Handle OpaqueCall in inputs and well as displays (multisig)
+- Small layout adjustments for address display components
 
 ## 0.48.1 Jul 6, 2020
 
