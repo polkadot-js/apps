@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
-import usePreclaimPolkadotAddresses from './usePreclaimPolkadotAddresses';
+import usePolkadotPreclaims from './usePolkadotPreclaims';
 
 export interface Props{
   className?: string;
@@ -16,9 +16,9 @@ export interface Props{
 
 function Warning ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const needsAttestArray = usePreclaimPolkadotAddresses();
+  const needsAttest = usePolkadotPreclaims();
 
-  if (!needsAttestArray || !needsAttestArray.length) {
+  if (!needsAttest.length) {
     return null;
   }
 
@@ -26,11 +26,11 @@ function Warning ({ className }: Props): React.ReactElement<Props> | null {
     <Card isError>
       <div className={className}>
         {
-          needsAttestArray.length > 1
+          needsAttest.length > 1
             ? t('You need to sign an attestation for the following accounts:')
             : t('You need to sign an attestation for the following account:')
         }{
-          needsAttestArray.map((address) => (
+          needsAttest.map((address) => (
             <AddressMini
               key={address}
               value={address}
