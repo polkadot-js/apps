@@ -72,7 +72,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
-  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf.multi, [sortedAddresses]);
+  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
 
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
@@ -124,7 +124,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(() => [
     [t('accounts'), 'start', 3],
     [t('parent'), 'address'],
-    api.tx.democracy?.delegate && [t('delegation'), 'address ui--media-1500'],
+    api.query.democracy?.votingOf && [t('delegation'), 'address ui--media-1500'],
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],

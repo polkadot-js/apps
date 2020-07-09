@@ -523,7 +523,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 {t('Multisig approvals')}
               </Menu.Item>
             ])}
-            {api.api.tx.democracy?.delegate && delegation?.accountDelegated && createMenuGroup([
+            {api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
               <Menu.Item
                 key='changeDelegate'
                 onClick={toggleDelegate}
@@ -537,7 +537,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 {t('Undelegate')}
               </Menu.Item>
             ])}
-            {api.api.tx.democracy?.delegate && !delegation?.accountDelegated && createMenuGroup([
+            {api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
               <Menu.Item
                 key='delegate'
                 onClick={toggleDelegate}
