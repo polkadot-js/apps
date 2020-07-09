@@ -129,8 +129,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
                 : t<string>('{{threshold}}, not passing', { replace: { threshold } })
             }
             icon={isPassing ? 'check' : 'times'}
-            isInline
-            isTooltip
           />
         )}
       </td>

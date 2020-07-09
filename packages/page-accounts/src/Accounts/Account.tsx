@@ -242,8 +242,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               </div>
             }
             icon='shield'
-            isInline
-            isTooltip
           />
         )}
         {multiInfos && multiInfos.length !== 0 && (
@@ -251,8 +249,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             color='red'
             hover={t<string>('Multisig approvals pending')}
             info={multiInfos.length}
-            isInline
-            isTooltip
           />
         )}
         {isProxied && !proxyInfo.hasOwned && (
@@ -260,8 +256,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             color='red'
             hover={t<string>('Proxied account has no owned proxies')}
             info='0'
-            isInline
-            isTooltip
           />
         )}
       </td>

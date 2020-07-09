@@ -106,7 +106,6 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
         <Badge
           color='counter'
           info={count}
-          isInline
         />
       )}
       <Tooltip
