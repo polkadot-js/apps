@@ -347,7 +347,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
-      {api.api.tx.democracy?.delegate && (
+      {api.api.query.democracy?.votingOf && (
         <td className='address ui--media-1500'>
           {isDelegateOpen && (
             <DelegateModal
