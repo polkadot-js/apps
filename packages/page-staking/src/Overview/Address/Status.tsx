@@ -22,21 +22,14 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
           <Badge
             color='blue'
             icon='chevron-right'
-            isInline
           />
         )
-        : (
-          <Badge
-            color='transparent'
-            isInline
-          />
-        )
+        : <Badge color='transparent' />
       }
       {(!!onlineCount || onlineMessage) && (
         <Badge
           color='green'
           info={onlineCount || <Icon icon='envelope' />}
-          isInline
         />
       )}
       <MaxBadge numNominators={numNominators} />

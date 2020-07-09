@@ -16,7 +16,6 @@ interface Props {
   hover?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
-  isInline?: boolean;
   isSmall?: boolean;
   isTooltip?: boolean;
   onClick?: () => void;
@@ -24,7 +23,7 @@ interface Props {
 
 let badgeId = 0;
 
-function Badge ({ className = '', color = 'normal', hover, icon, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
   const extraProps = isTooltip && hover
     ? { 'data-for': trigger, 'data-tip': true }
@@ -33,7 +32,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isInline,
   return (
     <div
       {...extraProps}
-      className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
+      className={`ui--Badge ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       <div className='badge'>
@@ -56,8 +55,11 @@ export default React.memo(styled(Badge)`
   border-radius: 16px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
+  display: inline-block;
   font-size: 12px;
   height: 22px;
+  margin-right: 0.25rem;
+  vertical-align: middle;
   padding: 0 4px;
   text-align: center;
   width: 22px;
@@ -85,18 +87,6 @@ export default React.memo(styled(Badge)`
     min-width: 16px;
     padding: 0;
     width: 16px;
-  }
-
-  &:not(.isInline) {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.25rem;
-  }
-
-  &.isInline {
-    display: inline-block;
-    margin-right: 0.25rem;
-    vertical-align: middle;
   }
 
   &.blueColor {

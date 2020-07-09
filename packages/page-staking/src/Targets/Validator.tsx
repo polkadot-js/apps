@@ -92,30 +92,18 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
             <Badge
               color='green'
               icon='hand-paper'
-              isInline
             />
           )
-          : (
-            <Badge
-              color='transparent'
-              isInline
-            />
-          )
+          : <Badge color='transparent' />
         }
         {isElected
           ? (
             <Badge
               color='blue'
               icon='chevron-right'
-              isInline
             />
           )
-          : (
-            <Badge
-              color='transparent'
-              isInline
-            />
-          )
+          : <Badge color='transparent' />
         }
         <MaxBadge numNominators={numNominators} />
       </td>

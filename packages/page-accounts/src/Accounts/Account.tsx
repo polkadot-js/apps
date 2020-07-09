@@ -242,7 +242,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
               </div>
             }
             icon='shield'
-            isInline
             isTooltip
           />
         )}
@@ -251,7 +250,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             color='red'
             hover={t<string>('Multisig approvals pending')}
             info={multiInfos.length}
-            isInline
             isTooltip
           />
         )}
@@ -260,7 +258,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             color='red'
             hover={t<string>('Proxied account has no owned proxies')}
             info='0'
-            isInline
             isTooltip
           />
         )}

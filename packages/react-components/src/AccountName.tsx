@@ -78,7 +78,6 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
         <Badge
           color='green'
           icon='archway'
-          isInline
           isSmall
         />
       )}
@@ -97,9 +96,7 @@ function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray
       <Badge
         color={color}
         icon={icon}
-        isInline
         isSmall
-        isTooltip
       />
       {nameElem}
     </div>
@@ -122,7 +119,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
     (
       <span className={`name ${isGood ? 'isGood' : ''}`}>
         {displayParent
-          ? <><span className='top'>{displayParent}</span><span className='sub'>/{displayName}</span></>
+          ? <><span className='top'>{displayParent}</span><span className='sub'>{`/${displayName || ''}`}</span></>
           : displayName
         }
       </span>
