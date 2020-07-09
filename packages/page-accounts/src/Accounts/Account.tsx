@@ -366,23 +366,15 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         )}
         {delegation && (
-          <Expander
-            className='addressExpander'
-            summary={<AddressMini value={delegation.accountDelegated} />}
-          >
-            <div className='body column'>
-              <Label label={t<string>('amount')} />
-              <div className='result'>
-                <FormatBalance
-                  value={delegation.amount}
-                />
+          <AddressMini
+            summary={
+              <div>
+                <FormatBalance value={delegation.amount} />
+                <div>{delegation.conviction.toString()}</div>
               </div>
-              <Label label={t<string>('conviction')} />
-              <div className='result'>
-                {delegation.conviction.toString()}
-              </div>
-            </div>
-          </Expander>
+            }
+            value={delegation.accountDelegated}
+          />
         )}
       </td>
       <td className='number'>
@@ -573,31 +565,8 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 }
 
 export default React.memo(styled(Account)`
-  .addressExpander .ui--Expander-summary-header {
-    display: flex;
-    align-items: center;
-  }
-
   .tags {
     width: 100%;
     min-height: 1.5rem;
-  }
-
-  .column {
-    flex: 1;
-    display: grid;
-    opacity: 1;
-    justify-content: start !important;
-
-    label {
-      grid-column: 1;
-      padding-right: 0.5rem;
-      text-align: right;
-      vertical-align: middle;
-    }
-
-    .result {
-      grid-column: 2;
-    }
   }
 `);
