@@ -52,7 +52,8 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account with the selected amount of funds and conviction. Note that this is effective immediatly, if the delegated account takes part in a vote currently, the delegating votes and conviction will we added.')}</p>
+            <p>{t<string>('Any democracy vote performed by the delegated account will result in an additional vote from the delegating account')}</p>
+            <p>{t<string>('If the delegated account is currently voting in a referendum, the delegating vote and conviction will be added.')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -82,6 +83,9 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
               onChange={setConviction}
               value={conviction}
             />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>

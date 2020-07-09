@@ -534,7 +534,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 key='changeDelegate'
                 onClick={toggleDelegate}
               >
-                {t('Change delegation')}
+                {t('Change democracy delegation')}
               </Menu.Item>),
               (<Menu.Item
                 key='undelegate'
@@ -548,7 +548,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 key='delegate'
                 onClick={toggleDelegate}
               >
-                {t('Delegate')}
+                {t('Delegate democracy votes')}
               </Menu.Item>)
             ])}
             <ChainLock
