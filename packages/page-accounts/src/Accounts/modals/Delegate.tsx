@@ -43,11 +43,13 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
             <InputAddress
               label={t<string>('delegating account')}
               onChange={setDelegatingAccount}
+              type='account'
               value={delegatingAccount}
             />
             <InputAddress
               label={t<string>('delegated account')}
               onChange={setDelegatedAccount}
+              type='account'
               value={delegatedAccount}
             />
           </Modal.Column>
