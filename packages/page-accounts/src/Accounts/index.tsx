@@ -131,7 +131,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('balances')],
     [],
     [undefined, 'mini ui--media-1400']
-  ], [t]);
+  ], [api, t]);
 
   const footer = useMemo(() => (
     <tr>
