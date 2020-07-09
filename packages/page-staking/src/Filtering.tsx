@@ -2,9 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import queryString from 'query-string';
+import React, { useEffect } from 'react';
 import { Input, Toggle } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { isString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -20,6 +22,16 @@ interface Props {
 function Filtering ({ children, className, nameFilter, setNameFilter, setWithIdentity, withIdentity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+
+  // on load, parse the query string and extract the filter
+  useEffect((): void => {
+    const queryFilter = queryString.parse(location.href.split('?')[1]).filter;
+
+    if (isString(queryFilter)) {
+      setNameFilter(queryFilter);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={className}>
