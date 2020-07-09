@@ -347,36 +347,38 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
-      <td className='address ui--media-1500'>
-        {isDelegateOpen && (
-          <DelegateModal
-            amount={delegation?.amount}
-            conviction={delegation?.conviction}
-            delegatedAccount={delegation?.accountDelegated}
-            delegatingAccount={address}
-            key='modal-delegate'
-            onClose={toggleDelegate}
-          />
-        )}
-        {isUndelegateOpen && (
-          <UndelegateModal
-            accountDelegating={address}
-            key='modal-delegate'
-            onClose={toggleUndelegate}
-          />
-        )}
-        {delegation && (
-          <AddressMini
-            summary={
-              <div>
-                <FormatBalance value={delegation.amount} />
-                <div>{delegation.conviction.toString()}</div>
-              </div>
-            }
-            value={delegation.accountDelegated}
-          />
-        )}
-      </td>
+      {api.api.query.democracy?.votingOf && (
+        <td className='address ui--media-1500'>
+          {isDelegateOpen && (
+            <DelegateModal
+              amount={delegation?.amount}
+              conviction={delegation?.conviction}
+              delegatedAccount={delegation?.accountDelegated}
+              delegatingAccount={address}
+              key='modal-delegate'
+              onClose={toggleDelegate}
+            />
+          )}
+          {isUndelegateOpen && (
+            <UndelegateModal
+              accountDelegating={address}
+              key='modal-delegate'
+              onClose={toggleUndelegate}
+            />
+          )}
+          {delegation && (
+            <AddressMini
+              summary={
+                <div>
+                  <FormatBalance value={delegation.amount} />
+                  <div>{delegation.conviction.toString()}</div>
+                </div>
+              }
+              value={delegation.accountDelegated}
+            />
+          )}
+        </td>
+      )}
       <td className='number'>
         <CryptoType accountId={address} />
       </td>
@@ -521,27 +523,27 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 {t('Multisig approvals')}
               </Menu.Item>
             ])}
-            {delegation?.accountDelegated && createMenuGroup([
-              (<Menu.Item
+            {api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
+              <Menu.Item
                 key='changeDelegate'
                 onClick={toggleDelegate}
               >
                 {t('Change democracy delegation')}
-              </Menu.Item>),
-              (<Menu.Item
+              </Menu.Item>,
+              <Menu.Item
                 key='undelegate'
                 onClick={toggleUndelegate}
               >
                 {t('Undelegate')}
-              </Menu.Item>)
+              </Menu.Item>
             ])}
-            {!delegation?.accountDelegated && createMenuGroup([
-              (<Menu.Item
+            {api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
+              <Menu.Item
                 key='delegate'
                 onClick={toggleDelegate}
               >
                 {t('Delegate democracy votes')}
-              </Menu.Item>)
+              </Menu.Item>
             ])}
             <ChainLock
               className='accounts--network-toggle'

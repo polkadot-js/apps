@@ -72,7 +72,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
-  const delegations = useCall<Voting[]>(api.query.democracy.votingOf.multi, [sortedAddresses]);
+  const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
 
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
@@ -82,31 +82,31 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   }, [allAccounts, favorites]);
 
   useEffect(() => {
-    if (!delegations?.length) {
+    if (api.query.democracy?.votingOf && !delegations?.length) {
       return;
     }
 
-    const sortedAccountsWithDelegation = sortedAccounts?.map((account, index) => {
-      let delegation: Delegation | undefined;
+    setSortedAccountsWithDelegation(
+      sortedAccounts?.map((account, index) => {
+        let delegation: Delegation | undefined;
 
-      if (delegations[index].isDelegating) {
-        const _delegation = delegations[index].asDelegating;
+        if (delegations && delegations[index].isDelegating) {
+          const { balance: amount, conviction, target } = delegations[index].asDelegating;
 
-        delegation = {
-          accountDelegated: _delegation.target.toString(),
-          amount: _delegation.balance,
-          conviction: _delegation.conviction
-        };
-      }
+          delegation = {
+            accountDelegated: target.toString(),
+            amount,
+            conviction
+          };
+        }
 
-      return ({
-        ...account,
-        delegation
-      });
-    });
-
-    setSortedAccountsWithDelegation(sortedAccountsWithDelegation);
-  }, [delegations, sortedAccounts]);
+        return ({
+          ...account,
+          delegation
+        });
+      })
+    );
+  }, [api, delegations, sortedAccounts]);
 
   const _setBalance = useCallback(
     (account: string, balance: BN) =>
@@ -124,14 +124,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(() => [
     [t('accounts'), 'start', 3],
     [t('parent'), 'address'],
-    [t('delegation'), 'address ui--media-1500'],
+    api.query.democracy?.votingOf && [t('delegation'), 'address ui--media-1500'],
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],
     [t('balances')],
     [],
     [undefined, 'mini ui--media-1400']
-  ], [t]);
+  ], [api, t]);
 
   const footer = useMemo(() => (
     <tr>

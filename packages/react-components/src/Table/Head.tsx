@@ -5,10 +5,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
+
 interface Props {
   className?: string;
   filter?: React.ReactNode;
-  header: [React.ReactNode?, string?, number?, (() => void)?][];
+  header: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
@@ -21,7 +23,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
         </tr>
       )}
       <tr>
-        {header.map(([label, className = 'default', colSpan = 1, onClick], index) =>
+        {header.filter((h): h is HeaderDef => !!h).map(([label, className = 'default', colSpan = 1, onClick], index) =>
           <th
             className={className}
             colSpan={colSpan}
