@@ -61,7 +61,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
         <article className='keepAlive'>
           <p>{t('This poll is setup to judge the sentiment of the Polkadot token holders in adjusting the number of decimals that is used to identify one full DOT. It does not change the overall supply, but rather just allows for a different representation of the current supply.')}</p>
           <p>{t('You can indicate your vote for any combination of the options laid out below.')}</p>
-          <div className='options'>
+          <div className={`options ${canVote ? 'canVote' : ''}`}>
             {options.map(([label, value, onChange], index) =>
               <Columar key={index}>
                 <Columar.Column className='option'>
@@ -161,6 +161,16 @@ export default React.memo(styled(PollApp)`
     .pollToggle {
       margin-top: 0.5rem;
       text-align: right;
+    }
+
+    &:not(.canVote) {
+      .ui--Toggle {
+        opacity: 0;
+
+        .toggle {
+          display: none;
+        }
+      }
     }
   }
 
