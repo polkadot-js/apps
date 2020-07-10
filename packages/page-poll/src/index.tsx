@@ -48,10 +48,10 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
   const options: [string, boolean, (value: boolean) => void][] = [
-    [t('10M DOTs; Keep the status quo'), opt10m, setOpt10m],
-    [t('100M DOTs; 11 decimal places'), opt100m, setOpt100m],
-    [t('1B DOTs; 10 decimal places'), opt1b, setOpt1b],
-    [t('10B DOTs; 9 decimal places'), opt10b, setOpt10b]
+    [t('10 million DOTs; status quo'), opt10m, setOpt10m],
+    [t('100 million DOTs; 11 decimals'), opt100m, setOpt100m],
+    [t('1 billion DOTs; 10 decimals'), opt1b, setOpt1b],
+    [t('10 billion DOTs; 9 decimals'), opt10b, setOpt10b]
   ];
 
   return (
