@@ -8,7 +8,7 @@ import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } f
 import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
-import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isAscii, isHex, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
 import Bare from './Bare';
@@ -57,9 +57,11 @@ function convertInput (value: string): [boolean, Uint8Array] {
 function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
   const [defaultValue] = useState(
     value
-      ? isHex(value)
-        ? value
-        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      ? isDisabled && isU8a(value) && isAscii(value)
+        ? u8aToString(value)
+        : isHex(value)
+          ? value
+          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
       : undefined
   );
   const [isValid, setIsValid] = useState(false);
