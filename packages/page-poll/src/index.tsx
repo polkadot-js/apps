@@ -64,7 +64,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                 <Columar.Column className='option'>
                   <div className='optionName'>{label}</div>
                   <Toggle
-                    className='toggle'
+                    className='pollToggle'
                     label={
                       value
                         ? t<string>('Aye, I can support this')
@@ -139,18 +139,14 @@ export default React.memo(styled(PollApp)`
       line-height: 1;
     }
 
-    .toggle {
+    .pollToggle {
       margin-top: 0.5rem;
       text-align: right;
-
-      > label {
-        margin-top: -0.25rem;
-      }
     }
   }
 
   .result {
-    margin: 1.5rem 0 0.5rem 0;
+    margin: 1rem 0 0 0;
     text-align: center;
 
     .ui--Progress {
