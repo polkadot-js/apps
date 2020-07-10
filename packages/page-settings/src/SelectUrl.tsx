@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TFunction } from 'i18next';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { createEndpoints } from '@polkadot/apps-config/settings';
@@ -45,7 +46,7 @@ function makeUrl (_url: string): StateUrl {
 
 // this allows us to retrieve the initial state by reading the settings and the applying
 // validation on-top of the values retrieved
-function getInitialState (t: <T = string> (key: string) => T): State {
+function getInitialState (t: TFunction): State {
   const url = uiSettings.get().apiUrl;
 
   return {
