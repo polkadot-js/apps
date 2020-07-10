@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types/interfaces';
+import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -10,8 +10,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
-import { BN_ONE, bnMax } from '@polkadot/util';
+import { FormatBalance, BlockToTime } from '@polkadot/react-query';
+import { BN_ONE, BN_ZERO, bnMax, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -25,6 +25,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals, []);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [opt10m, setOpt10m] = useState(true);
   const [opt100m, setOpt100m] = useState(false);
@@ -40,10 +41,11 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
     }
   }, [totals]);
 
-  if (!totals || !progress) {
+  if (!totals || !progress || !bestNumber) {
     return <Spinner label={t<string>('Retrieving totals...')} />;
   }
 
+  const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const options: [string, boolean, (value: boolean) => void][] = [
     [t('10m DOTs; Keep the status quo'), opt10m, setOpt10m],
     [t('100m DOTs; 11 decimal places'), opt100m, setOpt100m],
@@ -91,27 +93,42 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
               </Columar>
             )}
           </div>
-          <InputAddress
-            label={t('vote using my account')}
-            onChange={setAccountId}
-            type='account'
-          />
-          <Button.Group>
-            <TxButton
-              accountId={accountId}
-              icon='paper-plane'
-              label={t('Vote')}
-              params={[[opt10m, opt100m, opt1b, opt10b]]}
-              tx='poll.vote'
-            />
-          </Button.Group>
+          {blocksLeft.gt(BN_ZERO) && (
+            <>
+              <InputAddress
+                label={t('vote using my account')}
+                onChange={setAccountId}
+                type='account'
+              />
+              <Button.Group>
+                <TxButton
+                  accountId={accountId}
+                  icon='paper-plane'
+                  label={t('Vote')}
+                  params={[[opt10m, opt100m, opt1b, opt10b]]}
+                  tx='poll.vote'
+                />
+              </Button.Group>
+            </>
+          )}
         </article>
+        {blocksLeft.gt(BN_ZERO) && (
+          <div className='pollBlocksRight'>
+            <BlockToTime blocks={blocksLeft} />
+            <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
+          </div>
+        )}
       </div>
     </main>
   );
 }
 
 export default React.memo(styled(PollApp)`
+  .pollBlocksRight {
+    padding: 0.5rem 1rem;
+    text-align: right;
+  }
+
   .pollContainer {
     margin: 2rem auto;
     max-width: 50rem;
