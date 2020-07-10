@@ -10,10 +10,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { BN_ONE, bnMax } from '@polkadot/util';
 
 import { useTranslation } from './translate';
-import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {
   className?: string;
