@@ -14,28 +14,28 @@ export class RemoteElectronStore implements KeyringStore {
 
   all (cb: (key: string, value: KeyringJson) => void): void {
     this.#accountStore.all()
-      .then((result: { key: string, value: KeyringJson }[]) => result.forEach(({ key, value }) => cb(key, value)))
-      .catch(() => {
-        throw new Error('error getting all accounts');
+      .then((result: { key: string, value: KeyringJson }[]) => result?.forEach(({ key, value }) => cb(key, value)))
+      .catch((e: Error) => {
+        throw new Error(`error getting all accounts: ${e.message}`);
       });
   }
 
   get (key: string, cb: (value: KeyringJson) => void): void {
     this.#accountStore.get(key)
-      .then(cb).catch(() => {
-        throw new Error('error storing account');
+      .then(cb).catch((e: Error) => {
+        throw new Error(`error storing account: ${e.message}`);
       });
   }
 
   remove (key: string, cb: (() => void) | undefined): void {
-    this.#accountStore.remove(key).then(cb).catch(() => {
-      throw new Error('error removing account');
+    this.#accountStore.remove(key).then(cb).catch((e: Error) => {
+      throw new Error(`error removing account: ${e.message}`);
     });
   }
 
   set (key: string, value: KeyringJson, cb: (() => void) | undefined): void {
-    this.#accountStore.set(key, value).then(cb).catch(() => {
-      throw new Error('error saving account');
+    this.#accountStore.set(key, value).then(cb).catch((e: Error) => {
+      throw new Error(`error saving account: ${e.message}`);
     });
   }
 }
