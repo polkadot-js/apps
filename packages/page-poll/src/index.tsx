@@ -116,12 +116,10 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
             </>
           )}
         </article>
-        {canVote && (
-          <div className='pollBlocksRight'>
-            <BlockToTime blocks={blocksLeft} />
-            <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
-          </div>
-        )}
+        <div className='pollBlocksRight'>
+          {canVote && <BlockToTime blocks={blocksLeft} />}
+          <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
+        </div>
       </div>
     </main>
   );
