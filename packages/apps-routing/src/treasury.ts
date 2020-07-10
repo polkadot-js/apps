@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Treasury, { useCounter } from '@polkadot/app-treasury';
+import Component, { useCounter } from '@polkadot/app-treasury';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Treasury,
+    Component,
     display: {
       needsApi: [
         'tx.treasury.proposeSpend'

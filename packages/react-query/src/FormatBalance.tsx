@@ -33,7 +33,7 @@ function format (value: Compact<any> | BN | string, currency: string, withSi?: b
     return formatBalance(value);
   }
 
-  return <>{prefix}{!isShort && (<>.<span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
+  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
 }
 
 // function formatSi (value: Compact<any> | BN | string): React.ReactNode {

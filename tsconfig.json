@@ -39,6 +39,8 @@
       "@polkadot/app-js/*": [ "packages/page-js/src/*" ],
       "@polkadot/app-parachains": [ "packages/page-parachains/src" ],
       "@polkadot/app-parachains/*": [ "packages/page-parachains/src/*" ],
+      "@polkadot/app-poll": [ "packages/page-poll/src" ],
+      "@polkadot/app-poll/*": [ "packages/page-poll/src/*" ],
       "@polkadot/app-settings": [ "packages/page-settings/src" ],
       "@polkadot/app-settings/*": [ "packages/page-settings/src/*" ],
       "@polkadot/app-society": [ "packages/page-society/src" ],
