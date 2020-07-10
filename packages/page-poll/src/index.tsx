@@ -46,6 +46,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   }
 
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
+  const canVote = blocksLeft.gt(BN_ZERO);
   const options: [string, boolean, (value: boolean) => void][] = [
     [t('10m DOTs; Keep the status quo'), opt10m, setOpt10m],
     [t('100m DOTs; 11 decimal places'), opt100m, setOpt100m],
@@ -67,13 +68,16 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                   <div className='optionName'>{label}</div>
                   <Toggle
                     className='pollToggle'
+                    isDisabled={!canVote}
                     label={
-                      value
-                        ? t<string>('Aye, I can support this')
-                        : t<string>('Nay, I cannot support this')
+                      canVote
+                        ? value
+                          ? t<string>('Aye, I can support this')
+                          : t<string>('Nay, I cannot support this')
+                        : t<string>('Voting closed')
                     }
                     onChange={onChange}
-                    value={value}
+                    value={canVote && value}
                   />
                 </Columar.Column>
                 <Columar.Column>
@@ -93,7 +97,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
               </Columar>
             )}
           </div>
-          {blocksLeft.gt(BN_ZERO) && (
+          {canVote && (
             <>
               <InputAddress
                 label={t('vote using my account')}
@@ -112,7 +116,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
             </>
           )}
         </article>
-        {blocksLeft.gt(BN_ZERO) && (
+        {canVote && (
           <div className='pollBlocksRight'>
             <BlockToTime blocks={blocksLeft} />
             <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
