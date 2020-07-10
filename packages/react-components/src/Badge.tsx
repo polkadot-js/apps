@@ -47,7 +47,6 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
 
 export default React.memo(styled(Badge)`
   border-radius: 16px;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
   display: inline-block;
   font-size: 12px;
@@ -76,7 +75,6 @@ export default React.memo(styled(Badge)`
   }
 
   &.isSmall {
-    box-shadow: none;
     font-size: 10px;
     height: 16px;
     line-height: 16px;
