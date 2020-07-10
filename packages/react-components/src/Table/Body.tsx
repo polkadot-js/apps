@@ -33,7 +33,6 @@ export default React.memo(styled(Body)`
   background: white;
 
   td {
-    // border-top: 1px solid #e4e6e8;
     padding: 0.75rem 1rem;
     text-align: left;
     vertical-align: middle;
@@ -146,16 +145,6 @@ export default React.memo(styled(Body)`
     &:nth-child(even) {
       background: #f9f8f7;
     }
-
-    // &.isHighlight {
-    //   &:nth-child(even) td {
-    //     background: #fffff4;
-    //   }
-
-    //   &:nth-child(odd) td {
-    //     background: #f4ffff;
-    //   }
-    // }
 
     &:first-child td {
       border-top: 1px solid #e4e6e8;

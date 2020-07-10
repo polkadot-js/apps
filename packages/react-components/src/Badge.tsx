@@ -34,9 +34,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
       className={`ui--Badge ${hover ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
-      <div className='badge'>
-        {info || (icon && <Icon icon={icon} />)}
-      </div>
+      {info || (icon && <Icon icon={icon} />)}
       {hover && (
         <Tooltip
           text={hover}
@@ -49,17 +47,18 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
 
 export default React.memo(styled(Badge)`
   border-radius: 16px;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
   display: inline-block;
   font-size: 12px;
   height: 22px;
+  line-height: 22px;
   margin-right: 0.25rem;
-  vertical-align: middle;
-  padding: 0 4px;
-  text-align: center;
-  width: 22px;
   min-width: 22px;
+  padding: 0 4px;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  width: 22px;
 
   &.isTooltip {
     cursor: help;
@@ -76,7 +75,6 @@ export default React.memo(styled(Badge)`
   }
 
   &.isSmall {
-    box-shadow: none;
     font-size: 10px;
     height: 16px;
     line-height: 16px;
@@ -115,14 +113,5 @@ export default React.memo(styled(Badge)`
   &.transparentColor {
     background: transparent;
     box-shadow: none;
-  }
-
-  & > * {
-    line-height: 22px;
-    overflow: hidden;
-  }
-
-  &.isSmall > * {
-    line-height: 16px;
   }
 `);
