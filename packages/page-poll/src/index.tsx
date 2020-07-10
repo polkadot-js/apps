@@ -62,7 +62,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
             {options.map(([label, value, onChange], index) =>
               <Columar key={index}>
                 <Columar.Column className='option'>
-                  <div>{label}</div>
+                  <div className='optionName'>{label}</div>
                   <Toggle
                     className='toggle'
                     label={
@@ -118,14 +118,25 @@ export default React.memo(styled(PollApp)`
   }
 
   .options {
-    margin: 2rem 0;
+    margin: 1.5rem 0 1rem 0;
 
-    .ui--Columnar+.ui--Columnar {
-      margin-top: 2.5rem;
+    .ui--Columnar {
+      margin: 0 -1.25rem;
+      padding: 0 1.25rem;
+
+      &:nth-child(odd) {
+        background: #f9f8f7;
+      }
+
+      .ui--Column {
+        padding: 1rem 1.5rem;
+      }
     }
 
-    .ui--Columnar .ui--Column {
-      padding: 0 1.5rem;
+    .optionName {
+      font-size: 1.2rem;
+      font-weight: 100;
+      line-height: 1;
     }
 
     .toggle {
