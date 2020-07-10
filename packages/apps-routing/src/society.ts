@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Society from '@polkadot/app-society';
+import Component from '@polkadot/app-society';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Society,
+    Component,
     display: {
       needsAccounts: true,
       needsApi: [

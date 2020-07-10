@@ -56,6 +56,7 @@ i18next
       'app-i18n',
       'app-js',
       'app-parachains',
+      'app-poll',
       'app-settings',
       'app-society',
       'app-staking',

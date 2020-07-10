@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Dashboard from '@polkadot/app-dashboard';
+import Component from '@polkadot/app-dashboard';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Dashboard,
+    Component,
     display: {
       isHidden: true
     },

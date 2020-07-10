@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Sudo from '@polkadot/app-sudo';
+import Component from '@polkadot/app-sudo';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Sudo,
+    Component,
     display: {
       needsAccounts: true,
       needsApi: [

@@ -21,6 +21,7 @@ import genericAsset from './generic-asset';
 import i18n from './i18n';
 import js from './js';
 import parachains from './parachains';
+import poll from './poll';
 import settings from './settings';
 import society from './society';
 import staking from './staking';
@@ -38,6 +39,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       explorer(t),
       accounts(t),
       claims(t),
+      poll(t),
       transfer(t),
       genericAsset(t),
       null,
@@ -53,6 +55,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       explorer(t),
       accounts(t),
       claims(t),
+      poll(t),
       transfer(t),
       genericAsset(t),
       null,
