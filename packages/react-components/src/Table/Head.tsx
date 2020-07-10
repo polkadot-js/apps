@@ -30,12 +30,11 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             key={index}
             onClick={onClick}
           >
-            {
-              index === 0
-                ? <h1>{label}</h1>
-                : isEmpty
-                  ? ''
-                  : label
+            {index === 0
+              ? <h1>{label}</h1>
+              : isEmpty
+                ? ''
+                : label
             }
           </th>
         )}
