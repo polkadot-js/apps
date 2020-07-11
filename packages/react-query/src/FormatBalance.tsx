@@ -11,11 +11,10 @@ import { formatBalance } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface Props {
-  children?: React.ReactNode;
   className?: string;
   isShort?: boolean;
   label?: React.ReactNode;
-  labelPost?: React.ReactNode;
+  labelPost?: string;
   value?: Compact<any> | BN | string | null | 'all';
   withSi?: boolean;
 }
@@ -24,43 +23,32 @@ interface Props {
 const M_LENGTH = 6 + 1;
 const K_LENGTH = 3 + 1;
 
-function format (value: Compact<any> | BN | string, currency: string, withSi?: boolean, _isShort?: boolean): React.ReactNode {
+function format (value: Compact<any> | BN | string, currency: string, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
 
   if (prefix.length > M_LENGTH) {
     // TODO Format with balance-postfix
-    return formatBalance(value);
+    return `${formatBalance(value)}${labelPost || ''}`;
   }
 
-  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {currency}</>;
+  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {`${currency}${labelPost || ''}`}</>;
 }
 
-// function formatSi (value: Compact<any> | BN | string): React.ReactNode {
-//   const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
-//   const [prefix, postfix] = strValue === '0'
-//     ? ['0', '0']
-//     : formatBalance(value, { withSi: false }).split('.');
-//   const unit = strValue === '0'
-//     ? ''
-//     : formatBalance.calcSi(strValue).value;
-
-//   return <>{prefix}.<span className='balance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>{unit === '-' ? '' : unit}</>;
-// }
-
-function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ className = '', isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currency] = useState(formatBalance.getDefaults().unit);
 
+  // labelPost here looks messy, however we ensure we have one less text node
   return (
     <div className={`ui--FormatBalance ${className}`}>
       {label || ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
-            ? t<string>('everything')
-            : format(value, currency, withSi, isShort)
-          : '-'
-      }</span>{labelPost}{children}
+            ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
+            : format(value, currency, withSi, isShort, labelPost)
+          : `-${labelPost || ''}`
+      }</span>
     </div>
   );
 }

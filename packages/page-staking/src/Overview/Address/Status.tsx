@@ -16,7 +16,7 @@ interface Props {
 
 function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
-    <td className='badge together'>
+    <>
       {isElected
         ? (
           <Badge
@@ -33,7 +33,7 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
         />
       )}
       <MaxBadge numNominators={numNominators} />
-    </td>
+    </>
   );
 }
 

@@ -77,16 +77,16 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
     return null;
   }
 
-  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment } = info;
+  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, numNominators, rankOverall, rewardPayout, validatorPayment } = info;
 
   return (
-    <tr className={`${isNominating ? 'isHighlight' : ''}`}>
-      <Favorite
-        address={key}
-        isFavorite={isFavorite}
-        toggleFavorite={toggleFavorite}
-      />
+    <tr>
       <td className='badge together'>
+        <Favorite
+          address={key}
+          isFavorite={isFavorite}
+          toggleFavorite={toggleFavorite}
+        />
         {isNominated
           ? (
             <Badge
