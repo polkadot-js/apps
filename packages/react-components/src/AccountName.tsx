@@ -38,17 +38,17 @@ const KNOWN: [AccountId, string][] = [
 const displayCache = new Map<string, React.ReactNode>();
 const indexCache = new Map<string, string>();
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [[React.ReactNode, React.ReactNode | null], boolean, boolean, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
 
   if (known) {
-    return [[known[1], null], false, false, true];
+    return [known[1], false, false, true];
   }
 
   const accountId = _address.toString();
 
   if (!accountId) {
-    return [[defaultName, null], false, false, false];
+    return [defaultName, false, false, false];
   }
 
   const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
@@ -57,10 +57,10 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
   if (isAddressExtracted && accountIndex) {
     indexCache.set(accountId, accountIndex);
 
-    return [[accountIndex, null], false, true, false];
+    return [accountIndex, false, true, false];
   }
 
-  return [[extracted, null], !isAddressExtracted, isAddressExtracted, false];
+  return [extracted, !isAddressExtracted, isAddressExtracted, false];
 }
 
 function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
@@ -70,7 +70,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
     return displayCached;
   }
 
-  const [[displayFirst, displaySecond], isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
+  const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
 
   return (
     <div className='via-identity'>
@@ -81,11 +81,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
           isSmall
         />
       )}
-      <span className={`name ${(isLocal || isSpecial) ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{
-        displaySecond
-          ? <><span className='top'>{displayFirst}</span><span className='sub'>/{displaySecond}</span></>
-          : displayFirst
-      }</span>
+      <span className={`name ${(isLocal || isSpecial) ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{displayName}</span>
     </div>
   );
 }
@@ -104,9 +100,9 @@ function createIdElem (nameElem: React.ReactNode, color: 'green' | 'red' | 'gray
 }
 
 function extractIdentity (address: string, identity: DeriveAccountRegistration): React.ReactNode {
-  const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
-  const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);
-  const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
+  const judgements = identity.judgements.filter(([, judgement]) => !judgement.isFeePaid);
+  const isGood = judgements.some(([, judgement]) => judgement.isKnownGood || judgement.isReasonable);
+  const isBad = judgements.some(([, judgement]) => judgement.isErroneous || judgement.isLowQuality);
   const displayName = isGood
     ? identity.display
     : (identity.display || '').replace(/[^\x20-\x7E]/g, '');
@@ -116,14 +112,10 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
       : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
   );
   const elem = createIdElem(
-    (
-      <span className={`name ${isGood ? 'isGood' : ''}`}>
-        {displayParent
-          ? <><span className='top'>{displayParent}</span><span className='sub'>{`/${displayName || ''}`}</span></>
-          : displayName
-        }
-      </span>
-    ),
+    <span className={`name ${isGood ? 'isGood' : ''}`}>
+      <span className='top'>{displayParent || displayName}</span>
+      {displayParent && <span className='sub'>{`/${displayName || ''}`}</span>}
+    </span>,
     isGood ? 'green' : (isBad ? 'red' : 'gray'),
     identity.parent ? 'link' : (isGood ? 'check' : 'minus')
   );
@@ -183,8 +175,8 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
 
 export default React.memo(styled(AccountName)`
   border: 1px dotted transparent;
-  height: 24px; // align with IdentityIcon
-  padding-top: 1px;
+  vertical-align: middle;
+  white-space: nowrap;
 
   &.withSidebar:hover {
     border-bottom-color: #333;
@@ -192,19 +184,21 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    align-items: end;
+    display: inline-flex;
     width: 100%;
 
     .name {
       font-weight: normal !important;
       filter: grayscale(100%);
-      height: 16px; // align with Badge
       line-height: 1;
       opacity: 0.6;
-      text-transform: uppercase;
-      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &:not(.isAddress) {
+        text-transform: uppercase;
+      }
 
       &.isAddress {
         font-family: monospace;
@@ -214,6 +208,11 @@ export default React.memo(styled(AccountName)`
       &.isGood,
       &.isLocal {
         opacity: 1;
+      }
+
+      .sub,
+      .top {
+        vertical-align: middle;
       }
 
       .sub {
