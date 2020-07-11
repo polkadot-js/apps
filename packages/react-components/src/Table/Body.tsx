@@ -50,10 +50,6 @@ export default React.memo(styled(Body)`
       white-space: nowrap;
     }
 
-    .ui--Icon {
-      cursor: pointer;
-    }
-
     div.empty {
       opacity: 0.6;
       padding: 0.25rem;

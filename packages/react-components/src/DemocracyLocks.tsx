@@ -5,6 +5,7 @@
 import { DeriveDemocracyLock } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
+import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -38,7 +39,7 @@ let id = 0;
 //   - all unlockable together
 //   - all ongoing together
 //   - unlocks are displayed individually
-function groupLocks (t: <T = string> (key: string, options?: { replace?: Record<string, string> }) => T, bestNumber: BN, locks: DeriveDemocracyLock[] = []): State {
+function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] = []): State {
   return {
     maxBalance: bnMax(...locks.map(({ balance }) => balance)),
     sorted: locks

@@ -93,7 +93,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
 function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { byAuthor, eraPoints, lastBlockAuthors } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
+  const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats, []);
   const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries as any, []);
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
@@ -113,15 +113,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
     );
   }, [nominators]);
 
-  const headerActive = useMemo(() => [
-    [t('intentions'), 'start', 3],
+  const headerWaiting = useMemo(() => [
+    [t('intentions'), 'start', 2],
     [t('nominators'), 'start', 2],
     [t('commission'), 'number', 1],
-    [undefined, undefined, 3]
+    []
   ], [t]);
 
-  const headerWaiting = useMemo(() => [
-    [t('validators'), 'start', 3],
+  const headerActive = useMemo(() => [
+    [t('validators'), 'start', 2],
     [t('other stake')],
     [t('own stake')],
     [t('commission')],
@@ -137,7 +137,6 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           address={address}
           filterName={nameFilter}
           hasQueries={hasQueries}
-          isAuthor={lastBlockAuthors.includes(address)}
           isElected={isElected}
           isFavorite={isFavorite}
           isMain={isMain}
@@ -151,7 +150,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions
@@ -166,9 +165,9 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
             withIdentity={withIdentity}
           />
         }
-        header={headerActive}
+        header={headerWaiting}
       >
-        {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
+        {_renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
     )
     : (
@@ -182,7 +181,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
             withIdentity={withIdentity}
           />
         }
-        header={headerWaiting}
+        header={headerActive}
       >
         {_renderRows(validators, true)}
       </Table>

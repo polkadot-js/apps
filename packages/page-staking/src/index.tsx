@@ -133,7 +133,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         </Route>
         <Route path={`${basePath}/waiting`}>
           <Overview
-            className={`${basePath}/waiting` === pathname ? '' : 'staking--hidden'}
             favorites={favorites}
             hasQueries={hasQueries}
             isIntentions

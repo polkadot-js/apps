@@ -65,8 +65,9 @@ export default React.memo(styled(Badge)`
   }
 
   .ui--Icon {
-    cursor: inherit !important;
-    margin: 0;
+    cursor: inherit;
+    margin-top: 5px;
+    vertical-align: top;
     width: 1em;
   }
 
@@ -81,6 +82,10 @@ export default React.memo(styled(Badge)`
     min-width: 16px;
     padding: 0;
     width: 16px;
+
+    .ui--Icon {
+      margin-top: 3px;
+    }
   }
 
   &.blueColor {
