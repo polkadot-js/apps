@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Extrinsics from '@polkadot/app-extrinsics';
+import Component from '@polkadot/app-extrinsics';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Extrinsics,
+    Component,
     display: {
       needsAccounts: true,
       needsApi: []

@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Template from '@polkadot/app-123code';
+import Component from '@polkadot/app-123code';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Template,
+    Component,
     display: {
       isHidden: true,
       needsAccounts: true,

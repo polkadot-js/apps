@@ -4,18 +4,19 @@
 
 import { Route } from './types';
 
-import Component from '@polkadot/app-staking';
+import Component from '@polkadot/app-poll';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component,
     display: {
+      needsAccounts: true,
       needsApi: [
-        ['tx.staking.bond']
+        'tx.poll.vote'
       ]
     },
-    icon: 'certificate',
-    name: 'staking',
-    text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
+    icon: 'podcast',
+    name: 'poll',
+    text: t<string>('nav.poll', 'Token poll', { ns: 'apps-routing' })
   };
 }

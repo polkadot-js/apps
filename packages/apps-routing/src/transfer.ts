@@ -4,12 +4,12 @@
 
 import { Route } from './types';
 
-import TransferModal from '@polkadot/app-accounts/Accounts/modals/Transfer';
+import Modal from '@polkadot/app-accounts/Accounts/modals/Transfer';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: TransferModal,
-    Modal: TransferModal,
+    Component: Modal,
+    Modal,
     display: {
       isHidden: false,
       needsAccounts: true,
