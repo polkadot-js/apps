@@ -27,7 +27,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [opt10m, setOpt10m] = useState(true);
+  const [opt10m, setOpt10m] = useState(false);
   const [opt100m, setOpt100m] = useState(false);
   const [opt1b, setOpt1b] = useState(false);
   const [opt10b, setOpt10b] = useState(false);
@@ -53,6 +53,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
     [t('1 billion DOTs; 10 decimals'), opt1b, setOpt1b],
     [t('10 billion DOTs; 9 decimals'), opt10b, setOpt10b]
   ];
+  const hasValue = opt10m || opt100m || opt1b || opt10b;
 
   return (
     <main className={className}>
@@ -72,8 +73,8 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                     label={
                       canVote
                         ? value
-                          ? t<string>('Aye, I can support this')
-                          : t<string>('Nay, I cannot support this')
+                          ? t<string>('Aye, I support this')
+                          : t<string>('Nay, I do not support this')
                         : t<string>('Voting closed')
                     }
                     onChange={onChange}
@@ -108,6 +109,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                 <TxButton
                   accountId={accountId}
                   icon='paper-plane'
+                  isDisabled={!hasValue}
                   label={t('Vote')}
                   params={[[opt10m, opt100m, opt1b, opt10b]]}
                   tx='poll.vote'
