@@ -167,7 +167,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
         }
         header={headerWaiting}
       >
-        {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
+        {_renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
     )
     : (
