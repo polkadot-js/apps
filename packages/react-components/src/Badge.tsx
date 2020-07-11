@@ -65,7 +65,7 @@ export default React.memo(styled(Badge)`
   }
 
   .ui--Icon {
-    cursor: inherit !important;
+    cursor: inherit;
     margin-top: 5px;
     vertical-align: top;
     width: 1em;
