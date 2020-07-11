@@ -183,8 +183,9 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
 
 export default React.memo(styled(AccountName)`
   border: 1px dotted transparent;
-  height: 24px; // align with IdentityIcon
-  padding-top: 1px;
+  line-height: 1em;
+  vertical-align: middle;
+  white-space: nowrap;
 
   &.withSidebar:hover {
     border-bottom-color: #333;
@@ -192,19 +193,22 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    align-items: center;
+    display: inline-flex;
+    vertical-align: middle;
     width: 100%;
 
     .name {
       font-weight: normal !important;
       filter: grayscale(100%);
-      height: 16px; // align with Badge
-      line-height: 1;
       opacity: 0.6;
-      text-transform: uppercase;
-      vertical-align: middle;
+      overflow: hidden;
+      padding-top: 1px;
+      text-overflow: ellipsis;
+
+      &:not(.isAddress) {
+        text-transform: uppercase;
+      }
 
       &.isAddress {
         font-family: monospace;
@@ -214,6 +218,11 @@ export default React.memo(styled(AccountName)`
       &.isGood,
       &.isLocal {
         opacity: 1;
+      }
+
+      .sub,
+      .top {
+        vertical-align: middle;
       }
 
       .sub {
