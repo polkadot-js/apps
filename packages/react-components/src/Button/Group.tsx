@@ -8,9 +8,9 @@ import React from 'react';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import styled from 'styled-components';
 
-function ButtonGroup ({ children, className = '', isBasic, isCentered }: GroupProps): React.ReactElement<GroupProps> {
+function ButtonGroup ({ children, className = '', isBasic }: GroupProps): React.ReactElement<GroupProps> {
   return (
-    <div className={`${className} ui--Button-Group ${isCentered ? 'centered' : ''}`}>
+    <div className={`ui--Button-Group ${className}`}>
       <SUIButton.Group
         basic={isBasic}
         size='small'
