@@ -38,20 +38,19 @@ function IdentityIcon ({ className = '', onCopy, prefix, size = 24, theme, value
   );
 
   return (
-    <span className={`ui--IdentityIcon-Outer ${className}`}>
-      <BaseIdentityIcon
-        onCopy={_onCopy}
-        prefix={prefix}
-        size={size}
-        theme={thisTheme as 'substrate'}
-        value={value}
-      />
-    </span>
+    <BaseIdentityIcon
+      className={className}
+      onCopy={_onCopy}
+      prefix={prefix}
+      size={size}
+      theme={thisTheme as 'substrate'}
+      value={value}
+    />
   );
 }
 
 export default React.memo(styled(IdentityIcon)`
-  .ui--IdentityIcon {
-    display: block;
-  }
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  display: inline-block;
 `);

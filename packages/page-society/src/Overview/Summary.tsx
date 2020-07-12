@@ -81,8 +81,7 @@ export default React.memo(styled(Summary)`
   .society--header--account {
     white-space: nowrap;
 
-    .ui--AccountName,
-    .ui--IdentityIcon {
+    .ui--AccountName {
       display: inline-block;
     }
 

@@ -43,17 +43,17 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
 export default React.memo(styled(AddressSmall)`
   white-space: nowrap;
 
-  .ui--IdentityIcon-Outer,
+  .ui--IdentityIcon,
   .ui--AccountName {
-    display: inline-block;
     vertical-align: middle;
   }
 
-  .ui--IdentityIcon-Outer {
+  .ui--IdentityIcon {
     margin-right: 0.75rem;
   }
 
   .ui--AccountName {
+    display: inline-block;
     max-width: 24rem;
     overflow: hidden;
 
