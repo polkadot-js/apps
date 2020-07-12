@@ -28,51 +28,43 @@ function Tab ({ basePath, className = '', hasParams, index, isExact, isRoot, isS
   const tabIsExact = isExact || !hasParams || (!isSequence && index === 0);
 
   return (
-    <div className={`ui--Tabs-Tab ${className}`}>
-      <NavLink
-        activeClassName='tabLinkActive'
-        className='tabLink'
-        exact={tabIsExact}
-        strict={tabIsExact}
-        to={to}
-      >
-        {text}
-      </NavLink>
-      {(isSequence && index < (num - 1)) && (
+    <NavLink
+      activeClassName='tabLinkActive'
+      className={`ui--Tabs-Tab ${className}`}
+      exact={tabIsExact}
+      strict={tabIsExact}
+      to={to}
+    >
+      {text}{(isSequence && index < (num - 1)) && (
         <Icon
           className='tabIcon'
           icon='arrow-right'
         />
       )}
-    </div>
+    </NavLink>
   );
 }
 
 export default React.memo(styled(Tab)`
-  display: inline-block;
+  border-bottom: 2px solid transparent;
+  color: rgba(0, 0, 0, 0.87) !important;
+  padding: 0.75rem 1.5rem;
 
-  .tabIcon {
-    width: 1rem;
-    margin: 0.7rem 0;
+  &.tabLinkActive {
+    border-bottom-color: #e6e6e6;
+    color: rgba(0, 0, 0, 0.95);
+    font-weight: 700;
   }
 
-  .tabLink {
-    border-bottom: 2px solid transparent;
-    color: rgba(0, 0, 0, 0.87);
-    padding: 0.75rem 1.5rem;
+  &:hover {
+    color: inherit !important;
 
-    &.tabLinkActive {
-      border-bottom:  2px solid #e6e6e6;
-      color: rgba(0, 0, 0, 0.95);
-      font-weight: 700;
+    &:not(.tabLinkActive) {
+      border-bottom-color: #e6e6e6;
     }
+  }
 
-    &:hover {
-      color: inherit;
-
-      &:not(.tabLinkActive) {
-        border-bottom-color: #e6e6e6;
-      }
-    }
+  .tabIcon {
+    margin-left: 0.75rem;
   }
 `);
