@@ -48,14 +48,10 @@ export default React.memo(styled(Button)`
     border-radius: 0.25rem !important;
   }
 
-  &:not(.icon) {
+  &:not(.isIcon) {
     > .ui--Icon {
       margin-right: 0.25rem;
     }
-  }
-
-  &.icon > .ui--Icon {
-    width: 1rem;
   }
 
   &.isIcon {
@@ -64,7 +60,8 @@ export default React.memo(styled(Button)`
     padding: 0 !important;
 
     .ui--Icon {
-      margin: 0 0 0 0.25rem !important;
+      margin: 0 0.25rem;
+      width: 1rem;
     }
   }
 `);

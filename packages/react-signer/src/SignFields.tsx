@@ -33,7 +33,6 @@ function SignFields ({ address, onChange, signedTx }: Props): React.ReactElement
   }, [address, api]);
 
   useEffect((): void => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     onChange({ era: blocks.toNumber(), nonce });
   }, [blocks, nonce, onChange]);
 

@@ -51,6 +51,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
         icon='times'
         isBasic
         isCircular
+        isIcon
         onClick={onClose}
       />
       <div className='ui--AddressMenu-header'>
