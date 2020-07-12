@@ -98,12 +98,9 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
               onChange={setId}
               onEnter={onSendRef.current}
               onEscape={onClose}
-              placeholder={
-                t(
-                  'Positive number greater than or equal to {{nextFreeId}}',
-                  { replace: { nextFreeId: nextFreeId.toString() } }
-                )
-              }
+              placeholder={t<string>('Positive number greater than or equal to {{nextFreeId}}', {
+                replace: { nextFreeId: nextFreeId.toString() }
+              })}
             />
             <Dropdown
               help={t<string>('The scheduling preference for this parachain.')}
