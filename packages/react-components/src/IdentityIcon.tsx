@@ -18,23 +18,20 @@ export function getIdentityTheme (systemName: string): 'substrate' {
   return ((uiSettings.icon === 'default' && getSystemIcon(systemName)) || uiSettings.icon) as 'substrate';
 }
 
-function IdentityIcon ({ className = '', onCopy, prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
+function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
   const { systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const thisTheme = theme || getIdentityTheme(systemName);
 
   const _onCopy = useCallback(
-    (account: string): void => {
-      onCopy && onCopy(account);
-      queueAction({
-        account,
-        action: t<string>('clipboard'),
-        message: t<string>('address copied'),
-        status: 'queued'
-      });
-    },
-    [onCopy, queueAction, t]
+    (account: string) => queueAction({
+      account,
+      action: t('clipboard'),
+      message: t('address copied'),
+      status: 'queued'
+    }),
+    [queueAction, t]
   );
 
   return (
