@@ -284,7 +284,14 @@ export default React.memo(styled(InputNumber)`
   &.isDisabled {
     .ui--SiDropdown {
       background: transparent;
+      border-color: rgba(34, 36, 38, .15) !important;
+      border-style: dashed;
       color: #666 !important;
+      cursor: default !important;
+
+      .dropdown.icon {
+        display: none;
+      }
     }
   }
 `);
