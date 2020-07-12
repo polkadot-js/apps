@@ -69,6 +69,10 @@ export default React.memo(styled(Tab)`
 
     &:hover {
       color: inherit;
+
+      &:not(.tabLinkActive) {
+        border-bottom-color: #e6e6e6;
+      }
     }
   }
 `);
