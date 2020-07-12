@@ -58,7 +58,7 @@ export default createGlobalStyle<Props>`
   }
 
   .theme--default {
-    .ui.menu.tabular .item.active {
+    .ui--Tabs-Tab .tabLinkActive {
       border-color: ${getHighlight} !important;
     }
 
