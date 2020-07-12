@@ -61,10 +61,6 @@ export default css`
       border-bottom-color: ${colorBtnHighlight};
     }
 
-    .ui.menu.tabular .item.active {
-      border-bottom-color: ${colorBtnHighlight};
-    }
-
     /* this is for dropdown buttons */
     .ui.buttons .ui.button.selection.visible.dropdown {
       &:hover {

@@ -177,31 +177,6 @@ export default css`
     justify-content: flex-start;
   }
 
-  .ui.menu.tabular {
-    border-color: #e6e6e6;
-    /* break out of the wrapping main padding */
-    margin: -1em -2em 0;
-    overflow-x: scroll;
-    padding: 2em 2em 0 2em;
-    transition: padding-left 0.2s linear 0.4s;
-
-    &::-webkit-scrollbar {
-      display: none;
-      width: 0px;
-    }
-
-    .item {
-      border-bottom: 2px solid rgba(0, 0, 0, 0);
-      border: none;
-      top: -1px;
-
-      &.active {
-        background: none;;
-        border-bottom: 2px solid #db2828;
-      }
-    }
-  }
-
   /* remove the default white background, settings app has it as part of Tab */
   .ui.segment {
     background: transparent;

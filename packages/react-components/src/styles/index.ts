@@ -58,8 +58,8 @@ export default createGlobalStyle<Props>`
   }
 
   .theme--default {
-    .ui.menu.tabular .item.active {
-      border-color: ${getHighlight} !important;
+    .ui--Tabs-Tab.tabLinkActive {
+      border-bottom-color: ${getHighlight};
     }
 
     .ui.blue.progress > .bar {
