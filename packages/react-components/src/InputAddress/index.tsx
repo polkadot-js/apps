@@ -286,9 +286,7 @@ const ExportedComponent = withMulti(
 
     .ui.search.selection.dropdown {
       > .text > .ui--KeyPair {
-        .ui--IdentityIcon-Outer {
-          border: 1px solid #888;
-          border-radius: 50%;
+        .ui--IdentityIcon {
           left: -2.75rem;
           top: -1.05rem;
 
