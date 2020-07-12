@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { TabItem } from '@polkadot/react-components/Tabs';
+import { TabItem } from '@polkadot/react-components/Tabs/types';
 import { ComponentProps } from './types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -26,7 +26,6 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
   const [constructorIndex, setConstructorIndex] = useState(0);
   const [isDeployOpen, toggleIsDeployOpen, setIsDeployOpen] = useToggle();
   const [updated, setUpdated] = useState(0);
-
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
   const _triggerUpdate = useCallback(
@@ -45,6 +44,11 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
         toggleIsDeployOpen();
       },
     [allCodes, toggleIsDeployOpen]
+  );
+
+  const _onCloseDeploy = useCallback(
+    () => setIsDeployOpen(false),
+    [setIsDeployOpen]
   );
 
   const componentProps = useMemo(
@@ -75,8 +79,6 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
   );
 
   const hidden: string[] = [];
-
-  const _onCloseDeploy = (): void => setIsDeployOpen(false);
 
   return (
     <main className='contracts--App'>
