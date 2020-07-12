@@ -221,16 +221,8 @@ export default React.memo(styled(Sidebar)`
     margin: -1rem -1rem 1rem -1rem;
     padding: 1rem;
 
-    .ui.button {
+    .ui--Button {
       transition: 0.5s all;
-
-      &.secondary {
-        background-color: #666;
-      }
-    }
-
-    .ui.button+.ui.button {
-      margin-left: 0.5rem !important;
     }
   }
 

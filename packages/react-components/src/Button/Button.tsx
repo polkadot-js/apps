@@ -28,7 +28,6 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     onMouseLeave,
     positive: isPositive,
     primary: isPrimary,
-    secondary: !isBasic && !(isPositive || isPrimary || isNegative),
     size: size || (isCircular ? undefined : (isIcon ? 'tiny' : 'small')),
     tabIndex
   };

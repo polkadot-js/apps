@@ -80,10 +80,6 @@ export default React.memo(styled(Body)`
       > * {
         vertical-align: middle;
       }
-
-      .ui.button {
-        margin-right: 0;
-      }
     }
 
     &.combined {
@@ -170,7 +166,7 @@ export default React.memo(styled(Body)`
       }
     }
 
-    .ui.button:not(.isIcon):not(:hover) {
+    .ui--Button:not(.isIcon):not(:hover) {
       color: #555 !important;
 
       &:not(.basic) {

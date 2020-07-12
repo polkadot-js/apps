@@ -107,11 +107,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue,
   );
 
   return isButton
-    ? (
-      <SUIButton.Group primary>
-        {dropdown}
-      </SUIButton.Group>
-    )
+    ? <SUIButton.Group>{dropdown}</SUIButton.Group>
     : (
       <Labelled
         className={classes('ui--Dropdown', className)}

@@ -29,8 +29,7 @@ export default css`
       }
     }
 
-    .ui.button,
-    .ui.buttons .button {
+    .ui--Button {
       background-color: ${colorBtnDefault};
       color: ${colorBtnText};
 
@@ -59,18 +58,6 @@ export default css`
 
     .ui.modal > .header:not(.ui) {
       border-bottom-color: ${colorBtnHighlight};
-    }
-
-    /* this is for dropdown buttons */
-    .ui.buttons .ui.button.selection.visible.dropdown {
-      &:hover {
-        /* reset opacity, this is now open */
-        opacity: 1;
-      }
-
-      > .text:not(.default) {
-        color: ${colorBtnText};
-      }
     }
   }
 `;

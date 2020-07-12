@@ -42,7 +42,7 @@ export default React.memo(styled(StorageApp)`
     align-items: flex-start;
     display: flex;
 
-    .button {
+    .ui--Button {
       margin: 0.25rem;
     }
 

@@ -358,9 +358,5 @@ export default React.memo(styled(Playground)`
     display: flex;
     flex: 1 1 100%;
     max-width: 300px;
-
-    .button {
-      margin: 0;
-    }
   }
 `);
