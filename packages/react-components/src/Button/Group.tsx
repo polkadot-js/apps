@@ -28,10 +28,6 @@ export default React.memo(styled(ButtonGroup)`
     margin-top: 0.75rem;
   }
 
-  > .ui.buttons {
-    vertical-align: middle;
-  }
-
   &.centered {
     margin-bottom: 0.5rem;
     text-align: center;
@@ -39,5 +35,20 @@ export default React.memo(styled(ButtonGroup)`
 
   &+.ui--Table {
     margin-top: 1.5rem;
+  }
+
+  .ui--Button {
+    border-radius: 0 !important;
+    margin-left: 1px !important;
+
+    &:first-child {
+      border-bottom-left-radius: 0.25rem !important;
+      border-top-left-radius: 0.25rem !important;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 0.25rem !important;
+      border-top-right-radius: 0.25rem !important;
+    }
   }
 `);

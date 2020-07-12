@@ -183,10 +183,6 @@ export default React.memo(styled(Body)`
       }
     }
 
-    .ui.button+.ui.button {
-      margin-left: 0rem;
-    }
-
     .ui.toggle.checkbox input:checked~.box:before,
     .ui.toggle.checkbox input:checked~label:before {
       background-color: #eee !important;

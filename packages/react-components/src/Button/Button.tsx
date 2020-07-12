@@ -15,8 +15,8 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     animate: 'fade',
     animated: isAnimated,
     basic: isBasic,
-    circular: true,
-    className: `${className} ${isCircular ? 'isCircular' : ''} ${isIcon ? 'isIcon' : ''} ${(isCircular || isIcon || !(children || label)) ? 'icon' : ''}`,
+    circular: isCircular,
+    className: `ui--Button ${className} ${isCircular ? 'isCircular' : ''} ${isIcon ? 'isIcon' : ''} ${(isCircular || isIcon || !(children || label)) ? 'icon' : ''}`,
     disabled: isDisabled,
     floated,
     fluid: isFluid,
@@ -34,20 +34,20 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
   };
 
   return (
-    <>
-      <SUIButton {...props}>
-        {icon && (
-          <><Icon icon={icon} />{(isIcon || isCircular) ? '' : '  '}</>
-        )}
-        {label}
-        {children}
-      </SUIButton>
-    </>
+    <SUIButton {...props}>
+      {icon && (
+        <><Icon icon={icon} />{(isIcon || isCircular) ? '' : '  '}</>
+      )}
+      {label}
+      {children}
+    </SUIButton>
   );
 }
 
 export default React.memo(styled(Button)`
-  border-radius: 10rem !important;
+  &:not(.isCircular) {
+    border-radius: 0.25rem !important;
+  }
 
   &:not(.icon) {
     > .ui--Icon {
