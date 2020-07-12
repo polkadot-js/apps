@@ -38,17 +38,16 @@ export default React.memo(styled(ButtonGroup)`
   }
 
   .ui--Button {
-    border-radius: 0 !important;
     margin-left: 1px !important;
 
-    &:first-child {
-      border-bottom-left-radius: 0.25rem !important;
-      border-top-left-radius: 0.25rem !important;
+    &:not(:first-of-type) {
+      border-bottom-left-radius: 0rem !important;
+      border-top-left-radius: 0rem !important;
     }
 
-    &:last-child {
-      border-bottom-right-radius: 0.25rem !important;
-      border-top-right-radius: 0.25rem !important;
+    &:not(:last-of-type) {
+      border-bottom-right-radius: 0 !important;
+      border-top-right-radius: 0 !important;
     }
   }
 `);
