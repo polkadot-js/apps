@@ -71,7 +71,8 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
         <article className='keepAlive'>
           <p><Trans key='poll1'>The Polkadot DOT denomination vote: Seventy-two hours after the DOT token becomes transferable, the most popular option from this poll will decide the denomination used for the DOT token.</Trans></p>
           <p><Trans key='poll2'>This is an <a href='https://en.wikipedia.org/wiki/Approval_voting' rel='noreferrer' target='_blank'>approval vote</a>. There are four options and you may select any combination of them. The most popular of the four will be selected as the final DOT denomination three days after DOT token transfers are enabled.</Trans></p>
-          <p><Trans key='poll2'>Please see the <a href='https://medium.com/polkadot-network/the-first-polkadot-vote-1fc1b8bd357b' rel='noreferrer' target='_blank'>Medium article </a> for more information</Trans></p>
+          <p><Trans key='poll3'>Please see the <a href='https://medium.com/polkadot-network/the-first-polkadot-vote-1fc1b8bd357b' rel='noreferrer' target='_blank'>Medium article </a> for more information</Trans></p>
+          <p className='pollAll'><Trans key='poll4'><b>Please vote for any combination of options</b></Trans></p>
           <div className={`options ${canVote ? 'canVote' : ''}`}>
             {options.map(([label, desc, value, onChange], index) =>
               <Columar
@@ -154,6 +155,12 @@ export default React.memo(styled(PollApp)`
     opacity: 0.75;
   }
 
+  .pollAll {
+    margin-bottom: 0;
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+
   .pollBlocksRight {
     position: absolute;
     right: 0.5rem;
@@ -172,7 +179,7 @@ export default React.memo(styled(PollApp)`
   }
 
   .options {
-    margin: 1.5rem 0 1rem 0;
+    margin: 1rem 0;
 
     .ui--Columnar {
       margin: 0 -1.25rem;
