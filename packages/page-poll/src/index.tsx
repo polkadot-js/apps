@@ -48,11 +48,11 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
 
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
-  const options: [string, boolean, (value: boolean) => void][] = [
-    [t('10 million DOTs; status quo'), opt10m, setOpt10m],
-    [t('100 million DOTs; 11 decimals'), opt100m, setOpt100m],
-    [t('1 billion DOTs; 10 decimals'), opt1b, setOpt1b],
-    [t('10 billion DOTs; 9 decimals'), opt10b, setOpt10b]
+  const options: [string, string, boolean, (value: boolean) => void][] = [
+    [t('No change'), t('No change from the original 2017 sale definitions; will mean a total of 10m DOT from genesis.'), opt10m, setOpt10m],
+    [t('Split of 10x'), t('Split of 10x from the original sale; will mean a total of 100m DOT from genesis. Apparent DOT price would be 10x lower.'), opt100m, setOpt100m],
+    [t('Split of 100x'), t('Split of 100x from the original sale; will mean a total of 1b DOT from genesis. Apparent DOT price would be 100x lower.'), opt1b, setOpt1b],
+    [t('Split of 1000x'), t('Split of 1,000x from the original sale; will mean a total of 10b DOT from genesis. Apparent DOT price would be 1000x lower.'), opt10b, setOpt10b]
   ];
   const hasValue = opt10m || opt100m || opt1b || opt10b;
 
@@ -67,10 +67,14 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
           <p><Trans key='poll2'>This is an <a href='https://en.wikipedia.org/wiki/Approval_voting' rel='noreferrer' target='_blank'>approval vote</a>. There are four options and you may select any combination of them. The most popular of the four will be selected as the final DOT denomination three days after DOT token transfers are enabled.</Trans></p>
           <p><Trans key='poll2'>Please see the <a href='https://medium.com/polkadot-network/the-first-polkadot-vote-1fc1b8bd357b' rel='noreferrer' target='_blank'>Medium article </a> for more information</Trans></p>
           <div className={`options ${canVote ? 'canVote' : ''}`}>
-            {options.map(([label, value, onChange], index) =>
-              <Columar key={index}>
+            {options.map(([label, desc, value, onChange], index) =>
+              <Columar
+                is60
+                key={index}
+              >
                 <Columar.Column className='option'>
                   <div className='optionName'>{label}</div>
+                  <div className='optionDesc'>{desc}</div>
                   <Toggle
                     className='pollToggle'
                     isDisabled={!canVote}
@@ -139,7 +143,7 @@ export default React.memo(styled(PollApp)`
 
   .pollContainer {
     margin: 2rem auto;
-    max-width: 50rem;
+    max-width: 60rem;
   }
 
   .options {
@@ -162,6 +166,7 @@ export default React.memo(styled(PollApp)`
       font-size: 1.2rem;
       font-weight: 100;
       line-height: 1;
+      margin-bottom: 0.75rem;
     }
 
     .pollToggle {
