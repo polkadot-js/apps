@@ -75,7 +75,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
-      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu ? 'fixed' : ''} ${isMenuOpen ? 'menu-open' : ''} theme--default ${className}`}>
+      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'}${isMenu ? ' fixed' : ''}${isMenuOpen ? ' menu-open' : ''} theme--default ${className}`}>
         <div
           className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
           onClick={_handleResize}

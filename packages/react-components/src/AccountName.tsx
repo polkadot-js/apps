@@ -161,7 +161,7 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
 
   return (
     <div
-      className={`ui--AccountName ${withSidebar ? 'withSidebar' : ''} ${className}`}
+      className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
       onClick={
         withSidebar
           ? _onToggleSidebar

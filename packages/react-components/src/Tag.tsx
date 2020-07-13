@@ -26,7 +26,7 @@ function Tag ({ className = '', color = 'grey', hover, isTag = true, label, size
 
   return (
     <div
-      className={`${color}Color ${isTag ? 'isTag' : ''} ${size}Size ${className}`}
+      className={`${color}Color${isTag ? ' isTag' : ''} ${size}Size ${className}`}
       color={color || 'grey'}
       {...tooltipProps}
     >
