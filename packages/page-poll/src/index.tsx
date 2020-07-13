@@ -61,7 +61,7 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   return (
     <main className={className}>
       <div className='pollContainer'>
-        <h1>{t('poll on token decimals')}</h1>
+        <h1>{t('denomination vote')}</h1>
         <article className='keepAlive'>
           <p><Trans key='poll1'>The Polkadot DOT denomination vote: Seventy-two hours after the DOT token becomes transferable, the most popular option from this poll will decide the denomination used for the DOT token.</Trans></p>
           <p><Trans key='poll2'>This is an <a href='https://en.wikipedia.org/wiki/Approval_voting' rel='noreferrer' target='_blank'>approval vote</a>. There are four options and you may select any combination of them. The most popular of the four will be selected as the final DOT denomination three days after DOT token transfers are enabled.</Trans></p>
