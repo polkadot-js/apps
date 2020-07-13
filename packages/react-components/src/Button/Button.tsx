@@ -56,7 +56,8 @@ export default React.memo(styled(Button)`
   }
 
   &:disabled {
-    opacity: 0.5;
+    cursor: not-allowed;
+    opacity: 0.15;
   }
 
   &:focus {
@@ -82,6 +83,7 @@ export default React.memo(styled(Button)`
 
   &.isFull {
     display: block;
+    width: 100%;
   }
 
   &.isIcon {
