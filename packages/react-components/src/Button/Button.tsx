@@ -35,7 +35,7 @@ function Button ({ children, className = '', icon, isBasic = false, isCircular =
 
 export default React.memo(styled(Button)`
   border: 1px solid transparent;
-  font-size: 0.925rem;
+  font-size: 0.92857142857rem; // 13/14px
   text-align: center;
 
   &:not(:disabled) {

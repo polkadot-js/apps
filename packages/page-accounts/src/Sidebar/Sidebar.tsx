@@ -117,7 +117,6 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
               <Button
                 icon='check'
                 isBasic
-                isPrimary
                 label={t<string>('Owned')}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
