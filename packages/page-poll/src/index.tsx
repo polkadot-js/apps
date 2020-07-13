@@ -7,6 +7,7 @@ import { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -47,26 +48,40 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
 
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
-  const options: [string, boolean, (value: boolean) => void][] = [
-    [t('10 million DOTs; status quo'), opt10m, setOpt10m],
-    [t('100 million DOTs; 11 decimals'), opt100m, setOpt100m],
-    [t('1 billion DOTs; 10 decimals'), opt1b, setOpt1b],
-    [t('10 billion DOTs; 9 decimals'), opt10b, setOpt10b]
+  const options: [string, string, boolean, (value: boolean) => void][] = [
+    [t('No change'), t('No change from the original 2017 sale definitions; will mean a total of 10 million DOT from genesis.'), opt10m, setOpt10m],
+    [t('Split of 10x'), t('Split of 10x from the original sale; will mean a total of 100 million DOT from genesis. Apparent DOT price would be 10x lower and apparent account balances 10x higher.'), opt100m, setOpt100m],
+    [t('Split of 100x'), t('Split of 100x from the original sale; will mean a total of 1 billion DOT from genesis. Apparent DOT price would be 100x lower and apparent account balances 100x higher.'), opt1b, setOpt1b],
+    [t('Split of 1000x'), t('Split of 1000x from the original sale; will mean a total of 10 billion DOT from genesis. Apparent DOT price would be 1000x lower and apparent account balances 1000x higher.'), opt10b, setOpt10b]
   ];
   const hasValue = opt10m || opt100m || opt1b || opt10b;
+
+  /* eslint-disable react/jsx-max-props-per-line */
 
   return (
     <main className={className}>
       <div className='pollContainer'>
-        <h1>{t('poll on token decimals')}</h1>
+        <div className='pollHeader'>
+          <h1>{t('denomination vote')}</h1>
+          <div className='pollBlocksRight'>
+            {canVote && <BlockToTime blocks={blocksLeft} />}
+            <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
+          </div>
+        </div>
         <article className='keepAlive'>
-          <p>{t('This poll is setup to judge the sentiment of the Polkadot token holders in adjusting the number of decimals that is used to identify one full DOT. It does not change the overall supply, but rather just allows for a different representation of the current supply.')}</p>
-          <p>{t('You can indicate your vote for any combination of the options laid out below.')}</p>
+          <p><Trans key='poll1'>The Polkadot DOT denomination vote: Seventy-two hours after the DOT token becomes transferable, the most popular option from this poll will decide the denomination used for the DOT token.</Trans></p>
+          <p><Trans key='poll2'>This is an <a href='https://en.wikipedia.org/wiki/Approval_voting' rel='noreferrer' target='_blank'>approval vote</a>. There are four options and you may select any combination of them. The most popular of the four will be selected as the final DOT denomination three days after DOT token transfers are enabled.</Trans></p>
+          <p><Trans key='poll3'>Please see the <a href='https://medium.com/polkadot-network/the-first-polkadot-vote-1fc1b8bd357b' rel='noreferrer' target='_blank'>Medium article </a> for more information</Trans></p>
+          <p className='pollAll'><Trans key='poll4'><b>Please vote for any combination of options</b></Trans></p>
           <div className={`options ${canVote ? 'canVote' : ''}`}>
-            {options.map(([label, value, onChange], index) =>
-              <Columar key={index}>
+            {options.map(([label, desc, value, onChange], index) =>
+              <Columar
+                is60
+                key={index}
+              >
                 <Columar.Column className='option'>
                   <div className='optionName'>{label}</div>
+                  <div className='optionDesc'>{desc}</div>
                   <Toggle
                     className='pollToggle'
                     isDisabled={!canVote}
@@ -118,9 +133,17 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
             </>
           )}
         </article>
-        <div className='pollBlocksRight'>
-          {canVote && <BlockToTime blocks={blocksLeft} />}
-          <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
+        <div className='pollActions'>
+          <ul>
+            <li>{t('Any combination of the four options may be approved of by the voter. There is no need to select only one option!')}</li>
+            <li>{t('Approving of all or none of the options is equivalent and will not affect the outcome of the poll.')}</li>
+            <li>{t('All voters may alter their votes any number of times prior to the close of the poll.')}</li>
+            <li>{t('Voting costs nothing other than the transaction fee and can be done from all accounts with a non-zero spendable balance.')}</li>
+            <li>{t('Locked funds (e.g. for staking) are counted.')}</li>
+            <li>{t('No discretionary lock-voting is in place; all DOT used to vote counts the same.')}</li>
+            <li>{t('Voting is made on a per-account basis; a single account must all vote the same way and cannot split its vote.')}</li>
+            <li>{t('This vote does not affect any economics of the Polkadot platform. Staking rewards, inflation, effective market capitalisation and the underlying balances of every account remain completely unchanged. It is "merely" about what units we use to denominate the balances into "DOT" for the purpose of display.')}</li>
+          </ul>
         </div>
       </div>
     </main>
@@ -128,18 +151,35 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(PollApp)`
+  .pollActions {
+    opacity: 0.75;
+  }
+
+  .pollAll {
+    margin-bottom: 0;
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+
   .pollBlocksRight {
-    padding: 0.5rem 1rem;
+    position: absolute;
+    right: 0.5rem;
     text-align: right;
+    opacity: 0.75;
+    bottom: 0;
   }
 
   .pollContainer {
     margin: 2rem auto;
-    max-width: 50rem;
+    max-width: 60rem;
+  }
+
+  .pollHeader {
+    position: relative;
   }
 
   .options {
-    margin: 1.5rem 0 1rem 0;
+    margin: 1rem 0;
 
     .ui--Columnar {
       margin: 0 -1.25rem;
@@ -158,6 +198,7 @@ export default React.memo(styled(PollApp)`
       font-size: 1.2rem;
       font-weight: 100;
       line-height: 1;
+      margin-bottom: 0.75rem;
     }
 
     .pollToggle {
@@ -177,7 +218,7 @@ export default React.memo(styled(PollApp)`
   }
 
   .result {
-    margin: 1rem 0 0 0;
+    margin: 2.2rem 0 0 0;
     text-align: right;
 
     .ui--Progress {

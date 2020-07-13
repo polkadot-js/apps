@@ -90,7 +90,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       sortedAccounts?.map((account, index) => {
         let delegation: Delegation | undefined;
 
-        if (delegations && delegations[index].isDelegating) {
+        if (delegations && delegations[index]?.isDelegating) {
           const { balance: amount, conviction, target } = delegations[index].asDelegating;
 
           delegation = {
