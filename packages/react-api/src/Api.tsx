@@ -37,7 +37,7 @@ interface InjectedAccountExt {
   };
 }
 
-const DEFAULT_DECIMALS = createType(registry, 'u32', 12);
+const DEFAULT_DECIMALS = createType(registry, 'u32', 4);
 const DEFAULT_SS58 = createType(registry, 'u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
@@ -63,9 +63,13 @@ async function loadOnReady (api: ApiPromise): Promise<State> {
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
-  // const tokenSymbol = properties.tokenSymbol.unwrapOr('DEV').toString();
+
+  // TODO: query from genericAsset.assetRegistry
+  // 1) find spending Asset ID
+  // 2) find spending Asset ID decimals and symbol
   const tokenSymbol = 'CPAY';
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
+
   const systemChain = _systemChain
     ? _systemChain.toString()
     : '<unknown>';

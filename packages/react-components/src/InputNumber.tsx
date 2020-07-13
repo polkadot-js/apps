@@ -67,23 +67,13 @@ function getRegex (isDecimal: boolean): RegExp {
   );
 }
 
-// function getSiOptions (): { text: string; value: string }[] {
-//   return formatBalance.getOptions()
-//     .map(({ power, text, value }): { text: string; value: string } => ({
-//       value,
-//       text: power === 0
-//         ? TokenUnit.abbr
-//         : text
-//     }));
-// }
-
 function getSiPowers (si: SiDef | null): [BN, number, number] {
   if (!si) {
     return [ZERO, 0, 0];
   }
 
-  // const basePower = formatBalance.getDefaults().decimals;
-  const basePower = 4; // TODO: fetch the value from chain
+  // TODO: fetch value from genericAsset.assetRegistry
+  const basePower = 4;
 
   return [new BN(basePower + si.power), basePower, si.power];
 }
