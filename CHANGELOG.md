@@ -1,10 +1,15 @@
 # CHANGELOG
 
-## 0.49.0-beta.x
+## 0.49.1 Jul 13, 2020
 
+- Update Subscan links with supported chains (https://github.com/carumusan)
+- Enhance Electron desktop with CSP & best practices (Thanks to https://github.com/EthWorks)
 - Activate Electron update feature by default (Thanks to https://github.com/EthWorks)
+- Use external browser for embedded links in Electron (Thanks to https://github.com/EthWorks)
 - Add testing around Electron features (Thanks to https://github.com/EthWorks)
 - Support democracy account delegation (Thanks to https://github.com/Tbaut)
+- Don't filter selected on multi account selector (Thanks to https://github.com/Tbaut)
+- Add support for Polkadot denomination poll
 - Allow input & display of OpaqueCall type from multisig
 - Indicate own nominees on targets page (re-added with badges)
 - Re-add indicator for own nominators in staking targets
@@ -12,6 +17,10 @@
 - Add generator for Kusama society designs
 - Handle OpaqueCall in inputs and well as displays (multisig)
 - Small layout adjustments for address display components
+- Performance improvements on wrapped styles, component libraries
+- Add support for display detected ASCII bytes as text
+- Adjust type injection to override on-connect API defaults
+- Adjust attestation display with no-balance filters
 
 ## 0.48.1 Jul 6, 2020
 
