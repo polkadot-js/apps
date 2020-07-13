@@ -75,7 +75,6 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
             <Button
               icon='save'
               onClick={_onPopupOpen}
-              size='small'
             />
           }
         >

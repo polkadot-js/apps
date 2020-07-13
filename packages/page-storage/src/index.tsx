@@ -64,6 +64,6 @@ export default React.memo(styled(StorageApp)`
 
   .storage--actionrow-buttons {
     flex: 0;
-    padding: 0.625rem 0.25rem;
+    padding: 0.5rem 0.25rem;
   }
 `);
