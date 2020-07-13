@@ -5,15 +5,26 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-export default {
-  Difficulty: 'U256',
-  DifficultyAndTimestamp: {
-    difficulty: 'Difficulty',
-    timestamp: 'Moment'
-  },
-  Era: {
-    genesisBlockHash: 'H256',
-    finalBlockHash: 'H256',
-    finalStateRoot: 'H256'
-  }
+import { CustomDefinition } from '../types';
+
+const definition: CustomDefinition = {
+  alias: {},
+  rpc: {},
+  types: [{
+    minmax: [0, undefined],
+    types: {
+      Difficulty: 'U256',
+      DifficultyAndTimestamp: {
+        difficulty: 'Difficulty',
+        timestamp: 'Moment'
+      },
+      Era: {
+        genesisBlockHash: 'H256',
+        finalBlockHash: 'H256',
+        finalStateRoot: 'H256'
+      }
+    }
+  }]
 };
+
+export default definition;

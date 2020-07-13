@@ -5,7 +5,18 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-export default {
-  Address: 'AccountId',
-  LookupSource: 'AccountId'
+import { CustomDefinition } from '../types';
+
+const definition: CustomDefinition = {
+  alias: {},
+  rpc: {},
+  types: [{
+    minmax: [0, undefined],
+    types: {
+      Address: 'AccountId',
+      LookupSource: 'AccountId'
+    }
+  }]
 };
+
+export default definition;

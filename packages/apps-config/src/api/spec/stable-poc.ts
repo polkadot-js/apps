@@ -5,18 +5,29 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-export default {
-  AccountData: {
-    free: 'Balance',
-    reserved: 'Balance',
-    miscFrozen: 'Balance',
-    feeFrozen: 'Balance',
-    txCount: 'u32',
-    sessionIndex: 'u32'
-  },
-  TemplateAccountData: {
-    txCount: 'u32',
-    sessionIndex: 'u32'
-  },
-  TxCount: 'u32'
+import { CustomDefinition } from '../types';
+
+const definition: CustomDefinition = {
+  alias: {},
+  rpc: {},
+  types: [{
+    minmax: [0, undefined],
+    types: {
+      AccountData: {
+        free: 'Balance',
+        reserved: 'Balance',
+        miscFrozen: 'Balance',
+        feeFrozen: 'Balance',
+        txCount: 'u32',
+        sessionIndex: 'u32'
+      },
+      TemplateAccountData: {
+        txCount: 'u32',
+        sessionIndex: 'u32'
+      },
+      TxCount: 'u32'
+    }
+  }]
 };
+
+export default definition;

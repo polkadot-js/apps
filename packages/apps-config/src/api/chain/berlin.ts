@@ -5,23 +5,34 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
+import { CustomDefinition } from '../types';
+
 import * as edgewareDefinitions from 'edgeware-node-types/interfaces/definitions';
 
 const edgTypes = Object
   .values(edgewareDefinitions)
   .reduce((res, { types }) => ({ ...res, ...types }), {});
 
-export default {
-  ...edgTypes,
-  // aliases that don't do well as part of interfaces
-  'voting::VoteType': 'VoteType',
-  'voting::TallyType': 'TallyType',
-  'voting::Tally': 'VotingTally',
-  // chain-specific overrides
-  Address: 'GenericAddress',
-  Keys: 'SessionKeys4',
-  StakingLedger: 'StakingLedgerTo223',
-  Votes: 'VotesTo230',
-  ReferendumInfo: 'ReferendumInfoTo239',
-  Weight: 'u32'
+const definition: CustomDefinition = {
+  alias: {},
+  rpc: {},
+  types: [{
+    minmax: [0, undefined],
+    types: {
+      ...edgTypes,
+      // aliases that don't do well as part of interfaces
+      'voting::VoteType': 'VoteType',
+      'voting::TallyType': 'TallyType',
+      'voting::Tally': 'VotingTally',
+      // chain-specific overrides
+      Address: 'GenericAddress',
+      Keys: 'SessionKeys4',
+      StakingLedger: 'StakingLedgerTo223',
+      Votes: 'VotesTo230',
+      ReferendumInfo: 'ReferendumInfoTo239',
+      Weight: 'u32'
+    }
+  }]
 };
+
+export default definition;
