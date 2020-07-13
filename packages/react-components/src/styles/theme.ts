@@ -7,6 +7,8 @@ import { css } from 'styled-components';
 /* default buttons, dark gray */
 export const colorBtnDefault = '#767778';
 
+export const colorBtnShadow = '#98999a';
+
 /* highlighted buttons, orange */
 export const colorBtnHighlight = '#f19135';
 
@@ -31,6 +33,7 @@ export default css`
 
     .ui--Button {
       background-color: ${colorBtnDefault};
+      // box-shadow: 0 0 0 1px ${colorBtnShadow};
       color: ${colorBtnText};
 
       &.active,
@@ -42,6 +45,7 @@ export default css`
       }
 
       &:hover {
+        // box-shadow: 0 0 0 1px ${colorBtnText};
         filter: brightness(110%);
       }
 

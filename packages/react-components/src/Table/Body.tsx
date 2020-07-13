@@ -167,16 +167,9 @@ export default React.memo(styled(Body)`
     }
 
     .ui--Button:not(.isIcon):not(:hover) {
+      background: transparent !important;
+      box-shadow: none !important;
       color: #555 !important;
-
-      &:not(.basic) {
-        background: transparent !important;
-      }
-
-      &.basic {
-        background: transparent !important;
-        box-shadow: none !important;
-      }
     }
 
     .ui.toggle.checkbox input:checked~.box:before,

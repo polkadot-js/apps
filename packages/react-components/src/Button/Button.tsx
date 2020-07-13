@@ -19,7 +19,7 @@ function Button ({ children, className = '', icon, isBasic = false, isCircular =
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--bg') : ''} ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''} ${className}`}
       disabled={isDisabled}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
@@ -43,7 +43,7 @@ export default React.memo(styled(Button)`
   }
 
   &:not(.hasLabel) {
-    padding: 0.775em;
+    padding: 0.75em;
 
     > .ui--Icon {
       height: 1rem;
@@ -65,7 +65,7 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.775em 1.5em;
+    padding: 0.75em 1.5em;
 
     > .ui--Icon {
       margin-right: 0.75rem;
