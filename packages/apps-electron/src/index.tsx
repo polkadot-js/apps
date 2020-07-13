@@ -15,7 +15,6 @@ import { ThemeProvider } from 'styled-components';
 import settings from '@polkadot/ui-settings';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Apps from '@polkadot/apps/Apps';
 import { electronMainApi } from './api/global-exported-api';
@@ -41,11 +40,9 @@ ReactDOM.render(
         >
           <BlockAuthors>
             <Events>
-              <AccountSidebar>
-                <HashRouter>
-                  <Apps />
-                </HashRouter>
-              </AccountSidebar>
+              <HashRouter>
+                <Apps />
+              </HashRouter>
             </Events>
           </BlockAuthors>
         </Api>
