@@ -2,7 +2,7 @@
 
 ## 0.49.1 Jul 13, 2020
 
-- Update subscan links with supported chains (https://github.com/carumusan)
+- Update Subscan links with supported chains (https://github.com/carumusan)
 - Enhance Electron desktop with CSP & best practices (Thanks to https://github.com/EthWorks)
 - Activate Electron update feature by default (Thanks to https://github.com/EthWorks)
 - Use external browser for embedded links in Electron (Thanks to https://github.com/EthWorks)
