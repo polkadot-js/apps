@@ -186,7 +186,7 @@ export default React.memo(styled(PollApp)`
   }
 
   .result {
-    margin: 1rem 0 0 0;
+    margin: 2.2rem 0 0 0;
     text-align: right;
 
     .ui--Progress {
