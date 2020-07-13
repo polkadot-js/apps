@@ -5,7 +5,7 @@
 import { css } from 'styled-components';
 
 /* default buttons, dark gray */
-export const colorBtnDefault = '#666';
+export const colorBtnDefault = '#767778';
 
 /* highlighted buttons, orange */
 export const colorBtnHighlight = '#f19135';
@@ -42,7 +42,7 @@ export default css`
       }
 
       &:hover {
-        filter: brightness(120%);
+        filter: brightness(110%);
       }
 
       &.isIcon {
