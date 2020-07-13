@@ -7,6 +7,7 @@ import { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -55,13 +56,16 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   ];
   const hasValue = opt10m || opt100m || opt1b || opt10b;
 
+  /* eslint-disable react/jsx-max-props-per-line */
+
   return (
     <main className={className}>
       <div className='pollContainer'>
         <h1>{t('poll on token decimals')}</h1>
         <article className='keepAlive'>
-          <p>{t('This poll is setup to judge the sentiment of the Polkadot token holders in adjusting the number of decimals that is used to identify one full DOT. It does not change the overall supply, but rather just allows for a different representation of the current supply.')}</p>
-          <p>{t('You can indicate your vote for any combination of the options laid out below.')}</p>
+          <p><Trans key='poll1'>The Polkadot DOT denomination vote: Seventy-two hours after the DOT token becomes transferable, the most popular option from this poll will decide the denomination used for the DOT token.</Trans></p>
+          <p><Trans key='poll2'>This is an <a href='https://en.wikipedia.org/wiki/Approval_voting' rel='noreferrer' target='_blank'>approval vote</a>. There are four options and you may select any combination of them. The most popular of the four will be selected as the final DOT denomination three days after DOT token transfers are enabled.</Trans></p>
+          <p><Trans key='poll2'>Please see the <a href='https://medium.com/polkadot-network/the-first-polkadot-vote-1fc1b8bd357b' rel='noreferrer' target='_blank'>Medium article </a> for more information</Trans></p>
           <div className={`options ${canVote ? 'canVote' : ''}`}>
             {options.map(([label, value, onChange], index) =>
               <Columar key={index}>
