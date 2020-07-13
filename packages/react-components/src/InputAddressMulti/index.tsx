@@ -75,7 +75,6 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
             {selected.map((address): React.ReactNode => (
               <Selected
                 address={address}
-                filter={filter}
                 key={address}
                 onDeselect={_onDeselect}
               />
