@@ -26,7 +26,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon value={value as Uint8Array} />
       <AccountName
-        className={`${withSidebar ? 'withSidebar' : ''}`}
+        className={withSidebar ? 'withSidebar' : ''}
         defaultName={defaultName}
         onClick={onClickName}
         override={overrideName}

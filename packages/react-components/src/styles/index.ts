@@ -35,6 +35,15 @@ export default createGlobalStyle<Props>`
     border-color: ${getHighlight} !important;
   }
 
+  .ui--highlight--button {
+    background: ${getHighlight} !important;
+    // box-shadow: 0 0 0 1px ${getHighlight} !important;
+
+    &:hover {
+      // box-shadow: inherit !important;
+    }
+  }
+
   .ui--highlight--color {
     color: ${getHighlight} !important;
   }

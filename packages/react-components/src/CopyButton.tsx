@@ -17,11 +17,10 @@ interface Props {
   className?: string;
   icon?: IconName;
   isAddress?: boolean;
-  size?: 'large' | 'small';
   value: string;
 }
 
-function CopyButton ({ children, className, icon = 'copy', isAddress = false, size = 'small', value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -50,7 +49,6 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, si
               className='icon-button show-on-hover'
               icon={icon}
               isPrimary
-              size={size}
             />
           </span>
         </div>

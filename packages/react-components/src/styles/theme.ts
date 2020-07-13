@@ -5,7 +5,9 @@
 import { css } from 'styled-components';
 
 /* default buttons, dark gray */
-export const colorBtnDefault = '#666';
+export const colorBtnDefault = '#767778';
+
+export const colorBtnShadow = '#98999a';
 
 /* highlighted buttons, orange */
 export const colorBtnHighlight = '#f19135';
@@ -29,9 +31,9 @@ export default css`
       }
     }
 
-    .ui.button,
-    .ui.buttons .button {
+    .ui--Button {
       background-color: ${colorBtnDefault};
+      // box-shadow: 0 0 0 1px ${colorBtnShadow};
       color: ${colorBtnText};
 
       &.active,
@@ -43,7 +45,8 @@ export default css`
       }
 
       &:hover {
-        filter: brightness(120%);
+        // box-shadow: 0 0 0 1px ${colorBtnText};
+        filter: brightness(110%);
       }
 
       &.isIcon {
@@ -59,18 +62,6 @@ export default css`
 
     .ui.modal > .header:not(.ui) {
       border-bottom-color: ${colorBtnHighlight};
-    }
-
-    /* this is for dropdown buttons */
-    .ui.buttons .ui.button.selection.visible.dropdown {
-      &:hover {
-        /* reset opacity, this is now open */
-        opacity: 1;
-      }
-
-      > .text:not(.default) {
-        color: ${colorBtnText};
-      }
     }
   }
 `;

@@ -115,13 +115,11 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
             />
             {flags.isOwned && (
               <Button
-                className='basic'
                 icon='check'
-                isPrimary
+                isBasic
                 label={t<string>('Owned')}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
-                size='tiny'
               />
             )}
             {!flags.isOwned && !flags.isInContacts && (
@@ -132,31 +130,20 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                 onClick={_onUpdateName}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
-                size='tiny'
               />
             )}
             {!flags.isOwned && flags.isInContacts && (
               <Button
-                className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
+                className='ui--AddressMenu-button'
+                icon='ban'
                 isAnimated
                 isNegative={isHoveringButton}
                 isPositive={!isHoveringButton}
+                label={t<string>('Remove')}
                 onClick={_onForgetAddress}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
-                size='tiny'
-              >
-                <Button.Content visible>
-                  <Icon icon='check' />
-                  &nbsp;
-                  {t<string>('Saved')}
-                </Button.Content>
-                <Button.Content hidden>
-                  <Icon icon='ban' />
-                  &nbsp;
-                  {t<string>('Remove')}
-                </Button.Content>
-              </Button>
+              />
             )}
           </Button.Group>
           {isTransferOpen && (
@@ -207,8 +194,6 @@ export default React.memo(styled(Sidebar)`
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
-    font-size: 1.2rem;
-    padding: 0.6rem !important;
   }
 
   .ui--AddressMenu-header {
@@ -221,16 +206,8 @@ export default React.memo(styled(Sidebar)`
     margin: -1rem -1rem 1rem -1rem;
     padding: 1rem;
 
-    .ui.button {
+    .ui--Button {
       transition: 0.5s all;
-
-      &.secondary {
-        background-color: #666;
-      }
-    }
-
-    .ui.button+.ui.button {
-      margin-left: 0.5rem !important;
     }
   }
 

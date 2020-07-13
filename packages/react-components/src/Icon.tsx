@@ -29,7 +29,7 @@ function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, si
   return (
     <FontAwesomeIcon
       {...extraProps}
-      className={`ui--Icon ${color}Color ${onClick ? 'isClickable' : ''} ${className}`}
+      className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''} ${className}`}
       icon={icon}
       onClick={onClick}
       size={size}

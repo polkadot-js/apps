@@ -42,7 +42,6 @@ function Outcome ({ className = '', onClear, outcome: { isSuccess, message, orig
           icon='times'
           isPrimary
           onClick={onClear}
-          size='mini'
         />
       </div>
       <Output

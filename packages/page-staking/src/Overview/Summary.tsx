@@ -25,7 +25,7 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
   const { lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
 
   return (
-    <SummaryBox className={`${className} ${!isVisible ? 'staking--hidden' : ''}`}>
+    <SummaryBox className={`${className}${!isVisible ? ' staking--hidden' : ''}`}>
       <section>
         {stakingOverview && (
           <CardSummary label={t<string>('validators')}>

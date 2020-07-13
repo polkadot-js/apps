@@ -43,7 +43,13 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   }, [totals]);
 
   if (!totals || !progress || !bestNumber) {
-    return <Spinner label={t<string>('Retrieving totals...')} />;
+    return (
+      <main className={className}>
+        <div className='pollContainer'>
+          <Spinner label={t<string>('Retrieving totals...')} />
+        </div>
+      </main>
+    );
   }
 
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);

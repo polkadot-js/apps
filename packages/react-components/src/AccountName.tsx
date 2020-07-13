@@ -81,7 +81,7 @@ function extractName (address: string, accountIndex?: AccountIndex, defaultName?
           isSmall
         />
       )}
-      <span className={`name ${(isLocal || isSpecial) ? 'isLocal' : (isAddress ? 'isAddress' : '')}`}>{displayName}</span>
+      <span className={`name${(isLocal || isSpecial) ? ' isLocal' : (isAddress ? ' isAddress' : '')}`}>{displayName}</span>
     </div>
   );
 }
@@ -112,7 +112,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
       : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
   );
   const elem = createIdElem(
-    <span className={`name ${isGood ? 'isGood' : ''}`}>
+    <span className={`name${isGood ? ' isGood' : ''}`}>
       <span className='top'>{displayParent || displayName}</span>
       {displayParent && <span className='sub'>{`/${displayName || ''}`}</span>}
     </span>,
@@ -161,7 +161,7 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
 
   return (
     <div
-      className={`ui--AccountName ${withSidebar ? 'withSidebar' : ''} ${className}`}
+      className={`ui--AccountName${withSidebar ? ' withSidebar' : ''} ${className}`}
       onClick={
         withSidebar
           ? _onToggleSidebar
