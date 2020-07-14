@@ -21,7 +21,7 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
       header= {t<string>('Undelegate')}
       size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
+      <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress

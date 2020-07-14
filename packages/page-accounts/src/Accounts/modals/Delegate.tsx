@@ -37,7 +37,7 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
       header= {t<string>('Delegate democracy vote')}
       size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
+      <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
