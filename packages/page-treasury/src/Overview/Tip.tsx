@@ -98,42 +98,39 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           </Expander>
         )}
       </td>
-      <td className='button'>
+      <td className='button together'>
         {closesAt
-          ? bestNumber && (
-            closesAt.gt(bestNumber)
-              ? (
-                <div className='closingTimer'>
-                  <BlockToTime blocks={closesAt.sub(bestNumber)} />
-                  #{formatNumber(closesAt)}
-                </div>
-              )
-              : (
-                <TipClose
-                  hash={hash}
-                  isMember={isMember}
-                  members={members}
-                />
-              )
+          ? (bestNumber && closesAt.gt(bestNumber)) && (
+            <div className='closingTimer'>
+              <BlockToTime blocks={closesAt.sub(bestNumber)} />
+              #{formatNumber(closesAt)}
+            </div>
+          )
+          : finder && (
+            <TxButton
+              accountId={finder}
+              icon='times'
+              isDisabled={!isFinder}
+              label={t('Cancel')}
+              params={[hash]}
+              tx='treasury.retractTip'
+            />
+          )
+        }
+        {(!closesAt || !bestNumber || closesAt.gt(bestNumber))
+          ? (
+            <TipEndorse
+              hash={hash}
+              isMember={isMember}
+              members={members}
+            />
           )
           : (
-            <>
-              {finder && (
-                <TxButton
-                  accountId={finder}
-                  icon='times'
-                  isDisabled={!isFinder}
-                  label={t('Cancel')}
-                  params={[hash]}
-                  tx='treasury.retractTip'
-                />
-              )}
-              <TipEndorse
-                hash={hash}
-                isMember={isMember}
-                members={members}
-              />
-            </>
+            <TipClose
+              hash={hash}
+              isMember={isMember}
+              members={members}
+            />
           )
         }
       </td>
@@ -151,6 +148,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
 
 export default React.memo(styled(Tip)`
   .closingTimer {
+    display: inline-block;
     padding: 0 0.5rem;
   }
 `);
