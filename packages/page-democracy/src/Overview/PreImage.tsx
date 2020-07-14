@@ -5,11 +5,13 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Hash } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, InputAddress, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputAddress, InputBalance, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 import { blake2AsHex } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
@@ -24,23 +26,29 @@ interface Props {
 interface HashState {
   encodedHash: string;
   encodedProposal: string;
+  storageFee: BN;
 }
 
 const ZERO_HASH = blake2AsHex('');
 
 function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiDefaultTxSudo } = useApi();
+  const { api, apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isImminent, setIsImminent] = useState(propsIsImminent || false);
-  const [{ encodedHash, encodedProposal }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '' });
+  const [{ encodedHash, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '', storageFee: BN_ZERO });
   const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
   useEffect((): void => {
     const encodedProposal = (proposal as SubmittableExtrinsic)?.method.toHex() || '';
+    const storageFee = api.consts.democracy.preimageByteDeposit.mul(
+      encodedProposal
+        ? new BN((encodedProposal.length - 2) / 2)
+        : BN_ZERO
+    );
 
-    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal });
-  }, [proposal]);
+    setHash({ encodedHash: blake2AsHex(encodedProposal), encodedProposal, storageFee });
+  }, [api, proposal]);
 
   const isMatched = imageHash
     ? imageHash.eq(encodedHash)
@@ -105,6 +113,21 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
             <p>{t<string>('Only applicable if the proposal has already passed and is ready for dispatch.')}</p>
           </Modal.Column>
         </Modal.Columns>
+        {!isImminent && (
+          <Modal.Columns>
+            <Modal.Column>
+              <InputBalance
+                defaultValue={storageFee}
+                help={t<string>('The amount reserved to store this image')}
+                isDisabled
+                label={t<string>('calculated storage fee')}
+              />
+            </Modal.Column>
+            <Modal.Column>
+              <p>{t<string>('The calculated storage costs based on the size and the per-bytes fee.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
+        )}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
