@@ -123,23 +123,41 @@ function createWebpack (ENV, context) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          polkadotJs: {
+          polkadotJsLibs: {
             chunks: 'initial',
             enforce: true,
-            name: 'polkadotjs',
+            name: 'polkadotjs.libs',
             test: /node_modules\/@polkadot\/(api|api-derive|extension-dapp|keyring|metadata|react-identicon|react-qr|rpc-core|rpc-provider|types|ui-keyring|ui-settings|ui-shared|util|util-crypto|vanitygen|wasm-crypto)/
           },
-          vendorOther: {
+          reactIcons: {
             chunks: 'initial',
             enforce: true,
-            name: 'vendor',
-            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs|secp256k1|webrtc-adapter|remark-parse)/
+            name: 'other.icons',
+            test: /node_modules\/(@fortawesome)/
           },
-          vendorReact: {
+          reactLibs: {
             chunks: 'initial',
             enforce: true,
-            name: 'react',
-            test: /node_modules\/(@semantic-ui-react|chart|i18next|jidenticon|qrcode-generator|react|react-dom|semantic-ui-css|semantic-ui-react|styled-components)/
+            name: 'other.react',
+            test: /node_modules\/(react|react-dom|styled-components)/
+          },
+          reactUI: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'other.components',
+            test: /node_modules\/(@semantic-ui-react|chart\.js|codeflask|copy-to-clipboard|jdenticon|qrcode-generator|react-i18next|react-qr-reader|semantic-ui-react|semantic-ui-css)/
+          },
+          vendorGeneral: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'other.general',
+            test: /node_modules\/(@ledgerhq|bn\.js|buffer|core-js|cuint|i18next|lodash|moment|readable-stream|remark-parse|rtcpeerconnection-shim|rxjs|webrtc-adapter)/
+          },
+          vendorHashing: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'other.hashing',
+            test: /node_modules\/(asn1|base-x|base64-js|blakejs|bip39|bip66|browserify-aes|browserify-cipher|browserify-des|browserify-rsa|browserify-sign|cipher-base|create-ecdh|create-hash|create-hmac|crypto-browserify|des\.js|diffie-hellman|elliptic|hash|hmac-drbg|js-sha3|md5|miller-rabin|minimalistic-crypto-utils|parse-asn1|pbkdf2|public-encrypt|randombytes|randomfill|ripemd160|secp256k1|sha\.js|xxhashjs)/
           }
         }
       }

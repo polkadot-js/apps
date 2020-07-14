@@ -42,7 +42,7 @@
     "babel-core": "^7.0.0-bridge.0"
   },
   "scripts": {
-    "analyze": "yarn run build && yarn source-map-explorer packages/apps/build/main.*.js",
+    "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/main.*.js",
     "build": "yarn run build:i18n && yarn run build:code",
     "build:code": "NODE_ENV=production node_modules/@polkadot/dev/scripts/polkadot-dev-build-ts.js",
     "build:i18n": "i18next-scanner --config i18next-scanner.config.js && node ./scripts/i18nSort.js",
