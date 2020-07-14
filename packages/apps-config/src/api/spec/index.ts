@@ -8,9 +8,11 @@ import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kulupu from './kulupu';
 import nodeTemplate from './node-template';
+import artemisNode from './artemis-node';
 import stablePoc from './stable-poc';
 
 export default {
+  'artemis-node': artemisNode,
   'centrifuge-chain': centrifugeChain,
   edgeware,
   'encointer-node': encointerNodeNotee,
