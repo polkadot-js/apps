@@ -17,7 +17,6 @@ export { default as AvatarItem } from './AvatarItem';
 export { default as Badge } from './Badge';
 export { default as Balance } from './Balance';
 export { default as Bonded } from './Bonded';
-export { default as Bubble } from './Bubble';
 export { default as Button } from './Button';
 export { default as ButtonCancel } from './ButtonCancel';
 export { default as Call } from './Call';
