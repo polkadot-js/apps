@@ -43,7 +43,6 @@ i18next
       'apps-config',
       'apps-electron',
       'apps-routing',
-      'app-123code',
       'app-accounts',
       'app-claims',
       'app-contracts',
