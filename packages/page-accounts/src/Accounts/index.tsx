@@ -143,7 +143,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <td className='number'>
         {balanceTotal && <FormatBalance value={balanceTotal} />}
       </td>
-      <td colSpan={2} />
+      <td />
+      <td className='ui--media-1400' />
     </tr>
   ), [api, balanceTotal]);
 
