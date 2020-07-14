@@ -123,41 +123,71 @@ function createWebpack (ENV, context) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          polkadotJsLibs: {
+          polkadotJsApi: {
             chunks: 'initial',
             enforce: true,
-            name: 'polkadotjs.libs',
-            test: /node_modules\/@polkadot\/(api|api-derive|extension-dapp|keyring|metadata|react-identicon|react-qr|rpc-core|rpc-provider|types|ui-keyring|ui-settings|ui-shared|util|util-crypto|vanitygen|wasm-crypto)/
+            name: 'polkadotjs.api',
+            test: /node_modules\/@polkadot\/(api|metadata|rpc|types)/
+          },
+          polkadotJsOther: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'polkadotjs.util',
+            test: /node_modules\/(@ledgerhq|@zondax|edgeware|@polkadot\/(extension|keyring|react|ui|util|vanitygen))/
+          },
+          polkadotJsWasm: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'polkadotjs.wasm',
+            test: /node_modules\/@polkadot\/(wasm)/
+          },
+          reactBase: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'react.base',
+            test: /node_modules\/(react|react-dom|styled-components)/
           },
           reactIcons: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.icons',
+            name: 'react.fa',
             test: /node_modules\/(@fortawesome)/
           },
-          reactLibs: {
+          reactSUI: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.react',
-            test: /node_modules\/(react|react-dom|styled-components)/
+            name: 'react.sui',
+            test: /node_modules\/(@semantic-ui-react|semantic-ui-react|semantic-ui-css)/
           },
           reactUI: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.components',
-            test: /node_modules\/(@semantic-ui-react|chart\.js|codeflask|copy-to-clipboard|jdenticon|qrcode-generator|react-i18next|react-qr-reader|semantic-ui-react|semantic-ui-css)/
+            name: 'react.ui',
+            test: /node_modules\/(chart\.js|codeflask|copy-to-clipboard|i18next|jdenticon|qrcode-generator|react-i18next|react-qr-reader)/
           },
-          vendorGeneral: {
+          vendor01: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.general',
-            test: /node_modules\/(@ledgerhq|bn\.js|buffer|core-js|cuint|i18next|lodash|moment|readable-stream|remark-parse|rtcpeerconnection-shim|rxjs|webrtc-adapter)/
+            name: 'other.01',
+            test: /node_modules\/(ansi-styles|asn1|base-x|base64-js|blakejs|bip39|bip66|bn\.js|browserify-aes|browserify-cipher|browserify-des|browserify-rsa|browserify-sign|chalk|cipher-base|color|color-convert|color-name|color-string)/
           },
-          vendorHashing: {
+          vendor02: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.hashing',
-            test: /node_modules\/(asn1|base-x|base64-js|blakejs|bip39|bip66|browserify-aes|browserify-cipher|browserify-des|browserify-rsa|browserify-sign|cipher-base|create-ecdh|create-hash|create-hmac|crypto-browserify|des\.js|diffie-hellman|elliptic|hash|hmac-drbg|js-sha3|md5|miller-rabin|minimalistic-crypto-utils|parse-asn1|pbkdf2|public-encrypt|randombytes|randomfill|ripemd160|secp256k1|sha\.js|xxhashjs)/
+            name: 'other.02',
+            test: /node_modules\/(create-ecdh|create-hash|create-hmac|crypto-browserify|cuint|des\.js|diffie-hellman|elliptic|hash|lodash|secp256k1)/
+          },
+          vendor03: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'other.03',
+            test: /node_modules\/(hmac-drbg|js-sha3|md5|memoizee|miller-rabin|minimalistic-crypto-utils|moment|path-browserify|path-to-regex|parse-asn1|pbkdf2|public-encrypt|query-string|randombytes|randomfill|ripemd160|readable-stream|remark-parse|rtcpeerconnection-shim|sdp|sha\.js|store|webrtc-adapter|xxhashjs)/
+          },
+          vendor04: {
+            chunks: 'initial',
+            enforce: true,
+            name: 'other.04',
+            test: /node_modules\/(@babel|core-js|core-util|buffer|deep-equal|detect-browser|es-abstract|es5-ext|es6-symbol|event-emitter|events|eventemitter3|extend|has-symbols|history|is-|node-libs-browser|object-assign|object-is|object-keys|process|regenerator-runtime|rxjs|safe-buffer|scheduler|timers-browserify|tslib|unified|util|vfile|vm-browserify|whatwg-fetch)/
           }
         }
       }
