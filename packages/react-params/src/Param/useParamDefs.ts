@@ -31,6 +31,7 @@ export default function useParamDefs (type: TypeDef): ParamDef[] {
 
     setParams(
       (Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((td): ParamDef => ({
+        length: typeDef.length,
         name: td.name,
         type: td // expandDef(td)
       }))

@@ -51,6 +51,7 @@ export type Size = 'full' | 'large' | 'medium' | 'small';
 export type ComponentMap = Record<string, React.ComponentType<Props>>;
 
 export interface ParamDef {
+  length?: number;
   name?: string;
   type: TypeDef;
 }
