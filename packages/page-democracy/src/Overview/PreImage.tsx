@@ -118,7 +118,7 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
             <Modal.Column>
               <InputBalance
                 defaultValue={storageFee}
-                help={t<string>('The minimum amount that an account should have to be deemed active')}
+                help={t<string>('The amount reserved to store this image')}
                 isDisabled
                 label={t<string>('calculated storage fee')}
               />
