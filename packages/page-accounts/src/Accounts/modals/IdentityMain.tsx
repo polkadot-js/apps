@@ -223,34 +223,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
-        {/* <WrapToggle
-          onChange={setHasImg}
-          value={hasImg}
-        >
-          <Input
-            isDisabled={!hasImg}
-            isError={hasImg && errImg}
-            label={t<string>('sha2 image hash')}
-            onChange={_onChangeImg}
-            placeholder={t<string>('0x...')}
-            maxLength={66}
-            value={hasImg ? valImg : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasPgp}
-          value={hasPgp}
-        >
-          <Input
-            isDisabled={!hasPgp}
-            isError={hasPgp && errPgp}
-            label={t<string>('pgp hash')}
-            onChange={_onChangePgp}
-            placeholder={t<string>('0x...')}
-            maxLength={42}
-            value={hasPgp ? valPgp : '<none>'}
-          />
-        </WrapToggle> */}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
