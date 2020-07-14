@@ -25,7 +25,7 @@ function Validate ({ controllerId, onClose, stashId }: Props): React.ReactElemen
       header={t<string>('Set validator preferences')}
       size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
+      <Modal.Content>
         <ValidatePartial
           controllerId={controllerId}
           onChange={setTx}
