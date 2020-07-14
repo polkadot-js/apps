@@ -8,7 +8,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
-import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Tip from './Tip';
@@ -34,7 +33,15 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
       optTips
         .map((opt, index): [string, OpenTip | null] => [hashes[index], opt.unwrapOr(null)])
         .filter((val): val is [string, OpenTip] => !!val[1])
-        .sort((a, b) => a[1].closes.unwrapOr(BN_ZERO).cmp(b[1].closes.unwrapOr(BN_ZERO)))
+        .sort((a, b) =>
+          a[1].closes.isNone
+            ? b[1].closes.isNone
+              ? 0
+              : -1
+            : b[1].closes.isSome
+              ? b[1].closes.unwrap().cmp(a[1].closes.unwrap())
+              : 1
+        )
     );
   }, [hashes, optTips]);
 
