@@ -2992,15 +2992,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/app-123code@workspace:packages/page-123code":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-123code@workspace:packages/page-123code"
-  dependencies:
-    "@babel/runtime": ^7.10.4
-    "@polkadot/react-components": 0.50.0-beta.6
-  languageName: unknown
-  linkType: soft
-
 "@polkadot/app-accounts@workspace:packages/page-accounts":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-accounts@workspace:packages/page-accounts"
@@ -3085,15 +3076,6 @@ __metadata:
 "@polkadot/app-generic-asset@workspace:packages/page-generic-asset":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-generic-asset@workspace:packages/page-generic-asset"
-  dependencies:
-    "@babel/runtime": ^7.10.4
-    "@polkadot/react-components": 0.50.0-beta.6
-  languageName: unknown
-  linkType: soft
-
-"@polkadot/app-i18n@workspace:packages/page-i18n":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-i18n@workspace:packages/page-i18n"
   dependencies:
     "@babel/runtime": ^7.10.4
     "@polkadot/react-components": 0.50.0-beta.6
