@@ -85,7 +85,7 @@ export default css`
     }
   }
 
-  .ui.label:not(.ui--Bubble) {
+  .ui.label {
     background: transparent;
     font-weight: normal;
     position: relative;

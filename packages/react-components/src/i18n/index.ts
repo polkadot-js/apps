@@ -53,7 +53,6 @@ i18next
       'app-explorer',
       'app-extrinsics',
       'app-generic-asset',
-      'app-i18n',
       'app-js',
       'app-parachains',
       'app-poll',
