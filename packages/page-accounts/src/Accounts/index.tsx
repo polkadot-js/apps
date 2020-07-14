@@ -218,7 +218,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         )}
         <Button
           icon='plus'
-          isDisabled={!api.tx.multisig && api.tx.utility}
+          isDisabled={!(api.tx.multisig || api.tx.utility)}
           label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
