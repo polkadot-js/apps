@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, BlockNumber } from '@polkadot/types/interfaces';
+import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { LinkExternal } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { Icon, LinkExternal } from '@polkadot/react-components';
+import { useAccounts, useVotingStatus } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Close from './Close';
-import Votes from './Votes';
+import Voters from './Votes';
 import Voting from './Voting';
 
 interface Props {
@@ -24,9 +24,26 @@ interface Props {
   prime: AccountId | null;
 }
 
-function Motion ({ className, isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+interface VoterState {
+  hasVoted: boolean;
+  hasVotedAye: boolean;
+}
+
+function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+  const { allAccounts } = useAccounts();
+  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
+  const [{ hasVoted, hasVotedAye }, setIsVoter] = useState<VoterState>({ hasVoted: false, hasVotedAye: false });
+
+  useEffect((): void => {
+    if (votes) {
+      const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+
+      setIsVoter({
+        hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
+        hasVotedAye
+      });
+    }
+  }, [allAccounts, votes]);
 
   if (!votes) {
     return null;
@@ -42,40 +59,55 @@ function Motion ({ className, isMember, members, motion: { hash, proposal, votes
         proposal={proposal}
       />
       <td className='number together'>
-        {formatNumber(ayes.length)}/{formatNumber(threshold)}
+        {formatNumber(threshold)}
       </td>
       <td className='number together'>
-        {bestNumber && end && (
+        {remainingBlocks && end && (
           <>
-            <BlockToTime blocks={end.sub(bestNumber)} />
+            <BlockToTime blocks={remainingBlocks} />
             #{formatNumber(end)}
           </>
         )}
       </td>
-      <Votes votes={ayes} />
-      <Votes votes={nays} />
+      <Voters
+        isAye
+        members={members}
+        threshold={threshold}
+        votes={ayes}
+      />
+      <Voters
+        members={members}
+        threshold={threshold}
+        votes={nays}
+      />
       <td className='button'>
-        {bestNumber && (
-          end.gt(bestNumber)
-            ? (
-              <Voting
-                hash={hash}
-                idNumber={index}
-                isDisabled={!isMember}
-                members={members}
-                prime={prime}
-                proposal={proposal}
-              />
-            )
-            : (
-              <Close
-                hash={hash}
-                idNumber={index}
-                isDisabled={!isMember}
-                members={members}
-                proposal={proposal}
-              />
-            )
+        {isVoteable && !isCloseable && (
+          <Voting
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            prime={prime}
+            proposal={proposal}
+          />
+        )}
+        {isCloseable && (
+          <Close
+            hasFailed={hasFailed}
+            hash={hash}
+            idNumber={index}
+            isDisabled={!isMember}
+            members={members}
+            proposal={proposal}
+          />
+        )}
+      </td>
+      <td className='badge'>
+        {isMember && (
+          <Icon
+            color={hasVoted ? (hasVotedAye ? 'green' : 'red') : 'gray'}
+            icon='asterisk'
+          />
         )}
       </td>
       <td className='mini'>

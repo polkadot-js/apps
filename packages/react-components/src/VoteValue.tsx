@@ -32,7 +32,7 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
-    (accountId !== selectedId) && allBalances?.accountId.eq(accountId) && setValue({
+    (accountId !== selectedId) && allBalances && allBalances.accountId.eq(accountId) && setValue({
       selectedId: accountId,
       value: allBalances.lockedBalance
     });
@@ -54,13 +54,13 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
     <InputBalance
       autoFocus={autoFocus}
       defaultValue={accountId !== selectedId ? undefined : allBalances?.lockedBalance}
-      help={t('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
+      help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
-      label={t('vote value')}
+      label={t<string>('vote value')}
       labelExtra={
         <BalanceVoting
-          label={<label>{t('voting balance')}</label>}
+          label={<label>{t<string>('voting balance')}</label>}
           params={accountId}
         />
       }

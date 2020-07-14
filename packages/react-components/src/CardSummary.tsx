@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
@@ -23,14 +21,15 @@ interface ProgressProps {
   withTime?: boolean;
 }
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
+  className?: string;
   help?: React.ReactNode;
   label: React.ReactNode;
   progress?: ProgressProps;
 }
 
-function CardSummary ({ children, className, help, label, progress }: Props): React.ReactElement<Props> | null {
+function CardSummary ({ children, className = '', help, label, progress }: Props): React.ReactElement<Props> | null {
   const value = progress && progress.value;
   const total = progress && progress.total;
   const left = progress && !isUndefined(value) && !isUndefined(total) && value.gten(0) && total.gtn(0)
@@ -107,7 +106,7 @@ export default React.memo(styled(CardSummary)`
     font-size: 1.75rem;
     font-weight: 100;
     position: relative;
-    line-height: 1.75rem;
+    line-height: 1;
     text-align: right;
 
     > * {
@@ -123,9 +122,7 @@ export default React.memo(styled(CardSummary)`
     }
 
     > label {
-      line-height: 1rem;
       font-size: 0.95rem;
-      min-height: 1rem;
     }
 
     .progress {
@@ -136,7 +133,6 @@ export default React.memo(styled(CardSummary)`
     .isSecondary {
       font-size: 1.1rem;
       font-weight: normal;
-      line-height: 1.1rem;
       margin-top: 0.25rem;
     }
   }
@@ -147,7 +143,6 @@ export default React.memo(styled(CardSummary)`
 
     > div {
       font-size: 1.4rem;
-      line-height: 1.4rem;
     }
   }
 `);

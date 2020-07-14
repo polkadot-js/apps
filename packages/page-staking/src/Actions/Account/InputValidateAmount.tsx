@@ -3,50 +3,82 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BN_TEN, BN_THOUSAND, BN_ZERO, formatBalance } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
 interface Props {
-  accountId: string | null;
-  onError: (error: string | null) => void;
+  controllerId: string | null;
+  currentAmount?: BN | null;
+  onError: (state: AmountValidateState | null) => void;
+  stashId: string | null;
   value?: BN | null;
 }
 
-function ValidateAmount ({ accountId, onError, value }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
-  const { api } = useApi();
-  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
-  const [error, setError] = useState<string | null>(null);
+function formatExistential (value: BN): string {
+  let fmt = (value.mul(BN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
 
-  useEffect((): void => {
-    // don't show an error if the selected controller is the default
-    // this applies when changing controller
-    if (allBalances && value) {
-      let newError: string | null = null;
+  while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
+    const isLast = fmt.endsWith('.');
 
-      if (value.gt(allBalances.freeBalance)) {
-        newError = t('The specified value is greater than your free balance. The node will bond the maximum amount available.');
-      }
+    fmt = fmt.substr(0, fmt.length - 1);
 
-      onError(newError);
-      setError((error) => error !== newError ? newError : error);
+    if (isLast) {
+      break;
     }
-  }, [allBalances, onError, t, value]);
-
-  if (!error) {
-    return null;
   }
 
-  return (
-    <article className='warning'>
-      <div><Icon name='warning sign' />{error}</div>
-    </article>
-  );
+  return fmt;
+}
+
+function ValidateAmount ({ currentAmount, onError, stashId, value }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
+  const [{ error, warning }, setResult] = useState<AmountValidateState>({ error: null, warning: null });
+
+  useEffect((): void => {
+    if (stashBalance && value) {
+      // also used in bond extra, take check against total of current bonded and new
+      const check = value.add(currentAmount || BN_ZERO);
+      const existentialDeposit = api.consts.balances.existentialDeposit;
+      const maxBond = stashBalance.freeBalance.sub(existentialDeposit.divn(2));
+      let newError: string | null = null;
+
+      if (check.gte(maxBond)) {
+        newError = t('The specified value is too large and does not allow funds to pay future transaction fees.');
+      } else if (check.lt(existentialDeposit)) {
+        newError = t('The bonded amount is less than the minimum bond amount of {{existentialDeposit}}', {
+          replace: { existentialDeposit: formatExistential(existentialDeposit) }
+        });
+      }
+
+      setResult((state): AmountValidateState => {
+        const error = state.error !== newError ? newError : state.error;
+        const warning = state.warning;
+
+        onError((error || warning) ? { error, warning } : null);
+
+        return { error, warning };
+      });
+    }
+  }, [api, currentAmount, onError, stashBalance, t, value]);
+
+  if (error || warning) {
+    return (
+      <article className={error ? 'error' : 'warning'}>
+        <div><Icon icon='exclamation-triangle' />{error || warning}</div>
+      </article>
+    );
+  }
+
+  return null;
 }
 
 export default React.memo(ValidateAmount);

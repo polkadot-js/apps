@@ -5,7 +5,6 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DispatchError } from '@polkadot/types/interfaces';
 import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
-import { BareProps } from '../types';
 import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
@@ -17,7 +16,7 @@ import { createType } from '@polkadot/types';
 import { QueueProvider } from './Context';
 import { STATUS_COMPLETE } from './constants';
 
-export interface Props extends BareProps {
+export interface Props {
   children: React.ReactNode;
 }
 
@@ -187,7 +186,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
               ? item.error
               : error,
             result: result === undefined
-              ? item.result
+              ? item.result as SubmittableResult
               : result,
             status: item.status === 'completed'
               ? item.status

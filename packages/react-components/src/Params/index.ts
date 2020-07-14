@@ -5,10 +5,12 @@
 import { ComponentMap } from '@polkadot/react-params/types';
 
 import Call from './Call';
+import OpaqueCall from './OpaqueCall';
 import Proposal from './Proposal';
 
 const components: ComponentMap = {
   Call,
+  OpaqueCall,
   Proposal
 };
 

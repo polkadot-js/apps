@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React, { useCallback, useState } from 'react';
-import { Button as SUIB, Popup } from 'semantic-ui-react';
+import { Popup } from 'semantic-ui-react';
 import { Button, Input } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   isCustomExample: boolean;
   isRunning: boolean;
   removeSnippet: () => void;
@@ -20,7 +19,7 @@ interface Props extends BareProps {
   stopJs: () => void;
 }
 
-function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
+function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnippet, runJs, saveSnippet, stopJs }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [snippetName, setSnippetName] = useState('');
@@ -53,19 +52,14 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
 
   return (
     <div className={`${className} action-button`}>
-      {
-      // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
-      // <Button /> component. That's why the original Semantic UI component is being used here.
-      }
       {isCustomExample && (
         <Popup
-          content={t('Delete this custom example')}
+          content={t<string>('Delete this custom example')}
           on='hover'
           trigger={
-            <SUIB
-              circular
-              icon='trash alternate outline'
-              negative
+            <Button
+              icon='trash'
+              isNegative
               onClick={removeSnippet}
             />
           }
@@ -78,8 +72,7 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
           onClose={_onPopupClose}
           open={isOpen}
           trigger={
-            <SUIB
-              circular
+            <Button
               icon='save'
               onClick={_onPopupOpen}
             />
@@ -91,15 +84,14 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
             min={1}
             onChange={_onChangeName}
             onEnter={_saveSnippet}
-            placeholder={t('Name your example')}
+            placeholder={t<string>('Name your example')}
             value={snippetName}
             withLabel={false}
           />
           <Button
             icon='save'
             isDisabled={!snippetName.length}
-            isPrimary
-            label={t('Save snippet to local storage')}
+            label={t<string>('Save snippet to local storage')}
             onClick={_saveSnippet}
           />
         </Popup>
@@ -107,9 +99,7 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
       {isRunning
         ? (
           <Button
-            icon='close'
-            isCircular
-            isNegative
+            icon='times'
             onClick={stopJs}
           />
         )
@@ -117,8 +107,6 @@ function ActionButtons ({ className, isCustomExample, isRunning, removeSnippet, 
           <Button
             className='play-button'
             icon='play'
-            isCircular
-            isPrimary
             onClick={runJs}
           />
         )

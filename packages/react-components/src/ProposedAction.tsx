@@ -40,7 +40,7 @@ export const styles = `
   }
 `;
 
-function ProposedAction ({ asInset, className, expandNested, idNumber, insetProps, proposal, withLinks }: Props): React.ReactElement<Props> {
+function ProposedAction ({ asInset, className = '', expandNested, idNumber, insetProps, proposal, withLinks }: Props): React.ReactElement<Props> {
   const stringId = isString(idNumber)
     ? idNumber
     : formatNumber(idNumber);

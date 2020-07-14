@@ -5,7 +5,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { classes } from './util';
 import Labelled from './Labelled';
 
 interface Props {
@@ -14,10 +13,10 @@ interface Props {
   type?: 'error' | 'info' | 'warning';
 }
 
-function InfoForInput ({ children, className, type = 'info' }: Props): React.ReactElement<Props> {
+function InfoForInput ({ children, className = '', type = 'info' }: Props): React.ReactElement<Props> {
   return (
     <Labelled>
-      <div className={classes(className, type)}>{children}</div>
+      <div className={`${className} ${type}`}>{children}</div>
     </Labelled>
   );
 }

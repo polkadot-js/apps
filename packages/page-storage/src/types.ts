@@ -2,11 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageEntryBase } from '@polkadot/api/types';
+import { QueryableStorageEntry } from '@polkadot/api/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { RawParams } from '@polkadot/react-params/types';
-
-export type StorageEntryPromise = StorageEntryBase<'promise', any>;
 
 interface Base {
   isConst: boolean;
@@ -17,7 +15,7 @@ interface IdQuery extends Base {
 }
 
 export interface PartialModuleQuery extends Base {
-  key: StorageEntryPromise;
+  key: QueryableStorageEntry<'promise'>;
   params: RawParams;
 }
 

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+export * from '@polkadot/react-qr';
+
 export { default as AccountIndex } from './AccountIndex';
 export { default as AccountName } from './AccountName';
 export { default as ActionItem } from './ActionItem';
@@ -28,9 +30,11 @@ export { default as ChainLock } from './ChainLock';
 export { default as Chart } from './Chart';
 export { default as Columar } from './Columar';
 export { default as Column } from './Column';
+export { default as ConvictionDropdown } from './ConvictionDropdown';
 export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
 export { default as Dropdown } from './Dropdown';
+export { default as EditButton } from './EditButton';
 export { default as Editor } from './Editor';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as Event } from './Event';
@@ -82,6 +86,7 @@ export { default as SummaryBox } from './SummaryBox';
 export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';
+export { default as Tags } from './Tags';
 export { default as Toggle } from './Toggle';
 export { default as Tooltip } from './Tooltip';
 export { default as TxButton } from './TxButton';

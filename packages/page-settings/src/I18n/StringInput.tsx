@@ -14,7 +14,7 @@ interface Props {
   tval: string;
 }
 
-function StringInput ({ className, onChange, original, tkey, tval }: Props): React.ReactElement<Props> {
+function StringInput ({ className = '', onChange, original, tkey, tval }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (value: string) => onChange(tkey, value),
     [onChange, tkey]

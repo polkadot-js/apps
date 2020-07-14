@@ -4,11 +4,11 @@
 
 import { WithTranslation } from 'react-i18next';
 import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Abi } from '@polkadot/api-contract';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { TxState } from '@polkadot/react-hooks/types';
-import { IExtrinsic } from '@polkadot/types/types';
 import { AccountId, Index } from '@polkadot/types/interfaces';
 import { ButtonProps } from './Button/types';
 import { InputAddressProps } from './InputAddress/types';
@@ -17,8 +17,9 @@ import { TxCallback, TxFailedCallback } from './Status/types';
 export type VoidFn = () => void;
 
 export interface BareProps {
+  children?: React.ReactNode;
   className?: string;
-  style?: Record<string, string | number>;
+  style?: React.CSSProperties;
 }
 
 export interface AppProps {
@@ -38,7 +39,7 @@ export interface TxTriggerProps {
 }
 
 export interface TxProps {
-  extrinsic?: IExtrinsic | SubmittableExtrinsic | null;
+  extrinsic?: SubmittableExtrinsic | null;
   tx?: string;
   params?: any[] | ConstructTxFn;
 }
@@ -55,7 +56,7 @@ export interface TxButtonProps extends TxProps {
   accountId?: AccountId | StringOrNull;
   accountNonce?: Index;
   className?: string;
-  icon?: string;
+  icon?: IconName;
   iconSize?: SUIButtonProps['size'];
   isBasic?: boolean;
   isDisabled?: boolean;
@@ -99,7 +100,7 @@ export interface TxModalProps extends I18nProps, TxState {
   inputAddressProps?: Pick<InputAddressProps, never>;
   cancelButtonLabel?: React.ReactNode;
   cancelButtonProps?: Pick<ButtonProps, never>;
-  submitButtonIcon?: string;
+  submitButtonIcon?: IconName;
   submitButtonLabel?: React.ReactNode;
   submitButtonProps?: Pick<TxButtonProps, never>;
 }

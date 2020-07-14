@@ -4,45 +4,40 @@
 
 import { Props } from '../types';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import Bytes from './Bytes';
 import BytesFile from './File';
 
-function renderDisabled ({ className, defaultValue, isError, label, onEnter, onEscape, style, type, withLabel }: Props): React.ReactNode {
-  return (
-    <Bytes
-      className={className}
-      defaultValue={defaultValue}
-      isError={isError}
-      label={label}
-      onEnter={onEnter}
-      onEscape={onEscape}
-      style={style}
-      type={type}
-      withLabel={withLabel}
-    />
+function Code ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
+  const [isValid, setIsValid] = useState(false);
+
+  // TODO: Validate that we have actual proper WASM code
+  const _onChange = useCallback(
+    (value: Uint8Array): void => {
+      const isValid = value.length !== 0;
+
+      onChange && onChange({
+        isValid,
+        value
+      });
+      setIsValid(isValid);
+    },
+    [onChange]
   );
-}
-
-// TODO: Validate that we have actual proper WASM code
-function onChange ({ onChange }: Props): (_: Uint8Array) => void {
-  return function (value: Uint8Array): void {
-    onChange && onChange({
-      isValid: value.length !== 0,
-      value
-    });
-  };
-}
-
-function Code (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, label, style, withLabel } = props;
 
   if (isDisabled) {
     return (
-      <>
-        {renderDisabled(props)}
-      </>
+      <Bytes
+        className={className}
+        defaultValue={defaultValue}
+        isError={isError || !isValid}
+        label={label}
+        onEnter={onEnter}
+        onEscape={onEscape}
+        type={type}
+        withLabel={withLabel}
+      />
     );
   }
 
@@ -50,10 +45,9 @@ function Code (props: Props): React.ReactElement<Props> {
     <BytesFile
       className={className}
       defaultValue={defaultValue}
-      isError={isError}
+      isError={isError || !isValid}
       label={label}
-      onChange={onChange(props)}
-      style={style}
+      onChange={_onChange}
       withLabel={withLabel}
     />
   );

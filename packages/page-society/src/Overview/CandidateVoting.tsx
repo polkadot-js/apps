@@ -20,24 +20,24 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
   const [vote, setVote] = useState(true);
   const [accountId, setAccountId] = useState<string | null>(null);
   const voteOpts = useMemo(() => [
-    { text: t('Aye, I approve'), value: true },
-    { text: t('Nay, I do not approve'), value: false }
+    { text: t<string>('Aye, I approve'), value: true },
+    { text: t<string>('Nay, I do not approve'), value: false }
   ], [t]);
 
   return (
     <>
       {isVisible && (
-        <Modal header={t('Vote for candidate')}>
+        <Modal header={t<string>('Vote for candidate')}>
           <Modal.Content>
             <InputAddress
               filter={ownMembers}
-              help={t('The address to vote from (must be a member)')}
-              label={t('vote from account')}
+              help={t<string>('The address to vote from (must be a member)')}
+              label={t<string>('vote from account')}
               onChange={setAccountId}
             />
             <Dropdown
-              help={t('Approve this candidacy.')}
-              label={t('vote for candidate')}
+              help={t<string>('Approve this candidacy.')}
+              label={t<string>('vote for candidate')}
               onChange={setVote}
               options={voteOpts}
               value={vote}
@@ -47,7 +47,7 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
             <TxButton
               accountId={accountId}
               icon='check'
-              label={t('Vote')}
+              label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[candidateId, vote]}
               tx='society.vote'
@@ -58,7 +58,7 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
       <Button
         icon='check'
         isDisabled={!isMember}
-        label={t('Vote')}
+        label={t<string>('Vote')}
         onClick={toggleVisible}
       />
     </>

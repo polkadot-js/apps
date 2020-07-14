@@ -5,41 +5,28 @@
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
+import styled from 'styled-components';
+import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
 import { naclVerify, schnorrkelVerify } from '@polkadot/util-crypto';
-import styled from 'styled-components';
 
 import { useTranslation } from './translate';
 
 type CryptoTypes = KeypairType | 'unknown';
 
-const AlignedIcon = styled(Icon)`
-  &&&::before {
-    position: relative;
-    left: 0.88rem;
-    top: 1rem;
-    width: 32px;
-    height: 32px;
-    font-size: 32px;
-    background: white !important;
-    border-radius: 50%;
-  }
+interface Props {
+  className?: string;
+}
 
-  &&&.big.icon {
-    font-size: 32px;
-  }
-`;
-
-function Verify (): React.ReactElement<{}> {
+function Verify ({ className = '' }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
   const [{ isValidSignature, signature }, setSignature] = useState<{ isValidSignature: boolean; signature: string }>({ isValidSignature: false, signature: '' });
-  const [cryptoOptions] = useState([{ text: t('Crypto not detected'), value: 'unknown' }].concat(uiSettings.availableCryptos as any[]));
+  const [cryptoOptions] = useState([{ text: t<string>('Crypto not detected'), value: 'unknown' }].concat(uiSettings.availableCryptos as any[]));
 
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';
@@ -104,14 +91,14 @@ function Verify (): React.ReactElement<{}> {
   );
 
   return (
-    <div className='toolbox--Verify'>
+    <div className={`toolbox--Verify ${className}`}>
       <div className='ui--row'>
         <InputAddress
           className='full'
-          help={t('The account that signed the input')}
+          help={t<string>('The account that signed the input')}
           isError={!isValidPk}
           isInput
-          label={t('verify using address')}
+          label={t<string>('verify using address')}
           onChange={_onChangeAddress}
         />
       </div>
@@ -119,28 +106,25 @@ function Verify (): React.ReactElement<{}> {
         <Input
           autoFocus
           className='full'
-          help={t('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
-          label={t('using the following data')}
+          help={t<string>('The data that was signed. This is used in combination with the signature for the verification. It can either be hex or a string.')}
+          label={t<string>('using the following data')}
           onChange={_onChangeData}
           value={data}
         />
       </div>
       <div className='ui--row'>
-        <div
-          className='ui--AlignedIconContainer'
-          style={{ position: 'absolute', zIndex: 1 }}
-        >
-          <AlignedIcon
-            color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
-            name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-            size='big'
+        <div className='ui--AlignedIconContainer'>
+          <Badge
+            className='alignedBadge'
+            color={isValid ? 'green' : (isValidSignature ? 'red' : 'gray')}
+            icon={isValid ? 'check' : (isValidSignature ? 'exclamation' : 'question')}
           />
         </div>
         <Input
           className='full'
-          help={t('The signature as by the account being checked, supplied as a hex-formatted string.')}
+          help={t<string>('The signature as by the account being checked, supplied as a hex-formatted string.')}
           isError={!isValidSignature}
-          label={t('the supplied signature')}
+          label={t<string>('the supplied signature')}
           onChange={_onChangeSignature}
           value={signature}
         />
@@ -148,19 +132,19 @@ function Verify (): React.ReactElement<{}> {
       <div className='ui--row'>
         <Dropdown
           defaultValue={cryptoType}
-          help={t('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
+          help={t<string>('Cryptography used to create this signature. It is auto-detected on valid signatures.')}
           isDisabled
-          label={t('signature crypto type')}
+          label={t<string>('signature crypto type')}
           options={cryptoOptions}
         />
         <Static
           className='medium'
-          help={t('Detection on the input string to determine if it is hex or non-hex.')}
-          label={t('hex input data')}
+          help={t<string>('Detection on the input string to determine if it is hex or non-hex.')}
+          label={t<string>('hex input data')}
           value={
             isHexData
-              ? t('Yes')
-              : t('No')
+              ? t<string>('Yes')
+              : t<string>('No')
           }
         />
       </div>
@@ -168,4 +152,15 @@ function Verify (): React.ReactElement<{}> {
   );
 }
 
-export default React.memo(Verify);
+export default React.memo(styled(Verify)`
+  .ui--AlignedIconContainer {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .alignedBadge {
+    left: 1.25rem;
+    position: relative;
+    top: 1.25rem;
+  }
+`);

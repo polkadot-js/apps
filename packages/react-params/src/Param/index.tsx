@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BaseProps, Props as CProps, ComponentMap } from '../types';
+import { Props, Props as CProps } from '../types';
 
 import React, { useRef } from 'react';
 import { classes } from '@polkadot/react-components/util';
@@ -12,13 +12,7 @@ import { isUndefined } from '@polkadot/util';
 import findComponent from './findComponent';
 import Static from './Static';
 
-interface Props extends BaseProps {
-  isDisabled?: boolean;
-  isOptional?: boolean;
-  overrides?: ComponentMap;
-}
-
-function Param ({ className, defaultValue, isDisabled, isOptional, name, onChange, onEnter, onEscape, overrides, style, type }: Props): React.ReactElement<Props> | null {
+function Param ({ className = '', defaultValue, isDisabled, isInOption, isOptional, name, onChange, onEnter, onEscape, overrides, type }: Props): React.ReactElement<Props> | null {
   const compRef = useRef<React.ComponentType<CProps> | null>(findComponent(type, overrides));
 
   if (!compRef.current) {
@@ -42,14 +36,14 @@ function Param ({ className, defaultValue, isDisabled, isOptional, name, onChang
         className={classes('ui--Param', className)}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
-        key={`${name}:${type}`}
+        isInOption={isInOption}
+        key={`${name || 'unknown'}:${type.toString()}`}
         label={label}
         name={name}
         onChange={onChange}
         onEnter={onEnter}
         onEscape={onEscape}
         overrides={overrides}
-        style={style}
         type={type}
       />
     );

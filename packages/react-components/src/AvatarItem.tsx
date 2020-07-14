@@ -15,9 +15,9 @@ interface Props {
   subtitle: React.ReactNode;
 }
 
-function AvatarItem ({ children, className, icon, isBig, subtitle, title }: Props): React.ReactElement<Props> {
+function AvatarItem ({ children, className = '', icon, isBig, subtitle, title }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--AvatarItem', className, isBig ? 'big' : ''].join(' ')}>
+    <div className={['ui--AvatarItem', className, isBig && 'big'].join(' ')}>
       <div className='ui--AvatarItem-icon'>
         {icon}
       </div>
@@ -53,7 +53,7 @@ export default React.memo(styled(AvatarItem)`
         height: 100%;
       }
 
-      > i.icon {
+      > .ui--Icon {
         color: white;
         line-height: 2.4rem;
         margin-right: 0 !important;
@@ -83,7 +83,7 @@ export default React.memo(styled(AvatarItem)`
         height: 3.4rem;
         margin-right: 0.6rem;
 
-        > i.icon {
+        > .ui--Icon {
           font-size: 1.6rem;
           line-height: 3.4rem;
         }

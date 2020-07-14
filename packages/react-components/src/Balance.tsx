@@ -3,33 +3,34 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
 import { Balance, FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO } from '@polkadot/util';
 
 import { classes } from './util';
 
-export interface RenderProps extends BareProps {
+export interface RenderProps {
   className?: string;
   label?: React.ReactNode;
   value?: BN | BN[];
 }
 
-export interface Props extends BareProps {
+export interface Props {
   balance?: BN | BN[];
+  className?: string;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
   withLabel?: boolean;
 }
 
-export function renderProvided ({ className, label, value }: RenderProps): React.ReactNode {
+export function renderProvided ({ className = '', label, value }: RenderProps): React.ReactNode {
   let others: undefined | React.ReactNode;
 
   if (Array.isArray(value)) {
     const totals = value.filter((_, index): boolean => index !== 0);
-    const total = totals.reduce((total, value): BN => total.add(value), new BN(0)).gtn(0);
+    const total = totals.reduce((total, value): BN => total.add(value), BN_ZERO).gtn(0);
 
     if (total) {
       others = totals.map((balance, index): React.ReactNode =>
@@ -55,24 +56,19 @@ export function renderProvided ({ className, label, value }: RenderProps): React
 }
 
 function BalanceDisplay (props: Props): React.ReactElement<Props> | null {
-  const { balance, className, label, params, style } = props;
+  const { balance, className = '', label, params } = props;
 
   if (!params) {
     return null;
   }
 
   return balance
-    ? (
-      <>
-        {renderProvided({ className, label, value: balance })}
-      </>
-    )
+    ? <>{renderProvided({ className, label, value: balance })}</>
     : (
       <Balance
         className={classes('ui--Balance', className)}
         label={label}
         params={params}
-        style={style}
       />
     );
 }

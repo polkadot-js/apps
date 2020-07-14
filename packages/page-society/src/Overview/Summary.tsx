@@ -18,14 +18,14 @@ interface Props {
   info?: DeriveSociety;
 }
 
-function Summary ({ className, info }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<any[]>(api.derive.society.members, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
 
   const pot = useMemo((): string | null => {
-    return info?.pot.gtn(0)
+    return info && info.pot.gtn(0)
       ? info.pot.toString()
       : null;
   }, [info]);
@@ -34,7 +34,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
     <SummaryBox className={className}>
       <section className='ui--media-medium'>
         {info && members && (
-          <CardSummary label={t('members')}>
+          <CardSummary label={t<string>('members')}>
             {members.length}/{info.maxMembers.toString()}
           </CardSummary>
         )}
@@ -43,7 +43,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
         <>
           <section>
             <CardSummary
-              label={t('rotation')}
+              label={t<string>('rotation')}
               progress={{
                 total: api.consts.society.rotationPeriod as BlockNumber,
                 value: bestNumber.mod(api.consts.society.rotationPeriod as BlockNumber),
@@ -53,7 +53,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
           </section>
           <section className='ui--media-large'>
             <CardSummary
-              label={t('challenge')}
+              label={t<string>('challenge')}
               progress={{
                 total: api.consts.society.challengePeriod as BlockNumber,
                 value: bestNumber.mod(api.consts.society.challengePeriod as BlockNumber),
@@ -65,7 +65,7 @@ function Summary ({ className, info }: Props): React.ReactElement<Props> {
       )}
       <section>
         {pot && (
-          <CardSummary label={t('pot')}>
+          <CardSummary label={t<string>('pot')}>
             <FormatBalance
               value={pot}
               withSi
@@ -81,8 +81,7 @@ export default React.memo(styled(Summary)`
   .society--header--account {
     white-space: nowrap;
 
-    .ui--AccountName,
-    .ui--IdentityIcon {
+    .ui--AccountName {
       display: inline-block;
     }
 

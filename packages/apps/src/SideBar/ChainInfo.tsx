@@ -17,7 +17,7 @@ interface Props {
   onClick?: () => void;
 }
 
-function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
+function ChainInfo ({ className = '', onClick }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
@@ -32,11 +32,14 @@ function ChainInfo ({ className, onClick }: Props): React.ReactElement<Props> {
         <div className='info'>
           <Chain className='chain' />
           {runtimeVersion && (
-            <div className='runtimeVersion'>{t('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
+            <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
           )}
           <BestNumber label='#' />
         </div>
-        <Icon name='dropdown' />
+        <Icon
+          className='dropdown'
+          icon='caret-down'
+        />
       </div>
     </div>
   );
@@ -61,7 +64,7 @@ export default React.memo(styled(ChainInfo)`
       width: 2.75rem;
     }
 
-    .icon.dropdown,
+    .ui--Icon.dropdown,
     > div.info {
       color: white;
       opacity: 0.75;
@@ -69,7 +72,7 @@ export default React.memo(styled(ChainInfo)`
       vertical-align: middle;
     }
 
-    .icon.dropdown {
+    .ui--Icon.dropdown {
       flex: 0;
       margin: 0;
     }

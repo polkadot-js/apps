@@ -16,12 +16,17 @@ interface Props {
   members: string[];
 }
 
+interface ProposalState {
+  proposal?: SubmittableExtrinsic<'promise'> | null;
+  proposalLength: number;
+}
+
 function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { apiDefaultTxSudo } = useApi();
+  const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
   const [accountId, setAcountId] = useState<string | null>(null);
-  const [proposal, setProposal] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [[threshold, hasThreshold], setThreshold] = useState<[BN | null, boolean]>([
     new BN(members.length / 2 + 1),
     true
@@ -34,7 +39,10 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   );
 
   const _onChangeExtrinsic = useCallback(
-    (method?: SubmittableExtrinsic<'promise'>): void => setProposal(() => method || null),
+    (proposal?: SubmittableExtrinsic<'promise'>): void => setProposal({
+      proposal,
+      proposalLength: proposal?.length || 0
+    }),
     []
   );
   const _onChangeThreshold = useCallback(
@@ -46,30 +54,30 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
     <>
       {isOpen && (
         <Modal
-          header={t('Propose a committee motion')}
+          header={t<string>('Propose a committee motion')}
           onClose={onClose}
         >
           <Modal.Content>
             <InputAddress
               filter={members}
-              help={t('Select the account you wish to make the proposal with.')}
-              label={t('propose from account')}
+              help={t<string>('Select the account you wish to make the proposal with.')}
+              label={t<string>('propose from account')}
               onChange={setAcountId}
               type='account'
               withLabel
             />
             <InputNumber
               className='medium'
-              help={t('The minimum number of committee votes required to approve this motion')}
+              help={t<string>('The minimum number of committee votes required to approve this motion')}
               isError={!hasThreshold}
-              label={t('threshold')}
+              label={t<string>('threshold')}
               onChange={_onChangeThreshold}
-              placeholder={t('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
+              placeholder={t<string>('Positive number between 1 and {{count}}', { replace: { count: members.length } })}
               value={threshold || undefined}
             />
             <Extrinsic
               defaultValue={apiDefaultTxSudo}
-              label={t('proposal')}
+              label={t<string>('proposal')}
               onChange={_onChangeExtrinsic}
             />
           </Modal.Content>
@@ -78,7 +86,11 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
               accountId={accountId}
               isDisabled={!hasThreshold || !proposal}
               onStart={onClose}
-              params={[threshold, proposal]}
+              params={
+                api.tx.technicalCommittee.propose.meta.args.length === 3
+                  ? [threshold, proposal, proposalLength]
+                  : [threshold, proposal]
+              }
               tx='technicalCommittee.propose'
             />
           </Modal.Actions>
@@ -87,7 +99,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
       <Button
         icon='plus'
         isDisabled={!isMember}
-        label={t('Submit proposal')}
+        label={t<string>('Submit proposal')}
         onClick={onOpen}
       />
     </>

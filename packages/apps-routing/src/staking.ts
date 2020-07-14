@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Staking from '@polkadot/app-staking';
+import Component from '@polkadot/app-staking';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Staking,
+    Component,
     display: {
       needsApi: [
         ['tx.staking.bond']
@@ -16,6 +16,6 @@ export default function create (t: (key: string, text: string, options: { ns: st
     },
     icon: 'certificate',
     name: 'staking',
-    text: t('nav.staking', 'Staking', { ns: 'apps-routing' })
+    text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
   };
 }

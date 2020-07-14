@@ -9,7 +9,7 @@ interface Option {
   value: number | string;
 }
 
-export default function itemOption (label: string, value: string | number, img: any): Option {
+export default function itemOption (label: string, value: string | number, img: unknown): Option {
   return {
     text: (
       <div
@@ -19,7 +19,7 @@ export default function itemOption (label: string, value: string | number, img: 
         <img
           alt={label}
           className='ui--Dropdown-icon'
-          src={img}
+          src={img as string}
         />
         <div className='ui--Dropdown-name'>{label}</div>
       </div>

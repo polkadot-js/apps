@@ -5,8 +5,10 @@
 import FileSaver from 'file-saver';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Columar, Column, Dropdown, Progress, Spinner } from '@polkadot/react-components';
+import { Button, Columar, Column, Dropdown, Progress, Spinner, Toggle } from '@polkadot/react-components';
+import i18n from '@polkadot/react-components/i18n';
 import languageCache from '@polkadot/react-components/i18n/cache';
+import { useToggle } from '@polkadot/react-hooks';
 import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
@@ -31,15 +33,24 @@ type Progress = [[number, number, number], Record<string, [number, number, numbe
 type Strings = Record<string, string>;
 type StringsMod = Record<string, Strings>;
 
-async function retrieveJson (url: string): Promise<any> {
-  const response = await fetch(`locales/${url}`);
+const cache = new Map<string, unknown>();
 
-  return response.json();
+async function retrieveJson (url: string): Promise<any> {
+  if (cache.has(url)) {
+    return cache.get(url);
+  }
+
+  const response = await fetch(`locales/${url}`);
+  const json = await response.json() as unknown;
+
+  cache.set(url, json);
+
+  return json;
 }
 
 async function retrieveEnglish (): Promise<StringsMod> {
-  const paths: Array<string> = await retrieveJson('en/index.json');
-  const strings: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`en/${path}`)));
+  const paths = await retrieveJson('en/index.json') as Array<string>;
+  const strings: Strings[] = await Promise.all(paths.map((path) => retrieveJson(`en/${path}`) as Promise<Strings>));
 
   return strings.reduce((language: StringsMod, strings, index): StringsMod => {
     language[paths[index]] = strings;
@@ -49,7 +60,7 @@ async function retrieveEnglish (): Promise<StringsMod> {
 }
 
 async function retrieveAll (): Promise<Defaults> {
-  const _keys: string[] = await retrieveJson('index.json');
+  const _keys = await retrieveJson('index.json') as string[];
   const keys = _keys.filter((lng) => lng !== 'en');
   const missing = keys.filter((lng) => !languageCache[lng]);
   const english = await retrieveEnglish();
@@ -58,7 +69,17 @@ async function retrieveAll (): Promise<Defaults> {
     : [];
 
   missing.forEach((lng, index): void => {
-    languageCache[lng] = translations[index];
+    // setup the language cache
+    languageCache[lng] = translations[index] as Record<string, string>;
+
+    // fill in all empty values (useful for download, filling in)
+    Object.keys(english).forEach((record): void => {
+      Object.keys(english[record]).forEach((key): void => {
+        if (!languageCache[lng][key]) {
+          languageCache[lng][key] = '';
+        }
+      });
+    });
   });
 
   return {
@@ -96,11 +117,11 @@ function calcProgress (english: StringsMod, language: Strings): Progress {
   return [[done, total, 0], breakdown];
 }
 
-function doDownload (strings: Strings): void {
+function doDownload (strings: Strings, withEmpty: boolean): void {
   const sanitized = Object.keys(strings).sort().reduce((result: Strings, key): Strings => {
     const sanitized = strings[key].trim();
 
-    if (sanitized) {
+    if (sanitized || withEmpty) {
       result[key] = sanitized;
     }
 
@@ -124,6 +145,7 @@ function progressDisplay ([done, total, _]: [number, number, number] = [0, 0, 0]
 
 function Translate ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [withEmpty, toggleWithEmpty] = useToggle();
   const [{ english, keys, modules }, setDefaults] = useState<Defaults>({ english: {}, keys: [], modules: [] });
   const [lng, setLng] = useState<string>('zh');
   const [[modProgress, allProgress], setProgress] = useState<Progress>([[0, 0, 0], {}]);
@@ -131,7 +153,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
   const [strings, setStrings] = useState<Strings | null>(null);
 
   useEffect((): void => {
-    retrieveAll().then(setDefaults);
+    retrieveAll().then(setDefaults).catch(console.error);
   }, []);
 
   useEffect((): void => {
@@ -173,9 +195,16 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
     [english, lng]
   );
 
+  const _doApply = useCallback(
+    (): void => {
+      i18n.reloadResources().catch(console.error);
+    },
+    []
+  );
+
   const _onDownload = useCallback(
-    () => doDownload(strings || {}),
-    [strings]
+    () => doDownload(strings || {}, withEmpty),
+    [strings, withEmpty]
   );
 
   if (!keys.length) {
@@ -189,7 +218,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           <Column>
             <Dropdown
               isFull
-              label={t('the language to display translations for')}
+              label={t<string>('the language to display translations for')}
               onChange={setLng}
               options={keys}
               value={lng}
@@ -199,12 +228,12 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={modProgress[1]}
               value={modProgress[0]}
             />
-            {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
+            {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
           </Column>
           <Column>
             <Dropdown
               isFull
-              label={t('the module to display strings for')}
+              label={t<string>('the module to display strings for')}
               onChange={setRecord}
               options={modules}
               value={record}
@@ -214,14 +243,30 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
-            {t('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
+            {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
           </Column>
         </Columar>
       </header>
+      <div className='toggleWrapper'>
+        <Toggle
+          label={
+            withEmpty
+              ? t<string>('include all empty strings in the generated file')
+              : t<string>('do not include empty strings in the generated file')
+          }
+          onChange={toggleWithEmpty}
+          value={withEmpty}
+        />
+      </div>
       <Button.Group>
         <Button
+          icon='sync'
+          label={t<string>('Apply to UI')}
+          onClick={_doApply}
+        />
+        <Button
           icon='download'
-          label={t('Generate {{lng}}/translation.json', { replace: { lng } })}
+          label={t<string>('Generate {{lng}}/translation.json', { replace: { lng } })}
           onClick={_onDownload}
         />
       </Button.Group>
@@ -231,7 +276,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
           onChange={_setString}
           original={english[record][key]}
           tkey={key}
-          tval={strings[key] || ''}
+          tval={strings[key]}
         />
       )}
     </main>
@@ -241,5 +286,11 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
 export default React.memo(styled(Translate)`
   .ui.progress:last-child {
     margin: 0.25rem;
+  }
+
+  .toggleWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
   }
 `);

@@ -14,7 +14,7 @@ try {
   const storedAsset = localStorage.getItem(ASSETS_KEY);
 
   if (storedAsset) {
-    initalAssets = JSON.parse(storedAsset);
+    initalAssets = JSON.parse(storedAsset) as AssetsSubjectInfo;
   }
 } catch (e) {
   // ignore error

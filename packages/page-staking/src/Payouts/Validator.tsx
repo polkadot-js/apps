@@ -6,7 +6,7 @@ import { PayoutValidator } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { AddressMini, Expander } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Expander } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -21,13 +21,13 @@ interface Props {
 }
 
 interface State {
-  eraStr: string;
+  eraStr: React.ReactNode;
   nominators: Record<string, BN>;
   numNominators: number;
   oldestEra?: BN;
 }
 
-function Validator ({ className, isDisabled, payout }: Props): React.ReactElement<Props> {
+function Validator ({ className = '', isDisabled, payout }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ eraStr, nominators, numNominators, oldestEra }, setState] = useState<State>({
     eraStr: '',
@@ -55,7 +55,12 @@ function Validator ({ className, isDisabled, payout }: Props): React.ReactElemen
 
   return (
     <tr className={className}>
-      <td className='address'><AddressMini value={payout.validatorId} /></td>
+      <td
+        className='address'
+        colSpan={2}
+      >
+        <AddressSmall value={payout.validatorId} />
+      </td>
       <td className='start'>
         <span className='payout-eras'>{eraStr}</span>
       </td>
@@ -65,7 +70,7 @@ function Validator ({ className, isDisabled, payout }: Props): React.ReactElemen
         className='start'
         colSpan={2}
       >
-        <Expander summary={t('{{count}} own stashes', { replace: { count: numNominators } })}>
+        <Expander summary={t<string>('{{count}} own stashes', { replace: { count: numNominators } })}>
           {Object.entries(nominators).map(([stashId, balance]) =>
             <AddressMini
               balance={balance}

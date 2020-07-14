@@ -24,7 +24,7 @@ export default function createOptions (api: ApiPromise, sectionName: string): Dr
       const input = type.isMap
         ? type.asMap.key.toString()
         : type.isDoubleMap
-          ? `${type.asDoubleMap.key1}, ${type.asDoubleMap.key2}`
+          ? `${type.asDoubleMap.key1.toString()}, ${type.asDoubleMap.key2.toString()}`
           : '';
       const output = method.meta.modifier.isOptional
         ? `Option<${unwrapStorageType(type)}>`

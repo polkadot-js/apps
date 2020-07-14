@@ -4,7 +4,6 @@
 
 import { Option } from '@polkadot/types';
 import { AccountId, Hash } from '@polkadot/types/interfaces';
-import { AppProps, BareProps } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -17,7 +16,10 @@ import { useTranslation } from './translate';
 
 export { default as useCounter } from './useCounter';
 
-interface Props extends AppProps, BareProps {}
+interface Props {
+  basePath: string;
+  className?: string;
+}
 
 function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -31,11 +33,11 @@ function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'overview',
-      text: t('Tech. committee')
+      text: t<string>('Tech. committee')
     },
     {
       name: 'proposals',
-      text: t('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
+      text: t<string>('Proposals ({{count}})', { replace: { count: (proposals && proposals.length) || 0 } })
     }
   ], [proposals, t]);
 

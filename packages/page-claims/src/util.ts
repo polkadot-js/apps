@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EthereumAddress, EcdsaSignature } from '@polkadot/types/interfaces';
+import { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
 
 import secp256k1 from 'secp256k1/elliptic';
 import { registry } from '@polkadot/react-api';
@@ -85,7 +85,7 @@ export function recoverAddress (message: string, { recovery, signature }: Signat
 // recover an address from a signature JSON (as supplied by e.g. MyCrypto)
 export function recoverFromJSON (signatureJson: string | null): RecoveredSignature {
   try {
-    const { msg, sig } = JSON.parse(signatureJson || '{}');
+    const { msg, sig } = JSON.parse(signatureJson || '{}') as Record<string, string>;
 
     if (!msg || !sig) {
       throw new Error('Invalid signature object');
@@ -102,9 +102,40 @@ export function recoverFromJSON (signatureJson: string | null): RecoveredSignatu
     console.error(error);
 
     return {
-      error,
+      error: error as Error,
       ethereumAddress: null,
       signature: null
     };
+  }
+}
+
+export interface Statement {
+  sentence: string;
+  url: string;
+}
+
+export function getStatement (network: string, kind?: StatementKind | null): Statement | undefined {
+  switch (network) {
+    case 'Polkadot CC1': {
+      if (!kind) {
+        return undefined;
+      }
+
+      const url = kind.isRegular
+        ? 'https://statement.polkadot.network/regular.html'
+        : 'https://statement.polkadot.network/saft.html';
+
+      const hash = kind.isRegular
+        ? 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny'
+        : 'QmXEkMahfhHJPzT3RjkXiZVFi77ZeVeuxtAjhojGRNYckz';
+
+      return {
+        sentence: `I hereby agree to the terms of the statement whose SHA-256 multihash is ${hash}. (This may be found at the URL: ${url})`,
+        url
+      };
+    }
+
+    default:
+      return undefined;
   }
 }

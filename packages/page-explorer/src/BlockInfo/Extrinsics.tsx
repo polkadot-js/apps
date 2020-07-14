@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, EventRecord, Extrinsic } from '@polkadot/types/interfaces';
+import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
+import { KeyedEvent } from '../types';
 
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -13,16 +14,16 @@ import ExtrinsicDisplay from './Extrinsic';
 interface Props {
   blockNumber?: BlockNumber;
   className?: string;
-  events?: EventRecord[];
+  events?: KeyedEvent[];
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
 }
 
-function Extrinsics ({ blockNumber, className, events, label, value }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [label || t('extrinsics'), 'start', 2],
+    [label || t<string>('extrinsics'), 'start', 2],
     [t('events'), 'start', 2],
     [t('signer'), 'address']
   ], [label, t]);
@@ -30,7 +31,7 @@ function Extrinsics ({ blockNumber, className, events, label, value }: Props): R
   return (
     <Table
       className={className}
-      empty={t('No pending extrinsics are in the queue')}
+      empty={t<string>('No pending extrinsics are in the queue')}
       header={header}
       isFixed
     >

@@ -2,33 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountName, Button, Icon, IdentityIcon, Input, InputTags, LinkExternal, Tag } from '@polkadot/react-components';
+import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Tags } from '@polkadot/react-components';
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
+import Balances from './Balances';
 import Flags from './Flags';
 import Identity from './Identity';
 import Multisig from './Multisig';
 
-interface Props extends BareProps {
+interface Props {
   address: string;
+  className?: string;
   onClose: () => void;
   onUpdateName: () => void;
 }
 
-const TAG_OPTS = {
-  autoFocus: true
-};
-
-function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.ReactElement<Props> {
+function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
+  const { accountIndex, flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
@@ -52,7 +48,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
     <div className={className}>
       <Button
         className='ui--AddressMenu-close'
-        icon='close'
+        icon='times'
         isBasic
         isCircular
         onClick={onClose}
@@ -65,6 +61,11 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
         <div className='ui--AddressMenu-addr'>
           {address}
         </div>
+        {accountIndex && (
+          <div className='ui--AddressMenu-addr'>
+            {accountIndex}
+          </div>
+        )}
         <AccountName
           onClick={(flags.isEditable && !isEditingName) ? toggleIsEditingName : undefined}
           override={
@@ -80,7 +81,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
                 />
               )
               : flags.isEditable
-                ? (name.toUpperCase() || t('<unknown>'))
+                ? (name.toUpperCase() || t<string>('<unknown>'))
                 : undefined
           }
           value={address}
@@ -89,103 +90,60 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
           {(!isEditingName && flags.isEditable) && (
             <Icon
               className='inline-icon'
-              name='edit'
+              icon='edit'
             />
           )}
         </AccountName>
         <div className='ui--AddressMenu-tags'>
-          {isEditingTags
-            ? (
-              <InputTags
-                defaultValue={tags}
-                onBlur={onSaveTags}
-                onChange={setTags}
-                onClose={onSaveTags}
-                openOnFocus
-                searchInput={TAG_OPTS}
-                value={tags}
-                withLabel={false}
-              />
-            )
-            : (
-              <div
-                className='tags--toggle'
-                onClick={toggleIsEditingTags}
-              >
-                {tags.length
-                  ? tags.map((tag): React.ReactNode => (
-                    <Tag
-                      color='grey'
-                      key={tag}
-                      label={tag}
-                      size='tiny'
-                    />
-                  ))
-                  : <label>{t('no tags')}</label>
-                }
-              </div>
-            )
-          }
-          {(!isEditingTags && (flags.isInContacts || flags.isOwned)) && (
-            <Icon
-              className='inline-icon'
-              name='edit'
-              onClick={toggleIsEditingTags}
-            />
-          )}
+          <Tags
+            isEditable
+            isEditing={isEditingTags}
+            onChange={setTags}
+            onSave={onSaveTags}
+            onToggleIsEditing={toggleIsEditingTags}
+            size='tiny'
+            value={tags}
+          />
         </div>
         <Flags flags={flags} />
         <div className='ui-AddressMenu--button'>
           <Button.Group>
             <Button
-              icon='send'
-              label={t('Deposit')}
+              icon='paper-plane'
+              label={t<string>('Deposit')}
               onClick={toggleIsTransferOpen}
             />
             {flags.isOwned && (
               <Button
-                className='basic'
                 icon='check'
-                isPrimary
-                label={t('Owned')}
+                isBasic
+                label={t<string>('Owned')}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
-                size='tiny'
               />
             )}
             {!flags.isOwned && !flags.isInContacts && (
               <Button
-                icon='add'
+                icon='plus'
                 isPositive
-                label={t('Save')}
+                label={t<string>('Save')}
                 onClick={_onUpdateName}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
-                size='tiny'
               />
             )}
             {!flags.isOwned && flags.isInContacts && (
               <Button
-                className={`ui--AddressMenu-button icon ${isHoveringButton ? '' : 'basic'}`}
+                className='ui--AddressMenu-button'
+                icon='ban'
                 isAnimated
                 isNegative={isHoveringButton}
                 isPositive={!isHoveringButton}
+                label={t<string>('Remove')}
                 onClick={_onForgetAddress}
                 onMouseEnter={toggleIsHoveringButton}
                 onMouseLeave={toggleIsHoveringButton}
-                size='tiny'
-              >
-                <Button.Content visible>
-                  <Icon name='check' />
-                  &nbsp;
-                  {t('Saved')}
-                </Button.Content>
-                <Button.Content hidden>
-                  <Icon name='ban' />
-                  &nbsp;
-                  {t('Remove')}
-                </Button.Content>
-              </Button>
+              />
             )}
           </Button.Group>
           {isTransferOpen && (
@@ -197,6 +155,7 @@ function Sidebar ({ address, className, onClose, onUpdateName }: Props): React.R
           )}
         </div>
       </div>
+      <Balances address={address} />
       <Identity
         address={address}
         identity={identity}
@@ -222,7 +181,7 @@ export default React.memo(styled(Sidebar)`
   right: 0;
   bottom: 0;
   max-width: 24rem;
-  background: #f5f5f5;
+  background: #f5f4f3;
   padding: 1rem;
   box-shadow: -6px 0px 20px 0px rgba(0,0,0,0.2);
   z-index: 999;
@@ -235,8 +194,6 @@ export default React.memo(styled(Sidebar)`
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
-    font-size: 1.2rem;
-    padding: 0.6rem !important;
   }
 
   .ui--AddressMenu-header {
@@ -249,16 +206,8 @@ export default React.memo(styled(Sidebar)`
     margin: -1rem -1rem 1rem -1rem;
     padding: 1rem;
 
-    .ui.button {
+    .ui--Button {
       transition: 0.5s all;
-
-      &.secondary {
-        background-color: #666;
-      }
-    }
-
-    .ui.button+.ui.button {
-      margin-left: 0.5rem !important;
     }
   }
 
@@ -266,8 +215,13 @@ export default React.memo(styled(Sidebar)`
     font-family: monospace;
     margin: 0.5rem 0;
     overflow: hidden;
+    text-align: center;
     text-overflow: ellipsis;
     width: 100%;
+  }
+
+  .ui--AddressMenu-addr+.ui--AddressMenu-addr {
+    margin-top: -0.25rem;
   }
 
   section {
@@ -289,7 +243,7 @@ export default React.memo(styled(Sidebar)`
 
   .ui--AddressMenu-identity {
     .ui--AddressMenu-identityTable {
-      font-size: 13px;
+      font-size: 0.93rem;
       margin-top: 0.3rem;
 
       .tr {
@@ -360,7 +314,7 @@ export default React.memo(styled(Sidebar)`
 
   .inline-icon {
     cursor: pointer;
-    margin: 0 0 0 0.6rem;
+    margin: 0 0 0 0.5rem;
     color:  ${colorLink};
   }
 

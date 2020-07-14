@@ -21,6 +21,7 @@ import genericAsset from './generic-asset';
 import i18n from './i18n';
 import js from './js';
 import parachains from './parachains';
+import poll from './poll';
 import settings from './settings';
 import society from './society';
 import staking from './staking';
@@ -31,13 +32,14 @@ import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Routes {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Routes {
   return appSettings.uiMode === 'light'
     ? [
       // dashboard,
       explorer(t),
       accounts(t),
       claims(t),
+      poll(t),
       transfer(t),
       genericAsset(t),
       null,
@@ -53,6 +55,7 @@ export default function create (t: (key: string, text: string, options: { ns: st
       explorer(t),
       accounts(t),
       claims(t),
+      poll(t),
       transfer(t),
       genericAsset(t),
       null,

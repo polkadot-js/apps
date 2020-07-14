@@ -12,21 +12,33 @@ import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
 
+interface AddrState {
+  address: string;
+  addressInput: string;
+  isAddressExisting: boolean;
+  isAddressValid: boolean;
+}
+
+interface NameState {
+  isNameValid: boolean;
+  name: string;
+}
+
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ isNameValid, name }, setName] = useState<{ isNameValid: boolean; name: string }>({ isNameValid: false, name: '' });
-  const [{ address, isAddressExisting, isAddressValid }, setAddress] = useState<{ address: string; isAddressExisting: boolean; isAddressValid: boolean }>({ address: '', isAddressExisting: false, isAddressValid: false });
+  const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
+  const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false });
   const isValid = isAddressValid && isNameValid;
 
   const _onChangeAddress = useCallback(
-    (input: string): void => {
+    (addressInput: string): void => {
       let address = '';
       let isAddressValid = true;
       let isAddressExisting = false;
 
       try {
         address = keyring.encodeAddress(
-          keyring.decodeAddress(input)
+          keyring.decodeAddress(addressInput)
         );
         isAddressValid = keyring.isAvailable(address);
 
@@ -46,7 +58,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         isAddressValid = false;
       }
 
-      setAddress({ address: address || input, isAddressExisting, isAddressValid });
+      setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid });
     },
     [name]
   );
@@ -70,13 +82,13 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         status.account = address;
         status.status = address ? 'success' : 'error';
         status.message = isAddressExisting
-          ? t('address edited')
-          : t('address created');
+          ? t<string>('address edited')
+          : t<string>('address created');
 
         InputAddress.setLastValue('address', address);
       } catch (error) {
         status.status = 'error';
-        status.message = error.message;
+        status.message = (error as Error).message;
       }
 
       onStatusChange(status);
@@ -86,7 +98,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
   );
 
   return (
-    <Modal header={t('Add an address')}>
+    <Modal header={t<string>('Add an address')}>
       <Modal.Content>
         <AddressRow
           defaultName={name}
@@ -96,19 +108,19 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           <Input
             autoFocus
             className='full'
-            help={t('Paste here the address of the contact you want to add to your address book.')}
+            help={t<string>('Paste here the address of the contact you want to add to your address book.')}
             isError={!isAddressValid}
-            label={t('address')}
+            label={t<string>('address')}
             onChange={_onChangeAddress}
             onEnter={_onCommit}
-            placeholder={t('new address')}
-            value={address}
+            placeholder={t<string>('new address')}
+            value={addressInput}
           />
           <Input
             className='full'
-            help={t('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
+            help={t<string>('Type the name of your contact. This name will be used across all the apps. It can be edited later on.')}
             isError={!isNameValid}
-            label={t('name')}
+            label={t<string>('name')}
             onChange={_onChangeName}
             onEnter={_onCommit}
             value={name}
@@ -120,7 +132,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           icon='save'
           isDisabled={!isValid}
           isPrimary
-          label={t('Save')}
+          label={t<string>('Save')}
           onClick={_onCommit}
         />
       </Modal.Actions>

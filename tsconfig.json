@@ -5,8 +5,11 @@
     "**/build/**/*"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
+      "@polkadot/apps/*": ["packages/apps/src/*"],
+      "@polkadot/apps": ["packages/apps/src"],
       "@polkadot/apps-config/*": [ "packages/apps-config/src/*" ],
       "@polkadot/apps-routing": [ "packages/apps-routing/src" ],
       "@polkadot/apps-routing/*": [ "packages/apps-routing/src/*" ],
@@ -36,6 +39,8 @@
       "@polkadot/app-js/*": [ "packages/page-js/src/*" ],
       "@polkadot/app-parachains": [ "packages/page-parachains/src" ],
       "@polkadot/app-parachains/*": [ "packages/page-parachains/src/*" ],
+      "@polkadot/app-poll": [ "packages/page-poll/src" ],
+      "@polkadot/app-poll/*": [ "packages/page-poll/src/*" ],
       "@polkadot/app-settings": [ "packages/page-settings/src" ],
       "@polkadot/app-settings/*": [ "packages/page-settings/src/*" ],
       "@polkadot/app-society": [ "packages/page-society/src" ],

@@ -28,9 +28,9 @@ const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
 let id = 0;
 
-function ReferendumVotes ({ change, className, count, index, isWinning, total, votes }: Props): React.ReactElement<Props> {
+function ReferendumVotes ({ change, className = '', count, index, isWinning, total, votes }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [trigger] = useState(`votes-${index}-${++id}`);
+  const [trigger] = useState(`votes-${index.toString()}-${++id}`);
   const [sorted, setSorted] = useState<DeriveReferendumVote[]>([]);
 
   useEffect((): void => {
@@ -59,16 +59,15 @@ function ReferendumVotes ({ change, className, count, index, isWinning, total, v
               <>
                 <Icon
                   className='double-icon'
-                  data-for={trigger}
-                  data-tip
-                  name={isWinning ? 'arrow alternate circle down' : 'arrow alternate circle up'}
+                  icon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
+                  tooltip={trigger}
                 />
                 <FormatBalance value={change} />
                 <Tooltip
                   text={
                     isWinning
-                      ? t('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
-                      : t('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
+                      ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
+                      : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
                   }
                   trigger={trigger}
                 />
@@ -89,8 +88,14 @@ function ReferendumVotes ({ change, className, count, index, isWinning, total, v
 }
 
 export default React.memo(styled(ReferendumVotes)`
+  .ui--Expander .ui--Expander-summary .double-icon {
+    margin-bottom: -0.125rem;
+    margin-right: 0.375rem;
+    margin-top: 0.125rem;
+  }
+
   .ui--Expander-summary {
-    i.icon+i.icon {
+    .ui--Icon+.ui--Icon {
       margin-left: -0.375rem;
     }
   }

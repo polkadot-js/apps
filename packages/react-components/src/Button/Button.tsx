@@ -4,85 +4,90 @@
 
 import { ButtonProps } from './types';
 
-import React, { useState } from 'react';
-import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { isUndefined } from '@polkadot/util';
 
 import Icon from '../Icon';
-import Tooltip from '../Tooltip';
 
-let idCounter = 0;
-
-function Button ({ children, className, floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, style, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
-  const [triggerId] = useState(`button-${++idCounter}`);
-  const props = {
-    animate: 'fade',
-    animated: isAnimated,
-    basic: isBasic,
-    circular: isCircular,
-    className: `${className} ${isIcon && 'isIcon'}`,
-    'data-for': triggerId,
-    'data-tip': !!tooltip,
-    disabled: isDisabled,
-    floated,
-    fluid: isFluid,
-    labelPosition,
-    loading: isLoading,
-    negative: isNegative,
-    onClick,
-    onMouseEnter,
-    onMouseLeave,
-    positive: isPositive,
-    primary: isPrimary,
-    secondary: !isBasic && !(isPositive || isPrimary || isNegative),
-    size: size || (isIcon ? 'tiny' : undefined),
-    style,
-    tabIndex
-  };
+function Button ({ children, className = '', icon, isBasic = false, isCircular = false, isDisabled = false, isFull = false, isIcon, isNegative = false, isPositive = false, isPrimary = false, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
+  const _onClick = useCallback(
+    (): void => {
+      !isDisabled && onClick && onClick();
+    },
+    [isDisabled, onClick]
+  );
 
   return (
-    <>
-      {isUndefined(label) && isUndefined(children)
-        ? (
-          <SUIButton
-            {...props}
-            icon={icon}
-          />
-        )
-        : (
-          <SUIButton {...props}>
-            {icon && (
-              <><Icon className={icon} />{isIcon ? '' : '  '}</>
-            )}
-            {label}
-            {children}
-          </SUIButton>
-        )
-      }
-      {tooltip && (
-        <Tooltip
-          place='top'
-          text={tooltip}
-          trigger={triggerId}
-        />
-      )}
-    </>
+    <button
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''} ${className}`}
+      disabled={isDisabled}
+      onClick={_onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      tabIndex={tabIndex}
+    >
+      {icon && <Icon icon={icon} />}
+      {label}
+      {children}
+    </button>
   );
 }
 
 export default React.memo(styled(Button)`
-  &:not(.isIcon) > i.icon {
-    margin-left: 0.25rem;
+  border: none;
+  font-size: 0.92857142857rem; // 13/14px
+  text-align: center;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:not(.hasLabel) {
+    padding: 0.75em;
+
+    > .ui--Icon {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+
+  &:not(.isCircular) {
+    border-radius: 0.25rem;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.15;
+  }
+
+  &:focus {
+    outline:0;
+  }
+
+  &.hasLabel {
+    padding: 0.75em 1.5em;
+
+    > .ui--Icon {
+      margin-right: 0.75rem;
+    }
+  }
+
+  &.isBasic {
+    background: white !important;
+    box-shadow: 0 0 0 1px #ddd;
+    color: inherit !important;
+  }
+
+  &.isCircular {
+    border-radius: 10rem;
+  }
+
+  &.isFull {
+    display: block;
+    width: 100%;
   }
 
   &.isIcon {
-    background: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
-
-    i.icon {
-      margin: 0 0 0 0.25rem !important;
-    }
+    background: transparent;
   }
 `);

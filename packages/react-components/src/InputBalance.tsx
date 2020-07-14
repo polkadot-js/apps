@@ -2,22 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, BitLength } from './types';
+import { BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { formatBalance, isBn } from '@polkadot/util';
+import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
 import InputNumber from './InputNumber';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
+  children?: React.ReactNode;
+  className?: string;
   defaultValue?: BN | string;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
+  isWarning?: boolean;
   isZeroable?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
@@ -33,16 +36,33 @@ interface Props extends BareProps {
 }
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
-const TEN = new BN(10);
 
-function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+function reformat (value: string | BN, isDisabled?: boolean): string {
+  if (isBn(value)) {
+    let fmt = (value.mul(BN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
+
+    while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
+      const isLast = fmt.endsWith('.');
+
+      fmt = fmt.substr(0, fmt.length - 1);
+
+      if (isLast) {
+        break;
+      }
+    }
+
+    return fmt;
+  }
+
+  return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
+}
+
+function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
   const [defaultValue, setDefaultValue] = useState<string | undefined>();
 
   useEffect((): void => {
     inDefault && setDefaultValue(
-      isBn(inDefault)
-        ? inDefault.div(TEN.pow(new BN(formatBalance.getDefaults().decimals))).toString()
-        : formatBalance(inDefault, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '')
+      reformat(inDefault, isDisabled)
     );
   }, [inDefault, isDisabled]);
 
@@ -57,6 +77,7 @@ function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, is
       isError={isError}
       isFull={isFull}
       isSi
+      isWarning={isWarning}
       isZeroable={isZeroable}
       label={label}
       labelExtra={labelExtra}
@@ -65,12 +86,13 @@ function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, is
       onEnter={onEnter}
       onEscape={onEscape}
       placeholder={placeholder}
-      style={style}
       value={value}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
       withMax={withMax}
-    />
+    >
+      {children}
+    </InputNumber>
   );
 }
 

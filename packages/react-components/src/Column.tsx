@@ -11,7 +11,7 @@ import translate from './translate';
 
 class Column extends Collection<Props, State> {
   public render (): React.ReactNode {
-    const { className } = this.props;
+    const { className = '' } = this.props;
     const { isEmpty } = this.state;
 
     return (

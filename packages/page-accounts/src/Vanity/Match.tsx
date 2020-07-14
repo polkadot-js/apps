@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, IdentityIcon } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
-interface Props extends BareProps {
+interface Props {
   address: string;
+  className?: string;
   count: number;
   offset: number;
   onCreateToggle: (seed: string) => void;
@@ -18,7 +17,7 @@ interface Props extends BareProps {
   seed: Uint8Array;
 }
 
-function Match ({ address, className, count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
+function Match ({ address, className = '', count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
   const hexSeed = useMemo(
     () => u8aToHex(seed),
     [seed]
@@ -40,7 +39,6 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
       >
         <IdentityIcon
           className='vanity--Match-icon'
-          size={32}
           value={address}
         />
       </td>
@@ -57,13 +55,11 @@ function Match ({ address, className, count, offset, onCreateToggle, onRemove, s
           icon='plus'
           isPrimary
           onClick={_onCreate}
-          size='tiny'
         />
         <Button
-          icon='close'
+          icon='times'
           isNegative
           onClick={_onRemove}
-          size='tiny'
         />
       </td>
     </tr>
@@ -74,7 +70,7 @@ export default React.memo(styled(Match)`
   text-align: center;
 
   &:hover {
-    background: #f9f9f9;
+    background: #f9f8f7;
   }
 
   .vanity--Match-addr {

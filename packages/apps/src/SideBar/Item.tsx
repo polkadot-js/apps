@@ -13,7 +13,7 @@ import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-const DUMMY_COUNTER = (): number => 0;
+const DUMMY_COUNTER = (): null => null;
 
 interface Props {
   isCollapsed: boolean;
@@ -21,7 +21,7 @@ interface Props {
   route: Route;
 }
 
-const disabledLog: Map<string, string> = new Map();
+const disabledLog = new Map<string, string>();
 const TOOLTIP_OFFSET = { right: -4 };
 
 function logDisabled (route: string, message: string): void {
@@ -36,6 +36,7 @@ function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
   const [area, section, method] = endpoint.split('.');
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return isFunction((api as any)[area][section][method]);
   } catch (error) {
     return false;
@@ -66,7 +67,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   });
 
   if (notFound.length !== 0) {
-    logDisabled(name, `API not available: ${notFound}`);
+    logDisabled(name, `API not available: ${notFound.toString()}`);
   }
 
   return notFound.length === 0;
@@ -99,13 +100,12 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
 
   const body = (
     <>
-      <Icon name={icon} />
+      <Icon icon={icon} />
       <span className='text'>{text}</span>
-      {count !== 0 && (
+      {!!count && (
         <Badge
+          color='counter'
           info={count}
-          isInline
-          type='counter'
         />
       )}
       <Tooltip

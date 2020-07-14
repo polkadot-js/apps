@@ -2,15 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-api/types';
-
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   value?: BN | Date | number;
 }
 
@@ -57,7 +56,7 @@ function getDisplayValue (now = 0, value: BN | Date | number = 0): string {
 
 tick();
 
-function Elapsed ({ className, style, value }: Props): React.ReactElement<Props> {
+function Elapsed ({ className = '', value }: Props): React.ReactElement<Props> {
   const [now, setNow] = useState(lastNow);
 
   useEffect((): () => void => {
@@ -71,10 +70,7 @@ function Elapsed ({ className, style, value }: Props): React.ReactElement<Props>
   }, []);
 
   return (
-    <div
-      className={['ui--Elapsed', className].join(' ')}
-      style={style}
-    >
+    <div className={['ui--Elapsed', className].join(' ')}>
       {getDisplayValue(now, value)}
     </div>
   );

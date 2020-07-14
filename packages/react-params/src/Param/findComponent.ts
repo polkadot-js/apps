@@ -24,6 +24,7 @@ import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';
 import Moment from './Moment';
 import Null from './Null';
+import OpaqueCall from './OpaqueCall';
 import Option from './Option';
 import Raw from './Raw';
 import Struct from './Struct';
@@ -56,6 +57,7 @@ const componentDef: TypeToComponent[] = [
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },
   { c: Moment, t: ['Moment', 'MomentOf'] },
   { c: Null, t: ['Null'] },
+  { c: OpaqueCall, t: ['OpaqueCall'] },
   { c: Option, t: ['Option'] },
   { c: Text, t: ['String', 'Text'] },
   { c: Struct, t: ['Struct'] },
@@ -76,53 +78,57 @@ const components: ComponentMap = componentDef.reduce((components, { c, t }): Com
 
 const warnList: string[] = [];
 
+function fromDef ({ displayName, info, sub, type }: TypeDef): string {
+  if (displayName && SPECIAL_TYPES.includes(displayName)) {
+    return displayName;
+  }
+
+  switch (info) {
+    case TypeDefInfo.Compact:
+      return (sub as TypeDef).type;
+
+    case TypeDefInfo.Option:
+      return 'Option';
+
+    case TypeDefInfo.Enum:
+      return 'Enum';
+
+    case TypeDefInfo.Struct:
+      return 'Struct';
+
+    case TypeDefInfo.Tuple:
+      if (components[type] === Account) {
+        return type;
+      }
+
+      return 'Tuple';
+
+    case TypeDefInfo.Vec:
+      if (type === 'Vec<u8>') {
+        return 'Bytes';
+      }
+
+      return ['Vec<KeyValue>'].includes(type)
+        ? 'Vec<KeyValue>'
+        : 'Vec';
+
+    default:
+      return type;
+  }
+}
+
 export default function findComponent (def: TypeDef, overrides: ComponentMap = {}): React.ComponentType<Props> {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
-  const type = (({ displayName, info, sub, type }: TypeDef): string => {
-    if (displayName && SPECIAL_TYPES.includes(displayName)) {
-      return displayName;
-    }
-
-    switch (info) {
-      case TypeDefInfo.Compact:
-        return (sub as TypeDef).type;
-
-      case TypeDefInfo.Option:
-        return 'Option';
-
-      case TypeDefInfo.Enum:
-        return 'Enum';
-
-      case TypeDefInfo.Struct:
-        return 'Struct';
-
-      case TypeDefInfo.Tuple:
-        if (components[type] === Account) {
-          return type;
-        }
-
-        return 'Tuple';
-
-      case TypeDefInfo.Vec:
-        if (type === 'Vec<u8>') {
-          return 'Bytes';
-        }
-
-        return ['Vec<KeyValue>'].includes(type)
-          ? 'Vec<KeyValue>'
-          : 'Vec';
-
-      default:
-        return type;
-    }
-  })(def);
+  const type = fromDef(def);
 
   let Component = findOne(type);
 
   if (!Component) {
+    let error: string | null = null;
+
     try {
-      const instance = createType(registry, type as any);
+      const instance = createType(registry, type as 'u32');
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);
@@ -131,17 +137,18 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
         return Component;
       } else if (isBn(instance)) {
         return Amount;
-      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+      } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
         return findComponent(raw, overrides);
       }
-    } catch (error) {
-      // console.error(error.message);
+    } catch (e) {
+      error = (e as Error).message;
     }
 
     // we only want to want once, not spam
     if (!warnList.includes(type)) {
       warnList.push(type);
-      console.info(`params: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
+      error && console.error(`params: findComponent: ${error}`);
+      console.info(`params: findComponent: No pre-defined component for type ${type} from ${JSON.stringify(def)}, using defaults`);
     }
   }
 

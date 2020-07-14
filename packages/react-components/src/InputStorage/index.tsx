@@ -4,8 +4,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
+import { QueryableStorageEntry } from '@polkadot/api/types';
 import { DropdownOptions } from '../util/types';
-import { StorageEntryPromise } from './types';
 
 import React, { useCallback, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
@@ -18,29 +18,28 @@ import sectionOptions from './options/section';
 
 interface Props {
   className?: string;
-  defaultValue: StorageEntryPromise;
+  defaultValue: QueryableStorageEntry<'promise'>;
   help?: React.ReactNode;
   isError?: boolean;
   label: React.ReactNode;
-  onChange?: (value: StorageEntryPromise) => void;
-  style?: any;
+  onChange?: (value: QueryableStorageEntry<'promise'>) => void;
   withLabel?: boolean;
 }
 
-function InputStorage ({ className, defaultValue, help, label, onChange, style, withLabel }: Props): React.ReactElement<Props> {
+function InputStorage ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(keyOptions(api, defaultValue.creator.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
-  const [value, setValue] = useState<StorageEntryPromise>((): StorageEntryPromise => defaultValue);
+  const [value, setValue] = useState<QueryableStorageEntry<'promise'>>(() => defaultValue);
 
   const _onKeyChange = useCallback(
-    (newValue: StorageEntryPromise): void => {
+    (newValue: QueryableStorageEntry<'promise'>): void => {
       if (value.creator.section === newValue.creator.section && value.creator.method === newValue.creator.method) {
         return;
       }
 
       // set via callback
-      setValue((): StorageEntryPromise => newValue);
+      setValue(() => newValue);
       onChange && onChange(newValue);
     },
     [onChange, value]
@@ -55,7 +54,7 @@ function InputStorage ({ className, defaultValue, help, label, onChange, style, 
       const optionsMethod = keyOptions(api, section);
 
       setOptionsMethod(optionsMethod);
-      _onKeyChange(api.query[section][optionsMethod[0].value]);
+      _onKeyChange(api.query[section][optionsMethod[0].value] as any);
     },
     [_onKeyChange, api, value]
   );
@@ -65,7 +64,6 @@ function InputStorage ({ className, defaultValue, help, label, onChange, style, 
       className={className}
       help={help}
       label={label}
-      style={style}
       withLabel={withLabel}
     >
       <SelectSection

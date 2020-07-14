@@ -16,7 +16,7 @@ interface Props {
   peers?: PeerInfo[] | null;
 }
 
-function Peers ({ className, peers }: Props): React.ReactElement<Props> {
+function Peers ({ className = '', peers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
@@ -29,7 +29,7 @@ function Peers ({ className, peers }: Props): React.ReactElement<Props> {
   return (
     <Table
       className={className}
-      empty={t('no peers connected')}
+      empty={t<string>('no peers connected')}
       header={header}
     >
       {peers?.sort((a, b): number => b.bestNumber.cmp(a.bestNumber)).map((peer) => (

@@ -46,7 +46,7 @@ function getIsFiltered (address: string, filter?: string, info?: DeriveAccountIn
   return true;
 }
 
-function AddressToggle ({ address, className, filter, isHidden, noLookup, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
+function AddressToggle ({ address, className = '', filter, isHidden, noLookup, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [address]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -62,7 +62,7 @@ function AddressToggle ({ address, className, filter, isHidden, noLookup, noTogg
 
   return (
     <div
-      className={`ui--AddressToggle ${className} ${(value || noToggle) ? 'isAye' : 'isNay'} ${isHidden || isFiltered ? 'isHidden' : ''}`}
+      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || isFiltered ? ' isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini
