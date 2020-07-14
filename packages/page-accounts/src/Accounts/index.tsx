@@ -135,13 +135,16 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const footer = useMemo(() => (
     <tr>
-      <td colSpan={7} />
+      <td colSpan={4} />
+      {api.query.democracy?.votingOf && <td className='ui--media-1500' />}
+      <td colSpan={2} />
+      <td className='ui--media-1500' />
       <td className='number'>
         {balanceTotal && <FormatBalance value={balanceTotal} />}
       </td>
       <td colSpan={2} />
     </tr>
-  ), [balanceTotal]);
+  ), [api, balanceTotal]);
 
   const filter = useMemo(() => (
     <div className='filter--tags'>
