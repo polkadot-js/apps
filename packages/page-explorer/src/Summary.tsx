@@ -40,9 +40,11 @@ function Summary (): React.ReactElement {
         <SummarySession withEra={false} />
       </section>
       <section>
-        <CardSummary label={t<string>('finalized')}>
-          <BestFinalized />
-        </CardSummary>
+        {api.query.grandpa && (
+          <CardSummary label={t<string>('finalized')}>
+            <BestFinalized />
+          </CardSummary>
+        )}
         <CardSummary label={t<string>('best')}>
           <BestNumber />
         </CardSummary>
