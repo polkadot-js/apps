@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -31,6 +31,7 @@ export default function useParamDefs (type: TypeDef): ParamDef[] {
 
     setParams(
       (Array.isArray(typeDef.sub) ? typeDef.sub : [typeDef.sub]).map((td): ParamDef => ({
+        length: typeDef.length,
         name: td.name,
         type: td // expandDef(td)
       }))

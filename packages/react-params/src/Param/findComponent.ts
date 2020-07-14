@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import { registry } from '@polkadot/react-api';
-import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
+import { getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
 import { isBn } from '@polkadot/util';
 
 import Account from './Account';
@@ -32,6 +32,7 @@ import Text from './Text';
 import Tuple from './Tuple';
 import Unknown from './Unknown';
 import Vector from './Vector';
+import VectorFixed from './VectorFixed';
 import Vote from './Vote';
 import VoteThreshold from './VoteThreshold';
 
@@ -63,6 +64,7 @@ const componentDef: TypeToComponent[] = [
   { c: Struct, t: ['Struct'] },
   { c: Tuple, t: ['Tuple'] },
   { c: Vector, t: ['Vec'] },
+  { c: VectorFixed, t: ['VecFixed'] },
   { c: Vote, t: ['Vote'] },
   { c: VoteThreshold, t: ['VoteThreshold'] },
   { c: Unknown, t: ['Unknown'] }
@@ -112,6 +114,9 @@ function fromDef ({ displayName, info, sub, type }: TypeDef): string {
         ? 'Vec<KeyValue>'
         : 'Vec';
 
+    case TypeDefInfo.VecFixed:
+      return 'VecFixed';
+
     default:
       return type;
   }
@@ -121,14 +126,13 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
   const findOne = (type: string): React.ComponentType<Props> | null =>
     overrides[type] || components[type];
   const type = fromDef(def);
-
   let Component = findOne(type);
 
   if (!Component) {
     let error: string | null = null;
 
     try {
-      const instance = createType(registry, type as 'u32');
+      const instance = registry.createType(type as 'u32');
       const raw = getTypeDef(instance.toRawType());
 
       Component = findOne(raw.type);
@@ -138,6 +142,8 @@ export default function findComponent (def: TypeDef, overrides: ComponentMap = {
       } else if (isBn(instance)) {
         return Amount;
       } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct, TypeDefInfo.Tuple].includes(raw.info)) {
+        return findComponent(raw, overrides);
+      } else if (raw.info === TypeDefInfo.VecFixed && (raw.sub as TypeDef).type !== 'u8') {
         return findComponent(raw, overrides);
       }
     } catch (e) {
