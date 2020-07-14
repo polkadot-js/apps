@@ -113,7 +113,7 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
             <p>{t<string>('Only applicable if the proposal has already passed and is ready for dispatch.')}</p>
           </Modal.Column>
         </Modal.Columns>
-        {!isImminent && !storageFee.isZero() && (
+        {!isImminent && (
           <Modal.Columns>
             <Modal.Column>
               <InputBalance
