@@ -22,7 +22,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_HEADERS = 50;
+const MAX_HEADERS = 75;
 
 const byAuthor: Record<string, string> = {};
 const eraPoints: Record<string, string> = {};

@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_EVENTS = 50;
+const MAX_EVENTS = 75;
 
 const EventsContext: React.Context<Events> = React.createContext<Events>([]);
 
@@ -32,7 +32,7 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
       api.query.system.events((records): void => {
         const newEvents: IndexedEvent[] = records
           .map((record, index) => ({ indexes: [index], record }))
-          .filter(({ record: { event: { section } } }) => section !== 'system')
+          .filter(({ record: { event: { method, section } } }) => section !== 'system' && (method !== 'Deposit' || !['balances', 'treasury'].includes(section)))
           .reduce((combined: IndexedEvent[], e): IndexedEvent[] => {
             const prev = combined.find(({ record: { event: { method, section } } }) => e.record.event.section === section && e.record.event.method === method);
 
@@ -43,7 +43,8 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
             }
 
             return combined;
-          }, []);
+          }, [])
+          .reverse();
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
         if (newEventHash !== prevEventHash && newEvents.length) {
