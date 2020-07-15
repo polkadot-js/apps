@@ -153,13 +153,13 @@ function createWebpack (ENV, context) {
             name: 'react.ui',
             test: /node_modules\/(@emotion|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|mini-create-react|popper\.js|qrcode-generator|react|react-|remark-parse|styled-components)/
           },
-          vendor03: {
+          vendor01: {
             chunks: 'initial',
             enforce: true,
             name: 'other.01',
             test: /node_modules\/(@babel|ansi-styles|asn1|browserify-|chalk|color|color-|crypto-browserify|des\.js|diffie-hellman|elliptic|hash|hmac-drbg|js-sha3|lodash|md5|memoizee|miller-rabin|object-|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|ripemd160|readable-stream|regenerator-runtime|rtcpeerconnection-shim|stream-browserify|store|timers-browserify|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch|xxhashjs)/
           },
-          vendor04: {
+          vendor02: {
             chunks: 'initial',
             enforce: true,
             name: 'other.02',
