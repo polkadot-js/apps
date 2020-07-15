@@ -54,7 +54,7 @@ function Member ({ className = '', isHead, value: { accountId, strikes } }: Prop
         )}
       </td>
       <td className='all'>&nbsp;</td>
-      <td className='number top'>
+      <td className='number'>
         {strikes.toString()}
       </td>
       <td>
