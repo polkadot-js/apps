@@ -5,7 +5,7 @@
 import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ConvictionDropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
 import { Conviction } from '@polkadot/types/interfaces';
@@ -31,10 +31,15 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
   const [delegatedAccount, setDelegatedAccount] = useState<string | null>(_delegatedAccount || null);
   const [conviction, setConviction] = useState(_conviction?.toNumber() || 1);
 
+  const isDirty = amount?.toString() !== _amount?.toString() ||
+    delegatedAccount !== _delegatedAccount ||
+    delegatingAccount !== _delegatingAccount ||
+    conviction !== _conviction?.toNumber();
+
   return (
     <Modal
       className='staking--Delegate'
-      header= {t<string>('Delegate democracy vote')}
+      header= {_delegatedAccount ? t<string>('democracy vote delegation') : t<string>('delegate democracy vote')}
       size='large'
     >
       <Modal.Content>
@@ -92,12 +97,23 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
+        {_delegatedAccount && (
+          <TxButton
+            accountId={delegatingAccount}
+            icon='trash-alt'
+            isNegative
+            label={t<string>('Undelegate')}
+            onStart={onClose}
+            params={[]}
+            tx='democracy.undelegate'
+          />
+        )}
         <TxButton
           accountId={delegatingAccount}
           icon='sign-in-alt'
-          isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error}
+          isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
           isPrimary
-          label={t<string>('Delegate')}
+          label={_delegatedAccount ? t<string>('Save delegation') : t<string>('Delegate')}
           onStart={onClose}
           params={[delegatedAccount, conviction, amount]}
           tx='democracy.delegate'
