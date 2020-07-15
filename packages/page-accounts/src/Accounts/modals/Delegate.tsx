@@ -5,7 +5,7 @@
 import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { ConvictionDropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { BalanceFree } from '@polkadot/react-query';
 import { Conviction } from '@polkadot/types/interfaces';
