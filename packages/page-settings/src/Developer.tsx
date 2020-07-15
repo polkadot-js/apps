@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps as Props } from '@polkadot/react-components/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
@@ -25,7 +25,12 @@ interface AllState {
   typesPlaceholder: string | null;
 }
 
-function Developer ({ className, onStatusChange }: Props): React.ReactElement<Props> {
+interface Props {
+  className?: string;
+  onStatusChange: (status: ActionStatus) => void;
+}
+
+function Developer ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [code, setCode] = useState(EMPTY_CODE);
   const [isJsonValid, setIsJsonValid] = useState(true);
@@ -34,7 +39,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
   const [typesPlaceholder, setTypesPlaceholder] = useState<string | null>(null);
 
   useEffect((): void => {
-    const types = store.get('types') || {};
+    const types = store.get('types') as Record<string, unknown> || {};
 
     if (Object.keys(types).length) {
       setCode(JSON.stringify(types, null, 2));
@@ -74,7 +79,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       const code = u8aToString(data);
 
       try {
-        const types = JSON.parse(code);
+        const types = JSON.parse(code) as Record<string, unknown>;
         const typesPlaceholder = Object.keys(types).join(', ');
 
         console.log('Detected types:', typesPlaceholder);
@@ -94,7 +99,7 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
           isJsonValid: false,
           isTypesValid: false,
           types: {},
-          typesPlaceholder: error.message
+          typesPlaceholder: (error as Error).message
         });
       }
     },
@@ -109,10 +114,10 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
         }
 
         _onChangeTypes(stringToU8a(code));
-      } catch (e) {
+      } catch (error) {
         setCode(code);
         setIsJsonValid(false);
-        setTypesPlaceholder(e.message);
+        setTypesPlaceholder((error as Error).message);
       }
     },
     [_onChangeTypes, t]
@@ -125,14 +130,14 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
         store.set('types', types);
         setIsTypesValid(true);
         onStatusChange({
-          action: t('Your custom types have been added'),
+          action: t<string>('Your custom types have been added'),
           status: 'success'
         });
       } catch (error) {
         console.error(error);
         setIsTypesValid(false);
         onStatusChange({
-          action: t(`Error saving your custom types. ${error.message}`),
+          action: t(`Error saving your custom types. ${(error as Error).message}`),
           status: 'error'
         });
       }
@@ -151,9 +156,9 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
         <div className='full'>
           <InputFile
             clearContent={typesHasNoEntries && isTypesValid}
-            help={t('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
+            help={t<string>('Save the type definitions for your custom structures as key-value pairs in a valid JSON file. The key should be the name of your custom structure and the value an object containing your type definitions.')}
             isError={!isTypesValid}
-            label={t('Additional types as a JSON file (or edit below)')}
+            label={t<string>('Additional types as a JSON file (or edit below)')}
             onChange={_onChangeTypes}
             placeholder={typesPlaceholder}
           />
@@ -177,13 +182,13 @@ function Developer ({ className, onStatusChange }: Props): React.ReactElement<Pr
       <Button.Group>
         <Button
           icon='sync'
-          label={t('Reset')}
+          label={t<string>('Reset')}
           onClick={_clearTypes}
         />
         <Button
           icon='save'
           isDisabled={!isTypesValid || !isJsonValid}
-          label={t('Save')}
+          label={t<string>('Save')}
           onClick={_saveDeveloper}
         />
       </Button.Group>

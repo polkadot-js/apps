@@ -31,12 +31,12 @@ function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className, empty, emptySpinner, filter, footer, header, isFixed }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, kids] = extractKids(children);
 
   return (
     <div className={`ui--Table ${className}`}>
-      <table className={`${isFixed && 'isFixed'}`}>
+      <table className={isFixed ? 'isFixed' : 'isNotFixed'}>
         <Head
           filter={filter}
           header={header}
@@ -77,7 +77,15 @@ export default React.memo(styled(Table)`
       width: 100%;
 
       label {
-        opacity: 0.42;
+        opacity: 0.6;
+      }
+
+      th label {
+        opacity: 1;
+      }
+
+      &:hover label {
+        opacity: 1;
       }
 
       td, &:not(.filter) th {

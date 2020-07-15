@@ -2,19 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
 import { Log } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { isError, isNull, isUndefined } from '@polkadot/util';
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
+  className?: string;
   logs: Log[];
 }
 
-const format = (value: any): string => {
+const format = (value: unknown): string => {
   if (isError(value)) {
     return value.stack ? value.stack : value.toString();
   } else if (isUndefined(value)) {
@@ -24,10 +24,10 @@ const format = (value: any): string => {
   } else if (Array.isArray(value)) {
     return `[${value.map((value): string => format(value)).join(', ')}]`;
   } else if (value instanceof Map) {
-    return `{${[...value.entries()].map(([key, value]): string => key + ': ' + format(value)).join(', ')}}`;
+    return `{${[...value.entries()].map(([key, value]): string => (key as string) + ': ' + format(value)).join(', ')}}`;
   }
 
-  return value.toString();
+  return (value as string).toString();
 };
 
 const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
@@ -39,7 +39,7 @@ const renderEntry = ({ args, type }: Log, index: number): React.ReactNode => (
   </div>
 );
 
-function Output ({ children, className, logs }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', logs }: Props): React.ReactElement<Props> {
   return (
     <article className={`container ${className}`}>
       <div className='logs-wrapper'>

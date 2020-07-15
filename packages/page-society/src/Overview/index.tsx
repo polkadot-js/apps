@@ -28,7 +28,6 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
     <div className={className}>
       <Summary info={info} />
       <Defender
-        allMembers={allMembers}
         info={info}
         isMember={isMember}
         ownMembers={ownMembers}

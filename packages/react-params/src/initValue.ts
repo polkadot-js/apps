@@ -3,29 +3,27 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { RawParamValue } from './types';
 
-import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
 import { Bytes, Raw, createType, getTypeDef } from '@polkadot/types';
-import { isBn } from '@polkadot/util';
+import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
 
-export default function getInitValue (def: TypeDef): RawParamValue | RawParamValue[] {
+export default function getInitValue (def: TypeDef): unknown {
   if (def.info === TypeDefInfo.Vec) {
     return [getInitValue(def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
     return Array.isArray(def.sub)
-      ? def.sub.map((def): any => getInitValue(def))
+      ? def.sub.map((def) => getInitValue(def))
       : [];
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
-      ? def.sub.reduce((result, def): Record<string, RawParamValue | RawParamValue[]> => {
+      ? def.sub.reduce((result: Record<string, unknown>, def): Record<string, unknown> => {
         result[def.name as string] = getInitValue(def);
 
         return result;
-      }, {} as unknown as Record<string, RawParamValue | RawParamValue[]>)
+      }, {})
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
     return Array.isArray(def.sub)
@@ -61,7 +59,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
     case 'u64':
     case 'u128':
     case 'VoteIndex':
-      return new BN(0);
+      return BN_ZERO;
 
     case 'bool':
       return false;
@@ -71,7 +69,7 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
       return '';
 
     case 'Moment':
-      return new BN(0);
+      return BN_ZERO;
 
     case 'Vote':
       return -1;
@@ -118,23 +116,28 @@ export default function getInitValue (def: TypeDef): RawParamValue | RawParamVal
       return null;
 
     default: {
+      let error: string | null = null;
+
       try {
-        const instance = createType(registry, type as any);
+        const instance = createType(registry, type as 'u32');
         const raw = getTypeDef(instance.toRawType());
 
         if (isBn(instance)) {
-          return new BN(0);
-        } else if ([TypeDefInfo.Enum, TypeDefInfo.Struct].includes(raw.info)) {
+          return BN_ZERO;
+        } else if ([TypeDefInfo.Struct].includes(raw.info)) {
+          return undefined;
+        } else if ([TypeDefInfo.Enum, TypeDefInfo.Tuple].includes(raw.info)) {
           return getInitValue(raw);
         }
-      } catch (error) {
-        // console.error(error.message);
+      } catch (e) {
+        error = (e as Error).message;
       }
 
       // we only want to want once, not spam
       if (!warnList.includes(type)) {
         warnList.push(type);
-        console.info(`params: No default value for type ${type} from ${JSON.stringify(def)}, using defaults`);
+        error && console.error(`params: initValue: ${error}`);
+        console.info(`params: initValue: No default value for type ${type} from ${JSON.stringify(def)}, using defaults`);
       }
 
       return '0x';

@@ -33,7 +33,7 @@ function Transfer ({ accountId }: Props): React.ReactElement<Props> {
           <Button.Group>
             <TxButton
               accountId={accountId}
-              icon='send'
+              icon='paper-plane'
               label='make transfer'
               params={[recipientId, amount]}
               tx='balances.transfer'

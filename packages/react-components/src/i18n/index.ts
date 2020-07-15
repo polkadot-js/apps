@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import i18n from 'i18next';
+import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import uiSettings, { LANGUAGE_DEFAULT } from '@polkadot/ui-settings';
@@ -22,7 +22,7 @@ languageDetector.addDetector({
   name: 'i18nLangDetector'
 });
 
-i18n
+i18next
   .use(languageDetector)
   .use(initReactI18next)
   .use(Backend)
@@ -41,6 +41,7 @@ i18n
     ns: [
       'apps',
       'apps-config',
+      'apps-electron',
       'apps-routing',
       'app-123code',
       'app-accounts',
@@ -55,6 +56,7 @@ i18n
       'app-i18n',
       'app-js',
       'app-parachains',
+      'app-poll',
       'app-settings',
       'app-society',
       'app-staking',
@@ -82,12 +84,13 @@ i18n
     console.log('i18n: failure', error)
   );
 
-uiSettings.on('change', (settings) => {
-  i18n.changeLanguage(
+uiSettings.on('change', (settings): void => {
+  i18next.changeLanguage(
     settings.i18nLang === LANGUAGE_DEFAULT
-      ? i18n.services.languageDetector.detect()
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      ? i18next.services.languageDetector.detect()
       : settings.i18nLang
-  );
+  ).catch(console.error);
 });
 
-export default i18n;
+export default i18next;

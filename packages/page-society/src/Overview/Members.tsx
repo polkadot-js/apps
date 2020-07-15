@@ -16,7 +16,7 @@ interface Props {
   info?: DeriveSociety;
 }
 
-function Members ({ className, info }: Props): React.ReactElement<Props> {
+function Members ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
@@ -30,13 +30,14 @@ function Members ({ className, info }: Props): React.ReactElement<Props> {
 
   const header = useMemo(() => [
     [t('members'), 'start', 3],
-    [t('strikes')]
+    [t('strikes')],
+    [undefined, 'mini']
   ], [t]);
 
   return (
     <Table
       className={className}
-      empty={info && t('No active members')}
+      empty={info && t<string>('No active members')}
       header={header}
     >
       {filtered.map((member): React.ReactNode => (

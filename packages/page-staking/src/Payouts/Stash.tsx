@@ -9,7 +9,7 @@ import { PayoutStash } from './types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import ApiPromise from '@polkadot/api/promise';
-import { AddressMini, TxButton } from '@polkadot/react-components';
+import { AddressSmall, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
@@ -25,7 +25,7 @@ interface Props {
 }
 
 interface EraInfo {
-  eraStr: string;
+  eraStr: React.ReactNode;
   oldestEra?: BN;
 }
 
@@ -43,7 +43,7 @@ function createPrevPayout (api: ApiPromise, payoutRewards: DeriveStakerReward[])
     : api.tx.utility.batch(payoutRewards.map((reward) => createPrevPayoutType(api, reward)));
 }
 
-function Stash ({ className, isDisabled, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
+function Stash ({ className = '', isDisabled, payout: { available, rewards, stashId }, stakerPayoutsAfter }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
@@ -63,7 +63,7 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
       const available = rewards.filter(({ era }) => era.lt(stakerPayoutsAfter));
 
       setExtrinsic(
-        available.length
+        api.tx.utility && available.length
           ? createPrevPayout(api, available)
           : null
       );
@@ -76,7 +76,12 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
 
   return (
     <tr className={className}>
-      <td className='address'><AddressMini value={stashId} /></td>
+      <td
+        className='address'
+        colSpan={2}
+      >
+        <AddressSmall value={stashId} />
+      </td>
       <td className='start'>
         <span className='payout-eras'>{eraStr}</span>
       </td>
@@ -90,10 +95,10 @@ function Stash ({ className, isDisabled, payout: { available, rewards, stashId }
           <TxButton
             accountId={stakingAccount.controllerId}
             extrinsic={extrinsic}
-            icon='credit card outline'
+            icon='credit-card'
             isDisabled={!extrinsic || isDisabled}
             isPrimary={false}
-            label={t('Payout')}
+            label={t<string>('Payout')}
           />
         )}
       </td>

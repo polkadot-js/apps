@@ -12,6 +12,11 @@ import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
+interface CouncilInfo {
+  councilHash: Hash | null;
+  councilId: ProposalIndex | null;
+}
+
 interface Props {
   councilProposals: DeriveCollectiveProposal[];
   isDisabled?: boolean;
@@ -31,7 +36,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [{ councilHash, councilId }, setCouncilInfo] = useState<{ councilHash: Hash | null; councilId: ProposalIndex | null }>({ councilHash: null, councilId: null });
+  const [{ councilHash, councilId }, setCouncilInfo] = useState<CouncilInfo>({ councilHash: null, councilId: null });
   const [isOpen, toggleOpen] = useToggle();
   const [voteValue, setVoteValue] = useState(true);
 
@@ -41,9 +46,9 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
 
   useEffect((): void => {
     const available = councilProposals
-      .filter(({ votes }) => bestNumber && votes?.end.gt(bestNumber))
+      .filter(({ votes }) => bestNumber && votes && (!votes.end || votes.end.gt(bestNumber)))
       .map(({ proposal: { methodName, sectionName }, votes }): Option => ({
-        text: `Council #${votes?.index.toNumber()}: ${sectionName}.${methodName} `,
+        text: `Council #${votes?.index.toNumber() || '-'}: ${sectionName}.${methodName} `,
         value: votes ? votes?.index.toNumber() : -1
       }))
       .filter(({ value }) => value !== -1);
@@ -79,7 +84,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
     <>
       {isOpen && (
         <Modal
-          header={t('Vote on proposal')}
+          header={t<string>('Vote on proposal')}
           size='small'
         >
           <Modal.Content>
@@ -94,21 +99,21 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
             <Modal.Columns>
               <Modal.Column>
                 <Dropdown
-                  help={t('The council proposal to make the vote on')}
-                  label={t('council proposal')}
+                  help={t<string>('The council proposal to make the vote on')}
+                  label={t<string>('council proposal')}
                   onChange={_onChangeProposal}
                   options={councilOpts}
                   value={councilOptId}
                 />
                 <Input
-                  help={t('The hash for the proposal this vote applies to')}
+                  help={t<string>('The hash for the proposal this vote applies to')}
                   isDisabled
-                  label={t('proposal hash')}
-                  value={councilHash}
+                  label={t<string>('proposal hash')}
+                  value={councilHash?.toString()}
                 />
               </Modal.Column>
               <Modal.Column>
-                <p>{t('Multiple council proposals could exist, both approval and rejection. Apply your vote to the correct council proposal (also available on council motions page)')}</p>
+                <p>{t<string>('Multiple council proposals could exist, both approval and rejection. Apply your vote to the correct council proposal (also available on council motions page)')}</p>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
@@ -133,7 +138,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
       <Button
         icon='check'
         isDisabled={isDisabled}
-        label={t('Vote')}
+        label={t<string>('Vote')}
         onClick={toggleOpen}
       />
     </>

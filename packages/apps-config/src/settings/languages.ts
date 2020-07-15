@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TFunction } from 'i18next';
 import { Option } from './types';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Option[] {
+export default function create (t: TFunction): Option[] {
   return [
     {
-      text: t('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
+      text: t<string>('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
       value: 'default'
     },
     {
@@ -15,17 +16,24 @@ export default function create (t: (key: string, text: string, options: { ns: st
       value: 'en'
     },
     {
-      text: '汉语',
-      value: 'zh'
+      text: 'Español',
+      value: 'es'
+    },
+    {
+      text: '日本語',
+      value: 'ja'
+    },
+    {
+      text: 'Português',
+      value: 'pt'
     },
     {
       text: 'русский',
       value: 'ru'
+    },
+    {
+      text: '汉语',
+      value: 'zh'
     }
-    // For ja, we only have the settings page, remove until comprehensive
-    // , {
-    //   text: '日本語',
-    //   value: 'ja'
-    // }
   ];
 }

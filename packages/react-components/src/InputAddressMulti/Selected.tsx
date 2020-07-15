@@ -8,7 +8,7 @@ import AddressToggle from '../AddressToggle';
 
 interface Props {
   address: string;
-  filter: string;
+  filter?: string;
   isHidden?: boolean;
   onDeselect: (address: string) => void;
 }

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '../types';
-
 import BN from 'bn.js';
 
 export interface DoughnutValue {
@@ -19,25 +17,29 @@ export interface HorizBarValue {
   value: number | BN;
 }
 
-export interface BaseProps extends BareProps {
+export interface BaseProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-export interface DoughnutProps extends BareProps {
+export interface DoughnutProps {
+  className?: string;
   size?: number;
   values: DoughnutValue[];
 }
 
-export interface HorizBarProps extends BareProps {
+export interface HorizBarProps {
   aspectRatio?: number;
+  className?: string;
   max?: number;
   showLabels?: boolean;
   values: HorizBarValue[];
   withColors?: boolean;
 }
 
-export interface LineProps extends BareProps {
+export interface LineProps {
   colors?: (string | undefined)[];
+  className?: string;
   labels: string[];
   legends: string[];
   values: (number | BN)[][];

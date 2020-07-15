@@ -13,9 +13,9 @@ type MediaCss = {
 const media = Object
   .keys(ScreenSizes)
   .reduce((acc: MediaCss, label: any): MediaCss => {
-    const size: number = ScreenSizes[label] as any;
+    const size: number = ScreenSizes[label as 'TABLET'];
 
-    acc[label] = (values: TemplateStringsArray): unknown =>
+    acc[label as 'TABLET'] = (values: TemplateStringsArray): unknown =>
       css`
         @media (min-width: ${size / 16}em) {
           ${values}

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
@@ -15,7 +13,8 @@ const rootElement = typeof document === 'undefined'
   ? null // This hack is required for server side rendering
   : document.getElementById('tooltips');
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   dataFor?: string;
   effect?: 'solid' | 'float';
   offset?: {
@@ -29,7 +28,7 @@ interface Props extends BareProps {
   trigger: string;
 }
 
-function Tooltip ({ className, effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
+function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', text, trigger }: Props): React.ReactElement<Props> | null {
   const [tooltipContainer] = useState(
     typeof document === 'undefined'
       ? {} as HTMLElement // This hack is required for server side rendering
@@ -93,7 +92,7 @@ export default React.memo(styled(Tooltip)`
   .faded {
     margin-top: -0.25rem;
     opacity: 0.75 !important;
-    font-size: 0.75em !important;
+    font-size: 0.85em !important;
   }
 
   .faded+.faded {

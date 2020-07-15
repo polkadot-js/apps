@@ -4,16 +4,16 @@
 
 import { Route } from './types';
 
-import Storage from '@polkadot/app-storage';
+import Component from '@polkadot/app-storage';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Storage,
+    Component,
     display: {
       needsApi: []
     },
     icon: 'database',
     name: 'chainstate',
-    text: t('nav.storage', 'Chain state', { ns: 'apps-routing' })
+    text: t<string>('nav.storage', 'Chain state', { ns: 'apps-routing' })
   };
 }

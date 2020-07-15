@@ -14,12 +14,12 @@ interface Props {
   route: Route;
 }
 
-function Entry ({ className, route: { icon, name, text } }: Props): React.ReactElement<Props> {
+function Entry ({ className = '', route: { icon, name, text } }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <Link to={`/${name}`}>
         <Icon
-          name={icon}
+          icon={icon}
           size='massive'
         />
         <div className='name'>

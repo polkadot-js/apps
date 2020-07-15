@@ -6,9 +6,9 @@ import { TFunction } from 'i18next';
 import { DeriveParachainInfo } from '@polkadot/api-derive/types';
 
 export function parachainName (t: TFunction, info: DeriveParachainInfo | null): string {
-  return info?.name || t('Unknown Chain');
+  return info?.name || t<string>('Unknown Chain');
 }
 
 export function parachainOwner (t: TFunction, info: DeriveParachainInfo | null): string {
-  return info?.owner || t('Unknown Owner');
+  return info?.owner || t<string>('Unknown Owner');
 }

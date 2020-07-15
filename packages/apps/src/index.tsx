@@ -10,8 +10,8 @@ import '@polkadot/react-components/i18n';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
+import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
@@ -27,6 +27,13 @@ if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
 
+// cleanups for old/unused storage items
+store.each((_, key): void => {
+  if (key.startsWith('hooks:sessionSlashes:')) {
+    store.remove(key);
+  }
+});
+
 ReactDOM.render(
   <Suspense fallback='...'>
     <ThemeProvider theme={theme}>
@@ -34,11 +41,9 @@ ReactDOM.render(
         <Api url={settings.apiUrl}>
           <BlockAuthors>
             <Events>
-              <AccountSidebar>
-                <HashRouter>
-                  <Apps />
-                </HashRouter>
-              </AccountSidebar>
+              <HashRouter>
+                <Apps />
+              </HashRouter>
             </Events>
           </BlockAuthors>
         </Api>

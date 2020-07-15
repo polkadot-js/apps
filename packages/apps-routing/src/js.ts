@@ -4,16 +4,16 @@
 
 import { Route } from './types';
 
-import Js from '@polkadot/app-js';
+import Component from '@polkadot/app-js';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Js,
+    Component,
     display: {
       needsApi: []
     },
     icon: 'code',
     name: 'js',
-    text: t('nav.js', 'Javascript', { ns: 'apps-routing' })
+    text: t<string>('nav.js', 'Javascript', { ns: 'apps-routing' })
   };
 }

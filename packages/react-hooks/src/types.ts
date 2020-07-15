@@ -11,7 +11,7 @@ import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 export type CallParam = any;
 
-export type CallParams = [] | [CallParam] | [CallParam, CallParam] | [CallParam, CallParam, CallParam] | any[];
+export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
@@ -84,6 +84,7 @@ export interface AddressFlags extends DeriveAccountFlags {
   isInContacts: boolean;
   isInjected: boolean;
   isMultisig: boolean;
+  isProxied: boolean;
   isOwned: boolean;
 }
 
@@ -99,6 +100,7 @@ export interface AddressIdentity extends DeriveAccountRegistration {
 }
 
 export interface UseAccountInfo {
+  accountIndex?: string;
   flags: AddressFlags;
   name: string;
   setName: React.Dispatch<string>;
@@ -110,6 +112,7 @@ export interface UseAccountInfo {
   meta?: KeyringJson$Meta;
   toggleIsEditingName: VoidFn;
   isEditingTags: boolean;
+  isNull: boolean;
   toggleIsEditingTags: VoidFn;
   onSaveName: VoidFn;
   onSaveTags: VoidFn;

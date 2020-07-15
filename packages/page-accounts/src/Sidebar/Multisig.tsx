@@ -27,22 +27,22 @@ function Multisig ({ isMultisig, meta }: Props): React.ReactElement<Props> | nul
     <section>
       <div className='ui--AddressMenu-sectionHeader'>
         <div>
-          <Icon name='handshake outline' />
+          <Icon icon='handshake' />
           &nbsp;
-          {t('multisig')}
+          {t<string>('multisig')}
         </div>
       </div>
       <Static
         isFull
-        label={t('threshold')}
+        label={t<string>('threshold')}
       >
-        {threshold}/{who.length}
+        {threshold}/{(who as string[]).length}
       </Static>
       <Static
         isFull
-        label={t('signatories')}
+        label={t<string>('signatories')}
       >
-        {who?.map((address: string) => (
+        {(who as string[])?.map((address) => (
           <AddressMini
             key={address}
             value={address}

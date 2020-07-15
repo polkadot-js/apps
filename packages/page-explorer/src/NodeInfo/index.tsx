@@ -30,7 +30,7 @@ async function retrieveInfo (api: ApiPromise): Promise<Partial<Info>> {
   }
 }
 
-function NodeInfo (): React.ReactElement<{}> {
+function NodeInfo (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
   const [info, setInfo] = useState<Partial<Info>>({});
@@ -38,7 +38,7 @@ function NodeInfo (): React.ReactElement<{}> {
 
   useEffect((): () => void => {
     const _getStatus = (): void => {
-      retrieveInfo(api).then(setInfo);
+      retrieveInfo(api).then(setInfo).catch(console.error);
     };
 
     _getStatus();
@@ -63,7 +63,7 @@ function NodeInfo (): React.ReactElement<{}> {
       <Peers peers={info.peers} />
       <Extrinsics
         blockNumber={info.blockNumber}
-        label={t('pending extrinsics')}
+        label={t<string>('pending extrinsics')}
         value={info.extrinsics}
       />
     </>

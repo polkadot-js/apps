@@ -3,19 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-import { BareProps } from './types';
 
 import React from 'react';
 import { Nonce } from '@polkadot/react-query';
 
 import { classes } from './util';
 
-export interface Props extends BareProps {
+export interface Props {
+  className?: string;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }
 
-function NonceDisplay ({ className, label, params, style }: Props): React.ReactElement<Props> | null {
+function NonceDisplay ({ className = '', label, params }: Props): React.ReactElement<Props> | null {
   if (!params) {
     return null;
   }
@@ -25,7 +25,6 @@ function NonceDisplay ({ className, label, params, style }: Props): React.ReactE
       className={classes('ui--Nonce', className)}
       label={label}
       params={params.toString()}
-      style={style}
     />
   );
 }

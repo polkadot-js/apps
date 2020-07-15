@@ -15,17 +15,17 @@ interface Props {
   dispatchQueue: UpwardMessage[];
 }
 
-function DispatchQueue ({ className, dispatchQueue = [] }: Props): React.ReactElement<Props> {
+function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <div className={className}>
-      <h1>{t('relay dispatch queue')}</h1>
+      <h1>{t<string>('relay dispatch queue')}</h1>
       {
         dispatchQueue.length === 0
           ? (
             <>
-              {t('no messages')}
+              {t<string>('no messages')}
             </>
           )
           : (
@@ -40,17 +40,17 @@ function DispatchQueue ({ className, dispatchQueue = [] }: Props): React.ReactEl
                       <div className='ui--row'>
                         <Static
                           className='full label-small'
-                          help={t('Message origin.')}
-                          label={t('origin')}
+                          help={t<string>('Message origin.')}
+                          label={t<string>('origin')}
                           value={origin.toString()}
                         />
                       </div>
                       <div className='ui--row'>
                         <Output
                           className='full label-small'
-                          help={t('Message data')}
+                          help={t<string>('Message data')}
                           isMonospace
-                          label={t('data')}
+                          label={t<string>('data')}
                           value={data.toHex()}
                           withCopy
                         />

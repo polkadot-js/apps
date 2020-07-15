@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, VoidFn } from './types';
+import { VoidFn } from './types';
 
 import React, { useCallback, useState } from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -12,10 +12,11 @@ import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
   children?: React.ReactNode;
-  defaultValue?: any;
+  className?: string;
+  defaultValue?: string | null;
   help?: React.ReactNode;
   icon?: React.ReactNode;
   inputClassName?: string;
@@ -26,12 +27,14 @@ interface Props extends BareProps {
   isError?: boolean;
   isFull?: boolean;
   isHidden?: boolean;
+  isInPlaceEditor?: boolean;
   isReadOnly?: boolean;
+  isWarning?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
-  max?: any;
+  max?: number;
   maxLength?: number;
-  min?: any;
+  min?: number;
   name?: string;
   onEnter?: boolean | VoidFn;
   onEscape?: () => void;
@@ -44,7 +47,7 @@ interface Props extends BareProps {
   placeholder?: string;
   tabIndex?: number;
   type?: Input$Type;
-  value?: any;
+  value?: string | null;
   withLabel?: boolean;
   withEllipsis?: boolean;
 }
@@ -90,7 +93,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, style, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, isWarning = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = useCallback(
@@ -115,12 +118,12 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       onKeyUp && onKeyUp(event);
 
       if (onEnter && event.keyCode === 13) {
-        (event.target as any).blur();
+        (event.target as HTMLInputElement).blur();
         isFunction(onEnter) && onEnter();
       }
 
       if (onEscape && event.keyCode === 27) {
-        (event.target as any).blur();
+        (event.target as HTMLInputElement).blur();
         onEscape();
       }
     },
@@ -140,21 +143,24 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
-      style={style}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
     >
       <SUIInput
         action={isAction}
         autoFocus={autoFocus}
-        className={
-          [
-            isEditable
-              ? 'ui--Input edit icon'
-              : 'ui--Input',
-            inputClassName || ''
-          ].join(' ')
-        }
+        className={[
+          isEditable
+            ? 'ui--Input edit icon'
+            : 'ui--Input',
+          isInPlaceEditor
+            ? 'inPlaceEditor'
+            : '',
+          inputClassName || '',
+          isWarning && !isError
+            ? 'isWarning'
+            : ''
+        ].join(' ')}
         defaultValue={
           isUndefined(value)
             ? (defaultValue || '')

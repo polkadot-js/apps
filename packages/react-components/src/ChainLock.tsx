@@ -29,7 +29,7 @@ function calcLock (apiGenesis: string, genesisHash: string | null): boolean {
   ).includes(genesisHash);
 }
 
-function ChainLock ({ className, genesisHash, isDisabled, onChange }: Props): React.ReactElement<Props> | null {
+function ChainLock ({ className = '', genesisHash, isDisabled, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
   const [isTiedToChain, setTied] = useState(calcLock(api.genesisHash.toHex(), genesisHash));
@@ -56,11 +56,7 @@ function ChainLock ({ className, genesisHash, isDisabled, onChange }: Props): Re
     <Toggle
       className={className}
       isDisabled={isDisabled}
-      label={
-        isTiedToChain
-          ? t('only this network')
-          : t('use on any network')
-      }
+      label={t<string>('only this network')}
       onChange={_onChange}
       preventDefault
       value={isTiedToChain}

@@ -8,13 +8,12 @@ import { Props } from '../types';
 import React from 'react';
 import { registry } from '@polkadot/react-api';
 import { Call, Static } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
 
 import Bare from './Bare';
 import Unknown from './Unknown';
 
 function CallDisplay (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
+  const { className = '', defaultValue: { value }, isDisabled, label, withLabel } = props;
 
   if (!isDisabled) {
     return (
@@ -28,9 +27,8 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
   return (
     <Bare>
       <Static
-        className={classes(className, 'full')}
+        className={`${className} full`}
         label={label}
-        style={style}
         withLabel={withLabel}
       >
         {section}.{method}

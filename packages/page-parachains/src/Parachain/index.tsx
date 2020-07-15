@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveParachainInfo, DeriveParachainFull } from '@polkadot/api-derive/types';
-import { ComponentProps } from '../types';
 
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
@@ -19,16 +18,19 @@ import Details from './Details';
 
 import { useTranslation } from '../translate';
 
-interface Props extends ComponentProps {
+interface Props {
   basePath: string;
+  className?: string;
+  isMine?: boolean;
   paraInfoRef: React.MutableRefObject<DeriveParachainInfo | null>;
+  sudoKey?: string;
 }
 
-function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
+function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const history = useHistory();
   const { api } = useApi();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [isMenuOpen, toggleMenu] = useToggle();
   const { isOpen: isDeregisterOpen, onClose: onDeregisterClose, onOpen: onDeregisterOpen } = useModal();
   const parachain = useCall<DeriveParachainFull | null>(api.derive.parachains.info, [id || null]);
@@ -44,7 +46,7 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
       <>
         <article className='error padded'>
           <div>
-            <Icon name='ban' />
+            <Icon icon='ban' />
             {t(`No parachain with ${id ? `id ${id.toString()}` : 'this id'} exists`)}
           </div>
         </article>
@@ -76,7 +78,7 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
                 trigger={
                   <Button
                     className='menu-button'
-                    icon='ellipsis vertical'
+                    icon='ellipsis-v'
                     isPrimary
                     onClick={toggleMenu}
                   />
@@ -93,7 +95,7 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
                       onDeregisterOpen();
                     }}
                   >
-                    {t('Deregister this parachain')}
+                    {t<string>('Deregister this parachain')}
                   </Menu.Item>
                 </Menu>
               </Popup>
@@ -101,11 +103,11 @@ function Parachain ({ basePath, className, isMine, paraInfoRef, sudoKey }: Props
           </ParachainInfo>
         </section>
         <section>
-          <CardSummary label={t('parachain id')}>
+          <CardSummary label={t<string>('parachain id')}>
             {id.toString()}
           </CardSummary>
           {parachain.pendingSwapId && (
-            <CardSummary label={t('pending swap id')}>
+            <CardSummary label={t<string>('pending swap id')}>
               {parachain.pendingSwapId.toString()}
             </CardSummary>
           )}

@@ -66,7 +66,7 @@ export default css`
         background-color: #666;
         border-color: transparent;
         border-left-color: transparent;
-        color: #f9f9f9;
+        color: #f9f8f7;
         opacity: 0.5;
 
         .dropdown.icon {
@@ -93,7 +93,7 @@ export default css`
   }
 
   .ui.modal {
-    background: #f9f9f9;
+    background: #f9f8f7;
     box-shadow: none;
     color: #4e4e4e;
     font-family: sans-serif;
@@ -111,7 +111,7 @@ export default css`
 
     /* approx h1, color, size, font */
     > .header:not(.ui) {
-      background: #f9f9f9;
+      background: transparent;
       border-bottom: none;
       color: rgba(0, 0, 0, .6);
       font-family: sans-serif;
@@ -154,7 +154,7 @@ export default css`
     padding-left: 4rem !important;
   }
 
-  .ui[class*="left icon"].input.left.icon > i.icon.big {
+  .ui[class*="left icon"].input.left.icon > .ui--Icon.big {
     left: -7px;
     opacity: 1;
   }
@@ -167,39 +167,10 @@ export default css`
     opacity: 0.2 !important;
   }
 
-  .ui.button+.ui.button {
-    margin-left: 0.5rem;
-  }
-
   /* modals aligned to top, not center */
   .ui.dimmer {
     background-color: rgba(0,0,0,0.5);
     justify-content: flex-start;
-  }
-
-  .ui.menu.tabular {
-    border-color: #e6e6e6;
-    /* break out of the wrapping main padding */
-    margin: -1em -2em 0;
-    overflow-x: scroll;
-    padding: 2em 2em 0 2em;
-    transition: padding-left 0.2s linear 0.4s;
-
-    &::-webkit-scrollbar {
-      display: none;
-      width: 0px;
-    }
-
-    .item {
-      border-bottom: 2px solid rgba(0, 0, 0, 0);
-      border: none;
-      top: -1px;
-
-      &.active {
-        background: none;;
-        border-bottom: 2px solid #db2828;
-      }
-    }
   }
 
   /* remove the default white background, settings app has it as part of Tab */

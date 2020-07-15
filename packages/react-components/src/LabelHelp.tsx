@@ -2,44 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';
 import { classes } from './util';
 import Tooltip from './Tooltip';
 
-interface Props extends BareProps {
+interface Props {
   help: React.ReactNode;
+  className?: string;
 }
 
 let id = 0;
 
-function LabelHelp ({ className, help, style }: Props): React.ReactElement<Props> {
+function LabelHelp ({ className = '', help }: Props): React.ReactElement<Props> {
   const [trigger] = useState(`label-help-${++id}`);
-  const [isTooltipOpen, toggleTooltip] = useToggle();
 
   return (
-    <div
-      className={classes('ui--LabelHelp', className)}
-      style={style}
-    >
+    <div className={classes('ui--LabelHelp', className)}>
       <Icon
-        data-for={trigger}
-        data-tip
-        name='help circle'
-        onMouseOut={toggleTooltip}
-        onMouseOver={toggleTooltip}
+        icon='question-circle'
+        tooltip={trigger}
       />
-      {isTooltipOpen && (
-        <Tooltip
-          text={help}
-          trigger={trigger}
-        />
-      )}
+      <Tooltip
+        text={help}
+        trigger={trigger}
+      />
     </div>
   );
 }

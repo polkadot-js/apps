@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { AddressMini, Button, Output } from '@polkadot/react-components';
 
-import MessageSignature from '../MessageSignature';
+import MessageSignature from '../shared/MessageSignature';
 
 interface Props {
   className?: string;
@@ -16,8 +16,7 @@ interface Props {
   outcome: ContractCallOutcome;
 }
 
-function Outcome (props: Props): React.ReactElement<Props> | null {
-  const { className, onClear, outcome: { isSuccess, message, origin, output, params, time } } = props;
+function Outcome ({ className = '', onClear, outcome: { isSuccess, message, origin, output, params, time } }: Props): React.ReactElement<Props> | null {
   const dateTime = new Date(time);
 
   return (
@@ -40,10 +39,9 @@ function Outcome (props: Props): React.ReactElement<Props> | null {
         </span>
         <Button
           className='icon-button clear-btn'
-          icon='close'
+          icon='times'
           isPrimary
           onClick={onClear}
-          size='mini'
         />
       </div>
       <Output

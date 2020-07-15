@@ -40,7 +40,7 @@ interface Injected {
 }
 
 const ALLOWED_GLOBALS = ['atob', 'btoa'];
-const snippets: Snippet[] = JSON.parse(JSON.stringify(allSnippets));
+const snippets = JSON.parse(JSON.stringify(allSnippets)) as Snippet[];
 let hasSnippetWrappers = false;
 
 function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
@@ -66,12 +66,15 @@ function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunni
       : null,
     setIsRunning,
     types,
+    uiKeyring: isDevelopment
+      ? uiKeyring
+      : null,
     util
   };
 }
 
 // FIXME This... ladies & gentlemen, is a mess that should be untangled
-function Playground ({ className }: Props): React.ReactElement<Props> {
+function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const apiProps = useApi();
   const injectedRef = useRef<Injected | null>(null);
@@ -98,7 +101,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
       examples: localStorage.getItem(STORE_EXAMPLES),
       selectedValue: localStorage.getItem(STORE_SELECTED)
     };
-    const customExamples = localData.examples ? JSON.parse(localData.examples) : [];
+    const customExamples = localData.examples ? JSON.parse(localData.examples) as Snippet[] : [];
     const options: Snippet[] = [...customExamples, ...snippets];
     const selected = options.find((option): boolean => option.value === localData.selectedValue);
 
@@ -153,7 +156,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
         // TODO: Make the console.error here actually return the full stack
         const exec = `(async ({${Object.keys(injectedRef.current).sort().join(',')}}) => { try { ${code} \n } catch (error) { console.error(error); setIsRunning(false); } })(injected);`;
 
-        // eslint-disable-next-line no-new-func
+        // eslint-disable-next-line no-new-func,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-implied-eval
         new Function('injected', exec).bind({}, injectedRef.current)();
       } catch (error) {
         injectedRef.current.console.error(error);
@@ -227,7 +230,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
         <Dropdown
           className='js--Dropdown'
           isFull
-          label={t('Select example')}
+          label={t<string>('Select example')}
           onChange={_selectExample}
           options={options}
           value={selected.value}
@@ -255,9 +258,7 @@ function Playground ({ className }: Props): React.ReactElement<Props> {
         >
           <Button
             className='action-button'
-            icon='erase'
-            isCircular
-            isNegative
+            icon='eraser'
             onClick={_clearConsole}
           />
         </Output>
@@ -357,9 +358,5 @@ export default React.memo(styled(Playground)`
     display: flex;
     flex: 1 1 100%;
     max-width: 300px;
-
-    .button {
-      margin: 0;
-    }
   }
 `);

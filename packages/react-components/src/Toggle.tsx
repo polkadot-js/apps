@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useCallback } from 'react';
 import SUICheckbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import styled from 'styled-components';
 
-interface Props extends BareProps {
+interface Props {
   asSwitch?: boolean;
+  className?: string;
   defaultValue?: boolean;
   isDisabled?: boolean;
   label: React.ReactNode;
@@ -18,7 +17,7 @@ interface Props extends BareProps {
   value?: boolean;
 }
 
-function Toggle ({ asSwitch = true, className, defaultValue, isDisabled, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
+function Toggle ({ asSwitch = true, className = '', defaultValue, isDisabled, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (event: React.FormEvent<HTMLInputElement>, { checked }: any): void => {
       if (preventDefault) {

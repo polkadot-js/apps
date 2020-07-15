@@ -2,12 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 import chainKusama from './chains/kusama-128.gif';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
+import nodeEncointerNotee from './nodes/encointer-notee.svg';
+import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -27,13 +31,17 @@ const chainLogos: Record<string, any> = [
   ['Kusama CC3', chainKusama]
 ].reduce((logos, [chain, logo]): Record<string, any> => ({
   ...logos,
-  [chain.toLowerCase()]: logo
+  [(chain as string).toLowerCase()]: logo
 }), {});
 
 // overrides based on the actual software node type (all '-' converted to ' ')
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
+  ['Centrifuge Chain Node', nodeCentrifuge],
   ['Edgeware Node', nodeEdgeware],
+  ['Encointer Node', nodeEncointerNotee],
+  ['Encointer Node noTEE', nodeEncointerNotee],
+  ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['kulupu', nodeSubstrate],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
@@ -42,7 +50,7 @@ const nodeLogos: Record<string, any> = [
   ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
-  [node.toLowerCase().replace(/-/g, ' ')]: logo
+  [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
 // overrides when we pass an explicit logo name

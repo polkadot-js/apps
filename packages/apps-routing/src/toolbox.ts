@@ -4,16 +4,16 @@
 
 import { Route } from './types';
 
-import Toolbox from '@polkadot/app-toolbox';
+import Component from '@polkadot/app-toolbox';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Toolbox,
+    Component,
     display: {
       needsApi: []
     },
-    icon: 'configure',
+    icon: 'tools',
     name: 'toolbox',
-    text: t('nav.toolbox', 'Toolbox', { ns: 'apps-routing' })
+    text: t<string>('nav.toolbox', 'Toolbox', { ns: 'apps-routing' })
   };
 }

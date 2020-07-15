@@ -23,7 +23,7 @@ interface Props {
   withLink?: boolean;
 }
 
-function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
+function TreasuryProposal ({ asInset, className = '', insetProps, onClick, proposal, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [stateProposal, setProposal] = useState<TreasuryProposalType | null>(null);
   const { api } = useApi();
@@ -34,7 +34,8 @@ function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, 
         .proposals<Option<TreasuryProposalType>>(proposalId)
         .then((proposal): TreasuryProposalType | null => proposal.unwrapOr(null))
         .catch((): null => null)
-        .then(setProposal);
+        .then(setProposal)
+        .catch(console.error);
     } else {
       setProposal(proposal || null);
     }
@@ -48,7 +49,7 @@ function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, 
 
   const inner = (
     <>
-      <Labelled label={t('proposed by')}>
+      <Labelled label={t<string>('proposed by')}>
         <InputAddress
           defaultValue={proposer}
           isDisabled
@@ -56,7 +57,7 @@ function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, 
           withLabel={false}
         />
       </Labelled>
-      <Labelled label={t('beneficiary')}>
+      <Labelled label={t<string>('beneficiary')}>
         <InputAddress
           defaultValue={beneficiary}
           isDisabled
@@ -64,10 +65,10 @@ function TreasuryProposal ({ asInset, className, insetProps, onClick, proposal, 
           withLabel={false}
         />
       </Labelled>
-      <Static label={t('value')}>
+      <Static label={t<string>('value')}>
         <FormatBalance value={value} />
       </Static>
-      <Static label={t('bond')}>
+      <Static label={t<string>('bond')}>
         <FormatBalance value={bond} />
       </Static>
     </>
