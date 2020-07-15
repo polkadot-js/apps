@@ -65,7 +65,8 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
                   key: `${blockNumber.toNumber()}-${blockHash}-${indexes.join('.')}`,
                   record
                 })),
-                ...events
+                // remove all events for the previous same-height blockNumber
+                ...events.filter((p) => !p.blockNumber?.eq(blockNumber))
               ].slice(0, MAX_EVENTS));
             }
           }).catch(console.error);
