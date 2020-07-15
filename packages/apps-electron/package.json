@@ -4,15 +4,15 @@
   "private": true,
   "version": "0.50.0-beta.10",
   "dependencies": {
-    "@babel/core": "^7.10.4",
+    "@babel/core": "^7.10.5",
     "@babel/polyfill": "^7.10.4",
-    "@polkadot/dev": "^0.55.21",
+    "@polkadot/dev": "^0.55.22",
     "@polkadot/react-components": "0.50.0-beta.10",
     "electron-log": "^4.2.2",
-    "electron-updater": "^4.3.1"
+    "electron-updater": "^4.3.3"
   },
   "devDependencies": {
-    "@types/react": "^16.9.41",
+    "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.1.0",
