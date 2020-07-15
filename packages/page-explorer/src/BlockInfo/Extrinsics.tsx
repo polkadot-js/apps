@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
-import { KeyedEvent } from '../types';
+import { KeyedEvent } from '@polkadot/react-query/types';
 
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';

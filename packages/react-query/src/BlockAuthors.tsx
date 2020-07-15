@@ -66,7 +66,7 @@ function BlockAuthorsBase ({ children }: Props): React.ReactElement<Props> {
           }
 
           lastHeaders = lastHeaders
-            .filter((old, index): boolean => index < MAX_HEADERS && old.number.unwrap().lt(blockNumber))
+            .filter((old, index) => index < MAX_HEADERS && old.number.unwrap().lt(blockNumber))
             .reduce((next, header): HeaderExtended[] => {
               next.push(header);
 
