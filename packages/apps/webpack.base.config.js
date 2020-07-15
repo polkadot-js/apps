@@ -126,26 +126,14 @@ function createWebpack (ENV, context) {
           polkadotJsApi: {
             chunks: 'initial',
             enforce: true,
-            name: 'polkadotjs.api',
-            test: /node_modules\/@polkadot\/(api|metadata|rpc|types)/
-          },
-          polkadotJsOther: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'polkadotjs.util',
-            test: /node_modules\/(@ledgerhq|@zondax|edgeware|@polkadot\/(extension|keyring|react|ui|util|vanitygen))/
+            name: 'polkadotjs.libs',
+            test: /node_modules\/(@ledgerhq|@zondax|edgeware|@polkadot\/(api|extension|keyring|metadata|react|rpc|types|ui|util|vanitygen))/
           },
           polkadotJsWasm: {
             chunks: 'initial',
             enforce: true,
             name: 'polkadotjs.wasm',
             test: /node_modules\/@polkadot\/(wasm)/
-          },
-          reactBase: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'react.base',
-            test: /node_modules\/(react|react-dom|styled-components)/
           },
           reactIcons: {
             chunks: 'initial',
@@ -163,31 +151,19 @@ function createWebpack (ENV, context) {
             chunks: 'initial',
             enforce: true,
             name: 'react.ui',
-            test: /node_modules\/(chart\.js|codeflask|copy-to-clipboard|i18next|jdenticon|qrcode-generator|react-i18next|react-qr-reader)/
-          },
-          vendor01: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'other.01',
-            test: /node_modules\/(ansi-styles|asn1|base-x|base64-js|blakejs|bip39|bip66|bn\.js|browserify-aes|browserify-cipher|browserify-des|browserify-rsa|browserify-sign|chalk|cipher-base|color|color-convert|color-name|color-string)/
-          },
-          vendor02: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'other.02',
-            test: /node_modules\/(create-ecdh|create-hash|create-hmac|crypto-browserify|cuint|des\.js|diffie-hellman|elliptic|hash|lodash|secp256k1)/
+            test: /node_modules\/(@emotion|@stardust|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|mini-create-react|prop-types|popper\.js|qrcode-generator|react|react-|remark-parse|styled-components)/
           },
           vendor03: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.03',
-            test: /node_modules\/(hmac-drbg|js-sha3|md5|memoizee|miller-rabin|minimalistic-crypto-utils|moment|path-browserify|path-to-regex|parse-asn1|pbkdf2|public-encrypt|query-string|randombytes|randomfill|ripemd160|readable-stream|remark-parse|rtcpeerconnection-shim|sdp|sha\.js|store|webrtc-adapter|xxhashjs)/
+            name: 'other.01',
+            test: /node_modules\/(@babel|ansi-styles|asn1|browserify-|chalk|color|color-|crypto-browserify|des\.js|diffie-hellman|elliptic|hash|hmac-drbg|js-sha3|lodash|md5|memoizee|miller-rabin|object-|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|ripemd160|readable-stream|regenerator-runtime|rtcpeerconnection-shim|stream-browserify|store|timers-browserify|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch|xxhashjs)/
           },
           vendor04: {
             chunks: 'initial',
             enforce: true,
-            name: 'other.04',
-            test: /node_modules\/(@babel|core-js|core-util|buffer|deep-equal|detect-browser|es-abstract|es5-ext|es6-symbol|event-emitter|events|eventemitter3|extend|has-symbols|history|is-|node-libs-browser|object-assign|object-is|object-keys|process|regenerator-runtime|rxjs|safe-buffer|scheduler|timers-browserify|tslib|unified|util|vfile|vm-browserify|whatwg-fetch)/
+            name: 'other.02',
+            test: /node_modules\/(attr-accept|base-x|base64-js|blakejs|bip39|bip66|bn\.js|brorand|buffer|camelcase|cipher-base|core-js|core-util|create-|cuint|decode-uri|deep-equal|define-properties|detect-browser|es-abstract|es5-ext|es6-symbol|event-emitter|events|eventemitter3|extend|function-bind|has-symbols|history|html-parse|ieee754|ip-|is-|keyboard-|minimalistic-crypto-utils|moment|next-tick|node-libs-browser|randombytes|randomfill|regexp|rxjs|safe-buffer|scheduler|sdp|secp256k1|setimmediate|sha\.js|through)/
           }
         }
       }
