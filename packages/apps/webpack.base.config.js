@@ -145,13 +145,13 @@ function createWebpack (ENV, context) {
             chunks: 'initial',
             enforce: true,
             name: 'react.sui',
-            test: /node_modules\/(@semantic-ui-react|semantic-ui-react|semantic-ui-css)/
+            test: /node_modules\/(@semantic-ui-react|@stardust|classnames|keyboard-key|prop-types|semantic-ui-react|semantic-ui-css)/
           },
           reactUI: {
             chunks: 'initial',
             enforce: true,
             name: 'react.ui',
-            test: /node_modules\/(@emotion|@stardust|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|mini-create-react|prop-types|popper\.js|qrcode-generator|react|react-|remark-parse|styled-components)/
+            test: /node_modules\/(@emotion|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|mini-create-react|popper\.js|qrcode-generator|react|react-|remark-parse|styled-components)/
           },
           vendor03: {
             chunks: 'initial',
@@ -163,7 +163,7 @@ function createWebpack (ENV, context) {
             chunks: 'initial',
             enforce: true,
             name: 'other.02',
-            test: /node_modules\/(attr-accept|base-x|base64-js|blakejs|bip39|bip66|bn\.js|brorand|buffer|camelcase|cipher-base|core-js|core-util|create-|cuint|decode-uri|deep-equal|define-properties|detect-browser|es-abstract|es5-ext|es6-symbol|event-emitter|events|eventemitter3|extend|function-bind|has-symbols|history|html-parse|ieee754|ip-|is-|keyboard-|minimalistic-crypto-utils|moment|next-tick|node-libs-browser|randombytes|randomfill|regexp|rxjs|safe-buffer|scheduler|sdp|secp256k1|setimmediate|sha\.js|through)/
+            test: /node_modules\/(attr-accept|base-x|base64-js|blakejs|bip39|bip66|bn\.js|brorand|buffer|camelcase|cipher-base|core-js|core-util|create-|cuint|decode-uri|deep-equal|define-properties|detect-browser|es-abstract|es5-ext|es6-symbol|event-emitter|events|eventemitter3|extend|function-bind|has-symbols|history|html-parse|ieee754|ip-|is-|minimalistic-crypto-utils|moment|next-tick|node-libs-browser|randombytes|randomfill|regexp|rxjs|safe-buffer|scheduler|sdp|secp256k1|setimmediate|sha\.js|through)/
           }
         }
       }
