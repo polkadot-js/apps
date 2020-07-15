@@ -43,7 +43,7 @@ function Events ({ className = '', emptyLabel, eventClassName, events, label }: 
             <Event value={record} />
             {blockNumber && (
               <div className='event-link'>
-                {indexes.length !== 1 && <span>{formatNumber(indexes.length)}x/</span>}
+                {indexes.length !== 1 && <span>({formatNumber(indexes.length)}x)&nbsp;</span>}
                 <Link to={`/explorer/query/${blockHash || ''}`}>{formatNumber(blockNumber)}-{indexes[0]}</Link>
               </div>
             )}
