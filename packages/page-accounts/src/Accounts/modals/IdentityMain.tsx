@@ -67,10 +67,10 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
     !!value &&
     (value.length >= minLength) &&
     includes.reduce((hasIncludes: boolean, check) => hasIncludes && value.includes(check), true) &&
-    !excludes.reduce((hasExcludes: boolean, check) => hasExcludes || value.includes(check), false) &&
-    starting.reduce((hasStarting: boolean, check) => hasStarting || value.startsWith(check), starting.length === 0) &&
-    !notStarting.reduce((hasStarting: boolean, check) => hasStarting || value.startsWith(check), false) &&
-    !notEnding.reduce((hasEnding: boolean, check) => hasEnding || value.endsWith(check), false)
+    (!starting.length || starting.some((check) => value.startsWith(check))) &&
+    !excludes.some((check) => value.includes(check)) &&
+    !notStarting.some((check) => value.startsWith(check)) &&
+    !notEnding.some((check) => value.endsWith(check))
   );
 }
 
