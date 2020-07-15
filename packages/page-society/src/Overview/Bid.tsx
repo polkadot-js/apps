@@ -29,13 +29,13 @@ function BidRow ({ index, value: { kind, value, who } }: Props): React.ReactElem
 
   return (
     <tr>
-      <td className='all top'>
+      <td className='all'>
         <AddressSmall value={who} />
       </td>
-      <td className='number top'>
+      <td className='number'>
         {kind.type}
       </td>
-      <td className='number top'>
+      <td className='number'>
         <FormatBalance value={value} />
       </td>
       <td className='button'>
