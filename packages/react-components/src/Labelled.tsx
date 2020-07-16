@@ -96,7 +96,7 @@ const Wrapper = styled.div`
           }
 
           .text {
-            padding: 0.45rem 0
+            padding: 0.47rem 0
           }
         }
 
