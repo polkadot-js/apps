@@ -136,16 +136,6 @@ export default css`
     display: flex !important;
   }
 
-  .ui.progress {
-    &.tiny {
-      font-size: .5rem;
-    }
-
-    .bar {
-      min-width: 0 !important;
-    }
-  }
-
   .ui.secondary.vertical.menu > .item {
     margin: 0;
   }
