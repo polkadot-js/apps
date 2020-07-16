@@ -10,7 +10,7 @@ export const setupContentSecurityPolicy = (environment: string): void => {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': [`default-src 'self' ${environment === 'development' ? "'unsafe-eval'" : ''};` +
-        " style-src-elem https://fonts.googleapis.com/css 'unsafe-inline';" +
+        " style-src-elem 'self' https://fonts.googleapis.com/css 'unsafe-inline';" +
         " font-src data: 'self' https://fonts.gstatic.com;" +
         " style-src 'unsafe-inline';" +
         " connect-src 'self' wss:;" +
