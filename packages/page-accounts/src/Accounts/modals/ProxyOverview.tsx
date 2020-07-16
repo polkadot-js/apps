@@ -4,56 +4,61 @@
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { AccountId, ProxyType } from '@polkadot/types/interfaces';
-import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
+import { registry } from '@polkadot/react-api';
 import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
-import ValidateAmount from './InputValidateAmount';
 import styled from 'styled-components';
 
 interface Props {
-  proxiedAccount: string;
   className?: string;
   onClose: () => void;
-  previousAmount?: BN;
-  previousDelegatingAccount?: string;
   previousProxy?: [[AccountId, ProxyType][], BN];
+  proxiedAccount: string;
 }
 
-function createExtrinsic (api: ApiPromise, batch: any[]): SubmittableExtrinsic<'promise'> | null {
-  if (batch.length === 1) {
+function createExtrinsic (api: ApiPromise, batchPrevious: any[], batchAdded: any[]): SubmittableExtrinsic<'promise'> | null {
+  if (batchPrevious.length + batchAdded.length === 1) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return batch[0];
+    return batchPrevious.length
+      ? batchPrevious[0]
+      : batchAdded[0];
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return api.tx.utility.batch(batch);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
 }
 
-function ProxyOverview ({ className, onClose, previousAmount, previousDelegatingAccount, previousProxy, proxiedAccount }: Props): React.ReactElement<Props> {
+function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
-  const [amount, setAmount] = useState<BN | undefined>(previousAmount);
-  const [delegatingAccount, setDelegatingAccount] = useState<string | null>(previousDelegatingAccount || null);
-  const [batchStack, setBatchStack] = useState<any[]>([]);
+  // the stack of extrinsics on the previous proxies
+  const [batchStackPrevious, setBatchStackPrevious] = useState<any[]>([]);
+  // the stack of extrinsics on newly added proxies
+  const [batchStackAdded, setBatchStackAdded] = useState<any[]>([]);
+  // the final extrinsic (either single or a batch)
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  // list of previous accounts and proxy types
   const [previousProxyAccountsTypes, _] = previousProxy || [];
+  // actualized list of previous proxy including new changes (deletion if any)
   const [previousProxyDisplay, setPreviousProxyDisplay] = useState<[AccountId, ProxyType][] | undefined>(previousProxyAccountsTypes);
-  const [addedProxies, setAddedProxies] = useState<[AccountId, ProxyType][] | undefined>(undefined);
+  // actualized list of new proxies (additions, if any)
+  const [addedProxies, setAddedProxies] = useState<[AccountId, ProxyType][]>([]);
 
-  console.log('batchstack', batchStack.length);
-  console.log('extrinsic', extrinsic);
+  console.log('batchStackPrevious', batchStackPrevious);
+  console.log('batchStackAdded', batchStackAdded);
+
   useEffect(() => {
-    if (batchStack.length) {
-      setExtrinsic(createExtrinsic(api, batchStack));
+    if (batchStackPrevious.length || batchStackAdded.length) {
+      console.log('set extrinsics...');
+      setExtrinsic(createExtrinsic(api, batchStackPrevious, batchStackAdded));
     }
-  }, [api, batchStack]);
+  }, [api, batchStackPrevious, batchStackAdded]);
 
   const typeOpts = [
     { text: 'Any', value: 0 },
@@ -64,6 +69,56 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
   ];
 
   console.log('previousProxy', previousProxy?.toString());
+
+  const addProxy = () => {
+    const newAccount = registry.createType('AccountId', proxiedAccount);
+    const newType = registry.createType('ProxyType', 0);
+
+    setAddedProxies((prevState) => {
+      const newProxy: [AccountId, ProxyType] = [newAccount, newType];
+
+      if (!prevState) {
+        return [newProxy];
+      }
+
+      const newState: [AccountId, ProxyType][] = [...prevState, newProxy];
+
+      return newState;
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    setBatchStackAdded((prev) => prev.concat(
+      api.tx.proxy.addProxy(newAccount, newType)
+    ));
+  };
+
+  const changeAddedProxyAccount = (accountString: string | null, index: number) => {
+    setAddedProxies((prevState) => {
+      if (!prevState || !accountString) {
+        console.error('oops previous state is undefined or selected account is null');
+
+        return prevState;
+      }
+
+      prevState[index][0] = registry.createType('AccountId', accountString);
+
+      return prevState;
+    });
+  };
+
+  const changeAddedProxyType = (newType: ProxyType | null, index: number) => {
+    setAddedProxies((prevState) => {
+      if (!prevState || !newType) {
+        console.error('oops previous state is undefined or selected account is null');
+
+        return prevState;
+      }
+
+      prevState[index][1] = newType;
+
+      return prevState;
+    });
+  };
 
   return (
     <Modal
@@ -88,11 +143,11 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
-            {previousProxyDisplay?.length && previousProxyDisplay.map(([account, type], index) => {
+            {!!previousProxyDisplay?.length && previousProxyDisplay.map(([account, type], index) => {
               return (
                 <div
                   className='proxy-container'
-                  key={`${proxiedAccount}-${account.toString()}-${type.toString()}`}
+                  key={`previousPoxy-${index}`}
                 >
                   <div className='input-column'>
                     <InputAddress
@@ -119,7 +174,7 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
                         console.log('index', index);
                         // console.log('[...previousProxyDisplay.splice(index, 1)]', previousProxyDisplay.filter(([a, bn], i) => i !== index));
                         setPreviousProxyDisplay(previousProxyDisplay.filter(([a, bn], i) => i !== index));
-                        setBatchStack(batchStack.concat(
+                        setBatchStackPrevious(batchStackPrevious.concat(
                           api.tx.proxy.removeProxy(account, type)
                         ));
                       }
@@ -129,22 +184,23 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
                 </div>
               );
             })}
-            {addedProxies?.length && addedProxies.map(([account, type], index) => {
+            {!!addedProxies?.length && addedProxies.map(([account, type], index) => {
               return (
                 <div
                   className='proxy-container'
-                  key={`${proxiedAccount}-${account.toString()}-${type.toString()}`}
+                  key={`addedProxy-${index}`}
                 >
                   <div className='input-column'>
                     <InputAddress
-                      key={`account-${index}`}
                       label={t<string>('proxy account')}
+                      onChange={(value: string | null) => changeAddedProxyAccount(value, index)}
                       type='account'
                       value={account.toString()}
                     />
                     <Dropdown
                       help={'Type of proxy'}
                       label={'type'}
+                      onChange={(value: ProxyType | null) => changeAddedProxyType(value, index)}
                       options={typeOpts}
                       value={type.toNumber()}
                     />
@@ -155,14 +211,9 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
                       isNegative
                       key='close'
                       onClick={() => {
-                        console.log('index', index);
-                        // console.log('[...previousProxyDisplay.splice(index, 1)]', previousProxyDisplay.filter(([a, bn], i) => i !== index));
-                        setPreviousProxyDisplay(addedProxies.filter(([a, bn], i) => i !== index));
-                        setBatchStack(batchStack.concat(
-                          api.tx.proxy.removeProxy(account, type)
-                        ));
-                      }
-                      }
+                        setAddedProxies(addedProxies.filter(([a, bn], i) => i !== index));
+                        setBatchStackAdded(batchStackAdded.filter((e, i) => i !== index));
+                      }}
                     />
                   </div>
                 </div>);
@@ -172,9 +223,7 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
                 icon='plus'
                 isNegative
                 key='add'
-                onClick={() => {
-                  console.log('index');
-                }}
+                onClick={addProxy}
               />
             </div>
           </Modal.Column>
@@ -197,7 +246,7 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
           accountId={proxiedAccount}
           extrinsic={extrinsic}
           icon='sign-in-alt'
-          isDisabled={!batchStack.length}
+          isDisabled={!batchStackPrevious.length && !batchStackAdded.length}
           isPrimary
           label={t<string>('Save')}
           onStart={onClose}
