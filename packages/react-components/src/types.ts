@@ -21,9 +21,25 @@ export interface BareProps {
   style?: React.CSSProperties;
 }
 
-export interface AppProps {
+export interface AppNavigation {
+  addCode: VoidFn;
+  deploy: VoidFn;
+  deployNew: (_?: string, __?: number) => VoidFn;
+  execute: VoidFn;
+  upload: VoidFn;
+  uploadSuccess: (_?: string) => VoidFn;
+}
+
+export interface WithBasePath {
   basePath: string;
-  className?: string;
+}
+
+export interface ComponentProps extends BareProps, WithBasePath {
+  navigateTo: AppNavigation;
+}
+
+export interface AppProps extends BareProps, WithBasePath {
+  navigateTo: AppNavigation;
   onStatusChange: (status: ActionStatus) => void;
 }
 

@@ -2,63 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
+import { QueueTx } from '@polkadot/react-components/Status/types';
 
-import React, { useCallback, useContext } from 'react';
-import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
+import React from 'react';
+import { Button, ErrorBoundary, Modal } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 import Transaction from './Transaction';
-import { handleTxResults } from './util';
+import useSendUnsigned from './useSendUnsigned';
 
 interface Props {
   className?: string;
   currentItem: QueueTx;
 }
 
-const NOOP = () => undefined;
-
-async function send (queueSetTxStatus: QueueTxMessageSetStatus, currentItem: QueueTx, tx: SubmittableExtrinsic<'promise'>): Promise<void> {
-  currentItem.txStartCb && currentItem.txStartCb();
-
-  try {
-    const unsubscribe = await tx.send(handleTxResults('send', queueSetTxStatus, currentItem, (): void => {
-      unsubscribe();
-    }));
-  } catch (error) {
-    console.error('send: error:', error);
-    queueSetTxStatus(currentItem.id, 'error', {}, error);
-
-    currentItem.txFailedCb && currentItem.txFailedCb(null);
-  }
-}
-
 function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { queueSetTxStatus } = useContext(StatusContext);
+  const { onCancel, onSendUnsigned } = useSendUnsigned(currentItem);
   const [isRenderError, toggleRenderError] = useToggle();
-
-  const _onCancel = useCallback(
-    (): void => {
-      const { id, signerCb = NOOP, txFailedCb = NOOP } = currentItem;
-
-      queueSetTxStatus(id, 'cancelled');
-      signerCb(id, null);
-      txFailedCb(null);
-    },
-    [currentItem, queueSetTxStatus]
-  );
-
-  const _onSend = useCallback(
-    async (): Promise<void> => {
-      if (currentItem.extrinsic) {
-        await send(queueSetTxStatus, currentItem, currentItem.extrinsic);
-      }
-    },
-    [currentItem, queueSetTxStatus]
-  );
 
   return (
     <>
@@ -70,13 +32,13 @@ function TxUnsigned ({ className, currentItem }: Props): React.ReactElement<Prop
           />
         </ErrorBoundary>
       </Modal.Content>
-      <Modal.Actions onCancel={_onCancel}>
+      <Modal.Actions onCancel={onCancel}>
         <Button
           icon='sign-in'
           isDisabled={isRenderError}
           isPrimary
           label={t('Submit (no signature)')}
-          onClick={_onSend}
+          onClick={onSendUnsigned}
           tabIndex={2}
         />
       </Modal.Actions>

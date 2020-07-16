@@ -2,14 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { FileState } from '@polkadot/react-hooks/types';
 import { BareProps } from './types';
 
-import React, { useCallback, useState, createRef } from 'react';
+import React, { useCallback, createRef, MouseEvent } from 'react';
 import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
-import { formatNumber, isHex, u8aToString, hexToU8a } from '@polkadot/util';
+import { isHex, u8aToString, hexToU8a } from '@polkadot/util';
 
+import { ELEV_2_CSS } from './styles/constants';
 import { classes } from './util';
+import Icon from './Icon';
+import FileSupplied from './FileSupplied';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
 
@@ -19,19 +23,17 @@ export interface InputFileProps extends BareProps {
   accept?: string;
   clearContent?: boolean;
   convertHex?: boolean;
+  errorText?: React.ReactNode;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
   label: React.ReactNode;
-  onChange?: (contents: Uint8Array, name: string) => void;
+  onChange?: (file: FileState | null) => void;
+  onRemove?: () => void;
   placeholder?: React.ReactNode | null;
+  value: FileState | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
-}
-
-interface FileState {
-  name: string;
-  size: number;
 }
 
 const BYTE_STR_0 = '0'.charCodeAt(0);
@@ -53,10 +55,9 @@ function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, convertHex, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, children, className = '', clearContent, convertHex, errorText, help, isDisabled, isError = false, label, onChange, onRemove, placeholder, value = null, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
-  const [file, setFile] = useState<FileState | undefined>();
 
   const _onDrop = useCallback(
     (files: File[]): void => {
@@ -68,14 +69,14 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
 
         reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
           if (target && target.result) {
-            const name = file.name;
             const data = convertResult(target.result as ArrayBuffer, convertHex);
-
-            onChange && onChange(data, name);
-            dropRef && setFile({
-              name,
+            const fileState = {
+              data,
+              name: file.name,
               size: data.length
-            });
+            };
+
+            onChange && onChange(fileState);
           }
         };
 
@@ -83,6 +84,16 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
       });
     },
     [convertHex, dropRef, onChange]
+  );
+
+  const _onRemove = useCallback(
+    (event: MouseEvent<HTMLDivElement>): void => {
+      event.preventDefault();
+      event.stopPropagation();
+      onChange && onChange(null);
+      onRemove && onRemove();
+    },
+    [onChange, onRemove]
   );
 
   const dropZone = (
@@ -93,23 +104,45 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
       onDrop={_onDrop}
       ref={dropRef}
     >
-      {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: classes('ui--InputFile', isError ? 'error' : '', className) })} >
-          <input {...getInputProps()} />
-          <em className='label' >
+      {({ getInputProps, getRootProps }): JSX.Element => {
+        const rootProps = getRootProps({
+          className: classes('ui--InputFile', isError ? 'error' : '', !value ? 'isEmpty' : '', className)
+        });
+        const inputProps = getInputProps();
+
+        return (
+          <div {...rootProps} >
+            <input {...inputProps} />
             {
-              !file || clearContent
-                ? placeholder || t<string>('click to select or drag and drop the file here')
-                : placeholder || t<string>('{{name}} ({{size}} bytes)', {
-                  replace: {
-                    name: file.name,
-                    size: formatNumber(file.size)
-                  }
-                })
+              !value
+                ? (
+                  <>
+                    <Icon
+                      name='upload'
+                      size='large'
+                    />
+                    <div>
+                      {t<string>('Click to select or drag & drop to upload file.')}
+                    </div>
+                  </>
+                )
+                : (
+                  <FileSupplied
+                    errorText={errorText}
+                    isError={isError}
+                    onRemove={_onRemove}
+                    text={value.name}
+                  />
+                )
             }
-          </em>
-        </div>
-      )}
+            {children && (
+              <div className='children'>
+                {children}
+              </div>
+            )}
+          </div>
+        );
+      }}
     </Dropzone>
   );
 
@@ -128,24 +161,38 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
 }
 
 export default React.memo(styled(InputFile)`
-  background: #fff;
-  border: 1px solid var(--grey80);
-  border-radius: 0.28571429rem;
+  cursor: pointer;
+  display: table;
   font-size: 1rem;
   margin: 0.25rem 0;
   padding: 1rem;
-  width: 100% !important;
+
+  &.isEmpty {
+    border: 2px solid #273640;
+    border-radius: 0.28571429rem;
+    color: var(--grey70);
+    width: 100% !important;
+    text-align: center;
+
+    i.icon {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &:not(.isEmpty) {
+    ${ELEV_2_CSS}
+    border-radius: 0.28571429rem;
+  }
 
   &.error {
     border-color: var(--red-primary);
   }
 
   &:hover {
-    background: #fefefe;
     cursor: pointer;
   }
 
-  .label {
-    color: var(--grey20);
+  .children {
+    margin-top: 1.5rem;
   }
 `);

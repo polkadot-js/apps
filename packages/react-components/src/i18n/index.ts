@@ -46,7 +46,7 @@ i18n
       'app-123code',
       'app-accounts',
       'app-claims',
-      'app-contracts',
+      'app-execute',
       'app-council',
       'app-dashboard',
       'app-democracy',

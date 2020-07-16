@@ -8,14 +8,17 @@ import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 
 import Button from '../Button';
-import ButtonCancel from '../ButtonCancel';
 
-function Actions ({ cancelLabel, children, className = '', onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+import { useTranslation } from '../translate';
+
+function Actions ({ children, className, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+  const { t } = useTranslation();
+
   return (
     <SUIModal.Actions>
       <Button.Group className={className}>
-        <ButtonCancel
-          label={cancelLabel}
+        <Button
+          label={t('Cancel')}
           onClick={onCancel}
         />
         {children}

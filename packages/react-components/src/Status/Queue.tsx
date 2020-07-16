@@ -140,7 +140,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
           const removeItem = (): void =>
             setStQueue([...stRef.current.filter((item): boolean => item.id !== id)]);
 
-          setTimeout(removeItem, REMOVE_TIMEOUT);
+          // setTimeout(removeItem, REMOVE_TIMEOUT);
 
           return {
             ...item,
@@ -201,11 +201,11 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
       );
 
       if (STATUS_COMPLETE.includes(status)) {
-        setTimeout((): void => {
-          const item = txRef.current.find((item): boolean => item.id === id);
+        // setTimeout((): void => {
+        //   const item = txRef.current.find((item): boolean => item.id === id);
 
-          item && item.removeItem();
-        }, REMOVE_TIMEOUT);
+        //   item && item.removeItem();
+        // }, REMOVE_TIMEOUT);
       }
     },
     [queueAction, setTxQueue]

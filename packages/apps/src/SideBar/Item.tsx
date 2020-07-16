@@ -96,11 +96,10 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
     return null;
   }
 
-  const { Modal, icon, name, text } = route;
+  const { name, text } = route;
 
   const body = (
     <>
-      <Icon name={icon} />
       <span className='text'>{text}</span>
       {!!count && (
         <Badge
@@ -115,37 +114,23 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
         text={text}
         trigger={`nav-${name}`}
       />
+      <Icon name='chevron right' />
     </>
   );
 
   return (
     <Menu.Item className='apps--SideBar-Item'>
-      {Modal
-        ? (
-          <a
-            className='apps--SideBar-Item-NavLink'
-            data-for={`nav-${name}`}
-            data-tip
-            data-tip-disable={!isCollapsed}
-            onClick={onClick}
-          >
-            {body}
-          </a>
-        )
-        : (
-          <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
-            className='apps--SideBar-Item-NavLink'
-            data-for={`nav-${name}`}
-            data-tip
-            data-tip-disable={!isCollapsed}
-            onClick={onClick}
-            to={`/${name}`}
-          >
-            {body}
-          </NavLink>
-        )
-      }
+      <NavLink
+        activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
+        className='apps--SideBar-Item-NavLink'
+        data-for={`nav-${name}`}
+        data-tip
+        data-tip-disable={!isCollapsed}
+        onClick={onClick}
+        to={`/${name}`}
+      >
+        {body}
+      </NavLink>
     </Menu.Item>
   );
 }

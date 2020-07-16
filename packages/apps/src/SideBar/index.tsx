@@ -16,6 +16,7 @@ import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
+import Settings from './Settings';
 
 interface Props {
   className?: string;
@@ -57,32 +58,12 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
       className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}
       onUpdate={handleResize}
     >
-      <ChainImg
-        className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
-        onClick={toggleMenu}
-      />
-      {routing.map((route): React.ReactNode => (
-        route?.Modal
-          ? route.Modal && modals[route.name]
-            ? (
-              <route.Modal
-                key={route.name}
-                onClose={_toggleModal(route.name)}
-              />
-            )
-            : <div key={route.name} />
-          : null
-      ))}
-      {modals.network && (
-        <NetworkModal onClose={_toggleModal('network')}/>
-      )}
       <div className='apps--SideBar'>
         <Menu
           secondary
           vertical
         >
           <div className='apps--SideBar-Scroll'>
-            <ChainInfo onClick={_toggleModal('network')} />
             {routing.map((route, index): React.ReactNode => (
               route
                 ? (
@@ -104,52 +85,9 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
                   />
                 )
             ))}
-            <Menu.Divider hidden />
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://github.com/polkadot-js/apps'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon name='github' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://wiki.polkadot.network'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon name='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Divider hidden />
-            {
-              isCollapsed
-                ? undefined
-                : <NodeInfo />
-            }
           </div>
-          <Responsive
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
-            minWidth={SIDEBAR_MENU_THRESHOLD}
-          >
-            <Button
-              icon={`angle double ${isCollapsed ? 'right' : 'left'}`}
-              isBasic
-              isCircular
-              onClick={collapse}
-            />
-          </Responsive>
         </Menu>
-        <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
-          <div
-            className='apps--SideBar-toggle'
-            onClick={collapse}
-          />
-        </Responsive>
+        <Settings />
       </div>
     </Responsive>
   );
@@ -159,16 +97,9 @@ const sideBorderWidth = '0.65rem';
 
 export default React.memo(styled(SideBar)`
   display: flex;
+  min-width: 14.25rem;
   position: relative;
   z-index: 300;
-
-  &.collapsed {
-    width: 4.2rem;
-  }
-
-  &.expanded {
-    width: 12rem;
-  }
 
   .apps--SideBar {
     align-items: center;
@@ -216,12 +147,13 @@ export default React.memo(styled(SideBar)`
     .apps--SideBar-Item {
       align-self: flex-end;
       flex-grow: 0;
+      font-size: 1rem;
       padding: 0 !important;
       position: relative;
       width: inherit;
 
-      .text {
-        padding-left: 0.5rem;
+      &:not(:last-child) {
+        margin-bottom: 0.9rem;
       }
 
       .ui--Badge {
@@ -230,6 +162,10 @@ export default React.memo(styled(SideBar)`
         right: 0.5rem;
         top: 0.55rem;
         z-index: 1;
+      }
+
+      i.icon {
+        margin-right: 0;
       }
     }
 

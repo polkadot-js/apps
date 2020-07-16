@@ -2,81 +2,95 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps as Props } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
-import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
+import styled from 'styled-components';
+import { Button, Input, Dropdown, Toggle } from '@polkadot/react-components';
+import { classes, useEndpointOptions } from '@polkadot/react-components/util';
+import { useEndpoints, useSettings } from '@polkadot/react-hooks';
 
-import md from './md/basics.md';
 import { useTranslation } from './translate';
-import Developer from './Developer';
-import I18n from './I18n';
-import Metadata from './Metadata';
-import General from './General';
-import useCounter from './useCounter';
 
-export { useCounter };
-
-const hidden = uiSettings.uiMode === 'full'
-  ? []
-  : ['developer'];
-
-function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function SettingsApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const numExtensions = useCounter();
-  const items = useMemo(() => [
-    {
-      isRoot: true,
-      name: 'general',
-      text: t<string>('General')
-    },
-    {
-      name: 'metadata',
-      text: t<string>('Metadata {{count}}', {
-        replace: {
-          count: numExtensions ? `(${numExtensions})` : ''
-        }
-      })
-    },
-    {
-      name: 'developer',
-      text: t<string>('Developer')
-    },
-    {
-      name: 'i18n',
-      text: t<string>('Translate')
-    }
-  ], [numExtensions, t]);
+  const { isChanged, onChangeKey, save, saveAndReload } = useSettings();
+  const endpointState = useEndpoints(onChangeKey('apiUrl'));
+  const endpointOptions = useEndpointOptions(endpointState, t);
+
+  const { isCustom, isValid, onChangeCustom, onChangeUrl, url } = endpointState;
+
+  const themeOptions = useMemo(
+    () => ([
+      {
+        value: true,
+        text: t('Dark theme')
+      },
+      {
+        value: false,
+        text: t('Light theme')
+      }
+    ]),
+    [t]
+  );
 
   return (
-    <main className='settings--App'>
-      <HelpOverlay md={md as string} />
+    <main className={classes('settings--App', className)}>
       <header>
-        <Tabs
-          basePath={basePath}
-          hidden={hidden}
-          items={items}
-        />
+        <h1>{t<string>('Settings')}</h1>
       </header>
-      <Switch>
-        <Route path={`${basePath}/developer`}>
-          <Developer
-            basePath={basePath}
-            onStatusChange={onStatusChange}
+      <section>
+        <Dropdown
+          isDisabled={isCustom}
+          label={t('Node to connect to')}
+          onChange={onChangeUrl}
+          options={endpointOptions}
+          value={url}
+        />
+        <div>
+          <Toggle
+            className='settings--customToggle'
+            defaultValue={isCustom}
+            label={t('Use custom endpoint')}
+            onChange={onChangeCustom}
           />
-        </Route>
-        <Route path={`${basePath}/i18n`}>
-          <I18n />
-        </Route>
-        <Route path={`${basePath}/metadata`}>
-          <Metadata />
-        </Route>
-        <Route component={General} />
-      </Switch>
+          {isCustom && (
+            <Input
+              defaultValue={url}
+              className='custom-url'
+              isError={!isValid}
+              onChange={onChangeUrl}
+              withLabel={false}
+            />
+          )}
+        </div>
+        <Dropdown
+          defaultValue={true}
+          isDisabled
+          label={t<string>('Theme')}
+          options={themeOptions}
+        />
+      </section>
+      <footer>
+        <Button.Group>
+          <Button
+            isDisabled={isChanged === null}
+            isPrimary
+            label={t('Save')}
+            onClick={
+              isChanged
+                ? saveAndReload
+                : save
+            }
+          />
+        </Button.Group>
+      </footer>
     </main>
   );
 }
 
-export default React.memo(SettingsApp);
+export default styled(React.memo(SettingsApp))`
+  .custom-url {
+    margin-top: 0.5rem;
+  }
+`;

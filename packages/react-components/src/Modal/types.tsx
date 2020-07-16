@@ -14,7 +14,7 @@ export interface ColumnProps {
 export interface ModalProps extends BareProps {
   children: React.ReactNode;
   header?: React.ReactNode;
-  open?: boolean;
+  isOpen?: boolean;
   [index: string]: any;
 }
 

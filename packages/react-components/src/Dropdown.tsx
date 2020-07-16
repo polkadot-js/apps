@@ -163,6 +163,25 @@ const Dropdown = React.memo(styled(BaseDropdown)`
         margin-left: 0;
       }
     }
+
+    .chain-option {
+      align-items: center;
+      display: flex;
+    }
+
+    .text {
+      > .chain-option {
+        :before {
+          background: var(--green-primary);
+          content: '';
+          display: block;
+          border-radius: 4px;
+          width: 0.5rem;
+          height: 0.5rem;
+          margin-right: 0.5rem;
+        }
+      }
+    }
   }
 `) as unknown as IDropdown<any>;
 

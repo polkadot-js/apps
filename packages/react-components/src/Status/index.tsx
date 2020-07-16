@@ -6,8 +6,10 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
+import { useToggle } from '@polkadot/react-hooks';
 import { registry } from '@polkadot/react-api';
 
+import { ELEV_4_CSS } from '../styles/constants';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
@@ -31,13 +33,13 @@ function iconName (status: string): any {
       return 'ban';
 
     case 'event':
-      return 'assistive listening devices';
+      return 'caret square right';
 
     case 'received':
       return 'telegram plane';
 
     default:
-      return 'check';
+      return 'check circle';
   }
 }
 
@@ -50,7 +52,7 @@ function signerIconName (status: QueueTxStatus): any {
     case 'inblock':
     case 'finalized':
     case 'sent':
-      return 'check';
+      return 'check circle';
 
     case 'dropped':
     case 'invalid':
@@ -79,7 +81,8 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
       <div className='wrapper'>
         <div className='container'>
           <Icon
-            name='close'
+            className='close-button'
+            name='times circle outline'
             onClick={removeItem}
           />
           <div className='short'>
@@ -123,12 +126,11 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
     >
       <div className='wrapper'>
         <div className='container'>
-          {STATUS_COMPLETE.includes(status) && (
-            <Icon
-              name='close'
-              onClick={removeItem}
-            />
-          )}
+          <Icon
+            className='close-button'
+            name='times circle outline'
+            onClick={removeItem}
+          />
           <div className='short'>
             {icon === 'spinner'
               ? <Spinner variant='push' />
@@ -183,7 +185,8 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
 
   return (
     <div className={`ui--Status ${className}`}>
-      {(allSt.length + completedTx.length) > 1 && (
+      {/* {(allSt.length + completedTx.length) > 1 && ( */
+      false && (
         <div className='dismiss'>
           <Button
             icon='cancel'
@@ -203,10 +206,14 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
 export default React.memo(styled(Status)`
   display: inline-block;
   position: fixed;
-  right: 0.25rem;
-  top: 0.25rem;
-  width: 23rem;
+  right: 40px;
+  top: 30px;
+  width: 19rem;
   z-index: 1001;
+
+  &:not(:last-child) {
+    margin-bottom: 0.25rem;
+  }
 
   .dismiss {
     margin-bottom: 0.25rem;
@@ -216,10 +223,9 @@ export default React.memo(styled(Status)`
     display: block;
 
     > .wrapper > .container {
+      ${ELEV_4_CSS}
       align-items: center;
-      background: #00688b;
-      border-radius: $small-corner;
-      color: white;
+      color: var(--white);
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.25rem;
@@ -240,8 +246,13 @@ export default React.memo(styled(Status)`
         overflow: hidden;
         padding: 0.5rem 1rem;
 
+        .header {
+          font-family: monospace;
+          font-size: 1rem;
+        }
+
         .status {
-          font-weight: 700;
+          color: var(--grey70);
         }
 
         .ui--AddressMini {
@@ -252,15 +263,10 @@ export default React.memo(styled(Status)`
         }
       }
 
-      .header {
-        opacity: 0.66;
-      }
-
       .short {
-        font-size: 2.5rem;
-        opacity:  0.75;
-        padding: 0.5rem 0 0.5rem 0.5rem;
-
+        font-size: 1.125rem;
+        color: var(--blue-primary);
+        
         i.icon {
           line-height: 1;
         }
@@ -270,20 +276,17 @@ export default React.memo(styled(Status)`
         padding: 0.25rem 0 0 0 !important;
       }
 
-      i.close {
+      i.close-button {
+        color: var(--grey60);
         position: absolute;
         top: 0.25rem;
         right: 0rem;
         cursor: pointer;
+
+        &:hover {
+          color: var(--grey90);
+        }
       }
-    }
-
-    &.cancelled > .wrapper > .container {
-      background: #cd9b1d
-    }
-
-    &.event > .wrapper > .container {
-      background: teal;
     }
 
     &.completed,
@@ -291,8 +294,8 @@ export default React.memo(styled(Status)`
     &.inblock,
     &.sent,
     &.success {
-      & > .wrapper > .container {
-        background: var(--green-primary);
+      & > .wrapper > .container .short {
+        color: var(--green-primary);
       }
     }
 
@@ -301,8 +304,8 @@ export default React.memo(styled(Status)`
     &.finalitytimeout,
     &.invalid,
     &.usurped {
-      & > .wrapper > .container {
-        background: var(--red-primary);
+      & > .wrapper > .container .short {
+        color: var(--red-primary);
       }
     }
   }

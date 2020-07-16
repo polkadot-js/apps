@@ -22,7 +22,7 @@ interface Props extends BareProps {
   value: string;
 }
 
-function CopyButton ({ children, className, icon = 'copy', isAddress = false, size = 'small', value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy outline', isAddress = false, size = 'small', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -50,6 +50,7 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, si
             <Button
               className='icon-button show-on-hover'
               icon={icon}
+              isIcon
               isPrimary
               size={size}
             />
@@ -62,9 +63,12 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, si
 
 export default React.memo(styled(CopyButton)`
   cursor: copy;
+  display: inline-block;
 
   button.ui.icon.primary.button.icon-button {
     cursor: copy;
+    position: relative;
+    top: 2px;
   }
 
   .copySpan {
