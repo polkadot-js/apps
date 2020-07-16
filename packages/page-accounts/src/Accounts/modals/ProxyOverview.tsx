@@ -1,12 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+import { ApiPromise } from '@polkadot/api';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { AccountId, ProxyType } from '@polkadot/types/interfaces';
 import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -22,17 +25,35 @@ interface Props {
   previousProxy?: [[AccountId, ProxyType][], BN];
 }
 
+function createExtrinsic (api: ApiPromise, batch: any[]): SubmittableExtrinsic<'promise'> | null {
+  if (batch.length === 1) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return batch[0];
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return api.tx.utility.batch(batch);
+}
+
 function ProxyOverview ({ className, onClose, previousAmount, previousDelegatingAccount, previousProxy, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
-  const [maxBalance] = useState<BN | undefined>();
   const [amount, setAmount] = useState<BN | undefined>(previousAmount);
   const [delegatingAccount, setDelegatingAccount] = useState<string | null>(previousDelegatingAccount || null);
-  const [delegatedAccount, setDelegatedAccount] = useState<string | null>(proxiedAccount || null);
+  const [batchStack, setBatchStack] = useState<any[]>([]);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [previousProxyAccountsTypes, _] = previousProxy || [];
+  const [previousProxyDisplay, setPreviousProxyDisplay] = useState<[AccountId, ProxyType][] | undefined>(previousProxyAccountsTypes);
+  const [addedProxies, setAddedProxies] = useState<[AccountId, ProxyType][] | undefined>(undefined);
 
-  const isDirty = amount?.toString() !== previousAmount?.toString() ||
-    delegatedAccount !== proxiedAccount ||
-    delegatingAccount !== previousDelegatingAccount;
+  console.log('batchstack', batchStack.length);
+  console.log('extrinsic', extrinsic);
+  useEffect(() => {
+    if (batchStack.length) {
+      setExtrinsic(createExtrinsic(api, batchStack));
+    }
+  }, [api, batchStack]);
 
   const typeOpts = [
     { text: 'Any', value: 0 },
@@ -67,9 +88,7 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
-            {previousProxy && previousProxy[0].map(([account, type], index) => {
-              console.log('type', type.toString());
-
+            {previousProxyDisplay?.length && previousProxyDisplay.map(([account, type], index) => {
               return (
                 <div
                   className='proxy-container'
@@ -96,20 +115,71 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
                       icon='times'
                       isNegative
                       key='close'
-                      onClick={() => { console.log('bla'); }}
+                      onClick={() => {
+                        console.log('index', index);
+                        // console.log('[...previousProxyDisplay.splice(index, 1)]', previousProxyDisplay.filter(([a, bn], i) => i !== index));
+                        setPreviousProxyDisplay(previousProxyDisplay.filter(([a, bn], i) => i !== index));
+                        setBatchStack(batchStack.concat(
+                          api.tx.proxy.removeProxy(account, type)
+                        ));
+                      }
+                      }
                     />
                   </div>
                 </div>
               );
             })}
-            <ValidateAmount
-              amount={amount}
-              delegatingAccount={delegatingAccount}
-              onError={setAmountError}
-            />
+            {addedProxies?.length && addedProxies.map(([account, type], index) => {
+              return (
+                <div
+                  className='proxy-container'
+                  key={`${proxiedAccount}-${account.toString()}-${type.toString()}`}
+                >
+                  <div className='input-column'>
+                    <InputAddress
+                      key={`account-${index}`}
+                      label={t<string>('proxy account')}
+                      type='account'
+                      value={account.toString()}
+                    />
+                    <Dropdown
+                      help={'Type of proxy'}
+                      label={'type'}
+                      options={typeOpts}
+                      value={type.toNumber()}
+                    />
+                  </div>
+                  <div className='buttons-column'>
+                    <Button
+                      icon='times'
+                      isNegative
+                      key='close'
+                      onClick={() => {
+                        console.log('index', index);
+                        // console.log('[...previousProxyDisplay.splice(index, 1)]', previousProxyDisplay.filter(([a, bn], i) => i !== index));
+                        setPreviousProxyDisplay(addedProxies.filter(([a, bn], i) => i !== index));
+                        setBatchStack(batchStack.concat(
+                          api.tx.proxy.removeProxy(account, type)
+                        ));
+                      }
+                      }
+                    />
+                  </div>
+                </div>);
+            })}
+            <div className='buttons-add'>
+              <Button
+                icon='plus'
+                isNegative
+                key='add'
+                onClick={() => {
+                  console.log('index');
+                }}
+              />
+            </div>
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The amount to allocate and the conviction that will be applied to all votes made on a referendum.')}</p>
+            <p>{t('')}</p>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -125,13 +195,12 @@ function ProxyOverview ({ className, onClose, previousAmount, previousDelegating
         />
         <TxButton
           accountId={proxiedAccount}
+          extrinsic={extrinsic}
           icon='sign-in-alt'
-          isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
+          isDisabled={!batchStack.length}
           isPrimary
           label={t<string>('Save')}
           onStart={onClose}
-          params={[delegatedAccount, amount]}
-          tx='democracy.delegate'
         />
       </Modal.Actions>
     </Modal>

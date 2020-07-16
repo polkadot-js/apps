@@ -104,10 +104,6 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isDelegateOpen, toggleDelegate] = useToggle();
   const [isUndelegateOpen, toggleUndelegate] = useToggle();
 
-  // console.log('proxy?.[0]', proxy?.[0].toString());
-  // console.log('proxy accounts', proxy?.[0].length && proxy?.[0][0].length);
-  // console.log('proxy account type', proxy?.[0].length && proxy?.[0][0][0].toString(), proxy?.[0].length && proxy?.[0][0][1].toString());
-
   useEffect((): void => {
     if (balancesAll) {
       setBalance(address, balancesAll.freeBalance);
