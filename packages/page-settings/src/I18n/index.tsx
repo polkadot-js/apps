@@ -284,7 +284,7 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Translate)`
-  .ui.progress:last-child {
+  .ui--Progress:last-child {
     margin: 0.25rem;
   }
 

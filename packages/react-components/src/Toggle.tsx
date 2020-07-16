@@ -53,28 +53,27 @@ export default React.memo(styled(Toggle)`
   }
 
   .ui--Toggle-Slider {
+    background: #e4e5e6;
     border-radius: 1.5rem;
     display: inline-block;
-    position: relative;
-    cursor: pointer;
-    background-color: #eee;
-    width: 3rem;
     height: 1.5rem;
+    position: relative;
+    width: 3rem;
 
     &::before {
-      border: 0.125rem solid #eee;
+      background: white;
+      border: 0.125rem solid #e4e5e6;
       border-radius: 50%;
-      position: absolute;
       content: "";
       height: 1.5rem;
-      width: 1.5rem;
       left: 0;
+      position: absolute;
       top: 0rem;
-      background-color: white;
+      width: 1.5rem;
     }
   }
 
-  &.not(.isDisabled) .ui--Toggle-Slider {
+  &:not(.isDisabled) {
     cursor: pointer;
   }
 
