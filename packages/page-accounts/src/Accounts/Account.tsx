@@ -365,7 +365,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
-h      <td className='number'>
+      <td className='number'>
         <CryptoType accountId={address} />
       </td>
       <td className='all'>
