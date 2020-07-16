@@ -92,10 +92,11 @@ export default createGlobalStyle<Props>`
       }
     }
 
-    .ui.toggle.checkbox {
-      input:checked~.box:before,
-      input:checked~label:before {
-        background-color: ${getHighlight} !important;
+    .ui--Toggle.isChecked .ui--Toggle-Slider {
+      background-color: ${getHighlight} !important;
+
+      &:before {
+        border-color: ${getHighlight} !important;
       }
     }
   }
@@ -124,13 +125,6 @@ export default createGlobalStyle<Props>`
       .ui.button:not(.disabled) {
         background: #eee !important;
         color: #555 !important;
-      }
-
-      .ui.toggle.checkbox {
-        input:checked~.box:before,
-        input:checked~label:before {
-          background-color: #eee !important;
-        }
       }
 
       .ui.button.show-on-hover {

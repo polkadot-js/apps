@@ -75,13 +75,12 @@ function SelectUrl ({ className = '', onChange }: Props): React.ReactElement<Pro
   }, [info]);
 
   const _onChangeUrl = useCallback(
-    (url: string): void =>
-      setInfo((info: State) => ({ ...info, ...makeUrl(url) })),
+    (url: string) => setInfo((info: State) => ({ ...info, ...makeUrl(url) })),
     []
   );
 
   const _onChangeCustom = useCallback(
-    (isCustom: boolean): void => setInfo({
+    (isCustom: boolean) => setInfo({
       ...makeUrl(
         isCustom
           ? info.url
@@ -116,9 +115,9 @@ function SelectUrl ({ className = '', onChange }: Props): React.ReactElement<Pro
       }</div>
       <Toggle
         className='settings--customToggle'
-        defaultValue={isCustom}
         label={t<string>('custom endpoint')}
         onChange={_onChangeCustom}
+        value={isCustom}
       />
     </div>
   );
