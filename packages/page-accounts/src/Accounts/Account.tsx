@@ -16,7 +16,6 @@ import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
@@ -258,6 +257,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             info='0'
           />
         )}
+        {delegation?.accountDelegated && (
+          <Badge
+            color='blue'
+            hover={t<string>('This account has a governance delegation')}
+            icon='calendar-check'
+            onClick={toggleDelegate}
+          />
+        )}
       </td>
       <td className='address'>
         <AddressSmall value={address} />
@@ -266,6 +273,16 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             address={address}
             key='modal-backup-account'
             onClose={toggleBackup}
+          />
+        )}
+        {isDelegateOpen && (
+          <DelegateModal
+            key='modal-delegate'
+            onClose={toggleDelegate}
+            previousAmount={delegation?.amount}
+            previousConviction={delegation?.conviction}
+            previousDelegatedAccount={delegation?.accountDelegated}
+            previousDelegatingAccount={address}
           />
         )}
         {isDeriveOpen && (
@@ -335,44 +352,19 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClose={toggleRecoverSetup}
           />
         )}
+        {isUndelegateOpen && (
+          <UndelegateModal
+            accountDelegating={address}
+            key='modal-delegate'
+            onClose={toggleUndelegate}
+          />
+        )}
       </td>
       <td className='address ui--media-1200'>
         {meta.parentAddress && (
           <AddressMini value={meta.parentAddress} />
         )}
       </td>
-      {api.api.query.democracy?.votingOf && (
-        <td className='address ui--media-1500'>
-          {isDelegateOpen && (
-            <DelegateModal
-              amount={delegation?.amount}
-              conviction={delegation?.conviction}
-              delegatedAccount={delegation?.accountDelegated}
-              delegatingAccount={address}
-              key='modal-delegate'
-              onClose={toggleDelegate}
-            />
-          )}
-          {isUndelegateOpen && (
-            <UndelegateModal
-              accountDelegating={address}
-              key='modal-delegate'
-              onClose={toggleUndelegate}
-            />
-          )}
-          {delegation && (
-            <AddressMini
-              summary={
-                <div>
-                  <FormatBalance value={delegation.amount} />
-                  <div>{delegation.conviction.toString()}</div>
-                </div>
-              }
-              value={delegation.accountDelegated}
-            />
-          )}
-        </td>
-      )}
       <td className='number'>
         <CryptoType accountId={address} />
       </td>

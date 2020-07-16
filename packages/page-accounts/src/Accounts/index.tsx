@@ -124,20 +124,18 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const header = useMemo(() => [
     [t('accounts'), 'start', 3],
     [t('parent'), 'address ui--media-1200'],
-    api.query.democracy?.votingOf && [t('delegation'), 'address ui--media-1500'],
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],
     [t('balances')],
     [],
     [undefined, 'mini ui--media-1400']
-  ], [api, t]);
+  ], [t]);
 
   const footer = useMemo(() => (
     <tr>
       <td colSpan={3} />
       <td className='ui--media-1200' />
-      {api.query.democracy?.votingOf && <td className='ui--media-1500' />}
       <td colSpan={2} />
       <td className='ui--media-1500' />
       <td className='number'>
@@ -146,7 +144,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <td />
       <td className='ui--media-1400' />
     </tr>
-  ), [api, balanceTotal]);
+  ), [balanceTotal]);
 
   const filter = useMemo(() => (
     <div className='filter--tags'>
