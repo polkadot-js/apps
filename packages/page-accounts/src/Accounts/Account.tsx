@@ -277,12 +277,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         )}
         {isDelegateOpen && (
           <DelegateModal
-            amount={delegation?.amount}
-            conviction={delegation?.conviction}
-            delegatedAccount={delegation?.accountDelegated}
-            delegatingAccount={address}
             key='modal-delegate'
             onClose={toggleDelegate}
+            previousAmount={delegation?.amount}
+            previousConviction={delegation?.conviction}
+            previousDelegatedAccount={delegation?.accountDelegated}
+            previousDelegatingAccount={address}
           />
         )}
         {isDeriveOpen && (

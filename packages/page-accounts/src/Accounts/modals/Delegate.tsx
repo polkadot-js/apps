@@ -15,31 +15,34 @@ import { useTranslation } from '../../translate';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props {
-  amount?: BN;
-  conviction?: Conviction;
-  delegatedAccount?: string;
-  delegatingAccount?: string;
   onClose: () => void;
+  previousAmount?: BN;
+  previousConviction?: Conviction;
+  previousDelegatedAccount?: string;
+  previousDelegatingAccount?: string;
 }
 
-function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount: _delegatedAccount, delegatingAccount: _delegatingAccount, onClose }: Props): React.ReactElement<Props> {
+function Delegate ({ onClose, previousAmount, previousConviction, previousDelegatedAccount, previousDelegatingAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [maxBalance] = useState<BN | undefined>();
-  const [amount, setAmount] = useState<BN | undefined>(_amount);
-  const [delegatingAccount, setDelegatingAccount] = useState<string | null>(_delegatingAccount || null);
-  const [delegatedAccount, setDelegatedAccount] = useState<string | null>(_delegatedAccount || null);
-  const [conviction, setConviction] = useState(_conviction?.toNumber() || 1);
+  const [amount, setAmount] = useState<BN | undefined>(previousAmount);
+  const [delegatingAccount, setDelegatingAccount] = useState<string | null>(previousDelegatingAccount || null);
+  const [delegatedAccount, setDelegatedAccount] = useState<string | null>(previousDelegatedAccount || null);
+  const [conviction, setConviction] = useState(previousConviction?.toNumber() || 1);
 
-  const isDirty = amount?.toString() !== _amount?.toString() ||
-    delegatedAccount !== _delegatedAccount ||
-    delegatingAccount !== _delegatingAccount ||
-    conviction !== _conviction?.toNumber();
+  const isDirty = amount?.toString() !== previousAmount?.toString() ||
+    delegatedAccount !== previousDelegatedAccount ||
+    delegatingAccount !== previousDelegatingAccount ||
+    conviction !== previousConviction?.toNumber();
 
   return (
     <Modal
       className='staking--Delegate'
-      header= {_delegatedAccount ? t<string>('democracy vote delegation') : t<string>('delegate democracy vote')}
+      header={previousDelegatedAccount
+        ? t<string>('democracy vote delegation')
+        : t<string>('delegate democracy vote')
+      }
       size='large'
     >
       <Modal.Content>
@@ -97,7 +100,7 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
-        {_delegatedAccount && (
+        {previousDelegatedAccount && (
           <TxButton
             accountId={delegatingAccount}
             icon='trash-alt'
@@ -113,7 +116,10 @@ function Delegate ({ amount: _amount, conviction: _conviction, delegatedAccount:
           icon='sign-in-alt'
           isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
           isPrimary
-          label={_delegatedAccount ? t<string>('Save delegation') : t<string>('Delegate')}
+          label={previousDelegatedAccount
+            ? t<string>('Save delegation')
+            : t<string>('Delegate')
+          }
           onStart={onClose}
           params={[delegatedAccount, conviction, amount]}
           tx='democracy.delegate'
