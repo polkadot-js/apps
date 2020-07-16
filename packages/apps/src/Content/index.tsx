@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import useAppNavigation from './useAppNavigation';
 
 import Status from './Status';
 import { useTranslation } from '../translate';
@@ -25,7 +26,6 @@ const NOT_FOUND: Route = {
   display: {
     needsApi: undefined
   },
-  icon: 'cancel',
   isIgnored: false,
   name: 'unknown',
   text: 'Unknown'
@@ -35,6 +35,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
+  const navigateTo = useAppNavigation();
   const { queueAction, stqueue, txqueue } = useContext(StatusContext);
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
@@ -59,6 +60,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
                 <Component
+                  navigateTo={navigateTo}
                   basePath={`/${name}`}
                   location={location}
                   onStatusChange={queueAction}
@@ -79,13 +81,11 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #FFF;
   flex-grow: 1;
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 1.5rem;
   position: relative;
   width: 100%;
 

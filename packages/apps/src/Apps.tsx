@@ -9,7 +9,7 @@ import store from 'store';
 import styled from 'styled-components';
 import { getSystemChainColor } from '@polkadot/apps-config/ui';
 import { defaultColor } from '@polkadot/apps-config/ui/general';
-import GlobalStyle from '@polkadot/react-components/styles';
+import GlobalStyle, { MED_EMPH_HEX } from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
@@ -70,12 +70,12 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     []
   );
 
-  const { isCollapsed, isMenu, isMenuOpen } = sidebar;
+  const { isCollapsed, isMenuOpen } = sidebar;
 
   return (
     <>
       <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
-      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenu ? 'fixed' : ''} ${isMenuOpen ? 'menu-open' : ''} theme--default ${className}`}>
+      <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenuOpen ? 'menu-open' : ''} theme--default ${className}`}>
         <div
           className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
           onClick={_handleResize}
@@ -83,13 +83,11 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
         <SideBar
           collapse={_collapse}
           handleResize={_handleResize}
-          isCollapsed={isCollapsed}
+          isCollapsed={false}
           isMenuOpen={isMenuOpen}
           toggleMenu={_toggleMenu}
         />
-        <Signer>
-          <Content />
-        </Signer>
+        <Content />
         <ConnectingOverlay />
         <div id={PORTAL_ID} />
       </div>
@@ -106,13 +104,19 @@ export default React.memo(styled(Apps)`
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
+      border-radius: 0.25rem;
       color: var(--grey70);
       display: block;
-      padding: 0.75em 0.75em;
+      margin: 0 0 0.24rem;
+      padding: 0.5rem 0.5rem;
       white-space: nowrap;
 
+      i.icon {
+        float: right;
+      }
+
       &:hover {
-        background: var(--grey30);
+        background: var(--grey20);
         border-radius: var(--btn-radius-default);
         color: var(--grey80);
       }
@@ -123,9 +127,10 @@ export default React.memo(styled(Apps)`
       border-radius: 4px;
       /* border-bottom: 2px solid transparent; */
       color: var(--grey80);
+      font-weight: bold;
 
       &:hover {
-        background: var(--grey30);
+        background: var(--grey40);
         color: var(--grey80);
         /* margin-right: 0; */
       }
@@ -172,7 +177,7 @@ export default React.memo(styled(Apps)`
     text-align: left;
 
     .apps--SideBar-Scroll {
-      padding: 0 0.75rem;
+      padding: 1.5rem 1rem;
     }
   }
 

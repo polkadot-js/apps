@@ -21,14 +21,14 @@ type ModalType = React.FC<ModalProps> & {
 };
 
 function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
-  const { children, className = '', header, open = true } = props;
+  const { children, className = '', header, isOpen = true } = props;
 
   return (
     <SUIModal
       {...props}
       className={`theme--default ui--Modal ${className}`}
       header={undefined}
-      open={open}
+      open={isOpen}
     >
       {header && (
         <SUIModal.Header>{header}</SUIModal.Header>

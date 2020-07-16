@@ -28,6 +28,7 @@ function EditButton ({ children, className, icon = 'edit', onClick, size = 'smal
         <Button
           className='icon-button show-on-hover'
           icon={icon}
+          isIcon
           isPrimary
           size={size}
         />

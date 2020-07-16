@@ -1,0 +1,21 @@
+{
+  "Account ": "Account ",
+  "Add Existing Code Hash": "Add Existing Code Hash",
+  "Add an existing code hash.": "Add an existing code hash.",
+  "Code Hash": "Code Hash",
+  "Give your bundle a descriptive name": "Give your bundle a descriptive name",
+  "Save": "Save",
+  "Sign and submit to upload this code bundle on the chain.": "Sign and submit to upload this code bundle on the chain.",
+  "Specify the user account to use for this deployment. Any fees will be deducted from this account.": "Specify the user account to use for this deployment. Any fees will be deducted from this account.",
+  "The code hash for the on-chain deployed code.": "The code hash for the on-chain deployed code.",
+  "The code is not recognized as being in valid WASM format": "The code is not recognized as being in valid WASM format",
+  "The codeHash is not a valid hex hash": "The codeHash is not a valid hex hash",
+  "The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.": "The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.",
+  "Unable to find on-chain WASM code for the supplied codeHash": "Unable to find on-chain WASM code for the supplied codeHash",
+  "Upload": "Upload",
+  "Upload WASM Code Blob": "Upload WASM Code Blob",
+  "Upload Wasm Blob": "Upload Wasm Blob",
+  "Upload a new code hash.": "Upload a new code hash.",
+  "You can add a previously uploaded WASM blob here.": "You can add a previously uploaded WASM blob here.",
+  "You can upload an existing Wasm blob here. Already have a blob on chain? ": "You can upload an existing Wasm blob here. Already have a blob on chain? "
+}

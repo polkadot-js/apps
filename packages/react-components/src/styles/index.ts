@@ -10,15 +10,18 @@ import cssMedia from './media';
 import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
+import { ELEV_3_CSS } from './constants';
 
 interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#f19135'; // #999
+const defaultHighlight = '#2477B3'; // #999
 
 const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
+
+export * from './constants';
 
 export default createGlobalStyle<Props>`
   .ui--highlight--all {
@@ -64,43 +67,48 @@ export default createGlobalStyle<Props>`
     stroke: ${getHighlight} !important;
   }
 
-  .theme--default {
-    .ui.menu.tabular .item.active {
-      border-color: ${getHighlight} !important;
-    }
+  // .theme--default {
+  //   .ui.menu.tabular .item.active {
+  //     border-color: ${getHighlight} !important;
+  //   }
 
-    .ui.blue.progress > .bar {
-      background-color: ${getHighlight} !important;
-    }
+  //   .ui.blue.progress > .bar {
+  //     background-color: ${getHighlight} !important;
+  //   }
 
-    .ui.negative.button,
-    .ui.buttons .negative.button {
-      background: #FFF;
-    }
+  //   .ui.negative.button,
+  //   .ui.buttons .negative.button {
+  //     background: #FFF;
+  //   }
 
-    .ui.primary.button,
-    .ui.buttons .primary.button {
-      background: ${getHighlight};
+  //   .ui.primary.button,
+  //   .ui.buttons .primary.button {
+  //     background: ${getHighlight};
 
-      &.active,
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: ${getHighlight};
-      }
-    }
+  //     &.active,
+  //     &:active,
+  //     &:focus,
+  //     &:hover {
+  //       background-color: ${getHighlight};
+  //     }
+  //   }
 
-    .ui.toggle.checkbox {
-      input:checked~.box:before,
-      input:checked~label:before {
-        background-color: ${getHighlight} !important;
-      }
-    }
+  //   .ui.toggle.checkbox {
+  //     input:checked~.box:before,
+  //     input:checked~label:before {
+  //       background-color: ${getHighlight} !important;
+  //     }
+  //   }
+  // }
+
+  html {
+    font-size: 16px;
   }
 
   #root {
-    color: var(--grey20);
+    color: var(--grey90);
     font-family: var(--default-font-family, sans-serif);
+    font-size: 0.875rem;
     height: 100%;
   }
 
@@ -109,14 +117,14 @@ export default createGlobalStyle<Props>`
   }
 
   article {
-    background: white;
-    border: 1px solid #f2f2f2;
-    border-radius: 0.25rem;
-    box-sizing: border-box;
-    margin: 0.25rem;
-    padding: 1.25rem;
+    ${ELEV_3_CSS}
+    padding: 0.9rem;
     position: relative;
     text-align: left;
+
+    .ui.button.isIcon {
+      margin-left: 0.35rem;
+    }
 
     &:hover {
       /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
@@ -126,8 +134,8 @@ export default createGlobalStyle<Props>`
 
     &:not(:hover) {
       .ui.button:not(.disabled) {
-        background: #eee !important;
-        color: #555 !important;
+        background: transparent !important;
+        border-color: transparent !important;
       }
 
       .ui.toggle.checkbox {
@@ -179,6 +187,9 @@ export default createGlobalStyle<Props>`
   }
 
   body {
+    background: var(--background);
+    color: var(--grey60);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     height: 100%;
     margin: 0;
   }
@@ -210,14 +221,24 @@ export default createGlobalStyle<Props>`
     }
   }
 
+  footer {
+    margin: 2rem 0;
+    padding: 2rem 0 0;
+    border-top: 1px solid var(--grey20);
+
+    > article {
+      background: transparent;
+    }
+  }
+
   h1, h2, h3, h4, h5 {
-    color: var(--grey20);
+    color: var(--grey90);
     font-family: var(--default-font-family, sans-serif);
     font-weight: 300;
   }
 
   h1 {
-    text-transform: lowercase;
+    font-size: 1.8rem;
 
     em {
       font-style: normal;
@@ -230,8 +251,9 @@ export default createGlobalStyle<Props>`
   }
 
   header {
-    margin-bottom: 1.5rem;
-    text-align: center;
+    margin: 2rem 0;
+    padding: 0 0 2rem;
+    border-bottom: 1px solid var(--grey20);
 
     > article {
       background: transparent;
@@ -242,9 +264,13 @@ export default createGlobalStyle<Props>`
     height: 100%;
   }
 
+  input {
+    color: var(--grey90);
+  }
+
   label {
     box-sizing: border-box;
-    color: var(--grey20);
+    color: var(--grey90);
     display: block;
     font-family: var(--default-font-family, sans-serif);
     font-size: 1rem;
@@ -252,10 +278,13 @@ export default createGlobalStyle<Props>`
   }
 
   main {
-    min-height: 100vh;
+    margin: 0px auto;
+    max-width: 556px;
 
-    > section {
-      margin-bottom: 2em;
+    section {
+      > :not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
     }
   }
 

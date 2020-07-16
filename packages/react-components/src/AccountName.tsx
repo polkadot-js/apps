@@ -6,10 +6,9 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { BareProps } from '@polkadot/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
-import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
 import { useCall, useApi } from '@polkadot/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
@@ -141,7 +140,6 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
-  const toggleSidebar = useContext(AccountSidebarToggle);
 
   // set the actual nickname, local name, accountIndex, accountId
   useEffect((): void => {
@@ -163,24 +161,10 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
     }
   }, [api, defaultName, info, toggle, value]);
 
-  const _onNameEdit = useCallback(
-    () => setName(defaultOrAddr(defaultName, (value || '').toString())),
-    [defaultName, value]
-  );
-
-  const _onToggleSidebar = useCallback(
-    () => toggleSidebar && value && toggleSidebar([value.toString(), _onNameEdit]),
-    [_onNameEdit, toggleSidebar, value]
-  );
-
   return (
     <div
-      className={`ui--AccountName ${withSidebar ? 'withSidebar' : ''} ${className}`}
-      onClick={
-        withSidebar
-          ? _onToggleSidebar
-          : onClick
-      }
+      className={`ui--AccountName ${className}`}
+      onClick={onClick}
     >
       {label || ''}{override || name}{children}
     </div>

@@ -5,6 +5,7 @@
 export interface Option {
   info?: string;
   isHeader?: boolean;
+  shortText?: React.ReactNode;
   text: React.ReactNode;
   value: string | number;
 }

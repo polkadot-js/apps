@@ -14,11 +14,12 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-function Button ({ children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ as, children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex, to, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
     animate: 'fade',
     animated: isAnimated,
+    as,
     basic: isBasic,
     circular: isCircular,
     className: `${className} ${isIcon ? 'isIcon' : ''}`,
@@ -37,6 +38,7 @@ function Button ({ children, className = '', floated, icon, isAnimated, isBasic 
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
     size: size || (isIcon ? 'tiny' : undefined) || 'small',
+    to,
     tabIndex
   };
 
@@ -77,8 +79,8 @@ export default React.memo(styled(Button)`
 
   &.isIcon {
     background: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
 
     i.icon {
       margin: 0 0 0 0.25rem !important;

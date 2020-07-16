@@ -1,6 +1,7 @@
 [
   "app-accounts.json",
   "app-claims.json",
+  "app-contracts-old.json",
   "app-contracts.json",
   "app-council.json",
   "app-democracy.json",
@@ -17,6 +18,7 @@
   "app-tech-comm.json",
   "app-toolbox.json",
   "app-treasury.json",
+  "app-upload.json",
   "apps-config.json",
   "apps-routing.json",
   "apps.json",

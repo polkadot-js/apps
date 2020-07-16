@@ -23,11 +23,13 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
         className='icon'
         value={address}
       />
-      <div className='name'>
-        <AccountName value={address} />
-      </div>
-      <div className='address'>
-        {address}
+      <div className='info'>
+        <div className='name'>
+          <AccountName value={address} />
+        </div>
+        <div className='address'>
+          {address}
+        </div>
       </div>
     </div>
   );
@@ -40,32 +42,27 @@ export default React.memo(styled(KeyPair)`
   position: relative;
   white-space: nowrap;
 
-  > .address {
-    display: inline-block;
-    flex: 1;
-    font-family: monospace;
-    margin-left: 1rem;
-    opacity: 0.5;
-    overflow: hidden;
-    text-align: right;
-    text-overflow: ellipsis;
-  }
-
-  > .icon {
-    position: absolute;
-    top: -3px;
-    left: 0;
-  }
-
-  > .name {
-    display: inline-block;
+  > .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex: 1 0;
-    margin-left: 3rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding-left: 0.75rem;
 
-    &.uppercase {
-      text-transform: uppercase;
+    > .address {
+      font-family: monospace;
+      opacity: 0.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }  
+
+    > .name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+  
+      &.uppercase {
+        text-transform: uppercase;
+      }
     }
   }
 `);

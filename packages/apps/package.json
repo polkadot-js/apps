@@ -18,6 +18,7 @@
     "@polkadot/dev": "^0.55.9",
     "@polkadot/react-components": "0.45.0-beta.32",
     "@polkadot/react-signer": "0.45.0-beta.32",
+    "nanoid": "^3.1.10",
     "query-string": "^6.13.1"
   },
   "devDependencies": {

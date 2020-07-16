@@ -201,8 +201,8 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
           <i className='edit icon' />
         )}
         {icon}
-        {children}
       </SUIInput>
+      {children}
     </Labelled>
   );
 }

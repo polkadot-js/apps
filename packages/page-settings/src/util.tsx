@@ -25,15 +25,7 @@ export function createOption ({ info, isHeader, text, value }: Option, overrides
         className='ui--Dropdown-item'
         key={value}
       >
-        <ChainImg
-          className='ui--Dropdown-icon'
-          logo={
-            info && overrides.includes(info)
-              ? override
-              : info
-          }
-        />
-        <div className='ui--Dropdown-name'>{text}</div>
+        {text}
       </div>
     ),
     value

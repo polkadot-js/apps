@@ -14,6 +14,7 @@ interface Props extends BareProps {
   help?: React.ReactNode;
   isHidden?: boolean;
   isFull?: boolean;
+  isMonospace?: boolean;
   isOuter?: boolean;
   isSmall?: boolean;
   label?: React.ReactNode;
@@ -47,21 +48,22 @@ const Wrapper = styled.div`
     }
   }
 
-  &:not(.label-small) {
-    padding-left: 2rem;
+  &.label-monospace {
+    > .ui--Labelled-content {
+      font-family: monospace;
+    }
+  }
 
+  &:not(.label-small) {
     &:not(.label-outer) {
       > label,
       .labelExtra {
-        position: absolute;
+        color: var(--grey80);
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
         text-align: left;
-        top: 0.5rem;
         z-index: 1;
-      }
-
-      > label {
-        left: 3.55rem;
-        text-align: left;
       }
     }
 
@@ -82,15 +84,12 @@ const Wrapper = styled.div`
 
     > .ui--Labelled-content {
       box-sizing: border-box;
+      color: var(--grey70);
+      font-size: 0.875rem;
       flex: 1 1;
       min-width: 0;
 
       .ui.selection.dropdown {
-        &:not(.floating) {
-          padding-left: 1.45rem;
-          padding-top: 1.75rem;
-        }
-
         &.floating {
           > .dropdown.icon {
             top: 1.25rem;
@@ -102,47 +101,38 @@ const Wrapper = styled.div`
         }
 
         &.search:not(.multiple) > input.search {
-          padding-left: 1.45rem;
-          padding-top: 1.75rem;
+          height: 100%;
+          // padding-left: 1.45rem;
+          // padding-top: 1.75rem;
         }
 
-        > .delete.icon,
-        > .dropdown.icon,
-        > .search.icon {
-          top: 1.75rem;
-        }
+        // > .delete.icon,
+        // > .dropdown.icon,
+        // > .search.icon {
+        //   top: 1.75rem;
+        // }
       }
 
       .ui.input > input,
       .ui--output {
-        padding-left: 1.45rem;
-        padding-top: 1.75rem;
-      }
-
-      .ui--InputFile,
-      .ui--Messages {
-        padding-left: 1.45rem;
-        padding-top: 2rem;
-      }
-
-      .ui--Messages {
-        padding-bottom: 2rem;
+        // padding-left: 1.45rem;
+        // padding-top: 1.75rem;
       }
     }
   }
 `;
 
-function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, help, isFull, isHidden, isMonospace, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
     return (
-      <div className={className}>{children}</div>
+      <Wrapper className={classes('ui--Labelled', className)}>{children}</Wrapper>
     );
   }
 
   return (
-    <Wrapper className={classes('ui--Labelled', isSmall && 'label-small', isFull && 'label-full', isOuter && 'label-outer', className)}>
+    <Wrapper className={classes('ui--Labelled', isSmall && 'label-small', isFull && 'label-full', isMonospace && 'label-monospace', isOuter && 'label-outer', className)}>
       <label>
         {
           withEllipsis

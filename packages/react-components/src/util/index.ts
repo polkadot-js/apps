@@ -11,3 +11,5 @@ export { default as isTreasuryProposalVote } from './isTreasuryProposalVote';
 export { default as timeToString } from './timeToString';
 export { default as toAddress } from './toAddress';
 export { default as toShortAddress } from './toShortAddress';
+export { default as truncate } from './truncate';
+export { default as useEndpointOptions } from './useEndpointOptions';
