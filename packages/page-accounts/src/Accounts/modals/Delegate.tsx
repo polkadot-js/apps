@@ -29,7 +29,8 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
   const [amount, setAmount] = useState<BN | undefined>(previousAmount);
   const [delegatingAccount, setDelegatingAccount] = useState<string | null>(previousDelegatingAccount || null);
   const [delegatedAccount, setDelegatedAccount] = useState<string | null>(previousDelegatedAccount || null);
-  const [conviction, setConviction] = useState(previousConviction?.toNumber() || 1);
+  const defaultConviction = previousConviction === undefined ? 1 : previousConviction.toNumber();
+  const [conviction, setConviction] = useState(defaultConviction);
 
   const isDirty = amount?.toString() !== previousAmount?.toString() ||
     delegatedAccount !== previousDelegatedAccount ||
