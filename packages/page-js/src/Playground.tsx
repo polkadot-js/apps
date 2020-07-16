@@ -299,7 +299,7 @@ export default React.memo(styled(Playground)`
 
     .action-button {
       position: absolute;
-      right: 0.25rem;
+      right: 0.5rem;
       top: 0.5rem;
       z-index: 100;
     }

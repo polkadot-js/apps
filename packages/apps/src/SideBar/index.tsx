@@ -6,7 +6,7 @@ import { Routes } from '@polkadot/apps-routing/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Responsive } from 'semantic-ui-react';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 
