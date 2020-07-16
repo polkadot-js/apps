@@ -7,7 +7,7 @@ import { ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Badge, Icon, Toggle } from '@polkadot/react-components';
+import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -125,8 +125,7 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
       <td className='number together'>{!rewardPayout.isZero() && <FormatBalance value={rewardPayout} />}</td>
       <td>
         {(canSelect || isSelected) && (
-          <Toggle
-            asSwitch={false}
+          <Checkbox
             onChange={_toggleSelected}
             value={isSelected}
           />
