@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { Voting } from '@polkadot/types/interfaces';
+import { AccountId, ProxyType, Voting } from '@polkadot/types/interfaces';
 import { Delegation, SortedAccount } from '../types';
 
 import BN from 'bn.js';
@@ -20,7 +20,7 @@ import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
 import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
-import Proxy from './modals/ProxyAdd';
+import Proxy from './modals/ProxiedAdd';
 import Qr from './modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
@@ -73,6 +73,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
+  const proxies = useCall<[[AccountId, ProxyType][], BN][]>(api.query.proxy.proxies.multi, [sortedAddresses]);
 
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
@@ -238,13 +239,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         footer={footer}
         header={header}
       >
-        {sortedAccountsWithDelegation.map(({ account, delegation, isFavorite }): React.ReactNode => (
+        {sortedAccountsWithDelegation.map(({ account, delegation, isFavorite }, index): React.ReactNode => (
           <Account
             account={account}
             delegation={delegation}
             filter={filterOn}
             isFavorite={isFavorite}
             key={account.address}
+            proxy={proxies?.[index]}
             setBalance={_setBalance}
             toggleFavorite={toggleFavorite}
           />
