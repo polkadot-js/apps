@@ -115,6 +115,10 @@ function fromDef ({ displayName, info, sub, type }: TypeDef): string {
         : 'Vec';
 
     case TypeDefInfo.VecFixed:
+      if ((sub as TypeDef).type === 'u8') {
+        return type;
+      }
+
       return 'VecFixed';
 
     default:
