@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId } from '@polkadot/types/interfaces';
 import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
+import { AccountId } from '@polkadot/types/interfaces';
+import { CodecArg } from '@polkadot/types/types';
 import { CodeStored } from './types';
 
 import BN from 'bn.js';
@@ -73,38 +74,29 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
         return [];
       }
 
-      return contractAbi.abi.contract.constructors.map(
-        (constr, index) => {
-          return {
-            key: `${index}`,
-            text: (
-              <MessageSignature
-                asConstructor
-                message={constr}
-              />
-            ),
-            value: `${index}`
-          };
-        });
+      return contractAbi.abi.contract.constructors.map((message, index) => ({
+        key: `${index}`,
+        text: (
+          <MessageSignature
+            asConstructor
+            message={message}
+          />
+        ),
+        value: `${index}`
+      }));
     },
     [contractAbi]
   );
 
-  const [params, setParams] = useState<any[]>(
-    contractAbi && constructorIndex >= 0 ? contractAbi.abi.contract.constructors[constructorIndex].args : []
-  );
+  const [params, setParams] = useState<unknown[]>(contractAbi && constructorIndex >= 0 ? contractAbi.abi.contract.constructors[constructorIndex].args : []);
 
   useEffect(
-    (): void => {
-      setParams(contractAbi ? contractAbi.abi.contract.constructors[constructorIndex].args : []);
-    },
+    () => setParams(contractAbi ? contractAbi.abi.contract.constructors[constructorIndex].args : []),
     [constructorIndex, contractAbi]
   );
 
   useEffect(
-    (): void => {
-      setName(t(defaultContractName(code.json.name)));
-    },
+    () => setName(t(defaultContractName(code.json.name))),
     [code, setName, t]
   );
 
@@ -114,7 +106,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
         return [];
       }
 
-      return [endowment, weight, codeHash, contractAbi.constructors[constructorIndex](...params)];
+      return [endowment, weight, codeHash, contractAbi.constructors[constructorIndex](...(params as CodecArg[]))];
     },
     [codeHash, constructorIndex, contractAbi, endowment, params, weight]
   );

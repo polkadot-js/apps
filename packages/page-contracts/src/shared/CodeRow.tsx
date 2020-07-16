@@ -51,10 +51,9 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
 
   const _onSaveTags = useCallback(
     (): void => {
-      if (codeHash) {
-        contracts.saveCode(createType(registry, 'Hash', codeHash), { tags })
-          .catch((e): void => console.error(e));
-      }
+      codeHash && contracts
+        .saveCode(createType(registry, 'Hash', codeHash), { tags })
+        .catch((e): void => console.error(e));
     },
     [codeHash, tags]
   );
