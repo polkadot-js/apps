@@ -10,19 +10,25 @@ export const colorBtnHighlight = '#2477B3';
 export default css`
   :root {
     /* colors */
+    --background: #11161A;
+
     --blue-primary: #2477B3;
     --blue-secondary: #195580;
     --green-primary: #16DB9A;
-    --red-primary: #F54E4E;
+    --red-primary: #bc0000;
+    --red-secondary: #431818;
 
     --grey00: #000;
     --grey10: #151B1F;
-    --grey15: #202B33;
-    --grey20: #2B3840; /* header text */
-    --grey30: #33434D;
+    --grey15: #1C2429;
+    --grey20: #202B33; /* header text */
+    --grey30: #2B3840;
+    --grey40: #33434D;
     --grey50: #777B80;
-    --grey70: #A0A2A3;
+    --grey60: #A0A2A3;
+    --grey70: #C6CACC;
     --grey80: #DFE2E6;
+    --grey90: #E0E1E1;
 
     --white: #FFF;
 
@@ -45,19 +51,29 @@ export default css`
 
     .ui.button,
     .ui.buttons .button {
-      background-color: var(--white);
-      border: 1px solid var(--grey80);
-      color: var(--grey50);
-      font-family: var(--default-font-family, sans-serif);
-      font-weight: 500;
+      background-color: transparent;
+      color: var(--white);
 
-      &.active,
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: var(--white);
-        border: 1px solid var(--blue-primary);
-        color: var(--blue-primary);
+      &:not(.isIcon) {
+        border-color: var(--grey30);
+        border-width: 2px;
+        border-style: solid;  
+    
+        &:focus,
+        &:hover {
+          border-color: var(--blue-secondary);
+        }
+          
+        &.primary {
+          background-color: var(--blue-primary);
+          border-color: var(--blue-primary);
+
+          &:focus,
+          &:hover {
+            background-color: var(--blue-secondary);
+            border-color: var(--blue-secondary);
+          }  
+        }
       }
 
       /* &:hover {
@@ -74,7 +90,7 @@ export default css`
     .ui.small.button,
     .ui.small.buttons .button,
     .ui.small.buttons .or {
-      font-size: 14px;
+      font-size: 0.875ren;
     }
 
     .ui.basic.negative.button {
@@ -89,8 +105,7 @@ export default css`
       &:active,
       &:focus,
       &:hover {
-        background-color: var(--red-primary);
-        border: 1px solid var(--red-primary);
+        border-color: var(--red-primary);
         color: white;
       }
     }
@@ -114,7 +129,7 @@ export default css`
 
     &.ui.modal > .header:not(.ui),
     .ui.modal > .header:not(.ui) {
-      color: var(--grey20);
+      color: var(--grey90);
       font-weight: 300;
     }
 
@@ -140,11 +155,7 @@ export default css`
     }
 
     .ui.input>input {
-      color: var(--grey20);
-    }
-
-    .ui.selection.dropdown {
-      border-color: var(--grey80);
+      color: var(--grey90);
     }
   }
 `;

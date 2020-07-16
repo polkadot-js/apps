@@ -3,30 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { TabItem } from '@polkadot/react-components/Tabs';
 import { ComponentProps } from './types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { useAccounts, useContracts, useToggle } from '@polkadot/react-hooks';
+import { useHistory } from 'react-router-dom';
+import store from '@polkadot/apps/store';
 
-import introMd from './md/intro.md';
-import store from './store';
-import Contracts from './Contracts';
 import Codes from './Codes';
-import Deploy from './Deploy';
-import { useTranslation } from './translate';
+import New from './New'
 
-function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
-  const { allContracts } = useContracts();
-  const [codeHash, setCodeHash] = useState<string | undefined>();
-  const [constructorIndex, setConstructorIndex] = useState(0);
-  const [isDeployOpen, toggleIsDeployOpen, setIsDeployOpen] = useToggle();
+function DeployApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
   const [updated, setUpdated] = useState(0);
-
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
   const _triggerUpdate = useCallback(
@@ -37,28 +25,21 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
     []
   );
 
-  const _onShowDeploy = useCallback(
-    (codeHash?: string, constructorIndex = 0): () => void =>
-      (): void => {
-        setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
-        setConstructorIndex(constructorIndex);
-        toggleIsDeployOpen();
-      },
-    [allCodes, toggleIsDeployOpen]
-  );
-
   const componentProps = useMemo(
     (): ComponentProps => ({
-      accounts: allAccounts,
+      allCodes,
       basePath,
-      contracts: allContracts,
-      hasCode: store.hasCode,
-      onShowDeploy: _onShowDeploy,
-      onStatusChange,
+      hasCodes: allCodes?.length > 0,
+      navigateTo,
       updated
     }),
-    [allAccounts, allContracts, basePath, _onShowDeploy, onStatusChange, updated]
+    [allCodes, navigateTo, basePath, updated]
   );
+
+  // const componentProps = useMemo(
+  //   (): ComponentProps => ({ allCodes: basePath, ...appNavigation }),
+  //   [basePath, appNavigation]
+  // );
 
   useEffect(
     (): void => {
@@ -71,56 +52,21 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
           // noop, handled internally
         });
     },
-    [_triggerUpdate]
+    []
   );
 
-  const hidden: string[] = [];
-
-  const _onCloseDeploy = (): void => setIsDeployOpen(false);
-
   return (
-    <main className='contracts--App'>
-      <HelpOverlay md={introMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={hidden}
-          items={[
-            {
-              name: 'code',
-              text: 'Code'
-            },
-            {
-              isRoot: true,
-              name: 'contracts',
-              text: 'Contracts'
-            }
-          ].map((tab): TabItem => ({ ...tab, text: t(tab.text) }))
-          }
-        />
-      </header>
+    <main className='deploy--App'>
       <Switch>
-        <Route path={`${basePath}/code`}>
-          <Codes {...componentProps} />
+        <Route path={`${basePath}/new/:id?/:index?`}>
+          <New {...componentProps} />
         </Route>
         <Route exact>
-          <Contracts {...componentProps} />
+          <Codes {...componentProps} />
         </Route>
       </Switch>
-      {codeHash && (
-        <Deploy
-          allCodes={allCodes}
-          basePath={basePath}
-          codeHash={codeHash}
-          constructorIndex={constructorIndex}
-          isOpen={isDeployOpen}
-          onClose={_onCloseDeploy}
-          setCodeHash={setCodeHash}
-          setConstructorIndex={setConstructorIndex}
-        />
-      )}
     </main>
   );
 }
 
-export default React.memo(ContractsApp);
+export default React.memo(DeployApp);

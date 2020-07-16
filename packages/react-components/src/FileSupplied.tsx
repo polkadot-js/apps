@@ -7,7 +7,7 @@ import { BareProps } from './types';
 import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
 
-import { ACCENT_LIGHT_HEX, ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './styles/constants';
+import { ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './styles/constants';
 import Icon from './Icon';
 import { classes } from './util';
 
@@ -58,22 +58,23 @@ export default React.memo(styled(FileSupplied)`
     padding-left: 0.75rem;
 
     .error {
-      color: ${ERROR_FOCUS_HEX};
+      color: --var(red-secondary);
       font-size: 0.9rem;
       line-height: 0.9rem;
     }
   }
 
   i.icon.file-supplied {
-    color: ${ACCENT_LIGHT_HEX};
+    color: var(--blue-primary);
   }
 
   i.icon.file-remove {
+    color: var(--grey70);
     cursor: pointer;
     height: 100%;
 
     &:hover {
-      color: ${HIGH_EMPH_HEX};
+      color: var(--grey90);
     }
   }
 

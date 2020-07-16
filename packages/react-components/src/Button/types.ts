@@ -8,6 +8,7 @@ import { BareProps } from '../types';
 export type Button$Callback = () => void | Promise<void>;
 
 export interface ButtonProps extends BareProps {
+  as?: SUIButtonProps['as'];
   floated?: 'left' | 'right';
   icon?: string;
   isAnimated?: SUIButtonProps['animated'];
@@ -28,6 +29,7 @@ export interface ButtonProps extends BareProps {
   ref?: any;
   size?: SUIButtonProps['size'];
   tabIndex?: number;
+  to?: string;
   tooltip?: React.ReactNode;
 }
 

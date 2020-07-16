@@ -32,7 +32,7 @@ export default css`
   }
 
   .ui--Button-Group .button {
-    border-radius: .28571429rem !important;
+    border-radius: 0.1875rem !important;
   }
 
   header .ui--Button-Group {
@@ -46,10 +46,10 @@ export default css`
   button.ui.icon.icon-button {
     padding-top: 0;
     padding-right: 0;
-    padding-bottom: 0.3em;
-    padding-left: 0.3em;
-    color: #2e86ab  !important;
-    background: none  !important;
+    padding-bottom: 0;
+    padding-left: 0;
+    color: var(--blue-primary) !important;
+    background: none !important;
   }
 
   .editable {

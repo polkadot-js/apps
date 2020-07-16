@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StringOrNull } from '@polkadot/react-components/types';
+import { CodeStored } from '@polkadot/apps/types';
+import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
+import { FileState } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
 import { Abi } from '@polkadot/api-contract';
@@ -19,32 +21,37 @@ interface UseAbi {
   isAbiError: boolean;
   isAbiValid: boolean;
   isAbiSupplied: boolean;
-  onChangeAbi: (u8a: Uint8Array) => void;
-  onRemoveAbi: () => void;
+  onChangeAbi: (_: FileState) => void;
+  onRemoveAbi: VoidFn;
 }
+
+type State = [StringOrNull, Abi | null, boolean, boolean];
 
 interface ContractABIOutdated {
   deploy?: any;
   messages?: any;
 }
 
-export default function useAbi (initialValue: [string | null, Abi | null] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
+export default function useAbi (source: CodeStored | null = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
-  const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
+  const initialState: State = !!source
+    ? [source.json.abi || null, source.contractAbi || null, !!source.contractAbi, !isRequired || !!source.contractAbi]
+    : [null, null, false, false];
+  const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>(initialState);
   const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
 
   useEffect(
     (): void => {
-      if (!!initialValue[0] && abi !== initialValue[0]) {
-        setAbi([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
+      if (!!source?.json?.abi && abi !== source.json.abi) {
+        setAbi([source.json.abi, source.contractAbi, !!source.contractAbi, !isRequired || !!source.contractAbi]);
       }
     },
-    [abi, initialValue, isRequired]
+    [abi, source, isRequired]
   );
 
   const onChangeAbi = useCallback(
-    (u8a: Uint8Array): void => {
-      const json = u8aToString(u8a);
+    ({ data }: FileState): void => {
+      const json = u8aToString(data);
 
       try {
         const abiOutdated = JSON.parse(json) as ContractABIOutdated;
@@ -54,9 +61,9 @@ export default function useAbi (initialValue: [string | null, Abi | null] = [nul
         }
 
         setAbi([json, new Abi(registry, JSON.parse(json)), true, true]);
-        codeHash && store.saveCode(
-          codeHash,
-          { abi: json }
+        source?.id && store.saveCode(
+          { abi: json },
+          source.id
         );
       } catch (error) {
         console.error(error);
@@ -65,7 +72,7 @@ export default function useAbi (initialValue: [string | null, Abi | null] = [nul
         setError([true, error]);
       }
     },
-    [codeHash, t]
+    [source, t]
   );
 
   const onRemoveAbi = useCallback(
@@ -73,12 +80,12 @@ export default function useAbi (initialValue: [string | null, Abi | null] = [nul
       setAbi([null, null, false, false]);
       setError([false, null]);
 
-      codeHash && store.saveCode(
-        codeHash,
-        { abi: null }
+      source?.id && store.saveCode(
+        { abi: null },
+        source?.id
       );
     },
-    [codeHash]
+    [source]
   );
 
   return {

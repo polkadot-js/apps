@@ -11,9 +11,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     Component,
     display: {
       needsAccounts: true,
-      needsApi: [
-        'tx.contracts.putCode'
-      ]
+      needsApi: []
     },
     name: 'upload',
     text: t<string>('nav.upload', 'Upload', { ns: 'apps-upload' })

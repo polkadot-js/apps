@@ -13,7 +13,6 @@ import { classes } from '@polkadot/react-components/util';
 import { ELEV_3_CSS } from './styles/constants';
 import Button from './Button';
 import Expander from './Expander';
-import IconLink from './IconLink';
 import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
 
@@ -165,6 +164,10 @@ export default React.memo(styled(Messages)`
     padding: 0.5rem;
     transition: all 0.2s;
     width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
 
     &.constructor {
     }

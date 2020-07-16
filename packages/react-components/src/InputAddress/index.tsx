@@ -300,7 +300,9 @@ const ExportedComponent = withMulti(
     }
 
     .ui.search.selection.dropdown {
-      height: 4.25rem;
+      &:not(.disabled) {
+        height: 4.25rem;
+      }
 
       > .text > .ui--KeyPair {
         .ui--IdentityIcon-Outer {

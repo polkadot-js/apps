@@ -14,6 +14,7 @@ interface Props extends BareProps {
   help?: React.ReactNode;
   isHidden?: boolean;
   isFull?: boolean;
+  isMonospace?: boolean;
   isOuter?: boolean;
   isSmall?: boolean;
   label?: React.ReactNode;
@@ -31,10 +32,6 @@ const Wrapper = styled.div`
   display: block;
   position: relative;
 
-  &:not(:last-child) {
-    margin-bottom: 1.5rem;
-  }
-
   .withEllipsis {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -51,10 +48,19 @@ const Wrapper = styled.div`
     }
   }
 
+  &.label-monospace {
+    > .ui--Labelled-content {
+      font-family: monospace;
+    }
+  }
+
   &:not(.label-small) {
     &:not(.label-outer) {
       > label,
       .labelExtra {
+        color: var(--grey80);
+        font-size: 0.875rem;
+        font-weight: 600;
         margin-bottom: 0.75rem;
         text-align: left;
         z-index: 1;
@@ -78,6 +84,8 @@ const Wrapper = styled.div`
 
     > .ui--Labelled-content {
       box-sizing: border-box;
+      color: var(--grey70);
+      font-size: 0.875rem;
       flex: 1 1;
       min-width: 0;
 
@@ -98,11 +106,11 @@ const Wrapper = styled.div`
           // padding-top: 1.75rem;
         }
 
-        > .delete.icon,
-        > .dropdown.icon,
-        > .search.icon {
-          top: 1.75rem;
-        }
+        // > .delete.icon,
+        // > .dropdown.icon,
+        // > .search.icon {
+        //   top: 1.75rem;
+        // }
       }
 
       .ui.input > input,
@@ -110,25 +118,21 @@ const Wrapper = styled.div`
         // padding-left: 1.45rem;
         // padding-top: 1.75rem;
       }
-
-      .ui--Messages {
-        padding-bottom: 2rem;
-      }
     }
   }
 `;
 
-function Labelled ({ className = '', children, help, isFull, isHidden, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, help, isFull, isHidden, isMonospace, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
   } else if (!withLabel) {
     return (
-      <div className={className}>{children}</div>
+      <Wrapper className={classes('ui--Labelled', className)}>{children}</Wrapper>
     );
   }
 
   return (
-    <Wrapper className={classes('ui--Labelled', isSmall && 'label-small', isFull && 'label-full', isOuter && 'label-outer', className)}>
+    <Wrapper className={classes('ui--Labelled', isSmall && 'label-small', isFull && 'label-full', isMonospace && 'label-monospace', isOuter && 'label-outer', className)}>
       <label>
         {
           withEllipsis

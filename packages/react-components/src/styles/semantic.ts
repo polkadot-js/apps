@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
-import { ELEV_0_CSS, ELEV_1_CSS, ELEV_2_CSS, ELEV_3_CSS, ELEV_4_CSS, ACCENT_LIGHT_HEX, ACCENT_DARK_HEX, ERROR_BG_HEX, ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './constants';
+import { ELEV_1_CSS, ELEV_2_CSS, ELEV_3_CSS, ERROR_BG_HEX, ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './constants';
 
 export default css`
   .ui.hidden.divider {
@@ -11,10 +11,31 @@ export default css`
   }
 
   .ui.button {
-    border-radius: 3px;
-    padding: 0.5rem 0.8rem;
-    font-size: 1rem !important;
+    border-radius: 0.1875rem;
+    font-family: var(--default-font-family, sans-serif);
     font-weight: normal;
+    padding: 0.375rem 0.75rem;
+    font-weight: normal;
+  }
+
+  .ui.checkbox {
+    + label {
+      &, &:hover {
+        color: var(--grey50);
+      }
+    }
+
+    &.toggle .box:hover::before, &.toggle label:hover::before {
+      background: var(--grey30);
+    }
+
+    &.toggle .box:before, &.toggle label:before {
+      background: var(--grey30);
+    }
+
+    &.toggle input:focus~.box:before, &.toggle input:focus~label:before {
+      background: var(--grey30);
+    }
   }
 
   .ui.dropdown {
@@ -30,12 +51,12 @@ export default css`
 
   .ui.input {
     > input, > input:focus {
-      color: ${HIGH_EMPH_HEX};
-      ${ELEV_3_CSS}
+      color: var(--grey90);
+      ${ELEV_2_CSS}
     }
 
     > input:focus {
-      border: 1px solid ${ACCENT_LIGHT_HEX};
+      border: 1px solid var(--blue-primary);
     }
 
     &.error {
@@ -47,14 +68,14 @@ export default css`
   }
 
   .ui.selection.dropdown {
-    ${ELEV_3_CSS}
-    color: ${HIGH_EMPH_HEX};
+    ${ELEV_2_CSS}
+    color: var(--grey90);
+    border: 1px solid var(--grey20); 
   }
 
   .ui.dropdown {
     &.disabled {
-      background: transparent;
-      border-style: dashed;
+      color: var(--grey50);
       opacity: 1;
 
       .dropdown.icon {
@@ -67,7 +88,11 @@ export default css`
     }
 
     .menu {
-      ${ELEV_3_CSS}
+      ${ELEV_1_CSS}
+
+      > .message:not(.ui) {
+        color: inherit;
+      }
     }
   }
 
@@ -85,38 +110,38 @@ export default css`
   }
 
   .ui.dropdown .menu > .header {
-    color: ${HIGH_EMPH_HEX};
+    color: var(--grey90);
   }
 
   .ui.selection.active.dropdown {
-    border-color: ${ACCENT_LIGHT_HEX};
-  }
+    &, &:hover {
+      border-color: var(--blue-primary);
 
-  .ui.selection.active.dropdown .menu {
-    border-color: ${ACCENT_LIGHT_HEX};
-
-    &:hover {
-      border-color: ${ACCENT_LIGHT_HEX}
+      .menu {
+        &, &:hover {
+          border-color: var(--blue-primary);
+        }
+      }
     }
   }
 
   .ui.selection.visible.dropdown>.text:not(.default) {
-    color: ${HIGH_EMPH_HEX};
+    color: var(--grey90);
   }
 
   .ui.selection.dropdown .menu > .item {
     &, &:hover {
       border-top: 0;
-      color: ${HIGH_EMPH_HEX};
+      color: var(--grey90);
     }
 
     &:hover {
-      ${ELEV_1_CSS}
+      ${ELEV_3_CSS}
     }
   }
 
   .ui.dropdown .menu .selected.item {
-    color: ${HIGH_EMPH_HEX};
+    color: var(--grey90);
   }
 
   // .ui.dropdown .menu > .item.header.disabled:hover,
@@ -166,10 +191,10 @@ export default css`
   }
 
   .ui.modal {
-    background: #fff;
+    ${ELEV_3_CSS}
     box-shadow: none;
-    /* color: var(--grey20); */
     font-family: var(--default-font-family, sans-serif);;
+    max-width: 572px;
 
     > .actions,
     > .content {
@@ -179,20 +204,18 @@ export default css`
     > .actions {
       border-top: none;
       text-align: right;
-      padding: 1rem !important;
+      padding: 0 1.5rem 1.5rem;
     }
 
     /* approx h1, color, size, font */
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: rgba(0, 0, 0, .6);
       font-family: var(--default-font-family, sans-serif);;
-      font-size: 1.75rem;
-      font-weight: 100;
+      font-size: 1.5rem;
+      font-weight: normal;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
-      text-transform: lowercase;
 
       > label {
         margin-top: 0.5rem;
@@ -282,5 +305,9 @@ export default css`
   /* remove the default white background, settings app has it as part of Tab */
   .ui.segment {
     background: transparent;
+  }
+
+  .ui.vertical.menu {
+    width: 100%;
   }
 `;

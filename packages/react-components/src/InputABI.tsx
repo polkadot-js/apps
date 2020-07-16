@@ -3,20 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps } from '@polkadot/react-components/types';
+import { FileState } from '@polkadot/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 
 import InputFile from './InputFile';
-import Labelled from './Labelled';
 import Messages from './Messages';
-import { ELEV_2_CSS } from './styles/constants';
 import { useTranslation } from './translate';
 
 interface Props extends BareProps {
   contractAbi?: Abi | null;
   errorText?: string | null;
+  file: FileState | null;
   isContract?: boolean;
   isError?: boolean;
   isDisabled?: boolean;
@@ -24,11 +24,11 @@ interface Props extends BareProps {
   isValid?: boolean;
   isSupplied?: boolean;
   label?: React.ReactNode;
-  onChange: (u8a: Uint8Array) => void;
   onRemove?: () => void;
   onRemoved?: () => void;
   onSelect?: () => void;
   onSelectConstructor?: (constructorIndex?: number) => void;
+  setFile: React.Dispatch<FileState | null>;
   withLabel?: boolean;
 }
 
@@ -46,7 +46,7 @@ function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructo
 }
 
 function InputABI (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi, errorText, isContract = false, isDisabled, isError, isSupplied, isValid, onChange, onRemove, withLabel } = props;
+  const { className, contractAbi, errorText, file, isContract = false, isDisabled, isError, isSupplied, isValid, setFile, withLabel } = props;
   const { t } = useTranslation();
 
   const help = isContract
@@ -67,56 +67,13 @@ function InputABI (props: Props): React.ReactElement<Props> {
       isDisabled={isDisabled}
       isError={isError}
       label={label}
-      onChange={onChange}
-      onRemove={onRemove}
+      onChange={setFile}
+      value={file}
+      withLabel={withLabel}
     >
       {(contractAbi && isValid) ? renderMessages(props) : null}
     </InputFile>
   );
-
-  // return (
-  //   <div className={className}>
-  //     {
-  //       (contractAbi && isValid)
-  //         ? (
-  //           withLabel
-  //             ? (
-  //               <Labelled
-  //                 help={help}
-  //                 label={label}
-  //               >
-  //                 {renderMessages(props)}
-  //               </Labelled>
-  //             )
-  //             : renderMessages(props)
-  //         )
-  //         : (
-  //           <InputFile
-  //             help={help}
-  //             isDisabled={isDisabled}
-  //             isError={isError}
-  //             label={label}
-  //             onChange={onChange}
-  //             placeholder={
-  //               isSupplied && !isValid
-  //                 ? (
-  //                   <>
-  //                     {t<string>('invalid ABI file selected')}
-  //                     {!!errorText && (
-  //                       <>
-  //                         {' — '}
-  //                         {t<string>(errorText)}
-  //                       </>
-  //                     )}
-  //                   </>
-  //                 )
-  //                 : t<string>('click to select or drag and drop a JSON ABI file')
-  //             }
-  //           />
-  //         )
-  //     }
-  //   </div>
-  // );
 }
 
 export default React.memo(

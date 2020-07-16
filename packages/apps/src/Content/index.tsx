@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import useAppNavigation from './useAppNavigation';
 
 import Status from './Status';
 import { useTranslation } from '../translate';
@@ -33,6 +34,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
+  const navigateTo = useAppNavigation();
   const { queueAction, stqueue, txqueue } = useContext(StatusContext);
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
@@ -57,6 +59,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
             <Suspense fallback='...'>
               <ErrorBoundary trigger={name}>
                 <Component
+                  navigateTo={navigateTo}
                   basePath={`/${name}`}
                   location={location}
                   onStatusChange={queueAction}

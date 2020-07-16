@@ -23,6 +23,7 @@ export interface CodeJson {
 }
 
 export interface CodeStored {
+  id: string;
   json: CodeJson;
   contractAbi?: Abi;
 }

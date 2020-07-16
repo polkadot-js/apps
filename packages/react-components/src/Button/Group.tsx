@@ -22,8 +22,6 @@ function ButtonGroup ({ children, className = '', isBasic, isCentered }: GroupPr
 }
 
 export default React.memo(styled(ButtonGroup)`
-  text-align: right;
-
   :not(:first-child) {
     margin-top: 0.75rem;
   }

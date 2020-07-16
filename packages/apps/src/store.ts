@@ -7,12 +7,17 @@ import { Hash } from '@polkadot/types/interfaces';
 import { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
+import { nanoid } from 'nanoid';
 import store from 'store';
 import { Abi } from '@polkadot/api-contract';
 import { api, registry } from '@polkadot/react-api';
 import { createType } from '@polkadot/types';
 
 const KEY_CODE = 'code:';
+
+function newId (): string {
+  return nanoid(6);
+}
 
 class Store extends EventEmitter {
   private allCode: Record<string, CodeStored> = {};
@@ -25,33 +30,44 @@ class Store extends EventEmitter {
     return Object.values(this.allCode);
   }
 
-  public getCode (codeHash: string): CodeStored {
-    return this.allCode[codeHash];
+  public getCode (id: string): CodeStored {
+    return this.allCode[id];
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public async saveCode (codeHash: string | Hash, partial: Partial<CodeJson>): Promise<void> {
-    const hex = (typeof codeHash === 'string' ? createType(registry, 'Hash', codeHash) : codeHash).toHex();
+  // public getCodeFromHash (codeHash: string): CodeStored {
+  //   return this.allCode[shortId(codeHash)];
+  // }
 
-    const existing = this.getCode(hex);
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async saveCode (code: Pick<CodeJson, never>, anId?: string): Promise<string> {
+    const id = anId || newId();
+    const existing = anId ? this.getCode(anId) : null;
 
     const json = {
       ...(existing ? existing.json : {}),
-      ...partial,
-      codeHash: hex,
+      ...code,
       genesisHash: api.genesisHash.toHex()
     };
 
-    store.set(`${KEY_CODE}${json.codeHash}`, json);
+    store.set(`${KEY_CODE}${id || newId()}`, json);
 
-    this.addCode(json as CodeJson);
+    this.addCode(id, json as CodeJson);
+
+    return id;
   }
 
-  public forgetCode (codeHash: string): void {
-    store.remove(`${KEY_CODE}${codeHash}`);
+  public forgetCode (id: string): void {
+    store.remove(`${KEY_CODE}${id}`);
 
-    this.removeCode(codeHash);
+    this.removeCode(id);
   }
+
+  // public forgetCodeByHash (codeHash: string): void {
+  //   const id = shortId(codeHash);
+  
+  //   store.remove(`${KEY_CODE}${id}`);
+  //   this.removeCode(id);
+  // }
 
   public async loadAll (): Promise<void> {
     try {
@@ -65,7 +81,7 @@ class Store extends EventEmitter {
         }
 
         if (key.startsWith(KEY_CODE)) {
-          this.addCode(json);
+          this.addCode(key.split(':')[1], json);
         }
       });
     } catch (error) {
@@ -73,18 +89,21 @@ class Store extends EventEmitter {
     }
   }
 
-  private addCode (json: CodeJson): void {
+  private addCode (id: string, json: CodeJson): void {
     try {
       const abi = json.abi
         ? JSON.parse(json.abi) as ContractABIPre
         : null;
 
-      this.allCode[json.codeHash] = {
+      this.allCode[id] = {
         contractAbi: abi
           ? new Abi(registry, abi)
           : undefined,
+        id,
         json
       };
+
+      console.log(this.allCode);
 
       this.emit('new-code');
     } catch (error) {
@@ -92,9 +111,9 @@ class Store extends EventEmitter {
     }
   }
 
-  private removeCode (codeHash: string): void {
+  private removeCode (id: string): void {
     try {
-      delete this.allCode[codeHash];
+      delete this.allCode[id];
       this.emit('removed-code');
     } catch (error) {
       console.error(error);

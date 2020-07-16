@@ -2,34 +2,38 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StringOrNull } from '@polkadot/react-components/types';
+import { PrefabWasmModule } from '@polkadot/types/interfaces';
+import { ComponentProps as Props } from './types';
 
-import React, { useCallback, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useMemo } from 'react';
+import styled from 'styled-components';
 import store from '@polkadot/apps/store';
-import { createType } from '@polkadot/types';
-import { registry } from '@polkadot/react-api';
-import { ABI, Button, Input, InputName } from '@polkadot/react-components';
-import { useAbi } from '@polkadot/react-hooks';
-import { isNull } from '@polkadot/util';
+import { InputABI, Button, Input, InputName } from '@polkadot/react-components';
+import { useAbi, useApi, useCall, useNonEmptyString } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
+import { isHex } from '@polkadot/util';
 
-import ValidateCode from './ValidateCode';
 import { useTranslation } from './translate';
 
-interface Props {
-  basePath: string;
-}
-
-function Add ({ basePath }: Props): React.ReactElement<Props> {
+function Add ({ basePath, className, navigateTo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [codeHash, setCodeHash] = useState('');
-  const [isCodeHashValid, setIsCodeHashValid] = useState(false);
-  const [name, setName] = useState<StringOrNull>(null);
+  const { api } = useApi();
+  const [codeHash, setCodeHash, , , isCodeHashTouched] = useNonEmptyString();
+  const codeStorage = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
+  const [name, setName, isNameValid, isNameError] = useNonEmptyString();
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const [isCodeHashValidHex, isCodeHashValid] = useMemo(
+    (): [boolean, boolean] => {
+      const isCodeHashValidHex = !!codeHash && isHex(codeHash) && codeHash.length === 66;
+      const isStored = !!codeStorage && codeStorage.isSome;
+      const isCodeHashValid = isCodeHashValidHex && isStored;
 
-  const isNameValid = useMemo(
-    (): boolean => !isNull(name) && name.length > 0,
-    [name]
+      return [
+        isCodeHashValidHex,
+        isCodeHashValid
+      ];
+    },
+    [codeHash, codeStorage]
   );
 
   const isValid = useMemo(
@@ -44,7 +48,8 @@ function Add ({ basePath }: Props): React.ReactElement<Props> {
       }
 
       store
-        .saveCode(createType(registry, 'Hash', codeHash), { abi, name, tags: [] })
+        .saveCode({abi, codeHash, name, tags: [] })
+        .then(navigateTo.uploadSuccess)
         .catch((error): void => {
           console.error('Unable to save code', error);
         });
@@ -53,159 +58,73 @@ function Add ({ basePath }: Props): React.ReactElement<Props> {
   );
 
   return (
-    <>
+    <div className={className}>
       <header>
         <h1>{t<string>('Add Existing Code Hash')}</h1>
         <div className='instructions'>
-          {t<string>('You can add a previously uploaded WASM blob here.')}
-          <Link to={basePath}>
-            {t<string>('Upload a new code hash.')}
-          </Link>
+          {t<string>('Using the unique code hash you can add on-chain contract code for you to deploy.')}
         </div>
       </header>
-      <Input
-        autoFocus
-        help={t('The code hash for the on-chain deployed code.')}
-        isError={codeHash.length > 0 && !isCodeHashValid}
-        label={t('code hash')}
-        onChange={setCodeHash}
-        value={codeHash}
-      />
-      <ValidateCode
-        codeHash={codeHash}
-        onChange={setIsCodeHashValid}
-      />
-      <InputName
-        isError={!isNameValid}
-        onChange={setName}
-        value={name || undefined}
-      />
-      <ABI
-        contractAbi={contractAbi}
-        errorText={errorText}
-        isError={isAbiError}
-        isSupplied={isAbiSupplied}
-        isValid={isAbiValid}
-        onChange={onChangeAbi}
-        onRemove={onRemoveAbi}
-        withLabel
-      />
-      <Button.Group>
-        <Button
-          icon='save'
-          isDisabled={!isValid}
-          isPrimary
-          label={t('Save')}
-          onClick={_onSave}
+      <section>
+        <Input
+          autoFocus
+          help={t('Code hash for the on-chain deployed code')}
+          isError={isCodeHashTouched && !isCodeHashValid}
+          label={t('Code Hash')}
+          onChange={setCodeHash}
+          value={codeHash}
+        >
+          <div className='error-message'>
+            {
+              isCodeHashTouched && !isCodeHashValid
+                ? (
+                  isCodeHashValidHex
+                    ? t('Unable to find on-chain WASM code for the supplied codeHash')
+                    : t('The code hash is not a valid hex hash')
+                )
+                : ''
+            }
+          </div>
+        </Input>
+        <InputName
+          isError={isNameError}
+          onChange={setName}
+          placeholder={t('Give your bundle a descriptive name')}
+          value={name || undefined}
         />
-      </Button.Group>
-    </>
+        <InputABI
+          contractAbi={contractAbi}
+          errorText={errorText}
+          isError={isAbiError}
+          isSupplied={isAbiSupplied}
+          isValid={isAbiValid}
+          onChange={onChangeAbi}
+          onRemove={onRemoveAbi}
+          withLabel
+        />
+        <Button.Group>
+          <Button
+            isDisabled={!isValid}
+            isPrimary
+            label={t('Save')}
+            onClick={_onSave}
+          />
+          <Button
+            label={t('Cancel')}
+            onClick={navigateTo.upload}
+          />
+        </Button.Group>
+      </section>
+    </div>
   );
 }
 
-// function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
-//   const { t } = useTranslation();
-//   const { allAccounts } = useAccounts();
-//   const { allContracts } = useContracts();
-//   const [codeHash, setCodeHash] = useState<string | undefined>();
-//   const [constructorIndex, setConstructorIndex] = useState(0);
-//   const [isDeployOpen, toggleIsDeployOpen, setIsDeployOpen] = useToggle();
-//   const [updated, setUpdated] = useState(0);
-
-//   const [allCodes, setAllCodes] = useState(store.getAllCode());
-
-//   const _triggerUpdate = useCallback(
-//     (): void => {
-//       setUpdated(Date.now());
-//       setAllCodes(store.getAllCode());
-//     },
-//     []
-//   );
-
-//   const _onShowDeploy = useCallback(
-//     (codeHash?: string, constructorIndex = 0): () => void =>
-//       (): void => {
-//         setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
-//         setConstructorIndex(constructorIndex);
-//         toggleIsDeployOpen();
-//       },
-//     [allCodes, toggleIsDeployOpen]
-//   );
-
-//   const componentProps = useMemo(
-//     (): ComponentProps => ({
-//       accounts: allAccounts,
-//       basePath,
-//       contracts: allContracts,
-//       hasCode: store.hasCode,
-//       onShowDeploy: _onShowDeploy,
-//       onStatusChange,
-//       updated
-//     }),
-//     [allAccounts, allContracts, basePath, _onShowDeploy, onStatusChange, updated]
-//   );
-
-//   useEffect(
-//     (): void => {
-//       store.on('new-code', _triggerUpdate);
-//       store.on('removed-code', _triggerUpdate);
-
-//       store.loadAll()
-//         .then((): void => setAllCodes(store.getAllCode()))
-//         .catch((): void => {
-//           // noop, handled internally
-//         });
-//     },
-//     [_triggerUpdate]
-//   );
-
-//   const hidden: string[] = [];
-
-//   const _onCloseDeploy = (): void => setIsDeployOpen(false);
-
-//   return (
-//     <main className='contracts--App'>
-//       <HelpOverlay md={introMd as string} />
-//       <header>
-//         <Tabs
-//           basePath={basePath}
-//           hidden={hidden}
-//           items={[
-//             {
-//               name: 'code',
-//               text: 'Code'
-//             },
-//             {
-//               isRoot: true,
-//               name: 'contracts',
-//               text: 'Contracts'
-//             }
-//           ].map((tab): TabItem => ({ ...tab, text: t(tab.text) }))
-//           }
-//         />
-//       </header>
-//       <Switch>
-//         <Route path={`${basePath}/code`}>
-//           <Codes {...componentProps} />
-//         </Route>
-//         <Route exact>
-//           <Contracts {...componentProps} />
-//         </Route>
-//       </Switch>
-//       {codeHash && (
-//         <Deploy
-//           allCodes={allCodes}
-//           basePath={basePath}
-//           codeHash={codeHash}
-//           constructorIndex={constructorIndex}
-//           isOpen={isDeployOpen}
-//           onClose={_onCloseDeploy}
-//           setCodeHash={setCodeHash}
-//           setConstructorIndex={setConstructorIndex}
-//         />
-//       )}
-//     </main>
-//   );
-// }
-
-export default React.memo(Add);
+export default styled(React.memo(Add))`
+  .error-message {
+    color: var(--red-primary);
+    font-size: 0.9rem;
+    height: 1rem;
+    width: 100%;
+    text-align: right;
+  }
+`;

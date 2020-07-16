@@ -9,25 +9,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { displayType } from '@polkadot/types';
 
-import { ACCENT_LIGHT_HEX, SECONDARY_LIGHT_HEX } from './styles/constants';
+import { SECONDARY_LIGHT_HEX } from './styles/constants';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
-import { classes } from './util';
-
-const MAX_PARAM_LENGTH = 20;
+import { classes, truncate } from './util';
 
 export interface Props extends BareProps {
   asConstructor?: boolean;
   message: ContractABIMessage;
   params?: any[];
   withTooltip?: boolean;
-}
-
-function truncate (param: string): string {
-  return param.length > MAX_PARAM_LENGTH
-    ? `${param.substring(0, MAX_PARAM_LENGTH / 2)}…${param.substring(param.length - MAX_PARAM_LENGTH / 2)}`
-    : param;
 }
 
 function MessageSignature ({ className, message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
@@ -102,7 +94,7 @@ export default React.memo(
     }
 
     &.asConstructor .ui--MessageSignature-name {
-      color: ${ACCENT_LIGHT_HEX};
+      color: var(--blue-primary);
     }
 
     .ui--MessageSignature-type {

@@ -28,7 +28,7 @@ function createWindow (): Promise<unknown> {
   if (isDev) {
     win.webContents.openDevTools();
 
-    return win.loadURL('http://0.0.0.0:3000/');
+    return win.loadURL('http://0.0.0.0:3001/');
   }
 
   const mainFilePath = path.resolve(__dirname, 'index.html');

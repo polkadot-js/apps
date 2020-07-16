@@ -25,26 +25,26 @@ export const ELEV_CSS = `
 
 export const ELEV_0_CSS = `
   ${ELEV_CSS}
-  background: ${BG_HEX};
-  border: 1px solid #2B3840;
+  background: var(--background);
+  border: 1px solid var(--grey20);
 `;
 
 export const ELEV_1_CSS = `
   ${ELEV_CSS}
-  background: #1C2429;
+  background: var(--grey15);
 `;
 
 export const ELEV_2_CSS = `
   ${ELEV_CSS}
-  background: #202B33;
+  background: var(--grey15);
 `;
 
 export const ELEV_3_CSS = `
   ${ELEV_CSS}
-  background: #2B3840;
+  background: var(--grey20);
 `;
 
 export const ELEV_4_CSS = `
   ${ELEV_CSS}
-  background: #33434D;
+  background: var(--grey30);
 `;

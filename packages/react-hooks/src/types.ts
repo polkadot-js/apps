@@ -148,3 +148,25 @@ export interface UseWeight {
   percentage: number;
   setMegaGas: React.Dispatch<BN | undefined>
 }
+
+export interface FileState {
+  data: Uint8Array;
+  name: string;
+  size: number;
+}
+
+export type UseFile = [FileState | null, React.Dispatch<FileState | null>, boolean, boolean];
+
+export interface EndpointUrl {
+  isValid: boolean;
+  url: string;
+}
+
+export interface Endpoint extends EndpointUrl {
+  isCustom: boolean;
+}
+
+export interface UseEndpoints extends Endpoint {
+  onChangeUrl: (_: string) => void;
+  onChangeCustom: (_: boolean) => void;
+}

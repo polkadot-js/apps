@@ -16,10 +16,11 @@ interface Props extends BareProps {
   isDisabled?: boolean;
   onChange: (_: string) => void;
   onEnter?: VoidFn;
+  placeholder?: string;
   value?: string;
 }
 
-function InputName ({ className, isBusy, isContract, isError, onChange, onEnter, value = '' }: Props): React.ReactElement<Props> {
+function InputName ({ className, isBusy, isContract, isError, onChange, onEnter, placeholder, value = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -39,6 +40,7 @@ function InputName ({ className, isBusy, isContract, isError, onChange, onEnter,
       )}
       onChange={onChange}
       onEnter={onEnter}
+      placeholder={placeholder}
       value={value}
     />
   );
