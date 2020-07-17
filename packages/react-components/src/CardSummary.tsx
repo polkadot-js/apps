@@ -8,12 +8,11 @@ import styled from 'styled-components';
 import { UInt } from '@polkadot/types';
 import { formatNumber, isUndefined } from '@polkadot/util';
 
-import Progress, { Colors as ProgressColors } from './Progress';
+import Progress from './Progress';
 import Labelled from './Labelled';
 import { BlockToTime } from '@polkadot/react-query';
 
 interface ProgressProps {
-  color?: ProgressColors;
   hideValue?: boolean;
   isPercent?: boolean;
   total?: BN | UInt;
@@ -102,6 +101,10 @@ export default React.memo(styled(CardSummary)`
     opacity: 1;
   }
 
+  .ui--Progress {
+    margin: 0.2rem 0 -0.5rem;
+  }
+
   > div {
     font-size: 1.75rem;
     font-weight: 100;
@@ -123,11 +126,6 @@ export default React.memo(styled(CardSummary)`
 
     > label {
       font-size: 0.95rem;
-    }
-
-    .progress {
-      margin: 0.2rem 0 -0.5rem !important;
-      background: rgba(0,0,0,0.05);
     }
 
     .isSecondary {

@@ -33,7 +33,6 @@ export default css`
 
     .ui--Button {
       background-color: ${colorBtnDefault};
-      // box-shadow: 0 0 0 1px ${colorBtnShadow};
       color: ${colorBtnText};
 
       &.active,
@@ -45,7 +44,6 @@ export default css`
       }
 
       &:hover {
-        // box-shadow: 0 0 0 1px ${colorBtnText};
         filter: brightness(110%);
       }
 
@@ -56,12 +54,12 @@ export default css`
       }
     }
 
-    .ui.blue.progress .bar {
-      background-color: ${colorBtnHighlight};
+    .ui--Progress > div {
+      background-color: ${colorBtnDefault};
     }
 
     .ui.modal > .header:not(.ui) {
-      border-bottom-color: ${colorBtnHighlight};
+      border-bottom-color: ${colorBtnDefault};
     }
   }
 `;

@@ -10,13 +10,14 @@ import '@polkadot/react-components/i18n';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-
 import { ThemeProvider } from 'styled-components';
-import settings from '@polkadot/ui-settings';
-import Queue from '@polkadot/react-components/Status/Queue';
-import { BlockAuthors, Events } from '@polkadot/react-query';
 import { Api } from '@polkadot/react-api';
 import Apps from '@polkadot/apps/Apps';
+import WindowDimensions from '@polkadot/apps/WindowDimensions';
+import Queue from '@polkadot/react-components/Status/Queue';
+import { BlockAuthors, Events } from '@polkadot/react-query';
+import settings from '@polkadot/ui-settings';
+
 import { electronMainApi } from './api/global-exported-api';
 import { RemoteElectronStore } from './renderer/remote-electron-store';
 
@@ -41,7 +42,9 @@ ReactDOM.render(
           <BlockAuthors>
             <Events>
               <HashRouter>
-                <Apps />
+                <WindowDimensions>
+                  <Apps />
+                </WindowDimensions>
               </HashRouter>
             </Events>
           </BlockAuthors>

@@ -71,7 +71,7 @@ export default createGlobalStyle<Props>`
       border-bottom-color: ${getHighlight};
     }
 
-    .ui.blue.progress > .bar {
+    .ui--Progress > div {
       background-color: ${getHighlight} !important;
     }
 
