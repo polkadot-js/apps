@@ -65,7 +65,6 @@ function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'
         return false;
       }
 
-      // TODO It should be able to do batch inspection as applicable
       switch (proxy.toString()) {
         case 'Any':
           return true;
