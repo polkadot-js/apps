@@ -3248,6 +3248,7 @@ __metadata:
     html-webpack-plugin: ^4.3.0
     markdown-loader: ^5.1.0
     mini-css-extract-plugin: ^0.9.0
+    null-loader: ^4.0.0
     query-string: ^6.13.1
     style-loader: ^1.2.1
     thread-loader: ^2.1.3
@@ -17010,6 +17011,18 @@ __metadata:
   dependencies:
     boolbase: ~1.0.0
   checksum: 3/88a58b8b6289344749102019422705e8e6fa870d55e4bd4c71f860105ea5b8145ae71657f6edd6df953964081f52d65936a3eec4af1d9ee42122e42d293b2abe
+  languageName: node
+  linkType: hard
+
+"null-loader@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "null-loader@npm:4.0.0"
+  dependencies:
+    loader-utils: ^2.0.0
+    schema-utils: ^2.6.5
+  peerDependencies:
+    webpack: ^4.0.0 || ^5.0.0
+  checksum: 3/903d4697ae960b067ea0a85597b718202d324338b8dbba1d55b0fe3f115f1dbd32a833aaff8b198552156748bab5e71b1355442969e382b3fbb379e7321e346b
   languageName: node
   linkType: hard
 
