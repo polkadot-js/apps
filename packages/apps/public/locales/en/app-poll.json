@@ -34,5 +34,7 @@
   "You can indicate your vote for any combination of the options laid out below.": "You can indicate your vote for any combination of the options laid out below.",
   "denomination vote": "denomination vote",
   "poll on token decimals": "poll on token decimals",
-  "vote using my account": "vote using my account"
+  "vote using my account": "vote using my account",
+  "{{balance}} voted": "{{balance}} voted",
+  "{{percentage}}% turnout": "{{percentage}}% turnout"
 }
