@@ -5,16 +5,15 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { I18nProps } from '@polkadot/react-components/types';
 import { Balance } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
-import {useApi, useCall} from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import Available from './Available';
 import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
-
+import { u8aToString } from '@polkadot/util';
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
 import translate from './translate';
 
@@ -45,16 +44,27 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
   let user = senderId;
   const assetBalance = useCall<Balance>(api.query.genericAsset.freeBalance as any, [id, user]);
 
-  // build up our list of options via assets
-  useEffect((): void => {
-    setOptions(Object.entries(assets || {}).map(([id, name]): Option => ({
-      value: id,
-      text: `${name} (${id})`
-    })));
-  }, [assets]);
+  const retrivedAssetList = useCall<any>(
+    // @ts-ignore
+    api.rpc.genericAsset.registeredAssets as any,
+    []
+  );
+
+  const dropdownOptions = retrivedAssetList && retrivedAssetList.length > 0 && retrivedAssetList.map((asset: any) => {
+    const [assetId, assetInfo] = asset;
+
+    return {
+      text: u8aToString(assetInfo.symbol),
+      value: assetId.toString()
+    };
+  });
 
   useEffect((): void => {
-    setHasBalance( (assetBalance !== undefined) && !assetBalance.isZero());
+    setOptions(dropdownOptions || []);
+  }, [retrivedAssetList]);
+
+  useEffect((): void => {
+    setHasBalance((assetBalance !== undefined) && !assetBalance.isZero());
     setHasAvailable((amount !== undefined) && !amount.isZero());
   }, [assetBalance, amount]);
 
