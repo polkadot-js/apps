@@ -21,19 +21,13 @@ interface Props {
   proxiedAccount: string;
 }
 
-function createExtrinsic (api: ApiPromise, batchPrevious: any[], batchAdded: any[]): SubmittableExtrinsic<'promise'> | null {
-  console.log('batchPrevious', batchPrevious.toString());
-  console.log('batchAdded', batchAdded.toString());
-
+function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'> | null {
   if (batchPrevious.length + batchAdded.length === 1) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return batchPrevious.length
       ? batchPrevious[0]
       : batchAdded[0];
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
 }
 
@@ -41,13 +35,13 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
   const { t } = useTranslation();
   const { api } = useApi();
   // the stack of extrinsics on the previous proxies
-  const [batchStackPrevious, setBatchStackPrevious] = useState<any[]>([]);
+  const [batchStackPrevious, setBatchStackPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   // the stack of extrinsics on newly added proxies
-  const [batchStackAdded, setBatchStackAdded] = useState<any[]>([]);
+  const [batchStackAdded, setBatchStackAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
   // the final extrinsic (either single or a batch)
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   // list of previous accounts and proxy types
-  const [previousProxyAccountsTypes, _] = previousProxy || [];
+  const [previousProxyAccountsTypes] = previousProxy || [];
   // actualized list of previous proxy including new changes (deletion if any)
   const [previousProxyDisplay, setPreviousProxyDisplay] = useState<[AccountId, ProxyType][] | undefined>(previousProxyAccountsTypes);
   // actualized list of new proxies (additions, if any)
@@ -83,13 +77,11 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
       return newState;
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     setBatchStackAdded((prev) => {
       const newState = prev.concat(
         api.tx.proxy.addProxy(newAccount, newType)
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return newState;
     });
   };
@@ -109,7 +101,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
 
     // The Batch stack needs to be updated wit the new account
     // First, delete the corresponding exrrinsic in the batch stack
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const newBatchAdded = batchStackAdded.filter((_, i) => {
       return i !== index;
     });
@@ -134,7 +125,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
 
     // The Batch stack needs to be updated wit the new type
     // First, delete the corresponding exrrinsic in the batch stack
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const newBatchStackAdded = batchStackAdded.filter((_, i) => {
       return i !== index;
     });
@@ -195,7 +185,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
                       isNegative
                       onClick={() => {
                         setPreviousProxyDisplay(previousProxyDisplay.filter((_, i) => i !== index));
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         const newBatch = [...batchStackPrevious, api.tx.proxy.removeProxy(account, type)];
 
                         setBatchStackPrevious(newBatch);
