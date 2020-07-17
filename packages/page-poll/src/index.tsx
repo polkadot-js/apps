@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
@@ -12,12 +12,17 @@ import styled from 'styled-components';
 import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
-import { BN_ONE, BN_ZERO, bnMax, formatNumber } from '@polkadot/util';
+import { BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
+}
+
+interface Turnout {
+  percentage: number;
+  voted: BN;
 }
 
 const DIV = new BN(1_000_000);
@@ -27,7 +32,9 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals, []);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [turnout, setTurnout] = useState<Turnout | null>(null);
   const [opt10m, setOpt10m] = useState(false);
   const [opt100m, setOpt100m] = useState(false);
   const [opt1b, setOpt1b] = useState(false);
@@ -35,12 +42,22 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const [progress, setProgress] = useState<BN[] | undefined>();
 
   useEffect((): void => {
-    if (totals) {
+    if (totalIssuance && totals) {
       const max = bnMax(BN_ONE, ...totals);
 
       setProgress(totals.map((total) => total.mul(DIV).div(max)));
+
+      api.query.poll.voteOf
+        .entries<ITuple<[Approvals, Balance]>>()
+        .then((entries): void => {
+          const voted = entries.reduce((voted: BN, [, [, balance]]) => voted.iadd(balance), new BN(0));
+          const percentage = voted.muln(10_000).div(totalIssuance).toNumber() / 100;
+
+          setTurnout({ percentage, voted });
+        })
+        .catch(console.log);
     }
-  }, [totals]);
+  }, [api, totalIssuance, totals]);
 
   if (!totals || !progress || !bestNumber) {
     return (
@@ -51,6 +68,8 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
       </main>
     );
   }
+
+  console.error(turnout);
 
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
@@ -70,8 +89,16 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
         <div className='pollHeader'>
           <h1>{t('denomination vote')}</h1>
           <div className='pollBlocksRight'>
-            {canVote && <BlockToTime blocks={blocksLeft} />}
-            <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
+            {turnout && (
+              <div>
+                <div>{t('{{balance}} voted', { replace: { balance: formatBalance(turnout.voted) } })}</div>
+                <div>{t('{{percentage}}% turnout', { replace: { percentage: turnout.percentage.toFixed(2) } })}</div>
+              </div>
+            )}
+            <div>
+              {canVote && <BlockToTime blocks={blocksLeft} />}
+              <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
+            </div>
           </div>
         </div>
         <article className='keepAlive'>
@@ -169,10 +196,19 @@ export default React.memo(styled(PollApp)`
 
   .pollBlocksRight {
     position: absolute;
-    right: 0.5rem;
+    right: 0;
     text-align: right;
     opacity: 0.75;
     bottom: 0;
+
+    > div {
+      display: inline-block;
+      padding: 0 0.75rem;
+
+      &+div {
+        border-left: 1px solid #bbb;
+      }
+    }
   }
 
   .pollContainer {
