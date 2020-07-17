@@ -6,7 +6,6 @@ import { Routes } from '@polkadot/apps-routing/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 
@@ -16,6 +15,7 @@ import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
+import ResponsiveHide from './ResponseiveHide';
 
 interface Props {
   className?: string;
@@ -53,10 +53,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
   );
 
   return (
-    <Responsive
-      className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}
-      onUpdate={handleResize}
-    >
+    <div className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
@@ -128,7 +125,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             <Menu.Divider hidden />
             {!isCollapsed && <NodeInfo />}
           </div>
-          <Responsive
+          <ResponsiveHide
             className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
             minWidth={SIDEBAR_MENU_THRESHOLD}
           >
@@ -138,16 +135,16 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
               isCircular
               onClick={collapse}
             />
-          </Responsive>
+          </ResponsiveHide>
         </Menu>
-        <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
+        <ResponsiveHide minWidth={SIDEBAR_MENU_THRESHOLD}>
           <div
             className='apps--SideBar-toggle'
             onClick={collapse}
           />
-        </Responsive>
+        </ResponsiveHide>
       </div>
-    </Responsive>
+    </div>
   );
 }
 
