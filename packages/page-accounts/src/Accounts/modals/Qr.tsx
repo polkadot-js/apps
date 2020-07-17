@@ -51,6 +51,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const _onScan = useCallback(
     (scanned: Scanned): void => {
       setScanned(scanned);
+
       const { content, genesisHash } = scanned;
 
       setIsAddress(scanned.isAddress);
