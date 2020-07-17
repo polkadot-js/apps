@@ -75,8 +75,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[[AccountId, ProxyType][], BN][]>(api.query.proxy.proxies.multi, [sortedAddresses]);
 
-  // const [bk, bkj] = proxies?.[0] || [];
-
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
     const sortedAddresses = sortedAccounts.map((a) => a.account.address);

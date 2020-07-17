@@ -268,7 +268,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={toggleDelegate}
           />
         )}
-        {!!proxy?.[0].length && (
+        { !!proxy?.[0].length && (
           <Badge
             color='blue'
             hover={t<string>('This account has {{proxyNumber}} proxy set.', {
@@ -552,6 +552,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 onClick={toggleDelegate}
               >
                 {t('Delegate democracy votes')}
+              </Menu.Item>
+            ])}
+            {api.api.query.proxy?.proxies && createMenuGroup([
+              <Menu.Item
+                key='proxy-overview'
+                onClick={toggleProxyOverview}
+              >
+                {proxy?.[0].length
+                  ? t('Manage proxies')
+                  : t('Add proxy')
+                }
               </Menu.Item>
             ])}
             <ChainLock
