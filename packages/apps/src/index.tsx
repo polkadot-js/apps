@@ -18,6 +18,7 @@ import { BlockAuthors, Events } from '@polkadot/react-query';
 import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';
+import WindowDimensions from './WindowDimensions';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
@@ -42,7 +43,9 @@ ReactDOM.render(
           <BlockAuthors>
             <Events>
               <HashRouter>
-                <Apps />
+                <WindowDimensions>
+                  <Apps />
+                </WindowDimensions>
               </HashRouter>
             </Events>
           </BlockAuthors>
