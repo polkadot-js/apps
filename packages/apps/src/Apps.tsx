@@ -4,7 +4,7 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useCallback, useContext, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
