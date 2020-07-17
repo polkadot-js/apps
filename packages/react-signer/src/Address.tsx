@@ -12,7 +12,7 @@ import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
-import { GenericCall, Option } from '@polkadot/types';
+import { Option, Vec } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -51,7 +51,12 @@ function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string
   }
 }
 
-function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
+function filterProxies (allAccounts: string[], tx: Call | SubmittableExtrinsic<'promise'>, proxies: [string, ProxyType][]): string[] {
+  // check an array of calls to all have proxies as the address
+  const checkCalls = (address: string, txs: Call[]): boolean =>
+    !txs.some((tx) => !filterProxies(allAccounts, tx, proxies).includes(address));
+
+  // get the call info
   const { method, section } = findCall(tx);
 
   return proxies
@@ -60,7 +65,6 @@ function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise
         return false;
       }
 
-      // TODO It should be able to do batch inspection as applicable
       switch (proxy.toString()) {
         case 'Any':
           return true;
@@ -71,10 +75,14 @@ function filterProxies (allAccounts: string[], tx: SubmittableExtrinsic<'promise
         case 'NonTransfer':
           return !(section === 'balances' || (section === 'indices' && method === 'transfer') || (section === 'vesting' && method === 'vestedTransfer'));
         case 'Staking':
-          return section === 'staking' || (section === 'utility' && ['batch', 'asLimitedSub'].includes(method));
+          return section === 'staking' ||
+            (section === 'utility' && (
+              (method === 'batch' && checkCalls(address, tx.args[0] as Vec<Call>)) ||
+              (method === 'asLimitedSub' && checkCalls(address, [tx.args[0] as Call]))
+            ));
         case 'SudoBalances':
-          return (section === 'sudo' && method === 'sudo' && findCall(tx.args[0] as GenericCall).section === 'balances') ||
-            (section === 'utility' && method === 'batch');
+          return (section === 'sudo' && (method === 'sudo' && findCall(tx.args[0] as Call).section === 'balances')) ||
+            (section === 'utility' && (method === 'batch' && checkCalls(address, tx.args[0] as Vec<Call>)));
         default:
           return false;
       }
