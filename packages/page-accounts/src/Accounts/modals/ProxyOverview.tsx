@@ -238,11 +238,10 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
                   </div>
                 </div>);
             })}
-            <div className='buttons-add'>
+            <div className='buttons-add-container'>
               <Button
+                className='add-proxy-button'
                 icon='plus'
-                isNegative
-                key='add'
                 onClick={addProxy}
               />
             </div>
@@ -289,5 +288,9 @@ export default React.memo(styled(ProxyOverview)`
       grid-column: 2;
       padding-top: 0.3rem;
     }
+  }
+
+  .add-proxy-button{
+    width: 100%;
   }
 `);
