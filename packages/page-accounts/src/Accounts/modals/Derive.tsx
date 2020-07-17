@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useDebounce, useToggle } from '@polkadot/react-hooks';
+import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
@@ -47,14 +47,14 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
   return null;
 }
 
-function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string): ActionStatus {
+function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
     const derived = source.derive(suri);
 
-    derived.setMeta({ ...derived.meta, name, parentAddress: source.address, tags: [] });
+    derived.setMeta({ ...derived.meta, genesisHash, name, parentAddress: source.address, tags: [] });
 
     const result = keyring.addPair(derived, password || '');
     const { address } = result.pair;
@@ -75,6 +75,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
 
 function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
+  const { api, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
@@ -141,13 +142,13 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
         return;
       }
 
-      const status = createAccount(source, suri, name, password, t<string>('created account'));
+      const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
       toggleConfirmation();
       queueAction(status);
       onClose();
     },
-    [isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
+    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
   );
 
   const sourceStatic = (
