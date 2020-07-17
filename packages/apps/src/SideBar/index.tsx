@@ -15,7 +15,6 @@ import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
-import ResponsiveHide from './ResponseiveHide';
 
 interface Props {
   className?: string;
@@ -125,24 +124,19 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             <Menu.Divider hidden />
             {!isCollapsed && <NodeInfo />}
           </div>
-          <ResponsiveHide
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
-            minWidth={SIDEBAR_MENU_THRESHOLD}
-          >
+          <div className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}>
             <Button
               icon={isCollapsed ? 'angle-double-right' : 'angle-double-left'}
               isBasic
               isCircular
               onClick={collapse}
             />
-          </ResponsiveHide>
+          </div>
         </Menu>
-        <ResponsiveHide minWidth={SIDEBAR_MENU_THRESHOLD}>
-          <div
-            className='apps--SideBar-toggle'
-            onClick={collapse}
-          />
-        </ResponsiveHide>
+        <div
+          className='apps--SideBar-toggle'
+          onClick={collapse}
+        />
       </div>
     </div>
   );
@@ -282,5 +276,12 @@ export default React.memo(styled(SideBar)`
       opacity: 0 !important;
       top: -2.9rem !important;
     `}
+  }
+
+  @media only screen and (max-width: ${SIDEBAR_MENU_THRESHOLD}px) {
+    .apps--SideBar-collapse,
+    .apps--Sidebar-toggle {
+      display: none;
+    }
   }
 `);
