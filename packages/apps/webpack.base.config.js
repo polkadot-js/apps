@@ -152,17 +152,11 @@ function createWebpack (ENV, context) {
             name: 'react.fa',
             test: /node_modules\/(@fortawesome)/
           },
-          reactSUI: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'react.sui',
-            test: /node_modules\/(@semantic-ui-react|@stardust|classnames|keyboard-key|prop-types|semantic-ui-react|semantic-ui-css)/
-          },
           reactUI: {
             chunks: 'initial',
             enforce: true,
             name: 'react.ui',
-            test: /node_modules\/(@emotion|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|mini-create-react|popper\.js|qrcode-generator|react|react-|remark-parse|styled-components)/
+            test: /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|react-|remark-parse|semantic-ui-react|semantic-ui-css|styled-components)/
           },
           vendor01: {
             chunks: 'initial',
