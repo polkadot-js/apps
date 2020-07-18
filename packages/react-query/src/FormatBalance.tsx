@@ -11,6 +11,7 @@ import { formatBalance } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface Props {
+  children?: React.ReactNode;
   className?: string;
   isShort?: boolean;
   label?: React.ReactNode;
@@ -35,7 +36,7 @@ function format (value: Compact<any> | BN | string, currency: string, withSi?: b
   return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)} {`${currency}${labelPost || ''}`}</>;
 }
 
-function FormatBalance ({ className = '', isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
+function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withSi }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [currency] = useState(formatBalance.getDefaults().unit);
 
@@ -48,7 +49,7 @@ function FormatBalance ({ className = '', isShort, label, labelPost, value, with
             ? t<string>('everything{{labelPost}}', { replace: { labelPost } })
             : format(value, currency, withSi, isShort, labelPost)
           : `-${labelPost || ''}`
-      }</span>
+      }</span>{children}
     </div>
   );
 }

@@ -7,8 +7,6 @@ import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 
-import { classes } from './util';
-
 const rootElement = typeof document === 'undefined'
   ? null // This hack is required for server side rendering
   : document.getElementById('tooltips');
@@ -45,7 +43,7 @@ function Tooltip ({ className = '', effect = 'solid', offset, place = 'top', tex
 
   return ReactDOM.createPortal(
     <ReactTooltip
-      className={classes('ui--Tooltip', className)}
+      className={`ui--Tooltip ${className}`}
       effect={effect}
       id={trigger}
       offset={offset}
