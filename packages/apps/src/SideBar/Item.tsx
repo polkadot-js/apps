@@ -8,10 +8,10 @@ import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ApiPromise } from '@polkadot/api';
 import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { isFunction } from '@polkadot/util';
+
+import { findMissingApis } from '../endpoint';
 
 const DUMMY_COUNTER = (): null => null;
 
@@ -32,17 +32,6 @@ function logDisabled (route: string, message: string): void {
   }
 }
 
-function hasEndpoint (api: ApiPromise, endpoint: string): boolean {
-  const [area, section, method] = endpoint.split('.');
-
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return isFunction((api as any)[area][section][method]);
-  } catch (error) {
-    return false;
-  }
-}
-
 function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
   if (isHidden) {
     return false;
@@ -58,13 +47,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
     return false;
   }
 
-  const notFound = needsApi.filter((endpoint: string | string[]): boolean => {
-    const hasApi = Array.isArray(endpoint)
-      ? endpoint.reduce((hasApi, endpoint): boolean => hasApi || hasEndpoint(api, endpoint), false)
-      : hasEndpoint(api, endpoint);
-
-    return !hasApi;
-  });
+  const notFound = findMissingApis(api, needsApi);
 
   if (notFound.length !== 0) {
     logDisabled(name, `API not available: ${notFound.toString()}`);
