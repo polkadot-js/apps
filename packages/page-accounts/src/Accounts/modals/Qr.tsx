@@ -78,10 +78,13 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       }
 
       const { content, isAddress } = scanned;
-      const genesisHash = scanned.genesisHash || api.genesisHash.toHex();
+      const meta = {
+        genesisHash: scanned.genesisHash || api.genesisHash.toHex(),
+        name: name.trim()
+      };
       const account = isAddress
-        ? keyring.addExternal(content, { genesisHash, name: name.trim() }).pair.address
-        : keyring.addUri(content, password, { genesisHash, name: name.trim() }, 'sr25519').pair.address;
+        ? keyring.addExternal(content, meta).pair.address
+        : keyring.addUri(content, password, meta, 'sr25519').pair.address;
 
       InputAddress.setLastValue('account', account);
 
