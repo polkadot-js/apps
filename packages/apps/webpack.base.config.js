@@ -12,6 +12,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const findPackages = require('../../scripts/findPackages');
 
+function mapChunks (name, regs, inc) {
+  return regs.reduce((result, test, index) => ({
+    ...result,
+    [`${name}${index}`]: {
+      chunks: 'initial',
+      enforce: true,
+      name: `${name}.${`0${index + (inc || 0)}`.slice(-2)}`,
+      test
+    }
+  }), {});
+}
+
 function createWebpack (ENV, context) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
@@ -134,42 +146,20 @@ function createWebpack (ENV, context) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          polkadotJsApi: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'polkadotjs.libs',
-            test: /node_modules\/(@ledgerhq|@zondax|edgeware|@polkadot\/(api|extension|keyring|metadata|react|rpc|types|ui|util|vanitygen))/
-          },
-          polkadotJsWasm: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'polkadotjs.wasm',
-            test: /node_modules\/@polkadot\/(wasm)/
-          },
-          reactIcons: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'react.fa',
-            test: /node_modules\/(@fortawesome)/
-          },
-          reactUI: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'react.ui',
-            test: /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|create-react|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|react-|remark-parse|semantic-ui-react|semantic-ui-css|styled-components)/
-          },
-          vendor01: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'other.01',
-            test: /node_modules\/(@babel|ansi-styles|asn1|browserify-|buffer|chalk|color|color-|crypto-browserify|des\.js|diffie-hellman|elliptic|event-emitter|events|eventemitter3|hash|hmac-drbg|js-sha3|lodash|memoizee|object-|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|ripemd160|readable-stream|regenerator-runtime|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|timers-browserify|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch|xxhashjs)/
-          },
-          vendor02: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'other.02',
-            test: /node_modules\/(attr-accept|base-x|base64-js|blakejs|bip39|bip66|bn\.js|brorand|camelcase|cipher-base|core-js|core-util|create-|cuint|decode-uri|deep-equal|define-properties|detect-browser|es-abstract|es5-ext|es6-symbol|extend|function-bind|has-symbols|history|html-parse|ieee754|ip-|is-|md5|miller-rabin|minimalistic-crypto-utils|moment|next-tick|node-libs-browser|randombytes|randomfill|regexp|rxjs|scheduler|sdp|secp256k1|setimmediate|sha\.js|through)/
-          }
+          ...mapChunks('polkadot', [
+            /* 00 */ /node_modules\/@polkadot\/(wasm)/,
+            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
+            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@edgeware|@ledgerhq|@zondax|edgeware)/
+          ]),
+          ...mapChunks('react', [
+            /* 00 */ /node_modules\/(@fortawesome)/,
+            /* 01 */ /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|remark-parse|semantic-ui|styled-components)/
+          ]),
+          ...mapChunks('other', [
+            /* 00 */ /node_modules\/(@babel|ansi-styles|asn1|browserify|buffer|history|html-parse|inherit|lodash|memoizee|object|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|readable-stream|regenerator-runtime|repeat|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch)/,
+            /* 01 */ /node_modules\/(attr|brorand|camelcase|core|chalk|color|create|cuint|decode-uri|deep-equal|define-properties|detect-browser|es|event|evp|ext|function-bind|has-symbols|ieee754|ip|is|lru|markdown|minimalistic-|moment|next-tick|node-libs-browser|random|regexp|resolve|rxjs|scheduler|sdp|setimmediate|timers-browserify|trough)/,
+            /* 03 */ /node_modules\/(base-x|base64-js|blakejs|bip|bn\.js|cipher-base|crypto|des\.js|diffie-hellman|elliptic|hash|hmac|js-sha3|md5|miller-rabin|ripemd160|secp256k1|sha\.js|xxhashjs)/
+          ])
         }
       }
     },
