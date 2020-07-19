@@ -8,7 +8,7 @@ import { ModalProps } from '../../types';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@polkadot/react-components';
-import { useIpfs } from '@polkadot/react-hooks';
+import { useApi, useIpfs } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import PasswordInput from '../PasswordInput';
@@ -27,15 +27,21 @@ interface Props extends ModalProps {
   onStatusChange: (status: ActionStatus) => void;
 }
 
+interface Address {
+  address: string;
+  isAddress: boolean;
+  scanned: Scanned | null;
+}
+
 function QrModal ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { isIpfs } = useIpfs();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [scanned, setScanned] = useState<Scanned | null>(null);
-  const [isAddress, setIsAddress] = useState<boolean>(false);
-  const [address, setAddress] = useState<string>('');
+  const [{ address, isAddress, scanned }, setAddress] = useState<Address>({ address: '', isAddress: false, scanned: null });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
+  // FIXME This gets passed to the useCallback, so we have excessive creations
   const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
 
   const _onNameChange = useCallback(
@@ -50,25 +56,19 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
 
   const _onScan = useCallback(
     (scanned: Scanned): void => {
-      setScanned(scanned);
-
-      const { content, genesisHash } = scanned;
-
-      setIsAddress(scanned.isAddress);
-
-      if (scanned.isAddress) {
-        setAddress(content);
-      } else {
-        const pair = keyring.createFromUri(content, { genesisHash, name: name.trim() }, 'sr25519');
-
-        setAddress(pair.address);
-      }
+      setAddress({
+        address: scanned.isAddress
+          ? scanned.content
+          : keyring.createFromUri(scanned.content, {}, 'sr25519').address,
+        isAddress: scanned.isAddress,
+        scanned
+      });
 
       if (scanned.name) {
         _onNameChange(scanned.name);
       }
     },
-    [_onNameChange, name]
+    [_onNameChange]
   );
 
   const _onSave = useCallback(
@@ -77,26 +77,26 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
         return;
       }
 
-      const { content, genesisHash, isAddress } = scanned;
+      const { content, isAddress } = scanned;
+      const meta = {
+        genesisHash: scanned.genesisHash || api.genesisHash.toHex(),
+        name: name.trim()
+      };
+      const account = isAddress
+        ? keyring.addExternal(content, meta).pair.address
+        : keyring.addUri(content, password, meta, 'sr25519').pair.address;
 
-      if (isAddress) {
-        keyring.addExternal(content, { genesisHash, name: name.trim() });
-      } else {
-        keyring.addUri(content, password, { genesisHash, name: name.trim() }, 'sr25519');
-      }
-
-      keyring.addExternal(content, { genesisHash, name: name.trim() });
-      InputAddress.setLastValue('account', content);
+      InputAddress.setLastValue('account', account);
 
       onStatusChange({
-        account: content,
+        account,
         action: 'create',
         message: t<string>('created account'),
         status: 'success'
       });
       onClose();
     },
-    [isValid, name, onClose, onStatusChange, password, scanned, t]
+    [api, isValid, name, onClose, onStatusChange, password, scanned, t]
   );
 
   return (
