@@ -123,7 +123,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const header = useMemo(() => [
     [t('accounts'), 'start', 3],
-    [t('parent'), 'address ui--media-1200'],
+    [t('parent'), 'address ui--media-1400'],
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'ui--media-1500'],
@@ -135,7 +135,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const footer = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='ui--media-1200' />
+      <td className='ui--media-1400' />
       <td colSpan={2} />
       <td className='ui--media-1500' />
       <td className='number'>
