@@ -15,7 +15,7 @@ import { Compact, UInt } from '@polkadot/types';
 import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
-
+import { getFormatedBalance } from "@polkadot/react-components/util";
 import { useTranslation } from '../translate';
 import ContractCall from './ContractCall';
 import ContractDeploy from './ContractDeploy';
@@ -278,6 +278,8 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
     return null;
   }
 
+  const fees = getFormatedBalance(dispatchInfo.partialFee, true);
+
   return (
     <article
       className={[className, 'ui--Checks', 'normal', 'padded'].join(' ')}
@@ -287,7 +289,7 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
         <Icon name='arrow right' />
         {t('Fees of {{fees}} will be applied to the submission', {
           replace: {
-            fees: formatBalance(dispatchInfo.partialFee, { withSiFull: true })
+            fees
           }
         })}
       </div>
