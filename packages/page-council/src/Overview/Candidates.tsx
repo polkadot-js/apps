@@ -20,13 +20,13 @@ interface Props {
 function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerRunners = useMemo(() => [
-    [t('runners up'), 'start', 2],
-    [t('backing')]
-  ], [t]);
-
   const headerCandidates = useMemo(() => [
     [t('candidates'), 'start', 2],
+    []
+  ], [t]);
+
+  const headerRunners = useMemo(() => [
+    [t('runners up'), 'start', 2],
     [t('backing')]
   ], [t]);
 
