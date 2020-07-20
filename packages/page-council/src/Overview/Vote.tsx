@@ -82,6 +82,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               <Modal.Column>
                 <VoteValue
                   accountId={accountId}
+                  isCouncil
                   onChange={setVoteValue}
                 />
               </Modal.Column>
