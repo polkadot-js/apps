@@ -44,7 +44,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
   useEffect((): void => {
     setHasProposals(
       !!councilProposals
-        .map(({ votes }): number => votes ? votes.index.toNumber() : -1)
+        .map(({ votes }) => votes ? votes.index.toNumber() : -1)
         .filter((index) => index !== -1)
         .length
     );

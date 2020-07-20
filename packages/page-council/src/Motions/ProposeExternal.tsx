@@ -10,6 +10,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getThreshold } from './thresholds';
 
 interface Props {
   className?: string;
@@ -33,7 +34,7 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
-  const threshold = Math.ceil((members.length || 0) * 0.6); // 60 for Polkadot
+  const threshold = Math.ceil((members.length || 0) * getThreshold(api));
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
