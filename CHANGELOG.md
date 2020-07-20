@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.50.0-beta.x
+## 0.50.1 Jul 20, 2020
 
 - Adjust CSPs for Electron (Thanks to https://github.com/EthWorks)
 - Move delegation column to badge (Thanks to https://github.com/Tbaut)
