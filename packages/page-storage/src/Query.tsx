@@ -203,21 +203,19 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
         </Labelled>
       </div>
       <div className='storage--actionrow-buttons'>
-        <div className='container'>
-          {isSpreadable && (
-            <Button
-              icon='ellipsis-h'
-              key='spread'
-              onClick={_spreadHandler(id)}
-            />
-          )}
+        {isSpreadable && (
           <Button
-            icon='times'
-            isNegative
-            key='close'
-            onClick={_onRemove}
+            icon='ellipsis-h'
+            key='spread'
+            onClick={_spreadHandler(id)}
           />
-        </div>
+        )}
+        <Button
+          icon='times'
+          isNegative
+          key='close'
+          onClick={_onRemove}
+        />
       </div>
     </div>
   );
@@ -250,8 +248,6 @@ export default React.memo(styled(Query)`
   }
 
   .storage--actionrow-buttons {
-    .container {
-      margin-top: -0.25rem; /* offset parent spacing for buttons */
-    }
+    margin-top: -0.25rem; /* offset parent spacing for buttons */
   }
 `);

@@ -4,16 +4,19 @@
 
 import { Route } from './types';
 
-import Translator from '@polkadot/app-i18n';
+import Component from '@polkadot/app-poll';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Translator,
+    Component,
     display: {
-      isHidden: true
+      needsAccounts: true,
+      needsApi: [
+        'tx.poll.vote'
+      ]
     },
-    icon: 'th',
-    name: 'i18n',
-    text: t<string>('nav.i18n', 'I18n Translator', { ns: 'apps-routing' })
+    icon: 'podcast',
+    name: 'poll',
+    text: t<string>('nav.poll', 'Token poll', { ns: 'apps-routing' })
   };
 }

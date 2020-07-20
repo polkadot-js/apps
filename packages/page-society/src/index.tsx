@@ -8,11 +8,14 @@ import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';
 import { useTranslation } from './translate';
+import useCounter from './useCounter';
 
 interface Props {
   basePath: string;
   className?: string;
 }
+
+export { useCounter };
 
 function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

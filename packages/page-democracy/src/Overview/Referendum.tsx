@@ -95,7 +95,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
       <td className='number together ui--media-1400'>
         {percentages && (
           <>
-            {/* <FormatBalance value={votedTotal} /> */}
             <div>{percentages.turnout}</div>
             {percentages.aye && (
               <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>
@@ -128,9 +127,7 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
                 ? t<string>('{{threshold}}, passing', { replace: { threshold } })
                 : t<string>('{{threshold}}, not passing', { replace: { threshold } })
             }
-            info={<Icon icon={isPassing ? 'check' : 'times'} />}
-            isInline
-            isTooltip
+            icon={isPassing ? 'check' : 'times'}
           />
         )}
       </td>

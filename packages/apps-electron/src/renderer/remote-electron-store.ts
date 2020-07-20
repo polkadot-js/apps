@@ -3,33 +3,39 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringJson, KeyringStore } from '@polkadot/ui-keyring/types';
-import { electronMainApi } from '../api/global-exported-api';
+import { AccountStoreApi } from '../api/account-store-api';
 
 export class RemoteElectronStore implements KeyringStore {
+  readonly #accountStore: AccountStoreApi;
+
+  constructor (accountStore: AccountStoreApi) {
+    this.#accountStore = accountStore;
+  }
+
   all (cb: (key: string, value: KeyringJson) => void): void {
-    electronMainApi.accountStore.all()
-      .then((result: { key: string, value: KeyringJson }[]) => result.forEach(({ key, value }) => cb(key, value)))
-      .catch(() => {
-        throw new Error('error getting all accounts');
+    this.#accountStore.all()
+      .then((result: { key: string, value: KeyringJson }[]) => result?.forEach(({ key, value }) => cb(key, value)))
+      .catch((e: Error) => {
+        throw new Error(`error getting all accounts: ${e.message}`);
       });
   }
 
   get (key: string, cb: (value: KeyringJson) => void): void {
-    electronMainApi.accountStore.get(key)
-      .then(cb).catch(() => {
-        throw new Error('error storing account');
+    this.#accountStore.get(key)
+      .then(cb).catch((e: Error) => {
+        throw new Error(`error storing account: ${e.message}`);
       });
   }
 
   remove (key: string, cb: (() => void) | undefined): void {
-    electronMainApi.accountStore.remove(key).then(cb).catch(() => {
-      throw new Error('error removing account');
+    this.#accountStore.remove(key).then(cb).catch((e: Error) => {
+      throw new Error(`error removing account: ${e.message}`);
     });
   }
 
   set (key: string, value: KeyringJson, cb: (() => void) | undefined): void {
-    electronMainApi.accountStore.set(key, value).then(cb).catch(() => {
-      throw new Error('error saving account');
+    this.#accountStore.set(key, value).then(cb).catch((e: Error) => {
+      throw new Error(`error saving account: ${e.message}`);
     });
   }
 }

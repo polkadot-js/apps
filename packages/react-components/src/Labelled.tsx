@@ -96,7 +96,8 @@ const Wrapper = styled.div`
           }
 
           .text {
-            padding: 0.45rem 0
+            line-height: 1;
+            padding: 0.47rem 0
           }
         }
 

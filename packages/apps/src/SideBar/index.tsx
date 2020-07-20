@@ -6,7 +6,6 @@ import { Routes } from '@polkadot/apps-routing/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Responsive } from 'semantic-ui-react';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 
@@ -53,10 +52,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
   );
 
   return (
-    <Responsive
-      className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}
-      onUpdate={handleResize}
-    >
+    <div className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
@@ -128,26 +124,21 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             <Menu.Divider hidden />
             {!isCollapsed && <NodeInfo />}
           </div>
-          <Responsive
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
-            minWidth={SIDEBAR_MENU_THRESHOLD}
-          >
+          <div className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}>
             <Button
               icon={isCollapsed ? 'angle-double-right' : 'angle-double-left'}
               isBasic
               isCircular
               onClick={collapse}
             />
-          </Responsive>
+          </div>
         </Menu>
-        <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
-          <div
-            className='apps--SideBar-toggle'
-            onClick={collapse}
-          />
-        </Responsive>
+        <div
+          className='apps--SideBar-toggle'
+          onClick={collapse}
+        />
       </div>
-    </Responsive>
+    </div>
   );
 }
 
@@ -239,10 +230,9 @@ export default React.memo(styled(SideBar)`
       text-align: left;
       width: 100%;
 
-      .ui.circular.button {
-        background: white !important;
-        color: #3f3f3f !important;
-        box-shadow: 0 0 0 1px #eee inset !important;
+      .ui--Button {
+        background: white;
+        color: #3f3f3f;
         margin: 0;
         transition: transform 0.15s;
       }
@@ -286,5 +276,12 @@ export default React.memo(styled(SideBar)`
       opacity: 0 !important;
       top: -2.9rem !important;
     `}
+  }
+
+  @media only screen and (max-width: ${SIDEBAR_MENU_THRESHOLD}px) {
+    .apps--SideBar-collapse,
+    .apps--Sidebar-toggle {
+      display: none;
+    }
   }
 `);

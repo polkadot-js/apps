@@ -16,31 +16,24 @@ interface Props {
 
 function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
-    <td className='badge together'>
+    <>
       {isElected
         ? (
           <Badge
             color='blue'
-            info={<Icon icon='chevron-right' />}
-            isInline
+            icon='chevron-right'
           />
         )
-        : (
-          <Badge
-            color='transparent'
-            isInline
-          />
-        )
+        : <Badge color='transparent' />
       }
       {(!!onlineCount || onlineMessage) && (
         <Badge
           color='green'
           info={onlineCount || <Icon icon='envelope' />}
-          isInline
         />
       )}
       <MaxBadge numNominators={numNominators} />
-    </td>
+    </>
   );
 }
 

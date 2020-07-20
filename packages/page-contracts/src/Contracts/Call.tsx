@@ -75,7 +75,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 
   const _constructTx = useCallback(
-    (): any[] => {
+    (): unknown[] => {
       if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
         return [];
       }
@@ -102,14 +102,12 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 
   const _onClearOutcomes = useCallback(
-    (): void => setOutcomes([]),
+    () => setOutcomes([]),
     []
   );
 
   const _onClearOutcome = useCallback(
-    (outcomeIndex: number) => (): void => {
-      setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1)));
-    },
+    (outcomeIndex: number) => () => setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1))),
     [outcomes]
   );
 

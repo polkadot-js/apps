@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import usePreclaimPolkadotAddresses from './usePreclaimPolkadotAddresses';
+import usePolkadotPreclaims from './usePolkadotPreclaims';
 
 export default function useCounter (): number {
-  const needAttest = usePreclaimPolkadotAddresses();
+  const needAttest = usePolkadotPreclaims();
 
-  return needAttest ? needAttest.length : 0;
+  return needAttest.length;
 }

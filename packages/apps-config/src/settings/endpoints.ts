@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { TFunction } from 'i18next';
 import { Option } from './types';
-
-type TFn = <T= string> (key: string, text: string, options: { ns: string, replace?: Record<string, string> }) => T;
 
 interface LinkOption extends Option {
   dnslink?: string;
@@ -17,7 +16,7 @@ interface EnvWindow {
   }
 }
 
-function createDev (t: TFn): LinkOption[] {
+function createDev (t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'local',
@@ -28,7 +27,7 @@ function createDev (t: TFn): LinkOption[] {
   ];
 }
 
-function createLive (t: TFn): LinkOption[] {
+function createLive (t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'polkadot',
@@ -81,7 +80,7 @@ function createLive (t: TFn): LinkOption[] {
   ];
 }
 
-function createTest (t: TFn): LinkOption[] {
+function createTest (t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'westend',
@@ -113,7 +112,7 @@ function createTest (t: TFn): LinkOption[] {
   ];
 }
 
-function createCustom (t: TFn): LinkOption[] {
+function createCustom (t: TFunction): LinkOption[] {
   const WS_URL = (
     (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
     (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
@@ -140,7 +139,7 @@ function createCustom (t: TFn): LinkOption[] {
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
 //   text: The text to display on teh dropdown
 //   value: The actual hosted secure websocket endpoint
-export default function create (t: TFn): LinkOption[] {
+export default function create (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {

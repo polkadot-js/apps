@@ -8,7 +8,6 @@ import appSettings from '@polkadot/ui-settings';
 
 // When adding here, also ensure to add to Dummy.tsx
 
-import template from './123code';
 import accounts from './accounts';
 import claims from './claims';
 import contracts from './contracts';
@@ -18,9 +17,9 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import genericAsset from './generic-asset';
-import i18n from './i18n';
 import js from './js';
 import parachains from './parachains';
+import poll from './poll';
 import settings from './settings';
 import society from './society';
 import staking from './staking';
@@ -38,6 +37,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       explorer(t),
       accounts(t),
       claims(t),
+      poll(t),
       transfer(t),
       genericAsset(t),
       null,
@@ -53,6 +53,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       explorer(t),
       accounts(t),
       claims(t),
+      poll(t),
       transfer(t),
       genericAsset(t),
       null,
@@ -71,9 +72,6 @@ export default function create (t: <T = string> (key: string, text: string, opti
       null,
       settings(t),
       toolbox(t),
-      js(t),
-      // hidden
-      template(t),
-      i18n(t)
+      js(t)
     ];
 }

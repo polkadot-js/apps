@@ -2,42 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Icon from './Icon';
 import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
   color: 'counter' | 'green' | 'blue' | 'gray' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
+  icon?: IconName;
   info?: React.ReactNode;
-  isInline?: boolean;
   isSmall?: boolean;
-  isTooltip?: boolean;
   onClick?: () => void;
 }
 
 let badgeId = 0;
 
-function Badge ({ className = '', color = 'normal', hover, info, isInline, isSmall, isTooltip, onClick }: Props): React.ReactElement<Props> | null {
+function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, onClick }: Props): React.ReactElement<Props> | null {
   const [trigger] = useState(`badge-hover-${Date.now()}-${badgeId++}`);
-  const extraProps = isTooltip && hover
+  const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};
 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge ${isInline ? 'isInline' : ''} ${isTooltip ? 'isTooltip' : ''} ${isSmall ? 'isSmall' : ''} ${onClick ? 'isClickable' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
-      <div className='badge'>
-        {info}
-      </div>
-      <div className='detail'>
-        {hover}
-      </div>
+      {info || (icon && <Icon icon={icon} />)}
       {hover && (
         <Tooltip
           text={hover}
@@ -50,22 +47,27 @@ function Badge ({ className = '', color = 'normal', hover, info, isInline, isSma
 
 export default React.memo(styled(Badge)`
   border-radius: 16px;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
   color: #eee;
+  display: inline-block;
   font-size: 12px;
   height: 22px;
-  padding: 0 4px;
-  text-align: center;
-  width: 22px;
+  line-height: 22px;
+  margin-right: 0.25rem;
   min-width: 22px;
+  padding: 0 4px;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+  width: 22px;
 
   &.isTooltip {
     cursor: help;
   }
 
   .ui--Icon {
-    cursor: inherit !important;
-    margin: 0;
+    cursor: inherit;
+    margin-top: 5px;
+    vertical-align: top;
     width: 1em;
   }
 
@@ -74,25 +76,16 @@ export default React.memo(styled(Badge)`
   }
 
   &.isSmall {
-    box-shadow: none;
     font-size: 10px;
     height: 16px;
     line-height: 16px;
     min-width: 16px;
     padding: 0;
     width: 16px;
-  }
 
-  &:not(.isInline) {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.25rem;
-  }
-
-  &.isInline {
-    display: inline-block;
-    margin-right: 0.25rem;
-    vertical-align: middle;
+    .ui--Icon {
+      margin-top: 3px;
+    }
   }
 
   &.blueColor {
@@ -125,31 +118,5 @@ export default React.memo(styled(Badge)`
   &.transparentColor {
     background: transparent;
     box-shadow: none;
-  }
-
-  & > * {
-    line-height: 22px;
-    overflow: hidden;
-  }
-
-  &.isSmall > * {
-    line-height: 16px;
-  }
-
-  .detail {
-    height: 0;
-    width: 0;
-  }
-
-  &.expand {
-    width: 300px;
-
-    .badge {
-      width: 0;
-    }
-
-    .detail {
-      width: auto;
-    }
   }
 `);

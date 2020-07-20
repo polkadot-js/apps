@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 interface Props {
   className?: string;
-  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red';
+  color?: 'gray' | 'green' | 'normal' | 'orange' | 'red' | 'transparent';
   icon: IconName;
   isSpinning?: boolean;
   onClick?: () => void;
@@ -29,7 +29,7 @@ function Icon ({ className = '', color = 'normal', icon, isSpinning, onClick, si
   return (
     <FontAwesomeIcon
       {...extraProps}
-      className={`ui--Icon ${color}Color ${onClick ? 'isClickable' : ''} ${className}`}
+      className={`ui--Icon ${color}Color${onClick ? ' isClickable' : ''} ${className}`}
       icon={icon}
       onClick={onClick}
       size={size}
@@ -57,5 +57,9 @@ export default React.memo(styled(Icon)`
 
   &.redColor {
     color: darkred;
+  }
+
+  &.transparentColor {
+    color: transparent;
   }
 `);

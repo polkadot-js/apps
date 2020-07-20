@@ -12,6 +12,7 @@ import ExtrinsicDisplay from './Extrinsic';
 
 function ProposalDisplay ({ className = '', isDisabled, isError, label, onChange, onEnter, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const { apiDefaultTxSudo } = useApi();
+
   const _onChange = useCallback(
     ({ isValid, value }: RawParam): void => {
       let proposal = null;

@@ -112,7 +112,8 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
 
 export default React.memo(styled(Signer)`
   .signToggle {
-    position: absolute;
+    bottom: 1.5rem;
     left: 1.5rem;
+    position: absolute;
   }
 `);

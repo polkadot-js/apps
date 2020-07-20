@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
@@ -16,8 +16,13 @@ interface Props {
 
 function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [, setControllerError] = useState<string | null>(null);
+  const [isFatal, setIsFatal] = useState(false);
   const [controllerId, setControllerId] = useState<string | null>(null);
+
+  const _setError = useCallback(
+    (_: string | null, isFatal: boolean) => setIsFatal(isFatal),
+    []
+  );
 
   return (
     <Modal
@@ -51,7 +56,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
               accountId={stashId}
               controllerId={controllerId}
               defaultController={defaultControllerId}
-              onError={setControllerError}
+              onError={_setError}
             />
           </Modal.Column>
           <Modal.Column>
@@ -63,7 +68,7 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
         <TxButton
           accountId={stashId}
           icon='sign-in-alt'
-          isDisabled={!controllerId}
+          isDisabled={!controllerId || isFatal}
           isPrimary
           label={t<string>('Set controller')}
           onStart={onClose}

@@ -37,6 +37,8 @@ interface ValueState {
   okWeb?: boolean;
 }
 
+const WHITESPACE = [' ', '\t'];
+
 function setData (data: Data, setActive: null | ((isActive: boolean) => void), setVal: (val: string) => void): void {
   if (data.isRaw) {
     setActive && setActive(true);
@@ -60,12 +62,15 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
   );
 }
 
-function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], starting: string[]): boolean {
+function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], excludes: string[], starting: string[], notStarting: string[] = WHITESPACE, notEnding: string[] = WHITESPACE): boolean {
   return !hasValue || (
     !!value &&
     (value.length >= minLength) &&
     includes.reduce((hasIncludes: boolean, check) => hasIncludes && value.includes(check), true) &&
-    starting.reduce((hasStarting: boolean, check) => hasStarting || value.startsWith(check), starting.length === 0)
+    (!starting.length || starting.some((check) => value.startsWith(check))) &&
+    !excludes.some((check) => value.includes(check)) &&
+    !notStarting.some((check) => value.startsWith(check)) &&
+    !notEnding.some((check) => value.endsWith(check))
   );
 }
 
@@ -104,12 +109,12 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   }, [identityOpt]);
 
   useEffect((): void => {
-    const okDisplay = checkValue(true, valDisplay, 1, [], []);
-    const okEmail = checkValue(hasEmail, valEmail, 3, ['@'], []);
-    const okLegal = checkValue(hasLegal, valLegal, 1, [], []);
-    const okRiot = checkValue(hasRiot, valRiot, 6, [':'], ['@', '~']);
-    const okTwitter = checkValue(hasTwitter, valTwitter, 3, [], ['@']);
-    const okWeb = checkValue(hasWeb, valWeb, 8, ['.'], ['https://', 'http://']);
+    const okDisplay = checkValue(true, valDisplay, 1, [], [], []);
+    const okEmail = checkValue(hasEmail, valEmail, 3, ['@'], WHITESPACE, []);
+    const okLegal = checkValue(hasLegal, valLegal, 1, [], [], []);
+    const okRiot = checkValue(hasRiot, valRiot, 6, [':'], WHITESPACE, ['@', '~']);
+    const okTwitter = checkValue(hasTwitter, valTwitter, 3, [], WHITESPACE, ['@']);
+    const okWeb = checkValue(hasWeb, valWeb, 8, ['.'], WHITESPACE, ['https://', 'http://']);
 
     setInfo({
       info: {
@@ -223,34 +228,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
-        {/* <WrapToggle
-          onChange={setHasImg}
-          value={hasImg}
-        >
-          <Input
-            isDisabled={!hasImg}
-            isError={hasImg && errImg}
-            label={t<string>('sha2 image hash')}
-            onChange={_onChangeImg}
-            placeholder={t<string>('0x...')}
-            maxLength={66}
-            value={hasImg ? valImg : '<none>'}
-          />
-        </WrapToggle>
-        <WrapToggle
-          onChange={setHasPgp}
-          value={hasPgp}
-        >
-          <Input
-            isDisabled={!hasPgp}
-            isError={hasPgp && errPgp}
-            label={t<string>('pgp hash')}
-            onChange={_onChangePgp}
-            placeholder={t<string>('0x...')}
-            maxLength={42}
-            value={hasPgp ? valPgp : '<none>'}
-          />
-        </WrapToggle> */}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton

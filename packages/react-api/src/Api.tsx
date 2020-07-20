@@ -7,6 +7,7 @@ import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import store from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
@@ -57,6 +58,15 @@ let api: ApiPromise;
 
 export { api };
 
+function getDevTypes (): Record<string, Record<string, string>> {
+  const types = store.get('types', {}) as Record<string, Record<string, string>>;
+  const names = Object.keys(types);
+
+  names.length && console.log('Injected types:', names.join(', '));
+
+  return types;
+}
+
 async function retrieve (api: ApiPromise): Promise<ChainData> {
   const [properties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.system.properties(),
@@ -93,7 +103,9 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   };
 }
 
-async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+  registry.register(types);
+
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -162,14 +174,15 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   useEffect((): void => {
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
+    const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
     api.on('ready', async (): Promise<void> => {
       try {
-        setState(await loadOnReady(api, store));
+        setState(await loadOnReady(api, store, types));
       } catch (error) {
         console.error('Unable to load chain', error);
       }

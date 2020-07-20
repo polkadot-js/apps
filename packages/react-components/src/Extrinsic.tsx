@@ -8,10 +8,10 @@ import { TypeDef } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { GenericCall, getTypeDef } from '@polkadot/types';
-import { InputExtrinsic } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { isUndefined } from '@polkadot/util';
 
+import InputExtrinsic from './InputExtrinsic';
 import paramComponents from './Params';
 
 interface Props {

@@ -6,7 +6,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Dropdown, Icon, Input, InputAddress, Static } from '@polkadot/react-components';
+import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
@@ -19,23 +19,6 @@ type CryptoTypes = KeypairType | 'unknown';
 interface Props {
   className?: string;
 }
-
-const AlignedIcon = styled(Icon)`
-  &&&::before {
-    position: relative;
-    left: 0.88rem;
-    top: 1rem;
-    width: 32px;
-    height: 32px;
-    font-size: 32px;
-    background: white !important;
-    border-radius: 50%;
-  }
-
-  &&&.big.icon {
-    font-size: 32px;
-  }
-`;
 
 function Verify ({ className = '' }: Props): React.ReactElement {
   const { t } = useTranslation();
@@ -131,10 +114,10 @@ function Verify ({ className = '' }: Props): React.ReactElement {
       </div>
       <div className='ui--row'>
         <div className='ui--AlignedIconContainer'>
-          <AlignedIcon
-            color={isValid ? 'green' : (isValidSignature ? 'red' : undefined)}
-            name={isValid ? 'check circle' : (isValidSignature ? 'exclamation circle' : 'help circle')}
-            size='big'
+          <Badge
+            className='alignedBadge'
+            color={isValid ? 'green' : (isValidSignature ? 'red' : 'gray')}
+            icon={isValid ? 'check' : (isValidSignature ? 'exclamation' : 'question')}
           />
         </div>
         <Input
@@ -173,5 +156,11 @@ export default React.memo(styled(Verify)`
   .ui--AlignedIconContainer {
     position: absolute;
     z-index: 1;
+  }
+
+  .alignedBadge {
+    left: 1.25rem;
+    position: relative;
+    top: 1.25rem;
   }
 `);

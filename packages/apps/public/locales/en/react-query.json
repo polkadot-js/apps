@@ -4,6 +4,7 @@
   "1 min": "1 min",
   "1 s": "1 s",
   "everything": "everything",
+  "everything{{labelPost}}": "everything{{labelPost}}",
   "{{d}} days": "{{d}} days",
   "{{h}} hrs": "{{h}} hrs",
   "{{m}} mins": "{{m}} mins",

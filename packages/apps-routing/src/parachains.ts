@@ -4,11 +4,11 @@
 
 import { Route } from './types';
 
-import Parachains from '@polkadot/app-parachains';
+import Component from '@polkadot/app-parachains';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Parachains,
+    Component,
     display: {
       needsApi: [
         'query.parachains.code'

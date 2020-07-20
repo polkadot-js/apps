@@ -8,7 +8,7 @@ A Portal into the Polkadot and Substrate networks. Provides a view and interacti
 
 This can be accessed as a hosted application via https://polkadot.js.org/apps/ or you can access the IPFS hosted version via https://polkadot.js.org/apps/ipfs (via hash) or https://dotapps.io (via ipns) to explore any of the supported Polkadot and Substrate chains.
 
-If you run one or more IPFS node(s), pinning the UI (which only getes updated on releases) will make it faster for you and others. You can find details about that below in the IPFS chapter below.
+If you run one or more IPFS node(s), pinning the UI (which only gets updated on releases) will make it faster for you and others. You can find details about that below in the IPFS chapter below.
 
 **Important** If you are a chain developer and would like to add support for your chain to the UI, all the local configuration (API types, settings, logos) can be customized in [the apps-config package](packages/apps-config#README.md), complete with instructions of what goes where.
 
@@ -51,14 +51,6 @@ To get started -
 5. Ready! Now you can launch the UI (assuming you have a local Polkadot Node running), via `yarn run start`
 6. Access the UI via [http://localhost:3000](http://localhost:3000)
 
-## I want to code around
-
-There is a base template available [page-123code](packages/page-123code/) that acts as a simple starting point for adding additional apps to the UI. Alternatively if you just want some place where you can write some code, it does the trick.
-
-While it is hidden from the sidebar, it is accessible via [http://127.0.0.1:3000/#/123code](http://127.0.0.1:3000/#/123code)
-
-Be sure to follow the [page-123code/README.md](packages/page-123code/README.md) instructions.
-
 ## Docker
 
 You can run a docker container via -
@@ -96,7 +88,7 @@ curl -s https://polkadot.js.org/apps/ipfs/pin.json | jq -jr .IpfsHash | xargs -0
 
 I suggest to run the script once. The output should be similar to (the CID/Hash will very likely be different though):
 ```
-$ /usr/local/bin/polkadotjs-ipfs-pin.sh 
+$ /usr/local/bin/polkadotjs-ipfs-pin.sh
 pinned QmNYAbzaE8kRAf68YiN3ZuUxgdwroeav3JhicsHsG5b2oW recursively
 ```
 

@@ -5,7 +5,6 @@
 import queryString from 'query-string';
 import store from 'store';
 import { createEndpoints } from '@polkadot/apps-config/settings';
-import { registry } from '@polkadot/react-api';
 import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import settings from '@polkadot/ui-settings';
 
@@ -53,15 +52,3 @@ const apiUrl = getApiUrl();
 settings.set({ apiUrl });
 
 console.log('WS endpoint=', apiUrl);
-
-try {
-  const types = store.get('types') as Record<string, Record<string, string>> || {};
-  const names = Object.keys(types);
-
-  if (names.length) {
-    registry.register(types);
-    console.log('Type registration:', names.join(', '));
-  }
-} catch (error) {
-  console.error('Type registration failed', error);
-}

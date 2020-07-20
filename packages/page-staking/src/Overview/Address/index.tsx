@@ -8,7 +8,7 @@ import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/type
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AddressSmall, Icon } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { checkVisibility } from '../../util';
@@ -22,7 +22,6 @@ interface Props {
   className?: string;
   filterName: string;
   hasQueries: boolean;
-  isAuthor?: boolean;
   isElected: boolean;
   isFavorite: boolean;
   isMain?: boolean;
@@ -71,14 +70,12 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isAuthor, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
   const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
   const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
-  const [isNominating, setIsNominating] = useState(false);
 
   useEffect((): void => {
     stakingInfo && setStakingState(expandInfo(stakingInfo));
@@ -89,13 +86,6 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
       checkVisibility(api, address, filterName, withIdentity, accountInfo)
     );
   }, [api, accountInfo, address, filterName, withIdentity]);
-
-  useEffect((): void => {
-    !isMain && setIsNominating(
-      allAccounts.includes(address) ||
-      (nominatedBy || []).some(([address]) => allAccounts.includes(address))
-    );
-  }, [address, allAccounts, isMain, nominatedBy]);
 
   const _onQueryStats = useCallback(
     (): void => {
@@ -109,18 +99,20 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
   }
 
   return (
-    <tr className={`${className} ${(isAuthor || isNominating) ? 'isHighlight' : ''}`}>
-      <Favorite
-        address={address}
-        isFavorite={isFavorite}
-        toggleFavorite={toggleFavorite}
-      />
-      <Status
-        isElected={isElected}
-        numNominators={nominatedBy?.length}
-        onlineCount={onlineCount}
-        onlineMessage={onlineMessage}
-      />
+    <tr className={className}>
+      <td className='badge together'>
+        <Favorite
+          address={address}
+          isFavorite={isFavorite}
+          toggleFavorite={toggleFavorite}
+        />
+        <Status
+          isElected={isElected}
+          numNominators={nominatedBy?.length}
+          onlineCount={onlineCount}
+          onlineMessage={onlineMessage}
+        />
+      </td>
       <td className='address'>
         <AddressSmall value={address} />
       </td>
@@ -141,12 +133,16 @@ function Address ({ address, className = '', filterName, hasQueries, isAuthor, i
       <td className='number'>
         {commission}
       </td>
-      <td className='number'>
-        {points}
-      </td>
-      <td className='number'>
-        {lastBlock}
-      </td>
+      {isMain && (
+        <>
+          <td className='number'>
+            {points}
+          </td>
+          <td className='number'>
+            {lastBlock}
+          </td>
+        </>
+      )}
       <td>
         {hasQueries && (
           <Icon

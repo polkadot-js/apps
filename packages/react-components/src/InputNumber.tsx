@@ -7,6 +7,7 @@ import { BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
 import { classes } from './util';
@@ -245,7 +246,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   return (
     <Input
       autoFocus={autoFocus}
-      className={classes('ui--InputNumber', className)}
+      className={classes('ui--InputNumber', isDisabled && 'isDisabled', className)}
       help={help}
       isAction={isSi}
       isDisabled={isDisabled}
@@ -279,4 +280,18 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   );
 }
 
-export default React.memo(InputNumber);
+export default React.memo(styled(InputNumber)`
+  &.isDisabled {
+    .ui--SiDropdown {
+      background: transparent;
+      border-color: rgba(34, 36, 38, .15) !important;
+      border-style: dashed;
+      color: #666 !important;
+      cursor: default !important;
+
+      .dropdown.icon {
+        display: none;
+      }
+    }
+  }
+`);

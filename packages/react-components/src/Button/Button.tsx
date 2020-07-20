@@ -4,68 +4,90 @@
 
 import { ButtonProps } from './types';
 
-import React from 'react';
-import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../Icon';
 
-function Button ({ children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
-  const props = {
-    animate: 'fade',
-    animated: isAnimated,
-    basic: isBasic,
-    circular: true,
-    className: `${className} ${isCircular ? 'isCircular' : ''} ${isIcon ? 'isIcon' : ''} ${(isCircular || isIcon || !(children || label)) ? 'icon' : ''}`,
-    disabled: isDisabled,
-    floated,
-    fluid: isFluid,
-    labelPosition,
-    loading: isLoading,
-    negative: isNegative,
-    onClick,
-    onMouseEnter,
-    onMouseLeave,
-    positive: isPositive,
-    primary: isPrimary,
-    secondary: !isBasic && !(isPositive || isPrimary || isNegative),
-    size: size || (isCircular ? undefined : (isIcon ? 'tiny' : 'small')),
-    tabIndex
-  };
+function Button ({ children, className = '', icon, isBasic = false, isCircular = false, isDisabled = false, isFull = false, isIcon, isNegative = false, isPositive = false, isPrimary = false, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
+  const _onClick = useCallback(
+    (): void => {
+      !isDisabled && onClick && onClick();
+    },
+    [isDisabled, onClick]
+  );
 
   return (
-    <>
-      <SUIButton {...props}>
-        {icon && (
-          <><Icon icon={icon} />{(isIcon || isCircular) ? '' : '  '}</>
-        )}
-        {label}
-        {children}
-      </SUIButton>
-    </>
+    <button
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''} ${className}`}
+      disabled={isDisabled}
+      onClick={_onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      tabIndex={tabIndex}
+    >
+      {icon && <Icon icon={icon} />}
+      {label}
+      {children}
+    </button>
   );
 }
 
 export default React.memo(styled(Button)`
-  border-radius: 10rem !important;
+  border: none;
+  font-size: 0.92857142857rem; // 13/14px
+  text-align: center;
 
-  &:not(.icon) {
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:not(.hasLabel) {
+    padding: 0.75em;
+
     > .ui--Icon {
-      margin-right: 0.25rem;
+      height: 1rem;
+      width: 1rem;
     }
   }
 
-  &.icon > .ui--Icon {
-    width: 1rem;
+  &:not(.isCircular) {
+    border-radius: 0.25rem;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.15;
+  }
+
+  &:focus {
+    outline:0;
+  }
+
+  &.hasLabel {
+    padding: 0.75em 1.5em;
+
+    > .ui--Icon {
+      margin-right: 0.75rem;
+    }
+  }
+
+  &.isBasic {
+    background: white !important;
+    box-shadow: 0 0 0 1px #ddd;
+    color: inherit !important;
+  }
+
+  &.isCircular {
+    border-radius: 10rem;
+  }
+
+  &.isFull {
+    display: block;
+    width: 100%;
   }
 
   &.isIcon {
-    background: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
-
-    .ui--Icon {
-      margin: 0 0 0 0.25rem !important;
-    }
+    background: transparent;
   }
 `);

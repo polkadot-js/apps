@@ -259,7 +259,6 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
           <Button
             className='action-button'
             icon='eraser'
-            isCircular
             onClick={_clearConsole}
           />
         </Output>
@@ -300,7 +299,7 @@ export default React.memo(styled(Playground)`
 
     .action-button {
       position: absolute;
-      right: 0.25rem;
+      right: 0.5rem;
       top: 0.5rem;
       z-index: 100;
     }
@@ -359,9 +358,5 @@ export default React.memo(styled(Playground)`
     display: flex;
     flex: 1 1 100%;
     max-width: 300px;
-
-    .button {
-      margin: 0;
-    }
   }
 `);

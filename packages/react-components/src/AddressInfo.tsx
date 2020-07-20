@@ -383,8 +383,8 @@ function AddressInfo (props: Props): React.ReactElement<Props> {
   const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   return (
-    <div className={`ui--AddressInfo ${className} ${withBalanceToggle ? 'ui--AddressInfo-expander' : ''}`}>
-      <div className={`column ${withBalanceToggle ? 'column--expander' : ''}`}>
+    <div className={`ui--AddressInfo${className}${withBalanceToggle ? ' ui--AddressInfo-expander' : ''}`}>
+      <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
         {renderBalances(props, allAccounts, t)}
         {withHexSessionId && withHexSessionId[0] && (
           <>

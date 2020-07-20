@@ -50,7 +50,6 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
               <Icon icon='check' />
             }
             isGray={!didUpdate}
-            isTooltip
           />
           <Badge
             className='pending-messages'
@@ -62,7 +61,6 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
             })}
             info={relayDispatchQueueSize}
             isGray={relayDispatchQueueSize <= 0}
-            isTooltip
           />
         </div>
       </td>

@@ -7,6 +7,7 @@ import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/typ
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
+import { Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useState, useEffect } from 'react';
@@ -23,6 +24,7 @@ import { useTranslation } from '../translate';
 import { createMenuGroup } from '../util';
 import Backup from './modals/Backup';
 import ChangePass from './modals/ChangePass';
+import DelegateModal from './modals/Delegate';
 import Derive from './modals/Derive';
 import IdentityMain from './modals/IdentityMain';
 import IdentitySub from './modals/IdentitySub';
@@ -30,12 +32,14 @@ import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
 import Transfer from './modals/Transfer';
+import UndelegateModal from './modals/Undelegate';
 import useMultisigApprovals from './useMultisigApprovals';
 import useProxies from './useProxies';
 
 interface Props {
   account: KeyringAddress;
   className?: string;
+  delegation?: Delegation;
   filter: string;
   isFavorite: boolean;
   setBalance: (address: string, value: BN) => void;
@@ -67,7 +71,7 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
   );
 }
 
-function Account ({ account: { address, meta }, className = '', filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
@@ -94,6 +98,8 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isTransferOpen, toggleTransfer] = useToggle();
+  const [isDelegateOpen, toggleDelegate] = useToggle();
+  const [isUndelegateOpen, toggleUndelegate] = useToggle();
 
   useEffect((): void => {
     if (balancesAll) {
@@ -234,9 +240,7 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
                 </table>
               </div>
             }
-            info={<Icon icon='shield' />}
-            isInline
-            isTooltip
+            icon='shield'
           />
         )}
         {multiInfos && multiInfos.length !== 0 && (
@@ -244,8 +248,6 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             color='red'
             hover={t<string>('Multisig approvals pending')}
             info={multiInfos.length}
-            isInline
-            isTooltip
           />
         )}
         {isProxied && !proxyInfo.hasOwned && (
@@ -253,8 +255,14 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             color='red'
             hover={t<string>('Proxied account has no owned proxies')}
             info='0'
-            isInline
-            isTooltip
+          />
+        )}
+        {delegation?.accountDelegated && (
+          <Badge
+            color='blue'
+            hover={t<string>('This account has a governance delegation')}
+            icon='calendar-check'
+            onClick={toggleDelegate}
           />
         )}
       </td>
@@ -265,6 +273,16 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             address={address}
             key='modal-backup-account'
             onClose={toggleBackup}
+          />
+        )}
+        {isDelegateOpen && (
+          <DelegateModal
+            key='modal-delegate'
+            onClose={toggleDelegate}
+            previousAmount={delegation?.amount}
+            previousConviction={delegation?.conviction}
+            previousDelegatedAccount={delegation?.accountDelegated}
+            previousDelegatingAccount={address}
           />
         )}
         {isDeriveOpen && (
@@ -334,8 +352,15 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
             onClose={toggleRecoverSetup}
           />
         )}
+        {isUndelegateOpen && (
+          <UndelegateModal
+            accountDelegating={address}
+            key='modal-delegate'
+            onClose={toggleUndelegate}
+          />
+        )}
       </td>
-      <td className='address'>
+      <td className='address ui--media-1400'>
         {meta.parentAddress && (
           <AddressMini value={meta.parentAddress} />
         )}
@@ -482,6 +507,28 @@ function Account ({ account: { address, meta }, className = '', filter, isFavori
                 onClick={toggleMultisig}
               >
                 {t('Multisig approvals')}
+              </Menu.Item>
+            ])}
+            {api.api.query.democracy?.votingOf && delegation?.accountDelegated && createMenuGroup([
+              <Menu.Item
+                key='changeDelegate'
+                onClick={toggleDelegate}
+              >
+                {t('Change democracy delegation')}
+              </Menu.Item>,
+              <Menu.Item
+                key='undelegate'
+                onClick={toggleUndelegate}
+              >
+                {t('Undelegate')}
+              </Menu.Item>
+            ])}
+            {api.api.query.democracy?.votingOf && !delegation?.accountDelegated && createMenuGroup([
+              <Menu.Item
+                key='delegate'
+                onClick={toggleDelegate}
+              >
+                {t('Delegate democracy votes')}
               </Menu.Item>
             ])}
             <ChainLock

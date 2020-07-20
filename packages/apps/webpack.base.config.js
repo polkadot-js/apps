@@ -12,6 +12,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const findPackages = require('../../scripts/findPackages');
 
+function mapChunks (name, regs, inc) {
+  return regs.reduce((result, test, index) => ({
+    ...result,
+    [`${name}${index}`]: {
+      chunks: 'initial',
+      enforce: true,
+      name: `${name}.${`0${index + (inc || 0)}`.slice(-2)}`,
+      test
+    }
+  }), {});
+}
+
 function createWebpack (ENV, context) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
@@ -86,6 +98,7 @@ function createWebpack (ENV, context) {
           ]
         },
         {
+          exclude: [/semantic-ui-css/],
           test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
           use: [
             {
@@ -99,6 +112,7 @@ function createWebpack (ENV, context) {
           ]
         },
         {
+          exclude: [/semantic-ui-css/],
           test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
           use: [
             {
@@ -107,6 +121,15 @@ function createWebpack (ENV, context) {
                 esModule: false,
                 name: 'static/[name].[hash:8].[ext]'
               }
+            }
+          ]
+        },
+        {
+          include: [/semantic-ui-css/],
+          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
+          use: [
+            {
+              loader: require.resolve('null-loader')
             }
           ]
         }
@@ -123,24 +146,20 @@ function createWebpack (ENV, context) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
-          polkadotJs: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'polkadotjs',
-            test: /node_modules\/@polkadot\/(api|api-derive|extension-dapp|keyring|metadata|react-identicon|react-qr|rpc-core|rpc-provider|types|ui-keyring|ui-settings|ui-shared|util|util-crypto|vanitygen|wasm-crypto)/
-          },
-          vendorOther: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'vendor',
-            test: /node_modules\/(asn1|bn\.js|buffer|cuint|elliptic|lodash|moment|readable-stream|rxjs|secp256k1|webrtc-adapter|remark-parse)/
-          },
-          vendorReact: {
-            chunks: 'initial',
-            enforce: true,
-            name: 'react',
-            test: /node_modules\/(@semantic-ui-react|chart|i18next|jidenticon|qrcode-generator|react|react-dom|semantic-ui-css|semantic-ui-react|styled-components)/
-          }
+          ...mapChunks('polkadot', [
+            /* 00 */ /node_modules\/@polkadot\/(wasm)/,
+            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
+            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@edgeware|@ledgerhq|@zondax|edgeware)/
+          ]),
+          ...mapChunks('react', [
+            /* 00 */ /node_modules\/(@fortawesome)/,
+            /* 01 */ /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|remark-parse|semantic-ui|styled-components)/
+          ]),
+          ...mapChunks('other', [
+            /* 00 */ /node_modules\/(@babel|ansi-styles|asn1|browserify|buffer|history|html-parse|inherit|lodash|memoizee|object|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|readable-stream|regenerator-runtime|repeat|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch)/,
+            /* 01 */ /node_modules\/(attr|brorand|camelcase|core|chalk|color|create|cuint|decode-uri|deep-equal|define-properties|detect-browser|es|event|evp|ext|function-bind|has-symbols|ieee754|ip|is|lru|markdown|minimalistic-|moment|next-tick|node-libs-browser|random|regexp|resolve|rxjs|scheduler|sdp|setimmediate|timers-browserify|trough)/,
+            /* 03 */ /node_modules\/(base-x|base64-js|blakejs|bip|bn\.js|cipher-base|crypto|des\.js|diffie-hellman|elliptic|hash|hmac|js-sha3|md5|miller-rabin|ripemd160|secp256k1|sha\.js|xxhashjs)/
+          ])
         }
       }
     },

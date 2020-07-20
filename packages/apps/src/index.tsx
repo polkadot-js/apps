@@ -12,13 +12,13 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
 import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';
+import WindowDimensions from './WindowDimensions';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
@@ -42,11 +42,11 @@ ReactDOM.render(
         <Api url={settings.apiUrl}>
           <BlockAuthors>
             <Events>
-              <AccountSidebar>
-                <HashRouter>
+              <HashRouter>
+                <WindowDimensions>
                   <Apps />
-                </HashRouter>
-              </AccountSidebar>
+                </WindowDimensions>
+              </HashRouter>
             </Events>
           </BlockAuthors>
         </Api>

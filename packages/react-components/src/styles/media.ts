@@ -189,8 +189,8 @@ export default css`
 
   /* tabs */
   @media (max-width: 991px) {
-    .ui.menu.tabular {
-      padding-left: 5.2rem !important;
+    .ui--Tabs {
+      padding-left: 5.2rem;
     }
   }
 `;

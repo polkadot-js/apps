@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useState } from 'react';
-import { Button as SUIB, Popup } from 'semantic-ui-react';
-import { Button, Input } from '@polkadot/react-components';
+import { Button, Input, Popup } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -51,62 +50,51 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
   );
 
   return (
-    <div className={`${className} action-button`}>
-      {
-      // FIXME: The <Popup /> event trigger on='hover' does not work together with the ui-app'
-      // <Button /> component. That's why the original Semantic UI component is being used here.
-      }
-      {isCustomExample && (
-        <Popup
-          content={t<string>('Delete this custom example')}
-          on='hover'
-          trigger={
-            <SUIB
-              circular
-              icon='trash alternate outline'
-              negative
-              onClick={removeSnippet}
-            />
-          }
-        />
-      )}
-      {!(isCustomExample) && (
-        <Popup
-          className='popup-local'
-          on='click'
-          onClose={_onPopupClose}
-          open={isOpen}
-          trigger={
-            <SUIB
-              circular
-              icon='save'
-              onClick={_onPopupOpen}
-            />
-          }
-        >
-          <Input
-            autoFocus
-            maxLength={50}
-            min={1}
-            onChange={_onChangeName}
-            onEnter={_saveSnippet}
-            placeholder={t<string>('Name your example')}
-            value={snippetName}
-            withLabel={false}
-          />
+    <Button.Group className={`${className} action-button`}>
+      {isCustomExample
+        ? (
           <Button
-            icon='save'
-            isDisabled={!snippetName.length}
-            label={t<string>('Save snippet to local storage')}
-            onClick={_saveSnippet}
+            icon='trash'
+            isNegative
+            onClick={removeSnippet}
           />
-        </Popup>
-      )}
+        )
+        : (
+          <Popup
+            className='popup-local'
+            isOpen={isOpen}
+            on='click'
+            onClose={_onPopupClose}
+            trigger={
+              <Button
+                icon='save'
+                onClick={_onPopupOpen}
+              />
+            }
+          >
+            <Input
+              autoFocus
+              maxLength={50}
+              min={1}
+              onChange={_onChangeName}
+              onEnter={_saveSnippet}
+              placeholder={t<string>('Name your example')}
+              value={snippetName}
+              withLabel={false}
+            />
+            <Button
+              icon='save'
+              isDisabled={!snippetName.length}
+              label={t<string>('Save snippet to local storage')}
+              onClick={_saveSnippet}
+            />
+          </Popup>
+        )
+      }
       {isRunning
         ? (
           <Button
             icon='times'
-            isCircular
             onClick={stopJs}
           />
         )
@@ -114,12 +102,11 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
           <Button
             className='play-button'
             icon='play'
-            isCircular
             onClick={runJs}
           />
         )
       }
-    </div>
+    </Button.Group>
   );
 }
 

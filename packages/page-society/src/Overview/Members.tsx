@@ -30,7 +30,8 @@ function Members ({ className = '', info }: Props): React.ReactElement<Props> {
 
   const header = useMemo(() => [
     [t('members'), 'start', 3],
-    [t('strikes')]
+    [t('strikes')],
+    [undefined, 'mini']
   ], [t]);
 
   return (

@@ -10,15 +10,14 @@ const merge = require('webpack-merge');
 const baseConfig = require('./webpack.base.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const ENV = process.env.NODE_ENV || 'development';
 const context = __dirname;
 const hasPublic = fs.existsSync(path.join(context, 'public'));
-
-const ENV = process.env.NODE_ENV || 'development';
 
 module.exports = merge(
   baseConfig(ENV, context),
   {
-    devtool: false,
+    devtool: process.env.BUILD_ANALYZE ? 'source-map' : false,
     plugins: [
       new HtmlWebpackPlugin({
         PAGE_TITLE: 'Polkadot/Substrate Portal',

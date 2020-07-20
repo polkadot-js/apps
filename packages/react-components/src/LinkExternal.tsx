@@ -76,7 +76,7 @@ function LinkExternal ({ className = '', data, hash, type, withShort }: Props): 
   }
 
   return (
-    <div className={`${className} ${withShort ? 'withShort' : ''}`}>
+    <div className={`${className}${withShort ? ' withShort' : ''}`}>
       {!withShort && <div>{t<string>('View this externally')}</div>}
       <div className='links'>{links.map((link, index) => <span key={index}>{link}</span>)}</div>
     </div>

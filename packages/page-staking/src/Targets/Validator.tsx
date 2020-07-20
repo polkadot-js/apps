@@ -7,7 +7,7 @@ import { ValidatorInfo } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Badge, Icon, Toggle } from '@polkadot/react-components';
+import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -21,6 +21,7 @@ interface Props {
   canSelect: boolean;
   filterName: string;
   info: ValidatorInfo;
+  isNominated: boolean;
   isSelected: boolean;
   toggleFavorite: (accountId: string) => void;
   toggleSelected: (accountId: string) => void;
@@ -48,7 +49,7 @@ function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): boolea
   return hasIdentity;
 }
 
-function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
+function Validator ({ canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
   const [isVisible, setVisibility] = useState(true);
@@ -76,23 +77,34 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
     return null;
   }
 
-  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, isNominating, key, numNominators, rankOverall, rewardPayout, validatorPayment } = info;
+  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, numNominators, rankOverall, rewardPayout, validatorPayment } = info;
 
   return (
-    <tr className={`${isNominating ? 'isHighlight' : ''}`}>
-      <Favorite
-        address={key}
-        isFavorite={isFavorite}
-        toggleFavorite={toggleFavorite}
-      />
+    <tr>
       <td className='badge together'>
-        {isElected && (
-          <Badge
-            color='blue'
-            info={<Icon icon='chevron-right' />}
-            isInline
-          />
-        )}
+        <Favorite
+          address={key}
+          isFavorite={isFavorite}
+          toggleFavorite={toggleFavorite}
+        />
+        {isNominated
+          ? (
+            <Badge
+              color='green'
+              icon='hand-paper'
+            />
+          )
+          : <Badge color='transparent' />
+        }
+        {isElected
+          ? (
+            <Badge
+              color='blue'
+              icon='chevron-right'
+            />
+          )
+          : <Badge color='transparent' />
+        }
         <MaxBadge numNominators={numNominators} />
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
@@ -113,8 +125,7 @@ function Validator ({ canSelect, filterName, info, isSelected, toggleFavorite, t
       <td className='number together'>{!rewardPayout.isZero() && <FormatBalance value={rewardPayout} />}</td>
       <td>
         {(canSelect || isSelected) && (
-          <Toggle
-            asSwitch={false}
+          <Checkbox
             onChange={_toggleSelected}
             value={isSelected}
           />
