@@ -16,6 +16,7 @@ const DOMAIN = 'dotapps.io';
 const DST = 'packages/apps/build';
 const SRC = 'packages/apps/public';
 const WOPTS = { encoding: 'utf8', flag: 'w' };
+const PINMETA = { name: 'dotapps.io' };
 
 const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
@@ -36,7 +37,7 @@ skip-checks: true"`);
 }
 
 async function pin () {
-  const result = await pinata.pinFromFS(DST);
+  const result = await pinata.pinFromFS(DST, { pinataMetadata: PINMETA });
   const url = `${GATEWAY}${result.IpfsHash}/`;
   const html = `<!DOCTYPE html>
 <html>
@@ -64,7 +65,7 @@ async function pin () {
 }
 
 async function unpin (exclude) {
-  const result = await pinata.pinList({ status: 'pinned' });
+  const result = await pinata.pinList({ metadata: PINMETA, status: 'pinned' });
 
   if (result.count > 1) {
     const filtered = result.rows
