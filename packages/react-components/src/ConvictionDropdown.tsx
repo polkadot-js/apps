@@ -22,7 +22,7 @@ const SEC_DAY = 60 * 60 * 24;
 
 // REMOVE once Polkadot is upgraded with the correct conviction
 const PERIODS: Record<string, BN> = {
-  '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3': new BN(0)
+  '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3': new BN(403200)
 };
 
 function AvailableDisplay ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
