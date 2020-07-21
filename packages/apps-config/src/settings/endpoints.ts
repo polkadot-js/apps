@@ -89,6 +89,11 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://westend-rpc.polkadot.io'
     },
     {
+      info: 'acala',
+      text: t<string>('rpc.mandala', 'Mandala (Acala Testnet, hosted by Acala)', { ns: 'apps-config' }),
+      value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
+    },
+    {
       info: 'edgeware',
       text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
       value: 'wss://berlin1.edgewa.re'

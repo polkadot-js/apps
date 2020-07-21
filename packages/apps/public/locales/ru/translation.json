@@ -984,6 +984,7 @@
   "rpc.kusama.parity": "Kusama (Polkadot Canary, hosted by Parity)",
   "rpc.kusama.w3f": "Kusama (Polkadot Canary, hosted by Web3 Foundation)",
   "rpc.local": "Локальная нода (Own, 127.0.0.1:9944)",
+  "rpc.mandala": "Mandala (Acala Testnet, hosted by Acala)",
   "rpc.westend": "Westend (Polkadot Testnet, hosted by Parity)",
   "runners up": "претенденты",
   "scheduling": "планирование",

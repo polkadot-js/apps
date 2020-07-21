@@ -11,6 +11,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@acala-network/type-definitions@npm:0.3.1":
+  version: 0.3.1
+  resolution: "@acala-network/type-definitions@npm:0.3.1"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^0.5.1
+  checksum: 3/dfed1c06987475b926780b623effae500c5c99b881ffd386953005196a24351549b1ab1dee2969adeef32ca651ba18aa81e3826046f44aabcc1cc4d0768ea1c2
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:^7.10.5":
   version: 7.10.5
   resolution: "@babel/cli@npm:7.10.5"
@@ -2923,6 +2932,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@open-web3/orml-type-definitions@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@open-web3/orml-type-definitions@npm:0.5.1"
+  checksum: 3/3bac3967adfd8fd2d0c3a0b6338a0c1421677a0f57346bb91279be966987203a04898811d865923269474381e5529b9fd7d4cb7e6aac2aa26952ebc710201342
+  languageName: node
+  linkType: hard
+
 "@pinata/sdk@npm:^1.1.10":
   version: 1.1.10
   resolution: "@pinata/sdk@npm:1.1.10"
@@ -3192,6 +3208,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
+    "@acala-network/type-definitions": 0.3.1
     "@babel/runtime": ^7.10.5
     edgeware-node-types: ^2.3.4
   languageName: unknown
