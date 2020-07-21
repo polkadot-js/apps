@@ -5,7 +5,7 @@
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { Voting } from '@polkadot/types/interfaces';
 import { Delegation, SortedAccount } from '../types';
-
+import { BN_ZERO } from '@polkadot/util';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
 import { sortAccounts } from '../util';
 import { web3Enable, web3FromSource } from '@polkadot/extension-dapp';
-import { injectMetamaskPolkadotSnapProvider } from '@nodefactory/metamask-polkadot-adapter/';
+import { injectMetamaskPolkadotSnapProvider } from '@nodefactory/metamask-polkadot-adapter';
 import { Keyring } from '@polkadot/keyring';
 import settings from '@polkadot/ui-settings';
 
@@ -177,9 +177,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     </div>
   ), [filterOn, t]);
 
-  const connectMetamaskAccount = (): void => {
+  const connectMetamaskAccount = async (): Promise<void> => {
     injectMetamaskPolkadotSnapProvider(settings.apiUrl.includes('kusama') ? 'kusama' : 'westend');
-    queryMetamask();
+    await queryMetamask();
   };
 
   return (
@@ -256,7 +256,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClick={toggleProxy}
         />
         <Button
-          icon='add'
+          icon='plus'
           label={t('Connect Metamask')}
           onClick={connectMetamaskAccount}
         />
