@@ -16,6 +16,7 @@ import { useTranslation } from './translate';
 interface Props {
   accountId?: string | null;
   autoFocus?: boolean;
+  isCouncil?: boolean;
   onChange: (value: BN) => void;
 }
 
@@ -24,7 +25,7 @@ interface ValueState {
   value?: BN;
 }
 
-function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
@@ -60,6 +61,7 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
       label={t<string>('vote value')}
       labelExtra={
         <BalanceVoting
+          isCouncil={isCouncil}
           label={<label>{t<string>('voting balance')}</label>}
           params={accountId}
         />

@@ -37,7 +37,7 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
   const [votingBlocks, setVotingBlocks] = useState<BN | undefined>(DEF_VOTING);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const memberThreshold = useMemo(
-    () => Math.ceil(members.length * 0.5),
+    () => Math.ceil(members.length * 0.66),
     [members]
   );
 

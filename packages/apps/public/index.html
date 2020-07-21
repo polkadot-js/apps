@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="theme-color" content="#000000">
+    <meta http-equiv="X-Frame-Options" content="deny">
     <link rel="manifest" href="manifest.json">
     <link rel="shortcut icon" href="favicon.ico">
     <title><%= htmlWebpackPlugin.options.PAGE_TITLE %></title>
@@ -14,5 +15,10 @@
     </noscript>
     <div id="root"></div>
     <div id="tooltips"></div>
+    <script>
+      if (window.self !== window.top) {
+        window.top.location.href = window.location.href;
+      }
+    </script>
   </body>
 </html>
