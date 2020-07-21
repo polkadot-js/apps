@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useDebounce, useToggle } from '@polkadot/react-hooks';
+import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
@@ -27,6 +27,11 @@ interface DeriveAddress {
   deriveError: string | null;
 }
 
+interface LockState {
+  isLocked: boolean;
+  lockedError: string | null;
+}
+
 function deriveValidate (suri: string, pairType: KeypairType): string | null {
   try {
     const { path } = keyExtractPath(suri);
@@ -36,20 +41,20 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
       return 'Soft derivation paths are not allowed on ed25519';
     }
   } catch (error) {
-    return error.message;
+    return (error as Error).message;
   }
 
   return null;
 }
 
-function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string): ActionStatus {
+function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
     const derived = source.derive(suri);
 
-    derived.setMeta({ ...derived.meta, name, parentAddress: source.address, tags: [] });
+    derived.setMeta({ ...derived.meta, genesisHash, name, parentAddress: source.address, tags: [] });
 
     const result = keyring.addPair(derived, password || '');
     const { address } = result.pair;
@@ -59,21 +64,23 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
     status.message = success;
 
     downloadAccount(result);
+    InputAddress.setLastValue('account', address);
   } catch (error) {
     status.status = 'error';
-    status.message = error.message;
+    status.message = (error as Error).message;
   }
 
   return status;
 }
 
-function Derive ({ className, from, onClose }: Props): React.ReactElement {
+function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
+  const { api, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
-  const [isLocked, setIsLocked] = useState(source.isLocked);
+  const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
@@ -83,7 +90,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
 
   useEffect((): void => {
-    setIsLocked(source.isLocked);
+    setIsLocked({ isLocked: source.isLocked, lockedError: null });
   }, [source]);
 
   useEffect((): void => {
@@ -120,11 +127,11 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
     (): void => {
       try {
         source.decodePkcs8(rootPass);
+        setIsLocked({ isLocked: source.isLocked, lockedError: null });
       } catch (error) {
         console.error(error);
+        setIsLocked({ isLocked: true, lockedError: (error as Error).message });
       }
-
-      setIsLocked(source.isLocked);
     },
     [rootPass, source]
   );
@@ -135,20 +142,20 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
         return;
       }
 
-      const status = createAccount(source, suri, name, password, t('created account'));
+      const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
       toggleConfirmation();
       queueAction(status);
       onClose();
     },
-    [isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
+    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
   );
 
   const sourceStatic = (
     <InputAddress
-      help={t('The selected account to perform the derivation on.')}
+      help={t<string>('The selected account to perform the derivation on.')}
       isDisabled
-      label={t('derive root account')}
+      label={t<string>('derive root account')}
       value={from}
     />
   );
@@ -156,7 +163,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
   return (
     <Modal
       className={className}
-      header={t('Derive account from pair')}
+      header={t<string>('Derive account from pair')}
     >
       {address && isConfirmationOpen && (
         <CreateConfirmation
@@ -172,8 +179,9 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
             {sourceStatic}
             <Password
               autoFocus
-              help={t('The password to unlock the selected account.')}
-              label={t('password')}
+              help={t<string>('The password to unlock the selected account.')}
+              isError={!!lockedError}
+              label={t<string>('password')}
               onChange={setRootPass}
               value={rootPass}
             />
@@ -188,35 +196,35 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
             {sourceStatic}
             <Input
               autoFocus
-              help={t('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
-              label={t('derivation path')}
+              help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
+              label={t<string>('derivation path')}
               onChange={setSuri}
-              placeholder={t('//hard/soft')}
+              placeholder={t<string>('//hard/soft')}
             />
             <Input
               className='full'
-              help={t('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
               isError={!isNameValid}
-              label={t('name')}
+              label={t<string>('name')}
               onChange={_onChangeName}
               onEnter={_onCommit}
-              placeholder={t('new account')}
+              placeholder={t<string>('new account')}
               value={name}
             />
             <Password
               className='full'
-              help={t('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
+              help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
               isError={!isPassValid}
-              label={t('password')}
+              label={t<string>('password')}
               onChange={_onChangePass}
               onEnter={_onCommit}
               value={password}
             />
             <Password
               className='full'
-              help={t('Verify the password entered above.')}
+              help={t<string>('Verify the password entered above.')}
               isError={!isPass2Valid}
-              label={t('password (repeat)')}
+              label={t<string>('password (repeat)')}
               onChange={_onChangePass2}
               onEnter={_onCommit}
               value={password2}
@@ -231,7 +239,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
               icon='lock'
               isDisabled={!rootPass}
               isPrimary
-              label={t('Unlock')}
+              label={t<string>('Unlock')}
               onClick={_onUnlock}
             />
           )
@@ -240,7 +248,7 @@ function Derive ({ className, from, onClose }: Props): React.ReactElement {
               icon='plus'
               isDisabled={!isValid}
               isPrimary
-              label={t('Save')}
+              label={t<string>('Save')}
               onClick={toggleConfirmation}
             />
           )

@@ -22,7 +22,7 @@ export interface InsetProps {
   withBottomMargin?: boolean;
 }
 
-function Inset ({ children, className, header, href, isCollapsible, isError, isSuccess, withBottomMargin, withTopMargin }: InsetProps): React.ReactElement<InsetProps> | null {
+function Inset ({ children, className = '', header, href, isCollapsible, isError, isSuccess, withBottomMargin, withTopMargin }: InsetProps): React.ReactElement<InsetProps> | null {
   const history = useHistory();
   const [isCollapsed, toggleCollapsed] = useToggle();
 
@@ -60,7 +60,7 @@ function Inset ({ children, className, header, href, isCollapsible, isError, isS
           <h3>{header}</h3>
           <Icon
             className={classes(isCollapsed && 'collapsed')}
-            name='angle up'
+            icon='angle-up'
           />
         </div>
       )}

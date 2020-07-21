@@ -15,7 +15,7 @@ import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util';
 
 interface State extends CallState {
-  subscriptions: any[]; // FIXME subscriptions
+  subscriptions: { unsubscribe: () => void }[];
 }
 
 export default function withObservable<T, P> (observable: Observable<P>, { callOnResult, propName = 'value', transform = echoTransform }: Options = {}): HOC {
@@ -36,13 +36,9 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
             observable
               .pipe(
                 map(transform),
-                catchError((): Observable<any> =>
-                  of(undefined)
-                )
+                catchError(() => of(undefined))
               )
-              .subscribe((value: any): void =>
-                this.triggerUpdate(this.props, value)
-              ),
+              .subscribe((value: any) => this.triggerUpdate(this.props, value)),
             intervalObservable(this)
           ]
         });
@@ -55,13 +51,13 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
         );
       }
 
-      private triggerUpdate = (props: any, callResult?: T): void => {
+      private triggerUpdate = (props: P, callResult?: T): void => {
         try {
           if (!this.isActive || isEqual(callResult, this.state.callResult)) {
             return;
           }
 
-          triggerChange(callResult, callOnResult, props.callOnResult || defaultProps.callOnResult);
+          triggerChange(callResult, callOnResult, (props as Options).callOnResult || defaultProps.callOnResult);
 
           this.setState({
             callResult,
@@ -75,6 +71,7 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
 
       public render (): React.ReactNode {
         const { children } = this.props;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const { callResult, callUpdated, callUpdatedAt } = this.state;
         const _props = {
           ...defaultProps,

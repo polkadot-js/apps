@@ -7,21 +7,23 @@ import { AccountId, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Input, Table } from '@polkadot/react-components';
-import { useApi, useCall, useFavorites } from '@polkadot/react-hooks';
+import { Table } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 import { Option, StorageKey } from '@polkadot/types';
 
-import { STORE_FAVS_BASE } from '../constants';
+import Filtering from '../Filtering';
 import { useTranslation } from '../translate';
 import Address from './Address';
 
 interface Props {
+  favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
   next?: string[];
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
+  toggleFavorite: (address: string) => void;
 }
 
 type AccountExtend = [string, boolean, boolean];
@@ -88,16 +90,16 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
   }, {});
 }
 
-function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOverview }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { byAuthor, eraPoints, lastBlockAuthors } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
+  const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats, []);
   const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries as any, []);
-  const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
   const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
+  const [withIdentity, setWithIdentity] = useState(false);
 
   useEffect((): void => {
     stakingOverview && setFiltered(
@@ -111,15 +113,15 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     );
   }, [nominators]);
 
-  const headerActive = useMemo(() => [
-    [t('intentions'), 'start', 3],
+  const headerWaiting = useMemo(() => [
+    [t('intentions'), 'start', 2],
     [t('nominators'), 'start', 2],
     [t('commission'), 'number', 1],
-    [undefined, undefined, 3]
+    []
   ], [t]);
 
-  const headerWaiting = useMemo(() => [
-    [t('validators'), 'start', 3],
+  const headerActive = useMemo(() => [
+    [t('validators'), 'start', 2],
     [t('other stake')],
     [t('own stake')],
     [t('commission')],
@@ -128,16 +130,6 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
     []
   ], [t]);
 
-  const filter = useMemo(() => (
-    <Input
-      autoFocus
-      isFull
-      label={t('filter by name, address or index')}
-      onChange={setNameFilter}
-      value={nameFilter}
-    />
-  ), [nameFilter, t]);
-
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
       (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
@@ -145,7 +137,6 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
           address={address}
           filterName={nameFilter}
           hasQueries={hasQueries}
-          isAuthor={lastBlockAuthors.includes(address)}
           isElected={isElected}
           isFavorite={isFavorite}
           isMain={isMain}
@@ -155,27 +146,42 @@ function CurrentList ({ hasQueries, isIntentions, next, setNominators, stakingOv
           onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
-          setNominators={setNominators}
           toggleFavorite={toggleFavorite}
+          withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, lastBlockAuthors, nameFilter, nominatedBy, recentlyOnline, setNominators, toggleFavorite]
+    [byAuthor, eraPoints, hasQueries, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions
     ? (
       <Table
-        empty={waiting && t('No waiting validators found')}
-        header={headerActive}
+        empty={waiting && t<string>('No waiting validators found')}
+        filter={
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+            setWithIdentity={setWithIdentity}
+            withIdentity={withIdentity}
+          />
+        }
+        header={headerWaiting}
       >
-        {_renderRows(elected, false).concat(..._renderRows(waiting, false))}
+        {_renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
     )
     : (
       <Table
-        empty={validators && t('No active validators found')}
-        filter={filter}
-        header={headerWaiting}
+        empty={validators && t<string>('No active validators found')}
+        filter={
+          <Filtering
+            nameFilter={nameFilter}
+            setNameFilter={setNameFilter}
+            setWithIdentity={setWithIdentity}
+            withIdentity={withIdentity}
+          />
+        }
+        header={headerActive}
       >
         {_renderRows(validators, true)}
       </Table>

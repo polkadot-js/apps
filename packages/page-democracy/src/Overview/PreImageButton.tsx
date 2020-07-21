@@ -24,7 +24,7 @@ function PreImageButton ({ imageHash, isImminent }: Props): React.ReactElement<P
     <>
       <Button
         icon='plus'
-        label={t('Preimage')}
+        label={t<string>('Image')}
         onClick={togglePreimage}
       />
       {isPreimageOpen && (

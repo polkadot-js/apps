@@ -8,10 +8,10 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tag } from '@polkadot/react-components';
+import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
@@ -28,7 +28,7 @@ const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, 
 
 const isEditable = true;
 
-function Address ({ address, className, filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
@@ -70,7 +70,7 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   useEffect((): void => {
     const account = keyring.getAddress(address);
 
-    _setTags(account?.meta?.tags || []);
+    _setTags(account?.meta?.tags as string[] || []);
     setAccName(account?.meta?.name || '');
   }, [_setTags, address]);
 
@@ -132,10 +132,10 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         try {
           keyring.forgetAddress(address);
           status.status = 'success';
-          status.message = t('address forgotten');
+          status.message = t<string>('address forgotten');
         } catch (error) {
           status.status = 'error';
-          status.message = error.message;
+          status.message = (error as Error).message;
         }
       }
     },
@@ -150,8 +150,8 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
     <tr className={className}>
       <td className='favorite'>
         <Icon
-          className={`${isFavorite && 'isSelected isColorHighlight'}`}
-          name={isFavorite ? 'star' : 'star outline'}
+          color={isFavorite ? 'orange' : 'gray'}
+          icon='star'
           onClick={_onFavorite}
         />
       </td>
@@ -180,16 +180,11 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       </td>
       <td className='all'>
         <div className='tags'>
-          {tags.map((tag): React.ReactNode => (
-            <Tag
-              key={tag}
-              label={tag}
-            />
-          ))}
+          <Tags value={tags} />
         </div>
       </td>
-      <td className='number'>
-        {balancesAll && formatNumber(balancesAll.accountNonce)}
+      <td className='number ui--media-1500'>
+        {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
         <AddressInfo
@@ -201,12 +196,10 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
       </td>
       <td className='button'>
         <Button
-          icon='paper plane'
+          icon='paper-plane'
           key='deposit'
-          label={t('deposit')}
+          label={t<string>('deposit')}
           onClick={_toggleTransfer}
-          size='small'
-          tooltip={t('Send funds to this address')}
         />
         <Popup
           className='theme--default'
@@ -214,9 +207,8 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           onClose={_toggleSettingPopup}
           trigger={
             <Button
-              icon='setting'
+              icon='ellipsis-v'
               onClick={_toggleSettingPopup}
-              size='small'
             />
           }
         >
@@ -229,23 +221,19 @@ function Address ({ address, className, filter, isFavorite, toggleFavorite }: Pr
               disabled={!isEditable}
               onClick={_toggleForget}
             >
-              {t('Forget this address')}
+              {t<string>('Forget this address')}
             </Menu.Item>
-            {!api.isDevelopment && (
-              <>
-                <Menu.Divider />
-                <ChainLock
-                  className='addresses--network-toggle'
-                  genesisHash={genesisHash}
-                  isDisabled={!isEditable}
-                  onChange={_onGenesisChange}
-                />
-              </>
-            )}
+            <Menu.Divider />
+            <ChainLock
+              className='addresses--network-toggle'
+              genesisHash={genesisHash}
+              isDisabled={!isEditable || api.isDevelopment}
+              onChange={_onGenesisChange}
+            />
           </Menu>
         </Popup>
       </td>
-      <td className='mini'>
+      <td className='mini ui--media-1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

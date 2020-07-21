@@ -4,17 +4,18 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   children: React.ReactNode;
   className?: string;
-  icon: string;
+  icon: IconName;
   type: 'error' | 'info';
 }
 
-function BaseOverlay ({ children, className, icon, type }: Props): React.ReactElement<Props> | null {
+function BaseOverlay ({ children, className = '', icon, type }: Props): React.ReactElement<Props> | null {
   const [isHidden, toggleHidden] = useToggle();
 
   if (isHidden) {
@@ -26,15 +27,15 @@ function BaseOverlay ({ children, className, icon, type }: Props): React.ReactEl
       <div className='content'>
         <Icon
           className='contentIcon'
-          name={icon as any}
-          size='big'
+          icon={icon}
+          size='2x'
         />
         <div className='contentItem'>
           {children}
         </div>
         <Icon
           className='closeIcon'
-          name='close'
+          icon='times'
           onClick={toggleHidden}
         />
       </div>

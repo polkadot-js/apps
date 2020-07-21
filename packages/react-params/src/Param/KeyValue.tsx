@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -36,18 +36,22 @@ export function createParam (hex: string | String, length = -1): StateParam {
   };
 }
 
-function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, withLabel }: Props): React.ReactElement<Props> {
+function KeyValue ({ className = '', isDisabled, label, onChange, onEnter, withLabel }: Props): React.ReactElement<Props> {
+  const [, setIsValid] = useState(false);
   const [key, setKey] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
   const [value, setValue] = useState<StateParam>({ isValid: false, u8a: new Uint8Array([]) });
 
   useEffect((): void => {
+    const isValid = key.isValid && value.isValid;
+
     onChange && onChange({
-      isValid: key.isValid && value.isValid,
+      isValid,
       value: u8aConcat(
         key.u8a,
         value.u8a
       )
     });
+    setIsValid(isValid);
   }, [key, onChange, value]);
 
   const _onChangeKey = useCallback(
@@ -60,10 +64,7 @@ function KeyValue ({ className, isDisabled, label, onChange, onEnter, style, wit
   );
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Input
         className='medium'
         isDisabled={isDisabled}

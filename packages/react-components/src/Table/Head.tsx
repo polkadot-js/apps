@@ -5,14 +5,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
+
 interface Props {
   className?: string;
   filter?: React.ReactNode;
-  header: [React.ReactNode?, string?, number?, (() => void)?][];
+  header: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
-function Head ({ className, filter, header, isEmpty }: Props): React.ReactElement<Props> {
+function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> {
   return (
     <thead className={className}>
       {filter && (
@@ -21,19 +23,18 @@ function Head ({ className, filter, header, isEmpty }: Props): React.ReactElemen
         </tr>
       )}
       <tr>
-        {header.map(([label, className = 'default', colSpan = 1, onClick], index) =>
+        {header.filter((h): h is HeaderDef => !!h).map(([label, className = 'default', colSpan = 1, onClick], index) =>
           <th
             className={className}
             colSpan={colSpan}
             key={index}
             onClick={onClick}
           >
-            {
-              index === 0
-                ? <h1>{label}</h1>
-                : isEmpty
-                  ? ''
-                  : label
+            {index === 0
+              ? <h1>{label}</h1>
+              : isEmpty
+                ? ''
+                : label
             }
           </th>
         )}
@@ -61,9 +62,17 @@ export default React.memo(styled(Head)`
       text-align: left;
     }
 
+    &.badge {
+      padding: 0;
+    }
+
     &.isClickable {
       border-bottom: 2px solid transparent;
       cursor: pointer;
+    }
+
+    &.mini {
+      padding: 0 !important;
     }
 
     &.start {

@@ -23,17 +23,19 @@ function Bids ({ className }: Props): React.ReactElement<Props> {
   const header = useMemo(() => [
     [t('bids'), 'start'],
     [t('kind')],
-    [t('value')]
+    [t('value')],
+    []
   ], [t]);
 
   return (
     <Table
       className={className}
-      empty={bids && t('No bids')}
+      empty={bids && t<string>('No bids')}
       header={header}
     >
-      {bids?.map((bid): React.ReactNode => (
+      {bids?.map((bid, index): React.ReactNode => (
         <BidRow
+          index={index}
           key={bid.who.toString()}
           value={bid}
         />

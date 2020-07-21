@@ -17,57 +17,62 @@ interface Props {
 
 const defaultHighlight = '#f19135'; // #999
 
+const getHighlight = (props: Props): string =>
+  (props.uiHighlight || defaultHighlight);
+
 export default createGlobalStyle<Props>`
   .ui--highlight--all {
-    background: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-    border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-    color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    background: ${getHighlight} !important;
+    border-color: ${getHighlight} !important;
+    color: ${getHighlight} !important;
   }
 
   .ui--highlight--bg {
-    background: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    background: ${getHighlight} !important;
   }
 
   .ui--highlight--border {
-    /* .theme--default .ui.menu.tabular > .item.active */
-    border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    border-color: ${getHighlight} !important;
   }
 
-  .ui--highlight--color {
-    color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-  }
+  .ui--highlight--button {
+    background: ${getHighlight} !important;
+    // box-shadow: 0 0 0 1px ${getHighlight} !important;
 
-  .ui--highlight--fill {
-    fill: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
-  }
-
-  .ui--highlight--gradient {
-    background: ${(props): string => `linear-gradient(90deg, ${props.uiHighlight}, transparent)`};
-  }
-
-  .ui--highlight--icon {
-    i.icon {
-      color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    &:hover {
+      // box-shadow: inherit !important;
     }
   }
 
-  .ui--highlight--spinner {
-    &:after {
-      border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} transparent transparent !important;
+  .ui--highlight--color {
+    color: ${getHighlight} !important;
+  }
+
+  .ui--highlight--fill {
+    fill: ${getHighlight} !important;
+  }
+
+  .ui--highlight--gradient {
+    background: ${(props: Props): string => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+  }
+
+  .ui--highlight--icon {
+    .ui--Icon {
+      color: ${getHighlight} !important;
     }
   }
 
   .ui--highlight--stroke {
-    stroke: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    stroke: ${getHighlight} !important;
   }
 
   .theme--default {
-    .ui.menu.tabular .item.active {
-      border-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    .ui--Tabs-Tab.tabLinkActive {
+      border-bottom-color: ${getHighlight};
     }
 
-    .ui.blue.progress > .bar {
-      background-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    .ui--Progress > div {
+      background-color: ${getHighlight} !important;
     }
 
     .ui.negative.button,
@@ -77,20 +82,21 @@ export default createGlobalStyle<Props>`
 
     .ui.primary.button,
     .ui.buttons .primary.button {
-      background: ${(props): string => (props.uiHighlight || defaultHighlight)};
+      background: ${getHighlight};
 
       &.active,
       &:active,
       &:focus,
       &:hover {
-        background-color: ${(props): string => (props.uiHighlight || defaultHighlight)};
+        background-color: ${getHighlight};
       }
     }
 
-    .ui.toggle.checkbox {
-      input:checked~.box:before,
-      input:checked~label:before {
-        background-color: ${(props): string => (props.uiHighlight || defaultHighlight)} !important;
+    .ui--Toggle.isChecked .ui--Toggle-Slider {
+      background-color: ${getHighlight} !important;
+
+      &:before {
+        border-color: ${getHighlight} !important;
       }
     }
   }
@@ -115,26 +121,13 @@ export default createGlobalStyle<Props>`
     position: relative;
     text-align: left;
 
-    &:hover {
-      /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
-      /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      border-color: transparent; */
-    }
-
-    &:not(:hover) {
+    &:not(:hover):not(.keepAlive) {
       .ui.button:not(.disabled) {
         background: #eee !important;
         color: #555 !important;
       }
 
-      .ui.toggle.checkbox {
-        input:checked~.box:before,
-        input:checked~label:before {
-          background-color: #eee !important;
-        }
-      }
-
-      .ui.button.mini {
+      .ui.button.show-on-hover {
         visibility: hidden;
       }
     }

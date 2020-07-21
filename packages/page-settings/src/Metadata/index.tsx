@@ -15,9 +15,9 @@ export default function Metadata (): React.ReactElement {
 
   return (
     <>
-      <h1>{t('Extensions')}</h1>
+      <h1>{t<string>('Extensions')}</h1>
       <Extensions chainInfo={chainInfo} />
-      <h1>{t('Chain specifications')}</h1>
+      <h1>{t<string>('Chain specifications')}</h1>
       <NetworkSpecs chainInfo={chainInfo} />
     </>
   );

@@ -10,7 +10,7 @@ import { ApiPromise } from '@polkadot/api';
 import { PromiseContract as Contract } from '@polkadot/api-contract';
 import { getContractAbi } from '@polkadot/react-components/util';
 
-import MessageSignature from '../MessageSignature';
+import MessageSignature from '../shared/MessageSignature';
 
 export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): ContractABIMessage | null {
   const message = callContract && callContract.abi.abi.contract.messages[callMethodIndex];

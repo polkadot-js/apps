@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { CallOptions, CallParam, CallParams } from './types';
 
 import { useEffect, useRef, useState } from 'react';
@@ -32,15 +33,15 @@ interface TrackerRef {
 }
 
 // the default transform, just returns what we have
-function transformIdentity (value: any): any {
-  return value;
+function transformIdentity <T> (value: unknown): T {
+  return value as T;
 }
 
 // extract the serialized and mapped params, all ready for use in our call
-function extractParams (fn: any, params: any[], paramMap: (params: any[]) => any): [string, CallParams | null] {
+function extractParams (fn: unknown, params: unknown[], paramMap: (params: unknown[]) => CallParams): [string, CallParams | null] {
   return [
-    JSON.stringify({ f: fn?.name, p: params }),
-    params.length === 0 || !params.some((param): boolean => isNull(param) || isUndefined(null))
+    JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
+    params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
       ? paramMap(params)
       : null
   ];
@@ -51,7 +52,7 @@ function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
-    tracker.current.subscriber.then((unsubFn): void => unsubFn());
+    tracker.current.subscriber.then((unsubFn) => unsubFn()).catch(console.error);
     tracker.current.subscriber = null;
   }
 }
@@ -69,9 +70,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
         tracker.current.isActive = true;
         tracker.current.count = 0;
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore We tried to get the typings right, close but no cigar...
-        tracker.current.subscriber = fn(...params, (value: any): void => {
+        tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<() => void>)(...params, (value: Codec): void => {
           // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
           // since .subscriber may not be set on immeditae callback)
           if (mountedRef.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {

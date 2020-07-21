@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { I18nProps } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -11,13 +10,13 @@ import styled from 'styled-components';
 import { Button, InputAddress, InputBalance, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import Checks from '@polkadot/react-signer/Checks';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
+import { BN_ZERO } from '@polkadot/util';
 
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
-import translate from './translate';
+import { useTranslation } from './translate';
 
-interface Props extends I18nProps {
+interface Props {
   className?: string;
   onClose: () => void;
   recipientId?: string;
@@ -30,12 +29,12 @@ interface Option {
   value: string;
 }
 
-function Transfer ({ assets, className, onClose, recipientId: propRecipientId, senderId: propSenderId, t }: Props): React.ReactElement<Props> {
+function Transfer ({ assets, className = '', onClose, recipientId: propRecipientId, senderId: propSenderId }: Props): React.ReactElement<Props> {
   const { api } = useApi();
+  const { t } = useTranslation();
   const [assetId, setAssetId] = useState('0');
-  const [amount, setAmount] = useState<BN | undefined>(new BN(0));
+  const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic | null>(null);
-  const [hasAvailable, setHasAvailable] = useState(true);
   const [options, setOptions] = useState<Option[]>([]);
   const [recipientId, setRecipientId] = useState(propRecipientId || null);
   const [senderId, setSenderId] = useState(propSenderId || null);
@@ -64,16 +63,16 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
     }
   };
 
-  const transferrable = <span className='label'>{t('transferrable')}</span>;
+  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
 
   return (
     <div>
       <div className={className}>
         <InputAddress
           defaultValue={propSenderId}
-          help={t('The account you will send funds from.')}
+          help={t<string>('The account you will send funds from.')}
           isDisabled={!!propSenderId}
-          label={t('send from account')}
+          label={t<string>('send from account')}
           labelExtra={
             <Available
               label={transferrable}
@@ -85,9 +84,9 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
         />
         <InputAddress
           defaultValue={propRecipientId}
-          help={t('Select a contact or paste the address you want to send funds to.')}
+          help={t<string>('Select a contact or paste the address you want to send funds to.')}
           isDisabled={!!propRecipientId}
-          label={t('send to address')}
+          label={t<string>('send to address')}
           labelExtra={
             <Available
               label={transferrable}
@@ -99,34 +98,26 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
         />
         <Dropdown
           allowAdd
-          help={t('Enter the Asset ID of the token you want to transfer.')}
-          label={t('asset id')}
+          help={t<string>('Enter the Asset ID of the token you want to transfer.')}
+          label={t<string>('asset id')}
           onAdd={_onAddAssetId}
           onChange={setAssetId}
           options={options}
           value={assetId}
         />
         <InputBalance
-          help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
-          isError={!hasAvailable}
-          label={t('amount')}
+          help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
+          label={t<string>('amount')}
           onChange={setAmount}
-        />
-        <Checks
-          accountId={senderId}
-          extrinsic={extrinsic}
-          isSendable
-          onChange={setHasAvailable}
         />
       </div>
       <Button.Group>
         <TxButton
           accountId={senderId}
           extrinsic={extrinsic}
-          icon='send'
-          isDisabled={!hasAvailable}
+          icon='paper-plane'
           isPrimary
-          label={t('Make Transfer')}
+          label={t<string>('Make Transfer')}
           onStart={onClose}
         />
       </Button.Group>
@@ -155,6 +146,5 @@ export default withMulti(
       flex-basis: 10rem;
     }
   `,
-  translate,
   withObservable(assetRegistry.subject, { propName: 'assets' })
 );

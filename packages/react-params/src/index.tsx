@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -76,7 +76,7 @@ class Params extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { children, className, isDisabled, onEnter, onEscape, overrides, params, withBorder = true } = this.props;
+    const { children, className = '', isDisabled, onEnter, onEscape, overrides, params, withBorder = true } = this.props;
     const { values = this.props.values } = this.state;
 
     if (!values || !values.length) {
@@ -95,7 +95,7 @@ class Params extends React.PureComponent<Props, State> {
                 defaultValue={values[index]}
                 index={index}
                 isDisabled={isDisabled}
-                key={`${name}:${type}:${index}`}
+                key={`${name || ''}:${type.toString()}:${index}`}
                 name={name}
                 onChange={this.onChangeParam}
                 onEnter={onEnter}

@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-api/types';
-
 import React, { useEffect, useState } from 'react';
 import { Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
-interface Props extends BareProps {
+interface Props {
   address: string;
   registrars: { address: string; index: number }[];
   toggleJudgement: () => void;
@@ -44,24 +42,24 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
 
   return (
     <Modal
-      header={t('Provide judgement')}
+      header={t<string>('Provide judgement')}
       onClose={toggleJudgement}
       size='small'
     >
       <Modal.Content>
         <InputAddress
           filter={addresses}
-          label={t('registrar account')}
+          label={t<string>('registrar account')}
           onChange={setJudgementAccountId}
           type='account'
         />
         <Input
           isDisabled
-          label={t('registrar index')}
-          value={registrarIndex === -1 ? t('invalid/unknown registrar account') : registrarIndex}
+          label={t<string>('registrar index')}
+          value={registrarIndex === -1 ? t<string>('invalid/unknown registrar account') : registrarIndex.toString()}
         />
         <Dropdown
-          label={t('judgement')}
+          label={t<string>('judgement')}
           onChange={setJudgementEnum}
           options={JUDGEMENT_ENUM}
           value={judgementEnum}
@@ -72,7 +70,7 @@ function RegistrarJudgement ({ address, registrars, toggleJudgement }: Props): R
           accountId={judgementAccountId}
           icon='check'
           isDisabled={registrarIndex === -1}
-          label={t('Judge')}
+          label={t<string>('Judge')}
           onStart={toggleJudgement}
           params={[registrarIndex, address, judgementEnum]}
           tx='identity.provideJudgement'

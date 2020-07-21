@@ -4,14 +4,14 @@
 
 import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
-import { BareProps } from '../types';
 
 import React from 'react';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue?: string;
   isError?: boolean;
   onChange: (value: string) => void;
@@ -19,7 +19,7 @@ interface Props extends BareProps {
   value: DefinitionRpcExt;
 }
 
-function SelectSection ({ className, defaultValue, isError, onChange, options, style, value }: Props): React.ReactElement<Props> {
+function SelectSection ({ className = '', defaultValue, isError, onChange, options, value }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}
@@ -27,7 +27,6 @@ function SelectSection ({ className, defaultValue, isError, onChange, options, s
       isError={isError}
       onChange={onChange}
       options={options}
-      style={style}
       value={value.section}
       withLabel={false}
     />

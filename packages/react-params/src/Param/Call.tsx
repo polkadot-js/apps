@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,13 +8,12 @@ import { Props } from '../types';
 import React from 'react';
 import { registry } from '@polkadot/react-api';
 import { Call, Static } from '@polkadot/react-components';
-import { classes } from '@polkadot/react-components/util';
 
 import Bare from './Bare';
 import Unknown from './Unknown';
 
 function CallDisplay (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue: { value }, isDisabled, label, style, withLabel } = props;
+  const { className = '', defaultValue: { value }, isDisabled, label, withLabel } = props;
 
   if (!isDisabled) {
     return (
@@ -28,9 +27,8 @@ function CallDisplay (props: Props): React.ReactElement<Props> {
   return (
     <Bare>
       <Static
-        className={classes(className, 'full')}
+        className={`${className} full`}
         label={label}
-        style={style}
         withLabel={withLabel}
       >
         {section}.{method}

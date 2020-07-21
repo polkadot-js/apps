@@ -4,22 +4,19 @@
 
 import { Route } from './types';
 
-import Contracts from '@polkadot/app-contracts';
+import Component from '@polkadot/app-contracts';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Contracts,
+    Component,
     display: {
       needsAccounts: true,
       needsApi: [
-        [
-          'tx.contracts.call', // substrate 2.x
-          'tx.contract.call' // substrate 1.x
-        ]
+        'tx.contracts.call'
       ]
     },
     icon: 'compress',
     name: 'contracts',
-    text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })
+    text: t<string>('nav.contracts', 'Contracts', { ns: 'apps-routing' })
   };
 }

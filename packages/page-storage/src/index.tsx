@@ -11,19 +11,15 @@ import styled from 'styled-components';
 import Queries from './Queries';
 import Selection from './Selection';
 
-function StorageApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const [queue, setQueue] = useState<QueryTypes[]>([]);
 
   const _onAdd = useCallback(
-    (query: QueryTypes): void => setQueue((queue: QueryTypes[]) =>
-      [query, ...queue]
-    ),
+    (query: QueryTypes) => setQueue((queue: QueryTypes[]) => [query, ...queue]),
     []
   );
   const _onRemove = useCallback(
-    (id: number): void => setQueue((queue: QueryTypes[]) =>
-      queue.filter((item): boolean => item.id !== id)
-    ),
+    (id: number) => setQueue((queue: QueryTypes[]) => queue.filter((item) => item.id !== id)),
     []
   );
 
@@ -46,7 +42,7 @@ export default React.memo(styled(StorageApp)`
     align-items: flex-start;
     display: flex;
 
-    .button {
+    .ui--Button {
       margin: 0.25rem;
     }
 
@@ -68,6 +64,6 @@ export default React.memo(styled(StorageApp)`
 
   .storage--actionrow-buttons {
     flex: 0;
-    padding: 0.625rem 0.25rem;
+    padding: 0.5rem 0.25rem;
   }
 `);

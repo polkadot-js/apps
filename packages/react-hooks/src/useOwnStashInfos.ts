@@ -86,7 +86,7 @@ export default function useOwnStashInfos (): StakerState[] | undefined {
           );
         }).then((_unsub): void => {
           unsub = _unsub;
-        });
+        }).catch(console.error);
       } else {
         mountedRef.current && setQueried({});
       }

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { Forcing } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { CardSummary } from '@polkadot/react-components';
@@ -20,14 +21,15 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
+  const forcing = useCall<Forcing>(api.query.staking?.forceEra, []);
   const eraLabel = useMemo(() =>
-    t('era')
+    t<string>('era')
   , [t]);
   const sessionLabel = useMemo(() =>
     sessionInfo?.isEpoch
-      ? t('epoch')
-      : t('session')
-  , [sessionInfo, t]);
+      ? t<string>('epoch')
+      : t<string>('session')
+  , [sessionInfo?.isEpoch, t]);
 
   return (
     <>
@@ -51,14 +53,14 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
                 </CardSummary>
               )
           )}
-          {withEra && (
+          {forcing && !forcing.isForceNone && withEra && (
             sessionInfo.sessionLength.gtn(1)
               ? (
                 <CardSummary
                   label={eraLabel}
                   progress={{
-                    total: sessionInfo.eraLength,
-                    value: sessionInfo.eraProgress,
+                    total: forcing.isForceAlways ? sessionInfo.sessionLength : sessionInfo.eraLength,
+                    value: forcing.isForceAlways ? sessionInfo.sessionProgress : sessionInfo.eraProgress,
                     withTime: true
                   }}
                 />

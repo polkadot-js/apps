@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
@@ -11,7 +9,7 @@ import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
 
-interface Props extends BareProps {
+interface Props {
   onClose: () => void;
   address: string;
 }
@@ -69,7 +67,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   return (
     <Modal
       className='app--accounts-Modal'
-      header={t('Backup account')}
+      header={t<string>('Backup account')}
     >
       <Content
         address={address}
@@ -83,7 +81,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
         <Button
           icon='download'
           isDisabled={!isPassValid}
-          label={t('Download')}
+          label={t<string>('Download')}
           onClick={_doBackup}
         />
       </Modal.Actions>
@@ -100,14 +98,14 @@ function Content ({ address, doBackup, isPassTouched, isPassValid, onChangePass,
         isInline
         value={address}
       >
-        <p>{t('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
-        <p>{t('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
+        <p>{t<string>('An encrypted backup file will be created once you have pressed the "Download" button. This can be used to re-import your account on any other machine.')}</p>
+        <p>{t<string>('Save this backup file in a secure location. Additionally, the password associated with this account is needed together with this backup file in order to restore your account.')}</p>
         <div>
           <Password
             autoFocus
-            help={t('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
+            help={t<string>('The account password as specified when creating the account. This is used to encrypt the backup file and subsequently decrypt it when restoring the account.')}
             isError={isPassTouched && !isPassValid}
-            label={t('password')}
+            label={t<string>('password')}
             onChange={onChangePass}
             onEnter={doBackup}
             tabIndex={0}

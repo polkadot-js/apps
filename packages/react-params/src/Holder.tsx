@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -12,9 +12,9 @@ interface Props {
   withPadding?: boolean;
 }
 
-function Holder ({ children, className, withBorder, withPadding }: Props): React.ReactElement<Props> {
+function Holder ({ children, className = '', withBorder, withPadding }: Props): React.ReactElement<Props> {
   return (
-    <div className={`ui--Params ${className} ${withBorder ? 'withBorder' : 'withoutBorder'} ${withPadding && 'withPadding'}`}>
+    <div className={`ui--Params ${className} ${withBorder ? 'withBorder' : 'withoutBorder'} ${withPadding ? 'withPadding' : ''}`}>
       {children}
     </div>
   );

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyedEvent } from './types';
+import { KeyedEvent } from '@polkadot/react-query/types';
 
 import React from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
@@ -28,7 +28,7 @@ function Main ({ events, headers }: Props): React.ReactElement<Props> {
           <BlockHeaders headers={headers} />
         </Column>
         <Column>
-          <Events events={events.map(({ record }) => record)} />
+          <Events events={events} />
         </Column>
       </Columar>
     </>

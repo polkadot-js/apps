@@ -26,6 +26,9 @@
   "Save": "Save",
   "Specify the user account to use for this contract call. And fees will be deducted from this account.": "Specify the user account to use for this contract call. And fees will be deducted from this account.",
   "Specify the user account to use for this deployment. And fees will be deducted from this account.": "Specify the user account to use for this deployment. And fees will be deducted from this account.",
+  "Specify the user account to use for this deployment. Any fees will be deducted from this account.": "Specify the user account to use for this deployment. Any fees will be deducted from this account.",
+  "The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.": "The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.",
+  "The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.": "The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.",
   "The address for the deployed contract instance.": "The address for the deployed contract instance.",
   "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.": "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.",
   "The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.": "The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.",
@@ -37,6 +40,7 @@
   "The deployment constructor information for this contract, as provided by the ABI.": "The deployment constructor information for this contract, as provided by the ABI.",
   "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.": "The maximum amount of gas that can be used by this call. If the code requires more, the call will fail.",
   "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.": "The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.",
+  "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.": "The maximum amount of gas to use for this contract call. If the call requires more, it will fail.",
   "The message to send to this contract. Parameters are adjusted based on the ABI provided.": "The message to send to this contract. Parameters are adjusted based on the ABI provided.",
   "The value is not in a valid address format": "The value is not in a valid address format",
   "This operation does not impact the associated on-chain code or any of its contracts.": "This operation does not impact the associated on-chain code or any of its contracts.",
@@ -58,6 +62,7 @@
   "contract to use": "contract to use",
   "deploy": "deploy",
   "deployment account": "deployment account",
+  "deployment constructor": "deployment constructor",
   "endowment": "endowment",
   "execute": "execute",
   "invalid ABI file selected": "invalid ABI file selected",
@@ -65,5 +70,7 @@
   "message to send": "message to send",
   "send as RPC call": "send as RPC call",
   "send as transaction": "send as transaction",
-  "value": "value"
+  "value": "value",
+  "{{executionTime}}s execution time": "{{executionTime}}s execution time",
+  "{{percentage}}% of block time": "{{percentage}}% of block time"
 }

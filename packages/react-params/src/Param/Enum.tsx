@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -19,14 +19,19 @@ interface Option {
   value?: string;
 }
 
+interface Options {
+  options: Option[];
+  subTypes: TypeDef[];
+}
+
 function EnumParam (props: Props): React.ReactElement<Props> {
-  const { className, defaultValue, isDisabled, isError, label, onChange, overrides, style, type, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, type, withLabel } = props;
   const [current, setCurrent] = useState<ParamDef[] | null>(null);
   const [initialValue, setInitialValue] = useState<string | null>(null);
-  const [{ options, subTypes }, setOptions] = useState<{ options: Option[]; subTypes: TypeDef[] }>({ options: [], subTypes: [] });
+  const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
 
   useEffect((): void => {
-    const rawType = createType(registry, type.type as any).toRawType();
+    const rawType = createType(registry, type.type as 'u32').toRawType();
     const typeDef = getTypeDef(rawType);
     const subTypes = typeDef.sub as TypeDef[];
 
@@ -45,7 +50,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       defaultValue && defaultValue.value
         ? defaultValue.value instanceof Enum
           ? defaultValue.value.type
-          : Object.keys(defaultValue.value)[0]
+          : Object.keys(defaultValue.value as Record<string, unknown>)[0]
         : null
     );
   }, [defaultValue]);
@@ -78,10 +83,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   }
 
   return (
-    <Bare
-      className={className}
-      style={style}
-    >
+    <Bare className={className}>
       <Dropdown
         className='full'
         defaultValue={initialValue}

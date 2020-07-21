@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -13,9 +13,17 @@ import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';
 
+interface ModuleErrorDefault {
+  isModule?: boolean
+}
+
 interface Details {
   details?: string | null;
   type?: string;
+}
+
+function isModuleError (value?: ModuleErrorDefault): value is DispatchError {
+  return !!value?.isModule;
 }
 
 function ErrorDisplay (props: Props): React.ReactElement<Props> {
@@ -23,22 +31,24 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
   const [{ details, type }, setDetails] = useState<Details>({});
 
   useEffect((): void => {
-    if (details !== null && props.defaultValue?.value?.isModule) {
-      try {
-        const { documentation, name, section } = registry.findMetaError((props.defaultValue.value as DispatchError).asModule);
+    const { value } = props.defaultValue || {};
 
-        setDetails({
+    if (isModuleError(value as ModuleErrorDefault)) {
+      try {
+        const { documentation, name, section } = registry.findMetaError((value as DispatchError).asModule);
+
+        return setDetails({
           details: documentation.join(', '),
           type: `${section}.${name}`
         });
       } catch (error) {
         // Errors may not actually be exposed, in this case, just return the default representation
         console.error(error);
-
-        setDetails({ details: null });
       }
     }
-  }, [details, props.defaultValue]);
+
+    setDetails({ details: null });
+  }, [props.defaultValue]);
 
   if (!props.isDisabled || !details) {
     return <Unknown {...props} />;
@@ -49,14 +59,14 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
       <Input
         className='full'
         isDisabled
-        label={t('type')}
+        label={t<string>('type')}
         value={type}
       />
       {details && (
         <Input
           className='full'
           isDisabled
-          label={t('details')}
+          label={t<string>('details')}
           value={details}
         />
       )}

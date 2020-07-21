@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { BareProps } from '../types';
 import { DropdownOptions } from '../util/types';
 
 import React, { useCallback } from 'react';
@@ -12,15 +11,16 @@ import ApiPromise from '@polkadot/api/promise';
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
 
-interface Props extends BareProps {
+interface Props {
   api: ApiPromise;
+  className?: string;
   isError?: boolean;
   onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
   options: DropdownOptions;
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectMethod ({ api, className, isError, onChange, options, style, value }: Props): React.ReactElement<Props> | null {
+function SelectMethod ({ api, className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
   const transform = useCallback(
     (method: string): SubmittableExtrinsicFunction<'promise'> =>
       api.tx[value.section][method],
@@ -37,7 +37,6 @@ function SelectMethod ({ api, className, isError, onChange, options, style, valu
       isError={isError}
       onChange={onChange}
       options={options}
-      style={style}
       transform={transform}
       value={value.method}
       withLabel={false}

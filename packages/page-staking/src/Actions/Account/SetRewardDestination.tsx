@@ -12,43 +12,60 @@ interface Props {
   defaultDestination?: number;
   controllerId: string;
   onClose: () => void;
+  stashId: string;
 }
 
-function SetRewardDestination ({ controllerId, defaultDestination, onClose }: Props): React.ReactElement<Props> {
+function SetRewardDestination ({ controllerId, defaultDestination, onClose, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [destination, setDestination] = useState(0);
 
   return (
     <Modal
-      className='staking--Bonding'
-      header={t('Bonding Preferences')}
-      size='small'
+      header={t<string>('Bonding Preferences')}
+      size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
-        <InputAddress
-          className='medium'
-          defaultValue={controllerId}
-          help={t('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
-          isDisabled
-          label={t('controller account')}
-        />
-        <Dropdown
-          className='medium'
-          defaultValue={defaultDestination}
-          help={t('The destination account for any payments as either a nominator or validator')}
-          label={t('payment destination')}
-          onChange={setDestination}
-          options={rewardDestinationOptions}
-          value={destination}
-        />
+      <Modal.Content>
+        <Modal.Columns>
+          <Modal.Column>
+            <InputAddress
+              defaultValue={stashId}
+              isDisabled
+              label={t<string>('stash account')}
+            />
+            <InputAddress
+              defaultValue={controllerId}
+              help={t<string>('The controller is the account that is be used to control any nominating or validating actions. I will sign this transaction.')}
+              isDisabled
+              label={t<string>('controller account')}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The stash and controller pair as linked. This operation will be performed via the controller.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
+            <Dropdown
+              defaultValue={defaultDestination}
+              help={t<string>('The destination account for any payments as either a nominator or validator')}
+              label={t<string>('payment destination')}
+              onChange={setDestination}
+              options={rewardDestinationOptions}
+              value={destination}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('All rewards will go towards the selected output destination when a payout is made.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
-          icon='sign-in'
+          icon='sign-in-alt'
           isDisabled={!controllerId}
           isPrimary
-          label={t('Set reward destination')}
+          label={t<string>('Set reward destination')}
           onStart={onClose}
           params={[destination]}
           tx={'staking.setPayee'}

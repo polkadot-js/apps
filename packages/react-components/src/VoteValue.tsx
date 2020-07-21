@@ -16,6 +16,7 @@ import { useTranslation } from './translate';
 interface Props {
   accountId?: string | null;
   autoFocus?: boolean;
+  isCouncil?: boolean;
   onChange: (value: BN) => void;
 }
 
@@ -24,7 +25,7 @@ interface ValueState {
   value?: BN;
 }
 
-function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactElement<Props> | null {
+function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
@@ -32,7 +33,7 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
-    (accountId !== selectedId) && allBalances?.accountId.eq(accountId) && setValue({
+    (accountId !== selectedId) && allBalances && allBalances.accountId.eq(accountId) && setValue({
       selectedId: accountId,
       value: allBalances.lockedBalance
     });
@@ -54,13 +55,14 @@ function VoteValue ({ accountId, autoFocus, onChange }: Props): React.ReactEleme
     <InputBalance
       autoFocus={autoFocus}
       defaultValue={accountId !== selectedId ? undefined : allBalances?.lockedBalance}
-      help={t('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
+      help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
-      label={t('vote value')}
+      label={t<string>('vote value')}
       labelExtra={
         <BalanceVoting
-          label={<label>{t('voting balance')}</label>}
+          isCouncil={isCouncil}
+          label={<label>{t<string>('voting balance')}</label>}
           params={accountId}
         />
       }

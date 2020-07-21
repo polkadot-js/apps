@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps } from '@polkadot/react-components/types';
-import { KeyedEvent } from './types';
+import { KeyedEvent } from '@polkadot/react-query/types';
 
 import React, { useContext, useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -19,7 +18,9 @@ import Main from './Main';
 import NodeInfo from './NodeInfo';
 import { useTranslation } from './translate';
 
-interface Props extends AppProps, BareProps {
+interface Props {
+  basePath: string;
+  className?: string;
   newEvents?: KeyedEvent[];
 }
 
@@ -32,20 +33,20 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       isRoot: true,
       name: 'chain',
-      text: t('Chain info')
+      text: t<string>('Chain info')
     },
     {
       hasParams: true,
       name: 'query',
-      text: t('Block details')
+      text: t<string>('Block details')
     },
     {
       name: 'forks',
-      text: t('Forks')
+      text: t<string>('Forks')
     },
     {
       name: 'node',
-      text: t('Node info')
+      text: t<string>('Node info')
     }
   ], [t]);
 

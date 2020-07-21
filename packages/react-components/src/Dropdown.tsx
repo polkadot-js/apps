@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from './types';
-
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
@@ -13,8 +11,9 @@ import { isUndefined } from '@polkadot/util';
 import { classes } from './util';
 import Labelled from './Labelled';
 
-interface Props<Option> extends BareProps {
+interface Props<Option> {
   allowAdd?: boolean;
+  className?: string;
   defaultValue?: any;
   dropdownClassName?: string;
   help?: React.ReactNode;
@@ -44,12 +43,12 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, style, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
-  const [stored, setStored] = useState<any>();
+  const [stored, setStored] = useState<string | undefined>();
 
   const _setStored = useCallback(
-    (value: any): void => {
+    (value: string): void => {
       const json = JSON.stringify({ v: value });
 
       if (lastUpdate.current !== json) {
@@ -79,7 +78,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
 
   const _onChange = useCallback(
     (_: React.SyntheticEvent<HTMLElement> | null, { value }: DropdownProps): void =>
-      _setStored(value),
+      _setStored(value as string),
     [_setStored]
   );
 
@@ -108,11 +107,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
   );
 
   return isButton
-    ? (
-      <SUIButton.Group primary>
-        {dropdown}
-      </SUIButton.Group>
-    )
+    ? <SUIButton.Group>{dropdown}</SUIButton.Group>
     : (
       <Labelled
         className={classes('ui--Dropdown', className)}
@@ -120,7 +115,6 @@ function BaseDropdown<Option> ({ allowAdd = false, className, defaultValue, drop
         isFull={isFull}
         label={label}
         labelExtra={labelExtra}
-        style={style}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
       >
@@ -167,6 +161,7 @@ const Dropdown = React.memo(styled(BaseDropdown)`
   }
 `) as unknown as IDropdown<any>;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 (Dropdown as any).Header = SUIDropdown.Header;
 
 export default Dropdown;

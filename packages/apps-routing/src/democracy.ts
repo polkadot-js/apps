@@ -4,19 +4,19 @@
 
 import { Route } from './types';
 
-import Democracy, { useCounter } from '@polkadot/app-democracy';
+import Component, { useCounter } from '@polkadot/app-democracy';
 
-export default function create (t: (key: string, text: string, options: { ns: string }) => string): Route {
+export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
-    Component: Democracy,
+    Component,
     display: {
       needsApi: [
         'tx.democracy.notePreimage'
       ]
     },
-    icon: 'calendar check',
+    icon: 'calendar-check',
     name: 'democracy',
-    text: t('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
+    text: t<string>('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
     useCounter
   };
 }

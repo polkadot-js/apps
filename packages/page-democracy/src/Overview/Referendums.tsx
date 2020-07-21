@@ -15,22 +15,25 @@ interface Props {
   referendums?: DeriveReferendumExt[];
 }
 
-function Referendums ({ className, referendums }: Props): React.ReactElement<Props> {
+function Referendums ({ className = '', referendums }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
     [t('referenda'), 'start', 2],
-    [t('remaining')],
-    [t('activate')],
+    [t('remaining'), 'ui--media-1200'],
+    [t('activate'), 'ui--media-1400'],
+    [t('turnout'), 'ui--media-1400'],
     [t('aye')],
     [t('nay')],
-    [undefined, undefined, 3]
+    [undefined, undefined, 2],
+    [undefined, 'badge'],
+    [undefined, 'mini ui--media-1000']
   ], [t]);
 
   return (
     <Table
       className={className}
-      empty={referendums && t('No active referendums')}
+      empty={referendums && t<string>('No active referendums')}
       header={header}
     >
       {referendums?.map((referendum): React.ReactNode => (

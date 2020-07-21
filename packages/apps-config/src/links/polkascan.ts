@@ -6,20 +6,21 @@ import BN from 'bn.js';
 
 export default {
   chains: {
-    Edgeware: 'edgeware',
-    Kulupu: 'kulupu',
+    // 'Centrifuge Mainnet': 'centrifuge',
+    // Edgeware: 'edgeware',
+    // Kulupu: 'kulupu',
     Kusama: 'kusama',
-    'Kusama CC3': 'kusama',
-    Westend: 'westend'
+    Polkadot: 'polkadot',
+    'Polkadot CC1': 'polkadot-cc1'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
-    `https://polkascan.io/pre/${chain}/${path}/${data.toString()}`,
+    `https://polkascan.io/${chain}/${path}/${data.toString()}`,
   isActive: true,
   paths: {
-    address: 'module/account',
-    block: 'system/block',
+    address: 'account',
+    block: 'block',
     council: 'council/motion',
-    extrinsic: 'system/extrinsic',
+    extrinsic: 'transaction',
     proposal: 'democracy/proposal',
     referendum: 'democracy/referendum',
     techcomm: 'techcomm/proposal',
