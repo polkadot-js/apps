@@ -2936,7 +2936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api-contract@npm:^1.26.0-beta.0":
+"@polkadot/api-contract@npm:^1.26.0-beta.1":
   version: 1.26.0-beta.1
   resolution: "@polkadot/api-contract@npm:1.26.0-beta.1"
   dependencies:
@@ -2969,7 +2969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^1.26.0-beta.0":
+"@polkadot/api@npm:^1.26.0-beta.1":
   version: 1.26.0-beta.1
   resolution: "@polkadot/api@npm:1.26.0-beta.1"
   dependencies:
@@ -2996,7 +2996,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.5
     "@polkadot/react-components": 0.51.0-beta.2
-    "@polkadot/vanitygen": ^0.17.0-beta.2
+    "@polkadot/vanitygen": ^0.17.1
     detect-browser: ^5.1.1
     file-saver: ^2.0.2
   languageName: unknown
@@ -3017,7 +3017,7 @@ __metadata:
   resolution: "@polkadot/app-contracts@workspace:packages/page-contracts"
   dependencies:
     "@babel/runtime": ^7.10.5
-    "@polkadot/api-contract": ^1.26.0-beta.0
+    "@polkadot/api-contract": ^1.26.0-beta.1
   languageName: unknown
   linkType: soft
 
@@ -3401,7 +3401,7 @@ __metadata:
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
     "@babel/runtime": ^7.10.5
-    "@polkadot/api": ^1.26.0-beta.0
+    "@polkadot/api": ^1.26.0-beta.1
     "@polkadot/extension-dapp": ^0.32.0-beta.8
     rxjs-compat: ^6.6.0
   languageName: unknown
@@ -3577,7 +3577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^1.26.0-beta.0":
+"@polkadot/types@npm:^1.26.0-beta.1":
   version: 1.26.0-beta.1
   resolution: "@polkadot/types@npm:1.26.0-beta.1"
   dependencies:
@@ -3675,9 +3675,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/vanitygen@npm:^0.17.0-beta.2":
-  version: 0.17.0-beta.2
-  resolution: "@polkadot/vanitygen@npm:0.17.0-beta.2"
+"@polkadot/vanitygen@npm:^0.17.1":
+  version: 0.17.1
+  resolution: "@polkadot/vanitygen@npm:0.17.1"
   dependencies:
     "@babel/core": ^7.10.5
     "@babel/runtime": ^7.10.5
@@ -3687,7 +3687,7 @@ __metadata:
     yargs: ^15.4.1
   bin:
     polkadot-js-vanitygen: index.js
-  checksum: 3/0736064608949fb261d39b0bcdae884ad8b47242cd2ff3ced7c1fd170bd4ceed6faf53861597b836c9d6300b3f68303772f97112612aaa7282afcbd2c0fd36bd
+  checksum: 3/e2096997145a58e8887d38c12a613e51846b3ff56e817154eba2e04d217f577f81f230c77874793a57af929db178876e737fbaa2a64ac85e697d2de53b6059f5
   languageName: node
   linkType: hard
 
