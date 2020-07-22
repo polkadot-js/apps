@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
-import spinnerSrc from './Spinner.png';
+import spinnerSrc from './Spinner-3.png';
 
 interface Props {
   className?: string;
@@ -21,7 +21,7 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
   return (
     <div className={`${className} ui--Spinner ${variant}`}>
       <img
-        className='ui--Spinner--img'
+        className={`ui--Spinner--img${variant === 'app' ? ' ui--highlight--bg' : ''}`}
         src={spinnerSrc as unknown as string}
       />
       {isApp && <div className='text'>{label || t('Retrieving data')}</div>}
@@ -35,6 +35,7 @@ export default React.memo(styled(Spinner)`
   text-align: center;
 
   .ui--Spinner--img {
+    border-radius: 2.75rem;
     height: 2.75rem;
     width: 2.75rem;
   }
