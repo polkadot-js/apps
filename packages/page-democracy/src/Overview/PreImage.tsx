@@ -8,7 +8,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, InputAddress, InputBalance, Extrinsic, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputAddress, InputBalance, Extrinsic, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
@@ -31,11 +31,10 @@ interface HashState {
 
 const ZERO_HASH = blake2AsHex('');
 
-function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onClose }: Props): React.ReactElement<Props> {
+function PreImage ({ className = '', imageHash, isImminent = false, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [isImminent, setIsImminent] = useState(propsIsImminent || false);
   const [{ encodedHash, encodedProposal, storageFee }, setHash] = useState<HashState>({ encodedHash: ZERO_HASH, encodedProposal: '', storageFee: BN_ZERO });
   const [proposal, setProposal] = useState<SubmittableExtrinsic>();
 
@@ -98,19 +97,6 @@ function PreImage ({ className = '', imageHash, isImminent: propsIsImminent, onC
           <Modal.Column>
             <p>{t<string>('The image (proposal) will be stored on-chain against the hash of the contents.')}</p>
             <p>{t<string>('When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Toggle
-              className='toggleImminent'
-              label={t<string>('imminent preimage (proposal already passed)')}
-              onChange={setIsImminent}
-              value={isImminent}
-            />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('Only applicable if the proposal has already passed and is ready for dispatch.')}</p>
           </Modal.Column>
         </Modal.Columns>
         {!isImminent && (
