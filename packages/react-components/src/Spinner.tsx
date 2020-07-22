@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
-import spinnerSrc from './Spinner-3.png';
+import spinnerSrc from './Spinner.png';
 
 interface Props {
   className?: string;
