@@ -21,7 +21,7 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
   return (
     <div className={`${className} ui--Spinner ${variant}`}>
       <img
-        className={`ui--Spinner--img${variant === 'app' ? ' ui--highlight--bg' : ''}`}
+        className={`ui--Spinner--img${variant === 'push' ? '' : ' ui--highlight--bg'}`}
         src={spinnerSrc as unknown as string}
       />
       {isApp && <div className='text'>{label || t('Retrieving data')}</div>}
@@ -37,7 +37,14 @@ export default React.memo(styled(Spinner)`
   .ui--Spinner--img {
     border-radius: 2.5rem;
     height: 2.5rem;
+    opacity: 0.75;
     width: 2.5rem;
+  }
+
+  &.mini .ui--Spinner--img {
+    border-radius: 1.75rem;
+    height: 1.75rem;
+    width: 1.75rem;
   }
 
   .text {
