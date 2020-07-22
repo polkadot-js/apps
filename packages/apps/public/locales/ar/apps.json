@@ -1,0 +1,14 @@
+{
+  "Create an account now.": "افتح حسابا الأن",
+  "Initializing connection": "جاري تهيئة الاتصال",
+  "Select Network": "اختر شبكة",
+  "Waiting for authorization from the extension. Please open the installed extension and approve or reject access.": ". في انتظار تفويض من التمديد.  يرجى فتح الامتداد المثبت والموافقة على الوصول أو رفضه",
+  "You are connecting from a secure location to an insecure WebSocket ({{wsUrl}}). Due to browser mixed-content security policies this connection type is not allowed. Change the RPC service to a secure 'wss' endpoint.": ".  امن كنقطة نهاية 'wss'أنت متصل من مكان امن بويب'سوكت (دابليوإس يو ار إل) غير امن. بسبب سياسات الحماية للمتصفح متعدد المحتوى فإن هذا النوع من الإرتباط غير مسموح به. غيرخدمة ''استدعاء الإجراء عن بُعد'' إلى",
+  "You are not connected to a node. Ensure that your node is running and that the Websocket endpoint is reachable.": ".أنت لست مرتبط بعقدة. تأكد أن العقدة جارية  وأن نقطة النهاية  لويب'سوكت موصولة",
+  "You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.": ".ليس لديك أي حساب. بعض الميزات محجوبة عنك الان و ستكون متاحة عندما تنشأ حسابا",
+  "nav.github": "متصفح.غيتهوب",
+  "nav.wiki": "متصفح.ويكي",
+  "transfer received": "تم استلام التحويل",
+  "update on #{{index}}": "{{مراجعة على#{{المؤشر",
+  "version {{version}}": "{{إحداث {{إحداث"
+}
