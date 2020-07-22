@@ -35,9 +35,9 @@ export default React.memo(styled(Spinner)`
   text-align: center;
 
   .ui--Spinner--img {
-    border-radius: 2.75rem;
-    height: 2.75rem;
-    width: 2.75rem;
+    border-radius: 2.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
   }
 
   .text {
