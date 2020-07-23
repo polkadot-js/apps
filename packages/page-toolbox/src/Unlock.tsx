@@ -37,17 +37,18 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       }
 
       setIsBusy(true);
+      setTimeout((): void => {
+        try {
+          pair.decodePkcs8(password);
+        } catch (error) {
+          setIsBusy(false);
 
-      try {
-        pair.decodePkcs8(password);
-      } catch (error) {
+          return setUnlockError((error as Error).message);
+        }
+
         setIsBusy(false);
-
-        return setUnlockError((error as Error).message);
-      }
-
-      setIsBusy(false);
-      onUnlock();
+        onUnlock();
+      }, 0);
     },
     [onUnlock, pair, password]
   );

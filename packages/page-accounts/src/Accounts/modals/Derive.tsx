@@ -127,16 +127,17 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const _onUnlock = useCallback(
     (): void => {
       setIsBusy(true);
+      setTimeout((): void => {
+        try {
+          source.decodePkcs8(rootPass);
+          setIsLocked({ isLocked: source.isLocked, lockedError: null });
+        } catch (error) {
+          console.error(error);
+          setIsLocked({ isLocked: true, lockedError: (error as Error).message });
+        }
 
-      try {
-        source.decodePkcs8(rootPass);
-        setIsLocked({ isLocked: source.isLocked, lockedError: null });
-      } catch (error) {
-        console.error(error);
-        setIsLocked({ isLocked: true, lockedError: (error as Error).message });
-      }
-
-      setIsBusy(false);
+        setIsBusy(false);
+      }, 0);
     },
     [rootPass, source]
   );
@@ -148,13 +149,14 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       }
 
       setIsBusy(true);
+      setTimeout((): void => {
+        const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
-      const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
-
-      toggleConfirmation();
-      queueAction(status);
-      setIsBusy(false);
-      onClose();
+        toggleConfirmation();
+        queueAction(status);
+        setIsBusy(false);
+        onClose();
+      }, 0);
     },
     [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
   );
@@ -176,6 +178,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}
+          isBusy={isBusy}
           name={name}
           onClose={toggleConfirmation}
           onCommit={_onCommit}

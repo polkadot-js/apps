@@ -160,7 +160,6 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [isBusy, setBusy] = useState(false);
-  const [isUnlockBusy, setUnlockBusy] = useState(false);
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -207,13 +206,9 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _unlock = useCallback(
     (): boolean => {
-      let passwordError = null;
-
-      if (senderInfo.signAddress && flags.isUnlockable) {
-        setUnlockBusy(true);
-        passwordError = unlockAccount(senderInfo);
-        setUnlockBusy(false);
-      }
+      const passwordError = senderInfo.signAddress && flags.isUnlockable
+        ? unlockAccount(senderInfo)
+        : null;
 
       setPasswordError(passwordError);
 
@@ -269,8 +264,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _doStart = useCallback(
     (): void => {
       setBusy(true);
-
-      setImmediate((): void => {
+      setTimeout((): void => {
         if (_unlock()) {
           isSubmit
             ? currentItem.payload
@@ -280,7 +274,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         } else {
           setBusy(false);
         }
-      });
+      }, 0);
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
@@ -343,39 +337,37 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         </ErrorBoundary>
       </Modal.Content>
       <Modal.Actions onCancel={_onCancel}>
+        <Button
+          icon={
+            flags.isQr
+              ? 'qrcode'
+              : 'sign-in-alt'
+          }
+          isBusy={isBusy}
+          isDisabled={!senderInfo.signAddress || isRenderError}
+          isPrimary
+          label={
+            flags.isQr
+              ? t<string>('Sign via Qr')
+              : isSubmit
+                ? t<string>('Sign and Submit')
+                : t<string>('Sign (no submission)')
+          }
+          onClick={_doStart}
+          tabIndex={2}
+        />
         {!isBusy && (
-          <>
-            <Button
-              icon={
-                flags.isQr
-                  ? 'qrcode'
-                  : 'sign-in-alt'
-              }
-              isBusy={isUnlockBusy}
-              isDisabled={!senderInfo.signAddress || isRenderError}
-              isPrimary
-              label={
-                flags.isQr
-                  ? t<string>('Sign via Qr')
-                  : isSubmit
-                    ? t<string>('Sign and Submit')
-                    : t<string>('Sign (no submission)')
-              }
-              onClick={_doStart}
-              tabIndex={2}
-            />
-            <Toggle
-              className='signToggle'
-              isDisabled={!!currentItem.payload}
-              label={
-                isSubmit
-                  ? t<string>('Sign and Submit')
-                  : t<string>('Sign (no submission)')
-              }
-              onChange={setIsSubmit}
-              value={isSubmit}
-            />
-          </>
+          <Toggle
+            className='signToggle'
+            isDisabled={!!currentItem.payload}
+            label={
+              isSubmit
+                ? t<string>('Sign and Submit')
+                : t<string>('Sign (no submission)')
+            }
+            onChange={setIsSubmit}
+            value={isSubmit}
+          />
         )}
       </Modal.Actions>
     </>

@@ -222,14 +222,15 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       }
 
       setIsBusy(true);
+      setTimeout((): void => {
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+        const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
 
-      const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
-      const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
-
-      toggleConfirmation();
-      onStatusChange(status);
-      setIsBusy(false);
-      onClose();
+        toggleConfirmation();
+        onStatusChange(status);
+        setIsBusy(false);
+        onClose();
+      }, 0);
     },
     [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t, toggleConfirmation]
   );
@@ -243,6 +244,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}
+          isBusy={isBusy}
           name={name}
           onClose={toggleConfirmation}
           onCommit={_onCommit}

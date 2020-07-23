@@ -25,6 +25,7 @@ interface ContentProps {
 
 function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [isBusy, setIsBusy] = useState(false);
   const [password, setPassword] = useState('');
   const [isPassTouched, setIsPassTouched] = useState(false);
   const [backupFailed, setBackupFailed] = useState(false);
@@ -46,20 +47,26 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
 
   const _doBackup = useCallback(
     (): void => {
-      try {
-        const addressKeyring = address && keyring.getPair(address);
-        const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
-        const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
+      setTimeout((): void => {
+        setIsBusy(true);
 
-        FileSaver.saveAs(blob, `${address}.json`);
-      } catch (error) {
-        setBackupFailed(true);
-        console.error(error);
+        try {
+          const addressKeyring = address && keyring.getPair(address);
+          const json = addressKeyring && keyring.backupAccount(addressKeyring, password);
+          const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
 
-        return;
-      }
+          FileSaver.saveAs(blob, `${address}.json`);
+        } catch (error) {
+          setBackupFailed(true);
+          setIsBusy(false);
+          console.error(error);
 
-      onClose();
+          return;
+        }
+
+        setIsBusy(false);
+        onClose();
+      }, 0);
     },
     [address, onClose, password]
   );
@@ -80,6 +87,7 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='download'
+          isBusy={isBusy}
           isDisabled={!isPassValid}
           label={t<string>('Download')}
           onClick={_doBackup}

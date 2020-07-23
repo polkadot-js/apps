@@ -57,31 +57,32 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
       }
 
       setIsBusy(true);
+      setTimeout((): void => {
+        try {
+          if (!account.isLocked) {
+            account.lock();
+          }
 
-      try {
-        if (!account.isLocked) {
-          account.lock();
+          account.decodePkcs8(oldPass);
+        } catch (error) {
+          setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
+          setIsBusy(false);
+
+          return;
         }
 
-        account.decodePkcs8(oldPass);
-      } catch (error) {
-        setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
+        try {
+          keyring.encryptAccount(account, newPass1.password);
+        } catch (error) {
+          setNewPass2((state: NewPass) => ({ ...state, isValid: false }));
+          setIsBusy(false);
+
+          return;
+        }
+
         setIsBusy(false);
-
-        return;
-      }
-
-      try {
-        keyring.encryptAccount(account, newPass1.password);
-      } catch (error) {
-        setNewPass2((state: NewPass) => ({ ...state, isValid: false }));
-        setIsBusy(false);
-
-        return;
-      }
-
-      setIsBusy(false);
-      onClose();
+        onClose();
+      }, 0);
     },
     [address, newPass1, oldPass, onClose]
   );
