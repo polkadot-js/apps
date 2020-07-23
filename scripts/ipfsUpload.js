@@ -16,7 +16,7 @@ const DOMAIN = 'dotapps.io';
 const DST = 'packages/apps/build';
 const SRC = 'packages/apps/public';
 const WOPTS = { encoding: 'utf8', flag: 'w' };
-const PINMETA = { name: 'dotapps.io' };
+const PINMETA = { name: DOMAIN };
 
 const repo = `https://${process.env.GH_PAT}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
