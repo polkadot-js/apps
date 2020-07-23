@@ -103,7 +103,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
 
   useEffect((): void => {
     if (balancesAll) {
-      setBalance(address, balancesAll.freeBalance);
+      setBalance(address, balancesAll.freeBalance.add(balancesAll.reservedBalance));
       api.api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()
           ? null
