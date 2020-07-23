@@ -33,11 +33,12 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   const isEnd = bestNumber.gte(votes.end);
   const hasPassed = votes.threshold.lten(votes.ayes.length);
   const hasFailed = votes.threshold.gtn(Math.abs(numMembers - votes.nays.length));
+  console.log("yo4", api.tx[section]);
 
   return {
     hasFailed,
     hasPassed,
-    isCloseable: api.tx[section].close.meta.args.length === 2
+    isCloseable: api.tx[section].close && api.tx[section].close.meta.args.length === 2
       ? isEnd
       : isEnd || hasPassed || hasFailed,
     isVoteable: !isEnd,
