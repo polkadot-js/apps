@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
-import spinnerSrc from './Spinner.png';
+import spinnerSrc from './Spinner-2.png';
 
 interface Props {
   className?: string;
@@ -16,21 +16,21 @@ interface Props {
 
 function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const isApp = variant === 'app';
 
   return (
-    <div className={`${className} ui--Spinner ${variant}`}>
+    <div className={`${className} ui--Spinner`}>
       <img
         className={variant === 'push' ? '' : 'ui--highlight--bg'}
         src={spinnerSrc as unknown as string}
       />
-      {isApp && <div className='text'>{label || t('Retrieving data')}</div>}
+      {variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
   );
 }
 
 export default React.memo(styled(Spinner)`
   display: block;
+  line-height: 1;
   margin: 0 auto;
   text-align: center;
 
@@ -39,14 +39,9 @@ export default React.memo(styled(Spinner)`
     opacity: 0.75;
   }
 
-  &.mini img {
-    height: 1.75rem;
-    width: 1.75rem;
-  }
-
   .text {
     color: inherit !important;
-    margin: 0 auto 1.5rem auto;
+    margin: 0.25rem auto 1.5rem auto;
     opacity: 0.6;
   }
 `);
