@@ -13,7 +13,7 @@ import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 import { classes } from './util';
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
-import Input, { KEYS, KEYS_PRE } from './Input';
+import Input, { KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -59,9 +59,11 @@ function getGlobalMaxValue (bitLength?: number): BN {
 }
 
 function getRegex (isDecimal: boolean): RegExp {
+  const decimal = '.';
+
   return new RegExp(
     isDecimal
-      ? `^(0|[1-9]\\d*)(\\${KEYS.DECIMAL}\\d*)?$`
+      ? `^(0|[1-9]\\d*)(\\${decimal}\\d*)?$`
       : '^(0|[1-9]\\d*)$'
   );
 }

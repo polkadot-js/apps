@@ -26,6 +26,10 @@ function Close ({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Pr
   const [accountId, setAccountId] = useState<string | null>(null);
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
+  if (!api.tx.technicalCommittee.close) {
+    return null;
+  }
+
   return (
     <>
       {isOpen && (
