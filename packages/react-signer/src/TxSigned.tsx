@@ -160,6 +160,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [isBusy, setBusy] = useState(false);
+  const [isUnlockBusy, setUnlockBusy] = useState(false);
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -206,9 +207,13 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
 
   const _unlock = useCallback(
     (): boolean => {
-      const passwordError = senderInfo.signAddress && flags.isUnlockable
-        ? unlockAccount(senderInfo)
-        : null;
+      let passwordError = null;
+
+      if (senderInfo.signAddress && flags.isUnlockable) {
+        setUnlockBusy(true);
+        passwordError = unlockAccount(senderInfo);
+        setUnlockBusy(false);
+      }
 
       setPasswordError(passwordError);
 
@@ -346,6 +351,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                   ? 'qrcode'
                   : 'sign-in-alt'
               }
+              isBusy={isUnlockBusy}
               isDisabled={!senderInfo.signAddress || isRenderError}
               isPrimary
               label={

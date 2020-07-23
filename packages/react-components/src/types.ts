@@ -57,6 +57,7 @@ export interface TxButtonProps extends TxProps {
   className?: string;
   icon?: IconName;
   isBasic?: boolean;
+  isBusy?: boolean;
   isDisabled?: boolean;
   isIcon?: boolean;
   isNegative?: boolean;

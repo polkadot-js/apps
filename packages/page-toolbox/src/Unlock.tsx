@@ -17,6 +17,7 @@ interface Props {
 
 function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const [isBusy, setIsBusy] = useState(false);
   const [address, setAddress] = useState('');
   const [password, setPassword] = useState('');
   const [unlockError, setUnlockError] = useState<string | null>(null);
@@ -35,12 +36,17 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
         return;
       }
 
+      setIsBusy(true);
+
       try {
         pair.decodePkcs8(password);
       } catch (error) {
+        setIsBusy(false);
+
         return setUnlockError((error as Error).message);
       }
 
+      setIsBusy(false);
       onUnlock();
     },
     [onUnlock, pair, password]
@@ -90,6 +96,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='unlock'
+          isBusy={isBusy}
           isPrimary
           label={t<string>('Unlock')}
           onClick={_onUnlock}

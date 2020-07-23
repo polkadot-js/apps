@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { BareProps } from '../types';
 
 export type Button$Callback = () => void | Promise<void>;
@@ -12,8 +11,8 @@ export interface ButtonProps {
   children?: React.ReactNode;
   className?: string;
   icon?: IconName;
-  isAnimated?: SUIButtonProps['animated'];
   isBasic?: boolean;
+  isBusy?: boolean;
   isCircular?: boolean;
   isDisabled?: boolean;
   isFull?: boolean;

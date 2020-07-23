@@ -8,25 +8,29 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 
-function Button ({ children, className = '', icon, isBasic = false, isCircular = false, isDisabled = false, isFull = false, isIcon, isNegative = false, isPositive = false, isPrimary = false, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isNegative, isPositive, isPrimary, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     (): void => {
-      !isDisabled && onClick && onClick();
+      !(isBusy || isDisabled) && onClick && onClick();
     },
-    [isDisabled, onClick]
+    [isBusy, isDisabled, onClick]
   );
 
   return (
     <button
       className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''} ${className}`}
-      disabled={isDisabled}
+      disabled={isDisabled || isBusy}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      {icon && <Icon icon={icon} />}
+      {isBusy
+        ? <Spinner variant='button' />
+        : icon && <Icon icon={icon} />
+      }
       {label}
       {children}
     </button>

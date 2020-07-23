@@ -168,6 +168,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const { api, isDevelopment } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
+  const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
   const isValid = !!address && !deriveError && isNameValid && isPasswordValid && isSeedValid;
@@ -220,11 +221,14 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         return;
       }
 
+      setIsBusy(true);
+
       const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
       const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
 
       toggleConfirmation();
       onStatusChange(status);
+      setIsBusy(false);
       onClose();
     },
     [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t, toggleConfirmation]
@@ -355,6 +359,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='plus'
+          isBusy={isBusy}
           isDisabled={!isValid}
           isPrimary
           label={t<string>('Save')}

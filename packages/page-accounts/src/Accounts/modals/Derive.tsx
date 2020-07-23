@@ -78,6 +78,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { api, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
+  const [isBusy, setIsBusy] = useState(false);
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
@@ -125,6 +126,8 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
 
   const _onUnlock = useCallback(
     (): void => {
+      setIsBusy(true);
+
       try {
         source.decodePkcs8(rootPass);
         setIsLocked({ isLocked: source.isLocked, lockedError: null });
@@ -132,6 +135,8 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
         console.error(error);
         setIsLocked({ isLocked: true, lockedError: (error as Error).message });
       }
+
+      setIsBusy(false);
     },
     [rootPass, source]
   );
@@ -142,10 +147,13 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
         return;
       }
 
+      setIsBusy(true);
+
       const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
       toggleConfirmation();
       queueAction(status);
+      setIsBusy(false);
       onClose();
     },
     [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
@@ -237,6 +245,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
           ? (
             <Button
               icon='lock'
+              isBusy={isBusy}
               isDisabled={!rootPass}
               isPrimary
               label={t<string>('Unlock')}
@@ -246,6 +255,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
           : (
             <Button
               icon='plus'
+              isBusy={isBusy}
               isDisabled={!isValid}
               isPrimary
               label={t<string>('Save')}

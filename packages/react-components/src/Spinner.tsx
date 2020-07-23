@@ -11,16 +11,16 @@ import spinnerSrc from './Spinner-2.png';
 interface Props {
   className?: string;
   label?: React.ReactNode;
-  variant?: 'app' | 'push' | 'mini';
+  variant?: 'app' | 'button' | 'push' | 'mini';
 }
 
 function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
-    <div className={`${className} ui--Spinner`}>
+    <div className={`${className} ui--Spinner${variant === 'button' ? ' isInline' : ''}`}>
       <img
-        className={variant === 'push' ? '' : 'ui--highlight--bg'}
+        className={['push', 'button'].includes(variant) ? '' : 'ui--highlight--bg'}
         src={spinnerSrc as unknown as string}
       />
       {variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
@@ -33,6 +33,18 @@ export default React.memo(styled(Spinner)`
   line-height: 1;
   margin: 0 auto;
   text-align: center;
+
+  &.isInline {
+    display: inline-block;
+    height: 0;
+    overflow: visible;
+    vertical-align: middle;
+
+    img {
+      margin: -50% 0.5rem -0.17rem 0;
+      opacity: 1;
+    }
+  }
 
   img {
     border-radius: 10rem;
