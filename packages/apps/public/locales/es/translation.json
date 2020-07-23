@@ -966,6 +966,7 @@
   "rpc.kusama.parity": "Kusama (Red canaria de Polkadot, ofrecido por Parity)",
   "rpc.kusama.w3f": "Kusama (Red canaria de Polkadot, ofrecido por la fundación Web3)",
   "rpc.local": "Nodo local (propio, 127.0.0.1:9944)",
+  "rpc.mandala": "Mandala (Acala Testnet, hosted by Acala)",
   "rpc.westend": "Westend (Testnet de Polkadot, ofrecido por Parity)",
   "runners up": "primeros puestos",
   "scheduling": "planificación",
