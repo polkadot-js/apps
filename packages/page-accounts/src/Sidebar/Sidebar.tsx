@@ -136,7 +136,6 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
               <Button
                 className='ui--AddressMenu-button'
                 icon='ban'
-                isAnimated
                 isNegative={isHoveringButton}
                 isPositive={!isHoveringButton}
                 label={t<string>('Remove')}
