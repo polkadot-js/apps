@@ -37,9 +37,9 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   return {
     hasFailed,
     hasPassed,
-    isCloseable: api.tx[section].close.meta.args.length === 2
-      ? isEnd
-      : isEnd || hasPassed || hasFailed,
+    isCloseable: api.tx[section].close?.meta.args.length === 4 // current-generation
+      ? isEnd || hasPassed || hasFailed
+      : isEnd,
     isVoteable: !isEnd,
     remainingBlocks: isEnd
       ? null
