@@ -216,34 +216,38 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
       <header>
         <Columar>
           <Column>
-            <Dropdown
-              isFull
-              label={t<string>('the language to display translations for')}
-              onChange={setLng}
-              options={keys}
-              value={lng}
-            />
+            <div>
+              <Dropdown
+                isFull
+                label={t<string>('the language to display translations for')}
+                onChange={setLng}
+                options={keys}
+                value={lng}
+              />
+              {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
+            </div>
             <Progress
               color='auto'
               total={modProgress[1]}
               value={modProgress[0]}
             />
-            {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(modProgress) })}
           </Column>
           <Column>
-            <Dropdown
-              isFull
-              label={t<string>('the module to display strings for')}
-              onChange={setRecord}
-              options={modules}
-              value={record}
-            />
+            <div>
+              <Dropdown
+                isFull
+                label={t<string>('the module to display strings for')}
+                onChange={setRecord}
+                options={modules}
+                value={record}
+              />
+              {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
+            </div>
             <Progress
               color='auto'
               total={allProgress[record]?.[1]}
               value={allProgress[record]?.[0]}
             />
-            {t<string>('{{done}}/{{total}}, {{progress}}% done', { replace: progressDisplay(allProgress[record]) })}
           </Column>
         </Columar>
       </header>
@@ -284,8 +288,17 @@ function Translate ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Translate)`
-  .ui--Progress:last-child {
-    margin: 0.25rem;
+  .ui--Column {
+    display: flex;
+
+    > div:first-child {
+      flex: 1;
+      text-align: right;
+    }
+  }
+
+  .ui--Progress {
+    margin: 0 0 0 0.25rem;
   }
 
   .toggleWrapper {

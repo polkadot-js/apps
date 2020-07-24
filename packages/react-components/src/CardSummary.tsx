@@ -79,8 +79,8 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
             </>
           )
         }
-        {progress && <Progress {...progress} />}
       </Labelled>
+      {progress && <Progress {...progress} />}
     </article>
   );
 }
@@ -102,10 +102,10 @@ export default React.memo(styled(CardSummary)`
   }
 
   .ui--Progress {
-    margin: 0.2rem 0 -0.5rem;
+    margin: 0.5rem 0 0 0.75rem;
   }
 
-  > div {
+  > .ui--Labelled {
     font-size: 1.75rem;
     font-weight: 100;
     position: relative;

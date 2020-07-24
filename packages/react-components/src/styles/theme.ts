@@ -54,10 +54,6 @@ export default css`
       }
     }
 
-    .ui--Progress > div {
-      background-color: ${colorBtnDefault};
-    }
-
     .ui.modal > .header:not(.ui) {
       border-bottom-color: ${colorBtnDefault};
     }
