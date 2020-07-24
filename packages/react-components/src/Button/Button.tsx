@@ -18,7 +18,7 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''} ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : '') : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy isDisabled' : ''} ui--highlight--button ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -37,15 +37,17 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
   );
 }
 
+
 export default React.memo(styled(Button)`
+  background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 0.92857142857rem; // 13/14px
+  // font-size: 0.92857142857rem; // 13/14px
   position: relative;
   text-align: center;
 
   &:not(.hasLabel) {
-    padding: 0.75em;
+    padding: 0.7em;
 
     > .ui--Icon {
       height: 1rem;
@@ -62,7 +64,7 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.75em 1.5em;
+    padding: 0.7em 1.3em;
 
     > .ui--Icon {
       margin-right: 0.75rem;
@@ -75,16 +77,17 @@ export default React.memo(styled(Button)`
     color: inherit !important;
   }
 
-  &.isBusy {
-    cursor: wait;
-  }
-
   &.isCircular {
     border-radius: 10rem;
   }
 
   &.isDisabled {
+    box-shadow: none;
     cursor: not-allowed;
+  }
+
+  &.isBusy {
+    cursor: wait;
   }
 
   &.isFull {
@@ -101,7 +104,7 @@ export default React.memo(styled(Button)`
   }
 
   .ui--Button-overlay {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(245, 244, 243, 0.75);
     bottom: 0;
     left: 0;
     position: absolute;
@@ -116,7 +119,6 @@ export default React.memo(styled(Button)`
     }
   }
 
-  &.isBusy,
   &.isDisabled {
     .ui--Button-overlay {
       visibility: visible;

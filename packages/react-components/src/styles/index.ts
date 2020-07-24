@@ -27,6 +27,10 @@ export default createGlobalStyle<Props>`
     color: ${getHighlight} !important;
   }
 
+  .ui--highlight--before:before {
+    background: ${getHighlight} !important;
+  }
+
   .ui--highlight--bg {
     background: ${getHighlight} !important;
   }
@@ -36,11 +40,27 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--highlight--button {
-    background: ${getHighlight} !important;
-    // box-shadow: 0 0 0 1px ${getHighlight} !important;
+    // box-shadow: 0 0 1px ${getHighlight};
 
-    &:hover {
-      // box-shadow: inherit !important;
+    &:before {
+      // background: ${getHighlight} !important;
+    }
+
+    &:not(.isDisabled):not(.isIcon) {
+      .ui--Icon {
+        color: ${getHighlight};
+      }
+    }
+
+    &:hover:not(.isDisabled) {
+      background: ${getHighlight};
+      color: #f5f5f4;
+
+      &:not(.isIcon) {
+        .ui--Icon {
+          color: inherit;
+        }
+      }
     }
   }
 
