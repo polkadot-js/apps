@@ -8,7 +8,7 @@ import { ModalProps } from '../../types';
 
 import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
-import { isHex, isObject, u8aToString } from '@polkadot/util';
+import { isObject, u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
@@ -37,7 +37,7 @@ function parseFile (file: Uint8Array): FileState {
     const json = JSON.parse(u8aToString(file)) as KeyringPair$Json;
     const publicKey = keyring.decodeAddress(json.address, true);
     const address = keyring.encodeAddress(publicKey);
-    const isFileValid = publicKey.length === 32 && isHex(json.encoded) && isObject(json.meta) && (
+    const isFileValid = publicKey.length === 32 && !!json.encoded && isObject(json.meta) && (
       Array.isArray(json.encoding.content)
         ? json.encoding.content[0] === 'pkcs8'
         : json.encoding.content === 'pkcs8'
@@ -53,18 +53,17 @@ function parseFile (file: Uint8Array): FileState {
 
 function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [isBusy, setIsBusy] = useState(false);
   const [{ address, isFileValid, json }, setFile] = useState<FileState>({ address: null, isFileValid: false, json: null });
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array): void =>
-      setFile(parseFile(file)),
+    (file: Uint8Array) => setFile(parseFile(file)),
     []
   );
 
   const _onChangePass = useCallback(
-    (password: string): void =>
-      setPass({ isPassValid: keyring.isPassValid(password), password }),
+    (password: string) => setPass({ isPassValid: keyring.isPassValid(password), password }),
     []
   );
 
@@ -74,30 +73,34 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         return;
       }
 
-      const status: Partial<ActionStatus> = { action: 'restore' };
+      setIsBusy(true);
+      setTimeout((): void => {
+        const status: Partial<ActionStatus> = { action: 'restore' };
 
-      try {
-        const pair = keyring.restoreAccount(json, password);
-        const { address } = pair;
+        try {
+          const pair = keyring.restoreAccount(json, password);
+          const { address } = pair;
 
-        status.status = pair ? 'success' : 'error';
-        status.account = address;
-        status.message = t<string>('account restored');
+          status.status = pair ? 'success' : 'error';
+          status.account = address;
+          status.message = t<string>('account restored');
 
-        InputAddress.setLastValue('account', address);
-      } catch (error) {
-        setPass((state: PassState) => ({ ...state, isPassValid: false }));
+          InputAddress.setLastValue('account', address);
+        } catch (error) {
+          setPass((state: PassState) => ({ ...state, isPassValid: false }));
 
-        status.status = 'error';
-        status.message = (error as Error).message;
-        console.error(error);
-      }
+          status.status = 'error';
+          status.message = (error as Error).message;
+          console.error(error);
+        }
 
-      onStatusChange(status as ActionStatus);
+        setIsBusy(false);
+        onStatusChange(status as ActionStatus);
 
-      if (status.status !== 'error') {
-        onClose();
-      }
+        if (status.status !== 'error') {
+          onClose();
+        }
+      }, 0);
     },
     [json, onClose, onStatusChange, password, t]
   );
@@ -155,6 +158,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sync'
+          isBusy={isBusy}
           isDisabled={!isFileValid || !isPassValid}
           isPrimary
           label={t<string>('Restore')}

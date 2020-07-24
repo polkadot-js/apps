@@ -29,7 +29,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
   useEffect((): void => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     accountId && extrinsic && isFunction(extrinsic.paymentInfo) && isFunction(api.rpc.payment?.queryInfo) &&
-      setImmediate((): void => {
+      setTimeout((): void => {
         try {
           extrinsic
             .paymentInfo(accountId)
@@ -38,7 +38,7 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
         } catch (error) {
           console.error((error as Error).message);
         }
-      });
+      }, 0);
   }, [api, accountId, extrinsic, mountedRef]);
 
   if (!dispatchInfo) {

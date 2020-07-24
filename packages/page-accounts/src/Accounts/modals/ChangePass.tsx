@@ -26,6 +26,7 @@ interface OldPass {
 
 function ChangePass ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [isBusy, setIsBusy] = useState(false);
   const [newPass1, setNewPass1] = useState<NewPass>({ isValid: false, password: '' });
   const [newPass2, setNewPass2] = useState<NewPass>({ isValid: false, password: '' });
   const [{ isOldValid, oldPass }, setOldPass] = useState<OldPass>({ isOldValid: false, oldPass: '' });
@@ -43,8 +44,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
   );
 
   const _onChangeOld = useCallback(
-    (oldPass: string) =>
-      setOldPass({ isOldValid: keyring.isPassValid(oldPass), oldPass }),
+    (oldPass: string) => setOldPass({ isOldValid: keyring.isPassValid(oldPass), oldPass }),
     []
   );
 
@@ -56,27 +56,33 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
         return;
       }
 
-      try {
-        if (!account.isLocked) {
-          account.lock();
+      setIsBusy(true);
+      setTimeout((): void => {
+        try {
+          if (!account.isLocked) {
+            account.lock();
+          }
+
+          account.decodePkcs8(oldPass);
+        } catch (error) {
+          setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
+          setIsBusy(false);
+
+          return;
         }
 
-        account.decodePkcs8(oldPass);
-      } catch (error) {
-        setOldPass((state: OldPass) => ({ ...state, isOldValid: false }));
+        try {
+          keyring.encryptAccount(account, newPass1.password);
+        } catch (error) {
+          setNewPass2((state: NewPass) => ({ ...state, isValid: false }));
+          setIsBusy(false);
 
-        return;
-      }
+          return;
+        }
 
-      try {
-        keyring.encryptAccount(account, newPass1.password);
-      } catch (error) {
-        setNewPass2((state: NewPass) => ({ ...state, isValid: false }));
-
-        return;
-      }
-
-      onClose();
+        setIsBusy(false);
+        onClose();
+      }, 0);
     },
     [address, newPass1, oldPass, onClose]
   );
@@ -126,6 +132,7 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in-alt'
+          isBusy={isBusy}
           isDisabled={!newPass1.isValid || !newPass2.isValid || !isOldValid}
           isPrimary
           label={t<string>('Change')}

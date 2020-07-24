@@ -8,39 +8,41 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import Icon from '../Icon';
+import Spinner from '../Spinner';
 
-function Button ({ children, className = '', icon, isBasic = false, isCircular = false, isDisabled = false, isFull = false, isIcon, isNegative = false, isPositive = false, isPrimary = false, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isNegative, isPositive, isPrimary, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
-    (): void => {
-      !isDisabled && onClick && onClick();
-    },
-    [isDisabled, onClick]
+    () => !(isBusy || isDisabled) && onClick && onClick(),
+    [isBusy, isDisabled, onClick]
   );
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''} ${className}`}
-      disabled={isDisabled}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''} ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      {icon && <Icon icon={icon} />}
+      <Icon icon={icon} />
       {label}
       {children}
+      <div className='ui--Button-overlay'>
+        <Spinner
+          className='ui--Button-spinner'
+          variant='cover'
+        />
+      </div>
     </button>
   );
 }
 
 export default React.memo(styled(Button)`
   border: none;
+  cursor: pointer;
   font-size: 0.92857142857rem; // 13/14px
+  position: relative;
   text-align: center;
-
-  &:not(:disabled) {
-    cursor: pointer;
-  }
 
   &:not(.hasLabel) {
     padding: 0.75em;
@@ -53,11 +55,6 @@ export default React.memo(styled(Button)`
 
   &:not(.isCircular) {
     border-radius: 0.25rem;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.15;
   }
 
   &:focus {
@@ -78,8 +75,16 @@ export default React.memo(styled(Button)`
     color: inherit !important;
   }
 
+  &.isBusy {
+    cursor: wait;
+  }
+
   &.isCircular {
     border-radius: 10rem;
+  }
+
+  &.isDisabled {
+    cursor: not-allowed;
   }
 
   &.isFull {
@@ -89,5 +94,32 @@ export default React.memo(styled(Button)`
 
   &.isIcon {
     background: transparent;
+  }
+
+  .ui--Button-spinner {
+    visibility: hidden;
+  }
+
+  .ui--Button-overlay {
+    background: rgba(255, 255, 255, 0.75);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    visibility: hidden;
+  }
+
+  &.isBusy {
+    .ui--Button-spinner {
+      visibility: visible;
+    }
+  }
+
+  &.isBusy,
+  &.isDisabled {
+    .ui--Button-overlay {
+      visibility: visible;
+    }
   }
 `);

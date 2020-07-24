@@ -264,8 +264,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _doStart = useCallback(
     (): void => {
       setBusy(true);
-
-      setImmediate((): void => {
+      setTimeout((): void => {
         if (_unlock()) {
           isSubmit
             ? currentItem.payload
@@ -275,7 +274,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         } else {
           setBusy(false);
         }
-      });
+      }, 0);
     },
     [_onSend, _onSendPayload, _onSign, _unlock, currentItem, isSubmit, queueSetTxStatus, senderInfo]
   );
@@ -338,38 +337,37 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
         </ErrorBoundary>
       </Modal.Content>
       <Modal.Actions onCancel={_onCancel}>
+        <Button
+          icon={
+            flags.isQr
+              ? 'qrcode'
+              : 'sign-in-alt'
+          }
+          isBusy={isBusy}
+          isDisabled={!senderInfo.signAddress || isRenderError}
+          isPrimary
+          label={
+            flags.isQr
+              ? t<string>('Sign via Qr')
+              : isSubmit
+                ? t<string>('Sign and Submit')
+                : t<string>('Sign (no submission)')
+          }
+          onClick={_doStart}
+          tabIndex={2}
+        />
         {!isBusy && (
-          <>
-            <Button
-              icon={
-                flags.isQr
-                  ? 'qrcode'
-                  : 'sign-in-alt'
-              }
-              isDisabled={!senderInfo.signAddress || isRenderError}
-              isPrimary
-              label={
-                flags.isQr
-                  ? t<string>('Sign via Qr')
-                  : isSubmit
-                    ? t<string>('Sign and Submit')
-                    : t<string>('Sign (no submission)')
-              }
-              onClick={_doStart}
-              tabIndex={2}
-            />
-            <Toggle
-              className='signToggle'
-              isDisabled={!!currentItem.payload}
-              label={
-                isSubmit
-                  ? t<string>('Sign and Submit')
-                  : t<string>('Sign (no submission)')
-              }
-              onChange={setIsSubmit}
-              value={isSubmit}
-            />
-          </>
+          <Toggle
+            className='signToggle'
+            isDisabled={!!currentItem.payload}
+            label={
+              isSubmit
+                ? t<string>('Sign and Submit')
+                : t<string>('Sign (no submission)')
+            }
+            onChange={setIsSubmit}
+            value={isSubmit}
+          />
         )}
       </Modal.Actions>
     </>
