@@ -10,6 +10,7 @@ import { bnToBn, isBn, isUndefined } from '@polkadot/util';
 
 interface Props {
   className?: string;
+  isDisabled?: boolean;
   percent?: BN | number;
   total?: UInt | BN | number;
   value?: UInt | BN | number;
@@ -34,7 +35,7 @@ function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps>
 
 const Clip = React.memo(DivClip);
 
-function Progress ({ className = '', percent, total, value, withSummary = true }: Props): React.ReactElement<Props> | null {
+function Progress ({ className = '', isDisabled, percent, total, value, withSummary = true }: Props): React.ReactElement<Props> | null {
   const _total = bnToBn(total);
   const _value = bnToBn(value);
   const width = _total.gtn(0)
@@ -50,7 +51,7 @@ function Progress ({ className = '', percent, total, value, withSummary = true }
   const angle = width * 360 / 100;
 
   return (
-    <div className={`ui--Progress ${className}`}>
+    <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}>
       <div className='background ui--highlight--bg' />
       <Clip
         angle={
@@ -81,6 +82,11 @@ export default React.memo(styled(Progress)`
   height: 4.5rem;
   position: relative;
   width: 4.5rem;
+
+  &.isDisabled {
+    filter: grayscale(100%);
+    opacity: 0.25;
+  }
 
   .background,
   .clip {
