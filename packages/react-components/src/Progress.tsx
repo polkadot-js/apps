@@ -13,6 +13,7 @@ interface Props {
   percent?: BN | number;
   total?: UInt | BN | number;
   value?: UInt | BN | number;
+  withSummary?: boolean;
 }
 
 interface RotateProps {
@@ -33,7 +34,7 @@ function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps>
 
 const Clip = React.memo(DivClip);
 
-function Progress ({ className = '', percent, total, value }: Props): React.ReactElement<Props> | null {
+function Progress ({ className = '', percent, total, value, withSummary = true }: Props): React.ReactElement<Props> | null {
   const _total = bnToBn(total);
   const _value = bnToBn(value);
   const width = _total.gtn(0)
@@ -68,7 +69,7 @@ function Progress ({ className = '', percent, total, value }: Props): React.Reac
         type='second'
       />
       <div className='inner'>
-        <div>{width.toFixed(1)}%</div>
+        {withSummary && <div>{width.toFixed(1)}%</div>}
       </div>
     </div>
   );

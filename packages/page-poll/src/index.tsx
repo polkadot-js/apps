@@ -69,8 +69,6 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
     );
   }
 
-  console.error(turnout);
-
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
   const options: [string, string, boolean, (value: boolean) => void][] = [
@@ -135,10 +133,15 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                     : (
                       <div className='result'>
                         <FormatBalance value={totals[index]} />
-                        <Progress
-                          total={DIV}
-                          value={progress[index]}
-                        />
+                        {turnout?.voted.gtn(0)
+                          ? <Progress percent={totals[index].muln(10000).div(turnout.voted).toNumber() / 100} />
+                          : (
+                            <Progress
+                              total={DIV}
+                              value={progress[index]}
+                            />
+                          )
+                        }
                       </div>
                     )
                   }
