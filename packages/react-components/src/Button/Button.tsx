@@ -12,15 +12,13 @@ import Spinner from '../Spinner';
 
 function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isNegative, isPositive, isPrimary, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
-    (): void => {
-      !(isBusy || isDisabled) && onClick && onClick();
-    },
+    () => !(isBusy || isDisabled) && onClick && onClick(),
     [isBusy, isDisabled, onClick]
   );
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''}${(isDisabled || isBusy) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''} ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''} ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -30,28 +28,20 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
       {label}
       {children}
       {(isDisabled || isBusy) && <div className='ui--Button-overlay' />}
-      {isBusy && <Spinner variant='cover' />}
+      <Spinner
+        className='ui--Button-spinner'
+        variant='cover'
+      />
     </button>
   );
 }
 
 export default React.memo(styled(Button)`
   border: none;
+  cursor: pointer;
   font-size: 0.92857142857rem; // 13/14px
   position: relative;
   text-align: center;
-
-  &:not(.isDisabled) {
-    cursor: pointer;
-  }
-
-  &.isDisabled {
-    cursor: not-allowed;
-  }
-
-  &.isBusy {
-    cursor: wait;
-  }
 
   &:not(.hasLabel) {
     padding: 0.75em;
@@ -84,8 +74,16 @@ export default React.memo(styled(Button)`
     color: inherit !important;
   }
 
+  &.isBusy {
+    cursor: wait;
+  }
+
   &.isCircular {
     border-radius: 10rem;
+  }
+
+  &.isDisabled {
+    cursor: not-allowed;
   }
 
   &.isFull {
@@ -97,6 +95,10 @@ export default React.memo(styled(Button)`
     background: transparent;
   }
 
+  .ui--Button-spinner {
+    visibility: hidden;
+  }
+
   .ui--Button-overlay {
     background: white;
     bottom: 0;
@@ -106,5 +108,9 @@ export default React.memo(styled(Button)`
     right: 0;
     top: 0;
     z-index: 1;
+  }
+
+  &.isBusy .ui--Button-spinner {
+    visibility: visible;
   }
 `);
