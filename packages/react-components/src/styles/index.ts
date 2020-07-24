@@ -39,13 +39,29 @@ export default createGlobalStyle<Props>`
     border-color: ${getHighlight} !important;
   }
 
-  .ui--highlight--button {
-    // box-shadow: 0 0 1px ${getHighlight};
+  .ui--highlight--color {
+    color: ${getHighlight} !important;
+  }
 
-    &:before {
-      // background: ${getHighlight} !important;
+  .ui--highlight--fill {
+    fill: ${getHighlight} !important;
+  }
+
+  .ui--highlight--gradient {
+    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+  }
+
+  .ui--highlight--icon {
+    .ui--Icon {
+      color: ${getHighlight} !important;
     }
+  }
 
+  .ui--highlight--stroke {
+    stroke: ${getHighlight} !important;
+  }
+
+  .ui--Button {
     &:not(.isDisabled):not(.isIcon) {
       .ui--Icon {
         color: ${getHighlight};
@@ -62,28 +78,6 @@ export default createGlobalStyle<Props>`
         }
       }
     }
-  }
-
-  .ui--highlight--color {
-    color: ${getHighlight} !important;
-  }
-
-  .ui--highlight--fill {
-    fill: ${getHighlight} !important;
-  }
-
-  .ui--highlight--gradient {
-    background: ${(props: Props): string => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
-  }
-
-  .ui--highlight--icon {
-    .ui--Icon {
-      color: ${getHighlight} !important;
-    }
-  }
-
-  .ui--highlight--stroke {
-    stroke: ${getHighlight} !important;
   }
 
   .theme--default {

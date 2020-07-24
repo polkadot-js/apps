@@ -18,7 +18,7 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : '') : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy isDisabled' : ''} ui--highlight--button ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy isDisabled' : ''} ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -69,12 +69,6 @@ export default React.memo(styled(Button)`
     > .ui--Icon {
       margin-right: 0.75rem;
     }
-  }
-
-  &.isBasic {
-    background: white !important;
-    box-shadow: 0 0 0 1px #ddd;
-    color: inherit !important;
   }
 
   &.isCircular {
