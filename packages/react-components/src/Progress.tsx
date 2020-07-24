@@ -63,7 +63,7 @@ function Progress ({ className = '', isDisabled, total, value }: Props): React.R
         type='second'
       />
       <div className='inner'>
-        <div>{(angle * 100 / 360).toFixed(1)}%</div>
+        <div>{Math.floor(angle * 100 / 360)}%</div>
       </div>
     </div>
   );
@@ -137,9 +137,7 @@ export default React.memo(styled(Progress)`
 
     div {
       line-height: 1;
-      font-family: sans-serif;
-      font-size: 1rem;
-      font-weight: 500;
+      font-size: 1.25rem;
     }
   }
 `);
