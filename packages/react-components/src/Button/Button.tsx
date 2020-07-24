@@ -101,10 +101,9 @@ export default React.memo(styled(Button)`
   }
 
   .ui--Button-overlay {
-    background: white;
+    background: rgba(255, 255, 255, 0.75);
     bottom: 0;
     left: 0;
-    opacity: 0.75;
     position: absolute;
     right: 0;
     top: 0;
