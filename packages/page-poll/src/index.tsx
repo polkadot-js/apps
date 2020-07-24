@@ -135,11 +135,8 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                         <FormatBalance value={totals[index]} />
                         <Progress
                           isDisabled={!turnout}
-                          percent={
-                            turnout?.voted.gtn(0)
-                              ? totals[index].muln(10000).div(turnout.voted).toNumber() / 100
-                              : 0
-                          }
+                          total={turnout?.voted}
+                          value={totals[index]}
                         />
                       </div>
                     )

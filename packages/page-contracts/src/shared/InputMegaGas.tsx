@@ -40,7 +40,6 @@ function InputMegaGas ({ className, executionTime, help, isValid, label, megaGas
           </aside>
           <Progress
             className='contracts--InputMegaGas-progress'
-            color={percentage < 100 ? 'green' : 'red'}
             total={100}
             value={percentage}
           />
