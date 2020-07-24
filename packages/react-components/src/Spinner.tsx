@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
-import spinnerSrc from './Spinner-2.png';
+import spinnerSrc from './Spinner.png';
 
 interface Props {
   className?: string;
@@ -46,6 +46,7 @@ export default React.memo(styled(Spinner)`
     right: 0;
 
     img {
+      border: 1 px solid white;
       margin: 0 auto;
     }
   }
@@ -53,7 +54,6 @@ export default React.memo(styled(Spinner)`
   img {
     border: 1px solid transparent;
     border-radius: 10rem;
-    opacity: 0.75;
   }
 
   .text {

@@ -15,6 +15,24 @@ interface Props {
   value?: UInt | BN | number;
 }
 
+interface RotateProps {
+  angle: string;
+  type: 'first' | 'second';
+}
+
+function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps> {
+  return (
+    <div className={`clip ${type}`}>
+      <div
+        className='ui--highlight--bg'
+        style={{ transform: `rotate(${angle}deg)` }}
+      />
+    </div>
+  );
+}
+
+const Clip = React.memo(DivClip);
+
 function Progress ({ className = '', percent, total, value }: Props): React.ReactElement<Props> | null {
   const _total = bnToBn(total);
   const _value = bnToBn(value);
@@ -29,27 +47,26 @@ function Progress ({ className = '', percent, total, value }: Props): React.Reac
   }
 
   const angle = width * 360 / 100;
-  const firstHalfAngle = angle <= 180
-    ? angle
-    : 180;
-  const secondHalfAngle = angle <= 180
-    ? 0
-    : angle - 180;
 
   return (
     <div className={`ui--Progress ${className}`}>
-      <div className='clip'>
-        <div
-          className='ui--highlight--bg'
-          style={{ transform: `rotate(${firstHalfAngle}deg)` }}
-        />
-      </div>
-      <div className='clip'>
-        <div
-          className='ui--highlight--bg'
-          style={{ transform: `rotate(${secondHalfAngle}deg)` }}
-        />
-      </div>
+      <div className='background ui--highlight--bg' />
+      <Clip
+        angle={
+          angle <= 180
+            ? angle.toFixed(1)
+            : '180'
+        }
+        type='first'
+      />
+      <Clip
+        angle={
+          angle <= 180
+            ? '0'
+            : (angle - 180).toFixed(1)
+        }
+        type='second'
+      />
       <div className='inner'>
         <div>{width.toFixed(1)}%</div>
       </div>
@@ -58,24 +75,29 @@ function Progress ({ className = '', percent, total, value }: Props): React.Reac
 }
 
 export default React.memo(styled(Progress)`
-  background: rgba(0, 0, 0, 0.05);
   border-radius: 100%;
   height: 4.5rem;
+  overflow: hidden;
   position: relative;
   width: 4.5rem;
 
+  .background,
   .clip {
     bottom: 0;
-    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
+  }
 
+  .background {
+    opacity: 0.125;
+  }
+
+  .clip {
     div {
       border-radius: 100%;
       bottom: 0;
-      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
       left: 0;
       position: absolute;
       right: 0;
@@ -85,7 +107,15 @@ export default React.memo(styled(Progress)`
     }
   }
 
-  .clip+.clip {
+  .clip.first {
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+
+    div {
+      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    }
+  }
+
+  .clip.second {
     clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
 
     div {
