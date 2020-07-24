@@ -44,7 +44,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
       <section className='ui--media-small'>
         {totalIssuance && (
           <CardSummary
-            label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')}/` : ''}${t<string>('total issuance')}`}
+            label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')} / ` : ''}${t<string>('total issuance')}`}
             progress={progressStake}
           >
             <div>
