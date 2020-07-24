@@ -20,19 +20,17 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''} ${className}`}
-      disabled={isDisabled || isBusy}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? (isBasic ? ' ui--highlight--border' : ' ui--highlight--button') : ''}${(isDisabled || isBusy) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''} ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      {isBusy
-        ? <Spinner variant='button' />
-        : icon && <Icon icon={icon} />
-      }
+      <Icon icon={icon} />
       {label}
       {children}
+      {(isDisabled || isBusy) && <div className='ui--Button-overlay' />}
+      {isBusy && <Spinner variant='cover' />}
     </button>
   );
 }
@@ -40,10 +38,19 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 export default React.memo(styled(Button)`
   border: none;
   font-size: 0.92857142857rem; // 13/14px
+  position: relative;
   text-align: center;
 
-  &:not(:disabled) {
+  &:not(.isDisabled) {
     cursor: pointer;
+  }
+
+  &.isDisabled {
+    cursor: not-allowed;
+  }
+
+  &.isBusy {
+    cursor: wait;
   }
 
   &:not(.hasLabel) {
@@ -57,11 +64,6 @@ export default React.memo(styled(Button)`
 
   &:not(.isCircular) {
     border-radius: 0.25rem;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.15;
   }
 
   &:focus {
@@ -93,5 +95,16 @@ export default React.memo(styled(Button)`
 
   &.isIcon {
     background: transparent;
+  }
+
+  .ui--Button-overlay {
+    background: white;
+    bottom: 0;
+    left: 0;
+    opacity: 0.75;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
   }
 `);

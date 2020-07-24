@@ -85,7 +85,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
-  const [rootPass, setRootPass] = useState('');
+  const [{ isRootValid, rootPass }, setRootPass] = useState({ isRootValid: false, rootPass: '' });
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
@@ -122,6 +122,14 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const _onChangePass2 = useCallback(
     (password2: string) => setPassword2({ isPass2Valid: keyring.isPassValid(password2) && (password2 === password), password2 }),
     [password]
+  );
+
+  const _onChangeRootPass = useCallback(
+    (rootPass: string): void => {
+      setRootPass({ isRootValid: !!rootPass, rootPass });
+      setIsLocked(({ isLocked }) => ({ isLocked, lockedError: null }));
+    },
+    []
   );
 
   const _onUnlock = useCallback(
@@ -193,7 +201,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               help={t<string>('The password to unlock the selected account.')}
               isError={!!lockedError}
               label={t<string>('password')}
-              onChange={setRootPass}
+              onChange={_onChangeRootPass}
               value={rootPass}
             />
           </>
@@ -249,7 +257,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
             <Button
               icon='lock'
               isBusy={isBusy}
-              isDisabled={!rootPass}
+              isDisabled={!isRootValid}
               isPrimary
               label={t<string>('Unlock')}
               onClick={_onUnlock}

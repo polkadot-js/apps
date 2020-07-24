@@ -121,17 +121,6 @@ export default createGlobalStyle<Props>`
     position: relative;
     text-align: left;
 
-    &:not(:hover):not(.keepAlive) {
-      .ui.button:not(.disabled) {
-        background: #eee !important;
-        color: #555 !important;
-      }
-
-      .ui.button.show-on-hover {
-        visibility: hidden;
-      }
-    }
-
     > ul {
       margin: 0;
       padding: 0;

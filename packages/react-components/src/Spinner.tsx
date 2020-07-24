@@ -11,17 +11,22 @@ import spinnerSrc from './Spinner-2.png';
 interface Props {
   className?: string;
   label?: React.ReactNode;
-  variant?: 'app' | 'button' | 'push' | 'mini';
+  variant?: 'app' | 'cover' | 'push' | 'mini';
 }
+
+// prefetch
+const img = new Image();
+
+img.src = spinnerSrc as string;
 
 function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
-    <div className={`${className} ui--Spinner${variant === 'button' ? ' isInline' : ''}`}>
+    <div className={`${className} ui--Spinner${variant === 'cover' ? ' isCover' : ''}`}>
       <img
-        className={['push', 'button'].includes(variant) ? '' : 'ui--highlight--bg'}
-        src={spinnerSrc as unknown as string}
+        className={variant === 'push' ? '' : 'ui--highlight--bg'}
+        src={spinnerSrc as string}
       />
       {variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
@@ -34,14 +39,17 @@ export default React.memo(styled(Spinner)`
   margin: 0 auto;
   text-align: center;
 
-  &.isInline {
-    display: inline-block;
-    height: 0;
-    overflow: visible;
-    vertical-align: middle;
+  &.isCover {
+    bottom: 0;
+    left: 0;
+    padding-top: 0.15rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
 
     img {
-      margin: -50% 0.5rem -0.17rem 0;
+      margin: 0 auto;
       opacity: 1;
     }
   }
