@@ -110,7 +110,7 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
           <Button.Group>
             <Button
               icon='paper-plane'
-              label={t<string>('Deposit')}
+              label={t<string>('send')}
               onClick={toggleIsTransferOpen}
             />
             {flags.isOwned && (
