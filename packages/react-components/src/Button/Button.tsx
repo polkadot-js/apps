@@ -39,7 +39,7 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
 
 export default React.memo(styled(Button)`
-  background: transparent;
+  background: rgba(0, 0, 0, 0.05);
   border: none;
   cursor: pointer;
   // font-size: 0.92857142857rem; // 13/14px
