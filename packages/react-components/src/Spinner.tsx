@@ -46,7 +46,6 @@ export default React.memo(styled(Spinner)`
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 2;
 
     img {
       margin: 0 auto;

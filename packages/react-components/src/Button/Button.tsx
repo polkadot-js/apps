@@ -27,11 +27,12 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
       <Icon icon={icon} />
       {label}
       {children}
-      {(isDisabled || isBusy) && <div className='ui--Button-overlay' />}
-      <Spinner
-        className='ui--Button-spinner'
-        variant='cover'
-      />
+      <div className='ui--Button-overlay'>
+        <Spinner
+          className='ui--Button-spinner'
+          variant='cover'
+        />
+      </div>
     </button>
   );
 }
@@ -107,10 +108,19 @@ export default React.memo(styled(Button)`
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 1;
+    visibility: hidden;
   }
 
-  &.isBusy .ui--Button-spinner {
-    visibility: visible;
+  &.isBusy {
+    .ui--Button-spinner {
+      visibility: visible;
+    }
+  }
+
+  &.isBusy,
+  &.isDisabled {
+    .ui--Button-overlay {
+      visibility: visible;
+    }
   }
 `);
