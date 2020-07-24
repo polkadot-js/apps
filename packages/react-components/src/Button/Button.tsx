@@ -76,6 +76,7 @@ export default React.memo(styled(Button)`
   }
 
   &.isDisabled {
+    background: none;
     box-shadow: none;
     cursor: not-allowed;
   }
