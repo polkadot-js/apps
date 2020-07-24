@@ -102,7 +102,7 @@ export default React.memo(styled(CardSummary)`
   }
 
   .ui--Progress {
-    margin: 0.5rem 0 0 0.75rem;
+    margin: 0.5rem 0.125rem 0.125rem 0.75rem;
   }
 
   > .ui--Labelled {
