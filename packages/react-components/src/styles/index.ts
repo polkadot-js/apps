@@ -71,10 +71,6 @@ export default createGlobalStyle<Props>`
       border-bottom-color: ${getHighlight};
     }
 
-    .ui--Progress > div {
-      background-color: ${getHighlight} !important;
-    }
-
     .ui.negative.button,
     .ui.buttons .negative.button {
       background: #666 !important;

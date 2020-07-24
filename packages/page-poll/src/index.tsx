@@ -134,11 +134,11 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                     ? <div className='result' />
                     : (
                       <div className='result'>
+                        <FormatBalance value={totals[index]} />
                         <Progress
                           total={DIV}
                           value={progress[index]}
                         />
-                        <FormatBalance value={totals[index]} />
                       </div>
                     )
                   }
@@ -260,11 +260,20 @@ export default React.memo(styled(PollApp)`
   }
 
   .result {
-    margin: 2.2rem 0 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
     text-align: right;
 
+    .ui--FormatBalance {
+      font-size: 1.2rem;
+      font-weight: 100;
+      line-height: 1;
+    }
+
     .ui--Progress {
-      margin-bottom: 0.5rem;
+      margin: 0.75rem;
     }
   }
 `);

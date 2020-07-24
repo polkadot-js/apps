@@ -28,21 +28,88 @@ function Progress ({ className = '', percent, total, value }: Props): React.Reac
     return null;
   }
 
+  const angle = width * 360 / 100;
+  const firstHalfAngle = angle <= 180
+    ? angle
+    : 180;
+  const secondHalfAngle = angle <= 180
+    ? 0
+    : angle - 180;
+
   return (
     <div className={`ui--Progress ${className}`}>
-      <div style={{ width: `${width}%` }} />
+      <div className='clip'>
+        <div
+          className='ui--highlight--bg'
+          style={{ transform: `rotate(${firstHalfAngle}deg)` }}
+        />
+      </div>
+      <div className='clip'>
+        <div
+          className='ui--highlight--bg'
+          style={{ transform: `rotate(${secondHalfAngle}deg)` }}
+        />
+      </div>
+      <div className='inner'>
+        <div>{width.toFixed(1)}%</div>
+      </div>
     </div>
   );
 }
 
 export default React.memo(styled(Progress)`
   background: rgba(0, 0, 0, 0.05);
-  border-radius: 0.25rem;
-  margin: 1em 0 2.5em;
-  overflow: hidden;
+  border-radius: 100%;
+  height: 4.5rem;
+  position: relative;
+  width: 4.5rem;
 
-  > div {
-    height: 0.25rem;
-    min-width: 0;
+  .clip {
+    bottom: 0;
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    div {
+      border-radius: 100%;
+      bottom: 0;
+      clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+      left: 0;
+      position: absolute;
+      right: 0;
+      transform: rotate(0);
+      top: 0;
+      zoom: 1;
+    }
+  }
+
+  .clip+.clip {
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+
+    div {
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    }
+  }
+
+  .inner {
+    align-items: center;
+    background: rgba(245, 244, 243, 87.5%);
+    border-radius: 100%;
+    bottom: 0.375rem;
+    display: flex;
+    justify-content: center;
+    left: 0.375rem;
+    position: absolute;
+    right: 0.375rem;
+    top: 0.375rem;
+
+    div {
+      line-height: 1;
+      font-family: sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+    }
   }
 `);
