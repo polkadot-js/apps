@@ -6,15 +6,13 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 import { UInt } from '@polkadot/types';
-import { bnToBn, isBn, isUndefined } from '@polkadot/util';
+import { bnToBn } from '@polkadot/util';
 
 interface Props {
   className?: string;
   isDisabled?: boolean;
-  percent?: BN | number;
-  total?: UInt | BN | number;
-  value?: UInt | BN | number;
-  withSummary?: boolean;
+  total?: UInt | BN | number | null;
+  value?: UInt | BN | number | null;
 }
 
 interface RotateProps {
@@ -35,20 +33,15 @@ function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps>
 
 const Clip = React.memo(DivClip);
 
-function Progress ({ className = '', isDisabled, percent, total, value, withSummary = true }: Props): React.ReactElement<Props> | null {
-  const _total = bnToBn(total);
-  const _value = bnToBn(value);
-  const width = _total.gtn(0)
-    ? (100.0 * _value.toNumber() / _total.toNumber())
-    : isBn(percent)
-      ? percent.toNumber()
-      : percent;
+function Progress ({ className = '', isDisabled, total, value }: Props): React.ReactElement<Props> | null {
+  const _total = bnToBn(total || 0);
+  const angle = _total.gtn(0)
+    ? (bnToBn(value || 0).muln(36000).div(_total).toNumber() / 100)
+    : 0;
 
-  if (isUndefined(width) || width < 0) {
+  if (angle < 0) {
     return null;
   }
-
-  const angle = width * 360 / 100;
 
   return (
     <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${className}`}>
@@ -70,7 +63,7 @@ function Progress ({ className = '', isDisabled, percent, total, value, withSumm
         type='second'
       />
       <div className='inner'>
-        {withSummary && <div>{width.toFixed(1)}%</div>}
+        <div>{(angle * 100 / 360).toFixed(1)}%</div>
       </div>
     </div>
   );

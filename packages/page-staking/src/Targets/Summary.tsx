@@ -19,46 +19,53 @@ interface Props {
   totalStaked?: BN;
 }
 
+interface Progress {
+  hideValue: true;
+  total: BN;
+  value: BN;
+}
+
 function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
-  const [percentage, setPercentage] = useState<string | undefined>();
+  const [progressStake, setProgressStake] = useState<Progress | undefined>();
 
   useEffect((): void => {
-    totalIssuance && totalStaked && totalStaked.gtn(0) && setPercentage(
-      `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
-    );
+    totalIssuance && totalStaked && totalStaked.gtn(0) && setProgressStake({
+      hideValue: true,
+      total: totalIssuance,
+      value: totalStaked
+    });
   }, [totalIssuance, totalStaked]);
 
   return (
     <SummaryBox>
       <section className='ui--media-small'>
-        {totalStaked && (
-          <CardSummary label={t<string>('total staked')}>
-            <FormatBalance
-              value={totalStaked}
-              withSi
-            />
-          </CardSummary>
-        )}
-        {totalStaked && totalIssuance && (
-          <CardSummary label=''>/</CardSummary>
-        )}
         {totalIssuance && (
-          <CardSummary label={t<string>('total issuance')}>
-            <FormatBalance
-              value={totalIssuance}
-              withSi
-            />
+          <CardSummary
+            label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')}/` : ''}${t<string>('total issuance')}`}
+            progress={progressStake}
+          >
+            <div>
+              {totalStaked?.gtn(0) && (
+                <>
+                  <FormatBalance
+                    value={totalStaked}
+                    withCurrency={false}
+                    withSi
+                  />
+                  /
+                </>
+              )}
+              <FormatBalance
+                value={totalIssuance}
+                withSi
+              />
+            </div>
           </CardSummary>
         )}
       </section>
-      {percentage && (
-        <CardSummary label={t<string>('staked')}>
-          {percentage}
-        </CardSummary>
-      )}
       {numValidators && numNominators && (
         <CardSummary label={t<string>('validators/nominators')}>
           {numValidators}/{numNominators}
