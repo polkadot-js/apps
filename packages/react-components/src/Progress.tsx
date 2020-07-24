@@ -76,8 +76,8 @@ function Progress ({ className = '', percent, total, value }: Props): React.Reac
 
 export default React.memo(styled(Progress)`
   border-radius: 100%;
+  clip-path: circle(50%);
   height: 4.5rem;
-  overflow: hidden;
   position: relative;
   width: 4.5rem;
 

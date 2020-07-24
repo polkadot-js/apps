@@ -69,11 +69,18 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
                   ? '-'
-                  : `${left}${progress.isPercent ? '' : '/'}${
-                    progress.isPercent
-                      ? '%'
-                      : formatNumber(progress.total)
-                  }`
+                  : !isTimed || progress.isPercent || !progress.value
+                    ? `${left}${progress.isPercent ? '' : '/'}${
+                      progress.isPercent
+                        ? '%'
+                        : formatNumber(progress.total)
+                    }`
+                    : (
+                      <BlockToTime
+                        blocks={progress.total.sub(progress.value)}
+                        className='timer'
+                      />
+                    )
                 }
               </div>
             </>
@@ -129,9 +136,13 @@ export default React.memo(styled(CardSummary)`
     }
 
     .isSecondary {
-      font-size: 1.1rem;
-      font-weight: normal;
+      font-size: 1rem;
+      font-weight: 100;
       margin-top: 0.25rem;
+
+      .timer {
+        min-width: 8rem;
+      }
     }
   }
 
