@@ -59,7 +59,7 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.7rem 1.2rem 0.7rem ${1.2 - 0.5}rem;
+    padding: 0.7rem 1.15rem 0.7rem ${1.15 - 0.425}rem;
 
     .ui--Icon {
       margin-right: 0.425rem !important;
@@ -108,11 +108,11 @@ export default React.memo(styled(Button)`
   }
 
   .ui--Icon {
-    border-radius: 50%;
+    border-radius: 1rem;
     box-sizing: content-box;
     height: 1rem;
-    margin: -0.5rem 0;
-    padding: 0.5rem;
+    margin: -0.425rem 0;
+    padding: 0.425rem;
     width: 1rem;
   }
 
