@@ -112,6 +112,7 @@
   "Select a contact or paste the address you want to send funds to.": "Select a contact or paste the address you want to send funds to.",
   "Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.": "Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.",
   "Select the account you wish to recover into this account.": "Select the account you wish to recover into this account.",
+  "Send": "Send",
   "Send funds": "Send funds",
   "Send funds from this account": "Send funds from this account",
   "Send funds to this address": "Send funds to this address",
