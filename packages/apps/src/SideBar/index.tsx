@@ -229,13 +229,6 @@ export default React.memo(styled(SideBar)`
       right: 0;
       text-align: left;
       width: 100%;
-
-      .ui--Button {
-        background: white;
-        color: #3f3f3f;
-        margin: 0;
-        transition: transform 0.15s;
-      }
     }
 
     .apps--SideBar-toggle {

@@ -204,10 +204,6 @@ export default React.memo(styled(Sidebar)`
     justify-content: center;
     margin: -1rem -1rem 1rem -1rem;
     padding: 1rem;
-
-    .ui--Button {
-      transition: 0.5s all;
-    }
   }
 
   .ui--AddressMenu-addr {
