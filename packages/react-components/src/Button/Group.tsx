@@ -30,18 +30,4 @@ export default React.memo(styled(ButtonGroup)`
   &+.ui--Table {
     margin-top: 1.5rem;
   }
-
-  .ui--Button {
-    margin-left: 1px !important;
-
-    &:not(:first-of-type) {
-      border-bottom-left-radius: 0rem !important;
-      border-top-left-radius: 0rem !important;
-    }
-
-    &:not(:last-of-type) {
-      border-bottom-right-radius: 0 !important;
-      border-top-right-radius: 0 !important;
-    }
-  }
 `);

@@ -32,22 +32,11 @@ export default css`
     }
 
     .ui--Button {
-      background-color: ${colorBtnDefault};
-      color: ${colorBtnText};
-
-      &.active,
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: ${colorBtnDefault};
-        color: ${colorBtnText};
-      }
-
-      &:hover {
+      &:hover:not(.isDisabled) {
         filter: brightness(110%);
       }
 
-      &.isIcon {
+      &.isIcon:not(.isDisabled) {
         .ui--Icon {
           color: ${colorLink};
         }

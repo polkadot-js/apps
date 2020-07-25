@@ -27,21 +27,16 @@ export default createGlobalStyle<Props>`
     color: ${getHighlight} !important;
   }
 
+  .ui--highlight--before:before {
+    background: ${getHighlight} !important;
+  }
+
   .ui--highlight--bg {
     background: ${getHighlight} !important;
   }
 
   .ui--highlight--border {
     border-color: ${getHighlight} !important;
-  }
-
-  .ui--highlight--button {
-    background: ${getHighlight} !important;
-    // box-shadow: 0 0 0 1px ${getHighlight} !important;
-
-    &:hover {
-      // box-shadow: inherit !important;
-    }
   }
 
   .ui--highlight--color {
@@ -53,7 +48,7 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--highlight--gradient {
-    background: ${(props: Props): string => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .ui--highlight--icon {
@@ -64,6 +59,26 @@ export default createGlobalStyle<Props>`
 
   .ui--highlight--stroke {
     stroke: ${getHighlight} !important;
+  }
+
+  .ui--Button {
+    &:not(.isDisabled):not(.isIcon) {
+      .ui--Icon {
+        color: ${getHighlight};
+      }
+    }
+
+    &:hover:not(.isDisabled):not(.isReadOnly) {
+      background: ${getHighlight};
+      color: #f5f5f4;
+      text-shadow: none;
+
+      &:not(.isIcon) {
+        .ui--Icon {
+          color: inherit;
+        }
+      }
+    }
   }
 
   .theme--default {
