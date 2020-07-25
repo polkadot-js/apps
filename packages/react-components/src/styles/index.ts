@@ -62,7 +62,18 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Button {
-    &:not(.isDisabled):not(.isIcon) {
+    &:not(.isDisabled):not(.isIcon):not(.isBasic) {
+      .ui--Icon {
+        background: ${getHighlight};
+        color: #f5f5f4;
+      }
+    }
+
+    &.isBasic:not(.isDisabled):not(.isIcon) {
+      &:not(.isReadOnly) {
+        box-shadow: 0 0 1px ${getHighlight};
+      }
+
       .ui--Icon {
         color: ${getHighlight};
       }
@@ -77,6 +88,15 @@ export default createGlobalStyle<Props>`
         .ui--Icon {
           color: inherit;
         }
+      }
+    }
+  }
+
+  .ui--Table td .ui--Button {
+    &:not(.isDisabled):not(.isIcon) {
+      .ui--Icon {
+        background: transparent;
+        color: ${getHighlight};
       }
     }
   }

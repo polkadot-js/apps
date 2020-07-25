@@ -28,34 +28,26 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
       <Icon icon={icon} />
       {label}
       {children}
-      <div className='ui--Button-overlay'>
-        <Spinner
-          className='ui--Button-spinner'
-          variant='cover'
-        />
-      </div>
+      <Spinner
+        className='ui--Button-spinner'
+        variant='cover'
+      />
     </button>
   );
 }
 
 export default React.memo(styled(Button)`
-  background: #e9e8e7; // similar to rgba(0, 0, 0, 0.05);
+  background: transparent; // #e9e8e7; // similar to rgba(0, 0, 0, 0.05);
   border: none;
   color: #4e4e4e;
   cursor: pointer;
   // font-size: 0.92857142857rem; // 13/14px
-  margin: 0 1px;
+  margin: 0;
   position: relative;
   text-align: center;
-  // text-shadow: 0 0 2px #f5f4f3;
 
   &:not(.hasLabel) {
-    padding: 0.7em;
-
-    > .ui--Icon {
-      height: 1rem;
-      width: 1rem;
-    }
+    padding: 0.7em 0.4rem;
   }
 
   &:not(.isCircular) {
@@ -67,10 +59,10 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.7em 1.3em;
+    padding: 0.7rem 1.1rem 0.7rem ${1.1 - 0.425}rem;
 
-    > .ui--Icon {
-      margin-right: 0.75rem;
+    .ui--Icon {
+      margin-right: 0.425rem !important;
     }
   }
 
@@ -111,6 +103,15 @@ export default React.memo(styled(Button)`
     visibility: hidden;
   }
 
+  .ui--Icon {
+    border-radius: 1.425rem;
+    box-sizing: content-box;
+    height: 1rem;
+    margin: -0.425rem 0;
+    padding: 0.425rem;
+    width: 1rem;
+  }
+
   &.isBusy {
     .ui--Button-spinner {
       visibility: visible;
@@ -118,8 +119,6 @@ export default React.memo(styled(Button)`
   }
 
   &.isDisabled {
-    .ui--Button-overlay {
-      visibility: visible;
-    }
+    color: #bcbbba;
   }
 `);
