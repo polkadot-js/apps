@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { formatNumber, isBoolean } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -34,7 +34,7 @@ interface TipState {
 }
 
 function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
-  return isBoolean((tip as OpenTip).findersFee);
+  return !!(tip as OpenTip)?.findersFee;
 }
 
 function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
