@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
-// iBasic, isPrimary, isPosition, isNegative - here for old compat, check, remove
+// isPrimary, isPosition, isNegative - here for old compat, check, remove
 function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isNegative, isPositive, isPrimary, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
@@ -59,11 +59,15 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.7rem 1.1rem 0.7rem ${1.1 - 0.425}rem;
+    padding: 0.7rem 1.2rem 0.7rem ${1.2 - 0.5}rem;
 
     .ui--Icon {
       margin-right: 0.425rem !important;
     }
+  }
+
+  &.isBasic {
+    background: #fff;
   }
 
   &.isCircular {
@@ -104,11 +108,11 @@ export default React.memo(styled(Button)`
   }
 
   .ui--Icon {
-    border-radius: 1.425rem;
+    border-radius: 50%;
     box-sizing: content-box;
     height: 1rem;
-    margin: -0.425rem 0;
-    padding: 0.425rem;
+    margin: -0.5rem 0;
+    padding: 0.5rem;
     width: 1rem;
   }
 
