@@ -345,7 +345,6 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
           }
           isBusy={isBusy}
           isDisabled={!senderInfo.signAddress || isRenderError}
-          isPrimary
           label={
             flags.isQr
               ? t<string>('Sign via Qr')

@@ -69,7 +69,6 @@ function SetControllerAccount ({ defaultControllerId, onClose, stashId }: Props)
           accountId={stashId}
           icon='sign-in-alt'
           isDisabled={!controllerId || isFatal}
-          isPrimary
           label={t<string>('Set controller')}
           onStart={onClose}
           params={[controllerId]}

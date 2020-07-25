@@ -258,7 +258,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               icon='lock'
               isBusy={isBusy}
               isDisabled={!isRootValid}
-              isPrimary
               label={t<string>('Unlock')}
               onClick={_onUnlock}
             />
@@ -268,7 +267,6 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               icon='plus'
               isBusy={isBusy}
               isDisabled={!isValid}
-              isPrimary
               label={t<string>('Save')}
               onClick={toggleConfirmation}
             />

@@ -48,7 +48,6 @@ function Nominate ({ controllerId, next, nominating, onClose, stashId, targets, 
           extrinsic={nominateTx}
           icon='hand-paper'
           isDisabled={!nominateTx}
-          isPrimary
           label={t<string>('Nominate')}
           onStart={onClose}
         />

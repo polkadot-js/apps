@@ -212,7 +212,6 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
         )}
         <Button
           icon='times'
-          isNegative
           key='close'
           onClick={_onRemove}
         />

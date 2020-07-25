@@ -98,7 +98,6 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
         <Button
           icon='unlock'
           isBusy={isBusy}
-          isPrimary
           label={t<string>('Unlock')}
           onClick={_onUnlock}
         />

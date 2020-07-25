@@ -142,7 +142,6 @@ function General ({ className = '', isModalContent, onClose }: Props): React.Rea
         <Button
           icon='save'
           isDisabled={changed === null}
-          isPrimary={isModalContent}
           label={
             changed
               ? t<string>('Save & Reload')

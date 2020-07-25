@@ -86,7 +86,6 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
           accountId={controllerId}
           icon='sign-out'
           isDisabled={!maxUnbond?.gtn(0)}
-          isPrimary
           label={t<string>('Unbond')}
           onStart={onClose}
           params={[maxUnbond]}

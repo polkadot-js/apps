@@ -100,14 +100,12 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         <div className='ui--Param-Vector-buttons'>
           <Button
             icon='plus'
-            isPrimary
             label={t<string>('Add item')}
             onClick={_rowAdd}
           />
           <Button
             icon='minus'
             isDisabled={values.length === 0}
-            isNegative
             label={t<string>('Remove item')}
             onClick={_rowRemove}
           />

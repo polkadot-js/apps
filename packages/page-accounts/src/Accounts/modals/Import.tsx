@@ -160,7 +160,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
           icon='sync'
           isBusy={isBusy}
           isDisabled={!isFileValid || !isPassValid}
-          isPrimary
           label={t<string>('Restore')}
           onClick={_onSave}
         />

@@ -85,7 +85,6 @@ function Backup ({ address, onClose }: Props): React.ReactElement<Props> {
           icon='download'
           isBusy={isBusy}
           isDisabled={!isPassValid}
-          isPrimary
           label={t<string>('Download')}
           onClick={_doBackup}
         />

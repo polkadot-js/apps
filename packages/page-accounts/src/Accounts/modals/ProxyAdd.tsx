@@ -112,7 +112,6 @@ function ProxyAdd ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Button
           icon='plus'
           isDisabled={!isValid}
-          isPrimary
           label={t<string>('Add')}
           onClick={_createProxied}
         />

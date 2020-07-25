@@ -120,7 +120,6 @@ function PreImage ({ className = '', imageHash, isImminent = false, onClose }: P
           accountId={accountId}
           icon='plus'
           isDisabled={!proposal || !accountId || !isMatched || !encodedProposal}
-          isPrimary
           label={t<string>('Submit preimage')}
           onStart={onClose}
           params={[encodedProposal]}

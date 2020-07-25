@@ -46,7 +46,6 @@ function NewStash (): React.ReactElement {
               extrinsic={bondTx}
               icon='sign-in-alt'
               isDisabled={!bondTx || !stashId}
-              isPrimary
               label={t<string>('Bond')}
               onStart={_toggle}
             />

@@ -75,13 +75,11 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           <>
             <Button
               icon='trash'
-              isNegative
               onClick={toggleIsForgetOpen}
               tooltip={t('Forget this code hash')}
             />
             <Button
               icon='upload'
-              isPrimary
               label={t('deploy')}
               onClick={_onShowDeploy}
               tooltip={t('Deploy this code hash as a smart contract')}

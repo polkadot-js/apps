@@ -134,7 +134,6 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
           icon='sign-in-alt'
           isBusy={isBusy}
           isDisabled={!newPass1.isValid || !newPass2.isValid || !isOldValid}
-          isPrimary
           label={t<string>('Change')}
           onClick={_doChange}
         />

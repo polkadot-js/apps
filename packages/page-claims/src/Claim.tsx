@@ -87,7 +87,6 @@ function Claim ({ accountId, className = '', ethereumAddress, ethereumSignature,
               <Button.Group>
                 <TxButton
                   icon='paper-plane'
-                  isPrimary
                   isUnsigned
                   label={t('Claim')}
                   onSuccess={onSuccess}

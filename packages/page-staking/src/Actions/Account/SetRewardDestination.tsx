@@ -64,7 +64,6 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
           accountId={controllerId}
           icon='sign-in-alt'
           isDisabled={!controllerId}
-          isPrimary
           label={t<string>('Set reward destination')}
           onStart={onClose}
           params={[destination]}
