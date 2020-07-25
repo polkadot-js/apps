@@ -119,7 +119,6 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
               accountId={accountId}
               icon='repeat'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
-              isPrimary
               label={t<string>('Revert')}
               onStart={toggleVisible}
               params={[threshold, proposal]}

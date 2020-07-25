@@ -107,7 +107,6 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               accountId={accountId}
               icon='plus'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
-              isPrimary
               label={t<string>('Propose')}
               onStart={toggleVisible}
               params={

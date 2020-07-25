@@ -29,7 +29,6 @@ function EditButton ({ children, className, icon = 'edit', onClick }: Props): Re
         <Icon
           className='icon-button'
           icon={icon}
-          isPrimary
         />
       </span>
     </div>

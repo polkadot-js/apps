@@ -25,7 +25,6 @@ interface Props {
 function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { accountIndex, flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
-  const [isHoveringButton, toggleIsHoveringButton] = useToggle();
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
 
   const _onForgetAddress = useCallback(
@@ -118,30 +117,21 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
                 icon='check'
                 isBasic
                 label={t<string>('Owned')}
-                onMouseEnter={toggleIsHoveringButton}
-                onMouseLeave={toggleIsHoveringButton}
               />
             )}
             {!flags.isOwned && !flags.isInContacts && (
               <Button
                 icon='plus'
-                isPositive
                 label={t<string>('Save')}
                 onClick={_onUpdateName}
-                onMouseEnter={toggleIsHoveringButton}
-                onMouseLeave={toggleIsHoveringButton}
               />
             )}
             {!flags.isOwned && flags.isInContacts && (
               <Button
                 className='ui--AddressMenu-button'
                 icon='ban'
-                isNegative={isHoveringButton}
-                isPositive={!isHoveringButton}
                 label={t<string>('Remove')}
                 onClick={_onForgetAddress}
-                onMouseEnter={toggleIsHoveringButton}
-                onMouseLeave={toggleIsHoveringButton}
               />
             )}
           </Button.Group>

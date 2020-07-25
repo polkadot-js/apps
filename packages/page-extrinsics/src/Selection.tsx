@@ -65,7 +65,6 @@ function Selection (): React.ReactElement {
           extrinsic={extrinsic}
           icon='sign-in-alt'
           isDisabled={!extrinsic || !accountId}
-          isPrimary={false}
           label={t<string>('Submit Transaction')}
         />
       </Button.Group>

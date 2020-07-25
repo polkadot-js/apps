@@ -69,7 +69,6 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId}
-              isPrimary
               label={t<string>('Submit tip')}
               onStart={toggleOpen}
               params={[hash, value]}

@@ -30,7 +30,6 @@ function VoteActions ({ accountId, aye, className = '', isDisabled, onClick, par
         accountId={accountId}
         icon='check'
         isDisabled={!accountId || isDisabled}
-        isPrimary
         label={aye
           ? t<string>('Vote Aye')
           : t<string>('Vote Nay')}

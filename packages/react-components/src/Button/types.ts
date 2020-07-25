@@ -17,9 +17,6 @@ export interface ButtonProps {
   isDisabled?: boolean;
   isFull?: boolean;
   isIcon?: boolean;
-  isNegative?: boolean;
-  isPositive?: boolean;
-  isPrimary?: boolean;
   label?: React.ReactNode;
   onClick?: Button$Callback;
   onMouseEnter?: Button$Callback;

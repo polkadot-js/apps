@@ -48,7 +48,6 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
             <Button
               className='icon-button show-on-hover'
               icon={icon}
-              isPrimary
             />
           </span>
         </div>

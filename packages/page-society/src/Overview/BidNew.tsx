@@ -55,7 +55,6 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
           accountId={accountId}
           icon='sign-in-alt'
           isDisabled={!amount}
-          isPrimary
           label={t<string>('Bid')}
           onStart={onClose}
           params={[amount]}

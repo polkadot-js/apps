@@ -35,7 +35,6 @@ function CreateConfirmation ({ address, isBusy, name, onClose, onCommit }: Props
         <Button
           icon='plus'
           isBusy={isBusy}
-          isPrimary
           label={t<string>('Create and backup account')}
           onClick={onCommit}
         />

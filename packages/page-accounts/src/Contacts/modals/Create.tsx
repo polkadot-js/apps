@@ -131,7 +131,6 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         <Button
           icon='save'
           isDisabled={!isValid}
-          isPrimary
           label={t<string>('Save')}
           onClick={_onCommit}
         />

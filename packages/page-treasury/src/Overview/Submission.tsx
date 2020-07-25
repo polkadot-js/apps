@@ -105,7 +105,6 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
               accountId={accountId}
               icon='check'
               isDisabled={!accountId || !councilThreshold}
-              isPrimary
               label={t<string>('Send to council')}
               onStart={toggleOpen}
               params={

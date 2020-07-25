@@ -135,7 +135,6 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in-alt'
-          isPrimary
           label={t<string>('Submit key')}
           onClick={_onSubmit}
         />

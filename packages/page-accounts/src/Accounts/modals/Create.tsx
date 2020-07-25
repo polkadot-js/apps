@@ -363,7 +363,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           icon='plus'
           isBusy={isBusy}
           isDisabled={!isValid}
-          isPrimary
           label={t<string>('Save')}
           onClick={toggleConfirmation}
         />

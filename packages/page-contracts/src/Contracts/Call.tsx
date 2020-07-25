@@ -205,7 +205,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
               <Button
                 icon='sign-in-alt'
                 isDisabled={!isValid}
-                isPrimary
                 label={t<string>('Call')}
                 onClick={_onSubmitRpc}
               />
@@ -215,7 +214,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
                 accountId={accountId}
                 icon='sign-in-alt'
                 isDisabled={!isValid}
-                isPrimary
                 label={t('Call')}
                 onClick={(): void => setIsBusy(true)}
                 onFailed={(): void => setIsBusy(false)}

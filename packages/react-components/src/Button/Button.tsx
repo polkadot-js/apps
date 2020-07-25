@@ -10,8 +10,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
-// isPrimary, isPosition, isNegative - here for old compat, check, remove
-function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isNegative, isPositive, isPrimary, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
     [isBusy, isDisabled, onClick]
@@ -19,7 +18,7 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? ' isPrimary' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${!onClick ? ' isReadOnly' : ''} ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${!onClick ? ' isReadOnly' : ''} ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -36,18 +35,26 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
   );
 }
 
+const ICON_PADDING = 0.5;
+
 export default React.memo(styled(Button)`
-  background: transparent; // #e9e8e7; // similar to rgba(0, 0, 0, 0.05);
+  background: transparent;
   border: none;
-  color: #4e4e4e;
+  color: inherit;
   cursor: pointer;
-  // font-size: 0.92857142857rem; // 13/14px
+  line-height: 1;
   margin: 0;
   position: relative;
+  vertical-align: middle;
   text-align: center;
 
   &:not(.hasLabel) {
-    padding: 0.7em 0.4rem;
+    padding: 0.7em;
+
+    .ui--Icon {
+      padding: 0.6rem;
+      margin: -0.6rem;
+    }
   }
 
   &:not(.isCircular) {
@@ -59,7 +66,7 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.7rem 1.15rem 0.7rem ${1.15 - 0.425}rem;
+    padding: 0.7rem 1.1rem 0.7rem ${1.1 - ICON_PADDING}rem;
 
     .ui--Icon {
       margin-right: 0.425rem !important;
@@ -108,11 +115,11 @@ export default React.memo(styled(Button)`
   }
 
   .ui--Icon {
-    border-radius: 1rem;
+    border-radius: 50%;
     box-sizing: content-box;
     height: 1rem;
-    margin: -0.425rem 0;
-    padding: 0.425rem;
+    margin: -${ICON_PADDING}rem 0;
+    padding: ${ICON_PADDING}rem;
     width: 1rem;
   }
 

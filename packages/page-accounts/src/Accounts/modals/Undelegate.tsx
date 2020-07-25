@@ -39,7 +39,6 @@ function Undelegate ({ accountDelegating, onClose }: Props): React.ReactElement<
         <TxButton
           accountId={accountDelegating}
           icon='sign-in-alt'
-          isPrimary
           label={t<string>('Undelegate')}
           onStart={onClose}
           params={[]}

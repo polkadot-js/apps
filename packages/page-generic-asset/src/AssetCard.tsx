@@ -37,7 +37,6 @@ function AssetCard ({ assetId, className = '', name, onForget, onSaveName }: Pro
           buttons={(
             <Button
               icon='trash'
-              isNegative
               key='forget'
               onClick={_onForget}
               tooltip={t<string>('Forget this asset')}
