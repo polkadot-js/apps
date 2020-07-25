@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
+// iBasic, isPrimary, isPosition, isNegative - here for old compat, check, remove
 function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isNegative, isPositive, isPrimary, label, onClick, onMouseEnter, onMouseLeave, tabIndex }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
@@ -18,7 +19,7 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
   return (
     <button
-      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isDisabled ? ' isDisabled' : ''}${isBusy ? ' isBusy isDisabled' : ''} ${className}`}
+      className={`ui--Button${label ? ' hasLabel' : ''}${isBasic ? ' isBasic' : ''}${isCircular ? ' isCircular' : ''}${isFull ? ' isFull' : ''}${isIcon ? ' isIcon' : ''}${isNegative ? ' isNegative' : ''}${isPositive ? ' isPositive' : ''}${isPrimary ? ' isPrimary' : ''}${(isBusy || isDisabled) ? ' isDisabled' : ''}${isBusy ? ' isBusy' : ''}${!onClick ? ' isReadOnly' : ''} ${className}`}
       onClick={_onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -37,14 +38,16 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
   );
 }
 
-
 export default React.memo(styled(Button)`
-  background: rgba(0, 0, 0, 0.05);
+  background: #e9e8e7; // similar to rgba(0, 0, 0, 0.05);
   border: none;
+  color: #4e4e4e;
   cursor: pointer;
   // font-size: 0.92857142857rem; // 13/14px
+  margin: 0 1px;
   position: relative;
   text-align: center;
+  // text-shadow: 0 0 2px #f5f4f3;
 
   &:not(.hasLabel) {
     padding: 0.7em;
@@ -75,7 +78,7 @@ export default React.memo(styled(Button)`
     border-radius: 10rem;
   }
 
-  &.isDisabled {
+  &.isDisabled, &.isReadOnly {
     background: none;
     box-shadow: none;
     cursor: not-allowed;

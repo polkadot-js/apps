@@ -68,9 +68,10 @@ export default createGlobalStyle<Props>`
       }
     }
 
-    &:hover:not(.isDisabled) {
+    &:hover:not(.isDisabled):not(.isReadOnly) {
       background: ${getHighlight};
       color: #f5f5f4;
+      text-shadow: none;
 
       &:not(.isIcon) {
         .ui--Icon {
