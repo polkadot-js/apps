@@ -31,7 +31,7 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
     <SummaryBox className={className}>
       <section>
         <CardSummary label={t<string>('seats')}>
-          {formatNumber(members.length)}/{formatNumber(desiredSeats)}
+          {formatNumber(members.length)}&nbsp;/&nbsp;{formatNumber(desiredSeats)}
         </CardSummary>
         <CardSummary label={t<string>('runners up')}>
           {formatNumber(runnersUp.length)}
