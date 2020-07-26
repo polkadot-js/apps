@@ -14,9 +14,9 @@ interface Props {
   voters?: AccountId[];
 }
 
-function Voters ({ balance, voters }: Props): React.ReactElement<Props> | null {
+function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
   if (!balance || !voters || !voters.length) {
-    return null;
+    return <><td className='all number' /><td className='number' /></>;
   }
 
   return (
