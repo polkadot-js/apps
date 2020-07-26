@@ -55,7 +55,7 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
                     withCurrency={false}
                     withSi
                   />
-                  /
+                  &nbsp;/&nbsp;
                 </>
               )}
               <FormatBalance
@@ -67,8 +67,8 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
         )}
       </section>
       {numValidators && numNominators && (
-        <CardSummary label={t<string>('validators/nominators')}>
-          {numValidators}/{numNominators}
+        <CardSummary label={`${t<string>('validators')} / ${t<string>('nominators')}`}>
+          {numValidators}&nbsp;/&nbsp;{numNominators}
         </CardSummary>
       )}
       {lastReward?.gtn(0) && (
