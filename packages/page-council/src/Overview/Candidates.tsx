@@ -22,12 +22,14 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
 
   const headerCandidates = useMemo(() => [
     [t('candidates'), 'start', 2],
+    [],
     []
   ], [t]);
 
   const headerRunners = useMemo(() => [
     [t('runners up'), 'start', 2],
-    [t('backing')]
+    [t('backing')],
+    [t('votes')]
   ], [t]);
 
   return (

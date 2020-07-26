@@ -23,7 +23,8 @@ function Members ({ allVotes = {}, className = '', electionsInfo, prime }: Props
 
   const header = useMemo(() => [
     [t('members'), 'start', 2],
-    [t('backing')]
+    [t('backing')],
+    [t('votes')]
   ], [t]);
 
   return (
