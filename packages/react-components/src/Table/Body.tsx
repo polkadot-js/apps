@@ -131,6 +131,10 @@ export default React.memo(styled(Body)`
     &.favorite .ui--Icon.isSelected {
       color: darkorange;
     }
+
+    .ui--Button-Group .ui--Button {
+      margin: 0;
+    }
   }
 
   tr {

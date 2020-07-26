@@ -40,7 +40,7 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
     <>
       <Button
         icon='plus'
-        label={t<string>('Tip')}
+        label={t<string>('Propose tip')}
         onClick={toggleOpen}
       />
       {isOpen && (

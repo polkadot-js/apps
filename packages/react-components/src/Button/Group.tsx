@@ -30,4 +30,8 @@ export default React.memo(styled(ButtonGroup)`
   &+.ui--Table {
     margin-top: 1.5rem;
   }
+
+  .ui--Button {
+    margin: 0 0.25rem;
+  }
 `);
