@@ -112,6 +112,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               isDisabled={!accountId || votes.length === 0 || voteValue.lten(0)}
+              label={t<string>('Vote')}
               onStart={toggleVisible}
               params={[votes, voteValue]}
               tx={

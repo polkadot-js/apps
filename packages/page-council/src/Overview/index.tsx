@@ -51,8 +51,8 @@ function Overview ({ className = '', prime }: Props): React.ReactElement<Props> 
         electionsInfo={electionsInfo}
       />
       <Button.Group>
-        <SubmitCandidacy electionsInfo={electionsInfo} />
         <Vote electionsInfo={electionsInfo} />
+        <SubmitCandidacy electionsInfo={electionsInfo} />
       </Button.Group>
       <Members
         allVotes={allVotes}
