@@ -48,3 +48,21 @@ Modal.Header = SUIModal.Header;
 Modal.Description = SUIModal.Description;
 
 export default Modal;
+
+// rgba(0, 0, 0, 0.5);
+// @media only screen and (min-width: 1200px)
+// .ui.large.modal {
+//     width: 1080px;
+//     margin: 0;
+// }
+
+// @media only screen and (min-width: 992px)
+// .ui.large.modal {
+//     width: 1020px;
+//     margin: 0;
+// }
+// @media only screen and (min-width: 768px)
+// .ui.large.modal {
+//     width: 88%;
+//     margin: 0;
+// }
