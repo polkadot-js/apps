@@ -32,13 +32,13 @@ function getRewards ([[stashIds], available]: [[string[]], DeriveStakerReward[][
   };
 }
 
-export default function useOwnEraRewards (maxEras = 1000): OwnRewards {
+export default function useOwnEraRewards (maxEras?: number): OwnRewards {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
   const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric, []);
   const [filteredEras, setFilteredEras] = useState<EraIndex[]>([]);
-  const available = useCall<[[string[]], DeriveStakerReward[][]]>((filteredEras?.length > 0) && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });
+  const available = useCall<[[string[]], DeriveStakerReward[][]]>(!!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });
   const [state, setState] = useState<OwnRewards>({ isLoadingRewards: true, rewardCount: 0 });
 
   useEffect((): void => {
@@ -52,7 +52,7 @@ export default function useOwnEraRewards (maxEras = 1000): OwnRewards {
   }, [available, mountedRef]);
 
   useEffect((): void => {
-    allEras && setFilteredEras(
+    allEras && maxEras && setFilteredEras(
       allEras.reverse().filter((_, index) => index < maxEras).reverse()
     );
   }, [allEras, maxEras]);
