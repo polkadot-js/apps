@@ -69,7 +69,7 @@ export default createGlobalStyle<Props>`
       }
     }
 
-    &.isBasic:not(.isDisabled):not(.isIcon) {
+    &.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) {
       &:not(.isReadOnly) {
         box-shadow: 0 0 1px ${getHighlight};
       }
@@ -79,7 +79,12 @@ export default createGlobalStyle<Props>`
       }
     }
 
-    &:hover:not(.isDisabled):not(.isReadOnly) {
+    &.isSelected {
+      box-shadow: 0 0 1px ${getHighlight};
+    }
+
+    &:hover:not(.isDisabled):not(.isReadOnly),
+    &.isSelected {
       background: ${getHighlight};
       color: #f5f5f4;
       text-shadow: none;
