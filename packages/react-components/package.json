@@ -25,7 +25,7 @@
     "@polkadot/util-crypto": "^3.0.1",
     "chart.js": "^2.9.3",
     "codeflask": "^1.4.1",
-    "i18next": "^19.6.2",
+    "i18next": "^19.6.3",
     "i18next-browser-languagedetector": "^4.3.1",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
