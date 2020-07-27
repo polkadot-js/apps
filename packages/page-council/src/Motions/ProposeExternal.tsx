@@ -22,6 +22,7 @@ interface HashState {
   hash?: string;
   isHashValid: boolean;
 }
+
 interface ProposalState {
   proposal?: SubmittableExtrinsic<'promise'> | null;
   proposalLength: number;
