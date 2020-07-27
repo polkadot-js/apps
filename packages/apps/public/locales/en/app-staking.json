@@ -32,6 +32,7 @@
   "Inject Keys": "Inject Keys",
   "Inject session keys (advanced)": "Inject session keys (advanced)",
   "Keys from rotateKeys": "Keys from rotateKeys",
+  "Max, {{eras}} eras": "Max, {{eras}} eras",
   "New stake": "New stake",
   "No active validators found": "No active validators found",
   "No active validators to check": "No active validators to check",
@@ -56,6 +57,7 @@
   "Payouts": "Payouts",
   "Retrieving info for all applicable eras, this will take some time": "Retrieving info for all applicable eras, this will take some time",
   "Retrieving info for last {{numEras}} eras, this will take some time": "Retrieving info for last {{numEras}} eras, this will take some time",
+  "Retrieving info for the selected eras, this will take some time": "Retrieving info for the selected eras, this will take some time",
   "Rewards (once paid) can be deposited to either the stash or controller, with different effects.": "Rewards (once paid) can be deposited to either the stash or controller, with different effects.",
   "Select best": "Select best",
   "Select targets manually (no auto-selection based on current profitability)": "Select targets manually (no auto-selection based on current profitability)",
@@ -193,5 +195,6 @@
   "{{currency}} clipped": "{{currency}} clipped",
   "{{currency}} rewards": "{{currency}} rewards",
   "{{currency}} slashed": "{{currency}} slashed",
-  "{{currency}} total": "{{currency}} total"
+  "{{currency}} total": "{{currency}} total",
+  "{{days}} days": "{{days}} days"
 }
