@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { LinkTypes } from '@polkadot/apps-config/links/types';
+import { LinkTypes } from '@canvas-ui/apps-config/links/types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import linked from '@polkadot/apps-config/links';
-import { useApi } from '@polkadot/react-hooks';
+import linked from '@canvas-ui/apps-config/links';
+import { useApi } from '@canvas-ui/react-hooks';
 
 import { useTranslation } from './translate';
 import Tooltip from './Tooltip';

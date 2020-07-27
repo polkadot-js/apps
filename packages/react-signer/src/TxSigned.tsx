@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueTx } from '@polkadot/react-components/Status/types';
+import { QueueTx } from '@canvas-ui/react-components/Status/types';
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, ErrorBoundary, Modal, Output, Toggle } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { Button, ErrorBoundary, Modal, Output, Toggle } from '@canvas-ui/react-components';
+import { useApi, useToggle } from '@canvas-ui/react-hooks';
 
 import Address from './Address';
 import Qr from './Qr';
@@ -30,17 +30,17 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
     addQrSignature,
     flags,
     multiCall,
+    onCancel,
     onSend,
     onSendPayload,
     onSign,
-    onCancel,
     passwordError,
     qrState: { isQrHashed, isQrVisible, qrAddress, qrPayload },
     senderInfo,
     setSenderInfo,
     setSignedOptions,
     setTip,
-    signedTx,
+    signedTx
   } = useSendTx(currentItem, requestAddress);
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
@@ -93,7 +93,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                       />
                     </Modal.Column>
                     <Modal.Column>
-                      {t('The call data that can be supplied to a final call to multi approvals')}
+                      {t<string>('The call data that can be supplied to a final call to multi approvals')}
                     </Modal.Column>
                   </Modal.Columns>
                 )}

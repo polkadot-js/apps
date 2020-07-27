@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FileState } from '@polkadot/react-hooks/types';
+import { FileState } from '@canvas-ui/react-hooks/types';
 import { BareProps } from './types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import { useAbi, useFile, useToggle } from '@polkadot/react-hooks';
+import { useAbi, useFile, useNotification, useToggle } from '@canvas-ui/react-hooks';
+import { truncate } from '@canvas-ui/react-util';
 
 import Button from './Button';
 import InputABI from './InputABI';
@@ -15,25 +15,33 @@ import Modal from './Modal';
 import { useTranslation } from './translate';
 
 interface Props extends BareProps {
+  codeHash: string;
   label: React.ReactNode;
   onSave: (_: FileState) => void;
 }
 
-function CodeUploadABI ({ className, label, onSave }: Props): React.ReactElement<Props> {
+function CodeUploadABI ({ codeHash, label, onSave }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const showNotification = useNotification();
   const [isOpen, toggleIsOpen] = useToggle();
   const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
 
   const _onSave = useCallback(
     (): void => {
-      if (!!abiFile) {
+      if (abiFile) {
         onSave(abiFile);
+
+        showNotification({
+          action: truncate(codeHash, 12),
+          message: t<string>('code bundle ABI updated'),
+          status: 'success'
+        });
         toggleIsOpen();
       }
     },
-    [abiFile, onSave, toggleIsOpen]
-  )
+    [abiFile, codeHash, onSave, showNotification, t, toggleIsOpen]
+  );
 
   return (
     <>
@@ -45,7 +53,7 @@ function CodeUploadABI ({ className, label, onSave }: Props): React.ReactElement
         isOpen={isOpen}
         onClose={toggleIsOpen}
       >
-        <Modal.Header>{t('Upload ABI')}</Modal.Header>
+        <Modal.Header>{t<string>('Upload ABI')}</Modal.Header>
         <Modal.Content>
           <InputABI
             contractAbi={contractAbi}
@@ -64,7 +72,7 @@ function CodeUploadABI ({ className, label, onSave }: Props): React.ReactElement
           <Button
             isDisabled={!abiFile || !isAbiValid}
             isPrimary
-            label={t('Save')}
+            label={t<string>('Save')}
             onClick={_onSave}
           />
         </Modal.Actions>
@@ -73,5 +81,4 @@ function CodeUploadABI ({ className, label, onSave }: Props): React.ReactElement
   );
 }
 
-export default styled(React.memo(CodeUploadABI))`
-`
+export default React.memo(CodeUploadABI);

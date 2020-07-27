@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,10 +7,12 @@ import { BareProps, BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
-import { classes } from './util';
+import { classes } from '@canvas-ui/react-util';
 import { BitLengthOption } from './constants';
+import { ELEV_2_CSS } from './styles/constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS, KEYS_PRE } from './Input';
 import { useTranslation } from './translate';
@@ -159,7 +161,7 @@ function getValues (value: BN | string = BN_ZERO, si: SiDef | null, bitLength: B
     : getValuesFromString(value, si, bitLength, isZeroable, maxValue);
 }
 
-function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className = '', defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
+function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, className, defaultValue, help, isDecimal, isFull, isSi, isDisabled, isError = false, isZeroable = true, label, labelExtra, maxLength, maxValue, onChange, onEnter, onEscape, placeholder, value: propsValue }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [si, setSi] = useState<SiDef | null>(isSi ? formatBalance.findSi('-') : null);
   const [isPreKeyDown, setIsPreKeyDown] = useState(false);
@@ -263,8 +265,8 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
     >
       {!!si && (
         <Dropdown
+          className='siDropdown'
           defaultValue={si.value}
-          dropdownClassName='ui--SiDropdown'
           isButton
           onChange={_onSelectSiUnit}
           options={getSiOptions()}
@@ -275,4 +277,9 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   );
 }
 
-export default React.memo(InputNumber);
+export default React.memo(styled(InputNumber)`
+  .siDropdown {
+    ${ELEV_2_CSS}
+    border: none;
+  }
+`);

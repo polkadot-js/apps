@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-deploy",
+  "name": "@canvas-ui/app-deploy",
   "private": true,
   "version": "0.45.0-beta.32",
   "description": "Deployment and management of Substrate/Canvas code artifacts",

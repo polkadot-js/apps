@@ -1,13 +1,21 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
-import { ELEV_1_CSS, ELEV_2_CSS, ELEV_3_CSS, ERROR_BG_HEX, ERROR_FOCUS_HEX, HIGH_EMPH_HEX } from './constants';
+import { ELEV_1_CSS, ELEV_2_CSS, ELEV_3_CSS } from './constants';
 
 export default css`
   .ui.hidden.divider {
     margin: 0.5rem 0;
+  }
+
+  .ui.action.input:not([class*="left action"]) > input:focus {
+    border-right-color: var(--blue-primary) !important;
+  }
+
+  .ui.action.input.error:not([class*="left action"]) > input {
+    border-right-color: var(--red-primary) !important;
   }
 
   .ui.button {
@@ -16,6 +24,7 @@ export default css`
     font-weight: normal;
     padding: 0.375rem 0.75rem;
     font-weight: normal;
+    transition: all .1s ease;
   }
 
   .ui.checkbox {
@@ -44,10 +53,10 @@ export default css`
     width: 100%;
   }
 
-  .ui.dropdown,
-  .ui.input {
-    margin: 0.25rem 0;
-  }
+  // .ui.dropdown,
+  // .ui.input {
+  //   margin: 0.25rem 0;
+  // }
 
   .ui.input {
     > input, > input:focus {
@@ -61,8 +70,8 @@ export default css`
 
     &.error {
       > input {
-        background: ${ERROR_BG_HEX};
-        border: 1px solid ${ERROR_FOCUS_HEX};
+        background: var(--red-secondary);
+        border: 1px solid var(--red-primary);
       }
     }
   }
@@ -70,7 +79,14 @@ export default css`
   .ui.selection.dropdown {
     ${ELEV_2_CSS}
     color: var(--grey90);
-    border: 1px solid var(--grey20); 
+    border: 1px solid var(--grey20);
+
+    > .delete.icon, > .dropdown.icon, > .search.icon {
+      font-size: 1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
 
   .ui.dropdown {
@@ -113,6 +129,24 @@ export default css`
     color: var(--grey90);
   }
 
+  .ui.loader {
+    &:before {
+      border-color: var(--grey30) !important;
+    }
+  }
+
+  .ui.progress {
+    background-color: var(--grey30);
+  }
+
+  .ui.green.progress .bar {
+    background-color: var(--green-primary);
+  }
+
+  .ui.red.progress .bar {
+    background-color: var(--red-primary);
+  }
+
   .ui.selection.active.dropdown {
     &, &:hover {
       border-color: var(--blue-primary);
@@ -150,7 +184,7 @@ export default css`
   // }
 
   .ui.input {
-    width: 100%;
+    flex-grow: 1;
 
     &.disabled:not(.retain-appearance) {
       opacity: 1;

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,8 +6,8 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
-import { useToggle } from '@polkadot/react-hooks';
-import { registry } from '@polkadot/react-api';
+import { registry } from '@canvas-ui/react-api';
+import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_4_CSS } from '../styles/constants';
 import AddressMini from '../AddressMini';
@@ -15,7 +15,6 @@ import Button from '../Button';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
-import { classes } from '../util';
 import StatusContext from './Context';
 import { STATUS_COMPLETE } from './constants';
 
@@ -90,11 +89,10 @@ function renderStatus ({ account, action, id, message, removeItem, status }: Que
           </div>
           <div className='desc'>
             <div className='header'>
-              {action}
+              {account
+                ? <AddressMini value={account} />
+                : action}
             </div>
-            {account && (
-              <AddressMini value={account} />
-            )}
             <div className='status'>
               {message}
             </div>
@@ -186,17 +184,17 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
   return (
     <div className={`ui--Status ${className}`}>
       {/* {(allSt.length + completedTx.length) > 1 && ( */
-      false && (
-        <div className='dismiss'>
-          <Button
-            icon='cancel'
-            isFluid
-            isPrimary
-            label={t<string>('Dismiss all notifications')}
-            onClick={_onDismiss}
-          />
-        </div>
-      )}
+        false && (
+          <div className='dismiss'>
+            <Button
+              icon='cancel'
+              isFluid
+              isPrimary
+              label={t<string>('Dismiss all notifications')}
+              onClick={_onDismiss}
+            />
+          </div>
+        )}
       {allTx.map(renderItem)}
       {allSt.map(renderStatus)}
     </div>
@@ -266,7 +264,7 @@ export default React.memo(styled(Status)`
       .short {
         font-size: 1.125rem;
         color: var(--blue-primary);
-        
+
         i.icon {
           line-height: 1;
         }
@@ -288,6 +286,10 @@ export default React.memo(styled(Status)`
         }
       }
     }
+
+    // &.queued, &.canceled {
+    //   display: none;
+    // }
 
     &.completed,
     &.finalized,

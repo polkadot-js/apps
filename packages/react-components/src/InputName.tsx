@@ -1,8 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, VoidFn } from '@polkadot/react-components/types';
+import { BareProps } from '@canvas-ui/react-components/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 
 import React from 'react';
 import Input from './Input';
@@ -20,27 +21,31 @@ interface Props extends BareProps {
   value?: string;
 }
 
-function InputName ({ className, isBusy, isContract, isError, onChange, onEnter, placeholder, value = '' }: Props): React.ReactElement<Props> {
+function InputName ({ className, isBusy, isContract, isError, onChange, onEnter, value = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <Input
       className={className}
-      help={t<string>(
+      help={t(
         isContract
           ? 'A name for the deployed contract to help users distinguish. Only used for display purposes.'
           : 'A name for this WASM code to help users distinguish. Only used for display purposes.'
       )}
       isDisabled={isBusy}
       isError={isError}
-      label={t<string>(
+      label={t(
         isContract
           ? 'Contract Name'
           : 'Code Bundle Name'
       )}
       onChange={onChange}
       onEnter={onEnter}
-      placeholder={placeholder}
+      placeholder={t(
+        isContract
+          ? 'Give your contract a descriptive name'
+          : 'Give your code bundle a descriptive name'
+      )}
       value={value}
     />
   );

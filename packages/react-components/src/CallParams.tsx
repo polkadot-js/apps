@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { TypeDef } from '@polkadot/types/types';
-import { RawParams } from '@polkadot/react-params/types';
+import { RawParams } from '@canvas-ui/react-params/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import UIParams from '@polkadot/react-params';
+import UIParams from '@canvas-ui/react-params';
 
 interface Props {
   isDisabled?: boolean;

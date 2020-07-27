@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option } from '@polkadot/apps-config/settings/types';
+import { Option } from '@canvas-ui/apps-config/settings/types';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
 
 import React from 'react';
-import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
+import { Dropdown, IdentityIcon } from '@canvas-ui/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
-export function createOption ({ info, isHeader, text, value }: Option, overrides: string[] = [], override = 'empty'): Option | React.ReactNode {
+export function createOption ({ isHeader, text, value }: Option): Option | React.ReactNode {
   if (isHeader) {
     return (
       <Dropdown.Header

@@ -1,19 +1,17 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps as Props } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@canvas-ui/react-components/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
-import { getSystemChainColor } from '@polkadot/apps-config/ui';
-import { defaultColor } from '@polkadot/apps-config/ui/general';
-import GlobalStyle, { MED_EMPH_HEX } from '@polkadot/react-components/styles';
-import { useApi } from '@polkadot/react-hooks';
-import Signer from '@polkadot/react-signer';
+import { getSystemChainColor } from '@canvas-ui/apps-config/ui';
+import { defaultColor } from '@canvas-ui/apps-config/ui/general';
+import GlobalStyle from '@canvas-ui/react-components/styles';
+import { useApi } from '@canvas-ui/react-hooks';
 
-import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
@@ -88,7 +86,6 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
           toggleMenu={_toggleMenu}
         />
         <Content />
-        <ConnectingOverlay />
         <div id={PORTAL_ID} />
       </div>
       <WarmUp />
@@ -116,7 +113,7 @@ export default React.memo(styled(Apps)`
       }
 
       &:hover {
-        background: var(--grey20);
+        background: var(--grey40);
         border-radius: var(--btn-radius-default);
         color: var(--grey80);
       }

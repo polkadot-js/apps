@@ -1,1 +1,1 @@
-# @polkadot/app-upload
+# @canvas-ui/app-upload

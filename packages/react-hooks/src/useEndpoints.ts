@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Endpoint, EndpointUrl, UseEndpoints } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
-import { createEndpoints } from '@polkadot/apps-config/settings';
+import { createEndpoints } from '@canvas-ui/apps-config/settings';
 import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from './translate';

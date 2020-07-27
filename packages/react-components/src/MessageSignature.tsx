@@ -1,24 +1,25 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
-import { BareProps } from '@polkadot/react-components/types';
+import { BareProps } from '@canvas-ui/react-components/types';
+import { CodecArg } from '@polkadot/types/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { displayType } from '@polkadot/types';
 
-import { SECONDARY_LIGHT_HEX } from './styles/constants';
 import Icon from './Icon';
+import MessageArg from './MessageArg';
 import Tooltip from './Tooltip';
 import { useTranslation } from './translate';
-import { classes, truncate } from './util';
+import { classes } from '@canvas-ui/react-util';
 
 export interface Props extends BareProps {
   asConstructor?: boolean;
   message: ContractABIMessage;
-  params?: any[];
+  params?: CodecArg[];
   withTooltip?: boolean;
 }
 
@@ -31,19 +32,13 @@ function MessageSignature ({ className, message: { args, mutates, name, returnTy
         {name}
       </span>
       (
-      {args.map(({ name, type }, index): React.ReactNode => {
+      {args.map((arg, index): React.ReactNode => {
         return (
-          <React.Fragment key={`${name}-args-${index}`}>
-            {name}:
-            {' '}
-            <span className='ui--MessageSignature-type'>
-              {params && params[index]
-                ? <b>{truncate((params as string[])[index].toString())}</b>
-                : displayType(type)
-              }
-            </span>
-            {index < args.length - 1 && ', '}
-          </React.Fragment>
+          <MessageArg
+            arg={arg}
+            key={arg.name}
+            param={params[index]}
+          />
         );
       })}
       )
@@ -83,14 +78,14 @@ export default React.memo(
     flex-grow: 1;
 
     .ui--MessageSignature-mutates {
-      color: ${SECONDARY_LIGHT_HEX};
+      color: var(--orange-primary);
       margin-left: 0.5rem;
       opacity: 0.6;
     }
 
     .ui--MessageSignature-name {
-      color: ${SECONDARY_LIGHT_HEX};
-      font-weight: bold;  
+      color: var(--orange-primary);
+      font-weight: bold;
     }
 
     &.asConstructor .ui--MessageSignature-name {

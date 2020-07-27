@@ -1,8 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
+import { ELEV_2_CSS, ELEV_3_CSS } from './constants';
 
 /* highlighted buttons, orange */
 export const colorBtnHighlight = '#2477B3';
@@ -15,8 +16,9 @@ export default css`
     --blue-primary: #2477B3;
     --blue-secondary: #195580;
     --green-primary: #16DB9A;
-    --red-primary: #bc0000;
+    --red-primary: #F54E4E;
     --red-secondary: #431818;
+    --orange-primary: #F8C34F;
 
     --grey00: #000;
     --grey10: #151B1F;
@@ -54,16 +56,27 @@ export default css`
       background-color: transparent;
       color: var(--white);
 
-      &:not(.isIcon) {
+      &.dropdown {
+        border: none !important;
+        border-bottom-left-radius: 0 !important;
+        border-top-left-radius: 0 !important;
+        ${ELEV_2_CSS}
+
+        &:hover {
+          ${ELEV_3_CSS}
+        }
+      }
+
+      &:not(.isIcon):not(.dropdown) {
         border-color: var(--grey30);
         border-width: 2px;
-        border-style: solid;  
-    
+        border-style: solid;
+
         &:focus,
         &:hover {
           border-color: var(--blue-secondary);
         }
-          
+
         &.primary {
           background-color: var(--blue-primary);
           border-color: var(--blue-primary);
@@ -72,7 +85,7 @@ export default css`
           &:hover {
             background-color: var(--blue-secondary);
             border-color: var(--blue-secondary);
-          }  
+          }
         }
       }
 
@@ -90,7 +103,7 @@ export default css`
     .ui.small.button,
     .ui.small.buttons .button,
     .ui.small.buttons .or {
-      font-size: 0.875ren;
+      font-size: 0.875rem;
     }
 
     .ui.basic.negative.button {

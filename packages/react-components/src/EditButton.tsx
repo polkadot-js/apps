@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { IconProps } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
-import { BareProps, VoidFn } from './types';
+import { VoidFn } from '@canvas-ui/react-util/types';
+import { BareProps } from './types';
 
 import React from 'react';
 

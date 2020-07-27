@@ -1,11 +1,11 @@
 {
-  "name": "@polkadot/apps",
+  "name": "@canvas-ui/apps",
   "private": true,
   "version": "0.45.0-beta.32",
   "description": "An Apps portal into the Polkadot network",
   "main": "index.js",
   "homepage": ".",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "repository": "https://github.com/paritytech/canvas-ui",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
@@ -15,9 +15,9 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
     "@babel/runtime": "^7.10.2",
+    "@canvas-ui/react-components": "0.45.0-beta.32",
+    "@canvas-ui/react-signer": "0.45.0-beta.32",
     "@polkadot/dev": "^0.55.9",
-    "@polkadot/react-components": "0.45.0-beta.32",
-    "@polkadot/react-signer": "0.45.0-beta.32",
     "nanoid": "^3.1.10",
     "query-string": "^6.13.1"
   },

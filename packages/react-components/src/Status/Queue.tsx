@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, 
 
 import React, { useCallback, useRef, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { registry } from '@polkadot/react-api';
+import { registry } from '@canvas-ui/react-api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { createType } from '@polkadot/types';
 
@@ -140,7 +140,7 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
           const removeItem = (): void =>
             setStQueue([...stRef.current.filter((item): boolean => item.id !== id)]);
 
-          // setTimeout(removeItem, REMOVE_TIMEOUT);
+          setTimeout(removeItem, REMOVE_TIMEOUT);
 
           return {
             ...item,
@@ -201,11 +201,11 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
       );
 
       if (STATUS_COMPLETE.includes(status)) {
-        // setTimeout((): void => {
-        //   const item = txRef.current.find((item): boolean => item.id === id);
+        setTimeout((): void => {
+          const item = txRef.current.find((item): boolean => item.id === id);
 
-        //   item && item.removeItem();
-        // }, REMOVE_TIMEOUT);
+          item && item.removeItem();
+        }, REMOVE_TIMEOUT);
       }
     },
     [queueAction, setTxQueue]

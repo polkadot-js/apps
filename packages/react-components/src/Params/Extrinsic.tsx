@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
+import { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@canvas-ui/react-params/types';
 import { BareProps } from '../types';
 
 import React, { useCallback } from 'react';

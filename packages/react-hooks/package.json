@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/react-hooks",
+  "name": "@canvas-ui/react-hooks",
   "version": "0.45.0-beta.32",
   "description": "A collection of React hooks the Polkadot JS Apps UI",
   "main": "index.js",

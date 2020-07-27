@@ -1,20 +1,20 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // setup these right at front
 import './initSettings';
 import 'semantic-ui-css/semantic.min.css';
-import '@polkadot/react-components/i18n';
+import '@canvas-ui/react-components/i18n';
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import store from 'store';
 import { ThemeProvider } from 'styled-components';
-import { Api } from '@polkadot/react-api';
-import Queue from '@polkadot/react-components/Status/Queue';
-import { BlockAuthors, Events } from '@polkadot/react-query';
+import { Api } from '@canvas-ui/react-api';
+import Queue from '@canvas-ui/react-components/Status/Queue';
+import { BlockAuthors, Events } from '@canvas-ui/react-query';
 import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';

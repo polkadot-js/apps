@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import { BareProps } from '@polkadot/react-api/types';
+import { BareProps } from '@canvas-ui/react-api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import registry from '@polkadot/react-api/typeRegistry';
-import { useCall, useApi } from '@polkadot/react-hooks';
+import registry from '@canvas-ui/react-api/typeRegistry';
+import { useCall, useApi } from '@canvas-ui/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
-import { getAddressName } from './util';
+import { getAddressName } from '@canvas-ui/react-util';
 import Badge from './Badge';
 import Icon from './Icon';
 
@@ -136,7 +136,7 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return createIdElem(badgeType, nameElem, infoElem);
 }
 
-function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
@@ -187,6 +187,8 @@ export default React.memo(styled(AccountName)`
     width: 100%;
 
     .name {
+      font-family: var(--default-font-family);
+      font-size: 0.8125rem;
       font-weight: normal !important;
       filter: grayscale(100%);
       opacity: 0.6;

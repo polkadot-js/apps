@@ -1,1 +1,1 @@
-# @polkadot/apps
+# @canvas-ui/apps

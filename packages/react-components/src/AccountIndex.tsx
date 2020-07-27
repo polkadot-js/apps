@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { BareProps } from '@polkadot/react-api/types';
+import { BareProps } from '@canvas-ui/react-api/types';
 
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@canvas-ui/react-hooks';
 
 interface Props extends BareProps {
   children?: React.ReactNode;

@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { BareProps } from '@polkadot/react-components/types';
-import { RawParam } from '@polkadot/react-params/types';
+import { BareProps } from '@canvas-ui/react-components/types';
+import { RawParam } from '@canvas-ui/react-params/types';
 import { TypeDef } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { GenericCall, getTypeDef } from '@polkadot/types';
-import { InputExtrinsic } from '@polkadot/react-components';
-import Params from '@polkadot/react-params';
+import { InputExtrinsic } from '@canvas-ui/react-components';
+import Params from '@canvas-ui/react-params';
 import { isUndefined } from '@polkadot/util';
 
 import paramComponents from './Params';

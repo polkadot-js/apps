@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps as Props } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Modal } from '@polkadot/react-components';
+import { Modal } from '@canvas-ui/react-components';
 
 import { useTranslation } from './translate';
 import TxSigned from './TxSigned';
@@ -23,7 +23,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
       {currentItem && (
         <Modal
           className={className}
-          header={t('Authorize transaction')}
+          header={t<string>('Authorize transaction')}
           size='large'
         >
           {currentItem.isUnsigned

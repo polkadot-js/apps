@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoidFn } from '@polkadot/react-components/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 import { FileState, UseFile } from './types';
 
 import { useCallback, useState, useMemo } from 'react';
@@ -28,12 +28,12 @@ export default function useFile ({ defaultValue = null, onChange, onRemove, vali
         onRemove && onRemove();
       }
     },
-    [_setFile]
+    [_setFile, onChange, onRemove]
   );
 
   return useMemo(
     (): UseFile => {
-      return [file, setFile, !!file, file && validate(file) || false];
+      return [file, setFile, !!file, !!file && (validate(file) || false)];
     },
     [file, setFile, validate]
   );

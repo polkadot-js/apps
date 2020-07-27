@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,12 +8,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 import LabelHelp from './LabelHelp';
-import { classes } from './util';
+import { classes } from '@canvas-ui/react-util';
 
 interface Props extends BareProps {
   help?: React.ReactNode;
   isHidden?: boolean;
   isFull?: boolean;
+  isIndented?: boolean;
+  isLabelMonospace?: boolean;
   isMonospace?: boolean;
   isOuter?: boolean;
   isSmall?: boolean;
@@ -32,10 +34,18 @@ const Wrapper = styled.div`
   display: block;
   position: relative;
 
-  .withEllipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  label > div {
+    display: inline-block;
+
+    &.withEllipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;  
+    }
+
+    &.isMonospace {
+      font-family: monospace;
+    }
   }
 
   &.label-small {
@@ -46,6 +56,10 @@ const Wrapper = styled.div`
       min-width: 0;
       padding-right: 0;
     }
+  }
+
+  &.label-indented {
+    margin-left: 2rem;
   }
 
   &.label-monospace {
@@ -85,16 +99,13 @@ const Wrapper = styled.div`
     > .ui--Labelled-content {
       box-sizing: border-box;
       color: var(--grey70);
+      display: flex;
+      flex-wrap: wrap;
       font-size: 0.875rem;
-      flex: 1 1;
       min-width: 0;
 
       .ui.selection.dropdown {
         &.floating {
-          > .dropdown.icon {
-            top: 1.25rem;
-          }
-
           .text {
             padding: 0.45rem 0
           }
@@ -122,24 +133,21 @@ const Wrapper = styled.div`
   }
 `;
 
-function Labelled ({ className = '', children, help, isFull, isHidden, isMonospace, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
+function Labelled ({ className = '', children, help, isFull, isHidden, isIndented, isLabelMonospace, isMonospace, isOuter, isSmall, label = defaultLabel, labelExtra, withEllipsis, withLabel = true }: Props): React.ReactElement<Props> | null {
   if (isHidden) {
     return null;
-  } else if (!withLabel) {
-    return (
-      <Wrapper className={classes('ui--Labelled', className)}>{children}</Wrapper>
-    );
   }
 
   return (
-    <Wrapper className={classes('ui--Labelled', isSmall && 'label-small', isFull && 'label-full', isMonospace && 'label-monospace', isOuter && 'label-outer', className)}>
-      <label>
-        {
-          withEllipsis
-            ? <div className='withEllipsis'>{label}</div>
-            : label
-        }{help && <LabelHelp help={help} />}
-      </label>
+    <Wrapper className={classes('ui--Labelled', isIndented && 'label-indented', isSmall && 'label-small', isFull && 'label-full', isMonospace && 'label-monospace', isOuter && 'label-outer', className)}>
+      {withLabel && (
+        <label>
+          <div className={classes(withEllipsis && 'withEllipsis', isLabelMonospace && 'isMonospace')}>
+            {label}
+          </div>
+          {help && <LabelHelp help={help} />}
+        </label>
+      )}
       {labelExtra && <div className='labelExtra'>{labelExtra}</div>}
       <div className='ui--Labelled-content'>
         {children}

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -14,12 +14,11 @@ import Tooltip from '../Tooltip';
 
 let idCounter = 0;
 
-function Button ({ as, children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex, to, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', floated, icon, isAnimated, isBasic = false, isCircular = false, isDisabled = false, isFluid = false, isIcon, isLoading = false, isNegative = false, isPositive = false, isPrimary = false, label, labelPosition, onClick, onMouseEnter, onMouseLeave, size, tabIndex, to, tooltip }: ButtonProps): React.ReactElement<ButtonProps> {
   const [triggerId] = useState(`button-${++idCounter}`);
   const props = {
     animate: 'fade',
     animated: isAnimated,
-    as,
     basic: isBasic,
     circular: isCircular,
     className: `${className} ${isIcon ? 'isIcon' : ''}`,
@@ -38,8 +37,8 @@ function Button ({ as, children, className = '', floated, icon, isAnimated, isBa
     primary: isPrimary,
     secondary: !isBasic && !(isPositive || isPrimary || isNegative),
     size: size || (isIcon ? 'tiny' : undefined) || 'small',
-    to,
-    tabIndex
+    tabIndex,
+    to
   };
 
   return (

@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import queryString from 'query-string';
 import store from 'store';
-import { createEndpoints } from '@polkadot/apps-config/settings';
-import { registry } from '@polkadot/react-api';
-import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
+import { createEndpoints } from '@canvas-ui/apps-config/settings';
+import { registry } from '@canvas-ui/react-api';
+import { extractIpfsDetails } from '@canvas-ui/react-hooks/useIpfs';
 import settings from '@polkadot/ui-settings';
 
 function getApiUrl (): string {

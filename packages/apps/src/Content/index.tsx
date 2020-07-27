@@ -1,16 +1,18 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Route } from '@polkadot/apps-routing/types';
+import { Route } from '@canvas-ui/apps-routing/types';
 
 import React, { Suspense, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
-import useAppNavigation from './useAppNavigation';
+import createRoutes from '@canvas-ui/apps-routing';
+import { ErrorBoundary, Icon, StatusContext, WithLoader } from '@canvas-ui/react-components';
+import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
+import { useApi } from '@canvas-ui/react-hooks';
+import { classes } from '@canvas-ui/react-util';
+import useAppNavigation from '../useAppNavigation';
 
 import Status from './Status';
 import { useTranslation } from '../translate';
@@ -47,35 +49,46 @@ function Content ({ className }: Props): React.ReactElement<Props> {
     [location, t]
   );
 
-  return (
-    <div className={className}>
-      {needsApi && (!isApiReady || !isApiConnected)
-        ? (
-          <div className='connecting'>
-            <Spinner label={t<string>('Initializing connection')} />
+  if (!isApiConnected) {
+    return (
+      <div className={className}>
+        <div className='disconnected'>
+          <div>
+            <Icon name='warning circle' />
+            {t<string>('You are not connected to a node.')}
+            <br />
+            {t<string>('Ensure that your node is running and that your Websocket endpoint is reachable.')}
           </div>
-        )
-        : (
-          <>
-            <Suspense fallback='...'>
-              <ErrorBoundary trigger={name}>
-                <Component
-                  navigateTo={navigateTo}
-                  basePath={`/${name}`}
-                  location={location}
-                  onStatusChange={queueAction}
-                />
-                <HelpWidget />
-              </ErrorBoundary>
-            </Suspense>
-            <Status
-              queueAction={queueAction}
-              stqueue={stqueue}
-              txqueue={txqueue}
+        </div>
+      </div>
+    );
+  }
+
+  const isLoading = needsApi && !isApiReady;
+
+  return (
+    <div className={classes(className, isLoading && 'isLoading')}>
+      <WithLoader
+        isLoading={isLoading}
+        text={t<string>('Initializing connection')}
+      >
+        <Suspense fallback='...'>
+          <ErrorBoundary trigger={name}>
+            <Component
+              basePath={`/${name}`}
+              location={location}
+              navigateTo={navigateTo}
+              onStatusChange={queueAction}
             />
-          </>
-        )
-      }
+            <HelpWidget />
+          </ErrorBoundary>
+        </Suspense>
+        <Status
+          queueAction={queueAction}
+          stqueue={stqueue}
+          txqueue={txqueue}
+        />
+      </WithLoader>
     </div>
   );
 }
@@ -89,11 +102,41 @@ export default React.memo(styled(Content)`
   position: relative;
   width: 100%;
 
+  &.isLoading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   @media(max-width: 768px) {
     padding: 0 0.5rem;
   }
 
-  .connecting {
-    padding: 3.5rem 0;
+  .disconnected {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .disconnected {
+    > div {
+      ${ELEV_3_CSS}
+      border: 1px solid var(--red-primary);
+      color: var(--grey60);
+      width: 35rem;
+      padding: 1.5rem;
+      text-align: center;
+
+      i.icon {
+        display: block;
+        color: var(--red-primary);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
+      }
+    }
   }
 `);

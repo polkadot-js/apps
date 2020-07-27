@@ -1,13 +1,13 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { VoidFn } from '@polkadot/react-components/types';
-import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus } from '@canvas-ui/react-components/Status/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 
 import { useCallback, useContext } from 'react';
-import { StatusContext } from '@polkadot/react-components';
+import { StatusContext } from '@canvas-ui/react-components';
 import { handleTxResults } from './util';
 
 interface UseSendUnsigned {

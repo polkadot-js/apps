@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -21,10 +21,6 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
 }
 
 export default React.memo(styled(Holder)`
-  &.withBorder {
-    border-left: 0.25rem solid #f2f2f2;
-  }
-
   &.withoutBorder {
     margin-left: -1.75rem;
     padding: 0;

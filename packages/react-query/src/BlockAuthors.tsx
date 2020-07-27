@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,7 @@ import { EraRewardPoints } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@canvas-ui/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 export interface Authors {

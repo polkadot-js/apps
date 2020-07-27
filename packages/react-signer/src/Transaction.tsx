@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueTx } from '@polkadot/react-components/Status/types';
+import { QueueTx } from '@canvas-ui/react-components/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
-import { Call, Expander, Modal } from '@polkadot/react-components';
+import { registry } from '@canvas-ui/react-api';
+import { Call, Expander, Modal } from '@canvas-ui/react-components';
 
 import { useTranslation } from './translate';
 import PaymentInfo from './PaymentInfo';

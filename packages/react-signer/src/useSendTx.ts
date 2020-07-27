@@ -1,12 +1,12 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
-import { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus } from '@canvas-ui/react-components/Status/types';
+import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import { Multisig, Timepoint } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 import { AddressFlags, AddressProxy } from './types';
@@ -15,9 +15,9 @@ import BN from 'bn.js';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
-import { registry } from '@polkadot/react-api';
-import { StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { registry } from '@canvas-ui/react-api';
+import { StatusContext } from '@canvas-ui/react-components';
+import { useApi } from '@canvas-ui/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, assert } from '@polkadot/util';
@@ -48,6 +48,7 @@ interface UseSendTx {
   signedOptions: Partial<SignerOptions>;
   signedTx: StringOrNull;
   tip: BN;
+  tx: QueueTx;
 }
 
 interface QrState {
@@ -115,7 +116,6 @@ async function sendUnsigned (queueSetTxStatus: QueueTxMessageSetStatus, currentI
   }
 }
 
-
 async function signAsync (queueSetTxStatus: QueueTxMessageSetStatus, { id, txFailedCb = NOOP, txStartCb = NOOP }: QueueTx, tx: SubmittableExtrinsic<'promise'>, pairOrAddress: KeyringPair | string, options: Partial<SignerOptions>): Promise<string | null> {
   txStartCb();
 
@@ -161,6 +161,7 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   if (multiRoot) {
     const multiModule = api.tx.multisig ? 'multisig' : 'utility';
     const info = await api.query[multiModule].multisigs<Option<Multisig>>(multiRoot, tx.method.hash);
+    const { weight } = await tx.paymentInfo(multiRoot);
     const { threshold, who } = extractExternal(multiRoot);
     const others = who.filter((w) => w !== signAddress);
     let timepoint: Timepoint | null = null;
@@ -170,12 +171,17 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
     }
 
     tx = isMultiCall
-      ? api.tx[multiModule].asMulti.meta.args.length === 5
+      ? api.tx[multiModule].asMulti.meta.args.length === 6
+        // We are doing toHex here since we have a Vec<u8> input
+        ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method.toHex(), false, weight)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        ? api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method, false)
         : api.tx[multiModule].asMulti(threshold, others, timepoint, tx.method)
-      : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
+      : api.tx[multiModule].approveAsMulti.meta.args.length === 5
+        ? api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash, weight)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        : api.tx[multiModule].approveAsMulti(threshold, others, timepoint, tx.method.hash);
   }
 
   return tx;
@@ -320,5 +326,5 @@ export default function useSendTx (currentItem: QueueTx, requestAddress: string)
     [_unlock, api, currentItem, queueSetTxStatus, senderInfo, signedOptions, tip]
   );
 
-  return { addQrSignature, flags, multiCall, onCancel, onSend, onSendPayload, onSendUnsigned, onSign, passwordError, qrState, senderInfo, setFlags, setMultiCall, setPasswordError, setQrState, setSenderInfo, setSignedOptions, setSignedTx, setTip, signedOptions, signedTx, tip };
+  return { addQrSignature, flags, multiCall, onCancel, onSend, onSendPayload, onSendUnsigned, onSign, passwordError, qrState, senderInfo, setFlags, setMultiCall, setPasswordError, setQrState, setSenderInfo, setSignedOptions, setSignedTx, setTip, signedOptions, signedTx, tip, tx: currentItem };
 }

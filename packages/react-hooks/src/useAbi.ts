@@ -1,15 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodeStored } from '@polkadot/apps/types';
-import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
+import { CodeStored } from '@canvas-ui/apps/types';
+import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import { FileState } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
 import { Abi } from '@polkadot/api-contract';
-import store from '@polkadot/apps/store';
-import { registry } from '@polkadot/react-api';
+import store from '@canvas-ui/apps/store';
+import { registry } from '@canvas-ui/react-api';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -34,7 +34,7 @@ interface ContractABIOutdated {
 
 export default function useAbi (source: CodeStored | null = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
-  const initialState: State = !!source
+  const initialState: State = source
     ? [source.json.abi || null, source.contractAbi || null, !!source.contractAbi, !isRequired || !!source.contractAbi]
     : [null, null, false, false];
   const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>(initialState);
@@ -43,7 +43,7 @@ export default function useAbi (source: CodeStored | null = null, isRequired = f
   useEffect(
     (): void => {
       if (!!source?.json?.abi && abi !== source.json.abi) {
-        setAbi([source.json.abi, source.contractAbi, !!source.contractAbi, !isRequired || !!source.contractAbi]);
+        setAbi([source.json.abi, source?.contractAbi || null, !!source.contractAbi, !isRequired || !!source.contractAbi]);
       }
     },
     [abi, source, isRequired]
@@ -57,7 +57,7 @@ export default function useAbi (source: CodeStored | null = null, isRequired = f
         const abiOutdated = JSON.parse(json) as ContractABIOutdated;
 
         if (abiOutdated.deploy || abiOutdated.messages) {
-          throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
+          throw new Error(t<string>('You are using an ABI with an outdated format. Please generate a new one.'));
         }
 
         setAbi([json, new Abi(registry, JSON.parse(json)), true, true]);

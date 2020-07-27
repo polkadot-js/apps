@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,11 +11,12 @@ interface UseContracts {
   allContracts: string[];
   hasContracts: boolean;
   isContract: (address: string) => boolean;
+  isReady: boolean;
 }
 
 export default function useContracts (): UseContracts {
   const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<UseContracts>({ allContracts: [], hasContracts: false, isContract: () => false });
+  const [state, setState] = useState<UseContracts>({ allContracts: [], hasContracts: false, isContract: () => false, isReady: false });
 
   useEffect((): () => void => {
     const subscription = contractObservable.subject.subscribe((contracts): void => {
@@ -24,7 +25,7 @@ export default function useContracts (): UseContracts {
         const hasContracts = allContracts.length !== 0;
         const isContract = (address: string): boolean => allContracts.includes(address);
 
-        setState({ allContracts, hasContracts, isContract });
+        setState({ allContracts, hasContracts, isContract, isReady: true });
       }
     });
 

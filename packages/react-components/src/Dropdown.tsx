@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
-import { classes } from './util';
+import { classes } from '@canvas-ui/react-util';
 import Labelled from './Labelled';
 
 interface Props<Option> extends BareProps {
@@ -87,7 +87,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue,
     <SUIDropdown
       allowAdditions={allowAdd}
       button={isButton}
-      className={dropdownClassName}
+      className={isButton ? className : dropdownClassName}
       compact={isButton}
       disabled={isDisabled}
       error={isError}

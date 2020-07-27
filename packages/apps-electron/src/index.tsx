@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // setup these right at front
-import '@polkadot/apps/initSettings';
+import '@canvas-ui/apps/initSettings';
 import 'semantic-ui-css/semantic.min.css';
-import '@polkadot/react-components/i18n';
+import '@canvas-ui/react-components/i18n';
 
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
@@ -13,11 +13,10 @@ import { HashRouter } from 'react-router-dom';
 
 import { ThemeProvider } from 'styled-components';
 import settings from '@polkadot/ui-settings';
-import Queue from '@polkadot/react-components/Status/Queue';
-import { BlockAuthors, Events } from '@polkadot/react-query';
-import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { Api } from '@polkadot/react-api';
-import Apps from '@polkadot/apps/Apps';
+import Queue from '@canvas-ui/react-components/Status/Queue';
+import { BlockAuthors, Events } from '@canvas-ui/react-query';
+import { Api } from '@canvas-ui/react-api';
+import Apps from '@canvas-ui/apps/Apps';
 import { RemoteElectronStore } from './renderer/remote-electron-store';
 
 const rootId = 'root';

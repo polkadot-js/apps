@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Props, RawParam } from '@polkadot/react-params/types';
+import { Props, RawParam } from '@canvas-ui/react-params/types';
 
 import React, { useCallback } from 'react';
-import { registry } from '@polkadot/react-api';
-import { useApi } from '@polkadot/react-hooks';
+import { registry } from '@canvas-ui/react-api';
+import { useApi } from '@canvas-ui/react-hooks';
 
 import ExtrinsicDisplay from './Extrinsic';
 

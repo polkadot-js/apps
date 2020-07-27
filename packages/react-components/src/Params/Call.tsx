@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsicFunction } from '@polkadot/api/types';
-import { Props } from '@polkadot/react-params/types';
+import { Props } from '@canvas-ui/react-params/types';
 
 import React from 'react';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi } from '@canvas-ui/react-hooks';
 
 import Extrinsic from './Extrinsic';
 

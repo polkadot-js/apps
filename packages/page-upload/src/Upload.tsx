@@ -1,18 +1,18 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FileState } from '@polkadot/react-hooks/types';
-import { ComponentProps as Props } from './types';
+import { ComponentProps as Props } from '@canvas-ui/apps/types';
+import { FileState } from '@canvas-ui/react-hooks/types';
 
 import React, { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { SubmittableResult } from '@polkadot/api';
-import store from '@polkadot/apps/store';
-import { Button, InputABI, InputAddress, InputFile, Input, TxButton } from '@polkadot/react-components';
-import PendingTx from '@polkadot/react-components/PendingTx';
-import { useAccountId, useAbi, useApi, useFile, useNonEmptyString } from '@polkadot/react-hooks';
-import usePendingTx from '@polkadot/react-signer/usePendingTx';
+import store from '@canvas-ui/apps/store';
+import { Button, InputABI, InputAddress, InputFile, Input, TxButton } from '@canvas-ui/react-components';
+import PendingTx from '@canvas-ui/react-components/PendingTx';
+import { useAccountId, useAbi, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
+import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { compactAddLength, isNull } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -25,11 +25,11 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
   const [wasm, setWasm, isWasmSupplied, isWasmValid] = useFile({
     onChange: ({ name }: FileState): void => setName(name),
     validate: (file: FileState) => file?.data.subarray(0, 4).toString() === '0,97,115,109'
-  })
+  });
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
 
-  const pendingTx = usePendingTx();
+  const pendingTx = usePendingTx('contracts.putCode');
 
   const isSubmittable = useMemo(
     (): boolean => !!accountId && (!isNull(name) && isNameValid) && isWasmValid && (!isAbiSupplied || isAbiValid),
@@ -48,14 +48,14 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           return;
         }
 
-        store.saveCode({ abi, codeHash, name, tags: [] })
-          .then(navigateTo.success)
+        store.saveCode({ abi, codeHash: codeHash.toHex(), name, tags: [] })
+          .then((id): void => navigateTo.uploadSuccess(id)())
           .catch((error: any): void => {
             console.error('Unable to save code', error);
           });
       }
     },
-    [api, abi, name]
+    [api, abi, name, navigateTo]
   );
 
   const additionalDetails = useMemo((): Record<string, string> => ({ name: name || '' }), [name]);
@@ -65,7 +65,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
     return (
       <PendingTx
         additionalDetails={additionalDetails}
-        instructions={t('Sign and submit to upload this code bundle on the chain.')}
+        instructions={t<string>('Sign and submit to upload this code bundle on the chain.')}
         {...pendingTx}
       />
     );
@@ -84,19 +84,19 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
       </header>
       <section>
         <InputAddress
-          help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
+          help={t<string>('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
           isInput={false}
-          label={t('Account')}
+          label={t<string>('Account')}
           onChange={setAccountId}
           type='account'
           value={accountId}
         />
         <Input
+          help={t<string>('A name for this WASM code to help users distinguish. Only used for display purposes.')}
           isError={isNameError}
+          label={t<string>('Name')}
           onChange={setName}
-          placeholder={t('Give your bundle a descriptive name')}
-          help={t('A name for this WASM code to help users distinguish. Only used for display purposes.')}
-          label={t('Name')}
+          placeholder={t<string>('Give your bundle a descriptive name')}
           value={name}
         />
         <InputFile
@@ -125,7 +125,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           <TxButton
             accountId={accountId}
             isDisabled={!isSubmittable}
-            label={t('Upload')}
+            label={t<string>('Upload')}
             onSuccess={_onSuccess}
             params={[preparedWasm]}
             tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}

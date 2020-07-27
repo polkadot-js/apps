@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ import SUIProgress from 'semantic-ui-react/dist/commonjs/modules/Progress/Progre
 import { UInt } from '@polkadot/types';
 import { bnToBn, isBn, isUndefined } from '@polkadot/util';
 
-import { classes } from './util';
+import { classes } from '@canvas-ui/react-util';
 
 type BaseColors = 'blue' | 'green' | 'red' | 'orange';
 export type Colors = 'auto' | 'autoReverse' | BaseColors;

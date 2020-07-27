@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,11 +10,11 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { GenericCall, getTypeDef } from '@polkadot/types';
-import Params from '@polkadot/react-params';
-import { FormatBalance } from '@polkadot/react-query';
+import Params from '@canvas-ui/react-params';
+import { FormatBalance } from '@canvas-ui/react-query';
 
 import Static from './Static';
-import { classes } from './util';
+import { classes } from '@canvas-ui/react-util';
 import { useTranslation } from './translate';
 
 export interface Props extends BareProps {

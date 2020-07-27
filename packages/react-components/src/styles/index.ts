@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -133,7 +133,7 @@ export default createGlobalStyle<Props>`
     }
 
     &:not(:hover) {
-      .ui.button:not(.disabled) {
+      .ui.button {
         background: transparent !important;
         border-color: transparent !important;
       }
@@ -268,6 +268,10 @@ export default createGlobalStyle<Props>`
     color: var(--grey90);
   }
 
+  input::selection, textarea::selection {
+    background-color: var(--blue-primary);
+  }
+
   label {
     box-sizing: border-box;
     color: var(--grey90);
@@ -278,13 +282,20 @@ export default createGlobalStyle<Props>`
   }
 
   main {
-    margin: 0px auto;
-    max-width: 556px;
+    margin: 0px auto 6rem;
+    max-width: 35rem;
 
     section {
       > :not(:last-child) {
         margin-bottom: 1.5rem;
       }
+    }
+
+    &.isLoading {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      justify-content: center;
     }
   }
 

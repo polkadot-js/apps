@@ -10,12 +10,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { KeyringItemType } from '@polkadot/ui-keyring/types';
 
-import { classes, toShortAddress } from './util';
+import { classes, toShortAddress } from '@canvas-ui/react-util';
 import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
-import LockedVote from './LockedVote';
 
 interface Props extends BareProps {
   balance?: BN | BN[];
@@ -39,7 +38,7 @@ interface Props extends BareProps {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className = '', iconInfo, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -88,9 +87,6 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isP
             label=''
             params={value}
           />
-        )}
-        {withLockedVote && (
-          <LockedVote params={value} />
         )}
         {summary && (
           <div className='ui--AddressMini-summary'>{summary}</div>

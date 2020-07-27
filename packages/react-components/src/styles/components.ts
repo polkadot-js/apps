@@ -1,17 +1,18 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { css } from 'styled-components';
+import { ELEV_2_CSS, ELEV_4_CSS } from './constants';
 
 export default css`
   .ui--output {
-    background: #fefefe;
-    border-radius: 4px;
-    border: 1px dashed #eee;
+    ${ELEV_4_CSS}
+    color: var(--grey90);
     box-sizing: border-box;
+    flex-grow: 1;
     line-height: 1rem;
-    padding: .75rem 1rem;
+    padding: 0.5rem 0.75rem;
     position: relative;
     word-break: break-all;
 
@@ -44,6 +45,7 @@ export default css`
   }
 
   button.ui.icon.icon-button {
+    margin-left: 0.5rem;
     padding-top: 0;
     padding-right: 0;
     padding-bottom: 0;
@@ -95,6 +97,8 @@ export default css`
     }
 
     .ui--SiDropdown {
+      ${ELEV_2_CSS}
+      border: none;
       width: 6rem;
       text-align: center;
     }

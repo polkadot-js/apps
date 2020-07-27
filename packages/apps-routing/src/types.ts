@@ -1,8 +1,9 @@
-// Copyright 2017-2020 @polkadot/apps-routing authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps-routing authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps, BareProps } from '@polkadot/react-components/types';
+import { AppProps } from '@canvas-ui/apps/types';
+import { BareProps } from '@canvas-ui/react-components/types';
 
 export interface RouteProps extends AppProps, BareProps {
   location: any;
@@ -13,8 +14,8 @@ export interface Route {
   Modal?: React.ComponentType<any>;
   display: {
     isHidden?: boolean;
-    isModal?: boolean;
     needsAccounts?: boolean;
+    needsCodes?: boolean;
     needsApi?: (string | string[])[];
     needsSudo?: boolean;
   };

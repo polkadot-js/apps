@@ -1,14 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@canvas-ui/react-components/Status/types';
 import { DefinitionRpcExt } from '@polkadot/types/types';
 
 import { useContext, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { StatusContext } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { registry } from '@canvas-ui/react-api';
+import { StatusContext } from '@canvas-ui/react-components';
+import { useApi } from '@canvas-ui/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
@@ -52,7 +53,7 @@ async function sendRpc (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStat
   }
 }
 
-function extractCurrent (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, txqueue: QueueTx[]): ItemState {
+function extractCurrent (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStatus, txqueue: QueueTx[], filter?: string): ItemState {
   const nextItem = txqueue.find(({ status }) => ['queued', 'qr'].includes(status)) || null;
   let currentItem = null;
 
@@ -60,7 +61,13 @@ function extractCurrent (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetSta
   if (nextItem && nextItem.status === 'queued' && !(nextItem.extrinsic || nextItem.payload)) {
     sendRpc(api, queueSetTxStatus, nextItem).catch(console.error);
   } else {
-    currentItem = nextItem;
+    if (nextItem && nextItem.extrinsic?.callIndex) {
+      const { method, section } = registry.findMetaCall(nextItem.extrinsic.callIndex);
+
+      if (!filter || `${section}.${method}` === filter) {
+        currentItem = nextItem;
+      }
+    }
   }
 
   return {
@@ -69,14 +76,17 @@ function extractCurrent (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetSta
   };
 }
 
-export default function useQueuedTx (): ItemState {
+export default function usePendingTx (signature?: string): ItemState {
   const { api } = useApi();
   const { queueSetTxStatus, txqueue } = useContext(StatusContext);
   const [item, setItem] = useState<ItemState>({ currentItem: null, requestAddress: null });
 
-  useEffect((): void => {
-    setItem(extractCurrent(api, queueSetTxStatus, txqueue));
-  }, [api, queueSetTxStatus, txqueue]);
+  useEffect(
+    (): void => {
+      setItem(extractCurrent(api, queueSetTxStatus, txqueue, signature));
+    },
+    [api, queueSetTxStatus, signature, txqueue]
+  );
 
   return item;
 }

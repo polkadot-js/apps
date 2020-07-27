@@ -1,4 +1,4 @@
-# @polkadot/react-query
+# @canvas-ui/react-query
 
 WARNING: This is an internal package to [polkadot-js/apps](https://github.com/polkadot-js/apps) so is not inteded (yet) for broad use. Since these are generic components, they will move to the [polkadot-js/ui](https://github.com/polkadot-js/ui) repo once deemed stable and usable.
 
@@ -16,7 +16,7 @@ Basic usage entails creating a `ContextProvider` and just using the components. 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Api, NodeTime } from '@polkadot/react-query';
+import { Api, NodeTime } from '@canvas-ui/react-query';
 
 ...
 ReactDOM.render(

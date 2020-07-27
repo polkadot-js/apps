@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord } from '@polkadot/types/interfaces';
 import { KeyringOptions } from '@polkadot/ui-keyring/options/types';
-import { ActionStatus, QueueStatus, QueueTx, QueueAction$Add } from '@polkadot/react-components/Status/types';
+import { ActionStatus, QueueStatus, QueueTx, QueueAction$Add } from '@canvas-ui/react-components/Status/types';
 
 import React, { useEffect } from 'react';
-import { Status as StatusDisplay } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { Status as StatusDisplay } from '@canvas-ui/react-components';
+import { useAccounts, useApi, useCall } from '@canvas-ui/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 
@@ -50,7 +50,7 @@ function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts
 
         return {
           action: `${section}.${method}`,
-          message: t<string>('update on #{{index}}', {
+          message: t('update on #{{index}}', {
             replace: {
               index
             }

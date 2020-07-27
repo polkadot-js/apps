@@ -1,46 +1,22 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { WithTranslation } from 'react-i18next';
 import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
+import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Abi } from '@polkadot/api-contract';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { TxState } from '@polkadot/react-hooks/types';
+import { TxState } from '@canvas-ui/react-hooks/types';
 import { AccountId, Index } from '@polkadot/types/interfaces';
 import { ButtonProps } from './Button/types';
 import { InputAddressProps } from './InputAddress/types';
 import { TxCallback, TxFailedCallback } from './Status/types';
 
-export type VoidFn = () => void;
-
 export interface BareProps {
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
-}
-
-export interface AppNavigation {
-  addCode: VoidFn;
-  deploy: VoidFn;
-  deployNew: (_?: string, __?: number) => VoidFn;
-  execute: VoidFn;
-  upload: VoidFn;
-  uploadSuccess: (_?: string) => VoidFn;
-}
-
-export interface WithBasePath {
-  basePath: string;
-}
-
-export interface ComponentProps extends BareProps, WithBasePath {
-  navigateTo: AppNavigation;
-}
-
-export interface AppProps extends BareProps, WithBasePath {
-  navigateTo: AppNavigation;
-  onStatusChange: (status: ActionStatus) => void;
 }
 
 export type I18nProps = BareProps & WithTranslation;
@@ -121,8 +97,6 @@ export interface TxModalProps extends I18nProps, TxState {
 }
 
 export type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
-
-export type StringOrNull = string | null;
 
 interface ContractBase {
   abi: Abi;

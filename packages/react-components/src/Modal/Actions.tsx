@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -18,7 +18,7 @@ function Actions ({ children, className, onCancel }: ActionsProps): React.ReactE
     <SUIModal.Actions>
       <Button.Group className={className}>
         <Button
-          label={t('Cancel')}
+          label={t<string>('Cancel')}
           onClick={onCancel}
         />
         {children}

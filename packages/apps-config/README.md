@@ -1,4 +1,4 @@
-# @polkadot/apps-config
+# @canvas-ui/apps-config
 
 General config for various services, including settings, external links & types. This is a central source of all the configuration settings that can be tweaked. This also means that it can be customized (via PR) to support any additional chains. The internals are split into a number of settings -
 

@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi } from '@canvas-ui/react-hooks';
 import settings from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';

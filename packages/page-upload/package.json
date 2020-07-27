@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/app-upload",
+  "name": "@canvas-ui/app-upload",
   "private": true,
   "version": "0.45.0-beta.32",
   "description": "Upload interface for WASM code blobs",

@@ -1,21 +1,17 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Routes } from '@polkadot/apps-routing/types';
+import { Routes } from '@canvas-ui/apps-routing/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { Responsive } from 'semantic-ui-react';
-import createRoutes from '@polkadot/apps-routing';
-import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import createRoutes from '@canvas-ui/apps-routing';
+import { Menu, media } from '@canvas-ui/react-components';
 
-import { SIDEBAR_MENU_THRESHOLD } from '../constants';
-import NetworkModal from '../modals/Network';
 import { useTranslation } from '../translate';
-import ChainInfo from './ChainInfo';
 import Item from './Item';
-import NodeInfo from './NodeInfo';
 import Settings from './Settings';
 
 interface Props {
@@ -27,30 +23,12 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+function SideBar ({ className = '', handleResize, isCollapsed }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [modals, setModals] = useState<Record<string, boolean>>(
-    createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
-      if (route && route.Modal) {
-        result[route.name] = false;
-      }
-
-      return result;
-    }, { network: false })
-  );
 
   const routing = useMemo<Routes>(
     () => createRoutes(t),
     [t]
-  );
-
-  const _toggleModal = useCallback(
-    (name: string): () => void =>
-      (): void => setModals((modals: Record<string, boolean>) => ({
-        ...modals,
-        [name]: !modals[name]
-      })),
-    []
   );
 
   return (
@@ -70,11 +48,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
                   <Item
                     isCollapsed={isCollapsed}
                     key={route.name}
-                    onClick={
-                      route.Modal
-                        ? _toggleModal(route.name)
-                        : handleResize
-                    }
+                    onClick={handleResize}
                     route={route}
                   />
                 )

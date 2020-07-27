@@ -1,17 +1,17 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { QueueTx } from '@polkadot/react-components/Status/types';
+import { QueueTx } from '@canvas-ui/react-components/Status/types';
 import { Multisig, ProxyType } from '@polkadot/types/interfaces';
 import { AddressProxy } from './types';
 
 import React, { useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { registry } from '@polkadot/react-api';
-import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
-import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { registry } from '@canvas-ui/react-api';
+import { InputAddress, Modal, Toggle } from '@canvas-ui/react-components';
+import { useApi, useIsMountedRef } from '@canvas-ui/react-hooks';
 import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
@@ -189,12 +189,12 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
             defaultValue={requestAddress}
             isDisabled
             isInput
-            label={t('sending from my account')}
+            label={t<string>('sending from my account')}
             withLabel
           />
         </Modal.Column>
         <Modal.Column>
-          <p>{t('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
+          <p>{t<string>('The sending account that will be used to send this transaction. Any applicable fees will be paid by this account.')}</p>
         </Modal.Column>
       </Modal.Columns>
       {proxyInfo && isProxyActive && (
@@ -202,14 +202,14 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           <Modal.Column>
             <InputAddress
               filter={proxyInfo.proxiesFilter}
-              help={t('The proxy to be used for this transaction.')}
-              label={t('proxy account')}
+              help={t<string>('The proxy to be used for this transaction.')}
+              label={t<string>('proxy account')}
               onChange={setProxyAddress}
               type='account'
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}</p>
+            <p>{t<string>('The proxy is one of the allowed proxies on the account, as set and filtered by the transaction type.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
@@ -218,14 +218,14 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           <Modal.Column>
             <InputAddress
               filter={multiInfo.whoFilter}
-              help={t('The multisig signatory for this transaction.')}
-              label={t('multisig signatory')}
+              help={t<string>('The multisig signatory for this transaction.')}
+              label={t<string>('multisig signatory')}
               onChange={setMultiAddress}
               type='account'
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
+            <p>{t<string>('The signatory is one of the allowed accounts on the multisig, making a recorded approval for the transaction.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
@@ -252,7 +252,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
+            <p>{t<string>('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}
@@ -271,7 +271,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
             />
           </Modal.Column>
           <Modal.Column>
-            <p>{t('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
+            <p>{t<string>('This could either be an approval for the hash or with full call details. The call as last approval triggers execution.')}</p>
           </Modal.Column>
         </Modal.Columns>
       )}

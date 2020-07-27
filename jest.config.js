@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ const config = require('@polkadot/dev/config/jest');
 const findPackages = require('./scripts/findPackages');
 
 const internalModules = findPackages()
-  .filter(({ name }) => !['@polkadot/apps'].includes(name))
+  .filter(({ name }) => !['@canvas-ui/apps'].includes(name))
   .reduce((modules, { dir, name }) => {
     modules[`${name}(.*)$`] = `<rootDir>/packages/${dir}/src/$1`;
 

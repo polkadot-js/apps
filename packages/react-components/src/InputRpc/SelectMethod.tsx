@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOptions } from '../util/types';
+import { DropdownOptions } from '@canvas-ui/react-util/types';
 import { BareProps } from '../types';
 
 import React from 'react';
@@ -11,7 +11,7 @@ import React from 'react';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
+import { classes } from '@canvas-ui/react-util';
 
 interface Props extends BareProps {
   isError?: boolean;

@@ -1,12 +1,12 @@
 {
-  "name": "@polkadot/apps-electron",
+  "name": "@canvas-ui/apps-electron",
   "main": "index.js",
   "private": true,
   "version": "0.45.0-beta.32",
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
+    "@canvas-ui/react-components": "0.45.0-beta.32",
     "@polkadot/dev": "^0.55.9",
-    "@polkadot/react-components": "0.45.0-beta.32",
     "electron-updater": "^4.3.3"
   },
   "devDependencies": {

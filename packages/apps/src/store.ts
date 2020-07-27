@@ -1,17 +1,15 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIPre } from '@polkadot/api-contract/types';
-import { Hash } from '@polkadot/types/interfaces';
 import { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
 import { nanoid } from 'nanoid';
 import store from 'store';
 import { Abi } from '@polkadot/api-contract';
-import { api, registry } from '@polkadot/react-api';
-import { createType } from '@polkadot/types';
+import { api, registry } from '@canvas-ui/react-api';
 
 const KEY_CODE = 'code:';
 
@@ -22,16 +20,24 @@ function newId (): string {
 class Store extends EventEmitter {
   private allCode: Record<string, CodeStored> = {};
 
+  private hashToId: Record<string, string> = {};
+
   public get hasCode (): boolean {
     return Object.keys(this.allCode).length !== 0;
   }
+
+  public isHashSaved (codeHash: string): boolean {
+    return !!this.hashToId[codeHash];
+  }
+
+  public isReady = false;
 
   public getAllCode (): CodeStored[] {
     return Object.values(this.allCode);
   }
 
-  public getCode (id: string): CodeStored {
-    return this.allCode[id];
+  public getCode (id: string): CodeStored | null {
+    return this.allCode[id] || null;
   }
 
   // public getCodeFromHash (codeHash: string): CodeStored {
@@ -64,7 +70,7 @@ class Store extends EventEmitter {
 
   // public forgetCodeByHash (codeHash: string): void {
   //   const id = shortId(codeHash);
-  
+
   //   store.remove(`${KEY_CODE}${id}`);
   //   this.removeCode(id);
   // }
@@ -81,7 +87,10 @@ class Store extends EventEmitter {
         }
 
         if (key.startsWith(KEY_CODE)) {
-          this.addCode(key.split(':')[1], json);
+          const id = key.split(':')[1];
+
+          this.addCode(id, json);
+          this.hashToId[json.codeHash] = id;
         }
       });
     } catch (error) {
@@ -95,6 +104,7 @@ class Store extends EventEmitter {
         ? JSON.parse(json.abi) as ContractABIPre
         : null;
 
+      this.hashToId[json.codeHash] = id;
       this.allCode[id] = {
         contractAbi: abi
           ? new Abi(registry, abi)
@@ -102,8 +112,6 @@ class Store extends EventEmitter {
         id,
         json
       };
-
-      console.log(this.allCode);
 
       this.emit('new-code');
     } catch (error) {
@@ -113,6 +121,9 @@ class Store extends EventEmitter {
 
   private removeCode (id: string): void {
     try {
+      const { json: { codeHash } } = this.allCode[id];
+
+      delete this.hashToId[codeHash];
       delete this.allCode[id];
       this.emit('removed-code');
     } catch (error) {

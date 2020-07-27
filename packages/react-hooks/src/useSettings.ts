@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { VoidFn } from '@polkadot/react-components/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 
 import { useCallback, useEffect, useState } from 'react';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
@@ -32,21 +32,24 @@ export default function useSettings (reloadOnChange?: boolean): UseSettings {
   const [isChanged, setIsChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
 
-  useEffect((): void => {
-    const prev = uiSettings.get() as unknown as Record<string, unknown>;
-    const hasChanges = Object.entries(settings).some(([key, value]) => prev[key] !== value);
-    const needsReload = prev.apiUrl !== settings.apiUrl || prev.prefix !== settings.prefix;
+  useEffect(
+    (): void => {
+      const prev = uiSettings.get() as unknown as Record<string, unknown>;
+      const hasChanges = Object.entries(settings).some(([key, value]) => prev[key] !== value);
+      const needsReload = prev.apiUrl !== settings.apiUrl || prev.prefix !== settings.prefix;
 
-    if (reloadOnChange && needsReload) {
-      saveAndReload(settings);
-    } else {
-      setIsChanged(
-        hasChanges
-          ? needsReload
-          : null
-      );
-    } 
-  }, [settings]);
+      if (reloadOnChange && needsReload) {
+        saveAndReload(settings);
+      } else {
+        setIsChanged(
+          hasChanges
+            ? needsReload
+            : null
+        );
+      }
+    },
+    [reloadOnChange, settings]
+  );
 
   const onChangeKey = useCallback(
     (key: keyof SettingsStruct) => <T extends string | number>(value: T): void =>

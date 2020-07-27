@@ -1,11 +1,11 @@
-// Copyright 2017-2020 @polkadot/react-query authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-query authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi } from '@canvas-ui/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
 

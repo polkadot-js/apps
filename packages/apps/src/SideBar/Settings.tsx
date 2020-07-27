@@ -1,16 +1,16 @@
-// Copyright 2017-2020 @polkadot/apps authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps as Props } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { Dropdown, Icon, Tooltip } from '@polkadot/react-components';
-import { useEndpointOptions } from '@polkadot/react-components/util';
-import { ELEV_4_CSS } from '@polkadot/react-components/styles/constants';
-import { useEndpoints, useSettings } from '@polkadot/react-hooks';
+import { Dropdown, Icon, Tooltip } from '@canvas-ui/react-components';
+import { useEndpointOptions } from '@canvas-ui/react-util';
+import { ELEV_4_CSS } from '@canvas-ui/react-components/styles/constants';
+import { useEndpoints, useSettings } from '@canvas-ui/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -23,7 +23,7 @@ function Settings ({ className }: Props): React.ReactElement<Props> {
   const { onChangeUrl, url } = endpointState;
 
   return (
-    <div className={`apps--SideBar-settings ${className}`}>
+    <div className={`apps--SideBar-settings ${className || ''}`}>
       <Dropdown
         className='chain-dropdown'
         defaultValue={url}
@@ -41,7 +41,7 @@ function Settings ({ className }: Props): React.ReactElement<Props> {
       </NavLink>
       <Tooltip
         place='top'
-        text={t('Settings')}
+        text={t<string>('Settings')}
         trigger='settings-link'
       />
     </div>
@@ -111,11 +111,6 @@ export default React.memo(styled(Settings)`
             }
           }
         }
-      }
-
-      > .dropdown.icon {
-        line-height: auto;
-        top: auto;
       }
     }
   }

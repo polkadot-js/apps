@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,12 +8,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import { BareProps } from '@polkadot/react-components/types';
+import { BareProps } from '@canvas-ui/react-components/types';
 
 import CodeFlask from 'codeflask';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { classes } from '@polkadot/react-components/util';
+import { classes } from '@canvas-ui/react-util';
 
 interface Props extends BareProps {
   code: string;
@@ -30,7 +30,7 @@ interface Props extends BareProps {
  * <BR>
  *
  * ```javascript
- * import {Editor} from '@polkadot/react-components';
+ * import {Editor} from '@canvas-ui/react-components';
  *
  * <Editor
  *    className={string} // optional

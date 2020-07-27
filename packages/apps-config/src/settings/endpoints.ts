@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// Copyright 2017-2020 @canvas-ui/apps-config authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -20,20 +20,20 @@ function createDev (t: <T= string> (key: string, text: string, options: { ns: st
   ];
 }
 
-function createLive (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
-  return [];
-}
+// function createLive (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
+//   return [];
+// }
 
-function createTest (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
-  return [
-    {
-      info: 'substrate',
-      shortText: t<string>('rpc.flamingfir.short', 'Flaming Fir', { ns: 'apps-config' }),
-      text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://substrate-rpc.parity.io/'
-    }
-  ];
-}
+// function createTest (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
+//   return [
+//     // {
+//     //   info: 'substrate',
+//     //   shortText: t<string>('rpc.flamingfir.short', 'Flaming Fir', { ns: 'apps-config' }),
+//     //   text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
+//     //   value: 'wss://substrate-rpc.parity.io/'
+//     // }
+//   ];
+// }
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
@@ -60,13 +60,13 @@ export default function create (t: <T= string> (key: string, text: string, optio
     //   text: t<string>('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
     //   value: ''
     // },
-    ...createLive(t),
+    // ...createLive(t),
     // {
     //   isHeader: true,
     //   text: t<string>('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
     //   value: ''
     // },
-    ...createTest(t),
+    // ...createTest(t),
     // {
     //   isHeader: true,
     //   text: t<string>('rpc.header.dev', 'Development', { ns: 'apps-config' }),

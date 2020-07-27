@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Modal, Password } from '@polkadot/react-components';
+import { Modal, Password } from '@canvas-ui/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from './translate';
@@ -52,8 +52,8 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
         <Password
           autoFocus
           isError={!!error}
-          label={t('unlock account with password')}
-          labelExtra={error && <div className='errorLabel'>{t('wrong password supplied')}</div>}
+          label={t<string>('unlock account with password')}
+          labelExtra={error && <div className='errorLabel'>{t<string>('wrong password supplied')}</div>}
           onChange={setPassword}
           onEnter={onEnter}
           tabIndex={tabIndex}
@@ -61,7 +61,7 @@ function Unlock ({ address, className, error, onChange, onEnter, tabIndex }: Pro
         />
       </Modal.Column>
       <Modal.Column>
-        <p>{t('Unlock the sending account to allow signing of this transaction.')}</p>
+        <p>{t<string>('Unlock the sending account to allow signing of this transaction.')}</p>
       </Modal.Column>
     </Modal.Columns>
   );

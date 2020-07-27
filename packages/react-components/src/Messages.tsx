@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABIMessage } from '@polkadot/api-contract/types';
-import { BareProps } from '@polkadot/react-components/types';
+import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
-import { classes } from '@polkadot/react-components/util';
+import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_3_CSS } from './styles/constants';
 import Button from './Button';
@@ -27,7 +27,7 @@ export interface Props extends BareProps {
   withConstructors?: boolean;
 }
 
-const NOOP = (): void => undefined;
+// const NOOP = (): void => undefined;
 
 function onSelect (props: Props, messageIndex: number): () => void {
   return function (): void {
@@ -131,7 +131,7 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, /* isRemovable, onRemove = NOOP, */ withConstructors } = props;
 
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>

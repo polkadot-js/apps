@@ -1,8 +1,8 @@
 {
-  "name": "@polkadot/react-components",
+  "name": "@canvas-ui/react-components",
   "version": "0.45.0-beta.32",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "repository": "https://github.com/paritytech/canvas-ui",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
     "Jaco Greeff <jacogr@gmail.com>"
@@ -11,10 +11,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
+    "@canvas-ui/react-api": "0.45.0-beta.32",
+    "@canvas-ui/react-query": "0.45.0-beta.32",
     "@polkadot/keyring": "^2.14.0-beta.0",
-    "@polkadot/react-api": "0.45.0-beta.32",
     "@polkadot/react-identicon": "^0.54.0-beta.7",
-    "@polkadot/react-query": "0.45.0-beta.32",
     "@polkadot/ui-keyring": "^0.54.0-beta.7",
     "@polkadot/ui-settings": "^0.54.0-beta.7",
     "chart.js": "^2.9.3",

@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { I18nProps } from '@polkadot/react-components/types';
+import { I18nProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 
@@ -95,7 +95,7 @@ export default class Collection<P extends CollectionProps, S extends CollectionS
   }
 
   protected renderEmpty (): React.ReactNode {
-    const { emptyText = this.props.t('No items'), showEmptyText = true } = this.props;
+    const { emptyText = this.props.t<string>('No items'), showEmptyText = true } = this.props;
 
     if (!showEmptyText) {
       return null;

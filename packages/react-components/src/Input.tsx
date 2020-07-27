@@ -1,13 +1,15 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, VoidFn } from './types';
+import { VoidFn } from '@canvas-ui/react-util/types';
+import { BareProps } from './types';
 
 import React, { useCallback, useState } from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { isFunction, isUndefined } from '@polkadot/util';
 
+import InputStatus from './InputStatus';
 import Labelled from './Labelled';
 
 type Input$Type = 'number' | 'password' | 'text';
@@ -43,11 +45,13 @@ interface Props extends BareProps {
   onKeyPress?: (event: React.KeyboardEvent<Element>) => void;
   onPaste?: (event: React.ClipboardEvent<Element>) => void;
   placeholder?: string;
+  status?: React.ReactNode;
   tabIndex?: number;
   type?: Input$Type;
   value?: string | null;
   withLabel?: boolean;
   withEllipsis?: boolean;
+  withStatus?: boolean;
 }
 
 // Find decimal separator used in current locale
@@ -91,7 +95,7 @@ const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
 
 let counter = 0;
 
-function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, tabIndex, type = 'text', value, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function Input ({ autoFocus = false, children, className, defaultValue, help, icon, inputClassName, isAction = false, isDisabled = false, isDisabledError = false, isEditable = false, isError = false, isFull = false, isHidden = false, isInPlaceEditor = false, isReadOnly = false, label, labelExtra, max, maxLength, min, name, onBlur, onChange, onEnter, onEscape, onKeyDown, onKeyUp, onPaste, placeholder, status, tabIndex, type = 'text', value, withEllipsis, withLabel, withStatus = false }: Props): React.ReactElement<Props> {
   const [stateName] = useState(`in_${counter++}_at_${Date.now()}`);
 
   const _onBlur = useCallback(
@@ -100,8 +104,9 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
   );
 
   const _onChange = useCallback(
-    ({ target }: React.SyntheticEvent<HTMLInputElement>): void =>
-      onChange && onChange((target as HTMLInputElement).value),
+    ({ target }: React.SyntheticEvent<HTMLInputElement>): void => {
+      onChange && onChange((target as HTMLInputElement).value);
+    },
     [onChange]
   );
 
@@ -202,6 +207,12 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
         )}
         {icon}
       </SUIInput>
+      {withStatus && (
+        <InputStatus
+          isError={isError}
+          text={status}
+        />
+      )}
       {children}
     </Labelled>
   );

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,7 @@ import { UseWeight } from './types';
 
 import BN from 'bn.js';
 import { useMemo, useState } from 'react';
-import { useBlockTime } from '@polkadot/react-hooks';
+import { useBlockTime } from '@canvas-ui/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 const BN_MILLION = new BN(1e6);

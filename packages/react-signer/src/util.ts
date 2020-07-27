@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@canvas-ui/react-components/Status/types';
 import { AddressFlags } from './types';
 
 import { SubmittableResult } from '@polkadot/api';

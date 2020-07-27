@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-import { UseWeight } from '@polkadot/react-hooks/types';
+import { BareProps } from '@canvas-ui/react-components/types';
+import { UseWeight } from '@canvas-ui/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -21,62 +21,53 @@ function InputMegaGas ({ className, executionTime, help, isValid, label, megaGas
   const { t } = useTranslation();
 
   return (
-    <div className={className}>
-      <InputNumber
-        className='contracts--InputMegaGas-input'
-        help={help}
-        isError={!isValid}
-        label={label}
-        onChange={setMegaGas}
-        value={megaGas}
-      >
-        <div className='contracts--InputMegaGas-meter'>
-          {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}
-          <aside>
-            {t<string>('{{percentage}}% of block time', { replace: { percentage } })}
-          </aside>
-          <Progress
-            className='contracts--InputMegaGas-progress'
-            color={percentage < 100 ? 'green' : 'red'}
-            total={100}
-            value={percentage}
-          />
-        </div>
-      </InputNumber>
-    </div>
+    <InputNumber
+      className={className}
+      help={help}
+      isError={!isValid}
+      label={label}
+      onChange={setMegaGas}
+      value={megaGas}
+    >
+      <div className='contracts--InputMegaGas-meter'>
+        {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}
+        <aside>
+          {t<string>('{{percentage}}% of block time', { replace: { percentage } })}
+        </aside>
+        <Progress
+          className='contracts--InputMegaGas-progress'
+          color={percentage < 100 ? 'green' : 'red'}
+          total={100}
+          value={percentage}
+        />
+      </div>
+    </InputNumber>
   );
 }
 
 export default React.memo(
   styled(InputMegaGas)`
-    .contracts--InputMegaGas-input {
-
-      .ui.input {
-        display: flex;
-
-        input {
-          max-width: 15rem;
-        }
-
-        .contracts--InputMegaGas-meter {
-          flex: 1;
-          padding: 0.8rem 0.8rem 0;
+    .ui.input {
+      display: flex;
+      flex-grow: 0;
+      width: 12rem;
+    }
     
-          aside {
-            float: right;
-          }
-    
-          .contracts--InputMegaGas-progress {
-            margin-top: 0.4rem;
-            position: relative;
-            bottom: 0;
-            left: 0;
-            right: 0;
-          }
-        }
-    
+    .contracts--InputMegaGas-meter {
+      flex: 1;
+      padding: 0 0.75rem;
+
+      aside {
+        float: right;
+      }
+
+      .contracts--InputMegaGas-progress {
+        margin-top: 0.4rem;
+        position: relative;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
     }
-
   `
 );

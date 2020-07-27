@@ -1,17 +1,37 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { Abi } from '@polkadot/api-contract';
-import { AppProps } from '@polkadot/react-components/types';
+import { ActionStatus } from '@canvas-ui/react-components/Status/types';
+import { BareProps } from '@canvas-ui/react-components/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 
-export interface ComponentProps extends AppProps {
-  accounts: string[];
-  contracts: string[];
-  hasCode: boolean;
-  onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
-  updated: number;
+import { Abi } from '@polkadot/api-contract';
+
+export interface AppNavigation {
+  deploy: VoidFn;
+  deployNew: (_: string, __?: number) => VoidFn;
+  deploySuccess: (_: string) => VoidFn;
+  execute: VoidFn;
+  executeAdd: VoidFn;
+  executeCall: (_: string, __?: number) => VoidFn;
+  upload: VoidFn;
+  uploadAdd: VoidFn;
+  uploadSuccess: (_: string) => VoidFn;
+}
+
+interface WithAppNavigation {
+  navigateTo: AppNavigation;
+}
+
+export interface WithBasePath {
+  basePath: string;
+}
+
+export interface ComponentProps extends BareProps, WithBasePath, WithAppNavigation {}
+
+export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
+  onStatusChange: (status: ActionStatus) => void;
 }
 
 export interface CodeJson {
@@ -33,4 +53,10 @@ export interface ContractJsonOld {
   abi: string;
   address: string;
   name: string;
+}
+
+export interface WithCodes {
+  allCodes: CodeStored[];
+  hasCodes: boolean;
+  updated: number;
 }

@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/app-settings authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-settings authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps as Props } from '@polkadot/react-components/types';
+import { BareProps as Props } from '@canvas-ui/react-components/types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, Input, Dropdown, Toggle } from '@polkadot/react-components';
-import { classes, useEndpointOptions } from '@polkadot/react-components/util';
-import { useEndpoints, useSettings } from '@polkadot/react-hooks';
+import { Button, Input, Dropdown, Toggle } from '@canvas-ui/react-components';
+import { classes, useEndpointOptions } from '@canvas-ui/react-util';
+import { useEndpoints, useSettings } from '@canvas-ui/react-hooks';
 
 import { useTranslation } from './translate';
 
@@ -23,12 +23,12 @@ function SettingsApp ({ className }: Props): React.ReactElement<Props> {
   const themeOptions = useMemo(
     () => ([
       {
-        value: true,
-        text: t('Dark theme')
+        text: t<string>('Dark theme'),
+        value: true
       },
       {
-        value: false,
-        text: t('Light theme')
+        text: t<string>('Light theme'),
+        value: false
       }
     ]),
     [t]
@@ -42,7 +42,7 @@ function SettingsApp ({ className }: Props): React.ReactElement<Props> {
       <section>
         <Dropdown
           isDisabled={isCustom}
-          label={t('Node to connect to')}
+          label={t<string>('Node to connect to')}
           onChange={onChangeUrl}
           options={endpointOptions}
           value={url}
@@ -51,13 +51,13 @@ function SettingsApp ({ className }: Props): React.ReactElement<Props> {
           <Toggle
             className='settings--customToggle'
             defaultValue={isCustom}
-            label={t('Use custom endpoint')}
+            label={t<string>('Use custom endpoint')}
             onChange={onChangeCustom}
           />
           {isCustom && (
             <Input
-              defaultValue={url}
               className='custom-url'
+              defaultValue={url}
               isError={!isValid}
               onChange={onChangeUrl}
               withLabel={false}
@@ -76,7 +76,7 @@ function SettingsApp ({ className }: Props): React.ReactElement<Props> {
           <Button
             isDisabled={isChanged === null}
             isPrimary
-            label={t('Save')}
+            label={t<string>('Save')}
             onClick={
               isChanged
                 ? saveAndReload

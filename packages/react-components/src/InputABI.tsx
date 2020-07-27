@@ -1,9 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps } from '@polkadot/react-components/types';
-import { FileState } from '@polkadot/react-hooks/types';
+import { BareProps } from '@canvas-ui/react-components/types';
+import { FileState } from '@canvas-ui/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -46,13 +46,13 @@ function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructo
 }
 
 function InputABI (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi, errorText, file, isContract = false, isDisabled, isError, isSupplied, isValid, setFile, withLabel } = props;
+  const { className, contractAbi, errorText, file, isContract = false, isDisabled, isError, isRequired = false, isValid, setFile, withLabel } = props;
   const { t } = useTranslation();
 
   const help = isContract
-    ? t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')
-    : t('The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.');
-  const label = isContract
+    ? t<string>('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')
+    : t<string>('The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.');
+  const label = isRequired
     ? 'Upload ABI'
     : 'Upload ABI (optional)';
 

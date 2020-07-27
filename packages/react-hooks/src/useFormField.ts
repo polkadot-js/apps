@@ -1,9 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { useCallback, useMemo, useState, useEffect, useLayoutEffect, useRef } from 'react';
-import { isUndefined } from '@polkadot/util';
+import { useCallback, useMemo, useState, useRef } from 'react';
 
 export type FormField<T> = [
   T | null,
@@ -17,16 +16,6 @@ export default function useFormField<T> (defaultValue: T | null, validate: (_: T
   const [value, setValue] = useState<T | null>(defaultValue);
   const isTouched = useRef(false);
 
-  // useEffect(
-  //   (): void => {
-  //     if (isTouched.current === false) {
-  //       console.log('set touched');
-  //       isTouched.current = true;
-  //     }
-  //   },
-  //   [value]
-  // );
-
   const isValid = useMemo(
     (): boolean => !!value && validate(value),
     [validate, value]
@@ -36,6 +25,7 @@ export default function useFormField<T> (defaultValue: T | null, validate: (_: T
       if (!isTouched.current) {
         isTouched.current = true;
       }
+
       setValue(value || null);
     },
     []

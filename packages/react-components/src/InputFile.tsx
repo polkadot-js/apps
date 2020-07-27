@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FileState } from '@polkadot/react-hooks/types';
+import { FileState } from '@canvas-ui/react-hooks/types';
 import { BareProps } from './types';
 
 import React, { useCallback, createRef, MouseEvent } from 'react';
@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { isHex, u8aToString, hexToU8a } from '@polkadot/util';
 
 import { ELEV_2_CSS } from './styles/constants';
-import { classes } from './util';
+import { classes } from '@canvas-ui/react-util';
 import Icon from './Icon';
 import FileSupplied from './FileSupplied';
 import Labelled from './Labelled';
@@ -55,7 +55,7 @@ function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, children, className = '', clearContent, convertHex, errorText, help, isDisabled, isError = false, label, onChange, onRemove, placeholder, value = null, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, children, className, convertHex, errorText, help, isDisabled, isError = false, label, onChange, onRemove, value = null, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
 
@@ -83,7 +83,7 @@ function InputFile ({ accept, children, className = '', clearContent, convertHex
         reader.readAsArrayBuffer(file);
       });
     },
-    [convertHex, dropRef, onChange]
+    [convertHex, onChange]
   );
 
   const _onRemove = useCallback(

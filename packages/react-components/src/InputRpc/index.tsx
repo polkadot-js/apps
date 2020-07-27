@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
 import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOptions } from '../util/types';
+import { DropdownOptions } from '@canvas-ui/react-util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi } from '@canvas-ui/react-hooks';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';

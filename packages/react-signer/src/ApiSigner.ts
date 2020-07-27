@@ -1,14 +1,14 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Signer, SignerResult } from '@polkadot/api/types';
 import { SubmittableResult } from '@polkadot/api';
-import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
+import { QueueTxPayloadAdd, QueueTxMessageSetStatus, QueueTxStatus } from '@canvas-ui/react-components/Status/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
-import { registry } from '@polkadot/react-api';
+import { registry } from '@canvas-ui/react-api';
 import { ClassOf } from '@polkadot/types';
 
 export default class ApiSigner implements Signer {

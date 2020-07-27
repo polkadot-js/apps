@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -7,7 +7,7 @@ import { Props } from '../types';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Toggle } from '@polkadot/react-components';
+import { Toggle } from '@canvas-ui/react-components';
 
 import { useTranslation } from '../translate';
 import Param from './index';

@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-signer authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-signer authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,8 +8,8 @@ import { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState, useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { Expander } from '@polkadot/react-components';
-import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { Expander } from '@canvas-ui/react-components';
+import { useApi, useIsMountedRef } from '@canvas-ui/react-hooks';
 import { formatBalance, isFunction } from '@polkadot/util';
 
 interface Props {

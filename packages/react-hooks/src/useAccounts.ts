@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-hooks authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -11,11 +11,12 @@ interface UseAccounts {
   allAccounts: string[];
   hasAccounts: boolean;
   isAccount: (address: string) => boolean;
+  isReady: boolean;
 }
 
 export default function useAccounts (): UseAccounts {
   const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false, isAccount: () => false });
+  const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false, isAccount: () => false, isReady: false });
 
   useEffect((): () => void => {
     const subscription = accountObservable.subject.subscribe((accounts): void => {
@@ -24,7 +25,7 @@ export default function useAccounts (): UseAccounts {
         const hasAccounts = allAccounts.length !== 0;
         const isAccount = (address: string): boolean => allAccounts.includes(address);
 
-        setState({ allAccounts, hasAccounts, isAccount });
+        setState({ allAccounts, hasAccounts, isAccount, isReady: true });
       }
     });
 

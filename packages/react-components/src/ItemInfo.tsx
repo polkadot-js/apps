@@ -1,13 +1,12 @@
-// Copyright 2017-2020 @polkadot/app-execute authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BareProps, VoidFn } from './types';
+import { BareProps } from './types';
 
 import React from 'react';
 // import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { EditButton, Input } from '@polkadot/react-components';
 
 interface Props extends BareProps {
   icon: React.ReactNode;
@@ -52,6 +51,7 @@ export default styled(React.memo(ItemInfo))`
     }
 
     .title {
+      color: var(--grey90);
       font-size: 1.125rem;
       height: 1.25rem;
 
@@ -73,4 +73,4 @@ export default styled(React.memo(ItemInfo))`
       font-family: monospace;
     }
   }
-`
+`;
