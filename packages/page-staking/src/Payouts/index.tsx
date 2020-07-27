@@ -156,12 +156,6 @@ function Payouts ({ className = '', isInElection }: Props): React.ReactElement<P
     }
   }, [allRewards, stakerPayoutsAfter]);
 
-  // useEffect((): void => {
-  //   historyDepth && setPartialEras(
-  //     Math.ceil(historyDepth.toNumber() / 4)
-  //   );
-  // }, [historyDepth, isPartialEras]);
-
   const headerStashes = useMemo(() => [
     [t('payout/stash'), 'start', 2],
     [t('eras'), 'start'],

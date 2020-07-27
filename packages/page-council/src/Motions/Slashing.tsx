@@ -61,7 +61,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   return (
     <>
       <Button
-        icon='times'
+        icon='sync'
         isDisabled={!isMember || !slashes.length}
         label={t<string>('Cancel slashes')}
         onClick={toggleVisible}
@@ -117,7 +117,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
               accountId={accountId}
-              icon='repeat'
+              icon='sync'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
               label={t<string>('Revert')}
               onStart={toggleVisible}
