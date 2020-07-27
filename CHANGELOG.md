@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 0.51.1 Jul 27, 2020
+
+- Support for Acala chain and types (Thanks to https://github.com/aniiantt)
+- First batch of i18n for Arabic (Thanks to https://github.com/nightwolf3)
+- Update for Polkadot council thresholds
+- Council motion adjustment to cater for current and previous generations
+- Adjust imminent proposals to not need own type adjustments
+- Cleanup voting totals to only take free into account
+- Support JSON v3 formats with kdf
+- Always display time left in countdowns, not blocks
+- Adjust progress component to be circular
+- Rename "Deposit" button to "Send" button (less confusion)
+- Ensure new generation tip cancel works for council & users
+- Split council votes in backing & number of votes
+- Adjust council motions to have the correct max display for nay votes
+- Adjust payout toggles with increasing day increments
+- Adjust button formats & layouts
+- Adjust council slashing params to cater for current generation
+- Fixed for keyboard locale detection
+- Don't allow display in an iframe
+
 ## 0.50.1 Jul 20, 2020
 
 - Adjust CSPs for Electron (Thanks to https://github.com/EthWorks)
