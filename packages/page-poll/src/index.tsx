@@ -94,7 +94,10 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
               </div>
             )}
             <div>
-              {canVote && <BlockToTime blocks={blocksLeft} />}
+              {canVote
+                ? <BlockToTime blocks={blocksLeft} />
+                : t<string>('Completed')
+              }
               <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
             </div>
           </div>
@@ -113,19 +116,21 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                 <Columar.Column className='option'>
                   <div className='optionName'>{label}</div>
                   <div className='optionDesc'>{desc}</div>
-                  <Toggle
-                    className='pollToggle'
-                    isDisabled={!canVote}
-                    label={
-                      canVote
-                        ? value
-                          ? t<string>('Aye, I support this')
-                          : t<string>('Nay, I do not support this')
-                        : t<string>('Voting closed')
-                    }
-                    onChange={onChange}
-                    value={canVote && value}
-                  />
+                  {canVote && (
+                    <Toggle
+                      className='pollToggle'
+                      isDisabled={!canVote}
+                      label={
+                        canVote
+                          ? value
+                            ? t<string>('Aye, I support this')
+                            : t<string>('Nay, I do not support this')
+                          : t<string>('Voting closed')
+                      }
+                      onChange={onChange}
+                      value={canVote && value}
+                    />
+                  )}
                 </Columar.Column>
                 <Columar.Column>
                   {totals[index].isZero()
