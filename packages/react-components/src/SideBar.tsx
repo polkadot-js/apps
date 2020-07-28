@@ -15,8 +15,6 @@ interface Props {
   position: 'left' | 'right';
 }
 
-const SHADOW_COLOR = 'rgba(0, 0, 0, 0.3)';
-
 function Sidebar ({ children, className = '', onClose }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--Sidebar ${className}`}>
@@ -35,7 +33,7 @@ function Sidebar ({ children, className = '', onClose }: Props): React.ReactElem
 export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
   background: #f5f4f3;
   bottom: 0;
-  box-shadow: ${position === 'right' ? '-6px' : '6px'} 0px 20px 0px ${SHADOW_COLOR};
+  box-shadow: ${position === 'right' ? '-6px' : '6px'} 0px 20px 0px rgba(0, 0, 0, 0.3);
   max-width: 24rem;
   position: fixed;
   padding: 1rem;
