@@ -6,7 +6,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { colorLink } from '@polkadot/react-components/styles/theme';
-import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Tags } from '@polkadot/react-components';
+import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Sidebar, Tags } from '@polkadot/react-components';
 
 import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
@@ -22,7 +22,7 @@ interface Props {
   onUpdateName: () => void;
 }
 
-function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
+function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { accountIndex, flags, identity, isEditingName, isEditingTags, meta, name, onForgetAddress, onSaveName, onSaveTags, setName, setTags, tags, toggleIsEditingName, toggleIsEditingTags } = useAccountInfo(address);
   const [isTransferOpen, toggleIsTransferOpen] = useToggle();
@@ -44,14 +44,11 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
   );
 
   return (
-    <div className={className}>
-      <Button
-        className='ui--AddressMenu-close'
-        icon='times'
-        isBasic
-        isCircular
-        onClick={onClose}
-      />
+    <Sidebar
+      className={className}
+      onClose={onClose}
+      position='right'
+    >
       <div className='ui--AddressMenu-header'>
         <IdentityIcon
           size={80}
@@ -159,30 +156,13 @@ function Sidebar ({ address, className = '', onClose, onUpdateName }: Props): Re
           type='address'
         />
       </section>
-    </div>
+    </Sidebar>
   );
 }
 
-export default React.memo(styled(Sidebar)`
-  bottom: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  max-width: 24rem;
-  background: #f5f4f3;
-  padding: 1rem;
-  box-shadow: -6px 0px 20px 0px rgba(0,0,0,0.2);
-  z-index: 999;
-
+export default React.memo(styled(FullSidebar)`
   input {
     width: auto !important;
-  }
-
-  .ui--AddressMenu-close {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
   }
 
   .ui--AddressMenu-header {
