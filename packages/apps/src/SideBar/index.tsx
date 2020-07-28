@@ -13,6 +13,7 @@ import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import NetworkModal from '../modals/Network';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
+import Endpoints from './Endpoints';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 
@@ -25,7 +26,11 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+const SIDE_BORDER_WIDTH = '0.65rem';
+const MENU_WIDTH_COLLAPSED = '4.2rem';
+const MENU_WIDTH_EXPANDED = '12rem';
+
+function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
@@ -56,6 +61,10 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
+      />
+      <Endpoints
+        offset={isCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}
+        onClose={() => console.log('a')}
       />
       {routing.map((route): React.ReactNode => (
         route?.Modal
@@ -142,19 +151,17 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
   );
 }
 
-const sideBorderWidth = '0.65rem';
-
-export default React.memo(styled(SideBar)`
+export default React.memo(styled(AppsSidebar)`
   display: flex;
   position: relative;
   z-index: 300;
 
   &.collapsed {
-    width: 4.2rem;
+    width: ${MENU_WIDTH_COLLAPSED};
   }
 
   &.expanded {
-    width: 12rem;
+    width: ${MENU_WIDTH_EXPANDED};
   }
 
   .apps--SideBar {
@@ -169,7 +176,7 @@ export default React.memo(styled(SideBar)`
     width: 100%;
 
     .apps--SideBar-border {
-      border-top: ${sideBorderWidth} solid transparent;
+      border-top: ${SIDE_BORDER_WIDTH} solid transparent;
       position: absolute;
       left: 0;
       right: 0;

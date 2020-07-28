@@ -10,7 +10,6 @@ import '@polkadot/react-components/i18n';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import store from 'store';
 import { ThemeProvider } from 'styled-components';
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
@@ -27,13 +26,6 @@ const theme = { theme: settings.uiTheme };
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
 }
-
-// cleanups for old/unused storage items
-store.each((_, key): void => {
-  if (key.startsWith('hooks:sessionSlashes:')) {
-    store.remove(key);
-  }
-});
 
 ReactDOM.render(
   <Suspense fallback='...'>

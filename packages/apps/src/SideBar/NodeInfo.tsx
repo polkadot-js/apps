@@ -41,12 +41,9 @@ export default React.memo(styled(NodeInfo)`
 
   > div {
     margin-bottom: -0.125em;
+
     > div {
       display: inline-block;
-    }
-
-    &.spacer {
-      margin-bottom: 0.5rem;
     }
   }
 `);

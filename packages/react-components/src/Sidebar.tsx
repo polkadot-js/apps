@@ -10,7 +10,7 @@ import Button from './Button';
 interface Props {
   children: React.ReactNode;
   className?: string;
-  offset?: number;
+  offset?: number | string;
   onClose: () => void;
   position: 'left' | 'right';
 }

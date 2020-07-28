@@ -45,16 +45,16 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
   const uiHighlight = useMemo(
-    (): string | undefined => getSystemChainColor(systemChain, systemName),
+    () => getSystemChainColor(systemChain, systemName),
     [systemChain, systemName]
   );
 
   const _collapse = useCallback(
-    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
+    () => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
     []
   );
   const _toggleMenu = useCallback(
-    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
+    () => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
     []
   );
   const _handleResize = useCallback(
