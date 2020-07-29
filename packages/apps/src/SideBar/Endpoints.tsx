@@ -64,7 +64,13 @@ function combineEndpoints (endpoints: Option[]): Endpoint[] {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
+  const [apiUrl, setApiUrl] = useState(uiSettings.get().apiUrl);
   const [openIndex, setOpenIndex] = useState('');
+
+  const _setApiUrl = useCallback(
+    (apiUrl: string) => () => setApiUrl(apiUrl),
+    []
+  );
 
   const _setOpenIndex = useCallback(
     (index: string) => () => setOpenIndex((openIndex) => openIndex === index ? '' : index),
@@ -78,53 +84,50 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       onClose={onClose}
       position='left'
     >
-      {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => {
-        const apiUrl = uiSettings.get().apiUrl;
+      {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => (
+        <div
+          className='endpointType'
+          key={typeIndex}
+        >
+          <div className='endpointHeader'>{header}</div>
+          {networks.map(({ icon, name, providers }, netIndex): React.ReactNode => {
+            const isSelected = providers.some(({ url }) => url === apiUrl);
+            const index = `${typeIndex}:${netIndex}`;
+            const isOpen = openIndex === index;
 
-        return (
-          <div
-            className='endpointType'
-            key={typeIndex}
-          >
-            <div className='endpointHeader'>{header}</div>
-            {networks.map(({ icon, name, providers }, netIndex): React.ReactNode => {
-              const isSelected = providers.some(({ url }) => url === apiUrl);
-              const index = `${typeIndex}:${netIndex}`;
-              const isOpen = openIndex === index;
-
-              return (
-                <div
-                  className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected' : ''}`}
-                  key={index}
-                  onClick={_setOpenIndex(index)}
-                >
-                  <div className='endpointSection'>
-                    <ChainImg
-                      className='endpointIcon'
-                      logo={icon === 'local' ? 'empty' : icon}
+            return (
+              <div
+                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected' : ''}`}
+                key={index}
+                onClick={_setOpenIndex(index)}
+              >
+                <div className='endpointSection'>
+                  <ChainImg
+                    className='endpointIcon'
+                    logo={icon === 'local' ? 'empty' : icon}
+                  />
+                  <div className='endpointValue'>{name}</div>
+                  {!isSelected && (
+                    <Icon
+                      className='endpointOpen'
+                      icon={isOpen ? 'caret-up' : 'caret-down'}
                     />
-                    <div className='endpointValue'>{name}</div>
-                    {!isSelected && (
-                      <Icon
-                        className='endpointOpen'
-                        icon={isOpen ? 'caret-up' : 'caret-down'}
-                      />
-                    )}
-                  </div>
-                  {providers.map(({ name, url }): React.ReactNode => (
-                    <Toggle
-                      className='endpointProvider'
-                      key={url}
-                      label={name}
-                      value={apiUrl === url}
-                    />
-                  ))}
+                  )}
                 </div>
-              );
-            })}
-          </div>
-        );
-      })}
+                {providers.map(({ name, url }): React.ReactNode => (
+                  <Toggle
+                    className='endpointProvider'
+                    key={url}
+                    label={name}
+                    onChange={_setApiUrl(url)}
+                    value={apiUrl === url}
+                  />
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </Sidebar>
   );
 }
@@ -182,6 +185,10 @@ export default React.memo(styled(Endpoints)`
       position: absolute;
       right: 0.5rem;
       top: 0.75rem;
+    }
+
+    &+.endpointProvider {
+      margin-top: -0.5rem;
     }
   }
 `);
