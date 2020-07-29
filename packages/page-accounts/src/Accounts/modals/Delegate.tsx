@@ -72,8 +72,10 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         <Modal.Columns>
           <Modal.Column>
             <InputBalance
+              autoFocus
               help={t<string>('Amount to delegate for any democracy vote. This is adjusted using the available funds on the account.')}
               isError={!!amountError?.error}
+              isZeroable={false}
               label={t<string>('delegating amount')}
               labelExtra={
                 <BalanceFree
