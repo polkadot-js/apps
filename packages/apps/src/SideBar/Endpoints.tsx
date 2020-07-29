@@ -30,6 +30,11 @@ interface Props {
   onClose: () => void;
 }
 
+interface UrlState {
+  apiUrl: string;
+  hasUrlChanged: boolean;
+}
+
 function textToParts (text: string): [string, string, string] {
   const [first, remainder] = text.replace(')', '').split(' (');
   const [middle, last] = remainder.split(', ');
@@ -64,11 +69,11 @@ function combineEndpoints (endpoints: Option[]): Endpoint[] {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
-  const [apiUrl, setApiUrl] = useState(uiSettings.get().apiUrl);
+  const [{ apiUrl, hasUrlChanged }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false });
   const [openIndex, setOpenIndex] = useState('');
 
   const _setApiUrl = useCallback(
-    (apiUrl: string) => () => setApiUrl(apiUrl),
+    (apiUrl: string) => () => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl }),
     []
   );
 
@@ -80,6 +85,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   return (
     <Sidebar
       className={className}
+      closeIcon={hasUrlChanged ? 'sync' : 'times'}
       offset={offset}
       onClose={onClose}
       position='left'
