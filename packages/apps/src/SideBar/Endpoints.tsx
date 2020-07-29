@@ -1,0 +1,242 @@
+// Copyright 2017-2020 @polkadot/apps authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import { Option } from '@polkadot/apps-config/settings/types';
+
+import React, { useCallback, useState } from 'react';
+import styled from 'styled-components';
+import { createEndpoints } from '@polkadot/apps-config/settings';
+import { ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
+import uiSettings from '@polkadot/ui-settings';
+
+import { useTranslation } from '../translate';
+
+interface Endpoint {
+  header: React.ReactNode;
+  networks: {
+    icon?: string;
+    name: string;
+    providers: {
+      name: string;
+      url: string;
+    }[]
+  }[];
+}
+
+interface Props {
+  className?: string;
+  offset?: number | string;
+  onClose: () => void;
+}
+
+interface UrlState {
+  apiUrl: string;
+  hasUrlChanged: boolean;
+  isUrlValid: boolean;
+}
+
+function textToParts (text: string): [string, string, string] {
+  const [first, remainder] = text.replace(')', '').split(' (');
+  const [middle, last] = remainder.split(', ');
+
+  return [first, middle, last];
+}
+
+function isValidUrl (url: string): boolean {
+  return (
+    // some random length... we probably want to parse via some lib
+    (url.length >= 7) &&
+    // check that it starts with a valid ws identifier
+    (url.startsWith('ws://') || url.startsWith('wss://'))
+  );
+}
+
+function combineEndpoints (endpoints: Option[]): Endpoint[] {
+  return endpoints.reduce((result: Endpoint[], e): Endpoint[] => {
+    if (e.isHeader) {
+      result.push({ header: e.text, networks: [] });
+    } else {
+      const [name, , providerName] = textToParts(e.text as string);
+      const prev = result[result.length - 1];
+      const prov = { name: providerName, url: e.value as string };
+
+      if (prev.networks[prev.networks.length - 1] && name === prev.networks[prev.networks.length - 1].name) {
+        prev.networks[prev.networks.length - 1].providers.push(prov);
+      } else {
+        prev.networks.push({
+          icon: e.info,
+          name,
+          providers: [prov]
+        });
+      }
+    }
+
+    return result;
+  }, []);
+}
+
+function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
+  const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
+  const [openIndex, setOpenIndex] = useState('');
+
+  const _setApiUrl = useCallback(
+    (apiUrl: string) => () => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: true }),
+    []
+  );
+
+  const _setOpenIndex = useCallback(
+    (index: string) => () => setOpenIndex((openIndex) => openIndex === index ? '' : index),
+    []
+  );
+
+  const _onChangeCustom = useCallback(
+    (apiUrl: string) => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: isValidUrl(apiUrl) }),
+    []
+  );
+
+  const _onClose = useCallback(
+    (): void => {
+      if (hasUrlChanged && isUrlValid) {
+        const settings = uiSettings.get();
+
+        uiSettings.set({ ...settings, apiUrl });
+        window.location.reload();
+      }
+
+      onClose();
+    },
+    [apiUrl, hasUrlChanged, isUrlValid, onClose]
+  );
+
+  return (
+    <Sidebar
+      className={className}
+      closeIcon={(hasUrlChanged && isUrlValid) ? 'sync' : 'times'}
+      offset={offset}
+      onClose={_onClose}
+      position='left'
+    >
+      {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => (
+        <div
+          className='endpointType'
+          key={typeIndex}
+        >
+          <div className='endpointHeader'>{header}</div>
+          {networks.map(({ icon, name, providers }, netIndex): React.ReactNode => {
+            const isSelected = providers.some(({ url }) => url === apiUrl);
+            const index = `${typeIndex}:${netIndex}`;
+            const isOpen = openIndex === index;
+
+            return (
+              <div
+                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected' : ''}`}
+                key={index}
+                onClick={_setOpenIndex(index)}
+              >
+                <div className='endpointSection'>
+                  <ChainImg
+                    className='endpointIcon'
+                    logo={icon === 'local' ? 'empty' : icon}
+                  />
+                  <div className='endpointValue'>{name}</div>
+                  {!isSelected && (
+                    <Icon
+                      className='endpointOpen'
+                      icon={isOpen ? 'caret-up' : 'caret-down'}
+                    />
+                  )}
+                </div>
+                {providers.map(({ name, url }): React.ReactNode => (
+                  <Toggle
+                    className='endpointProvider'
+                    key={url}
+                    label={name}
+                    onChange={_setApiUrl(url)}
+                    value={apiUrl === url}
+                  />
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+      <Input
+        className='endpointCustom'
+        isError={!isUrlValid}
+        isFull
+        label={t<string>('Custom url')}
+        onChange={_onChangeCustom}
+        value={apiUrl}
+      />
+    </Sidebar>
+  );
+}
+
+export default React.memo(styled(Endpoints)`
+  .endpointCustom {
+    margin-top: 0.5rem;
+  }
+
+  .endpointType {
+    &+.endpointType {
+      margin-top: 1rem;
+    }
+  }
+
+  .endpointGroup {
+    border-radius: 0.25rem;
+    cursor: pointer;
+    padding: 0.375rem;
+
+    &.isOpen,
+    &.isSelected {
+      .endpointProvider {
+        display: block;
+      }
+    }
+
+    &:hover {
+      background: #fffefd;
+    }
+  }
+
+  .endpointHeader {
+    font-size: 0.78571429em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.5rem 0 1rem;
+    text-transform: uppercase;
+  }
+
+  .endpointIcon {
+    height: 32px;
+    margin-right: 0.75rem;
+    width: 32px;
+  }
+
+  .endpointProvider {
+    display: none;
+    padding: 0.25rem;
+    text-align: right;
+  }
+
+  .endpointSection {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+
+    .endpointOpen {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+    }
+
+    &+.endpointProvider {
+      margin-top: -0.5rem;
+    }
+  }
+`);

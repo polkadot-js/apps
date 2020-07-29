@@ -65,7 +65,7 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
   const count = (route.useCounter || DUMMY_COUNTER)();
 
   useEffect((): void => {
-    setHasSudo(!!sudoKey && allAccounts.some((address): boolean => sudoKey.eq(address)));
+    setHasSudo(!!sudoKey && allAccounts.some((address) => sudoKey.eq(address)));
   }, [allAccounts, sudoKey]);
 
   useEffect((): void => {

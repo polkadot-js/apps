@@ -22,7 +22,7 @@ function createDev (t: TFunction): LinkOption[] {
       dnslink: 'local',
       info: 'local',
       text: t<string>('rpc.local', 'Local Node (Own, 127.0.0.1:9944)', { ns: 'apps-config' }),
-      value: 'ws://127.0.0.1:9944/'
+      value: 'ws://127.0.0.1:9944'
     }
   ];
 }
@@ -45,19 +45,20 @@ function createLive (t: TFunction): LinkOption[] {
       dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://kusama-rpc.polkadot.io/'
+      value: 'wss://kusama-rpc.polkadot.io'
     },
     {
       dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
-      value: 'wss://cc3-5.kusama.network/'
+      value: 'wss://cc3-5.kusama.network'
     },
     {
       dnslink: 'kusama',
       info: 'kusama',
+      isDisabled: true,
       text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
-      value: 'wss://kusama.polkadot.cloud.ava.do/'
+      value: 'wss://kusama.polkadot.cloud.ava.do'
     },
     {
       dnslink: 'centrifuge',
@@ -101,12 +102,12 @@ function createTest (t: TFunction): LinkOption[] {
     {
       info: 'substrate',
       text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://substrate-rpc.parity.io/'
+      value: 'wss://substrate-rpc.parity.io'
     },
     {
       info: 'nodle',
       text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
-      value: 'wss://arcadia1.nodleprotocol.io/'
+      value: 'wss://arcadia1.nodleprotocol.io'
     },
     {
       info: 'datahighway',
