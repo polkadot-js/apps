@@ -37,6 +37,7 @@ export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
   background: #f5f4f3;
   bottom: 0;
   box-shadow: ${position === 'right' ? '-6px' : '6px'} 0px 20px 0px rgba(0, 0, 0, 0.3);
+  margin-left: -0.125rem;
   max-width: 24rem;
   min-width: 24rem;
   position: fixed;

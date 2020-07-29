@@ -10,7 +10,6 @@ import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
-import NetworkModal from '../modals/Network';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Endpoints from './Endpoints';
@@ -62,10 +61,12 @@ function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isM
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
       />
-      <Endpoints
-        offset={isCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}
-        onClose={() => console.log('a')}
-      />
+      {modals.network && (
+        <Endpoints
+          offset={isCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}
+          onClose={_toggleModal('network')}
+        />
+      )}
       {routing.map((route): React.ReactNode => (
         route?.Modal
           ? route.Modal && modals[route.name]
@@ -78,16 +79,16 @@ function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isM
             : <div key={route.name} />
           : null
       ))}
-      {modals.network && (
-        <NetworkModal onClose={_toggleModal('network')}/>
-      )}
       <div className='apps--SideBar'>
         <Menu
           secondary
           vertical
         >
           <div className='apps--SideBar-Scroll'>
-            <ChainInfo onClick={_toggleModal('network')} />
+            <ChainInfo
+              isToggled={modals.network}
+              onClick={_toggleModal('network')}
+            />
             {routing.map((route, index): React.ReactNode => (
               route
                 ? (

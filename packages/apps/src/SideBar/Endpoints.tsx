@@ -7,7 +7,7 @@ import { Option } from '@polkadot/apps-config/settings/types';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { createEndpoints } from '@polkadot/apps-config/settings';
-import { ChainImg, Icon, Sidebar, Toggle } from '@polkadot/react-components';
+import { ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
@@ -41,6 +41,15 @@ function textToParts (text: string): [string, string, string] {
   const [middle, last] = remainder.split(', ');
 
   return [first, middle, last];
+}
+
+function isValidUrl (url: string): boolean {
+  return (
+    // some random length... we probably want to parse via some lib
+    (url.length >= 7) &&
+    // check that it starts with a valid ws identifier
+    (url.startsWith('ws://') || url.startsWith('wss://'))
+  );
 }
 
 function combineEndpoints (endpoints: Option[]): Endpoint[] {
@@ -83,12 +92,31 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
+  const _onChangeCustom = useCallback(
+    (apiUrl: string) => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: isValidUrl(apiUrl) }),
+    []
+  );
+
+  const _onClose = useCallback(
+    (): void => {
+      if (hasUrlChanged && isUrlValid) {
+        const settings = uiSettings.get();
+
+        uiSettings.set({ ...settings, apiUrl });
+        window.location.reload();
+      }
+
+      onClose();
+    },
+    [apiUrl, hasUrlChanged, isUrlValid, onClose]
+  );
+
   return (
     <Sidebar
       className={className}
       closeIcon={(hasUrlChanged && isUrlValid) ? 'sync' : 'times'}
       offset={offset}
-      onClose={onClose}
+      onClose={_onClose}
       position='left'
     >
       {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => (
@@ -135,11 +163,23 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           })}
         </div>
       ))}
+      <Input
+        className='endpointCustom'
+        isError={!isUrlValid}
+        isFull
+        label={t<string>('Custom url')}
+        onChange={_onChangeCustom}
+        value={apiUrl}
+      />
     </Sidebar>
   );
 }
 
 export default React.memo(styled(Endpoints)`
+  .endpointCustom {
+    margin-top: 0.5rem;
+  }
+
   .endpointType {
     &+.endpointType {
       margin-top: 1rem;

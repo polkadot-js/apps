@@ -55,7 +55,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     []
   );
   const _saveAndReload = useCallback(
-    (): void => saveAndReload(settings),
+    () => saveAndReload(settings),
     [settings]
   );
   const _save = useCallback(
