@@ -4,10 +4,11 @@
 
 import { Option } from '@polkadot/apps-config/settings/types';
 
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { createEndpoints } from '@polkadot/apps-config/settings';
-import { ChainImg, Sidebar, Toggle } from '@polkadot/react-components';
+import { ChainImg, Icon, Sidebar, Toggle } from '@polkadot/react-components';
+import uiSettings from '@polkadot/ui-settings';
 
 import { useTranslation } from '../translate';
 
@@ -63,6 +64,12 @@ function combineEndpoints (endpoints: Option[]): Endpoint[] {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
+  const [openIndex, setOpenIndex] = useState('');
+
+  const _setOpenIndex = useCallback(
+    (index: string) => () => setOpenIndex((openIndex) => openIndex === index ? '' : index),
+    []
+  );
 
   return (
     <Sidebar
@@ -71,53 +78,85 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       onClose={onClose}
       position='left'
     >
-      {endpoints.map(({ header, networks }, index): React.ReactNode => (
-        <div
-          className='endpointType'
-          key={index}
-        >
-          <div className='endpointHeader'>{header}</div>
-          {networks.map(({ icon, name, providers }, index): React.ReactNode => (
-            <div
-              className='endpointGroup'
-              key={index}
-            >
-              <div
-                className='endpointSection'
-                key={index}
-              >
-                <ChainImg
-                  className='endpointIcon'
-                  logo={icon === 'local' ? 'empty' : icon}
-                />
-                <div className='endpointValue'>{name}</div>
-              </div>
-              {providers.map(({ name, url }): React.ReactNode => (
-                <Toggle
-                  className='endpointProvider'
-                  key={url}
-                  label={name}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      ))}
+      {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => {
+        const apiUrl = uiSettings.get().apiUrl;
+
+        return (
+          <div
+            className='endpointType'
+            key={typeIndex}
+          >
+            <div className='endpointHeader'>{header}</div>
+            {networks.map(({ icon, name, providers }, netIndex): React.ReactNode => {
+              const isSelected = providers.some(({ url }) => url === apiUrl);
+              const index = `${typeIndex}:${netIndex}`;
+              const isOpen = openIndex === index;
+
+              return (
+                <div
+                  className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected' : ''}`}
+                  key={index}
+                  onClick={_setOpenIndex(index)}
+                >
+                  <div className='endpointSection'>
+                    <ChainImg
+                      className='endpointIcon'
+                      logo={icon === 'local' ? 'empty' : icon}
+                    />
+                    <div className='endpointValue'>{name}</div>
+                    {!isSelected && (
+                      <Icon
+                        className='endpointOpen'
+                        icon={isOpen ? 'caret-up' : 'caret-down'}
+                      />
+                    )}
+                  </div>
+                  {providers.map(({ name, url }): React.ReactNode => (
+                    <Toggle
+                      className='endpointProvider'
+                      key={url}
+                      label={name}
+                      value={apiUrl === url}
+                    />
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </Sidebar>
   );
 }
 
 export default React.memo(styled(Endpoints)`
   .endpointType {
+    &+.endpointType {
+      margin-top: 1rem;
+    }
   }
 
-  .endpointGroup {}
+  .endpointGroup {
+    cursor: pointer;
+    padding: 0.375rem;
+
+    &.isOpen,
+    &.isSelected {
+      .endpointProvider {
+        display: block;
+      }
+    }
+
+    &:hover {
+      background: #fffefd;
+    }
+  }
 
   .endpointHeader {
     font-size: 0.78571429em;
     font-weight: 700;
     line-height: 1;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0 1rem;
     text-transform: uppercase;
   }
 
@@ -128,6 +167,7 @@ export default React.memo(styled(Endpoints)`
   }
 
   .endpointProvider {
+    display: none;
     padding: 0.25rem;
     text-align: right;
   }
@@ -136,6 +176,12 @@ export default React.memo(styled(Endpoints)`
     align-items: center;
     display: flex;
     justify-content: flex-start;
-    margin: 0.25rem 0 -0.5rem;
+    position: relative;
+
+    .endpointOpen {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.75rem;
+    }
   }
 `);
