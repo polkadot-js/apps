@@ -56,6 +56,7 @@ function createLive (t: TFunction): LinkOption[] {
     {
       dnslink: 'kusama',
       info: 'kusama',
+      isDisabled: true,
       text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
       value: 'wss://kusama.polkadot.cloud.ava.do/'
     },

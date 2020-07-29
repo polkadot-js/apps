@@ -33,6 +33,7 @@ interface Props {
 interface UrlState {
   apiUrl: string;
   hasUrlChanged: boolean;
+  isUrlValid: boolean;
 }
 
 function textToParts (text: string): [string, string, string] {
@@ -69,11 +70,11 @@ function combineEndpoints (endpoints: Option[]): Endpoint[] {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
-  const [{ apiUrl, hasUrlChanged }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false });
+  const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
   const [openIndex, setOpenIndex] = useState('');
 
   const _setApiUrl = useCallback(
-    (apiUrl: string) => () => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl }),
+    (apiUrl: string) => () => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: true }),
     []
   );
 
@@ -85,7 +86,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   return (
     <Sidebar
       className={className}
-      closeIcon={hasUrlChanged ? 'sync' : 'times'}
+      closeIcon={(hasUrlChanged && isUrlValid) ? 'sync' : 'times'}
       offset={offset}
       onClose={onClose}
       position='left'
@@ -146,6 +147,7 @@ export default React.memo(styled(Endpoints)`
   }
 
   .endpointGroup {
+    border-radius: 0.25rem;
     cursor: pointer;
     padding: 0.375rem;
 
@@ -190,7 +192,7 @@ export default React.memo(styled(Endpoints)`
     .endpointOpen {
       position: absolute;
       right: 0.5rem;
-      top: 0.75rem;
+      top: 0.5rem;
     }
 
     &+.endpointProvider {
