@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/apps-config",
   "private": true,
-  "version": "0.52.0-beta.8",
+  "version": "0.52.0-beta.9",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
