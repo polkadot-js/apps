@@ -15,11 +15,29 @@ import { useApi } from '@polkadot/react-hooks';
 import { useTranslation } from '../../translate';
 import styled from 'styled-components';
 
+type PrevProxy = [AccountId, ProxyType];
+
 interface Props {
   className?: string;
   onClose: () => void;
-  previousProxy?: [[AccountId, ProxyType][], BN];
+  previousProxy?: [PrevProxy[], BN];
   proxiedAccount: string;
+}
+
+interface ValueProps {
+  index: number;
+  typeOpts: { text: string; value: number }[];
+  value: PrevProxy;
+}
+
+interface NewProxyProps extends ValueProps {
+  onChangeAccount: (index: number, value: string | null) => void;
+  onChangeType: (index: number, value: number | undefined) => void;
+  onRemove: (index: number) => void;
+}
+
+interface PrevProxyProps extends ValueProps {
+  onRemove: (accountId: AccountId, type: ProxyType, index: number) => void;
 }
 
 function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'promise'>[], batchAdded: SubmittableExtrinsic<'promise'>[]): SubmittableExtrinsic<'promise'> | null {
@@ -30,6 +48,89 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
   }
 
   return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
+}
+
+function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: PrevProxyProps): React.ReactElement<PrevProxyProps> {
+  const { t } = useTranslation();
+
+  const _onRemove = useCallback(
+    () => onRemove(accountId, type, index),
+    [accountId, index, onRemove, type]
+  );
+
+  return (
+    <div className='proxy-container'>
+      <div className='input-column'>
+        <InputAddress
+          isDisabled
+          label={t<string>('proxy account')}
+          type='account'
+          value={accountId}
+        />
+        <Dropdown
+          help={'Type of proxy'}
+          isDisabled
+          label={'type'}
+          options={typeOpts}
+          value={type.toNumber()}
+        />
+      </div>
+      <div className='buttons-column'>
+        <Button
+          icon='times'
+          onClick={_onRemove}
+        />
+      </div>
+    </div>
+  );
+}
+
+function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, typeOpts, value: [accountId, type] }: NewProxyProps): React.ReactElement<NewProxyProps> {
+  const { t } = useTranslation();
+
+  const _onChangeAccount = useCallback(
+    (value: string | null) => onChangeAccount(index, value),
+    [index, onChangeAccount]
+  );
+
+  const _onChangeType = useCallback(
+    (value?: number) => onChangeType(index, value),
+    [index, onChangeType]
+  );
+
+  const _onRemove = useCallback(
+    () => onRemove(index),
+    [index, onRemove]
+  );
+
+  return (
+    <div
+      className='proxy-container'
+      key={`addedProxy-${index}`}
+    >
+      <div className='input-column'>
+        <InputAddress
+          label={t<string>('proxy account')}
+          onChange={_onChangeAccount}
+          type='account'
+          value={accountId}
+        />
+        <Dropdown
+          help={'Type of proxy'}
+          label={'type'}
+          onChange={_onChangeType}
+          options={typeOpts}
+          value={type.toNumber()}
+        />
+      </div>
+      <div className='buttons-column'>
+        <Button
+          icon='times'
+          onClick={_onRemove}
+        />
+      </div>
+    </div>
+  );
 }
 
 function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: Props): React.ReactElement<Props> {
@@ -88,15 +189,23 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
   );
 
   const _delProxy = useCallback(
-    (index: number) => () => {
+    (index: number) => {
       setAddedProxies((addedProxies) => addedProxies.filter((_, i) => i !== index));
       setBatchStackAdded((batchStackAdded) => batchStackAdded.filter((_, i) => i !== index));
     },
     []
   );
 
-  const _changeAddedProxyAccount = useCallback(
-    (index: number) => (address: string | null) => {
+  const _delPrev = useCallback(
+    (accountId: AccountId, type: ProxyType, index: number) => {
+      setPreviousProxyDisplay((previousProxyDisplay) => previousProxyDisplay?.filter((_, i) => i !== index));
+      setBatchStackPrevious((batchStackPrevious) => [...batchStackPrevious, api.tx.proxy.removeProxy(accountId, type)]);
+    },
+    [api]
+  );
+
+  const _changeProxyAccount = useCallback(
+    (index: number, address: string | null) => {
       const accountId = registry.createType('AccountId', address);
       const oldType = addedProxies[index][1];
 
@@ -121,8 +230,8 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
     [addedProxies, api]
   );
 
-  const _changeAddedProxyType = useCallback(
-    (index: number) => (newTypeNumber: number | undefined) => {
+  const _changeProxyType = useCallback(
+    (index: number, newTypeNumber: number | undefined) => {
       const newType = registry.createType('ProxyType', newTypeNumber);
       const oldAccount = addedProxies[index][0];
 
@@ -171,81 +280,33 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
         </Modal.Columns>
         <Modal.Columns>
           <Modal.Column>
-            {!!previousProxyDisplay?.length && previousProxyDisplay.map(([account, type], index) => {
-              return (
-                <div
-                  className='proxy-container'
-                  key={`previousPoxy-${index}`}
-                >
-                  <div className='input-column'>
-                    <InputAddress
-                      isDisabled={true}
-                      key={`account-${index}`}
-                      label={t<string>('proxy account')}
-                      type='account'
-                      value={account.toString()}
-                    />
-                    <Dropdown
-                      help={'Type of proxy'}
-                      isDisabled={true}
-                      label={'type'}
-                      options={typeOpts}
-                      value={type.toNumber()}
-                    />
-                  </div>
-                  <div className='buttons-column'>
-                    <Button
-                      icon='times'
-                      onClick={() => {
-                        setPreviousProxyDisplay(previousProxyDisplay.filter((_, i) => i !== index));
-                        const newBatch = [...batchStackPrevious, api.tx.proxy.removeProxy(account, type)];
-
-                        setBatchStackPrevious(newBatch);
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-            {!!addedProxies?.length && addedProxies.map(([account, type], index) => {
-              return (
-                <div
-                  className='proxy-container'
-                  key={`addedProxy-${index}`}
-                >
-                  <div className='input-column'>
-                    <InputAddress
-                      label={t<string>('proxy account')}
-                      onChange={_changeAddedProxyAccount(index)}
-                      type='account'
-                      value={account.toString()}
-                    />
-                    <Dropdown
-                      help={'Type of proxy'}
-                      label={'type'}
-                      onChange={_changeAddedProxyType(index)}
-                      options={typeOpts}
-                      value={type.toNumber()}
-                    />
-                  </div>
-                  <div className='buttons-column'>
-                    <Button
-                      icon='times'
-                      onClick={_delProxy(index)}
-                    />
-                  </div>
-                </div>);
-            })}
-            <div className='buttons-add-container'>
+            {previousProxyDisplay?.map((value, index) => (
+              <PrevProxy
+                index={index}
+                key={`${value[0].toString()}-${index}`}
+                onRemove={_delPrev}
+                typeOpts={typeOpts}
+                value={value}
+              />
+            ))}
+            {addedProxies.map((value, index) => (
+              <NewProxy
+                index={index}
+                key={`${value[0].toString()}-${index}`}
+                onChangeAccount={_changeProxyAccount}
+                onChangeType={_changeProxyType}
+                onRemove={_delProxy}
+                typeOpts={typeOpts}
+                value={value}
+              />
+            ))}
+            <Button.Group>
               <Button
-                className='add-proxy-button'
                 icon='plus'
+                label={t<string>('Add proxy')}
                 onClick={_addProxy}
               />
-            </div>
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t('')}</p>
+            </Button.Group>
           </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
@@ -272,22 +333,19 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
 }
 
 export default React.memo(styled(ProxyOverview)`
-  .proxy-container{
+  .proxy-container {
     display: grid;
     grid-column-gap: 0.5rem;
     grid-template-columns: 1fr auto;
     margin-bottom: 1rem;
 
-    .input-column{
+    .input-column {
       grid-column: 1;
     }
-    .buttons-column{
+
+    .buttons-column {
       grid-column: 2;
       padding-top: 0.3rem;
     }
-  }
-
-  .add-proxy-button{
-    width: 100%;
   }
 `);
