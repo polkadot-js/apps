@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CallFunction } from '@polkadot/types/types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
+import { getSlashThreshold } from './thresholds';
 import useAvailableSlashes from './useAvailableSlashes';
 
 interface Props {
@@ -22,16 +23,21 @@ interface Option {
   value: number;
 }
 
+interface ProposalState {
+  proposal?: SubmittableExtrinsic<'promise'> | null;
+  proposalLength: number;
+}
+
 function Slashing ({ className = '', isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const slashes = useAvailableSlashes();
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
-  const [proposal, setProposal] = useState<CallFunction | null>(null);
+  const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposal: null, proposalLength: 0 });
   const [eras, setEras] = useState<Option[]>([]);
   const [selectedEra, setSelectedEra] = useState(0);
-  const threshold = Math.ceil((members.length || 0) * 0.5);
+  const threshold = Math.ceil((members.length || 0) * getSlashThreshold(api));
 
   useEffect((): void => {
     setEras(
@@ -49,18 +55,20 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
 
   useEffect((): void => {
     const actioned = selectedEra && slashes && slashes.find(([era]): boolean => era.eqn(selectedEra));
+    const proposal = actioned
+      ? api.tx.staking.cancelDeferredSlash(actioned[0], actioned[1].map((_, index): number => index))
+      : null;
 
-    setProposal((): any =>
-      actioned
-        ? api.tx.staking.cancelDeferredSlash(actioned[0], actioned[1].map((_, index): number => index))
-        : null
-    );
+    setProposal({
+      proposal,
+      proposalLength: proposal?.encodedLength || 0
+    });
   }, [api, selectedEra, slashes]);
 
   return (
     <>
       <Button
-        icon='times'
+        icon='sync'
         isDisabled={!isMember || !slashes.length}
         label={t<string>('Cancel slashes')}
         onClick={toggleVisible}
@@ -116,12 +124,15 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
               accountId={accountId}
-              icon='repeat'
+              icon='sync'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
-              isPrimary
               label={t<string>('Revert')}
               onStart={toggleVisible}
-              params={[threshold, proposal]}
+              params={
+                api.tx.council.propose.meta.args.length === 3
+                  ? [threshold, proposal, proposalLength]
+                  : [threshold, proposal]
+              }
               tx='council.propose'
             />
           </Modal.Actions>

@@ -72,8 +72,10 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
         <Modal.Columns>
           <Modal.Column>
             <InputBalance
+              autoFocus
               help={t<string>('Amount to delegate for any democracy vote. This is adjusted using the available funds on the account.')}
               isError={!!amountError?.error}
+              isZeroable={false}
               label={t<string>('delegating amount')}
               labelExtra={
                 <BalanceFree
@@ -107,7 +109,6 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           <TxButton
             accountId={delegatingAccount}
             icon='trash-alt'
-            isNegative
             label={t<string>('Undelegate')}
             onStart={onClose}
             params={[]}
@@ -118,7 +119,6 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
           accountId={delegatingAccount}
           icon='sign-in-alt'
           isDisabled={!amount?.gt(BN_ZERO) || !!amountError?.error || !isDirty}
-          isPrimary
           label={previousDelegatedAccount
             ? t<string>('Save delegation')
             : t<string>('Delegate')

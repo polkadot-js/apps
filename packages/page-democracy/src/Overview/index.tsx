@@ -14,6 +14,7 @@ import DispatchQueue from './DispatchQueue';
 import Externals from './Externals';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
+import Scheduler from './Scheduler';
 import Summary from './Summary';
 import PreImage from './PreImage';
 import Propose from './Propose';
@@ -54,6 +55,9 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       <Proposals />
       <DispatchQueue />
       <Externals />
+      {api.query.scheduler && (
+        <Scheduler />
+      )}
     </div>
   );
 }

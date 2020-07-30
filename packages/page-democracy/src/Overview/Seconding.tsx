@@ -71,7 +71,6 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
               accountId={accountId}
               icon='sign-in-alt'
               isDisabled={!accountId || isDepositor}
-              isPrimary
               label={t<string>('Second')}
               onStart={toggleSeconding}
               params={

@@ -108,7 +108,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
         return _checkMatches();
       }
 
-      setImmediate((): void => {
+      setTimeout((): void => {
         if (mountedRef.current) {
           if (results.current.length === 25) {
             _checkMatches();
@@ -120,7 +120,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
 
           _executeGeneration();
         }
-      });
+      }, 0);
     },
     [_checkMatches, match, mountedRef, runningRef, type, withCase]
   );

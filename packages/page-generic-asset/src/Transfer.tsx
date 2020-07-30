@@ -116,7 +116,6 @@ function Transfer ({ assets, className = '', onClose, recipientId: propRecipient
           accountId={senderId}
           extrinsic={extrinsic}
           icon='paper-plane'
-          isPrimary
           label={t<string>('Make Transfer')}
           onStart={onClose}
         />

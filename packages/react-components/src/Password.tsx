@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
 
 import Input from './Input';
 
@@ -39,7 +38,6 @@ function Password ({ autoFocus, children, className = '', defaultValue, help, is
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
-      maxLength={MAX_PASS_LEN}
       name={name}
       onChange={onChange}
       onEnter={onEnter}

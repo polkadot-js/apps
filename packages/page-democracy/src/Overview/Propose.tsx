@@ -101,7 +101,6 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
           accountId={accountId}
           icon='plus'
           isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId}
-          isPrimary
           label={t<string>('Submit proposal')}
           onStart={onClose}
           params={[hash, balance]}

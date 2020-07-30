@@ -184,7 +184,6 @@ function Account ({ className = '', info: { controllerId, destination, destinati
                     accountId={controllerId}
                     icon='stop'
                     isDisabled={!isOwnController || isDisabled}
-                    isPrimary={false}
                     key='stop'
                     label={t<string>('Stop')}
                     tx='staking.chill'

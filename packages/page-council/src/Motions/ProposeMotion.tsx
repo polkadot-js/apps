@@ -11,6 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import { getThreshold } from './thresholds';
 
 interface Props {
   isMember: boolean;
@@ -38,9 +39,9 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     members && setThreshold({
       isThresholdValid: members.length !== 0,
-      threshold: new BN(Math.ceil(members.length * 0.5))
+      threshold: new BN(Math.ceil(members.length * getThreshold(api)))
     });
-  }, [members]);
+  }, [api, members]);
 
   const _setMethod = useCallback(
     (proposal?: SubmittableExtrinsic<'promise'> | null) => setProposal({

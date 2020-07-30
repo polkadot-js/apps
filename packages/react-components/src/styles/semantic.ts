@@ -149,14 +149,6 @@ export default css`
     opacity: 1;
   }
 
-  .ui.button:disabled,
-  .ui.buttons .disabled.button,
-  .ui.disabled.active.button,
-  .ui.disabled.button,
-  .ui.disabled.button:hover {
-    opacity: 0.2 !important;
-  }
-
   /* modals aligned to top, not center */
   .ui.dimmer {
     background-color: rgba(0,0,0,0.5);

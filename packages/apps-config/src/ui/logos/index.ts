@@ -8,6 +8,7 @@
 import chainKusama from './chains/kusama-128.gif';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
+import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
@@ -55,6 +56,7 @@ const nodeLogos: Record<string, any> = [
 
 // overrides when we pass an explicit logo name
 const namedLogos: Record<string, any> = {
+  acala: nodeAcala,
   alexander: nodePolkadot,
   centrifuge: nodeCentrifuge,
   edgeware: nodeEdgeware,

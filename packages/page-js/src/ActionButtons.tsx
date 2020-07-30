@@ -55,7 +55,6 @@ function ActionButtons ({ className = '', isCustomExample, isRunning, removeSnip
         ? (
           <Button
             icon='trash'
-            isNegative
             onClick={removeSnippet}
           />
         )

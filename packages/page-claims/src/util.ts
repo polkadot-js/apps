@@ -114,26 +114,29 @@ export interface Statement {
   url: string;
 }
 
+function getPolkadot (kind?: StatementKind | null): Statement | undefined {
+  if (!kind) {
+    return undefined;
+  }
+
+  const url = kind.isRegular
+    ? 'https://statement.polkadot.network/regular.html'
+    : 'https://statement.polkadot.network/saft.html';
+  const hash = kind.isRegular
+    ? 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny'
+    : 'QmXEkMahfhHJPzT3RjkXiZVFi77ZeVeuxtAjhojGRNYckz';
+
+  return {
+    sentence: `I hereby agree to the terms of the statement whose SHA-256 multihash is ${hash}. (This may be found at the URL: ${url})`,
+    url
+  };
+}
+
 export function getStatement (network: string, kind?: StatementKind | null): Statement | undefined {
   switch (network) {
-    case 'Polkadot CC1': {
-      if (!kind) {
-        return undefined;
-      }
-
-      const url = kind.isRegular
-        ? 'https://statement.polkadot.network/regular.html'
-        : 'https://statement.polkadot.network/saft.html';
-
-      const hash = kind.isRegular
-        ? 'Qmc1XYqT6S39WNp2UeiRUrZichUWUPpGEThDE6dAb3f6Ny'
-        : 'QmXEkMahfhHJPzT3RjkXiZVFi77ZeVeuxtAjhojGRNYckz';
-
-      return {
-        sentence: `I hereby agree to the terms of the statement whose SHA-256 multihash is ${hash}. (This may be found at the URL: ${url})`,
-        url
-      };
-    }
+    case 'Polkadot':
+    case 'Polkadot CC1':
+      return getPolkadot(kind);
 
     default:
       return undefined;

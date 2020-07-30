@@ -35,12 +35,10 @@ function Candidate ({ address, balance, className = '', isPrime, voters }: Props
           />
         )}
       </td>
-      <td className='all number'>
-        <Voters
-          balance={balance}
-          voters={voters}
-        />
-      </td>
+      <Voters
+        balance={balance}
+        voters={voters}
+      />
     </tr>
   );
 }

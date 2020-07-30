@@ -227,7 +227,6 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
           accountId={accountId}
           icon='upload'
           isDisabled={!isValid}
-          isPrimary
           label={t('Deploy')}
           onClick={onClose}
           onSuccess={_onSuccess}

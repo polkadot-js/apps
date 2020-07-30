@@ -11,9 +11,10 @@ import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import Status from './Status';
+import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import NotFound from './NotFound';
+import Status from './Status';
 
 interface Props {
   className?: string;
@@ -33,14 +34,13 @@ const NOT_FOUND: Route = {
 function Content ({ className }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
-  const { isApiConnected, isApiReady } = useApi();
+  const { api, isApiConnected, isApiReady } = useApi();
   const { queueAction } = useContext(StatusContext);
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
-      const found = createRoutes(t).find((route) => !!(route && app.startsWith(route.name)));
 
-      return found || NOT_FOUND;
+      return createRoutes(t).find((route) => !!(route && app.startsWith(route.name))) || NOT_FOUND;
     },
     [location, t]
   );
@@ -56,13 +56,18 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         : (
           <>
             <Suspense fallback='...'>
-              <ErrorBoundary trigger={name}>
-                <Component
-                  basePath={`/${name}`}
-                  location={location}
-                  onStatusChange={queueAction}
-                />
-              </ErrorBoundary>
+              {findMissingApis(api, needsApi).length
+                ? <NotFound />
+                : (
+                  <ErrorBoundary trigger={name}>
+                    <Component
+                      basePath={`/${name}`}
+                      location={location}
+                      onStatusChange={queueAction}
+                    />
+                  </ErrorBoundary>
+                )
+              }
             </Suspense>
             <Status />
           </>
