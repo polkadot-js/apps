@@ -132,7 +132,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
             return (
               <div
-                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected' : ''}`}
+                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected ui--highlight--shadow' : ''}`}
                 key={index}
                 onClick={_setOpenIndex(index)}
               >
@@ -167,7 +167,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         className='endpointCustom'
         isError={!isUrlValid}
         isFull
-        label={t<string>('Custom url')}
+        label={t<string>('custom endpoint')}
         onChange={_onChangeCustom}
         value={apiUrl}
       />
@@ -181,6 +181,8 @@ export default React.memo(styled(Endpoints)`
   }
 
   .endpointType {
+    margin-top: 0.25rem;
+
     &+.endpointType {
       margin-top: 1rem;
     }
@@ -189,7 +191,9 @@ export default React.memo(styled(Endpoints)`
   .endpointGroup {
     border-radius: 0.25rem;
     cursor: pointer;
+    margin: 0 0 0.25rem 0;
     padding: 0.375rem;
+    position: relative;
 
     &.isOpen,
     &.isSelected {
@@ -198,6 +202,7 @@ export default React.memo(styled(Endpoints)`
       }
     }
 
+    &.isSelected,
     &:hover {
       background: #fffefd;
     }
