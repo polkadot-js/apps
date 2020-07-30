@@ -5,10 +5,14 @@
 import { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useCallback, useState } from 'react';
+// ok, this seems to be an eslint bug, this _is_ a package import
+/* eslint-disable-next-line node/no-deprecated-api */
+import punycode from 'punycode';
 import styled from 'styled-components';
 import { createEndpoints } from '@polkadot/apps-config/settings';
 import { ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
+import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -93,7 +97,13 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   );
 
   const _onChangeCustom = useCallback(
-    (apiUrl: string) => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: isValidUrl(apiUrl) }),
+    (apiUrl: string): void => {
+      if (!isAscii(apiUrl)) {
+        apiUrl = punycode.toASCII(apiUrl);
+      }
+
+      setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: isValidUrl(apiUrl) });
+    },
     []
   );
 

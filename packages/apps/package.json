@@ -19,9 +19,11 @@
     "@polkadot/dev": "^0.55.28",
     "@polkadot/react-components": "0.52.0-beta.9",
     "@polkadot/react-signer": "0.52.0-beta.9",
+    "punycode": "^2.1.1",
     "query-string": "^6.13.1"
   },
   "devDependencies": {
+    "@types/punycode": "^2.1.0",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.6.0",
