@@ -5,6 +5,8 @@
 import { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useCallback, useState } from 'react';
+// ok, this seems to be an eslint bug, this _is_ a package import
+/* eslint-disable-next-line node/no-deprecated-api */
 import punycode from 'punycode';
 import styled from 'styled-components';
 import { createEndpoints } from '@polkadot/apps-config/settings';
