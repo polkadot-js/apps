@@ -10,8 +10,8 @@ const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
 const chainRocco = '#7a49a5';
 const chainRoccoTick = '#488025';
-const chainRoccoTrick = '#254880';
 const chainRoccoTrack = '#802548';
+const chainRoccoTrick = '#254880';
 const chainWestend = '#da68a7';
 
 const nodeCentrifuge = '#fcc367';
