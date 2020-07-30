@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.52.0-beta.x
+
+- zh i18n updates (Thanks to https://github.com/x-i-ao-b-ai)
+- Allow management of proxies (Thanks to https://github.com/Tbaut)
+- Display scheduled tasks (ongoing) on democracy page
+- Adjust endpoint selector with slide-out (all visible)
+- Cleanup democracy delegation to highlist invalid amounts
+- Adjust thresholds for council slash cancel on Polkadot
+
 ## 0.51.1 Jul 27, 2020
 
 - Support for Acala chain and types (Thanks to https://github.com/aniiantt)

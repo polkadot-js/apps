@@ -5,7 +5,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { RecoveryConfig } from '@polkadot/types/interfaces';
+import { AccountId, ProxyType, RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { Delegation } from '../types';
 
@@ -28,6 +28,7 @@ import DelegateModal from './modals/Delegate';
 import Derive from './modals/Derive';
 import IdentityMain from './modals/IdentityMain';
 import IdentitySub from './modals/IdentitySub';
+import ProxyOverview from './modals/ProxyOverview';
 import MultisigApprove from './modals/MultisigApprove';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
@@ -42,6 +43,7 @@ interface Props {
   delegation?: Delegation;
   filter: string;
   isFavorite: boolean;
+  proxy?: [[AccountId, ProxyType][], BN];
   setBalance: (address: string, value: BN) => void;
   toggleFavorite: (address: string) => void;
 }
@@ -71,7 +73,7 @@ function createClearDemocracyTx (api: ApiPromise, address: string, unlockableIds
   );
 }
 
-function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
@@ -93,6 +95,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   const [isIdentityMainOpen, toggleIdentityMain] = useToggle();
   const [isIdentitySubOpen, toggleIdentitySub] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
+  const [isProxyOverviewOpen, toggleProxyOverview] = useToggle();
   const [isPasswordOpen, togglePassword] = useToggle();
   const [isRecoverAccountOpen, toggleRecoverAccount] = useToggle();
   const [isRecoverSetupOpen, toggleRecoverSetup] = useToggle();
@@ -265,6 +268,18 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={toggleDelegate}
           />
         )}
+        { !!proxy?.[0].length && (
+          <Badge
+            color='blue'
+            hover={t<string>('This account has {{proxyNumber}} proxy set.', {
+              replace: {
+                proxyNumber: proxy[0].length
+              }
+            })}
+            icon='arrow-right'
+            onClick={toggleProxyOverview}
+          />
+        )}
       </td>
       <td className='address'>
         <AddressSmall value={address} />
@@ -326,6 +341,14 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             key='modal-transfer'
             onClose={toggleTransfer}
             senderId={address}
+          />
+        )}
+        {isProxyOverviewOpen && (
+          <ProxyOverview
+            key='modal-proxy-overview'
+            onClose={toggleProxyOverview}
+            previousProxy={proxy}
+            proxiedAccount={address}
           />
         )}
         {isMultisigOpen && multiInfos && (
@@ -529,6 +552,17 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
                 onClick={toggleDelegate}
               >
                 {t('Delegate democracy votes')}
+              </Menu.Item>
+            ])}
+            {api.api.query.proxy?.proxies && createMenuGroup([
+              <Menu.Item
+                key='proxy-overview'
+                onClick={toggleProxyOverview}
+              >
+                {proxy?.[0].length
+                  ? t('Manage proxies')
+                  : t('Add proxy')
+                }
               </Menu.Item>
             ])}
             <ChainLock
