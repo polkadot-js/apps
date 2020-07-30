@@ -96,19 +96,19 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://rococo-rpc.polkadot.io'
     },
     {
-      info: 'rococo',
+      info: 'rococoTick',
       isChild: true,
       text: t<string>('rpc.rococo.tick', 'Rococo Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://tick-rpc.polkadot.io'
     },
     {
-      info: 'rococo',
+      info: 'rococoTrick',
       isChild: true,
       text: t<string>('rpc.rococo.trick', 'Rococo Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://trick-rpc.polkadot.io'
     },
     {
-      info: 'rococo',
+      info: 'rococoTrack',
       isChild: true,
       text: t<string>('rpc.rococo.track', 'Rococo Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://track-rpc.polkadot.io'

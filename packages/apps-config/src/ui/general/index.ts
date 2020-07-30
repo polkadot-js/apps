@@ -8,6 +8,9 @@ const emptyColor = '#999';
 const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
+const chainRoccoTick = '#488025';
+const chainRoccoTrick = '#254880';
+const chainRoccoTrack = '#802548';
 const chainWestend = '#da68a7';
 
 const nodeCentrifuge = '#fcc367';
@@ -23,6 +26,9 @@ const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
+  ['Tick', chainRoccoTick],
+  ['Track', chainRoccoTrack],
+  ['Trick', chainRoccoTrick],
   ['Westend', chainWestend]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,

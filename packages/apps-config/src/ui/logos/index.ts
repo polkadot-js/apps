@@ -6,6 +6,9 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 import chainKusama from './chains/kusama-128.gif';
+import chainRococoTick from './chains/rococo-tick.png';
+import chainRococoTrack from './chains/rococo-track.png';
+import chainRococoTrick from './chains/rococo-trick.png';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeAcala from './nodes/acala-circle.svg';
@@ -65,6 +68,9 @@ const namedLogos: Record<string, any> = {
   nodle: nodeNodle,
   polkadot: nodePolkadot,
   rococo: nodePolkadot,
+  rococoTick: chainRococoTick,
+  rococoTrack: chainRococoTrack,
+  rococoTrick: chainRococoTrick,
   substrate: nodeSubstrate,
   westend: nodePolkadot
 };
