@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { AccountId, ProxyType } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -53,13 +54,10 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
     }
   }, [api, batchStackPrevious, batchStackAdded]);
 
-  const typeOpts = [
-    { text: 'Any', value: 0 },
-    { text: 'NonTransfer', value: 1 },
-    { text: 'Governance', value: 2 },
-    { text: 'Staking', value: 3 },
-    { text: 'IdentityJudgment', value: 4 }
-  ];
+  const typeOpts = useMemo(
+    () => registry.createType('ProxyType').defKeys.map((text, value) => ({ text, value })),
+    []
+  );
 
   const addProxy = () => {
     const newAccount = registry.createType('AccountId', proxiedAccount);
@@ -145,7 +143,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
           <Modal.Column>
             <InputAddress
               isDisabled={true}
-              label={t<string>('account')}
+              label={t<string>('proxied account')}
               type='account'
               value={proxiedAccount}
             />
@@ -270,7 +268,7 @@ export default React.memo(styled(ProxyOverview)`
     grid-column-gap: 0.5rem;
     grid-template-columns: 1fr auto;
     margin-bottom: 1rem;
-    
+
     .input-column{
       grid-column: 1;
     }
