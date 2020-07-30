@@ -90,6 +90,26 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://westend-rpc.polkadot.io'
     },
     {
+      info: 'rococo',
+      text: t<string>('rpc.rococo', 'Rococo (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://rococo-rpc.polkadot.io'
+    },
+    {
+      info: 'rococo',
+      text: t<string>('rpc.rococo.tick', 'Rococo Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://tick-rpc.polkadot.io'
+    },
+    {
+      info: 'rococo',
+      text: t<string>('rpc.rococo.trick', 'Rococo Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://trick-rpc.polkadot.io'
+    },
+    {
+      info: 'rococo',
+      text: t<string>('rpc.rococo.track', 'Rococo Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://track-rpc.polkadot.io'
+    },
+    {
       info: 'acala',
       text: t<string>('rpc.mandala', 'Mandala (Acala Testnet, hosted by Acala)', { ns: 'apps-config' }),
       value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'

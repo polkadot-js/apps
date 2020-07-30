@@ -64,6 +64,7 @@ const namedLogos: Record<string, any> = {
   kusama: chainKusama,
   nodle: nodeNodle,
   polkadot: nodePolkadot,
+  rococo: nodePolkadot,
   substrate: nodeSubstrate,
   westend: nodePolkadot
 };
