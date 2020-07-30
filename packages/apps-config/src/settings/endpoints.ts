@@ -30,6 +30,7 @@ function createDev (t: TFunction): LinkOption[] {
 
 function createLive (t: TFunction): LinkOption[] {
   return [
+    // fixed, polkadot
     {
       dnslink: 'polkadot',
       info: 'polkadot',
@@ -61,6 +62,7 @@ function createLive (t: TFunction): LinkOption[] {
       text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
       value: 'wss://kusama.polkadot.cloud.ava.do'
     },
+    // alphabetical based on chain name
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
@@ -84,6 +86,7 @@ function createLive (t: TFunction): LinkOption[] {
 
 function createTest (t: TFunction): LinkOption[] {
   return [
+    // fixed, polkadot
     {
       dnslink: 'westend',
       info: 'westend',
@@ -98,25 +101,26 @@ function createTest (t: TFunction): LinkOption[] {
     {
       info: 'rococoTick',
       isChild: true,
-      text: t<string>('rpc.rococo.tick', 'Rococo Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      text: t<string>('rpc.rococo.tick', 'Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://tick-rpc.polkadot.io'
     },
     {
       info: 'rococoTrick',
       isChild: true,
-      text: t<string>('rpc.rococo.trick', 'Rococo Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      text: t<string>('rpc.rococo.trick', 'Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://trick-rpc.polkadot.io'
     },
     {
       info: 'rococoTrack',
       isChild: true,
-      text: t<string>('rpc.rococo.track', 'Rococo Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      text: t<string>('rpc.rococo.track', 'Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://track-rpc.polkadot.io'
     },
+    // alphabetical based on chain name
     {
-      info: 'acala',
-      text: t<string>('rpc.mandala', 'Mandala (Acala Testnet, hosted by Acala)', { ns: 'apps-config' }),
-      value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
+      info: 'nodle',
+      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      value: 'wss://arcadia1.nodleprotocol.io'
     },
     {
       info: 'edgeware',
@@ -129,15 +133,15 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://substrate-rpc.parity.io'
     },
     {
-      info: 'nodle',
-      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
-      value: 'wss://arcadia1.nodleprotocol.io'
-    },
-    {
       info: 'datahighway',
       isDisabled: true,
       text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
       value: 'wss://testnet-harbour.datahighway.com'
+    },
+    {
+      info: 'acala',
+      text: t<string>('rpc.mandala', 'Mandala (Acala Testnet, hosted by Acala)', { ns: 'apps-config' }),
+      value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
     }
   ];
 }
