@@ -75,6 +75,10 @@ export default React.memo(styled(Toggle)`
 
   &:not(.isDisabled) {
     cursor: pointer;
+
+    > label {
+      cursor: pointer;
+    }
   }
 
   &.isChecked {

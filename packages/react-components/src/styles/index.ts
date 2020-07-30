@@ -57,6 +57,10 @@ export default createGlobalStyle<Props>`
     }
   }
 
+  .ui--highlight--shadow {
+    box-shadow: 0 0 1px ${getHighlight} !important;
+  }
+
   .ui--highlight--stroke {
     stroke: ${getHighlight} !important;
   }
