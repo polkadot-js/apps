@@ -6,6 +6,7 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 import chainKusama from './chains/kusama-128.gif';
+import chainRococo from './chains/rococo.png';
 import chainRococoTick from './chains/rococo-tick.png';
 import chainRococoTrack from './chains/rococo-track.png';
 import chainRococoTrick from './chains/rococo-trick.png';
@@ -32,7 +33,11 @@ const chainLogos: Record<string, any> = [
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
-  ['Kusama CC3', chainKusama]
+  ['Kusama CC3', chainKusama],
+  ['Rococo', chainRococo],
+  ['Tick', chainRococoTick],
+  ['Track', chainRococoTrack],
+  ['Trick', chainRococoTrick]
 ].reduce((logos, [chain, logo]): Record<string, any> => ({
   ...logos,
   [(chain as string).toLowerCase()]: logo
@@ -67,7 +72,7 @@ const namedLogos: Record<string, any> = {
   kusama: chainKusama,
   nodle: nodeNodle,
   polkadot: nodePolkadot,
-  rococo: nodePolkadot,
+  rococo: chainRococo,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
