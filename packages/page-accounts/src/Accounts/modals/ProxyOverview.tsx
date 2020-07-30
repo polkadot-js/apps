@@ -7,7 +7,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { AccountId, ProxyType } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
@@ -59,78 +59,94 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
     []
   );
 
-  const addProxy = () => {
-    const newAccount = registry.createType('AccountId', proxiedAccount);
-    const newType = registry.createType('ProxyType', 0);
+  const _addProxy = useCallback(
+    () => {
+      const newAccount = registry.createType('AccountId', proxiedAccount);
+      const newType = registry.createType('ProxyType', 0);
 
-    setAddedProxies((prevState) => {
-      const newProxy: [AccountId, ProxyType] = [newAccount, newType];
+      setAddedProxies((prevState) => {
+        const newProxy: [AccountId, ProxyType] = [newAccount, newType];
 
-      if (!prevState) {
-        return [newProxy];
-      }
+        if (!prevState) {
+          return [newProxy];
+        }
 
-      const newState: [AccountId, ProxyType][] = [...prevState, newProxy];
+        const newState: [AccountId, ProxyType][] = [...prevState, newProxy];
 
-      return newState;
-    });
+        return newState;
+      });
 
-    setBatchStackAdded((prev) => {
-      const newState = prev.concat(
-        api.tx.proxy.addProxy(newAccount, newType)
-      );
+      setBatchStackAdded((prev) => {
+        const newState = prev.concat(
+          api.tx.proxy.addProxy(newAccount, newType)
+        );
 
-      return newState;
-    });
-  };
+        return newState;
+      });
+    },
+    [api, proxiedAccount]
+  );
 
-  const changeAddedProxyAccount = (accountString: string | null, index: number) => {
-    const newAccount = registry.createType('AccountId', accountString);
-    const oldType = addedProxies[index][1];
+  const _delProxy = useCallback(
+    (index: number) => () => {
+      setAddedProxies((addedProxies) => addedProxies.filter((_, i) => i !== index));
+      setBatchStackAdded((batchStackAdded) => batchStackAdded.filter((_, i) => i !== index));
+    },
+    []
+  );
 
-    // update the UI with the new selected account
-    setAddedProxies((prevState) => {
-      const newState = [...prevState];
+  const _changeAddedProxyAccount = useCallback(
+    (index: number) => (address: string | null) => {
+      const accountId = registry.createType('AccountId', address);
+      const oldType = addedProxies[index][1];
 
-      newState[index][0] = newAccount;
+      // update the UI with the new selected account
+      setAddedProxies((prevState) => {
+        const newState = [...prevState];
 
-      return newState;
-    });
+        newState[index][0] = accountId;
 
-    // The Batch stack needs to be updated wit the new account
-    // First, delete the corresponding exrrinsic in the batch stack
-    const newBatchAdded = batchStackAdded.filter((_, i) => {
-      return i !== index;
-    });
+        return newState;
+      });
 
-    // Then add the new extrinsic to the batch stack with the new account
-    newBatchAdded.push(api.tx.proxy.addProxy(newAccount, oldType));
-    setBatchStackAdded(newBatchAdded);
-  };
+      // Then add the new extrinsic to the batch stack with the new account
+      setBatchStackAdded((batchStackAdded): SubmittableExtrinsic<'promise'>[] => {
+        const newBatchAdded = batchStackAdded.filter((_, i) => i !== index);
 
-  const changeAddedProxyType = (newTypeNumber: number | undefined, index: number) => {
-    const newType = registry.createType('ProxyType', newTypeNumber);
-    const oldAccount = addedProxies[index][0];
+        newBatchAdded.push(api.tx.proxy.addProxy(accountId, oldType));
 
-    // update the UI with the new selected type
-    setAddedProxies((prevState) => {
-      const newState = [...prevState];
+        return newBatchAdded;
+      });
+    },
+    [addedProxies, api]
+  );
 
-      newState[index][1] = newType;
+  const _changeAddedProxyType = useCallback(
+    (index: number) => (newTypeNumber: number | undefined) => {
+      const newType = registry.createType('ProxyType', newTypeNumber);
+      const oldAccount = addedProxies[index][0];
 
-      return newState;
-    });
+      // update the UI with the new selected type
+      setAddedProxies((prevState) => {
+        const newState = [...prevState];
 
-    // The Batch stack needs to be updated wit the new type
-    // First, delete the corresponding exrrinsic in the batch stack
-    const newBatchStackAdded = batchStackAdded.filter((_, i) => {
-      return i !== index;
-    });
+        newState[index][1] = newType;
 
-    // Then add the new extrinsic to the batch stack with the new account
-    newBatchStackAdded.push(api.tx.proxy.addProxy(oldAccount, newType));
-    setBatchStackAdded(newBatchStackAdded);
-  };
+        return newState;
+      });
+
+      // The Batch stack needs to be updated wit the new type
+      // First, delete the corresponding exrrinsic in the batch stack
+      const newBatchStackAdded = batchStackAdded.filter((_, i) => {
+        return i !== index;
+      });
+
+      // Then add the new extrinsic to the batch stack with the new account
+      newBatchStackAdded.push(api.tx.proxy.addProxy(oldAccount, newType));
+      setBatchStackAdded(newBatchStackAdded);
+    },
+    [addedProxies, api, batchStackAdded]
+  );
 
   return (
     <Modal
@@ -180,7 +196,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
                   <div className='buttons-column'>
                     <Button
                       icon='times'
-                      isNegative
                       onClick={() => {
                         setPreviousProxyDisplay(previousProxyDisplay.filter((_, i) => i !== index));
                         const newBatch = [...batchStackPrevious, api.tx.proxy.removeProxy(account, type)];
@@ -201,14 +216,14 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
                   <div className='input-column'>
                     <InputAddress
                       label={t<string>('proxy account')}
-                      onChange={(value: string | null) => changeAddedProxyAccount(value, index)}
+                      onChange={_changeAddedProxyAccount(index)}
                       type='account'
                       value={account.toString()}
                     />
                     <Dropdown
                       help={'Type of proxy'}
                       label={'type'}
-                      onChange={(value: number | undefined) => changeAddedProxyType(value, index)}
+                      onChange={_changeAddedProxyType(index)}
                       options={typeOpts}
                       value={type.toNumber()}
                     />
@@ -216,11 +231,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
                   <div className='buttons-column'>
                     <Button
                       icon='times'
-                      isNegative
-                      onClick={() => {
-                        setAddedProxies(addedProxies.filter((_, i) => i !== index));
-                        setBatchStackAdded(batchStackAdded.filter((_, i) => i !== index));
-                      }}
+                      onClick={_delProxy(index)}
                     />
                   </div>
                 </div>);
@@ -229,7 +240,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
               <Button
                 className='add-proxy-button'
                 icon='plus'
-                onClick={addProxy}
+                onClick={_addProxy}
               />
             </div>
           </Modal.Column>
@@ -242,7 +253,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
         <TxButton
           accountId={proxiedAccount}
           icon='trash-alt'
-          isNegative
           label={t<string>('Remove all proxies')}
           onStart={onClose}
           params={[]}
@@ -253,7 +263,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
           extrinsic={extrinsic}
           icon='sign-in-alt'
           isDisabled={!batchStackPrevious.length && !batchStackAdded.length}
-          isPrimary
           label={t<string>('Save')}
           onStart={onClose}
         />
