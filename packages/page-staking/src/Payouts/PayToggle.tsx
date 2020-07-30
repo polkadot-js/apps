@@ -13,12 +13,34 @@ interface Props {
   selected: number;
 }
 
-function PayToggle ({ className = '', onChange, options, selected }: Props): React.ReactElement<Props> | null {
+interface ToggleProps {
+  index: number;
+  isSelected: boolean;
+  onChange: (index: number) => void;
+  text: string;
+}
+
+function ToggleIndex ({ index, isSelected, onChange, text }: ToggleProps): React.ReactElement<ToggleProps> {
   const _onClick = useCallback(
-    (index: number) => () => onChange(index),
-    [onChange]
+    () => onChange(index),
+    [index, onChange]
   );
 
+  return (
+    <Button
+      icon={isSelected ? 'check' : 'circle'}
+      isBasic
+      isSelected={isSelected}
+      key={text}
+      label={text}
+      onClick={_onClick}
+    />
+  );
+}
+
+const ToggleIndexMemo = React.memo(ToggleIndex);
+
+function PayToggle ({ className = '', onChange, options, selected }: Props): React.ReactElement<Props> | null {
   if (!options.length || !options[0].value) {
     return null;
   }
@@ -26,13 +48,12 @@ function PayToggle ({ className = '', onChange, options, selected }: Props): Rea
   return (
     <div className={`ui--ToggleButton ${className}`}>
       {options.map(({ text }, index): React.ReactNode => (
-        <Button
-          icon={selected === index ? 'check' : 'circle'}
-          isBasic
+        <ToggleIndexMemo
+          index={index}
           isSelected={selected === index}
-          key={text}
-          label={text}
-          onClick={_onClick(index)}
+          key={index}
+          onChange={onChange}
+          text={text}
         />
       ))}
     </div>

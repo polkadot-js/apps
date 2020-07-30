@@ -46,16 +46,16 @@ export default function useOwnEraRewards (maxEras?: number): OwnRewards {
   }, [maxEras]);
 
   useEffect((): void => {
+    allEras && maxEras && setFilteredEras(
+      allEras.slice(-1 * maxEras)
+    );
+  }, [allEras, maxEras]);
+
+  useEffect((): void => {
     mountedRef.current && available && setState(
       getRewards(available)
     );
   }, [available, mountedRef]);
-
-  useEffect((): void => {
-    allEras && maxEras && setFilteredEras(
-      allEras.reverse().filter((_, index) => index < maxEras).reverse()
-    );
-  }, [allEras, maxEras]);
 
   return state;
 }
