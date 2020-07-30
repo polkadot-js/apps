@@ -5,8 +5,9 @@
 import { TFunction } from 'i18next';
 import { Option } from './types';
 
-interface LinkOption extends Option {
+export interface LinkOption extends Option {
   dnslink?: string;
+  isChild?: boolean;
 }
 
 interface EnvWindow {
@@ -96,16 +97,19 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'rococo',
+      isChild: true,
       text: t<string>('rpc.rococo.tick', 'Rococo Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://tick-rpc.polkadot.io'
     },
     {
       info: 'rococo',
+      isChild: true,
       text: t<string>('rpc.rococo.trick', 'Rococo Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://trick-rpc.polkadot.io'
     },
     {
       info: 'rococo',
+      isChild: true,
       text: t<string>('rpc.rococo.track', 'Rococo Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://track-rpc.polkadot.io'
     },

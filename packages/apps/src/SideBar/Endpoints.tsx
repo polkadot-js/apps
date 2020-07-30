@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Option } from '@polkadot/apps-config/settings/types';
+import type { LinkOption } from '@polkadot/apps-config/settings/endpoints';
 
 import React, { useCallback, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import
@@ -20,6 +20,7 @@ interface Endpoint {
   header: React.ReactNode;
   networks: {
     icon?: string;
+    isChild?: boolean;
     name: string;
     providers: {
       name: string;
@@ -56,7 +57,7 @@ function isValidUrl (url: string): boolean {
   );
 }
 
-function combineEndpoints (endpoints: Option[]): Endpoint[] {
+function combineEndpoints (endpoints: LinkOption[]): Endpoint[] {
   return endpoints.reduce((result: Endpoint[], e): Endpoint[] => {
     if (e.isHeader) {
       result.push({ header: e.text, networks: [] });
@@ -70,6 +71,7 @@ function combineEndpoints (endpoints: Option[]): Endpoint[] {
       } else {
         prev.networks.push({
           icon: e.info,
+          isChild: e.isChild,
           name,
           providers: [prov]
         });
@@ -135,7 +137,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           key={typeIndex}
         >
           <div className='endpointHeader'>{header}</div>
-          {networks.map(({ icon, name, providers }, netIndex): React.ReactNode => {
+          {networks.map(({ icon, isChild, name, providers }, netIndex): React.ReactNode => {
             const isSelected = providers.some(({ url }) => url === apiUrl);
             const index = `${typeIndex}:${netIndex}`;
             const isOpen = openIndex === index;
@@ -146,7 +148,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 key={index}
                 onClick={_setOpenIndex(index)}
               >
-                <div className='endpointSection'>
+                <div className={`endpointSection${isChild ? ' isChild' : ''}`}>
                   <ChainImg
                     className='endpointIcon'
                     logo={icon === 'local' ? 'empty' : icon}
@@ -243,6 +245,10 @@ export default React.memo(styled(Endpoints)`
     display: flex;
     justify-content: flex-start;
     position: relative;
+
+    &.isChild .endpointIcon {
+      margin-left: 1.25rem;
+    }
 
     .endpointOpen {
       position: absolute;
