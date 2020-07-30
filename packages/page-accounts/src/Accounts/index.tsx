@@ -73,7 +73,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
-  const proxies = useCall<[[AccountId, ProxyType][], BN][]>(api.query.proxy.proxies.multi, [sortedAddresses]);
+  const proxies = useCall<[[AccountId, ProxyType][], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses]);
 
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
