@@ -101,7 +101,7 @@
   "Mnemonic": "助记词",
   "Motions ({{count}})": "Motions ({{count}})",
   "My accounts": "我的账户",
-  "My contacts": "我的账户",
+  "My contacts": "我的合约账户",
   "Name given to this account. You can change it at any point in the future.": "给该账户命名. 将来你可以随时更改.",
   "Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g \"name_you_want - stash\".": "给该账户命名，你可以随时编辑，使用帐户进行验证或提名, 最好的做法是在该账户名后面附加上账户的功能, 例如 \"账户名 - 暂存\".",
   "Name of the network. It is only for display purposes.": "网络名称，仅作为显示用",
