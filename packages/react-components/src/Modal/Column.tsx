@@ -18,6 +18,7 @@ export default React.memo(styled(Column)`
 
   &:nth-child(1) {
     flex: 100%;
+    max-width: 100%;
   }
 
   &:nth-child(2) {
@@ -29,6 +30,7 @@ export default React.memo(styled(Column)`
     &:nth-child(1),
     &:only-child {
       flex: 0 65%;
+      max-width: 65%;
     }
 
     &:nth-child(2) {
