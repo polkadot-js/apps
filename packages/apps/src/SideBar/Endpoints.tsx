@@ -144,7 +144,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
             return (
               <div
-                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected ui--highlight--shadow' : ''}`}
+                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected ui--highlight--before' : ''}`}
                 key={index}
                 onClick={_setOpenIndex(index)}
               >
@@ -164,6 +164,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
                 {providers.map(({ name, url }): React.ReactNode => (
                   <Toggle
                     className='endpointProvider'
+                    isRadio
                     key={url}
                     label={name}
                     onChange={_setApiUrl(url)}

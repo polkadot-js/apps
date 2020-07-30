@@ -8,13 +8,14 @@ import styled from 'styled-components';
 interface Props {
   className?: string;
   isDisabled?: boolean;
+  isRadio?: boolean;
   label: React.ReactNode;
   onChange?: (isChecked: boolean) => void;
   preventDefault?: boolean;
   value?: boolean;
 }
 
-function Toggle ({ className = '', isDisabled, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
+function Toggle ({ className = '', isDisabled, isRadio, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
       if (!isDisabled) {
@@ -31,11 +32,11 @@ function Toggle ({ className = '', isDisabled, label, onChange, preventDefault, 
 
   return (
     <div
-      className={`ui--Toggle${value ? ' isChecked' : ''}${isDisabled ? ' isDisabled' : ''} ${className}`}
+      className={`ui--Toggle${value ? ' isChecked' : ''}${isDisabled ? ' isDisabled' : ''}${isRadio ? ' isRadio' : ''} ${className}`}
       onClick={_onClick}
     >
       {label && <label>{label}</label>}
-      <div className='ui--Toggle-Slider' />
+      <div className={`ui--Toggle-Slider${(isRadio && value) ? ' ui--highlight--before' : ''}`} />
     </div>
   );
 }
@@ -84,11 +85,19 @@ export default React.memo(styled(Toggle)`
   &.isChecked {
     .ui--Toggle-Slider {
       background: #2196F3;
+    }
 
-      &:before {
+    &:not(.isRadio) {
+      .ui--Toggle-Slider:before {
         border-color: #2196F3;
         transform: translateX(1.5rem);
       }
+    }
+  }
+
+  &.isRadio {
+    .ui--Toggle-Slider {
+      width: 1.5rem;
     }
   }
 `);
