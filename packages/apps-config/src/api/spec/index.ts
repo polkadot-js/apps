@@ -10,6 +10,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kulupu from './kulupu';
 import nodeTemplate from './node-template';
 import stablePoc from './stable-poc';
+import testPara from './wasm-test-parachain';
 
 export default {
   acala,
@@ -21,5 +22,6 @@ export default {
   kulupu,
   'node-template': nodeTemplate,
   'stable-poc': stablePoc,
-  stable_poc: stablePoc
+  stable_poc: stablePoc,
+  'wasm-test-parachain': testPara
 };
