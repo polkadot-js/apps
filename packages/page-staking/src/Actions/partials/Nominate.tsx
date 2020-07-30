@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { AddressMini, InputAddress, InputAddressMulti, Modal, Static, Toggle } from '@polkadot/react-components';
 import { getParentAccount } from '@polkadot/react-components/AccountName';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
+import { randomAsNumber } from '@polkadot/util-crypto';
 
 import { MAX_NOMINATIONS, MAX_PAYOUTS, STORE_FAVS_BASE } from '../../constants';
 import { useTranslation } from '../../translate';
@@ -33,15 +34,43 @@ interface Selected {
 
 function autoPick (targets: SortedTargets): string[] {
   const parents: string[] = [];
+  const positions: number[] = [];
 
   return (targets.validators || []).reduce((result: string[], { isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
     if (result.length < MAX_NOMINATIONS) {
       if (numNominators && (numNominators < MAX_PAYOUTS) && (isElected || isFavorite) && !rewardPayout.isZero()) {
         const parent = getParentAccount(key);
+        let shouldInclude = isFavorite;
 
-        if (isFavorite || !parent || (!parents.includes(parent) && !parents.includes(key))) {
+        if (!shouldInclude) {
+          const noParent = !parents.includes(key) && (!parent || !parents.includes(parent));
+
+          if (noParent) {
+            shouldInclude = true;
+          } else {
+            const parentIndex = parent
+              ? parents.indexOf(parent)
+              : -1;
+            const keyIndex = parents.indexOf(key);
+            const index = keyIndex !== -1
+              ? keyIndex
+              : parentIndex;
+
+            // 66.6% chance to be replaced by a later one
+            if (index !== -1 && ((randomAsNumber() % 300) > 100)) {
+              result[positions[index]] = key;
+            }
+          }
+        }
+
+        if (shouldInclude) {
+          positions[parents.length] = result.length;
           parents.push(key);
-          parent && parents.push(parent);
+
+          if (parent) {
+            positions[parents.length] = result.length;
+            parents.push(parent);
+          }
 
           result.push(key);
         }
