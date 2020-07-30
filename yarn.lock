@@ -3289,6 +3289,7 @@ __metadata:
     "@polkadot/dev": ^0.55.28
     "@polkadot/react-components": 0.52.0-beta.9
     "@polkadot/react-signer": 0.52.0-beta.9
+    "@types/punycode": ^2.1.0
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.0.3
     css-loader: ^3.6.0
@@ -3299,6 +3300,7 @@ __metadata:
     markdown-loader: ^5.1.0
     mini-css-extract-plugin: ^0.9.0
     null-loader: ^4.0.0
+    punycode: ^2.1.1
     query-string: ^6.13.1
     style-loader: ^1.2.1
     thread-loader: ^2.1.3
@@ -4182,6 +4184,13 @@ __metadata:
   version: 15.7.3
   resolution: "@types/prop-types@npm:15.7.3"
   checksum: 3/bd0eab69d5120ad3784d0c9985f902653d5924707a7f2b3702a330e762dfd61b6494954cb54ad0c52b918ffd6f1e7e27c9270e4442bc15250de348596f2f60cb
+  languageName: node
+  linkType: hard
+
+"@types/punycode@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/punycode@npm:2.1.0"
+  checksum: 3/a09fbf8d6efd9f3953c102c0f76c711ad37d38536589cf5f241320115e652fc8ff8c4f2d903e6c4fbff47b103b7eb4ab204e18e07e736595979b00f8d0a9ef0d
   languageName: node
   linkType: hard
 
