@@ -168,22 +168,12 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
       setAddedProxies((prevState) => {
         const newProxy: [AccountId, ProxyType] = [newAccount, newType];
 
-        if (!prevState) {
-          return [newProxy];
-        }
-
-        const newState: [AccountId, ProxyType][] = [...prevState, newProxy];
-
-        return newState;
+        return !prevState
+          ? [newProxy]
+          : [...prevState, newProxy];
       });
 
-      setBatchStackAdded((prev) => {
-        const newState = prev.concat(
-          api.tx.proxy.addProxy(newAccount, newType)
-        );
-
-        return newState;
-      });
+      setBatchStackAdded((prev) => prev.concat(api.tx.proxy.addProxy(newAccount, newType)));
     },
     [api, proxiedAccount]
   );
@@ -245,10 +235,8 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
       });
 
       // The Batch stack needs to be updated wit the new type
-      // First, delete the corresponding exrrinsic in the batch stack
-      const newBatchStackAdded = batchStackAdded.filter((_, i) => {
-        return i !== index;
-      });
+      // First, delete the corresponding extrinsic in the batch stack
+      const newBatchStackAdded = batchStackAdded.filter((_, i) => i !== index);
 
       // Then add the new extrinsic to the batch stack with the new account
       newBatchStackAdded.push(api.tx.proxy.addProxy(oldAccount, newType));
@@ -275,7 +263,6 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
           </Modal.Column>
           <Modal.Column>
             <p>{t<string>('Any account set as proxy will be able to perform actions in place of the proxied account')}</p>
-            <p>{t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}</p>
           </Modal.Column>
         </Modal.Columns>
         <Modal.Columns>
@@ -308,23 +295,27 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
               />
             </Button.Group>
           </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('If you add several proxy accounts for the same proxy type (e.g 2 accounts set as proxy for Governance), then any of those 2 accounts will be able to perfom governance actions on behalf of the proxied account')}</p>
+          </Modal.Column>
         </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
-        <TxButton
-          accountId={proxiedAccount}
-          icon='trash-alt'
-          label={t<string>('Remove all proxies')}
-          onStart={onClose}
-          params={[]}
-          tx='proxy.removeProxies'
-        />
+        {previousProxy && previousProxy[0].length !== 0 && (
+          <TxButton
+            accountId={proxiedAccount}
+            icon='trash-alt'
+            label={t<string>('Clear all')}
+            onStart={onClose}
+            params={[]}
+            tx='proxy.removeProxies'
+          />
+        )}
         <TxButton
           accountId={proxiedAccount}
           extrinsic={extrinsic}
           icon='sign-in-alt'
           isDisabled={!batchStackPrevious.length && !batchStackAdded.length}
-          label={t<string>('Save')}
           onStart={onClose}
         />
       </Modal.Actions>
