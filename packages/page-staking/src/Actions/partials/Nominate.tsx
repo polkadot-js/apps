@@ -8,6 +8,7 @@ import { SortedTargets } from '../../types';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressMini, InputAddress, InputAddressMulti, Modal, Static, Toggle } from '@polkadot/react-components';
+import { getParentAccount } from '@polkadot/react-components/AccountName';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 
 import { MAX_NOMINATIONS, MAX_PAYOUTS, STORE_FAVS_BASE } from '../../constants';
@@ -31,10 +32,19 @@ interface Selected {
 }
 
 function autoPick (targets: SortedTargets): string[] {
+  const parents: string[] = [];
+
   return (targets.validators || []).reduce((result: string[], { isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
     if (result.length < MAX_NOMINATIONS) {
       if (numNominators && (numNominators < MAX_PAYOUTS) && (isElected || isFavorite) && !rewardPayout.isZero()) {
-        result.push(key);
+        const parent = getParentAccount(key);
+
+        if (isFavorite || !parent || (!parents.includes(parent) && !parents.includes(key))) {
+          parents.push(key);
+          parent && parents.push(parent);
+
+          result.push(key);
+        }
       }
     }
 
