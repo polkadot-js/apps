@@ -7,6 +7,5 @@
 
 export default {
   Address: 'AccountId',
-  Keys: 'SessionKeys5',
   LookupSource: 'AccountId'
 };

@@ -4,17 +4,18 @@
 
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
+import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kulupu from './kulupu';
 import nodeTemplate from './node-template';
 import stablePoc from './stable-poc';
-import testPara from './wasm-test-parachain';
 
 export default {
   acala,
   'centrifuge-chain': centrifugeChain,
+  'cumulus-test-parachain': testPara,
   edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
@@ -22,6 +23,5 @@ export default {
   kulupu,
   'node-template': nodeTemplate,
   'stable-poc': stablePoc,
-  stable_poc: stablePoc,
-  'wasm-test-parachain': testPara
+  stable_poc: stablePoc
 };
