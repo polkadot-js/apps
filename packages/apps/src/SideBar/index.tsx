@@ -142,7 +142,7 @@ function SideBarContainer ({ className, collapse, handleResize, isCollapsed, isM
             </SideBarAdvancedContainer>
             <SideBarItem>
               <SideBarItemLink
-                  href='https://www.reddit.com/r/Centrality/'
+                  href='https://www.reddit.com/r/CENNZnet/'
                   rel='noopener noreferrer'
                   target='_blank'
               >
