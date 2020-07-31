@@ -6,11 +6,10 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import { getSlashThreshold } from './thresholds';
-import useAvailableSlashes from './useAvailableSlashes';
 
 interface Props {
   className?: string;

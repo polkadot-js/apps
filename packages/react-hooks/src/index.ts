@@ -7,6 +7,7 @@ export { default as useAccountInfo } from './useAccountInfo';
 export { default as useAccounts } from './useAccounts';
 export { default as useAddresses } from './useAddresses';
 export { default as useApi } from './useApi';
+export { default as useAvailableSlashes } from './useAvailableSlashes';
 export { default as useBlockTime } from './useBlockTime';
 export { default as useCacheKey } from './useCacheKey';
 export { default as useCall } from './useCall';
