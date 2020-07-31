@@ -4,16 +4,13 @@
 
 import { BlockNumber, Call, SchedulePeriod, SchedulePriority } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import { Bytes, Option } from '@polkadot/types';
 
 export interface ScheduledExt {
   blockNumber: BlockNumber;
   call: Call;
-  count: number;
   key: string;
   maybeId: Option<Bytes>;
   maybePeriodic: Option<SchedulePeriod>;
   priority: SchedulePriority;
-  nextBlockNumber: BN;
 }
