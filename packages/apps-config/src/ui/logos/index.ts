@@ -6,10 +6,10 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 import chainKusama from './chains/kusama-128.gif';
-import chainRococo from './chains/rococo.svg';
-import chainRococoTick from './chains/rococo-tick.svg';
-import chainRococoTrack from './chains/rococo-track.svg';
-import chainRococoTrick from './chains/rococo-trick.svg';
+import chainRococo from './chains/rococo-2.svg';
+import chainRococoTick from './chains/rococo-2-tick.svg';
+import chainRococoTrack from './chains/rococo-2-track.svg';
+import chainRococoTrick from './chains/rococo-2-trick.svg';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeAcala from './nodes/acala-circle.svg';
