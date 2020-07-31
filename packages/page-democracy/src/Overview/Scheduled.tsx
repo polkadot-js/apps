@@ -16,7 +16,7 @@ interface Props {
   value: ScheduledExt;
 }
 
-function Scheduled ({ className = '', value: { call, count, maybePeriodic, nextBlockNumber } }: Props): React.ReactElement<Props> {
+function Scheduled ({ className = '', value: { blockNumber, call, maybePeriodic } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const period = maybePeriodic.unwrapOr(null);
@@ -27,8 +27,8 @@ function Scheduled ({ className = '', value: { call, count, maybePeriodic, nextB
       <td className='number together'>
         {bestNumber && (
           <>
-            <BlockToTime blocks={nextBlockNumber.sub(bestNumber)} />
-            #{formatNumber(nextBlockNumber)}
+            <BlockToTime blocks={blockNumber.sub(bestNumber)} />
+            #{formatNumber(blockNumber)}
           </>
         )}
       </td>
@@ -39,7 +39,7 @@ function Scheduled ({ className = '', value: { call, count, maybePeriodic, nextB
       </td>
       <td className='number together'>
         {period && (
-          formatNumber(count) + ' / ' + formatNumber(period[1])
+          formatNumber(period[1])
         )}
       </td>
     </tr>
