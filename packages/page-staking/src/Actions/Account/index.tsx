@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { AccountId, Balance, SlashingSpans, UnappliedSlash, UnappliedSlashOther } from '@polkadot/types/interfaces';
+import { SlashingSpans, UnappliedSlash } from '@polkadot/types/interfaces';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets } from '../../types';
+import { Slash } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -37,20 +38,6 @@ interface Props {
   validators?: string[];
 }
 
-interface Unapplied {
-  isValidator: boolean;
-  others: UnappliedSlashOther[];
-  own: Balance;
-  payout: Balance;
-  reporters: AccountId[];
-  validator: AccountId;
-}
-
-interface Slash {
-  era: BN;
-  slashes: Unapplied[];
-}
-
 function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -73,7 +60,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const [hasBonded, setHasBonded] = useState(false);
-  const [mySlashes, setMySlashes] = useState<Slash[]>([]);
+  const [slashes, setSlashes] = useState<Slash[]>([]);
 
   useEffect((): void => {
     stakingAccount?.stakingLedger && setHasBonded(
@@ -82,17 +69,21 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   }, [stakingAccount]);
 
   useEffect((): void => {
-    allSlashes && setMySlashes(
+    allSlashes && setSlashes(
       allSlashes
-        .map(([era, slashes]) => ({
-          era,
-          slashes: slashes
-            .filter(({ validator }) => validator.eq(stashId) /* || others.some(([nominatorId]) => nominatorId.eq(stashId)) */)
-            .map(({ others, own, payout, reporters, validator }): Unapplied => ({
+        .map(([era, all]) => {
+          const slashes = all
+            .filter(({ others, validator }) => validator.eq(stashId) || others.some(([nominatorId]) => nominatorId.eq(stashId)))
+            .map(({ others, own, payout, reporters, validator }) => ({
               isValidator: validator.eq(stashId), others, own, payout, reporters, validator
-            }))
+            }));
 
-        }))
+          return {
+            era,
+            isValidator: slashes.some(({ isValidator }) => isValidator),
+            slashes
+          };
+        })
         .filter(({ slashes }) => slashes.length)
     );
   }, [allSlashes, stashId]);
@@ -114,12 +105,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   return (
     <tr className={className}>
       <td className='badge together'>
-        {mySlashes.length !== 0 && (
+        {!isStashNominating && slashes.length !== 0 && (
           <Badge
             color='red'
-            hover={t<string>('Slashed in {{eras}}', {
+            hover={t<string>('Slashed in era {{eras}}', {
               replace: {
-                eras: mySlashes.map(({ era }) => formatNumber(era)).join(', ')
+                eras: slashes.map(({ era }) => formatNumber(era)).join(', ')
               }
             })}
             icon='skull-crossbones'
@@ -213,6 +204,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
             {isStashNominating && (
               <ListNominees
                 nominating={nominating}
+                slashes={slashes}
                 stashId={stashId}
               />
             )}
