@@ -82,16 +82,9 @@ export default React.memo(styled(Toggle)`
     }
   }
 
-  &.isChecked {
-    .ui--Toggle-Slider {
-      background: #2196F3;
-    }
-
-    &:not(.isRadio) {
-      .ui--Toggle-Slider:before {
-        border-color: #2196F3;
-        transform: translateX(1.5rem);
-      }
+  &.isChecked:not(.isRadio) {
+    .ui--Toggle-Slider:before {
+      transform: translateX(1.5rem);
     }
   }
 

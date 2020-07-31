@@ -230,9 +230,9 @@ export default React.memo(styled(Endpoints)`
   }
 
   .endpointIcon {
-    height: 32px;
+    height: 24px;
     margin-right: 0.75rem;
-    width: 32px;
+    width: 24px;
   }
 
   .endpointProvider {
@@ -254,11 +254,11 @@ export default React.memo(styled(Endpoints)`
     .endpointOpen {
       position: absolute;
       right: 0.5rem;
-      top: 0.5rem;
+      top: 0.375rem;
     }
 
     &+.endpointProvider {
-      margin-top: -0.5rem;
+      margin-top: -0.125rem;
     }
   }
 `);

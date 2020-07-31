@@ -134,13 +134,13 @@ export default createGlobalStyle<Props>`
 
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
-        .ui--Toggle-Slider:before {
-          border-color: ${getHighlight} !important;
-        }
-      }
+        .ui--Toggle-Slider {
+          background-color: ${getHighlight} !important;
 
-      .ui--Toggle-Slider {
-        background-color: ${getHighlight} !important;
+          &:before {
+            border-color: ${getHighlight} !important;
+          }
+        }
       }
     }
   }
