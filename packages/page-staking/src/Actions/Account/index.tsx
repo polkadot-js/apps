@@ -3,15 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
+import { AccountId, Balance, SlashingSpans, UnappliedSlash, UnappliedSlashOther } from '@polkadot/types/interfaces';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets } from '../../types';
 
+import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressInfo, AddressMini, AddressSmall, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 import BondExtra from './BondExtra';
@@ -25,7 +27,7 @@ import Unbond from './Unbond';
 import Validate from './Validate';
 
 interface Props {
-  activeEra?: EraIndex;
+  allSlashes?: [BN, UnappliedSlash[]][];
   className?: string;
   isDisabled?: boolean;
   info: StakerState;
@@ -35,7 +37,21 @@ interface Props {
   validators?: string[];
 }
 
-function Account ({ className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
+interface Unapplied {
+  isValidator: boolean;
+  others: UnappliedSlashOther[];
+  own: Balance;
+  payout: Balance;
+  reporters: AccountId[];
+  validator: AccountId;
+}
+
+interface Slash {
+  era: BN;
+  slashes: Unapplied[];
+}
+
+function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -57,12 +73,29 @@ function Account ({ className = '', info: { controllerId, destination, destinati
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
   const [hasBonded, setHasBonded] = useState(false);
+  const [mySlashes, setMySlashes] = useState<Slash[]>([]);
 
   useEffect((): void => {
     stakingAccount?.stakingLedger && setHasBonded(
       !stakingAccount.stakingLedger.active.isEmpty
     );
   }, [stakingAccount]);
+
+  useEffect((): void => {
+    allSlashes && setMySlashes(
+      allSlashes
+        .map(([era, slashes]) => ({
+          era,
+          slashes: slashes
+            .filter(({ validator }) => validator.eq(stashId) /* || others.some(([nominatorId]) => nominatorId.eq(stashId)) */)
+            .map(({ others, own, payout, reporters, validator }): Unapplied => ({
+              isValidator: validator.eq(stashId), others, own, payout, reporters, validator
+            }))
+
+        }))
+        .filter(({ slashes }) => slashes.length)
+    );
+  }, [allSlashes, stashId]);
 
   const withdrawFunds = useCallback(
     () => {
@@ -80,6 +113,20 @@ function Account ({ className = '', info: { controllerId, destination, destinati
 
   return (
     <tr className={className}>
+      <td className='badge'>
+        {mySlashes.length !== 0 && (
+          <Badge
+            color='red'
+            hover={t<string>('Slashed in {{count}} eras: {{eras}}', {
+              replace: {
+                count: mySlashes.length,
+                eras: mySlashes.map(({ era }) => formatNumber(era)).join(', ')
+              }
+            })}
+            icon='skull-crossbones'
+          />
+        )}
+      </td>
       <td className='address'>
         <AddressSmall value={stashId} />
         {isBondExtraOpen && (
