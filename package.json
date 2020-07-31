@@ -80,6 +80,7 @@
     "@babel/core": "^7.10.5",
     "@babel/register": "^7.10.5",
     "@babel/runtime": "^7.10.5",
+    "@edgeware/node-types": "^2.3.5",
     "@pinata/sdk": "^1.1.10",
     "@polkadot/dev": "^0.55.27",
     "@polkadot/ts": "^0.3.29",
