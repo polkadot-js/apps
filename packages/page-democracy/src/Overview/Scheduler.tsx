@@ -20,7 +20,6 @@ interface Props {
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
   const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, [], {
     transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled>[]][]): ScheduledExt[] =>
       entries
@@ -32,7 +31,7 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
             .filter((schedOpt) => schedOpt.isSome)
             .map((schedOpt) => schedOpt.unwrap())
             .reduce((items: ScheduledExt[], { call, maybeId, maybePeriodic, priority }, index) => {
-              items.push({ blockNumber, call, count: 0, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, nextBlockNumber: blockNumber, priority });
+              items.push({ blockNumber, call, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, priority });
 
               return items;
             }, items);
@@ -46,37 +45,13 @@ function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
     [t('count')]
   ], [t]);
 
-  let scheduled: ScheduledExt[] | undefined;
-
-  if (bestNumber && items) {
-    scheduled = items
-      .map((schedule): ScheduledExt => {
-        if (schedule.maybePeriodic.isSome) {
-          const [inc, max] = schedule.maybePeriodic.unwrap();
-          const nextBlockNumber = schedule.blockNumber.toBn();
-          let count = 0;
-
-          while (max.gtn(count) && nextBlockNumber.lt(bestNumber)) {
-            count++;
-            nextBlockNumber.iadd(inc);
-          }
-
-          schedule.count = count;
-          schedule.nextBlockNumber = nextBlockNumber;
-        }
-
-        return schedule;
-      })
-      .filter(({ nextBlockNumber }) => nextBlockNumber.gt(bestNumber));
-  }
-
   return (
     <Table
       className={className}
-      empty={scheduled?.length === 0 && t<string>('No active schedules')}
+      empty={items?.length === 0 && t<string>('No active schedules')}
       header={header}
     >
-      {scheduled?.map((scheduled): React.ReactNode => (
+      {items?.map((scheduled): React.ReactNode => (
         <ScheduledView
           key={scheduled.key}
           value={scheduled}
