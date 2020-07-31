@@ -97,9 +97,10 @@ function Nominate ({ className = '', controllerId, next, nominating, onChange, s
   const { api } = useApi();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
   const [{ isAutoSelect, selected }, setSelected] = useState<Selected>(
-    nominating?.length
-      ? { isAutoSelect: false, selected: nominating }
-      : initialPick(targets)
+    // nominating?.length
+    //   ? { isAutoSelect: false, selected: nominating }
+    //   : initialPick(targets)
+    initialPick(targets)
   );
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
