@@ -11,7 +11,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
+    "@babel/runtime": "^7.11.0",
     "@polkadot/apps-routing": "0.52.0-beta.18",
     "@polkadot/react-components": "0.52.0-beta.18"
   }
