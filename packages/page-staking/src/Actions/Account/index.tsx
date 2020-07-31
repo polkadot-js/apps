@@ -113,13 +113,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
 
   return (
     <tr className={className}>
-      <td className='badge'>
+      <td className='badge together'>
         {mySlashes.length !== 0 && (
           <Badge
             color='red'
-            hover={t<string>('Slashed in {{count}} eras: {{eras}}', {
+            hover={t<string>('Slashed in {{eras}}', {
               replace: {
-                count: mySlashes.length,
                 eras: mySlashes.map(({ era }) => formatNumber(era)).join(', ')
               }
             })}
