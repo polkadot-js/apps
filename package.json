@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.52.0-beta.23",
+  "version": "0.52.0-beta.24",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
