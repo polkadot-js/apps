@@ -27,7 +27,6 @@ function Available ({ address, filter, isHidden, onSelect }: Props): React.React
     <AddressToggle
       address={address}
       filter={filter}
-      noLookup
       noToggle
       onChange={_onSelect}
     />
