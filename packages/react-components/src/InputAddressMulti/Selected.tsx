@@ -27,7 +27,6 @@ function Selected ({ address, filter, isHidden, onDeselect }: Props): React.Reac
     <AddressToggle
       address={address}
       filter={filter}
-      noLookup
       noToggle
       onChange={_onDeselect}
     />
