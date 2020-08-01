@@ -36,7 +36,7 @@ function Toggle ({ className = '', isDisabled, isRadio, label, onChange, prevent
       onClick={_onClick}
     >
       {label && <label>{label}</label>}
-      <div className={`ui--Toggle-Slider${(isRadio && value) ? ' ui--highlight--before' : ''}${isRadio ? ' ui--highlight--before-border' : ''}`} />
+      <div className={`ui--Toggle-Slider${isRadio ? ' ui--highlight--before-border' : ''}`} />
     </div>
   );
 }
@@ -69,7 +69,7 @@ export default React.memo(styled(Toggle)`
       height: 1.5rem;
       left: 0;
       position: absolute;
-      top: 0rem;
+      top: 0;
       width: 1.5rem;
     }
   }
@@ -82,9 +82,17 @@ export default React.memo(styled(Toggle)`
     }
   }
 
-  &.isChecked:not(.isRadio) {
-    .ui--Toggle-Slider:before {
-      transform: translateX(1.5rem);
+  &.isChecked {
+    &:not(.isRadio) {
+      .ui--Toggle-Slider:before {
+        transform: translateX(1.5rem);
+      }
+    }
+
+    &.isRadio {
+      .ui--Toggle-Slider:before {
+        border-width: 0.5rem;
+      }
     }
   }
 
