@@ -67,4 +67,5 @@ export interface SortedTargets {
   setCalcWith: (amount?: BN) => void;
   totalStaked?: BN;
   validators?: ValidatorInfo[];
+  validatorIds?: string[];
 }
