@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import useIsMountedRef from './useIsMountedRef';
 
-export default function useLoadingDelay (delay = 250): boolean {
+export default function useLoadingDelay (delay = 100): boolean {
   const mountedRef = useIsMountedRef();
   const [isLoading, setIsLoading] = useState(true);
 

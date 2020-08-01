@@ -11,7 +11,7 @@ import Spinner from '../Spinner';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  empty?: React.ReactNode;
+  empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
 }
 
