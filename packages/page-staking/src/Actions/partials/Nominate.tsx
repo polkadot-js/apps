@@ -16,16 +16,14 @@ import { useTranslation } from '../../translate';
 interface Props {
   className?: string;
   controllerId: string;
-  next?: string[];
   nominating?: string[];
   onChange: (info: NominateInfo) => void;
   stashId: string;
   targets: SortedTargets;
-  validators: string[];
   withSenders?: boolean;
 }
 
-function Nominate ({ className = '', controllerId, next, nominating, onChange, stashId, targets, withSenders }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', controllerId, nominating, onChange, stashId, targets: { validatorIds = [] }, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
@@ -33,14 +31,13 @@ function Nominate ({ className = '', controllerId, next, nominating, onChange, s
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => (targets.validatorIds || []).includes(acc)),
+      ...favorites.filter((acc) => validatorIds.includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominating || []).filter((acc) => !favorites.includes(acc))
     ];
 
     return shortlist
-      .concat(...(targets.validatorIds || []).filter((acc) => !shortlist.includes(acc)))
-      .concat(...(next || []).filter((acc) => !shortlist.includes(acc)));
+      .concat(...(validatorIds.filter((acc) => !shortlist.includes(acc))));
   });
 
   useEffect((): void => {

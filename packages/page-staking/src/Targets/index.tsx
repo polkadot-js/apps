@@ -182,7 +182,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
-          label={t<string>('Select best')}
+          label={t<string>('Most profitable')}
           onClick={_selectProfitable}
         />
         <Nominate
