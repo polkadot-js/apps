@@ -59,8 +59,8 @@ function Nominate ({ className = '', controllerId, nominating, onClose, stashId,
 export default React.memo(styled(Nominate)`
   .nominatePartial {
     .ui--Static .ui--AddressMini .ui--AddressMini-info {
-      max-width: 10.5rem;
-      min-width: 10.5rem;
+      max-width: 10rem;
+      min-width: 10rem;
     }
   }
 `);
