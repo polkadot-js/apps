@@ -4,7 +4,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useDebounce } from '@polkadot/react-hooks';
+import { useDebounce, useLoadingDelay } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Input from '../Input';
@@ -28,11 +28,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);
   const filter = useDebounce(_filter);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect((): void => {
-    setTimeout(() => setIsLoading(false), 250);
-  });
+  const isLoading = useLoadingDelay();
 
   useEffect((): void => {
     defaultValue && setSelected(defaultValue);
