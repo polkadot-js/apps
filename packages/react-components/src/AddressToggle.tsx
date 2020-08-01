@@ -8,9 +8,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { getAddressName } from './util';
 import AddressMini from './AddressMini';
 import Toggle from './Toggle';
+import { checkVisibility } from './util';
 
 interface Props {
   address: string;
@@ -22,37 +22,16 @@ interface Props {
   value?: boolean;
 }
 
-function getIsFiltered (address: string, filter?: string, info?: DeriveAccountInfo): boolean {
-  if (!filter || address.includes(filter)) {
-    return false;
-  }
-
-  const [,, extracted] = getAddressName(address);
-  const filterLower = filter.toLowerCase();
-
-  if (extracted.toLowerCase().includes(filterLower)) {
-    return false;
-  }
-
-  if (info) {
-    const { accountId, accountIndex, identity, nickname } = info;
-
-    if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 function AddressToggle ({ address, className = '', filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect((): void => {
-    setIsFiltered(getIsFiltered(address, filter, info));
-  }, [address, filter, info]);
+    info && setIsVisible(
+      checkVisibility(api, address, info, filter, true)
+    );
+  }, [api, address, filter, info]);
 
   const _onClick = useCallback(
     () => onChange && onChange(!value),
@@ -61,7 +40,7 @@ function AddressToggle ({ address, className = '', filter, isHidden, noToggle, o
 
   return (
     <div
-      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || isFiltered ? ' isHidden' : ''}`}
+      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || !isVisible ? ' isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini
