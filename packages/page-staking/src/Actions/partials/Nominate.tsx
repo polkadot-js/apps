@@ -33,7 +33,7 @@ function Nominate ({ className = '', controllerId, next, nominating, onChange, s
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => (targets.validatorIds || []).includes(acc) || (next || []).includes(acc)),
+      ...favorites.filter((acc) => (targets.validatorIds || []).includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominating || []).filter((acc) => !favorites.includes(acc))
     ];
