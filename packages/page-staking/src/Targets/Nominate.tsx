@@ -122,7 +122,7 @@ export default React.memo(styled(Nominate)`
   .ui--AddressMini.padded.addressStatic {
     padding-top: 0.5rem;
 
-    .ui--AddressMini-address {
+    .ui--AddressMini-info {
       min-width: 10rem;
       max-width: 10rem;
     }
