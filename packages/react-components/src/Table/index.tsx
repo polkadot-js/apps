@@ -12,7 +12,7 @@ import Head from './Head';
 interface TableProps {
   children: React.ReactNode;
   className?: string;
-  empty?: React.ReactNode;
+  empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   footer?: React.ReactNode;
