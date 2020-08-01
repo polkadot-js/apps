@@ -186,7 +186,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
           onClick={_selectProfitable}
         />
         <Nominate
-          isDisabled={isInElection}
+          isDisabled={isInElection || !validators?.length}
           ownNominators={ownNominators}
           targets={selected}
         />

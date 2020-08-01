@@ -324,7 +324,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   }
                   {isStashNominating &&
                     <Menu.Item
-                      disabled={!isOwnController}
+                      disabled={!isOwnController || !targets.validators?.length}
                       onClick={toggleNominate}
                     >
                       {t<string>('Set nominees')}

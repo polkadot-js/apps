@@ -55,7 +55,7 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
     <>
       <Button
         icon='plus'
-        isDisabled={isDisabled}
+        isDisabled={isDisabled || !targets.validators?.length}
         key='new-nominator'
         label={t<string>('Nominator')}
         onClick={_toggle}
