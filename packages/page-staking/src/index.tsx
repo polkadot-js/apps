@@ -123,7 +123,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={`${basePath}/targets`}>
           <Targets
             isInElection={isInElection}
-            next={next}
             ownStashes={ownStashes}
             stakingOverview={stakingOverview}
             targets={targets}

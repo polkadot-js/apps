@@ -23,7 +23,6 @@ import useOwnNominators from './useOwnNominators';
 interface Props {
   className?: string;
   isInElection: boolean;
-  next?: string[];
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
