@@ -80,10 +80,11 @@ function Nominate ({ className = '', controllerId, nominating, onChange, stashId
             onChange={setSelected}
             valueLabel={t<string>('nominated accounts')}
           />
+          <article className='warning'>{t<string>('You should trust your nominations to act competently and honest; basing your decision purely on their current profitability could lead to reduced profits or even loss of funds.')}</article>
         </Modal.Column>
         <Modal.Column>
-          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators. If you have set favorites these will appear for the selection.')}</p>
-          <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
+          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators.')}</p>
+          <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras taking the new validator election cycle into account. Until then, the nominations will show as inactive.')}</p>
         </Modal.Column>
       </Modal.Columns>
     </div>
