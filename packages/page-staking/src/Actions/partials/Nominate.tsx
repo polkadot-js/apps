@@ -5,142 +5,40 @@
 import { NominateInfo } from './types';
 import { SortedTargets } from '../../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressMini, InputAddress, InputAddressMulti, Modal, Static, Toggle } from '@polkadot/react-components';
-import { getParentAccount } from '@polkadot/react-components/AccountName';
+import { InputAddress, InputAddressMulti, Modal } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
-import { randomAsNumber } from '@polkadot/util-crypto';
 
-import { MAX_NOMINATIONS, MAX_PAYOUTS, STORE_FAVS_BASE } from '../../constants';
+import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
 import { useTranslation } from '../../translate';
 
 interface Props {
   className?: string;
   controllerId: string;
-  next?: string[];
   nominating?: string[];
   onChange: (info: NominateInfo) => void;
   stashId: string;
   targets: SortedTargets;
-  validators: string[];
   withSenders?: boolean;
 }
 
-interface Selected {
-  isAutoSelect: boolean;
-  selected: string[];
-}
-
-function autoPick (targets: SortedTargets): string[] {
-  const parents: string[] = [];
-  const positions: number[] = [];
-
-  return (targets.validators || []).reduce((result: string[], { isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
-    if (result.length < MAX_NOMINATIONS) {
-      if (numNominators && (numNominators < MAX_PAYOUTS) && (isElected || isFavorite) && !rewardPayout.isZero()) {
-        const parent = getParentAccount(key);
-        let shouldInclude = isFavorite;
-
-        if (!shouldInclude) {
-          const noParent = !parents.includes(key) && (!parent || !parents.includes(parent));
-
-          if (noParent) {
-            shouldInclude = true;
-          } else {
-            const parentIndex = parent
-              ? parents.indexOf(parent)
-              : -1;
-            const keyIndex = parents.indexOf(key);
-            const index = keyIndex !== -1
-              ? keyIndex
-              : parentIndex;
-
-            // 66.6% chance to be replaced by a later one
-            if (index !== -1 && ((randomAsNumber() % 300) > 100)) {
-              result[positions[index]] = key;
-            }
-          }
-        }
-
-        if (shouldInclude) {
-          positions[parents.length] = result.length;
-          parents.push(key);
-
-          if (parent) {
-            positions[parents.length] = result.length;
-            parents.push(parent);
-          }
-
-          result.push(key);
-        }
-      }
-    }
-
-    return result;
-  }, []);
-}
-
-function initialPick (targets: SortedTargets): Selected {
-  const selected = targets.validators?.length
-    ? autoPick(targets)
-    : [];
-
-  return {
-    isAutoSelect: selected.length !== 0,
-    selected
-  };
-}
-
-function Nominate ({ className = '', controllerId, next, nominating, onChange, stashId, targets, validators, withSenders }: Props): React.ReactElement<Props> {
+function Nominate ({ className = '', controllerId, nominating, onChange, stashId, targets: { validatorIds = [] }, withSenders }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [favorites] = useFavorites(STORE_FAVS_BASE);
-  const [{ isAutoSelect, selected }, setSelected] = useState<Selected>(
-    // nominating?.length
-    //   ? { isAutoSelect: false, selected: nominating }
-    //   : initialPick(targets)
-    initialPick(targets)
-  );
+  const [selected, setSelected] = useState<string[]>(nominating || []);
   const [available] = useState<string[]>((): string[] => {
     const shortlist = [
       // ensure that the favorite is included in the list of stashes
-      ...favorites.filter((acc) => (validators || []).includes(acc) || (next || []).includes(acc)),
+      ...favorites.filter((acc) => validatorIds.includes(acc)),
       // make sure the nominee is not in our favorites already
       ...(nominating || []).filter((acc) => !favorites.includes(acc))
     ];
 
     return shortlist
-      .concat(...(validators || []).filter((acc) => !shortlist.includes(acc)))
-      .concat(...(next || []).filter((acc) => !shortlist.includes(acc)));
+      .concat(...(validatorIds.filter((acc) => !shortlist.includes(acc))));
   });
-  const [autoSelected, setAutoSelected] = useState<string[]>([]);
-
-  const _setSelected = useCallback(
-    (selected: string[]) => setSelected(({ isAutoSelect }: Selected) => ({
-      isAutoSelect,
-      selected
-    })),
-    []
-  );
-
-  const _toggleAutoSelect = useCallback(
-    (isAutoSelect: boolean) => setSelected(() => ({
-      isAutoSelect,
-      selected: isAutoSelect
-        ? autoSelected
-        : []
-    })),
-    [autoSelected]
-  );
-
-  useEffect((): void => {
-    setAutoSelected(
-      targets.validators?.length
-        ? autoPick(targets)
-        : []
-    );
-  }, [targets]);
 
   useEffect((): void => {
     onChange({
@@ -173,53 +71,18 @@ function Nominate ({ className = '', controllerId, next, nominating, onChange, s
       )}
       <Modal.Columns>
         <Modal.Column>
-          {isAutoSelect
-            ? (
-              <>
-                <Static
-                  label={t<string>('auto-selected targets for nomination')}
-                  value={
-                    selected.map((validatorId) => (
-                      <AddressMini
-                        className='addressStatic'
-                        isHighlight={favorites.includes(validatorId)}
-                        key={validatorId}
-                        value={validatorId}
-                      />
-                    ))
-                  }
-                />
-                <article className='warning'>{t<string>('The auto-selection is done on the current profitability of the validators taking your favorites into account. It is adjusted based on the commission and current range of backing for the validator. The calculation may and will change over time, so it is rather a selection based on the current state of the network, not a predictor of future profitability.')}</article>
-              </>
-            )
-            : (
-              <InputAddressMulti
-                available={available}
-                availableLabel={t<string>('candidate accounts')}
-                defaultValue={nominating}
-                help={t<string>('Filter available candidates based on name, address or short account index.')}
-                maxCount={MAX_NOMINATIONS}
-                onChange={_setSelected}
-                valueLabel={t<string>('nominated accounts')}
-              />
-            )
-          }
-          {autoSelected.length !== 0 && (
-            <Toggle
-              className='auto--toggle'
-              isDisabled={!targets.validators?.length}
-              label={
-                isAutoSelect
-                  ? t<string>('Use an automatic selection of the currently most profitable validators')
-                  : t<string>('Select targets manually (no auto-selection based on current profitability)')
-              }
-              onChange={_toggleAutoSelect}
-              value={isAutoSelect}
-            />
-          )}
+          <InputAddressMulti
+            available={available}
+            availableLabel={t<string>('candidate accounts')}
+            defaultValue={nominating}
+            help={t<string>('Filter available candidates based on name, address or short account index.')}
+            maxCount={MAX_NOMINATIONS}
+            onChange={setSelected}
+            valueLabel={t<string>('nominated accounts')}
+          />
         </Modal.Column>
         <Modal.Column>
-          <p>{t<string>('Nominators can be selected automatically based on the current on-chain conditions or supplied manually as selected from the list of all currently available validators. In both cases, your favorites appear for the selection.')}</p>
+          <p>{t<string>('Nominators can be selected manually from the list of all currently available validators. If you have set favorites these will appear for the selection.')}</p>
           <p>{t<string>('Once transmitted the new selection will only take effect in 2 eras since the selection criteria for the next era was done at the end of the previous era. Until then, the nominations will show as inactive.')}</p>
         </Modal.Column>
       </Modal.Columns>

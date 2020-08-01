@@ -139,8 +139,9 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
   const [elected, nominators, totalStaked] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
   const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward, false);
   const validators = sortValidators(elected.concat(waiting));
+  const validatorIds = validators.map(({ accountId }) => accountId.toString());
 
-  return { nominators, totalStaked, validators };
+  return { nominators, totalStaked, validatorIds, validators };
 }
 
 export default function useSortedTargets (favorites: string[]): SortedTargets {

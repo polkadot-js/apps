@@ -36,7 +36,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
-  const [{ next, validators }, setValidators] = useState<Validators>({});
+  const [{ next }, setValidators] = useState<Validators>({});
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
@@ -123,7 +123,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={`${basePath}/targets`}>
           <Targets
             isInElection={isInElection}
-            next={next}
             ownStashes={ownStashes}
             stakingOverview={stakingOverview}
             targets={targets}
@@ -144,10 +143,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <Actions
         className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
         isInElection={isInElection}
-        next={next}
         ownStashes={ownStashes}
         targets={targets}
-        validators={validators}
       />
       <Overview
         className={basePath === pathname ? '' : 'staking--hidden'}
