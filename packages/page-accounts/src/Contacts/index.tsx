@@ -22,7 +22,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAddresses } = useAddresses();
   const [isCreateOpen, toggleCreate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
-  const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
+  const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[] | undefined>();
   const [filterOn, setFilter] = useState<string>('');
   const isLoading = useLoadingDelay();
 
@@ -77,11 +77,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         />
       )}
       <Table
-        empty={!isLoading && t<string>('no addresses saved yet, add any existing address')}
+        empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         filter={filter}
         header={header}
       >
-        {isLoading ? undefined : sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
+        {isLoading ? undefined : sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
