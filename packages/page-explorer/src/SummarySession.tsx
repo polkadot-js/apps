@@ -20,7 +20,7 @@ interface Props {
 function SummarySession ({ withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress, []);
   const forcing = useCall<Forcing>(api.query.staking?.forceEra, []);
   const eraLabel = useMemo(() =>
     t<string>('era')
