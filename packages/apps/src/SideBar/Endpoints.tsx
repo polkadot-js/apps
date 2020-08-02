@@ -10,7 +10,7 @@ import React, { useCallback, useState } from 'react';
 import punycode from 'punycode';
 import styled from 'styled-components';
 import { createEndpoints } from '@polkadot/apps-config/settings';
-import { ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
+import { Button, ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
@@ -109,26 +109,32 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     []
   );
 
-  const _onClose = useCallback(
+  const _onApply = useCallback(
     (): void => {
-      if (hasUrlChanged && isUrlValid) {
-        const settings = uiSettings.get();
-
-        uiSettings.set({ ...settings, apiUrl });
-        window.location.reload();
-      }
+      uiSettings.set({ ...(uiSettings.get()), apiUrl });
+      window.location.reload();
 
       onClose();
     },
-    [apiUrl, hasUrlChanged, isUrlValid, onClose]
+    [apiUrl, onClose]
   );
 
   return (
     <Sidebar
+      button={
+        (hasUrlChanged && isUrlValid)
+          ? (
+            <Button
+              icon='sync'
+              label={t<string>('Switch')}
+              onClick={_onApply}
+            />
+          )
+          : undefined
+      }
       className={className}
-      closeIcon={(hasUrlChanged && isUrlValid) ? 'sync' : 'times'}
       offset={offset}
-      onClose={_onClose}
+      onClose={onClose}
       position='left'
     >
       {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => (
@@ -194,7 +200,7 @@ export default React.memo(styled(Endpoints)`
   }
 
   .endpointType {
-    margin-top: 0.25rem;
+    margin-top: 2rem;
 
     &+.endpointType {
       margin-top: 1rem;
