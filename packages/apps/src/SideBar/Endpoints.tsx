@@ -122,15 +122,12 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   return (
     <Sidebar
       button={
-        (hasUrlChanged && isUrlValid)
-          ? (
-            <Button
-              icon='sync'
-              label={t<string>('Switch')}
-              onClick={_onApply}
-            />
-          )
-          : undefined
+        <Button
+          icon='sync'
+          isDisabled={!(hasUrlChanged && isUrlValid)}
+          label={t<string>('Switch')}
+          onClick={_onApply}
+        />
       }
       className={className}
       offset={offset}
