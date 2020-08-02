@@ -10,4 +10,5 @@ export interface Slash {
   era: BN;
   slash: UnappliedSlash;
   total: BN;
+  totalOther: BN;
 }

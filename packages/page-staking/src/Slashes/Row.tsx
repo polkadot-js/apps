@@ -5,39 +5,50 @@
 import { Slash } from './types';
 
 import React from 'react';
-import { AddressMini, AddressSmall } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
+
+import { useTranslation } from '../translate';
 
 interface Props {
   slash: Slash;
   withEra: boolean;
 }
 
-function Row ({ slash: { era, slash: { others, own, payout, reporters, validator }, total }, withEra }: Props): React.ReactElement<Props> {
+function Row ({ slash: { era, slash: { others, own, payout, reporters, validator }, total, totalOther }, withEra }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   return (
     <tr>
       <td className='number'>
-        <h1>{withEra && formatNumber(era)}</h1>
+        <h1>{withEra ? formatNumber(era) : <>&nbsp;</>}</h1>
       </td>
       <td className='address'>
         <AddressSmall value={validator} />
+      </td>
+      <td className='start all'>
+        {others.length && (
+          <Expander summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}>
+            {others.map(([accountId, balance], index): React.ReactNode => (
+              <AddressMini
+                balance={balance}
+                key={index}
+                value={accountId}
+                withBalance
+              />
+            ))}
+          </Expander>
+        )}
       </td>
       <td className='number together'>
         <FormatBalance value={own} />
       </td>
       <td className='number together'>
-        <FormatBalance value={total} />
+        <FormatBalance value={totalOther} />
       </td>
-      <td className='address all'>
-        {others.map(([accountId, balance], index): React.ReactNode => (
-          <AddressMini
-            balance={balance}
-            key={index}
-            value={accountId}
-            withBalance
-          />
-        ))}
+      <td className='number together'>
+        <FormatBalance value={total} />
       </td>
       <td className='address'>
         {reporters.map((reporter, index): React.ReactNode => (
