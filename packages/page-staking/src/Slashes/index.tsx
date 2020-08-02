@@ -19,10 +19,10 @@ interface Props {
 function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const header = useMemo(() => [
-    [t('unapplied slashes'), 'start', 2],
+    [t('unapplied slashes'), 'start', 3],
     [t('own')],
+    [t('other')],
     [t('total')],
-    [t('nominators'), 'start'],
     [t('reporters'), 'start'],
     [t('payout')]
   ], [t]);
@@ -30,11 +30,11 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
     return slashes
       .reduce((rows: Slash[], [era, slashes]): Slash[] => {
         return slashes.reduce((rows: Slash[], slash): Slash[] => {
-          const total = slash.others.reduce((total: BN, [, value]): BN => {
+          const totalOther = slash.others.reduce((total: BN, [, value]): BN => {
             return total.add(value);
-          }, slash.own);
+          }, new BN(0));
 
-          rows.push({ era, slash, total });
+          rows.push({ era, slash, total: slash.own.add(totalOther), totalOther });
 
           return rows;
         }, rows);
