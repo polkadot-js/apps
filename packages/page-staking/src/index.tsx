@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
@@ -21,6 +21,7 @@ import Overview from './Overview';
 import Payouts from './Payouts';
 import Query from './Query';
 import Summary from './Overview/Summary';
+import Slashes from './Slashes';
 import Targets from './Targets';
 import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
@@ -40,6 +41,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
+  const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
@@ -75,19 +77,28 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Waiting')
     },
     {
+      name: 'slashes',
+      text: t<string>('Slashes')
+    },
+    {
       hasParams: true,
       name: 'query',
       text: t<string>('Validator stats')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
   const hiddenTabs = useMemo(
-    (): string[] =>
-      !hasAccounts
+    (): string[] => {
+      const base = !hasAccounts
         ? ['actions', 'payouts', 'query']
         : !hasQueries
           ? ['returns', 'query']
-          : [],
-    [hasAccounts, hasQueries]
+          : [];
+
+      return slashes.length
+        ? base
+        : base.concat('slashes');
+    },
+    [hasAccounts, hasQueries, slashes]
   );
 
   useEffect((): void => {
@@ -119,6 +130,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
+        </Route>
+        <Route path={`${basePath}/slashes`}>
+          <Slashes slashes={slashes} />
         </Route>
         <Route path={`${basePath}/targets`}>
           <Targets
