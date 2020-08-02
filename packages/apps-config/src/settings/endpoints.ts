@@ -93,7 +93,6 @@ function createTest (t: TFunction): LinkOption[] {
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
     },
-    {
       info: 'rococo',
       text: t<string>('rpc.rococo', 'Rococo (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://rococo-rpc.polkadot.io'

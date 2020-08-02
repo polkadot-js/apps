@@ -48,7 +48,7 @@ function extractState (ownStashes: StakerState[]): State {
   };
 }
 
-function Actions ({ className = '', isInElection, next, ownStashes, targets, validators }: Props): React.ReactElement<Props> {
+function Actions ({ className = '', isInElection, ownStashes, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
   const [{ bondedTotal, foundStashes }, setState] = useState<State>({});
@@ -80,9 +80,7 @@ function Actions ({ className = '', isInElection, next, ownStashes, targets, val
       <Button.Group>
         <NewNominator
           isInElection={isInElection}
-          next={next}
           targets={targets}
-          validators={validators}
         />
         <NewValidator isInElection={isInElection} />
         <NewStash />
@@ -99,9 +97,7 @@ function Actions ({ className = '', isInElection, next, ownStashes, targets, val
             info={info}
             isDisabled={isInElection}
             key={info.stashId}
-            next={next}
             targets={targets}
-            validators={validators}
           />
         ))}
       </Table>

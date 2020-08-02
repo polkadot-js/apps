@@ -7,7 +7,7 @@ import { ComponentProps as Props } from '../types';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, Table } from '@polkadot/react-components';
-import { useAddresses, useFavorites, useToggle } from '@polkadot/react-hooks';
+import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
 import CreateModal from './modals/Create';
 import Address from './Address';
@@ -22,8 +22,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAddresses } = useAddresses();
   const [isCreateOpen, toggleCreate] = useToggle(false);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
-  const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[]>([]);
+  const [sortedAddresses, setSortedAddresses] = useState<SortedAddress[] | undefined>();
   const [filterOn, setFilter] = useState<string>('');
+  const isLoading = useLoadingDelay();
 
   useEffect((): void => {
     setSortedAddresses(
@@ -76,11 +77,11 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         />
       )}
       <Table
-        empty={t<string>('no addresses saved yet, add any existing address')}
+        empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         filter={filter}
         header={header}
       >
-        {sortedAddresses.map(({ address, isFavorite }): React.ReactNode => (
+        {isLoading ? undefined : sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}

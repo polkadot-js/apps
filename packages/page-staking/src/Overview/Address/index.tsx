@@ -8,10 +8,10 @@ import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/type
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AddressSmall, Icon } from '@polkadot/react-components';
+import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { checkVisibility } from '../../util';
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
 import Status from './Status';
@@ -82,8 +82,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   }, [stakingInfo]);
 
   useEffect((): void => {
-    setIsVisible(
-      checkVisibility(api, address, filterName, withIdentity, accountInfo)
+    accountInfo && setIsVisible(
+      checkVisibility(api, address, accountInfo, filterName, withIdentity)
     );
   }, [api, accountInfo, address, filterName, withIdentity]);
 

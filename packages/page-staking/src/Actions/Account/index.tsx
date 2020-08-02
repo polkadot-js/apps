@@ -38,7 +38,7 @@ interface Props {
   validators?: string[];
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, next, targets, validators }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -133,12 +133,10 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {isNominateOpen && controllerId && (
           <Nominate
             controllerId={controllerId}
-            next={next}
             nominating={nominating}
             onClose={toggleNominate}
             stashId={stashId}
             targets={targets}
-            validators={validators}
           />
         )}
         {isSetControllerOpen && controllerId && (
@@ -326,7 +324,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
                   }
                   {isStashNominating &&
                     <Menu.Item
-                      disabled={!isOwnController}
+                      disabled={!isOwnController || !targets.validators?.length}
                       onClick={toggleNominate}
                     >
                       {t<string>('Set nominees')}

@@ -4,10 +4,11 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useDebounce } from '@polkadot/react-hooks';
+import { useDebounce, useLoadingDelay } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Input from '../Input';
+import Spinner from '../Spinner';
 import Available from './Available';
 import Selected from './Selected';
 
@@ -27,6 +28,7 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
   const [_filter, setFilter] = useState<string>('');
   const [selected, setSelected] = useState<string[]>([]);
   const filter = useDebounce(_filter);
+  const isLoading = useLoadingDelay();
 
   useEffect((): void => {
     defaultValue && setSelected(defaultValue);
@@ -84,15 +86,20 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
         <div className='ui--InputAddressMulti-column'>
           <label>{availableLabel}</label>
           <div className='ui--InputAddressMulti-items'>
-            {available.map((address): React.ReactNode => (
-              <Available
-                address={address}
-                filter={filter}
-                isHidden={selected?.includes(address)}
-                key={address}
-                onSelect={_onSelect}
-              />
-            ))}
+            {isLoading
+              ? <Spinner />
+              : (
+                available.map((address) => (
+                  <Available
+                    address={address}
+                    filter={filter}
+                    isHidden={selected?.includes(address)}
+                    key={address}
+                    onSelect={_onSelect}
+                  />
+                ))
+              )
+            }
           </div>
         </div>
       </div>
@@ -134,6 +141,10 @@ export default React.memo(styled(InputAddressMulti)`
         flex: 1;
         overflow-y: auto;
         overflow-x: hidden;
+
+        .ui--Spinner {
+          margin-top: 2rem;
+        }
 
         .ui--AddressToggle {
           padding-left: 0.75rem;
