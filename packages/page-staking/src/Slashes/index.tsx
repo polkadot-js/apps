@@ -19,8 +19,7 @@ interface Props {
 function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const header = useMemo(() => [
-    [t('unapplied slashes'), 'start', 2],
-    [t('nominators'), 'start'],
+    [t('unapplied slashes'), 'start', 3],
     [t('own')],
     [t('other')],
     [t('total')],
