@@ -93,6 +93,29 @@ function createTest (t: TFunction): LinkOption[] {
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
     },
+    {
+      info: 'rococo',
+      text: t<string>('rpc.rococo', 'Rococo (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://rococo-rpc.polkadot.io'
+    },
+    {
+      info: 'rococoTick',
+      isChild: true,
+      text: t<string>('rpc.rococo.tick', 'Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://tick-rpc.polkadot.io'
+    },
+    {
+      info: 'rococoTrick',
+      isChild: true,
+      text: t<string>('rpc.rococo.trick', 'Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://trick-rpc.polkadot.io'
+    },
+    {
+      info: 'rococoTrack',
+      isChild: true,
+      text: t<string>('rpc.rococo.track', 'Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://track-rpc.polkadot.io'
+    },
     // alphabetical based on chain name
     {
       info: 'nodle',
