@@ -36,7 +36,7 @@ export default css`
         filter: brightness(110%);
       }
 
-      &.isIcon:not(.isDisabled) {
+      &.isIcon:not(.isDisabled):not(:hover) {
         .ui--Icon {
           color: ${colorLink};
         }
