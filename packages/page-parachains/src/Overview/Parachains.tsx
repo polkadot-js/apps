@@ -21,7 +21,8 @@ function Parachains ({ parachains }: Props): React.ReactElement<Props> {
   const header = useMemo(() => [
     [t('parachains'), 'start', 4],
     [t('swap to id')],
-    [t('scheduling')]
+    [t('scheduling')],
+    []
   ], [t]);
 
   return (

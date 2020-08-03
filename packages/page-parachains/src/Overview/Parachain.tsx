@@ -7,7 +7,7 @@ import { DeriveParachain } from '@polkadot/api-derive/types';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Badge, Icon } from '@polkadot/react-components';
+import { Badge, Button, Icon } from '@polkadot/react-components';
 import ParachainInfo from '../ParachainInfo';
 
 import { useTranslation } from '../translate';
@@ -73,6 +73,13 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
       </td>
       <td className='number ui--media-small'>
         {info?.scheduling?.toString() || t<string>('<unknown>')}
+      </td>
+      <td className='button'>
+        <Button
+          icon='arrow-right'
+          label={t('Info')}
+          onClick={_onClick}
+        />
       </td>
     </tr>
   );
