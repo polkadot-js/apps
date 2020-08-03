@@ -81,9 +81,13 @@ export default React.memo(styled(FormatBalance)`
     }
   }
 
+  > .ui--Button {
+    margin-left: 0.25rem;
+  }
+
   .ui--Icon {
-    margin-top: 0.25rem;
     margin-bottom: -0.25rem;
+    margin-top: 0.25rem;
   }
 
   .ui--Icon+.ui--FormatBalance-value {
