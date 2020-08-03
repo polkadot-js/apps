@@ -59,12 +59,13 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
   const extrinsic = useMemo(
     (): SubmittableExtrinsic | null => {
       try {
-        return api.tx.registrar.registerPara(
+        // FIXME democracy
+        return api.tx.sudo.sudo(api.tx.registrar.registerPara(
           id,
           info,
           code ? u8aToHex(code) : null,
           initialHeadState ? u8aToString(initialHeadState) : null
-        );
+        ));
       } catch (error) {
         console.log(error);
 
@@ -136,11 +137,10 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
           <Modal.Actions onCancel={onClose}>
             <TxButton
               accountId={sudoKey}
+              extrinsic={extrinsic}
               isDisabled={!isIdValid || !isCodeValid || !isInitialHeadStateValid}
               onClick={onClose}
               onSendRef={onSendRef}
-              params={[extrinsic]}
-              tx={'sudo.sudo'}
             />
           </Modal.Actions>
         </Modal>

@@ -5,7 +5,7 @@
 import { DeriveParachainInfo } from '@polkadot/api-derive/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import { Modal, Static, TxButton } from '@polkadot/react-components';
@@ -31,7 +31,8 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
   const extrinsic = useMemo(
     (): SubmittableExtrinsic | null => {
       try {
-        return api.tx.registrar.deregisterPara(id);
+        // FIXME democracy
+        return api.tx.sudo.sudo(api.tx.registrar.deregisterPara(id));
       } catch (error) {
         console.log(error);
 
@@ -41,10 +42,13 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
     [api, id]
   );
 
-  const onStart = (): void => {
-    onClose();
-    onSubmit();
-  };
+  const onStart = useCallback(
+    (): void => {
+      onClose();
+      onSubmit();
+    },
+    [onClose, onSubmit]
+  );
 
   return (
     <Modal
@@ -67,12 +71,11 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={sudoKey}
+          extrinsic={extrinsic}
           isDisabled={!id || !extrinsic}
           onClick={onClose}
           onSendRef={onSendRef}
           onStart={onStart}
-          params={[extrinsic]}
-          tx={'sudo.sudo'}
         />
       </Modal.Actions>
     </Modal>
