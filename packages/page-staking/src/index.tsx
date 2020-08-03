@@ -78,27 +78,23 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     },
     {
       name: 'slashes',
-      text: t<string>('Slashes')
+      text: t<string>('Slashes ({{count}})', { replace: { count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0) } })
     },
     {
       hasParams: true,
       name: 'query',
       text: t<string>('Validator stats')
     }
-  ].filter((q): q is { name: string; text: string } => !!q), [api, t]);
+  ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
   const hiddenTabs = useMemo(
     (): string[] => {
-      const base = !hasAccounts
+      return !hasAccounts
         ? ['actions', 'payouts', 'query']
         : !hasQueries
           ? ['returns', 'query']
           : [];
-
-      return slashes.length
-        ? base
-        : base.concat('slashes');
     },
-    [hasAccounts, hasQueries, slashes]
+    [hasAccounts, hasQueries]
   );
 
   useEffect((): void => {
