@@ -1,13 +1,24 @@
 # CHANGELOG
 
-## 0.52.0-beta.x
+## 0.52.1 Aug 3, 2020
 
+- ar i18n support (Thanks to https://github.com/nightwolf3)
+- zh i18n updated (Thanks to https://github.com/kaichaosun)
 - zh i18n updates (Thanks to https://github.com/x-i-ao-b-ai)
 - Allow management of proxies (Thanks to https://github.com/Tbaut)
+- Links for Polkassembly Polkadot support (Thanks to https://github.com/niklabh)
+- Clarify claiming template text (Thanks to https://github.com/Swader)
+- Remove auto-select defaults for nomination, adjust loading for all selector
+- Display Slashing tab on staking overview (as available)
+- Indicate per-validator slashes in accounts (chilled) & staking targets
 - Display scheduled tasks (ongoing) on democracy page
-- Adjust endpoint selector with slide-out (all visible)
-- Cleanup democracy delegation to highlist invalid amounts
+- Adjust endpoint selector with slide-out as opposed to modal (all visible)
+- Cleanup democracy delegation to highlight invalid amounts
 - Adjust thresholds for council slash cancel on Polkadot
+- Dep-dupe account filtering in all lists (staking vs multi-select lists)
+- Adjust max column widths in modals, avoiding overflows
+- Adjust era filters on staking payouts, default to day intervals
+- Convert custom URL inputs to punycode (UTF8 detection)
 
 ## 0.51.1 Jul 27, 2020
 
