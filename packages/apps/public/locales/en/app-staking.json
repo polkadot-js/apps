@@ -78,6 +78,7 @@
   "Since this transaction deals with funding, the stash account will be used.": "Since this transaction deals with funding, the stash account will be used.",
   "Slashed in era {{eras}}": "Slashed in era {{eras}}",
   "Slashes": "Slashes",
+  "Slashes ({{count}})": "Slashes ({{count}})",
   "Staking overview": "Staking overview",
   "Stash": "Stash",
   "Stop": "Stop",
