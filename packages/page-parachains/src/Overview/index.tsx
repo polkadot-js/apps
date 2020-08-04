@@ -6,14 +6,12 @@ import { DeriveParachain } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Icon, Spinner } from '@polkadot/react-components';
+import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Parachains from './Parachains';
 import Register from './Register';
 import Summary from './Summary';
-
-import { useTranslation } from '../translate';
 
 interface Props {
   isMine?: boolean;
@@ -21,52 +19,24 @@ interface Props {
 }
 
 function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api } = useApi();
-  const parachains = useCall<DeriveParachain[]>(api.derive.parachains.overview) || null;
+  const parachains = useCall<DeriveParachain[]>(api.derive.parachains.overview);
   const nextFreeId = useCall<BN>(api.query.registrar.nextFreeId);
 
-  if (!parachains) {
-    return (
-      <Spinner />
-    );
-  }
-
-  const actions = isMine && sudoKey
-    ? (
+  return (
+    <>
+      <Summary
+        nextFreeId={nextFreeId}
+        parachainCount={parachains?.length || 0}
+      />
       <Button.Group>
         <Register
+          isDisabled={!isMine}
           nextFreeId={nextFreeId}
           sudoKey={sudoKey}
         />
       </Button.Group>
-    )
-    : null;
-
-  if (!!parachains && !parachains.length) {
-    return (
-      <>
-        {actions}
-        <article className='error padded'>
-          <div>
-            <Icon icon='ban' />
-            {t<string>('There are no registered parachains')}
-          </div>
-        </article>
-      </>
-    );
-  }
-
-  return (
-    <>
-      {actions}
-      <Summary
-        nextFreeId={nextFreeId}
-        parachainCount={parachains.length}
-      />
-      <Parachains
-        parachains={parachains}
-      />
+      <Parachains parachains={parachains} />
     </>
   );
 }

@@ -16,8 +16,9 @@ import { Button, Dropdown, InputFile, InputNumber, InputWasm, Modal, TxButton } 
 import { useTranslation } from '../translate';
 
 interface Props {
+  isDisabled: boolean;
   nextFreeId?: BN;
-  sudoKey: string;
+  sudoKey?: string;
 }
 
 type Scheduling = 'Always' | 'Dynamic';
@@ -30,7 +31,7 @@ const schedulingOptions = [{
   value: 'Dynamic'
 }];
 
-function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
+function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
@@ -59,12 +60,13 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
   const extrinsic = useMemo(
     (): SubmittableExtrinsic | null => {
       try {
-        return api.tx.registrar.registerPara(
+        // FIXME democracy
+        return api.tx.sudo.sudo(api.tx.registrar.registerPara(
           id,
           info,
           code ? u8aToHex(code) : null,
           initialHeadState ? u8aToString(initialHeadState) : null
-        );
+        ));
       } catch (error) {
         console.log(error);
 
@@ -79,6 +81,7 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
       <div className='ui--Row-buttons'>
         <Button
           icon='plus'
+          isDisabled={isDisabled || !sudoKey}
           label={t<string>('Register a parachain')}
           onClick={onOpen}
         />
@@ -136,11 +139,10 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
           <Modal.Actions onCancel={onClose}>
             <TxButton
               accountId={sudoKey}
+              extrinsic={extrinsic}
               isDisabled={!isIdValid || !isCodeValid || !isInitialHeadStateValid}
               onClick={onClose}
               onSendRef={onSendRef}
-              params={[extrinsic]}
-              tx={'sudo.sudo'}
             />
           </Modal.Actions>
         </Modal>

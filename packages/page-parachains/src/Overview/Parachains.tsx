@@ -12,22 +12,26 @@ import { useTranslation } from '../translate';
 import Parachain from './Parachain';
 
 interface Props {
-  parachains: DeriveParachain[];
+  parachains?: DeriveParachain[];
 }
 
 function Parachains ({ parachains }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [t('parachains'), 'start', 4],
+    [t('parachains'), 'start', 3],
+    [t('heads'), 'start'],
     [t('swap to id')],
     [t('scheduling')],
     []
   ], [t]);
 
   return (
-    <Table header={header}>
-      {parachains.map((parachain): React.ReactNode => (
+    <Table
+      empty={t<string>('There are no registered parachains')}
+      header={header}
+    >
+      {parachains?.map((parachain): React.ReactNode => (
         <Parachain
           key={parachain.id.toString()}
           parachain={parachain}
