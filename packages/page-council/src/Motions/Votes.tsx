@@ -26,7 +26,7 @@ function Votes ({ isAye, members, threshold, votes }: Props): React.ReactElement
       ? num
       : members?.length
         ? (members.length - num) + 1
-        : '';
+        : 0;
 
     setCounter(`${votes.length}${max ? `/${max}` : ''}`);
   }, [isAye, members, threshold, votes]);
