@@ -9,6 +9,7 @@ import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
+import { useAvailableSlashes } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
@@ -50,6 +51,7 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
 
 function Targets ({ className = '', isInElection, ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [sorted, setSorted] = useState<number[] | undefined>();
@@ -197,6 +199,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
       >
         {validators && sorted && (validators.length === sorted.length) && sorted.map((index): React.ReactNode =>
           <Validator
+            allSlashes={allSlashes}
             canSelect={selected.length < MAX_NOMINATIONS}
             filterName={nameFilter}
             info={validators[index]}

@@ -38,6 +38,12 @@ const KNOWN: [AccountId, string][] = [
 const displayCache = new Map<string, React.ReactNode>();
 const indexCache = new Map<string, string>();
 
+const parentCache = new Map<string, string>();
+
+export function getParentAccount (value: string): string | undefined {
+  return parentCache.get(value);
+}
+
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
 
@@ -135,6 +141,10 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
     const cacheAddr = (accountId || value || '').toString();
+
+    if (identity?.parent) {
+      parentCache.set(cacheAddr, identity.parent.toString());
+    }
 
     if (isFunction(api.query.identity?.identityOf)) {
       setName(() =>

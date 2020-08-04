@@ -94,7 +94,6 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId || !hasValue}
-              isPrimary
               label={t<string>('Submit proposal')}
               onStart={toggleOpen}
               params={[value, beneficiary]}

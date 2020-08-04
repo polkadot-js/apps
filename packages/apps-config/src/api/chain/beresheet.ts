@@ -17,11 +17,11 @@ export default {
   'voting::VoteType': 'VoteType',
   'voting::TallyType': 'TallyType',
   'voting::Tally': 'VotingTally',
-  // chain-specific overrides
-  Address: 'GenericAddress',
-  Keys: 'SessionKeys4',
-  StakingLedger: 'StakingLedgerTo223',
-  Votes: 'VotesTo230',
-  ReferendumInfo: 'ReferendumInfoTo239',
-  Weight: 'u32'
+  // // chain-specific overrides
+  // Address: 'GenericAddress',
+  // Keys: 'SessionKeys4',
+  // StakingLedger: 'StakingLedgerTo223',
+  // Votes: 'VotesTo230',
+  // ReferendumInfo: 'ReferendumInfoTo239',
+  // Weight: 'u32'
 };

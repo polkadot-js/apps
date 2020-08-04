@@ -233,7 +233,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         <TxButton
           accountId={address}
           isDisabled={!okAll}
-          isPrimary
           label={t<string>('Set Identity')}
           onStart={onClose}
           params={[info]}

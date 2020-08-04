@@ -131,6 +131,10 @@ export default React.memo(styled(Body)`
     &.favorite .ui--Icon.isSelected {
       color: darkorange;
     }
+
+    .ui--Button-Group .ui--Button {
+      margin: 0;
+    }
   }
 
   tr {
@@ -169,7 +173,7 @@ export default React.memo(styled(Body)`
     .ui--Button:not(.isIcon):not(:hover) {
       background: transparent !important;
       box-shadow: none !important;
-      color: #555 !important;
+      // color: #555 !important;
     }
 
     .ui.toggle.checkbox input:checked~.box:before,

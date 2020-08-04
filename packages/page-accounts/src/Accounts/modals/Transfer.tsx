@@ -110,7 +110,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           accountId={senderId}
           icon='paper-plane'
           isDisabled={!hasAvailable || !recipientId || !amount}
-          isPrimary
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={[recipientId, amount]}

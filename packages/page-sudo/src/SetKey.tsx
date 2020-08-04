@@ -47,7 +47,6 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
                 accountId={sudoKey}
                 icon='sign-in-alt'
                 isDisabled={!isMine || sudoKey === selected}
-                isPrimary
                 label={t<string>('Reassign')}
                 params={[selected]}
                 tx='sudo.setKey'

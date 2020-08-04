@@ -106,12 +106,12 @@ export default function withCall<P extends ApiProps> (endpoint: string, {
 
         // The attachment takes time when a lot is available, set a timeout
         // to first handle the current queue before subscribing
-        setImmediate((): void => {
+        setTimeout((): void => {
           this
             .subscribe(this.getParams(this.props))
             .then(NOOP)
             .catch(NOOP);
-        });
+        }, 0);
       }
 
       public componentWillUnmount (): void {

@@ -69,13 +69,11 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
           <div className='contracts--Contract-buttons'>
             <Button
               icon='trash'
-              isNegative
               onClick={toggleIsForgetOpen}
               tooltip={t<string>('Forget this contract')}
             />
             <Button
               icon='play'
-              isPrimary
               label={t<string>('execute')}
               onClick={onCall()}
               tooltip={t<string>('Call a method on this contract')}

@@ -56,7 +56,6 @@ function Create ({ onClose, onRegister }: Props): React.ReactElement<Props> {
         <Button
           icon='registered'
           isDisabled={!name}
-          isPrimary
           label={t<string>('Register')}
           onClick={onClose}
         />

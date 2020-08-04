@@ -29,7 +29,7 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
       <section>
         {stakingOverview && (
           <CardSummary label={t<string>('validators')}>
-            {stakingOverview.validators.length}{`/${stakingOverview.validatorCount.toString()}`}
+            {stakingOverview.validators.length}&nbsp;/&nbsp;{stakingOverview.validatorCount.toString()}
           </CardSummary>
         )}
         {!!next?.length && (

@@ -69,8 +69,6 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
     );
   }
 
-  console.error(turnout);
-
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
   const options: [string, string, boolean, (value: boolean) => void][] = [
@@ -96,7 +94,10 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
               </div>
             )}
             <div>
-              {canVote && <BlockToTime blocks={blocksLeft} />}
+              {canVote
+                ? <BlockToTime blocks={blocksLeft} />
+                : t<string>('Completed')
+              }
               <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
             </div>
           </div>
@@ -115,30 +116,33 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                 <Columar.Column className='option'>
                   <div className='optionName'>{label}</div>
                   <div className='optionDesc'>{desc}</div>
-                  <Toggle
-                    className='pollToggle'
-                    isDisabled={!canVote}
-                    label={
-                      canVote
-                        ? value
-                          ? t<string>('Aye, I support this')
-                          : t<string>('Nay, I do not support this')
-                        : t<string>('Voting closed')
-                    }
-                    onChange={onChange}
-                    value={canVote && value}
-                  />
+                  {canVote && (
+                    <Toggle
+                      className='pollToggle'
+                      isDisabled={!canVote}
+                      label={
+                        canVote
+                          ? value
+                            ? t<string>('Aye, I support this')
+                            : t<string>('Nay, I do not support this')
+                          : t<string>('Voting closed')
+                      }
+                      onChange={onChange}
+                      value={canVote && value}
+                    />
+                  )}
                 </Columar.Column>
                 <Columar.Column>
                   {totals[index].isZero()
                     ? <div className='result' />
                     : (
                       <div className='result'>
-                        <Progress
-                          total={DIV}
-                          value={progress[index]}
-                        />
                         <FormatBalance value={totals[index]} />
+                        <Progress
+                          isDisabled={!turnout}
+                          total={turnout?.voted}
+                          value={totals[index]}
+                        />
                       </div>
                     )
                   }
@@ -260,11 +264,20 @@ export default React.memo(styled(PollApp)`
   }
 
   .result {
-    margin: 2.2rem 0 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
     text-align: right;
 
+    .ui--FormatBalance {
+      font-size: 1.2rem;
+      font-weight: 100;
+      line-height: 1;
+    }
+
     .ui--Progress {
-      margin-bottom: 0.5rem;
+      margin: 0.75rem;
     }
   }
 `);

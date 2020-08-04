@@ -39,7 +39,6 @@ function SetSessionKey ({ controllerId, onClose, stashId }: Props): React.ReactE
           extrinsic={sessionTx}
           icon='sign-in-alt'
           isDisabled={!sessionTx}
-          isPrimary
           label={t<string>('Set Session Key')}
           onStart={onClose}
         />

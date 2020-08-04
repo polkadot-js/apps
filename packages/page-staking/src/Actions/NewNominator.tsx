@@ -101,7 +101,6 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
-                  isPrimary
                   label={t<string>('Bond & Nominate')}
                   onStart={_toggle}
                   params={[
@@ -116,7 +115,6 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  isPrimary
                   label={t<string>('next')}
                   onClick={_nextStep}
                 />

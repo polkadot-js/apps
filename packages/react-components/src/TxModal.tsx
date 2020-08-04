@@ -151,7 +151,6 @@ export default class TxModal<P extends TxModalProps, S extends TxModalState> ext
         )}
         icon='sign-in-alt'
         isDisabled={this.isDisabled()}
-        isPrimary
         label={this.submitLabel()}
         onClick={this.onSubmit}
         onFailed={this.onFailed}

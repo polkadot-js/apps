@@ -22,6 +22,7 @@ interface HashState {
   hash?: string;
   isHashValid: boolean;
 }
+
 interface ProposalState {
   proposal?: SubmittableExtrinsic<'promise'> | null;
   proposalLength: number;
@@ -107,7 +108,6 @@ function ProposeExternal ({ className = '', isMember, members }: Props): React.R
               accountId={accountId}
               icon='plus'
               isDisabled={!threshold || !members.includes(accountId || '') || !proposal}
-              isPrimary
               label={t<string>('Propose')}
               onStart={toggleVisible}
               params={

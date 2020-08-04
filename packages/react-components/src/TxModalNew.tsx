@@ -116,7 +116,6 @@ function TxModal<P extends Props> ({
           <Button
             icon={submitButtonIcon}
             isDisabled={isDisabled || isSending || !accountId || !isSubmittable}
-            isPrimary
             label={submitButtonLabel}
             onClick={onSend}
             {...submitButtonProps}

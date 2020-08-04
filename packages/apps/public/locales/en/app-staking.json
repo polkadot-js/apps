@@ -21,6 +21,7 @@
   "Change session keys": "Change session keys",
   "Change validator preferences": "Change validator preferences",
   "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command": "Changing the key only takes effect at the start of the next session. The input here is generates from the author_rotateKeys command",
+  "Chilled nominations ({{count}})": "Chilled nominations ({{count}})",
   "Display overview information for the selected validator, including blocks produced.": "Display overview information for the selected validator, including blocks produced.",
   "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.": "Distinct stash and controller accounts are recommended to ensure fund security. You will be allowed to make the transaction, but take care to not tie up all funds, only use a portion of the available funds during this period.",
   "Ensure that not all funds are locked, funds need to be available for fees.": "Ensure that not all funds are locked, funds need to be available for fees.",
@@ -32,6 +33,7 @@
   "Inject Keys": "Inject Keys",
   "Inject session keys (advanced)": "Inject session keys (advanced)",
   "Keys from rotateKeys": "Keys from rotateKeys",
+  "Max, {{eras}} eras": "Max, {{eras}} eras",
   "New stake": "New stake",
   "No active validators found": "No active validators found",
   "No active validators to check": "No active validators to check",
@@ -56,6 +58,7 @@
   "Payouts": "Payouts",
   "Retrieving info for all applicable eras, this will take some time": "Retrieving info for all applicable eras, this will take some time",
   "Retrieving info for last {{numEras}} eras, this will take some time": "Retrieving info for last {{numEras}} eras, this will take some time",
+  "Retrieving info for the selected eras, this will take some time": "Retrieving info for the selected eras, this will take some time",
   "Rewards (once paid) can be deposited to either the stash or controller, with different effects.": "Rewards (once paid) can be deposited to either the stash or controller, with different effects.",
   "Select best": "Select best",
   "Select targets manually (no auto-selection based on current profitability)": "Select targets manually (no auto-selection based on current profitability)",
@@ -68,6 +71,7 @@
   "Setup Nominator {{step}}/{{NUM_STEPS}}": "Setup Nominator {{step}}/{{NUM_STEPS}}",
   "Setup Validator {{step}}/{{NUM_STEPS}}": "Setup Validator {{step}}/{{NUM_STEPS}}",
   "Since this transaction deals with funding, the stash account will be used.": "Since this transaction deals with funding, the stash account will be used.",
+  "Slashed in era {{eras}}": "Slashed in era {{eras}}",
   "Staking overview": "Staking overview",
   "Stash": "Stash",
   "Stop": "Stop",
@@ -193,5 +197,6 @@
   "{{currency}} clipped": "{{currency}} clipped",
   "{{currency}} rewards": "{{currency}} rewards",
   "{{currency}} slashed": "{{currency}} slashed",
-  "{{currency}} total": "{{currency}} total"
+  "{{currency}} total": "{{currency}} total",
+  "{{days}} days": "{{days}} days"
 }

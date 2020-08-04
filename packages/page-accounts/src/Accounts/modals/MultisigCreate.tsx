@@ -138,7 +138,6 @@ function Multisig ({ className = '', onClose, onStatusChange }: Props): React.Re
         <Button
           icon='plus'
           isDisabled={!isValid}
-          isPrimary
           label={t<string>('Create')}
           onClick={_createMultisig}
         />

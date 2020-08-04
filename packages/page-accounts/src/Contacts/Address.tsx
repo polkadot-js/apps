@@ -197,8 +197,8 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
       <td className='button'>
         <Button
           icon='paper-plane'
-          key='deposit'
-          label={t<string>('deposit')}
+          key='send'
+          label={t<string>('send')}
           onClick={_toggleTransfer}
         />
         <Popup

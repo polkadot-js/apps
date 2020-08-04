@@ -79,7 +79,6 @@ function Parachain ({ basePath, className = '', isMine, paraInfoRef, sudoKey }: 
                   <Button
                     className='menu-button'
                     icon='ellipsis-v'
-                    isPrimary
                     onClick={toggleMenu}
                   />
                 }
