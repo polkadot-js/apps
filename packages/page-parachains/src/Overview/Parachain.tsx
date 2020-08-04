@@ -30,16 +30,15 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
         return null;
       }
 
-      const hex = headData.toHex();
+      const hex = headData.unwrap().toHex();
 
-      return `${hex.slice(0, 8)}…${hex.slice(-6)}`;
+      return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
     }
   });
   const history = useHistory();
+
   const _onClick = useCallback(
-    (): void => {
-      history.push(`/parachains/${id.toString()}`);
-    },
+    () => history.push(`/parachains/${id.toString()}`),
     [history, id]
   );
 

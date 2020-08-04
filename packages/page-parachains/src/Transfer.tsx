@@ -2,44 +2,76 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveParachain } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useMemo, useState } from 'react';
-import { Button, Dropdown, Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useToggle } from '@polkadot/react-hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
+import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 
 import { useTranslation } from './translate';
 
 interface Props {
+  className?: string;
   parachains?: DeriveParachain[];
 }
 
-function Transfer ({ parachains }: Props): React.ReactElement<Props> {
+function Transfer ({ className, parachains }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [recipientId, setRecipientId] = useState<string | null>(null);
   const [amount, setAmount] = useState<BN | undefined>();
-  const [toId, setToId] = useState<string | null>();
+  const [paraId, setParaId] = useState<string | BN | null>(null);
   const [remark, setRemark] = useState('');
+  const [isParachain, setIsParachain] = useState(true);
+  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   const idOptions = useMemo((): { text: string, value: string }[] => {
     return (parachains || []).map(({ id }) => ({ text: id.toString(), value: id.toString() }));
   }, [parachains]);
 
+  useEffect((): void => {
+    setExtrinsic((): SubmittableExtrinsic<'promise'> | null => {
+      if (amount?.gtn(0)) {
+        if (api.query.parachainUpgrade) {
+          return recipientId
+            ? isParachain
+              ? api.tx.tokenDealer.transferTokensToParachainChain(paraId, recipientId, amount)
+              : api.tx.tokenDealer.transferTokensToRelayChain(recipientId, amount)
+            : null;
+        } else {
+          return api.tx.parachains.transferToParachain(paraId, amount, remark);
+        }
+      }
+
+      return null;
+    });
+  }, [amount, api, isParachain, paraId, recipientId, remark]);
+
+  const isActionDisabled = !allAccounts.length || (
+    api.query.parachains
+      ? !parachains?.length
+      : !api.query.parachainUpgrade
+  );
+
   return (
     <>
       <Button
         icon='paper-plane'
-        isDisabled={!parachains?.length || !allAccounts.length}
+        isDisabled={isActionDisabled}
         label={t<string>('Transfer to chain')}
         onClick={toggleVisible}
       />
       {isVisible && (
         <Modal
-          header={t<string>('Transfer to parachain')}
+          className={className}
+          header={t<string>('Transfer to chain')}
           size='large'
         >
           <Modal.Content>
@@ -57,13 +89,36 @@ function Transfer ({ parachains }: Props): React.ReactElement<Props> {
                   onChange={setAccountId}
                   type='account'
                 />
-                <Dropdown
-                  defaultValue={idOptions[0].value}
-                  help={t<string>('the parachain that will receive the transfer of tokens.')}
-                  label={t<string>('the parachain to transfer to')}
-                  onChange={setToId}
-                  options={idOptions}
+                <InputAddress
+                  help={t<string>('The account that will receive the funds')}
+                  isDisabled={!api.query.parachainUpgrade}
+                  label={t<string>('send to address')}
+                  onChange={setRecipientId}
+                  value={
+                    api.query.parachainUpgrade
+                      ? recipientId
+                      : accountId
+                  }
                 />
+                {isParachain && (
+                  api.query.parachainUpgrade
+                    ? (
+                      <InputNumber
+                        help={t<string>('the parachain that will receive the transfer of tokens.')}
+                        label={t<string>('the parachain to transfer to')}
+                        onChange={setParaId}
+                      />
+                    )
+                    : (
+                      <Dropdown
+                        defaultValue={idOptions[0].value}
+                        help={t<string>('the parachain that will receive the transfer of tokens.')}
+                        label={t<string>('the parachain to transfer to')}
+                        onChange={setParaId}
+                        options={idOptions}
+                      />
+                    )
+                )}
                 <InputBalance
                   autoFocus
                   help={t<string>('the amount that should be transferred. It needs to be less than the available balance')}
@@ -71,26 +126,35 @@ function Transfer ({ parachains }: Props): React.ReactElement<Props> {
                   label={t<string>('amount')}
                   onChange={setAmount}
                 />
-                <Input
-                  help={t<string>('A remark that is associated with this transfer. This can be any comment that indicates the reason.')}
-                  label={t<string>('transfer remark/comment')}
-                  maxLength={32}
-                  onChange={setRemark}
-                />
+                {api.query.parachains && (
+                  <Input
+                    help={t<string>('A remark that is associated with this transfer. This can be any comment that indicates the reason.')}
+                    label={t<string>('transfer remark/comment')}
+                    maxLength={32}
+                    onChange={setRemark}
+                  />
+                )}
+                {api.query.parachainUpgrade && (
+                  <Toggle
+                    className='togglePara'
+                    label={t<string>('send funds to another parachain (not relay)')}
+                    onChange={setIsParachain}
+                    value={isParachain}
+                  />
+                )}
               </Modal.Column>
               <Modal.Column>
                 <p>{t<string>('Transfer an amount from a specific account into a parachain.')}</p>
-                <p>{t<string>('Once transferred the amount will become available on the parachain for use.')}</p>
+                <p>{t<string>('Once transferred the amount will become available on the chain for use.')}</p>
               </Modal.Column>
             </Modal.Columns>
           </Modal.Content>
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
               accountId={accountId}
-              isDisabled={!toId || !amount?.gtn(0)}
+              extrinsic={extrinsic}
               label={t<string>('Send')}
-              params={[toId, amount, remark]}
-              tx='parachains.transferToParachain'
+              onStart={toggleVisible}
             />
           </Modal.Actions>
         </Modal>
@@ -99,4 +163,9 @@ function Transfer ({ parachains }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(Transfer);
+export default React.memo(styled(Transfer)`
+  .togglePara {
+    marin-top: 0.5rem;
+    text-align: right;
+  }
+`);
