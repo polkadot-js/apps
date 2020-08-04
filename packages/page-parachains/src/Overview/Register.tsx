@@ -16,8 +16,9 @@ import { Button, Dropdown, InputFile, InputNumber, InputWasm, Modal, TxButton } 
 import { useTranslation } from '../translate';
 
 interface Props {
+  isDisabled: boolean;
   nextFreeId?: BN;
-  sudoKey: string;
+  sudoKey?: string;
 }
 
 type Scheduling = 'Always' | 'Dynamic';
@@ -30,7 +31,7 @@ const schedulingOptions = [{
   value: 'Dynamic'
 }];
 
-function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
+function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
@@ -80,6 +81,7 @@ function Register ({ nextFreeId = BN_THOUSAND, sudoKey }: Props): React.ReactEle
       <div className='ui--Row-buttons'>
         <Button
           icon='plus'
+          isDisabled={isDisabled || !sudoKey}
           label={t<string>('Register a parachain')}
           onClick={onOpen}
         />
