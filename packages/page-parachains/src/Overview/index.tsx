@@ -9,6 +9,7 @@ import React from 'react';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import Transfer from '../Transfer';
 import Parachains from './Parachains';
 import Register from './Register';
 import Summary from './Summary';
@@ -30,6 +31,7 @@ function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
         parachainCount={parachains?.length || 0}
       />
       <Button.Group>
+        <Transfer parachains={parachains} />
         <Register
           isDisabled={!isMine}
           nextFreeId={nextFreeId}

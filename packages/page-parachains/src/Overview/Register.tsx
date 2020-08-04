@@ -78,14 +78,12 @@ function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): Re
 
   return (
     <>
-      <div className='ui--Row-buttons'>
-        <Button
-          icon='plus'
-          isDisabled={isDisabled || !sudoKey}
-          label={t<string>('Register a parachain')}
-          onClick={onOpen}
-        />
-      </div>
+      <Button
+        icon='plus'
+        isDisabled={isDisabled || !sudoKey}
+        label={t<string>('Register a parachain')}
+        onClick={onOpen}
+      />
       {isOpen && (
         <Modal
           header={t<string>('Register a parachain')}
