@@ -21,11 +21,14 @@ function Votes ({ isAye, members, threshold, votes }: Props): React.ReactElement
   const [counter, setCounter] = useState('');
 
   useEffect((): void => {
+    const num = threshold.toNumber();
     const max = isAye
-      ? threshold.toNumber()
-      : (members.length - threshold.toNumber()) + 1;
+      ? num
+      : members?.length
+        ? (members.length - num) + 1
+        : 0;
 
-    setCounter(`${votes.length}/${max}`);
+    setCounter(`${votes.length}${max ? `/${max}` : ''}`);
   }, [isAye, members, threshold, votes]);
 
   return (

@@ -23,7 +23,6 @@ import useOwnNominators from './useOwnNominators';
 interface Props {
   className?: string;
   isInElection: boolean;
-  next?: string[];
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
@@ -182,11 +181,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
         <Button
           icon='check'
           isDisabled={!validators?.length || !ownNominators?.length}
-          label={t<string>('Select best')}
+          label={t<string>('Most profitable')}
           onClick={_selectProfitable}
         />
         <Nominate
-          isDisabled={isInElection}
+          isDisabled={isInElection || !validators?.length}
           ownNominators={ownNominators}
           targets={selected}
         />

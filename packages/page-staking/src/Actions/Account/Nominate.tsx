@@ -15,15 +15,13 @@ import NominatePartial from '../partials/Nominate';
 interface Props {
   className?: string;
   controllerId: string;
-  next?: string[];
   nominating?: string[];
   onClose: () => void;
   stashId: string;
   targets: SortedTargets;
-  validators?: string[];
 }
 
-function Nominate ({ className = '', controllerId, next, nominating, onClose, stashId, targets, validators }: Props): React.ReactElement<Props> | null {
+function Nominate ({ className = '', controllerId, nominating, onClose, stashId, targets }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [{ nominateTx }, setTx] = useState<NominateInfo>({});
 
@@ -37,12 +35,10 @@ function Nominate ({ className = '', controllerId, next, nominating, onClose, st
         <NominatePartial
           className='nominatePartial'
           controllerId={controllerId}
-          next={next}
           nominating={nominating}
           onChange={setTx}
           stashId={stashId}
           targets={targets}
-          validators={validators}
           withSenders
         />
       </Modal.Content>
@@ -63,8 +59,8 @@ function Nominate ({ className = '', controllerId, next, nominating, onClose, st
 export default React.memo(styled(Nominate)`
   .nominatePartial {
     .ui--Static .ui--AddressMini .ui--AddressMini-info {
-      max-width: 10.5rem;
-      min-width: 10.5rem;
+      max-width: 10rem;
+      min-width: 10rem;
     }
   }
 `);

@@ -31,6 +31,10 @@ export default createGlobalStyle<Props>`
     background: ${getHighlight} !important;
   }
 
+  .ui--highlight--before-border:before {
+    border-color: ${getHighlight} !important;
+  }
+
   .ui--highlight--bg {
     background: ${getHighlight} !important;
   }
@@ -132,11 +136,15 @@ export default createGlobalStyle<Props>`
       }
     }
 
-    .ui--Toggle.isChecked .ui--Toggle-Slider {
-      background-color: ${getHighlight} !important;
+    .ui--Toggle.isChecked {
+      &:not(.isRadio) {
+        .ui--Toggle-Slider {
+          background-color: ${getHighlight} !important;
 
-      &:before {
-        border-color: ${getHighlight} !important;
+          &:before {
+            border-color: ${getHighlight} !important;
+          }
+        }
       }
     }
   }

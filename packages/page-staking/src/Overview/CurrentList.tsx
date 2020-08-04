@@ -8,7 +8,7 @@ import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Table } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 import { Option, StorageKey } from '@polkadot/types';
 
@@ -101,6 +101,9 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
   const [withIdentity, setWithIdentity] = useState(false);
 
+  // we have a very large list, so we use a loading delay
+  const isLoading = useLoadingDelay();
+
   useEffect((): void => {
     stakingOverview && setFiltered(
       getFiltered(stakingOverview, favorites, next)
@@ -156,7 +159,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   return isIntentions
     ? (
       <Table
-        empty={waiting && t<string>('No waiting validators found')}
+        empty={!isLoading && waiting && t<string>('No waiting validators found')}
         filter={
           <Filtering
             nameFilter={nameFilter}
@@ -167,12 +170,12 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
         }
         header={headerWaiting}
       >
-        {_renderRows(elected, false).concat(_renderRows(waiting, false))}
+        {isLoading ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
     )
     : (
       <Table
-        empty={validators && t<string>('No active validators found')}
+        empty={!isLoading && validators && t<string>('No active validators found')}
         filter={
           <Filtering
             nameFilter={nameFilter}
@@ -183,7 +186,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
         }
         header={headerActive}
       >
-        {_renderRows(validators, true)}
+        {isLoading ? undefined : _renderRows(validators, true)}
       </Table>
     );
 }

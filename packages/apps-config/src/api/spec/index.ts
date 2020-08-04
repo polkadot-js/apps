@@ -4,6 +4,7 @@
 
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
+import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
@@ -14,6 +15,7 @@ import stablePoc from './stable-poc';
 export default {
   acala,
   'centrifuge-chain': centrifugeChain,
+  'cumulus-test-parachain': testPara,
   edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,

@@ -10,6 +10,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
+import { checkVisibility } from '@polkadot/react-components/util';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -18,7 +19,6 @@ import keyring from '@polkadot/ui-keyring';
 import MaxBadge from '../MaxBadge';
 import Favorite from '../Overview/Address/Favorite';
 import { useTranslation } from '../translate';
-import { checkVisibility } from '../util';
 
 interface Props {
   allSlashes?: [BN, UnappliedSlash[]][];
@@ -68,7 +68,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
   useEffect((): void => {
     if (accountInfo) {
       info.hasIdentity = checkIdentity(api, accountInfo);
-      setVisibility(checkVisibility(api, info.key, filterName, withIdentity, accountInfo));
+      setVisibility(checkVisibility(api, info.key, accountInfo, filterName, withIdentity));
     }
   }, [accountInfo, api, filterName, info, withIdentity]);
 
