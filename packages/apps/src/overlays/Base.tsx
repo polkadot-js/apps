@@ -5,7 +5,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { Icon } from '@polkadot/react-components';
+import { Button, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
@@ -33,9 +33,10 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
         <div className='contentItem'>
           {children}
         </div>
-        <Icon
+        <Button
           className='closeIcon'
           icon='times'
+          isCircular
           onClick={toggleHidden}
         />
       </div>
@@ -44,13 +45,17 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
 }
 
 export default React.memo(styled(BaseOverlay)`
-  border-bottom: 1px solid transparent;
-  left: 0;
+  border: 1px solid transparent;
+  border-bottom-left-radius: 0.25rem;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  right: 0;
   line-height: 1.5em;
   padding: 0 2rem;
   position: fixed;
   right: 0;
   top: 0;
+  max-width: 55rem;
   z-index: 500;
 
   &.isError {
@@ -89,7 +94,7 @@ export default React.memo(styled(BaseOverlay)`
   .closeIcon {
     cursor: pointer;
     position: absolute;
-    right: 0.75em;
-    top: 0.75em;
+    right: 0em;
+    top: 0.75rem;
   }
 `);
