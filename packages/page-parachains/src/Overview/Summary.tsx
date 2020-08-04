@@ -5,25 +5,36 @@
 import BN from 'bn.js';
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
-  parachainCount: number;
+  parachainCount?: number;
   nextFreeId?: BN;
 }
 
 function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
 
   return (
     <SummaryBox>
       <section>
-        <CardSummary label={t<string>('parachains')}>
-          {parachainCount.toString()}
+        <CardSummary label={t<string>('relay')}>
+          {api.query.parachains
+            ? t<string>('yes')
+            : t<string>('no')
+          }
         </CardSummary>
-        {nextFreeId && (
+        {parachainCount && (
+          <CardSummary label={t<string>('parachains')}>
+            {formatNumber(parachainCount)}
+          </CardSummary>
+        )}
+        {api.query.parachains && nextFreeId && (
           <CardSummary label={t<string>('next id')}>
             {nextFreeId.toString()}
           </CardSummary>

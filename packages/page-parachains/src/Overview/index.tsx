@@ -21,24 +21,28 @@ interface Props {
 
 function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const parachains = useCall<DeriveParachain[]>(api.derive.parachains.overview);
-  const nextFreeId = useCall<BN>(api.query.registrar.nextFreeId);
+  const parachains = useCall<DeriveParachain[]>(api.derive.parachains?.overview);
+  const nextFreeId = useCall<BN>(api.query.registrar?.nextFreeId);
 
   return (
     <>
       <Summary
         nextFreeId={nextFreeId}
-        parachainCount={parachains?.length || 0}
+        parachainCount={parachains?.length}
       />
       <Button.Group>
         <Transfer parachains={parachains} />
-        <Register
-          isDisabled={!isMine}
-          nextFreeId={nextFreeId}
-          sudoKey={sudoKey}
-        />
+        {api.query.parachains && (
+          <Register
+            isDisabled={!isMine}
+            nextFreeId={nextFreeId}
+            sudoKey={sudoKey}
+          />
+        )}
       </Button.Group>
-      <Parachains parachains={parachains} />
+      {api.query.parachains && (
+        <Parachains parachains={parachains} />
+      )}
     </>
   );
 }
