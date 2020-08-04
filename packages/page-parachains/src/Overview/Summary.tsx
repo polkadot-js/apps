@@ -7,7 +7,7 @@ import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { formatNumber, isNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -29,7 +29,7 @@ function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Pro
             : t<string>('no')
           }
         </CardSummary>
-        {parachainCount && (
+        {isNumber(parachainCount) && (
           <CardSummary label={t<string>('parachains')}>
             {formatNumber(parachainCount)}
           </CardSummary>
