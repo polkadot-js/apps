@@ -61,9 +61,11 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
 
     const values = tip.tips.map(([, value]) => value).sort((a, b) => a.cmp(b));
     const midIndex = Math.floor(values.length / 2);
-    const median = values.length % 2
-      ? values[midIndex]
-      : values[midIndex - 1].add(values[midIndex]).divn(2);
+    const median = values.length
+      ? values.length % 2
+        ? values[midIndex]
+        : values[midIndex - 1].add(values[midIndex]).divn(2)
+      : BN_ZERO;
 
     setTipState({
       closesAt,

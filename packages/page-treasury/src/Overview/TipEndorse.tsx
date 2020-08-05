@@ -30,6 +30,12 @@ function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactEle
         label={t<string>('Endorse')}
         onClick={toggleOpen}
       />
+      {/* <TxButton
+        icon='fighter-jet'
+        isDisabled={!isMember || median.isZero()}
+        params={[hash, median]}
+        tx='treasury.tip'
+      /> */}
       {isOpen && (
         <Modal
           header={t<string>('Submit tip endorsement')}
