@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -99,7 +99,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
       <TipReason hash={reason} />
       <td className='start all'>
         {tips.length !== 0 && (
-          <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>
+          <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: `${tips.length}${median.isZero() ? '' : `, ${formatBalance(median)}`}` } })}>
             {tips.map(([tipper, balance]) => (
               <AddressMini
                 balance={balance}
