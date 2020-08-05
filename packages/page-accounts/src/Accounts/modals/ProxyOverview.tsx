@@ -62,10 +62,9 @@ function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: Pre
     <div className='proxy-container'>
       <div className='input-column'>
         <InputAddress
+          defaultValue={accountId}
           isDisabled
           label={t<string>('proxy account')}
-          type='account'
-          value={accountId}
         />
         <Dropdown
           help={'Type of proxy'}
