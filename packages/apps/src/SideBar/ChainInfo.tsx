@@ -37,10 +37,12 @@ function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactE
           )}
           <BestNumber label='#' />
         </div>
-        <Icon
-          className='dropdown'
-          icon={isToggled ? 'caret-right' : 'caret-down'}
-        />
+        {onClick && (
+          <Icon
+            className='dropdown'
+            icon={isToggled ? 'caret-right' : 'caret-down'}
+          />
+        )}
       </div>
     </div>
   );
