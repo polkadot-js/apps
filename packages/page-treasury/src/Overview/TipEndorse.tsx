@@ -12,11 +12,12 @@ import { useTranslation } from '../translate';
 interface Props {
   hash: string;
   isMember: boolean;
+  isTipped: boolean;
   median: BN;
   members: string[];
 }
 
-function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactElement<Props> {
+function TipEndorse ({ hash, isMember, isTipped, median, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, toggleOpen] = useToggle();
   const { allAccounts } = useAccounts();
@@ -41,7 +42,7 @@ function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactEle
       <TxButton
         accountId={defaultId}
         icon='fighter-jet'
-        isDisabled={!isMember || median.isZero()}
+        isDisabled={!isMember || !isTipped}
         isIcon
         params={[hash, median]}
         tx='treasury.tip'
