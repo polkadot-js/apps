@@ -70,7 +70,8 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Button {
-    &:not(.isDisabled):not(.isIcon):not(.isBasic) {
+    &:not(.isDisabled):not(.isIcon):not(.isBasic),
+    &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: ${getHighlight};
         color: #f5f5f4;
@@ -97,7 +98,8 @@ export default createGlobalStyle<Props>`
       color: #f5f5f4;
       text-shadow: none;
 
-      &:not(.isIcon) {
+      &:not(.isIcon),
+      &.withoutLink {
         .ui--Icon {
           color: inherit;
         }
@@ -106,7 +108,8 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Table td .ui--Button {
-    &:not(.isDisabled):not(.isIcon) {
+    &:not(.isDisabled):not(.isIcon),
+    &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: transparent;
         color: ${getHighlight};
