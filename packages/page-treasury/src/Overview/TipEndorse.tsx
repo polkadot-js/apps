@@ -41,7 +41,7 @@ function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactEle
       <TxButton
         accountId={defaultId}
         icon='fighter-jet'
-        isDisabled={!isMember}
+        isDisabled={!isMember || median.isZero()}
         isIcon
         params={[hash, median]}
         tx='treasury.tip'
