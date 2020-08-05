@@ -4,12 +4,13 @@
 
 import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -31,6 +32,7 @@ interface TipState {
   finder: AccountId | null;
   isFinder: boolean;
   isTipper: boolean;
+  median: BN;
 }
 
 function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
@@ -40,7 +42,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
 function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const [{ closesAt, deposit, finder, isFinder, isTipper }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipper: false });
+  const [{ closesAt, deposit, finder, isFinder, isTipper, median }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipper: false, median: BN_ZERO });
 
   useEffect((): void => {
     const closesAt = tip.closes.unwrapOr(null);
@@ -57,12 +59,19 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
       deposit = finderInfo[1];
     }
 
+    const values = tip.tips.map(([, value]) => value).sort((a, b) => a.cmp(b));
+    const midIndex = Math.floor(values.length / 2);
+    const median = values.length % 2
+      ? values[midIndex]
+      : values[midIndex - 1].add(values[midIndex]).divn(2);
+
     setTipState({
       closesAt,
       deposit,
       finder,
       isFinder: !!finder && allAccounts.includes(finder.toString()),
-      isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString()))
+      isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString())),
+      median
     });
   }, [allAccounts, hash, tip]);
 
@@ -122,6 +131,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
             <TipEndorse
               hash={hash}
               isMember={isMember}
+              median={median}
               members={members}
             />
           )

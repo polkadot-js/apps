@@ -12,10 +12,11 @@ import { useTranslation } from '../translate';
 interface Props {
   hash: string;
   isMember: boolean;
+  median: BN;
   members: string[];
 }
 
-function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Props> {
+function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -53,6 +54,8 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
             <Modal.Columns>
               <Modal.Column>
                 <InputBalance
+                  autoFocus
+                  defaultValue={median}
                   help={t<string>('The tip amount that should be allocated')}
                   isZeroable
                   label={t<string>('value')}
