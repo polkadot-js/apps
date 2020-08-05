@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -19,8 +19,16 @@ interface Props {
 function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, toggleOpen] = useToggle();
+  const { allAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [defaultId, setDefaultId] = useState<string | null>(null);
   const [value, setValue] = useState<BN | undefined>();
+
+  useEffect((): void => {
+    setDefaultId(
+      members.find((memberId) => allAccounts.includes(memberId)) || null
+    );
+  }, [allAccounts, members]);
 
   return (
     <>
@@ -30,12 +38,15 @@ function TipEndorse ({ hash, isMember, median, members }: Props): React.ReactEle
         label={t<string>('Endorse')}
         onClick={toggleOpen}
       />
-      {/* <TxButton
+      <TxButton
+        accountId={defaultId}
         icon='fighter-jet'
         isDisabled={!isMember || median.isZero()}
+        isIcon
         params={[hash, median]}
         tx='treasury.tip'
-      /> */}
+        withoutLink
+      />
       {isOpen && (
         <Modal
           header={t<string>('Submit tip endorsement')}
