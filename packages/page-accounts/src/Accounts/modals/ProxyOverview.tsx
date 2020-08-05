@@ -327,7 +327,7 @@ export default React.memo(styled(ProxyOverview)`
   .proxy-container {
     display: grid;
     grid-column-gap: 0.5rem;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     margin-bottom: 1rem;
 
     .input-column {
