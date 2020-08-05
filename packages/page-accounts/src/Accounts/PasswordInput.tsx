@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Modal, Password } from '@polkadot/react-components';
-import keyring from '@polkadot/ui-keyring';
-
 import React, { useCallback, useState } from 'react';
+import { Modal, Password, PasswordStrength } from '@polkadot/react-components';
+import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
 
@@ -67,9 +66,11 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
           onEnter={onEnter}
           value={password2}
         />
+        <PasswordStrength value={password} />
       </Modal.Column>
       <Modal.Column>
         <p>{t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
+        <p>{t<string>('Ensure you are using a strong password for proper account protection.')}</p>
       </Modal.Column>
     </Modal.Columns>
   );
