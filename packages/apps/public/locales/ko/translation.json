@@ -1,1 +1,22 @@
-{}
+{
+  "Add": "추가",
+  "Add account": "계정 추가하기",
+  "Add account via Qr": "QR코드로 계정 추가하기",
+  "Add an account via seed": "난수 값을 이용해서 계정 생성하기",
+  "Add an address": "주소 추가하기",
+  "Add contact": "연락처 추가",
+  "Add multisig": "다중서명지갑 추가",
+  "Add proxied account": "프록시 계정 추가",
+  "Add via Qr": "QR로 추가하기",
+  "Add via backup file": "백업파일을 이용해서 계정 추가하기",
+  "Advanced creation options": "고급 계정 생성 옵션",
+  "An URL that is linked to this identity.": "계정에 연결된 URL",
+  "An encrypted backup file will be created once you have pressed the \"Download\" button. This can be used to re-import your account on any other machine.": "\"다운로드\" 버튼을 누를 시 암호화된 백업파일이 생성될 것입니다. 이 파일은 추후에 다른 기기에서 계정을 들여올 때 사용될 것입니다.",
+  "Approve this call hash": "트랜젝션 해시를 승인하기",
+  "Backup account": "계정 백업",
+  "Cancel this call hash": "트랜젝션을 취소하기",
+  "Change": "변경",
+  "Change account password": "계정 비밀번호 변경",
+  "Change this account's password": "계정 비밀번호 변경",
+  "Claim tokens...": "토큰 찾기..."
+}
