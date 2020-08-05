@@ -20,7 +20,7 @@ import js from './js';
 import parachains from './parachains';
 import settings from './settings';
 import society from './society';
-// import staking from './staking';
+import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
 // import techcomm from './techcomm';
@@ -39,7 +39,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     claims,
     transfer,
     null,
-    // staking,
+    staking,
     // democracy,
     // council,
     // TODO Not sure about the inclusion of treasury, parachains & society here
@@ -55,7 +55,7 @@ const routes: Routes = appSettings.uiMode === 'light'
     claims,
     transfer,
     null,
-    // staking,
+    staking,
     // democracy,
     // council,
     // treasury,
