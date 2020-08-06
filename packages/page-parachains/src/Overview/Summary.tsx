@@ -36,7 +36,7 @@ function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Pro
         )}
         {api.query.parachains && nextFreeId && (
           <CardSummary label={t<string>('next id')}>
-            {nextFreeId.toString()}
+            {formatNumber(nextFreeId)}
           </CardSummary>
         )}
       </section>
@@ -45,7 +45,7 @@ function Summary ({ nextFreeId, parachainCount }: Props): React.ReactElement<Pro
           className='ui--media-small'
           label={t<string>('best block')}
         >
-          <BestNumber withPound />
+          <BestNumber />
         </CardSummary>
       </section>
     </SummaryBox>
