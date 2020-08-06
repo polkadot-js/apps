@@ -179,7 +179,8 @@ export default createGlobalStyle<Props>`
 
     &.error,
     &.warning {
-      font-size: 0.95rem;
+      border-left-width: 0.25rem;
+      line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
     }
@@ -189,9 +190,8 @@ export default createGlobalStyle<Props>`
     }
 
     &.error {
-      background: #fff6f6;
-      border-color: #e0b4b4;
-      color: #9f3a38;
+      background: rgba(255, 12, 12, 0.075);
+      border-color: rgba(255, 12, 12, 1);
     }
 
     &.padded {
@@ -203,8 +203,8 @@ export default createGlobalStyle<Props>`
     }
 
     &.warning {
-      background: #ffffe0;
-      border-color: #eeeeae;
+      background: rgba(255, 196, 12, 0.075);
+      border-color: rgba(255, 196, 12, 1);
     }
   }
 

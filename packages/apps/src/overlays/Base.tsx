@@ -36,6 +36,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
         <Button
           className='closeIcon'
           icon='times'
+          isBasic
           isCircular
           onClick={toggleHidden}
         />
@@ -45,13 +46,13 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
 }
 
 export default React.memo(styled(BaseOverlay)`
-  border: 1px solid transparent;
+  border: 0 solid transparent;
   border-bottom-left-radius: 0.25rem;
-  border-right-width: 0px;
-  border-top-width: 0px;
+  border-bottom-width: 1px;
+  border-left-width: 0.25rem;
   right: 0;
   line-height: 1.5em;
-  padding: 0 2rem;
+  padding: 0 1rem;
   position: fixed;
   right: 0;
   top: 0;
@@ -59,22 +60,20 @@ export default React.memo(styled(BaseOverlay)`
   z-index: 500;
 
   &.isError {
-    background: #ffe6e6;
-    border-color: #c00;
-    color: #4d0000;
+    background: rgba(255, 12, 12, 0.075);
+    border-color: rgba(255, 12, 12, 1);
   }
 
   &.isInfo {
-    background: #fff6cb;
-    border-color: #e7c000;
-    color: #6b5900;
+    background: rgba(255, 196, 12, 0.075);
+    border-color: rgba(255, 196, 12, 1);
   }
 
   .content {
     display: flex;
     margin: 0 auto;
     max-width: 50rem;
-    padding: 1em 2rem;
+    padding: 1em;
     position: relative;
 
     .contentIcon {
