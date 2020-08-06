@@ -157,7 +157,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           />
         )}
       </td>
-      <td className='mini ui--media-1000'>
+      <td className='mini ui--media-1600'>
         <LinkExternal
           data={hash}
           type='tip'
