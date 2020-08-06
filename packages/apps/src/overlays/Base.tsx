@@ -46,6 +46,7 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
 }
 
 export default React.memo(styled(BaseOverlay)`
+  background: white;
   border: 0 solid transparent;
   border-bottom-left-radius: 0.25rem;
   border-bottom-width: 1px;
@@ -59,13 +60,30 @@ export default React.memo(styled(BaseOverlay)`
   max-width: 55rem;
   z-index: 500;
 
+  &:before {
+    border-radius: 0.25rem;
+    bottom: 0;
+    content: ' ';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+  }
+
   &.isError {
-    background: rgba(255, 12, 12, 0.075);
+    &:before {
+      background: rgba(255, 12, 12, 0.05);
+    }
+
     border-color: rgba(255, 12, 12, 1);
   }
 
   &.isInfo {
-    background: rgba(255, 196, 12, 0.075);
+    &:before {
+      background: rgba(255, 196, 12, 0.05);
+    }
+
     border-color: rgba(255, 196, 12, 1);
   }
 

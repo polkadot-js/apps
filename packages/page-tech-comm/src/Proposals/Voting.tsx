@@ -6,7 +6,7 @@ import { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Icon, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import { Button, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
 
@@ -55,7 +55,7 @@ function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> 
             />
             {isPrime && (
               <article className='warning'>
-                <div><Icon icon='exclamation-triangle' />{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
+                <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>
             )}
           </Modal.Content>

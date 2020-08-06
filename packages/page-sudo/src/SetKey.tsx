@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useEffect, useState } from 'react';
-import { AddressMini, Icon, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
+import { AddressMini, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
 
 import styled from 'styled-components';
 
@@ -66,10 +66,7 @@ function SetKey ({ allAccounts, className = '', isMine, sudoKey }: Props): React
       </section>
       {willLose && (
         <article className='warning padded'>
-          <div>
-            <Icon icon='exclamation-triangle' />
-            {t<string>('You will no longer have sudo access')}
-          </div>
+          <div>{t<string>('You will no longer have sudo access')}</div>
         </article>
       )}
     </section>
