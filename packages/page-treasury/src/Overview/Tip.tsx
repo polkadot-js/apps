@@ -7,7 +7,7 @@ import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkado
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AddressSmall, AddressMini, Expander, Icon, TxButton } from '@polkadot/react-components';
+import { AddressSmall, AddressMini, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
@@ -156,6 +156,13 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
             icon='asterisk'
           />
         )}
+      </td>
+      <td className='mini ui--media-1600'>
+        <LinkExternal
+          data={hash}
+          type='tip'
+          withShort
+        />
       </td>
     </tr>
   );
