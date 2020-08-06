@@ -8,7 +8,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal, Password, StatusContext } from '@polkadot/react-components';
-import { useDebounce, useToggle } from '@polkadot/react-hooks';
+import { useApi, useDebounce, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
@@ -47,14 +47,14 @@ function deriveValidate (suri: string, pairType: KeypairType): string | null {
   return null;
 }
 
-function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string): ActionStatus {
+function createAccount (source: KeyringPair, suri: string, name: string, password: string, success: string, genesisHash?: string): ActionStatus {
   // we will fill in all the details below
   const status = { action: 'create' } as ActionStatus;
 
   try {
     const derived = source.derive(suri);
 
-    derived.setMeta({ ...derived.meta, name, parentAddress: source.address, tags: [] });
+    derived.setMeta({ ...derived.meta, genesisHash, name, parentAddress: source.address, tags: [] });
 
     const result = keyring.addPair(derived, password || '');
     const { address } = result.pair;
@@ -75,15 +75,17 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
 
 function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
+  const { api, isDevelopment } = useApi();
   const { queueAction } = useContext(StatusContext);
   const [source] = useState(keyring.getPair(from));
+  const [isBusy, setIsBusy] = useState(false);
   const [{ address, deriveError }, setDerive] = useState<DeriveAddress>({ address: null, deriveError: null });
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isLocked, lockedError }, setIsLocked] = useState<LockState>({ isLocked: source.isLocked, lockedError: null });
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPassValid, password }, setPassword] = useState({ isPassValid: false, password: '' });
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
-  const [rootPass, setRootPass] = useState('');
+  const [{ isRootValid, rootPass }, setRootPass] = useState({ isRootValid: false, rootPass: '' });
   const [suri, setSuri] = useState('');
   const debouncedSuri = useDebounce(suri);
   const isValid = !!address && !deriveError && isNameValid && isPassValid && isPass2Valid;
@@ -122,15 +124,28 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
     [password]
   );
 
+  const _onChangeRootPass = useCallback(
+    (rootPass: string): void => {
+      setRootPass({ isRootValid: !!rootPass, rootPass });
+      setIsLocked(({ isLocked }) => ({ isLocked, lockedError: null }));
+    },
+    []
+  );
+
   const _onUnlock = useCallback(
     (): void => {
-      try {
-        source.decodePkcs8(rootPass);
-        setIsLocked({ isLocked: source.isLocked, lockedError: null });
-      } catch (error) {
-        console.error(error);
-        setIsLocked({ isLocked: true, lockedError: (error as Error).message });
-      }
+      setIsBusy(true);
+      setTimeout((): void => {
+        try {
+          source.decodePkcs8(rootPass);
+          setIsLocked({ isLocked: source.isLocked, lockedError: null });
+        } catch (error) {
+          console.error(error);
+          setIsLocked({ isLocked: true, lockedError: (error as Error).message });
+        }
+
+        setIsBusy(false);
+      }, 0);
     },
     [rootPass, source]
   );
@@ -141,13 +156,17 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
         return;
       }
 
-      const status = createAccount(source, suri, name, password, t<string>('created account'));
+      setIsBusy(true);
+      setTimeout((): void => {
+        const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
-      toggleConfirmation();
-      queueAction(status);
-      onClose();
+        toggleConfirmation();
+        queueAction(status);
+        setIsBusy(false);
+        onClose();
+      }, 0);
     },
-    [isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
+    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
   );
 
   const sourceStatic = (
@@ -167,6 +186,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}
+          isBusy={isBusy}
           name={name}
           onClose={toggleConfirmation}
           onCommit={_onCommit}
@@ -181,7 +201,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               help={t<string>('The password to unlock the selected account.')}
               isError={!!lockedError}
               label={t<string>('password')}
-              onChange={setRootPass}
+              onChange={_onChangeRootPass}
               value={rootPass}
             />
           </>
@@ -236,8 +256,8 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
           ? (
             <Button
               icon='lock'
-              isDisabled={!rootPass}
-              isPrimary
+              isBusy={isBusy}
+              isDisabled={!isRootValid}
               label={t<string>('Unlock')}
               onClick={_onUnlock}
             />
@@ -245,8 +265,8 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
           : (
             <Button
               icon='plus'
+              isBusy={isBusy}
               isDisabled={!isValid}
-              isPrimary
               label={t<string>('Save')}
               onClick={toggleConfirmation}
             />

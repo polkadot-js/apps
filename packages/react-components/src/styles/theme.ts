@@ -32,36 +32,19 @@ export default css`
     }
 
     .ui--Button {
-      background-color: ${colorBtnDefault};
-      // box-shadow: 0 0 0 1px ${colorBtnShadow};
-      color: ${colorBtnText};
-
-      &.active,
-      &:active,
-      &:focus,
-      &:hover {
-        background-color: ${colorBtnDefault};
-        color: ${colorBtnText};
-      }
-
-      &:hover {
-        // box-shadow: 0 0 0 1px ${colorBtnText};
+      &:hover:not(.isDisabled) {
         filter: brightness(110%);
       }
 
-      &.isIcon {
+      &.isIcon:not(.isDisabled):not(.withoutLink):not(:hover) {
         .ui--Icon {
           color: ${colorLink};
         }
       }
     }
 
-    .ui.blue.progress .bar {
-      background-color: ${colorBtnHighlight};
-    }
-
     .ui.modal > .header:not(.ui) {
-      border-bottom-color: ${colorBtnHighlight};
+      border-bottom-color: ${colorBtnDefault};
     }
   }
 `;

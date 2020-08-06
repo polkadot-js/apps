@@ -6,7 +6,6 @@ import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -49,7 +48,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
       let newError: string | null = null;
       let isFatal = false;
 
-      if (bondedId) {
+      if (bondedId && (controllerId !== accountId)) {
         isFatal = true;
         newError = t('A controller account should not map to another stash. This selected controller is a stash, controlled by {{bondedId}}', { replace: { bondedId } });
       } else if (stashId) {
@@ -73,7 +72,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
 
   return (
     <article className={isFatal ? 'error' : 'warning'}>
-      <div><Icon icon='exclamation-triangle' />{error}</div>
+      <div>{error}</div>
     </article>
   );
 }

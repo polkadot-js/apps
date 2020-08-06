@@ -95,7 +95,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
       <td className='number together ui--media-1400'>
         {percentages && (
           <>
-            {/* <FormatBalance value={votedTotal} /> */}
             <div>{percentages.turnout}</div>
             {percentages.aye && (
               <div>{t<string>('{{percentage}} aye', { replace: { percentage: percentages.aye } })}</div>

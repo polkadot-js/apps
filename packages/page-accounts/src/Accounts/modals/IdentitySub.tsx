@@ -145,14 +145,12 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
               <Button.Group>
                 <Button
                   icon='plus'
-                  isPrimary
                   label={t<string>('Add sub')}
                   onClick={_rowAdd}
                 />
                 <Button
                   icon='minus'
                   isDisabled={infos.length === 0}
-                  isNegative
                   label={t<string>('Remove sub')}
                   onClick={_rowRemove}
                 />
@@ -166,7 +164,6 @@ function IdentitySubModal ({ address, className, onClose }: Props): React.ReactE
           <TxButton
             accountId={address}
             isDisabled={infos.some(([address, raw]) => !address || !raw)}
-            isPrimary
             label={t<string>('Set Subs')}
             onStart={onClose}
             params={[

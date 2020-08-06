@@ -13,6 +13,7 @@ import FormatBalance from './FormatBalance';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  isCouncil?: boolean;
   label?: React.ReactNode;
   params?: AccountId | AccountIndex | Address | string | Uint8Array | null;
 }

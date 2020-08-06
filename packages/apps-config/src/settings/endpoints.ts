@@ -5,8 +5,9 @@
 import { TFunction } from 'i18next';
 import { Option } from './types';
 
-interface LinkOption extends Option {
+export interface LinkOption extends Option {
   dnslink?: string;
+  isChild?: boolean;
 }
 
 interface EnvWindow {
@@ -22,42 +23,126 @@ function createDev (t: TFunction): LinkOption[] {
       dnslink: 'local',
       info: 'local',
       text: t<string>('rpc.local', 'Local Node (Own, 127.0.0.1:9944)', { ns: 'apps-config' }),
-      value: 'ws://127.0.0.1:9944/'
+      value: 'ws://127.0.0.1:9944'
     }
   ];
 }
 
 function createLive (t: TFunction): LinkOption[] {
   return [
+    // fixed, polkadot
+    {
+      dnslink: 'polkadot',
+      info: 'polkadot',
+      text: t<string>('rpc.polkadot.parity', 'Polkadot (Live, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://rpc.polkadot.io'
+    },
+    {
+      dnslink: 'polkadot',
+      info: 'polkadot',
+      text: t<string>('rpc.polkadot.w3f', 'Polkadot (Live, hosted by Web3 Foundation)', { ns: 'apps-config' }),
+      value: 'wss://cc1-1.polkadot.network'
+    },
+    {
+      dnslink: 'kusama',
+      info: 'kusama',
+      text: t<string>('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://kusama-rpc.polkadot.io'
+    },
+    {
+      dnslink: 'kusama',
+      info: 'kusama',
+      text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
+      value: 'wss://cc3-5.kusama.network'
+    },
+    {
+      dnslink: 'kusama',
+      info: 'kusama',
+      isDisabled: true,
+      text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
+      value: 'wss://kusama.polkadot.cloud.ava.do'
+    },
+    // alphabetical based on chain name
     {
       dnslink: 'centrifuge',
       info: 'centrifuge',
-      text: t<string>('rpc.centrifuge', 'Centrifuge Mainnet (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
+      text: t<string>('rpc.centrifuge', 'Centrifuge (Mainnet, hosted by Centrifuge)', { ns: 'apps-config' }),
       value: 'wss://fullnode.centrifuge.io'
+    },
+    {
+      dnslink: 'edgeware',
+      info: 'edgeware',
+      text: t<string>('rpc.edgeware', 'Edgeware (Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      value: 'wss://mainnet1.edgewa.re'
+    },
+    {
+      dnslink: 'kulupu',
+      info: 'substrate',
+      text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
+      value: 'wss://rpc.kulupu.network/ws'
     }
   ];
 }
 
 function createTest (t: TFunction): LinkOption[] {
   return [
+    // fixed, polkadot
     {
-      dnslink: 'amber',
-      info: 'amber',
-      text: t<string>('rpc.amber', 'Centrifuge Testnet Amber (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
-      value: 'wss://fullnode.amber.centrifuge.io'
+      dnslink: 'westend',
+      info: 'westend',
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://westend-rpc.polkadot.io'
     },
     {
-      dnslink: 'flint',
-      info: 'flint',
-      text: t<string>('rpc.flint', 'Centrifuge Testnet Flint (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
-      value: 'wss://fullnode.flint.centrifuge.io'
+      dnslink: 'rococo',
+      info: 'rococo',
+      text: t<string>('rpc.rococo', 'Rococo (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://rococo-rpc.polkadot.io'
     },
     {
-      dnslink: 'fulvous',
-      info: 'fulvous',
-      text: t<string>('rpc.fulvous', 'Centrifuge Testnet Fulvous (Validator 0, hosted by Centrifuge)',
-        { ns: 'apps-config' }),
-      value: 'wss://fullnode.fulvous.centrifuge.io'
+      info: 'rococoTick',
+      isChild: true,
+      text: t<string>('rpc.rococo.tick', 'Tick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://tick-rpc.polkadot.io'
+    },
+    {
+      info: 'rococoTrick',
+      isChild: true,
+      text: t<string>('rpc.rococo.trick', 'Trick (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://trick-rpc.polkadot.io'
+    },
+    {
+      info: 'rococoTrack',
+      isChild: true,
+      text: t<string>('rpc.rococo.track', 'Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://track-rpc.polkadot.io'
+    },
+    // alphabetical based on chain name
+    {
+      info: 'nodle',
+      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      value: 'wss://arcadia1.nodleprotocol.io'
+    },
+    {
+      info: 'edgeware',
+      text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      value: 'wss://berlin1.edgewa.re'
+    },
+    {
+      info: 'substrate',
+      text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://substrate-rpc.parity.io'
+    },
+    {
+      info: 'datahighway',
+      isDisabled: true,
+      text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
+      value: 'wss://testnet-harbour.datahighway.com'
+    },
+    {
+      info: 'acala',
+      text: t<string>('rpc.mandala', 'Mandala (Acala Testnet, hosted by Acala)', { ns: 'apps-config' }),
+      value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
     }
   ];
 }

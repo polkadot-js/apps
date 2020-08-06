@@ -6,14 +6,14 @@ import { Routes } from '@polkadot/apps-routing/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Responsive } from 'semantic-ui-react';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import { useIpfs } from '@polkadot/react-hooks';
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
-import NetworkModal from '../modals/Network';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
+import Endpoints from './Endpoints';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 
@@ -26,8 +26,13 @@ interface Props {
   toggleMenu: () => void;
 }
 
-function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
+const SIDE_BORDER_WIDTH = '0.65rem';
+const MENU_WIDTH_COLLAPSED = '4.2rem';
+const MENU_WIDTH_EXPANDED = '12rem';
+
+function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { ipnsChain } = useIpfs();
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
@@ -53,14 +58,17 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
   );
 
   return (
-    <Responsive
-      className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}
-      onUpdate={handleResize}
-    >
+    <div className={`apps--SideBar-Wrapper ${className} ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <ChainImg
         className={`toggleImg ${isMenuOpen ? 'closed' : 'open delayed'}`}
         onClick={toggleMenu}
       />
+      {modals.network && (
+        <Endpoints
+          offset={isCollapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED}
+          onClose={_toggleModal('network')}
+        />
+      )}
       {routing.map((route): React.ReactNode => (
         route?.Modal
           ? route.Modal && modals[route.name]
@@ -73,16 +81,20 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             : <div key={route.name} />
           : null
       ))}
-      {modals.network && (
-        <NetworkModal onClose={_toggleModal('network')}/>
-      )}
       <div className='apps--SideBar'>
         <Menu
           secondary
           vertical
         >
           <div className='apps--SideBar-Scroll'>
-            <ChainInfo onClick={_toggleModal('network')} />
+            <ChainInfo
+              isToggled={modals.network}
+              onClick={
+                ipnsChain
+                  ? undefined
+                  : _toggleModal('network')
+              }
+            />
             {routing.map((route, index): React.ReactNode => (
               route
                 ? (
@@ -128,42 +140,35 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             <Menu.Divider hidden />
             {!isCollapsed && <NodeInfo />}
           </div>
-          <Responsive
-            className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}
-            minWidth={SIDEBAR_MENU_THRESHOLD}
-          >
+          <div className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}>
             <Button
               icon={isCollapsed ? 'angle-double-right' : 'angle-double-left'}
               isBasic
               isCircular
               onClick={collapse}
             />
-          </Responsive>
+          </div>
         </Menu>
-        <Responsive minWidth={SIDEBAR_MENU_THRESHOLD}>
-          <div
-            className='apps--SideBar-toggle'
-            onClick={collapse}
-          />
-        </Responsive>
+        <div
+          className='apps--SideBar-toggle'
+          onClick={collapse}
+        />
       </div>
-    </Responsive>
+    </div>
   );
 }
 
-const sideBorderWidth = '0.65rem';
-
-export default React.memo(styled(SideBar)`
+export default React.memo(styled(AppsSidebar)`
   display: flex;
   position: relative;
   z-index: 300;
 
   &.collapsed {
-    width: 4.2rem;
+    width: ${MENU_WIDTH_COLLAPSED};
   }
 
   &.expanded {
-    width: 12rem;
+    width: ${MENU_WIDTH_EXPANDED};
   }
 
   .apps--SideBar {
@@ -178,7 +183,7 @@ export default React.memo(styled(SideBar)`
     width: 100%;
 
     .apps--SideBar-border {
-      border-top: ${sideBorderWidth} solid transparent;
+      border-top: ${SIDE_BORDER_WIDTH} solid transparent;
       position: absolute;
       left: 0;
       right: 0;
@@ -238,13 +243,6 @@ export default React.memo(styled(SideBar)`
       right: 0;
       text-align: left;
       width: 100%;
-
-      .ui--Button {
-        background: white;
-        color: #3f3f3f;
-        margin: 0;
-        transition: transform 0.15s;
-      }
     }
 
     .apps--SideBar-toggle {
@@ -285,5 +283,12 @@ export default React.memo(styled(SideBar)`
       opacity: 0 !important;
       top: -2.9rem !important;
     `}
+  }
+
+  @media only screen and (max-width: ${SIDEBAR_MENU_THRESHOLD}px) {
+    .apps--SideBar-collapse,
+    .apps--Sidebar-toggle {
+      display: none;
+    }
   }
 `);

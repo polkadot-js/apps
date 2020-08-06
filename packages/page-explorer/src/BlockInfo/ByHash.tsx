@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { EventRecord, SignedBlock } from '@polkadot/types/interfaces';
-import { KeyedEvent } from '../types';
+import { KeyedEvent } from '@polkadot/react-query/types';
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -29,6 +29,7 @@ function BlockByHash ({ className = '', value }: Props): React.ReactElement<Prop
     isSingle: true,
     transform: (events: EventRecord[]): KeyedEvent[] =>
       events.map((record, index) => ({
+        indexes: [index],
         key: `${Date.now()}-${index}-${record.hash.toHex()}`,
         record
       }))

@@ -16,15 +16,13 @@ import NominatePartial from './partials/Nominate';
 
 interface Props {
   isInElection?: boolean;
-  next?: string[];
-  targets?: SortedTargets;
-  validators?: string[];
+  targets: SortedTargets;
 }
 
 const EMPTY_NOMS: string[] = [];
 const NUM_STEPS = 2;
 
-function NewNominator ({ isInElection, next, targets, validators }: Props): React.ReactElement<Props> {
+function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isVisible, toggleVisible] = useToggle();
@@ -57,7 +55,7 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
     <>
       <Button
         icon='plus'
-        isDisabled={isDisabled}
+        isDisabled={isDisabled || !targets.validators?.length}
         key='new-nominator'
         label={t<string>('Nominator')}
         onClick={_toggle}
@@ -79,12 +77,10 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
             {controllerId && stashId && step === 2 && (
               <NominatePartial
                 controllerId={controllerId}
-                next={next}
                 nominating={EMPTY_NOMS}
                 onChange={setNominateInfo}
                 stashId={stashId}
                 targets={targets}
-                validators={validators}
               />
             )}
           </Modal.Content>
@@ -101,7 +97,6 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !nominateTx || !stashId || !controllerId}
-                  isPrimary
                   label={t<string>('Bond & Nominate')}
                   onStart={_toggle}
                   params={[
@@ -116,7 +111,6 @@ function NewNominator ({ isInElection, next, targets, validators }: Props): Reac
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  isPrimary
                   label={t<string>('next')}
                   onClick={_nextStep}
                 />

@@ -27,7 +27,6 @@ interface Props {
   isShort?: boolean;
   label?: React.ReactNode;
   labelBalance?: React.ReactNode;
-  noLookup?: boolean;
   summary?: React.ReactNode;
   type?: KeyringItemType;
   value?: AccountId | AccountIndex | Address | string | null | Uint8Array;
@@ -40,7 +39,7 @@ interface Props {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, noLookup, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -64,7 +63,6 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
             {withName
               ? (
                 <AccountName
-                  noLookup={noLookup}
                   value={value}
                   withSidebar={withSidebar}
                 />

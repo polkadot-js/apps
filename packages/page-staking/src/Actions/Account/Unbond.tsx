@@ -33,7 +33,7 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
       header={t<string>('Unbond funds')}
       size='large'
     >
-      <Modal.Content className='ui--signer-Signer-Content'>
+      <Modal.Content>
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
@@ -84,9 +84,8 @@ function Unbond ({ className = '', controllerId, onClose, stakingLedger, stashId
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={controllerId}
-          icon='sign-out'
+          icon='unlock'
           isDisabled={!maxUnbond?.gtn(0)}
-          isPrimary
           label={t<string>('Unbond')}
           onStart={onClose}
           params={[maxUnbond]}

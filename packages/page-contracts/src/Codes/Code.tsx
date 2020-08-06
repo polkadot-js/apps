@@ -30,14 +30,12 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
   const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
 
   const _onShowDeploy = useCallback(
-    (): void => onShowDeploy(codeHash)(),
+    () => onShowDeploy(codeHash)(),
     [codeHash, onShowDeploy]
   );
 
   const _onDeployConstructor = useCallback(
-    (constructorIndex = 0): void => {
-      codeHash && onShowDeploy && onShowDeploy(codeHash, constructorIndex)();
-    },
+    (constructorIndex = 0) => codeHash && onShowDeploy && onShowDeploy(codeHash, constructorIndex)(),
     [codeHash, onShowDeploy]
   );
 
@@ -77,13 +75,11 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           <>
             <Button
               icon='trash'
-              isNegative
               onClick={toggleIsForgetOpen}
               tooltip={t('Forget this code hash')}
             />
             <Button
               icon='upload'
-              isPrimary
               label={t('deploy')}
               onClick={_onShowDeploy}
               tooltip={t('Deploy this code hash as a smart contract')}

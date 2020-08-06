@@ -7,7 +7,6 @@ import { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import { Icon } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -47,7 +46,7 @@ function ValidateAmount ({ amount, delegatingAccount, onError }: Props): React.R
   if (error || warning) {
     return (
       <article className={error ? 'error' : 'warning'}>
-        <div><Icon icon='exclamation-triangle' />{error || warning}</div>
+        <div>{error || warning}</div>
       </article>
     );
   }

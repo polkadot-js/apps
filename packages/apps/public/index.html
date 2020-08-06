@@ -14,5 +14,10 @@
     </noscript>
     <div id="root"></div>
     <div id="tooltips"></div>
+    <script>
+      if (window.self !== window.top) {
+        window.top.location.href = window.location.href;
+      }
+    </script>
   </body>
 </html>

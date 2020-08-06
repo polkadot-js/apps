@@ -93,7 +93,6 @@ function Add (): React.ReactElement {
             <Button
               icon='save'
               isDisabled={!isValid}
-              isPrimary
               label={t('Save')}
               onClick={_onSave}
             />

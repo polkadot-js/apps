@@ -4,7 +4,7 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import styled from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
@@ -19,6 +19,7 @@ import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
 import SideBar from './SideBar';
 import WarmUp from './WarmUp';
+import { WindowDimensionsCtx } from './WindowDimensions';
 
 interface SidebarState {
   isCollapsed: boolean;
@@ -34,6 +35,7 @@ function saveSidebar (sidebar: SidebarState): SidebarState {
 }
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
+  const windowDimensions = useContext(WindowDimensionsCtx);
   const { systemChain, systemName } = useApi();
   const [sidebar, setSidebar] = useState<SidebarState>({
     isCollapsed: false,
@@ -43,16 +45,16 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     isMenu: window.innerWidth < SIDEBAR_MENU_THRESHOLD
   });
   const uiHighlight = useMemo(
-    (): string | undefined => getSystemChainColor(systemChain, systemName),
+    () => getSystemChainColor(systemChain, systemName),
     [systemChain, systemName]
   );
 
   const _collapse = useCallback(
-    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
+    () => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
     []
   );
   const _toggleMenu = useCallback(
-    (): void => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
+    () => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
     []
   );
   const _handleResize = useCallback(
@@ -70,6 +72,10 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     },
     []
   );
+
+  useEffect((): void => {
+    _handleResize();
+  }, [_handleResize, windowDimensions]);
 
   const { isCollapsed, isMenu, isMenuOpen } = sidebar;
 

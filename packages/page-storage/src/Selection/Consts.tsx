@@ -48,7 +48,6 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
       <div className='storage--actionrow-buttons'>
         <Button
           icon='plus'
-          isPrimary
           onClick={_onAdd}
         />
       </div>

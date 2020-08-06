@@ -3,11 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { UnappliedSlash } from '@polkadot/types/interfaces';
 import { ValidatorInfo } from '../types';
 
+import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { AddressSmall, Badge, Icon, Toggle } from '@polkadot/react-components';
+import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
+import { checkVisibility } from '@polkadot/react-components/util';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -15,9 +18,10 @@ import keyring from '@polkadot/ui-keyring';
 
 import MaxBadge from '../MaxBadge';
 import Favorite from '../Overview/Address/Favorite';
-import { checkVisibility } from '../util';
+import { useTranslation } from '../translate';
 
 interface Props {
+  allSlashes?: [BN, UnappliedSlash[]][];
   canSelect: boolean;
   filterName: string;
   info: ValidatorInfo;
@@ -27,6 +31,11 @@ interface Props {
   toggleSelected: (accountId: string) => void;
   withElected: boolean;
   withIdentity: boolean;
+}
+
+interface Slash {
+  era: BN;
+  slashes: UnappliedSlash[];
 }
 
 function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): boolean {
@@ -49,17 +58,30 @@ function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): boolea
   return hasIdentity;
 }
 
-function Validator ({ canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
+function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
   const [isVisible, setVisibility] = useState(true);
+  const [slashes, setSlashes] = useState<Slash[]>([]);
 
   useEffect((): void => {
     if (accountInfo) {
       info.hasIdentity = checkIdentity(api, accountInfo);
-      setVisibility(checkVisibility(api, info.key, filterName, withIdentity, accountInfo));
+      setVisibility(checkVisibility(api, info.key, accountInfo, filterName, withIdentity));
     }
   }, [accountInfo, api, filterName, info, withIdentity]);
+
+  useEffect((): void => {
+    allSlashes && setSlashes(
+      allSlashes
+        .map(([era, slashes]) => ({
+          era,
+          slashes: slashes.filter(({ validator }) => validator.eq(info.accountId))
+        }))
+        .filter(({ slashes }) => slashes.length)
+    );
+  }, [allSlashes, info]);
 
   const _onQueryStats = useCallback(
     (): void => {
@@ -106,6 +128,17 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
           : <Badge color='transparent' />
         }
         <MaxBadge numNominators={numNominators} />
+        {slashes.length !== 0 && (
+          <Badge
+            color='red'
+            hover={t<string>('Slashed in era {{eras}}', {
+              replace: {
+                eras: slashes.map(({ era }) => formatNumber(era)).join(', ')
+              }
+            })}
+            icon='skull-crossbones'
+          />
+        )}
       </td>
       <td className='number'>{formatNumber(rankOverall)}</td>
       <td className='address all'>
@@ -125,8 +158,7 @@ function Validator ({ canSelect, filterName, info, isNominated, isSelected, togg
       <td className='number together'>{!rewardPayout.isZero() && <FormatBalance value={rewardPayout} />}</td>
       <td>
         {(canSelect || isSelected) && (
-          <Toggle
-            asSwitch={false}
+          <Checkbox
             onChange={_toggleSelected}
             value={isSelected}
           />

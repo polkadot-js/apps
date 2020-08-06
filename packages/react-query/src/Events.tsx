@@ -2,23 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber, EventRecord } from '@polkadot/types/interfaces';
+import { IndexedEvent, KeyedEvent } from './types';
 
 import React, { useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
-
-interface IndexedEvent {
-  index: number;
-  record: EventRecord;
-}
-
-interface KeyedEvent extends IndexedEvent {
-  blockHash: string;
-  blockNumber: BlockNumber;
-  key: string;
-}
 
 type Events = KeyedEvent[];
 
@@ -26,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MAX_EVENTS = 50;
+const MAX_EVENTS = 75;
 
 const EventsContext: React.Context<Events> = React.createContext<Events>([]);
 
@@ -42,8 +31,20 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
 
       api.query.system.events((records): void => {
         const newEvents: IndexedEvent[] = records
-          .map((record, index) => ({ index, record }))
-          .filter(({ record: { event: { section } } }) => section !== 'system');
+          .map((record, index) => ({ indexes: [index], record }))
+          .filter(({ record: { event: { method, section } } }) => section !== 'system' && (method !== 'Deposit' || !['balances', 'treasury'].includes(section)))
+          .reduce((combined: IndexedEvent[], e): IndexedEvent[] => {
+            const prev = combined.find(({ record: { event: { method, section } } }) => e.record.event.section === section && e.record.event.method === method);
+
+            if (prev) {
+              prev.indexes.push(...e.indexes);
+            } else {
+              combined.push(e);
+            }
+
+            return combined;
+          }, [])
+          .reverse();
         const newEventHash = xxhashAsHex(stringToU8a(JSON.stringify(newEvents)));
 
         if (newEventHash !== prevEventHash && newEvents.length) {
@@ -58,14 +59,15 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
               prevBlockHash = blockHash;
 
               setState((events) => [
-                ...newEvents.map(({ index, record }): KeyedEvent => ({
+                ...newEvents.map(({ indexes, record }): KeyedEvent => ({
                   blockHash,
                   blockNumber,
-                  index,
-                  key: `${blockNumber.toNumber()}-${blockHash}-${index}`,
+                  indexes,
+                  key: `${blockNumber.toNumber()}-${blockHash}-${indexes.join('.')}`,
                   record
                 })),
-                ...events
+                // remove all events for the previous same-height blockNumber
+                ...events.filter((p) => !p.blockNumber?.eq(blockNumber))
               ].slice(0, MAX_EVENTS));
             }
           }).catch(console.error);

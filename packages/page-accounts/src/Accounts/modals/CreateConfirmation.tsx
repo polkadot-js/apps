@@ -9,12 +9,13 @@ import { useTranslation } from '../../translate';
 
 interface Props {
   address: string;
+  isBusy: boolean;
   name: string;
   onClose: () => void;
   onCommit: () => void;
 }
 
-function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React.ReactElement<Props> | null {
+function CreateConfirmation ({ address, isBusy, name, onClose, onCommit }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
   return (
@@ -33,7 +34,7 @@ function CreateConfirmation ({ address, name, onClose, onCommit }: Props): React
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='plus'
-          isPrimary
+          isBusy={isBusy}
           label={t<string>('Create and backup account')}
           onClick={onCommit}
         />

@@ -10,6 +10,7 @@ export default {
     // Edgeware: 'edgeware',
     // Kulupu: 'kulupu',
     Kusama: 'kusama',
+    Polkadot: 'polkadot',
     'Polkadot CC1': 'polkadot-cc1'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>

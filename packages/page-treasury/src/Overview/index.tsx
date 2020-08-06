@@ -41,11 +41,11 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
         proposalCount={info?.proposals.length}
       />
       <Button.Group>
-        <ProposalCreate />
         <TipCreate
           members={members}
           refresh={triggerTipHashes}
         />
+        <ProposalCreate />
       </Button.Group>
       <Proposals
         isMember={isMember}

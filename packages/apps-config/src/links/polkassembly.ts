@@ -7,7 +7,8 @@ import BN from 'bn.js';
 export default {
   chains: {
     Kusama: 'kusama',
-    'Kusama CC3': 'kusama'
+    'Kusama CC3': 'kusama',
+    Polkadot: 'polkadot'
   },
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.io/${path}/${data.toString()}`,
@@ -16,6 +17,7 @@ export default {
     council: 'motion',
     proposal: 'proposal',
     referendum: 'referendum',
+    tip: 'tip',
     treasury: 'treasury'
   },
   url: 'https://polkassembly.io/'

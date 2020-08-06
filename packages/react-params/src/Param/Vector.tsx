@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-params authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -100,14 +100,12 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
         <div className='ui--Param-Vector-buttons'>
           <Button
             icon='plus'
-            isPrimary
             label={t<string>('Add item')}
             onClick={_rowAdd}
           />
           <Button
             icon='minus'
             isDisabled={values.length === 0}
-            isNegative
             label={t<string>('Remove item')}
             onClick={_rowRemove}
           />

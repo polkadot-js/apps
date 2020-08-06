@@ -4,6 +4,7 @@
 
 import { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { EraIndex, Exposure, Nominations } from '@polkadot/types/interfaces';
+import { Slash } from './types';
 
 import { useEffect, useState } from 'react';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
@@ -11,11 +12,25 @@ import { Option } from '@polkadot/types';
 
 interface Inactives {
   nomsActive?: string[];
+  nomsChilled?: string[];
   nomsInactive?: string[];
   nomsWaiting?: string[];
 }
 
-function extractState (stashId: string, nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
+function extractState (stashId: string, slashes: Slash[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
+  // chilled
+  const nomsChilled = nominees.filter((nominee) =>
+    slashes.some(({ era, slashes }) =>
+      submittedIn.lt(era) && (
+        slashes
+          .filter(({ validator }) => validator.eq(nominee))
+          .some(({ others }) =>
+            others.some(([accountId]) => accountId.eq(stashId))
+          )
+      )
+    )
+  );
+
   // first a blanket find of nominations not in the active set
   let nomsInactive = exposures
     .map((exposure, index) =>
@@ -32,22 +47,24 @@ function extractState (stashId: string, nominees: string[], activeEra: EraIndex,
         ? nominees[index]
         : null
     )
-    .filter((waitingId): waitingId is string => !!waitingId);
+    .filter((waitingId): waitingId is string => !!waitingId)
+    .filter((nominee) => !nomsChilled.includes(nominee));
 
   // filter based on all inactives
-  const nomsActive = nominees.filter((nominee) => !nomsInactive.includes(nominee));
+  const nomsActive = nominees.filter((nominee) => !nomsInactive.includes(nominee) && !nomsChilled.includes(nominee));
 
   // inactive also contains waiting, remove those
-  nomsInactive = nomsInactive.filter((inactiveId) => !nomsWaiting.includes(inactiveId));
+  nomsInactive = nomsInactive.filter((nominee) => !nomsWaiting.includes(nominee) && !nomsChilled.includes(nominee));
 
   return {
     nomsActive,
+    nomsChilled,
     nomsInactive,
     nomsWaiting
   };
 }
 
-export default function useInactives (stashId: string, nominees?: string[]): Inactives {
+export default function useInactives (stashId: string, slashes: Slash[], nominees?: string[]): Inactives {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
@@ -66,7 +83,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
           ),
           ([optNominators, ...exposures]: [Option<Nominations>, ...Exposure[]]): void => {
             mountedRef.current && setState(
-              extractState(stashId, nominees, indexes.activeEra, optNominators.unwrapOrDefault().submittedIn, exposures)
+              extractState(stashId, slashes, nominees, indexes.activeEra, optNominators.unwrapOrDefault().submittedIn, exposures)
             );
           }
         )
@@ -78,7 +95,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
     return (): void => {
       unsub && unsub();
     };
-  }, [api, indexes, mountedRef, nominees, stashId]);
+  }, [api, indexes, mountedRef, nominees, slashes, stashId]);
 
   return state;
 }
