@@ -129,6 +129,11 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://berlin1.edgewa.re'
     },
     {
+      info: 'amber',
+      text: t<string>('rpc.amber', 'Centrifuge Testnet Amber (Full Node, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.amber.centrifuge.io'
+    },
+    {
       info: 'substrate',
       text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://substrate-rpc.parity.io'
