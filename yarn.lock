@@ -3537,7 +3537,7 @@ __metadata:
     react-markdown: ^4.3.1
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
-    react-tooltip: ^4.2.7
+    react-tooltip: ^4.2.8
     semantic-ui-css: ^2.4.1
     semantic-ui-react: ^0.88.2
     store: ^2.0.12
@@ -4164,13 +4164,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^26.0.8":
-  version: 26.0.8
-  resolution: "@types/jest@npm:26.0.8"
+"@types/jest@npm:^26.0.9":
+  version: 26.0.9
+  resolution: "@types/jest@npm:26.0.9"
   dependencies:
     jest-diff: ^25.2.1
     pretty-format: ^25.2.1
-  checksum: 3/387262eef64a26c04c643a51594af8743f38dd43f7abbecdb2f1c7e0bb987bfeb772f8f3baf48afee6477c744de2aa98fa3737d62a525d568ca9eb3bfd723c13
+  checksum: 3/5d2b5fb5122d384f1857c5f7f52643957ba0494db44f4eee22323f3d548e069cf1389a8985f60710cea4abc6fc31d50e3a7ead5ad02a9d00a092744cb66aecea
   languageName: node
   linkType: hard
 
@@ -9676,7 +9676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:^22.8.1":
+"electron-builder@npm:^22.8.0":
   version: 22.8.1
   resolution: "electron-builder@npm:22.8.1"
   dependencies:
@@ -18281,7 +18281,7 @@ __metadata:
     "@types/chart.js": ^2.9.23
     "@types/file-saver": ^2.0.1
     "@types/i18next": ^13.0.0
-    "@types/jest": ^26.0.8
+    "@types/jest": ^26.0.9
     "@types/react-beautiful-dnd": ^13.0.0
     "@types/react-copy-to-clipboard": ^4.3.0
     "@types/react-dom": ^16.9.8
@@ -18294,7 +18294,7 @@ __metadata:
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
     electron: ^9.1.2
-    electron-builder: ^22.8.1
+    electron-builder: ^22.8.0
     electron-builder-notarize: ^1.2.0
     i18next-scanner: ^2.11.0
     react: ^16.13.1
@@ -19617,7 +19617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-tooltip@npm:*, react-tooltip@npm:^4.2.7":
+"react-tooltip@npm:*":
   version: 4.2.7
   resolution: "react-tooltip@npm:4.2.7"
   dependencies:
@@ -19627,6 +19627,19 @@ __metadata:
     react: ">=16.0.0"
     react-dom: ">=16.0.0"
   checksum: 3/33131479fdaacc149d2be2864d321d67e0a0f60537b9ce5e49f52b49251cdc47f7731c0a284db317d77fe55ab7d2109220f168b693c05ab2de3e9ed59758c457
+  languageName: node
+  linkType: hard
+
+"react-tooltip@npm:^4.2.8":
+  version: 4.2.8
+  resolution: "react-tooltip@npm:4.2.8"
+  dependencies:
+    prop-types: ^15.7.2
+    uuid: ^7.0.3
+  peerDependencies:
+    react: ">=16.0.0"
+    react-dom: ">=16.0.0"
+  checksum: 3/a10de613a83e5b21561d51af2c3a2394e78f9aa55c196b835b80ecfc8f688c6b000a24c3b5fea6dbd7c43742bafb93ce350112213295d868783c12ea67163e49
   languageName: node
   linkType: hard
 
