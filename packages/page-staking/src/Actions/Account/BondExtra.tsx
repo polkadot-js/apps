@@ -37,7 +37,9 @@ function BondExtra ({ controllerId, onClose, stakingInfo, stashId }: Props): Rea
 
   useEffect((): void => {
     if (stakingInfo && stakingInfo.stakingLedger && stashBalance) {
-      const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active.unwrap());
+      const sumUnlocking = stakingInfo.unlocking?.reduce((acc, { value }) => acc.add(value), BN_ZERO) || BN_ZERO;
+      const redeemable = stakingInfo.redeemable || BN_ZERO;
+      const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active.unwrap()).sub(sumUnlocking).sub(redeemable);
 
       setStartBalance(
         available.gt(api.consts.balances.existentialDeposit)
