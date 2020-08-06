@@ -119,6 +119,11 @@ function createTest (t: TFunction): LinkOption[] {
     },
     // alphabetical based on chain name
     {
+      info: 'amber',
+      text: t<string>('rpc.amber', 'Amber (Centrifuge Testnet, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.amber.centrifuge.io'
+    },
+    {
       info: 'nodle',
       text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io'
