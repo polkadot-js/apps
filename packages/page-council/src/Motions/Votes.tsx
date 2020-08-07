@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import getMaxThreshold from './utils';
 
 interface Props {
   isAye?: boolean;
@@ -21,12 +22,7 @@ function Votes ({ isAye, members, threshold, votes }: Props): React.ReactElement
   const [counter, setCounter] = useState('');
 
   useEffect((): void => {
-    const num = threshold.toNumber();
-    const max = isAye
-      ? num
-      : members?.length
-        ? (members.length - num) + 1
-        : 0;
+    const max = getMaxThreshold({ isAye, members, threshold });
 
     setCounter(`${votes.length}${max ? `/${max}` : ''}`);
   }, [isAye, members, threshold, votes]);

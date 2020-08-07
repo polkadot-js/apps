@@ -10,6 +10,7 @@ import { useAccounts, useApi, useToggle, useWeight } from '@polkadot/react-hooks
 import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import getMaxThreshold from './utils';
 
 interface Props {
   hash: Hash;
@@ -29,10 +30,13 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
   const [voteValue, setVoteValue] = useState(true);
   const { api } = useApi();
   const [proposalWeight, proposalLength] = useWeight(proposal);
+  const ayeThreshold = getMaxThreshold({ isAye: true, members, threshold: votes?.threshold });
+  const nayThreshold = getMaxThreshold({ isAye: false, members, threshold: votes?.threshold });
+
   // will the proposal pass if this member votes aye
-  const willPass = (voteValue && votes?.threshold.eqn(votes?.ayes.length + 1)) || false;
+  const willPass = (votes && voteValue && (ayeThreshold === votes.ayes.length + 1)) || false;
   // will the proposal fail if this member votes nay
-  const willFail = (!voteValue && votes?.threshold.eqn(votes?.nays.length + 1)) || false;
+  const willFail = (votes && !voteValue && (nayThreshold === votes.nays.length + 1)) || false;
 
   useEffect((): void => {
     isVotingOpen && setVoteValue(true);
