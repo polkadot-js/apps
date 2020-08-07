@@ -81,7 +81,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
         votes={nays}
       />
       <td className='button'>
-        {isVoteable && (
+        {isVoteable && !isCloseable && (
           <Voting
             hash={hash}
             idNumber={index}
