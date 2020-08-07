@@ -74,6 +74,12 @@ function checkValue (hasValue: boolean, value: string | null | undefined, minLen
   );
 }
 
+function getSanitizedName (address: string): string {
+  const name = getAddressMeta(address).name || '';
+
+  return name.replace(/\(.*\)/, '').trim();
+}
+
 function IdentityMain ({ address, className = '', onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -86,7 +92,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [hasRiot, setHasRiot] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
-  const [valDisplay, setValDisplay] = useState(getAddressMeta(address).name || '');
+  const [valDisplay, setValDisplay] = useState(getSanitizedName(address));
   const [valEmail, setValEmail] = useState('');
   // const [{ errImg, valImg }, setValImg] = useState<{ errImg: boolean; valImg: string }>({ errImg: true, valImg: '' });
   const [valLegal, setValLegal] = useState('');
