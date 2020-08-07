@@ -30,6 +30,17 @@ const EMPTY_STATE: State = {
   proxies: []
 };
 
+function createProxy (allAccounts: string[], delegate: AccountId, type: ProxyType, delay = BN_ZERO): Proxy {
+  const address = delegate.toString();
+
+  return {
+    address,
+    delay,
+    isOwned: allAccounts.includes(address),
+    type
+  };
+}
+
 export default function useProxies (address?: string | null): State {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
@@ -44,18 +55,12 @@ export default function useProxies (address?: string | null): State {
         .proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
           const proxies = _proxies.length === 0 || !Array.isArray(_proxies[0])
-            ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }): Proxy => ({
-              address: delegate.toString(),
-              delay,
-              isOwned: allAccounts.includes(delegate.toString()),
-              type: proxyType
-            }))
-            : (_proxies as [AccountId, ProxyType][]).map(([delegate, type]): Proxy => ({
-              address: delegate.toString(),
-              delay: BN_ZERO,
-              isOwned: allAccounts.includes(delegate.toString()),
-              type
-            }));
+            ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
+              createProxy(allAccounts, delegate, proxyType, delay)
+            )
+            : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]) =>
+              createProxy(allAccounts, delegate, proxyType)
+            );
           const owned = proxies.filter(({ isOwned }) => isOwned);
 
           mountedRef.current && setState({
