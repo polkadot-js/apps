@@ -2,13 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProxyType } from '@polkadot/types/interfaces';
+import { AccountId, BalanceOf, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 
+import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
+import { Vec } from '@polkadot/types';
+import { BN_ZERO } from '@polkadot/util';
 
 interface Proxy {
   address: string;
+  delay: BN;
   isOwned: boolean;
   type: ProxyType;
 }
@@ -36,13 +41,21 @@ export default function useProxies (address?: string | null): State {
 
     address && api.query.proxy &&
       api.query.proxy
-        .proxies(address)
+        .proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
-          const proxies = _proxies.map(([accountId, type]): Proxy => ({
-            address: accountId.toString(),
-            isOwned: allAccounts.includes(accountId.toString()),
-            type
-          }));
+          const proxies = _proxies.length === 0 || !Array.isArray(_proxies[0])
+            ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }): Proxy => ({
+              address: delegate.toString(),
+              delay,
+              isOwned: allAccounts.includes(delegate.toString()),
+              type: proxyType
+            }))
+            : (_proxies as [AccountId, ProxyType][]).map(([delegate, type]): Proxy => ({
+              address: delegate.toString(),
+              delay: BN_ZERO,
+              isOwned: allAccounts.includes(delegate.toString()),
+              type
+            }));
           const owned = proxies.filter(({ isOwned }) => isOwned);
 
           mountedRef.current && setState({
