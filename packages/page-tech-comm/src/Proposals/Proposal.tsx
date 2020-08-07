@@ -80,7 +80,9 @@ function Proposal ({ className = '', imageHash, isMember, members, prime }: Prop
           <Voting
             hash={imageHash}
             prime={prime}
+            proposal={proposal}
             proposalId={index}
+            votes={votes}
           />
         )}
         {isCloseable && (

@@ -50,14 +50,13 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
   const isPrime = prime?.toString() === accountId;
 
   const voteExtrinsic = api.tx.council.vote(hash, idNumber, voteValue);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const closeEdtrinsic = api.tx.council.close.meta.args.length === 4
+  const closeExtrinsic = api.tx.council.close.meta.args.length === 4
     ? api.tx.council.close(hash, idNumber, proposalWeight, proposalLength)
-    : (api.tx.council.close as any)(hash, idNumber);
+    : api.tx.council.close(hash, idNumber, 0, 0);
 
   // vote and close if this vote ends the vote
   const extrinsic = willPass || willFail
-    ? api.tx.utility.batch([voteExtrinsic, closeEdtrinsic])
+    ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
     : voteExtrinsic;
 
   return (
