@@ -5,7 +5,7 @@
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
 import { isBn } from '@polkadot/util';
@@ -30,14 +30,19 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
   const { api } = useApi();
   const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all, [accountId]);
   const [{ selectedId, value }, setValue] = useState<ValueState>({});
+  const maxVotingBalance = useMemo(() =>
+    isCouncil
+      ? allBalances?.votingBalance.add(allBalances?.reservedBalance)
+      : allBalances?.votingBalance
+  , [allBalances?.reservedBalance, allBalances?.votingBalance, isCouncil]);
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
     (accountId !== selectedId) && allBalances && allBalances.accountId.eq(accountId) && setValue({
       selectedId: accountId,
-      value: allBalances.lockedBalance
+      value: maxVotingBalance
     });
-  }, [accountId, selectedId, allBalances]);
+  }, [allBalances, accountId, maxVotingBalance, selectedId]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
@@ -54,7 +59,10 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
   return (
     <InputBalance
       autoFocus={autoFocus}
-      defaultValue={accountId !== selectedId ? undefined : allBalances?.lockedBalance}
+      defaultValue={accountId !== selectedId
+        ? undefined
+        : maxVotingBalance
+      }
       help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
       isZeroable
@@ -66,7 +74,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
           params={accountId}
         />
       }
-      maxValue={allBalances?.votingBalance}
+      maxValue={maxVotingBalance}
       onChange={_setValue}
     />
   );
