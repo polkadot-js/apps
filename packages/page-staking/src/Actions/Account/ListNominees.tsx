@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Slash } from '../types';
-
 import React from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 
@@ -13,12 +11,11 @@ import useInactives from '../useInactives';
 interface Props {
   nominating?: string[];
   stashId: string;
-  slashes: Slash[];
 }
 
-function ListNominees ({ nominating, slashes, stashId }: Props): React.ReactElement<Props> {
+function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { nomsActive, nomsChilled, nomsInactive, nomsWaiting } = useInactives(stashId, slashes, nominating);
+  const { nomsActive, nomsChilled, nomsInactive, nomsWaiting } = useInactives(stashId, nominating);
 
   return (
     <>

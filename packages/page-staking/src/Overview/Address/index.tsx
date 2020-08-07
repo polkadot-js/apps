@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types/interfaces';
+import { Balance, EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
@@ -11,6 +11,7 @@ import { AddressSmall, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { Option } from '@polkadot/types';
 
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
@@ -26,7 +27,7 @@ interface Props {
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
-  nominatedBy?: [string, number][];
+  nominatedBy?: [string, EraIndex, number][];
   onlineCount?: false | number;
   onlineMessage?: boolean;
   points?: string;
@@ -74,6 +75,9 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
   const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
+  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, [address], {
+    transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
+  });
   const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
   const [isVisible, setIsVisible] = useState(true);
 
@@ -123,7 +127,12 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             stakeOther={stakeOther}
           />
         )
-        : <NominatedBy nominators={nominatedBy} />
+        : (
+          <NominatedBy
+            nominators={nominatedBy}
+            slashingSpans={slashingSpans}
+          />
+        )
       }
       <td className='number'>
         {stakeOwn?.gtn(0) && (

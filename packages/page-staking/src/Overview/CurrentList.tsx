@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { AccountId, Nominations } from '@polkadot/types/interfaces';
+import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -69,14 +69,15 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Record<string, [string, number][]> {
-  return nominations.reduce((mapped: Record<string, [string, number][]>, [key, optNoms]) => {
+function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Record<string, [string, EraIndex, number][]> {
+  return nominations.reduce((mapped: Record<string, [string, EraIndex, number][]>, [key, optNoms]) => {
     if (optNoms.isSome) {
       const nominatorId = key.args[0].toString();
+      const { submittedIn, targets } = optNoms.unwrap();
 
-      optNoms.unwrap().targets.forEach((_validatorId, index): void => {
+      targets.forEach((_validatorId, index): void => {
         const validatorId = _validatorId.toString();
-        const info: [string, number] = [nominatorId, index + 1];
+        const info: [string, EraIndex, number] = [nominatorId, submittedIn, index + 1];
 
         if (!mapped[validatorId]) {
           mapped[validatorId] = [info];
@@ -98,7 +99,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries as any, []);
   const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [nominatedBy, setNominatedBy] = useState<Record<string, [string, number][]> | null>();
+  const [nominatedBy, setNominatedBy] = useState<Record<string, [string, EraIndex, number][]> | null>();
   const [withIdentity, setWithIdentity] = useState(false);
 
   // we have a very large list, so we use a loading delay
