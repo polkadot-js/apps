@@ -52,7 +52,7 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
   const closeExtrinsic = api.tx.council.close.meta.args.length === 4
     ? api.tx.technicalCommittee.close(hash, proposalId, proposalWeight, proposalLength)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
+    // @ts-ignore older version (2 params)
     : api.tx.technicalCommittee.close(hash, proposalId);
 
   // vote and close if this vote ends the vote
