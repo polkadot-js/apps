@@ -18,9 +18,15 @@ interface Inactives {
 
 function extractState (stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
   // chilled
-  const nomsChilled = nominees.filter((_, index) =>
-    slashes[index].isSome && slashes[index].unwrap().lastNonzeroSlash.gte(submittedIn)
-  );
+  const nomsChilled = nominees.filter((_, index): boolean => {
+    if (slashes[index].isNone) {
+      return false;
+    }
+
+    const { lastNonzeroSlash } = slashes[index].unwrap();
+
+    return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gte(submittedIn);
+  });
 
   // first a blanket find of nominations not in the active set
   let nomsInactive = exposures
