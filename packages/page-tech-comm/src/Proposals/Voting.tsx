@@ -91,7 +91,7 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
             accountId={accountId}
             aye={voteValue}
             extrinsic={extrinsic}
-            isClosing={(voteValue && willPass) || (!voteValue && willFail)}
+            isClosing={willPass || willFail}
             onClick={toggleVoting}
             params={[hash, proposalId, voteValue]}
           />

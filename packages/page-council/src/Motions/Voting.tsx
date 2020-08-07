@@ -120,7 +120,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
             accountId={accountId}
             aye={voteValue}
             extrinsic={extrinsic}
-            isClosing={(voteValue && willPass) || (!voteValue && willFail)}
+            isClosing={willPass || willFail}
             onClick={toggleVoting}
           />
         </Modal>
