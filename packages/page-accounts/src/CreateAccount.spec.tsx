@@ -10,7 +10,7 @@ import { fireEvent, render } from '@testing-library/react';
 import React, { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
-const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT) || 30333;
+const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 
 const WaitForApi = ({ children }: { children: React.ReactNode }): PropsWithChildren<any> | null => {
   const api = useApi();

@@ -1,7 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { GenericContainer, Wait } from 'testcontainers';
+import { GenericContainer, StartedTestContainer, Wait } from 'testcontainers';
+
+declare let __SUBSTRATE__: StartedTestContainer;
 
 const startSubstrate = async () => {
   console.log('Substrate container starting...');
@@ -16,7 +18,7 @@ const startSubstrate = async () => {
   console.log('Done.');
 
   process.env.TEST_SUBSTRATE_PORT = startedTestContainer.getMappedPort(9944)?.toString() || '';
-  global.__SUBSTRATE__ = startedTestContainer;
+  __SUBSTRATE__ = startedTestContainer;
 };
 
 export default async (): Promise<void> => {
