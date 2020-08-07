@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+
 import React from 'react';
 
 import Modal from './Modal';
@@ -12,13 +14,15 @@ interface Props {
   accountId: string | null;
   aye: boolean;
   className?: string;
+  extrinsic?: SubmittableExtrinsic<'promise'>;
+  isClosing?: boolean;
   isDisabled?: boolean;
   onClick: () => void;
-  params: any[];
-  tx: string;
+  params?: any[];
+  tx?: string;
 }
 
-function VoteActions ({ accountId, aye, className = '', isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
+function VoteActions ({ accountId, aye, className = '', extrinsic, isClosing, isDisabled, onClick, params, tx }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -28,11 +32,17 @@ function VoteActions ({ accountId, aye, className = '', isDisabled, onClick, par
     >
       <TxButton
         accountId={accountId}
+        extrinsic={extrinsic}
         icon='check'
         isDisabled={!accountId || isDisabled}
         label={aye
-          ? t<string>('Vote Aye')
-          : t<string>('Vote Nay')}
+          ? isClosing
+            ? t<string>('Vote Aye and Close')
+            : t<string>('Vote Aye')
+          : isClosing
+            ? t<string>('Vote Nay and Close')
+            : t<string>('Vote Nay')
+        }
         onStart={onClick}
         params={params}
         tx={tx}
