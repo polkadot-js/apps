@@ -40,7 +40,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
     // if the set accountId changes and the new balances is for that id, set it
     (accountId !== selectedId) && allBalances && allBalances.accountId.eq(accountId) && setValue({
       selectedId: accountId,
-      value: maxVotingBalance
+      value: allBalances?.lockedBalance
     });
   }, [allBalances, accountId, maxVotingBalance, selectedId]);
 
@@ -61,7 +61,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
       autoFocus={autoFocus}
       defaultValue={accountId !== selectedId
         ? undefined
-        : maxVotingBalance
+        : allBalances?.lockedBalance
       }
       help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
