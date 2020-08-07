@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
-import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -43,7 +43,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
 function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const [{ closesAt, deposit, finder, isFinder, isTipped, isTipper, median }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipped: false, isTipper: false, median: BN_ZERO });
+  const [{ closesAt, finder, isFinder, isTipped, isTipper, median }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipped: false, isTipper: false, median: BN_ZERO });
 
   useEffect((): void => {
     const closesAt = tip.closes.unwrapOr(null);
@@ -89,11 +89,6 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
       <td className='address'>
         {finder && (
           <AddressMini value={finder} />
-        )}
-      </td>
-      <td className='number'>
-        {deposit && !deposit.isEmpty && (
-          <FormatBalance value={deposit} />
         )}
       </td>
       <TipReason hash={reason} />
