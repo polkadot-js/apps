@@ -28,7 +28,7 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
     if (nominators) {
       const chilled = slashingSpans
         ? nominators
-          .filter(([, submittedIn]) => submittedIn.lte(slashingSpans.lastNonzeroSlash))
+          .filter(([, submittedIn]) => !slashingSpans.lastNonzeroSlash.isZero() && slashingSpans.lastNonzeroSlash.gte(submittedIn))
           .map(([who]) => who)
         : [];
       const active = nominators
