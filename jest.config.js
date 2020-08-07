@@ -15,12 +15,15 @@ const internalModules = findPackages()
   }, {});
 
 module.exports = Object.assign({}, config, {
+  globalSetup: './jest/globalSetup.ts',
+  globalTeardown: './jest/globalTeardown.ts',
   moduleNameMapper: {
     ...internalModules,
     '\\.(css|less)$': 'empty/object',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
     '\\.(md)$': '<rootDir>/__mocks__/fileMock.js'
   },
+  setupFilesAfterEnv: ['./jest/jest.setup.ts'],
   transformIgnorePatterns: [
     '<rootDir>/node_modules'
   ]
