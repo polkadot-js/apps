@@ -57,7 +57,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
   const closeExtrinsic = api.tx.council.close.meta.args.length === 4
     ? api.tx.council.close(hash, idNumber, proposalWeight, proposalLength)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
+    // @ts-ignore older version (2 params)
     : api.tx.council.close(hash, idNumber);
 
   // vote and close if this vote ends the vote
