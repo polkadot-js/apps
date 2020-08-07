@@ -8,7 +8,6 @@ interface Params {
   isAye?: boolean;
   members: string[];
   threshold?: MemberCount;
-
 }
 
 function getMaxThreshold ({ isAye, members, threshold }: Params): number {
