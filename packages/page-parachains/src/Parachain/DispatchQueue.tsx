@@ -39,17 +39,19 @@ function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.Re
                     >
                       <div className='ui--row'>
                         <Static
-                          className='full label-small'
                           help={t<string>('Message origin.')}
+                          isFull
+                          isSmall
                           label={t<string>('origin')}
                           value={origin.toString()}
                         />
                       </div>
                       <div className='ui--row'>
                         <Output
-                          className='full label-small'
                           help={t<string>('Message data')}
+                          isFull
                           isMonospace
+                          isSmall
                           label={t<string>('data')}
                           value={data.toHex()}
                           withCopy

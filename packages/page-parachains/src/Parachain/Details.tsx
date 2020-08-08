@@ -42,8 +42,9 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
     <Card>
       <div className='ui--row'>
         <Static
-          className='full label-small'
           help={t<string>('The scheduling setting for this parachain.')}
+          isFull
+          isSmall
           label={t<string>('scheduling')}
           value={info?.scheduling?.toString() || t<string>('Unknown')}
         />
@@ -51,9 +52,10 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       {heads && (
         <div className='ui--row'>
           <Output
-            className='full label-small'
             help={t<string>('Most recent head data')}
+            isFull
             isMonospace
+            isSmall
             label={t<string>('heads')}
             value={heads.toHex()}
             withCopy
@@ -62,8 +64,9 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       )}
       <div className='ui--row'>
         <Labelled
-          className='full label-small'
+          className='full'
           help={t<string>('The compiled runtime WASM for this parachain.')}
+          isSmall
           label={t<string>('code')}
         >
           <div
