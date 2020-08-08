@@ -30,9 +30,9 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
           ))}
         </Expander>
       )}
-      {nomsChilled && nomsChilled.length !== 0 && (
-        <Expander summary={t<string>('Chilled nominations ({{count}})', { replace: { count: nomsChilled.length } })}>
-          {nomsChilled.map((nomineeId, index): React.ReactNode => (
+      {nomsInactive && nomsInactive.length !== 0 && (
+        <Expander summary={t<string>('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}>
+          {nomsInactive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
               value={nomineeId}
@@ -41,9 +41,9 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
           ))}
         </Expander>
       )}
-      {nomsInactive && nomsInactive.length !== 0 && (
-        <Expander summary={t<string>('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}>
-          {nomsInactive.map((nomineeId, index): React.ReactNode => (
+      {nomsChilled && nomsChilled.length !== 0 && (
+        <Expander summary={t<string>('Renomination required ({{count}})', { replace: { count: nomsChilled.length } })}>
+          {nomsChilled.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
               value={nomineeId}

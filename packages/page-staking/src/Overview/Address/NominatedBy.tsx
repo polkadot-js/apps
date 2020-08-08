@@ -55,7 +55,7 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
               </Expander>
             )}
             {chilled.length !== 0 && (
-              <Expander summary={t<string>('Chilled ({{count}})', { replace: { count: formatNumber(chilled.length) } })}>
+              <Expander summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled.length) } })}>
                 {chilled.map((who): React.ReactNode =>
                   <AddressMini
                     key={who}
