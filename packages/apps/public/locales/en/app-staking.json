@@ -62,6 +62,7 @@
   "Payout all": "Payout all",
   "Payout all stakers": "Payout all stakers",
   "Payouts": "Payouts",
+  "Renomination required ({{count}})": "Renomination required ({{count}})",
   "Retrieving info for all applicable eras, this will take some time": "Retrieving info for all applicable eras, this will take some time",
   "Retrieving info for last {{numEras}} eras, this will take some time": "Retrieving info for last {{numEras}} eras, this will take some time",
   "Retrieving info for the selected eras, this will take some time": "Retrieving info for the selected eras, this will take some time",
