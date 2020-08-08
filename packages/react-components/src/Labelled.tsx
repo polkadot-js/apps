@@ -113,20 +113,17 @@ const Wrapper = styled.div`
         }
       }
 
+      .ui--InputFile,
       .ui.input > input,
       .ui--output {
         padding-left: 1.45rem;
         padding-top: 1.75rem;
       }
 
-      .ui--InputFile,
-      .ui--Messages {
-        padding-left: 1.45rem;
-        padding-top: 2rem;
-      }
-
       .ui--Messages {
         padding-bottom: 2rem;
+        padding-left: 1.45rem;
+        padding-top: 2rem;
       }
     }
   }

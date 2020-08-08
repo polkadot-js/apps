@@ -132,7 +132,7 @@ export default React.memo(styled(InputFile)`
   border-radius: 0.28571429rem;
   font-size: 1rem;
   margin: 0.25rem 0;
-  padding: 1rem;
+  padding: 0.67857143em 1em;
   width: 100% !important;
 
   &.error {
