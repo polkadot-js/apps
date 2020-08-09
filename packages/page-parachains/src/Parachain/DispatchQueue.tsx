@@ -34,11 +34,13 @@ function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.Re
                   >
                     <Static
                       help={t<string>('Message origin.')}
+                      isFull
                       label={t<string>('origin')}
                       value={origin.toString()}
                     />
                     <Output
                       help={t<string>('Message data')}
+                      isFull
                       isMonospace
                       label={t<string>('data')}
                       value={data.toHex()}
