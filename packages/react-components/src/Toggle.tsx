@@ -8,6 +8,7 @@ import styled from 'styled-components';
 interface Props {
   className?: string;
   isDisabled?: boolean;
+  isOverlay?: boolean;
   isRadio?: boolean;
   label: React.ReactNode;
   onChange?: (isChecked: boolean) => void;
@@ -15,7 +16,7 @@ interface Props {
   value?: boolean;
 }
 
-function Toggle ({ className = '', isDisabled, isRadio, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
+function Toggle ({ className = '', isDisabled, isOverlay, isRadio, label, onChange, preventDefault, value }: Props): React.ReactElement<Props> {
   const _onClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
       if (!isDisabled) {
@@ -32,7 +33,7 @@ function Toggle ({ className = '', isDisabled, isRadio, label, onChange, prevent
 
   return (
     <div
-      className={`ui--Toggle${value ? ' isChecked' : ''}${isDisabled ? ' isDisabled' : ''}${isRadio ? ' isRadio' : ''} ${className}`}
+      className={`ui--Toggle${value ? ' isChecked' : ''}${isDisabled ? ' isDisabled' : ''}${isOverlay ? ' isOverlay' : ''}${isRadio ? ' isRadio' : ''} ${className}`}
       onClick={_onClick}
     >
       {label && <label>{label}</label>}
@@ -100,5 +101,11 @@ export default React.memo(styled(Toggle)`
     .ui--Toggle-Slider {
       width: 1.5rem;
     }
+  }
+
+  &.isOverlay {
+    bottom: 1.375rem;
+    position: absolute;
+    right: 3.5rem;
   }
 `);
