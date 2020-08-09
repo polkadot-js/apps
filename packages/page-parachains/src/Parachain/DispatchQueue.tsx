@@ -23,41 +23,29 @@ function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.Re
       <h1>{t<string>('relay dispatch queue')}</h1>
       {
         dispatchQueue.length === 0
-          ? (
-            <>
-              {t<string>('no messages')}
-            </>
-          )
+          ? t<string>('no messages')
           : (
             <>
               {
-                dispatchQueue.map(({ data, origin }): React.ReactNode => {
-                  return (
-                    <Card
-                      className='queue-message'
-                      key={data.toHex()}
-                    >
-                      <div className='ui--row'>
-                        <Static
-                          help={t<string>('Message origin.')}
-                          isSmall
-                          label={t<string>('origin')}
-                          value={origin.toString()}
-                        />
-                      </div>
-                      <div className='ui--row'>
-                        <Output
-                          help={t<string>('Message data')}
-                          isMonospace
-                          isSmall
-                          label={t<string>('data')}
-                          value={data.toHex()}
-                          withCopy
-                        />
-                      </div>
-                    </Card>
-                  );
-                })
+                dispatchQueue.map(({ data, origin }): React.ReactNode => (
+                  <Card
+                    className='queue-message'
+                    key={data.toHex()}
+                  >
+                    <Static
+                      help={t<string>('Message origin.')}
+                      label={t<string>('origin')}
+                      value={origin.toString()}
+                    />
+                    <Output
+                      help={t<string>('Message data')}
+                      isMonospace
+                      label={t<string>('data')}
+                      value={data.toHex()}
+                      withCopy
+                    />
+                  </Card>
+                ))
               }
             </>
           )
