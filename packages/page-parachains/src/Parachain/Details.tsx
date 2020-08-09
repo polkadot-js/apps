@@ -64,8 +64,8 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       )}
       <div className='ui--row'>
         <Labelled
-          className='full'
           help={t<string>('The compiled runtime WASM for this parachain.')}
+          isFull
           isSmall
           label={t<string>('code')}
         >
