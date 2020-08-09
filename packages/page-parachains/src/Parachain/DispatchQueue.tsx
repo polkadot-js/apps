@@ -40,7 +40,6 @@ function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.Re
                       <div className='ui--row'>
                         <Static
                           help={t<string>('Message origin.')}
-                          isFull
                           isSmall
                           label={t<string>('origin')}
                           value={origin.toString()}
@@ -49,7 +48,6 @@ function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.Re
                       <div className='ui--row'>
                         <Output
                           help={t<string>('Message data')}
-                          isFull
                           isMonospace
                           isSmall
                           label={t<string>('data')}

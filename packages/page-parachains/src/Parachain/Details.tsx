@@ -43,7 +43,6 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       <div className='ui--row'>
         <Static
           help={t<string>('The scheduling setting for this parachain.')}
-          isFull
           isSmall
           label={t<string>('scheduling')}
           value={info?.scheduling?.toString() || t<string>('Unknown')}
@@ -53,7 +52,6 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
         <div className='ui--row'>
           <Output
             help={t<string>('Most recent head data')}
-            isFull
             isMonospace
             isSmall
             label={t<string>('heads')}
@@ -65,7 +63,6 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
       <div className='ui--row'>
         <Labelled
           help={t<string>('The compiled runtime WASM for this parachain.')}
-          isFull
           isSmall
           label={t<string>('code')}
         >
