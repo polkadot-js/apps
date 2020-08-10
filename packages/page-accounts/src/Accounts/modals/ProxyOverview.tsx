@@ -151,17 +151,12 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, typeOpts, v
 function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  // the stack of extrinsics on the previous proxies
   const [batchStackPrevious, setBatchStackPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  // the stack of extrinsics on newly added proxies
   const [batchStackAdded, setBatchStackAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  // the final extrinsic (either single or a batch)
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  // list of previous accounts and proxy types
-  const previousProxyAccountsTypes = previousProxy?.[0].map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType]) || undefined;
-  // actualized list of previous proxy including new changes (deletion if any)
-  const [previousProxyDisplay, setPreviousProxyDisplay] = useState<PrevProxy[] | undefined>(previousProxyAccountsTypes);
-  // actualized list of new proxies (additions, if any)
+  const [previousProxyDisplay, setPreviousProxyDisplay] = useState<PrevProxy[] | undefined>(
+    previousProxy?.[0].map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType]) || undefined
+  );
   const [addedProxies, setAddedProxies] = useState<PrevProxy[]>([]);
 
   useEffect(() => {
