@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.54.0-beta.x
+
+- Base support for time-delay proxies (API-level only, both old and new calls)
+
 ## 0.53.1 Aug 10, 2020
 
 - ko i18n first-round support (Thanks to https://github.com/hskang9)

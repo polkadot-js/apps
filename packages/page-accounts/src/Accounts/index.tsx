@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { AccountId, ProxyType, Voting } from '@polkadot/types/interfaces';
+import { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
 import { Delegation, SortedAccount } from '../types';
 
 import BN from 'bn.js';
@@ -74,7 +74,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
-  const proxies = useCall<[[AccountId, ProxyType][], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses]);
+  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
+    transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
+      api.tx.proxy.addProxy.meta.args.length === 4
+        ? result as [ProxyDefinition[], BN][]
+        : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
+          [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
+        )
+  });
   const isLoading = useLoadingDelay();
 
   useEffect((): void => {

@@ -4,7 +4,8 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
-import { Call, Multisig, ProxyType } from '@polkadot/types/interfaces';
+import { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
 import { AddressProxy } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -121,8 +122,10 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
 async function queryForProxy (api: ApiPromise, allAccounts: string[], address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
-    const [_proxies] = await api.query.proxy.proxies(address);
-    const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
+    const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address);
+    const proxies = api.tx.proxy.addProxy.meta.args.length === 4
+      ? (_proxies as ProxyDefinition[]).map(({ delegate, proxyType }): [string, ProxyType] => [delegate.toString(), proxyType])
+      : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]): [string, ProxyType] => [delegate.toString(), proxyType]);
     const proxiesFilter = filterProxies(allAccounts, tx, proxies);
 
     if (proxiesFilter.length) {
