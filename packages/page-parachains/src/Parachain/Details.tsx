@@ -40,44 +40,38 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
 
   return (
     <Card>
-      <div className='ui--row'>
-        <Static
-          className='full label-small'
-          help={t<string>('The scheduling setting for this parachain.')}
-          label={t<string>('scheduling')}
-          value={info?.scheduling?.toString() || t<string>('Unknown')}
-        />
-      </div>
+      <Static
+        help={t<string>('The scheduling setting for this parachain.')}
+        isFull
+        label={t<string>('scheduling')}
+        value={info?.scheduling?.toString() || t<string>('Unknown')}
+      />
       {heads && (
-        <div className='ui--row'>
-          <Output
-            className='full label-small'
-            help={t<string>('Most recent head data')}
-            isMonospace
-            label={t<string>('heads')}
-            value={heads.toHex()}
-            withCopy
+        <Output
+          help={t<string>('Most recent head data')}
+          isFull
+          isMonospace
+          label={t<string>('heads')}
+          value={heads.toHex()}
+          withCopy
+        />
+      )}
+      <Labelled
+        help={t<string>('The compiled runtime WASM for this parachain.')}
+        isFull
+        label={t<string>('code')}
+      >
+        <div
+          className='ui--Static ui selection dropdown'
+          onClick={onDownload}
+        >
+          <IconLink
+            icon='download'
+            label={t<string>('Download')}
+            onClick={onDownload}
           />
         </div>
-      )}
-      <div className='ui--row'>
-        <Labelled
-          className='full label-small'
-          help={t<string>('The compiled runtime WASM for this parachain.')}
-          label={t<string>('code')}
-        >
-          <div
-            className='ui--Static ui selection dropdown'
-            onClick={onDownload}
-          >
-            <IconLink
-              icon='download'
-              label={t<string>('Download')}
-              onClick={onDownload}
-            />
-          </div>
-        </Labelled>
-      </div>
+      </Labelled>
     </Card>
   );
 }

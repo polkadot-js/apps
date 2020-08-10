@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## 0.53.1 Aug 10, 2020
+
+- ko i18n first-round support (Thanks to https://github.com/hskang9)
+- Update to latest Centrifuge types (Thanks to https://github.com/mikiquantum)
+- Add icon on Electron app under Linux (Thanks to https://github.com/EthWorks)
+- Re-bonding adjusts based on unbonding  redeemable (Thanks to https://github.com/Tbaut)
+- Adjust council voting balance to include reserved (Thanks to https://github.com/Tbaut)
+- Add tip link to Polkassembly (Thanks to https://github.com/Tbaut)
+- Show existing proxies across all accounts (Thanks to https://github.com/Tbaut)
+- Add slashes tab to display unapplied, also indicate status in lists
+- Unbonding allows for full-balance unbond (& pre-fills)
+- Rework parachains app initial displays with cross-app consistency
+- Allow for transfers between parachains & to/from relay (via tokenDealer)
+- Allow tipping to pre-populate and display median (& quick-tip with median)
+- Display auto-chilled nominations, allowing for re-nomination
+- Sanitize names on identity set dialog
+- Adjust vanity to wan about saving, be explicit in save button action
+- Add banner for DOT re-denomination on accounts page (Polkadot only)
+- Allow updating of extensions when chain-properties have been changed
+- Adjust InputAddressMulti lookups with and without names
+- Add warning for locally stored accounts in creation (to be deprecated)
+- Add basic password strength indicator for password creation
+- Add Rococo testnet chain support
+- Add IPNS support for Rococo
+- Adjust threshold calculations where members are not (yet) available
+
 ## 0.52.1 Aug 3, 2020
 
 - ar i18n support (Thanks to https://github.com/nightwolf3)

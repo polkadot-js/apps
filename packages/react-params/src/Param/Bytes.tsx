@@ -63,7 +63,7 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
       }
       {!isDisabled && (
         <Toggle
-          className='ui--Param-Bytes-toggle'
+          isOverlay
           label={t<string>('file upload')}
           onChange={setFileInput}
           value={isFileDrop}
@@ -75,10 +75,4 @@ function Bytes ({ className = '', defaultValue, isDisabled, isError, label, name
 
 export default React.memo(styled(Bytes)`
   position: relative;
-
-  > .ui--Param-Bytes-toggle {
-    top: 1.375rem;
-    position: absolute;
-    right: 3.5rem;
-  }
 `);

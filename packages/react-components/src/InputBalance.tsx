@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
+
 import InputNumber from './InputNumber';
 
 interface Props {
@@ -97,7 +98,7 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
 }
 
 export default React.memo(styled(InputBalance)`
-  &&:not(.label-small) .labelExtra {
+  &&:not(.isSmall) .labelExtra {
     right: 6.5rem;
   }
 

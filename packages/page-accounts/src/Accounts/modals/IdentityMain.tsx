@@ -53,7 +53,7 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
     <div className='toggle-Wrap'>
       {children}
       <Toggle
-        className='toggle-Toggle'
+        isOverlay
         label={t<string>('include field')}
         onChange={onChange}
         value={value}
@@ -86,7 +86,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [hasRiot, setHasRiot] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
-  const [valDisplay, setValDisplay] = useState(getAddressMeta(address).name || '');
+  const [valDisplay, setValDisplay] = useState((getAddressMeta(address).name || '').replace(/\(.*\)/, '').trim());
   const [valEmail, setValEmail] = useState('');
   // const [{ errImg, valImg }, setValImg] = useState<{ errImg: boolean; valImg: string }>({ errImg: true, valImg: '' });
   const [valLegal, setValLegal] = useState('');
@@ -246,11 +246,5 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 export default styled(IdentityMain)`
   .toggle-Wrap {
     position: relative;
-
-    .toggle-Toggle {
-      position: absolute;
-      right: 3.5rem;
-      bottom: 1.375rem;
-    }
   }
 `;

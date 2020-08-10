@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
-import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -43,7 +43,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
 function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const [{ closesAt, deposit, finder, isFinder, isTipped, isTipper, median }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipped: false, isTipper: false, median: BN_ZERO });
+  const [{ closesAt, finder, isFinder, isTipped, isTipper, median }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipped: false, isTipper: false, median: BN_ZERO });
 
   useEffect((): void => {
     const closesAt = tip.closes.unwrapOr(null);
@@ -91,24 +91,22 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           <AddressMini value={finder} />
         )}
       </td>
-      <td className='number'>
-        {deposit && !deposit.isEmpty && (
-          <FormatBalance value={deposit} />
-        )}
-      </td>
       <TipReason hash={reason} />
       <td className='start all'>
         {tips.length !== 0 && (
-          <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: `${tips.length}${median.isZero() ? '' : `, ${formatBalance(median)}`}` } })}>
-            {tips.map(([tipper, balance]) => (
-              <AddressMini
-                balance={balance}
-                key={tipper.toString()}
-                value={tipper}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <>
+            <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>
+              {tips.map(([tipper, balance]) => (
+                <AddressMini
+                  balance={balance}
+                  key={tipper.toString()}
+                  value={tipper}
+                  withBalance
+                />
+              ))}
+            </Expander>
+            <FormatBalance value={median} />
+          </>
         )}
       </td>
       <td className='button together'>
@@ -149,7 +147,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           )
         }
       </td>
-      <td className='badge'>
+      <td className='badge ui--media-1700'>
         {isMember && (
           <Icon
             color={isTipper ? 'green' : 'gray'}
@@ -157,7 +155,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           />
         )}
       </td>
-      <td className='mini ui--media-1600'>
+      <td className='mini ui--media-1700'>
         <LinkExternal
           data={hash}
           type='tip'
