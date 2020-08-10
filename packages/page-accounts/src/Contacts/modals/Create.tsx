@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps as Props } from '../../types';
 
 import React, { useCallback, useState } from 'react';
-
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
@@ -17,6 +18,7 @@ interface AddrState {
   addressInput: string;
   isAddressExisting: boolean;
   isAddressValid: boolean;
+  isPublicKey: boolean;
 }
 
 interface NameState {
@@ -26,21 +28,25 @@ interface NameState {
 
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
-  const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false });
-  const isValid = isAddressValid && isNameValid;
+  const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
+  const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
+  const isValid = (isAddressValid && isNameValid) && !info?.accountId;
 
   const _onChangeAddress = useCallback(
     (addressInput: string): void => {
       let address = '';
       let isAddressValid = true;
       let isAddressExisting = false;
+      let isPublicKey = false;
 
       try {
-        address = keyring.encodeAddress(
-          keyring.decodeAddress(addressInput)
-        );
+        const publicKey = keyring.decodeAddress(addressInput);
+
+        address = keyring.encodeAddress(publicKey);
         isAddressValid = keyring.isAvailable(address);
+        isPublicKey = publicKey.length === 32;
 
         if (!isAddressValid) {
           const old = keyring.getAddress(address);
@@ -58,7 +64,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         isAddressValid = false;
       }
 
-      setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid });
+      setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid, isPublicKey });
     },
     [name]
   );
@@ -72,11 +78,13 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
     (): void => {
       const status = { action: 'create' } as ActionStatus;
 
-      if (!isValid) {
+      if (!isValid || !info?.accountId) {
         return;
       }
 
       try {
+        const address = info.accountId.toString();
+
         keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
 
         status.account = address;
@@ -94,7 +102,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
       onStatusChange(status);
       onClose();
     },
-    [address, isAddressExisting, isValid, name, onClose, onStatusChange, t]
+    [info, isAddressExisting, isValid, name, onClose, onStatusChange, t]
   );
 
   return (
@@ -103,7 +111,11 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
         <AddressRow
           defaultName={name}
           noDefaultNameOpacity
-          value={address}
+          value={
+            isAddressValid
+              ? info?.accountId?.toString()
+              : undefined
+          }
         >
           <Input
             autoFocus
