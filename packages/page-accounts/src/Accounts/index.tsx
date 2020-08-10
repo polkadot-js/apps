@@ -60,7 +60,7 @@ async function queryLedger (): Promise<void> {
 
 // checks to see if this is a ProxyDefinition
 function isProxyDefinition (value: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): value is [ProxyDefinition[], BN][] {
-  return value.length === 0 || !Array.isArray(value[0][0]);
+  return value.length === 0 || !value.some(([arr]) => arr.length !== 0 && Array.isArray(arr[0]));
 }
 
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
@@ -84,7 +84,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       isProxyDefinition(result)
         ? result
         : result.map(([arr, bn]): [ProxyDefinition[], BN] =>
-          [arr.map(([delegate, proxyType]):ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
+          [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
         )
   });
   const isLoading = useLoadingDelay();
