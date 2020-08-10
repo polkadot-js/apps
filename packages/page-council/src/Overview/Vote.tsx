@@ -113,7 +113,7 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
               accountId={accountId}
               icon='trash-alt'
               isDisabled={!defaultVotes.length}
-              label={t<string>('Clear all')}
+              label={t<string>('Unvote all')}
               onStart={toggleVisible}
               params={[]}
               tx={
