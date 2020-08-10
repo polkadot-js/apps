@@ -58,11 +58,6 @@ async function queryLedger (): Promise<void> {
   }
 }
 
-// checks to see if this is a ProxyDefinition
-function isProxyDefinition (value: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): value is [ProxyDefinition[], BN][] {
-  return value.length === 0 || !value.some(([arr]) => arr.length !== 0 && Array.isArray(arr[0]));
-}
-
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -81,9 +76,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
-      isProxyDefinition(result)
-        ? result
-        : result.map(([arr, bn]): [ProxyDefinition[], BN] =>
+      api.tx.proxy.addProxy.meta.args.length === 4
+        ? result as [ProxyDefinition[], BN][]
+        : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
           [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
         )
   });
