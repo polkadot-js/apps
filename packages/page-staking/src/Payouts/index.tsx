@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveStakerReward } from '@polkadot/api-derive/types';
+import { StakerState } from '@polkadot/react-hooks/types';
 import { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
@@ -24,7 +25,7 @@ import Validator from './Validator';
 interface Props {
   className?: string;
   isInElection?: boolean;
-  stakerPayoutsAfter: BN;
+  ownValidators: StakerState;
 }
 
 interface Available {
