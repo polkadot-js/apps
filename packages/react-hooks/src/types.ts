@@ -100,6 +100,7 @@ export interface AddressIdentity extends DeriveAccountRegistration {
 }
 
 export interface UseAccountInfo {
+  accountId?: string;
   accountIndex?: string;
   flags: AddressFlags;
   name: string;
