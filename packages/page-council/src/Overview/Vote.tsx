@@ -111,6 +111,19 @@ function Vote ({ electionsInfo }: Props): React.ReactElement<Props> {
           <Modal.Actions onCancel={toggleVisible}>
             <TxButton
               accountId={accountId}
+              icon='trash-alt'
+              isDisabled={!defaultVotes.length}
+              label={t<string>('Unvote all')}
+              onStart={toggleVisible}
+              params={[]}
+              tx={
+                api.tx.electionsPhragmen
+                  ? 'electionsPhragmen.removeVoter'
+                  : 'elections.removeVoter'
+              }
+            />
+            <TxButton
+              accountId={accountId}
               isDisabled={!accountId || votes.length === 0 || voteValue.lten(0)}
               label={t<string>('Vote')}
               onStart={toggleVisible}
