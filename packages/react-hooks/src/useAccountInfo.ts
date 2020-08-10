@@ -228,10 +228,8 @@ export default function useAccountInfo (value: string | null, isContract = false
     []
   );
 
-  console.error(JSON.stringify(accountInfo));
 
   return {
-    accountId: accountInfo?.accountId?.toString(),
     accountIndex,
     flags,
     genesisHash,
