@@ -2,17 +2,17 @@
   "name": "@polkadot/apps-electron",
   "main": "index.js",
   "private": true,
-  "version": "0.53.0-beta.36",
+  "version": "0.53.0",
   "dependencies": {
     "@babel/core": "^7.11.1",
     "@babel/polyfill": "^7.10.4",
-    "@polkadot/dev": "^0.55.34",
-    "@polkadot/react-components": "0.53.0-beta.36",
+    "@polkadot/dev": "^0.55.37",
+    "@polkadot/react-components": "0.53.0",
     "electron-log": "^4.2.2",
-    "electron-updater": "^4.3.4"
+    "electron-updater": "^4.3.5"
   },
   "devDependencies": {
-    "@types/react": "^16.9.44",
+    "@types/react": "^16.9.45",
     "@types/react-dom": "^16.9.8",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.1.0",
