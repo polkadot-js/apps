@@ -228,7 +228,6 @@ export default function useAccountInfo (value: string | null, isContract = false
     []
   );
 
-
   return {
     accountIndex,
     flags,
