@@ -94,19 +94,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
-  const [fieldNumber, setFieldNumber] = useState(0);
-  const { basicDeposit, fieldDeposit } = api.consts.identity;
-  const totalDeposit = basicDeposit.add(fieldDeposit.muln(fieldNumber));
-
-  useEffect(() => {
-    let num = 0;
-
-    Object.values(info).forEach((item: Record<string, string>) => {
-      if (item.raw) { num++; }
-    });
-
-    setFieldNumber(num);
-  }, [info]);
+  const { basicDeposit } = api.consts.identity;
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
@@ -242,7 +230,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           />
         </WrapToggle>
         <InputBalance
-          defaultValue={totalDeposit}
+          defaultValue={basicDeposit}
           help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
           isDisabled
           label={t<string>('total deposit')}
