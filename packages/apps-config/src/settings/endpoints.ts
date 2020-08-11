@@ -130,8 +130,8 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'edgeware',
-      text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://berlin1.edgewa.re'
+      text: t<string>('rpc.beresheet', 'Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      value: 'wss://beresheet1.edgewa.re'
     },
     {
       info: 'substrate',

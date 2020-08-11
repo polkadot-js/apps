@@ -1505,6 +1505,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@edgeware/node-types@npm:^2.3.5":
+  version: 2.3.5
+  resolution: "@edgeware/node-types@npm:2.3.5"
+  checksum: 3/ee1674a3867b0cbdb1456f5867521e67b308dc41fa2002a3bbd1506f7e4bd83ed5bc57ee9946acc6179cbd1f1f74a2deca798407e5fe3d1dd817b7819e1f8b68
+  languageName: node
+  linkType: hard
+
 "@electron/get@npm:^1.0.1":
   version: 1.12.2
   resolution: "@electron/get@npm:1.12.2"
@@ -18289,6 +18296,7 @@ __metadata:
     "@babel/core": ^7.11.1
     "@babel/register": ^7.10.5
     "@babel/runtime": ^7.11.2
+    "@edgeware/node-types": ^2.3.5
     "@pinata/sdk": ^1.1.10
     "@polkadot/dev": ^0.55.37
     "@polkadot/ts": ^0.3.37

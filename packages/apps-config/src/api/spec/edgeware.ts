@@ -5,7 +5,7 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import * as edgewareDefinitions from 'edgeware-node-types/interfaces/definitions';
+import * as edgewareDefinitions from '@edgeware/node-types/interfaces/definitions';
 
 const edgTypes = Object
   .values(edgewareDefinitions)
@@ -13,7 +13,6 @@ const edgTypes = Object
 
 export default {
   ...edgTypes,
-  // aliases that don't do well as part of interfaces
   'voting::VoteType': 'VoteType',
   'voting::TallyType': 'TallyType',
   'voting::Tally': 'VotingTally',
