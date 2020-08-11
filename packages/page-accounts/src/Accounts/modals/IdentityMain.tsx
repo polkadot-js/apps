@@ -6,11 +6,11 @@ import { Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Modal, Toggle, TxButton, LabelHelp } from '@polkadot/react-components';
+import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option } from '@polkadot/types';
-import { formatBalance, u8aToString } from '@polkadot/util';
+import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 
@@ -241,11 +241,12 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
-        <div className='totalDeposit'>
-          {t('Total deposit: ')}
-          {formatBalance(totalDeposit)}
-          <LabelHelp help={<>{t('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}</>} />
-        </div>
+        <InputBalance
+          defaultValue={totalDeposit}
+          help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
+          isDisabled
+          label={t<string>('total deposit')}
+        />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
@@ -262,12 +263,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 }
 
 export default styled(IdentityMain)`
-  .totalDeposit {
-    margin-top: 1rem;
-    padding-right: 3.5rem;
-    text-align: right;
-  }
-
   .toggle-Wrap {
     position: relative;
   }
