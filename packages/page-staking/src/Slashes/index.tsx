@@ -21,6 +21,7 @@ interface Props {
 interface SlashEra {
   era: BN;
   nominators: string[];
+  payout: BN;
   slashes: Slash[];
   validators: string[];
   total: BN;
@@ -33,7 +34,7 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
     [t('own')],
     [t('other')],
     [t('total')],
-    [t('reporters'), 'start'],
+    [t('reporters'), 'address'],
     [t('payout')]
   ], [t]);
   const rows = useMemo((): SlashEra[] => {
@@ -58,6 +59,7 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
           slashEra = {
             era: slash.era,
             nominators: [],
+            payout: new BN(0),
             slashes: [],
             total: new BN(0),
             validators: []
@@ -65,6 +67,7 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
           slashEras.push(slashEra);
         }
 
+        slashEra.payout.iadd(slash.slash.payout);
         slashEra.total.iadd(slash.total);
         slashEra.slashes.push(slash);
 
@@ -92,13 +95,15 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
 
   return (
     <>
-      {rows.map(({ era, slashes, total, validators }): React.ReactNode => (
+      {rows.map(({ era, payout, slashes, total, validators }): React.ReactNode => (
         <Table
           footer={
             <tr>
               <td>{formatNumber(validators.length)}</td>
               <td colSpan={3} />
               <td><FormatBalance value={total} /></td>
+              <td />
+              <td><FormatBalance value={payout} /></td>
             </tr>
           }
           header={[[t('era {{era}}/unapplied', { replace: { era: era.toString() } }), 'start']].concat(header)}
