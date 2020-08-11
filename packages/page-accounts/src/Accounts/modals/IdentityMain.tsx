@@ -4,10 +4,9 @@
 
 import { Registration } from '@polkadot/types/interfaces';
 
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, Modal, Toggle, TxButton, LabelHelp } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option } from '@polkadot/types';
@@ -61,15 +60,6 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
       />
     </div>
   );
-}
-
-function DepositField (): React.ReactElement {
-  const { t } = useTranslation();
-  const { api } = useApi();
-
-  const { fieldDeposit } = api.consts.identity;
-
-  return <div className='depositField'>{t<string>('deposit:')} {formatBalance(fieldDeposit)}</div>;
 }
 
 function checkValue (hasValue: boolean, value: string | null | undefined, minLength: number, includes: string[], excludes: string[], starting: string[], notStarting: string[] = WHITESPACE, notEnding: string[] = WHITESPACE): boolean {
@@ -192,7 +182,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasLegal ? valLegal : '<none>'}
           />
         </WrapToggle>
-        <DepositField />
         <WrapToggle
           onChange={setHasEmail}
           value={hasEmail}
@@ -208,7 +197,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasEmail ? valEmail : '<none>'}
           />
         </WrapToggle>
-        <DepositField />
         <WrapToggle
           onChange={setHasWeb}
           value={hasWeb}
@@ -224,7 +212,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasWeb ? valWeb : '<none>'}
           />
         </WrapToggle>
-        <DepositField />
         <WrapToggle
           onChange={setHasTwitter}
           value={hasTwitter}
@@ -239,7 +226,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasTwitter ? valTwitter : '<none>'}
           />
         </WrapToggle>
-        <DepositField />
         <WrapToggle
           onChange={setHasRiot}
           value={hasRiot}
@@ -255,9 +241,11 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
-        <DepositField />
-
-        <article className='totalDeposit'>Total deposit: {formatBalance(totalDeposit)}</article>
+        <div className='totalDeposit'>
+          {t('Total deposit: ')}
+          {formatBalance(totalDeposit)}
+          <LabelHelp help={<>{t('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}</>} />
+        </div>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
@@ -275,11 +263,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 
 export default styled(IdentityMain)`
   .totalDeposit {
-    margin-left: 2rem;
-    text-align: right;
-  }
-
-  .depositField {
+    margin-top: 1rem;
+    padding-right: 3.5rem;
     text-align: right;
   }
 
