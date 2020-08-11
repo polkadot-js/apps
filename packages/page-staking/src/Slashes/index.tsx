@@ -8,6 +8,8 @@ import { Slash } from './types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
+import { FormatBalance } from '@polkadot/react-query';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Row from './Row';
@@ -16,58 +18,106 @@ interface Props {
   slashes: [BN, UnappliedSlash[]][];
 }
 
+interface SlashEra {
+  era: BN;
+  nominators: string[];
+  payout: BN;
+  slashes: Slash[];
+  validators: string[];
+  total: BN;
+}
+
 function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const header = useMemo(() => [
-    [t('unapplied slashes'), 'start', 3],
+    [],
     [t('own')],
     [t('other')],
     [t('total')],
-    [t('reporters'), 'start'],
-    [t('payout')],
-    [t('era cumulative')]
+    [t('reporters'), 'address'],
+    [t('payout')]
   ], [t]);
-  const rows = useMemo((): Slash[] => {
-    const rows = slashes
+  const rows = useMemo((): SlashEra[] => {
+    const slashEras: SlashEra[] = [];
+
+    slashes
       .reduce((rows: Slash[], [era, slashes]): Slash[] => {
         return slashes.reduce((rows: Slash[], slash): Slash[] => {
           const totalOther = slash.others.reduce((total: BN, [, value]): BN => {
             return total.add(value);
           }, new BN(0));
 
-          const total = slash.own.add(totalOther);
-
-          rows.push({ cumulative: total, era, slash, total, totalOther });
+          rows.push({ era, slash, total: slash.own.add(totalOther), totalOther });
 
           return rows;
         }, rows);
       }, [])
-      .sort((a, b) => b.era.cmp(a.era));
+      .forEach((slash): void => {
+        let slashEra = slashEras.find(({ era }) => era.eq(slash.era));
 
-    rows.forEach((row, index): void => {
-      const prev = rows[index - 1];
+        if (!slashEra) {
+          slashEra = {
+            era: slash.era,
+            nominators: [],
+            payout: new BN(0),
+            slashes: [],
+            total: new BN(0),
+            validators: []
+          };
+          slashEras.push(slashEra);
+        }
 
-      if (prev && prev.era.eq(row.era)) {
-        row.cumulative = row.cumulative.add(prev.cumulative);
-      }
-    });
+        slashEra.payout.iadd(slash.slash.payout);
+        slashEra.total.iadd(slash.total);
+        slashEra.slashes.push(slash);
 
-    return rows;
+        const validatorId = slash.slash.validator.toString();
+
+        if (!slashEra.validators.includes(validatorId)) {
+          slashEra.validators.push(validatorId);
+        }
+
+        slash.slash.others.forEach(([accountId]): void => {
+          const nominatorId = accountId.toString();
+
+          if (slashEra && !slashEra.nominators.includes(nominatorId)) {
+            slashEra.nominators.push(nominatorId);
+          }
+        });
+      });
+
+    return slashEras.sort((a, b) => b.era.cmp(a.era));
   }, [slashes]);
 
+  if (!rows.length) {
+    return <article>{t('There are no unapplied/pending slashes')}</article>;
+  }
+
   return (
-    <Table
-      empty={t<string>('There an no unapplied/pending slashes')}
-      header={header}
-    >
-      {rows.map((slash, index): React.ReactNode => (
-        <Row
-          key={`${index}-${slash.era.toString()}`}
-          slash={slash}
-          withEra={index === 0 || !slash.era.eq(rows[index - 1].era)}
-        />
+    <>
+      {rows.map(({ era, payout, slashes, total, validators }): React.ReactNode => (
+        <Table
+          footer={
+            <tr>
+              <td>{formatNumber(validators.length)}</td>
+              <td colSpan={3} />
+              <td><FormatBalance value={total} /></td>
+              <td />
+              <td><FormatBalance value={payout} /></td>
+            </tr>
+          }
+          header={[[t('era {{era}}/unapplied', { replace: { era: era.toString() } }), 'start']].concat(header)}
+          key={era.toString()}
+        >
+          {slashes.map((slash, index): React.ReactNode => (
+            <Row
+              key={index}
+              slash={slash}
+            />
+          ))}
+        </Table>
       ))}
-    </Table>
+    </>
   );
 }
 
