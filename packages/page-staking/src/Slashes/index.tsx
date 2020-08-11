@@ -118,7 +118,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
 
   return (
     <>
-      {rows.map(({ era, reporters, slashes, total, validators }): React.ReactNode => (
+      {rows.map(({ era, nominators, reporters, slashes, total, validators }): React.ReactNode => (
         <Table
           header={[[t('era {{era}}/unapplied', { replace: { era: era.toString() } }), 'start', 6]]}
           key={era.toString()}
@@ -131,7 +131,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
                     {formatNumber(validators.length)}
                   </CardSummary>
                   <CardSummary label={t<string>('nominators')}>
-                    {formatNumber(validators.length)}
+                    {formatNumber(nominators.length)}
                   </CardSummary>
                   <CardSummary label={t<string>('reporters')}>
                     {formatNumber(reporters.length)}
