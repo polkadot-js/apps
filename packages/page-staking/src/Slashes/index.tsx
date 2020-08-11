@@ -4,30 +4,19 @@
 
 import { StakerState } from '@polkadot/react-hooks/types';
 import { UnappliedSlash } from '@polkadot/types/interfaces';
-import { Slash } from './types';
+import { Slash, SlashEra } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import { CardSummary, SummaryBox, Table } from '@polkadot/react-components';
-import { FormatBalance } from '@polkadot/react-query';
-import { formatNumber } from '@polkadot/util';
+import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
+import Header from './Header';
 import Row from './Row';
 
 interface Props {
   ownStashes?: StakerState[];
   slashes: [BN, UnappliedSlash[]][];
-}
-
-interface SlashEra {
-  era: BN;
-  nominators: string[];
-  payout: BN;
-  reporters: string[];
-  slashes: Slash[];
-  validators: string[];
-  total: BN;
 }
 
 function calcSlashEras (slashes: [BN, UnappliedSlash[]][], ownStashes: StakerState[]): SlashEra[] {
@@ -118,33 +107,12 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
 
   return (
     <>
-      {rows.map(({ era, nominators, reporters, slashes, total, validators }): React.ReactNode => (
+      {rows.map((slash): React.ReactNode => (
         <Table
-          header={[[t('era {{era}}/unapplied', { replace: { era: era.toString() } }), 'start', 6]]}
-          key={era.toString()}
+          header={[[t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 6]]}
+          key={slash.era.toString()}
         >
-          <tr>
-            <td colSpan={8}>
-              <SummaryBox isSmall>
-                <section>
-                  <CardSummary label={t<string>('validators')}>
-                    {formatNumber(validators.length)}
-                  </CardSummary>
-                  <CardSummary label={t<string>('nominators')}>
-                    {formatNumber(nominators.length)}
-                  </CardSummary>
-                  <CardSummary label={t<string>('reporters')}>
-                    {formatNumber(reporters.length)}
-                  </CardSummary>
-                </section>
-                <section>
-                  <CardSummary label={t<string>('total')}>
-                    <FormatBalance value={total} />
-                  </CardSummary>
-                </section>
-              </SummaryBox>
-            </td>
-          </tr>
+          <Header slash={slash} />
           <tr>
             {header.map(([label, className, colSpan = 1], index): React.ReactNode => (
               <td
@@ -156,7 +124,7 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
               </td>
             ))}
           </tr>
-          {slashes.map((slash, index): React.ReactNode => (
+          {slash.slashes.map((slash, index): React.ReactNode => (
             <Row
               key={index}
               slash={slash}
