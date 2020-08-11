@@ -75,12 +75,11 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           const slashes = all
             .filter(({ others, validator }) => validator.eq(stashId) || others.some(([nominatorId]) => nominatorId.eq(stashId)))
             .map(({ others, own, payout, reporters, validator }) => ({
-              isValidator: validator.eq(stashId), others, own, payout, reporters, validator
+              others, own, payout, reporters, validator
             }));
 
           return {
             era,
-            isValidator: slashes.some(({ isValidator }) => isValidator),
             slashes
           };
         })
@@ -105,7 +104,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   return (
     <tr className={className}>
       <td className='badge together'>
-        {!isStashNominating && slashes.length !== 0 && (
+        {slashes.length !== 0 && (
           <Badge
             color='red'
             hover={t<string>('Slashed in era {{eras}}', {
