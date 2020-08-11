@@ -25,7 +25,7 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
     [t('total')],
     [t('reporters'), 'start'],
     [t('payout')],
-    [t('era sum')]
+    [t('era cumulative')]
   ], [t]);
   const rows = useMemo((): Slash[] => {
     const rows = slashes
