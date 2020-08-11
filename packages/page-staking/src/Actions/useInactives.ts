@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSessionIndexes } from '@polkadot/api-derive/types';
-import { EraIndex, Exposure, Nominations } from '@polkadot/types/interfaces';
-import { Slash } from './types';
+import { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
@@ -17,19 +16,17 @@ interface Inactives {
   nomsWaiting?: string[];
 }
 
-function extractState (stashId: string, slashes: Slash[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
+function extractState (stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
   // chilled
-  const nomsChilled = nominees.filter((nominee) =>
-    slashes.some(({ era, slashes }) =>
-      submittedIn.lt(era) && (
-        slashes
-          .filter(({ validator }) => validator.eq(nominee))
-          .some(({ others }) =>
-            others.some(([accountId]) => accountId.eq(stashId))
-          )
-      )
-    )
-  );
+  const nomsChilled = nominees.filter((_, index): boolean => {
+    if (slashes[index].isNone) {
+      return false;
+    }
+
+    const { lastNonzeroSlash } = slashes[index].unwrap();
+
+    return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gte(submittedIn);
+  });
 
   // first a blanket find of nominations not in the active set
   let nomsInactive = exposures
@@ -64,7 +61,7 @@ function extractState (stashId: string, slashes: Slash[], nominees: string[], ac
   };
 }
 
-export default function useInactives (stashId: string, slashes: Slash[], nominees?: string[]): Inactives {
+export default function useInactives (stashId: string, nominees?: string[]): Inactives {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
@@ -76,12 +73,19 @@ export default function useInactives (stashId: string, slashes: Slash[], nominee
     if (mountedRef.current && nominees && nominees.length && indexes) {
       api
         .queryMulti(
-          [[api.query.staking.nominators, stashId] as any].concat(
-            api.query.staking.erasStakers
-              ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
-              : nominees.map((id) => [api.query.staking.stakers, id])
-          ),
-          ([optNominators, ...exposures]: [Option<Nominations>, ...Exposure[]]): void => {
+          [[api.query.staking.nominators, stashId] as any]
+            .concat(
+              api.query.staking.erasStakers
+                ? nominees.map((id) => [api.query.staking.erasStakers, [indexes.activeEra, id]])
+                : nominees.map((id) => [api.query.staking.stakers, id])
+            )
+            .concat(
+              nominees.map((id) => [api.query.staking.slashingSpans, id])
+            ),
+          ([optNominators, ...exposuresAndSpans]: [Option<Nominations>, ...(Exposure | Option<SlashingSpans>)[]]): void => {
+            const exposures = exposuresAndSpans.slice(0, nominees.length) as Exposure[];
+            const slashes = exposuresAndSpans.slice(nominees.length) as Option<SlashingSpans>[];
+
             mountedRef.current && setState(
               extractState(stashId, slashes, nominees, indexes.activeEra, optNominators.unwrapOrDefault().submittedIn, exposures)
             );
@@ -95,7 +99,7 @@ export default function useInactives (stashId: string, slashes: Slash[], nominee
     return (): void => {
       unsub && unsub();
     };
-  }, [api, indexes, mountedRef, nominees, slashes, stashId]);
+  }, [api, indexes, mountedRef, nominees, stashId]);
 
   return state;
 }

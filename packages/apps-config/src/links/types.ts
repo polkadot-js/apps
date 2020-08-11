@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-export type LinkTypes = 'address' | 'block' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'techcomm' | 'treasury';
+export type LinkTypes = 'address' | 'block' | 'council' | 'extrinsic' | 'proposal' | 'referendum' | 'techcomm' | 'tip' | 'treasury';
 
 export interface ExternalDef {
   chains: Record<string, string>;

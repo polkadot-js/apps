@@ -15,18 +15,20 @@ interface Props {
   isError?: boolean;
   isFull?: boolean;
   isHidden?: boolean;
+  isSmall?: boolean;
   label?: React.ReactNode;
   value?: React.ReactNode;
   withLabel?: boolean;
 }
 
-function Static ({ children, className = '', defaultValue, help, isFull, isHidden, label, value, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ children, className = '', defaultValue, help, isFull, isHidden, isSmall, label, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
       help={help}
       isFull={isFull}
       isHidden={isHidden}
+      isSmall={isSmall}
       label={label}
       withLabel={withLabel}
     >

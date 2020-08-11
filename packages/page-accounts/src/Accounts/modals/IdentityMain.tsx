@@ -6,7 +6,7 @@ import { Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option } from '@polkadot/types';
@@ -53,7 +53,7 @@ function WrapToggle ({ children, onChange, value }: WrapProps): React.ReactEleme
     <div className='toggle-Wrap'>
       {children}
       <Toggle
-        className='toggle-Toggle'
+        isOverlay
         label={t<string>('include field')}
         onChange={onChange}
         value={value}
@@ -86,7 +86,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [hasRiot, setHasRiot] = useState(false);
   const [hasTwitter, setHasTwitter] = useState(false);
   const [hasWeb, setHasWeb] = useState(false);
-  const [valDisplay, setValDisplay] = useState(getAddressMeta(address).name || '');
+  const [valDisplay, setValDisplay] = useState((getAddressMeta(address).name || '').replace(/\(.*\)/, '').trim());
   const [valEmail, setValEmail] = useState('');
   // const [{ errImg, valImg }, setValImg] = useState<{ errImg: boolean; valImg: string }>({ errImg: true, valImg: '' });
   const [valLegal, setValLegal] = useState('');
@@ -94,6 +94,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
+  const { basicDeposit } = api.consts.identity;
+  const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
@@ -105,6 +107,16 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       setData(info.riot, setHasRiot, setValRiot);
       setData(info.twitter, setHasTwitter, setValTwitter);
       setData(info.web, setHasWeb, setValWeb);
+
+      [info.display, info.email, info.legal, info.riot, info.twitter, info.web].some((info: Data) => {
+        if (info.isRaw) {
+          setGotPreviousIdentity(true);
+
+          return true;
+        } else {
+          return false;
+        }
+      });
     }
   }, [identityOpt]);
 
@@ -228,8 +240,23 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
+        <InputBalance
+          defaultValue={basicDeposit}
+          help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
+          isDisabled
+          label={t<string>('total deposit')}
+        />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={address}
+          icon={'trash-alt'}
+          isDisabled={!gotPreviousIdentity}
+          label={t<string>('Clear Identity')}
+          onStart={onClose}
+          params={[]}
+          tx='identity.clearIdentity'
+        />
         <TxButton
           accountId={address}
           isDisabled={!okAll}
@@ -246,11 +273,5 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
 export default styled(IdentityMain)`
   .toggle-Wrap {
     position: relative;
-
-    .toggle-Toggle {
-      position: absolute;
-      right: 3.5rem;
-      bottom: 1.375rem;
-    }
   }
 `;

@@ -3,31 +3,51 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   hash: string;
   isMember: boolean;
+  isTipped: boolean;
+  median: BN;
   members: string[];
 }
 
-function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Props> {
+function TipEndorse ({ hash, isMember, isTipped, median, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isOpen, toggleOpen] = useToggle();
+  const { allAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
+  const [defaultId, setDefaultId] = useState<string | null>(null);
   const [value, setValue] = useState<BN | undefined>();
+
+  useEffect((): void => {
+    setDefaultId(
+      members.find((memberId) => allAccounts.includes(memberId)) || null
+    );
+  }, [allAccounts, members]);
 
   return (
     <>
       <Button
         icon='check'
         isDisabled={!isMember}
-        label={t<string>('Endorse')}
+        label={t<string>('Tip')}
         onClick={toggleOpen}
+      />
+      <TxButton
+        accountId={defaultId}
+        className='ui--media-1600'
+        icon='fighter-jet'
+        isDisabled={!isMember || !isTipped}
+        isIcon
+        params={[hash, median]}
+        tx='treasury.tip'
+        withoutLink
       />
       {isOpen && (
         <Modal
@@ -53,6 +73,8 @@ function TipEndorse ({ hash, isMember, members }: Props): React.ReactElement<Pro
             <Modal.Columns>
               <Modal.Column>
                 <InputBalance
+                  autoFocus
+                  defaultValue={median}
                   help={t<string>('The tip amount that should be allocated')}
                   isZeroable
                   label={t<string>('value')}

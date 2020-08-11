@@ -5,7 +5,7 @@
 import { KeypairType } from '@polkadot/util-crypto/types';
 
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
+import { Button, Dropdown, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -92,7 +92,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
               value={suri}
             />
             <article className='warning'>
-              <div><Icon icon='exclamation-triangle' />{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
+              <div>{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
             </article>
           </Modal.Column>
           <Modal.Column>

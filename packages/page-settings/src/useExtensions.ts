@@ -5,7 +5,9 @@
 import { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@polkadot/extension-inject/types';
 
 import { useEffect, useState } from 'react';
+import store from 'store';
 import { ApiPromise } from '@polkadot/api';
+import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 
 interface ExtensionKnown {
@@ -23,6 +25,17 @@ interface Extensions {
   extensions?: ExtensionInfo[];
 }
 
+interface ExtensionProperties {
+  extensionVersion: string;
+  tokenDecimals: number;
+  tokenSymbol: string;
+  ss58Format?: number;
+}
+
+interface SavedProperties {
+  [name: string]: ExtensionProperties;
+}
+
 type TriggerFn = (counter: number) => void;
 
 let triggerCount = 0;
@@ -32,7 +45,58 @@ function triggerAll (): void {
   [...triggers.values()].forEach((trigger) => trigger(Date.now()));
 }
 
-async function getExtensionInfo (extension: InjectedExtension): Promise<ExtensionKnown | null> {
+// save the properties for a specific extension
+function saveProperties (api: ApiPromise, { name, version }: InjectedExtension): void {
+  const storeKey = `properties:${api.genesisHash.toHex()}`;
+  const allProperties = store.get(storeKey, {}) as SavedProperties;
+
+  allProperties[name] = {
+    extensionVersion: version,
+    ss58Format: registry.chainSS58,
+    tokenDecimals: registry.chainDecimals,
+    tokenSymbol: registry.chainToken
+  };
+
+  store.set(storeKey, allProperties);
+}
+
+// determines if the extension has current properties
+function hasCurrentProperties (api: ApiPromise, { extension }: ExtensionKnown): boolean {
+  const allProperties = store.get(`properties:${api.genesisHash.toHex()}`, {}) as SavedProperties;
+
+  // when we don't have properties yet, assume nothing has changed and store
+  if (!allProperties[extension.name]) {
+    saveProperties(api, extension);
+
+    return true;
+  }
+
+  const { ss58Format, tokenDecimals, tokenSymbol } = allProperties[extension.name];
+
+  return ss58Format === registry.chainSS58 &&
+    tokenDecimals === registry.chainDecimals &&
+    tokenSymbol === registry.chainToken;
+}
+
+// filter extensions based on the properties we have available
+function filterAll (api: ApiPromise, all: ExtensionKnown[]): Extensions {
+  const extensions = all
+    .map((info): ExtensionInfo | null => {
+      const current = info.known.find(({ genesisHash }) => api.genesisHash.eq(genesisHash)) || null;
+
+      return current && (api.runtimeVersion.specVersion.gtn(current.specVersion) || !hasCurrentProperties(api, info))
+        ? { ...info, current }
+        : null;
+    })
+    .filter((info): info is ExtensionInfo => !!info);
+
+  return {
+    count: extensions.length,
+    extensions
+  };
+}
+
+async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension): Promise<ExtensionKnown | null> {
   if (!extension.metadata) {
     return null;
   }
@@ -45,17 +109,20 @@ async function getExtensionInfo (extension: InjectedExtension): Promise<Extensio
       extension,
       known,
       update: async (def: MetadataDef): Promise<boolean> => {
-        let result = false;
+        let isOk = false;
 
         try {
-          result = await metadata.provide(def);
+          isOk = await metadata.provide(def);
 
-          triggerAll();
+          if (isOk) {
+            saveProperties(api, extension);
+            triggerAll();
+          }
         } catch (error) {
           // ignore
         }
 
-        return result;
+        return isOk;
       }
     };
   } catch (error) {
@@ -63,28 +130,12 @@ async function getExtensionInfo (extension: InjectedExtension): Promise<Extensio
   }
 }
 
-async function getKnown (extensions: InjectedExtension[]): Promise<ExtensionKnown[]> {
-  const all = await Promise.all(extensions.map(getExtensionInfo));
+async function getKnown (api: ApiPromise, extensions: InjectedExtension[]): Promise<ExtensionKnown[]> {
+  const all = await Promise.all(
+    extensions.map((extension) => getExtensionInfo(api, extension))
+  );
 
   return all.filter((info): info is ExtensionKnown => !!info);
-}
-
-function filterAll (api: ApiPromise, all: ExtensionKnown[]): Extensions {
-  const extensions = all
-    .map((info): ExtensionInfo | null => {
-      const current = info.known.find(({ genesisHash }) => api.genesisHash.eq(genesisHash)) || null;
-      const isUpgradable = !current || api.runtimeVersion.specVersion.gtn(current.specVersion);
-
-      return isUpgradable
-        ? { ...info, current }
-        : null;
-    })
-    .filter((info): info is ExtensionInfo => !!info);
-
-  return {
-    count: extensions.length,
-    extensions
-  };
 }
 
 export default function useExtensions (): Extensions {
@@ -104,8 +155,8 @@ export default function useExtensions (): Extensions {
   }, []);
 
   useEffect((): void => {
-    extensions && getKnown(extensions).then(setAll);
-  }, [extensions, trigger]);
+    extensions && getKnown(api, extensions).then(setAll);
+  }, [api, extensions, trigger]);
 
   useEffect((): void => {
     isApiReady && !isDevelopment && all && setState(

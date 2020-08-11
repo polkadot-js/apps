@@ -16,7 +16,7 @@ interface Props {
   withEra: boolean;
 }
 
-function Row ({ slash: { era, slash: { others, own, payout, reporters, validator }, total, totalOther }, withEra }: Props): React.ReactElement<Props> {
+function Row ({ slash: { cumulative, era, slash: { others, own, payout, reporters, validator }, total, totalOther }, withEra }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -60,6 +60,9 @@ function Row ({ slash: { era, slash: { others, own, payout, reporters, validator
       </td>
       <td className='number together'>
         <FormatBalance value={payout} />
+      </td>
+      <td className='number together'>
+        <FormatBalance value={cumulative} />
       </td>
     </tr>
   );

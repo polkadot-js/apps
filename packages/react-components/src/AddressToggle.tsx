@@ -29,7 +29,7 @@ function AddressToggle ({ address, className = '', filter, isHidden, noToggle, o
 
   useEffect((): void => {
     info && setIsVisible(
-      checkVisibility(api, address, info, filter, true)
+      checkVisibility(api, address, info, filter, false)
     );
   }, [api, address, filter, info]);
 

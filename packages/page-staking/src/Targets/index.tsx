@@ -177,6 +177,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
         numValidators={validators?.length}
         totalStaked={totalStaked}
       />
+      <ElectionBanner isInElection={isInElection} />
       <Button.Group>
         <Button
           icon='check'
@@ -190,7 +191,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
           targets={selected}
         />
       </Button.Group>
-      <ElectionBanner isInElection={isInElection} />
       <Table
         empty={sorted && t<string>('No active validators to check')}
         filter={filter}

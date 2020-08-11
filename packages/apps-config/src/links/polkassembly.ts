@@ -17,6 +17,7 @@ export default {
     council: 'motion',
     proposal: 'proposal',
     referendum: 'referendum',
+    tip: 'tip',
     treasury: 'treasury'
   },
   url: 'https://polkassembly.io/'

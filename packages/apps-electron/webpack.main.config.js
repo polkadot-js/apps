@@ -5,6 +5,7 @@
 /* eslint-disable camelcase */
 
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 const ENV = process.env.NODE_ENV || 'production';
@@ -44,6 +45,9 @@ function createWebpack () {
         filename: '[name].js',
         path: path.join(__dirname, '/build')
       },
+      plugins: [
+        new CopyWebpackPlugin({ patterns: [{ from: 'assets' }] })
+      ],
       resolve: {
         extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
       },

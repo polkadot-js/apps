@@ -24,6 +24,7 @@ export interface ButtonProps {
   onMouseLeave?: Button$Callback;
   tabIndex?: number;
   tooltip?: React.ReactNode;
+  withoutLink?: boolean;
 }
 
 export type DividerProps = BareProps;

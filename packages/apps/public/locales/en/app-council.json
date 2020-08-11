@@ -46,6 +46,7 @@
   "The votes for the members, runner-ups and candidates. These should be ordered based on your priority.": "The votes for the members, runner-ups and candidates. These should be ordered based on your priority.",
   "This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.": "This account will appear in the list of candidates. With enough votes in an election, it will become either a runner-up or a council member.",
   "This account will be use to approve each candidate.": "This account will be use to approve each candidate.",
+  "Unvote all": "Unvote all",
   "Vote": "Vote",
   "Vote for current candidates": "Vote for current candidates",
   "Vote on proposal": "Vote on proposal",

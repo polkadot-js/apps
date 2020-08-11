@@ -10,6 +10,7 @@ export function createWindow (environment: string): Promise<unknown> {
 
   const win = new BrowserWindow({
     height,
+    icon: path.join(__dirname, 'icon.png'),
     webPreferences: {
       contextIsolation: true,
       enableRemoteModule: false,

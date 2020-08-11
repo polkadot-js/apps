@@ -64,7 +64,8 @@ function InputAddressMulti ({ available, availableLabel, className = '', default
     <div className={`ui--InputAddressMulti ${className}`}>
       <Input
         autoFocus
-        className='ui--InputAddressMulti-Input label-small'
+        className='ui--InputAddressMulti-Input'
+        isSmall
         onChange={setFilter}
         placeholder={t<string>('filter by name, address, or account index')}
         value={_filter}

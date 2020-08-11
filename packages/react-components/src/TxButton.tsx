@@ -14,7 +14,7 @@ import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner }: Props): React.ReactElement<Props> {
+function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -93,6 +93,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       label={label || (isIcon ? '' : t<string>('Submit'))}
       onClick={_onSend}
       tooltip={tooltip}
+      withoutLink={withoutLink}
     />
   );
 }
