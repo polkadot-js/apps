@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types/interfaces';
-
-import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { Balance, AssetId } from '@polkadot/types/interfaces';
 
+import BN from 'bn.js';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -26,16 +25,17 @@ interface StakeInfo {
 export default function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalInsurance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const stakingAssetId = useCall<AssetId>(api.query.genericAsset.stakingAssetId, []);
+  const totalIssuance = useCall<Balance>(api.query.genericAsset.totalIssuance, [stakingAssetId]);
   const [{ percentage }, setStakeInfo] = useState<StakeInfo>({ percentage: '-' });
 
   useEffect((): void => {
-    if (totalInsurance && totalStaked?.gtn(0)) {
+    if (totalIssuance && totalStaked?.gtn(0)) {
       setStakeInfo({
-        percentage: `${(totalStaked.muln(10000).div(totalInsurance).toNumber() / 100).toFixed(2)}%`
+        percentage: `${(totalStaked.muln(10000).div(totalIssuance).toNumber() / 100).toFixed(2)}%`
       });
     }
-  }, [totalInsurance, totalStaked]);
+  }, [totalIssuance, totalStaked]);
 
   return (
     <SummaryBox>
@@ -49,7 +49,7 @@ export default function Summary ({ lastReward, numNominators, numValidators, tot
         <CardSummary label=''>/</CardSummary>
         <CardSummary label={t('total issuance')}>
           <FormatBalance
-            value={totalInsurance}
+            value={totalIssuance}
             withSi
           />
         </CardSummary>
