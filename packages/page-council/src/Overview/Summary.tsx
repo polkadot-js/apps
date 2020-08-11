@@ -25,7 +25,7 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
     return null;
   }
 
-  const { candidateCount, desiredSeats, members, runnersUp, termDuration, voteCount } = electionsInfo;
+  const { candidateCount, desiredRunnersUp, desiredSeats, members, runnersUp, termDuration, voteCount } = electionsInfo;
 
   return (
     <SummaryBox className={className}>
@@ -34,7 +34,7 @@ function Summary ({ bestNumber, className = '', electionsInfo }: Props): React.R
           {formatNumber(members.length)}&nbsp;/&nbsp;{formatNumber(desiredSeats)}
         </CardSummary>
         <CardSummary label={t<string>('runners up')}>
-          {formatNumber(runnersUp.length)}
+          {formatNumber(runnersUp.length)}&nbsp;/&nbsp;{formatNumber(desiredRunnersUp)}
         </CardSummary>
         <CardSummary label={t<string>('candidates')}>
           {formatNumber(candidateCount)}
