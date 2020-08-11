@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll, DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
-import { AccountId, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { AccountId, AssetId, Balance, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
@@ -92,7 +92,8 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
-  const balancesAll = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [stashId]);
+  const stakingAssetId = useCall<AssetId>(api.query.genericAsset.stakingAssetId, []);
+  const freeBalance = useCall<Balance>(api.query.genericAsset.freeBalance, [stakingAssetId, stashId]);
   const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
   const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
@@ -326,7 +327,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                   text
                   onClick={toggleSettings}
                 >
-                  {balancesAll?.freeBalance.gtn(0) && (
+                  {freeBalance?.gtn(0) && (
                     <Menu.Item
                       disabled={!isOwnStash}
                       onClick={toggleBondExtra}
