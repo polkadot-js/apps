@@ -139,7 +139,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           <Query />
         </Route>
         <Route path={`${basePath}/slashes`}>
-          <Slashes slashes={slashes} />
+          <Slashes
+            ownStashes={ownStashes}
+            slashes={slashes}
+          />
         </Route>
         <Route path={`${basePath}/targets`}>
           <Targets

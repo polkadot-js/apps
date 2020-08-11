@@ -8,6 +8,7 @@ import BN from 'bn.js';
 
 export interface Slash {
   era: BN;
+  isMine: boolean;
   slash: UnappliedSlash;
   total: BN;
   totalOther: BN;
