@@ -27,7 +27,7 @@ interface WrapProps {
 }
 
 interface ValueState {
-  info: Record<string, any>;
+  info: Record<string, unknown>;
   okAll: boolean;
   okDisplay?: boolean;
   okEmail?: boolean;
@@ -95,6 +95,8 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
   const { basicDeposit } = api.consts.identity;
+
+  const bla = Object.values(info).forEach(i => console.log(i);)
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
