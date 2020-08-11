@@ -6,7 +6,7 @@ import { Registration } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Input, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Input, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { getAddressMeta } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option } from '@polkadot/types';
@@ -94,6 +94,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
+  const { basicDeposit } = api.consts.identity;
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
   useEffect((): void => {
@@ -239,6 +240,12 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
             value={hasRiot ? valRiot : '<none>'}
           />
         </WrapToggle>
+        <InputBalance
+          defaultValue={basicDeposit}
+          help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
+          isDisabled
+          label={t<string>('total deposit')}
+        />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
