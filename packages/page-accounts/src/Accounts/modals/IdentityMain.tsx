@@ -97,8 +97,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const { basicDeposit } = api.consts.identity;
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
-  const bla = Object.values(info).forEach(i => console.log(i);)
-
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
       const { info } = identityOpt.unwrap();
