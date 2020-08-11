@@ -55,7 +55,7 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
           {blockProgress.gtn(0) && (
             <section>
               <CardSummary
-                label={t<string>('enact')}
+                label={t<string>('defer')}
                 progress={{
                   total: blockEnd,
                   value: blockProgress,
