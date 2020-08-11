@@ -77,6 +77,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
 
   return (
     <div className={className}>
+      <ElectionBanner isInElection={isInElection} />
       <Button.Group>
         <NewNominator
           isInElection={isInElection}
@@ -85,7 +86,6 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
         <NewValidator isInElection={isInElection} />
         <NewStash />
       </Button.Group>
-      <ElectionBanner isInElection={isInElection} />
       <Table
         empty={foundStashes && t<string>('No funds staked yet. Bond funds to validate or nominate a validator')}
         footer={footer}
