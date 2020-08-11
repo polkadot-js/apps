@@ -13,17 +13,13 @@ import { useTranslation } from '../translate';
 
 interface Props {
   slash: Slash;
-  withEra: boolean;
 }
 
-function Row ({ slash: { cumulative, era, slash: { others, own, payout, reporters, validator }, total, totalOther }, withEra }: Props): React.ReactElement<Props> {
+function Row ({ slash: { slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <tr>
-      <td className='number'>
-        <h1>{withEra ? formatNumber(era) : <>&nbsp;</>}</h1>
-      </td>
       <td className='address'>
         <AddressSmall value={validator} />
       </td>
@@ -60,9 +56,6 @@ function Row ({ slash: { cumulative, era, slash: { others, own, payout, reporter
       </td>
       <td className='number together'>
         <FormatBalance value={payout} />
-      </td>
-      <td className='number together'>
-        <FormatBalance value={cumulative} />
       </td>
     </tr>
   );

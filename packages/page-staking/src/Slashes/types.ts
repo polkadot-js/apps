@@ -7,7 +7,6 @@ import { UnappliedSlash } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 
 export interface Slash {
-  cumulative: BN;
   era: BN;
   slash: UnappliedSlash;
   total: BN;
