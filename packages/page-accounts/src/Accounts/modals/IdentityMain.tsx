@@ -94,6 +94,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
+  const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
   useEffect((): void => {
     if (identityOpt && identityOpt.isSome) {
@@ -105,6 +106,16 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
       setData(info.riot, setHasRiot, setValRiot);
       setData(info.twitter, setHasTwitter, setValTwitter);
       setData(info.web, setHasWeb, setValWeb);
+
+      [info.display, info.email, info.legal, info.riot, info.twitter, info.web].some((info: Data) => {
+        if (info.isRaw) {
+          setGotPreviousIdentity(true);
+
+          return true;
+        } else {
+          return false;
+        }
+      });
     }
   }, [identityOpt]);
 
@@ -230,6 +241,15 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
         </WrapToggle>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={address}
+          icon={'trash-alt'}
+          isDisabled={!gotPreviousIdentity}
+          label={t<string>('Clear Identity')}
+          onStart={onClose}
+          params={[]}
+          tx='identity.clearIdentity'
+        />
         <TxButton
           accountId={address}
           isDisabled={!okAll}
