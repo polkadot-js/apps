@@ -13,3 +13,13 @@ export interface Slash {
   total: BN;
   totalOther: BN;
 }
+
+export interface SlashEra {
+  era: BN;
+  nominators: string[];
+  payout: BN;
+  reporters: string[];
+  slashes: Slash[];
+  validators: string[];
+  total: BN;
+}
