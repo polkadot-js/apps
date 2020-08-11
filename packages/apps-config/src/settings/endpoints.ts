@@ -86,14 +86,9 @@ function createLive (t: TFunction): LinkOption[] {
 
 function createTest (t: TFunction): LinkOption[] {
   return [
-    // fixed, polkadot
+    // polkadot
     {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://westend-rpc.polkadot.io'
-    },
-    {
+      dnslink: 'rococo',
       info: 'rococo',
       text: t<string>('rpc.rococo', 'Rococo (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://rococo-rpc.polkadot.io'
@@ -116,7 +111,18 @@ function createTest (t: TFunction): LinkOption[] {
       text: t<string>('rpc.rococo.track', 'Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://track-rpc.polkadot.io'
     },
+    {
+      dnslink: 'westend',
+      info: 'westend',
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://westend-rpc.polkadot.io'
+    },
     // alphabetical based on chain name
+    {
+      info: 'centrifuge',
+      text: t<string>('rpc.amber', 'Amber (Centrifuge Testnet, hosted by Centrifuge)', { ns: 'apps-config' }),
+      value: 'wss://fullnode.amber.centrifuge.io'
+    },
     {
       info: 'nodle',
       text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),

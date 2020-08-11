@@ -4,6 +4,7 @@
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
+import { StakerState } from '@polkadot/react-hooks/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -38,6 +39,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [{ next }, setValidators] = useState<Validators>({});
+  const [ownValidators, setOwnValidators] = useState<StakerState[]>([]);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
@@ -104,6 +106,12 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     });
   }, [allStashes, stakingOverview]);
 
+  useEffect((): void => {
+    ownStashes && setOwnValidators(
+      ownStashes.filter(({ isStashValidating }) => isStashValidating)
+    );
+  }, [ownStashes]);
+
   return (
     <main className={`staking--App ${className}`}>
       <HelpOverlay md={basicMd as string} />
@@ -122,7 +130,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Switch>
         <Route path={`${basePath}/payout`}>
-          <Payouts isInElection={isInElection} />
+          <Payouts
+            isInElection={isInElection}
+            ownValidators={ownValidators}
+          />
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />

@@ -17,6 +17,7 @@ interface Props {
   isFull?: boolean;
   isHidden?: boolean;
   isMonospace?: boolean;
+  isSmall?: boolean;
   isTrimmed?: boolean;
   label?: React.ReactNode;
   value?: string;
@@ -24,13 +25,14 @@ interface Props {
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
       help={help}
       isFull={isFull}
       isHidden={isHidden}
+      isSmall={isSmall}
       label={label}
       withLabel={withLabel}
     >

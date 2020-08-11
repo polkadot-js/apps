@@ -9,27 +9,31 @@ import { Button } from '@polkadot/react-components';
 interface Props {
   className?: string;
   onChange: (index: number) => void;
-  options: { text: string, value: number }[];
+  options: { isDisabled?: boolean, text: string, value: number }[];
   selected: number;
 }
 
 interface ToggleProps {
   index: number;
+  isDisabled?: boolean;
   isSelected: boolean;
   onChange: (index: number) => void;
   text: string;
 }
 
-function ToggleIndex ({ index, isSelected, onChange, text }: ToggleProps): React.ReactElement<ToggleProps> {
+function ToggleIndex ({ index, isDisabled, isSelected, onChange, text }: ToggleProps): React.ReactElement<ToggleProps> {
   const _onClick = useCallback(
-    () => onChange(index),
-    [index, onChange]
+    (): void => {
+      !isDisabled && onChange(index);
+    },
+    [isDisabled, index, onChange]
   );
 
   return (
     <Button
       icon={isSelected ? 'check' : 'circle'}
       isBasic
+      isDisabled={isDisabled}
       isSelected={isSelected}
       key={text}
       label={text}
@@ -47,9 +51,10 @@ function PayToggle ({ className = '', onChange, options, selected }: Props): Rea
 
   return (
     <div className={`ui--ToggleButton ${className}`}>
-      {options.map(({ text }, index): React.ReactNode => (
+      {options.map(({ isDisabled, text }, index): React.ReactNode => (
         <ToggleIndexMemo
           index={index}
+          isDisabled={isDisabled}
           isSelected={selected === index}
           key={index}
           onChange={onChange}
@@ -75,6 +80,10 @@ export default React.memo(styled(PayToggle)`
     &:not(:last-child) {
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
+    }
+
+    .ui--Icon {
+      width: 1em;
     }
   }
 `);

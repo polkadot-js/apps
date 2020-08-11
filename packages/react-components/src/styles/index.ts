@@ -70,7 +70,8 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Button {
-    &:not(.isDisabled):not(.isIcon):not(.isBasic) {
+    &:not(.isDisabled):not(.isIcon):not(.isBasic),
+    &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: ${getHighlight};
         color: #f5f5f4;
@@ -97,7 +98,8 @@ export default createGlobalStyle<Props>`
       color: #f5f5f4;
       text-shadow: none;
 
-      &:not(.isIcon) {
+      &:not(.isIcon),
+      &.withoutLink {
         .ui--Icon {
           color: inherit;
         }
@@ -106,7 +108,8 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Table td .ui--Button {
-    &:not(.isDisabled):not(.isIcon) {
+    &:not(.isDisabled):not(.isIcon),
+    &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: transparent;
         color: ${getHighlight};
@@ -176,9 +179,23 @@ export default createGlobalStyle<Props>`
 
     &.error,
     &.warning {
-      font-size: 0.95rem;
+      border-left-width: 0.25rem;
+      line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
+      position: relative;
+      z-index: 5;
+
+      &:before {
+        border-radius: 0.25rem;
+        bottom: 0;
+        content: ' ';
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: -1;
+      }
     }
 
     &.nomargin {
@@ -186,9 +203,11 @@ export default createGlobalStyle<Props>`
     }
 
     &.error {
-      background: #fff6f6;
-      border-color: #e0b4b4;
-      color: #9f3a38;
+      &:before {
+        background: rgba(255, 12, 12, 0.05);
+      }
+
+      border-color: rgba(255, 12, 12, 1);
     }
 
     &.padded {
@@ -200,8 +219,11 @@ export default createGlobalStyle<Props>`
     }
 
     &.warning {
-      background: #ffffe0;
-      border-color: #eeeeae;
+      &:before {
+        background: rgba(255, 196, 12, 0.05);
+      }
+
+      border-color: rgba(255, 196, 12, 1);
     }
   }
 

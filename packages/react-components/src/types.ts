@@ -69,6 +69,7 @@ export interface TxButtonProps extends TxProps {
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
   tooltip?: string;
+  withoutLink?: boolean;
   withSpinner?: boolean;
 }
 

@@ -5,7 +5,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { AccountId, ProxyType, RecoveryConfig } from '@polkadot/types/interfaces';
+import { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { Delegation } from '../types';
 
@@ -43,7 +43,7 @@ interface Props {
   delegation?: Delegation;
   filter: string;
   isFavorite: boolean;
-  proxy?: [[AccountId, ProxyType][], BN];
+  proxy?: [ProxyDefinition[], BN];
   setBalance: (address: string, value: BN) => void;
   toggleFavorite: (address: string) => void;
 }

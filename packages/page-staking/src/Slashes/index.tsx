@@ -24,22 +24,35 @@ function Slashes ({ slashes }: Props): React.ReactElement<Props> | null {
     [t('other')],
     [t('total')],
     [t('reporters'), 'start'],
-    [t('payout')]
+    [t('payout')],
+    [t('era cumulative')]
   ], [t]);
   const rows = useMemo((): Slash[] => {
-    return slashes
+    const rows = slashes
       .reduce((rows: Slash[], [era, slashes]): Slash[] => {
         return slashes.reduce((rows: Slash[], slash): Slash[] => {
           const totalOther = slash.others.reduce((total: BN, [, value]): BN => {
             return total.add(value);
           }, new BN(0));
 
-          rows.push({ era, slash, total: slash.own.add(totalOther), totalOther });
+          const total = slash.own.add(totalOther);
+
+          rows.push({ cumulative: total, era, slash, total, totalOther });
 
           return rows;
         }, rows);
       }, [])
       .sort((a, b) => b.era.cmp(a.era));
+
+    rows.forEach((row, index): void => {
+      const prev = rows[index - 1];
+
+      if (prev && prev.era.eq(row.era)) {
+        row.cumulative = row.cumulative.add(prev.cumulative);
+      }
+    });
+
+    return rows;
   }, [slashes]);
 
   return (

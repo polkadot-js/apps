@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useState } from 'react';
-import { AddressRow, Button, Modal, Password } from '@polkadot/react-components';
+import { AddressRow, Button, Modal, Password, PasswordStrength } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../../translate';
@@ -91,14 +91,15 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
     <Modal
       className={`${className} app--accounts-Modal`}
       header={t<string>('Change account password')}
+      size='large'
     >
       <Modal.Content>
         <AddressRow
           isInline
           value={address}
-        >
-          <p>{t<string>('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
-          <div>
+        />
+        <Modal.Columns>
+          <Modal.Column>
             <Password
               autoFocus
               help={t<string>('The existing account password as specified when this account was created or when it was last changed.')}
@@ -108,6 +109,13 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
               tabIndex={1}
               value={oldPass}
             />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('The existing account password as specified when this account was created or when it was last changed.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
+        <Modal.Columns>
+          <Modal.Column>
             <Password
               help={t<string>('The new account password. Once set, all future account unlocks will be performed with this new password.')}
               isError={!newPass1.isValid}
@@ -126,8 +134,12 @@ function ChangePass ({ address, className = '', onClose }: Props): React.ReactEl
               tabIndex={2}
               value={newPass2.password}
             />
-          </div>
-        </AddressRow>
+            <PasswordStrength value={newPass1.password} />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>('This will apply to any future use of this account as stored on this browser. Ensure that you securely store this new password and that it is strong and unique to the account.')}</p>
+          </Modal.Column>
+        </Modal.Columns>
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button

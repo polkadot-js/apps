@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import { useIpfs } from '@polkadot/react-hooks';
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import { useTranslation } from '../translate';
@@ -31,6 +32,7 @@ const MENU_WIDTH_EXPANDED = '12rem';
 
 function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { ipnsChain } = useIpfs();
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
@@ -87,7 +89,11 @@ function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isM
           <div className='apps--SideBar-Scroll'>
             <ChainInfo
               isToggled={modals.network}
-              onClick={_toggleModal('network')}
+              onClick={
+                ipnsChain
+                  ? undefined
+                  : _toggleModal('network')
+              }
             />
             {routing.map((route, index): React.ReactNode => (
               route

@@ -48,11 +48,11 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
   const header = useMemo(() => [
     [t('tips'), 'start'],
     [t('finder'), 'address'],
-    [t('deposit')],
     [t('reason'), 'start'],
     [],
     [],
-    [undefined, 'badge']
+    [undefined, 'badge ui--media-1700'],
+    [undefined, 'mini ui--media-1700']
   ].filter((v) => v), [t]);
 
   return (

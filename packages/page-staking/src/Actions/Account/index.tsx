@@ -202,7 +202,6 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
             {isStashNominating && (
               <ListNominees
                 nominating={nominating}
-                slashes={slashes}
                 stashId={stashId}
               />
             )}
