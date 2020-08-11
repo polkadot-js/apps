@@ -81,5 +81,9 @@ export default React.memo(styled(PayToggle)`
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
     }
+
+    .ui--Icon {
+      width: 1em;
+    }
   }
 `);
