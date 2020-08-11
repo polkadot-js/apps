@@ -156,6 +156,7 @@
   "crypto type to use": "crypto type to use",
   "ed25519, Edwards": "ed25519, Edwards",
   "elected stake": "elected stake",
+  "era cumulative": "era cumulative",
   "era points": "era points",
   "eras": "eras",
   "filter by name, address or index": "filter by name, address or index",
