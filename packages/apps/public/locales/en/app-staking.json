@@ -155,6 +155,7 @@
   "controller": "controller",
   "controller account": "controller account",
   "crypto type to use": "crypto type to use",
+  "defer": "defer",
   "ed25519, Edwards": "ed25519, Edwards",
   "elected stake": "elected stake",
   "era cumulative": "era cumulative",
