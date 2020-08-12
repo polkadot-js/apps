@@ -6,7 +6,7 @@ import { AddressIdentity } from '@polkadot/react-hooks/types';
 import { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressMini, AvatarItem, Icon, IconLink, Tag } from '@polkadot/react-components';
+import { AddressMini, AvatarItem, Expander, Icon, IconLink, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
@@ -165,14 +165,18 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                   : <div className='th'>{t<string>('sub')}</div>
                 }
                 <div className='td'>
-                  {subs.map((sub) =>
-                    <AddressMini
-                      className='subs'
-                      isPadded={false}
-                      key={sub.toString()}
-                      value={sub}
-                    />
-                  )}
+                  <Expander summary={`(${subs.length})`}>
+                    <div className='body column'>
+                      {subs.map((sub) =>
+                        <AddressMini
+                          className='subs'
+                          isPadded={false}
+                          key={sub.toString()}
+                          value={sub}
+                        />
+                      )}
+                    </div>
+                  </Expander>
                 </div>
               </div>)}
           </div>
