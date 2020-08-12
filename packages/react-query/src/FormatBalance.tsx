@@ -30,8 +30,11 @@ function format (value: Compact<any> | BN | string, currency: string | null, wit
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
 
   if (prefix.length > M_LENGTH) {
-    // TODO Format with balance-postfix
-    return `${formatBalance(value, { withUnit: !!currency })}${labelPost || ''}`;
+    const [major, rest] = formatBalance(value, { withUnit: !!currency }).split('.');
+    const minor = rest.substr(0, 3);
+    const unit = rest.substr(3);
+
+    return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span>{unit}{labelPost || ''}</>;
   }
 
   return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)}{`${currency ? ` ${currency}` : ''}${labelPost || ''}`}</>;
@@ -76,7 +79,7 @@ export default React.memo(styled(FormatBalance)`
 
     > .ui--FormatBalance-postfix {
       font-weight: 100;
-      opacity: 0.75;
+      opacity: 0.7;
       vertical-align: baseline;
     }
   }
