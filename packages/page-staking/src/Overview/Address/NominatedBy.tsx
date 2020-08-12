@@ -20,21 +20,17 @@ interface Chilled {
   chilled: string[];
 }
 
-function extractChilled (nominators?: [string, EraIndex, number][], slashingSpans?: SlashingSpans | null): Chilled {
-  if (nominators) {
-    const chilled = slashingSpans
-      ? nominators
-        .filter(([, submittedIn]) => !slashingSpans.lastNonzeroSlash.isZero() && slashingSpans.lastNonzeroSlash.gte(submittedIn))
-        .map(([who]) => who)
-      : [];
-    const active = nominators
-      .filter(([who]) => !chilled.includes(who))
-      .map(([who]) => who);
+function extractChilled (nominators: [string, EraIndex, number][] = [], slashingSpans?: SlashingSpans | null): Chilled {
+  const chilled = slashingSpans
+    ? nominators
+      .filter(([, submittedIn]) => !slashingSpans.lastNonzeroSlash.isZero() && slashingSpans.lastNonzeroSlash.gte(submittedIn))
+      .map(([who]) => who)
+    : [];
+  const active = nominators
+    .filter(([who]) => !chilled.includes(who))
+    .map(([who]) => who);
 
-    return { active, chilled };
-  }
-
-  return { active: [], chilled: [] };
+  return { active, chilled };
 }
 
 function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<Props> {
