@@ -18,6 +18,19 @@ interface EnvWindow {
 }
 
 function createDev (t: TFunction): LinkOption[] {
+  try {
+    const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
+    const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
+
+    if (storedItems) {
+      const items = JSON.parse(storedItems) as string[];
+
+      console.log('items', items);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
   return [
     {
       dnslink: 'local',

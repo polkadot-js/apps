@@ -14,6 +14,7 @@ import { Button, ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-
 import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
+import { CUSTOM_ENDPOINT_KEY } from './constants';
 import { useTranslation } from '../translate';
 
 interface Endpoint {
@@ -87,6 +88,22 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
   const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
   const [openIndex, setOpenIndex] = useState('');
+
+  const _saveApiEndpoint = () => {
+    try {
+      let initalAssets: string[] = [];
+      const storedAsset = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
+
+      if (storedAsset) {
+        initalAssets = JSON.parse(storedAsset) as string[];
+      }
+
+      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...initalAssets, apiUrl]));
+    } catch (e) {
+      console.error(e);
+      // ignore error
+    }
+  };
 
   const _setApiUrl = useCallback(
     (apiUrl: string) => () => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: true }),
@@ -192,7 +209,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           className='customSaveButton'
           icon='save'
           isDisabled={!(hasUrlChanged && isUrlValid)}
-          onClick={_onApply}
+          onClick={_saveApiEndpoint}
         />
       </div>
     </Sidebar>
