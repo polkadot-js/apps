@@ -235,7 +235,7 @@ export default React.memo(styled(FullSidebar)`
       }
     }
 
-    .parent, .childs {
+    .parent, .subs {
       padding: 0 !important;
     }
   }
@@ -253,7 +253,7 @@ export default React.memo(styled(FullSidebar)`
     > * {
       margin-bottom: 0.4rem;
 
-      &:not(:first-child) {
+      &:not(:first-sub) {
         margin-left: 1rem;
         margin-right: 0;
       }

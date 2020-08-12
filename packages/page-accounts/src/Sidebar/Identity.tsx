@@ -23,7 +23,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
-  const childs = useCall<[BalanceOf, AccountId[]]>(api.query.identity.subsOf, [address])?.[1];
+  const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity.subsOf, [address])?.[1];
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -92,16 +92,16 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
-            {!!childs?.length && (
-              <div className='tr childs'>
-                <div className={childs.length > 1 ? 'th top' : 'th'}>{t<string>('childs')}</div>
+            {!!subs?.length && (
+              <div className='tr subs'>
+                <div className={subs.length > 1 ? 'th top' : 'th'}>{t<string>('subs')}</div>
                 <div className='td'>
-                  {childs.map((child) =>
+                  {subs.map((sub) =>
                     <AddressMini
-                      className='childs'
+                      className='subs'
                       isPadded={false}
-                      key={child.toString()}
-                      value={child}
+                      key={sub.toString()}
+                      value={sub}
                     />
                   )}
                 </div>
