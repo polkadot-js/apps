@@ -92,23 +92,6 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
-            {!!subs?.length && (
-              <div className='tr subs'>
-                {subs.length > 1
-                  ? <div className='th top'>{t<string>('subs')}</div>
-                  : <div className='th'>{t<string>('sub')}</div>
-                }
-                <div className='td'>
-                  {subs.map((sub) =>
-                    <AddressMini
-                      className='subs'
-                      isPadded={false}
-                      key={sub.toString()}
-                      value={sub}
-                    />
-                  )}
-                </div>
-              </div>)}
             {identity.email && (
               <div className='tr'>
                 <div className='th'>{t<string>('email')}</div>
@@ -175,6 +158,23 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
+            {!!subs?.length && (
+              <div className='tr subs'>
+                {subs.length > 1
+                  ? <div className='th top'>{t<string>('subs')}</div>
+                  : <div className='th'>{t<string>('sub')}</div>
+                }
+                <div className='td'>
+                  {subs.map((sub) =>
+                    <AddressMini
+                      className='subs'
+                      isPadded={false}
+                      key={sub.toString()}
+                      value={sub}
+                    />
+                  )}
+                </div>
+              </div>)}
           </div>
         </div>
       </div>
