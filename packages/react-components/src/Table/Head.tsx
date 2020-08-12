@@ -10,11 +10,15 @@ type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 interface Props {
   className?: string;
   filter?: React.ReactNode;
-  header: (null | undefined | HeaderDef)[];
+  header?: (null | undefined | HeaderDef)[];
   isEmpty: boolean;
 }
 
-function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> {
+function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactElement<Props> | null {
+  if (!header?.length) {
+    return null;
+  }
+
   return (
     <thead className={className}>
       {filter && (

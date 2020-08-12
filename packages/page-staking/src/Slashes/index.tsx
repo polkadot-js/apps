@@ -11,8 +11,7 @@ import React, { useMemo } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
-import Header from './Header';
-import Row from './Row';
+import Era from './Era';
 
 interface Props {
   ownStashes?: StakerState[];
@@ -86,14 +85,6 @@ function calcSlashEras (slashes: [BN, UnappliedSlash[]][], ownStashes: StakerSta
 
 function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const header = useMemo((): [string?, string?, number?][] => [
-    [undefined, 'start', 3],
-    [t('reporters'), 'address'],
-    [t('own')],
-    [t('other')],
-    [t('total')],
-    [t('payout')]
-  ], [t]);
   const rows = useMemo(() => calcSlashEras(slashes, ownStashes), [ownStashes, slashes]);
 
   if (!rows.length) {
@@ -108,29 +99,10 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   return (
     <>
       {rows.map((slash): React.ReactNode => (
-        <Table
-          header={[[t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 6]]}
+        <Era
           key={slash.era.toString()}
-        >
-          <Header slash={slash} />
-          <tr>
-            {header.map(([label, className, colSpan = 1], index): React.ReactNode => (
-              <td
-                className={className}
-                colSpan={colSpan}
-                key={index}
-              >
-                <label>{label}</label>
-              </td>
-            ))}
-          </tr>
-          {slash.slashes.map((slash, index): React.ReactNode => (
-            <Row
-              key={index}
-              slash={slash}
-            />
-          ))}
-        </Table>
+          slash={slash}
+        />
       ))}
     </>
   );
