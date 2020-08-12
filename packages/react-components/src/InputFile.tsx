@@ -40,8 +40,6 @@ const NOOP = (): void => undefined;
 function convertResult (result: ArrayBuffer): Uint8Array {
   const data = new Uint8Array(result);
 
-  console.log(u8aToString(data.subarray(0, 10)));
-
   // this converts the input (if detected as hex), via the hex conversion route
   if (data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
     let hex = u8aToString(data);
