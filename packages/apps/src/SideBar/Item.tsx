@@ -116,7 +116,7 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
         )
         : (
           <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
+            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border ui--highlight--icon'
             className='apps--SideBar-Item-NavLink'
             data-for={`nav-${name}`}
             data-tip

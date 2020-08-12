@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeVersion } from '@polkadot/types/interfaces';
+import {RuntimeVersion} from '@polkadot/types/interfaces';
 
 import React from 'react';
 import styled from 'styled-components';
-import { ChainImg, Icon } from '@polkadot/react-components';
-import { useCall, useApi } from '@polkadot/react-hooks';
-import { BestNumber, Chain } from '@polkadot/react-query';
+import {ChainImg, Icon} from '@polkadot/react-components';
+import {useCall, useApi} from '@polkadot/react-hooks';
+import {BestNumber, Chain} from '@polkadot/react-query';
 
-import { useTranslation } from '../translate';
+import {useTranslation} from '../translate';
 
 interface Props {
   className?: string;
@@ -18,13 +18,12 @@ interface Props {
   onClick?: () => void;
 }
 
-function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { api } = useApi();
+function ChainInfo({className = '', isToggled, onClick}: Props): React.ReactElement<Props> {
+  const {t} = useTranslation();
+  const {api} = useApi();
   const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
 
   return (
-
     <div className={className}>
       <div className='apps--Sidebar-top'>{'polkadot{.js}'}</div>
       <div
@@ -33,13 +32,14 @@ function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactE
       >
         <p className='apps--SideBar-label'>Network:</p>
         <div className='apps--SideBar-logo-inner'>
-          <ChainImg />
+          <ChainImg/>
           <div className='info'>
-            <Chain className='chain' />
+            <Chain className='chain'/>
             {runtimeVersion && (
-              <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
+              <div
+                className='runtimeVersion'>{t<string>('version {{version}}', {replace: {version: runtimeVersion.specVersion.toNumber()}})}</div>
             )}
-            <BestNumber label='#' />
+            <BestNumber label='#'/>
           </div>
           {onClick && (
             <Icon
@@ -48,25 +48,6 @@ function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactE
             />
           )}
         </div>
-    <div
-      className={`apps--SideBar-logo${onClick ? ' isClickable' : ''} ${className} ui--highlight--border`}
-      onClick={onClick}
-    >
-      <div className='apps--SideBar-logo-inner'>
-        <ChainImg />
-        <div className='info'>
-          <Chain className='chain' />
-          {runtimeVersion && (
-            <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
-          )}
-          <BestNumber label='#' />
-        </div>
-        {onClick && (
-          <Icon
-            className='dropdown'
-            icon={isToggled ? 'caret-right' : 'caret-down'}
-          />
-        )}
       </div>
     </div>
   );
@@ -76,8 +57,6 @@ export default React.memo(styled(ChainInfo)`
   width: 100%;
   box-sizing: border-box;
   cursor: pointer;
-  padding: 0.75rem;
-  margin: 0 0 0.5rem -1rem;
 
   .apps--Sidebar-top {
     padding: 18px 24px;
@@ -109,12 +88,11 @@ export default React.memo(styled(ChainInfo)`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 10.5rem;
 
     img {
       flex: 0;
-      height: 35px;
-      width: 35px;
+      height: 2rem;
+      width: 2rem;
       margin-right: 7px;
     }
 

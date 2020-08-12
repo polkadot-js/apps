@@ -57,7 +57,7 @@ export default createGlobalStyle<Props>`
 
   .ui--highlight--icon {
     .ui--Icon {
-      color: ${getHighlight} !important;
+      background: ${getHighlight} !important;
     }
   }
 

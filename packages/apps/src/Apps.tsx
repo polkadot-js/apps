@@ -113,34 +113,42 @@ export default React.memo(styled(Apps)`
   flex-direction: row;
   height: 100vh;
 
+  * {
+    font-family: 'Nunito', sans-serif !important;
+  }
+
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
       color: #f5f4f3;
       display: block;
-      padding: 0.75em 0.75em;
+      margin: 0.4rem 0;
       white-space: nowrap;
 
       &:hover {
         background: #5f5f5f;
-        border-radius: 0.28571429rem 0 0 0.28571429rem;
         color: #eee;
-        margin-right: 0.25rem;
       }
 
       svg {
-       width: 32px; 
-       height: 32px; 
-       background: #E6007A;
-      border-radius: 30px;
+        width: 2rem;
+        height: 2rem;
+        padding: 0.5rem;
+        border-radius: 2rem;
+      }
+
+      & .text {
+        line-height: 1.375rem;
+        font-size: 1rem;
+        display: inline-block;
+        vertical-align: 0.5rem
       }
     }
-    
+
     a.apps--SideBar-Item-NavLink-active {
       font-weight: bold;
       font-size: 16px;
       line-height: 22px;
       color: #FFFFFF;
-      
     }
   }
 

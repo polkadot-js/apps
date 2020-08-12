@@ -219,7 +219,7 @@ export default React.memo(styled(AppsSidebar)`
 
     .apps--SideBar-main {
       width: 100%;
-      padding: 20px 24px;
+      padding: 1.2rem 1.5rem;
     }
 
     .apps--SideBar-Item {
@@ -228,7 +228,7 @@ export default React.memo(styled(AppsSidebar)`
       padding: 0 !important;
       position: relative;
       width: inherit;
-      margin: 0;
+      margin: 0 !important;
 
       .text {
         padding-left: 0.5rem;
