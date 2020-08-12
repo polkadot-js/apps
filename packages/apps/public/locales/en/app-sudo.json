@@ -10,5 +10,7 @@
   "sudo key": "sudo key",
   "sudo with unchecked weight parameter": "sudo with unchecked weight parameter",
   "sudo without unchecked weight parameter": "sudo without unchecked weight parameter",
-  "unchecked weight for this call": "unchecked weight for this call"
+  "unchecked weight for this call": "unchecked weight for this call",
+  "with unchecked weight": "with unchecked weight",
+  "without unchecked weight": "without unchecked weight"
 }
