@@ -105,9 +105,19 @@ export default React.memo(styled(InputBalance)`
   .ui.action.input.ui--Input > .buttons {
     align-items: stretch;
 
-    .ui.disabled.button.compact.floating.selection.dropdown.ui--SiDropdown {
-      border-style: solid;
-      opacity: 1 !important;
+    .ui--SiDropdown.ui.button.compact.floating.selection.dropdown {
+      &.disabled {
+        border-style: solid;
+        opacity: 1 !important;
+      }
+
+      > div.text:first-child {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0.5rem;
+        width: 3rem;
+      }
     }
   }
 `);
