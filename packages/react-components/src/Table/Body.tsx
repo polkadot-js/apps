@@ -174,16 +174,6 @@ export default React.memo(styled(Body)`
 
     &.transparent {
       background: transparent;
-
-      td {
-        &:first-child {
-          border-left: 1px solid transparent;
-        }
-
-        &:last-child {
-          border-right: 1px solid transparent;
-        }
-      }
     }
 
     .ui--Button:not(.isIcon):not(:hover) {
