@@ -121,7 +121,6 @@ function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): Re
               }
             />
             <InputFile
-              convertHex
               help={t<string>('The initial head state for the parachain.')}
               isError={!!initialHeadState && !isInitialHeadStateValid}
               label={t<string>('initial head state')}

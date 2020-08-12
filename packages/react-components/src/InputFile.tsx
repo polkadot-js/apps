@@ -17,7 +17,6 @@ export interface InputFileProps {
   accept?: string;
   className?: string;
   clearContent?: boolean;
-  convertHex?: boolean;
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
@@ -37,11 +36,11 @@ const BYTE_STR_0 = '0'.charCodeAt(0);
 const BYTE_STR_X = 'x'.charCodeAt(0);
 const NOOP = (): void => undefined;
 
-function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
+function convertResult (result: ArrayBuffer): Uint8Array {
   const data = new Uint8Array(result);
 
-  // this converts the input (if detected as hex), vai the hex conversion route
-  if (convertHex && data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
+  // this converts the input (if detected as hex), via the hex conversion route
+  if (data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
     const hex = u8aToString(data);
 
     if (isHex(hex)) {
@@ -52,7 +51,7 @@ function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, convertHex, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -68,7 +67,7 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
         reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
           if (target && target.result) {
             const name = file.name;
-            const data = convertResult(target.result as ArrayBuffer, convertHex);
+            const data = convertResult(target.result as ArrayBuffer);
 
             onChange && onChange(data, name);
             dropRef && setFile({
@@ -81,7 +80,7 @@ function InputFile ({ accept, className = '', clearContent, convertHex, help, is
         reader.readAsArrayBuffer(file);
       });
     },
-    [convertHex, dropRef, onChange]
+    [dropRef, onChange]
   );
 
   const dropZone = (
