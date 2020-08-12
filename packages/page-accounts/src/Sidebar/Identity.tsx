@@ -23,7 +23,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
-  const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity.subsOf, [address])?.[1];
+  const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
