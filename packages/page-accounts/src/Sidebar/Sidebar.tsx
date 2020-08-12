@@ -253,7 +253,7 @@ export default React.memo(styled(FullSidebar)`
     > * {
       margin-bottom: 0.4rem;
 
-      &:not(:first-sub) {
+      &:not(:first-child) {
         margin-left: 1rem;
         margin-right: 0;
       }
