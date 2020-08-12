@@ -16,5 +16,7 @@ export default {
   // aliases that don't do well as part of interfaces
   'voting::VoteType': 'VoteType',
   'voting::TallyType': 'TallyType',
-  'voting::Tally': 'VotingTally'
+  'voting::Tally': 'VotingTally',
+  // Substrate overrides
+  Weight: 'u64'
 };
