@@ -94,7 +94,10 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
             )}
             {!!subs?.length && (
               <div className='tr subs'>
-                <div className={subs.length > 1 ? 'th top' : 'th'}>{t<string>('subs')}</div>
+                {subs.length > 1
+                  ? <div className='th top'>{t<string>('subs')}</div>
+                  : <div className='th'>{t<string>('sub')}</div>
+                }
                 <div className='td'>
                   {subs.map((sub) =>
                     <AddressMini
