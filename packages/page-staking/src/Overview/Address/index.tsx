@@ -6,7 +6,7 @@ import { Balance, EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { AddressSmall, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -78,18 +78,16 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, [address], {
     transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
   });
-  const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
-  const [isVisible, setIsVisible] = useState(true);
 
-  useEffect((): void => {
-    stakingInfo && setStakingState(expandInfo(stakingInfo));
-  }, [stakingInfo]);
+  const { commission, nominators, stakeOther, stakeOwn } = useMemo(
+    () => stakingInfo ? expandInfo(stakingInfo) : { nominators: [] },
+    [stakingInfo]
+  );
 
-  useEffect((): void => {
-    accountInfo && setIsVisible(
-      checkVisibility(api, address, accountInfo, filterName, withIdentity)
-    );
-  }, [api, accountInfo, address, filterName, withIdentity]);
+  const isVisible = useMemo(
+    () => accountInfo ? checkVisibility(api, address, accountInfo, filterName, withIdentity) : true,
+    [api, accountInfo, address, filterName, withIdentity]
+  );
 
   const _onQueryStats = useCallback(
     (): void => {
