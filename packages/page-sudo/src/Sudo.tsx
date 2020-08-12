@@ -44,28 +44,28 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
           label={t<string>('submit the following change')}
           onChange={_onChangeExtrinsic}
         />
-        <br />
-        {withWeight && (
+        {api.tx.sudo.sudoUncheckedWeight && (
           <InputNumber
             help={t<string>('The unchecked weight as specified for the sudoUncheckedWeight call.')}
+            isDisabled={!withWeight}
             isError={weight.eq(BN_ZERO)}
             isZeroable={false}
             label={t<string>('unchecked weight for this call')}
             onChange={_onChangeWeight}
             value={weight}
-          />
-        )}
-        {api.tx.sudo.sudoUncheckedWeight && (
-          <Toggle
-            className='sudoToggle'
-            label={
-              withWeight
-                ? t<string>('sudo with unchecked weight parameter')
-                : t<string>('sudo without unchecked weight parameter')
-            }
-            onChange={toggleWithWeight}
-            value={withWeight}
-          />
+          >
+            <Toggle
+              className='sudoToggle'
+              isOverlay
+              label={
+                withWeight
+                  ? t<string>('with unchecked weight')
+                  : t<string>('without unchecked weight')
+              }
+              onChange={toggleWithWeight}
+              value={withWeight}
+            />
+          </InputNumber>
         )}
         <Button.Group>
           <TxButton
