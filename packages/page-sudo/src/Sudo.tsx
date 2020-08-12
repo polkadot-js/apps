@@ -27,8 +27,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
   const [weight, setWeight] = useState<BN>(BN_ZERO);
 
   const _onChangeExtrinsic = useCallback(
-    (method: SubmittableExtrinsic<'promise'> | null = null) =>
-      setMethod(() => method),
+    (method: SubmittableExtrinsic<'promise'> | null = null) => setMethod(() => method),
     []
   );
 
