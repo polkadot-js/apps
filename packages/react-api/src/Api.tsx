@@ -11,7 +11,7 @@ import store from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
-// import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
+import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -69,7 +69,7 @@ function getDevTypes (): Record<string, Record<string, string>> {
 }
 
 async function retrieve (api: ApiPromise): Promise<ChainData> {
-  const [, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
+  const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.chain.getHeader(),
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -96,16 +96,15 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   ]);
 
   // HACK Horrible hack to try and give some window to the DOT denomination
-  // const bestNumber = bestHeader.number.toBn();
-  // const properties = api.genesisHash.eq(POLKADOT_GENESIS)
-  //   ? bestNumber.gten(POLKADOT_DENOM_BLOCK)
-  //     ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'New DOT' })
-  //     : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
-  //   : chainProperties;
+  const properties = api.genesisHash.eq(POLKADOT_GENESIS)
+    ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
+      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'New DOT' })
+      : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
+    : chainProperties;
 
   return {
     injectedAccounts,
-    properties: chainProperties,
+    properties,
     systemChain: (systemChain || '<unknown>').toString(),
     systemChainType,
     systemName: systemName.toString(),
