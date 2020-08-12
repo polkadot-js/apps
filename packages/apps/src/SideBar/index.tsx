@@ -28,7 +28,7 @@ interface Props {
 
 const SIDE_BORDER_WIDTH = '0.65rem';
 const MENU_WIDTH_COLLAPSED = '4.2rem';
-const MENU_WIDTH_EXPANDED = '12rem';
+const MENU_WIDTH_EXPANDED = '230px';
 
 function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -95,27 +95,29 @@ function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isM
                   : _toggleModal('network')
               }
             />
-            {routing.map((route, index): React.ReactNode => (
-              route
-                ? (
-                  <Item
-                    isCollapsed={isCollapsed}
-                    key={route.name}
-                    onClick={
-                      route.Modal
-                        ? _toggleModal(route.name)
-                        : handleResize
-                    }
-                    route={route}
-                  />
-                )
-                : (
-                  <Menu.Divider
-                    hidden
-                    key={index}
-                  />
-                )
-            ))}
+            <div className="apps--SideBar-main">
+              {routing.map((route, index): React.ReactNode => (
+                route
+                  ? (
+                    <Item
+                      isCollapsed={isCollapsed}
+                      key={route.name}
+                      onClick={
+                        route.Modal
+                          ? _toggleModal(route.name)
+                          : handleResize
+                      }
+                      route={route}
+                    />
+                  )
+                  : (
+                    <Menu.Divider
+                      hidden
+                      key={index}
+                    />
+                  )
+              ))}
+            </div>
             <Menu.Divider hidden />
             <Menu.Item className='apps--SideBar-Item'>
               <a
@@ -168,12 +170,13 @@ export default React.memo(styled(AppsSidebar)`
   }
 
   &.expanded {
-    width: ${MENU_WIDTH_EXPANDED};
+    max-width: ${MENU_WIDTH_EXPANDED};
+    width: 100%;
   }
 
   .apps--SideBar {
     align-items: center;
-    background: #4f5255;
+    background: #2A2B32;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
@@ -214,12 +217,18 @@ export default React.memo(styled(AppsSidebar)`
       }
     }
 
+    .apps--SideBar-main {
+      width: 100%;
+      padding: 20px 24px;
+    }
+
     .apps--SideBar-Item {
       align-self: flex-end;
       flex-grow: 0;
       padding: 0 !important;
       position: relative;
       width: inherit;
+      margin: 0;
 
       .text {
         padding-left: 0.5rem;

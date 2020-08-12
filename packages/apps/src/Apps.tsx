@@ -126,19 +126,21 @@ export default React.memo(styled(Apps)`
         color: #eee;
         margin-right: 0.25rem;
       }
-    }
 
-    a.apps--SideBar-Item-NavLink-active {
-      background: #f5f4f3;
-      border-radius: 0.28571429rem 0 0 0.28571429rem;
-      /* border-bottom: 2px solid transparent; */
-      color: #3f3f3f;
-
-      &:hover {
-        background: #f5f4f3;
-        color: #3f3f3f;
-        margin-right: 0;
+      svg {
+       width: 32px; 
+       height: 32px; 
+       background: #E6007A;
+      border-radius: 30px;
       }
+    }
+    
+    a.apps--SideBar-Item-NavLink-active {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 22px;
+      color: #FFFFFF;
+      
     }
   }
 
@@ -180,10 +182,6 @@ export default React.memo(styled(Apps)`
 
   &.expanded .apps--SideBar {
     text-align: left;
-
-    .apps--SideBar-Scroll {
-      padding-left: 0.75rem;
-    }
   }
 
   &.fixed {
@@ -199,7 +197,7 @@ export default React.memo(styled(Apps)`
 
   &.menu-open {
     .apps--SideBar-Wrapper {
-      width: 12rem;
+      max-width: 230px;
     }
   }
 
