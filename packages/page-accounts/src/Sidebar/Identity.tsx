@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AddressIdentity } from '@polkadot/react-hooks/types';
+import { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { AddressMini, AvatarItem, Icon, IconLink, Tag } from '@polkadot/react-components';
-import { useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -22,6 +23,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
+  const childs = useCall<[BalanceOf, AccountId[]]>(api.query.identity.subsOf, [address])?.[1];
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -90,6 +92,20 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
+            {!!childs?.length && (
+              <div className='tr childs'>
+                <div className={childs.length > 1 ? 'th top' : 'th'}>{t<string>('childs')}</div>
+                <div className='td'>
+                  {childs.map((child) =>
+                    <AddressMini
+                      className='childs'
+                      isPadded={false}
+                      key={child.toString()}
+                      value={child}
+                    />
+                  )}
+                </div>
+              </div>)}
             {identity.email && (
               <div className='tr'>
                 <div className='th'>{t<string>('email')}</div>

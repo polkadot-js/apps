@@ -220,6 +220,10 @@ export default React.memo(styled(FullSidebar)`
           font-weight: bold;
           text-align: right;
           flex-basis: 20%;
+
+          &.top {
+            align-self: flex-start;
+          }
         }
 
         .td {
@@ -231,7 +235,7 @@ export default React.memo(styled(FullSidebar)`
       }
     }
 
-    .parent {
+    .parent, .childs {
       padding: 0 !important;
     }
   }
