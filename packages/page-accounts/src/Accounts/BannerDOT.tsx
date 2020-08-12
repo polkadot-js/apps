@@ -4,13 +4,15 @@
 
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
+import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { useApi } from '@polkadot/react-hooks';
+import { formatNumber } from '@polkadot/util';
 
 import Banner from './Banner';
 
 function BannerDOT (): React.ReactElement | null {
   const { api } = useApi();
-  const [isPolkadot] = useState(api.genesisHash.eq('0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3'));
+  const [isPolkadot] = useState(api.genesisHash.eq(POLKADOT_GENESIS));
 
   if (!isPolkadot) {
     return null;
@@ -18,7 +20,7 @@ function BannerDOT (): React.ReactElement | null {
 
   return (
     <Banner type='warning'>
-      <p><Trans key='dotRenom1'>On approximately August 21st at 13:15 UTC (block number 1,248,328), the DOT token will undergo a <a href='#/poll'>redenomination</a> from its original sale.</Trans></p>
+      <p><Trans key='dotRenom1'>On approximately August 21st at 13:15 UTC (block number {formatNumber(POLKADOT_DENOM_BLOCK)}), the DOT token will undergo a <a href='#/poll'>redenomination</a> from its original sale.</Trans></p>
       <p><Trans key='dotRenom2'>New DOTs will be 100x smaller than DOTs (old). Therefore, your DOT balance will be 100x higher and the price per DOT will be 100x lower. The percentage of the DOTs you own relative to total supply will be unchanged. This will not affect the total value of your position.</Trans></p>
       <p><Trans key='dotRenom3'>See the <a
         href='https://polkadot.network/the-results-are-in/'

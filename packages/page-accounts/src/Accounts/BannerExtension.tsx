@@ -4,6 +4,8 @@
 
 import { detect } from 'detect-browser';
 import React from 'react';
+import { Trans } from 'react-i18next';
+import useExtensionCounter from '@polkadot/app-settings/useCounter';
 import { availableExtensions } from '@polkadot/apps-config/extensions';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
 import { stringUpperFirst } from '@polkadot/util';
@@ -23,6 +25,7 @@ const isSupported = browserName && Object.keys(availableExtensions).includes(bro
 function BannerExtension (): React.ReactElement | null {
   const { t } = useTranslation();
   const { hasInjectedAccounts } = useApi();
+  const upgradableCount = useExtensionCounter();
 
   if (!isSupported || !browserName) {
     return null;
@@ -30,7 +33,16 @@ function BannerExtension (): React.ReactElement | null {
 
   if (isWeb3Injected) {
     if (hasInjectedAccounts) {
-      return null;
+      if (!upgradableCount) {
+        return null;
+      }
+
+      return (
+        <Banner type='warning'>
+          <p>{t<string>('You have {{upgradableCount}} extensions that need to be updated with the latest chain properties in order to display the correct information for the chain you are connected to. This update includes chain metadata and chain properties.', { replace: { upgradableCount } })}</p>
+          <p><Trans key='extensionUpgrade'>Visit your <a href='#/settings/metadata'>settings page</a> to apply the updates to the injected extensions.</Trans></p>
+        </Banner>
+      );
     }
 
     return (
