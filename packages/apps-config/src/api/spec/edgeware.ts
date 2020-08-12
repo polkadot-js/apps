@@ -5,7 +5,7 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import * as edgewareDefinitions from '@edgeware/node-types/interfaces/definitions';
+import * as edgewareDefinitions from '@edgeware/node-types/dist/interfaces/definitions';
 
 const edgTypes = Object
   .values(edgewareDefinitions)
