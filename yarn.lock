@@ -1506,9 +1506,9 @@ __metadata:
   linkType: hard
 
 "@edgeware/node-types@npm:^2.3.5":
-  version: 2.3.5
-  resolution: "@edgeware/node-types@npm:2.3.5"
-  checksum: ee1674a3867b0cbdb1456f5867521e67b308dc41fa2002a3bbd1506f7e4bd83ed5bc57ee9946acc6179cbd1f1f74a2deca798407e5fe3d1dd817b7819e1f8b68
+  version: 2.4.1
+  resolution: "@edgeware/node-types@npm:2.4.1"
+  checksum: e9a3e67a18acb765bcee61308f3934e5efeb904e71db089cedfc8243a4e2ec0ddc592e1941108ad7b05dfb01fe33b9dc7e768e4b0b7086f0106b9aa097a5403f
   languageName: node
   linkType: hard
 
@@ -3296,7 +3296,7 @@ __metadata:
   dependencies:
     "@acala-network/type-definitions": 0.3.1
     "@babel/runtime": ^7.11.2
-    edgeware-node-types: ^2.3.4
+    "@edgeware/node-types": ^2.3.5
   languageName: unknown
   linkType: soft
 
@@ -9647,13 +9647,6 @@ __metadata:
     jsbn: ~0.1.0
     safer-buffer: ^2.1.0
   checksum: 5b4dd05f24b2b94c1bb882488dba2b878bb5b83182669aa71fbdf53c6941618180cb226c4eb9a3e2fa51ad11f87b5edb0a7d7289cdef468ba2e6024542f73f07
-  languageName: node
-  linkType: hard
-
-"edgeware-node-types@npm:^2.3.4":
-  version: 2.3.4
-  resolution: "edgeware-node-types@npm:2.3.4"
-  checksum: b1c3b0f7ecc8675bdcd19e564b23c3600a4795c220fd6e020ca0515188b3cd7ecaedb1cd0b1f04dd84a7a77316bf04a5cf81639a301c8f5880a95d2a5e259e3d
   languageName: node
   linkType: hard
 
@@ -18296,7 +18289,6 @@ __metadata:
     "@babel/core": ^7.11.1
     "@babel/register": ^7.10.5
     "@babel/runtime": ^7.11.2
-    "@edgeware/node-types": ^2.3.5
     "@pinata/sdk": ^1.1.10
     "@polkadot/dev": ^0.55.37
     "@polkadot/ts": ^0.3.37
