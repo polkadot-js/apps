@@ -46,9 +46,7 @@ function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): Re
     null,
     (code): boolean => !!code && isWasmValidRef.current
   );
-  const [initialHeadState, isInitialHeadStateValid, setInitialHeadState] = useFormField<Uint8Array>(
-    null
-  );
+  const [initialHeadState, isInitialHeadStateValid, setInitialHeadState] = useFormField<Uint8Array>(null);
   const [scheduling, , setScheduling] = useFormField<Scheduling>('Always');
 
   const info = useMemo(
@@ -123,6 +121,7 @@ function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): Re
               }
             />
             <InputFile
+              convertHex
               help={t<string>('The initial head state for the parachain.')}
               isError={!!initialHeadState && !isInitialHeadStateValid}
               label={t<string>('initial head state')}
