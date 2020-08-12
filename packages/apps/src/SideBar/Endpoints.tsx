@@ -179,21 +179,43 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           })}
         </div>
       ))}
-      <Input
-        className='endpointCustom'
-        isError={!isUrlValid}
-        isFull
-        label={t<string>('custom endpoint')}
-        onChange={_onChangeCustom}
-        value={apiUrl}
-      />
+      <div className='endpointCustomWrapper'>
+        <Input
+          className='endpointCustom'
+          isError={!isUrlValid}
+          isFull
+          label={t<string>('custom endpoint')}
+          onChange={_onChangeCustom}
+          value={apiUrl}
+        />
+        <Button
+          className='customSaveButton'
+          icon='save'
+          isDisabled={!(hasUrlChanged && isUrlValid)}
+          onClick={_onApply}
+        />
+      </div>
     </Sidebar>
   );
 }
 
 export default React.memo(styled(Endpoints)`
+  .customSaveButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
   .endpointCustom {
     margin-top: 0.5rem;
+    
+    input {
+      padding-right: 4rem;
+    }
+  }
+
+  .endpointCustomWrapper {
+    position: relative;
   }
 
   .endpointType {
