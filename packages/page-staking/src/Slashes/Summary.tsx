@@ -38,7 +38,7 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
   }, [api, era, sessionInfo]);
 
   return (
-    <tr className='transparent'>
+    <tr>
       <td colSpan={8}>
         <SummaryBox isSmall>
           <section>
