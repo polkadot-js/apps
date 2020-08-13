@@ -5,6 +5,8 @@
 import { TFunction } from 'i18next';
 import { Option } from './types';
 
+import { CUSTOM_ENDPOINT_KEY } from './constants';
+
 export interface LinkOption extends Option {
   dnslink?: string;
   isChild?: boolean;
@@ -19,7 +21,6 @@ interface EnvWindow {
 
 function createOwn (t: TFunction): LinkOption[] {
   try {
-    const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
     const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
 
     if (storedItems) {

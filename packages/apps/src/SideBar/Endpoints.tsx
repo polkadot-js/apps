@@ -9,12 +9,11 @@ import React, { useCallback, useMemo, useState } from 'react';
 /* eslint-disable-next-line node/no-deprecated-api */
 import punycode from 'punycode';
 import styled from 'styled-components';
-import { createEndpoints } from '@polkadot/apps-config/settings';
+import { createEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config/settings';
 import { Button, ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
-import { CUSTOM_ENDPOINT_KEY } from './constants';
 import { useTranslation } from '../translate';
 
 interface Endpoint {
