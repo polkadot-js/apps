@@ -259,21 +259,19 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           onChange={_onChangeCustom}
           value={apiUrl}
         />
-        {!isSavedCustomEndpoint && (
-          <Button
+        {isSavedCustomEndpoint
+          ? <Button
+            className='customDeleteButton'
+            icon='trash-alt'
+            onClick={_removeApiEndpoint}
+          />
+          : <Button
             className='customSaveButton'
             icon='save'
             isDisabled={!(hasUrlChanged && isUrlValid) || isKnownUrl}
             onClick={_saveApiEndpoint}
           />
-        )}
-        {isSavedCustomEndpoint && (
-          <Button
-            className='customDeleteButton'
-            icon='trash-alt'
-            onClick={_removeApiEndpoint}
-          />
-        )}
+        }
       </div>
     </Sidebar>
   );
