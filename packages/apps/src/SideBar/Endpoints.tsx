@@ -4,7 +4,7 @@
 
 import type { LinkOption } from '@polkadot/apps-config/settings/endpoints';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import
 /* eslint-disable-next-line node/no-deprecated-api */
 import punycode from 'punycode';
@@ -86,34 +86,38 @@ function combineEndpoints (endpoints: LinkOption[]): Endpoint[] {
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
-  const [storedCurstomEndpoints, setStoredCustomEndpoint] = useState<string[]>([]);
-  const [isSavedCustomEndpoint, setIsSavedCustomEndpoint] = useState(false);
   const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
   const [openIndex, setOpenIndex] = useState('');
 
-  useEffect(() => {
+  const storedCurstomEndpoints = useMemo(() => {
     try {
       const storedAsset = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
 
       if (storedAsset) {
-        setStoredCustomEndpoint(JSON.parse(storedAsset) as string[]);
+        return JSON.parse(storedAsset) as string[];
       }
     } catch (e) {
       console.error(e);
       // ignore error
     }
+
+    return [];
   }, []);
 
-  useEffect(() => {
+  const isSavedCustomEndpoint = useMemo(() => {
+    let result = false;
+
     storedCurstomEndpoints.some((endpoint) => {
       if (endpoint === apiUrl) {
-        setIsSavedCustomEndpoint(true);
+        result = true;
 
         return true;
       }
 
       return false;
     });
+
+    return result;
   }, [apiUrl, storedCurstomEndpoints]);
 
   const _saveApiEndpoint = () => {
