@@ -25,7 +25,7 @@ interface Props {
 
 function calcBalance (api: ApiPromise, stakingInfo?: DeriveStakingAccount, stashBalance?: DeriveBalancesAll): BN | null {
   if (stakingInfo && stakingInfo.stakingLedger && stashBalance) {
-    const sumUnlocking = stakingInfo.unlocking?.reduce((acc, { value }) => acc.add(value), BN_ZERO) || BN_ZERO;
+    const sumUnlocking = (stakingInfo.unlocking || []).reduce((acc, { value }) => acc.iadd(value), new BN(0));
     const redeemable = stakingInfo.redeemable || BN_ZERO;
     const available = stashBalance.freeBalance.sub(stakingInfo.stakingLedger.active.unwrap()).sub(sumUnlocking).sub(redeemable);
 
