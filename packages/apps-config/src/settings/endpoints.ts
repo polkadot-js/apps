@@ -17,7 +17,7 @@ interface EnvWindow {
   }
 }
 
-function createDev (t: TFunction): LinkOption[] {
+function createOwn (t: TFunction): LinkOption[] {
   try {
     const CUSTOM_ENDPOINT_KEY = 'polkadot-app-custom-endpoints';
     const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
@@ -25,12 +25,20 @@ function createDev (t: TFunction): LinkOption[] {
     if (storedItems) {
       const items = JSON.parse(storedItems) as string[];
 
-      console.log('items', items);
+      return items.map((item) => ({
+        info: 'local',
+        text: t<string>('rpc.custom.entry', 'Custom (custom, {{WS_URL}})', { ns: 'apps-config', replace: { WS_URL: item } }),
+        value: item
+      }));
     }
   } catch (e) {
     console.error(e);
   }
 
+  return [];
+}
+
+function createDev (t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'local',
@@ -190,7 +198,7 @@ function createCustom (t: TFunction): LinkOption[] {
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
-//   text: The text to display on teh dropdown
+//   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 export default function create (t: TFunction): LinkOption[] {
   return [
@@ -212,6 +220,7 @@ export default function create (t: TFunction): LinkOption[] {
       text: t<string>('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       value: ''
     },
-    ...createDev(t)
+    ...createDev(t),
+    ...createOwn(t)
   ].filter(({ isDisabled }) => !isDisabled);
 }
