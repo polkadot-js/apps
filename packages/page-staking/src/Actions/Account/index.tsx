@@ -9,7 +9,7 @@ import { SortedTargets } from '../../types';
 import { Slash } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
@@ -38,6 +38,17 @@ interface Props {
   validators?: string[];
 }
 
+function extractSlashes (stashId: string, allSlashes: [BN, UnappliedSlash[]][] = []): Slash[] {
+  return allSlashes
+    .map(([era, all]) => ({
+      era,
+      slashes: all.filter(({ others, validator }) =>
+        validator.eq(stashId) || others.some(([nominatorId]) => nominatorId.eq(stashId))
+      )
+    }))
+    .filter(({ slashes }) => slashes.length);
+}
+
 function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -59,27 +70,11 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
-  const [hasBonded, setHasBonded] = useState(false);
-  const [slashes, setSlashes] = useState<Slash[]>([]);
 
-  useEffect((): void => {
-    stakingAccount?.stakingLedger && setHasBonded(
-      !stakingAccount.stakingLedger.active.isEmpty
-    );
-  }, [stakingAccount]);
-
-  useEffect((): void => {
-    allSlashes && setSlashes(
-      allSlashes
-        .map(([era, all]) => ({
-          era,
-          slashes: all.filter(({ others, validator }) =>
-            validator.eq(stashId) || others.some(([nominatorId]) => nominatorId.eq(stashId))
-          )
-        }))
-        .filter(({ slashes }) => slashes.length)
-    );
-  }, [allSlashes, stashId]);
+  const slashes = useMemo(
+    () => extractSlashes(stashId, allSlashes),
+    [allSlashes, stashId]
+  );
 
   const withdrawFunds = useCallback(
     () => {
@@ -94,6 +89,8 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
     },
     [api, controllerId, queueExtrinsic, spanCount]
   );
+
+  const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active.isEmpty;
 
   return (
     <tr className={className}>
