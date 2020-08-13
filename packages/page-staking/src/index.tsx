@@ -55,7 +55,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 
   const ownValidators = useMemo(
-    () => ownStashes ? ownStashes.filter(({ isStashValidating }) => isStashValidating) : [],
+    () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
     [ownStashes]
   );
 
