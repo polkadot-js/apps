@@ -6,7 +6,7 @@ import { DeriveEraRewards, DeriveOwnSlashes, DeriveStakerPoints } from '@polkado
 import { ChartInfo, LineDataEntry, Props } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatBalance } from '@polkadot/util';
@@ -55,25 +55,27 @@ function extractRewards (erasRewards: DeriveEraRewards[], ownSlashes: DeriveOwnS
 function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ chart, labels }, setChart] = useState<ChartInfo>({ chart: [], labels: [] });
   const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes, [validatorId, true]);
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards, []);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
+
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), []);
+
+  const { chart, labels } = useMemo(
+    () => (erasRewards && ownSlashes && stakerPoints)
+      ? extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)
+      : { chart: [], labels: [] },
+    [divisor, erasRewards, ownSlashes, stakerPoints]
+  );
+
   const legends = useMemo(() => [
     t<string>('{{currency}} slashed', { replace: { currency } }),
     t<string>('{{currency}} rewards', { replace: { currency } }),
     t<string>('{{currency}} average', { replace: { currency } })
   ], [currency, t]);
-
-  useEffect((): void => {
-    erasRewards && ownSlashes && stakerPoints && setChart(
-      extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)
-    );
-  }, [divisor, erasRewards, ownSlashes, stakerPoints]);
 
   return (
     <div className='staking--Chart'>

@@ -5,23 +5,21 @@
 import { EraIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { isFunction } from '@polkadot/util';
 
 export default function useStakerPayouts (): BN {
   const { api } = useApi();
-  const [stakerPayoutAfter, setState] = useState<BN>(
-    isFunction(api.tx.staking.payoutStakers)
-      ? new BN(0)
-      : new BN(1_000_000_000)
-  );
   const migrateEraOpt = useCall<Option<EraIndex>>(api.query.staking?.migrateEra, []);
 
-  useEffect((): void => {
-    migrateEraOpt && migrateEraOpt.isSome && setState(migrateEraOpt.unwrap());
-  }, [migrateEraOpt]);
-
-  return stakerPayoutAfter;
+  return useMemo(
+    () => (migrateEraOpt && migrateEraOpt.isSome && migrateEraOpt.unwrap()) || (
+      isFunction(api.tx.staking.payoutStakers)
+        ? new BN(0)
+        : new BN(1_000_000_000)
+    ),
+    [api, migrateEraOpt]
+  );
 }

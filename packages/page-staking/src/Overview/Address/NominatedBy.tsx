@@ -4,7 +4,7 @@
 
 import { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { AddressMini, Expander, Spinner } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
@@ -20,24 +20,26 @@ interface Chilled {
   chilled: string[];
 }
 
+function extractChilled (nominators: [string, EraIndex, number][] = [], slashingSpans?: SlashingSpans | null): Chilled {
+  const chilled = slashingSpans
+    ? nominators
+      .filter(([, submittedIn]) => !slashingSpans.lastNonzeroSlash.isZero() && slashingSpans.lastNonzeroSlash.gte(submittedIn))
+      .map(([who]) => who)
+    : [];
+  const active = nominators
+    .filter(([who]) => !chilled.includes(who))
+    .map(([who]) => who);
+
+  return { active, chilled };
+}
+
 function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ active, chilled }, setChilled] = useState<Chilled>({ active: [], chilled: [] });
 
-  useEffect((): void => {
-    if (nominators) {
-      const chilled = slashingSpans
-        ? nominators
-          .filter(([, submittedIn]) => !slashingSpans.lastNonzeroSlash.isZero() && slashingSpans.lastNonzeroSlash.gte(submittedIn))
-          .map(([who]) => who)
-        : [];
-      const active = nominators
-        .filter(([who]) => !chilled.includes(who))
-        .map(([who]) => who);
-
-      setChilled({ active, chilled });
-    }
-  }, [nominators, slashingSpans]);
+  const { active, chilled } = useMemo(
+    () => extractChilled(nominators, slashingSpans),
+    [nominators, slashingSpans]
+  );
 
   return (
     <td className='start all'>

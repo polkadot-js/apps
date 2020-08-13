@@ -5,7 +5,7 @@
 import { DeriveStakerPoints } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -41,18 +41,19 @@ function extractPoints (points: DeriveStakerPoints[]): ChartInfo {
 function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ chart, labels }, setChart] = useState<ChartInfo>({ chart: [], labels: [] });
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
+
+  const { chart, labels } = useMemo(
+    () => stakerPoints
+      ? extractPoints(stakerPoints)
+      : { chart: [], labels: [] },
+    [stakerPoints]
+  );
+
   const legends = useMemo(() => [
     t<string>('points'),
     t<string>('average')
   ], [t]);
-
-  useEffect((): void => {
-    stakerPoints && setChart(
-      extractPoints(stakerPoints)
-    );
-  }, [stakerPoints]);
 
   return (
     <div className='staking--Chart'>
