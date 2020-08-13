@@ -47,11 +47,10 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     [api, hasAccounts]
   );
 
-  const { next } = useMemo(
+  const next = useMemo(
     () => (allStashes && stakingOverview)
-      ? { next: allStashes.filter((address) => !stakingOverview.validators.includes(address as any)) }
-      // validators: stakingOverview.validators.map((a) => a.toString())
-      : {},
+      ? allStashes.filter((address) => !stakingOverview.validators.includes(address as any))
+      : undefined,
     [allStashes, stakingOverview]
   );
 
