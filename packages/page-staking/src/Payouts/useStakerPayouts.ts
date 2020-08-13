@@ -14,14 +14,12 @@ export default function useStakerPayouts (): BN {
   const { api } = useApi();
   const migrateEraOpt = useCall<Option<EraIndex>>(api.query.staking?.migrateEra, []);
 
-  const stakerPayoutAfter = useMemo(
-    () => (migrateEraOpt && migrateEraOpt.isSome)
-      ? migrateEraOpt.unwrap()
-      : isFunction(api.tx.staking.payoutStakers)
+  return useMemo(
+    () => (migrateEraOpt && migrateEraOpt.isSome && migrateEraOpt.unwrap()) || (
+      isFunction(api.tx.staking.payoutStakers)
         ? new BN(0)
-        : new BN(1_000_000_000),
+        : new BN(1_000_000_000)
+    ),
     [api, migrateEraOpt]
   );
-
-  return stakerPayoutAfter;
 }

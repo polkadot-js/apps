@@ -7,10 +7,8 @@ import { StakerState } from '@polkadot/react-hooks/types';
 import { useMemo } from 'react';
 
 export default function useOwnNominators (ownStashes?: StakerState[]): StakerState[] | undefined {
-  const state = useMemo(
+  return useMemo(
     () => ownStashes ? ownStashes.filter(({ isOwnController, isStashValidating }) => isOwnController && !isStashValidating) : undefined,
     [ownStashes]
   );
-
-  return state;
 }

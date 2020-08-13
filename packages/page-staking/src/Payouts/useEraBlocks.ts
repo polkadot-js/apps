@@ -16,7 +16,7 @@ export default function useEraBlocks (era?: BN): BN | undefined {
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress, []);
   const forcing = useCall<Forcing>(api.query.staking.forceEra, []);
 
-  const duration = useMemo(
+  return useMemo(
     () => (depth && era && forcing && progress && progress.sessionLength.gt(BN_ONE))
       ? (
         forcing.isForceAlways
@@ -35,6 +35,4 @@ export default function useEraBlocks (era?: BN): BN | undefined {
       : undefined,
     [depth, era, forcing, progress]
   );
-
-  return duration;
 }
