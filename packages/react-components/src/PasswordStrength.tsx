@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -27,11 +27,10 @@ function calcStrength (password: string): number {
 }
 
 function PasswordStrength ({ className = '', value }: Props): React.ReactElement<Props> {
-  const [style, setStyle] = useState<React.CSSProperties>({ width: `${calcStrength(value) * 20}%` });
-
-  useEffect((): void => {
-    setStyle({ width: `${calcStrength(value) * 20}%` });
-  }, [value]);
+  const style = useMemo(
+    () => ({ width: `${calcStrength(value) * 20}%` }),
+    [value]
+  );
 
   return (
     <div className={className}>
