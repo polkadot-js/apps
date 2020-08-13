@@ -6,7 +6,7 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
 import { useAvailableSlashes } from '@polkadot/react-hooks';
@@ -74,11 +74,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   const [withElected, setWithElected] = useState(false);
   const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [sorted, setSorted] = useState<number[] | undefined>();
 
-  const sorted = useMemo(
-    () => validators ? sort(sortBy, sortFromMax, validators) : undefined,
-    [sortBy, sortFromMax, validators]
-  );
+  // We are using an effect here to get this async. Sorting will have a double-render, however it allows
+  // the page to immediately display (with loading), whereas useMemo would have a laggy interface
+  // (the same applies for changing the sort order, state here is more effective)
+  useEffect((): void => {
+    validators && setSorted(sort(sortBy, sortFromMax, validators));
+  }, [sortBy, sortFromMax, validators]);
 
   const myNominees = useMemo(
     () => extractNominees(ownNominators),
