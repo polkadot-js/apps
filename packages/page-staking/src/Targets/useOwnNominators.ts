@@ -4,16 +4,13 @@
 
 import { StakerState } from '@polkadot/react-hooks/types';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 export default function useOwnNominators (ownStashes?: StakerState[]): StakerState[] | undefined {
-  const [state, setState] = useState<StakerState[] | undefined>();
-
-  useEffect((): void => {
-    ownStashes && setState(
-      ownStashes.filter(({ isOwnController, isStashValidating }) => isOwnController && !isStashValidating)
-    );
-  }, [ownStashes]);
+  const state = useMemo(
+    () => ownStashes ? ownStashes.filter(({ isOwnController, isStashValidating }) => isOwnController && !isStashValidating) : undefined,
+    [ownStashes]
+  );
 
   return state;
 }
