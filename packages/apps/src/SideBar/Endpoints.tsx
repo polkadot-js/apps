@@ -85,9 +85,25 @@ function combineEndpoints (endpoints: LinkOption[]): Endpoint[] {
 
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [endpoints] = useState(combineEndpoints(createEndpoints(t)));
+  const linkOptions = createEndpoints(t);
+  const [endpoints, setEndpoints] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
   const [openIndex, setOpenIndex] = useState('');
+  const isKnownUrl = useMemo(() => {
+    let result = false;
+
+    linkOptions.some((endpoint) => {
+      if (endpoint.value === apiUrl) {
+        result = true;
+
+        return true;
+      }
+
+      return false;
+    });
+
+    return result;
+  }, [apiUrl, linkOptions]);
 
   const storedCurstomEndpoints = useMemo(() => {
     try {
@@ -124,6 +140,20 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     try {
       localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCurstomEndpoints, apiUrl]));
       _onApply();
+    } catch (e) {
+      console.error(e);
+      // ignore error
+    }
+  };
+
+  const _removeApiEndpoint = () => {
+    if (!isSavedCustomEndpoint) return;
+
+    const newStoredCurstomEndpoints = storedCurstomEndpoints.filter((url) => url !== apiUrl);
+
+    try {
+      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
+      setEndpoints(combineEndpoints(createEndpoints(t)));
     } catch (e) {
       console.error(e);
       // ignore error
@@ -230,19 +260,28 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           onChange={_onChangeCustom}
           value={apiUrl}
         />
-        <Button
-          className='customSaveButton'
-          icon='save'
-          isDisabled={!(hasUrlChanged && isUrlValid) || isSavedCustomEndpoint}
-          onClick={_saveApiEndpoint}
-        />
+        {!isSavedCustomEndpoint && (
+          <Button
+            className='customSaveButton'
+            icon='save'
+            isDisabled={!(hasUrlChanged && isUrlValid) || isKnownUrl}
+            onClick={_saveApiEndpoint}
+          />
+        )}
+        {isSavedCustomEndpoint && (
+          <Button
+            className='customDeleteButton'
+            icon='trash-alt'
+            onClick={_removeApiEndpoint}
+          />
+        )}
       </div>
     </Sidebar>
   );
 }
 
 export default React.memo(styled(Endpoints)`
-  .customSaveButton {
+  .customSaveButton, .customDeleteButton {
     position: absolute;
     top: 1rem;
     right: 1rem;
