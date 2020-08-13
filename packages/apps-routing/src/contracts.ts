@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/contract.svg';
 import Component from '@polkadot/app-contracts';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -15,7 +16,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.contracts.call'
       ]
     },
-    icon: 'compress',
+    icon: Icon as string,
     name: 'contracts',
     text: t<string>('nav.contracts', 'Contracts', { ns: 'apps-routing' })
   };

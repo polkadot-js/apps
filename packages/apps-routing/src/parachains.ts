@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/chain.svg';
 import Component from '@polkadot/app-parachains';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -14,7 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         ['query.parachains.code', 'query.parachainUpgrade.didUpdateVFPs']
       ]
     },
-    icon: 'link',
+    icon: Icon as string,
     name: 'parachains',
     text: t<string>('nav.parachains', 'Parachains', { ns: 'apps-routing' })
   };

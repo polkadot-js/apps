@@ -8,10 +8,11 @@ import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
+import { Menu, Tooltip, SvgIcon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
+import styled from 'styled-components';
 
 const DUMMY_COUNTER = (): null => null;
 
@@ -19,6 +20,7 @@ interface Props {
   isCollapsed: boolean;
   onClick: () => void;
   route: Route;
+  className?: string;
 }
 
 const disabledLog = new Map<string, string>();
@@ -56,7 +58,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
+function Item ({ className, isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
@@ -83,13 +85,10 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
 
   const body = (
     <>
-      <Icon icon={icon} />
+      <SvgIcon icon={icon} />
       <span className='text'>{text}</span>
       {!!count && (
-        <Badge
-          color='counter'
-          info={count}
-        />
+        <span className='badge'>{count}</span>
       )}
       <Tooltip
         offset={TOOLTIP_OFFSET}
@@ -101,7 +100,7 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
   );
 
   return (
-    <Menu.Item className='apps--SideBar-Item'>
+    <Menu.Item className={`apps--SideBar-Item ${className || ''}`}>
       {Modal
         ? (
           <a
@@ -132,4 +131,19 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
   );
 }
 
-export default React.memo(Item);
+export default React.memo(styled(Item)`
+  .badge {
+    position: absolute;
+    right: 0.9rem;
+    top: 0.4rem;
+    display: inline-flex;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.2rem;
+    background: #000;
+    border-radius: 1.3rem;
+    font-weight: normal;
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
+`);

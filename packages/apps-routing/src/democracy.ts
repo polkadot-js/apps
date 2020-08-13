@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/hand.svg';
 import Component, { useCounter } from '@polkadot/app-democracy';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -14,7 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.democracy.notePreimage'
       ]
     },
-    icon: 'calendar-check',
+    icon: Icon as string,
     name: 'democracy',
     text: t<string>('nav.democracy', 'Democracy', { ns: 'apps-routing' }),
     useCounter

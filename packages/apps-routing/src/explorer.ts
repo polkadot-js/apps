@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/explorer.svg';
 import Component from '@polkadot/app-explorer';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -12,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
-    icon: 'braille',
+    icon: Icon as string,
     name: 'explorer',
     text: t<string>('nav.explorer', 'Explorer', { ns: 'apps-routing' })
   };

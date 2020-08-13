@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/table.svg';
 import Component from '@polkadot/app-dashboard';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -12,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       isHidden: true
     },
-    icon: 'th',
+    icon: Icon as string,
     name: 'dashboard',
     text: t<string>('nav.dashboard', 'Dashboard', { ns: 'apps-routing' })
   };

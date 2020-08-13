@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/send.svg';
 import Modal from '@polkadot/app-accounts/Accounts/modals/Transfer';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -17,7 +18,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.balances.transfer'
       ]
     },
-    icon: 'paper-plane',
+    icon: Icon as string,
     name: 'transfer',
     text: t<string>('nav.transfer', 'Transfer', { ns: 'apps-routing' })
   };

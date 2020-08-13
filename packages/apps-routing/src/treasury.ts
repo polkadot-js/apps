@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/treasury.svg';
 import Component, { useCounter } from '@polkadot/app-treasury';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -14,7 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.treasury.proposeSpend'
       ]
     },
-    icon: 'gem',
+    icon: Icon as string,
     name: 'treasury',
     text: t<string>('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
     useCounter

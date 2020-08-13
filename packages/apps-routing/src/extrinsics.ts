@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/sync.svg';
 import Component from '@polkadot/app-extrinsics';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -13,7 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsAccounts: true,
       needsApi: []
     },
-    icon: 'sync',
+    icon: Icon as string,
     name: 'extrinsics',
     text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
   };

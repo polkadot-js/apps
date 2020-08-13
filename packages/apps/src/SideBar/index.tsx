@@ -28,7 +28,7 @@ interface Props {
 
 const SIDE_BORDER_WIDTH = '0.65rem';
 const MENU_WIDTH_COLLAPSED = '4.2rem';
-const MENU_WIDTH_EXPANDED = '230px';
+const MENU_WIDTH_EXPANDED = '15rem';
 
 function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -95,7 +95,7 @@ function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isM
                   : _toggleModal('network')
               }
             />
-            <div className="apps--SideBar-main">
+            <div className='apps--SideBar-main'>
               {routing.map((route, index): React.ReactNode => (
                 route
                   ? (
@@ -117,29 +117,29 @@ function AppsSidebar ({ className = '', collapse, handleResize, isCollapsed, isM
                     />
                   )
               ))}
+              <Menu.Divider hidden />
+              <Menu.Item className='apps--SideBar-Item'>
+                <a
+                  className='apps--SideBar-Item-NavLink'
+                  href='https://github.com/polkadot-js/apps'
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  <Icon icon='code-branch' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
+                </a>
+              </Menu.Item>
+              <Menu.Item className='apps--SideBar-Item'>
+                <a
+                  className='apps--SideBar-Item-NavLink'
+                  href='https://wiki.polkadot.network'
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  <Icon icon='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
+                </a>
+              </Menu.Item>
+              <Menu.Divider hidden />
             </div>
-            <Menu.Divider hidden />
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://github.com/polkadot-js/apps'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon icon='code-branch' /><span className='text'>{t<string>('nav.github', 'GitHub', { ns: 'apps-routing' })}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Item className='apps--SideBar-Item'>
-              <a
-                className='apps--SideBar-Item-NavLink'
-                href='https://wiki.polkadot.network'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                <Icon icon='book' /><span className='text'>{t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' })}</span>
-              </a>
-            </Menu.Item>
-            <Menu.Divider hidden />
             {!isCollapsed && <NodeInfo />}
           </div>
           <div className={`apps--SideBar-collapse ${isCollapsed ? 'collapsed' : 'expanded'}`}>
@@ -167,6 +167,18 @@ export default React.memo(styled(AppsSidebar)`
 
   &.collapsed {
     width: ${MENU_WIDTH_COLLAPSED};
+
+    .apps--Sidebar-top, .apps--SideBar-label {
+      display: none;
+    }
+
+    .apps--SideBar-logo {
+      padding-left: 1rem;
+
+      svg {
+        display: none;
+      }
+    }
   }
 
   &.expanded {

@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/star.svg';
 import Component, { useCounter } from '@polkadot/app-claims';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -15,7 +16,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'query.claims.claims'
       ]
     },
-    icon: 'star',
+    icon: Icon as string,
     name: 'claims',
     text: t<string>('nav.claims', 'Claim Tokens', { ns: 'apps-routing' }),
     useCounter

@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/council.svg';
 import Component, { useCounter } from '@polkadot/app-council';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -17,7 +18,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         ]
       ]
     },
-    icon: 'building',
+    icon: Icon as string,
     name: 'council',
     text: t<string>('nav.council', 'Council', { ns: 'apps-routing' }),
     useCounter

@@ -85,6 +85,7 @@ export { default as StakingUnbonding } from './StakingUnbonding';
 export { default as Static } from './Static';
 export { default as Status, StatusContext } from './Status';
 export { default as SummaryBox } from './SummaryBox';
+export { default as SvgIcon } from './SvgIcon';
 export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';

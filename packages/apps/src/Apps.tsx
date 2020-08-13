@@ -129,18 +129,18 @@ export default React.memo(styled(Apps)`
         color: #eee;
       }
 
-      svg {
+      .ui--Icon {
+        display: inline-block;
         width: 2rem;
         height: 2rem;
         padding: 0.5rem;
-        border-radius: 2rem;
+        border-radius: 50%;
       }
 
       & .text {
         line-height: 1.375rem;
         font-size: 1rem;
-        display: inline-block;
-        vertical-align: 0.5rem
+        vertical-align: 0.25rem
       }
     }
 
@@ -205,7 +205,7 @@ export default React.memo(styled(Apps)`
 
   &.menu-open {
     .apps--SideBar-Wrapper {
-      max-width: 230px;
+      max-width: 15rem;
     }
   }
 

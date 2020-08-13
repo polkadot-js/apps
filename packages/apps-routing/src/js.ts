@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/javascript.svg';
 import Component from '@polkadot/app-js';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -12,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
-    icon: 'code',
+    icon: Icon as string,
     name: 'js',
     text: t<string>('nav.js', 'Javascript', { ns: 'apps-routing' })
   };

@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/stack.svg';
 import Component from '@polkadot/app-storage';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -12,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
-    icon: 'database',
+    icon: Icon as string,
     name: 'chainstate',
     text: t<string>('nav.storage', 'Chain state', { ns: 'apps-routing' })
   };

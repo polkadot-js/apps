@@ -4,13 +4,14 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/settings.svg';
 import Component, { useCounter } from '@polkadot/app-settings';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component,
     display: {},
-    icon: 'cogs',
+    icon: Icon as string,
     name: 'settings',
     text: t<string>('nav.settings', 'Settings', { ns: 'apps-routing' }),
     useCounter

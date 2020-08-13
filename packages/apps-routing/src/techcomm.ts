@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/tech.svg';
 import Component, { useCounter } from '@polkadot/app-tech-comm';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -15,7 +16,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'query.technicalCommittee.members'
       ]
     },
-    icon: 'microchip',
+    icon: Icon as string,
     name: 'techcomm',
     text: t<string>('nav.tech-comm', 'Tech. comm.', { ns: 'apps-routing' }),
     useCounter

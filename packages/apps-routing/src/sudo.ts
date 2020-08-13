@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/unlock.svg';
 import Component from '@polkadot/app-sudo';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -16,7 +17,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       ],
       needsSudo: true
     },
-    icon: 'unlock',
+    icon: Icon as string,
     name: 'sudo',
     text: t<string>('nav.sudo', 'Sudo', { ns: 'apps-routing' })
   };

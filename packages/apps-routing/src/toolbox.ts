@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/tool.svg';
 import Component from '@polkadot/app-toolbox';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -12,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
-    icon: 'tools',
+    icon: Icon as string,
     name: 'toolbox',
     text: t<string>('nav.toolbox', 'Toolbox', { ns: 'apps-routing' })
   };

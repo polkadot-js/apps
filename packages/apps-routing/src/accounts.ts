@@ -4,6 +4,7 @@
 
 import { Route } from './types';
 
+import Icon from '@polkadot/apps-config/ui/icons/accounts.svg';
 import Component, { useCounter } from '@polkadot/app-accounts';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
@@ -12,7 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
-    icon: 'users',
+    icon: Icon as string,
     name: 'accounts',
     text: t<string>('nav.accounts', 'Accounts', { ns: 'apps-routing' }),
     useCounter
