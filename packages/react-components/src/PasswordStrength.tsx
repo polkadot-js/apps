@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -27,10 +27,8 @@ function calcStrength (password: string): number {
 }
 
 function PasswordStrength ({ className = '', value }: Props): React.ReactElement<Props> {
-  const style = useMemo(
-    () => ({ width: `${calcStrength(value) * 20}%` }),
-    [value]
-  );
+  // No need for memo, component is already memo-ed (only changes on value)
+  const style = { width: `${calcStrength(value) * 20}%` };
 
   return (
     <div className={className}>
