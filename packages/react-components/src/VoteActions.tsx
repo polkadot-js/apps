@@ -37,7 +37,7 @@ function VoteActions ({ accountId, aye, className = '', extrinsic, isClosing, is
         isDisabled={!accountId || isDisabled}
         label={aye
           ? isClosing
-            ? t<string>('Vote Aye and Close')
+            ? t<string>('Vote Aye/Close')
             : t<string>('Vote Aye')
           : isClosing
             ? t<string>('Vote Nay and Close')
