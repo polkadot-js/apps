@@ -21,13 +21,6 @@ Nomination (using the controller account as set as part of the bonding) is a pro
 
 You can stop nominating at any point in time, using the controller account. You can also bond more funds using the stash account.
 
-The "Account actions" tab show the current state of your account's nominations.
-Validators that you have selected (up to 16) can be in 4 states:
-- Active nominations: The validators selected by the Phragmen algorithm to nominate for this era.
-- Inactive nominations: The active validator list from which the algorithm can select for upcomming eras. 
-- Waiting nominations: The validators that are not in the validator set. More nominations are required for them to get in.
-- Renomination required: The validators that will never be selected again by the Phragmen algorithm. Either because they stopped validating, or because they got slashed while you were one of their nominator. If you wish to nominate them again, you need to manually select them again.
-
 # Validating
 
 Validators run nodes that author blocks. The primary requirement here is the ability to run a node that is available 24/7 and is well-connected to the network.
