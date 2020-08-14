@@ -57,11 +57,7 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             <Toggle
               className='sudoToggle'
               isOverlay
-              label={
-                withWeight
-                  ? t<string>('with unchecked weight')
-                  : t<string>('without unchecked weight')
-              }
+              label={t<string>('with weight override')}
               onChange={toggleWithWeight}
               value={withWeight}
             />
@@ -72,7 +68,11 @@ function Sudo ({ className, isMine, sudoKey }: Props): React.ReactElement<Props>
             accountId={sudoKey}
             icon='sign-in-alt'
             isDisabled={!method || (withWeight ? weight.eq(BN_ZERO) : false)}
-            label={t<string>('Submit Sudo')}
+            label={
+              withWeight
+                ? t<string>('Submit Sudo Unchecked')
+                : t<string>('Submit Sudo')
+            }
             params={
               withWeight
                 ? [method, weight]
