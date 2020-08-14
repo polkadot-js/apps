@@ -13,13 +13,14 @@ import { FormatBalance } from '@polkadot/react-query';
 import { useTranslation } from '../translate';
 
 interface Props {
+  avgStaked?: BN;
   lastReward?: BN;
   numNominators?: number;
   numValidators?: number;
   totalStaked?: BN;
 }
 
-function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
@@ -62,11 +63,24 @@ function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Pro
           </CardSummary>
         )}
       </section>
-      {numValidators && numNominators && (
-        <CardSummary label={`${t<string>('validators')} / ${t<string>('nominators')}`}>
-          {numValidators}&nbsp;/&nbsp;{numNominators}
-        </CardSummary>
-      )}
+      <section>
+        {avgStaked && (
+          <CardSummary
+            className='ui--media-medium'
+            label={`${t<string>('avg staked')}`}
+          >
+            <FormatBalance
+              value={avgStaked}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {numValidators && numNominators && (
+          <CardSummary label={`${t<string>('nominators')} / ${t<string>('validators')}`}>
+            {numNominators}&nbsp;/&nbsp;{numValidators}
+          </CardSummary>
+        )}
+      </section>
       {lastReward?.gtn(0) && (
         <CardSummary label={t<string>('last reward')}>
           <FormatBalance
