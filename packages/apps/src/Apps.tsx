@@ -17,7 +17,7 @@ import Signer from '@polkadot/react-signer';
 import ConnectingOverlay from './overlays/Connecting';
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
 import Content from './Content';
-import SideBar from './SideBar';
+import Menu from './Menu';
 import WarmUp from './WarmUp';
 import { WindowDimensionsCtx } from './WindowDimensions';
 
@@ -49,14 +49,6 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     [systemChain, systemName]
   );
 
-  const _collapse = useCallback(
-    () => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: !sidebar.isCollapsed })),
-    []
-  );
-  const _toggleMenu = useCallback(
-    () => setSidebar((sidebar: SidebarState) => saveSidebar({ ...sidebar, isCollapsed: false, isMenuOpen: true })),
-    []
-  );
   const _handleResize = useCallback(
     (): void => {
       const transition = window.innerWidth < SIDEBAR_MENU_THRESHOLD
@@ -83,17 +75,11 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
     <>
       <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'}${isMenu ? ' fixed' : ''}${isMenuOpen ? ' menu-open' : ''} theme--default ${className}`}>
+        <Menu />
         <AccountSidebar>
           <div
             className={`apps--Menu-bg ${isMenuOpen ? 'open' : 'closed'}`}
             onClick={_handleResize}
-          />
-          <SideBar
-            collapse={_collapse}
-            handleResize={_handleResize}
-            isCollapsed={isCollapsed}
-            isMenuOpen={isMenuOpen}
-            toggleMenu={_toggleMenu}
           />
           <Signer>
             <Content />
@@ -109,9 +95,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Apps)`
   box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
+  min-height: 100vh;
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
