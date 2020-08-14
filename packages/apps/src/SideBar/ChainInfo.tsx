@@ -62,11 +62,11 @@ export default React.memo(styled(ChainInfo)`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 10.5rem;
 
     img {
       flex: 0;
       height: 2.75rem;
+      margin-right: 0.5rem;
       width: 2.75rem;
     }
 

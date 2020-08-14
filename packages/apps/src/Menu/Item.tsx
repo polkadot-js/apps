@@ -8,7 +8,7 @@ import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Badge, Icon, Menu, Tooltip } from '@polkadot/react-components';
+import { Badge, Icon, Menu } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -16,13 +16,11 @@ import { findMissingApis } from '../endpoint';
 const DUMMY_COUNTER = (): null => null;
 
 interface Props {
-  isCollapsed?: boolean;
   onClick?: () => void;
   route: Route;
 }
 
 const disabledLog = new Map<string, string>();
-const TOOLTIP_OFFSET = { right: -4 };
 
 function logDisabled (route: string, message: string): void {
   if (!disabledLog.get(route)) {
@@ -56,7 +54,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   return notFound.length === 0;
 }
 
-function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
+function Item ({ onClick, route }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
@@ -91,12 +89,6 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
           info={count}
         />
       )}
-      <Tooltip
-        offset={TOOLTIP_OFFSET}
-        place='right'
-        text={text}
-        trigger={`nav-${name}`}
-      />
     </>
   );
 
@@ -106,9 +98,6 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
         ? (
           <a
             className='apps--SideBar-Item-NavLink'
-            data-for={`nav-${name}`}
-            data-tip
-            data-tip-disable={!isCollapsed}
             onClick={onClick}
           >
             {body}
@@ -118,9 +107,6 @@ function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props
           <NavLink
             activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
             className='apps--SideBar-Item-NavLink'
-            data-for={`nav-${name}`}
-            data-tip
-            data-tip-disable={!isCollapsed}
             onClick={onClick}
             to={`/${name}`}
           >
