@@ -63,24 +63,22 @@ function Summary ({ avgStaked, lastReward, numNominators, numValidators, totalSt
           </CardSummary>
         )}
       </section>
-      <section>
-        {avgStaked && (
-          <CardSummary
-            className='ui--media-medium'
-            label={`${t<string>('avg staked')}`}
-          >
-            <FormatBalance
-              value={avgStaked}
-              withSi
-            />
-          </CardSummary>
-        )}
-        {numValidators && numNominators && (
-          <CardSummary label={`${t<string>('nominators')} / ${t<string>('validators')}`}>
-            {numNominators}&nbsp;/&nbsp;{numValidators}
-          </CardSummary>
-        )}
-      </section>
+      {avgStaked && (
+        <CardSummary
+          className='ui--media-medium'
+          label={`${t<string>('avg staked')}`}
+        >
+          <FormatBalance
+            value={avgStaked}
+            withSi
+          />
+        </CardSummary>
+      )}
+      {numValidators && numNominators && (
+        <CardSummary label={`${t<string>('nominators')} / ${t<string>('validators')}`}>
+          {numNominators}&nbsp;/&nbsp;{numValidators}
+        </CardSummary>
+      )}
       {lastReward?.gtn(0) && (
         <CardSummary label={t<string>('last reward')}>
           <FormatBalance
