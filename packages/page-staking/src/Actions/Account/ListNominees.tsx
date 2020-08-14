@@ -20,7 +20,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   return (
     <>
       {nomsActive && nomsActive.length !== 0 && (
-        <Expander summary={t<string>('Active nominations ({{count}})', { replace: { count: nomsActive.length } })}>
+        <Expander
+          help={t<string>('The validators selected by the Phragmen algorithm to nominate for this era.')}
+          summary={t<string>('Active nominations ({{count}})', { replace: { count: nomsActive.length } })}
+        >
           {nomsActive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
@@ -31,7 +34,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         </Expander>
       )}
       {nomsInactive && nomsInactive.length !== 0 && (
-        <Expander summary={t<string>('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}>
+        <Expander
+          help={t<string>('The active validator list from which the algorithm can select for upcomming eras.')}
+          summary={t<string>('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}
+        >
           {nomsInactive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
@@ -42,7 +48,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         </Expander>
       )}
       {nomsChilled && nomsChilled.length !== 0 && (
-        <Expander summary={t<string>('Renomination required ({{count}})', { replace: { count: nomsChilled.length } })}>
+        <Expander
+          help={t<string>('The validators that will never be selected again by the Phragmen algorithm. Either because they stopped validating, or because they got slashed while you were one of their nominator. If you wish to nominate them again, you need to manually select them again.')}
+          summary={t<string>('Renomination required ({{count}})', { replace: { count: nomsChilled.length } })}
+        >
           {nomsChilled.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
@@ -53,7 +62,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         </Expander>
       )}
       {nomsWaiting && nomsWaiting.length !== 0 && (
-        <Expander summary={t<string>('Waiting nominations ({{count}})', { replace: { count: nomsWaiting.length } })}>
+        <Expander
+          help={t<string>('The validators that are not in the validator set. More nominations are required for them to get in.')}
+          summary={t<string>('Waiting nominations ({{count}})', { replace: { count: nomsWaiting.length } })}
+        >
           {nomsWaiting.map((nomineeId, index): React.ReactNode => (
             <AddressMini
               key={index}
