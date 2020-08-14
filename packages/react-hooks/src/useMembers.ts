@@ -4,7 +4,7 @@
 
 import { AccountId } from '@polkadot/types/interfaces';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface Result {
@@ -15,17 +15,16 @@ interface Result {
 export default function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const [state, setState] = useState<Result>({ isMember: false, members: [] });
   const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, [], {
-    transform: (accounts: AccountId[]) => accounts.map((accountId) => accountId.toString())
+    transform: (accounts: AccountId[]) =>
+      accounts.map((accountId) => accountId.toString())
   });
 
-  useEffect((): void => {
-    retrieved && setState({
-      isMember: retrieved.some((accountId) => allAccounts.includes(accountId)),
-      members: retrieved
-    });
-  }, [allAccounts, retrieved]);
-
-  return state;
+  return useMemo(
+    () => ({
+      isMember: (retrieved || []).some((accountId) => allAccounts.includes(accountId)),
+      members: (retrieved || [])
+    }),
+    [allAccounts, retrieved]
+  );
 }

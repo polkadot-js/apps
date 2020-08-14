@@ -7,8 +7,9 @@ import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { getTreasuryThreshold } from '@polkadot/app-council/thresholds';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
@@ -27,15 +28,14 @@ interface ProposalState {
 function Submission ({ councilProposals, id, isDisabled, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const councilThreshold = useCall<number>((api.query.electionsPhragmen || api.query.elections).members, [], {
-    transform: (value: unknown[]): number =>
-      Math.ceil(value.length * 0.6)
-  });
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [councilType, setCouncilType] = useState('reject');
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
   const [hasProposals, setHasProposals] = useState(true);
+
+  const threshold = Math.ceil((members?.length || 0) * getTreasuryThreshold(api));
+
   const councilTypeOpt = useMemo(() => [
     { text: t<string>('Acceptance proposal to council'), value: 'accept' },
     { text: t<string>('Rejection proposal to council'), value: 'reject' }
@@ -104,13 +104,13 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
             <TxButton
               accountId={accountId}
               icon='check'
-              isDisabled={!accountId || !councilThreshold}
+              isDisabled={!accountId || !threshold}
               label={t<string>('Send to council')}
               onStart={toggleOpen}
               params={
                 api.tx.council.propose.meta.args.length === 3
-                  ? [councilThreshold, proposal, proposalLength]
-                  : [councilThreshold, proposal]
+                  ? [threshold, proposal, proposalLength]
+                  : [threshold, proposal]
               }
               tx='council.propose'
             />

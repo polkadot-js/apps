@@ -9,7 +9,7 @@ import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkado
 import { useApi, useAvailableSlashes, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import { getSlashThreshold } from './thresholds';
+import { getSlashThreshold } from '../thresholds';
 
 interface Props {
   className?: string;
@@ -36,6 +36,7 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposal: null, proposalLength: 0 });
   const [eras, setEras] = useState<Option[]>([]);
   const [selectedEra, setSelectedEra] = useState(0);
+
   const threshold = Math.ceil((members.length || 0) * getSlashThreshold(api));
 
   useEffect((): void => {

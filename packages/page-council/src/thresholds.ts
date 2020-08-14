@@ -15,10 +15,19 @@ const SLASH_THRESHOLDS: Record<string, number> = {
   [POLKADOT_GENESIS]: 0.75
 };
 
+const TREASURY_THRESHOLDS: Record<string, number> = {
+  // Polkadot
+  [POLKADOT_GENESIS]: 0.6
+};
+
 export function getThreshold (api: ApiPromise): number {
   return PROPOSE_THRESHOLDS[api.genesisHash.toHex()] || 0.5;
 }
 
 export function getSlashThreshold (api: ApiPromise): number {
   return SLASH_THRESHOLDS[api.genesisHash.toHex()] || 0.5;
+}
+
+export function getTreasuryThreshold (api: ApiPromise): number {
+  return TREASURY_THRESHOLDS[api.genesisHash.toHex()] || 0.6;
 }
