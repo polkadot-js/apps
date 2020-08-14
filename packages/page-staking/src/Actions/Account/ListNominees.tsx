@@ -35,7 +35,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {nomsInactive && nomsInactive.length !== 0 && (
         <Expander
-          help={t<string>('The active validator list from which the algorithm can select for upcomming eras.')}
+          help={t<string>('The elected validator list that did not get selected by the Phragmen algorithm for this era. However they may be selected in the future.')}
           summary={t<string>('Inactive nominations ({{count}})', { replace: { count: nomsInactive.length } })}
         >
           {nomsInactive.map((nomineeId, index): React.ReactNode => (
@@ -49,7 +49,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {nomsChilled && nomsChilled.length !== 0 && (
         <Expander
-          help={t<string>('The validators that will never be selected again by the Phragmen algorithm. Either because they stopped validating, or because they got slashed while you were one of their nominator. If you wish to nominate them again, you need to manually select them again.')}
+          help={t<string>('The validators that got slashed and for which your nomination got removed. If you wish to nominate them again, you need to manually select them again.')}
           summary={t<string>('Renomination required ({{count}})', { replace: { count: nomsChilled.length } })}
         >
           {nomsChilled.map((nomineeId, index): React.ReactNode => (
@@ -63,7 +63,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {nomsWaiting && nomsWaiting.length !== 0 && (
         <Expander
-          help={t<string>('The validators that are not in the validator set. More nominations are required for them to get in.')}
+          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stop validating.')}
           summary={t<string>('Waiting nominations ({{count}})', { replace: { count: nomsWaiting.length } })}
         >
           {nomsWaiting.map((nomineeId, index): React.ReactNode => (
