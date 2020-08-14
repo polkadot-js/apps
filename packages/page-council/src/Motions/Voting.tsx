@@ -119,7 +119,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
               </article>
             )}
             {willFail && isNewVote && (
-              <article className='warning'>
+              <article className='full warning'>
                 <div>{t<string>('Your "Nay" vote will end this proposal. This will close it.')}</div>
               </article>
             )}
