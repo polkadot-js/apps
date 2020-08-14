@@ -141,7 +141,7 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
   const validators = sortValidators(elected.concat(waiting));
   const validatorIds = validators.map(({ accountId }) => accountId.toString());
 
-  return { nominators, totalStaked, validatorIds, validators };
+  return { avgStaked: totalStaked.divn(electedDerive.info.length), nominators, totalStaked, validatorIds, validators };
 }
 
 export default function useSortedTargets (favorites: string[]): SortedTargets {
