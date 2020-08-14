@@ -53,6 +53,12 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
   // vote and close if this vote ends the vote
   const extrinsic = useMemo(() => {
     const voteExtrinsic = api.tx.technicalCommittee.vote(hash, proposalId, voteValue);
+
+    // protect against older versions
+    if (!api.tx.technicalCommittee.close) {
+      return voteExtrinsic;
+    }
+
     const closeExtrinsic = api.tx.technicalCommittee.close.meta.args.length === 4
       ? api.tx.technicalCommittee.close(hash, proposalId, proposalWeight, proposalLength)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
