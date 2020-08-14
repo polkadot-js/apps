@@ -129,7 +129,7 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
               </article>
             )}
             {!isNewVote && (
-              <article className='warning'>
+              <article className='full warning'>
                 {voteValue
                   ? <div>{t<string>('This account has allready voted Aye on this motion. Voting Aye again would not change anything.')}</div>
                   : <div>{t<string>('This account has allready voted Nay on this motion. Voting Nay again would not change anything.')}</div>
