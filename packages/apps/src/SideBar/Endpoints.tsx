@@ -82,12 +82,28 @@ function combineEndpoints (endpoints: LinkOption[]): Endpoint[] {
   }, []);
 }
 
+function getCustomEndpoints (): string[] {
+  try {
+    const storedAsset = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
+
+    if (storedAsset) {
+      return JSON.parse(storedAsset) as string[];
+    }
+  } catch (e) {
+    console.error(e);
+    // ignore error
+  }
+
+  return [];
+}
+
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createEndpoints(t);
   const [endpoints, setEndpoints] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
   const [openIndex, setOpenIndex] = useState('');
+  const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
   const isKnownUrl = useMemo(() => {
     let result = false;
 
@@ -104,25 +120,10 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     return result;
   }, [apiUrl, linkOptions]);
 
-  const storedCurstomEndpoints = useMemo(() => {
-    try {
-      const storedAsset = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
-
-      if (storedAsset) {
-        return JSON.parse(storedAsset) as string[];
-      }
-    } catch (e) {
-      console.error(e);
-      // ignore error
-    }
-
-    return [];
-  }, []);
-
   const isSavedCustomEndpoint = useMemo(() => {
     let result = false;
 
-    storedCurstomEndpoints.some((endpoint) => {
+    storedCustomEndpoints.some((endpoint) => {
       if (endpoint === apiUrl) {
         result = true;
 
@@ -133,11 +134,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     });
 
     return result;
-  }, [apiUrl, storedCurstomEndpoints]);
+  }, [apiUrl, storedCustomEndpoints]);
 
   const _saveApiEndpoint = () => {
     try {
-      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCurstomEndpoints, apiUrl]));
+      localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
       _onApply();
     } catch (e) {
       console.error(e);
@@ -148,11 +149,12 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _removeApiEndpoint = () => {
     if (!isSavedCustomEndpoint) return;
 
-    const newStoredCurstomEndpoints = storedCurstomEndpoints.filter((url) => url !== apiUrl);
+    const newStoredCurstomEndpoints = storedCustomEndpoints.filter((url) => url !== apiUrl);
 
     try {
       localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
       setEndpoints(combineEndpoints(createEndpoints(t)));
+      setStoredCustomEndpoints(getCustomEndpoints());
     } catch (e) {
       console.error(e);
       // ignore error
@@ -268,7 +270,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
           : <Button
             className='customSaveButton'
             icon='save'
-            isDisabled={!(hasUrlChanged && isUrlValid) || isKnownUrl}
+            isDisabled={!isUrlValid || isKnownUrl}
             onClick={_saveApiEndpoint}
           />
         }
