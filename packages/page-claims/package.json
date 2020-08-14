@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-claims",
   "private": true,
-  "version": "0.54.0-beta.29",
+  "version": "0.54.0-beta.30",
   "description": "An app for claiming Polkadot tokens",
   "main": "index.js",
   "scripts": {},
@@ -13,7 +13,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@polkadot/react-components": "0.54.0-beta.29",
+    "@polkadot/react-components": "0.54.0-beta.30",
     "secp256k1": "^3.8.0"
   }
 }
