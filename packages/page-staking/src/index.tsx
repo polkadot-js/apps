@@ -4,10 +4,9 @@
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { StakerState } from '@polkadot/react-hooks/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -28,18 +27,11 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
-interface Validators {
-  next?: string[];
-  validators?: string[];
-}
-
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
-  const [{ next }, setValidators] = useState<Validators>({});
-  const [ownValidators, setOwnValidators] = useState<StakerState[]>([]);
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
@@ -49,10 +41,24 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
     transform: (status: ElectionStatus) => status.isOpen
   });
+
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
     [api, hasAccounts]
   );
+
+  const next = useMemo(
+    () => (allStashes && stakingOverview)
+      ? allStashes.filter((address) => !stakingOverview.validators.includes(address as any))
+      : undefined,
+    [allStashes, stakingOverview]
+  );
+
+  const ownValidators = useMemo(
+    () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
+    [ownStashes]
+  );
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -88,29 +94,15 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Validator stats')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
+
   const hiddenTabs = useMemo(
-    (): string[] => {
-      return !hasAccounts
-        ? ['actions', 'payouts', 'query']
-        : !hasQueries
-          ? ['returns', 'query']
-          : [];
-    },
+    (): string[] => !hasAccounts
+      ? ['actions', 'payouts', 'query']
+      : !hasQueries
+        ? ['returns', 'query']
+        : [],
     [hasAccounts, hasQueries]
   );
-
-  useEffect((): void => {
-    allStashes && stakingOverview && setValidators({
-      next: allStashes.filter((address) => !stakingOverview.validators.includes(address as any)),
-      validators: stakingOverview.validators.map((a) => a.toString())
-    });
-  }, [allStashes, stakingOverview]);
-
-  useEffect((): void => {
-    ownStashes && setOwnValidators(
-      ownStashes.filter(({ isStashValidating }) => isStashValidating)
-    );
-  }, [ownStashes]);
 
   return (
     <main className={`staking--App ${className}`}>

@@ -34,6 +34,11 @@ interface SortState {
   sortFromMax: boolean;
 }
 
+const CLASSES: Record<string, string> = {
+  rankBondOther: 'ui--media-1600',
+  rankNumNominators: 'ui--media-1200'
+};
+
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
   return [...Array(validators.length).keys()]
     .sort((a, b) =>
@@ -48,34 +53,40 @@ function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: Validator
     );
 }
 
+function extractNominees (ownNominators: StakerState[] = []): string[] {
+  const myNominees: string[] = [];
+
+  ownNominators.forEach(({ nominating = [] }: StakerState): void => {
+    nominating.forEach((nominee: string): void => {
+      !myNominees.includes(nominee) && myNominees.push(nominee);
+    });
+  });
+
+  return myNominees;
+}
+
 function Targets ({ className = '', isInElection, ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
-  const [sorted, setSorted] = useState<number[] | undefined>();
-  const [myNominees, setMyNominees] = useState<string[]>([]);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [withElected, setWithElected] = useState(false);
   const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
+  const [sorted, setSorted] = useState<number[] | undefined>();
 
+  // We are using an effect here to get this async. Sorting will have a double-render, however it allows
+  // the page to immediately display (with loading), whereas useMemo would have a laggy interface
+  // (the same applies for changing the sort order, state here is more effective)
   useEffect((): void => {
-    validators && setSorted(
-      sort(sortBy, sortFromMax, validators)
-    );
+    validators && setSorted(sort(sortBy, sortFromMax, validators));
   }, [sortBy, sortFromMax, validators]);
 
-  useEffect((): void => {
-    ownNominators && setMyNominees(
-      ownNominators.reduce((myNominees: string[], nominator): string[] =>
-        (nominator.nominating || []).reduce((myNominees: string[], nominee): string[] => {
-          !myNominees.includes(nominee) && myNominees.push(nominee);
-
-          return myNominees;
-        }, myNominees), [])
-    );
-  }, [ownNominators]);
+  const myNominees = useMemo(
+    () => extractNominees(ownNominators),
+    [ownNominators]
+  );
 
   const _sort = useCallback(
     (newSortBy: TargetSortBy) => setSortBy(({ sortBy, sortFromMax }) => ({
@@ -121,24 +132,16 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
     [t]
   );
 
-  const classes = useMemo(
-    (): Record<string, string> => ({
-      rankBondOther: 'ui--media-1600',
-      rankNumNominators: 'ui--media-1200'
-    }),
-    []
-  );
-
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
     ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-      `${sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number'} ${classes[header] || ''}`,
+      `${sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
       (): void => _sort(header as 'rankComm')
     ]),
     []
-  ], [_sort, classes, labels, sortBy, sorted, sortFromMax, t]);
+  ], [_sort, labels, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     sorted && (

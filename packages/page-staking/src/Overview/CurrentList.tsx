@@ -6,7 +6,7 @@ import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/ty
 import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
@@ -97,25 +97,21 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats, []);
   const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries as any, []);
-  const [{ elected, validators, waiting }, setFiltered] = useState<Filtered>({});
   const [nameFilter, setNameFilter] = useState<string>('');
-  const [nominatedBy, setNominatedBy] = useState<Record<string, [string, EraIndex, number][]> | null>();
   const [withIdentity, setWithIdentity] = useState(false);
 
   // we have a very large list, so we use a loading delay
   const isLoading = useLoadingDelay();
 
-  useEffect((): void => {
-    stakingOverview && setFiltered(
-      getFiltered(stakingOverview, favorites, next)
-    );
-  }, [favorites, next, stakingOverview]);
+  const { elected, validators, waiting } = useMemo(
+    () => stakingOverview ? getFiltered(stakingOverview, favorites, next) : {},
+    [favorites, next, stakingOverview]
+  );
 
-  useEffect((): void => {
-    nominators && setNominatedBy(
-      extractNominators(nominators)
-    );
-  }, [nominators]);
+  const nominatedBy = useMemo(
+    () => nominators ? extractNominators(nominators) : null,
+    [nominators]
+  );
 
   const headerWaiting = useMemo(() => [
     [t('intentions'), 'start', 2],

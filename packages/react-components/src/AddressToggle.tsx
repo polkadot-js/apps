@@ -4,7 +4,7 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -25,13 +25,11 @@ interface Props {
 function AddressToggle ({ address, className = '', filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
-  const [isVisible, setIsVisible] = useState(true);
 
-  useEffect((): void => {
-    info && setIsVisible(
-      checkVisibility(api, address, info, filter, false)
-    );
-  }, [api, address, filter, info]);
+  const isVisible = useMemo(
+    () => info ? checkVisibility(api, address, info, filter, false) : true,
+    [api, address, filter, info]
+  );
 
   const _onClick = useCallback(
     () => onChange && onChange(!value),
