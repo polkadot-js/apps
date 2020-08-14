@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveParachain } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, InputAddress, InputBalance, InputNumber, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
@@ -30,14 +30,13 @@ function Transfer ({ className, parachains }: Props): React.ReactElement<Props> 
   const [paraId, setParaId] = useState<string | BN | null>(null);
   const [remark, setRemark] = useState('');
   const [isParachain, setIsParachain] = useState(true);
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
 
   const idOptions = useMemo((): { text: string, value: string }[] => {
     return (parachains || []).map(({ id }) => ({ text: id.toString(), value: id.toString() }));
   }, [parachains]);
 
-  useEffect((): void => {
-    setExtrinsic((): SubmittableExtrinsic<'promise'> | null => {
+  const extrinsic = useMemo(
+    (): SubmittableExtrinsic<'promise'> | null => {
       if (amount?.gtn(0)) {
         if (api.query.parachainUpgrade) {
           return recipientId
@@ -51,8 +50,9 @@ function Transfer ({ className, parachains }: Props): React.ReactElement<Props> 
       }
 
       return null;
-    });
-  }, [amount, api, isParachain, paraId, recipientId, remark]);
+    },
+    [amount, api, isParachain, paraId, recipientId, remark]
+  );
 
   const isActionDisabled = !allAccounts.length || (
     api.query.parachains

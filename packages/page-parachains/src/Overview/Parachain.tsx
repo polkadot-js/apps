@@ -26,13 +26,13 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
   const { api } = useApi();
   const headHex = useCall<string | null>(api.query.parachains.heads, [id], {
     transform: (headData: Option<HeadData>): string | null => {
-      if (headData.isNone) {
-        return null;
+      if (headData.isSome) {
+        const hex = headData.unwrap().toHex();
+
+        return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
       }
 
-      const hex = headData.unwrap().toHex();
-
-      return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
+      return null;
     }
   });
   const history = useHistory();
