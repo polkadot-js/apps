@@ -6,7 +6,7 @@ import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { SlashEra } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -18,24 +18,20 @@ interface Props {
   slash: SlashEra;
 }
 
-function calcBlocks (slashDeferDuration: BN, era: BN, { activeEra, eraLength, eraProgress }: DeriveSessionProgress): [BN, BN] {
-  return [
-    activeEra.sub(era).subn(1).mul(eraLength).add(eraProgress),
-    slashDeferDuration.mul(eraLength)
-  ];
-}
-
 function Header ({ slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
-  const [[blockProgress, blockEnd], setBlocks] = useState([new BN(0), new BN(0)]);
 
-  useEffect((): void => {
-    sessionInfo && setBlocks(
-      calcBlocks(api.consts.staking.slashDeferDuration, era, sessionInfo)
-    );
-  }, [api, era, sessionInfo]);
+  const [blockProgress, blockEnd] = useMemo(
+    () => sessionInfo
+      ? [
+        sessionInfo.activeEra.sub(era).subn(1).mul(sessionInfo.eraLength).add(sessionInfo.eraProgress),
+        api.consts.staking.slashDeferDuration.mul(sessionInfo.eraLength)
+      ]
+      : [new BN(0), new BN(0)],
+    [api, era, sessionInfo]
+  );
 
   return (
     <tr>
