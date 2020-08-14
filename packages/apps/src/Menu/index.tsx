@@ -5,8 +5,10 @@
 import { Route, Routes } from '@polkadot/apps-routing/types';
 
 import React, { useCallback, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
+import { Icon } from '@polkadot/react-components';
 import { useIpfs } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -20,6 +22,7 @@ interface Props {
 
 function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const location = useLocation();
   const { ipnsChain } = useIpfs();
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
@@ -34,6 +37,18 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const routing = useMemo<Routes>(
     () => createRoutes(t),
     [t]
+  );
+
+  const activeRoute = useMemo(
+    (): Route | null => routing.find((route) => !!route && location.pathname === `/${route.name}`) || null,
+    [location, routing]
+  );
+
+  const _switchRoute = useCallback(
+    (hash: string): () => void => () => {
+      window.location.hash = hash;
+    },
+    []
   );
 
   const _toggleModal = useCallback(
@@ -55,6 +70,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
             : _toggleModal('network')
         }
       />
+      {activeRoute && (
+        <div className='menuActive ui--highlight--border'>
+          <Icon icon={activeRoute.icon} />
+          <span>{activeRoute.text}</span>
+        </div>
+      )}
       <div className='menuItems'>
         {routing.filter((item): item is Route => !!item).map((route): React.ReactNode => (
           <Item
@@ -62,7 +83,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
             onClick={
               route.Modal
                 ? _toggleModal(route.name)
-                : undefined
+                : _switchRoute(route.name)
             }
             route={route}
           />
@@ -93,11 +114,24 @@ export default React.memo(styled(Menu)`
   border-top: 0.5rem solid transparent;
   box-sizing: border-box;
   display: flex;
+  padding: 0;
   z-index: 100;
+
+  .menuActive {
+    align-self: flex-end;
+    background: #f5f4f3;
+    border-radius: 0.25rem 0.25rem 0 0;
+    padding: 1rem 1.75rem 0.75rem;
+    margin: 0 1.5rem;
+
+    .ui--Icon {
+      margin-right: 0.5rem;
+    }
+  }
 
   .menuItems {
     flex: 1 1;
-    padding: 0.5rem 2rem;
+    margin: 0 3.5rem 0 2rem;
 
     > div {
       display: inline-block;

@@ -6,8 +6,7 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { Route } from '@polkadot/apps-routing/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Badge, Icon, Menu } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
@@ -58,13 +57,13 @@ function Item ({ onClick, route }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
-  const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const count = (route.useCounter || DUMMY_COUNTER)();
 
-  useEffect((): void => {
-    setHasSudo(!!sudoKey && allAccounts.some((address) => sudoKey.eq(address)));
-  }, [allAccounts, sudoKey]);
+  const hasSudo = useMemo(
+    () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
+    [allAccounts, sudoKey]
+  );
 
   useEffect((): void => {
     const isVisible = checkVisible(route.name, apiProps, hasAccounts, hasSudo, route.display);
@@ -77,43 +76,23 @@ function Item ({ onClick, route }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  const { Modal, icon, name, text } = route;
-
-  const body = (
-    <>
-      <Icon icon={icon} />
-      <span className='text'>{text}</span>
-      {!!count && (
-        <Badge
-          color='counter'
-          info={count}
-        />
-      )}
-    </>
-  );
+  const { icon, text } = route;
 
   return (
     <Menu.Item className='apps--SideBar-Item'>
-      {Modal
-        ? (
-          <a
-            className='apps--SideBar-Item-NavLink'
-            onClick={onClick}
-          >
-            {body}
-          </a>
-        )
-        : (
-          <NavLink
-            activeClassName='apps--SideBar-Item-NavLink-active ui--highlight--border'
-            className='apps--SideBar-Item-NavLink'
-            onClick={onClick}
-            to={`/${name}`}
-          >
-            {body}
-          </NavLink>
-        )
-      }
+      <a
+        className='apps--SideBar-Item-NavLink'
+        onClick={onClick}
+      >
+        <Icon icon={icon} />
+        <span className='text'>{text}</span>
+        {!!count && (
+          <Badge
+            color='counter'
+            info={count}
+          />
+        )}
+      </a>
     </Menu.Item>
   );
 }
