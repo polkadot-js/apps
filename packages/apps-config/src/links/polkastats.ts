@@ -16,7 +16,9 @@ export default {
   paths: {
     address: 'account',
     block: 'block',
-    extrinsic: 'extrinsic'
+    extrinsic: 'extrinsic',
+    intention: 'intention',
+    validator: 'validator'
   },
   url: 'https://polkastats.io/'
 };
