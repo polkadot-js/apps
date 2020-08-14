@@ -49,7 +49,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {nomsChilled && nomsChilled.length !== 0 && (
         <Expander
-          help={t<string>('The validators that got slashed and for which your nomination got removed. If you wish to nominate them again, you need to manually select them again.')}
+          help={t<string>('The validators that got slashed and for which your nomination got auto-chilled. Re-nominating these will make them available to the Phragmen algorithm.')}
           summary={t<string>('Renomination required ({{count}})', { replace: { count: nomsChilled.length } })}
         >
           {nomsChilled.map((nomineeId, index): React.ReactNode => (
@@ -63,7 +63,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       )}
       {nomsWaiting && nomsWaiting.length !== 0 && (
         <Expander
-          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stop validating.')}
+          help={t<string>('The validators that are not in the validator set because they need more nominations or because they have willingly stop validating. Any nominations made before the next election will also appear here.')}
           summary={t<string>('Waiting nominations ({{count}})', { replace: { count: nomsWaiting.length } })}
         >
           {nomsWaiting.map((nomineeId, index): React.ReactNode => (
