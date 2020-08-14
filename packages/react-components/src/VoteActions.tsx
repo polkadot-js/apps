@@ -40,7 +40,7 @@ function VoteActions ({ accountId, aye, className = '', extrinsic, isClosing, is
             ? t<string>('Vote Aye/Close')
             : t<string>('Vote Aye')
           : isClosing
-            ? t<string>('Vote Nay and Close')
+            ? t<string>('Vote Nay/Close')
             : t<string>('Vote Nay')
         }
         onStart={onClick}
