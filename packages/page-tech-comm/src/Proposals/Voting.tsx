@@ -28,6 +28,12 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
   const [voteValue, setVoteValue] = useState(true);
   const { api } = useApi();
   const [proposalWeight, proposalLength] = useWeight(proposal);
+  // this account has not voted on this motion yet, or they are changing their vote
+  const isNewVote = useMemo(() =>
+    voteValue
+      ? !votes.ayes.some((account) => accountId && account.toString() === accountId)
+      : !votes.nays.some((account) => accountId && account.toString() === accountId)
+  , [accountId, voteValue, votes.ayes, votes.nays]);
   // will the proposal pass if this member votes aye
   const willPass = (voteValue && votes?.threshold.eqn(votes?.ayes.length + 1)) || false;
   // will the proposal fail if this member votes nay
@@ -80,14 +86,22 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
                 <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>
             )}
-            {willFail && (
+            {willFail && isNewVote && (
               <article className='warning'>
                 <div>{t<string>('Your "Nay" vote will end this proposal. This will close it.')}</div>
               </article>
             )}
-            {willPass && (
+            {willPass && isNewVote && (
               <article className='warning'>
                 <div>{t<string>('Your "Aye" vote will end this proposal. This will close it.')}</div>
+              </article>
+            )}
+            {!isNewVote && (
+              <article className='warning'>
+                {voteValue
+                  ? <div>{t<string>('This account has allready voted Aye on this motion. Voting Aye again would not change anything.')}</div>
+                  : <div>{t<string>('This account has allready voted Nay on this motion. Voting Nay again would not change anything.')}</div>
+                }
               </article>
             )}
           </Modal.Content>
@@ -96,6 +110,7 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
             aye={voteValue}
             extrinsic={extrinsic}
             isClosing={willPass || willFail}
+            isDisabled={!isNewVote}
             onClick={toggleVoting}
             params={[hash, proposalId, voteValue]}
           />
