@@ -2,26 +2,72 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Route, Routes } from '@polkadot/apps-routing/types';
+import { Route, RouteGroup, Routes } from '@polkadot/apps-routing/types';
+import { ApiProps } from '@polkadot/react-api/types';
+import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { Icon } from '@polkadot/react-components';
-import { useIpfs } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useIpfs } from '@polkadot/react-hooks';
 
+import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from '../SideBar/ChainInfo';
 import Endpoints from '../SideBar/Endpoints';
-import Item from './Item';
 
 interface Props {
   className?: string;
 }
 
+interface Group {
+  name: string;
+  routes: Routes;
+}
+
+type Groups = Record<string, Group>;
+
+const disabledLog = new Map<string, string>();
+
+function logDisabled (route: string, message: string): void {
+  if (!disabledLog.get(route)) {
+    disabledLog.set(route, message);
+
+    console.warn(`Disabling ${route}: ${message}`);
+  }
+}
+
+function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
+  if (isHidden) {
+    return false;
+  } else if (needsAccounts && !hasAccounts) {
+    return false;
+  } else if (!needsApi) {
+    return true;
+  } else if (!isApiReady || !isApiConnected) {
+    return false;
+  } else if (needsSudo && !hasSudo) {
+    logDisabled(name, 'Sudo key not available');
+
+    return false;
+  }
+
+  const notFound = findMissingApis(api, needsApi);
+
+  if (notFound.length !== 0) {
+    logDisabled(name, `API not available: ${notFound.toString()}`);
+  }
+
+  return notFound.length === 0;
+}
+
 function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { allAccounts, hasAccounts } = useAccounts();
+  const apiProps = useApi();
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
   const location = useLocation();
   const { ipnsChain } = useIpfs();
   const [modals, setModals] = useState<Record<string, boolean>>(
@@ -34,9 +80,52 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     }, { network: false })
   );
 
+  const hasSudo = useMemo(
+    () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
+    [allAccounts, sudoKey]
+  );
+
   const routing = useMemo<Routes>(
     () => createRoutes(t),
     [t]
+  );
+
+  const groupNames = useMemo<Record<RouteGroup, string>>(
+    () => ({
+      accounts: t('Accounts'),
+      developer: t('Developer'),
+      governance: t('Governance'),
+      network: t('Network'),
+      settings: t('Settings'),
+      social: t('Social')
+    }),
+    [t]
+  );
+
+  // checkVisible(route.name, apiProps, hasAccounts, hasSudo, route.display)
+
+  const grouping = useMemo(
+    () => routing.reduce((all: Groups, route): Groups => {
+      if (!all[route.group]) {
+        all[route.group] = { name: groupNames[route.group], routes: [route] };
+      } else {
+        all[route.group].routes.push(route);
+      }
+
+      return all;
+    }, {}),
+    [groupNames, routing]
+  );
+
+  const visibleGroups = useMemo(
+    () => Object
+      .values(grouping)
+      .map(({ name, routes }): Group => ({
+        name,
+        routes: routes.filter(({ display, name }) => checkVisible(name, apiProps, hasAccounts, hasSudo, display))
+      }))
+      .filter(({ routes }) => routes.length),
+    [apiProps, grouping, hasAccounts, hasSudo]
   );
 
   const activeRoute = useMemo(
@@ -77,23 +166,15 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
         </div>
       )}
       <div className='menuItems'>
-        {routing.filter((item): item is Route => !!item).map((route): React.ReactNode => (
-          <Item
-            key={route.name}
-            onClick={
-              route.Modal
-                ? _toggleModal(route.name)
-                : _switchRoute(route.name)
-            }
-            route={route}
-          />
+        {visibleGroups.map(({ name }): React.ReactNode => (
+          <div key={name}>{name}</div>
         ))}
       </div>
       {modals.network && (
         <Endpoints onClose={_toggleModal('network')} />
       )}
       {routing.map((route): React.ReactNode => (
-        route?.Modal
+        route.Modal
           ? route.Modal && modals[route.name]
             ? (
               <route.Modal
@@ -130,11 +211,13 @@ export default React.memo(styled(Menu)`
   }
 
   .menuItems {
+    color: #f5f4f3;
     flex: 1 1;
     margin: 0 3.5rem 0 2rem;
 
     > div {
       display: inline-block;
+      padding: 0.5rem 1rem;
 
       > a {
         border-radius: 0.25rem !important;

@@ -14,6 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         ['query.parachains.code', 'query.parachainUpgrade.didUpdateVFPs']
       ]
     },
+    group: 'network',
     icon: 'link',
     name: 'parachains',
     text: t<string>('nav.parachains', 'Parachains', { ns: 'apps-routing' })

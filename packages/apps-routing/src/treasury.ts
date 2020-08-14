@@ -14,6 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.treasury.proposeSpend'
       ]
     },
+    group: 'governance',
     icon: 'gem',
     name: 'treasury',
     text: t<string>('nav.treasury', 'Treasury', { ns: 'apps-routing' }),
