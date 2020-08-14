@@ -4,7 +4,7 @@
 
 import { AccountId, Hash, Proposal, ProposalIndex, Votes } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle, useWeight } from '@polkadot/react-hooks';
 import { isBoolean } from '@polkadot/util';
@@ -47,10 +47,6 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
     []
   );
 
-  if (!hasAccounts) {
-    return null;
-  }
-
   const isPrime = prime?.toString() === accountId;
 
   const voteExtrinsic = api.tx.council.vote(hash, idNumber, voteValue);
@@ -61,9 +57,15 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
     : api.tx.council.close(hash, idNumber);
 
   // vote and close if this vote ends the vote
-  const extrinsic = willPass || willFail
-    ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
-    : voteExtrinsic;
+  const extrinsic = useMemo(() =>
+    willPass || willFail
+      ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
+      : voteExtrinsic
+  , [api.tx.utility, closeExtrinsic, voteExtrinsic, willFail, willPass]);
+
+  if (!hasAccounts) {
+    return null;
+  }
 
   return (
     <>
