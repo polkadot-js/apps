@@ -54,19 +54,20 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
 
   const isPrime = prime?.toString() === accountId;
 
-  const voteExtrinsic = api.tx.council.vote(hash, idNumber, voteValue);
-  const closeExtrinsic = api.tx.council.close.meta.args.length === 4
-    ? api.tx.council.close(hash, idNumber, proposalWeight, proposalLength)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore older version (2 params)
-    : api.tx.council.close(hash, idNumber);
-
   // vote and close if this vote ends the vote
-  const extrinsic = useMemo(() =>
-    willPass || willFail
+  const extrinsic = useMemo(() => {
+    const voteExtrinsic = api.tx.council.vote(hash, idNumber, voteValue);
+    const closeExtrinsic = api.tx.council.close.meta.args.length === 4
+      ? api.tx.council.close(hash, idNumber, proposalWeight, proposalLength)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore older version (2 params)
+      : api.tx.council.close(hash, idNumber);
+
+    return willPass || willFail
       ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
-      : voteExtrinsic
-  , [api.tx.utility, closeExtrinsic, voteExtrinsic, willFail, willPass]);
+      : voteExtrinsic;
+  }
+  , [api.tx.council, api.tx.utility, hash, idNumber, proposalLength, proposalWeight, voteValue, willFail, willPass]);
 
   if (!hasAccounts) {
     return null;
