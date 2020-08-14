@@ -8,12 +8,14 @@ import Commonwealth from './commonwealth';
 import Polkascan from './polkascan';
 import Polkassembly from './polkassembly';
 import Subscan from './subscan';
+import Polkastats from './polkastats';
 
 const externals: Record<string, ExternalDef> = {
   Commonwealth,
   Polkascan,
   Polkassembly,
-  Subscan
+  Subscan,
+  Polkastats
 };
 
 export default externals;
