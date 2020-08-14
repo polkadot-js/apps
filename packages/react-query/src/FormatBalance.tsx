@@ -28,13 +28,17 @@ const K_LENGTH = 3 + 1;
 function format (value: Compact<any> | BN | string, currency: string | null, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
+  const unitPost = currency ? <span className='ui--FormatBalance-unit'> {currency}</span> : '';
 
   if (prefix.length > M_LENGTH) {
-    // TODO Format with balance-postfix
-    return `${formatBalance(value, { withUnit: !!currency })}${labelPost || ''}`;
+    const [major, rest] = formatBalance(value, { withUnit: false }).split('.');
+    const minor = rest.substr(0, 3);
+    const unit = rest.substr(3);
+
+    return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span>{unit}{unitPost}{labelPost || ''}</>;
   }
 
-  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)}{`${currency ? ` ${currency}` : ''}${labelPost || ''}`}</>;
+  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && (<><span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span></>)}{unitPost}{labelPost || ''}</>;
 }
 
 function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withCurrency = true, withSi }: Props): React.ReactElement<Props> {
@@ -71,12 +75,16 @@ export default React.memo(styled(FormatBalance)`
     vertical-align: baseline;
   }
 
+  .ui--FormatBalance-unit {
+    font-size: 0.9em;
+  }
+
   .ui--FormatBalance-value {
     text-align: right;
 
     > .ui--FormatBalance-postfix {
       font-weight: 100;
-      opacity: 0.75;
+      opacity: 0.7;
       vertical-align: baseline;
     }
   }

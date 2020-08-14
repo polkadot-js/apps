@@ -46,9 +46,7 @@ function Register ({ isDisabled, nextFreeId = BN_THOUSAND, sudoKey }: Props): Re
     null,
     (code): boolean => !!code && isWasmValidRef.current
   );
-  const [initialHeadState, isInitialHeadStateValid, setInitialHeadState] = useFormField<Uint8Array>(
-    null
-  );
+  const [initialHeadState, isInitialHeadStateValid, setInitialHeadState] = useFormField<Uint8Array>(null);
   const [scheduling, , setScheduling] = useFormField<Scheduling>('Always');
 
   const info = useMemo(

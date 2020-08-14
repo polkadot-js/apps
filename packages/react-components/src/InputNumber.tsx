@@ -296,4 +296,9 @@ export default React.memo(styled(InputNumber)`
       }
     }
   }
+
+  .ui.buttons+.ui--Toggle.isOverlay {
+    bottom: 1.1rem;
+    right: 6.5rem;
+  }
 `);

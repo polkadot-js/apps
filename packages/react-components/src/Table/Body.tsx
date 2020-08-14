@@ -30,8 +30,6 @@ function Body ({ children, className = '', empty, emptySpinner }: Props): React.
 }
 
 export default React.memo(styled(Body)`
-  background: white;
-
   td {
     padding: 0.75rem 1rem;
     text-align: left;
@@ -139,7 +137,11 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #f9f8f7;
+      background: #faf9f8;
+    }
+
+    &:nth-child(odd) {
+      background: white;
     }
 
     &:first-child td {
@@ -170,10 +172,13 @@ export default React.memo(styled(Body)`
       }
     }
 
+    &.transparent {
+      background: transparent;
+    }
+
     .ui--Button:not(.isIcon):not(:hover) {
       background: transparent !important;
       box-shadow: none !important;
-      // color: #555 !important;
     }
 
     .ui.toggle.checkbox input:checked~.box:before,

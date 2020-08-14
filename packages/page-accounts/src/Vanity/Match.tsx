@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import { Button, IdentityIcon } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
+
 interface Props {
   address: string;
   className?: string;
@@ -18,16 +20,18 @@ interface Props {
 }
 
 function Match ({ address, className = '', count, offset, onCreateToggle, onRemove, seed }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+
   const hexSeed = useMemo(
     () => u8aToHex(seed),
     [seed]
   );
   const _onCreate = useCallback(
-    (): void => onCreateToggle(hexSeed),
+    () => onCreateToggle(hexSeed),
     [hexSeed, onCreateToggle]
   );
   const _onRemove = useCallback(
-    (): void => onRemove(address),
+    () => onRemove(address),
     [address, onRemove]
   );
 
@@ -53,6 +57,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
       <td className='button'>
         <Button
           icon='plus'
+          label={t<string>('Save')}
           onClick={_onCreate}
         />
         <Button
@@ -72,7 +77,7 @@ export default React.memo(styled(Match)`
   }
 
   .vanity--Match-addr {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 
     .no {
       color: inherit;

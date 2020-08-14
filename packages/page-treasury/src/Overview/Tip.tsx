@@ -9,8 +9,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
-import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import TipClose from './TipClose';
@@ -94,16 +94,19 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
       <TipReason hash={reason} />
       <td className='start all'>
         {tips.length !== 0 && (
-          <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: `${tips.length}${median.isZero() ? '' : `, ${formatBalance(median)}`}` } })}>
-            {tips.map(([tipper, balance]) => (
-              <AddressMini
-                balance={balance}
-                key={tipper.toString()}
-                value={tipper}
-                withBalance
-              />
-            ))}
-          </Expander>
+          <>
+            <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>
+              {tips.map(([tipper, balance]) => (
+                <AddressMini
+                  balance={balance}
+                  key={tipper.toString()}
+                  value={tipper}
+                  withBalance
+                />
+              ))}
+            </Expander>
+            <FormatBalance value={median} />
+          </>
         )}
       </td>
       <td className='button together'>
@@ -144,7 +147,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           )
         }
       </td>
-      <td className='badge'>
+      <td className='badge ui--media-1700'>
         {isMember && (
           <Icon
             color={isTipper ? 'green' : 'gray'}
@@ -152,7 +155,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           />
         )}
       </td>
-      <td className='mini ui--media-1600'>
+      <td className='mini ui--media-1700'>
         <LinkExternal
           data={hash}
           type='tip'

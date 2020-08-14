@@ -8,11 +8,12 @@ import styled from 'styled-components';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  isSmall?: boolean;
 }
 
-function SummaryBox ({ children, className }: Props): React.ReactElement<Props> {
+function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <div className={`${className}${isSmall ? ' isSmall' : ''}`}>
       {children}
     </div>
   );
@@ -56,6 +57,10 @@ export default React.memo(styled(SummaryBox)`
 
   @media(min-width: 768px) {
     margin-bottom: 1.5rem;
+  }
+
+  &.isSmall {
+    margin-bottom: 0;
   }
 
   .ui.label {

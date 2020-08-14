@@ -84,7 +84,8 @@ function filterAll (api: ApiPromise, all: ExtensionKnown[]): Extensions {
     .map((info): ExtensionInfo | null => {
       const current = info.known.find(({ genesisHash }) => api.genesisHash.eq(genesisHash)) || null;
 
-      return current && (api.runtimeVersion.specVersion.gtn(current.specVersion) || !hasCurrentProperties(api, info))
+      // if we cannot find it as known, or either the specVersion or properties mismatches, mark it as upgradable
+      return !current || api.runtimeVersion.specVersion.gtn(current.specVersion) || !hasCurrentProperties(api, info)
         ? { ...info, current }
         : null;
     })

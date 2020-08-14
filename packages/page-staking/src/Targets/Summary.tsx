@@ -5,7 +5,7 @@
 import { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -19,25 +19,21 @@ interface Props {
   totalStaked?: BN;
 }
 
-interface Progress {
-  hideValue: true;
-  total: BN;
-  value: BN;
-}
-
 function Summary ({ lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
-  const [progressStake, setProgressStake] = useState<Progress | undefined>();
 
-  useEffect((): void => {
-    totalIssuance && totalStaked && totalStaked.gtn(0) && setProgressStake({
-      hideValue: true,
-      total: totalIssuance,
-      value: totalStaked
-    });
-  }, [totalIssuance, totalStaked]);
+  const progressStake = useMemo(
+    () => totalIssuance && totalStaked && totalStaked.gtn(0)
+      ? {
+        hideValue: true,
+        total: totalIssuance,
+        value: totalStaked
+      }
+      : undefined,
+    [totalIssuance, totalStaked]
+  );
 
   return (
     <SummaryBox>

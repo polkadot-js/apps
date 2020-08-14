@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Arcadia from './arcadia';
-import Berlin from './berlin';
+import Beresheet from './beresheet';
 
 export default {
   'Arcadia Nodle Network': Arcadia,
-  Berlin
+  Beresheet
 };

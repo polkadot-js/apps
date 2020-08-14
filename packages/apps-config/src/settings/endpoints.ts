@@ -86,13 +86,7 @@ function createLive (t: TFunction): LinkOption[] {
 
 function createTest (t: TFunction): LinkOption[] {
   return [
-    // fixed, polkadot
-    {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://westend-rpc.polkadot.io'
-    },
+    // polkadot
     {
       dnslink: 'rococo',
       info: 'rococo',
@@ -117,9 +111,15 @@ function createTest (t: TFunction): LinkOption[] {
       text: t<string>('rpc.rococo.track', 'Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://track-rpc.polkadot.io'
     },
+    {
+      dnslink: 'westend',
+      info: 'westend',
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://westend-rpc.polkadot.io'
+    },
     // alphabetical based on chain name
     {
-      info: 'amber',
+      info: 'centrifuge',
       text: t<string>('rpc.amber', 'Amber (Centrifuge Testnet, hosted by Centrifuge)', { ns: 'apps-config' }),
       value: 'wss://fullnode.amber.centrifuge.io'
     },
@@ -130,8 +130,8 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'edgeware',
-      text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://berlin1.edgewa.re'
+      text: t<string>('rpc.beresheet', 'Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      value: 'wss://beresheet1.edgewa.re'
     },
     {
       info: 'substrate',

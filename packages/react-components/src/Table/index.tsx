@@ -16,7 +16,7 @@ interface TableProps {
   emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   footer?: React.ReactNode;
-  header: [React.ReactNode?, string?, number?, (() => void)?][];
+  header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
 }
 
@@ -75,18 +75,6 @@ export default React.memo(styled(Table)`
     tr {
       max-width: 100%;
       width: 100%;
-
-      label {
-        opacity: 0.6;
-      }
-
-      th label {
-        opacity: 1;
-      }
-
-      &:hover label {
-        opacity: 1;
-      }
 
       td, &:not(.filter) th {
         &:first-child {

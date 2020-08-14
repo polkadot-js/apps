@@ -12,7 +12,6 @@ export interface AmountValidateState {
 }
 
 interface Unapplied {
-  isValidator: boolean;
   others: UnappliedSlashOther[];
   own: Balance;
   payout: Balance;
@@ -22,6 +21,5 @@ interface Unapplied {
 
 export interface Slash {
   era: BN;
-  isValidator: boolean;
   slashes: Unapplied[];
 }

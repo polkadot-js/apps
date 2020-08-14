@@ -972,7 +972,7 @@
   "role": "роль",
   "rotation": "ротация",
   "rpc.arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
-  "rpc.berlin": "Berlin (Edgeware Testnet, hosted by Commonwealth Labs)",
+  "rpc.beresheet": "Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)",
   "rpc.custom": "Пользовательская среда",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Substrate Testnet, hosted by Parity)",
