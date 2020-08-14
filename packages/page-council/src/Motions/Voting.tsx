@@ -66,8 +66,8 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
     return willPass || willFail
       ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
       : voteExtrinsic;
-  }
-  , [api.tx.council, api.tx.utility, hash, idNumber, proposalLength, proposalWeight, voteValue, willFail, willPass]);
+  },
+  [api, hash, idNumber, proposalLength, proposalWeight, voteValue, willFail, willPass]);
 
   if (!hasAccounts) {
     return null;

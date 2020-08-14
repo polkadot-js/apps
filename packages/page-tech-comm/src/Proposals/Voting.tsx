@@ -53,7 +53,7 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
   // vote and close if this vote ends the vote
   const extrinsic = useMemo(() => {
     const voteExtrinsic = api.tx.technicalCommittee.vote(hash, proposalId, voteValue);
-    const closeExtrinsic = api.tx.council.close.meta.args.length === 4
+    const closeExtrinsic = api.tx.technicalCommittee.close.meta.args.length === 4
       ? api.tx.technicalCommittee.close(hash, proposalId, proposalWeight, proposalLength)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore older version (2 params)
@@ -62,8 +62,8 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
     return willPass || willFail
       ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
       : voteExtrinsic;
-  }
-  , [api.tx.council.close.meta.args.length, api.tx.technicalCommittee, api.tx.utility, hash, proposalId, proposalLength, proposalWeight, voteValue, willFail, willPass]);
+  },
+  [api, hash, proposalId, proposalLength, proposalWeight, voteValue, willFail, willPass]);
 
   if (!hasAccounts) {
     return null;
