@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/apps-routing",
   "private": true,
-  "version": "0.54.0-beta.40",
+  "version": "0.54.0-beta.41",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
