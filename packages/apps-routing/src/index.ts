@@ -29,8 +29,8 @@ import treasury from './treasury';
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Routes {
   return [
     // dashboard(t),
-    explorer(t),
     accounts(t),
+    explorer(t),
     claims(t),
     poll(t),
     transfer(t),
