@@ -236,12 +236,12 @@ export default React.memo(styled(Menu)`
     margin: 0 3.5rem 0 2rem;
 
     > div {
+      background: #4f5255;
       display: inline-block;
       position: relative;
 
       > div {
-        background: #4f5255;
-        border-radius: 0.25rem 0 0 0;
+        border-radius: 0.25rem 0.25rem 0 0;
         padding: 1rem 1.5rem;
 
         > .ui--Icon {
@@ -255,31 +255,29 @@ export default React.memo(styled(Menu)`
         display: none;
         list-style-type: none;
         margin: 0;
-        padding: 0.75rem;
+        overflow: hidden;
+        padding: 0;
         position: absolute;
         z-index: 10;
 
         li {
-          border-radius: 0.25rem;
           padding: 0.75rem 3.5rem 0.75rem 1.5rem;
           white-space: nowrap;
 
           > .ui--Icon {
             margin-right: 0.5rem;
           }
-
-          &:hover {
-            background: rgba(245, 244, 243, 0.15);
-          }
         }
       }
 
       &:hover {
-        background: #4f5255;
-
         > div,
-        > ul {
-          filter: brightness(1.15);
+        > ul li {
+          background: rgba(245, 244, 243, 0.1);
+        }
+
+        > ul li:hover {
+          background: rgba(245, 244, 243, 0.2);
         }
 
         ul {
