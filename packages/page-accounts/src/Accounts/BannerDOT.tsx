@@ -21,7 +21,7 @@ function BannerDOT (): React.ReactElement | null {
   return (
     <Banner type='warning'>
       <p><Trans key='dotRenom1'>On approximately August 21st at 13:15 UTC (block number {formatNumber(POLKADOT_DENOM_BLOCK)}), the DOT token will undergo a <a href='#/poll'>redenomination</a> from its original sale.</Trans></p>
-      <p><Trans key='dotRenom2'>New DOTs will be 100x smaller than DOTs (old). Therefore, your DOT balance will be 100x higher and the price per DOT will be 100x lower. The percentage of the DOTs you own relative to total supply will be unchanged. This will not affect the total value of your position.</Trans></p>
+      <p><Trans key='dotRenom2'>New DOT will be 100x smaller than DOT (old). Therefore, your DOT balance will be 100x higher and the price per DOT will be 100x lower. The percentage of the DOT you own relative to total supply will be unchanged. This will not affect the total value of your position.</Trans></p>
       <p><Trans key='dotRenom3'>See the <a
         href='https://polkadot.network/the-results-are-in/'
         rel='noopener noreferrer'
