@@ -11,7 +11,6 @@ import linked from '@polkadot/apps-config/links';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
-import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
@@ -28,7 +27,7 @@ function shortName (name: string): string {
 function genLinks (systemChain: string, { data, hash, type, withShort }: Props): React.ReactNode[] {
   return Object
     .entries(linked)
-    .map(([name, { chains, create, isActive, paths, url }]): React.ReactNode | null => {
+    .map(([name, { chains, create, isActive, paths }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -36,14 +35,9 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
         return null;
       }
 
-      const trigger = `${name}-${type}-${data.toString()}`;
-      const link = create(extChain, extPath, data, hash);
-
       return (
         <a
-          data-for={trigger}
-          data-tip
-          href={link}
+          href={create(extChain, extPath, data, hash)}
           key={name}
           rel='noopener noreferrer'
           target='_blank'
@@ -52,11 +46,6 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
             ? shortName(name)
             : name
           }
-          <Tooltip
-            place='top'
-            text={<>{name}<br />{url}</>}
-            trigger={trigger}
-          />
         </a>
       );
     })
