@@ -31,7 +31,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
-      <div className={`apps--Wrapper ${className}`}>
+      <div className={`apps--Wrapper theme--default ${className}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
