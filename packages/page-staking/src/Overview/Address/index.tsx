@@ -7,7 +7,7 @@ import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/type
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
-import { AddressSmall, Icon } from '@polkadot/react-components';
+import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -157,6 +157,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             onClick={_onQueryStats}
           />
         )}
+      </td>
+      <td>
+        <LinkExternal
+          data={address}
+          type={isMain ? 'validator' : 'intention'}
+          withShort
+        />
       </td>
     </tr>
   );
