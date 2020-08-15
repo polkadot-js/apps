@@ -27,7 +27,7 @@ function shortName (name: string): string {
 function genLinks (systemChain: string, { data, hash, type, withShort }: Props): React.ReactNode[] {
   return Object
     .entries(linked)
-    .map(([name, { chains, create, isActive, paths }]): React.ReactNode | null => {
+    .map(([name, { chains, create, isActive, paths, url }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];
 
@@ -41,6 +41,7 @@ function genLinks (systemChain: string, { data, hash, type, withShort }: Props):
           key={name}
           rel='noopener noreferrer'
           target='_blank'
+          title={`${name}, ${url}`}
         >
           {withShort
             ? shortName(name)
