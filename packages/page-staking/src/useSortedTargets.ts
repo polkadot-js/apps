@@ -104,7 +104,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
 
     totalStaked = totalStaked.add(bondTotal);
 
-    if (lowStaked.isZero() || bondTotal.lt(lowStaked)) {
+    if ((lowStaked.isZero() || bondTotal.lt(lowStaked)) && _exposure && !_exposure.total.isEmpty) {
       lowStaked = bondTotal;
     }
 
