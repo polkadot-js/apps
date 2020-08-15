@@ -23,7 +23,15 @@ function BlockToTime ({ blocks, children, className = '', label }: Props): React
 
   return (
     <div className={className}>
-      {label || ''}{text.split(' ').map((v, index) => index % 2 === 0 ? ` ${v} ` : <span className='timeUnits'>{v}</span>)}{children}
+      {label || ''}{text.split(' ').map((v, index) => index % 2 === 0
+        ? <span key={index}>{` ${v} `}</span>
+        : (
+          <span
+            className='timeUnits'
+            key={index}
+          >{v}</span>
+        )
+      )}{children}
     </div>
   );
 }
