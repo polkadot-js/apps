@@ -273,7 +273,7 @@ export default React.memo(styled(Menu)`
       &:hover {
         > div,
         > ul li {
-          background: rgba(245, 244, 243, 0.1);
+          background: rgba(245, 244, 243, 0.125);
         }
 
         > ul li:hover {
