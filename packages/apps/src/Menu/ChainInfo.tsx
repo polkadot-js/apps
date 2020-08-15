@@ -35,7 +35,10 @@ function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactE
           {runtimeVersion && (
             <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
           )}
-          <BestNumber label='#' />
+          <BestNumber
+            className='bestNumber'
+            label='#'
+          />
         </div>
         {onClick && (
           <Icon
@@ -65,9 +68,9 @@ export default React.memo(styled(ChainInfo)`
 
     img {
       flex: 0;
-      height: 2.75rem;
+      height: 3rem;
       margin-right: 0.5rem;
-      width: 2.75rem;
+      width: 3rem;
     }
 
     .ui--Icon.dropdown,
@@ -88,14 +91,15 @@ export default React.memo(styled(ChainInfo)`
       flex: 1;
       padding-right: 0.5rem;
 
+      > div.bestNumber,
       > div.chain {
         font-size: 0.9rem;
-        line-height: 1rem;
+        line-height: 1.2;
       }
 
       > div.runtimeVersion {
         font-size: 0.75rem;
-        line-height: 1rem;
+        line-height: 1.2;
       }
     }
   }

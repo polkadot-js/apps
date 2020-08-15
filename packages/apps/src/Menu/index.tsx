@@ -17,6 +17,7 @@ import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Endpoints from './Endpoints';
+import Item from './Item';
 
 interface Props {
   className?: string;
@@ -92,15 +93,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
   const location = useLocation();
   const { ipnsChain } = useIpfs();
-  const [modals, setModals] = useState<Record<string, boolean>>(
-    createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
-      if (route && route.Modal) {
-        result[route.name] = false;
-      }
-
-      return result;
-    }, { network: false })
-  );
+  const [modals, setModals] = useState<Record<string, boolean>>({});
 
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
@@ -143,7 +136,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
   const _toggleModal = useCallback(
     (name: string): () => void =>
-      (): void => setModals((modals: Record<string, boolean>) => ({
+      (): void => setModals((modals) => ({
         ...modals,
         [name]: !modals[name]
       })),
@@ -174,18 +167,16 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
               <Icon icon='caret-down' />
             </div>
             <ul>
-              {routes.map(({ Modal, icon, name, text }): React.ReactNode => (
-                <li
-                  key={name}
+              {routes.map((route): React.ReactNode => (
+                <Item
+                  key={route.name}
                   onClick={
-                    Modal
-                      ? _toggleModal(name)
-                      : _switchRoute(name)
+                    route.Modal
+                      ? _toggleModal(route.name)
+                      : _switchRoute(route.name)
                   }
-                >
-                  <Icon icon={icon} />
-                  {text}
-                </li>
+                  route={route}
+                />
               ))}
             </ul>
           </div>
@@ -196,7 +187,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       )}
       {routing.map((route): React.ReactNode => (
         route.Modal
-          ? route.Modal && modals[route.name]
+          ? modals[route.name]
             ? (
               <route.Modal
                 key={route.name}
@@ -221,7 +212,7 @@ export default React.memo(styled(Menu)`
   .menuActive {
     background: #f5f4f3;
     border-radius: 0.25rem 0.25rem 0 0;
-    padding: 1rem 1.75rem 0.75rem;
+    padding: 1rem 1.5rem;
     margin: 0 1.5rem;
 
     .ui--Icon {
@@ -231,12 +222,12 @@ export default React.memo(styled(Menu)`
 
   .menuItems {
     color: #f5f4f3;
-    cursor: pointer;
     flex: 1 1;
-    margin: 0 3.5rem 0 2rem;
+    margin: 0 3.5rem 0 0;
 
     > div {
       background: #4f5255;
+      cursor: pointer;
       display: inline-block;
       position: relative;
 
@@ -261,8 +252,16 @@ export default React.memo(styled(Menu)`
         z-index: 10;
 
         li {
+          cursor: pointer;
           padding: 0.75rem 3.5rem 0.75rem 1.5rem;
+          position: relative;
           white-space: nowrap;
+
+          > .ui--Badge {
+            position: absolute;
+            right: 0.25rem;
+            top: 0.65rem;
+          }
 
           > .ui--Icon {
             margin-right: 0.5rem;
