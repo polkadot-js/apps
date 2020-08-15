@@ -23,6 +23,7 @@ interface Props {
 }
 
 interface Group {
+  isTop?: boolean;
   name: string;
   routes: Routes;
 }
@@ -61,6 +62,27 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   }
 
   return notFound.length === 0;
+}
+
+function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, hasAccounts: boolean, hasSudo: boolean): Group[] {
+  return Object
+    .values(
+      routing.reduce((all: Groups, route): Groups => {
+        if (!all[route.group]) {
+          all[route.group] = { isTop: name === 'menu', name: groupNames[route.group], routes: [route] };
+        } else {
+          all[route.group].routes.push(route);
+        }
+
+        return all;
+      }, {})
+    )
+    .map(({ isTop, name, routes }): Group => ({
+      isTop,
+      name,
+      routes: routes.filter(({ display, name }) => checkVisible(name, apiProps, hasAccounts, hasSudo, display))
+    }))
+    .filter(({ routes }) => routes.length);
 }
 
 function Menu ({ className = '' }: Props): React.ReactElement<Props> {
@@ -102,32 +124,13 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     [t]
   );
 
-  const grouping = useMemo(
-    () => routing.reduce((all: Groups, route): Groups => {
-      if (!all[route.group]) {
-        all[route.group] = { name: groupNames[route.group], routes: [route] };
-      } else {
-        all[route.group].routes.push(route);
-      }
-
-      return all;
-    }, {}),
-    [groupNames, routing]
-  );
-
   const visibleGroups = useMemo(
-    () => Object
-      .values(grouping)
-      .map(({ name, routes }): Group => ({
-        name,
-        routes: routes.filter(({ display, name }) => checkVisible(name, apiProps, hasAccounts, hasSudo, display))
-      }))
-      .filter(({ routes }) => routes.length),
-    [apiProps, grouping, hasAccounts, hasSudo]
+    () => extractGroups(routing, groupNames, apiProps, hasAccounts, hasSudo),
+    [apiProps, groupNames, hasAccounts, hasSudo, routing]
   );
 
   const activeRoute = useMemo(
-    (): Route | null => routing.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
+    () => routing.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
     [location, routing]
   );
 
@@ -208,7 +211,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Menu)`
-  align-items: center;
+  align-items: flex-end;
   background: #4f5255;
   border-top: 0.5rem solid transparent;
   box-sizing: border-box;
@@ -216,7 +219,6 @@ export default React.memo(styled(Menu)`
   padding: 0;
 
   .menuActive {
-    align-self: flex-end;
     background: #f5f4f3;
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.75rem 0.75rem;
@@ -234,12 +236,13 @@ export default React.memo(styled(Menu)`
     margin: 0 3.5rem 0 2rem;
 
     > div {
-      border-radius: 0.25rem 0.25rem 0 0;
       display: inline-block;
       position: relative;
 
       > div {
-        padding: 0.75rem 1.5rem;
+        background: #4f5255;
+        border-radius: 0.25rem 0 0 0;
+        padding: 1rem 1.5rem;
 
         > .ui--Icon {
           margin-left: 0.75rem;
@@ -247,27 +250,37 @@ export default React.memo(styled(Menu)`
       }
 
       ul {
-        background: #626669;
-        border-radius: 0 0.25rem 0.25rem 0.25rem;
+        background: #4f5255;
+        border-radius: 0 0 0.25rem 0.25rem;
         display: none;
         list-style-type: none;
         margin: 0;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem;
         position: absolute;
         z-index: 10;
 
         li {
-          padding: 0.5rem 2rem 0.5rem 0.5rem;
+          border-radius: 0.25rem;
+          padding: 0.75rem 3.5rem 0.75rem 1.5rem;
           white-space: nowrap;
 
           > .ui--Icon {
             margin-right: 0.5rem;
           }
+
+          &:hover {
+            background: rgba(245, 244, 243, 0.15);
+          }
         }
       }
 
       &:hover {
-        background: #626669;
+        background: #4f5255;
+
+        > div,
+        > ul {
+          filter: brightness(1.15);
+        }
 
         ul {
           display: block;
