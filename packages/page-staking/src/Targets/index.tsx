@@ -65,7 +65,7 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
@@ -177,6 +177,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <Summary
         avgStaked={avgStaked}
         lastReward={lastReward}
+        lowStaked={lowStaked}
         numNominators={nominators?.length}
         numValidators={validators?.length}
         totalStaked={totalStaked}
