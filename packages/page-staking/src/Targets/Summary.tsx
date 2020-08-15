@@ -14,13 +14,14 @@ import { useTranslation } from '../translate';
 
 interface Props {
   avgStaked?: BN;
+  lowStaked?: BN;
   lastReward?: BN;
   numNominators?: number;
   numValidators?: number;
   totalStaked?: BN;
 }
 
-function Summary ({ avgStaked, lastReward, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
@@ -34,6 +35,17 @@ function Summary ({ avgStaked, lastReward, numNominators, numValidators, totalSt
       }
       : undefined,
     [totalIssuance, totalStaked]
+  );
+
+  const progressAvg = useMemo(
+    () => avgStaked && lowStaked && avgStaked.gtn(0)
+      ? {
+        hideValue: true,
+        total: avgStaked,
+        value: lowStaked
+      }
+      : undefined,
+    [avgStaked, lowStaked]
   );
 
   return (
@@ -63,11 +75,18 @@ function Summary ({ avgStaked, lastReward, numNominators, numValidators, totalSt
           </CardSummary>
         )}
       </section>
-      {avgStaked && (
+      {avgStaked && lowStaked && (
         <CardSummary
           className='ui--media-medium'
-          label={`${t<string>('avg staked')}`}
+          label={`${t<string>('lowest / avg staked')}`}
+          progress={progressAvg}
         >
+          <FormatBalance
+            value={lowStaked}
+            withCurrency={false}
+            withSi
+          />
+          &nbsp;/&nbsp;
           <FormatBalance
             value={avgStaked}
             withSi
@@ -75,7 +94,10 @@ function Summary ({ avgStaked, lastReward, numNominators, numValidators, totalSt
         </CardSummary>
       )}
       {numValidators && numNominators && (
-        <CardSummary label={`${t<string>('nominators')} / ${t<string>('validators')}`}>
+        <CardSummary
+          className='ui--media-1600'
+          label={`${t<string>('nominators')} / ${t<string>('validators')}`}
+        >
           {numNominators}&nbsp;/&nbsp;{numValidators}
         </CardSummary>
       )}
