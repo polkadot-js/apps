@@ -25,6 +25,7 @@ const NOT_FOUND: Route = {
   display: {
     needsApi: undefined
   },
+  group: 'settings',
   icon: 'times',
   isIgnored: false,
   name: 'unknown',

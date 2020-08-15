@@ -15,8 +15,8 @@ import { useAccounts, useApi, useCall, useIpfs } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
-import ChainInfo from '../SideBar/ChainInfo';
-import Endpoints from '../SideBar/Endpoints';
+import ChainInfo from './ChainInfo';
+import Endpoints from './Endpoints';
 
 interface Props {
   className?: string;
@@ -102,8 +102,6 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     [t]
   );
 
-  // checkVisible(route.name, apiProps, hasAccounts, hasSudo, route.display)
-
   const grouping = useMemo(
     () => routing.reduce((all: Groups, route): Groups => {
       if (!all[route.group]) {
@@ -129,7 +127,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 
   const activeRoute = useMemo(
-    (): Route | null => routing.find((route) => !!route && location.pathname === `/${route.name}`) || null,
+    (): Route | null => routing.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
     [location, routing]
   );
 
@@ -166,8 +164,28 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
         </div>
       )}
       <div className='menuItems'>
-        {visibleGroups.map(({ name }): React.ReactNode => (
-          <div key={name}>{name}</div>
+        {visibleGroups.map(({ name, routes }): React.ReactNode => (
+          <div key={name}>
+            <div>
+              <span>{name}</span>
+              <Icon icon='caret-down' />
+            </div>
+            <ul>
+              {routes.map(({ Modal, icon, name, text }): React.ReactNode => (
+                <li
+                  key={name}
+                  onClick={
+                    Modal
+                      ? _toggleModal(name)
+                      : _switchRoute(name)
+                  }
+                >
+                  <Icon icon={icon} />
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
       </div>
       {modals.network && (
@@ -196,7 +214,6 @@ export default React.memo(styled(Menu)`
   box-sizing: border-box;
   display: flex;
   padding: 0;
-  z-index: 100;
 
   .menuActive {
     align-self: flex-end;
@@ -212,18 +229,48 @@ export default React.memo(styled(Menu)`
 
   .menuItems {
     color: #f5f4f3;
+    cursor: pointer;
     flex: 1 1;
     margin: 0 3.5rem 0 2rem;
 
     > div {
+      border-radius: 0.25rem 0.25rem 0 0;
       display: inline-block;
-      padding: 0.5rem 1rem;
+      position: relative;
 
-      > a {
-        border-radius: 0.25rem !important;
+      > div {
+        padding: 0.75rem 1.5rem;
 
-        > svg {
-          margin-right: 0.5rem;
+        > .ui--Icon {
+          margin-left: 0.75rem;
+        }
+      }
+
+      ul {
+        background: #626669;
+        border-radius: 0 0.25rem 0.25rem 0.25rem;
+        display: none;
+        list-style-type: none;
+        margin: 0;
+        padding: 0.5rem 1rem;
+        position: absolute;
+        z-index: 10;
+
+        li {
+          padding: 0.5rem 2rem 0.5rem 0.5rem;
+          white-space: nowrap;
+
+          > .ui--Icon {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+
+      &:hover {
+        background: #626669;
+
+        ul {
+          display: block;
         }
       }
     }

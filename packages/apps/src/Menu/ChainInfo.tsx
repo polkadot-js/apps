@@ -51,7 +51,7 @@ function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactE
 export default React.memo(styled(ChainInfo)`
   border-top: 0 solid transparent;
   box-sizing: border-box;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem 0.75rem 2rem;
   margin: 0;
 
   &.isClickable {
