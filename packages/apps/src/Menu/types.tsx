@@ -5,7 +5,6 @@
 import { Routes } from '@polkadot/apps-routing/types';
 
 export interface Group {
-  isTop?: boolean;
   name: string;
   routes: Routes;
 }

@@ -63,7 +63,7 @@ function extractGroups (routing: Routes, groupNames: Record<string, string>, api
     .values(
       routing.reduce((all: Groups, route): Groups => {
         if (!all[route.group]) {
-          all[route.group] = { isTop: name === 'menu', name: groupNames[route.group], routes: [route] };
+          all[route.group] = { name: groupNames[route.group], routes: [route] };
         } else {
           all[route.group].routes.push(route);
         }
@@ -71,8 +71,7 @@ function extractGroups (routing: Routes, groupNames: Record<string, string>, api
         return all;
       }, {})
     )
-    .map(({ isTop, name, routes }): Group => ({
-      isTop,
+    .map(({ name, routes }): Group => ({
       name,
       routes: routes.filter(({ display, name }) => checkVisible(name, apiProps, hasAccounts, hasSudo, display))
     }))
@@ -171,7 +170,7 @@ export default React.memo(styled(Menu)`
     color: #f5f4f3;
     flex: 1 1;
     list-style-type: none;
-    margin: 0 3.5rem 0 0;
+    margin: 0 2rem 0 0;
     padding: 0;
 
     > li {
