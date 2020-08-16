@@ -7,7 +7,7 @@ import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/h
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { QueryTypes, StorageModuleQuery } from './types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 import { Button, Labelled } from '@polkadot/react-components';
@@ -142,31 +142,17 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
 }
 
 function Query ({ className = '', onRemove, value }: Props): React.ReactElement<Props> | null {
-  // const [inputs, setInputs] = useState<React.ReactNode[]>([]);
-  const [{ Component }, setComponent] = useState<Partial<CacheInstance>>({});
-  const [isSpreadable, setIsSpreadable] = useState(false);
-  const [spread, setSpread] = useState<Record<number, boolean>>({});
-
-  useEffect((): void => {
-    setComponent(getCachedComponent(value));
-    setIsSpreadable(
-      (value.key as QueryableStorageEntry<'promise'>).creator &&
-      (value.key as QueryableStorageEntry<'promise'>).creator.meta &&
-      ['Bytes', 'Raw'].includes((value.key as QueryableStorageEntry<'promise'>).creator.meta.type.toString())
-    );
-  }, [value]);
-
-  const _spreadHandler = useCallback(
-    (id: number): () => void => {
-      return (): void => {
-        cache[id].Component = cache[id].refresh(true, !!spread[id]);
-        spread[id] = !spread[id];
-
-        setComponent(cache[id]);
-        setSpread({ ...spread });
-      };
-    },
-    [spread]
+  const [{ Component }, callName, callType] = useMemo(
+    () => [
+      getCachedComponent(value),
+      keyToName(value.isConst, value.key),
+      value.isConst
+        ? (value.key as unknown as ConstValue).meta.type.toString()
+        : isU8a(value.key)
+          ? 'Raw'
+          : typeToString(value.key as QueryableStorageEntry<'promise'>)
+    ],
+    [value]
   );
 
   const _onRemove = useCallback(
@@ -178,13 +164,6 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
     [onRemove, value]
   );
 
-  const { id, isConst, key } = value;
-  const type = isConst
-    ? (key as unknown as ConstValue).meta.type.toString()
-    : isU8a(key)
-      ? 'Raw'
-      : typeToString(key as QueryableStorageEntry<'promise'>);
-
   if (!Component) {
     return null;
   }
@@ -195,7 +174,7 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
         <Labelled
           label={
             <div className='storage--actionrow-label'>
-              {keyToName(isConst, key)}: {type}
+              {callName}: {callType}
             </div>
           }
         >
@@ -203,13 +182,6 @@ function Query ({ className = '', onRemove, value }: Props): React.ReactElement<
         </Labelled>
       </div>
       <div className='storage--actionrow-buttons'>
-        {isSpreadable && (
-          <Button
-            icon='ellipsis-h'
-            key='spread'
-            onClick={_spreadHandler(id)}
-          />
-        )}
         <Button
           icon='times'
           key='close'
