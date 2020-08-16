@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Tabs } from '@polkadot/react-components';
 
 import Selection from './Selection';
@@ -13,18 +13,18 @@ import { useTranslation } from './translate';
 function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const items = useMemo(() => [{
+  const itemsRef = useRef([{
     isRoot: true,
     name: 'create',
     text: t<string>('Extrinsic submission')
-  }], [t]);
+  }]);
 
   return (
     <main className='extrinsics--App'>
       <header>
         <Tabs
           basePath={basePath}
-          items={items}
+          items={itemsRef.current}
         />
       </header>
       <Selection />

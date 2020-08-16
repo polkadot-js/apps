@@ -27,6 +27,9 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
+const HIDDEN_ACC = ['actions', 'payouts', 'query'];
+const HIDDEN_QUE = ['returns', 'query'];
+
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -95,22 +98,19 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
 
-  const hiddenTabs = useMemo(
-    (): string[] => !hasAccounts
-      ? ['actions', 'payouts', 'query']
-      : !hasQueries
-        ? ['returns', 'query']
-        : [],
-    [hasAccounts, hasQueries]
-  );
-
   return (
     <main className={`staking--App ${className}`}>
       <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hiddenTabs}
+          hidden={
+            !hasAccounts
+              ? HIDDEN_ACC
+              : !hasQueries
+                ? HIDDEN_QUE
+                : undefined
+          }
           items={items}
         />
       </header>

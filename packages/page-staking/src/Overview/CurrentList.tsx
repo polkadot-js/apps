@@ -6,7 +6,7 @@ import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/ty
 import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
 
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
@@ -113,15 +113,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
     [nominators]
   );
 
-  const headerWaiting = useMemo(() => [
+  const headerWaitingRef = useRef([
     [t('intentions'), 'start', 2],
     [t('nominators'), 'start', 2],
     [t('commission'), 'number', 1],
     [],
     []
-  ], [t]);
+  ]);
 
-  const headerActive = useMemo(() => [
+  const headerActiveRef = useRef([
     [t('validators'), 'start', 2],
     [t('other stake')],
     [t('own stake')],
@@ -130,7 +130,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
     [t('last #')],
     [],
     []
-  ], [t]);
+  ]);
 
   const _renderRows = useCallback(
     (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
@@ -167,7 +167,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
             withIdentity={withIdentity}
           />
         }
-        header={headerWaiting}
+        header={headerWaitingRef.current}
       >
         {isLoading ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
@@ -183,7 +183,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
             withIdentity={withIdentity}
           />
         }
-        header={headerActive}
+        header={headerActiveRef.current}
       >
         {isLoading ? undefined : _renderRows(validators, true)}
       </Table>
