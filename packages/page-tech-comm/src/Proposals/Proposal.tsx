@@ -23,7 +23,7 @@ interface Props {
   prime?: AccountId | null;
 }
 
-const transformProposel = {
+const transformProposal = {
   transform: (optProp: Option<ProposalType>) => optProp.unwrapOr(null)
 };
 
