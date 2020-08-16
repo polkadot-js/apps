@@ -8,7 +8,7 @@ import { StakerState } from '@polkadot/react-hooks/types';
 import { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { Button, Table } from '@polkadot/react-components';
@@ -182,13 +182,13 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
     [undefined, undefined, 3]
   ], [myStashesIndex, t]);
 
-  const headerValidators = useMemo(() => [
+  const headerValidatorsRef = useRef([
     [t('payout/validator'), 'start', 2],
     [t('eras'), 'start'],
     [t('available')],
     [('remaining')],
     [undefined, undefined, 3]
-  ], [t]);
+  ]);
 
   const valOptions = useMemo(() => [
     { isDisabled: !hasOwnValidators, text: t('My validators'), value: 'val' },
@@ -245,7 +245,7 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
       </Table>
       {api.tx.staking.payoutStakers && (myStashesIndex === 1) && !isLoadingRewards && validators && (validators.length !== 0) && (
         <Table
-          header={headerValidators}
+          header={headerValidatorsRef.current}
           isFixed
         >
           {!isLoadingRewards && validators.map((payout): React.ReactNode => (

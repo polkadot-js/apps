@@ -6,7 +6,7 @@ import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import { SocietyVote } from '@polkadot/types/interfaces';
 import { VoteType } from '../types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -21,21 +21,24 @@ interface Props {
   ownMembers: string[];
 }
 
+function transformVotes (members: DeriveSocietyMember[]): VoteType[] {
+  return members
+    .filter(({ vote }): boolean => !!vote)
+    .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote]);
+}
+
 function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const votes = useCall<VoteType[]>(api.derive.society.members, [], {
-    transform: (members: DeriveSocietyMember[]): VoteType[] =>
-      members
-        .filter(({ vote }): boolean => !!vote)
-        .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote])
+    transform: transformVotes
   });
 
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('defender'), 'start'],
     [t('votes'), 'start'],
     []
-  ], [t]);
+  ]);
 
   if (!info || !info.hasDefender || !info.defender) {
     return null;
@@ -44,7 +47,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
   return (
     <Table
       className={className}
-      header={header}
+      header={headerRef.current}
     >
       <tr>
         <td className='address all'>

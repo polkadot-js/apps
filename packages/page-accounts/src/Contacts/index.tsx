@@ -4,7 +4,7 @@
 
 import { ComponentProps as Props } from '../types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
@@ -26,6 +26,15 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const [filterOn, setFilter] = useState<string>('');
   const isLoading = useLoadingDelay();
 
+  const headerRef = useRef([
+    [t('contacts'), 'start', 2],
+    [t('tags'), 'start'],
+    [t('transactions'), 'ui--media-1500'],
+    [t('balances')],
+    [],
+    [undefined, 'mini ui--media-1400']
+  ]);
+
   useEffect((): void => {
     setSortedAddresses(
       allAddresses
@@ -39,15 +48,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         )
     );
   }, [allAddresses, favorites]);
-
-  const header = useMemo(() => [
-    [t('contacts'), 'start', 2],
-    [t('tags'), 'start'],
-    [t('transactions'), 'ui--media-1500'],
-    [t('balances')],
-    [],
-    [undefined, 'mini ui--media-1400']
-  ], [t]);
 
   const filter = useMemo(() => (
     <div className='filter--tags'>
@@ -79,7 +79,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAddresses && t<string>('no addresses saved yet, add any existing address')}
         filter={filter}
-        header={header}
+        header={headerRef.current}
       >
         {isLoading ? undefined : sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address

@@ -6,7 +6,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getTreasuryThreshold } from '@polkadot/app-council/thresholds';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
@@ -36,10 +36,10 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
 
   const threshold = Math.ceil((members?.length || 0) * getTreasuryThreshold(api));
 
-  const councilTypeOpt = useMemo(() => [
+  const councilTypeOptRef = useRef([
     { text: t<string>('Acceptance proposal to council'), value: 'accept' },
     { text: t<string>('Rejection proposal to council'), value: 'reject' }
-  ], [t]);
+  ]);
 
   useEffect((): void => {
     setHasProposals(
@@ -91,7 +91,7 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
                   help={t<string>('The type of council proposal to submit.')}
                   label={t<string>('council proposal type')}
                   onChange={setCouncilType}
-                  options={councilTypeOpt}
+                  options={councilTypeOptRef.current}
                   value={councilType}
                 />
               </Modal.Column>

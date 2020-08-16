@@ -4,7 +4,7 @@
 
 import { DeriveProposal } from '@polkadot/api-derive/types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -20,19 +20,19 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const proposals = useCall<DeriveProposal[]>(api.derive.democracy.proposals, []);
 
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('proposals'), 'start', 2],
     [t('proposer'), 'address'],
     [t('locked'), 'ui--media-1200'],
     [undefined, undefined, 2],
     [undefined, 'mini ui--media-1000']
-  ], [t]);
+  ]);
 
   return (
     <Table
       className={className}
       empty={proposals && t<string>('No active proposals')}
-      header={header}
+      header={headerRef.current}
     >
       {proposals?.map((proposal): React.ReactNode => (
         <ProposalDisplay

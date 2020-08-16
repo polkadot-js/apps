@@ -5,7 +5,7 @@
 import { DeriveStakerPoints } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -50,10 +50,10 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
     [stakerPoints]
   );
 
-  const legends = useMemo(() => [
+  const legendsRef = useRef([
     t<string>('points'),
     t<string>('average')
-  ], [t]);
+  ]);
 
   return (
     <div className='staking--Chart'>
@@ -63,7 +63,7 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
           <Chart.Line
             colors={COLORS_POINTS}
             labels={labels}
-            legends={legends}
+            legends={legendsRef.current}
             values={chart}
           />
         )

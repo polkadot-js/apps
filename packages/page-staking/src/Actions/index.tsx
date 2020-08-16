@@ -6,7 +6,7 @@ import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets } from '../types';
 
 import BN from 'bn.js';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
@@ -56,18 +56,18 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
   const { t } = useTranslation();
   const allSlashes = useAvailableSlashes();
 
-  const { bondedTotal, foundStashes } = useMemo(
-    () => extractState(ownStashes),
-    [ownStashes]
-  );
-
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('stashes'), 'start', 2],
     [t('controller'), 'address'],
     [t('rewards'), 'number ui--media-1200'],
     [t('bonded'), 'number'],
     [undefined, undefined, 2]
-  ], [t]);
+  ]);
+
+  const { bondedTotal, foundStashes } = useMemo(
+    () => extractState(ownStashes),
+    [ownStashes]
+  );
 
   const footer = useMemo(() => (
     <tr>
@@ -93,7 +93,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
       <Table
         empty={foundStashes && t<string>('No funds staked yet. Bond funds to validate or nominate a validator')}
         footer={footer}
-        header={header}
+        header={headerRef.current}
       >
         {foundStashes?.map((info): React.ReactNode => (
           <Account

@@ -4,7 +4,7 @@
 
 import { DeriveDispatch } from '@polkadot/api-derive/types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -20,18 +20,18 @@ function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null 
   const { api } = useApi();
   const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue, []);
 
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('dispatch queue'), 'start', 2],
     [t('enact')],
     [],
     [undefined, 'mini ui--media-1000']
-  ], [t]);
+  ]);
 
   return (
     <Table
       className={className}
       empty={queued && t<string>('Nothing queued for execution')}
-      header={header}
+      header={headerRef.current}
     >
       {queued?.map((entry): React.ReactNode => (
         <DispatchEntry

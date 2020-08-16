@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
@@ -22,7 +22,8 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
-  const items = useMemo(() => [
+
+  const itemsRef = useRef([
     {
       isRoot: true,
       name: 'overview',
@@ -36,7 +37,8 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       name: 'vanity',
       text: t<string>('Vanity generator')
     }
-  ], [t]);
+  ]);
+
   const hidden = useMemo(
     () => (hasAccounts && !isIpfs) ? [] : ['vanity'],
     [hasAccounts, isIpfs]
@@ -49,7 +51,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
         <Tabs
           basePath={basePath}
           hidden={hidden}
-          items={items}
+          items={itemsRef.current}
         />
       </header>
       <Switch>

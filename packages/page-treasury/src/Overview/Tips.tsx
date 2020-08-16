@@ -4,7 +4,7 @@
 
 import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -45,7 +45,7 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
     );
   }, [hashes, optTips]);
 
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('tips'), 'start'],
     [t('finder'), 'address'],
     [t('reason'), 'start'],
@@ -53,13 +53,13 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
     [],
     [undefined, 'badge ui--media-1700'],
     [undefined, 'mini ui--media-1700']
-  ].filter((v) => v), [t]);
+  ]);
 
   return (
     <Table
       className={className}
       empty={tips && t<string>('No open tips')}
-      header={header}
+      header={headerRef.current}
     >
       {tips?.map(([hash, tip]): React.ReactNode => (
         <Tip

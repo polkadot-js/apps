@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { Icon, Tabs } from '@polkadot/react-components';
 import { useSudo } from '@polkadot/react-hooks';
@@ -17,7 +17,8 @@ import { useTranslation } from './translate';
 function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, isMine, sudoKey } = useSudo();
-  const items = useMemo(() => [
+
+  const itemsRef = useRef([
     {
       isRoot: true,
       name: 'index',
@@ -27,14 +28,14 @@ function SudoApp ({ basePath }: Props): React.ReactElement<Props> {
       name: 'key',
       text: t<string>('Set sudo key')
     }
-  ], [t]);
+  ]);
 
   return (
     <main>
       <header>
         <Tabs
           basePath={basePath}
-          items={items}
+          items={itemsRef.current}
         />
       </header>
       {isMine
