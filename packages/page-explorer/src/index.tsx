@@ -9,7 +9,6 @@ import { Route, Switch } from 'react-router';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
-import uiSettings from '@polkadot/ui-settings';
 
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';
@@ -22,6 +21,8 @@ interface Props {
   className?: string;
   newEvents?: KeyedEvent[];
 }
+
+const HIDDESN_NOBABE = ['forks'];
 
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -50,14 +51,12 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     }
   ]);
 
-  const hiddenRef = useRef(api.query.babe ? [] : ['forks']);
-
   return (
     <main className={className}>
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hiddenRef.current}
+          hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
           items={itemsRef.current}
         />
       </header>

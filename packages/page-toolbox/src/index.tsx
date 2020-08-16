@@ -15,7 +15,6 @@ import Sign from './Sign';
 import Verify from './Verify';
 import { useTranslation } from './translate';
 
-const HIDDEN_NONE: string[] = [];
 const HIDDEN_ACC = ['sign', 'verify'];
 
 function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
@@ -47,7 +46,7 @@ function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hasAccounts ? HIDDEN_NONE : HIDDEN_ACC}
+          hidden={hasAccounts ? undefined : HIDDEN_ACC}
           items={itemsRef.current}
         />
       </header>

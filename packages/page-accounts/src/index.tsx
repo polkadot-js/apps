@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
@@ -17,6 +17,8 @@ import Contacts from './Contacts';
 import Vanity from './Vanity';
 
 export { useCounter };
+
+const HIDDEN_ACC = ['vanity'];
 
 function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -39,18 +41,13 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     }
   ]);
 
-  const hidden = useMemo(
-    () => (hasAccounts && !isIpfs) ? [] : ['vanity'],
-    [hasAccounts, isIpfs]
-  );
-
   return (
     <main className='accounts--App'>
       <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hidden}
+          hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
           items={itemsRef.current}
         />
       </header>

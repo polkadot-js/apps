@@ -5,7 +5,6 @@
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
@@ -16,10 +15,6 @@ export { default as useCounter } from './useCounter';
 interface Props {
   basePath: string;
 }
-
-const hidden = uiSettings.uiMode === 'full'
-  ? []
-  : ['propose'];
 
 function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -38,7 +33,6 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hidden}
           items={itemsRef.current}
         />
       </header>
