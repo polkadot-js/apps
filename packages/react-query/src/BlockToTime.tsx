@@ -4,6 +4,7 @@
 
 import BN from 'bn.js';
 import React from 'react';
+import styled from 'styled-components';
 import { useBlockTime } from '@polkadot/react-hooks';
 
 interface Props {
@@ -22,9 +23,21 @@ function BlockToTime ({ blocks, children, className = '', label }: Props): React
 
   return (
     <div className={className}>
-      {label || ''}{text}{children}
+      {label || ''}{text.split(' ').map((v, index) => index % 2 === 0
+        ? <span key={index}>{` ${v} `}</span>
+        : (
+          <span
+            className='timeUnits'
+            key={index}
+          >{v}</span>
+        )
+      )}{children}
     </div>
   );
 }
 
-export default React.memo(BlockToTime);
+export default React.memo(styled(BlockToTime)`
+  span.timeUnits {
+    font-size: 0.9em;
+  }
+`);
