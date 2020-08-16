@@ -24,7 +24,7 @@ type Tip = [string, OpenTip | OpenTipTo225];
 function Tips ({ className = '', hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const [tips, setTips] = useState<Tip[] | undefined>();
   const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
 

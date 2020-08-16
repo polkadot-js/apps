@@ -17,7 +17,7 @@ import Tips from './Tips';
 
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals, []);
+  const info = useCall<DeriveTreasuryProposals>(api.derive.treasury.proposals);
   const { isMember, members } = useMembers();
 
   const mountedRef = useIsMountedRef();

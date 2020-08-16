@@ -14,8 +14,8 @@ type Unsub = () => void;
 
 export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
   const { api } = useApi();
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes, []);
-  const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash, []);
+  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
+  const earliestSlash = useCall<Option<EraIndex>>(api.query.staking?.earliestUnappliedSlash);
   const mountedRef = useIsMountedRef();
   const [slashes, setSlashes] = useState<[BN, UnappliedSlash[]][]>([]);
 

@@ -20,7 +20,7 @@ interface Props {
   prime: AccountId | null;
 }
 
-function transformVotes (entries: DeriveCouncilVotes): Record<string, AccountId[]> {
+const transformVotes = { transform: (entries: DeriveCouncilVotes): Record<string, AccountId[]> => {
   return entries.reduce((result: Record<string, AccountId[]>, [voter, { votes }]): Record<string, AccountId[]> => {
     votes.forEach((candidate): void => {
       const address = candidate.toString();
@@ -34,15 +34,13 @@ function transformVotes (entries: DeriveCouncilVotes): Record<string, AccountId[
 
     return result;
   }, {});
-}
+} };
 
 function Overview ({ className = '', prime }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info, []);
-  const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, [], {
-    transform: transformVotes
-  });
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const electionsInfo = useCall<DeriveElectionsInfo>(api.derive.elections.info);
+  const allVotes = useCall<Record<string, AccountId[]>>(api.derive.council.votes, [], transformVotes);
 
   return (
     <div className={className}>

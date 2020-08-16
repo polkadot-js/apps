@@ -56,7 +56,7 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes, [validatorId, true]);
-  const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards, []);
+  const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards);
   const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
 
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({

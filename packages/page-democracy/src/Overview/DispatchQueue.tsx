@@ -18,7 +18,7 @@ interface Props {
 function DispatchQueue ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue, []);
+  const queued = useCall<DeriveDispatch[]>(api.derive.democracy.dispatchQueue);
 
   const headerRef = useRef([
     [t('dispatch queue'), 'start', 2],

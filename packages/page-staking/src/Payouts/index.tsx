@@ -157,8 +157,8 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
   const [hasOwnValidators] = useState(ownValidators.length !== 0);
   const [myStashesIndex, setMyStashesIndex] = useState((api.tx.staking.payoutStakers && hasOwnValidators) ? 0 : 1);
   const [eraSelectionIndex, setEraSelectionIndex] = useState(0);
-  const eraLength = useCall<BN>(api.derive.session.eraLength, []);
-  const historyDepth = useCall<BN>(api.query.staking.historyDepth, []);
+  const eraLength = useCall<BN>(api.derive.session.eraLength);
+  const historyDepth = useCall<BN>(api.query.staking.historyDepth);
   const stakerPayoutsAfter = useStakerPayouts();
   const isDisabled = isInElection || !isFunction(api.tx.utility?.batch);
 

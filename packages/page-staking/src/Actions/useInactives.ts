@@ -65,7 +65,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session.indexes, []);
+  const indexes = useCall<DeriveSessionIndexes>(api.derive.session.indexes);
 
   useEffect((): () => void => {
     let unsub: (() => void) | undefined;

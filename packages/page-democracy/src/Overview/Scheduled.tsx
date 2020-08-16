@@ -18,7 +18,8 @@ interface Props {
 
 function Scheduled ({ className = '', value: { blockNumber, call, maybePeriodic } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+
   const period = maybePeriodic.unwrapOr(null);
 
   return (

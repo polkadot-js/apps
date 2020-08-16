@@ -9,7 +9,7 @@ import React from 'react';
 import { LinkExternal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import { BN_ZERO, formatNumber } from '@polkadot/util';
+import { formatNumber } from '@polkadot/util';
 
 import ProposalCell from './ProposalCell';
 import PreImageButton from './PreImageButton';
@@ -20,7 +20,7 @@ interface Props {
 
 function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []) || BN_ZERO;
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
   return (
     <tr>

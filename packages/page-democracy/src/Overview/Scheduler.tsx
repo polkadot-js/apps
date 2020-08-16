@@ -17,7 +17,7 @@ interface Props {
   className?: string;
 }
 
-function transformEntries (entries: [{ args: [BlockNumber] }, Option<Scheduled>[]][]): ScheduledExt[] {
+const transformEntries = { transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled>[]][]): ScheduledExt[] => {
   return entries
     .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
     .reduce((items: ScheduledExt[], [key, vecSchedOpt]): ScheduledExt[] => {
@@ -32,14 +32,12 @@ function transformEntries (entries: [{ args: [BlockNumber] }, Option<Scheduled>[
           return items;
         }, items);
     }, []);
-}
+} };
 
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, [], {
-    transform: transformEntries
-  });
+  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, [], transformEntries);
 
   const headerRef = useRef([
     [t('scheduled'), 'start'],

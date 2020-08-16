@@ -19,7 +19,7 @@ interface Props {
 function Members ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<DeriveSocietyMember[]>(api.derive.society.members, []);
+  const members = useCall<DeriveSocietyMember[]>(api.derive.society.members);
 
   const headerRef = useRef([
     [t('members'), 'start', 3],
