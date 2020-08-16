@@ -5,6 +5,7 @@
 import { Route, RouteGroup, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId } from '@polkadot/types/interfaces';
+import { Group, Groups } from './types';
 
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -16,19 +17,11 @@ import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
-import Item from './Item';
+import Grouping from './Grouping';
 
 interface Props {
   className?: string;
 }
-
-interface Group {
-  isTop?: boolean;
-  name: string;
-  routes: Routes;
-}
-
-type Groups = Record<string, Group>;
 
 const disabledLog = new Map<string, string>();
 
@@ -134,20 +127,11 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       )}
       <ul className='menuItems'>
         {visibleGroups.map(({ name, routes }): React.ReactNode => (
-          <li key={name}>
-            <div>
-              <span>{name}</span>
-              <Icon icon='caret-down' />
-            </div>
-            <ul className='dropdown'>
-              {routes.map((route): React.ReactNode => (
-                <Item
-                  key={route.name}
-                  route={route}
-                />
-              ))}
-            </ul>
-          </li>
+          <Grouping
+            key={name}
+            name={name}
+            routes={routes}
+          />
         ))}
       </ul>
     </div>
@@ -181,63 +165,7 @@ export default React.memo(styled(Menu)`
     padding: 0;
 
     > li {
-      background: #4f5255;
-      cursor: pointer;
       display: inline-block;
-      position: relative;
-
-      > div {
-        border-radius: 0.25rem 0.25rem 0 0;
-        padding: 1rem 1.5rem;
-
-        > .ui--Icon {
-          margin-left: 0.75rem;
-        }
-      }
-
-      ul.dropdown {
-        background: #4f5255;
-        border-radius: 0 0 0.25rem 0.25rem;
-        display: none;
-        list-style-type: none;
-        margin: 0;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        z-index: 10;
-
-        li {
-          cursor: pointer;
-          padding: 0.75rem 3.5rem 0.75rem 1.5rem;
-          position: relative;
-          white-space: nowrap;
-
-          .ui--Badge {
-            position: absolute;
-            right: 0.25rem;
-            top: 0.65rem;
-          }
-
-          .ui--Icon {
-            margin-right: 0.5rem;
-          }
-        }
-      }
-
-      &:hover {
-        > div,
-        > ul li {
-          background: rgba(245, 244, 243, 0.125);
-        }
-
-        > ul li:hover {
-          background: rgba(245, 244, 243, 0.2);
-        }
-
-        ul {
-          display: block;
-        }
-      }
     }
   }
 `);

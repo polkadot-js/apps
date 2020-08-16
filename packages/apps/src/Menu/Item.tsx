@@ -5,16 +5,18 @@
 import { Route } from '@polkadot/apps-routing/types';
 
 import React, { useCallback } from 'react';
+import styled from 'styled-components';
 import { Badge, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
+  className?: string;
   route: Route;
 }
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className, route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
@@ -26,7 +28,7 @@ function Item ({ route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } 
   );
 
   return (
-    <li>
+    <li className={className}>
       <div onClick={Modal ? toggleModal : _switchRoute}>
         <Icon icon={icon} />
         {text}
@@ -44,4 +46,23 @@ function Item ({ route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } 
   );
 }
 
-export default React.memo(Item);
+export default React.memo(styled(Item)`
+  cursor: pointer;
+  padding: 0.75rem 3.5rem 0.75rem 1.5rem;
+  position: relative;
+  white-space: nowrap;
+
+  &.topLevel {
+    padding-bottom: 1rem;
+  }
+
+  .ui--Badge {
+    position: absolute;
+    right: 0.25rem;
+    top: 0.65rem;
+  }
+
+  .ui--Icon {
+    margin-right: 0.5rem;
+  }
+`);
