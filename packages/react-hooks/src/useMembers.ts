@@ -12,13 +12,15 @@ interface Result {
   members: string[];
 }
 
+const transformMembers = {
+  transform: (accounts: AccountId[]) =>
+    accounts.map((accountId) => accountId.toString())
+};
+
 export default function useMembers (collective: 'council' | 'technicalCommittee' = 'council'): Result {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, [], {
-    transform: (accounts: AccountId[]) =>
-      accounts.map((accountId) => accountId.toString())
-  });
+  const retrieved = useCall<string[]>(hasAccounts && api.query[collective]?.members, undefined, transformMembers);
 
   return useMemo(
     () => ({

@@ -71,13 +71,15 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   };
 }
 
+const transformSlashes = {
+  transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
+};
+
 function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
   const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
-  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, [address], {
-    transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
-  });
+  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, [address], transformSlashes);
 
   const { commission, nominators, stakeOther, stakeOwn } = useMemo(
     () => stakingInfo ? expandInfo(stakingInfo) : { nominators: [] },

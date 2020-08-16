@@ -49,18 +49,20 @@ function extractSlashes (stashId: string, allSlashes: [BN, UnappliedSlash[]][] =
     .filter(({ slashes }) => slashes.length);
 }
 
+const transformSpan = {
+  transform: (optSpans: Option<SlashingSpans>): number =>
+    optSpans.isNone
+      ? 0
+      : optSpans.unwrap().prior.length + 1
+};
+
 function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
   const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
-  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stashId], {
-    transform: (optSpans: Option<SlashingSpans>): number =>
-      optSpans.isNone
-        ? 0
-        : optSpans.unwrap().prior.length + 1
-  });
+  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stashId], transformSpan);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
