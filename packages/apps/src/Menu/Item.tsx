@@ -4,28 +4,41 @@
 
 import { Route } from '@polkadot/apps-routing/types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Badge, Icon } from '@polkadot/react-components';
+import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
-  onClick: () => void;
   route: Route;
 }
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ onClick, route: { icon, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+  const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
+  const _switchRoute = useCallback(
+    (): void => {
+      window.location.hash = name;
+    },
+    [name]
+  );
+
   return (
-    <li onClick={onClick}>
-      <Icon icon={icon} />
-      {text}
-      {!!count && (
-        <Badge
-          color='counter'
-          info={count}
-        />
+    <li>
+      <div onClick={Modal ? toggleModal : _switchRoute}>
+        <Icon icon={icon} />
+        {text}
+        {!!count && (
+          <Badge
+            color='counter'
+            info={count}
+          />
+        )}
+      </div>
+      {Modal && isModalVisible && (
+        <Modal onClose={toggleModal} />
       )}
     </li>
   );

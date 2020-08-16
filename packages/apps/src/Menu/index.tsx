@@ -6,17 +6,16 @@ import { Route, RouteGroup, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { Icon } from '@polkadot/react-components';
-import { useAccounts, useApi, useCall, useIpfs } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
-import Endpoints from './Endpoints';
 import Item from './Item';
 
 interface Props {
@@ -92,8 +91,6 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
   const location = useLocation();
-  const { ipnsChain } = useIpfs();
-  const [modals, setModals] = useState<Record<string, boolean>>({});
 
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
@@ -111,8 +108,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       developer: t('Developer'),
       governance: t('Governance'),
       network: t('Network'),
-      settings: t('Settings'),
-      social: t('Social')
+      settings: t('Settings')
     }),
     [t]
   );
@@ -127,76 +123,33 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     [location, routing]
   );
 
-  const _switchRoute = useCallback(
-    (hash: string): () => void => () => {
-      window.location.hash = hash;
-    },
-    []
-  );
-
-  const _toggleModal = useCallback(
-    (name: string): () => void =>
-      (): void => setModals((modals) => ({
-        ...modals,
-        [name]: !modals[name]
-      })),
-    []
-  );
-
   return (
     <div className={`${className} ui--highlight--border`}>
-      <ChainInfo
-        isToggled={modals.network}
-        onClick={
-          ipnsChain
-            ? undefined
-            : _toggleModal('network')
-        }
-      />
+      <ChainInfo />
       {activeRoute && (
         <div className='menuActive ui--highlight--border'>
           <Icon icon={activeRoute.icon} />
           <span>{activeRoute.text}</span>
         </div>
       )}
-      <div className='menuItems'>
+      <ul className='menuItems'>
         {visibleGroups.map(({ name, routes }): React.ReactNode => (
-          <div key={name}>
+          <li key={name}>
             <div>
               <span>{name}</span>
               <Icon icon='caret-down' />
             </div>
-            <ul>
+            <ul className='dropdown'>
               {routes.map((route): React.ReactNode => (
                 <Item
                   key={route.name}
-                  onClick={
-                    route.Modal
-                      ? _toggleModal(route.name)
-                      : _switchRoute(route.name)
-                  }
                   route={route}
                 />
               ))}
             </ul>
-          </div>
+          </li>
         ))}
-      </div>
-      {modals.network && (
-        <Endpoints onClose={_toggleModal('network')} />
-      )}
-      {routing.map((route): React.ReactNode => (
-        route.Modal
-          ? modals[route.name]
-            ? (
-              <route.Modal
-                key={route.name}
-                onClose={_toggleModal(route.name)}
-              />
-            )
-            : <div key={route.name} />
-          : null
-      ))}
+      </ul>
     </div>
   );
 }
@@ -223,9 +176,11 @@ export default React.memo(styled(Menu)`
   .menuItems {
     color: #f5f4f3;
     flex: 1 1;
+    list-style-type: none;
     margin: 0 3.5rem 0 0;
+    padding: 0;
 
-    > div {
+    > li {
       background: #4f5255;
       cursor: pointer;
       display: inline-block;
@@ -240,7 +195,7 @@ export default React.memo(styled(Menu)`
         }
       }
 
-      ul {
+      ul.dropdown {
         background: #4f5255;
         border-radius: 0 0 0.25rem 0.25rem;
         display: none;
@@ -257,13 +212,13 @@ export default React.memo(styled(Menu)`
           position: relative;
           white-space: nowrap;
 
-          > .ui--Badge {
+          .ui--Badge {
             position: absolute;
             right: 0.25rem;
             top: 0.65rem;
           }
 
-          > .ui--Icon {
+          .ui--Icon {
             margin-right: 0.5rem;
           }
         }

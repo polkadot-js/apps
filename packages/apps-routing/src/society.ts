@@ -15,7 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'query.society.pot'
       ]
     },
-    group: 'social',
+    group: 'network',
     icon: 'hand-spock',
     name: 'society',
     text: t<string>('nav.society', 'Society', { ns: 'apps-routing' }),

@@ -51,7 +51,6 @@ export default React.memo(styled(BaseOverlay)`
   border-bottom-left-radius: 0.25rem;
   border-bottom-width: 1px;
   border-left-width: 0.25rem;
-  right: 0;
   line-height: 1.5em;
   padding: 0 1rem;
   position: fixed;
