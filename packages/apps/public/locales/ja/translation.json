@@ -140,7 +140,7 @@
   "Metadata {{count}}": "メタデータ {{count}}",
   "Mnemonic": "ニーモニック",
   "Most recent head data": "最新のヘッドデータ",
-  "Motions ({{count}})": "モーション({{count}})",
+  "Motions": "モーション",
   "Multisig": "マルチシグ",
   "Multisig approvals": "マルチシグの承認",
   "Mutates contract state": "コントラクトの状態を変える",

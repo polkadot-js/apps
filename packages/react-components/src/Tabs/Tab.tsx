@@ -8,17 +8,19 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Badge from '../Badge';
 import Icon from '../Icon';
 
 interface Props extends TabItem {
   basePath: string;
   className?: string;
+  count?: number;
   index: number;
   isSequence?: boolean;
   num: number;
 }
 
-function Tab ({ basePath, className = '', hasParams, index, isExact, isRoot, isSequence, name, num, text }: Props): React.ReactElement<Props> {
+function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRoot, isSequence, name, num, text }: Props): React.ReactElement<Props> {
   const to = isRoot
     ? basePath
     : `${basePath}/${name}`;
@@ -39,6 +41,13 @@ function Tab ({ basePath, className = '', hasParams, index, isExact, isRoot, isS
         <Icon
           className='tabIcon'
           icon='arrow-right'
+        />
+      )}
+      {!!count && (
+        <Badge
+          className='tabCounter'
+          color='counter'
+          info={count}
         />
       )}
     </NavLink>
@@ -62,6 +71,10 @@ export default React.memo(styled(Tab)`
     &:not(.tabLinkActive) {
       border-bottom-color: #e6e6e6;
     }
+  }
+
+  .tabCounter {
+    margin: -1rem 0 -1rem 0.5rem;
   }
 
   .tabIcon {
