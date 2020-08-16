@@ -40,44 +40,39 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
         <CardSummary label={t<string>('refresh in')}>
           <Elapsed value={nextRefresh} />
         </CardSummary>
-        <CardSummary
-          className='ui--media-small'
-          label={t<string>('total peers')}
-        >
-          {
-            health
-              ? `${health.peers.toNumber()}`
-              : '-'
-          }
-        </CardSummary>
-        <CardSummary
-          className='ui--media-small'
-          label={t<string>('syncing')}
-        >
-          {
-            health
-              ? (
-                health.isSyncing.valueOf()
-                  ? t<string>('yes')
-                  : t<string>('no')
-              )
-              : '-'
-          }
-        </CardSummary>
+        {health && (
+          <>
+            <CardSummary
+              className='ui--media-small'
+              label={t<string>('total peers')}
+            >
+              {formatNumber(health.peers)}
+            </CardSummary>
+            <CardSummary
+              className='ui--media-small'
+              label={t<string>('syncing')}
+            >
+              {health.isSyncing.valueOf()
+                ? t<string>('yes')
+                : t<string>('no')
+              }
+            </CardSummary>
+          </>
+        )}
       </section>
-      <section className='ui--media-large'>
-        <CardSummary label={t<string>('queued tx')}>
-          {
-            extrinsics
-              ? `${extrinsics.length}`
-              : '-'
-          }
-        </CardSummary>
-      </section>
+      {extrinsics && (extrinsics.length > 0) && (
+        <section className='ui--media-large'>
+          <CardSummary label={t<string>('queued tx')}>
+            {extrinsics.length}
+          </CardSummary>
+        </section>
+      )}
       <section>
-        <CardSummary label={t<string>('peer best')}>
-          {formatNumber(peerBest)}
-        </CardSummary>
+        {peerBest?.gtn(0) && (
+          <CardSummary label={t<string>('peer best')}>
+            {formatNumber(peerBest)}
+          </CardSummary>
+        )}
         <CardSummary label={t<string>('our best')}>
           <BestNumber />
         </CardSummary>
