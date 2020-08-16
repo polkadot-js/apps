@@ -18,6 +18,7 @@ import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Grouping from './Grouping';
+import NodeInfo from './NodeInfo';
 
 interface Props {
   className?: string;
@@ -118,33 +119,42 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <div className={`${className} ui--highlight--border`}>
-      <ChainInfo />
-      {activeRoute && (
-        <div className='menuActive ui--highlight--border'>
-          <Icon icon={activeRoute.icon} />
-          <span>{activeRoute.text}</span>
-        </div>
-      )}
-      <ul className='menuItems'>
-        {visibleGroups.map(({ name, routes }): React.ReactNode => (
-          <Grouping
-            key={name}
-            name={name}
-            routes={routes}
-          />
-        ))}
-      </ul>
+      <div className='menuSection'>
+        <ChainInfo />
+        {activeRoute && (
+          <div className='menuActive ui--highlight--border'>
+            <Icon icon={activeRoute.icon} />
+            <span>{activeRoute.text}</span>
+          </div>
+        )}
+        <ul className='menuItems'>
+          {visibleGroups.map(({ name, routes }): React.ReactNode => (
+            <Grouping
+              key={name}
+              name={name}
+              routes={routes}
+            />
+          ))}
+        </ul>
+      </div>
+      <NodeInfo />
     </div>
   );
 }
 
 export default React.memo(styled(Menu)`
-  align-items: flex-end;
+  align-items: center;
   background: #4f5255;
   border-top: 0.5rem solid transparent;
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
   padding: 0;
+
+  .menuSection {
+    align-items: flex-end;
+    display: flex;
+  }
 
   .menuActive {
     background: #f5f4f3;

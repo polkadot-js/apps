@@ -13,10 +13,11 @@ interface Props {
 
 function NodeVersion ({ children, className = '', label }: Props): React.ReactElement<Props> {
   const { systemVersion } = useApi();
+  const displayVersion = systemVersion.split('-').filter((_, index) => index <= 1).join('-');
 
   return (
     <div className={className}>
-      {label || ''}{systemVersion}{children}
+      {label || ''}{displayVersion}{children}
     </div>
   );
 }
