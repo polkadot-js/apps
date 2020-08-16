@@ -16,7 +16,7 @@ interface Props {
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ className, route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className = '', route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
@@ -28,7 +28,7 @@ function Item ({ className, route: { Modal, icon, name, text, useCounter = DUMMY
   );
 
   return (
-    <li className={className}>
+    <li className={`${className}${count ? ' withCounter' : ''}`}>
       <div onClick={Modal ? toggleModal : _switchRoute}>
         <Icon icon={icon} />
         {text}
@@ -48,12 +48,16 @@ function Item ({ className, route: { Modal, icon, name, text, useCounter = DUMMY
 
 export default React.memo(styled(Item)`
   cursor: pointer;
-  padding: 0.75rem 3.5rem 0.75rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   position: relative;
   white-space: nowrap;
 
   &.topLevel {
-    padding-bottom: 1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  &.withCounter {
+    padding-right: 3.5rem;
   }
 
   .ui--Badge {

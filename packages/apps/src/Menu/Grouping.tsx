@@ -66,6 +66,10 @@ export default React.memo(styled(Grouping)`
     padding: 0;
     position: absolute;
     z-index: 250;
+
+    > li {
+      padding-right: 3.5rem;
+    }
   }
 
   &:hover {
