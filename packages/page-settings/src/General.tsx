@@ -24,14 +24,17 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
   const [settings, setSettings] = useState(uiSettings.get());
+
   const iconOptions = useMemo(
     () => uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default'])),
     []
   );
+
   const prefixOptions = useMemo(
     () => createSs58(t).map((o): Option | React.ReactNode => createOption(o, ['default'])),
     [t]
   );
+
   const translateLanguages = useMemo(
     () => createLanguages(t),
     [t]
@@ -54,10 +57,12 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
       setSettings((settings) => ({ ...settings, [key]: value })),
     []
   );
+
   const _saveAndReload = useCallback(
     () => saveAndReload(settings),
     [settings]
   );
+
   const _save = useCallback(
     (): void => {
       save(settings);
@@ -66,7 +71,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     [settings]
   );
 
-  const { i18nLang, icon, ledgerConn, prefix, uiMode } = settings;
+  const { i18nLang, icon, ledgerConn, prefix } = settings;
 
   return (
     <div className={className}>
@@ -86,15 +91,6 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           label={t<string>('default icon theme')}
           onChange={_handleChange('icon')}
           options={iconOptions}
-        />
-      </div>
-      <div className='ui--row'>
-        <Dropdown
-          defaultValue={uiMode}
-          help={t<string>('Adjust the mode from basic (with a limited number of beginner-user-friendly apps) to full (with all basic & advanced apps available)')}
-          label={t<string>('interface operation mode')}
-          onChange={_handleChange('uiMode')}
-          options={uiSettings.availableUIModes}
         />
       </div>
       {isLedgerCapable() && (
