@@ -7,6 +7,7 @@ import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/type
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
+import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -71,13 +72,22 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   };
 }
 
+const transformSlashes = {
+  transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
+};
+
+function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
+  const params = useMemo(() => [address], [address]);
+  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, params);
+  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
+  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, params);
+
+  return { accountInfo, slashingSpans, stakingInfo };
+}
+
 function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
-  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
-  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, [address], {
-    transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
-  });
+  const { accountInfo, slashingSpans, stakingInfo } = useAddressCalls(api, address, isMain);
 
   const { commission, nominators, stakeOther, stakeOwn } = useMemo(
     () => stakingInfo ? expandInfo(stakingInfo) : { nominators: [] },

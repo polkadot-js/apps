@@ -21,7 +21,7 @@ interface Props {
 function Header ({ slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress, []);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
 
   const [blockProgress, blockEnd] = useMemo(
     () => sessionInfo

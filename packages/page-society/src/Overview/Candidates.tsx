@@ -21,7 +21,7 @@ interface Props {
 function Candidates ({ allMembers, className = '', isMember, ownMembers }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates, []);
+  const candidates = useCall<DeriveSocietyCandidate[]>(api.derive.society.candidates);
 
   const headerRef = useRef([
     [t('candidates'), 'start'],

@@ -18,7 +18,7 @@ interface Props {
 function Externals ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal, []);
+  const external = useCall<DeriveProposalExternal | null>(api.derive.democracy.nextExternal);
 
   const headerRef = useRef([
     [t('external'), 'start'],

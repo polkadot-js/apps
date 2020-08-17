@@ -17,29 +17,29 @@ interface Props {
   className?: string;
 }
 
-function transformEntries (entries: [{ args: [BlockNumber] }, Option<Scheduled>[]][]): ScheduledExt[] {
-  return entries
-    .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
-    .reduce((items: ScheduledExt[], [key, vecSchedOpt]): ScheduledExt[] => {
-      const blockNumber = key.args[0];
+const transformEntries = {
+  transform: (entries: [{ args: [BlockNumber] }, Option<Scheduled>[]][]): ScheduledExt[] => {
+    return entries
+      .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
+      .reduce((items: ScheduledExt[], [key, vecSchedOpt]): ScheduledExt[] => {
+        const blockNumber = key.args[0];
 
-      return vecSchedOpt
-        .filter((schedOpt) => schedOpt.isSome)
-        .map((schedOpt) => schedOpt.unwrap())
-        .reduce((items: ScheduledExt[], { call, maybeId, maybePeriodic, priority }, index) => {
-          items.push({ blockNumber, call, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, priority });
+        return vecSchedOpt
+          .filter((schedOpt) => schedOpt.isSome)
+          .map((schedOpt) => schedOpt.unwrap())
+          .reduce((items: ScheduledExt[], { call, maybeId, maybePeriodic, priority }, index) => {
+            items.push({ blockNumber, call, key: `${blockNumber.toString()}-${index}`, maybeId, maybePeriodic, priority });
 
-          return items;
-        }, items);
-    }, []);
-}
+            return items;
+          }, items);
+      }, []);
+  }
+};
 
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, [], {
-    transform: transformEntries
-  });
+  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, undefined, transformEntries);
 
   const headerRef = useRef([
     [t('scheduled'), 'start'],

@@ -30,6 +30,10 @@ import useSortedTargets from './useSortedTargets';
 const HIDDEN_ACC = ['actions', 'payouts', 'query'];
 const HIDDEN_QUE = ['returns', 'query'];
 
+const transformElection = {
+  transform: (status: ElectionStatus) => status.isOpen
+};
+
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -40,10 +44,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
-    transform: (status: ElectionStatus) => status.isOpen
-  });
+  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),

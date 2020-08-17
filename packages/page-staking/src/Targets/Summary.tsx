@@ -24,7 +24,7 @@ interface Props {
 function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance, []);
+  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
 
   const progressStake = useMemo(
     () => totalIssuance && totalStaked && totalStaked.gtn(0)

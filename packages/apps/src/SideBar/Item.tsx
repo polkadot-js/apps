@@ -59,7 +59,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
 function Item ({ isCollapsed, onClick, route }: Props): React.ReactElement<Props> | null {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
-  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
   const [hasSudo, setHasSudo] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const count = (route.useCounter || DUMMY_COUNTER)();

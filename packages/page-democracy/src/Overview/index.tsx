@@ -28,7 +28,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [isPreimageOpen, togglePreimage] = useToggle();
   const [isProposeOpen, togglePropose] = useToggle();
-  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
+  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums);
 
   return (
     <div className={className}>

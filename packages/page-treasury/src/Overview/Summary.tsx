@@ -24,8 +24,8 @@ interface Props {
 function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber, []);
-  const totalProposals = useCall<BN>(api.query.treasury.proposalCount, []);
+  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
+  const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
   const spendPeriod = api.consts.treasury.spendPeriod;
 

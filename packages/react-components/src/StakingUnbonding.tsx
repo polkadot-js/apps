@@ -29,7 +29,7 @@ function remainingBlocks (remainingEras: BN, { eraLength, eraProgress }: DeriveS
 
 function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress, []);
+  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const { t } = useTranslation();
 
   if (!stakingInfo?.unlocking || !progress) {

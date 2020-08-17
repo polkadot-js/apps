@@ -18,7 +18,7 @@ interface Props {
 function Bids ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bids = useCall<Bid[]>(api.query.society.bids, []);
+  const bids = useCall<Bid[]>(api.query.society.bids);
 
   const headerRef = useRef([
     [t('bids'), 'start'],

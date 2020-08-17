@@ -21,18 +21,18 @@ interface Props {
   ownMembers: string[];
 }
 
-function transformVotes (members: DeriveSocietyMember[]): VoteType[] {
-  return members
-    .filter(({ vote }): boolean => !!vote)
-    .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote]);
-}
+const transformVotes = {
+  transform: (members: DeriveSocietyMember[]): VoteType[] => {
+    return members
+      .filter(({ vote }): boolean => !!vote)
+      .map(({ accountId, vote }): VoteType => [accountId.toString(), vote as SocietyVote]);
+  }
+};
 
 function Defender ({ className = '', info, isMember, ownMembers }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const votes = useCall<VoteType[]>(api.derive.society.members, [], {
-    transform: transformVotes
-  });
+  const votes = useCall<VoteType[]>(api.derive.society.members, undefined, transformVotes);
 
   const headerRef = useRef([
     [t('defender'), 'start'],
