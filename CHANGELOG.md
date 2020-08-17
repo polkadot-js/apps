@@ -1,8 +1,34 @@
 # CHANGELOG
 
-## 0.54.0-beta.x
+## 0.54.1 Aug 17, 2020
 
+- Remove Berlin testnet, replace with Beresheet (Thanks to https://github.com/drewstone)
+- Add links to Polkastats where available (Thanks to https://github.com/mariopino)
+- Allow for clearing of previously-made council votes (Thanks to https://github.com/Tbaut)
+- Allow for clearing of on-chain identities (Thanks to https://github.com/Tbaut)
+- Show deposit info for setting identities (Thanks to https://github.com/Tbaut)
+- show sub-accounts in sidebar when found (Thanks to https://github.com/Tbaut)
+- Don't allow `///password` in non-mnemonic seeds (Thanks to https://github.com/Tbaut)
+- Allow saving custom RPC endpoints (Thanks to https://github.com/Tbaut)
+- Add tooltip & help info on nominee statusses (Thanks to https://github.com/Tbaut)
+- Adjust threshold parameters via lookup for treasury proposals
+- Optimize API queries params & options for less re-renders
+- Consistently detect hex data in file uploads (e.g. on parachain data)
+- Rework table rendering to non-memo/non-state headers
+- Adjust Sudo app with/without unchecked weight selection
+- Link from account page to extension upgrades via expanded info
+- Adjust Polkadot tokenDecimals/tokenSymbol for transition periods
+- Rework Slashing displays to display cumulative totals
+- Add countdown to slashing enactment to Slashing overview
+- Display own slashes for all nominators (Actions & Slashes pages)
+- Display overall staked average and minimum on targets page
+- Adjust council display to show desired runnersup
+- Validator-only payout toggles (as detected)
 - Base support for time-delay proxies (API-level only, both old and new calls)
+- Adjust saving for address inputs via AccountIndex (incl. logo from AccountId)
+- Don't allow chain selection on IPNS-with-chain endpoints
+- Adjust alignment of units (time & symbol) in formatters
+- Do not fail on non-available RPCs for node info retrieval (& hide empty)
 
 ## 0.53.1 Aug 10, 2020
 
