@@ -5,7 +5,7 @@
 import { AccountId, Address } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -17,18 +17,20 @@ interface Props {
   value?: string | AccountId | Address | null | Uint8Array;
 }
 
+function extractIndex ({ accountIndex }: Partial<DeriveAccountInfo> = {}): string | null {
+  return accountIndex
+    ? accountIndex.toString()
+    : null;
+}
+
 function AccountIndex ({ children, className = '', defaultValue, label, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
-  const [accountIndex, setAccountIndex] = useState<string | null>(null);
 
-  useEffect((): void => {
-    const { accountIndex } = info || {};
-
-    if (accountIndex) {
-      setAccountIndex(accountIndex.toString());
-    }
-  }, [info]);
+  const accountIndex = useMemo(
+    () => extractIndex(info),
+    [info]
+  );
 
   if (!api.query.indices) {
     return null;

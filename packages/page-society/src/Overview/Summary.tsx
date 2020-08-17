@@ -21,8 +21,8 @@ interface Props {
 function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const members = useCall<any[]>(api.derive.society.members, []);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const members = useCall<unknown[]>(api.derive.society.members);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
   const pot = useMemo((): string | null => {
     return info && info.pot.gtn(0)

@@ -4,7 +4,7 @@
 
 import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -24,7 +24,7 @@ type Tip = [string, OpenTip | OpenTipTo225];
 function Tips ({ className = '', hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const [tips, setTips] = useState<Tip[] | undefined>();
   const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
 
@@ -45,21 +45,21 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
     );
   }, [hashes, optTips]);
 
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('tips'), 'start'],
     [t('finder'), 'address'],
     [t('reason'), 'start'],
     [],
     [],
-    [undefined, 'badge'],
-    [undefined, 'mini ui--media-1600']
-  ].filter((v) => v), [t]);
+    [undefined, 'badge ui--media-1700'],
+    [undefined, 'mini ui--media-1700']
+  ]);
 
   return (
     <Table
       className={className}
       empty={tips && t<string>('No open tips')}
-      header={header}
+      header={headerRef.current}
     >
       {tips?.map(([hash, tip]): React.ReactNode => (
         <Tip

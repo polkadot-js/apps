@@ -21,11 +21,11 @@ interface Props {
 function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion, []);
+  const runtimeVersion = useCall<RuntimeVersion>(api.rpc.state.subscribeRuntimeVersion);
 
   return (
     <div
-      className={`apps--SideBar-logo ${className} ui--highlight--border`}
+      className={`apps--SideBar-logo${onClick ? ' isClickable' : ''} ${className} ui--highlight--border`}
       onClick={onClick}
     >
       <div className='apps--SideBar-logo-inner'>
@@ -51,9 +51,12 @@ function ChainInfo ({ className = '', isToggled, onClick }: Props): React.ReactE
 export default React.memo(styled(ChainInfo)`
   border-top: 0.5rem solid transparent;
   box-sizing: border-box;
-  cursor: pointer;
   padding: 0.75rem;
   margin: 0 0 0.5rem -1rem;
+
+  &.isClickable {
+    cursor: pointer;
+  }
 
   .apps--SideBar-logo-inner {
     display: flex;

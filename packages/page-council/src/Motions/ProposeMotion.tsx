@@ -11,7 +11,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { getThreshold } from './thresholds';
+import { getThreshold } from '../thresholds';
 
 interface Props {
   isMember: boolean;

@@ -17,10 +17,10 @@ interface Props {
 function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const activeProposals = useCall<any[]>(api.derive.democracy.proposals, []);
-  const bestNumber = useCall<BN>(api.derive.chain.bestNumber, []);
-  const publicPropCount = useCall<BN>(api.query.democracy.publicPropCount, []);
-  const referendumTotal = useCall<BN>(api.query.democracy.referendumCount, []);
+  const activeProposals = useCall<unknown[]>(api.derive.democracy.proposals);
+  const bestNumber = useCall<BN>(api.derive.chain.bestNumber);
+  const publicPropCount = useCall<BN>(api.query.democracy.publicPropCount);
+  const referendumTotal = useCall<BN>(api.query.democracy.referendumCount);
 
   return (
     <SummaryBox>

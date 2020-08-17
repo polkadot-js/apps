@@ -4,7 +4,7 @@
 
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { AccountId, ProxyType } from '@polkadot/types/interfaces';
+import { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -20,7 +20,7 @@ type PrevProxy = [AccountId, ProxyType];
 interface Props {
   className?: string;
   onClose: () => void;
-  previousProxy?: [PrevProxy[], BN];
+  previousProxy?: [ProxyDefinition[], BN];
   proxiedAccount: string;
 }
 
@@ -48,6 +48,22 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
   }
 
   return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
+}
+
+function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
+  return api.tx.proxy.addProxy.meta.args.length === 2
+    ? api.tx.proxy.addProxy(account, type)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore new version
+    : api.tx.proxy.addProxy(account, type, 0);
+}
+
+function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
+  return api.tx.proxy.removeProxy.meta.args.length === 2
+    ? api.tx.proxy.removeProxy(account, type)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore new version
+    : api.tx.proxy.removeProxy(account, type, 0);
 }
 
 function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: PrevProxyProps): React.ReactElement<PrevProxyProps> {
@@ -135,22 +151,17 @@ function NewProxy ({ index, onChangeAccount, onChangeType, onRemove, typeOpts, v
 function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  // the stack of extrinsics on the previous proxies
   const [batchStackPrevious, setBatchStackPrevious] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  // the stack of extrinsics on newly added proxies
   const [batchStackAdded, setBatchStackAdded] = useState<SubmittableExtrinsic<'promise'>[]>([]);
-  // the final extrinsic (either single or a batch)
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
-  // list of previous accounts and proxy types
-  const [previousProxyAccountsTypes] = previousProxy || [];
-  // actualized list of previous proxy including new changes (deletion if any)
-  const [previousProxyDisplay, setPreviousProxyDisplay] = useState<[AccountId, ProxyType][] | undefined>(previousProxyAccountsTypes);
-  // actualized list of new proxies (additions, if any)
-  const [addedProxies, setAddedProxies] = useState<[AccountId, ProxyType][]>([]);
+  const [previousProxyDisplay, setPreviousProxyDisplay] = useState<PrevProxy[] | undefined>(
+    previousProxy?.[0].map(({ delegate, proxyType }): [AccountId, ProxyType] => [delegate, proxyType]) || undefined
+  );
+  const [addedProxies, setAddedProxies] = useState<PrevProxy[]>([]);
 
   useEffect(() => {
     if (batchStackPrevious.length || batchStackAdded.length) {
-      setExtrinsic(createExtrinsic(api, batchStackPrevious, batchStackAdded));
+      setExtrinsic(() => createExtrinsic(api, batchStackPrevious, batchStackAdded));
     }
   }, [api, batchStackPrevious, batchStackAdded]);
 
@@ -172,7 +183,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
           : [...prevState, newProxy];
       });
 
-      setBatchStackAdded((prev) => prev.concat(api.tx.proxy.addProxy(newAccount, newType)));
+      setBatchStackAdded((prev) => prev.concat(createAddProxy(api, newAccount, newType)));
     },
     [api, proxiedAccount]
   );
@@ -188,7 +199,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
   const _delPrev = useCallback(
     (accountId: AccountId, type: ProxyType, index: number) => {
       setPreviousProxyDisplay((previousProxyDisplay) => previousProxyDisplay?.filter((_, i) => i !== index));
-      setBatchStackPrevious((batchStackPrevious) => [...batchStackPrevious, api.tx.proxy.removeProxy(accountId, type)]);
+      setBatchStackPrevious((batchStackPrevious) => [...batchStackPrevious, createRmProxy(api, accountId, type)]);
     },
     [api]
   );
@@ -211,7 +222,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
       setBatchStackAdded((batchStackAdded): SubmittableExtrinsic<'promise'>[] => {
         const newBatchAdded = batchStackAdded.filter((_, i) => i !== index);
 
-        newBatchAdded.push(api.tx.proxy.addProxy(accountId, oldType));
+        newBatchAdded.push(createAddProxy(api, accountId, oldType));
 
         return newBatchAdded;
       });
@@ -238,7 +249,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
       const newBatchStackAdded = batchStackAdded.filter((_, i) => i !== index);
 
       // Then add the new extrinsic to the batch stack with the new account
-      newBatchStackAdded.push(api.tx.proxy.addProxy(oldAccount, newType));
+      newBatchStackAdded.push(createAddProxy(api, oldAccount, newType));
       setBatchStackAdded(newBatchStackAdded);
     },
     [addedProxies, api, batchStackAdded]
@@ -269,7 +280,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
             {previousProxyDisplay?.map((value, index) => (
               <PrevProxy
                 index={index}
-                key={`${value[0].toString()}-${index}`}
+                key={`${value.toString()}-${index}`}
                 onRemove={_delPrev}
                 typeOpts={typeOpts}
                 value={value}
@@ -278,7 +289,7 @@ function ProxyOverview ({ className, onClose, previousProxy, proxiedAccount }: P
             {addedProxies.map((value, index) => (
               <NewProxy
                 index={index}
-                key={`${value[0].toString()}-${index}`}
+                key={`${value.toString()}-${index}`}
                 onChangeAccount={_changeProxyAccount}
                 onChangeType={_changeProxyType}
                 onRemove={_delProxy}

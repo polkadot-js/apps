@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useMemo, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -18,10 +18,11 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const voteOpts = useMemo(() => [
+
+  const voteOptsRef = useRef([
     { text: t<string>('Aye, I approve'), value: true },
     { text: t<string>('Nay, I do not approve'), value: false }
-  ], [t]);
+  ]);
 
   return (
     <>
@@ -38,7 +39,7 @@ function DefenderVoting ({ isMember, ownMembers }: Props): React.ReactElement<Pr
               help={t<string>('Approve or reject this defender.')}
               label={t<string>('vote for defender')}
               onChange={setVote}
-              options={voteOpts}
+              options={voteOptsRef.current}
               value={vote}
             />
           </Modal.Content>

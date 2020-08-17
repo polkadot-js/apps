@@ -36,11 +36,12 @@ function TipEndorse ({ hash, isMember, isTipped, median, members }: Props): Reac
       <Button
         icon='check'
         isDisabled={!isMember}
-        label={t<string>('Endorse')}
+        label={t<string>('Tip')}
         onClick={toggleOpen}
       />
       <TxButton
         accountId={defaultId}
+        className='ui--media-1600'
         icon='fighter-jet'
         isDisabled={!isMember || !isTipped}
         isIcon

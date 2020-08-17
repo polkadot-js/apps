@@ -959,7 +959,7 @@
   "role": "Função",
   "rotation": "rotação",
   "rpc.arcadia": "Arcadia (Nodle Testnet, hospedado por Nodle)",
-  "rpc.berlin": "Berlin (Edgeware Testnet, hospedado pelo Commonwealth Labs)",
+  "rpc.beresheet": "Beresheet (Edgeware Testnet, hospedado pelo Commonwealth Labs)",
   "rpc.custom": "Ambiente personalizado",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hospedado pelo Commonwealth Labs)",
   "rpc.flamingfir": "Fir flamejante (Substrate Testnet, hospedado pela Parity)",

@@ -62,7 +62,6 @@ function Deregister ({ id, info, isOpen, onClose, onSubmit, sudoKey }: Props): R
         <br />
         <br />
         <Static
-          className='full label-small'
           help={t<string>('The id of the parachain to be deregistered.')}
           label={t<string>('parachain id')}
           value={id}

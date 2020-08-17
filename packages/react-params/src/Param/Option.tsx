@@ -38,7 +38,7 @@ function Option ({ className = '', defaultValue, isDisabled, name, onChange, onE
       />
       {!isDisabled && (
         <Toggle
-          className='ui--Param-Option-toggle'
+          isOverlay
           label={t<string>('include option')}
           onChange={setIsActive}
           value={isActive}
@@ -50,10 +50,4 @@ function Option ({ className = '', defaultValue, isDisabled, name, onChange, onE
 
 export default React.memo(styled(Option)`
   position: relative;
-
-  > .ui--Param-Option-toggle {
-    bottom: 1.375rem;
-    position: absolute;
-    right: 3.5rem;
-  }
 `);

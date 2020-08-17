@@ -29,6 +29,7 @@ interface Props {
   isHidden?: boolean;
   isInPlaceEditor?: boolean;
   isReadOnly?: boolean;
+  isSmall?: boolean;
   isWarning?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;

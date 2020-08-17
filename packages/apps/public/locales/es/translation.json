@@ -954,7 +954,7 @@
   "role": "rol",
   "rotation": "rotación",
   "rpc.arcadia": "Arcadia (Testnet Nodle, ofrecido por Nodle)",
-  "rpc.berlin": "Berlin (Testnet Edgeware, ofrecido por Commonwealth Labs)",
+  "rpc.beresheet": "Beresheet (Testnet Edgeware, ofrecido por Commonwealth Labs)",
   "rpc.custom": "Entorno personalizado",
   "rpc.edgeware": "Edgeware (red principal Edgeware, ofrecido por Commonwealth Labs)",
   "rpc.flamingfir": "Flaming Fir (Testnet Substrate, ofrecido por Parity)",

@@ -5,10 +5,11 @@
 import { BitLength } from './types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
+
 import InputNumber from './InputNumber';
 
 interface Props {
@@ -58,13 +59,10 @@ function reformat (value: string | BN, isDisabled?: boolean): string {
 }
 
 function InputBalance ({ autoFocus, children, className = '', defaultValue: inDefault, help, isDisabled, isError, isFull, isWarning, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
-  const [defaultValue, setDefaultValue] = useState<string | undefined>();
-
-  useEffect((): void => {
-    inDefault && setDefaultValue(
-      reformat(inDefault, isDisabled)
-    );
-  }, [inDefault, isDisabled]);
+  const defaultValue = useMemo(
+    () => inDefault ? reformat(inDefault, isDisabled) : undefined,
+    [inDefault, isDisabled]
+  );
 
   return (
     <InputNumber
@@ -97,16 +95,27 @@ function InputBalance ({ autoFocus, children, className = '', defaultValue: inDe
 }
 
 export default React.memo(styled(InputBalance)`
-  &&:not(.label-small) .labelExtra {
+  &&:not(.isSmall) .labelExtra {
     right: 6.5rem;
   }
 
   .ui.action.input.ui--Input > .buttons {
     align-items: stretch;
 
-    .ui.disabled.button.compact.floating.selection.dropdown.ui--SiDropdown {
-      border-style: solid;
-      opacity: 1 !important;
+    .ui--SiDropdown.ui.button.compact.floating.selection.dropdown {
+      &.disabled {
+        border-style: solid;
+        opacity: 1 !important;
+      }
+
+      > div.text:first-child {
+        font-size: 0.9em;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0.5rem;
+        width: 3rem;
+      }
     }
   }
 `);

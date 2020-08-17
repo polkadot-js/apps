@@ -22,7 +22,6 @@ function File ({ className = '', isDisabled, isError = false, label, onChange, p
   return (
     <Bare className={className}>
       <InputFile
-        convertHex
         isDisabled={isDisabled}
         isError={isError}
         label={label}

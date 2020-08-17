@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AddressIdentity } from '@polkadot/react-hooks/types';
+import { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { AddressMini, AvatarItem, Icon, IconLink, Tag } from '@polkadot/react-components';
-import { useApi, useRegistrars, useToggle } from '@polkadot/react-hooks';
+import { AddressMini, AvatarItem, Expander, Icon, IconLink, Tag } from '@polkadot/react-components';
+import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -22,6 +23,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
   const { api } = useApi();
   const { isRegistrar, registrars } = useRegistrars();
   const [isJudgementOpen, toggleIsJudgementOpen] = useToggle();
+  const subs = useCall<[BalanceOf, AccountId[]]>(api.query.identity?.subsOf, [address])?.[1];
 
   if (!identity || !identity.isExistent || !api.query.identity?.identityOf) {
     return null;
@@ -156,6 +158,27 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
                 </div>
               </div>
             )}
+            {!!subs?.length && (
+              <div className='tr subs'>
+                {subs.length > 1
+                  ? <div className='th top'>{t<string>('subs')}</div>
+                  : <div className='th'>{t<string>('sub')}</div>
+                }
+                <div className='td'>
+                  <Expander summary={`(${subs.length})`}>
+                    <div className='body column'>
+                      {subs.map((sub) =>
+                        <AddressMini
+                          className='subs'
+                          isPadded={false}
+                          key={sub.toString()}
+                          value={sub}
+                        />
+                      )}
+                    </div>
+                  </Expander>
+                </div>
+              </div>)}
           </div>
         </div>
       </div>

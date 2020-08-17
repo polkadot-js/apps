@@ -32,7 +32,7 @@ function Voting ({ councilProposals, isDisabled, members }: Props): React.ReactE
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const { api } = useApi();
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const [councilOpts, setCouncilOpts] = useState<Option[]>([]);
   const [councilOptId, setCouncilOptId] = useState<number>(0);
   const [accountId, setAccountId] = useState<string | null>(null);

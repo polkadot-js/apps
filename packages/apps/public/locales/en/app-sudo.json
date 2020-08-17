@@ -2,6 +2,7 @@
   "Reassign": "Reassign",
   "Set sudo key": "Set sudo key",
   "Submit Sudo": "Submit Sudo",
+  "Submit Sudo Unchecked": "Submit Sudo Unchecked",
   "Sudo access": "Sudo access",
   "The unchecked weight as specified for the sudoUncheckedWeight call.": "The unchecked weight as specified for the sudoUncheckedWeight call.",
   "You do not have access to the current sudo key": "You do not have access to the current sudo key",
@@ -10,5 +11,8 @@
   "sudo key": "sudo key",
   "sudo with unchecked weight parameter": "sudo with unchecked weight parameter",
   "sudo without unchecked weight parameter": "sudo without unchecked weight parameter",
-  "unchecked weight for this call": "unchecked weight for this call"
+  "unchecked weight for this call": "unchecked weight for this call",
+  "with unchecked weight": "with unchecked weight",
+  "with weight override": "with weight override",
+  "without unchecked weight": "without unchecked weight"
 }

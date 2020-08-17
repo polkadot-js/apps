@@ -68,6 +68,10 @@ const Signature = styled.textarea`
   }
 `;
 
+const transformStatement = {
+  transform: (option: Option<StatementKind>) => option.unwrapOr(null)
+};
+
 function ClaimsApp (): React.ReactElement {
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<string | undefined | null>(null);
@@ -165,9 +169,7 @@ function ClaimsApp (): React.ReactElement {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], {
-    transform: (option: Option<StatementKind>) => option.unwrapOr(null)
-  });
+  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], transformStatement);
 
   const statementSentence = getStatement(systemChain, statementKind)?.sentence || '';
 

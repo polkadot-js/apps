@@ -5,6 +5,8 @@
 import { TFunction } from 'i18next';
 import { Option } from './types';
 
+import { CUSTOM_ENDPOINT_KEY } from './constants';
+
 export interface LinkOption extends Option {
   dnslink?: string;
   isChild?: boolean;
@@ -15,6 +17,26 @@ interface EnvWindow {
   process_env?: {
     WS_URL: string;
   }
+}
+
+function createOwn (t: TFunction): LinkOption[] {
+  try {
+    const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
+
+    if (storedItems) {
+      const items = JSON.parse(storedItems) as string[];
+
+      return items.map((item) => ({
+        info: 'local',
+        text: t<string>('rpc.custom.entry', 'Custom (custom, {{WS_URL}})', { ns: 'apps-config', replace: { WS_URL: item } }),
+        value: item
+      }));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  return [];
 }
 
 function createDev (t: TFunction): LinkOption[] {
@@ -86,13 +108,7 @@ function createLive (t: TFunction): LinkOption[] {
 
 function createTest (t: TFunction): LinkOption[] {
   return [
-    // fixed, polkadot
-    {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://westend-rpc.polkadot.io'
-    },
+    // polkadot
     {
       dnslink: 'rococo',
       info: 'rococo',
@@ -117,9 +133,15 @@ function createTest (t: TFunction): LinkOption[] {
       text: t<string>('rpc.rococo.track', 'Track (Polkadot Testpara, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://track-rpc.polkadot.io'
     },
+    {
+      dnslink: 'westend',
+      info: 'westend',
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://westend-rpc.polkadot.io'
+    },
     // alphabetical based on chain name
     {
-      info: 'amber',
+      info: 'centrifuge',
       text: t<string>('rpc.amber', 'Amber (Centrifuge Testnet, hosted by Centrifuge)', { ns: 'apps-config' }),
       value: 'wss://fullnode.amber.centrifuge.io'
     },
@@ -130,8 +152,8 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'edgeware',
-      text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://berlin1.edgewa.re'
+      text: t<string>('rpc.beresheet', 'Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
+      value: 'wss://beresheet1.edgewa.re'
     },
     {
       info: 'substrate',
@@ -177,7 +199,7 @@ function createCustom (t: TFunction): LinkOption[] {
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
-//   text: The text to display on teh dropdown
+//   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 export default function create (t: TFunction): LinkOption[] {
   return [
@@ -199,6 +221,7 @@ export default function create (t: TFunction): LinkOption[] {
       text: t<string>('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       value: ''
     },
-    ...createDev(t)
+    ...createDev(t),
+    ...createOwn(t)
   ].filter(({ isDisabled }) => !isDisabled);
 }

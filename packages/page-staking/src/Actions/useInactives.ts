@@ -40,7 +40,7 @@ function extractState (stashId: string, slashes: Option<SlashingSpans>[], nomine
   // waiting if validator is inactive or we have not submitted long enough ago
   const nomsWaiting = exposures
     .map((exposure, index) =>
-      exposure.total.unwrap().isZero() || (nomsInactive.includes(nominees[index]) && activeEra.sub(submittedIn).lten(2))
+      exposure.total.unwrap().isZero() || (nomsInactive.includes(nominees[index]) && submittedIn.eq(activeEra))
         ? nominees[index]
         : null
     )
@@ -65,7 +65,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<Inactives>({});
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session.indexes, []);
+  const indexes = useCall<DeriveSessionIndexes>(api.derive.session.indexes);
 
   useEffect((): () => void => {
     let unsub: (() => void) | undefined;

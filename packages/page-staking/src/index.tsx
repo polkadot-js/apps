@@ -6,7 +6,7 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AppProps as Props } from '@polkadot/react-components/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,30 +27,43 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
-interface Validators {
-  next?: string[];
-  validators?: string[];
-}
+const HIDDEN_ACC = ['actions', 'payouts', 'query'];
+const HIDDEN_QUE = ['returns', 'query'];
+
+const transformElection = {
+  transform: (status: ElectionStatus) => status.isOpen
+};
 
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
-  const [{ next }, setValidators] = useState<Validators>({});
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
   const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
-    transform: (status: ElectionStatus) => status.isOpen
-  });
+  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
+
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
     [api, hasAccounts]
   );
+
+  const next = useMemo(
+    () => (allStashes && stakingOverview)
+      ? allStashes.filter((address) => !stakingOverview.validators.includes(address as any))
+      : undefined,
+    [allStashes, stakingOverview]
+  );
+
+  const ownValidators = useMemo(
+    () => (ownStashes || []).filter(({ isStashValidating }) => isStashValidating),
+    [ownStashes]
+  );
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -86,23 +99,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Validator stats')
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
-  const hiddenTabs = useMemo(
-    (): string[] => {
-      return !hasAccounts
-        ? ['actions', 'payouts', 'query']
-        : !hasQueries
-          ? ['returns', 'query']
-          : [];
-    },
-    [hasAccounts, hasQueries]
-  );
-
-  useEffect((): void => {
-    allStashes && stakingOverview && setValidators({
-      next: allStashes.filter((address) => !stakingOverview.validators.includes(address as any)),
-      validators: stakingOverview.validators.map((a) => a.toString())
-    });
-  }, [allStashes, stakingOverview]);
 
   return (
     <main className={`staking--App ${className}`}>
@@ -110,7 +106,13 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hiddenTabs}
+          hidden={
+            !hasAccounts
+              ? HIDDEN_ACC
+              : !hasQueries
+                ? HIDDEN_QUE
+                : undefined
+          }
           items={items}
         />
       </header>
@@ -122,13 +124,19 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       />
       <Switch>
         <Route path={`${basePath}/payout`}>
-          <Payouts isInElection={isInElection} />
+          <Payouts
+            isInElection={isInElection}
+            ownValidators={ownValidators}
+          />
         </Route>
         <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
           <Query />
         </Route>
         <Route path={`${basePath}/slashes`}>
-          <Slashes slashes={slashes} />
+          <Slashes
+            ownStashes={ownStashes}
+            slashes={slashes}
+          />
         </Route>
         <Route path={`${basePath}/targets`}>
           <Targets

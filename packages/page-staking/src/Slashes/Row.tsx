@@ -5,7 +5,7 @@
 import { Slash } from './types';
 
 import React from 'react';
-import { AddressMini, AddressSmall, Expander } from '@polkadot/react-components';
+import { AddressMini, AddressSmall, Badge, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -13,16 +13,20 @@ import { useTranslation } from '../translate';
 
 interface Props {
   slash: Slash;
-  withEra: boolean;
 }
 
-function Row ({ slash: { era, slash: { others, own, payout, reporters, validator }, total, totalOther }, withEra }: Props): React.ReactElement<Props> {
+function Row ({ slash: { isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <tr>
-      <td className='number'>
-        <h1>{withEra ? formatNumber(era) : <>&nbsp;</>}</h1>
+      <td className='badge'>
+        {isMine && (
+          <Badge
+            color='red'
+            icon='skull-crossbones'
+          />
+        )}
       </td>
       <td className='address'>
         <AddressSmall value={validator} />
@@ -41,6 +45,14 @@ function Row ({ slash: { era, slash: { others, own, payout, reporters, validator
           </Expander>
         )}
       </td>
+      <td className='address'>
+        {reporters.map((reporter, index): React.ReactNode => (
+          <AddressMini
+            key={index}
+            value={reporter}
+          />
+        ))}
+      </td>
       <td className='number together'>
         <FormatBalance value={own} />
       </td>
@@ -49,14 +61,6 @@ function Row ({ slash: { era, slash: { others, own, payout, reporters, validator
       </td>
       <td className='number together'>
         <FormatBalance value={total} />
-      </td>
-      <td className='address'>
-        {reporters.map((reporter, index): React.ReactNode => (
-          <AddressMini
-            key={index}
-            value={reporter}
-          />
-        ))}
       </td>
       <td className='number together'>
         <FormatBalance value={payout} />
