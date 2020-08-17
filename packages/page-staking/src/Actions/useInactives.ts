@@ -40,7 +40,7 @@ function extractState (stashId: string, slashes: Option<SlashingSpans>[], nomine
   // waiting if validator is inactive or we have not submitted long enough ago
   const nomsWaiting = exposures
     .map((exposure, index) =>
-      exposure.total.unwrap().isZero() || (nomsInactive.includes(nominees[index]) && activeEra.sub(submittedIn).lten(2))
+      exposure.total.unwrap().isZero() || (nomsInactive.includes(nominees[index]) && submittedIn.eq(activeEra))
         ? nominees[index]
         : null
     )
