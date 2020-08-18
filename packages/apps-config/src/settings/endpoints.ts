@@ -161,6 +161,11 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://substrate-rpc.parity.io'
     },
     {
+      info: 'kilt',
+      text: t<string>('rpc.kilt', 'Mashnet (KILT Canary, hosted by KILT Protocol)', { ns: 'apps-config' }),
+      value: 'wss://full-nodes-lb.kilt.io:9944/'
+    },
+    {
       info: 'datahighway',
       isDisabled: true,
       text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
