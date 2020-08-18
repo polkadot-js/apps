@@ -19,7 +19,7 @@ const WaitForApi = ({ children }: { children: React.ReactNode }): PropsWithChild
   return api.isApiReady ? (children) : null;
 };
 
-describe('Account Create', () => {
+describe('--SLOW--: Account Create', () => {
   it('asks for confirmation after saving new account', async () => {
     const memoryStore = new MemoryStore();
 
