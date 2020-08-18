@@ -150,7 +150,7 @@ export default React.memo(styled(Menu)`
   }
 
   .menuActive {
-    background: white; // #f5f4f3;
+    background: #fefdfc; // #f5f4f3;
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.5rem;
     margin: 0 1.5rem;

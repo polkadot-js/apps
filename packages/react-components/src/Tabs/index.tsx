@@ -59,7 +59,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
 }
 
 export default React.memo(styled(Tabs)`
-  background: white;
+  background: #fefdfc;
   border-bottom: 1px solid #e6e6e6;
   margin: 0 -3rem;
   overflow-x: scroll;
