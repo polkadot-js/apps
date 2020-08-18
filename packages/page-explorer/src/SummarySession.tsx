@@ -5,7 +5,7 @@
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { Forcing } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { CardSummary } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
@@ -20,16 +20,13 @@ interface Props {
 function SummarySession ({ withEra = true, withSession = true }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress, []);
-  const forcing = useCall<Forcing>(api.query.staking?.forceEra, []);
-  const eraLabel = useMemo(() =>
-    t<string>('era')
-  , [t]);
-  const sessionLabel = useMemo(() =>
-    sessionInfo?.isEpoch
-      ? t<string>('epoch')
-      : t<string>('session')
-  , [sessionInfo?.isEpoch, t]);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
+  const forcing = useCall<Forcing>(api.query.staking?.forceEra);
+
+  const eraLabel = t<string>('era');
+  const sessionLabel = sessionInfo?.isEpoch
+    ? t<string>('epoch')
+    : t<string>('session');
 
   return (
     <>

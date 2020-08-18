@@ -22,18 +22,20 @@ interface Props {
   value: string;
 }
 
+const transformEvents = {
+  isSingle: true,
+  transform: (events: EventRecord[]): KeyedEvent[] =>
+    events.map((record, index) => ({
+      indexes: [index],
+      key: `${Date.now()}-${index}-${record.hash.toHex()}`,
+      record
+    }))
+};
+
 function BlockByHash ({ className = '', value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], {
-    isSingle: true,
-    transform: (events: EventRecord[]): KeyedEvent[] =>
-      events.map((record, index) => ({
-        indexes: [index],
-        key: `${Date.now()}-${index}-${record.hash.toHex()}`,
-        record
-      }))
-  });
+  const events = useCall<KeyedEvent[]>(api.query.system.events.at, [value], transformEvents);
   const getBlock = useCall<SignedBlock>(api.rpc.chain.getBlock, [value], { isSingle: true });
   const getHeader = useCall<HeaderExtended>(api.derive.chain.getHeader, [value]);
 

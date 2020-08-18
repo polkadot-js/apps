@@ -4,7 +4,7 @@
 
 import { SlashEra } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -17,20 +17,21 @@ interface Props {
 
 function Slashes ({ slash }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const header = useMemo((): [string?, string?, number?][] => [
+
+  const headerRef = useRef<[string?, string?, number?][]>([
     [undefined, 'start', 3],
     [t('reporters'), 'address'],
     [t('own')],
     [t('other')],
     [t('total')],
     [t('payout')]
-  ], [t]);
+  ]);
 
   return (
     <Table header={[[t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 8]]}>
       <Summary slash={slash} />
       <tr className='transparent'>
-        {header.map(([label, className, colSpan = 1], index): React.ReactNode => (
+        {headerRef.current.map(([label, className, colSpan = 1], index): React.ReactNode => (
           <td
             className={className}
             colSpan={colSpan}

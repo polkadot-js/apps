@@ -18,6 +18,7 @@ import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeNodle from './nodes/nodle.svg';
+import nodeKilt from './nodes/kilt.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
@@ -51,6 +52,7 @@ const nodeLogos: Record<string, any> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['KILT Node', nodeKilt],
   ['kulupu', nodeSubstrate],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
@@ -69,6 +71,7 @@ const namedLogos: Record<string, any> = {
   centrifuge: nodeCentrifuge,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  kilt: nodeKilt,
   kusama: chainKusama,
   nodle: nodeNodle,
   polkadot: nodePolkadot,

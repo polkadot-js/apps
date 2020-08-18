@@ -30,9 +30,9 @@ const DIV = new BN(1_000_000);
 function PollApp ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals, []);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [turnout, setTurnout] = useState<Turnout | null>(null);
   const [opt10m, setOpt10m] = useState(false);

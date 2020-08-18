@@ -5,7 +5,7 @@
 import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useMembers } from '@polkadot/react-hooks';
 
@@ -25,7 +25,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
   const { t } = useTranslation();
   const { isMember, members } = useMembers();
 
-  const header = useMemo(() => [
+  const headerRef = useRef([
     [t('motions'), 'start', 2],
     [t('threshold')],
     [t('voting end')],
@@ -34,7 +34,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
     [],
     [undefined, 'badge'],
     [undefined, 'mini']
-  ], [t]);
+  ]);
 
   return (
     <div className={className}>
@@ -54,7 +54,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
       </Button.Group>
       <Table
         empty={motions && t<string>('No council motions')}
-        header={header}
+        header={headerRef.current}
       >
         {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
           <Motion

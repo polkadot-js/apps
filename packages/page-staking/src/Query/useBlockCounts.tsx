@@ -13,7 +13,7 @@ import { isFunction } from '@polkadot/util';
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
-  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes, []);
+  const indexes = useCall<DeriveSessionIndexes>(api.derive.session?.indexes);
   const current = useCall<u32>(api.query.imOnline?.authoredBlocks, [indexes?.currentIndex, accountId]);
   const [counts, setCounts] = useState<u32[]>([]);
   const [historic, setHistoric] = useState<u32[]>([]);

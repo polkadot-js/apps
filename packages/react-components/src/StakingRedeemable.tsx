@@ -18,16 +18,18 @@ interface Props {
   stakingInfo?: DeriveStakingAccount;
 }
 
+const transformSpan = {
+  transform: (optSpans: Option<SlashingSpans>): number =>
+    optSpans.isNone
+      ? 0
+      : optSpans.unwrap().prior.length + 1
+};
+
 function StakingRedeemable ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { t } = useTranslation();
-  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stakingInfo?.stashId], {
-    transform: (optSpans: Option<SlashingSpans>): number =>
-      optSpans.isNone
-        ? 0
-        : optSpans.unwrap().prior.length + 1
-  });
+  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stakingInfo?.stashId], transformSpan);
 
   if (!stakingInfo?.redeemable?.gtn(0)) {
     return null;

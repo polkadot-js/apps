@@ -11,7 +11,7 @@ import { BN_ONE } from '@polkadot/util';
 
 export default function useUnbondDuration (): BN | undefined {
   const { api } = useApi();
-  const sessionInfo = useCall<DeriveSessionInfo>(api.derive.session.info, []);
+  const sessionInfo = useCall<DeriveSessionInfo>(api.derive.session.info);
 
   return useMemo(
     () => (sessionInfo && sessionInfo.sessionLength.gt(BN_ONE))

@@ -92,7 +92,7 @@ export default function useOwnEraRewards (maxEras?: number, ownValidators?: Stak
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();
-  const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric, []);
+  const allEras = useCall<EraIndex[]>(api.derive.staking?.erasHistoric);
   const [{ filteredEras, validatorEras }, setFiltered] = useState<Filtered>({ filteredEras: [], validatorEras: [] });
   const [state, setState] = useState<OwnRewards>({ isLoadingRewards: true, rewardCount: 0 });
   const stakerRewards = useCall<[[string[]], DeriveStakerReward[][]]>(!ownValidators?.length && !!filteredEras.length && stashIds && api.derive.staking?.stakerRewardsMultiEras, [stashIds, filteredEras], { withParams: true });

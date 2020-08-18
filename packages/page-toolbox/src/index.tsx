@@ -4,7 +4,7 @@
 
 import { AppProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -15,10 +15,13 @@ import Sign from './Sign';
 import Verify from './Verify';
 import { useTranslation } from './translate';
 
+const HIDDEN_ACC = ['sign', 'verify'];
+
 function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
-  const items = useMemo(() => [
+
+  const itemsRef = useRef([
     {
       isRoot: true,
       name: 'rpc',
@@ -36,19 +39,15 @@ function ToolboxApp ({ basePath }: Props): React.ReactElement<Props> {
       name: 'verify',
       text: t<string>('Verify signature')
     }
-  ], [t]);
+  ]);
 
   return (
     <main className='toolbox--App'>
       <header>
         <Tabs
           basePath={basePath}
-          hidden={
-            hasAccounts
-              ? []
-              : ['sign', 'verify']
-          }
-          items={items}
+          hidden={hasAccounts ? undefined : HIDDEN_ACC}
+          items={itemsRef.current}
         />
       </header>
       <Switch>
