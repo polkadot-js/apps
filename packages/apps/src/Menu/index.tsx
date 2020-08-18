@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Route, RouteGroup, Routes } from '@polkadot/apps-routing/types';
+import { Route, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { Group, Groups } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
@@ -82,38 +82,32 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
-  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key, []);
+  const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
   const location = useLocation();
+
+  const routing = useRef(createRoutes(t));
+
+  const groupNames = useRef({
+    accounts: t('Accounts'),
+    developer: t('Developer'),
+    governance: t('Governance'),
+    network: t('Network'),
+    settings: t('Settings')
+  });
 
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
     [allAccounts, sudoKey]
   );
 
-  const routing = useMemo<Routes>(
-    () => createRoutes(t),
-    [t]
-  );
-
-  const groupNames = useMemo<Record<RouteGroup, string>>(
-    () => ({
-      accounts: t('Accounts'),
-      developer: t('Developer'),
-      governance: t('Governance'),
-      network: t('Network'),
-      settings: t('Settings')
-    }),
-    [t]
-  );
-
   const visibleGroups = useMemo(
-    () => extractGroups(routing, groupNames, apiProps, hasAccounts, hasSudo),
-    [apiProps, groupNames, hasAccounts, hasSudo, routing]
+    () => extractGroups(routing.current, groupNames.current, apiProps, hasAccounts, hasSudo),
+    [apiProps, groupNames, hasAccounts, hasSudo]
   );
 
   const activeRoute = useMemo(
-    () => routing.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
-    [location, routing]
+    () => routing.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
+    [location]
   );
 
   return (
