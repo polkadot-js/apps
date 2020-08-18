@@ -23,14 +23,18 @@ function BannerDOT (): React.ReactElement | null {
 
   const remaining = POLKADOT_DENOM_BLOCK.sub(bestNumber);
   const endDate = remaining.gtn(0)
-    ? new Date(Date.now() + (remaining.toNumber() * 6000)).toUTCString().replace('GMT', 'UTC').replace(/:[0-9]{2} UTC/, ' UTC')
+    ? new Date(Date.now() + (remaining.toNumber() * 6000))
+      .toUTCString()
+      .replace('GMT', 'UTC')
+      .replace(/^[a-zA-Z]{3}, /, '')
+      .replace(/:[0-9]{2} UTC/, ' UTC')
     : null;
 
   return (
     <Banner type='warning'>
       <p>{
         endDate
-          ? <Trans key='dotRenomGoing'>On approximately {endDate} (block number {formatNumber(POLKADOT_DENOM_BLOCK)} in <BlockToTime
+          ? <Trans key='dotRenomGoing'>On approximately {endDate} (at block number {formatNumber(POLKADOT_DENOM_BLOCK)}, in <BlockToTime
             blocks={remaining}
             isInline
           />), the DOT token will undergo a <a href='#/poll'>redenomination</a> from its original sale.</Trans>
