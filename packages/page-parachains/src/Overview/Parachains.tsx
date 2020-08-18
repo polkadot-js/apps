@@ -28,7 +28,7 @@ function Parachains ({ parachains }: Props): React.ReactElement<Props> {
 
   return (
     <Table
-      empty={t<string>('There are no registered parachains')}
+      empty={parachains && t<string>('There are no registered parachains')}
       header={headerRef.current}
     >
       {parachains?.map((parachain): React.ReactNode => (
