@@ -42,8 +42,8 @@ function BannerDOT (): React.ReactElement | null {
       }</p>
       <p>{
         endDate
-          ? <Trans key='dotRenomSizeGoing'>New DOT will be 100x smaller than DOT (old). Therefore, your DOT balance will be 100x higher and the price per DOT will be 100x lower. The percentage of the DOT you own relative to total supply will be unchanged. This will not affect the total value of your position.</Trans>
-          : <Trans key='dotRenomSizeDone'>New DOT are 100x smaller than DOT (old). Therefore, your DOT balance is 100x higher and the price per DOT is 100x lower. The percentage of the DOT you own relative to total supply is unchanged. This does not affect the total value of your position.</Trans>
+          ? <Trans key='dotRenomSizeGoing'><i>New</i> DOT will be 100x smaller than DOT (old). Therefore, your DOT balance will be 100x higher and the price per DOT will be 100x lower. The percentage of the DOT you own relative to total supply will be unchanged. This will not affect the total value of your position.</Trans>
+          : <Trans key='dotRenomSizeDone'><i>New</i> DOT are 100x smaller than DOT (old). Therefore, your DOT balance is 100x higher and the price per DOT is 100x lower. The percentage of the DOT you own relative to total supply is unchanged. This does not affect the total value of your position.</Trans>
       }</p>
       <p><Trans key='dotRenomLink'>See the <a
         href='https://polkadot.network/the-results-are-in/'
