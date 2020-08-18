@@ -56,13 +56,11 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 
 export default React.memo(styled(Tab)`
   border-bottom: 2px solid transparent;
-  color: rgba(0, 0, 0, 0.87) !important;
+  color: #4e4e4e !important;
   padding: 0.75rem 1.5rem;
 
   &.tabLinkActive {
     border-bottom-color: #e6e6e6;
-    color: rgba(0, 0, 0, 0.95);
-    font-weight: 700;
   }
 
   &:hover {
