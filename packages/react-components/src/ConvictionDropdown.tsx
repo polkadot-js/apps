@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import React, { useRef } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -16,7 +17,7 @@ export interface Props {
   value?: number;
 }
 
-const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
+const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
 const SEC_DAY = 60 * 60 * 24;
 
 function Convictions ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
@@ -25,11 +26,11 @@ function Convictions ({ className = '', help, label, onChange, value }: Props): 
 
   const optionsRef = useRef([
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
-    ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
+    ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
-          period: (api.consts.democracy.enactmentPeriod.mul(api.consts.timestamp.minimumPeriod).muln(2).divn(1000).muln(lock).toNumber() / SEC_DAY).toFixed(2),
+          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.mul(api.consts.timestamp.minimumPeriod.muln(2)).divn(1000)).toNumber() / SEC_DAY).toFixed(2),
           value
         }
       }),
