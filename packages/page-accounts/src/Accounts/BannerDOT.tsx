@@ -34,7 +34,7 @@ function BannerDOT (): React.ReactElement | null {
     <Banner type='warning'>
       <p>{
         endDate
-          ? <Trans key='dotRenomGoing'>On approximately {endDate} (at block number {formatNumber(POLKADOT_DENOM_BLOCK)}, in <BlockToTime
+          ? <Trans key='dotRenomGoing'>On approximately {endDate} (block number {formatNumber(POLKADOT_DENOM_BLOCK)} in <BlockToTime
             blocks={remaining}
             isInline
           />), the DOT token will undergo a <a href='#/poll'>redenomination</a> from its original sale.</Trans>
