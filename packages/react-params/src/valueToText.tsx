@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Keys, ValidatorId } from '@polkadot/types/interfaces';
-
 import React from 'react';
-import { classes } from '@polkadot/react-components/util';
+import BN from 'bn.js';
+import { Keys, ValidatorId } from '@polkadot/types/interfaces';
+import { classes, toFormattedBalance } from '@polkadot/react-components/util';
 import { isNull, isUndefined, u8aToHex } from '@polkadot/util';
 import { Option, Raw } from '@polkadot/types';
 
@@ -37,6 +37,10 @@ function formatKeys (keys: [ValidatorId, Keys][]): string {
 export default function valueToText (type: string, value: any, swallowError = true, contentShorten = true): React.ReactNode {
   if (isNull(value) || isUndefined(value)) {
     return div({}, '<unknown>');
+  }
+
+  if (type === 'Balance') {
+    return toFormattedBalance({ balance: new BN(value.toString()) });
   }
 
   return div(
