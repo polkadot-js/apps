@@ -11,10 +11,11 @@ interface Props {
   blocks?: BN;
   children?: React.ReactNode;
   className?: string;
+  isInline?: boolean;
   label?: React.ReactNode;
 }
 
-function BlockToTime ({ blocks, children, className = '', label }: Props): React.ReactElement<Props> | null {
+function BlockToTime ({ blocks, children, className = '', isInline, label }: Props): React.ReactElement<Props> | null {
   const [, text] = useBlockTime(blocks);
 
   if (blocks?.ltn(0)) {
@@ -22,7 +23,7 @@ function BlockToTime ({ blocks, children, className = '', label }: Props): React
   }
 
   return (
-    <div className={className}>
+    <div className={`${className}${isInline ? ' isInline' : ''}`}>
       {label || ''}{text.split(' ').map((v, index) => index % 2 === 0
         ? <span key={index}>{` ${v} `}</span>
         : (
@@ -37,6 +38,10 @@ function BlockToTime ({ blocks, children, className = '', label }: Props): React
 }
 
 export default React.memo(styled(BlockToTime)`
+  &.isInline {
+    display: inline-block;
+  }
+
   span.timeUnits {
     font-size: 0.9em;
   }
