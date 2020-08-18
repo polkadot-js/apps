@@ -8,6 +8,7 @@
   "rpc.header.dev": "Development",
   "rpc.header.live": "Live networks",
   "rpc.header.test": "Test networks",
+  "rpc.kilt": "KILT Protocol (KILT Mashnet, hosted by KILT Protocol)",
   "rpc.kulupu": "Kulupu (Kulupu Mainnet, hosted by Kulupu)",
   "rpc.kusama.ava": "Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)",
   "rpc.kusama.parity": "Kusama (Polkadot Canary, hosted by Parity)",
