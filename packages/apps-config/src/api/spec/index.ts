@@ -15,6 +15,7 @@ import nodle from './nodle';
 import stablePoc from './stable-poc';
 
 export default {
+  'Nodle Chain Node': nodle,
   acala,
   'centrifuge-chain': centrifugeChain,
   'cumulus-test-parachain': testPara,
@@ -25,7 +26,6 @@ export default {
   kulupu,
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
-  'Nodle Chain Node': nodle,
   'stable-poc': stablePoc,
   stable_poc: stablePoc
 };
