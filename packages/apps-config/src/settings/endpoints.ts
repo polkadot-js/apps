@@ -30,6 +30,12 @@ function createDev (t: TFunction): LinkOption[] {
 function createLive (t: TFunction): LinkOption[] {
   return [
     {
+      dnslink: 'dock',
+      info: 'dock',
+      text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
+      value: 'wss://testnet-1.dock.io'
+    },
+    {
       dnslink: 'polkadot',
       info: 'polkadot',
       text: t<string>('rpc.polkadot.parity', 'Polkadot (Live, hosted by Parity)', { ns: 'apps-config' }),
@@ -82,6 +88,12 @@ function createLive (t: TFunction): LinkOption[] {
 
 function createTest (t: TFunction): LinkOption[] {
   return [
+    {
+      dnslink: 'dock',
+      info: 'dock',
+      text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
+      value: 'wss://testnet-1.dock.io'
+    },
     {
       dnslink: 'westend',
       info: 'westend',

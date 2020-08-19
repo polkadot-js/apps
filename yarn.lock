@@ -1423,9 +1423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docknetwork/sdk@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "@docknetwork/sdk@npm:0.1.3"
+"@docknetwork/sdk@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@docknetwork/sdk@npm:0.1.5"
   dependencies:
     "@polkadot/api": 1.17.1
     "@polkadot/keyring": 2.12.2
@@ -1445,7 +1445,7 @@ __metadata:
     jsonld-signatures: "git+https://github.com/docknetwork/jsonld-signatures.git#avoid-extendContextLoader"
     jsonschema: ^1.2.6
     vc-js: "git+https://github.com/docknetwork/vc-js.git#avoid-extendContextLoader"
-  checksum: dc45534411964e8d53a1ccda4d11573abd5d0c50f1184628d20dc9014c1c5a338ffc94acb50c099cf4a9f4e2aff031c1281eb395332625ada250758e9b5c4780
+  checksum: e69a4ac793393ac3f643ece447a0c331f5f0a32662de2ab7877831f3f28027fe74f8eaf1fc752387accd815bb5cb7ae5772abf0d797c9195bf6e14dd4e6cee1f
   languageName: node
   linkType: hard
 
@@ -18519,7 +18519,7 @@ __metadata:
     "@babel/core": ^7.10.5
     "@babel/register": ^7.10.5
     "@babel/runtime": ^7.10.5
-    "@docknetwork/sdk": ^0.1.3
+    "@docknetwork/sdk": ^0.1.5
     "@pinata/sdk": ^1.1.10
     "@polkadot/dev": ^0.55.27
     "@polkadot/ts": ^0.3.29
