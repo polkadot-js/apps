@@ -8,6 +8,7 @@ import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
+import kilt from './kilt';
 import kulupu from './kulupu';
 import nodeTemplate from './node-template';
 import stablePoc from './stable-poc';
@@ -21,6 +22,7 @@ export default {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   kulupu,
+  'mashnet-node': kilt,
   'node-template': nodeTemplate,
   'stable-poc': stablePoc,
   stable_poc: stablePoc

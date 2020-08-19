@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import React, { useState, useMemo } from 'react';
-import { POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
+import React, { useRef } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
 import Dropdown from './Dropdown';
@@ -18,34 +17,26 @@ export interface Props {
   value?: number;
 }
 
-const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
+const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
 const SEC_DAY = 60 * 60 * 24;
 
-// REMOVE once Polkadot is upgraded with the correct conviction
-const PERIODS: Record<string, BN> = {
-  [POLKADOT_GENESIS]: new BN(403200)
-};
-
-function AvailableDisplay ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
+function Convictions ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const [enact] = useState(
-    ((PERIODS[api.genesisHash.toHex()] || api.consts.democracy.enactmentPeriod).toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / SEC_DAY
-  );
 
-  const convictionOpts = useMemo(() => [
+  const optionsRef = useRef([
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
-    ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
+    ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
-          period: (enact * lock).toFixed(2),
+          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.mul(api.consts.timestamp.minimumPeriod.muln(2)).divn(1000)).toNumber() / SEC_DAY).toFixed(2),
           value
         }
       }),
       value
     }))
-  ], [t, enact]);
+  ]);
 
   return (
     <Dropdown
@@ -53,10 +44,10 @@ function AvailableDisplay ({ className = '', help, label, onChange, value }: Pro
       help={help}
       label={label}
       onChange={onChange}
-      options={convictionOpts}
+      options={optionsRef.current}
       value={value}
     />
   );
 }
 
-export default React.memo(AvailableDisplay);
+export default React.memo(Convictions);

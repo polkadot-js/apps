@@ -170,6 +170,11 @@ function createTest (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t<string>('rpc.mandala', 'Mandala (Acala Testnet, hosted by Acala)', { ns: 'apps-config' }),
       value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
+    },
+    {
+      info: 'kilt',
+      text: t<string>('rpc.kilt', 'Mashnet (KILT Canary, hosted by KILT Protocol)', { ns: 'apps-config' }),
+      value: 'wss://full-nodes.kilt.io:9944/'
     }
   ];
 }
