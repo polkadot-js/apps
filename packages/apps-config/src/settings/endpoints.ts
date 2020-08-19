@@ -19,7 +19,7 @@ interface EnvWindow {
   }
 }
 
-function createOwn (t: TFunction): LinkOption[] {
+function createOwn(t: TFunction): LinkOption[] {
   try {
     const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
 
@@ -39,7 +39,7 @@ function createOwn (t: TFunction): LinkOption[] {
   return [];
 }
 
-function createDev (t: TFunction): LinkOption[] {
+function createDev(t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'local',
@@ -50,7 +50,7 @@ function createDev (t: TFunction): LinkOption[] {
   ];
 }
 
-function createLive (t: TFunction): LinkOption[] {
+function createLive(t: TFunction): LinkOption[] {
   return [
     // fixed, polkadot
     {
@@ -102,11 +102,16 @@ function createLive (t: TFunction): LinkOption[] {
       info: 'kulupu',
       text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
       value: 'wss://rpc.kulupu.corepaper.org/ws'
+    },
+    {
+      info: 'nodle',
+      text: t<string>('rpc.nodle-main', 'Nodle Main (Nodle Mainnet, hosted by Nodle)', { ns: 'apps-config' }),
+      value: 'wss://main1.nodleprotocol.io'
     }
   ];
 }
 
-function createTest (t: TFunction): LinkOption[] {
+function createTest(t: TFunction): LinkOption[] {
   return [
     // polkadot
     {
@@ -147,7 +152,7 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'nodle',
-      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      text: t<string>('rpc.nodle-arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io'
     },
     {
@@ -179,7 +184,7 @@ function createTest (t: TFunction): LinkOption[] {
   ];
 }
 
-function createCustom (t: TFunction): LinkOption[] {
+function createCustom(t: TFunction): LinkOption[] {
   const WS_URL = (
     (typeof process !== 'undefined' ? process.env?.WS_URL : undefined) ||
     (typeof window !== 'undefined' ? (window as EnvWindow).process_env?.WS_URL : undefined)
@@ -206,7 +211,7 @@ function createCustom (t: TFunction): LinkOption[] {
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
-export default function create (t: TFunction): LinkOption[] {
+export default function create(t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {

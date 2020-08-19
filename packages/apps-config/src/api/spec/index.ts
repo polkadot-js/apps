@@ -11,6 +11,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import nodeTemplate from './node-template';
+import nodle from './nodle';
 import stablePoc from './stable-poc';
 
 export default {
@@ -24,6 +25,7 @@ export default {
   kulupu,
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
+  'Nodle Chain Node': nodle,
   'stable-poc': stablePoc,
   stable_poc: stablePoc
 };
