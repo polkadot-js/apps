@@ -35,54 +35,6 @@ function createLive (t: TFunction): LinkOption[] {
       text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
       value: 'wss://testnet-1.dock.io'
     },
-    {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t<string>('rpc.polkadot.parity', 'Polkadot (Live, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://rpc.polkadot.io'
-    },
-    {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t<string>('rpc.polkadot.w3f', 'Polkadot (Live, hosted by Web3 Foundation)', { ns: 'apps-config' }),
-      value: 'wss://cc1-1.polkadot.network'
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t<string>('rpc.kusama.parity', 'Kusama (Polkadot Canary, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://kusama-rpc.polkadot.io/'
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
-      value: 'wss://cc3-5.kusama.network/'
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
-      value: 'wss://kusama.polkadot.cloud.ava.do/'
-    },
-    {
-      dnslink: 'centrifuge',
-      info: 'centrifuge',
-      text: t<string>('rpc.centrifuge', 'Centrifuge (Mainnet, hosted by Centrifuge)', { ns: 'apps-config' }),
-      value: 'wss://fullnode.centrifuge.io'
-    },
-    {
-      dnslink: 'edgeware',
-      info: 'edgeware',
-      text: t<string>('rpc.edgeware', 'Edgeware (Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://mainnet1.edgewa.re'
-    },
-    {
-      dnslink: 'kulupu',
-      info: 'substrate',
-      text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
-      value: 'wss://rpc.kulupu.network/ws'
-    }
   ];
 }
 
@@ -94,33 +46,6 @@ function createTest (t: TFunction): LinkOption[] {
       text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
       value: 'wss://testnet-1.dock.io'
     },
-    {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://westend-rpc.polkadot.io'
-    },
-    {
-      info: 'edgeware',
-      text: t<string>('rpc.berlin', 'Berlin (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
-      value: 'wss://berlin1.edgewa.re'
-    },
-    {
-      info: 'substrate',
-      text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://substrate-rpc.parity.io/'
-    },
-    {
-      info: 'nodle',
-      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
-      value: 'wss://arcadia1.nodleprotocol.io/'
-    },
-    {
-      info: 'datahighway',
-      isDisabled: true,
-      text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
-      value: 'wss://testnet-harbour.datahighway.com'
-    }
   ];
 }
 
