@@ -6,10 +6,10 @@ import { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Columar, InputAddress, Progress, Spinner, Tabs, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
@@ -17,6 +17,7 @@ import { BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/u
 import { useTranslation } from './translate';
 
 interface Props {
+  basePath: string;
   className?: string;
 }
 
@@ -27,7 +28,7 @@ interface Turnout {
 
 const DIV = new BN(1_000_000);
 
-function PollApp ({ className }: Props): React.ReactElement<Props> {
+function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals);
@@ -40,6 +41,12 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const [opt1b, setOpt1b] = useState(false);
   const [opt10b, setOpt10b] = useState(false);
   const [progress, setProgress] = useState<BN[] | undefined>();
+
+  const itemsRef = useRef([{
+    isRoot: true,
+    name: 'poll',
+    text: t<string>('Denomination poll')
+  }]);
 
   useEffect((): void => {
     if (totalIssuance && totals) {
@@ -83,6 +90,12 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <main className={className}>
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={itemsRef.current}
+        />
+      </header>
       <div className='pollContainer'>
         <div className='pollHeader'>
           <h1>{t('denomination vote')}</h1>

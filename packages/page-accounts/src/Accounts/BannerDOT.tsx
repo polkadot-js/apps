@@ -37,8 +37,8 @@ function BannerDOT (): React.ReactElement | null {
           ? <Trans key='dotRenomGoing'>On approximately {endDate} (block number {formatNumber(POLKADOT_DENOM_BLOCK)} in <BlockToTime
             blocks={remaining}
             isInline
-          />), the DOT token will undergo a <a href='#/poll'>redenomination</a> from its original sale.</Trans>
-          : <Trans key='dotRenomDone'>At block number {formatNumber(POLKADOT_DENOM_BLOCK)} the DOT token underwent a <a href='#/poll'>redenomination</a> from its original sale.</Trans>
+          />), the DOT token will undergo a redenomination from its original sale.</Trans>
+          : <Trans key='dotRenomDone'>At block number {formatNumber(POLKADOT_DENOM_BLOCK)} the DOT token underwent a redenomination from its original sale.</Trans>
       }</p>
       <p>{
         endDate
