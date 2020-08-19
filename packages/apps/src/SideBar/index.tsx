@@ -84,7 +84,7 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
             fontSize: 13,
             backgroundColor: '#f19135'
           }}>
-            Set an account to interact with the chain.
+            Set an account to send extrinsics to the chain
           </div>
         )}
 
