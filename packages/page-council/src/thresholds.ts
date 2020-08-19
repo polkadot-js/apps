@@ -9,19 +9,19 @@ const PROPOSE_THRESHOLDS: Record<string, number> = {
   // Polkadot
   [POLKADOT_GENESIS]: 0.6,
   // Kulupu
-  [KULUPU_GENESIS]: 1,
+  [KULUPU_GENESIS]: 1
 };
 
 const SLASH_THRESHOLDS: Record<string, number> = {
   // Polkadot
-  [POLKADOT_GENESIS]: 0.75,
+  [POLKADOT_GENESIS]: 0.75
 };
 
 const TREASURY_THRESHOLDS: Record<string, number> = {
   // Polkadot
   [POLKADOT_GENESIS]: 0.6,
   // Kulupu
-  [KULUPU_GENESIS]: 0.8,
+  [KULUPU_GENESIS]: 0.8
 };
 
 export function getThreshold (api: ApiPromise): number {
