@@ -1,6 +1,5 @@
 {
   "lng.detect": "Default browser language (auto-detect)",
-  "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)",
   "rpc.custom": "Custom environment",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
@@ -15,6 +14,7 @@
   "rpc.kusama.w3f": "Kusama (Polkadot Canary, hosted by Web3 Foundation)",
   "rpc.local": "Local Node (Own, 127.0.0.1:9944)",
   "rpc.mandala": "Mandala (Acala Testnet, hosted by Acala)",
+  "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
   "rpc.westend": "Westend (Polkadot Testnet, hosted by Parity)",
   "ss58.centrifuge": "Centrifuge (live)",
   "ss58.default": "Default for the connected node",
