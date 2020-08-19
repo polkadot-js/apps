@@ -30,7 +30,7 @@ function Delegate ({ onClose, previousAmount, previousConviction, previousDelega
   const [delegatingAccount, setDelegatingAccount] = useState<string | null>(previousDelegatingAccount || null);
   const [delegatedAccount, setDelegatedAccount] = useState<string | null>(previousDelegatedAccount || null);
   const defaultConviction = previousConviction === undefined
-    ? 1
+    ? 0
     : previousConviction.toNumber();
   const [conviction, setConviction] = useState(defaultConviction);
 
