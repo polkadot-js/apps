@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStakingAccount, DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
+import { DerivedStakingOverview, DerivedHeartbeats } from '@polkadot/api-derive/types';
 import { AccountId, AssetId, Balance, Exposure, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 
@@ -22,6 +22,7 @@ import SetSessionKey from './SetSessionKey';
 import Unbond from './Unbond';
 import Validate from './Validate';
 import useInactives from './useInactives';
+import {DerivedSessionKeyInfo, DerivedStakingInfo} from "@cennznet/api/derives/types";
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]>;
 
@@ -46,11 +47,13 @@ interface StakeState {
   isStashNominating: boolean;
   isStashValidating: boolean;
   nominees?: string[];
-  sessionIds: string[];
+  sessionKeys: string[];
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   validatorPrefs?: ValidatorPrefs;
 }
+
+interface DerivedStakingAccount extends DerivedStakingInfo, DerivedSessionKeyInfo {};
 
 function toIdString (id?: AccountId | null): string | null {
   return id
@@ -58,11 +61,11 @@ function toIdString (id?: AccountId | null): string | null {
     : null;
 }
 
-function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, nextSessionIds, nominators, rewardDestination, sessionIds, stakers, stakingLedger, validatorPrefs }: DerivedStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
+function getStakeState (allAccounts: string[], allStashes: string[] | undefined, { controllerId: _controllerId, nextSessionKeys, nominators, rewardDestination, sessionKeys, stakers, stakingLedger, validatorPrefs }: DerivedStakingAccount, stashId: string, validateInfo: ValidatorInfo): StakeState {
   const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !validateInfo[1].isEmpty || !!allStashes?.includes(stashId);
-  const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
-  const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
+  const isStashValidating = !validateInfo.isEmpty || !!allStashes?.includes(stashId);
+  const nextConcat = u8aConcat(...nextSessionKeys.map((id): Uint8Array => id.toU8a()));
+  const currConcat = u8aConcat(...sessionKeys.map((id): Uint8Array => id.toU8a()));
   const controllerId = toIdString(_controllerId);
 
   return {
@@ -76,10 +79,10 @@ function getStakeState (allAccounts: string[], allStashes: string[] | undefined,
     isStashValidating,
     // we assume that all ids are non-null
     nominees: nominators?.map(toIdString) as string[],
-    sessionIds: (
-      nextSessionIds.length
-        ? nextSessionIds
-        : sessionIds
+    sessionKeys: (
+      nextSessionKeys.length
+        ? nextSessionKeys
+        : sessionKeys
     ).map(toIdString) as string[],
     stakers,
     stakingLedger,
@@ -94,8 +97,10 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
   const validateInfo = useCall<ValidatorInfo>(api.query.staking.validators, [stashId]);
   const stakingAssetId = useCall<AssetId>(api.query.genericAsset.stakingAssetId, []);
   const freeBalance = useCall<Balance>(api.query.genericAsset.freeBalance, [stakingAssetId, stashId]);
-  const stakingAccount = useCall<DerivedStakingAccount>(api.derive.staking.account as any, [stashId]);
-  const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionIds, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionIds: [] });
+  const stakingAccountInfo = useCall<DerivedStakingInfo>((api.derive.staking as any).accountInfo, [stashId]);
+  const stakingSessionInfo = useCall<DerivedSessionKeyInfo>((api.derive.session as any).keyInfo, [stashId]);
+  const stakingAccount = stakingAccountInfo && stakingSessionInfo ? {...stakingAccountInfo, ...stakingSessionInfo} : undefined;
+  const [{ controllerId, destination, hexSessionIdQueue, hexSessionIdNext, isLoading, isOwnController, isStashNominating, isStashValidating, nominees, sessionKeys, validatorPrefs }, setStakeState] = useState<StakeState>({ controllerId: null, destination: 0, hexSessionIdNext: null, hexSessionIdQueue: null, isLoading: true, isOwnController: false, isStashNominating: false, isStashValidating: false, sessionKeys: [] });
   const [activeNoms, setActiveNoms] = useState<string[]>([]);
   const inactiveNoms = useInactives(stashId, nominees);
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
@@ -122,7 +127,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
         onUpdateType(stashId, 'other');
       }
     }
-  }, [allStashes, stakingAccount, stashId, validateInfo]);
+  }, [allStashes, stakingAccountInfo, stashId, validateInfo]);
 
   useEffect((): void => {
     if (nominees) {
@@ -185,7 +190,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
             controllerId={controllerId}
             isOpen={isSetSessionOpen}
             onClose={toggleSetSession}
-            sessionIds={sessionIds}
+            sessionIds={sessionKeys}
             stashId={stashId}
           />
         )}
@@ -279,7 +284,7 @@ function Account ({ allStashes, className, isOwnStash, next, onUpdateType, staki
                 )
                 : (
                   <Button.Group>
-                    {(!sessionIds.length || hexSessionIdNext === '0x')
+                    {(!sessionKeys.length || hexSessionIdNext === '0x')
                       ? (
                         <Button
                           isPrimary
