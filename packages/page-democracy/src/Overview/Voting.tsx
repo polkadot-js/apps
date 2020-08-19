@@ -23,7 +23,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
-  const [conviction, setConviction] = useState(1);
+  const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
   const [aye, setVoteValue] = useState(true);
 
