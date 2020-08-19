@@ -99,7 +99,7 @@ function createLive (t: TFunction): LinkOption[] {
     },
     {
       dnslink: 'kulupu',
-      info: 'substrate',
+      info: 'kulupu',
       text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
       value: 'wss://rpc.kulupu.corepaper.org/ws'
     }

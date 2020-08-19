@@ -22,6 +22,7 @@ import nodeKilt from './nodes/kilt.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeKulupu from './nodes/kulupu.svg';
 
 // extensions
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -53,7 +54,7 @@ const nodeLogos: Record<string, any> = [
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['KILT Node', nodeKilt],
-  ['kulupu', nodeSubstrate],
+  ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
@@ -72,6 +73,7 @@ const namedLogos: Record<string, any> = {
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   kilt: nodeKilt,
+  kulupu: nodeKulupu,
   kusama: chainKusama,
   nodle: nodeNodle,
   polkadot: nodePolkadot,
