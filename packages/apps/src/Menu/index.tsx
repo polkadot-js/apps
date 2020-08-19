@@ -166,8 +166,9 @@ export default React.memo(styled(Menu)`
   border-top: 0.5rem solid transparent;
   position: relative;
 
-  .menuBg{
+  .menuBg {
     bottom: 0;
+    filter: invert(0.35) brightness(0.55);
     left: 0;
     position: absolute;
     right: 0;
@@ -177,7 +178,6 @@ export default React.memo(styled(Menu)`
 
   .menuFg {
     align-items: center;
-    background: rgba(94, 93, 92, 0.66);
     display: flex;
     justify-content: space-between;
     padding: 0;

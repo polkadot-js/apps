@@ -26,11 +26,13 @@ function Grouping ({ className, name, routes }: Props): React.ReactElement<Props
 
   return (
     <li className={className}>
-      <div>
+      <div className='groupHdr'>
         <span>{name}</span>
         <Icon icon='caret-down' />
       </div>
-      <ul className='dropdown'>
+      <ul className='groupMenu'>
+        <div className='groupMenuBg ui--highlight--bg' />
+        <div className='groupMenuFg' />
         {routes.map((route): React.ReactNode => (
           <Item
             key={route.name}
@@ -46,7 +48,7 @@ export default React.memo(styled(Grouping)`
   cursor: pointer;
   position: relative;
 
-  > div {
+  .groupHdr {
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.5rem;
 
@@ -55,8 +57,7 @@ export default React.memo(styled(Grouping)`
     }
   }
 
-  ul.dropdown {
-    background: #5e5d5c;
+  .groupMenu {
     border-radius: 0 0 0.25rem 0.25rem;
     display: none;
     margin: 0;
@@ -67,20 +68,40 @@ export default React.memo(styled(Grouping)`
 
     > li {
       padding-right: 3.5rem;
+      z-index: 1;
+    }
+
+    .groupMenuBg {
+      bottom: 0;
+      filter: invert(0.35) brightness(0.55);
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: -1;
+    }
+
+    .groupMenuFg {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 1;
     }
   }
 
   &:hover {
-    > div,
-    > ul li {
-      background: rgba(78, 77, 76, 0.75);
+    .groupHdr,
+    .groupMenu li {
+      background: rgba(245, 244, 243, 0.075);
     }
 
-    > ul {
+    .groupMenu {
       display: block;
 
       > li:hover {
-        background: rgba(245, 244, 243, 0.05);
+        background: transparent;
       }
     }
   }
