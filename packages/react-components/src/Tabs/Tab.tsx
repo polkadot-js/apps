@@ -57,7 +57,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 export default React.memo(styled(Tab)`
   border-bottom: 2px solid transparent;
   color: #4e4e4e !important;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1.5rem;
 
   &.tabLinkActive {
     border-bottom-color: #e6e6e6;
