@@ -177,7 +177,7 @@ export default React.memo(styled(Menu)`
 
   .menuFg {
     align-items: center;
-    background: rgba(94, 93, 92, 0.925);
+    background: rgba(94, 93, 92, 0.66);
     display: flex;
     justify-content: space-between;
     padding: 0;
