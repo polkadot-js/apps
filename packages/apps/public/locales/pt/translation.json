@@ -958,7 +958,7 @@
   "riot name": "nome no riot",
   "role": "Função",
   "rotation": "rotação",
-  "rpc.arcadia": "Arcadia (Nodle Testnet, hospedado por Nodle)",
+  "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, hospedado por Nodle)",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, hospedado pelo Commonwealth Labs)",
   "rpc.custom": "Ambiente personalizado",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hospedado pelo Commonwealth Labs)",

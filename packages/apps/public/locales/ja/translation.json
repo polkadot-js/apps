@@ -492,7 +492,7 @@
   "remote node/endpoint to connect to": "リモートノード・エンドポイント",
   "riot": "riot",
   "riot name": "riot名",
-  "rpc.arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
+  "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)",
   "rpc.custom": "カスタムエンドポイント",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",

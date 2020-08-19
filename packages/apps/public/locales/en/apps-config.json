@@ -1,6 +1,6 @@
 {
   "lng.detect": "Default browser language (auto-detect)",
-  "rpc.arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
+  "rpc.nodle-arcadia": "Arcadia (Nodle Testnet, hosted by Nodle)",
   "rpc.beresheet": "Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)",
   "rpc.custom": "Custom environment",
   "rpc.edgeware": "Edgeware (Edgeware Mainnet, hosted by Commonwealth Labs)",
