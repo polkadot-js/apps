@@ -8,6 +8,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
+import { useAccounts } from '@polkadot/react-hooks';
 
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import NetworkModal from '../modals/Network';
@@ -27,6 +28,8 @@ interface Props {
 
 function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuOpen, toggleMenu }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { hasAccounts } = useAccounts();
+  console.log('hasAccounts', hasAccounts)
   const [modals, setModals] = useState<Record<string, boolean>>(
     createRoutes(t).reduce((result: Record<string, boolean>, route): Record<string, boolean> => {
       if (route && route.Modal) {
@@ -73,6 +76,18 @@ function SideBar ({ className = '', collapse, handleResize, isCollapsed, isMenuO
         <NetworkModal onClose={_toggleModal('network')}/>
       )}
       <div className='apps--SideBar'>
+        {!hasAccounts && (
+          <div style={{
+            color: '#ffffff',
+            textAlign: 'center',
+            paddingTop: '10px',
+            fontSize: 13,
+            backgroundColor: '#f19135'
+          }}>
+            Set an account to interact with the chain.
+          </div>
+        )}
+
         <Menu
           secondary
           vertical
