@@ -125,48 +125,64 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <div className={`${className} ui--highlight--border`}>
-      <div className='menuSection'>
-        <ChainInfo />
-        {activeRoute && (
-          <div className={`menuActive${isLoading ? ' isLoading' : ''} ui--highlight--border`}>
-            <Icon icon={activeRoute.icon} />
-            <span>{activeRoute.text}</span>
-          </div>
-        )}
-        <ul className='menuItems'>
-          {visibleGroups.map(({ name, routes }): React.ReactNode => (
-            <Grouping
-              key={name}
-              name={name}
-              routes={routes}
-            />
-          ))}
-        </ul>
+      <div className='menuBg ui--highlight--bg' />
+      <div className='menuFg'>
+        <div className='menuSection'>
+          <ChainInfo />
+          {activeRoute && (
+            <div className={`menuActive${isLoading ? ' isLoading' : ''} ui--highlight--border`}>
+              <Icon icon={activeRoute.icon} />
+              <span>{activeRoute.text}</span>
+            </div>
+          )}
+          <ul className='menuItems'>
+            {visibleGroups.map(({ name, routes }): React.ReactNode => (
+              <Grouping
+                key={name}
+                name={name}
+                routes={routes}
+              />
+            ))}
+          </ul>
+        </div>
+        <div className='menuSection'>
+          <ul className='menuItems'>
+            {externalRef.current.map((route): React.ReactNode => (
+              <Item
+                className='topLevel'
+                key={route.name}
+                route={route}
+              />
+            ))}
+          </ul>
+        </div>
+        <NodeInfo />
       </div>
-      <div className='menuSection'>
-        <ul className='menuItems'>
-          {externalRef.current.map((route): React.ReactNode => (
-            <Item
-              className='topLevel'
-              key={route.name}
-              route={route}
-            />
-          ))}
-        </ul>
-      </div>
-      <NodeInfo />
     </div>
   );
 }
 
 export default React.memo(styled(Menu)`
-  align-items: center;
-  background: #5e5d5c;
   border-top: 0.5rem solid transparent;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
+  position: relative;
+
+  .menuBg{
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+  }
+
+  .menuFg {
+    align-items: center;
+    background: rgba(94, 93, 92, 0.925);
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    z-index: 1;
+  }
 
   .menuSection {
     align-items: flex-end;
