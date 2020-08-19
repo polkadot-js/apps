@@ -77,13 +77,6 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
     );
   }, [amount, assetId, recipientId, senderId]);
 
-  const _onAddAssetId = (id: string): void => {
-    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-    if (id.trim().match(/^\d+$/)) {
-      assetRegistry.add(id, id);
-    }
-  };
-
   const transferrable = <span className='label'>{t('transferrable')}</span>;
 
   return (
@@ -109,16 +102,14 @@ function Transfer ({ assets, className, onClose, recipientId: propRecipientId, s
           type='allPlus'
         />
         <Dropdown
-          allowAdd
-          help={t('Enter the Asset ID of the token you want to transfer.')}
-          label={t('asset id')}
+          help={t('Select the asset you want to transfer.')}
+          label={t('asset')}
           onChange={setAssetId}
           options={options}
-          onAdd={_onAddAssetId}
           value={assetId}
         />
         <InputBalance
-          help={t('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
+          help={t('Enter the amount you want to transfer.')}
           isError={!hasAvailable}
           label={t('amount')}
           onChange={setAmount}

@@ -15,7 +15,7 @@ import { Compact, UInt } from '@polkadot/types';
 import { Icon } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { compactToU8a, formatBalance } from '@polkadot/util';
-import { getFormatedBalance } from "@polkadot/react-components/util";
+import { toFormattedBalance } from "@polkadot/react-components/util";
 import { useTranslation } from '../translate';
 import ContractCall from './ContractCall';
 import ContractDeploy from './ContractDeploy';
@@ -87,12 +87,6 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
     if (!accountId || !extrinsic) {
       return;
     }
-
-    // extrinsic
-    //   .paymentInfo(accountId, { tip })
-    //   .then((result): void => {
-    //     console.log(JSON.stringify(result));
-    //   });
 
     const fn = api.findCall(extrinsic.callIndex);
     const extMethod = fn.method;
@@ -253,14 +247,6 @@ export function FeeDisplay ({ accountId, balances_all = ZERO_BALANCE, balances_f
   );
 }
 
-// export default translate(
-//   withCalls<Props>(
-//     'derive.balances.fees',
-//     ['derive.balances.all', { paramName: 'accountId' }],
-//     'derive.contracts.fees'
-//   )(FeeDisplay)
-// );
-
 export default function Checks ({ accountId, className, extrinsic }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -278,7 +264,10 @@ export default function Checks ({ accountId, className, extrinsic }: Props): Rea
     return null;
   }
 
-  const fees = getFormatedBalance(dispatchInfo.partialFee, true);
+  const fees = toFormattedBalance({
+    value: dispatchInfo.partialFee,
+    unit: formatBalance.getDefaults().unit
+  });
 
   return (
     <article

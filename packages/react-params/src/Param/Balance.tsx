@@ -11,7 +11,6 @@ import { InputBalance } from '@polkadot/react-components';
 import Bare from './Bare';
 
 export default function Balance ({ className, defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, onEscape, style, withLabel }: Props): React.ReactElement<Props> {
-  const defaultValue = new BN((value as BN || '0').toString()).toString(10);
   const _onChange = (value?: BN): void =>
     onChange && onChange({
       isValid: !isError && !!value,
@@ -25,7 +24,7 @@ export default function Balance ({ className, defaultValue: { value }, isDisable
     >
       <InputBalance
         className='full'
-        defaultValue={defaultValue}
+        defaultValue={value}
         isDisabled={isDisabled}
         isError={isError}
         label={label}

@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { InputNumber } from '@polkadot/react-components';
-import { getFormatedBalance } from "@polkadot/react-components/util";
+import { toFormattedBalance } from "@polkadot/react-components/util";
 
 interface Props extends BareProps {
   autoFocus?: boolean;
@@ -34,18 +34,15 @@ interface Props extends BareProps {
 
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
-function InputBalance ({ autoFocus, className, defaultValue: inDefault, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
-  let balance = getFormatedBalance(inDefault, false);
-  const defaultValue = inDefault
-    ? balance.replace(',', isDisabled ? ',' : '')
-    : inDefault;
+function InputBalance ({ autoFocus, className, defaultValue, help, isDisabled, isError, isFull, isZeroable, label, labelExtra, maxValue, onChange, onEnter, onEscape, placeholder, style, value, withEllipsis, withLabel, withMax }: Props): React.ReactElement<Props> {
+  const formattedDefaultValue =  defaultValue ? toFormattedBalance({ value: defaultValue }) : '0';
 
   return (
     <InputNumber
       autoFocus={autoFocus}
       className={`ui--InputBalance ${className}`}
       bitLength={DEFAULT_BITLENGTH}
-      defaultValue={defaultValue}
+      defaultValue={formattedDefaultValue}
       help={help}
       isDisabled={isDisabled}
       isError={isError}
