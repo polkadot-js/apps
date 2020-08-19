@@ -56,7 +56,7 @@ export default React.memo(styled(Grouping)`
   }
 
   ul.dropdown {
-    background: #4f5255;
+    background: #4e4d4c;
     border-radius: 0 0 0.25rem 0.25rem;
     display: none;
     margin: 0;
