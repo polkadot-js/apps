@@ -5,8 +5,9 @@
 import { Route, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { AccountId } from '@polkadot/types/interfaces';
-import { Group, Groups } from './types';
+import { Group, Groups, ItemRoute } from './types';
 
+import { TFunction } from 'i18next';
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -18,6 +19,7 @@ import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
 import Grouping from './Grouping';
+import Item from './Item';
 import NodeInfo from './NodeInfo';
 
 interface Props {
@@ -25,6 +27,13 @@ interface Props {
 }
 
 const disabledLog = new Map<string, string>();
+
+function createExternals (t: TFunction): ItemRoute[] {
+  return [
+    { href: 'https://github.com/polkadot-js/apps', icon: 'code-branch', name: 'github', text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' }) },
+    { href: 'https://wiki.polkadot.network', icon: 'book', name: 'wiki', text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' }) }
+  ];
+}
 
 function logDisabled (route: string, message: string): void {
   if (!disabledLog.get(route)) {
@@ -85,9 +94,9 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
   const location = useLocation();
 
-  const routing = useRef(createRoutes(t));
+  const externalRef = useRef(createExternals(t));
 
-  const groupNames = useRef({
+  const groupRef = useRef({
     accounts: t('Accounts'),
     developer: t('Developer'),
     governance: t('Governance'),
@@ -95,27 +104,31 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     settings: t('Settings')
   });
 
+  const routeRef = useRef(createRoutes(t));
+
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
     [allAccounts, sudoKey]
   );
 
   const visibleGroups = useMemo(
-    () => extractGroups(routing.current, groupNames.current, apiProps, hasAccounts, hasSudo),
-    [apiProps, groupNames, hasAccounts, hasSudo]
+    () => extractGroups(routeRef.current, groupRef.current, apiProps, hasAccounts, hasSudo),
+    [apiProps, hasAccounts, hasSudo]
   );
 
   const activeRoute = useMemo(
-    () => routing.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
+    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
     [location]
   );
+
+  const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
     <div className={`${className} ui--highlight--border`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
-          <div className='menuActive ui--highlight--border'>
+          <div className={`menuActive${isLoading ? ' isLoading' : ''} ui--highlight--border`}>
             <Icon icon={activeRoute.icon} />
             <span>{activeRoute.text}</span>
           </div>
@@ -126,6 +139,17 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
               key={name}
               name={name}
               routes={routes}
+            />
+          ))}
+        </ul>
+      </div>
+      <div className='menuSection'>
+        <ul className='menuItems'>
+          {externalRef.current.map((route): React.ReactNode => (
+            <Item
+              className='topLevel'
+              key={route.name}
+              route={route}
             />
           ))}
         </ul>
@@ -146,14 +170,19 @@ export default React.memo(styled(Menu)`
 
   .menuSection {
     align-items: flex-end;
+    align-self: flex-end;
     display: flex;
   }
 
   .menuActive {
-    background: #fcfbfa; // #f5f4f3;
+    background: #fcfbfa;
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.5rem;
     margin: 0 1.5rem;
+
+    &.isLoading {
+      background: #f5f4f3;
+    }
 
     .ui--Icon {
       margin-right: 0.5rem;
@@ -163,7 +192,7 @@ export default React.memo(styled(Menu)`
   .menuItems {
     color: #f5f4f3;
     flex: 1 1;
-    list-style-type: none;
+    list-style: none;
     margin: 0 2rem 0 0;
     padding: 0;
 

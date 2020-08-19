@@ -2,34 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Route } from '@polkadot/apps-routing/types';
+import { ItemRoute } from './types';
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Badge, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
-  route: Route;
+  route: ItemRoute;
 }
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ className = '', route: { Modal, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className = '', route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
-  const _switchRoute = useCallback(
-    (): void => {
-      window.location.hash = name;
-    },
-    [name]
-  );
-
   return (
     <li className={`${className}${count ? ' withCounter' : ''}`}>
-      <div onClick={Modal ? toggleModal : _switchRoute}>
+      <a
+        href={Modal ? undefined : (href || `#/${name}`)}
+        onClick={Modal ? toggleModal : undefined}
+        rel='noopener noreferrer'
+        target={href ? '_blank' : undefined}
+      >
         <Icon icon={icon} />
         {text}
         {!!count && (
@@ -38,7 +36,7 @@ function Item ({ className = '', route: { Modal, icon, name, text, useCounter = 
             info={count}
           />
         )}
-      </div>
+      </a>
       {Modal && isModalVisible && (
         <Modal onClose={toggleModal} />
       )}
@@ -58,6 +56,12 @@ export default React.memo(styled(Item)`
 
   &.withCounter {
     padding-right: 3.5rem;
+  }
+
+  a {
+    color: inherit !important;
+    display: block;
+    text-decoration: none;
   }
 
   .ui--Badge {

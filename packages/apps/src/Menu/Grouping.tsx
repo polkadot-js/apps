@@ -43,7 +43,6 @@ function Grouping ({ className, name, routes }: Props): React.ReactElement<Props
 }
 
 export default React.memo(styled(Grouping)`
-  background: #4f5255;
   cursor: pointer;
   position: relative;
 
@@ -60,7 +59,6 @@ export default React.memo(styled(Grouping)`
     background: #4f5255;
     border-radius: 0 0 0.25rem 0.25rem;
     display: none;
-    list-style-type: none;
     margin: 0;
     overflow: hidden;
     padding: 0;
