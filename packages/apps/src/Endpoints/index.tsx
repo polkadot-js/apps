@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import type { LinkOption } from '@polkadot/apps-config/settings/endpoints';
+import { Endpoint } from './types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import
@@ -10,24 +11,12 @@ import React, { useCallback, useMemo, useState } from 'react';
 import punycode from 'punycode';
 import styled from 'styled-components';
 import { createEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config/settings';
-import { Button, ChainImg, Icon, Input, Sidebar, Toggle } from '@polkadot/react-components';
+import { Button, Input, Sidebar } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-
-interface Endpoint {
-  header: React.ReactNode;
-  networks: {
-    icon?: string;
-    isChild?: boolean;
-    name: string;
-    providers: {
-      name: string;
-      url: string;
-    }[]
-  }[];
-}
+import EndpointDisplay from './Endpoint';
 
 interface Props {
   className?: string;
@@ -102,7 +91,6 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const linkOptions = createEndpoints(t);
   const [endpoints, setEndpoints] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
-  const [openIndex, setOpenIndex] = useState('');
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -162,12 +150,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   };
 
   const _setApiUrl = useCallback(
-    (apiUrl: string) => () => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: true }),
-    []
-  );
-
-  const _setOpenIndex = useCallback(
-    (index: string) => () => setOpenIndex((openIndex) => openIndex === index ? '' : index),
+    (apiUrl: string) => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: true }),
     []
   );
 
@@ -207,50 +190,13 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       onClose={onClose}
       position='left'
     >
-      {endpoints.map(({ header, networks }, typeIndex): React.ReactNode => (
-        <div
-          className='endpointType'
-          key={typeIndex}
-        >
-          <div className='endpointHeader'>{header}</div>
-          {networks.map(({ icon, isChild, name, providers }, netIndex): React.ReactNode => {
-            const isSelected = providers.some(({ url }) => url === apiUrl);
-            const index = `${typeIndex}:${netIndex}`;
-            const isOpen = openIndex === index;
-
-            return (
-              <div
-                className={`endpointGroup${isOpen ? ' isOpen' : ''}${isSelected ? ' isSelected ui--highlight--before' : ''}`}
-                key={index}
-                onClick={_setOpenIndex(index)}
-              >
-                <div className={`endpointSection${isChild ? ' isChild' : ''}`}>
-                  <ChainImg
-                    className='endpointIcon'
-                    logo={icon === 'local' ? 'empty' : icon}
-                  />
-                  <div className='endpointValue'>{name}</div>
-                  {!isSelected && (
-                    <Icon
-                      className='endpointOpen'
-                      icon={isOpen ? 'caret-up' : 'caret-down'}
-                    />
-                  )}
-                </div>
-                {providers.map(({ name, url }): React.ReactNode => (
-                  <Toggle
-                    className='endpointProvider'
-                    isRadio
-                    key={url}
-                    label={name}
-                    onChange={_setApiUrl(url)}
-                    value={apiUrl === url}
-                  />
-                ))}
-              </div>
-            );
-          })}
-        </div>
+      {endpoints.map((endpoint, index): React.ReactNode => (
+        <EndpointDisplay
+          apiUrl={apiUrl}
+          key={index}
+          setApiUrl={_setApiUrl}
+          value={endpoint}
+        />
       ))}
       <div className='endpointCustomWrapper'>
         <Input
@@ -263,12 +209,12 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         />
         {isSavedCustomEndpoint
           ? <Button
-            className='customDeleteButton'
+            className='customButton'
             icon='trash-alt'
             onClick={_removeApiEndpoint}
           />
           : <Button
-            className='customSaveButton'
+            className='customButton'
             icon='save'
             isDisabled={!isUrlValid || isKnownUrl}
             onClick={_saveApiEndpoint}
@@ -280,7 +226,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 }
 
 export default React.memo(styled(Endpoints)`
-  .customSaveButton, .customDeleteButton {
+  .customButton {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -288,7 +234,7 @@ export default React.memo(styled(Endpoints)`
 
   .endpointCustom {
     margin-top: 0.5rem;
-    
+
     input {
       padding-right: 4rem;
     }
@@ -296,74 +242,5 @@ export default React.memo(styled(Endpoints)`
 
   .endpointCustomWrapper {
     position: relative;
-  }
-
-  .endpointType {
-    margin-top: 2rem;
-
-    &+.endpointType {
-      margin-top: 1rem;
-    }
-  }
-
-  .endpointGroup {
-    border-radius: 0.25rem;
-    cursor: pointer;
-    margin: 0 0 0.25rem 0;
-    padding: 0.375rem;
-    position: relative;
-
-    &.isOpen,
-    &.isSelected {
-      .endpointProvider {
-        display: block;
-      }
-    }
-
-    &.isSelected,
-    &:hover {
-      background: #fffefd;
-    }
-  }
-
-  .endpointHeader {
-    font-size: 0.78571429em;
-    font-weight: 700;
-    line-height: 1;
-    padding: 0.5rem 0 1rem;
-    text-transform: uppercase;
-  }
-
-  .endpointIcon {
-    height: 24px;
-    margin-right: 0.75rem;
-    width: 24px;
-  }
-
-  .endpointProvider {
-    display: none;
-    padding: 0.25rem;
-    text-align: right;
-  }
-
-  .endpointSection {
-    align-items: center;
-    display: flex;
-    justify-content: flex-start;
-    position: relative;
-
-    &.isChild .endpointIcon {
-      margin-left: 1.25rem;
-    }
-
-    .endpointOpen {
-      position: absolute;
-      right: 0.5rem;
-      top: 0.375rem;
-    }
-
-    &+.endpointProvider {
-      margin-top: -0.125rem;
-    }
   }
 `);
