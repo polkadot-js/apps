@@ -3,21 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiPromise } from '@polkadot/api';
-import { POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
+import { POLKADOT_GENESIS, KULUPU_GENESIS } from '@polkadot/apps-config/api/constants';
 
 const PROPOSE_THRESHOLDS: Record<string, number> = {
   // Polkadot
-  [POLKADOT_GENESIS]: 0.6
+  [POLKADOT_GENESIS]: 0.6,
+  // Kulupu
+  [KULUPU_GENESIS]: 1,
 };
 
 const SLASH_THRESHOLDS: Record<string, number> = {
   // Polkadot
-  [POLKADOT_GENESIS]: 0.75
+  [POLKADOT_GENESIS]: 0.75,
 };
 
 const TREASURY_THRESHOLDS: Record<string, number> = {
   // Polkadot
-  [POLKADOT_GENESIS]: 0.6
+  [POLKADOT_GENESIS]: 0.6,
+  // Kulupu
+  [KULUPU_GENESIS]: 0.8,
 };
 
 export function getThreshold (api: ApiPromise): number {
