@@ -8,7 +8,7 @@ export default {
   chains: {
     // 'Centrifuge Mainnet': 'centrifuge',
     // Edgeware: 'edgeware',
-    // Kulupu: 'kulupu',
+    Kulupu: 'kulupu',
     Kusama: 'kusama',
     Polkadot: 'polkadot',
     'Polkadot CC1': 'polkadot-cc1'
