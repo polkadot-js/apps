@@ -11,9 +11,11 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import nodeTemplate from './node-template';
+import nodle from './nodle';
 import stablePoc from './stable-poc';
 
 export default {
+  'Nodle Chain Node': nodle,
   acala,
   'centrifuge-chain': centrifugeChain,
   'cumulus-test-parachain': testPara,

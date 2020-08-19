@@ -102,6 +102,11 @@ function createLive (t: TFunction): LinkOption[] {
       info: 'kulupu',
       text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
       value: 'wss://rpc.kulupu.corepaper.org/ws'
+    },
+    {
+      info: 'nodle',
+      text: t<string>('rpc.nodle-main', 'Nodle Main (Nodle Mainnet, hosted by Nodle)', { ns: 'apps-config' }),
+      value: 'wss://main1.nodleprotocol.io'
     }
   ];
 }
@@ -147,7 +152,7 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'nodle',
-      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      text: t<string>('rpc.nodle-arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io'
     },
     {
