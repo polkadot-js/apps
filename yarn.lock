@@ -1428,7 +1428,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.3, @babel/runtime@npm:^7.11.0, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4":
+"@babel/runtime-corejs3@npm:^7.10.2":
+  version: 7.11.2
+  resolution: "@babel/runtime-corejs3@npm:7.11.2"
+  dependencies:
+    core-js-pure: ^3.0.0
+    regenerator-runtime: ^0.13.4
+  checksum: 151da4e97bb558d5a58e2a94eb89bcd505b7273c00b6ad8fe1988aefbe16aee01aa83dba0e90e56370a3e99d974d4f5fb081a6489161dc414e322d70bf19bc92
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.3, @babel/runtime@npm:^7.11.0, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4":
   version: 7.11.2
   resolution: "@babel/runtime@npm:7.11.2"
   dependencies:
@@ -3099,8 +3109,10 @@ __metadata:
     "@babel/runtime": ^7.11.2
     "@polkadot/react-components": 0.55.0-beta.4
     "@polkadot/vanitygen": ^0.20.0-beta.1
+    "@testing-library/react": ^10.4.8
     detect-browser: ^5.1.1
     file-saver: ^2.0.2
+    testcontainers: ^2.17.0
   languageName: unknown
   linkType: soft
 
@@ -3925,10 +3937,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/dom@npm:^7.17.1":
+  version: 7.22.2
+  resolution: "@testing-library/dom@npm:7.22.2"
+  dependencies:
+    "@babel/runtime": ^7.10.3
+    "@types/aria-query": ^4.2.0
+    aria-query: ^4.2.2
+    dom-accessibility-api: ^0.5.0
+    pretty-format: ^25.5.0
+  checksum: 9894fb1e1ca335099b1c3d8e5ecc2c3222bfa7ec0345c9053943d27657a554ea9c326af14a400c63cb8431de59a03baf1ec1ae4d28ec9d3abfc40db230879bc0
+  languageName: node
+  linkType: hard
+
+"@testing-library/react@npm:^10.4.8":
+  version: 10.4.8
+  resolution: "@testing-library/react@npm:10.4.8"
+  dependencies:
+    "@babel/runtime": ^7.10.3
+    "@testing-library/dom": ^7.17.1
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+  checksum: 8e725f094be47651b852a356e7fff9bcde2ab665c8ba7b0d9ef8e2140dd1158c8b58d4fcbebd4f5d03e32cff34c4c035a4d5a761903f1c908bebc2fe6abc8ec2
+  languageName: node
+  linkType: hard
+
 "@types/anymatch@npm:*":
   version: 1.3.1
   resolution: "@types/anymatch@npm:1.3.1"
   checksum: 1647865e528a168f66f57a077e9651c10a4c172b656cc3686fddf176555d42ca0a1647bfc626ea2fceb68fc7701426ab708224be1762b4a5216fe8368ffdba3c
+  languageName: node
+  linkType: hard
+
+"@types/aria-query@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@types/aria-query@npm:4.2.0"
+  checksum: 196c811653507cc0601bb1260ddeb58d80797306cf71638605d64d26ae324345b4b95514617942aadf5b899602623cf848ba6780e921526ef5cf0b0cae80825f
   languageName: node
   linkType: hard
 
@@ -4033,6 +4078,15 @@ __metadata:
   version: 4.1.5
   resolution: "@types/debug@npm:4.1.5"
   checksum: 416ad24bc589be0fb8c78bea972aa7d4ffdf6b136239701b1792674463b2dbf8c6707f6055ec484f79ec1f2b528ffef90c87e55df7e4a0f458184cad5bf0cfc8
+  languageName: node
+  linkType: hard
+
+"@types/dockerode@npm:^2.5.34":
+  version: 2.5.34
+  resolution: "@types/dockerode@npm:2.5.34"
+  dependencies:
+    "@types/node": "*"
+  checksum: ae3893a618b3cc43569b4face73196d82065a82b28fafc379dd75eb812097e33c8ec5151d608f3dd28cf5f60e313f3ea1b88e4f11954c46aaad371346709ad56
   languageName: node
   linkType: hard
 
@@ -5709,6 +5763,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aria-query@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "aria-query@npm:4.2.2"
+  dependencies:
+    "@babel/runtime": ^7.10.2
+    "@babel/runtime-corejs3": ^7.10.2
+  checksum: dc7631b6f9aee453aee3587f1b4e998e2fca89909a7d2587d91694165d161850a8b64c433348efde78297e35473df6d79deb7abea8571f82485dad9b5401c390
+  languageName: node
+  linkType: hard
+
 "arr-diff@npm:^2.0.0":
   version: 2.0.0
   resolution: "arr-diff@npm:2.0.0"
@@ -5869,7 +5933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1@npm:~0.2.3":
+"asn1@npm:~0.2.0, asn1@npm:~0.2.3":
   version: 0.2.4
   resolution: "asn1@npm:0.2.4"
   dependencies:
@@ -6267,7 +6331,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bcrypt-pbkdf@npm:^1.0.0":
+"bcrypt-pbkdf@npm:^1.0.0, bcrypt-pbkdf@npm:^1.0.2":
   version: 1.0.2
   resolution: "bcrypt-pbkdf@npm:1.0.2"
   dependencies:
@@ -8190,6 +8254,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js-pure@npm:^3.0.0":
+  version: 3.6.5
+  resolution: "core-js-pure@npm:3.6.5"
+  checksum: 91fc8e0b699d5bcb11f265ad4544d08c98096b86ad6c9b4c00109616db0aa992ceb58ea82d0dbae2a16658a7aaf2922aa6f9fc1107dc3b0055270799d0414a3f
+  languageName: node
+  linkType: hard
+
 "core-js@npm:^2.4.0, core-js@npm:^2.6.5":
   version: 2.6.11
   resolution: "core-js@npm:2.6.11"
@@ -9395,6 +9466,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"docker-compose@npm:^0.23.5":
+  version: 0.23.5
+  resolution: "docker-compose@npm:0.23.5"
+  checksum: 77085cabb40fa111cb96c1a2ce3e2ed8f3487525916d928c0ab863fb3720f636c3e0abca83b67ce4c8292b124ff7c952de1303f2aa9cc0764e0533b3c6660ed5
+  languageName: node
+  linkType: hard
+
+"docker-modem@npm:^2.1.0":
+  version: 2.1.4
+  resolution: "docker-modem@npm:2.1.4"
+  dependencies:
+    debug: ^4.1.1
+    readable-stream: ^3.5.0
+    split-ca: ^1.0.1
+    ssh2: ^0.8.7
+  checksum: 6a6a4be66ff68dff4182ba0b3b444c03786850268e6e2b3f764a3c78b9962545939cf37cfe533178d8c89156494b32ce048be911d532f4fdd4ecbec61b523ea7
+  languageName: node
+  linkType: hard
+
+"dockerode@npm:^3.2.0":
+  version: 3.2.1
+  resolution: "dockerode@npm:3.2.1"
+  dependencies:
+    docker-modem: ^2.1.0
+    tar-fs: ~2.0.1
+  checksum: 9b539b40002d0a32560a30378d03bb78b37429437078b1db67edf3d2258e5f3bd61cd5511b3aea1bbda0c37458b509b6db81226de81f900087fd8f1342ed57b8
+  languageName: node
+  linkType: hard
+
 "docsearch.js@npm:^2.5.2":
   version: 2.6.3
   resolution: "docsearch.js@npm:2.6.3"
@@ -9435,6 +9535,13 @@ __metadata:
   dependencies:
     esutils: ^2.0.2
   checksum: 2eae469bd2889ceee9892083a67340b3622568fe5290edce620e5d5ddab23d644b2a780e9a7c68ad9c8a62716a70c5e484402ac93a398fa78b54b7505592aa7f
+  languageName: node
+  linkType: hard
+
+"dom-accessibility-api@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "dom-accessibility-api@npm:0.5.0"
+  checksum: 7dd37012f2d841e4d8898aea47ee5b36ad0d4d49182d2ddd293ae70b58b1c1b88bfab433a06e888e11ecb0200d9cd9ffedbad5ff84916e71a36ea35cffe17073
   languageName: node
   linkType: hard
 
@@ -11574,6 +11681,13 @@ __metadata:
   version: 4.2.0
   resolution: "get-port@npm:4.2.0"
   checksum: a87cf447bbcf04507a3a2ddf5d8369b2addad34a41fcaf165811383065c407cccfcfd820773ef9640967d007a39288a850f5023bb0158facf29d72896447002d
+  languageName: node
+  linkType: hard
+
+"get-port@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "get-port@npm:5.1.1"
+  checksum: 75a5af5cef1e601cfa5a071d1b205ba94338f69f83f1092039bdf8e15351a76f5e6b7df7d3987bd3b7ad5d6893759d2bc28d36d8a4ee65976c3868d7efe7cf8c
   languageName: node
   linkType: hard
 
@@ -16829,6 +16943,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-duration@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "node-duration@npm:1.0.4"
+  checksum: 28e395acc52d294b3970e06081047cfb7ca1226fe0ccbd8f9988e02fee0b8c057117775a318c781f9e2536ecfe1277dcb337722502f5c26d1b52b9af5e691403
+  languageName: node
+  linkType: hard
+
 "node-fetch-npm@npm:^2.0.2":
   version: 2.0.4
   resolution: "node-fetch-npm@npm:2.0.4"
@@ -19846,7 +19967,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^3.0.2, readable-stream@npm:^3.0.6, readable-stream@npm:^3.1.1, readable-stream@npm:^3.4.0, readable-stream@npm:^3.6.0":
+"readable-stream@npm:^3.0.2, readable-stream@npm:^3.0.6, readable-stream@npm:^3.1.1, readable-stream@npm:^3.4.0, readable-stream@npm:^3.5.0, readable-stream@npm:^3.6.0":
   version: 3.6.0
   resolution: "readable-stream@npm:3.6.0"
   dependencies:
@@ -21588,6 +21709,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"split-ca@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "split-ca@npm:1.0.1"
+  checksum: 66f620e52429cb1ba265d1c6da62b84cee724eba9b38ad1614ff72336ea69862dbc49b9f2e7689f4d1d55fdcce8d45b0d74fc78ca91297b5822b13bf01ea6497
+  languageName: node
+  linkType: hard
+
 "split-on-first@npm:^1.0.0":
   version: 1.1.0
   resolution: "split-on-first@npm:1.1.0"
@@ -21633,6 +21761,26 @@ __metadata:
   version: 1.0.3
   resolution: "sprintf-js@npm:1.0.3"
   checksum: 51df1bce9e577287f56822d79ac5bd94f6c634fccf193895f2a1d2db2e975b6aa7bc97afae9cf11d49b7c37fe4afc188ff5c4878be91f2c86eabd11c5df8b62c
+  languageName: node
+  linkType: hard
+
+"ssh2-streams@npm:~0.4.10":
+  version: 0.4.10
+  resolution: "ssh2-streams@npm:0.4.10"
+  dependencies:
+    asn1: ~0.2.0
+    bcrypt-pbkdf: ^1.0.2
+    streamsearch: ~0.1.2
+  checksum: a49e4a8b8f94a7c02762a2c0653961c62b1d4968f5d9044900af57c9768fea832d348d96180ff11910eb38d62a48e7f100de5eac9a72e3215cc51e99f3d278ee
+  languageName: node
+  linkType: hard
+
+"ssh2@npm:^0.8.7":
+  version: 0.8.9
+  resolution: "ssh2@npm:0.8.9"
+  dependencies:
+    ssh2-streams: ~0.4.10
+  checksum: dcaf4440883b8cd18cd0b18046756f89d73eb8e4f1f93afcc41547111cbb5acbac5c6dff60df2eccb75f217e519ccddf9ac6286b0acac2b692778bab862dc07d
   languageName: node
   linkType: hard
 
@@ -21796,6 +21944,22 @@ __metadata:
   version: 1.0.1
   resolution: "stream-shift@npm:1.0.1"
   checksum: 5d777b222e460dc660ee29acad4f99649eb8d0051d3cb648fc92f3f77557b33d0a8ad656291c2cfa87703204191534a6003c2b035606a699674d0bb600353ad3
+  languageName: node
+  linkType: hard
+
+"stream-to-array@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "stream-to-array@npm:2.3.0"
+  dependencies:
+    any-promise: ^1.1.0
+  checksum: b313d7dfa5230674ffd3442ae985d64b9f95ad7d122aa7d3fd9ebe21bf7129548afda51dda2af781e2cd31c84911253bbf549061e96a63941a45686329ccba3f
+  languageName: node
+  linkType: hard
+
+"streamsearch@npm:~0.1.2":
+  version: 0.1.2
+  resolution: "streamsearch@npm:0.1.2"
+  checksum: f72befba95082d49be19cd4318112bc141f6cd7cbb201ee8079887f6f3cbcdf79c311977ce0eaa93d7d8c3e6b9727412f6177a87ced5b98d0fd4075723ad8eaf
   languageName: node
   linkType: hard
 
@@ -22409,7 +22573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar-fs@npm:^2.0.0":
+"tar-fs@npm:^2.0.0, tar-fs@npm:^2.1.0":
   version: 2.1.0
   resolution: "tar-fs@npm:2.1.0"
   dependencies:
@@ -22418,6 +22582,18 @@ __metadata:
     pump: ^3.0.0
     tar-stream: ^2.0.0
   checksum: aa0a6b2fd3b23bc50a10613a53ed1a7aa13202fce24cd86abf85b5347a4b05399abb7e5d160ae071552be13bb7d8b69603172be2cbf2c786dd6d94d147b928fa
+  languageName: node
+  linkType: hard
+
+"tar-fs@npm:~2.0.1":
+  version: 2.0.1
+  resolution: "tar-fs@npm:2.0.1"
+  dependencies:
+    chownr: ^1.1.1
+    mkdirp-classic: ^0.5.2
+    pump: ^3.0.0
+    tar-stream: ^2.0.0
+  checksum: 890f546bf67836f092fc15b48324b6f29692a12ed809f36aa4855c66f2ef101a5295e196b0c9f5cf8fde5c18f44a935e7766748c29b1d9699a9d8f779b06965b
   languageName: node
   linkType: hard
 
@@ -22595,6 +22771,24 @@ __metadata:
     glob: ^7.1.4
     minimatch: ^3.0.4
   checksum: 68294d10066726cbced152aeb8a39cf9fd199199c62afb39290b824f613090f2535fc6acbad7d78f1f34cf00f4f00d42fa14f02d6262b910a7c9e2db2ecfa388
+  languageName: node
+  linkType: hard
+
+"testcontainers@npm:^2.17.0":
+  version: 2.20.0
+  resolution: "testcontainers@npm:2.20.0"
+  dependencies:
+    "@types/dockerode": ^2.5.34
+    byline: ^5.0.0
+    debug: ^4.1.1
+    docker-compose: ^0.23.5
+    dockerode: ^3.2.0
+    get-port: ^5.1.1
+    glob: ^7.1.6
+    node-duration: ^1.0.4
+    stream-to-array: ^2.3.0
+    tar-fs: ^2.1.0
+  checksum: 389b2e2f689872ec0b82061fbea1d3af98b95587bacf9b023748902bd7e02f66aa07d65d70a0234e92bc4b1655d5be157481468ce31e30d46deb0fc3d0256c11
   languageName: node
   linkType: hard
 

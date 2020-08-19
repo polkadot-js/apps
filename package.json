@@ -71,7 +71,8 @@
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "postinstall": "polkadot-dev-yarn-only",
     "postinstall:electron": "electron-builder install-app-deps",
-    "test": "polkadot-dev-run-test packages/page-claims/src packages/apps-electron",
+    "test": "polkadot-dev-run-test --selectProjects=fast-tests --silent --testNamePattern='^((?!--SLOW--).)*$'",
+    "test:all": "polkadot-dev-run-test --selectProjects=all-tests --silent",
     "test:one": "polkadot-dev-run-test",
     "start": "yarn clean && cd packages/apps && webpack --config webpack.config.js",
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
