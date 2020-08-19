@@ -73,14 +73,14 @@ export default React.memo(styled(Grouping)`
   &:hover {
     > div,
     > ul li {
-      background: rgba(62, 61, 60, 0.3);
+      background: rgba(78, 77, 76, 0.75);
     }
 
     > ul {
       display: block;
 
       > li:hover {
-        background: rgba(62, 61, 60, 0.75);
+        background: rgba(245, 244, 243, 0.05);
       }
     }
   }
