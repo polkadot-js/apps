@@ -56,7 +56,7 @@ export default React.memo(styled(Grouping)`
   }
 
   ul.dropdown {
-    background: #4e4d4c;
+    background: #5e5d5c;
     border-radius: 0 0 0.25rem 0.25rem;
     display: none;
     margin: 0;
@@ -73,14 +73,14 @@ export default React.memo(styled(Grouping)`
   &:hover {
     > div,
     > ul li {
-      background: rgba(245, 244, 243, 0.125);
+      background: rgba(62, 61, 60, 0.3);
     }
 
     > ul {
       display: block;
 
       > li:hover {
-        background: rgba(245, 244, 243, 0.2);
+        background: rgba(62, 61, 60, 0.75);
       }
     }
   }
