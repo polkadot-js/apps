@@ -16,15 +16,23 @@ interface Props {
   value: ScheduledExt;
 }
 
-function Scheduled ({ className = '', value: { blockNumber, call, maybePeriodic } }: Props): React.ReactElement<Props> {
+function Scheduled ({ className = '', value: { blockNumber, call, maybeId, maybePeriodic } }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
 
   const period = maybePeriodic.unwrapOr(null);
+  const name = maybeId.unwrapOr(null);
 
   return (
     <tr className={className}>
       <td className='all'><CallExpander value={call} /></td>
+      <td className='start'>
+        {name && (
+          name.isAscii
+            ? name.toUtf8()
+            : name.toHex()
+        )}
+      </td>
       <td className='number together'>
         {bestNumber && (
           <>
