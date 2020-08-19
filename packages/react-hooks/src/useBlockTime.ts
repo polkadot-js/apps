@@ -21,6 +21,7 @@ export default function useBlockTime (blocks = BN_ONE): Result {
     (): Result => {
       const blockTime = (
         api.consts.babe?.expectedBlockTime ||
+        api.consts.difficulty?.targetBlockTime ||
         api.consts.timestamp?.minimumPeriod.muln(2) ||
         DEFAULT_TIME
       );
