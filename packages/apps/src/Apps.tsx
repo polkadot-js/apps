@@ -48,5 +48,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Apps)`
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 `);
