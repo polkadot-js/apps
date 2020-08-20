@@ -36,9 +36,9 @@ function Summary (): React.ReactElement {
           </CardSummary>
         )}
       </section>
-      <section className='ui--media-large'>
+      {/*<section className='ui--media-large'>
         <SummarySession withEra={false} />
-      </section>
+      </section>*/}
       <section>
         {api.query.grandpa && (
           <CardSummary label={t<string>('finalized')}>
