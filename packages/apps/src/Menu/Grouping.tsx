@@ -30,7 +30,7 @@ function Grouping ({ className, name, routes }: Props): React.ReactElement<Props
         <span>{name}</span>
         <Icon icon='caret-down' />
       </div>
-      <ul className='groupMenu'>
+      <ul className='groupMenu menuBg ui--highlight--before'>
         {routes.map((route): React.ReactNode => (
           <Item
             key={route.name}
@@ -56,7 +56,6 @@ export default React.memo(styled(Grouping)`
   }
 
   .groupMenu {
-    background: #565452;
     border-radius: 0 0 0.25rem 0.25rem;
     display: none;
     margin: 0;
