@@ -46,21 +46,25 @@ function Item ({ className = '', route: { Modal, href, icon, name, text, useCoun
 
 export default React.memo(styled(Item)`
   cursor: pointer;
-  padding: 0.75rem 1.5rem;
   position: relative;
   white-space: nowrap;
 
   &.topLevel {
-    padding: 1rem 1.5rem;
+    padding: 0;
+
+    a {
+      padding: 1rem 1.5rem;
+    }
   }
 
-  &.withCounter {
+  &.withCounter a {
     padding-right: 3.5rem;
   }
 
   a {
     color: inherit !important;
     display: block;
+    padding: 0.75rem 1.5rem;
     text-decoration: none;
   }
 
