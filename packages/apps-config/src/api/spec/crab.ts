@@ -9,7 +9,6 @@ export default {
   '__[frame.system]__': {},
   Address: 'AccountId',
   '__[pallet.balances]__': {},
-  BalanceInfo: null,
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
