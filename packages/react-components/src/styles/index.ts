@@ -228,6 +228,7 @@ export default createGlobalStyle<Props>`
   }
 
   body {
+    background: #f5f3f1;
     height: 100%;
     margin: 0;
   }
@@ -301,8 +302,6 @@ export default createGlobalStyle<Props>`
   }
 
   main {
-    min-height: 100vh;
-
     > section {
       margin-bottom: 2em;
     }

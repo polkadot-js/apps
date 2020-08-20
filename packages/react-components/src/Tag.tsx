@@ -9,7 +9,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color?: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red';
+  color?: 'blue' | 'green' | 'grey' | 'orange' | 'pink' | 'red' | 'yellow';
   hover?: React.ReactNode;
   isTag?: boolean;
   label: React.ReactNode;
@@ -80,6 +80,10 @@ export default React.memo(styled(Tag)`
 
   &.redColor {
     background: #db2828;
+  }
+
+  &.yellowColor {
+    background: darkgoldenrod;
   }
 
   &.isTag {

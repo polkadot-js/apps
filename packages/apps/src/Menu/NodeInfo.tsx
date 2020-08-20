@@ -14,11 +14,11 @@ const pkgJson = require('../../package.json') as { version: string };
 
 const uiInfo = `apps v${pkgJson.version}`;
 
-function NodeInfo ({ className }: Props): React.ReactElement<Props> {
+function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
-    <div className={className}>
+    <div className={`${className} ui--media-1400`}>
       {isApiReady && (
         <div>
           <NodeName />&nbsp;
@@ -34,9 +34,10 @@ function NodeInfo ({ className }: Props): React.ReactElement<Props> {
 export default React.memo(styled(NodeInfo)`
   background: transparent;
   color: white;
-  font-size: 0.75rem;
-  opacity: 0.5;
-  padding: 0 1.5rem 0 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  opacity: 0.85;
+  padding: 0 1.5rem;
   text-align: right;
 
   > div {

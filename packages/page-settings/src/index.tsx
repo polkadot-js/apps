@@ -28,12 +28,9 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       text: t<string>('General')
     },
     {
+      count: numExtensions,
       name: 'metadata',
-      text: t<string>('Metadata {{count}}', {
-        replace: {
-          count: numExtensions ? `(${numExtensions})` : ''
-        }
-      })
+      text: t<string>('Metadata')
     },
     {
       name: 'developer',

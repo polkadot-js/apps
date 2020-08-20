@@ -12,13 +12,15 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'counter' | 'green' | 'blue' | 'gray' | 'normal' | 'purple' | 'red' | 'transparent';
+  color: 'blue' | 'counter' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
   isSmall?: boolean;
   onClick?: () => void;
 }
+
+const HIGHLIGHTS = ['counter', 'highlight'];
 
 let badgeId = 0;
 
@@ -27,11 +29,12 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
   const extraProps = hover
     ? { 'data-for': trigger, 'data-tip': true }
     : {};
+  const isHighlight = HIGHLIGHTS.includes(color);
 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' ui--highlight--bg' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       {info || (icon && <Icon icon={icon} />)}
@@ -47,7 +50,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
 
 export default React.memo(styled(Badge)`
   border-radius: 16px;
-  color: #eee;
+  color: #eeedec;
   display: inline-block;
   font-size: 12px;
   height: 22px;
@@ -93,14 +96,13 @@ export default React.memo(styled(Badge)`
   }
 
   &.counterColor {
-    background: red;
     margin: 0 0.5rem;
     vertical-align: middle;
   }
 
   &.grayColor {
-    background: #eee !important;
-    color: #aaa;
+    background: #eeedec !important;
+    color: #aaa9a8;
   }
 
   &.redColor {

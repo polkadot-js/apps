@@ -25,6 +25,7 @@ const NOT_FOUND: Route = {
   display: {
     needsApi: undefined
   },
+  group: 'settings',
   icon: 'times',
   isIgnored: false,
   name: 'unknown',
@@ -78,13 +79,10 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #f5f4f3;
   flex-grow: 1;
-  height: 100%;
-  min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 1.5rem;
+  padding: 0 2.5rem 1rem;
   position: relative;
   width: 100%;
 

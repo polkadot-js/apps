@@ -13,6 +13,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsAccounts: true,
       needsApi: []
     },
+    group: 'developer',
     icon: 'sync',
     name: 'extrinsics',
     text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })

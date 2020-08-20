@@ -90,8 +90,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Waiting')
     },
     {
+      count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
-      text: t<string>('Slashes ({{count}})', { replace: { count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0) } })
+      text: t<string>('Slashes')
     },
     {
       hasParams: true,

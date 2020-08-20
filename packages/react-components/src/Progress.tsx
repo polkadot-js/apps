@@ -139,7 +139,7 @@ export default React.memo(styled(Progress)`
     div {
       line-height: 1;
       font-size: 1.25rem;
-      text-shadow: 0 0 2px #f5f4f3;
+      text-shadow: 0 0 2px #f5f3f1;
     }
   }
 

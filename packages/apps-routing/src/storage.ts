@@ -12,6 +12,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
+    group: 'developer',
     icon: 'database',
     name: 'chainstate',
     text: t<string>('nav.storage', 'Chain state', { ns: 'apps-routing' })

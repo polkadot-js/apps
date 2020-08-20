@@ -210,7 +210,7 @@
   "Mnemonic": "Мнемонический",
   "More": "Ещё",
   "Most recent head data": "Последние данные",
-  "Motions ({{count}})": "Ходатайства ({{count}})",
+  "Motions": "Ходатайства",
   "Multiple council proposals could exist, both approval and rejection. Apply your vote to the correct council proposal (also available on council motions page)": "Нескольо предложний могут существовать, как одобренных так и отклоненных. Голосуйте в правильном предложении (это можно сделать и на странице Решения Совета)",
   "Multisig": "Мультиподпись",
   "Multisig approval with hash (non-final approval)": "Разрешить с хэшом мультиподписи (не финальное разрешение)",
