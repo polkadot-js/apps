@@ -92,6 +92,12 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://fullnode.centrifuge.io'
     },
     {
+      dnslink: 'crab',
+      info: 'crab',
+      text: t<string>('rpc.crab', 'Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
+      value: 'wss://crab.darwinia.network'
+    },
+    {
       dnslink: 'edgeware',
       info: 'edgeware',
       text: t<string>('rpc.edgeware', 'Edgeware (Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),

@@ -14,6 +14,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeCrab from './nodes/crab.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -49,6 +50,7 @@ const chainLogos: Record<string, any> = [
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['crab', nodeCrab],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -70,6 +72,7 @@ const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
   centrifuge: nodeCentrifuge,
+  crab: nodeCrab,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   kilt: nodeKilt,
