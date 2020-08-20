@@ -408,11 +408,13 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         />
       </td>
       <td className='button'>
-        <Button
-          icon='paper-plane'
-          label={t<string>('send')}
-          onClick={toggleTransfer}
-        />
+        {api.api.tx.balances?.transfer && (
+          <Button
+            icon='paper-plane'
+            label={t<string>('send')}
+            onClick={toggleTransfer}
+          />
+        )}
         <Popup
           className='theme--default'
           isOpen={isSettingsOpen}

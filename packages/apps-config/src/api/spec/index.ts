@@ -4,6 +4,7 @@
 
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
+import crab from './crab';
 import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
@@ -15,6 +16,7 @@ import nodle from './nodle';
 import stablePoc from './stable-poc';
 
 export default {
+  Crab: crab,
   'Nodle Chain Node': nodle,
   acala,
   'centrifuge-chain': centrifugeChain,
