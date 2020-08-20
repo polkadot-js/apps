@@ -80,7 +80,7 @@ export default React.memo(styled(ChainInfo)`
     .ui--Icon.dropdown,
     > div.info {
       color: white;
-      opacity: 0.75;
+      opacity: 0.85;
       text-align: right;
       vertical-align: middle;
     }

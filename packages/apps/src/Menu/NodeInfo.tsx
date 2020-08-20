@@ -36,7 +36,7 @@ export default React.memo(styled(NodeInfo)`
   color: white;
   font-size: 0.9rem;
   line-height: 1.2;
-  opacity: 0.75;
+  opacity: 0.85;
   padding: 0 1.5rem;
   text-align: right;
 
