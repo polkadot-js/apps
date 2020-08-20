@@ -6,9 +6,7 @@
 /* eslint-disable sort-keys */
 
 export default {
-  '__[frame.system]__': {},
   Address: 'AccountId',
-  '__[pallet.balances]__': {},
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
@@ -48,7 +46,6 @@ export default {
     misc_frozen: 'Balance',
     fee_frozen: 'Balance'
   },
-  '__[pallet.staking]__': {},
   RingBalance: 'Balance',
   KtonBalance: 'Balance',
   TsInMs: 'u64',
@@ -124,7 +121,6 @@ export default {
     reporters: 'Vec<AccountId>',
     payout: 'RKT'
   },
-  '__[pallet.treasury]__': {},
   Proposal: {
     proposer: 'AccountId',
     beneficiary: 'AccountId',
@@ -135,7 +131,6 @@ export default {
     value: 'Balance',
     bond: 'Balance'
   },
-  '__[pallet.bridge.eth]__': {},
   EthTransactionIndex: '(H256, u64)',
   EthHeaderBrief: {
     total_difficulty: 'U256',
@@ -193,7 +188,6 @@ export default {
     header_hash: 'H256'
   },
   MMRProof: 'Vec<H256>',
-  '__[pallet.claims]__': {},
   OtherSignature: {
     _enum: {
       Eth: 'EcdsaSignature',
@@ -208,19 +202,16 @@ export default {
     }
   },
   AddressT: '[u8; 20; AddressT]',
-  '__[pallet.header-mmr]__': {},
   MerkleMountainRangeRootLog: {
     prefix: '[u8; 4; Prefix]',
     mmr_root: 'Hash'
   },
-  '__[pallet.relayer-game]__': {},
   Round: 'u64',
   TcBlockNumber: 'Vec<u8>',
   TcHeaderHash: 'Vec<u8>',
   MMRHash: 'Vec<u8>',
   GameId: 'TcBlockNumber',
   RawHeaderThing: 'Vec<u8>',
-  '__[node.rpc]__': {},
   BalancesRuntimeDispatchInfo: {
     usable_balance: 'Balance'
   },
