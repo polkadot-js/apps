@@ -4,8 +4,9 @@
 
 import React from 'react';
 
-export interface Endpoint {
+export interface Group {
   header: React.ReactNode;
+  isDevelopment?: boolean;
   networks: Network[];
 }
 
