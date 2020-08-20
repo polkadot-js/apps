@@ -161,7 +161,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Menu)`
   align-items: center;
-  background: #6e6d6c;
+  background: #7e7c7a;
   border-top: 0.5rem solid transparent;
   display: flex;
   justify-content: space-between;
@@ -191,7 +191,7 @@ export default React.memo(styled(Menu)`
   }
 
   .menuItems {
-    background: #6e6d6c;
+    background: #7e7c7a;
     color: #f5f4f3;
     flex: 1 1;
     list-style: none;
