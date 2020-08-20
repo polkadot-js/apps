@@ -10,6 +10,7 @@ import { CUSTOM_ENDPOINT_KEY } from './constants';
 export interface LinkOption extends Option {
   dnslink?: string;
   isChild?: boolean;
+  isDevelopment?: boolean;
 }
 
 interface EnvWindow {
@@ -60,7 +61,6 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://rpc.polkadot.io'
     },
     {
-      dnslink: 'polkadot',
       info: 'polkadot',
       text: t<string>('rpc.polkadot.w3f', 'Polkadot (Live, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc1-1.polkadot.network'
@@ -72,13 +72,11 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://kusama-rpc.polkadot.io'
     },
     {
-      dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc3-5.kusama.network'
     },
     {
-      dnslink: 'kusama',
       info: 'kusama',
       isDisabled: true,
       text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
@@ -92,7 +90,6 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://fullnode.centrifuge.io'
     },
     {
-      dnslink: 'crab',
       info: 'crab',
       text: t<string>('rpc.crab', 'Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
       value: 'wss://crab.darwinia.network'
@@ -233,6 +230,7 @@ export default function create (t: TFunction): LinkOption[] {
     },
     ...createTest(t),
     {
+      isDevelopment: true,
       isHeader: true,
       text: t<string>('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       value: ''
