@@ -86,16 +86,16 @@ function createLive (t: TFunction): LinkOption[] {
     },
     // alphabetical based on chain name
     {
-      dnslink: 'crab',
-      info: 'crab',
-      text: t<string>('rpc.crab', 'Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
-      value: 'wss://crab.darwinia.network'
-    },
-    {
       dnslink: 'centrifuge',
       info: 'centrifuge',
       text: t<string>('rpc.centrifuge', 'Centrifuge (Mainnet, hosted by Centrifuge)', { ns: 'apps-config' }),
       value: 'wss://fullnode.centrifuge.io'
+    },
+    {
+      dnslink: 'crab',
+      info: 'crab',
+      text: t<string>('rpc.crab', 'Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
+      value: 'wss://crab.darwinia.network'
     },
     {
       dnslink: 'edgeware',
