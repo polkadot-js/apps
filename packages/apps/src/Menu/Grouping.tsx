@@ -56,7 +56,7 @@ export default React.memo(styled(Grouping)`
   }
 
   .groupMenu {
-    background: #686664;
+    background: #7b7977;
     border-radius: 0 0 0.25rem 0.25rem;
     display: none;
     margin: 0;
@@ -77,14 +77,14 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: rgba(245, 244, 243, 0.075);
+      background: rgba(96, 94, 92, 0.9);
     }
 
     .groupMenu {
       display: block;
 
       > li:hover {
-        background: transparent;
+        background: rgba(96, 94, 92, 0.45);
       }
     }
   }

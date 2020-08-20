@@ -137,7 +137,7 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #faf9f8;
+      background: #faf8f6;
     }
 
     &:nth-child(odd) {
