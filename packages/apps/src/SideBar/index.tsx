@@ -10,10 +10,10 @@ import createRoutes from '@polkadot/apps-routing';
 import { Button, ChainImg, Icon, Menu, media } from '@polkadot/react-components';
 import { useIpfs } from '@polkadot/react-hooks';
 
+import Endpoints from '../Endpoints';
 import { SIDEBAR_MENU_THRESHOLD } from '../constants';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
-import Endpoints from './Endpoints';
 import Item from './Item';
 import NodeInfo from './NodeInfo';
 

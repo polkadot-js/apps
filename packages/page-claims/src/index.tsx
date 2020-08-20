@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AppProps as Props } from '@polkadot/react-components/types';
 import { Option } from '@polkadot/types';
 import { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Button, Card, Columar, Column, Input, InputAddress, Tooltip } from '@polkadot/react-components';
+import { Button, Card, Columar, Column, Input, InputAddress, Tabs, Tooltip } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { u8aToHex, u8aToString } from '@polkadot/util';
@@ -68,7 +69,11 @@ const Signature = styled.textarea`
   }
 `;
 
-function ClaimsApp (): React.ReactElement {
+const transformStatement = {
+  transform: (option: Option<StatementKind>) => option.unwrapOr(null)
+};
+
+function ClaimsApp ({ basePath }: Props): React.ReactElement<Props> {
   const [didCopy, setDidCopy] = useState(false);
   const [ethereumAddress, setEthereumAddress] = useState<string | undefined | null>(null);
   const [signature, setSignature] = useState<EcdsaSignature | null>(null);
@@ -83,6 +88,12 @@ function ClaimsApp (): React.ReactElement {
   // - `PRECLAIMS_LOADING` if we're fetching the results
   const [preclaimEthereumAddress, setPreclaimEthereumAddress] = useState<string | null | undefined | typeof PRECLAIMS_LOADING>(PRECLAIMS_LOADING);
   const isPreclaimed = !!preclaimEthereumAddress && preclaimEthereumAddress !== PRECLAIMS_LOADING;
+
+  const itemsRef = useRef([{
+    isRoot: true,
+    name: 'create',
+    text: t<string>('Claim tokens')
+  }]);
 
   // Everytime we change account, reset everything, and check if the accountId
   // has a preclaim.
@@ -165,9 +176,7 @@ function ClaimsApp (): React.ReactElement {
 
   // If it's 1/ not preclaimed and 2/ not the old claiming process, fetch the
   // statement kind to sign.
-  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], {
-    transform: (option: Option<StatementKind>) => option.unwrapOr(null)
-  });
+  const statementKind = useCall<StatementKind | null>(!isPreclaimed && !isOldClaimProcess && !!ethereumAddress && api.query.claims.signing, [ethereumAddress], transformStatement);
 
   const statementSentence = getStatement(systemChain, statementKind)?.sentence || '';
 
@@ -178,7 +187,12 @@ function ClaimsApp (): React.ReactElement {
 
   return (
     <main>
-      <header />
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={itemsRef.current}
+        />
+      </header>
       {!isOldClaimProcess && <Warning />}
       <h1>
         <Trans>Claim your <em>{TokenUnit.abbr}</em> tokens</Trans>

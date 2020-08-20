@@ -5,7 +5,7 @@
 import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -20,23 +20,23 @@ interface Props {
 function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const headerCandidates = useMemo(() => [
+  const headerCandidatesRef = useRef([
     [t('candidates'), 'start', 2],
     [],
     []
-  ], [t]);
+  ]);
 
-  const headerRunners = useMemo(() => [
+  const headerRunnersRef = useRef([
     [t('runners up'), 'start', 2],
     [t('backing')],
     [t('votes')]
-  ], [t]);
+  ]);
 
   return (
     <>
       <Table
         empty={electionsInfo && t<string>('No runners up found')}
-        header={headerRunners}
+        header={headerRunnersRef.current}
       >
         {electionsInfo?.runnersUp.map(([accountId, balance]): React.ReactNode => (
           <Candidate
@@ -49,7 +49,7 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
       </Table>
       <Table
         empty={electionsInfo && t<string>('No candidates found')}
-        header={headerCandidates}
+        header={headerCandidatesRef.current}
       >
         {electionsInfo?.candidates.map((accountId): React.ReactNode => (
           <Candidate

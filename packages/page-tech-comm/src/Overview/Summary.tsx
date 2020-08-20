@@ -15,7 +15,7 @@ import { useTranslation } from '../translate';
 function Summary ({ className = '', members, proposals }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const proposalCount = useCall<u32>(api.query.technicalCommittee.proposalCount, []);
+  const proposalCount = useCall<u32>(api.query.technicalCommittee.proposalCount);
 
   return (
     <SummaryBox className={className}>

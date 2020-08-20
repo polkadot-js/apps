@@ -16,7 +16,7 @@ interface Props {
 
 function BestFinalized ({ children, className = '', label }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized, []);
+  const bestNumberFinalized = useCall<BlockNumber>(api.derive.chain.bestNumberFinalized);
 
   return (
     <div className={className}>

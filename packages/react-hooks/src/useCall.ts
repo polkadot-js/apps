@@ -38,7 +38,7 @@ function transformIdentity <T> (value: unknown): T {
 }
 
 // extract the serialized and mapped params, all ready for use in our call
-function extractParams (fn: unknown, params: unknown[], paramMap: (params: unknown[]) => CallParams): [string, CallParams | null] {
+function extractParams <T> (fn: unknown, params: unknown[], { paramMap = transformIdentity }: CallOptions<T> = {}): [string, CallParams | null] {
   return [
     JSON.stringify({ f: (fn as { name: string })?.name, p: params }),
     params.length === 0 || !params.some((param) => isNull(param) || isUndefined(param))
@@ -58,7 +58,7 @@ function unsubscribe (tracker: TrackerRef): void {
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T>): void {
+function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T> = {}): void {
   const validParams = params.filter((p): boolean => !isUndefined(p));
 
   unsubscribe(tracker);
@@ -94,10 +94,10 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function useCall <T> (fn: TrackFn | undefined | null | false, params: CallParams = [], options: CallOptions<T> = {}): T | undefined {
+export default function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams, options?: CallOptions<T>): T | undefined {
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ count: 0, isActive: false, serialized: null, subscriber: null });
-  const [value, setValue] = useState<T | undefined>(options.defaultValue);
+  const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
@@ -108,7 +108,7 @@ export default function useCall <T> (fn: TrackFn | undefined | null | false, par
   useEffect((): void => {
     // check if we have a function & that we are mounted
     if (mountedRef.current && fn) {
-      const [serialized, mappedParams] = extractParams(fn, params, options.paramMap || transformIdentity);
+      const [serialized, mappedParams] = extractParams(fn, params || [], options);
 
       if (mappedParams && serialized !== tracker.current.serialized) {
         tracker.current.serialized = serialized;

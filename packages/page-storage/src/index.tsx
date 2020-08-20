@@ -18,6 +18,7 @@ function StorageApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     (query: QueryTypes) => setQueue((queue: QueryTypes[]) => [query, ...queue]),
     []
   );
+
   const _onRemove = useCallback(
     (id: number) => setQueue((queue: QueryTypes[]) => queue.filter((item) => item.id !== id)),
     []

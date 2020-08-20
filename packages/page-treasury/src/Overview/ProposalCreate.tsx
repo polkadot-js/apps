@@ -21,6 +21,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const [isOpen, toggleOpen] = useToggle();
   const [value, setValue] = useState<BN | undefined>();
   const hasValue = value?.gtn(0);
+
   const bondPercentage = useMemo(
     () => `${api.consts.treasury.proposalBond.muln(100).divn(1_000_000).toNumber().toFixed(2)}%`,
     [api]

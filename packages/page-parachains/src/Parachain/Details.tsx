@@ -6,7 +6,7 @@ import { DeriveParachainFull } from '@polkadot/api-derive/types';
 import { Bytes, Option } from '@polkadot/types';
 
 import FileSaver from 'file-saver';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Card, IconLink, Labelled, Output, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -21,8 +21,8 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
   const { t } = useTranslation();
   const { api } = useApi();
 
-  const onDownload = (): void => {
-    try {
+  const _onDownload = useCallback(
+    (): void => {
       api.query.parachains
         .code<Option<Bytes>>(id)
         .then((code) => {
@@ -33,10 +33,9 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
           }
         })
         .catch(console.error);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [api, id, info, t]
+  );
 
   return (
     <Card>
@@ -61,14 +60,11 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
         isFull
         label={t<string>('code')}
       >
-        <div
-          className='ui--Static ui selection dropdown'
-          onClick={onDownload}
-        >
+        <div className='ui--Static ui selection dropdown'>
           <IconLink
             icon='download'
             label={t<string>('Download')}
-            onClick={onDownload}
+            onClick={_onDownload}
           />
         </div>
       </Labelled>

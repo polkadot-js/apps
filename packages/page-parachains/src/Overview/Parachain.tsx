@@ -21,20 +21,22 @@ interface Props {
   parachain: DeriveParachain;
 }
 
-function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
-  const { api } = useApi();
-  const headHex = useCall<string | null>(api.query.parachains.heads, [id], {
-    transform: (headData: Option<HeadData>): string | null => {
-      if (headData.isNone) {
-        return null;
-      }
-
+const transformHead = {
+  transform: (headData: Option<HeadData>): string | null => {
+    if (headData.isSome) {
       const hex = headData.unwrap().toHex();
 
       return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
     }
-  });
+
+    return null;
+  }
+};
+
+function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const { api } = useApi();
+  const headHex = useCall<string | null>(api.query.parachains.heads, [id], transformHead);
   const history = useHistory();
 
   const _onClick = useCallback(

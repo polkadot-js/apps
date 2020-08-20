@@ -9,8 +9,9 @@ import { SortedTargets } from '../../types';
 import { Slash } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import styled from 'styled-components';
+import { ApiPromise } from '@polkadot/api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, Menu, Popup, StakingBonded, StakingRedeemable, StakingUnbonding, StatusContext, TxButton } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -38,18 +39,37 @@ interface Props {
   validators?: string[];
 }
 
+function extractSlashes (stashId: string, allSlashes: [BN, UnappliedSlash[]][] = []): Slash[] {
+  return allSlashes
+    .map(([era, all]) => ({
+      era,
+      slashes: all.filter(({ others, validator }) =>
+        validator.eq(stashId) || others.some(([nominatorId]) => nominatorId.eq(stashId))
+      )
+    }))
+    .filter(({ slashes }) => slashes.length);
+}
+
+const transformSpan = {
+  transform: (optSpans: Option<SlashingSpans>): number =>
+    optSpans.isNone
+      ? 0
+      : optSpans.unwrap().prior.length + 1
+};
+
+function useStashCalls (api: ApiPromise, stashId: string) {
+  const params = useMemo(() => [stashId], [stashId]);
+  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, params);
+  const spanCount = useCall<number>(api.query.staking.slashingSpans, params, transformSpan);
+  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, params);
+
+  return { balancesAll, spanCount, stakingAccount };
+}
+
 function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
-  const balancesAll = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
-  const stakingAccount = useCall<DeriveStakingAccount>(api.derive.staking.account, [stashId]);
-  const spanCount = useCall<number>(api.query.staking.slashingSpans, [stashId], {
-    transform: (optSpans: Option<SlashingSpans>): number =>
-      optSpans.isNone
-        ? 0
-        : optSpans.unwrap().prior.length + 1
-  });
   const [isBondExtraOpen, toggleBondExtra] = useToggle();
   const [isInjectOpen, toggleInject] = useToggle();
   const [isNominateOpen, toggleNominate] = useToggle();
@@ -59,27 +79,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
   const [isSettingsOpen, toggleSettings] = useToggle();
   const [isUnbondOpen, toggleUnbond] = useToggle();
   const [isValidateOpen, toggleValidate] = useToggle();
-  const [hasBonded, setHasBonded] = useState(false);
-  const [slashes, setSlashes] = useState<Slash[]>([]);
+  const { balancesAll, spanCount, stakingAccount } = useStashCalls(api, stashId);
 
-  useEffect((): void => {
-    stakingAccount?.stakingLedger && setHasBonded(
-      !stakingAccount.stakingLedger.active.isEmpty
-    );
-  }, [stakingAccount]);
-
-  useEffect((): void => {
-    allSlashes && setSlashes(
-      allSlashes
-        .map(([era, all]) => ({
-          era,
-          slashes: all.filter(({ others, validator }) =>
-            validator.eq(stashId) || others.some(([nominatorId]) => nominatorId.eq(stashId))
-          )
-        }))
-        .filter(({ slashes }) => slashes.length)
-    );
-  }, [allSlashes, stashId]);
+  const slashes = useMemo(
+    () => extractSlashes(stashId, allSlashes),
+    [allSlashes, stashId]
+  );
 
   const withdrawFunds = useCallback(
     () => {
@@ -94,6 +99,8 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
     },
     [api, controllerId, queueExtrinsic, spanCount]
   );
+
+  const hasBonded = !!stakingAccount?.stakingLedger && !stakingAccount.stakingLedger.active.isEmpty;
 
   return (
     <tr className={className}>

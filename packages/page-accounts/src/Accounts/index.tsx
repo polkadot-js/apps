@@ -7,7 +7,7 @@ import { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/i
 import { Delegation, SortedAccount } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
@@ -84,6 +84,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   });
   const isLoading = useLoadingDelay();
 
+  const headerRef = useRef([
+    [t('accounts'), 'start', 3],
+    [t('parent'), 'address ui--media-1400'],
+    [t('type')],
+    [t('tags'), 'start'],
+    [t('transactions'), 'ui--media-1500'],
+    [t('balances')],
+    [],
+    [undefined, 'mini ui--media-1400']
+  ]);
+
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
     const sortedAddresses = sortedAccounts.map((a) => a.account.address);
@@ -130,17 +141,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       }),
     []
   );
-
-  const header = useMemo(() => [
-    [t('accounts'), 'start', 3],
-    [t('parent'), 'address ui--media-1400'],
-    [t('type')],
-    [t('tags'), 'start'],
-    [t('transactions'), 'ui--media-1500'],
-    [t('balances')],
-    [],
-    [undefined, 'mini ui--media-1400']
-  ], [t]);
 
   const footer = useMemo(() => (
     <tr>
@@ -247,7 +247,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
-        header={header}
+        header={headerRef.current}
       >
         {isLoading ? undefined : sortedAccountsWithDelegation?.map(({ account, delegation, isFavorite }, index): React.ReactNode => (
           <Account

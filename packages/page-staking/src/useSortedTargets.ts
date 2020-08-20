@@ -63,9 +63,10 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[], BN] {
+function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[], BN, BN] {
   const nominators: string[] = [];
   let totalStaked = BN_ZERO;
+  let lowStaked = BN_ZERO;
   const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     const exposure = _exposure || {
       others: registry.createType('Vec<IndividualExposure>'),
@@ -103,6 +104,10 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
 
     totalStaked = totalStaked.add(bondTotal);
 
+    if ((lowStaked.isZero() || bondTotal.lt(lowStaked)) && _exposure && !_exposure.total.isEmpty) {
+      lowStaked = bondTotal;
+    }
+
     return {
       accountId,
       bondOther: bondTotal.sub(bondOwn),
@@ -131,30 +136,34 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     };
   });
 
-  return [list, nominators, totalStaked];
+  return [list, nominators, totalStaked, lowStaked];
 }
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators, totalStaked] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
+  const [elected, nominators, totalStaked, lowStaked] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
   const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward, false);
   const validators = sortValidators(elected.concat(waiting));
   const validatorIds = validators.map(({ accountId }) => accountId.toString());
 
-  return { nominators, totalStaked, validatorIds, validators };
+  return { avgStaked: totalStaked.divn(electedDerive.info.length), lowStaked, nominators, totalStaked, validatorIds, validators };
 }
+
+const transformEra = {
+  transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : BN_ZERO
+};
+
+const transformReward = {
+  transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
+};
 
 export default function useSortedTargets (favorites: string[]): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo, []);
-  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo, []);
-  const lastEra = useCall<BN>(api.derive.session.indexes, [], {
-    transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : BN_ZERO
-  });
-  const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], {
-    transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
-  });
+  const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo);
+  const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo);
+  const lastEra = useCall<BN>(api.derive.session.indexes, undefined, transformEra);
+  const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], transformReward);
   const [calcWith, setCalcWith] = useState<BN | undefined>(baseBalance());
   const calcWithDebounce = useDebounce(calcWith);
   const [state, setState] = useState<SortedTargets>({ setCalcWith });

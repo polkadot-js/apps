@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '@polkadot/types/types';
+import { AccountId } from '@polkadot/types/interfaces';
 import { UseSudo } from './types';
 
 import { useEffect, useState } from 'react';
@@ -11,12 +11,14 @@ import useAccounts from './useAccounts';
 import useApi from './useApi';
 import useCall from './useCall';
 
+const transformSudo = {
+  transform: (key: AccountId) => key.toString()
+};
+
 export default function useSudo (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
-  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, [], {
-    transform: (k: Codec) => k.toString()
-  });
+  const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, transformSudo);
   const [isMine, setIsMine] = useState(false);
 
   useEffect((): void => {

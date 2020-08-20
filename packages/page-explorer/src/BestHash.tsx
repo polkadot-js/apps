@@ -14,7 +14,7 @@ interface Props {
 
 function BestHash ({ className = '', label }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const newHead = useCall<Header>(api.rpc.chain.subscribeNewHeads, []);
+  const newHead = useCall<Header>(api.rpc.chain.subscribeNewHeads);
 
   return (
     <div className={className}>

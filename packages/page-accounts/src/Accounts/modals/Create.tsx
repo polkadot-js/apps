@@ -52,13 +52,18 @@ interface CreateOptions {
 const DEFAULT_PAIR_TYPE = 'sr25519';
 const isElectron = navigator.userAgent.toLowerCase().indexOf(' electron/') > -1;
 
-function deriveValidate (seed: string, derivePath: string, pairType: KeypairType): string | null {
+function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): string | null {
   try {
-    const { path } = keyExtractSuri(`${seed}${derivePath}`);
+    const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
 
     // we don't allow soft for ed25519
     if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
       return 'Soft derivation paths are not allowed on ed25519';
+    }
+
+    // we don't allow password for hex seed
+    if (seedType === 'raw' && password) {
+      return 'Password are ignored for hex seed';
     }
   } catch (error) {
     return (error as Error).message;
@@ -108,7 +113,7 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 }
 
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
-  const deriveError = deriveValidate(seed, derivePath, pairType);
+  const deriveError = deriveValidate(seed, seedType, derivePath, pairType);
   let isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
     : mnemonicValidate(seed);
@@ -334,15 +339,19 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
+                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
                 isError={!!deriveError}
                 label={t<string>('secret derivation path')}
                 onChange={_onChangeDerive}
                 onEnter={_onCommit}
                 placeholder={
-                  pairType === 'sr25519'
-                    ? t<string>('//hard/soft///password')
-                    : t<string>('//hard///password')
+                  seedType === 'raw'
+                    ? pairType === 'sr25519'
+                      ? t<string>('//hard/soft')
+                      : t<string>('//hard')
+                    : pairType === 'sr25519'
+                      ? t<string>('//hard/soft///password')
+                      : t<string>('//hard///password')
                 }
                 value={derivePath}
               />
