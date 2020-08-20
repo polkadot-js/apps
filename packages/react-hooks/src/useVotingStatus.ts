@@ -22,7 +22,7 @@ interface State {
 
 const DEFAULT_STATUS = { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null };
 
-function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee'): State {
+function getStatus(api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee'): State {
   const [instance] = api.registry.getModuleInstances(api.runtimeVersion.specName.toString(), section) || [section];
   const modLocation = isFunction(api.tx[instance as 'technicalCommittee']?.close)
     ? instance
@@ -55,7 +55,7 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   };
 }
 
-export function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee'): State {
+export function useVotingStatus(votes: Votes | null | undefined, numMembers: number, section: 'council' | 'membership' | 'technicalCommittee' | 'rootCommittee' | 'financialCommittee'): State {
   const { api } = useApi();
   const bestNumber = useBestNumber();
 

@@ -16,11 +16,13 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import gilt from './gilt';
+import fincomm from './fincomm';
 import js from './js';
 import membership from './membership';
 import parachains from './parachains';
 import poll from './poll';
 import rpc from './rpc';
+import rootcomm from './rootcomm';
 import settings from './settings';
 import signing from './signing';
 import society from './society';
@@ -32,7 +34,7 @@ import teleport from './teleport';
 import transfer from './transfer';
 import treasury from './treasury';
 
-export default function create (t: TFunction): Routes {
+export default function create(t: TFunction): Routes {
   return [
     accounts(t),
     addresses(t),
@@ -48,6 +50,8 @@ export default function create (t: TFunction): Routes {
     bounties(t),
     techcomm(t),
     membership(t),
+    fincomm(t),
+    rootcomm(t),
     parachains(t),
     gilt(t),
     assets(t),
