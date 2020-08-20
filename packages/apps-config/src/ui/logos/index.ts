@@ -12,9 +12,9 @@ import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
-import nodeCrab from './nodes/crab.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeCrab from './nodes/crab.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
