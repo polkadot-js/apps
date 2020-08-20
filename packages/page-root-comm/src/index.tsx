@@ -25,7 +25,7 @@ const transformPrime = {
   transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
 };
 
-function TechCommApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function TechCommApp({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { isMember, members } = useMembers('rootCommittee');

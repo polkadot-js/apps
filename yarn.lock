@@ -2737,6 +2737,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-root-comm@workspace:packages/page-root-comm":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-root-comm@workspace:packages/page-root-comm"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.55.0-beta.13
+    "@polkadot/react-query": 0.55.0-beta.13
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-settings@workspace:packages/page-settings":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-settings@workspace:packages/page-settings"
