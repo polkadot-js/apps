@@ -143,6 +143,7 @@ async function loadOnReady (api: ApiPromise, store?: KeyringStore): Promise<ApiS
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
+    hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment,
     isSubstrateV2,

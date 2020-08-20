@@ -18,6 +18,7 @@ export interface BareProps {
 export interface ApiState {
   apiDefaultTx: SubmittableExtrinsicFunction;
   apiDefaultTxSudo: SubmittableExtrinsicFunction;
+  hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
   isSubstrateV2: boolean;

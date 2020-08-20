@@ -210,6 +210,7 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
       {withStatus && (
         <InputStatus
           isError={isError}
+          isValid={!isError}
           text={status}
         />
       )}

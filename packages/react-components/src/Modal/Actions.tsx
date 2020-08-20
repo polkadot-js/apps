@@ -11,14 +11,14 @@ import Button from '../Button';
 
 import { useTranslation } from '../translate';
 
-function Actions ({ children, className, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
+function Actions ({ cancelLabel, children, className, onCancel }: ActionsProps): React.ReactElement<ActionsProps> {
   const { t } = useTranslation();
 
   return (
     <SUIModal.Actions>
       <Button.Group className={className}>
         <Button
-          label={t<string>('Cancel')}
+          label={cancelLabel || t<string>('Cancel')}
           onClick={onCancel}
         />
         {children}

@@ -2,22 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodeStored, ComponentProps as Props } from '@canvas-ui/apps/types';
+import { CodeStored } from '@canvas-ui/apps/types';
+import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import store from '@canvas-ui/apps/store';
 import { Button, CodeCard } from '@canvas-ui/react-components';
 
 import { useTranslation } from './translate';
 
-function Success ({ basePath, navigateTo }: Props): React.ReactElement<Props> | null {
+function Success ({ allCodes, basePath, navigateTo }: Props): React.ReactElement<Props> | null {
   const { id }: { id: string } = useParams();
   const { t } = useTranslation();
 
   const code = useMemo(
-    (): CodeStored | null => store.getCode(id),
-    [id]
+    (): CodeStored | null => allCodes.find(({ id: codeId }) => codeId === id) || null,
+    [allCodes, id]
   );
 
   useEffect(
@@ -46,6 +46,9 @@ function Success ({ basePath, navigateTo }: Props): React.ReactElement<Props> | 
           basePath={basePath}
           code={code}
           navigateTo={navigateTo}
+          onForget={
+            (): void => navigateTo.upload()
+          }
         />
         <Button.Group>
           <Button

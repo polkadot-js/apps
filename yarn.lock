@@ -1528,6 +1528,7 @@ __metadata:
     "@types/codeflask": ^1.4.1
     chart.js: ^2.9.3
     codeflask: ^1.4.1
+    detect-browser: ^5.1.1
     i18next: ^19.4.5
     i18next-browser-languagedetector: ^4.2.0
     react: ^16.13.1
@@ -3186,15 +3187,6 @@ __metadata:
   checksum: 3/1d17180b3b864979b0bb225f2b217c76ac6e0813f3551ede0ea025369dee2b578f5ac966978eb2aa184e02e6146b24a308ba4363c0630355ef27053dd69b6b4d
   languageName: node
   linkType: hard
-
-"@polkadot/app-contracts@workspace:packages/page-contracts-old":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-contracts@workspace:packages/page-contracts-old"
-  dependencies:
-    "@babel/runtime": ^7.10.2
-    "@polkadot/api-contract": ^1.19.0-beta.3
-  languageName: unknown
-  linkType: soft
 
 "@polkadot/dev@npm:^0.55.9":
   version: 0.55.21
@@ -8761,6 +8753,13 @@ __metadata:
   version: 1.0.4
   resolution: "destroy@npm:1.0.4"
   checksum: 3/5a516fc5a8a8089eecdac11da2339353542be7a71102dc5a1372ef6161501bf5c1ee59ff9f8a3f5f14cc8c88594d606f855f816d46a228ee5e0e5cb2b543534b
+  languageName: node
+  linkType: hard
+
+"detect-browser@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "detect-browser@npm:5.1.1"
+  checksum: 3/fd83891cb9afed5264208bc798fd5caa6d4fdb5e56bec0b8ab22d0e12ee410c7574f11ed7580a9b645f3dd876df5807cc9fb464f7189296f3be5c3dbcef8310f
   languageName: node
   linkType: hard
 

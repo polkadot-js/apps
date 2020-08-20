@@ -2,47 +2,34 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { BareProps } from '../types';
+
 import React from 'react';
 import styled from 'styled-components';
 
 import { truncate } from '@canvas-ui/react-util';
 import AccountName from '../AccountName';
 import IdentityIcon from '../IdentityIcon';
+import { useTranslation } from '../translate';
 
-interface Props {
+interface Props extends BareProps {
   address: string;
-  className?: string;
   isUppercase: boolean;
   name: string;
   style?: Record<string, string>;
 }
 
-function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
-  return (
-    <div className={['ui--KeyPair', className].join(' ')}>
-      <IdentityIcon
-        className='icon'
-        value={address}
-      />
-      <div className='info'>
-        <div className='name'>
-          <AccountName value={address} />
-        </div>
-        <div className='address'>
-          {truncate(address, 8)}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default React.memo(styled(KeyPair)`
+const styles = `
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   position: relative;
   white-space: nowrap;
+
+  &.noAccount {
+    opacity: 0.3;
+  }
 
   > .info {
     display: flex;
@@ -68,4 +55,48 @@ export default React.memo(styled(KeyPair)`
       text-overflow: ellipsis;
     }
   }
-`);
+`;
+
+function KeyPairNone ({ className }: BareProps): React.ReactElement<BareProps> {
+  const { t } = useTranslation();
+
+  return (
+    <div className={['ui--KeyPair', 'noAccount', className].join(' ')}>
+      <IdentityIcon
+        className='icon'
+        value='none'
+      />
+      <div className='info'>
+        <div className='name'>
+          {t('No Account')}
+        </div>
+        <div className='address'>
+          ...
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KeyPair ({ address, className }: Props): React.ReactElement<Props> {
+  return (
+    <div className={['ui--KeyPair', className].join(' ')}>
+      <IdentityIcon
+        className='icon'
+        value={address}
+      />
+      <div className='info'>
+        <div className='name'>
+          <AccountName value={address} />
+        </div>
+        <div className='address'>
+          {truncate(address, 8)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const NoAccount = React.memo(styled(KeyPairNone)`${styles}`);
+
+export default React.memo(styled(KeyPair)`${styles}`);

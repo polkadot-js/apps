@@ -93,9 +93,10 @@ export default css`
     &.disabled {
       color: var(--grey50);
       opacity: 1;
+      background: transparent;
 
       .dropdown.icon {
-        opacity: 0;
+        display: none;
       }
     }
 

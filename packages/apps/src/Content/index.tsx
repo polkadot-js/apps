@@ -4,11 +4,12 @@
 
 import { Route } from '@canvas-ui/apps-routing/types';
 
-import React, { Suspense, useContext, useMemo } from 'react';
+import React, { Suspense, useCallback, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import store from 'store';
 import styled from 'styled-components';
 import createRoutes from '@canvas-ui/apps-routing';
-import { ErrorBoundary, Icon, StatusContext, WithLoader } from '@canvas-ui/react-components';
+import { ErrorBoundary, GuideModal, Icon, StatusContext, WithLoader } from '@canvas-ui/react-components';
 import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useApi } from '@canvas-ui/react-hooks';
 import { classes } from '@canvas-ui/react-util';
@@ -22,6 +23,8 @@ import HelpWidget from '../HelpWidget';
 interface Props {
   className?: string;
 }
+
+const sawGuideKey = 'sawGuideKey';
 
 const NOT_FOUND: Route = {
   Component: NotFound,
@@ -49,6 +52,11 @@ function Content ({ className }: Props): React.ReactElement<Props> {
     [location, t]
   );
 
+  const setSawGuide = useCallback(
+    (): void => { store.set(sawGuideKey, true); },
+    []
+  );
+
   if (!isApiConnected) {
     return (
       <div className={className}>
@@ -66,6 +74,8 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 
   const isLoading = needsApi && !isApiReady;
 
+  const sawGuide = !!store.get(sawGuideKey) || false;
+
   return (
     <div className={classes(className, isLoading && 'isLoading')}>
       <WithLoader
@@ -80,6 +90,9 @@ function Content ({ className }: Props): React.ReactElement<Props> {
               navigateTo={navigateTo}
               onStatusChange={queueAction}
             />
+            {!sawGuide && !isLoading && (
+              <GuideModal onClose={setSawGuide} />
+            )}
             <HelpWidget />
           </ErrorBoundary>
         </Suspense>

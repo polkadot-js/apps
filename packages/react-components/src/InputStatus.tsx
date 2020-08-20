@@ -12,14 +12,15 @@ import { classes } from '@canvas-ui/react-util';
 interface Props extends BareProps {
   icon?: boolean;
   isError?: boolean;
+  isValid?: boolean;
   text: React.ReactNode;
 }
 
-function InputStatus ({ className, isError = false, text = null }: Props): React.ReactElement<Props> {
+function InputStatus ({ className, isError = false, isValid = false, text = null }: Props): React.ReactElement<Props> {
   return (
     <div className={classes(className, isError && 'isError')}>
       {!!text && (
-        <Icon name={isError ? 'warning circle' : 'check circle'} />
+        <Icon name={!isValid ? 'warning circle' : 'check circle'} />
       )}
       {text}
     </div>
@@ -27,11 +28,15 @@ function InputStatus ({ className, isError = false, text = null }: Props): React
 }
 
 export default React.memo(styled(InputStatus)`
-  color: var(--green-primary);
+  color: var(--grey60);
   font-size: 0.9rem;
   height: 1rem;
   margin-top: 0.25rem;
   width: 100%;
+
+  &.isValid {
+    color: var(--green-primary);
+  }
 
   &.isError {
     color: var(--red-primary);

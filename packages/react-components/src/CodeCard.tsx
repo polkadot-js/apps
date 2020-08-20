@@ -4,6 +4,7 @@
 
 import { CodeStored, ComponentProps } from '@canvas-ui/apps/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -21,9 +22,10 @@ import { useTranslation } from './translate';
 
 interface Props extends ComponentProps {
   code: CodeStored;
+  onForget?: VoidFn;
 }
 
-function CodeCard ({ className, code, code: { contractAbi, id }, navigateTo }: Props): React.ReactElement<Props> {
+function CodeCard ({ className, code, code: { contractAbi, id }, navigateTo, onForget: _onForget }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isAbiOpen, toggleIsAbiOpen, setIsAbiOpen] = useToggle();
   const { isAbiSupplied, onChangeAbi } = useAbi(code);
@@ -38,8 +40,10 @@ function CodeCard ({ className, code, code: { contractAbi, id }, navigateTo }: P
   const onForget = useCallback(
     (): void => {
       store.forgetCode(id);
+
+      _onForget && _onForget();
     },
-    [id]
+    [id, _onForget]
   );
 
   const onSaveABI = useCallback(
@@ -57,7 +61,7 @@ function CodeCard ({ className, code, code: { contractAbi, id }, navigateTo }: P
         isEditable
       >
         {
-          isAbiSupplied && (
+          isAbiSupplied && contractAbi && (
             <Expander
               isOpen={isAbiOpen}
               onClick={toggleIsAbiOpen}

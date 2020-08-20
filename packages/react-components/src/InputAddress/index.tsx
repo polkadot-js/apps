@@ -2,23 +2,30 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { StringOrNull } from '@canvas-ui/react-util/types';
 import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
 import { BareProps } from '../types';
 import { Option } from './types';
 
-import React from 'react';
+import { detect } from 'detect-browser';
+import React, { useCallback, useMemo } from 'react';
 import store from 'store';
 import styled from 'styled-components';
+import { availableExtensions } from '@canvas-ui/apps-config/extensions';
 import { withMulti, withObservable } from '@canvas-ui/react-api/hoc';
+import { useApi } from '@canvas-ui/react-hooks';
 import { classes, getAddressName, toAddress as addressToAddress } from '@canvas-ui/react-util';
 import keyring from '@polkadot/ui-keyring';
 import keyringOption from '@polkadot/ui-keyring/options';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
+import { useTranslation } from '../translate';
 import Dropdown from '../Dropdown';
+import InputStatus from '../InputStatus';
 import createHeader from './createHeader';
 import createItem from './createItem';
+import { NoAccount } from './KeyPair';
 
 interface Props extends BareProps {
   defaultValue?: Uint8Array | string | null;
@@ -42,19 +49,25 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
+type Browser = 'chrome' | 'firefox';
+
 type ExportedType = React.ComponentType<Props> & {
   createOption: (option: KeyringSectionOption, isUppercase?: boolean) => Option;
   setLastValue: (type: KeyringOption$Type, value: string) => void;
 };
 
-interface State {
-  lastValue?: string;
-  value?: string | string[];
-}
+// interface State {
+//   lastValue?: string;
+//   value?: string | string[];
+// }
 
 const STORAGE_KEY = 'options:InputAddress';
 const DEFAULT_TYPE = 'all';
 const MULTI_DEFAULT: string[] = [];
+
+const browserInfo = detect();
+const browserName: Browser | null = (browserInfo && (browserInfo.name as Browser)) || null;
+const isSupported = browserName && Object.keys(availableExtensions).includes(browserName);
 
 function transformToAddress (value?: string | Uint8Array | null): string | null {
   try {
@@ -116,176 +129,258 @@ function setLastValue (type: KeyringOption$Type = DEFAULT_TYPE, value: string): 
   store.set(STORAGE_KEY, options);
 }
 
-class InputAddress extends React.PureComponent<Props, State> {
-  public state: State = {};
-
-  public static getDerivedStateFromProps ({ value }: Props): Pick<State, never> | null {
-    try {
-      return {
-        value: Array.isArray(value)
-          ? value.map(addressToAddress)
-          : (addressToAddress(value) || undefined)
-      };
-    } catch (error) {
-      return null;
-    }
+function renderLabel ({ value }: KeyringSectionOption): React.ReactNode {
+  if (!value) {
+    return undefined;
   }
 
-  public render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
-    const { value } = this.state;
-    const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
+  return getAddressName(value);
+}
 
-    if (!hasOptions && !isDisabled) {
-      return null;
-    }
+function InputAddress ({ className = '', defaultValue, filter, help, hideAddress = false, isDisabled = false, isError, isInput, isMultiple, label, labelExtra, onChange: _onChange, onChangeMulti: _onChangeMulti, options, optionsAll, placeholder, type = DEFAULT_TYPE, value: propsValue, withEllipsis, withLabel }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { hasInjectedAccounts } = useApi();
+  const hasOptions = useMemo(
+    () => (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0),
+    [options, optionsAll, type]
+  );
 
-    const lastValue = this.getLastValue();
-    const lastOption = this.getLastOptionValue();
-    const actualValue = transformToAddress(
-      isDisabled || (defaultValue && this.hasValue(defaultValue))
+  const value = useMemo(
+    (): string | undefined | (string | undefined)[] => {
+      try {
+        return Array.isArray(propsValue)
+          ? propsValue.map(addressToAddress)
+          : (addressToAddress(propsValue) || undefined);
+      } catch (error) {
+        return undefined;
+      }
+    },
+    [propsValue]
+  );
+
+  const filteredOptions = useMemo(
+    (): Option[] => {
+      return !optionsAll
+        ? []
+        : optionsAll[type].filter(({ value }) => !filter || (!!value && filter.includes(value)));
+    },
+    [filter, optionsAll, type]
+  );
+
+  const lastValue = useMemo(
+    (): string => getLastValue(type),
+    [type]
+  );
+
+  const lastOption = useMemo(
+    (): KeyringSectionOption | undefined => {
+      return filteredOptions.length
+        ? filteredOptions[filteredOptions.length - 1]
+        : undefined;
+    },
+    [filteredOptions]
+  );
+
+  const hasValue = useCallback(
+    (test?: Uint8Array | string | null): boolean => {
+      return filteredOptions.some(({ value }) => test === value);
+    },
+    [filteredOptions]
+  );
+
+  const onChange = useCallback(
+    (address: string): void => {
+      !filter && setLastValue(type, address);
+
+      _onChange && _onChange(transformToAccountId(address));
+    },
+    [filter, _onChange, type]
+  );
+
+  const onChangeMulti = useCallback(
+    (addresses: string[]): void => {
+      if (_onChangeMulti) {
+        _onChangeMulti(
+          addresses
+            .map(transformToAccountId)
+            .filter((address): string => address as string) as string[]
+        );
+      }
+    },
+    [_onChangeMulti]
+  );
+
+  // private getLastValue (): string {
+  //   const { type } = this.props;
+  //   const { lastValue: stateLast } = this.state;
+
+  //   if (stateLast) {
+  //     return stateLast;
+  //   }
+
+  //   const lastValue = getLastValue(type);
+
+  //   this.setState({ lastValue });
+
+  //   return lastValue;
+  // }
+
+  const onSearch = useCallback(
+    (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
+      const query = _query.trim();
+      const queryLower = query.toLowerCase();
+      const matches = filteredOptions.filter((item): boolean =>
+        !!item.value && (
+          (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
+          item.value.toLowerCase().includes(queryLower)
+        )
+      );
+
+      if (isInput && matches.length === 0) {
+        const accountId = transformToAccountId(query);
+
+        if (accountId) {
+          matches.push(
+            keyring.saveRecent(
+              accountId.toString()
+            ).option
+          );
+        }
+      }
+
+      return matches.filter((item, index): boolean => {
+        const isLast = index === matches.length - 1;
+        const nextItem = matches[index + 1];
+        const hasNext = nextItem && nextItem.value;
+
+        return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
+      });
+    },
+    [isInput]
+  );
+
+  const actualValue = useMemo(
+    (): StringOrNull => transformToAddress(
+      isDisabled || (defaultValue && hasValue(defaultValue))
         ? defaultValue
-        : this.hasValue(lastValue)
+        : hasValue(lastValue)
           ? lastValue
           : (lastOption && lastOption.value)
-    );
-    const actualOptions: Option[] = options
-      ? options.map((o): Option => createItem(o))
-      : isDisabled && actualValue
-        ? [createOption(actualValue)]
-        : this.getFiltered();
-    const _defaultValue = (isMultiple || !isUndefined(value))
-      ? undefined
-      : actualValue;
+    ),
+    [defaultValue, hasValue, isDisabled, lastOption, lastValue]
+  );
 
+  const actualOptions = useMemo(
+    (): Option[] => {
+      return options
+        ? options.map((o): Option => createItem(o))
+        : isDisabled && actualValue
+          ? [createOption(actualValue)]
+          : filteredOptions;
+    },
+    [actualValue, filteredOptions, isDisabled, options]
+  );
+  const _defaultValue = useMemo(
+    () => (isMultiple || !isUndefined(value))
+      ? undefined
+      : actualValue,
+    [actualValue, isMultiple, value]
+  );
+
+  if (!hasOptions) {
     return (
       <Dropdown
         className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
         defaultValue={_defaultValue}
         help={help}
-        isDisabled={isDisabled}
+        isDisabled
         isError={isError}
         isMultiple={isMultiple}
         label={label}
         labelExtra={labelExtra}
-        onChange={
-          isMultiple
-            ? this.onChangeMulti
-            : this.onChange
-        }
-        onSearch={this.onSearch}
-        options={actualOptions}
+        onSearch={onSearch}
+        options={[{
+          key: 'none',
+          name: 'none',
+          text: <NoAccount />,
+          value: 'none'
+        }]}
         placeholder={placeholder}
         renderLabel={
           isMultiple
-            ? this.renderLabel
+            ? renderLabel
             : undefined
         }
-        value={
-          isMultiple && !value
-            ? MULTI_DEFAULT
-            : value
-        }
+        value={'none'}
         withEllipsis={withEllipsis}
         withLabel={withLabel}
-      />
+      >
+        {!hasInjectedAccounts && browserName && isSupported && (
+          <InputStatus
+            text={
+              <>
+                {t('Please reload this app with the')}
+                {' '}
+                <a
+                  href={availableExtensions[browserName][0].link}
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  {t('Polkadot extension')}
+                </a>
+                {' '}
+                {t('to show available accounts')}
+                {'.'}
+              </>
+            }
+          />
+        )}
+      </Dropdown>
     );
   }
 
-  private renderLabel = ({ value }: KeyringSectionOption): React.ReactNode => {
-    if (!value) {
-      return undefined;
-    }
-
-    return getAddressName(value);
-  }
-
-  private getLastOptionValue (): KeyringSectionOption | undefined {
-    const available = this.getFiltered();
-
-    return available.length
-      ? available[available.length - 1]
-      : undefined;
-  }
-
-  private hasValue (test?: Uint8Array | string | null): boolean {
-    return this.getFiltered().some(({ value }) => test === value);
-  }
-
-  private getFiltered (): Option[] {
-    const { filter, optionsAll, type = DEFAULT_TYPE } = this.props;
-
-    return !optionsAll
-      ? []
-      : optionsAll[type].filter(({ value }) => !filter || (!!value && filter.includes(value)));
-  }
-
-  private onChange = (address: string): void => {
-    const { filter, onChange, type } = this.props;
-
-    !filter && setLastValue(type, address);
-
-    onChange && onChange(transformToAccountId(address));
-  }
-
-  private onChangeMulti = (addresses: string[]): void => {
-    const { onChangeMulti } = this.props;
-
-    if (onChangeMulti) {
-      onChangeMulti(
-        addresses
-          .map(transformToAccountId)
-          .filter((address): string => address as string) as string[]
-      );
-    }
-  }
-
-  private getLastValue (): string {
-    const { type } = this.props;
-    const { lastValue: stateLast } = this.state;
-
-    if (stateLast) {
-      return stateLast;
-    }
-
-    const lastValue = getLastValue(type);
-
-    this.setState({ lastValue });
-
-    return lastValue;
-  }
-
-  private onSearch = (filteredOptions: KeyringSectionOptions, _query: string): KeyringSectionOptions => {
-    const { isInput = true } = this.props;
-    const query = _query.trim();
-    const queryLower = query.toLowerCase();
-    const matches = filteredOptions.filter((item): boolean =>
-      !!item.value && (
-        (item.name.toLowerCase && item.name.toLowerCase().includes(queryLower)) ||
-        item.value.toLowerCase().includes(queryLower)
-      )
-    );
-
-    if (isInput && matches.length === 0) {
-      const accountId = transformToAccountId(query);
-
-      if (accountId) {
-        matches.push(
-          keyring.saveRecent(
-            accountId.toString()
-          ).option
-        );
+  return (
+    <Dropdown
+      className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
+      defaultValue={_defaultValue}
+      help={help}
+      isDisabled={isDisabled || !hasOptions}
+      isError={isError}
+      isMultiple={isMultiple}
+      label={label}
+      labelExtra={labelExtra}
+      onChange={
+        isMultiple
+          ? onChangeMulti
+          : onChange
       }
-    }
-
-    return matches.filter((item, index): boolean => {
-      const isLast = index === matches.length - 1;
-      const nextItem = matches[index + 1];
-      const hasNext = nextItem && nextItem.value;
-
-      return !(isNull(item.value) || isUndefined(item.value)) || (!isLast && !!hasNext);
-    });
-  }
+      onSearch={onSearch}
+      options={actualOptions}
+      placeholder={placeholder}
+      renderLabel={
+        isMultiple
+          ? renderLabel
+          : undefined
+      }
+      value={
+        isMultiple && !value
+          ? MULTI_DEFAULT
+          : value
+      }
+      withEllipsis={withEllipsis}
+      withLabel={withLabel}
+    >
+      {!hasInjectedAccounts && actualOptions.length === 0 && (
+        <InputStatus
+          text={
+            <>
+              {t('Please reload this app with the Polkadot extension to show available accounts.')}
+            </>
+          }
+        />
+      )}
+    </Dropdown>
+  );
 }
 
 const ExportedComponent = withMulti(

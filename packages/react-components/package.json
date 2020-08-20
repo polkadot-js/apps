@@ -19,6 +19,7 @@
     "@polkadot/ui-settings": "^0.54.0-beta.7",
     "chart.js": "^2.9.3",
     "codeflask": "^1.4.1",
+    "detect-browser": "^5.1.1",
     "i18next": "^19.4.5",
     "i18next-browser-languagedetector": "^4.2.0",
     "react": "^16.13.1",

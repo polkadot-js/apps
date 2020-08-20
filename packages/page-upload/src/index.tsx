@@ -2,19 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AppProps as Props, ComponentProps } from '@canvas-ui/apps/types';
+import { AppProps as Props } from '@canvas-ui/apps/types';
+import { ComponentProps } from './types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
+import useCodes from '@canvas-ui/apps/useCodes';
 
 import Add from './Add';
 import Success from './Success';
 import Upload from './Upload';
 
 function UploadApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
+  const useCodesHook = useCodes();
   const componentProps = useMemo(
-    (): ComponentProps => ({ basePath, navigateTo }),
-    [basePath, navigateTo]
+    (): ComponentProps => ({ ...useCodesHook, basePath, navigateTo }),
+    [useCodesHook, basePath, navigateTo]
   );
 
   return (
