@@ -19,7 +19,7 @@ interface Props {
   proposal: Proposal;
 }
 
-function Close ({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
+function Close({ hasFailed, hash, idNumber, isDisabled, members, proposal }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
