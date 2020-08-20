@@ -29,6 +29,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./packages/apps/build
+        cname: fe.dock.io
 
   # dummy, GH actions fails outright when all steps are skipped (like it can be above)
   dummy:
