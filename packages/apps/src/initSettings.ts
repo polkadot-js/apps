@@ -4,9 +4,26 @@
 
 import queryString from 'query-string';
 import store from 'store';
+import axios from 'axios';
+
 import { createEndpoints } from '@polkadot/apps-config/settings';
 import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import settings from '@polkadot/ui-settings';
+import keyring from '@polkadot/ui-keyring';
+
+const addressUri = '//gist.githubusercontent.com/lovesh/c540b975774735fe0001c86fa47a91b3/raw/0a1ae15962372095348669995d58a2bd0c0bc737/validator%2520names';
+
+function getDefaultContacts (): null {
+  axios.get(addressUri)
+    .then(function (response): null {
+      const hardcodedAddresses = response.data;
+      for (let address in hardcodedAddresses) {
+        const name = hardcodedAddresses[address];
+        console.log('saving address', address, name.trim())
+        keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
+      }
+    });
+}
 
 function getApiUrl (): string {
   // we split here so that both these forms are allowed
@@ -47,6 +64,7 @@ function getApiUrl (): string {
 }
 
 const apiUrl = getApiUrl();
+const defaultContactCount = getDefaultContacts();
 
 // set the default as retrieved here
 settings.set({ apiUrl });
