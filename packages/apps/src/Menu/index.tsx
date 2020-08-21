@@ -168,22 +168,13 @@ export default React.memo(styled(Menu)`
 
   &.menuBg,
   .menuBg {
-    &:after {
-      background: #fff;
-      bottom: 0;
-      content: ' ';
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: -2;
-    }
+    background: white;
 
     &:before {
       bottom: 0;
       content: ' ';
       left: 0;
-      opacity: 0.125;
+      opacity: 0.1;
       position: absolute;
       right: 0;
       top: 0;
@@ -192,9 +183,7 @@ export default React.memo(styled(Menu)`
   }
 
   &.isLoading.menuBg {
-    &:after {
-      background: #eee;
-    }
+    background: #eee;
 
     &:before {
       filter: grayscale(1);
