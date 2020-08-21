@@ -14,7 +14,7 @@ interface Props extends Group {
   className?: string;
 }
 
-function Grouping ({ className, name, routes }: Props): React.ReactElement<Props> {
+function Grouping ({ className = '', name, routes }: Props): React.ReactElement<Props> {
   if (routes.length === 1) {
     return (
       <Item
@@ -76,14 +76,14 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: rgba(245, 243, 241, 0.11);
+      background: rgba(255, 255, 255, 0.5);
     }
 
     .groupMenu {
       display: block;
 
       > li:hover {
-        background: rgba(245, 243, 241, 0.22);
+        background: transparent;
       }
     }
   }

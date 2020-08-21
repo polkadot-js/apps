@@ -170,6 +170,17 @@ export default React.memo(styled(Menu)`
 
   &.menuBg,
   .menuBg {
+    &:after {
+      background: #fff;
+      bottom: 0;
+      content: ' ';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: -2;
+    }
+
     &:before {
       background; #fff;
       bottom: 0;
@@ -184,8 +195,9 @@ export default React.memo(styled(Menu)`
     &:before {
       bottom: 0;
       content: ' ';
-      filter: invert(0.4) brightness(0.7);
+      filter: invert(0.2) brightness(1.2);
       left: 0;
+      opacity: 0.15;
       position: absolute;
       right: 0;
       top: 0;
@@ -215,7 +227,6 @@ export default React.memo(styled(Menu)`
   }
 
   .menuItems {
-    color: #f5f4f3;
     flex: 1 1;
     list-style: none;
     margin: 0 1rem 0 0;
