@@ -14,7 +14,6 @@ interface Props extends Group {
   className?: string;
 }
 
-const BOR_COL = 'rgba(34, 36, 38, 0.03)';
 const SHA_COL = 'rgba(34, 36, 38, 0.12)';
 const SHA_OFF = '5px';
 
@@ -51,8 +50,6 @@ export default React.memo(styled(Grouping)`
   position: relative;
 
   .groupHdr {
-    border: 1px solid transparent;
-    border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.25rem 1rem 1.5rem;
 
@@ -62,8 +59,6 @@ export default React.memo(styled(Grouping)`
   }
 
   .groupMenu {
-    border: 1px solid ${BOR_COL};
-    border-top: none;
     border-radius: 0 0 0.25rem 0.25rem;
     box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} , ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     display: none;
@@ -85,11 +80,10 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: #fefcfa;
+      background: rgba(255, 255, 255, 0.85);
     }
 
     .groupHdr {
-      border-color: ${BOR_COL};
       box-shadow: 0 -${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     }
 
