@@ -21,7 +21,7 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Propose({ isMember, members }: Props): React.ReactElement<Props> {
+function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, apiDefaultTxSudo } = useApi();
   const { isOpen, onClose, onOpen } = useModal();
