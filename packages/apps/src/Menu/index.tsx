@@ -143,7 +143,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           ))}
         </ul>
       </div>
-      <div className='menuSection'>
+      <div className='menuSection ui--media-1200'>
         <ul className='menuItems'>
           {externalRef.current.map((route): React.ReactNode => (
             <Item
@@ -192,7 +192,7 @@ export default React.memo(styled(Menu)`
     background: #fefcfa;
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.5rem;
-    margin: 0 1.5rem;
+    margin: 0 1rem;
 
     &.isLoading {
       background: #f5f3f1;
@@ -207,7 +207,7 @@ export default React.memo(styled(Menu)`
     color: #f5f4f3;
     flex: 1 1;
     list-style: none;
-    margin: 0 2rem 0 0;
+    margin: 0 1rem 0 0;
     padding: 0;
 
     > li {
