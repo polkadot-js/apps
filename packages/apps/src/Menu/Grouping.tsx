@@ -80,7 +80,7 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: #fefcfa;
+      background: #fff;
     }
 
     .groupHdr {
