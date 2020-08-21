@@ -192,8 +192,6 @@ export default React.memo(styled(Menu)`
   }
 
   &.isLoading.menuBg {
-    box-shadow: 0 5px 5px -5px rgba(34,36,38,0.12);
-
     &:after {
       background: #eee;
     }
