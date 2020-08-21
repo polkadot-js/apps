@@ -48,8 +48,6 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
     return false;
   } else if (needsAccounts && !hasAccounts) {
     return false;
-  } else if (!needsApi) {
-    return true;
   } else if (!isApiReady || !isApiConnected) {
     return false;
   } else if (needsSudo && !hasSudo) {
@@ -124,11 +122,11 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
-    <div className={`${className} menuBg ui--highlight--before ui--highlight--border`}>
+    <div className={`${className}${isLoading ? ' isLoading' : ''} menuBg ui--highlight--before ui--highlight--border`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
-          <div className={`menuActive${isLoading ? ' isLoading' : ''}`}>
+          <div className='menuActive'>
             <Icon icon={activeRoute.icon} />
             <span>{activeRoute.text}</span>
           </div>
@@ -167,6 +165,14 @@ export default React.memo(styled(Menu)`
   padding: 0;
   position: relative;
   z-index: 220;
+
+  &.isLoading {
+    filter: grayscale(1);
+
+    .menuActive {
+      opacity: 0.66;
+    }
+  }
 
   &.menuBg,
   .menuBg {
@@ -216,10 +222,6 @@ export default React.memo(styled(Menu)`
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.5rem;
     margin: 0 1rem;
-
-    &.isLoading {
-      background: #f5f3f1;
-    }
 
     .ui--Icon {
       margin-right: 0.5rem;
