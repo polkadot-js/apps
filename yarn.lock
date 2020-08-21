@@ -1423,9 +1423,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docknetwork/sdk@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@docknetwork/sdk@npm:0.1.5"
+"@docknetwork/sdk@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@docknetwork/sdk@npm:0.1.6"
   dependencies:
     "@polkadot/api": 1.17.1
     "@polkadot/keyring": 2.12.2
@@ -1437,7 +1437,7 @@ __metadata:
     credentials-context: ^1.0.0
     did-resolver: ^1.1.0
     ecdsa-secp256k1-signature-2019: ^1.0.0
-    elliptic: ^6.5.2
+    elliptic: ^6.5.3
     ethr-did-resolver: ^2.2.0
     js-sha256: ^0.9.0
     json-canonicalize: ^1.0.3
@@ -1445,7 +1445,7 @@ __metadata:
     jsonld-signatures: "git+https://github.com/docknetwork/jsonld-signatures.git#avoid-extendContextLoader"
     jsonschema: ^1.2.6
     vc-js: "git+https://github.com/docknetwork/vc-js.git#avoid-extendContextLoader"
-  checksum: e69a4ac793393ac3f643ece447a0c331f5f0a32662de2ab7877831f3f28027fe74f8eaf1fc752387accd815bb5cb7ae5772abf0d797c9195bf6e14dd4e6cee1f
+  checksum: 0fc372d409b9ce0225924f3588070db4e681d76d112e1ed7486d2cbd8b03a3e6133f2b180340aa20ed2a9a45f0a825af914299ce026f9c142ea5f2eb06321544
   languageName: node
   linkType: hard
 
@@ -18520,7 +18520,7 @@ __metadata:
     "@babel/core": ^7.10.5
     "@babel/register": ^7.10.5
     "@babel/runtime": ^7.10.5
-    "@docknetwork/sdk": ^0.1.5
+    "@docknetwork/sdk": ^0.1.6
     "@pinata/sdk": ^1.1.10
     "@polkadot/dev": ^0.55.27
     "@polkadot/ts": ^0.3.29
