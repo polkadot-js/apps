@@ -33,10 +33,8 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(NodeInfo)`
   background: transparent;
-  color: white;
   font-size: 0.9rem;
   line-height: 1.2;
-  opacity: 0.85;
   padding: 0 1.5rem;
   text-align: right;
 

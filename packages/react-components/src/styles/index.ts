@@ -55,6 +55,10 @@ export default createGlobalStyle<Props>`
     background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
   }
 
+  .ui--highlight--hover-color:hover {
+    color: ${getHighlight} !important;
+  }
+
   .ui--highlight--icon {
     .ui--Icon {
       color: ${getHighlight} !important;

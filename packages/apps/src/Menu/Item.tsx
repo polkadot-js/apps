@@ -21,7 +21,7 @@ function Item ({ className = '', route: { Modal, href, icon, name, text, useCoun
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''}`}>
+    <li className={`${className}${count ? ' withCounter' : ''} ui--highlight--hover-color`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}

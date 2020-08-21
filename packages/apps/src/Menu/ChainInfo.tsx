@@ -28,7 +28,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <div
-        className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''}`}
+        className={`apps--SideBar-logo-inner${canToggle ? ' isClickable  ui--highlight--hover-color' : ''}`}
         onClick={toggleEndpoints}
       >
         <ChainImg />
@@ -79,8 +79,6 @@ export default React.memo(styled(ChainInfo)`
 
     .ui--Icon.dropdown,
     > div.info {
-      color: white;
-      opacity: 0.85;
       text-align: right;
       vertical-align: middle;
     }
@@ -91,17 +89,17 @@ export default React.memo(styled(ChainInfo)`
       width: 1rem;
     }
 
-    > div.info {
+    .info {
       flex: 1;
       padding-right: 0.5rem;
 
-      > div.bestNumber,
-      > div.chain {
+      .bestNumber,
+      .chain {
         font-size: 0.9rem;
         line-height: 1.2;
       }
 
-      > div.runtimeVersion {
+      .runtimeVersion {
         font-size: 0.75rem;
         line-height: 1.2;
       }
