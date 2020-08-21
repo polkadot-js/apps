@@ -192,6 +192,8 @@ export default React.memo(styled(Menu)`
   }
 
   &.isLoading.menuBg {
+    box-shadow: 0 5px 5px -5px rgba(34,36,38,0.12);
+
     &:after {
       background: #eee;
     }
@@ -201,7 +203,7 @@ export default React.memo(styled(Menu)`
     }
 
     .menuActive {
-      opacity: 0.66;
+      background: #f5f3f1;
     }
   }
 
@@ -213,9 +215,10 @@ export default React.memo(styled(Menu)`
 
   .menuActive {
     background: #fefcfa;
+    border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
     padding: 1rem 1.5rem;
-    margin: 0 1rem;
+    margin: 0 1rem -1px;
 
     .ui--Icon {
       margin-right: 0.5rem;

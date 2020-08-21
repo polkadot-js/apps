@@ -60,7 +60,7 @@ export default React.memo(styled(Grouping)`
 
   .groupMenu {
     border-radius: 0 0 0.25rem 0.25rem;
-    box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} , ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
+    box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     display: none;
     margin: 0;
     overflow: hidden;
@@ -80,7 +80,7 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: rgba(254, 252, 250, 0.95);
+      background: #fefcfa;
     }
 
     .groupHdr {
