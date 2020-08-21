@@ -25,7 +25,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
   }
 
   return (
-    <li className={`${className}`}>
+    <li className={className}>
       <div className='groupHdr'>
         <span>{name}</span>
         <Icon icon='caret-down' />
