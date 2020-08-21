@@ -186,7 +186,7 @@ export default React.memo(styled(Menu)`
       content: ' ';
       filter: invert(0.2) brightness(1.2);
       left: 0;
-      opacity: 0.2;
+      opacity: 0.15;
       position: absolute;
       right: 0;
       top: 0;
