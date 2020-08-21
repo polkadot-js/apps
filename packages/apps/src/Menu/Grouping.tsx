@@ -72,7 +72,7 @@ export default React.memo(styled(Grouping)`
       z-index: 1;
 
       a {
-        padding-right: 3.5rem;
+        padding-right: 4rem;
       }
     }
   }
@@ -80,7 +80,7 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(254, 252, 250, 0.925);
     }
 
     .groupHdr {

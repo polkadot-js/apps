@@ -58,7 +58,7 @@ export default React.memo(styled(Item)`
   }
 
   &.withCounter a {
-    padding-right: 3.5rem;
+    padding-right: 3rem;
   }
 
   a {
