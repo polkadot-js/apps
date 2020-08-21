@@ -11,9 +11,9 @@ import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import settings from '@polkadot/ui-settings';
 import keyring from '@polkadot/ui-keyring';
 
-const addressUri = '//gist.githubusercontent.com/lovesh/c540b975774735fe0001c86fa47a91b3/raw/0a1ae15962372095348669995d58a2bd0c0bc737/validator%2520names';
+const addressUri = 'https://gist.githubusercontent.com/lovesh/c540b975774735fe0001c86fa47a91b3/raw';
 
-function getDefaultContacts (): null {
+function setDefaultContacts (): null {
   axios.get(addressUri)
     .then(function (response): null {
       const hardcodedAddresses = response.data;
@@ -64,7 +64,8 @@ function getApiUrl (): string {
 }
 
 const apiUrl = getApiUrl();
-const defaultContactCount = getDefaultContacts();
+// const defaultContactCount = getDefaultContacts();
+setDefaultContacts();
 
 // set the default as retrieved here
 settings.set({ apiUrl });
