@@ -48,7 +48,7 @@ export default React.memo(styled(Grouping)`
 
   .groupHdr {
     border-radius: 0.25rem 0.25rem 0 0;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.25rem 1rem 1.5rem;
 
     > .ui--Icon {
       margin-left: 0.75rem;
