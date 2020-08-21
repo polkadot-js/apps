@@ -171,6 +171,17 @@ export default React.memo(styled(Menu)`
   &.menuBg,
   .menuBg {
     &:before {
+      background; #fff;
+      bottom: 0;
+      content: ' ';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: -2;
+    }
+
+    &:before {
       bottom: 0;
       content: ' ';
       filter: invert(0.4) brightness(0.7);
