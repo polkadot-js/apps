@@ -14,6 +14,9 @@ interface Props extends Group {
   className?: string;
 }
 
+const SHA_COL = 'rgba(34, 36, 38, 0.12)';
+const SHA_OFF = '5px';
+
 function Grouping ({ className = '', name, routes }: Props): React.ReactElement<Props> {
   if (routes.length === 1) {
     return (
@@ -57,6 +60,7 @@ export default React.memo(styled(Grouping)`
 
   .groupMenu {
     border-radius: 0 0 0.25rem 0.25rem;
+    box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} , ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     display: none;
     margin: 0;
     overflow: hidden;
@@ -76,7 +80,11 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .groupHdr {
+      box-shadow: 0 -${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     }
 
     .groupMenu {
