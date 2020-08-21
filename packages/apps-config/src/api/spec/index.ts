@@ -17,7 +17,6 @@ import stablePoc from './stable-poc';
 
 export default {
   Crab: crab,
-  'Nodle Chain Node': nodle,
   acala,
   'centrifuge-chain': centrifugeChain,
   'cumulus-test-parachain': testPara,
@@ -28,6 +27,7 @@ export default {
   kulupu,
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
+  'nodle-chain': nodle,
   'stable-poc': stablePoc,
   stable_poc: stablePoc
 };
