@@ -10,7 +10,7 @@ const transformCounter = {
   transform: (proposals: Hash[]) => proposals.length
 };
 
-export default function useCounter(): number {
+export default function useCounter (): number {
   const { api, isApiReady } = useApi();
   const counter = useCall<number>(isApiReady && api.query.financialCommittee?.proposals, undefined, transformCounter) || 0;
 

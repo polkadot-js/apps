@@ -18,7 +18,7 @@ interface Props {
   proposalId: BN | number;
 }
 
-function Voting({ hash, prime, proposalId }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);

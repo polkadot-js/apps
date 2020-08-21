@@ -31,7 +31,7 @@ const transformVotes = {
   transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
 };
 
-function Proposal({ className = '', imageHash, isMember, members, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className = '', imageHash, isMember, members, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const proposal = useCall<ProposalType | null>(api.query.financialCommittee.proposalOf, [imageHash], transformProposal);
   const votes = useCall<Votes | null>(api.query.financialCommittee.voting, [imageHash], transformVotes);
