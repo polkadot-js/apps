@@ -174,7 +174,7 @@ export default React.memo(styled(Menu)`
       bottom: 0;
       content: ' ';
       left: 0;
-      opacity: 0.125;
+      opacity: 0.1;
       position: absolute;
       right: 0;
       top: 0;
