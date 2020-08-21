@@ -166,14 +166,6 @@ export default React.memo(styled(Menu)`
   position: relative;
   z-index: 220;
 
-  &.isLoading {
-    filter: grayscale(1);
-
-    .menuActive {
-      opacity: 0.66;
-    }
-  }
-
   &.menuBg,
   .menuBg {
     &:after {
@@ -188,26 +180,28 @@ export default React.memo(styled(Menu)`
     }
 
     &:before {
-      background; #fff;
       bottom: 0;
       content: ' ';
       left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: -2;
-    }
-
-    &:before {
-      bottom: 0;
-      content: ' ';
-      filter: invert(0.2) brightness(1.2);
-      left: 0;
-      opacity: 0.15;
+      opacity: 0.125;
       position: absolute;
       right: 0;
       top: 0;
       z-index: -1;
+    }
+  }
+
+  &.isLoading.menuBg {
+    &:after {
+      background: #eee;
+    }
+
+    &:before {
+      filter: grayscale(1);
+    }
+
+    .menuActive {
+      opacity: 0.66;
     }
   }
 
