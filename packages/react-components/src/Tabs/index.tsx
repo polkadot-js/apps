@@ -67,6 +67,7 @@ export default React.memo(styled(Tabs)`
   overflow-x: scroll;
   padding: 1.5rem 3rem 0;
   text-align: left;
+  z-index: 1;
 
   &::-webkit-scrollbar {
     display: none;
