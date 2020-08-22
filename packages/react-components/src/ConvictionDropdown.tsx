@@ -31,7 +31,7 @@ function createOptions (api: ApiPromise, t: TFunction): { text: string; value: n
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
-          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.muln(blockTime / 1000)).toNumber() / SEC_DAY).toFixed(2),
+          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.muln(blockTime).divn(1000)).toNumber() / SEC_DAY).toFixed(2),
           value
         }
       }),
