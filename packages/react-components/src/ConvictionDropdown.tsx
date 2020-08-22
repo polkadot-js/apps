@@ -41,7 +41,7 @@ function createOptions (api: ApiPromise, t: TFunction, blockTime: number): { tex
 function Convictions ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
   const { t } = useTranslation();
-  const [ blockTime ] = useBlockTime();
+  const [blockTime] = useBlockTime();
 
   const optionsRef = useRef(createOptions(api, t, blockTime));
 
