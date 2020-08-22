@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { TFunction } from 'i18next';
 import React, { useRef } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useBlockTime } from '@polkadot/react-hooks';
 
 import Dropdown from './Dropdown';
 import { useTranslation } from './translate';
@@ -23,13 +23,15 @@ const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, inde
 const SEC_DAY = 60 * 60 * 24;
 
 function createOptions (api: ApiPromise, t: TFunction): { text: string; value: number }[] {
+  const [blockTime] = useBlockTime();
+
   return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
     ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
-          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.mul(api.consts.timestamp.minimumPeriod.muln(2)).divn(1000)).toNumber() / SEC_DAY).toFixed(2),
+          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.muln(blockTime / 1000)).toNumber() / SEC_DAY).toFixed(2),
           value
         }
       }),
