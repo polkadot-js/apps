@@ -139,6 +139,10 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       position: absolute;
       top: -9px;
       width: 32px;
+
+      &.opaque {
+        opacity: 0.5;
+      }
     }
 
     .ui--Dropdown-name {
