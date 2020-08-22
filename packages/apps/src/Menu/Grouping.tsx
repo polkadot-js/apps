@@ -91,7 +91,7 @@ export default React.memo(styled(Grouping)`
       display: block;
 
       > li:hover {
-        background: transparent;
+        background: rgba(255, 255, 255, 0.5);
       }
     }
   }
