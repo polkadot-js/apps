@@ -1,5 +1,6 @@
 {
   "0.1x voting balance, no lockup period": "0.1x voting balance, no lockup period",
+  "Aye {{count}}": "Aye {{count}}",
   "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.",
   "Democracy overview": "Democracy overview",
   "Dispatch": "Dispatch",
@@ -7,6 +8,7 @@
   "Fast track proposal": "Fast track proposal",
   "If this proposal is passed, the changes will be applied via dispatch and the deposit returned.": "If this proposal is passed, the changes will be applied via dispatch and the deposit returned.",
   "Image": "Image",
+  "Nay {{count}}": "Nay {{count}}",
   "No active proposals": "No active proposals",
   "No active referendums": "No active referendums",
   "No active schedules": "No active schedules",
@@ -80,6 +82,7 @@
   "total": "total",
   "transferrable": "transferrable",
   "turnout": "turnout",
+  "votes": "votes",
   "voting period": "voting period",
   "{{blocks}} blocks": "{{blocks}} blocks",
   "{{percentage}} aye": "{{percentage}} aye",
