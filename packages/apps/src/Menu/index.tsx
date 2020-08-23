@@ -177,6 +177,10 @@ export default React.memo(styled(Menu)`
     .menuActive {
       background: #f5f3f1;
     }
+
+    .menuItems {
+      filter: grayscale(1);
+    }
   }
 
   .menuSection {
