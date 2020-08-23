@@ -77,7 +77,7 @@ function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidato
       </section>
       {avgStaked && lowStaked && (
         <CardSummary
-          className='ui--media-medium'
+          className='ui--media-1000'
           label={`${t<string>('lowest / avg staked')}`}
           progress={progressAvg}
         >
