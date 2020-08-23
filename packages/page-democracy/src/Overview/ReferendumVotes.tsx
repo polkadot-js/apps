@@ -42,46 +42,40 @@ function ReferendumVotes ({ change, className, count, index, isAye, isWinning, t
     [votes]
   );
 
-  if (!count) {
-    return null;
-  }
-
   return (
     <Expander
       className={className}
       summary={
         <>
           {isAye
-            ? t<string>('Aye {{count}}', { replace: { count: ` (${formatNumber(count)})` } })
-            : t<string>('Nay {{count}}', { replace: { count: ` (${formatNumber(count)})` } })
-          }
-          <div><FormatBalance value={total} /></div>
-        </>
-      }
-      summarySub={
-        <div>
-          {change.gtn(0) && (
-            <div>
+            ? t<string>('Aye {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
+            : t<string>('Nay {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
+          }{change.gtn(0) && (
+            <>
+              {' '}
               <Icon
                 className='double-icon'
                 icon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
                 tooltip={trigger}
               />
-              <FormatBalance
-                value={change}
-                withCurrency={false}
-              />
               <Tooltip
                 text={
-                  isWinning
-                    ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
-                    : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
+                  <>
+                    <FormatBalance value={change} />
+                    <p>{isWinning
+                      ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
+                      : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
+                    }</p>
+                  </>
                 }
                 trigger={trigger}
               />
-            </div>
+            </>
           )}
-        </div>
+          <div>
+            <FormatBalance value={total} />
+          </div>
+        </>
       }
     >
       {sorted.map((vote) =>
