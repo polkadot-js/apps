@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import accounts from './accounts';
+import addresses from './addresses';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
@@ -31,6 +32,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
   return [
     // dashboard(t),
     accounts(t),
+    addresses(t),
     explorer(t),
     claims(t),
     poll(t),

@@ -1,0 +1,22 @@
+{
+  "Add an address": "Add an address",
+  "Add contact": "Add contact",
+  "Forget this address": "Forget this address",
+  "My contacts": "My contacts",
+  "Paste here the address of the contact you want to add to your address book.": "Paste here the address of the contact you want to add to your address book.",
+  "Save": "Save",
+  "Type the name of your contact. This name will be used across all the apps. It can be edited later on.": "Type the name of your contact. This name will be used across all the apps. It can be edited later on.",
+  "address": "address",
+  "address created": "address created",
+  "address edited": "address edited",
+  "address forgotten": "address forgotten",
+  "balances": "balances",
+  "contacts": "contacts",
+  "filter by name or tags": "filter by name or tags",
+  "name": "name",
+  "new address": "new address",
+  "no addresses saved yet, add any existing address": "no addresses saved yet, add any existing address",
+  "send": "send",
+  "tags": "tags",
+  "transactions": "transactions"
+}

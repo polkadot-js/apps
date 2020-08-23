@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-addresses authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,10 +6,10 @@ import { ComponentProps as Props } from '../types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+import CreateModal from '@polkadot/app-accounts/Accounts/modals/Create';
 import { Button, Input, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
-import CreateModal from './modals/Create';
 import Address from './Address';
 import { useTranslation } from '../translate';
 
