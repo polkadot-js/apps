@@ -5,7 +5,7 @@
 import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { AddressSmall, AddressMini, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
@@ -40,44 +40,48 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return !!(tip as OpenTip)?.findersFee;
 }
 
+function extractTipState (tip: OpenTip | OpenTipTo225, hash: string, allAccounts: string[]): TipState {
+  const closesAt = tip.closes.unwrapOr(null);
+  let finder: AccountId | null = null;
+  let deposit: Balance | null = null;
+
+  if (isCurrentTip(tip)) {
+    finder = tip.finder;
+    deposit = tip.deposit;
+  } else if (tip.finder.isSome) {
+    const finderInfo = tip.finder.unwrap();
+
+    finder = finderInfo[0];
+    deposit = finderInfo[1];
+  }
+
+  const values = tip.tips.map(([, value]) => value).sort((a, b) => a.cmp(b));
+  const midIndex = Math.floor(values.length / 2);
+  const median = values.length
+    ? values.length % 2
+      ? values[midIndex]
+      : values[midIndex - 1].add(values[midIndex]).divn(2)
+    : BN_ZERO;
+
+  return {
+    closesAt,
+    deposit,
+    finder,
+    isFinder: !!finder && allAccounts.includes(finder.toString()),
+    isTipped: !!values.length,
+    isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString())),
+    median
+  };
+}
+
 function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
-  const [{ closesAt, finder, isFinder, isTipped, isTipper, median }, setTipState] = useState<TipState>({ closesAt: null, deposit: null, finder: null, isFinder: false, isTipped: false, isTipper: false, median: BN_ZERO });
 
-  useEffect((): void => {
-    const closesAt = tip.closes.unwrapOr(null);
-    let finder: AccountId | null = null;
-    let deposit: Balance | null = null;
-
-    if (isCurrentTip(tip)) {
-      finder = tip.finder;
-      deposit = tip.deposit;
-    } else if (tip.finder.isSome) {
-      const finderInfo = tip.finder.unwrap();
-
-      finder = finderInfo[0];
-      deposit = finderInfo[1];
-    }
-
-    const values = tip.tips.map(([, value]) => value).sort((a, b) => a.cmp(b));
-    const midIndex = Math.floor(values.length / 2);
-    const median = values.length
-      ? values.length % 2
-        ? values[midIndex]
-        : values[midIndex - 1].add(values[midIndex]).divn(2)
-      : BN_ZERO;
-
-    setTipState({
-      closesAt,
-      deposit,
-      finder,
-      isFinder: !!finder && allAccounts.includes(finder.toString()),
-      isTipped: !!values.length,
-      isTipper: tip.tips.some(([address]) => allAccounts.includes(address.toString())),
-      median
-    });
-  }, [allAccounts, hash, tip]);
+  const { closesAt, finder, isFinder, isTipped, isTipper, median } = useMemo(
+    () => extractTipState(tip, hash, allAccounts),
+    [allAccounts, hash, tip]
+  );
 
   const { reason, tips, who } = tip;
 
