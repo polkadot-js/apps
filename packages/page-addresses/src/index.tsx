@@ -6,7 +6,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 import Contacts from './Contacts';

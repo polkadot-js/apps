@@ -195,12 +195,14 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         />
       </td>
       <td className='button'>
-        <Button
-          icon='paper-plane'
-          key='send'
-          label={t<string>('send')}
-          onClick={_toggleTransfer}
-        />
+        {api.api.tx.balances?.transfer && (
+          <Button
+            icon='paper-plane'
+            key='send'
+            label={t<string>('send')}
+            onClick={_toggleTransfer}
+          />
+        )}
         <Popup
           className='theme--default'
           isOpen={isSettingPopupOpen}
