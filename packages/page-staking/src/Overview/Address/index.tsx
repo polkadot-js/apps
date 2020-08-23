@@ -142,7 +142,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )
       }
-      <td className='number'>
+      <td className='number ui--media-1100'>
         {stakeOwn?.gtn(0) && (
           <FormatBalance value={stakeOwn} />
         )}
@@ -168,7 +168,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )}
       </td>
-      <td>
+      <td className='mini ui--media-1200'>
         <LinkExternal
           data={address}
           type={isMain ? 'validator' : 'intention'}

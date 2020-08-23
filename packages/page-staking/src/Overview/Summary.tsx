@@ -33,12 +33,18 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
           </CardSummary>
         )}
         {!!next?.length && (
-          <CardSummary label={t<string>('waiting')}>
+          <CardSummary
+            className='ui--media-1000'
+            label={t<string>('waiting')}
+          >
             {next.length}
           </CardSummary>
         )}
         {!!nominators?.length && (
-          <CardSummary label={t<string>('nominators')}>
+          <CardSummary
+            className='ui--media-1100'
+            label={t<string>('nominators')}
+          >
             {nominators.length}
           </CardSummary>
         )}

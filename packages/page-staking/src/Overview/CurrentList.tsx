@@ -124,12 +124,12 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   const headerActiveRef = useRef([
     [t('validators'), 'start', 2],
     [t('other stake')],
-    [t('own stake')],
+    [t('own stake'), 'ui--media-1100'],
     [t('commission')],
     [t('points')],
     [t('last #')],
     [],
-    []
+    [undefined, 'ui--media-1200']
   ]);
 
   const _renderRows = useCallback(

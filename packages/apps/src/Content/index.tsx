@@ -47,10 +47,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
     [location, t]
   );
 
-  const missingApis = useMemo(
-    () => findMissingApis(api, needsApi),
-    [api, needsApi]
-  );
+  const missingApis = findMissingApis(api, needsApi);
 
   return (
     <div className={className}>
@@ -63,18 +60,25 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         : (
           <>
             <Suspense fallback='...'>
-              {missingApis.length
-                ? <NotFound />
-                : (
-                  <ErrorBoundary trigger={name}>
+              <ErrorBoundary trigger={name}>
+                {missingApis.length
+                  ? (
+                    <NotFound
+                      basePath={`/${name}`}
+                      location={location}
+                      missingApis={missingApis}
+                      onStatusChange={queueAction}
+                    />
+                  )
+                  : (
                     <Component
                       basePath={`/${name}`}
                       location={location}
                       onStatusChange={queueAction}
                     />
-                  </ErrorBoundary>
-                )
-              }
+                  )
+                }
+              </ErrorBoundary>
             </Suspense>
             <Status />
           </>
