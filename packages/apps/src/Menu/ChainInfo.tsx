@@ -44,7 +44,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         </div>
         {canToggle && (
           <Icon
-            className='dropdown'
+            className='dropdown highlight--color'
             icon={isEndpointsVisible ? 'caret-right' : 'caret-down'}
           />
         )}

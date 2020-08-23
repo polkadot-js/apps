@@ -31,9 +31,12 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
     <li className={className}>
       <div className='groupHdr'>
         <span>{name}</span>
-        <Icon icon='caret-down' />
+        <Icon
+          className='highlight--color'
+          icon='caret-down'
+        />
       </div>
-      <ul className='groupMenu highlight--bg-light highlight--before'>
+      <ul className='groupMenu highlight--bg-light'>
         {routes.map((route): React.ReactNode => (
           <Item
             key={route.name}
