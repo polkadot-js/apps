@@ -72,7 +72,7 @@ export default React.memo(styled(Tab)`
   }
 
   .tabCounter {
-    margin: -1rem 0 -1rem 0.5rem;
+    margin: -1rem 0 -1rem 0.75rem;
   }
 
   .tabIcon {
