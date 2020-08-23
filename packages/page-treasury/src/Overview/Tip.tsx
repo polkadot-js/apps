@@ -147,7 +147,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           )
         }
       </td>
-      <td className='badge ui--media-1700'>
+      <td className='badge media--1700'>
         {isMember && (
           <Icon
             color={isTipper ? 'green' : 'gray'}
@@ -155,7 +155,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
           />
         )}
       </td>
-      <td className='mini ui--media-1700'>
+      <td className='mini media--1700'>
         <LinkExternal
           data={hash}
           type='tip'

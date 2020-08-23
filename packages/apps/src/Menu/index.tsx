@@ -124,7 +124,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
-    <div className={`${className}${isLoading ? ' isLoading' : ''} ui--highlight--bg-light ui--highlight--border`}>
+    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg-light highlight--border`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
@@ -143,7 +143,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           ))}
         </ul>
       </div>
-      <div className='menuSection ui--media-1200'>
+      <div className='menuSection media--1200'>
         <ul className='menuItems'>
           {externalRef.current.map((route): React.ReactNode => (
             <Item

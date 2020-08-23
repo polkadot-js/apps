@@ -41,7 +41,7 @@ function Summary ({ referendumCount }: Props): React.ReactElement<Props> {
         </CardSummary>
       </section>
       {bestNumber && (
-        <section className='ui--media-medium'>
+        <section className='media--1100'>
           <CardSummary
             label={t<string>('launch period')}
             progress={{

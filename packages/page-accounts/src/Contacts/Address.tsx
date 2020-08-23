@@ -183,7 +183,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           <Tags value={tags} />
         </div>
       </td>
-      <td className='number ui--media-1500'>
+      <td className='number media--1500'>
         {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
@@ -233,7 +233,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           </Menu>
         </Popup>
       </td>
-      <td className='mini ui--media-1400'>
+      <td className='mini media--1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

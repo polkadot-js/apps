@@ -43,13 +43,13 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
         {health && (
           <>
             <CardSummary
-              className='ui--media-small'
+              className='media--800'
               label={t<string>('total peers')}
             >
               {formatNumber(health.peers)}
             </CardSummary>
             <CardSummary
-              className='ui--media-small'
+              className='media--800'
               label={t<string>('syncing')}
             >
               {health.isSyncing.valueOf()
@@ -61,7 +61,7 @@ function Summary ({ info: { extrinsics, health, peers } = EMPTY_INFO, nextRefres
         )}
       </section>
       {extrinsics && (extrinsics.length > 0) && (
-        <section className='ui--media-large'>
+        <section className='media--1200'>
           <CardSummary label={t<string>('queued tx')}>
             {extrinsics.length}
           </CardSummary>

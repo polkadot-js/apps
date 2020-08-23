@@ -50,7 +50,7 @@ function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidato
 
   return (
     <SummaryBox>
-      <section className='ui--media-small'>
+      <section className='media--800'>
         {totalIssuance && (
           <CardSummary
             label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')} / ` : ''}${t<string>('total issuance')}`}
@@ -77,7 +77,7 @@ function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidato
       </section>
       {avgStaked && lowStaked && (
         <CardSummary
-          className='ui--media-1000'
+          className='media--1000'
           label={`${t<string>('lowest / avg staked')}`}
           progress={progressAvg}
         >
@@ -95,7 +95,7 @@ function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidato
       )}
       {numValidators && numNominators && (
         <CardSummary
-          className='ui--media-1600'
+          className='media--1600'
           label={`${t<string>('nominators')} / ${t<string>('validators')}`}
         >
           {numNominators}&nbsp;/&nbsp;{numValidators}

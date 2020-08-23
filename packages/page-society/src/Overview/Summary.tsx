@@ -32,7 +32,7 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
 
   return (
     <SummaryBox className={className}>
-      <section className='ui--media-medium'>
+      <section className='media--1100'>
         {info && members && (
           <CardSummary label={t<string>('members')}>
             {members.length}&nbsp;/&nbsp;{info.maxMembers.toString()}
@@ -51,7 +51,7 @@ function Summary ({ className = '', info }: Props): React.ReactElement<Props> {
               }}
             />
           </section>
-          <section className='ui--media-large'>
+          <section className='media--1200'>
             <CardSummary
               label={t<string>('challenge')}
               progress={{
