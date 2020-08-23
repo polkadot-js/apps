@@ -5,6 +5,7 @@
 import { Routes } from './types';
 
 import accounts from './accounts';
+import addresses from './addresses';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
@@ -16,13 +17,14 @@ import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
 import poll from './poll';
+import rpc from './rpc';
 import settings from './settings';
+import signing from './signing';
 import society from './society';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
 import techcomm from './techcomm';
-import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
@@ -30,6 +32,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
   return [
     // dashboard(t),
     accounts(t),
+    addresses(t),
     explorer(t),
     claims(t),
     poll(t),
@@ -45,9 +48,10 @@ export default function create (t: <T = string> (key: string, text: string, opti
     contracts(t),
     storage(t),
     extrinsics(t),
+    rpc(t),
+    signing(t),
     sudo(t),
-    settings(t),
-    toolbox(t),
-    js(t)
+    js(t),
+    settings(t)
   ];
 }

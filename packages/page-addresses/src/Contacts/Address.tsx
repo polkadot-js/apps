@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// Copyright 2017-2020 @polkadot/app-addresses authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -8,12 +8,12 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Transfer from '@polkadot/app-accounts/Accounts/modals/Transfer';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
-import Transfer from '../Accounts/modals/Transfer';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -195,12 +195,14 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
         />
       </td>
       <td className='button'>
-        <Button
-          icon='paper-plane'
-          key='send'
-          label={t<string>('send')}
-          onClick={_toggleTransfer}
-        />
+        {api.api.tx.balances?.transfer && (
+          <Button
+            icon='paper-plane'
+            key='send'
+            label={t<string>('send')}
+            onClick={_toggleTransfer}
+          />
+        )}
         <Popup
           className='theme--default'
           isOpen={isSettingPopupOpen}

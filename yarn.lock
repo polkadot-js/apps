@@ -3116,6 +3116,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-addresses@workspace:packages/page-addresses":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-addresses@workspace:packages/page-addresses"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.55.0-beta.54
+    "@polkadot/vanitygen": ^0.20.0-beta.1
+    "@testing-library/react": ^10.4.8
+    detect-browser: ^5.1.1
+    file-saver: ^2.0.2
+    testcontainers: ^2.17.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-claims@workspace:packages/page-claims":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-claims@workspace:packages/page-claims"
@@ -3222,6 +3236,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-rpc@workspace:packages/page-rpc":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-rpc@workspace:packages/page-rpc"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.55.0-beta.54
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-settings@workspace:packages/page-settings":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-settings@workspace:packages/page-settings"
@@ -3231,6 +3254,15 @@ __metadata:
     "@polkadot/react-components": 0.55.0-beta.54
     "@polkadot/react-query": 0.55.0-beta.54
     query-string: ^6.13.1
+  languageName: unknown
+  linkType: soft
+
+"@polkadot/app-signing@workspace:packages/page-signing":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-signing@workspace:packages/page-signing"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.55.0-beta.54
   languageName: unknown
   linkType: soft
 
@@ -3280,15 +3312,6 @@ __metadata:
     "@babel/runtime": ^7.11.2
     "@polkadot/react-components": 0.55.0-beta.54
     "@polkadot/react-query": 0.55.0-beta.54
-  languageName: unknown
-  linkType: soft
-
-"@polkadot/app-toolbox@workspace:packages/page-toolbox":
-  version: 0.0.0-use.local
-  resolution: "@polkadot/app-toolbox@workspace:packages/page-toolbox"
-  dependencies:
-    "@babel/runtime": ^7.11.2
-    "@polkadot/react-components": 0.55.0-beta.54
   languageName: unknown
   linkType: soft
 

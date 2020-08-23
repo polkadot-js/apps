@@ -1,0 +1,8 @@
+{
+  "RPC calls": "RPC calls",
+  "Submit RPC call": "Submit RPC call",
+  "The actual JSONRPC module and function to make a call to.": "The actual JSONRPC module and function to make a call to.",
+  "call the selected endpoint": "call the selected endpoint",
+  "sign data from account": "sign data from account",
+  "with an index of": "with an index of"
+}

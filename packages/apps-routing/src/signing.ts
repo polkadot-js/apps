@@ -4,7 +4,7 @@
 
 import { Route } from './types';
 
-import Component from '@polkadot/app-extrinsics';
+import Component from '@polkadot/app-signing';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
@@ -14,8 +14,8 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsApi: []
     },
     group: 'developer',
-    icon: 'envelope-open-text',
-    name: 'extrinsics',
-    text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
+    icon: 'signature',
+    name: 'signing',
+    text: t<string>('nav.signing', 'Sign and verify', { ns: 'apps-routing' })
   };
 }

@@ -4,18 +4,17 @@
 
 import { Route } from './types';
 
-import Component from '@polkadot/app-extrinsics';
+import Component from '@polkadot/app-rpc';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
     Component,
     display: {
-      needsAccounts: true,
       needsApi: []
     },
     group: 'developer',
-    icon: 'envelope-open-text',
-    name: 'extrinsics',
-    text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
+    icon: 'network-wired',
+    name: 'rpc',
+    text: t<string>('nav.rpc', 'RPC calls', { ns: 'apps-routing' })
   };
 }
