@@ -39,6 +39,23 @@ export default createGlobalStyle<Props>`
     background: ${getHighlight} !important;
   }
 
+  .ui--highlight--bg-light {
+    background: white;
+    position: relative;
+
+    &:before {
+      background: ${getHighlight};
+      bottom: 0;
+      content: ' ';
+      left: 0;
+      opacity: 0.09;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: -1;
+    }
+  }
+
   .ui--highlight--border {
     border-color: ${getHighlight} !important;
   }
