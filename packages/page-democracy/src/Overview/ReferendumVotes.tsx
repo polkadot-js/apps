@@ -67,7 +67,10 @@ function ReferendumVotes ({ change, className, count, index, isAye, isWinning, t
                 icon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
                 tooltip={trigger}
               />
-              <FormatBalance value={change} />
+              <FormatBalance
+                value={change}
+                withCurrency={false}
+              />
               <Tooltip
                 text={
                   isWinning
