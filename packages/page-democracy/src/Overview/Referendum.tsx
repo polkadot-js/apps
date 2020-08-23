@@ -6,7 +6,7 @@ import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { Badge, Button, Icon, LinkExternal } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
@@ -42,33 +42,40 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
   const { allAccounts } = useAccounts();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
-  const [percentages, setPercentages] = useState<Percentages | null>(null);
-  const [{ hasVoted, hasVotedAye }, setHasVoted] = useState<VoteType>({ hasVoted: false, hasVotedAye: false });
   const { changeAye, changeNay } = useChangeCalc(status.threshold, votedAye, votedNay, votedTotal);
   const threshold = useMemo(
     () => status.threshold.type.toString().replace('majority', ' majority '),
     [status]
   );
 
-  useEffect((): void => {
-    if (totalIssuance) {
-      const aye = allAye.reduce((total: BN, { balance }) => total.add(balance), new BN(0));
-      const nay = allNay.reduce((total: BN, { balance }) => total.add(balance), new BN(0));
-      const hasVotedAye = allAye.some(({ accountId }) => allAccounts.includes(accountId.toString()));
-      const hasVoted = hasVotedAye || allNay.some(({ accountId }) => allAccounts.includes(accountId.toString()));
+  const [percentages, { hasVoted, hasVotedAye }] = useMemo(
+    (): [Percentages | null, VoteType] => {
+      if (totalIssuance) {
+        const aye = allAye.reduce((total: BN, { balance }) => total.add(balance), new BN(0));
+        const nay = allNay.reduce((total: BN, { balance }) => total.add(balance), new BN(0));
+        const hasVotedAye = allAye.some(({ accountId }) => allAccounts.includes(accountId.toString()));
 
-      setPercentages({
-        aye: votedTotal.isZero()
-          ? ''
-          : `${(aye.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
-        nay: votedTotal.isZero()
-          ? ''
-          : `${(nay.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
-        turnout: `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
-      });
-      setHasVoted({ hasVoted, hasVotedAye });
-    }
-  }, [allAccounts, allAye, allNay, totalIssuance, votedTotal]);
+        return [
+          {
+            aye: votedTotal.isZero()
+              ? ''
+              : `${(aye.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+            nay: votedTotal.isZero()
+              ? ''
+              : `${(nay.muln(10000).div(votedTotal).toNumber() / 100).toFixed(2)}%`,
+            turnout: `${((votedTotal.muln(10000).div(totalIssuance).toNumber()) / 100).toFixed(2)}%`
+          },
+          {
+            hasVoted: hasVotedAye || allNay.some(({ accountId }) => allAccounts.includes(accountId.toString())),
+            hasVotedAye
+          }
+        ];
+      } else {
+        return [null, { hasVoted: false, hasVotedAye: false }];
+      }
+    },
+    [allAccounts, allAye, allNay, totalIssuance, votedTotal]
+  );
 
   if (!bestNumber || status.end.sub(bestNumber).lten(0)) {
     return null;
@@ -102,22 +109,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           </>
         )}
       </td>
-      <ReferendumVotes
-        change={changeAye}
-        count={voteCountAye}
-        index={index}
-        isWinning={isPassing}
-        total={votedAye}
-        votes={allAye}
-      />
-      <ReferendumVotes
-        change={changeNay}
-        count={voteCountNay}
-        index={index}
-        isWinning={!isPassing}
-        total={votedNay}
-        votes={allNay}
-      />
       <td className='badge'>
         {isBoolean(isPassing) && (
           <Badge
@@ -130,6 +121,26 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
             icon={isPassing ? 'check' : 'times'}
           />
         )}
+      </td>
+      <td className='expand'>
+        <ReferendumVotes
+          change={changeAye}
+          count={voteCountAye}
+          index={index}
+          isAye
+          isWinning={isPassing}
+          total={votedAye}
+          votes={allAye}
+        />
+        <ReferendumVotes
+          change={changeNay}
+          count={voteCountNay}
+          index={index}
+          isAye={false}
+          isWinning={!isPassing}
+          total={votedNay}
+          votes={allNay}
+        />
       </td>
       <td className='button'>
         <Button.Group>

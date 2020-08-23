@@ -13,7 +13,7 @@ import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import Close from './Close';
-import Voters from './Votes';
+import Voters from './Voters';
 import Voting from './Voting';
 
 interface Props {
@@ -69,17 +69,19 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           </>
         )}
       </td>
-      <Voters
-        isAye
-        members={members}
-        threshold={threshold}
-        votes={ayes}
-      />
-      <Voters
-        members={members}
-        threshold={threshold}
-        votes={nays}
-      />
+      <td className='expand'>
+        <Voters
+          isAye
+          members={members}
+          threshold={threshold}
+          votes={ayes}
+        />
+        <Voters
+          members={members}
+          threshold={threshold}
+          votes={nays}
+        />
+      </td>
       <td className='button'>
         {isVoteable && !isCloseable && (
           <Voting
