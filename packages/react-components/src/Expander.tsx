@@ -107,11 +107,11 @@ export default React.memo(styled(Expander)`
 
   .ui--Expander-summary {
     margin: 0;
-    min-width: 12.5rem;
+    min-width: 13.5rem;
     overflow: hidden;
 
     .ui--Expander-summary-header > .ui--FormatBalance {
-      min-width: 10rem;
+      min-width: 11rem;
     }
 
     > div {
@@ -126,7 +126,6 @@ export default React.memo(styled(Expander)`
     .ui--Expander-summary-sub {
       font-size: 1rem;
       opacity: 0.6;
-      padding-left: 1.75rem;
     }
   }
 `);

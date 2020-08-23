@@ -48,6 +48,8 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
     return false;
   } else if (needsAccounts && !hasAccounts) {
     return false;
+  } else if (!needsApi) {
+    return true;
   } else if (!isApiReady || !isApiConnected) {
     return false;
   } else if (needsSudo && !hasSudo) {
