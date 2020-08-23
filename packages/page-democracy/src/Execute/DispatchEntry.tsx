@@ -11,8 +11,8 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import ProposalCell from './ProposalCell';
-import PreImageButton from './PreImageButton';
+import ProposalCell from '../Overview/ProposalCell';
+import PreImageButton from '../Overview/PreImageButton';
 
 interface Props {
   value: DeriveDispatch;
