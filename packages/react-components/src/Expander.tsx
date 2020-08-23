@@ -126,7 +126,6 @@ export default React.memo(styled(Expander)`
     .ui--Expander-summary-sub {
       font-size: 1rem;
       opacity: 0.6;
-      padding-left: 1.75rem;
     }
   }
 `);
