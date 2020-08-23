@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
+import Execute from './Execute';
+import useDispatchCounter from './Execute/useCounter';
 import Overview from './Overview';
 import { useTranslation } from './translate';
 
@@ -18,14 +20,20 @@ interface Props {
 
 function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const dispatchCount = useDispatchCounter();
 
-  const itemsRef = useRef([
+  const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
       text: t<string>('Democracy overview')
+    },
+    {
+      count: dispatchCount,
+      name: 'dispatch',
+      text: t<string>('Dispatch')
     }
-  ]);
+  ], [dispatchCount, t]);
 
   return (
     <main className='democracy--App'>
@@ -33,11 +41,14 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
       <header>
         <Tabs
           basePath={basePath}
-          items={itemsRef.current}
+          items={items}
         />
       </header>
       <Switch>
-        <Route component={Overview} />
+        <Route path={`${basePath}/dispatch`}>
+          <Execute />
+        </Route>
+        <Route><Overview /></Route>
       </Switch>
     </main>
   );
