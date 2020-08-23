@@ -713,6 +713,7 @@
   "Vote for current candidates": "",
   "Vote for defender": "",
   "Vote on proposal": "",
+  "Voting": "",
   "Voting costs nothing other than the transaction fee and can be done from all accounts with a non-zero spendable balance.": "",
   "Voting is made on a per-account basis; a single account must all vote the same way and cannot split its vote.": "",
   "Waiting": "",
