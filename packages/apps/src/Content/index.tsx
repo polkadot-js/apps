@@ -82,7 +82,7 @@ export default React.memo(styled(Content)`
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 2.5rem 1rem;
+  padding: 0 2rem 1rem;
   position: relative;
   width: 100%;
 
