@@ -25,7 +25,7 @@ function Spinner ({ className = '', label, variant = 'app' }: Props): React.Reac
   return (
     <div className={`${className} ui--Spinner${variant === 'cover' ? ' isCover' : ''}`}>
       <img
-        className={variant === 'push' ? '' : 'ui--highlight--bg ui--highlight--border'}
+        className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
         src={spinnerSrc as string}
       />
       {variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}

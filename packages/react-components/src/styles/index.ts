@@ -21,25 +21,25 @@ const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
 
 export default createGlobalStyle<Props>`
-  .ui--highlight--all {
+  .highlight--all {
     background: ${getHighlight} !important;
     border-color: ${getHighlight} !important;
     color: ${getHighlight} !important;
   }
 
-  .ui--highlight--before:before {
+  .highlight--before:before {
     background: ${getHighlight} !important;
   }
 
-  .ui--highlight--before-border:before {
+  .highlight--before-border:before {
     border-color: ${getHighlight} !important;
   }
 
-  .ui--highlight--bg {
+  .highlight--bg {
     background: ${getHighlight} !important;
   }
 
-  .ui--highlight--bg-light {
+  .highlight--bg-light {
     background: white;
     position: relative;
 
@@ -56,37 +56,37 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  .ui--highlight--border {
+  .highlight--border {
     border-color: ${getHighlight} !important;
   }
 
-  .ui--highlight--color {
+  .highlight--color {
     color: ${getHighlight} !important;
   }
 
-  .ui--highlight--fill {
+  .highlight--fill {
     fill: ${getHighlight} !important;
   }
 
-  .ui--highlight--gradient {
+  .highlight--gradient {
     background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
   }
 
-  .ui--highlight--hover-color:hover {
+  .highlight--hover-color:hover {
     color: ${getHighlight} !important;
   }
 
-  .ui--highlight--icon {
+  .highlight--icon {
     .ui--Icon {
       color: ${getHighlight} !important;
     }
   }
 
-  .ui--highlight--shadow {
+  .highlight--shadow {
     box-shadow: 0 0 1px ${getHighlight} !important;
   }
 
-  .ui--highlight--stroke {
+  .highlight--stroke {
     stroke: ${getHighlight} !important;
   }
 

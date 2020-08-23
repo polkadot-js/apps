@@ -383,7 +383,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         )}
       </td>
-      <td className='address ui--media-1400'>
+      <td className='address media--1400'>
         {meta.parentAddress && (
           <AddressMini value={meta.parentAddress} />
         )}
@@ -396,7 +396,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           <Tags value={tags} />
         </div>
       </td>
-      <td className='number ui--media-1500'>
+      <td className='number media--1500'>
         {balancesAll?.accountNonce.gt(BN_ZERO) && formatNumber(balancesAll.accountNonce)}
       </td>
       <td className='number'>
@@ -576,7 +576,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </Menu>
         </Popup>
       </td>
-      <td className='mini ui--media-1400'>
+      <td className='mini media--1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}

@@ -34,7 +34,7 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
         )}
         {!!next?.length && (
           <CardSummary
-            className='ui--media-1000'
+            className='media--1000'
             label={t<string>('waiting')}
           >
             {next.length}
@@ -42,7 +42,7 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
         )}
         {!!nominators?.length && (
           <CardSummary
-            className='ui--media-1100'
+            className='media--1100'
             label={t<string>('nominators')}
           >
             {nominators.length}

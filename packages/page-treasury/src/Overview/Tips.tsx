@@ -51,8 +51,8 @@ function Tips ({ className = '', hashes, isMember, members }: Props): React.Reac
     [t('reason'), 'start'],
     [],
     [],
-    [undefined, 'badge ui--media-1700'],
-    [undefined, 'mini ui--media-1700']
+    [undefined, 'badge media--1700'],
+    [undefined, 'mini media--1700']
   ]);
 
   return (

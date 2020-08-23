@@ -37,7 +37,7 @@ function Toggle ({ className = '', isDisabled, isOverlay, isRadio, label, onChan
       onClick={_onClick}
     >
       {label && <label>{label}</label>}
-      <div className={`ui--Toggle-Slider${isRadio ? ' ui--highlight--before-border' : ''}`} />
+      <div className={`ui--Toggle-Slider${isRadio ? ' highlight--before-border' : ''}`} />
     </div>
   );
 }

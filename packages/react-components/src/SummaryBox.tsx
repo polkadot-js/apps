@@ -49,10 +49,6 @@ export default React.memo(styled(SummaryBox)`
 
   @media(max-width: 767px) {
     padding: 0;
-
-    .ui--media-small {
-      display: none !important;
-    }
   }
 
   @media(min-width: 768px) {

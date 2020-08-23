@@ -29,7 +29,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
   );
 
   return (
-    <div className={`${className}${isSelected ? ' isSelected ui--highlight--border' : ''}`}>
+    <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
         onClick={_selectFirst}

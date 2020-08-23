@@ -41,7 +41,7 @@ function TipEndorse ({ hash, isMember, isTipped, median, members }: Props): Reac
       />
       <TxButton
         accountId={defaultId}
-        className='ui--media-1600'
+        className='media--1600'
         icon='fighter-jet'
         isDisabled={!isMember || !isTipped}
         isIcon

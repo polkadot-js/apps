@@ -25,7 +25,7 @@ function DivClip ({ angle, type }: RotateProps): React.ReactElement<RotateProps>
   return (
     <div className={`clip ${type}`}>
       <div
-        className='ui--highlight--bg'
+        className='highlight--bg'
         style={{ transform: `rotate(${angle}deg)` }}
       />
     </div>
@@ -46,7 +46,7 @@ function Progress ({ className = '', isDisabled, size = 'normal', total, value }
 
   return (
     <div className={`ui--Progress${isDisabled ? ' isDisabled' : ''} ${size}Size ${className}`}>
-      <div className='background ui--highlight--bg' />
+      <div className='background highlight--bg' />
       <Clip
         angle={
           angle <= 180
@@ -126,7 +126,7 @@ export default React.memo(styled(Progress)`
 
   .inner {
     align-items: center;
-    background: rgba(255, 255, 255, 0.91);
+    background: rgba(245, 243, 241, 0.91);
     border-radius: 100%;
     bottom: 0.375rem;
     display: flex;

@@ -76,10 +76,10 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
         <ParachainInfo info={info} />
       </td>
       <td className='start together headhex'>{headHex}</td>
-      <td className='number pending-swap-id ui--media-small'>
+      <td className='number pending-swap-id media--800'>
         {pendingSwapId?.toString()}
       </td>
-      <td className='number ui--media-small'>
+      <td className='number media--800'>
         {info?.scheduling?.toString() || t<string>('<unknown>')}
       </td>
       <td className='button'>

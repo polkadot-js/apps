@@ -5,192 +5,105 @@
 import { css } from 'styled-components';
 
 export default css`
-  /* block by default, flex as per media queries below */
-  .ui--flex-large,
-  .ui--flex-medium,
-  .ui--flex-small {
-    display: block;
+  .media--2000 {
+    @media only screen and (max-width: 2000px) {
+      display: none !important;
+    }
   }
 
-  /* hide all by default, add as per media queries below */
-  .ui--media-large,
-  .ui--media-medium,
-  .ui--media-small {
-    height: 0;
-    visibility: hidden;
-    width: 0;
-  }
-
-  td.ui--media-large,
-  td.ui--media-medium,
-  td.ui--media-small,
-  th.ui--media-large,
-  th.ui--media-medium,
-  th.ui--media-small {
-    display: none;
-  }
-
-  .ui--media-2000 {
+  .media--1900 {
     @media only screen and (max-width: 1900px) {
       display: none !important;
     }
   }
 
-  .ui--media-1900 {
-    @media only screen and (max-width: 1900px) {
-      display: none !important;
-    }
-  }
-
-  .ui--media-1800 {
+  .media--1800 {
     @media only screen and (max-width: 1800px) {
       display: none !important;
     }
   }
 
-  .ui--media-1700 {
+  .media--1700 {
     @media only screen and (max-width: 1700px) {
       display: none !important;
     }
   }
 
-  .ui--media-1600 {
+  .media--1600 {
     @media only screen and (max-width: 1600px) {
       display: none !important;
     }
   }
 
-  .ui--media-1500 {
+  .media--1500 {
     @media only screen and (max-width: 1500px) {
       display: none !important;
     }
   }
 
-  .ui--media-1400 {
+  .media--1400 {
     @media only screen and (max-width: 1400px) {
       display: none !important;
     }
   }
 
-  .ui--media-1300 {
+  .media--1300 {
     @media only screen and (max-width: 1300px) {
       display: none !important;
     }
   }
 
-  .ui--media-1200 {
+  .media--1200 {
     @media only screen and (max-width: 1200px) {
       display: none !important;
     }
   }
 
-  .ui--media-1100 {
+  .media--1100 {
     @media only screen and (max-width: 1100px) {
       display: none !important;
     }
   }
 
-  .ui--media-1000 {
+  .media--1000 {
     @media only screen and (max-width: 1000px) {
       display: none !important;
     }
   }
 
-  .ui--media-900 {
+  .media--900 {
     @media only screen and (max-width: 900px) {
       display: none !important;
     }
   }
 
-  .ui--media-800 {
+  .media--800 {
     @media only screen and (max-width: 800px) {
       display: none !important;
     }
   }
 
-  .ui--media-700 {
+  .media--700 {
     @media only screen and (max-width: 700px) {
       display: none !important;
     }
   }
 
-  .ui--media-600 {
+  .media--600 {
     @media only screen and (max-width: 600px) {
       display: none !important;
     }
   }
 
-  .ui--media-500 {
+  .media--500 {
     @media only screen and (max-width: 500px) {
       display: none !important;
     }
   }
 
-  .ui--media-400 {
+  .media--400 {
     @media only screen and (max-width: 400px) {
       display: none !important;
-    }
-  }
-
-  @media (min-width: 1281px) {
-    .ui--flex-large {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .ui--media-large {
-      height: auto;
-      visibility: visible;
-      width: auto;
-    }
-
-    td.ui--media-large,
-    th.ui--media-large {
-      display: table-cell;
-    }
-  }
-
-  @media (min-width: 1025px) {
-    .ui--flex-medium {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .ui--media-medium {
-      height: auto;
-      visibility: visible;
-      width: auto;
-    }
-
-    td.ui--media-medium,
-    th.ui--media-medium {
-      display: table-cell;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .ui--flex-small {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .ui--media-small {
-      height: auto;
-      visibility: visible;
-      width: auto;
-
-    }
-
-    td.ui--media-small,
-    th.ui--media-small {
-      display: table-cell;
-    }
-  }
-
-  /* tabs */
-  @media (max-width: 991px) {
-    .ui--Tabs {
-      padding-left: 5.2rem;
     }
   }
 `;

@@ -20,14 +20,14 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('referenda'), 'start', 2],
-    [t('remaining'), 'ui--media-1200'],
-    [t('activate'), 'ui--media-1400'],
-    [t('turnout'), 'ui--media-1400'],
+    [t('remaining'), 'media--1200'],
+    [t('activate'), 'media--1400'],
+    [t('turnout'), 'media--1400'],
     [t('aye')],
     [t('nay')],
     [undefined, undefined, 2],
     [undefined, 'badge'],
-    [undefined, 'mini ui--media-1000']
+    [undefined, 'mini media--1000']
   ]);
 
   return (

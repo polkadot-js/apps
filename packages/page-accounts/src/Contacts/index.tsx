@@ -29,10 +29,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const headerRef = useRef([
     [t('contacts'), 'start', 2],
     [t('tags'), 'start'],
-    [t('transactions'), 'ui--media-1500'],
+    [t('transactions'), 'media--1500'],
     [t('balances')],
     [],
-    [undefined, 'mini ui--media-1400']
+    [undefined, 'mini media--1400']
   ]);
 
   useEffect((): void => {

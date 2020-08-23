@@ -35,8 +35,8 @@ interface SortState {
 }
 
 const CLASSES: Record<string, string> = {
-  rankBondOther: 'ui--media-1600',
-  rankNumNominators: 'ui--media-1200'
+  rankBondOther: 'media--1600',
+  rankNumNominators: 'media--1200'
 };
 
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
@@ -136,7 +136,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     [t('validators'), 'start', 3],
     ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
       <>{labels[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-      `${sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
+      `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
       (): void => _sort(header as 'rankComm')
     ]),

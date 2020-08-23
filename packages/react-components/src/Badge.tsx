@@ -34,7 +34,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' ui--highlight--bg' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       {info || (icon && <Icon icon={icon} />)}
