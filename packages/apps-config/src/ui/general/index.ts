@@ -10,9 +10,9 @@ const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
 const chainRocco = '#6f36dc';
-const chainRoccoTick = '#488025';
-const chainRoccoTrack = '#802548';
-const chainRoccoTrick = '#254880';
+const chainRoccoTick = '#22bb22';
+const chainRoccoTrack = '#bb2222';
+const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
 
 const nodeCentrifuge = '#fcc367';
