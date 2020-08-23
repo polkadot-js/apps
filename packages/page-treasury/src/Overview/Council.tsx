@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -14,7 +13,6 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import { useTranslation } from '../translate';
 
 interface Props {
-  councilProposals: DeriveCollectiveProposal[];
   id: ProposalIndex;
   isDisabled: boolean;
   members: string[];
@@ -25,14 +23,13 @@ interface ProposalState {
   proposalLength: number;
 }
 
-function Submission ({ councilProposals, id, isDisabled, members }: Props): React.ReactElement<Props> | null {
+function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [councilType, setCouncilType] = useState('reject');
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
-  const [hasProposals, setHasProposals] = useState(true);
 
   const threshold = Math.ceil((members?.length || 0) * getTreasuryThreshold(api));
 
@@ -42,25 +39,12 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
   ]);
 
   useEffect((): void => {
-    setHasProposals(
-      !!councilProposals
-        .map(({ votes }) => votes ? votes.index.toNumber() : -1)
-        .filter((index) => index !== -1)
-        .length
-    );
-  }, [councilProposals]);
-
-  useEffect((): void => {
     const proposal = councilType === 'reject'
       ? api.tx.treasury.rejectProposal(id)
       : api.tx.treasury.approveProposal(id);
 
     setProposal({ proposal, proposalLength: proposal.length });
   }, [api, councilType, id]);
-
-  if (hasProposals) {
-    return null;
-  }
 
   return (
     <>
@@ -127,4 +111,4 @@ function Submission ({ councilProposals, id, isDisabled, members }: Props): Reac
   );
 }
 
-export default React.memo(Submission);
+export default React.memo(Council);
