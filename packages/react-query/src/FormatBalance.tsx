@@ -75,7 +75,7 @@ export default React.memo(styled(FormatBalance)`
   }
 
   .ui--FormatBalance-unit {
-    font-size: 0.9em;
+    font-size: 0.85em;
   }
 
   .ui--FormatBalance-value {
