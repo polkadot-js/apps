@@ -6,7 +6,7 @@ import { css } from 'styled-components';
 
 export default css`
   .media--2000 {
-    @media only screen and (max-width: 1900px) {
+    @media only screen and (max-width: 2000px) {
       display: none !important;
     }
   }
