@@ -14,7 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsApi: []
     },
     group: 'developer',
-    icon: 'sync',
+    icon: 'envelope-open-text',
     name: 'extrinsics',
     text: t<string>('nav.extrinsics', 'Extrinsics', { ns: 'apps-routing' })
   };
