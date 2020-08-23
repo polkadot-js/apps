@@ -4,7 +4,7 @@
 
 import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -21,29 +21,35 @@ interface Props {
 
 type Tip = [string, OpenTip | OpenTipTo225];
 
+function extractTips (optTips?: Option<OpenTip>[], hashes?: string[] | null): Tip[] | undefined {
+  if (!hashes || !optTips) {
+    return undefined;
+  }
+
+  return optTips
+    .map((opt, index): [string, OpenTip | null] => [hashes[index], opt.unwrapOr(null)])
+    .filter((val): val is [string, OpenTip] => !!val[1])
+    .sort((a, b) =>
+      a[1].closes.isNone
+        ? b[1].closes.isNone
+          ? 0
+          : -1
+        : b[1].closes.isSome
+          ? b[1].closes.unwrap().cmp(a[1].closes.unwrap())
+          : 1
+    );
+}
+
 function Tips ({ className = '', hashes, isMember, members }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const [tips, setTips] = useState<Tip[] | undefined>();
   const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
 
-  useEffect((): void => {
-    hashes && optTips && setTips(
-      optTips
-        .map((opt, index): [string, OpenTip | null] => [hashes[index], opt.unwrapOr(null)])
-        .filter((val): val is [string, OpenTip] => !!val[1])
-        .sort((a, b) =>
-          a[1].closes.isNone
-            ? b[1].closes.isNone
-              ? 0
-              : -1
-            : b[1].closes.isSome
-              ? b[1].closes.unwrap().cmp(a[1].closes.unwrap())
-              : 1
-        )
-    );
-  }, [hashes, optTips]);
+  const tips = useMemo(
+    () => extractTips(optTips, hashes),
+    [hashes, optTips]
+  );
 
   const headerRef = useRef([
     [t('tips'), 'start'],
