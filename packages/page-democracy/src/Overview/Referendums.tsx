@@ -23,10 +23,9 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
     [t('remaining'), 'media--1200'],
     [t('activate'), 'media--1400'],
     [t('turnout'), 'media--1400'],
-    [t('aye')],
-    [t('nay')],
-    [undefined, undefined, 2],
     [undefined, 'badge'],
+    [t('votes'), 'start'],
+    [undefined, undefined, 2],
     [undefined, 'mini media--1000']
   ]);
 

@@ -84,6 +84,14 @@ export default React.memo(styled(Body)`
       border-top-width: 0;
     }
 
+    &.expand {
+      text-align: left;
+
+      .ui--Expander+.ui--Expander {
+        margin-top: 0.5rem;
+      }
+    }
+
     &.hash {
       font-family: monospace;
     }
