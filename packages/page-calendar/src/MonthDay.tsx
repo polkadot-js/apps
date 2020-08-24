@@ -22,7 +22,7 @@ function MonthDay ({ day, hasEvents, isCurrent, isDisabled, setDay }: Props): Re
 
   return (
     <div
-      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--border' : '')}`}
+      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--border highlight--hover-bg isSelected' : '')}`}
       onClick={_onClick}
     >
       {day}

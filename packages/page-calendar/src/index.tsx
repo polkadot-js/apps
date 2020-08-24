@@ -9,6 +9,7 @@ import { Tabs } from '@polkadot/react-components';
 import Day from './Day';
 import Month from './Month';
 import { useTranslation } from './translate';
+import useScheduled from './useScheduled';
 
 interface Props {
   basePath: string;
@@ -19,8 +20,9 @@ const NOW_INC = 30 * 1000;
 
 function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const scheduled = useScheduled();
   const [now, setNow] = useState(new Date());
-  const [selected, setSelected] = useState(now);
+  const [selected, setSelected] = useState(new Date());
 
   const itemsRef = useRef([{
     isRoot: true,
@@ -48,6 +50,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Day
           date={selected}
           now={now}
+          scheduled={scheduled}
         />
         <Month
           now={now}

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
@@ -38,7 +38,14 @@ function prevMonth (date: Date): Date {
     : new Date(date.getFullYear(), currMonth - 1, 1);
 }
 
-function getDateState (dateMonth: Date, dateSelected: Date): DateState {
+function getDateState (_dateMonth: Date, _dateSelected: Date): DateState {
+  const dateMonth = new Date(_dateMonth);
+
+  dateMonth.setHours(0);
+  dateMonth.setMinutes(0);
+  dateMonth.setSeconds(0);
+  dateMonth.setMilliseconds(0);
+
   const numDays = nextMonth(dateMonth, 0).getDate();
   const days: number[] = [];
 
@@ -52,7 +59,7 @@ function getDateState (dateMonth: Date, dateSelected: Date): DateState {
 
   return {
     dateMonth,
-    dateSelected,
+    dateSelected: new Date(_dateSelected),
     days,
     startClass: `start${DAYS[first.getDay()]}`
   };
@@ -77,9 +84,9 @@ function Month ({ className, now, onChange }: Props): React.ReactElement<Props> 
 
   const _setDay = useCallback(
     (day: number) => setDate(({ dateMonth }): DateState => {
-      dateMonth.setDate(day);
-
       const date = new Date(dateMonth);
+
+      date.setDate(day);
 
       return getDateState(date, date);
     }),
@@ -90,17 +97,24 @@ function Month ({ className, now, onChange }: Props): React.ReactElement<Props> 
     onChange(dateSelected);
   }, [dateSelected, onChange]);
 
+  const [isCurrYear, isCurrMonth, isNowYear, isNowMonth, isOlderMonth] = useMemo(
+    () => [
+      dateMonth.getFullYear() === dateSelected.getFullYear(),
+      dateMonth.getMonth() === dateSelected.getMonth(),
+      now.getFullYear() === dateMonth.getFullYear(),
+      now.getMonth() === dateMonth.getMonth(),
+      now.getMonth() > dateMonth.getMonth()
+    ],
+    [dateMonth, dateSelected, now]
+  );
+
   return (
     <div className={className}>
       <div className={`calendar ${startClass}`}>
         <div className='monthIndicator'>
           <Button
             icon='chevron-left'
-            isDisabled={
-              now.getFullYear() === dateMonth.getFullYear()
-                ? now.getMonth() >= dateMonth.getMonth()
-                : false
-            }
+            isDisabled={isNowYear && (isOlderMonth || isNowMonth)}
             onClick={_prevMonth}
           />
           <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
@@ -118,19 +132,9 @@ function Month ({ className, now, onChange }: Props): React.ReactElement<Props> 
           {days.map((day): React.ReactNode => (
             <MonthDay
               day={day}
-              hasEvents
-              isCurrent={
-                day === dateSelected.getDate() &&
-                dateMonth.getMonth() === dateSelected.getMonth() &&
-                dateMonth.getFullYear() === dateSelected.getFullYear()
-              }
-              isDisabled={
-                now.getFullYear() === dateMonth.getFullYear()
-                  ? now.getMonth() === dateMonth.getMonth()
-                    ? now.getDate() > day
-                    : now.getMonth() > dateMonth.getMonth()
-                  : false
-              }
+              hasEvents={false}
+              isCurrent={isCurrYear && isCurrMonth && day === dateSelected.getDate()}
+              isDisabled={isNowYear && (isOlderMonth || (isNowMonth && now.getDate() > day))}
               key={day}
               setDay={_setDay}
             />
@@ -171,7 +175,7 @@ export default React.memo(styled(Month)`
         }
 
         &:hover {
-          background: #f5f3f1;
+          background: #f7f5f3;
         }
 
         &:not(.isDisabled) {
@@ -197,6 +201,12 @@ export default React.memo(styled(Month)`
 
           .eventIndicator {
             display: none;
+          }
+        }
+
+        &.isSelected {
+          &:hover {
+            color: white;
           }
         }
       }
