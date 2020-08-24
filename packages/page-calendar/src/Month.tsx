@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { Button } from '@polkadot/react-components';
+
+import { DAYS, translateDays, translateMonths, useTranslation } from './translate';
+import MonthDay from './MonthDay';
 
 interface Props {
   className?: string;
@@ -12,12 +16,11 @@ interface Props {
 }
 
 interface DateState {
-  date: Date;
+  dateMonth: Date;
+  dateSelected: Date;
   days: number[];
   startClass: string;
 }
-
-const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
 function nextMonth (date: Date, firstDay = 1): Date {
   const currMonth = date.getMonth();
@@ -31,50 +34,106 @@ function prevMonth (date: Date): Date {
   const currMonth = date.getMonth();
 
   return currMonth === 0
-    ? new Date(date.getFullYear() - 1, 0, 1)
+    ? new Date(date.getFullYear() - 1, 11, 1)
     : new Date(date.getFullYear(), currMonth - 1, 1);
 }
 
-function getDateState (date: Date): DateState {
-  const numDays = nextMonth(date, 0).getDate();
+function getDateState (dateMonth: Date, dateSelected: Date): DateState {
+  const numDays = nextMonth(dateMonth, 0).getDate();
   const days: number[] = [];
 
   for (let i = 1; i <= numDays; i++) {
     days.push(i);
   }
 
-  const first = new Date(date.getTime());
+  const first = new Date(dateMonth.getTime());
 
   first.setDate(1);
 
   return {
-    date,
+    dateMonth,
+    dateSelected,
     days,
     startClass: `start${DAYS[first.getDay()]}`
   };
 }
 
-function Month ({ className, onChange }: Props): React.ReactElement<Props> {
-  const [{ date, days, startClass }] = useState(getDateState(new Date()));
+function Month ({ className, now, onChange }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const [{ dateMonth, dateSelected, days, startClass }, setDate] = useState(getDateState(now, now));
+
+  const dayOfWeekRef = useRef(translateDays(t));
+  const monthRef = useRef(translateMonths(t));
+
+  const _nextMonth = useCallback(
+    () => setDate(({ dateMonth, dateSelected }) => getDateState(nextMonth(dateMonth), dateSelected)),
+    []
+  );
+
+  const _prevMonth = useCallback(
+    () => setDate(({ dateMonth, dateSelected }) => getDateState(prevMonth(dateMonth), dateSelected)),
+    []
+  );
+
+  const _setDay = useCallback(
+    (day: number) => setDate(({ dateMonth }): DateState => {
+      dateMonth.setDate(day);
+
+      const date = new Date(dateMonth);
+
+      return getDateState(date, date);
+    }),
+    []
+  );
 
   useEffect((): void => {
-    onChange(date);
-  }, [date, onChange]);
+    onChange(dateSelected);
+  }, [dateSelected, onChange]);
 
   return (
     <div className={className}>
       <div className={`calendar ${startClass}`}>
         <div className='monthIndicator'>
-          <time dateTime='2020-08'>August 2020</time>
+          <Button
+            icon='chevron-left'
+            isDisabled={
+              now.getFullYear() === dateMonth.getFullYear()
+                ? now.getMonth() >= dateMonth.getMonth()
+                : false
+            }
+            onClick={_prevMonth}
+          />
+          <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
+          <Button
+            icon='chevron-right'
+            onClick={_nextMonth}
+          />
         </div>
         <div className='dayOfWeek'>
-          {DAYS.map((day): React.ReactNode => (
-            <div key={day}>{day}</div>
+          {dayOfWeekRef.current.map((day): React.ReactNode => (
+            <div key={day}>{t(day)}</div>
           ))}
         </div>
         <div className='dateGrid'>
           {days.map((day): React.ReactNode => (
-            <button key={day}>{day}</button>
+            <MonthDay
+              day={day}
+              hasEvents
+              isCurrent={
+                day === dateSelected.getDate() &&
+                dateMonth.getMonth() === dateSelected.getMonth() &&
+                dateMonth.getFullYear() === dateSelected.getFullYear()
+              }
+              isDisabled={
+                now.getFullYear() === dateMonth.getFullYear()
+                  ? now.getMonth() === dateMonth.getMonth()
+                    ? now.getDate() > day
+                    : now.getMonth() > dateMonth.getMonth()
+                  : false
+              }
+              key={day}
+              setDay={_setDay}
+            />
           ))}
         </div>
       </div>
@@ -83,12 +142,9 @@ function Month ({ className, onChange }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Month)`
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: 3em auto 0 auto;
+  flex: 0;
   max-width: max-content;
-  padding: 1.5em;
+  padding: 1rem 1.5rem;
 
   .calendar {
     .dateGrid,
@@ -100,33 +156,59 @@ export default React.memo(styled(Month)`
     .dateGrid {
       margin-top: 0.5em;
 
-      button {
+      .day {
         background-color: transparent;
-        border: 0;
+        border: 1px solid transparent;
         border-radius: 50%;
-        height: 4.5ch;
+        line-height: 1;
+        padding: 1rem;
         position: relative;
-        width: 4.5ch;
+        text-align: center;
+        z-index: 1;
 
-        &:hover,
-        &:focus {
-          outline: none;
+        &:before {
+          border-radius: 50%;
         }
 
-        &:active,
-        &.isSelected {
-          color: red;
+        &:hover {
+          background: #f5f3f1;
+        }
+
+        &:not(.isDisabled) {
+          cursor: pointer;
+        }
+
+        .eventIndicator {
+          border: 0.25rem solid transparent;
+          border-radius: 50%;
+          height: 0.25rem;
+          position: absolute;
+          right: 0.625rem;
+          top: 0.625rem;
+          width: 0.25rem;
+        }
+
+        &.isDisabled {
+          opacity: 0.5;
+
+          &:hover {
+            background: transparent;
+          }
+
+          .eventIndicator {
+            display: none;
+          }
         }
       }
     }
 
-    &.startSu .dateGrid button:first-child { grid-column: 1 }
-    &.startMo .dateGrid button:first-child { grid-column: 2 }
-    &.startTu .dateGrid button:first-child { grid-column: 3 }
-    &.startWe .dateGrid button:first-child { grid-column: 4 }
-    &.startTh .dateGrid button:first-child { grid-column: 5 }
-    &.startFr .dateGrid button:first-child { grid-column: 6 }
-    &.startSa .dateGrid button:first-child { grid-column: 7 }
+    &.startSu .dateGrid .day:first-child { grid-column: 1 }
+    &.startMo .dateGrid .day:first-child { grid-column: 2 }
+    &.startTu .dateGrid .day:first-child { grid-column: 3 }
+    &.startWe .dateGrid .day:first-child { grid-column: 4 }
+    &.startTh .dateGrid .day:first-child { grid-column: 5 }
+    &.startFr .dateGrid .day:first-child { grid-column: 6 }
+    &.startSa .dateGrid .day:first-child { grid-column: 7 }
 
     .dayOfWeek {
       margin-top: 1.25em;
@@ -141,8 +223,10 @@ export default React.memo(styled(Month)`
     }
 
     .monthIndicator {
-      font-weight: 500;
-      text-align: center;
+      align-items: center;
+      display: flex;
+      font-size: 1.25rem;
+      justify-content: space-between;
     }
   }
 `);

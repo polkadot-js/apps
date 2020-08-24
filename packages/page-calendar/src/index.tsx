@@ -44,16 +44,30 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           items={itemsRef.current}
         />
       </header>
-      <Day
-        date={selected}
-        now={now}
-      />
-      <Month
-        now={now}
-        onChange={setSelected}
-      />
+      <div className='calendarFlex'>
+        <Day
+          date={selected}
+          now={now}
+        />
+        <Month
+          now={now}
+          onChange={setSelected}
+        />
+      </div>
     </main>
   );
 }
 
-export default React.memo(styled(CalendarApp)``);
+export default React.memo(styled(CalendarApp)`
+  .calendarFlex {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: nowrap;
+
+    > div {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 0.25rem;
+    }
+  }
+`);
