@@ -142,6 +142,12 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://track-rpc.polkadot.io'
     },
     {
+      info: 'rococoAcala',
+      isChild: true,
+      text: t<string>('rpc.rococo.acala', 'Mandala PC1 (Acala Testpara, hosted by Acala)', { ns: 'apps-config' }),
+      value: 'wss://rococo-1.acala.laminar.one'
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
