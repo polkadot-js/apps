@@ -8,7 +8,7 @@ import { InputAddressMulti, InputAddress, InputNumber, Modal, TxButton } from '@
 import { sortAddresses } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
-import useKnownAddresses from '../useKnownAddresses';
+import useKnownAddresses from '../Accounts/useKnownAddresses';
 
 interface Props {
   address: string;

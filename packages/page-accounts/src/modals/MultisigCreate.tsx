@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 import { BN_ONE } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import useKnownAddresses from '../useKnownAddresses';
+import useKnownAddresses from '../Accounts/useKnownAddresses';
 
 interface Props extends ModalProps {
   className?: string;

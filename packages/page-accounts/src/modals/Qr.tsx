@@ -11,7 +11,7 @@ import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import PasswordInput from '../PasswordInput';
+import PasswordInput from '../Accounts/PasswordInput';
 import { useTranslation } from '../translate';
 
 interface Scanned {

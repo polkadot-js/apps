@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { AmountValidateState } from '../types';
+import { AmountValidateState } from '../Accounts/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';

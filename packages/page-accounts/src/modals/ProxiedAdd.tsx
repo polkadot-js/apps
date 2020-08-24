@@ -11,7 +11,7 @@ import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
-import useProxies from '../useProxies';
+import useProxies from '../Accounts/useProxies';
 
 interface Props extends ModalProps {
   className?: string;

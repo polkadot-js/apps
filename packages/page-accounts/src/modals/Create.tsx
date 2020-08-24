@@ -20,7 +20,7 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../translate';
-import PasswordInput from '../PasswordInput';
+import PasswordInput from '../Accounts/PasswordInput';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends ModalProps {
