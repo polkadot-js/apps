@@ -19,7 +19,7 @@ function Parachains ({ parachains }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const headerRef = useRef([
-    [t('parachains'), 'start', 3],
+    [t('parachains'), 'start', 2],
     [t('heads'), 'start'],
     [t('swap to id')],
     [t('scheduling')],
