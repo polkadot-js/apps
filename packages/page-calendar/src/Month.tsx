@@ -169,51 +169,6 @@ export default React.memo(styled(Month)`
 
     .dateGrid {
       margin-top: 0.5em;
-
-      .day {
-        background-color: transparent;
-        border: 1px solid transparent;
-        border-radius: 50%;
-        line-height: 1;
-        padding: 1rem;
-        position: relative;
-        text-align: center;
-        z-index: 1;
-
-        &:before {
-          border-radius: 50%;
-        }
-
-        &:not(.isDisabled) {
-          cursor: pointer;
-        }
-
-        &:not(.isSelected):hover {
-          background: #f7f5f3;
-        }
-
-        .eventIndicator {
-          border: 0.25rem solid transparent;
-          border-radius: 50%;
-          height: 0.25rem;
-          position: absolute;
-          right: 0.625rem;
-          top: 0.625rem;
-          width: 0.25rem;
-        }
-
-        &.isDisabled {
-          opacity: 0.5;
-
-          &:hover {
-            background: transparent;
-          }
-
-          .eventIndicator {
-            display: none;
-          }
-        }
-      }
     }
 
     &.startSun .dateGrid .day:first-child { grid-column: 1 }

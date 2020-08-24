@@ -5,10 +5,12 @@
 import { EntryInfo } from './types';
 
 import React, { useMemo } from 'react';
+import styled from 'styled-components';
 
 import DayItem from './DayItem';
 
 interface Props {
+  className?: string;
   date: Date;
   hour: number;
   minutes: number;
@@ -18,7 +20,7 @@ interface Props {
 
 const HR_TO_MS = 60 * 60 * 1000;
 
-function DayHour ({ date, hour, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
+function DayHour ({ className, date, hour, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
   const filtered = useMemo(
     (): EntryInfo[] => {
       const start = date.getTime() + ((hour + offset) * HR_TO_MS);
@@ -37,7 +39,7 @@ function DayHour ({ date, hour, minutes, offset, scheduled }: Props): React.Reac
   const hourStr = `${` ${hour}`.slice(-2)} ${hour >= 12 ? 'pm' : 'am'}`;
 
   return (
-    <div className='hour'>
+    <div className={className}>
       <div className='hourLabel'>{hourStr}</div>
       <div className='hourContainer'>
         {filtered.map((item, index): React.ReactNode => (
@@ -57,4 +59,47 @@ function DayHour ({ date, hour, minutes, offset, scheduled }: Props): React.Reac
   );
 }
 
-export default React.memo(DayHour);
+export default React.memo(styled(DayHour)`
+  align-items: center;
+  display: flex;
+  position: relative;
+  z-index: 2;
+
+  &:nth-child(even) {
+    background: #faf8f6;
+  }
+
+  &:nth-child(odd) {
+    background: white;
+  }
+
+  &.isPast {
+    opacity: 0.75;
+  }
+
+  .hourContainer {
+    flex: 1;
+  }
+
+  .hourLabel {
+    flex: 0;
+    font-size: 0.9rem;
+    font-weight: 100;
+    line-height: 1;
+    min-width: 5.5rem;
+    opacity: 0.75;
+    padding: 0.5rem 1rem;
+    text-align: right;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+
+  .hourMinutes {
+    border: 1px solid transparent;
+    left: 0;
+    opacity: 0.25;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+  }
+`);

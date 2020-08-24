@@ -5,17 +5,22 @@
 import { EntryInfo } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 
 interface Props {
+  className?: string;
   item: EntryInfo;
 }
 
-function DayItem ({ item: { date, type } }: Props): React.ReactElement<Props> {
+function DayItem ({ className, item: { date, type } }: Props): React.ReactElement<Props> {
   return (
-    <div className='hourDayItem'>
+    <div className={className}>
       {date.toLocaleTimeString().split(':').slice(0, 2).join(':')} {type}
     </div>
   );
 }
 
-export default React.memo(DayItem);
+export default React.memo(styled(DayItem)`
+  line-height: 1;
+  margin: 0.5rem 0.75rem;
+`);

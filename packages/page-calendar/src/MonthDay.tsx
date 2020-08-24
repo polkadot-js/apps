@@ -5,8 +5,10 @@
 import { EntryInfo } from './types';
 
 import React, { useCallback, useMemo } from 'react';
+import styled from 'styled-components';
 
 interface Props {
+  className?: string;
   dateMonth: Date;
   day: number;
   isCurrent: boolean;
@@ -17,7 +19,7 @@ interface Props {
 
 const DAY_TO_MS = 24 * 60 * 60 * 1000;
 
-function MonthDay ({ dateMonth, day, isCurrent, isDisabled, scheduled, setDay }: Props): React.ReactElement<Props> {
+function MonthDay ({ className = '', dateMonth, day, isCurrent, isDisabled, scheduled, setDay }: Props): React.ReactElement<Props> {
   const hasEvents = useMemo(
     (): boolean => {
       const start = dateMonth.getTime() + ((day - 1) * DAY_TO_MS);
@@ -37,7 +39,7 @@ function MonthDay ({ dateMonth, day, isCurrent, isDisabled, scheduled, setDay }:
 
   return (
     <div
-      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--color isSelected' : '')}`}
+      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--color isSelected' : '')} ${className}`}
       onClick={_onClick}
     >
       {day}
@@ -46,4 +48,47 @@ function MonthDay ({ dateMonth, day, isCurrent, isDisabled, scheduled, setDay }:
   );
 }
 
-export default React.memo(MonthDay);
+export default React.memo(styled(MonthDay)`
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  line-height: 1;
+  padding: 1rem;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+
+  &:before {
+    border-radius: 50%;
+  }
+
+  &:not(.isDisabled) {
+    cursor: pointer;
+  }
+
+  &:not(.isSelected):hover {
+    background: #f7f5f3;
+  }
+
+  .eventIndicator {
+    border: 0.25rem solid transparent;
+    border-radius: 50%;
+    height: 0.25rem;
+    position: absolute;
+    right: 0.625rem;
+    top: 0.625rem;
+    width: 0.25rem;
+  }
+
+  &.isDisabled {
+    opacity: 0.5;
+
+    &:hover {
+      background: transparent;
+    }
+
+    .eventIndicator {
+      display: none;
+    }
+  }
+`);

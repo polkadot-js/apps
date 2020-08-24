@@ -60,56 +60,6 @@ export default React.memo(styled(Day)`
   margin-right: 1rem;
 
   .hour {
-    align-items: flex-start;
-    display: flex;
-    position: relative;
-    z-index: 2;
 
-    &:nth-child(even) {
-      background: #faf8f6;
-    }
-
-    &:nth-child(odd) {
-      background: white;
-    }
-
-    &.isPast {
-      opacity: 0.75;
-    }
-
-    .hourContainer {
-      flex: 1;
-      margin: 0.5rem;
-
-      .hourDayItem {
-        padding: 0.5rem 0.75rem;
-
-        &+.hourDayItem {
-          margin-top: 0.5rem;
-        }
-      }
-    }
-
-    .hourLabel {
-      flex: 0;
-      font-size: 0.9rem;
-      font-weight: 100;
-      line-height: 1;
-      min-width: 5.5rem;
-      opacity: 0.75;
-      padding: 0.5rem 1rem;
-      text-align: right;
-      text-transform: uppercase;
-      z-index: 1;
-    }
-
-    .hourMinutes {
-      border: 1px solid transparent;
-      left: 0;
-      opacity: 0.25;
-      position: absolute;
-      right: 0;
-      z-index: 0;
-    }
   }
 `);
