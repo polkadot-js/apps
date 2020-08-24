@@ -11,11 +11,24 @@ interface Props {
 
 const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
+function nextMonth (date: Date, firstDay = 1): Date {
+  const currMonth = date.getMonth();
+
+  return currMonth === 11
+    ? new Date(date.getFullYear() + 1, 0, firstDay)
+    : new Date(date.getFullYear(), currMonth + 1, firstDay);
+}
+
+function prevMonth (date: Date): Date {
+  const currMonth = date.getMonth();
+
+  return currMonth === 0
+    ? new Date(date.getFullYear() - 1, 0, 1)
+    : new Date(date.getFullYear(), currMonth - 1, 1);
+}
+
 function calcDateInfo (date: Date): [string, number[]] {
-  const nextMonth = date.getMonth();
-  const numDays = nextMonth === 11
-    ? new Date(date.getFullYear() + 1, 0, 0).getDate()
-    : new Date(date.getFullYear(), nextMonth + 1, 0).getDate();
+  const numDays = nextMonth(date, 0).getDate();
   const days: number[] = [];
 
   for (let i = 1; i <= numDays; i++) {
