@@ -129,8 +129,8 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           params={[recipientId, amount]}
           tx={
             isProtected && api.tx.balances.transferKeepAlive
-              ? 'balances.transfer'
-              : 'balances.transferKeepAlive'
+              ? 'balances.transferKeepAlive'
+              : 'balances.transfer'
           }
         />
       </Modal.Actions>
