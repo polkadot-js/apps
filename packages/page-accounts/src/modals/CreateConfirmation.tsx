@@ -5,7 +5,7 @@
 import React from 'react';
 import { AddressRow, Button, Modal } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   address: string;

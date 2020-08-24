@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { InputAddressMulti, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { sortAddresses } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 import useKnownAddresses from '../useKnownAddresses';
 
 interface Props {

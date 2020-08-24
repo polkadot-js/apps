@@ -11,7 +11,7 @@ import { BalanceFree } from '@polkadot/react-query';
 import { Conviction } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props {

@@ -10,7 +10,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
