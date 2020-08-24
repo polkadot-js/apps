@@ -24,6 +24,7 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeKulupu from './nodes/kulupu.svg';
+import nodeLaminar from './nodes/laminar-circle.svg';
 
 // extensions
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -78,6 +79,7 @@ const namedLogos: Record<string, any> = {
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
+  laminar: nodeLaminar,
   nodle: nodeNodle,
   polkadot: nodePolkadot,
   rococo: chainRococo,

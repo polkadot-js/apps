@@ -1962,6 +1962,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@laminar/type-definitions@npm:^0.2.0-beta.134":
+  version: 0.2.0-beta.138
+  resolution: "@laminar/type-definitions@npm:0.2.0-beta.138"
+  dependencies:
+    "@open-web3/orml-type-definitions": ^0.6.0-beta.1
+  checksum: 8bb57cf0358847b1976e8f617bc35c7d4c46809578b0269373e2df2fc23698438d5d10caba603b9fc8f600f7291b9ebb4e505b4513e9edeeda796d477280a48b
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/devices@npm:^5.22.0":
   version: 5.22.0
   resolution: "@ledgerhq/devices@npm:5.22.0"
@@ -3035,6 +3044,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@open-web3/orml-type-definitions@npm:^0.6.0-beta.1":
+  version: 0.6.0-beta.5
+  resolution: "@open-web3/orml-type-definitions@npm:0.6.0-beta.5"
+  checksum: a2075feaa1863372f1fbb79112278131b38aa13ddf36c609d84bf7b34ec7d37a942c53b6febd6ea0a2aa4688fe4e84e94f3bcd3204d8a2f9f0a875237ae77c68
+  languageName: node
+  linkType: hard
+
 "@pinata/sdk@npm:^1.1.11":
   version: 1.1.11
   resolution: "@pinata/sdk@npm:1.1.11"
@@ -3332,6 +3348,7 @@ __metadata:
     "@acala-network/type-definitions": 0.3.1
     "@babel/runtime": ^7.11.2
     "@edgeware/node-types": ^2.4.1
+    "@laminar/type-definitions": ^0.2.0-beta.134
   languageName: unknown
   linkType: soft
 
