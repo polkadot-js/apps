@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../../types';
+import { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
@@ -11,8 +11,8 @@ import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import PasswordInput from '../PasswordInput';
-import { useTranslation } from '../../translate';
+import PasswordInput from '../Accounts/PasswordInput';
+import { useTranslation } from '../translate';
 
 interface Scanned {
   content: string;

@@ -5,7 +5,7 @@
 import React from 'react';
 import { InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   accountDelegating: string | null;

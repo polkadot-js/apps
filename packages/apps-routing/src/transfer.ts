@@ -4,7 +4,7 @@
 
 import { Route } from './types';
 
-import Modal from '@polkadot/app-accounts/Accounts/modals/Transfer';
+import Modal from '@polkadot/app-accounts/modals/Transfer';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {

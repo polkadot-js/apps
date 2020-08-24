@@ -12,7 +12,7 @@ import { registry } from '@polkadot/react-api';
 import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 import styled from 'styled-components';
 
 type PrevProxy = [AccountId, ProxyType];

@@ -11,7 +11,7 @@ import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { Data, Option, Vec } from '@polkadot/types';
 import { u8aToString } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   address: string;

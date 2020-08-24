@@ -4,14 +4,14 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps as Props } from '../../types';
+import { ModalProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface AddrState {
   address: string;

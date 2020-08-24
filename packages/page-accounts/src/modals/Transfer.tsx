@@ -5,12 +5,12 @@
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
@@ -24,6 +24,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const { api } = useApi();
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [hasAvailable] = useState(true);
+  const [isProtected, setIsProtected] = useState(true);
   const [maxBalance] = useState(BN_ZERO);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
@@ -98,9 +99,22 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 isDisabled
                 label={t<string>('existential deposit')}
               />
+              {api.tx.balances.transferKeepAlive && (
+                <Toggle
+                  className='aliveToggle'
+                  label={
+                    isProtected
+                      ? t<string>('Transfer with account keep-alive checks')
+                      : t<string>('Normal transfer without keep-alive checks')
+                  }
+                  onChange={setIsProtected}
+                  value={isProtected}
+                />
+              )}
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}</p>
+              <p>{t('With the keep-alive option set, the account is protected against removal due to low balances.')}</p>
             </Modal.Column>
           </Modal.Columns>
         </div>
@@ -113,7 +127,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           label={t<string>('Make Transfer')}
           onStart={onClose}
           params={[recipientId, amount]}
-          tx='balances.transfer'
+          tx={
+            isProtected && api.tx.balances.transferKeepAlive
+              ? 'balances.transferKeepAlive'
+              : 'balances.transfer'
+          }
         />
       </Modal.Actions>
     </Modal>
@@ -133,5 +151,9 @@ export default React.memo(styled(Transfer)`
 
   label.with-help {
     flex-basis: 10rem;
+  }
+
+  .aliveToggle {
+    text-align: right;
   }
 `);
