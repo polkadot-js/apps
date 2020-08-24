@@ -2,11 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface Props {
   className?: string;
+  now: Date;
+  onChange: (date: Date) => void;
+}
+
+interface DateState {
+  date: Date;
+  days: number[];
+  startClass: string;
 }
 
 const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -27,7 +35,7 @@ function prevMonth (date: Date): Date {
     : new Date(date.getFullYear(), currMonth - 1, 1);
 }
 
-function calcDateInfo (date: Date): [string, number[]] {
+function getDateState (date: Date): DateState {
   const numDays = nextMonth(date, 0).getDate();
   const days: number[] = [];
 
@@ -39,11 +47,19 @@ function calcDateInfo (date: Date): [string, number[]] {
 
   first.setDate(1);
 
-  return [`start${DAYS[first.getDay()]}`, days];
+  return {
+    date,
+    days,
+    startClass: `start${DAYS[first.getDay()]}`
+  };
 }
 
-function Month ({ className }: Props): React.ReactElement<Props> {
-  const [[startClass, days]] = useState(calcDateInfo(new Date()));
+function Month ({ className, onChange }: Props): React.ReactElement<Props> {
+  const [{ date, days, startClass }] = useState(getDateState(new Date()));
+
+  useEffect((): void => {
+    onChange(date);
+  }, [date, onChange]);
 
   return (
     <div className={className}>
@@ -52,13 +68,9 @@ function Month ({ className }: Props): React.ReactElement<Props> {
           <time dateTime='2020-08'>August 2020</time>
         </div>
         <div className='dayOfWeek'>
-          <div>Su</div>
-          <div>Mo</div>
-          <div>Tu</div>
-          <div>We</div>
-          <div>Th</div>
-          <div>Fr</div>
-          <div>Sa</div>
+          {DAYS.map((day): React.ReactNode => (
+            <div key={day}>{day}</div>
+          ))}
         </div>
         <div className='dateGrid'>
           {days.map((day): React.ReactNode => (

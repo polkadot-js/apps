@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
-
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { Tabs } from '@polkadot/react-components';
 
+import Day from './Day';
 import Month from './Month';
 import { useTranslation } from './translate';
 
@@ -16,12 +15,43 @@ interface Props {
   className?: string;
 }
 
+const NOW_INC = 30 * 1000;
+
 function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [now, setNow] = useState(new Date());
+  const [selected, setSelected] = useState(now);
+
+  const itemsRef = useRef([{
+    isRoot: true,
+    name: 'view',
+    text: t<string>('Upcoming events')
+  }]);
+
+  useEffect((): () => void => {
+    const intervalId = setInterval(() => setNow(new Date()), NOW_INC);
+
+    return (): void => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
-    <main>
-      <Month />
+    <main className={className}>
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={itemsRef.current}
+        />
+      </header>
+      <Day
+        date={selected}
+        now={now}
+      />
+      <Month
+        now={now}
+        onChange={setSelected}
+      />
     </main>
   );
 }
