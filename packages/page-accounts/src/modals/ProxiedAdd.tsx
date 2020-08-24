@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../../types';
+import { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import { useTranslation } from '../../translate';
-import useProxies from '../useProxies';
+import { useTranslation } from '../translate';
+import useProxies from '../Accounts/useProxies';
 
 interface Props extends ModalProps {
   className?: string;

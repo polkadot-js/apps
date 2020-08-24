@@ -8,7 +8,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Transfer from '@polkadot/app-accounts/Accounts/modals/Transfer';
+import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';

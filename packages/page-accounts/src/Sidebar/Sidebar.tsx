@@ -8,7 +8,7 @@ import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 import { colorLink } from '@polkadot/react-components/styles/theme';
 import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Sidebar, Tags } from '@polkadot/react-components';
 
-import Transfer from '../Accounts/modals/Transfer';
+import Transfer from '../modals/Transfer';
 import { useTranslation } from '../translate';
 import Balances from './Balances';
 import Flags from './Flags';

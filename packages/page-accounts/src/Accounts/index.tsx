@@ -17,11 +17,11 @@ import { Button, Input, Table } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import CreateModal from './modals/Create';
-import ImportModal from './modals/Import';
-import Multisig from './modals/MultisigCreate';
-import Proxy from './modals/ProxiedAdd';
-import Qr from './modals/Qr';
+import CreateModal from '../modals/Create';
+import ImportModal from '../modals/Import';
+import Multisig from '../modals/MultisigCreate';
+import Proxy from '../modals/ProxiedAdd';
+import Qr from '../modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerDOT from './BannerDOT';

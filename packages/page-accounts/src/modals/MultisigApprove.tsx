@@ -12,7 +12,7 @@ import { Dropdown, InputAddress, Modal, Toggle, TxButton, Input } from '@polkado
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';
 import { assert, isHex } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 
 interface Props {
   address: string;

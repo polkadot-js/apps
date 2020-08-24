@@ -206,7 +206,7 @@ function Status ({ className = '' }: Props): React.ReactElement<Props> | null {
 export default React.memo(styled(Status)`
   display: inline-block;
   position: fixed;
-  right: 0.375rem;
+  right: 0.75rem;
   top: 0.75rem;
   width: 23rem;
   z-index: 1001;

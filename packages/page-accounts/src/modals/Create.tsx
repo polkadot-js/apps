@@ -5,7 +5,7 @@
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { CreateResult } from '@polkadot/ui-keyring/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { ModalProps } from '../../types';
+import { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -19,8 +19,8 @@ import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
 import { getEnvironment } from '@polkadot/react-api/util';
 
-import { useTranslation } from '../../translate';
-import PasswordInput from '../PasswordInput';
+import { useTranslation } from '../translate';
+import PasswordInput from '../Accounts/PasswordInput';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props extends ModalProps {

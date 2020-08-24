@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AmountValidateState } from '../types';
+import { AmountValidateState } from '../Accounts/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
@@ -11,7 +11,7 @@ import { BalanceFree } from '@polkadot/react-query';
 import { Conviction } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../../translate';
+import { useTranslation } from '../translate';
 import ValidateAmount from './InputValidateAmount';
 
 interface Props {

@@ -10,7 +10,7 @@ import { Button, Input, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import CreateModal from './modals/Create';
+import CreateModal from '../modals/Create';
 import Address from './Address';
 
 type SortedAddress = { address: string; isFavorite: boolean };
