@@ -724,6 +724,7 @@
   "Warning: we did not find any attest statement for {{chain}}": "",
   "We will provide you with a generated backup file after your account is created. As long as you have access to your account you can always download this file later by clicking on \"Backup\" button from the Accounts section.": "",
   "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.": "",
+  "With the keep-alive option set, the account is protected against removal due to low balances.": "",
   "Withdraw these unbonded funds": "",
   "Yes": "",
   "You are about to remove this account from your list of available accounts. Once completed, should you need to access it again, you will have to re-create the account either via seed or via a backup file.": "",
