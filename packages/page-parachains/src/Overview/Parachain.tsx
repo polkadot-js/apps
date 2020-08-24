@@ -13,7 +13,6 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import ParachainInfo from '../ParachainInfo';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -26,7 +25,7 @@ const transformHead = {
     if (headData.isSome) {
       const hex = headData.unwrap().toHex();
 
-      return `${hex.slice(0, 10)}…${hex.slice(-8)}`;
+      return `${hex.slice(0, 18)}…${hex.slice(-16)}`;
     }
 
     return null;
@@ -72,10 +71,7 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
           />
         </div>
       </td>
-      <td className='all info'>
-        <ParachainInfo info={info} />
-      </td>
-      <td className='start together headhex'>{headHex}</td>
+      <td className='all start together headhex'>{headHex}</td>
       <td className='number pending-swap-id media--800'>
         {pendingSwapId?.toString()}
       </td>
