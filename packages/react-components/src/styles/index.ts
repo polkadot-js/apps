@@ -220,7 +220,12 @@ export default createGlobalStyle<Props>`
     }
 
     &.nomargin {
-      margin-left: 0;
+      margin: 0.5rem auto;
+      max-width: 75rem;
+
+      &+.ui--Button-Group {
+        margin-top: 2rem;
+      }
     }
 
     &.error {
