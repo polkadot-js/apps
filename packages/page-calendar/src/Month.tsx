@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EntryInfo } from './types';
+
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
@@ -13,6 +15,7 @@ interface Props {
   className?: string;
   now: Date;
   onChange: (date: Date) => void;
+  scheduled: EntryInfo[];
 }
 
 interface DateState {
@@ -20,6 +23,17 @@ interface DateState {
   dateSelected: Date;
   days: number[];
   startClass: string;
+}
+
+function newZeroDate (input: Date): Date {
+  const date = new Date(input);
+
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+
+  return date;
 }
 
 function nextMonth (date: Date, firstDay = 1): Date {
@@ -39,12 +53,10 @@ function prevMonth (date: Date): Date {
 }
 
 function getDateState (_dateMonth: Date, _dateSelected: Date): DateState {
-  const dateMonth = new Date(_dateMonth);
+  const dateMonth = newZeroDate(_dateMonth);
+  const dateSelected = newZeroDate(_dateSelected);
 
-  dateMonth.setHours(0);
-  dateMonth.setMinutes(0);
-  dateMonth.setSeconds(0);
-  dateMonth.setMilliseconds(0);
+  dateMonth.setDate(1);
 
   const numDays = nextMonth(dateMonth, 0).getDate();
   const days: number[] = [];
@@ -53,19 +65,15 @@ function getDateState (_dateMonth: Date, _dateSelected: Date): DateState {
     days.push(i);
   }
 
-  const first = new Date(dateMonth.getTime());
-
-  first.setDate(1);
-
   return {
     dateMonth,
-    dateSelected: new Date(_dateSelected),
+    dateSelected,
     days,
-    startClass: `start${DAYS[first.getDay()]}`
+    startClass: `start${DAYS[dateMonth.getDay()]}`
   };
 }
 
-function Month ({ className, now, onChange }: Props): React.ReactElement<Props> {
+function Month ({ className, now, onChange, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ dateMonth, dateSelected, days, startClass }, setDate] = useState(getDateState(now, now));
 
@@ -131,11 +139,12 @@ function Month ({ className, now, onChange }: Props): React.ReactElement<Props> 
         <div className='dateGrid'>
           {days.map((day): React.ReactNode => (
             <MonthDay
+              dateMonth={dateMonth}
               day={day}
-              hasEvents={false}
               isCurrent={isCurrYear && isCurrMonth && day === dateSelected.getDate()}
               isDisabled={isNowYear && (isOlderMonth || (isNowMonth && now.getDate() > day))}
               key={day}
+              scheduled={scheduled}
               setDay={_setDay}
             />
           ))}

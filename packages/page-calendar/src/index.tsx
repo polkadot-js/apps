@@ -55,6 +55,7 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
         <Month
           now={now}
           onChange={setSelected}
+          scheduled={scheduled}
         />
       </div>
     </main>

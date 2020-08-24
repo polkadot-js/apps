@@ -4,10 +4,12 @@
 
 import BN from 'bn.js';
 
-export type EntryType = 'nextEra';
+export type EntryType = 'nextEra' | 'scheduler';
 
 export interface EntryInfo {
   blockNumber: BN;
   date: Date;
+  dateTime: number;
+  id: string;
   type: EntryType;
 }
