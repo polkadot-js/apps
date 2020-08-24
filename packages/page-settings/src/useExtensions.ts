@@ -160,9 +160,9 @@ export default function useExtensions (): Extensions {
   }, [api, extensions, trigger]);
 
   useEffect((): void => {
-    isApiReady && !isDevelopment && all && setState(
-      filterAll(api, all)
-    );
+    isDevelopment
+      ? setState({ count: 0, extensions: [] })
+      : isApiReady && all && setState(filterAll(api, all));
   }, [all, api, isApiReady, isDevelopment]);
 
   return state;

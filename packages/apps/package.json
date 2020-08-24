@@ -13,7 +13,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/core": "^7.11.1",
+    "@babel/core": "^7.11.4",
     "@babel/polyfill": "^7.10.4",
     "@babel/runtime": "^7.11.2",
     "@polkadot/dev": "^0.55.39",
