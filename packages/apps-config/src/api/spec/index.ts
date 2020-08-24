@@ -11,6 +11,7 @@ import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kilt from './kilt';
 import kulupu from './kulupu';
+import laminar from './laminar';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import stablePoc from './stable-poc';
@@ -25,6 +26,7 @@ export default {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   kulupu,
+  laminar,
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
