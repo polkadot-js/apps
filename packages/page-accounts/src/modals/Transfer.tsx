@@ -114,7 +114,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('If the recipient account is new, the balance needs to be more than the existential deposit. Likewise if the sending account balance drops below the same value, the account will be removed from the state.')}</p>
-              <p>{t('With the keep-alive option set, the account is protected against dropping below ED resulting in account removal.')}</p>
+              <p>{t('With the keep-alive option set, the account is protected against removal due to low balances.')}</p>
             </Modal.Column>
           </Modal.Columns>
         </div>
