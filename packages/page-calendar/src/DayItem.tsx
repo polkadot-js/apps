@@ -13,7 +13,7 @@ interface Props {
 function DayItem ({ item: { date, type } }: Props): React.ReactElement<Props> {
   return (
     <div className='hourDayItem'>
-      {date.toTimeString()} {type}
+      {date.toLocaleTimeString().split(':').slice(0, 2).join(':')} {type}
     </div>
   );
 }

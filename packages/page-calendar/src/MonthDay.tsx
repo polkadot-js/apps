@@ -37,7 +37,7 @@ function MonthDay ({ dateMonth, day, isCurrent, isDisabled, scheduled, setDay }:
 
   return (
     <div
-      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--border highlight--hover-bg isSelected' : '')}`}
+      className={`day${isDisabled ? ' isDisabled' : (isCurrent ? ' highlight--bg-light highlight--color isSelected' : '')}`}
       onClick={_onClick}
     >
       {day}

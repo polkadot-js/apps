@@ -8,7 +8,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
-import { DAYS, translateDays, translateMonths, useTranslation } from './translate';
+import { DAYS, MONTHS } from './constants';
+import { useTranslation } from './translate';
 import MonthDay from './MonthDay';
 
 interface Props {
@@ -77,8 +78,8 @@ function Month ({ className, now, onChange, scheduled }: Props): React.ReactElem
   const { t } = useTranslation();
   const [{ dateMonth, dateSelected, days, startClass }, setDate] = useState(getDateState(now, now));
 
-  const dayOfWeekRef = useRef(translateDays(t));
-  const monthRef = useRef(translateMonths(t));
+  const dayOfWeekRef = useRef(DAYS.map((d) => t(d)));
+  const monthRef = useRef(MONTHS.map((m) => t(m)));
 
   const _nextMonth = useCallback(
     () => setDate(({ dateMonth, dateSelected }) => getDateState(nextMonth(dateMonth), dateSelected)),
@@ -183,12 +184,12 @@ export default React.memo(styled(Month)`
           border-radius: 50%;
         }
 
-        &:hover {
-          background: #f7f5f3;
-        }
-
         &:not(.isDisabled) {
           cursor: pointer;
+        }
+
+        &:not(.isSelected):hover {
+          background: #f7f5f3;
         }
 
         .eventIndicator {
@@ -212,22 +213,16 @@ export default React.memo(styled(Month)`
             display: none;
           }
         }
-
-        &.isSelected {
-          &:hover {
-            color: white;
-          }
-        }
       }
     }
 
-    &.startSu .dateGrid .day:first-child { grid-column: 1 }
-    &.startMo .dateGrid .day:first-child { grid-column: 2 }
-    &.startTu .dateGrid .day:first-child { grid-column: 3 }
-    &.startWe .dateGrid .day:first-child { grid-column: 4 }
-    &.startTh .dateGrid .day:first-child { grid-column: 5 }
-    &.startFr .dateGrid .day:first-child { grid-column: 6 }
-    &.startSa .dateGrid .day:first-child { grid-column: 7 }
+    &.startSun .dateGrid .day:first-child { grid-column: 1 }
+    &.startMon .dateGrid .day:first-child { grid-column: 2 }
+    &.startTue .dateGrid .day:first-child { grid-column: 3 }
+    &.startWed .dateGrid .day:first-child { grid-column: 4 }
+    &.startThu .dateGrid .day:first-child { grid-column: 5 }
+    &.startFri .dateGrid .day:first-child { grid-column: 6 }
+    &.startSat .dateGrid .day:first-child { grid-column: 7 }
 
     .dayOfWeek {
       margin-top: 1.25em;

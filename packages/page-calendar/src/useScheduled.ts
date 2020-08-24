@@ -90,7 +90,5 @@ export default function useScheduled (): EntryInfo[] {
     );
   }, [bestNumber, blockTime, sessionInfo]);
 
-  console.error(state);
-
   return state;
 }

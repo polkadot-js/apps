@@ -47,6 +47,7 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
           hour={(hour + offset) % 24}
           key={(hour + offset) % 24}
           minutes={(!isToday || index) ? -1 : now.getMinutes()}
+          offset={offset ? (offset + 1) : 0}
           scheduled={scheduled}
         />
       )}
@@ -77,7 +78,8 @@ export default React.memo(styled(Day)`
     }
 
     .hourContainer {
-      padding: 0.5rem;
+      flex: 1;
+      margin: 0.5rem;
 
       .hourDayItem {
         padding: 0.5rem 0.75rem;

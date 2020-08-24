@@ -12,20 +12,21 @@ interface Props {
   date: Date;
   hour: number;
   minutes: number;
+  offset: number;
   scheduled: EntryInfo[];
 }
 
 const HR_TO_MS = 60 * 60 * 1000;
 
-function DayHour ({ date, hour, minutes, scheduled }: Props): React.ReactElement<Props> | null {
+function DayHour ({ date, hour, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
   const filtered = useMemo(
     (): EntryInfo[] => {
-      const start = date.getTime() + ((hour + 1) * HR_TO_MS);
+      const start = date.getTime() + ((hour + offset) * HR_TO_MS);
       const end = start + HR_TO_MS;
 
       return scheduled.filter(({ dateTime }) => dateTime >= start && dateTime < end);
     },
-    [date, hour, scheduled]
+    [date, hour, offset, scheduled]
   );
 
   const style = useMemo(
