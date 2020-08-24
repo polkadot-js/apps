@@ -13,7 +13,7 @@ interface Props {
 
 function Banner ({ children, className = '', type }: Props): React.ReactElement<Props> | null {
   return (
-    <article className={`${className} ${type}`}>
+    <article className={`${className} ${type} nomargin`}>
       <div className='box'>
         {children}
       </div>
@@ -22,13 +22,6 @@ function Banner ({ children, className = '', type }: Props): React.ReactElement<
 }
 
 export default React.memo(styled(Banner)`
-  max-width: 75rem;
-  margin: 0.5rem auto !important;
-
-  &+.ui--Button-Group {
-    margin-top: 2rem;
-  }
-
   .box {
     padding: 0 0.5rem;
   }
