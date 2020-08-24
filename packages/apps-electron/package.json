@@ -4,12 +4,12 @@
   "private": true,
   "version": "0.55.0-beta.56",
   "dependencies": {
-    "@babel/core": "^7.11.1",
+    "@babel/core": "^7.11.4",
     "@babel/polyfill": "^7.10.4",
     "@polkadot/dev": "^0.55.39",
     "@polkadot/react-components": "0.55.0-beta.56",
     "electron-log": "^4.2.4",
-    "electron-updater": "^4.3.4"
+    "electron-updater": "^4.3.5"
   },
   "devDependencies": {
     "@types/react": "^16.9.46",
