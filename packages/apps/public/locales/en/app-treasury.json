@@ -65,6 +65,7 @@
   "fee": "fee",
   "finder": "finder",
   "minimum bond": "minimum bond",
+  "next burn": "next burn",
   "payment": "payment",
   "proposal bond": "proposal bond",
   "proposal hash": "proposal hash",
