@@ -116,14 +116,6 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
         />
       </header>
       <div className='calendarFlex'>
-        <Day
-          date={dateState.dateSelected}
-          hasNextDay={hasNextDay}
-          now={now}
-          scheduled={scheduled}
-          setNextDay={_nextDay}
-          setPrevDay={_prevDay}
-        />
         <Month
           hasNextMonth={hasNextMonth}
           lastDay={lastDay}
@@ -133,6 +125,14 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           setNextMonth={_nextMonth}
           setPrevMonth={_prevMonth}
           state={dateState}
+        />
+        <Day
+          date={dateState.dateSelected}
+          hasNextDay={hasNextDay}
+          now={now}
+          scheduled={scheduled}
+          setNextDay={_nextDay}
+          setPrevDay={_prevDay}
         />
       </div>
     </main>
@@ -146,9 +146,30 @@ export default React.memo(styled(CalendarApp)`
     flex-wrap: nowrap;
 
     > div {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 0.25rem;
+      &+div {
+        margin-left: 1.5rem;
+      }
+
+      > div {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+      }
+
+      .ui--Button-Group {
+        margin-top: 0;
+      }
+    }
+
+    h1 {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0 0 1rem;
+
+      .ui--Button {
+        font-size: 1rem;
+      }
     }
   }
 `);
