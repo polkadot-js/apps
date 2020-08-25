@@ -44,10 +44,6 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
     [date, now]
   );
 
-  const offset = isToday
-    ? nowOffset
-    : 0;
-
   return (
     <div className={className}>
       <div className='dayHeader'>
@@ -67,11 +63,10 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
         {HOURS.map((hour, index): React.ReactNode =>
           <DayHour
             date={date}
-            hour={(hour + offset) % 24}
+            hour={hour}
             index={index}
-            key={(hour + offset) % 24}
-            minutes={(!isToday || index) ? 0 : now.getMinutes()}
-            offset={offset}
+            key={hour}
+            minutes={(isToday && nowOffset === index) ? now.getMinutes() : 0}
             scheduled={scheduled}
           />
         )}
