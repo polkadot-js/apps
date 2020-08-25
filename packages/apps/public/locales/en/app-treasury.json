@@ -4,6 +4,7 @@
   "Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.": "Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.",
   "Approved": "Approved",
   "As a council member, you can suggest an initial value for the tip, each other council member can suggest their own.": "As a council member, you can suggest an initial value for the tip, each other council member can suggest their own.",
+  "Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.": "Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.",
   "Cancel": "Cancel",
   "Close": "Close",
   "Close tip": "Close tip",
