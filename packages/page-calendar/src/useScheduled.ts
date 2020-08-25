@@ -46,8 +46,8 @@ function createConstDurations (bestNumber: BlockNumber, blockTime: number, items
 }
 
 function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motions: DeriveCollectiveProposal[]): [EntryType, EntryInfo[]][] {
-  return motions
-    .map(({ hash, votes }): [EntryType, EntryInfo[]] | null => {
+  return [['councilMotion', motions
+    .map(({ hash, votes }): EntryInfo | null => {
       if (!votes) {
         return null;
       }
@@ -55,15 +55,16 @@ function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motio
       const hashStr = hash.toHex();
       const blocks = votes.end.sub(bestNumber);
 
-      return ['councilMotion', [{
+      return {
         ...newDate(blocks, blockTime),
         blockNumber: votes.end,
         blocks,
         info: `${hashStr.substr(0, 6)}…${hashStr.substr(-4)}`,
         type: 'councilMotion'
-      }]];
+      };
     })
-    .filter((item): item is [EntryType, EntryInfo[]] => !!item);
+    .filter((item): item is EntryInfo => !!item)
+  ]];
 }
 
 function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatches: DeriveDispatch[]): [EntryType, EntryInfo[]][] {
