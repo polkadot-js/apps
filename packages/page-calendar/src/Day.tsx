@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
 import DayHour from './DayHour';
+import DayTime from './DayTime';
 import { MONTHS } from './constants';
 import { useTranslation } from './translate';
 
@@ -36,17 +37,14 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
 
   const monthRef = useRef(MONTHS.map((m) => t(m)));
 
-  const [isToday, nowOffset] = useMemo(
+  const [isToday, nowHours, nowMinutes] = useMemo(
     () => [
       date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear(),
-      now.getHours()
+      now.getHours(),
+      now.getMinutes()
     ],
     [date, now]
   );
-
-  const offset = isToday
-    ? nowOffset
-    : 0;
 
   return (
     <div className={className}>
@@ -56,7 +54,7 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
           isDisabled
           onClick={NOOP}
         />
-        <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()}</div>
+        <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
         <Button
           icon='chevron-right'
           isDisabled
@@ -67,11 +65,10 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
         {HOURS.map((hour, index): React.ReactNode =>
           <DayHour
             date={date}
-            hour={(hour + offset) % 24}
+            hour={hour}
             index={index}
-            key={(hour + offset) % 24}
-            minutes={(!isToday || index) ? 0 : now.getMinutes()}
-            offset={offset}
+            key={hour}
+            minutes={(isToday && nowHours === index) ? nowMinutes : 0}
             scheduled={scheduled}
           />
         )}
