@@ -238,7 +238,5 @@ export default function useScheduled (): EntryInfo[] {
     );
   }, [api, bestNumber, blockTime]);
 
-  console.log(JSON.stringify(state));
-
   return state;
 }
