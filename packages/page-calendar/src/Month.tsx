@@ -21,6 +21,7 @@ interface Props {
 
 interface DateState {
   dateMonth: Date;
+  dateMonthNext: Date;
   dateSelected: Date;
   days: number[];
   startClass: string;
@@ -55,10 +56,11 @@ function prevMonth (date: Date): Date {
 
 function getDateState (_dateMonth: Date, _dateSelected: Date): DateState {
   const dateMonth = newZeroDate(_dateMonth);
-  const dateSelected = newZeroDate(_dateSelected);
 
   dateMonth.setDate(1);
 
+  const dateMonthNext = nextMonth(dateMonth);
+  const dateSelected = newZeroDate(_dateSelected);
   const numDays = nextMonth(dateMonth, 0).getDate();
   const days: number[] = [];
 
@@ -68,6 +70,7 @@ function getDateState (_dateMonth: Date, _dateSelected: Date): DateState {
 
   return {
     dateMonth,
+    dateMonthNext,
     dateSelected,
     days,
     startClass: `start${DAYS[dateMonth.getDay()]}`
@@ -76,10 +79,19 @@ function getDateState (_dateMonth: Date, _dateSelected: Date): DateState {
 
 function Month ({ className, now, onChange, scheduled }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ dateMonth, dateSelected, days, startClass }, setDate] = useState(getDateState(now, now));
+  const [{ dateMonth, dateMonthNext, dateSelected, days, startClass }, setDate] = useState(getDateState(now, now));
 
   const dayOfWeekRef = useRef(DAYS.map((d) => t(d)));
   const monthRef = useRef(MONTHS.map((m) => t(m)));
+
+  const hasNextMonth = useMemo(
+    (): boolean => {
+      const nextTime = dateMonthNext.getTime();
+
+      return scheduled.some(({ dateTime }) => dateTime >= nextTime);
+    },
+    [dateMonthNext, scheduled]
+  );
 
   const _nextMonth = useCallback(
     () => setDate(({ dateMonth, dateSelected }) => getDateState(nextMonth(dateMonth), dateSelected)),
@@ -129,6 +141,7 @@ function Month ({ className, now, onChange, scheduled }: Props): React.ReactElem
           <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
           <Button
             icon='chevron-right'
+            isDisabled={!hasNextMonth}
             onClick={_nextMonth}
           />
         </div>
