@@ -148,6 +148,12 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://rococo-1.acala.laminar.one'
     },
     {
+      info: 'rococoLaminar',
+      isChild: true,
+      text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
+      value: 'wss://rococo-1.laminar-chain.laminar.one'
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),

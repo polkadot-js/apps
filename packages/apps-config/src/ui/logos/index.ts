@@ -84,6 +84,7 @@ const namedLogos: Record<string, any> = {
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
+  rococoLaminar: nodeLaminar,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
