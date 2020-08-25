@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 
 import DayHour from './DayHour';
+import DayTime from './DayTime';
 import { MONTHS } from './constants';
 import { useTranslation } from './translate';
 
@@ -53,7 +54,7 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
           isDisabled
           onClick={NOOP}
         />
-        <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()}</div>
+        <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
         <Button
           icon='chevron-right'
           isDisabled
