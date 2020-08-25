@@ -21,8 +21,8 @@ type SlashEntry = [{ args: [EraIndex] }, UnappliedSlash[]];
 
 type ScheduleEntry = [{ args: [BlockNumber] }, Option<Scheduled>[]];
 
-function newDate (remaining: BN, blockTime: number): DateExt {
-  const date = new Date(Date.now() + remaining.muln(blockTime).toNumber());
+function newDate (blocks: BN, blockTime: number): DateExt {
+  const date = new Date(Date.now() + blocks.muln(blockTime).toNumber());
 
   return { date, dateTime: date.getTime() };
 }
@@ -106,8 +106,8 @@ function createReferendums (bestNumber: BlockNumber, blockTime: number, referend
 }
 
 function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress, unapplied: SlashEntry[], slashDeferDuration?: BlockNumber): [EntryType, EntryInfo[]][] {
-  const remainingEra = sessionInfo.eraLength.sub(sessionInfo.eraProgress);
-  const remainingSes = sessionInfo.sessionLength.sub(sessionInfo.sessionProgress);
+  const blocksEra = sessionInfo.eraLength.sub(sessionInfo.eraProgress);
+  const blocksSes = sessionInfo.sessionLength.sub(sessionInfo.sessionProgress);
   const slashDuration = slashDeferDuration?.mul(sessionInfo.eraLength);
   const slashEras = slashDuration
     ? unapplied
@@ -128,19 +128,19 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
     : [];
 
   return [
+    ['stakingEpoch', [{
+      ...newDate(blocksSes, blockTime),
+      blockNumber: bestNumber.add(blocksSes),
+      blocks: blocksSes,
+      info: sessionInfo.currentIndex.add(BN_ONE),
+      type: 'stakingEpoch'
+    }]],
     ['stakingEra', [{
-      ...newDate(remainingEra, blockTime),
-      blockNumber: bestNumber.add(remainingEra),
-      blocks: remainingEra,
+      ...newDate(blocksEra, blockTime),
+      blockNumber: bestNumber.add(blocksEra),
+      blocks: blocksEra,
       info: sessionInfo.activeEra.add(BN_ONE),
       type: 'stakingEra'
-    }]],
-    ['stakingSession', [{
-      ...newDate(remainingSes, blockTime),
-      blockNumber: bestNumber.add(remainingSes),
-      blocks: remainingSes,
-      info: sessionInfo.currentIndex.add(BN_ONE),
-      type: 'stakingSession'
     }]],
     ['stakingSlash', slashEras]
   ];
