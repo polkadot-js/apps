@@ -223,6 +223,10 @@ export default createGlobalStyle<Props>`
       }
     }
 
+    &.extraMargin {
+      margin: 2rem auto;
+    }
+
     &.nomargin {
       margin: 0.5rem auto;
       max-width: 75rem;
