@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-export type EntryType = 'nextEra' | 'scheduler';
+export type EntryType = 'councilElection' | 'democracyLaunch' | 'nextEra' | 'scheduler' | 'societyChallenge' | 'societyRotate' | 'treasurySpend';
 
 export interface EntryInfo {
   blockNumber: BN;

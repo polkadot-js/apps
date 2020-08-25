@@ -45,9 +45,10 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
         <DayHour
           date={date}
           hour={(hour + offset) % 24}
+          index={index}
           key={(hour + offset) % 24}
           minutes={(!isToday || index) ? -1 : now.getMinutes()}
-          offset={offset ? (offset + 1) : 0}
+          offset={offset}
           scheduled={scheduled}
         />
       )}

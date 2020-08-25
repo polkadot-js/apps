@@ -25,15 +25,30 @@ function newDate (remaining: BN, blockTime: number): DateExt {
   return { date, dateTime: date.getTime() };
 }
 
-function createNextEra (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress): EntryInfo {
+function createModDuration (type: EntryType, bestNumber: BlockNumber, blockTime: number, duration?: BlockNumber): EntryInfo[] {
+  if (!duration) {
+    return [];
+  }
+
+  const remaining = duration.sub(bestNumber.mod(duration));
+
+  return [{
+    ...newDate(remaining, blockTime),
+    blockNumber: bestNumber.add(remaining),
+    id: type,
+    type
+  }];
+}
+
+function createNextEra (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress): EntryInfo[] {
   const remaining = sessionInfo.eraLength.sub(sessionInfo.eraProgress);
 
-  return {
+  return [{
     ...newDate(remaining, blockTime),
     blockNumber: bestNumber.add(remaining),
     id: 'nextEra',
     type: 'nextEra'
-  };
+  }];
 }
 
 function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled: ScheduleEntry[]): EntryInfo[] {
@@ -64,10 +79,10 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
     }, []);
 }
 
-function addFiltered (state: EntryInfo[], filter: EntryType, items: EntryInfo[]): EntryInfo[] {
-  return state
-    .filter(({ type }) => type !== filter)
-    .concat(...items);
+function addFiltered (state: EntryInfo[], types: [EntryType, EntryInfo[]][]): EntryInfo[] {
+  return types.reduce((state: EntryInfo[], [typeFilter, items]): EntryInfo[] =>
+    state.filter(({ type }) => type !== typeFilter).concat(...items), state
+  );
 }
 
 export default function useScheduled (): EntryInfo[] {
@@ -80,15 +95,27 @@ export default function useScheduled (): EntryInfo[] {
 
   useEffect((): void => {
     bestNumber && scheduled && setState((state) =>
-      addFiltered(state, 'scheduler', createScheduled(bestNumber, blockTime, scheduled))
+      addFiltered(state, [['scheduler', createScheduled(bestNumber, blockTime, scheduled)]])
     );
   }, [bestNumber, blockTime, scheduled]);
 
   useEffect((): void => {
     bestNumber && sessionInfo?.sessionLength.gt(BN_ONE) && setState((state) =>
-      addFiltered(state, 'nextEra', [createNextEra(bestNumber, blockTime, sessionInfo)])
+      addFiltered(state, [['nextEra', createNextEra(bestNumber, blockTime, sessionInfo)]])
     );
   }, [bestNumber, blockTime, sessionInfo]);
+
+  useEffect((): void => {
+    bestNumber && setState((state) =>
+      addFiltered(state, [
+        ['councilElection', createModDuration('councilElection', bestNumber, blockTime, (api.consts.elections || api.consts.electionsPhragmen)?.termDuration)],
+        ['democracyLaunch', createModDuration('democracyLaunch', bestNumber, blockTime, api.consts.democracy?.launchPeriod)],
+        ['societyChallenge', createModDuration('societyChallenge', bestNumber, blockTime, api.consts.society?.challengePeriod)],
+        ['societyRotate', createModDuration('societyRotate', bestNumber, blockTime, api.consts.society?.rotationPeriod)],
+        ['treasurySpend', createModDuration('treasurySpend', bestNumber, blockTime, api.consts.treasury?.spendPeriod)]
+      ])
+    );
+  }, [api, bestNumber, blockTime]);
 
   return state;
 }

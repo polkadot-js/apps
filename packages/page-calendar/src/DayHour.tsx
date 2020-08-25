@@ -13,6 +13,7 @@ interface Props {
   className?: string;
   date: Date;
   hour: number;
+  index: number;
   minutes: number;
   offset: number;
   scheduled: EntryInfo[];
@@ -20,15 +21,15 @@ interface Props {
 
 const HR_TO_MS = 60 * 60 * 1000;
 
-function DayHour ({ className, date, hour, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
+function DayHour ({ className, date, hour, index, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
   const filtered = useMemo(
     (): EntryInfo[] => {
-      const start = date.getTime() + ((hour + offset) * HR_TO_MS);
+      const start = date.getTime() + ((offset + index) * HR_TO_MS);
       const end = start + HR_TO_MS;
 
       return scheduled.filter(({ dateTime }) => dateTime >= start && dateTime < end);
     },
-    [date, hour, offset, scheduled]
+    [date, index, offset, scheduled]
   );
 
   const style = useMemo(
