@@ -16,8 +16,11 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   date: Date;
+  hasNextDay: boolean;
   now: Date;
   scheduled: EntryInfo[];
+  setNextDay: () => void;
+  setPrevDay: () => void;
 }
 
 const HOURS = ((): number[] => {
@@ -30,16 +33,14 @@ const HOURS = ((): number[] => {
   return hours;
 })();
 
-const NOOP = () => undefined;
-
-function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Props> {
+function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrevDay }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const monthRef = useRef(MONTHS.map((m) => t(m)));
 
   const [isToday, nowHours, nowMinutes] = useMemo(
     () => [
-      date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear(),
+      date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear() && date.getDate() === now.getDate(),
       now.getHours(),
       now.getMinutes()
     ],
@@ -51,14 +52,14 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
       <div className='dayHeader'>
         <Button
           icon='chevron-left'
-          isDisabled
-          onClick={NOOP}
+          isDisabled={isToday}
+          onClick={setPrevDay}
         />
         <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
         <Button
           icon='chevron-right'
-          isDisabled
-          onClick={NOOP}
+          isDisabled={!hasNextDay}
+          onClick={setNextDay}
         />
       </div>
       <div className='hoursContainer'>
@@ -87,10 +88,6 @@ export default React.memo(styled(Day)`
     font-size: 1.25rem;
     justify-content: space-between;
     padding: 1rem 1.5rem 0;
-
-    .ui--Button {
-      opacity: 0;
-    }
   }
 
   .hoursContainer {

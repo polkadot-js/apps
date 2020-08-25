@@ -15,3 +15,11 @@ export interface EntryInfo {
   isPending?: boolean;
   type: EntryType;
 }
+
+export interface DateState {
+  dateMonth: Date;
+  dateMonthNext: Date;
+  dateSelected: Date;
+  days: number[];
+  startClass: string;
+}
