@@ -36,10 +36,11 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
 
   const monthRef = useRef(MONTHS.map((m) => t(m)));
 
-  const [isToday, nowOffset] = useMemo(
+  const [isToday, nowHours, nowMinutes] = useMemo(
     () => [
       date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear(),
-      now.getHours()
+      now.getHours(),
+      now.getMinutes()
     ],
     [date, now]
   );
@@ -66,7 +67,7 @@ function Day ({ className, date, now, scheduled }: Props): React.ReactElement<Pr
             hour={hour}
             index={index}
             key={hour}
-            minutes={(isToday && nowOffset === index) ? now.getMinutes() : 0}
+            minutes={(isToday && nowHours === index) ? nowMinutes : 0}
             scheduled={scheduled}
           />
         )}
