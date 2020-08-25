@@ -81,7 +81,7 @@ export default React.memo(styled(MonthDay)`
   }
 
   &.isDisabled {
-    opacity: 0.5;
+    opacity: 0.375;
 
     &:hover {
       background: transparent;

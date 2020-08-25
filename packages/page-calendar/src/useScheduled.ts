@@ -59,7 +59,7 @@ function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motio
         ...newDate(blocks, blockTime),
         blockNumber: votes.end,
         blocks,
-        info: `${hashStr.substr(0, 8)}…${hashStr.substr(-6)}`,
+        info: `${hashStr.substr(0, 6)}…${hashStr.substr(-4)}`,
         type: 'councilMotion'
       }]];
     })

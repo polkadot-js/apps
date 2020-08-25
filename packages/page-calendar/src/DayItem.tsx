@@ -53,7 +53,7 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
           return <><div className='itemDesc'>{t<string>('Election of new council candidates')}</div>{typeLink}</>;
 
         case 'councilMotion':
-          return <><div className='itemDesc'>{t<string>('Voting ends on council motion {{id}}')}</div>{typeLink}</>;
+          return <><div className='itemDesc'>{t<string>('Voting ends on council motion {{id}}', { replace: { id } })}</div>{typeLink}</>;
 
         case 'democracyDispatch':
           return <><div className='itemDesc'>{t<string>('Enactment of the result of referendum {{id}}', { replace: { id } })}</div>{typeLink}</>;
