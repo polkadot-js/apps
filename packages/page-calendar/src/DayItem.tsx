@@ -40,7 +40,7 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
               ? <div className='itemLink'><a href='#/democracy'>{t<string>('via Democracy')}</a></div>
               : ['societyChallenge', 'societyRotate'].includes(type)
                 ? <div className='itemLink'><a href='#/society'>{t<string>('via Society')}</a></div>
-                : ['stakingEra', 'stakingSession'].includes(type)
+                : ['stakingEpoch', 'stakingEra'].includes(type)
                   ? <div className='itemLink'><a href='#/staking'>{t<string>('via Staking')}</a></div>
                   : ['stakingSlash'].includes(type)
                     ? <div className='itemLink'><a href='#/staking/slashes'>{t<string>('via Staking/Slashed')}</a></div>
@@ -74,11 +74,11 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
               : t<string>('Execute anonymous scheduled task')
           }</div>{typeLink}</>;
 
+        case 'stakingEpoch':
+          return <><div className='itemDesc'>{t<string>('Start of a new staking session {{id}}', { replace: { id } })}</div>{typeLink}</>;
+
         case 'stakingEra':
           return <><div className='itemDesc'>{t<string>('Start of a new staking era {{id}}', { replace: { id } })}</div>{typeLink}</>;
-
-        case 'stakingSession':
-          return <><div className='itemDesc'>{t<string>('Start of a new staking session {{id}}', { replace: { id } })}</div>{typeLink}</>;
 
         case 'stakingSlash':
           return <><div className='itemDesc'>{t<string>('Application of slashes from era {{id}}', { replace: { id } })}</div>{typeLink}</>;
