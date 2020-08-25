@@ -165,7 +165,7 @@ export default React.memo(styled(CalendarApp)`
       align-items: center;
       display: flex;
       justify-content: space-between;
-      padding: 0 1rem;
+      padding: 0 0 0 1rem;
 
       .ui--Button {
         font-size: 1rem;
