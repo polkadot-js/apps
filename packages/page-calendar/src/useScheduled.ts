@@ -25,34 +25,36 @@ function newDate (remaining: BN, blockTime: number): DateExt {
   return { date, dateTime: date.getTime() };
 }
 
-function createModDuration (type: EntryType, bestNumber: BlockNumber, blockTime: number, duration?: BlockNumber): EntryInfo[] {
-  if (!duration) {
-    return [];
-  }
+function createConstDurations (bestNumber: BlockNumber, blockTime: number, items: [EntryType, BlockNumber?][]): [EntryType, EntryInfo[]][] {
+  return items.map(([type, duration]): [EntryType, EntryInfo[]] => {
+    if (!duration) {
+      return [type, []];
+    }
 
-  const remaining = duration.sub(bestNumber.mod(duration));
+    const remaining = duration.sub(bestNumber.mod(duration));
 
-  return [{
-    ...newDate(remaining, blockTime),
-    blockNumber: bestNumber.add(remaining),
-    id: type,
-    type
-  }];
+    return [type, [{
+      ...newDate(remaining, blockTime),
+      blockNumber: bestNumber.add(remaining),
+      id: type,
+      type
+    }]];
+  });
 }
 
-function createNextEra (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress): EntryInfo[] {
+function createNextEra (bestNumber: BlockNumber, blockTime: number, sessionInfo: DeriveSessionProgress): [EntryType, EntryInfo[]][] {
   const remaining = sessionInfo.eraLength.sub(sessionInfo.eraProgress);
 
-  return [{
+  return [['nextEra', [{
     ...newDate(remaining, blockTime),
     blockNumber: bestNumber.add(remaining),
     id: 'nextEra',
     type: 'nextEra'
-  }];
+  }]]];
 }
 
-function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled: ScheduleEntry[]): EntryInfo[] {
-  return scheduled
+function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled: ScheduleEntry[]): [EntryType, EntryInfo[]][] {
+  return [['scheduler', scheduled
     .filter(([, vecSchedOpt]) => vecSchedOpt.some((schedOpt) => schedOpt.isSome))
     .reduce((items: EntryInfo[], [key, vecSchedOpt]): EntryInfo[] => {
       const blockNumber = key.args[0];
@@ -76,7 +78,7 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
 
           return items;
         }, items);
-    }, []);
+    }, [])]];
 }
 
 function addFiltered (state: EntryInfo[], types: [EntryType, EntryInfo[]][]): EntryInfo[] {
@@ -95,25 +97,25 @@ export default function useScheduled (): EntryInfo[] {
 
   useEffect((): void => {
     bestNumber && scheduled && setState((state) =>
-      addFiltered(state, [['scheduler', createScheduled(bestNumber, blockTime, scheduled)]])
+      addFiltered(state, createScheduled(bestNumber, blockTime, scheduled))
     );
   }, [bestNumber, blockTime, scheduled]);
 
   useEffect((): void => {
     bestNumber && sessionInfo?.sessionLength.gt(BN_ONE) && setState((state) =>
-      addFiltered(state, [['nextEra', createNextEra(bestNumber, blockTime, sessionInfo)]])
+      addFiltered(state, createNextEra(bestNumber, blockTime, sessionInfo))
     );
   }, [bestNumber, blockTime, sessionInfo]);
 
   useEffect((): void => {
     bestNumber && setState((state) =>
-      addFiltered(state, [
-        ['councilElection', createModDuration('councilElection', bestNumber, blockTime, (api.consts.elections || api.consts.electionsPhragmen)?.termDuration)],
-        ['democracyLaunch', createModDuration('democracyLaunch', bestNumber, blockTime, api.consts.democracy?.launchPeriod)],
-        ['societyChallenge', createModDuration('societyChallenge', bestNumber, blockTime, api.consts.society?.challengePeriod)],
-        ['societyRotate', createModDuration('societyRotate', bestNumber, blockTime, api.consts.society?.rotationPeriod)],
-        ['treasurySpend', createModDuration('treasurySpend', bestNumber, blockTime, api.consts.treasury?.spendPeriod)]
-      ])
+      addFiltered(state, createConstDurations(bestNumber, blockTime, [
+        ['councilElection', (api.consts.elections || api.consts.electionsPhragmen)?.termDuration],
+        ['democracyLaunch', api.consts.democracy?.launchPeriod],
+        ['societyChallenge', api.consts.society?.challengePeriod],
+        ['societyRotate', api.consts.society?.rotationPeriod],
+        ['treasurySpend', api.consts.treasury?.spendPeriod]
+      ]))
     );
   }, [api, bestNumber, blockTime]);
 
