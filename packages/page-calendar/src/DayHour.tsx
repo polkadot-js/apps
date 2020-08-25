@@ -82,7 +82,7 @@ export default React.memo(styled(DayHour)`
     line-height: 1;
     min-width: 5.5rem;
     opacity: 0.5;
-    padding: 0.25rem 1rem;
+    padding: 0.5rem 1rem;
     text-align: right;
     text-transform: uppercase;
     z-index: 1;

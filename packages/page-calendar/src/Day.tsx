@@ -49,19 +49,21 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
 
   return (
     <div className={className}>
-      <div className='dayHeader'>
-        <Button
-          icon='chevron-left'
-          isDisabled={isToday}
-          onClick={setPrevDay}
-        />
+      <h1>
         <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
-        <Button
-          icon='chevron-right'
-          isDisabled={!hasNextDay}
-          onClick={setNextDay}
-        />
-      </div>
+        <Button.Group>
+          <Button
+            icon='chevron-left'
+            isDisabled={isToday}
+            onClick={setPrevDay}
+          />
+          <Button
+            icon='chevron-right'
+            isDisabled={!hasNextDay}
+            onClick={setNextDay}
+          />
+        </Button.Group>
+      </h1>
       <div className='hoursContainer'>
         {HOURS.map((hour, index): React.ReactNode =>
           <DayHour
@@ -80,7 +82,6 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
 
 export default React.memo(styled(Day)`
   flex: 1;
-  margin-right: 1rem;
 
   .dayHeader {
     align-items: center;
@@ -88,9 +89,5 @@ export default React.memo(styled(Day)`
     font-size: 1.25rem;
     justify-content: space-between;
     padding: 1rem 1.5rem 0;
-  }
-
-  .hoursContainer {
-    margin-top: 1.25em;
   }
 `);

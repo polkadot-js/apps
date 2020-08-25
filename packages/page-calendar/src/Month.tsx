@@ -43,20 +43,22 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
 
   return (
     <div className={className}>
-      <div className={`calendar ${startClass}`}>
-        <div className='monthIndicator'>
+      <h1>
+        <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
+        <Button.Group>
           <Button
             icon='chevron-left'
             isDisabled={isNowYear && (isOlderMonth || isNowMonth)}
             onClick={setPrevMonth}
           />
-          <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
           <Button
             icon='chevron-right'
             isDisabled={!hasNextMonth}
             onClick={setNextMonth}
           />
-        </div>
+        </Button.Group>
+      </h1>
+      <div className={`calendar ${startClass}`}>
         <div className='dayOfWeek'>
           {dayOfWeekRef.current.map((day): React.ReactNode => (
             <div key={day}>{t(day)}</div>
@@ -83,9 +85,10 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
 export default React.memo(styled(Month)`
   flex: 0;
   max-width: max-content;
-  padding: 1rem 1.5rem;
 
   .calendar {
+    padding: 1.5rem 1.5rem 1rem;
+
     .dateGrid,
     .dayOfWeek {
       display: grid;
@@ -105,8 +108,6 @@ export default React.memo(styled(Month)`
     &.startSat .dateGrid .day:first-child { grid-column: 7 }
 
     .dayOfWeek {
-      margin-top: 1.25em;
-
       > * {
         font-size: 0.7em;
         font-weight: 500;
