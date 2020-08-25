@@ -4,12 +4,14 @@
 
 import BN from 'bn.js';
 
-export type EntryType = 'councilElection' | 'democracyLaunch' | 'nextEra' | 'scheduler' | 'societyChallenge' | 'societyRotate' | 'treasurySpend';
+export type EntryType = 'councilElection' | 'councilMotion' | 'democracyDispatch' | 'democracyLaunch' | 'referendumDispatch' | 'referendumVote' | 'scheduler' | 'societyChallenge' | 'societyRotate'| 'stakingEra' | 'stakingSession' | 'stakingSlash' | 'treasurySpend';
 
 export interface EntryInfo {
   blockNumber: BN;
+  blocks: BN;
   date: Date;
   dateTime: number;
-  id: string;
+  info: string | BN | null;
+  isPending?: boolean;
   type: EntryType;
 }

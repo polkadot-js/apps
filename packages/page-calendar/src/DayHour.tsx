@@ -19,29 +19,28 @@ interface Props {
   scheduled: EntryInfo[];
 }
 
-const HR_TO_MS = 60 * 60 * 1000;
+const MN_TO_MS = 60 * 1000;
+const HR_TO_MS = 60 * MN_TO_MS;
 
-function DayHour ({ className, date, hour, index, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
+function DayHour ({ className = '', date, hour, index, minutes, offset, scheduled }: Props): React.ReactElement<Props> | null {
   const filtered = useMemo(
     (): EntryInfo[] => {
       const start = date.getTime() + ((offset + index) * HR_TO_MS);
       const end = start + HR_TO_MS;
+      const explicit = start + (minutes * MN_TO_MS);
 
-      return scheduled.filter(({ dateTime }) => dateTime >= start && dateTime < end);
+      return scheduled
+        .filter(({ dateTime }) => dateTime >= explicit && dateTime < end)
+        .sort((a, b) => (a.dateTime - b.dateTime) || a.type.localeCompare(b.type));
     },
-    [date, index, offset, scheduled]
-  );
-
-  const style = useMemo(
-    () => ({ top: `${100 * (minutes / 60)}%` }),
-    [minutes]
+    [date, index, minutes, offset, scheduled]
   );
 
   const hourStr = `${` ${hour}`.slice(-2)} ${hour >= 12 ? 'pm' : 'am'}`;
 
   return (
-    <div className={className}>
-      <div className='hourLabel'>{hourStr}</div>
+    <div className={`${className}${filtered.length ? ' hasItems' : ''}`}>
+      <div className={`hourLabel${filtered.length ? ' highlight--color' : ''}`}>{hourStr}</div>
       <div className='hourContainer'>
         {filtered.map((item, index): React.ReactNode => (
           <DayItem
@@ -50,12 +49,6 @@ function DayHour ({ className, date, hour, index, minutes, offset, scheduled }: 
           />
         ))}
       </div>
-      {(minutes !== -1) && (
-        <div
-          className='hourMinutes highlight--border'
-          style={style}
-        />
-      )}
     </div>
   );
 }
@@ -80,27 +73,26 @@ export default React.memo(styled(DayHour)`
 
   .hourContainer {
     flex: 1;
+    padding: 0.25rem 0;
   }
 
   .hourLabel {
     flex: 0;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 100;
     line-height: 1;
     min-width: 5.5rem;
-    opacity: 0.75;
-    padding: 0.5rem 1rem;
+    opacity: 0.5;
+    padding: 0.25rem 1rem;
     text-align: right;
     text-transform: uppercase;
     z-index: 1;
   }
 
-  .hourMinutes {
-    border: 1px solid transparent;
-    left: 0;
-    opacity: 0.25;
-    position: absolute;
-    right: 0;
-    z-index: 0;
+  &.hasItems .hourLabel {
+    font-size: 1.1rem;
+    font-weight: normal;
+    opacity: 1;
+    padding: 0.7rem 1rem;
   }
 `);

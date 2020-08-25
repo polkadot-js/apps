@@ -184,10 +184,10 @@ export default React.memo(styled(Month)`
 
       > * {
         font-size: 0.7em;
-        font-variant: small-caps;
         font-weight: 500;
         letter-spacing: 0.1em;
         text-align: center;
+        text-transform: uppercase;
       }
     }
 
