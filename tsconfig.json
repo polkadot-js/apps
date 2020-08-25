@@ -17,6 +17,8 @@
       "@polkadot/app-accounts/*": [ "packages/page-accounts/src/*" ],
       "@polkadot/app-addresses": [ "packages/page-addresses/src" ],
       "@polkadot/app-addresses/*": [ "packages/page-addresses/src/*" ],
+      "@polkadot/app-calendar": [ "packages/page-calendar/src" ],
+      "@polkadot/app-calendar/*": [ "packages/page-calendar/src/*" ],
       "@polkadot/app-claims": [ "packages/page-claims/src" ],
       "@polkadot/app-claims/*": [ "packages/page-claims/src/*" ],
       "@polkadot/app-contracts": [ "packages/page-contracts/src" ],

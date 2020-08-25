@@ -72,6 +72,10 @@ export default createGlobalStyle<Props>`
     background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
   }
 
+  .highlight--hover-bg:hover {
+    background: ${getHighlight} !important;
+  }
+
   .highlight--hover-color:hover {
     color: ${getHighlight} !important;
   }
@@ -217,6 +221,10 @@ export default createGlobalStyle<Props>`
         top: 0;
         z-index: -1;
       }
+    }
+
+    &.extraMargin {
+      margin: 2rem auto;
     }
 
     &.nomargin {

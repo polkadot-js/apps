@@ -3137,6 +3137,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-calendar@workspace:packages/page-calendar":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-calendar@workspace:packages/page-calendar"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.56.0-beta.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-claims@workspace:packages/page-claims":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-claims@workspace:packages/page-claims"

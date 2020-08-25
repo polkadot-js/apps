@@ -38,7 +38,7 @@ export default function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
             mountedRef.current && setSlashes(
               values
                 .map((value, index): [BN, UnappliedSlash[]] => [from.addn(index), value])
-                .filter(([, slashes]): boolean => slashes.length !== 0)
+                .filter(([, slashes]) => slashes.length)
             );
           });
         })().catch(console.error);
