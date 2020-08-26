@@ -7,6 +7,7 @@
 
 export default {
   Address: 'AccountId',
+  LookupSource: 'AccountId',
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
@@ -121,7 +122,7 @@ export default {
     reporters: 'Vec<AccountId>',
     payout: 'RKT'
   },
-  Proposal: {
+  TreasuryProposal: {
     proposer: 'AccountId',
     beneficiary: 'AccountId',
     ring_value: 'Balance',
@@ -139,6 +140,12 @@ export default {
     relayer: 'AccountId'
   },
   EthBlockNumber: 'u64',
+  EthHeaderThing: {
+    eth_header: 'EthHeader',
+    ethash_proof: 'Vec<EthashProof>',
+    mmr_root: 'MMRHash',
+    mmr_proof: 'Vec<MMRHash>'
+  },
   EthHeader: {
     parent_hash: 'H256',
     timestamp: 'u64',
@@ -209,6 +216,7 @@ export default {
   Round: 'u64',
   TcBlockNumber: 'Vec<u8>',
   TcHeaderHash: 'Vec<u8>',
+  TcHeaderMMR: 'Vec<u8>',
   MMRHash: 'Vec<u8>',
   GameId: 'TcBlockNumber',
   RawHeaderThing: 'Vec<u8>',
