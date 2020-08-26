@@ -64,18 +64,20 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 }
 
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[], BN, BN] {
-  const nominators: string[] = [];
+  const defaultExposure = {
+    others: registry.createType('Vec<IndividualExposure>'),
+    own: registry.createType('Compact<Balance>'),
+    total: registry.createType('Compact<Balance>')
+  };
+  const defaultPrefs = {
+    commission: registry.createType('Compact<Perbill>')
+  };
+  const nominators: Record<string, boolean> = {};
   let totalStaked = BN_ZERO;
   let lowStaked = BN_ZERO;
   const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    const exposure = _exposure || {
-      others: registry.createType('Vec<IndividualExposure>'),
-      own: registry.createType('Compact<Balance>'),
-      total: registry.createType('Compact<Balance>')
-    };
-    const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || {
-      commission: registry.createType('Compact<Perbill>')
-    };
+    const exposure = _exposure || defaultExposure;
+    const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || defaultPrefs;
     let bondOwn = exposure.own.unwrap();
     let bondTotal = exposure.total.unwrap();
     const skipRewards = bondTotal.isZero();
@@ -95,9 +97,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
       const nominator = indv.who.toString();
 
-      if (!nominators.includes(nominator)) {
-        nominators.push(nominator);
-      }
+      nominators[nominator] = true;
 
       return isNominating || allAccounts.includes(nominator);
     }, allAccounts.includes(key));
@@ -136,7 +136,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     };
   });
 
-  return [list, nominators, totalStaked, lowStaked];
+  return [list, Object.keys(nominators), totalStaked, lowStaked];
 }
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
