@@ -34,6 +34,8 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
     return null;
   }
 
+  const isDisabled = isCurrentVote ? !balance : false;
+
   return (
     <>
       {isVotingOpen && (
@@ -87,7 +89,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
             <TxButton
               accountId={accountId}
               icon='ban'
-              isDisabled={isCurrentVote ? !balance : false}
+              isDisabled={isDisabled}
               label={t<string>('Vote Nay')}
               onStart={toggleVoting}
               params={
@@ -100,7 +102,7 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
             <TxButton
               accountId={accountId}
               icon='check'
-              isDisabled={isCurrentVote ? !balance : false}
+              isDisabled={isDisabled}
               label={t<string>('Vote Aye')}
               onStart={toggleVoting}
               params={
