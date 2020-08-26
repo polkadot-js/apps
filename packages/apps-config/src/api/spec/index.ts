@@ -15,6 +15,8 @@ import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
+import laminar from './laminar';
+import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
@@ -42,6 +44,7 @@ export default {
   hanonycash,
   kulupu,
   'mashnet-node': kilt,
+  'node-moonbeam': moonbeam,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   plasm,

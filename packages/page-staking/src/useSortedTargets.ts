@@ -63,13 +63,23 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
+function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[], BN, BN] {
+  const defaultExposure = {
+    others: registry.createType('Vec<IndividualExposure>'),
+    own: registry.createType('Compact<Balance>'),
+    total: registry.createType('Compact<Balance>')
+  };
+  const defaultPrefs = {
+    commission: registry.createType('Compact<Perbill>')
+  };
   const nominators: Record<string, boolean> = {};
-  const emptyExposure = registry.createType('Exposure');
-  const list = info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
-    let bondOwn = exposure.own?.unwrap() || BN_ZERO;
-    let bondTotal = exposure.total?.unwrap() || BN_ZERO;
+  let totalStaked = BN_ZERO;
+  let lowStaked = BN_ZERO;
+  const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
+    const exposure = _exposure || defaultExposure;
+    const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || defaultPrefs;
+    let bondOwn = exposure.own.unwrap();
+    let bondTotal = exposure.total.unwrap();
     const skipRewards = bondTotal.isZero();
 
     if (bondTotal.isZero()) {
@@ -123,7 +133,11 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     };
   });
 
+<<<<<<< HEAD
   return [list, Object.keys(nominators)];
+=======
+  return [list, Object.keys(nominators), totalStaked, lowStaked];
+>>>>>>> 704c037ac (Support for node-moonbeam)
 }
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {

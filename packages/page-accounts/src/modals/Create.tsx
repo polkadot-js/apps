@@ -182,10 +182,9 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
-  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
-  const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
-  const [step, setStep] = useState(1);
+  const { api, isDevelopment, systemName } = useApi();
+  const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
+  const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
@@ -294,34 +293,17 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         {step === 1 && <>
           <Modal.Columns>
             <Modal.Column>
-              <TextArea
-                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-                isAction
-                isError={!isSeedValid}
-                isReadOnly={seedType === 'dev'}
-                label={
-                  seedType === 'bip'
-                    ? t<string>('mnemonic seed')
-                    : seedType === 'dev'
-                      ? t<string>('development seed')
-                      : t<string>('seed (hex or string)')
+              <Dropdown
+                defaultValue={pairType}
+                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t<string>('keypair crypto type')}
+                onChange={_onChangePairType}
+                options={
+                  systemName === 'node-moonbeam'
+                    ? uiSettings.availableCryptosEth
+                    : uiSettings.availableCryptos
                 }
-                onChange={_onChangeSeed}
-                seed={seed}
-                withLabel
-              >
-                <Dropdown
-                  defaultValue={seedType}
-                  isButton
-                  onChange={_selectSeedType}
-                  options={seedOpt}
-                />
-                <CopyButton
-                  className='copyMoved'
-                  isMnemonic
-                  value={seed}
-                />
-              </TextArea>
+              />
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
