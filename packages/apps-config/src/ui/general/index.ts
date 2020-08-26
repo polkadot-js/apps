@@ -10,9 +10,10 @@ const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
 const chainRocco = '#6f36dc';
-const chainRoccoTick = '#488025';
-const chainRoccoTrack = '#802548';
-const chainRoccoTrick = '#254880';
+const chainRoccoTick = '#22bb22';
+const chainRoccoTrack = '#bb2222';
+const chainRoccoTrick = '#2222bb';
+const chainRoccoAcala = '#173DC9';
 const chainWestend = '#da68a7';
 
 const nodeCentrifuge = '#fcc367';
@@ -34,6 +35,7 @@ const chainColors: Record<string, any> = [
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
+  ['acala mandala pc1', chainRoccoAcala],
   ['Westend', chainWestend]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,

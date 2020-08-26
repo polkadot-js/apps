@@ -33,7 +33,7 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
   return (
     <div className={className}>
       <div
-        className='ui--highlight--bg'
+        className='highlight--bg'
         style={style}
       />
     </div>

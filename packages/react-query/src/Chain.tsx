@@ -5,6 +5,8 @@
 import React from 'react';
 import { useApi } from '@polkadot/react-hooks';
 
+import { useTranslation } from './translate';
+
 interface Props {
   children?: React.ReactNode;
   className?: string;
@@ -12,11 +14,12 @@ interface Props {
 }
 
 function Chain ({ children, className = '', label }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { systemChain } = useApi();
 
   return (
     <div className={className}>
-      {label || ''}{systemChain}{children}
+      {label || ''}{systemChain || t('Unknown')}{children}
     </div>
   );
 }

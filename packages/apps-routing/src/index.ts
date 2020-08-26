@@ -4,11 +4,9 @@
 
 import { Routes } from './types';
 
-import appSettings from '@polkadot/ui-settings';
-
-// When adding here, also ensure to add to Dummy.tsx
-
 import accounts from './accounts';
+import addresses from './addresses';
+import calendar from './calendar';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
@@ -20,58 +18,42 @@ import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
 import poll from './poll';
+import rpc from './rpc';
 import settings from './settings';
+import signing from './signing';
 import society from './society';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
 import techcomm from './techcomm';
-import toolbox from './toolbox';
 import transfer from './transfer';
 import treasury from './treasury';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Routes {
-  return appSettings.uiMode === 'light'
-    ? [
-      // dashboard,
-      explorer(t),
-      accounts(t),
-      claims(t),
-      poll(t),
-      transfer(t),
-      genericAsset(t),
-      null,
-      staking(t),
-      democracy(t),
-      council(t),
-      // TODO Not sure about the inclusion of treasury, parachains & society here
-      null,
-      settings(t)
-    ]
-    : [
-      // dashboard(t),
-      explorer(t),
-      accounts(t),
-      claims(t),
-      poll(t),
-      transfer(t),
-      genericAsset(t),
-      null,
-      staking(t),
-      democracy(t),
-      council(t),
-      treasury(t),
-      techcomm(t),
-      parachains(t),
-      society(t),
-      null,
-      contracts(t),
-      storage(t),
-      extrinsics(t),
-      sudo(t),
-      null,
-      settings(t),
-      toolbox(t),
-      js(t)
-    ];
+  return [
+    // dashboard(t),
+    accounts(t),
+    addresses(t),
+    explorer(t),
+    claims(t),
+    poll(t),
+    transfer(t),
+    genericAsset(t),
+    staking(t),
+    democracy(t),
+    council(t),
+    treasury(t),
+    techcomm(t),
+    parachains(t),
+    society(t),
+    calendar(t),
+    contracts(t),
+    storage(t),
+    extrinsics(t),
+    rpc(t),
+    signing(t),
+    sudo(t),
+    js(t),
+    settings(t)
+  ];
 }

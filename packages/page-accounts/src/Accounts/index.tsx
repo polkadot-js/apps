@@ -17,11 +17,11 @@ import { Button, Input, Table } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import CreateModal from './modals/Create';
-import ImportModal from './modals/Import';
-import Multisig from './modals/MultisigCreate';
-import Proxy from './modals/ProxiedAdd';
-import Qr from './modals/Qr';
+import CreateModal from '../modals/Create';
+import ImportModal from '../modals/Import';
+import Multisig from '../modals/MultisigCreate';
+import Proxy from '../modals/ProxiedAdd';
+import Qr from '../modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerDOT from './BannerDOT';
@@ -61,7 +61,7 @@ async function queryLedger (): Promise<void> {
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
+  const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
@@ -86,13 +86,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('accounts'), 'start', 3],
-    [t('parent'), 'address ui--media-1400'],
+    [t('parent'), 'address media--1400'],
     [t('type')],
     [t('tags'), 'start'],
-    [t('transactions'), 'ui--media-1500'],
+    [t('transactions'), 'media--1500'],
     [t('balances')],
     [],
-    [undefined, 'mini ui--media-1400']
+    [undefined, 'mini media--1400']
   ]);
 
   useEffect((): void => {
@@ -145,14 +145,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const footer = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='ui--media-1400' />
+      <td className='media--1400' />
       <td colSpan={2} />
-      <td className='ui--media-1500' />
+      <td className='media--1500' />
       <td className='number'>
         {balanceTotal && <FormatBalance value={balanceTotal} />}
       </td>
       <td />
-      <td className='ui--media-1400' />
+      <td className='media--1400' />
     </tr>
   ), [balanceTotal]);
 
@@ -244,7 +244,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         />
       </Button.Group>
       <Table
-        empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={(!hasAccounts || (!isLoading && sortedAccountsWithDelegation)) && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={headerRef.current}

@@ -12,6 +12,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       isHidden: true
     },
+    group: 'network',
     icon: 'th',
     name: 'dashboard',
     text: t<string>('nav.dashboard', 'Dashboard', { ns: 'apps-routing' })

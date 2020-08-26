@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import type { LinkOption } from '@polkadot/apps-config/settings/endpoints';
-import { Endpoint } from './types';
+import { Group } from './types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import
@@ -16,7 +16,7 @@ import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import EndpointDisplay from './Endpoint';
+import GroupDisplay from './Group';
 
 interface Props {
   className?: string;
@@ -26,6 +26,7 @@ interface Props {
 
 interface UrlState {
   apiUrl: string;
+  groupIndex: number;
   hasUrlChanged: boolean;
   isUrlValid: boolean;
 }
@@ -46,10 +47,10 @@ function isValidUrl (url: string): boolean {
   );
 }
 
-function combineEndpoints (endpoints: LinkOption[]): Endpoint[] {
-  return endpoints.reduce((result: Endpoint[], e): Endpoint[] => {
+function combineEndpoints (endpoints: LinkOption[]): Group[] {
+  return endpoints.reduce((result: Group[], e): Group[] => {
     if (e.isHeader) {
-      result.push({ header: e.text, networks: [] });
+      result.push({ header: e.text, isDevelopment: e.isDevelopment, networks: [] });
     } else {
       const [name, , providerName] = textToParts(e.text as string);
       const prev = result[result.length - 1];
@@ -86,11 +87,30 @@ function getCustomEndpoints (): string[] {
   return [];
 }
 
+function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
+  let groupIndex = groups.findIndex(({ networks }) =>
+    networks.some(({ providers }) =>
+      providers.some(({ url }) => url === apiUrl)
+    )
+  );
+
+  if (groupIndex === -1) {
+    groupIndex = groups.findIndex(({ isDevelopment }) => isDevelopment);
+  }
+
+  return {
+    apiUrl,
+    groupIndex,
+    hasUrlChanged: uiSettings.get().apiUrl !== apiUrl,
+    isUrlValid: isValidUrl(apiUrl)
+  };
+}
+
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createEndpoints(t);
-  const [endpoints, setEndpoints] = useState(combineEndpoints(linkOptions));
-  const [{ apiUrl, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>({ apiUrl: uiSettings.get().apiUrl, hasUrlChanged: false, isUrlValid: true });
+  const [groups, setGroups] = useState(combineEndpoints(linkOptions));
+  const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -124,6 +144,11 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     return result;
   }, [apiUrl, storedCustomEndpoints]);
 
+  const _changeGroup = useCallback(
+    (groupIndex: number) => setApiUrl((state) => ({ ...state, groupIndex })),
+    []
+  );
+
   const _saveApiEndpoint = () => {
     try {
       localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify([...storedCustomEndpoints, apiUrl]));
@@ -141,7 +166,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
     try {
       localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
-      setEndpoints(combineEndpoints(createEndpoints(t)));
+      setGroups(combineEndpoints(createEndpoints(t)));
       setStoredCustomEndpoints(getCustomEndpoints());
     } catch (e) {
       console.error(e);
@@ -150,8 +175,8 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   };
 
   const _setApiUrl = useCallback(
-    (apiUrl: string) => setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: true }),
-    []
+    (apiUrl: string) => setApiUrl(extractUrlState(apiUrl, groups)),
+    [groups]
   );
 
   const _onChangeCustom = useCallback(
@@ -160,9 +185,9 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
         apiUrl = punycode.toASCII(apiUrl);
       }
 
-      setApiUrl({ apiUrl, hasUrlChanged: uiSettings.get().apiUrl !== apiUrl, isUrlValid: isValidUrl(apiUrl) });
+      setApiUrl(extractUrlState(apiUrl, groups));
     },
-    []
+    [groups]
   );
 
   const _onApply = useCallback(
@@ -190,42 +215,50 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
       onClose={onClose}
       position='left'
     >
-      {endpoints.map((endpoint, index): React.ReactNode => (
-        <EndpointDisplay
+      {groups.map((group, index): React.ReactNode => (
+        <GroupDisplay
           apiUrl={apiUrl}
+          index={index}
+          isSelected={groupIndex === index}
           key={index}
           setApiUrl={_setApiUrl}
-          value={endpoint}
-        />
+          setGroup={_changeGroup}
+          value={group}
+        >
+          {group.isDevelopment && (
+            <div className='endpointCustomWrapper'>
+              <Input
+                className='endpointCustom'
+                isError={!isUrlValid}
+                isFull
+                label={t<string>('custom endpoint')}
+                onChange={_onChangeCustom}
+                value={apiUrl}
+              />
+              {isSavedCustomEndpoint
+                ? <Button
+                  className='customButton'
+                  icon='trash-alt'
+                  onClick={_removeApiEndpoint}
+                />
+                : <Button
+                  className='customButton'
+                  icon='save'
+                  isDisabled={!isUrlValid || isKnownUrl}
+                  onClick={_saveApiEndpoint}
+                />
+              }
+            </div>
+          )}
+        </GroupDisplay>
       ))}
-      <div className='endpointCustomWrapper'>
-        <Input
-          className='endpointCustom'
-          isError={!isUrlValid}
-          isFull
-          label={t<string>('custom endpoint')}
-          onChange={_onChangeCustom}
-          value={apiUrl}
-        />
-        {isSavedCustomEndpoint
-          ? <Button
-            className='customButton'
-            icon='trash-alt'
-            onClick={_removeApiEndpoint}
-          />
-          : <Button
-            className='customButton'
-            icon='save'
-            isDisabled={!isUrlValid || isKnownUrl}
-            onClick={_saveApiEndpoint}
-          />
-        }
-      </div>
     </Sidebar>
   );
 }
 
 export default React.memo(styled(Endpoints)`
+  padding-top: 3.5rem;
+
   .customButton {
     position: absolute;
     top: 1rem;
@@ -233,8 +266,6 @@ export default React.memo(styled(Endpoints)`
   }
 
   .endpointCustom {
-    margin-top: 0.5rem;
-
     input {
       padding-right: 4rem;
     }

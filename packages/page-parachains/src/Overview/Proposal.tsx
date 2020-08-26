@@ -35,11 +35,11 @@ function Proposal ({ proposal: { id, proposal: { balance, initialHeadState, name
   return (
     <tr>
       <td className='number'><h1>{formatNumber(id)}</h1></td>
-      <td className='start'>{name.toUtf8()}</td>
+      <td className='start together'>{name.toUtf8()}</td>
       <td className='address'><AddressSmall value={proposer} /></td>
       <td className='balance'><FormatBalance value={balance} /></td>
-      <td className='start hash'>{initialHex}</td>
-      <td className='start hash'>{validationHex}</td>
+      <td className='start hash together'>{initialHex}</td>
+      <td className='start hash together'>{validationHex}</td>
       <td className='address all'>{validators.map((validatorId) => (
         <AddressMini
           key={validatorId.toString()}

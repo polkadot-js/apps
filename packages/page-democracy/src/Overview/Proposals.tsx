@@ -23,9 +23,9 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('proposals'), 'start', 2],
     [t('proposer'), 'address'],
-    [t('locked'), 'ui--media-1200'],
+    [t('locked'), 'media--1200'],
     [undefined, undefined, 2],
-    [undefined, 'mini ui--media-1000']
+    [undefined, 'mini media--1000']
   ]);
 
   return (

@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## 0.55.1 Aug 24, 2020
+
+- Add Kilt network (Thanks to https://github.com/wischli)
+- Add Nodle mainnet (Thanks to https://github.com/ETeissonniere)
+- Add Darwinia Crap canary network (Thanks to https://github.com/WoeOm)
+- Add Laminar testnet (Thanks to https://github.com/aniiantt)
+- Add Acala Rococo parachain (Thanks to https://github.com/aniiantt)
+- Re-add Polkascan link for Kulupu (Thanks to https://github.com/sorpaas)
+- Update Kulupu RPC endpoint (Thanks to https://github.com/sorpaas)
+- Add Kulupu logo & adjust council config (Thanks to https://github.com/sorpaas)
+- Adjust convictions for Kulupu blocktime calcs (Thanks to https://github.com/sorpaas)
+- Nightly tests for functionality against Substrate (Thanks to https://github.com/EthWorks)
+- I18N Korean translation (Thanks to https://github.com/wooqii)
+- Move navbar to the top instead of a sidebar (horizontal space becomes available)
+- Add extra payout information on staking to reduce confusion (any account can claim)
+- Rework Aye/Nay votes display in council/democracy with single column
+- Ensure copy button does not appear non-clickable (e.g. in multisig menu)
+- Adjust council thresholds for cleaner future adjustments
+- Don't show loading spinner on accounts app when none available
+- Hide metadata updates on development networks (not available)
+- don't show send button for accounts/contacts with no balances module
+- Show names (as available) of scheduled tasks in democracy
+- Adjust app consistency (all apps now have a tabs/menubar)
+- Adjust network selector with split catagories and single-click selection
+- Default conviction dropdown to no lockup
+- Remove conviction override for Polkadot (upgrade has taken effect)
+- Use `proposeParachain` module to show list of proposed parachains (Rococo)
+- Adjust parachain display to remove non filled-in default information
+- Support for Polkadot redonomination banner (countdown & completion)
+- Add link from treasury page to ongoing proposal votes
+- Adjust media breakpoints on staking overview page
+- Split democracy dispatch/scheduled into own tab
+- Split treasury tips into own tab
+- Split addressbook into own app (with top nav)
+- Aplit RPC app into own app (top nav, toolbox remainder now named sign/verify)
+
 ## 0.54.1 Aug 17, 2020
 
 - Remove Berlin testnet, replace with Beresheet (Thanks to https://github.com/drewstone)

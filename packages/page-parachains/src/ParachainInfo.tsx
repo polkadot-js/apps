@@ -28,7 +28,7 @@ function ParachainInfo ({ children, className = '', info, isBig }: Props): React
           ? <img src={info.icon} />
           : (
             <Icon
-              className='ui--highlight--bg'
+              className='highlight--bg'
               icon='link'
             />
           )

@@ -48,7 +48,7 @@ function Summary ({ nextFreeId, parachainCount, proposalCount }: Props): React.R
       </section>
       <section>
         <CardSummary
-          className='ui--media-small'
+          className='media--800'
           label={t<string>('best block')}
         >
           <BestNumber />

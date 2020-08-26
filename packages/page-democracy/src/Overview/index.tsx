@@ -5,16 +5,13 @@
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import DispatchQueue from './DispatchQueue';
 import Externals from './Externals';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
-import Scheduler from './Scheduler';
 import Summary from './Summary';
 import PreImage from './PreImage';
 import Propose from './Propose';
@@ -53,17 +50,9 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       )}
       <Referendums referendums={referendums} />
       <Proposals />
-      <DispatchQueue />
       <Externals />
-      {api.query.scheduler && (
-        <Scheduler />
-      )}
     </div>
   );
 }
 
-export default React.memo(styled(Overview)`
-  .proposalSection {
-    margin-bottom: 1.5rem;
-  }
-`);
+export default React.memo(Overview);

@@ -15,6 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.contracts.call'
       ]
     },
+    group: 'developer',
     icon: 'compress',
     name: 'contracts',
     text: t<string>('nav.contracts', 'Contracts', { ns: 'apps-routing' })

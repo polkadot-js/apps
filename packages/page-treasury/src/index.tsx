@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useRef } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useApi, useIncrement, useIsMountedRef, useMembers } from '@polkadot/react-hooks';
 
 import basicMd from './md/basic.md';
 import Overview from './Overview';
+import Tips from './Tips';
 
 import { useTranslation } from './translate';
 
@@ -19,14 +21,34 @@ interface Props {
 
 function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const mountedRef = useIsMountedRef();
+  const [tipHashTrigger, triggerTipHashes] = useIncrement();
+  const { isMember, members } = useMembers();
+  const [tipHashes, setTipHashes] = useState<string[] | null>(null);
 
-  const itemsRef = useRef([
+  useEffect((): void => {
+    if (tipHashTrigger && mountedRef.current) {
+      api.query.treasury.tips.keys().then((keys) =>
+        mountedRef.current && setTipHashes(
+          keys.map((key) => key.args[0].toHex())
+        )
+      ).catch(console.error);
+    }
+  }, [api, tipHashTrigger, mountedRef]);
+
+  const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
       text: t<string>('Treasury overview')
+    },
+    {
+      count: tipHashes?.length,
+      name: 'tips',
+      text: t<string>('Tips')
     }
-  ]);
+  ], [t, tipHashes]);
 
   return (
     <main className='treasury--App'>
@@ -34,11 +56,24 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
       <header>
         <Tabs
           basePath={basePath}
-          items={itemsRef.current}
+          items={items}
         />
       </header>
       <Switch>
-        <Route component={Overview} />
+        <Route path={`${basePath}/tips`}>
+          <Tips
+            hashes={tipHashes}
+            isMember={isMember}
+            members={members}
+            trigger={triggerTipHashes}
+          />
+        </Route>
+        <Route>
+          <Overview
+            isMember={isMember}
+            members={members}
+          />
+        </Route>
       </Switch>
     </main>
   );

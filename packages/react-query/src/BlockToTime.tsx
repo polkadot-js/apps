@@ -24,14 +24,11 @@ function BlockToTime ({ blocks, children, className = '', isInline, label }: Pro
 
   return (
     <div className={`${className}${isInline ? ' isInline' : ''}`}>
-      {label || ''}{text.split(' ').map((v, index) => index % 2 === 0
-        ? <span key={index}>{` ${v} `}</span>
-        : (
-          <span
-            className='timeUnits'
-            key={index}
-          >{v}</span>
-        )
+      {label || ''}{text.split(' ').map((v, index) =>
+        <span
+          className={index % 2 ? 'timeUnits' : undefined}
+          key={index}
+        >{v}</span>
       )}{children}
     </div>
   );
@@ -42,7 +39,11 @@ export default React.memo(styled(BlockToTime)`
     display: inline-block;
   }
 
+  span+span {
+    padding-left: 0.25em;
+  }
+
   span.timeUnits {
-    font-size: 0.9em;
+    font-size: 0.85em;
   }
 `);

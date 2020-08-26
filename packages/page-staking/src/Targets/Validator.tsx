@@ -137,7 +137,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number ui--media-1200'>{numNominators || ''}</td>
+      <td className='number media--1200'>{numNominators || ''}</td>
       <td className='number'>
         {
           isCommission
@@ -147,7 +147,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       </td>
       <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
       <td className='number together'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
-      <td className='number together ui--media-1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>
+      <td className='number together media--1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>
       <td className='number together'>{!rewardPayout.isZero() && <FormatBalance value={rewardPayout} />}</td>
       <td>
         {(canSelect || isSelected) && (

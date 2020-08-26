@@ -7,6 +7,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import md from './md/basics.md';
 import { useTranslation } from './translate';
@@ -20,7 +21,9 @@ export { useCounter };
 
 function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isApiConnected, isApiReady, isDevelopment } = useApi();
   const numExtensions = useCounter();
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -28,12 +31,9 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       text: t<string>('General')
     },
     {
+      count: numExtensions,
       name: 'metadata',
-      text: t<string>('Metadata {{count}}', {
-        replace: {
-          count: numExtensions ? `(${numExtensions})` : ''
-        }
-      })
+      text: t<string>('Metadata')
     },
     {
       name: 'developer',
@@ -45,12 +45,22 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
     }
   ], [numExtensions, t]);
 
+  const hidden = useMemo(
+    () => (isApiConnected && isApiReady)
+      ? isDevelopment
+        ? ['metadata']
+        : []
+      : ['metadata', 'i18n'],
+    [isApiConnected, isApiReady, isDevelopment]
+  );
+
   return (
     <main className='settings--App'>
       <HelpOverlay md={md as string} />
       <header>
         <Tabs
           basePath={basePath}
+          hidden={hidden}
           items={items}
         />
       </header>

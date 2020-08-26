@@ -180,7 +180,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td className='number ui--media-1200'>{destination}</td>
+      <td className='number media--1200'>{destination}</td>
       <td className='number'>
         <StakingBonded stakingInfo={stakingAccount} />
         <StakingUnbonding stakingInfo={stakingAccount} />

@@ -13,20 +13,33 @@ interface Props {
   onClick?: () => any;
 }
 
+function preloadSet (images: Record<string, any>): void {
+  Object.values(images).forEach((src): void => {
+    new Image().src = src as string;
+  });
+}
+
 function sanitize (value?: string): string {
   return value?.toLowerCase().replace('-', ' ') || '';
 }
 
+// preload on app init
+preloadSet(chainLogos);
+preloadSet(namedLogos);
+preloadSet(nodeLogos);
+
 function ChainImg ({ className = '', logo, onClick }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
-  const img = useMemo((): string => {
-    return (namedLogos[logo || ''] || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)] || emptyLogo) as string;
+  const [isEmpty, img] = useMemo((): [boolean, string] => {
+    const found: unknown = namedLogos[logo || ''] || chainLogos[sanitize(systemChain)] || nodeLogos[sanitize(systemName)];
+
+    return [!found || logo === 'empty', (found || emptyLogo) as string];
   }, [logo, systemChain, systemName]);
 
   return (
     <img
       alt='chain logo'
-      className={className}
+      className={`${className}${isEmpty ? ' highlight--bg' : ''}`}
       onClick={onClick}
       src={img}
     />

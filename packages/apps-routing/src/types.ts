@@ -5,6 +5,8 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { AppProps, BareProps } from '@polkadot/react-components/types';
 
+export type RouteGroup = 'accounts' | 'developer' | 'governance' | 'network' | 'settings';
+
 export interface RouteProps extends AppProps, BareProps {
   location: any;
 }
@@ -19,6 +21,7 @@ export interface Route {
     needsApi?: (string | string[])[];
     needsSudo?: boolean;
   };
+  group: RouteGroup;
   icon: IconName;
   isIgnored?: boolean;
   name: string;
@@ -26,4 +29,4 @@ export interface Route {
   useCounter?: () => number | string | null;
 }
 
-export type Routes = (Route | null)[];
+export type Routes = Route[];

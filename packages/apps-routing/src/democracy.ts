@@ -14,6 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.democracy.notePreimage'
       ]
     },
+    group: 'governance',
     icon: 'calendar-check',
     name: 'democracy',
     text: t<string>('nav.democracy', 'Democracy', { ns: 'apps-routing' }),

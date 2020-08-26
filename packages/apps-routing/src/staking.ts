@@ -14,6 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         ['tx.staking.bond']
       ]
     },
+    group: 'network',
     icon: 'certificate',
     name: 'staking',
     text: t<string>('nav.staking', 'Staking', { ns: 'apps-routing' })
