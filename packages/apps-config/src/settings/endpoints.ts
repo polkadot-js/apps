@@ -91,7 +91,7 @@ function createLive (t: TFunction): LinkOption[] {
     },
     {
       info: 'crab',
-      text: t<string>('rpc.crab', 'Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
+      text: t<string>('rpc.crab', 'Darwinia Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
       value: 'wss://crab.darwinia.network'
     },
     {
