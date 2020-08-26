@@ -33,5 +33,5 @@ export default {
   'nodle-chain': nodle,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
-  'subsocial': subsocialNode
+  subsocial: subsocialNode
 };
