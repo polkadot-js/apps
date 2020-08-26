@@ -12,6 +12,7 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
+import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import stablePoc from './stable-poc';
@@ -29,6 +30,7 @@ export default {
   kulupu,
   laminar,
   'mashnet-node': kilt,
+  'node-moonbeam': moonbeam,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   'stable-poc': stablePoc,

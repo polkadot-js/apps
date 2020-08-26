@@ -171,7 +171,7 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
+  const { api, isDevelopment, systemName } = useApi();
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [isBusy, setIsBusy] = useState(false);
@@ -335,7 +335,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                 label={t<string>('keypair crypto type')}
                 onChange={_onChangePairType}
-                options={uiSettings.availableCryptos}
+                options={
+                  systemName === 'node-moonbeam'
+                    ? uiSettings.availableCryptosEth
+                    : uiSettings.availableCryptos
+                }
               />
             </Modal.Column>
             <Modal.Column>

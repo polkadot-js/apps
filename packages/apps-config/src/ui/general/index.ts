@@ -19,6 +19,7 @@ const chainWestend = '#da68a7';
 
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
+const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeSubsocial = '#b9018c';
@@ -50,6 +51,7 @@ const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
   ['kilt node', nodeKilt],
+  ['node moonbeam', nodeMoonbeam],
   ['nodle chain node', nodeNodle],
   ['subsocial node', nodeSubsocial]
   // ['node template', emptyColor],
