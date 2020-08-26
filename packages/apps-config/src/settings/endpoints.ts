@@ -110,6 +110,11 @@ function createLive (t: TFunction): LinkOption[] {
       info: 'nodle',
       text: t<string>('rpc.nodle-main', 'Nodle Main (Nodle Mainnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://main1.nodleprotocol.io'
+    },
+    {
+      info: 'subsocial',
+      text: t<string>('rpc.subsocial', 'Subsocial (Subsocial Network, hosted by DappForce)', { ns: 'apps-config' }),
+      value: 'wss://rpc.subsocial.network'
     }
   ];
 }

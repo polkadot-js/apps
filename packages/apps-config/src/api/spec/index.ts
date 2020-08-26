@@ -15,6 +15,7 @@ import laminar from './laminar';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import stablePoc from './stable-poc';
+import subsocialNode from './subsocial';
 
 export default {
   Crab: crab,
@@ -31,5 +32,6 @@ export default {
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   'stable-poc': stablePoc,
-  stable_poc: stablePoc
+  stable_poc: stablePoc,
+  subsocial: subsocialNode
 };

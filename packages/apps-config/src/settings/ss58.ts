@@ -37,6 +37,11 @@ export default function create (t: TFunction): Option[] {
       value: 7
     },
     {
+      info: 'subsocial',
+      text: t<string>('ss58.subsocial', 'Subsocial (live)', { ns: 'apps-config' }),
+      value: 28
+    },
+    {
       info: 'centrifuge',
       text: t<string>('ss58.centrifuge', 'Centrifuge (live)', { ns: 'apps-config' }),
       value: 36

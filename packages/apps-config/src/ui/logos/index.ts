@@ -22,6 +22,7 @@ import nodeNodle from './nodes/nodle.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
@@ -62,6 +63,7 @@ const nodeLogos: Record<string, any> = [
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
   ['polkadot-js', nodePolkadotJs],
+  ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
@@ -88,6 +90,7 @@ const namedLogos: Record<string, any> = {
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   westend: nodePolkadot
 };
