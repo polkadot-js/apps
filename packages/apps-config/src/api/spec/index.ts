@@ -15,6 +15,7 @@ import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
+import laminar from './laminar';
 import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';

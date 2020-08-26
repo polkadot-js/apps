@@ -32,6 +32,7 @@ const nodeEdgeware = '#0a95df';
 const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeEquilibrium = '#1792ff';
+const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';

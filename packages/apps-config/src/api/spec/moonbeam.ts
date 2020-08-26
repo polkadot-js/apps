@@ -8,7 +8,11 @@
 export default {
   Account: {
     nonce: 'U256',
+<<<<<<< HEAD
     balance: 'U256'
+=======
+    balance: 'U256',
+>>>>>>> ca6f6c76f (Support for node-moonbeam)
   },
   AccountId: 'EthereumAccountId',
   Address: 'AccountId',

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
-import { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { Balance, ValidatorPrefsTo196, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
@@ -132,12 +132,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       validatorPrefs
     };
   });
-
-<<<<<<< HEAD
-  return [list, Object.keys(nominators)];
-=======
   return [list, Object.keys(nominators), totalStaked, lowStaked];
->>>>>>> 704c037ac (Support for node-moonbeam)
 }
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
