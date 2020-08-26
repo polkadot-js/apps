@@ -98,7 +98,7 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   // HACK Horrible hack to try and give some window to the DOT denomination
   const properties = api.genesisHash.eq(POLKADOT_GENESIS)
     ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
-      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'DOT' })
+      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'New DOT' })
       : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
     : chainProperties;
 
