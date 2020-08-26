@@ -316,16 +316,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         <PasswordInput
           onChange={_onPasswordChange}
           onEnter={_onCommit}
-          password={password}
-        />
-        {!isElectron && (
-          <article className='warning'>
-            <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
-          </article>
-        )}
+          password={password}/>
         <Expander
           className='accounts--Creator-advanced'
-          isPadded
+          isOpen
           summary={t<string>('Advanced creation options')}
         >
           <Modal.Columns>
@@ -370,6 +364,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             </Modal.Column>
           </Modal.Columns>
         </Expander>
+        {!isElectron && (
+          <article className='warning'>
+            <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
+          </article>
+        )}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button

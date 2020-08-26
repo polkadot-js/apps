@@ -12,7 +12,5 @@ module.exports = {
   rules: {
     ...base.rules,
     '@typescript-eslint/no-explicit-any': 'off',
-    // this is yielding false positives
-    '@typescript-eslint/unbound-method': 'off'
   }
 };
