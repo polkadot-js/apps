@@ -5,10 +5,9 @@
 import { PropIndex, Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, ConvictionDropdown, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle, VoteValue } from '@polkadot/react-components';
+import React, { useMemo, useState } from 'react';
+import { Button, ConvictionDropdown, Modal, ProposedAction, TxButton, VoteAccount, VoteValue } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
-import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -25,25 +24,17 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
   const [balance, setBalance] = useState<BN | undefined>();
   const [conviction, setConviction] = useState(0);
   const [isVotingOpen, toggleVoting] = useToggle();
-  const [aye, setVoteValue] = useState(true);
-
-  useEffect((): void => {
-    isVotingOpen && setVoteValue(true);
-  }, [isVotingOpen]);
 
   const isCurrentVote = useMemo(
     () => !!api.query.democracy.votingOf,
     [api]
   );
 
-  const _onChangeVote = useCallback(
-    (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true),
-    []
-  );
-
   if (!hasAccounts) {
     return null;
   }
+
+  const isDisabled = isCurrentVote ? !balance : false;
 
   return (
     <>
@@ -93,29 +84,35 @@ function Voting ({ proposal, referendumId }: Props): React.ReactElement<Props> |
                 <p>{t<string>('Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.')}</p>
               </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteToggle
-                  onChange={_onChangeVote}
-                  value={aye}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('Register the vote for or against the proposal.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
           </Modal.Content>
-          <VoteActions
-            accountId={accountId}
-            aye={aye}
-            isDisabled={isCurrentVote ? !balance : false}
-            onClick={toggleVoting}
-            params={
-              isCurrentVote
-                ? [referendumId, { Standard: { balance, vote: { aye, conviction } } }]
-                : [referendumId, { aye, conviction }]}
-            tx='democracy.vote'
-          />
+          <Modal.Actions onCancel={toggleVoting}>
+            <TxButton
+              accountId={accountId}
+              icon='ban'
+              isDisabled={isDisabled}
+              label={t<string>('Vote Nay')}
+              onStart={toggleVoting}
+              params={
+                isCurrentVote
+                  ? [referendumId, { Standard: { balance, vote: { aye: false, conviction } } }]
+                  : [referendumId, { aye: false, conviction }]
+              }
+              tx='democracy.vote'
+            />
+            <TxButton
+              accountId={accountId}
+              icon='check'
+              isDisabled={isDisabled}
+              label={t<string>('Vote Aye')}
+              onStart={toggleVoting}
+              params={
+                isCurrentVote
+                  ? [referendumId, { Standard: { balance, vote: { aye: true, conviction } } }]
+                  : [referendumId, { aye: true, conviction }]
+              }
+              tx='democracy.vote'
+            />
+          </Modal.Actions>
         </Modal>
       )}
       <Button

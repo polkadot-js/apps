@@ -24,7 +24,6 @@ import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
-import BannerDOT from './BannerDOT';
 import BannerExtension from './BannerExtension';
 import { sortAccounts } from '../util';
 
@@ -170,7 +169,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <BannerDOT />
       <BannerExtension />
       <BannerClaims />
       {isCreateOpen && (

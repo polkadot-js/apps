@@ -96,8 +96,6 @@ export { default as TxComponent } from './TxComponent';
 export { default as TxModal } from './TxModal';
 export { default as TxModalNew } from './TxModalNew';
 export { default as VoteAccount } from './VoteAccount';
-export { default as VoteActions } from './VoteActions';
-export { default as VoteToggle } from './VoteToggle';
 export { default as VoteValue } from './VoteValue';
 
 export { default as media } from './media';

@@ -4,10 +4,9 @@
 
 import { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Modal, ProposedAction, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import React, { useState } from 'react';
+import { Button, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
-import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -25,16 +24,6 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
   const { hasAccounts } = useAccounts();
   const [isVotingOpen, toggleVoting] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [voteValue, setVoteValue] = useState(true);
-
-  useEffect((): void => {
-    isVotingOpen && setVoteValue(true);
-  }, [isVotingOpen]);
-
-  const _onChangeVote = useCallback(
-    (vote?: boolean) => setVoteValue(isBoolean(vote) ? vote : true),
-    []
-  );
 
   if (!hasAccounts) {
     return null;
@@ -72,30 +61,32 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal }: Props
                 <p>{t<string>('The council account for this vote. The selection is filtered by the current members.')}</p>
               </Modal.Column>
             </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <VoteToggle
-                  onChange={_onChangeVote}
-                  value={voteValue}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The vote to record for this proposal, either for or against.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
             {isPrime && (
               <article className='warning'>
                 <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>
             )}
           </Modal.Content>
-          <VoteActions
-            accountId={accountId}
-            aye={voteValue}
-            onClick={toggleVoting}
-            params={[hash, idNumber, voteValue]}
-            tx='council.vote'
-          />
+          <Modal.Actions onCancel={toggleVoting}>
+            <TxButton
+              accountId={accountId}
+              icon='ban'
+              isDisabled={isDisabled}
+              label={t<string>('Vote Nay')}
+              onStart={toggleVoting}
+              params={[hash, idNumber, false]}
+              tx='council.vote'
+            />
+            <TxButton
+              accountId={accountId}
+              icon='check'
+              isDisabled={isDisabled}
+              label={t<string>('Vote Aye')}
+              onStart={toggleVoting}
+              params={[hash, idNumber, true]}
+              tx='council.vote'
+            />
+          </Modal.Actions>
         </Modal>
       )}
       <Button
