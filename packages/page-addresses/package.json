@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@testing-library/react": "^10.4.9",
-    "testcontainers": "^2.17.0"
+    "testcontainers": "^3.4.0"
   }
 }
