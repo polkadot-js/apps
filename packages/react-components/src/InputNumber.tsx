@@ -8,6 +8,7 @@ import { BitLength } from './types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { registry } from '@polkadot/react-api';
 import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
 import { classes } from './util';
@@ -120,7 +121,7 @@ function inputToBn (input: string, si: SiDef | null, bitLength: BitLength, isZer
     }
 
     const div = new BN(input.replace(/\.\d*$/, ''));
-    const modString = input.replace(/^\d+\./, '');
+    const modString = input.replace(/^\d+\./, '').substr(0, registry.chainDecimals);
     const mod = new BN(modString);
 
     result = div
