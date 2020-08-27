@@ -66,7 +66,7 @@ export default React.memo(styled(HelpOverlay)`
     top: 0;
     transition-duration: .5s;
     transition-property: all;
-    z-index: 10;
+    z-index: 225; // 5 more than menubar
 
     .help-button {
       text-align: right;
