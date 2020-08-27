@@ -102,7 +102,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
       <td className='address'>
         <AddressSmall value={who} />
       </td>
-      <td className='address'>
+      <td className='address media--1400'>
         {finder && (
           <AddressMini value={finder} />
         )}
@@ -136,6 +136,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
           : finder && (
             <TxButton
               accountId={finder}
+              className='media--1400'
               icon='times'
               isDisabled={!isFinder}
               label={t('Cancel')}
@@ -179,11 +180,11 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
           value={isMedianSelected}
         />
       </td>
-      <td className='mini media--1700'>
+      <td className='links media--1700'>
         <LinkExternal
           data={hash}
+          isSmall
           type='tip'
-          withShort
         />
       </td>
     </tr>

@@ -159,11 +159,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           icon='asterisk'
         />
       </td>
-      <td className='mini media--1000'>
+      <td className='links media--1000'>
         <LinkExternal
           data={index}
+          isSmall
           type='referendum'
-          withShort
         />
       </td>
     </tr>

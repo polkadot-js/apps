@@ -576,12 +576,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </Menu>
         </Popup>
       </td>
-      <td className='mini media--1400'>
+      <td className='links media--1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}
+          isSmall
           type='address'
-          withShort
         />
       </td>
     </tr>

@@ -24,7 +24,7 @@ function Members ({ className = '', info }: Props): React.ReactElement<Props> {
   const headerRef = useRef([
     [t('members'), 'start', 3],
     [t('strikes')],
-    [undefined, 'mini']
+    []
   ]);
 
   const filtered = useMemo(

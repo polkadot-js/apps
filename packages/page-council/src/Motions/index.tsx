@@ -32,7 +32,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
     [t('votes'), 'start'],
     [],
     [undefined, 'badge'],
-    [undefined, 'mini']
+    []
   ]);
 
   return (

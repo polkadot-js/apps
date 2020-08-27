@@ -45,11 +45,11 @@ function DispatchEntry ({ value: { at, image, imageHash, index } }: Props): Reac
           />
         )}
       </td>
-      <td className='mini media--1000'>
+      <td className='links media--1000'>
         <LinkExternal
           data={index}
+          isSmall
           type='referendum'
-          withShort
         />
       </td>
     </tr>
