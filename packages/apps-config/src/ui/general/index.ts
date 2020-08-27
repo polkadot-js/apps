@@ -17,6 +17,7 @@ const chainRoccoAcala = '#173DC9';
 const chainRoccoDarwinia = '#7C30DD';
 const laminarRoccoAcala = '#004FFF';
 const chainWestend = '#da68a7';
+const chainPhala = '#4dc56a';
 
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
@@ -41,7 +42,8 @@ const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['darwinia parachain', chainRoccoDarwinia],
   ['laminar turbulence pc1', laminarRoccoAcala],
-  ['Westend', chainWestend]
+  ['Westend', chainWestend],
+  ['phala poc 2', chainPhala]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color

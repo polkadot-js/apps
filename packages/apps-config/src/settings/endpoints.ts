@@ -211,6 +211,11 @@ function createTest (t: TFunction): LinkOption[] {
       info: 'laminar',
       text: t<string>('rpc.turbulence', 'Turbulence (Laminar Testnet, hosted by Laminar)', { ns: 'apps-config' }),
       value: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
+    },
+    {
+      info: 'phala',
+      text: t<string>('rpc.phala', 'Phala PoC-2 (Phala Testnet, hosted by Phala Network)', { ns: 'apps-config' }),
+      value: 'wss://poc2.phala.network/ws'
     }
   ];
 }

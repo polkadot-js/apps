@@ -2,10 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Beresheet from './beresheet';
-import Phala from './phala';
-
 export default {
-  Beresheet,
-  'Phala PoC-2': Phala
+  SequenceType: 'u32'
 };
