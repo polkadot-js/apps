@@ -5,7 +5,7 @@
 import { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
@@ -32,19 +32,27 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
   const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
   const { t } = useTranslation();
 
-  if (!stakingInfo?.unlocking || !progress) {
+  const [mapped, total] = useMemo(
+    (): [[DeriveUnlocking, BN][], BN] => {
+      if (!stakingInfo || !progress) {
+        return [[], BN_ZERO];
+      }
+
+      const mapped = (stakingInfo?.unlocking || [])
+        .filter(({ remainingEras, value }) => value.gtn(0) && remainingEras.gtn(0))
+        .map((unlock): [DeriveUnlocking, BN] => [unlock, remainingBlocks(unlock.remainingEras, progress)]);
+      const total = mapped.reduce((total, [{ value }]) => total.iadd(value), new BN(0));
+
+      return [mapped, total];
+    },
+    [progress, stakingInfo]
+  );
+
+  if (!stakingInfo || !mapped.length) {
     return null;
   }
 
-  const filtered = stakingInfo.unlocking.filter(({ remainingEras, value }) => value.gtn(0) && remainingEras.gtn(0));
-
-  if (!filtered.length) {
-    return null;
-  }
-
-  const mapped = filtered.map((unlock): [DeriveUnlocking, BN] => [unlock, remainingBlocks(unlock.remainingEras, progress)]);
-  const total = mapped.reduce((total, [{ value }]) => total.add(value), BN_ZERO);
-  const trigger = `${stakingInfo.accountId.toHex()}-unlocking-trigger`;
+  const trigger = `${stakingInfo.accountId.toString()}-unlocking-trigger`;
 
   return (
     <div className={className}>
