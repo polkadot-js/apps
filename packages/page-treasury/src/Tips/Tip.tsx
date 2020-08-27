@@ -5,9 +5,9 @@
 import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { AddressSmall, AddressMini, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
+import { AddressSmall, AddressMini, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
@@ -20,9 +20,11 @@ import TipReason from './TipReason';
 interface Props {
   bestNumber?: BlockNumber;
   className?: string;
+  defaultId: string | null;
   hash: string;
   isMember: boolean;
   members: string[];
+  onSelect: (hash: string, isSelected: boolean, value: BN) => void,
   tip: OpenTip | OpenTipTo225;
 }
 
@@ -74,7 +76,7 @@ function extractTipState (tip: OpenTip | OpenTipTo225, hash: string, allAccounts
   };
 }
 
-function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onSelect, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
 
@@ -82,6 +84,16 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
     () => extractTipState(tip, hash, allAccounts),
     [allAccounts, hash, tip]
   );
+
+  const [isMedianSelected, setMedianTip] = useState(false);
+
+  useEffect((): void => {
+    onSelect(hash, isMedianSelected, median);
+  }, [hash, isMedianSelected, median, onSelect]);
+
+  useEffect((): void => {
+    setMedianTip(isMember && !isTipper);
+  }, [isMember, isTipper]);
 
   const { reason, tips, who } = tip;
 
@@ -135,6 +147,7 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
         {(!closesAt || !bestNumber || closesAt.gt(bestNumber))
           ? (
             <TipEndorse
+              defaultId={defaultId}
               hash={hash}
               isMember={isMember}
               isTipped={isTipped}
@@ -158,6 +171,13 @@ function Tip ({ bestNumber, className = '', hash, isMember, members, tip }: Prop
             icon='asterisk'
           />
         )}
+      </td>
+      <td className='badge'>
+        <Checkbox
+          isDisabled={!isMember}
+          onChange={setMedianTip}
+          value={isMedianSelected}
+        />
       </td>
       <td className='mini media--1700'>
         <LinkExternal
