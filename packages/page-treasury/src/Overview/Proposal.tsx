@@ -64,7 +64,7 @@ function ProposalDisplay ({ className = '', isMember, members, proposal: { counc
       <td className='links'>
         <LinkExternal
           data={id}
-          isSmall
+          isLogo
           type='treasury'
         />
       </td>

@@ -580,7 +580,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}
-          isSmall
+          isLogo
           type='address'
         />
       </td>

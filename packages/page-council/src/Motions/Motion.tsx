@@ -116,7 +116,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
         <LinkExternal
           data={index}
           hash={hash.toString()}
-          isSmall
+          isLogo
           type='council'
         />
       </td>

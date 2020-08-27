@@ -171,7 +171,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       <td className='links media--1200'>
         <LinkExternal
           data={address}
-          isSmall
+          isLogo
           type={isMain ? 'validator' : 'intention'}
         />
       </td>
