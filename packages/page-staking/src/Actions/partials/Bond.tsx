@@ -24,6 +24,8 @@ interface Props {
   onChange: (info: BondInfo) => void;
 }
 
+type DestinationType = 'Staked' | 'Stash' | 'Controller' | 'Account';
+
 function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -31,7 +33,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const [amountError, setAmountError] = useState<AmountValidateState | null>(null);
   const [controllerError, setControllerError] = useState<boolean>(false);
   const [controllerId, setControllerId] = useState<string | null>(null);
-  const [destination, setDestination] = useState(0);
+  const [destination, setDestination] = useState<DestinationType>('Staked');
   const [stashId, setStashId] = useState<string | null>(null);
   const [startBalance, setStartBalance] = useState<BN | null>(null);
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
