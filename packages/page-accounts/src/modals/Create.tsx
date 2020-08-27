@@ -340,6 +340,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     ? uiSettings.availableCryptosEth
                     : uiSettings.availableCryptos
                 }
+                tabIndex={-1}
               />
             </Modal.Column>
             <Modal.Column>
@@ -363,6 +364,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                       ? t<string>('//hard/soft///password')
                       : t<string>('//hard///password')
                 }
+                tabIndex={-1}
                 value={derivePath}
               />
               {deriveError && (

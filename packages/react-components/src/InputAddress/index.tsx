@@ -125,7 +125,7 @@ class InputAddress extends React.PureComponent<Props, State> {
       return {
         lastValue: lastValue || getLastValue(type),
         value: Array.isArray(value)
-          ? value.map(addressToAddress)
+          ? value.map((v) => addressToAddress(v))
           : (addressToAddress(value) || undefined)
       };
     } catch (error) {
