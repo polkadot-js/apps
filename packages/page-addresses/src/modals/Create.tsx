@@ -10,6 +10,8 @@ import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
+import { hexToU8a } from '@polkadot/util';
+import { ethereumEncode } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 
@@ -28,7 +30,7 @@ interface NameState {
 
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isEthereum } = useApi();
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
   const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
   const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
@@ -42,11 +44,19 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
       let isPublicKey = false;
 
       try {
-        const publicKey = keyring.decodeAddress(addressInput);
+        if (isEthereum) {
+          const rawAddress = hexToU8a(addressInput);
 
-        address = keyring.encodeAddress(publicKey);
+          address = ethereumEncode(rawAddress);
+          isPublicKey = rawAddress.length === 20;
+        } else {
+          const publicKey = keyring.decodeAddress(addressInput);
+
+          address = keyring.encodeAddress(publicKey);
+          isPublicKey = publicKey.length === 32;
+        }
+
         isAddressValid = keyring.isAvailable(address);
-        isPublicKey = publicKey.length === 32;
 
         if (!isAddressValid) {
           const old = keyring.getAddress(address);
@@ -66,7 +76,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
 
       setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid, isPublicKey });
     },
-    [name]
+    [isEthereum, name]
   );
 
   const _onChangeName = useCallback(

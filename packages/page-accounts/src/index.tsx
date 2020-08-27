@@ -6,7 +6,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
-import { useAccounts, useIpfs } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useIpfs } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
@@ -21,6 +21,7 @@ const HIDDEN_ACC = ['vanity'];
 
 function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isEthereum } = useApi();
   const { hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
 
@@ -42,7 +43,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       <header>
         <Tabs
           basePath={basePath}
-          hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
+          hidden={(hasAccounts && !isIpfs && !isEthereum) ? undefined : HIDDEN_ACC}
           items={itemsRef.current}
         />
       </header>

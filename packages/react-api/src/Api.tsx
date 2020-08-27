@@ -161,6 +161,7 @@ async function loadOnReady (api: ApiPromise, store: KeyringStore | undefined, ty
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment,
+    isEthereum: api.runtimeVersion.specName.eq('node-moonbeam'),
     isSubstrateV2,
     systemChain,
     systemName,
