@@ -216,7 +216,7 @@ function createTest (t: TFunction): LinkOption[] {
       info: 'phala',
       text: t<string>('rpc.phala', 'Phala PoC-2 (Phala Testnet, hosted by Phala Network)', { ns: 'apps-config' }),
       value: 'wss://poc2.phala.network/ws'
-    },
+    }
   ];
 }
 
