@@ -3,7 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Beresheet from './beresheet';
+import Phala from './phala';
 
 export default {
-  Beresheet
+  Beresheet,
+  'Phala PoC-2': Phala
 };
