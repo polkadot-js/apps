@@ -117,7 +117,7 @@ const externalLogos: Record<string, any> = {
   polkassembly: externalPolkassembly,
   polkastats: externalPolkastats,
   subscan: externalSubscan
-}
+};
 
 // empty logos
 const emptyLogos: Record<string, any> = {
@@ -129,7 +129,7 @@ const emptyLogos: Record<string, any> = {
   Object.values(imageSet).forEach((src): void => {
     new Image().src = src as string;
   });
-})
+});
 
 export {
   chainLogos,
