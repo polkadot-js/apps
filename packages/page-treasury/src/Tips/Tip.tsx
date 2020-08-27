@@ -89,7 +89,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
 
   useEffect((): void => {
     onSelect(hash, isMedianSelected, median);
-  }, [hash, isMedianSelected, median]);
+  }, [hash, isMedianSelected, median, onSelect]);
 
   useEffect((): void => {
     setMedianTip(isMember && !isTipper);
