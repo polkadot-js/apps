@@ -153,6 +153,12 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://rococo-1.acala.laminar.one'
     },
     {
+      info: 'rococoDarwinia',
+      isChild: true,
+      text: t<string>('rpc.rococo.darwinia', 'Darwinia PC1 (Darwinia Testpara, hosted by Darwinia Network)', { ns: 'apps-config' }),
+      value: 'wss://parachain-rpc.darwinia.network'
+    },
+    {
       info: 'rococoLaminar',
       isChild: true,
       text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
