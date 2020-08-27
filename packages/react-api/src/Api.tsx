@@ -168,6 +168,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment,
+    isEthereum: api.runtimeVersion.specName.eq('node-moonbeam'),
     isSubstrateV2,
     systemChain,
     systemName,
