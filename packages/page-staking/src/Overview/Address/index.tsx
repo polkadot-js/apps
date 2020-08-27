@@ -168,11 +168,11 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )}
       </td>
-      <td className='mini media--1200'>
+      <td className='links media--1200'>
         <LinkExternal
           data={address}
+          isSmall
           type={isMain ? 'validator' : 'intention'}
-          withShort
         />
       </td>
     </tr>

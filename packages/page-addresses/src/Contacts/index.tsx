@@ -32,7 +32,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('transactions'), 'media--1500'],
     [t('balances')],
     [],
-    [undefined, 'mini media--1400']
+    [undefined, 'media--1400']
   ]);
 
   useEffect((): void => {

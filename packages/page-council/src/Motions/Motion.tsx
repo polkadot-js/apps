@@ -112,12 +112,12 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           />
         )}
       </td>
-      <td className='mini'>
+      <td className='links'>
         <LinkExternal
           data={index}
           hash={hash.toString()}
+          isSmall
           type='council'
-          withShort
         />
       </td>
     </tr>

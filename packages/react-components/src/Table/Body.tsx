@@ -96,6 +96,12 @@ export default React.memo(styled(Body)`
       font-family: monospace;
     }
 
+    &.links {
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+      width: 0;
+    }
+
     &.number {
       text-align: right;
     }

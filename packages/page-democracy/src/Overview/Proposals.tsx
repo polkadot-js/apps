@@ -25,7 +25,7 @@ function Proposals ({ className }: Props): React.ReactElement<Props> {
     [t('proposer'), 'address'],
     [t('locked'), 'media--1200'],
     [undefined, undefined, 2],
-    [undefined, 'mini media--1000']
+    [undefined, 'media--1000']
   ]);
 
   return (

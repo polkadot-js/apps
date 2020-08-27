@@ -56,13 +56,13 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
 
   const headerRef = useRef([
     [t('tips'), 'start'],
-    [t('finder'), 'address'],
+    [t('finder'), 'address media--1400'],
     [t('reason'), 'start'],
     [],
     [],
     [undefined, 'badge media--1700'],
     [],
-    [undefined, 'mini media--1700']
+    [undefined, 'media--1700']
   ]);
 
   return (

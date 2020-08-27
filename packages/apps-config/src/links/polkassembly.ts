@@ -4,6 +4,8 @@
 
 import BN from 'bn.js';
 
+import { externalLogos } from '../ui/logos';
+
 export default {
   chains: {
     Kusama: 'kusama',
@@ -13,6 +15,7 @@ export default {
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkassembly.io/${path}/${data.toString()}`,
   isActive: true,
+  logo: externalLogos.polkassembly as string,
   paths: {
     council: 'motion',
     proposal: 'proposal',

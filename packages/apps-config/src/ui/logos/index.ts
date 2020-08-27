@@ -31,6 +31,13 @@ import nodeLaminar from './nodes/laminar-circle.svg';
 // extensions
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 
+// external links
+import externalCommonwealth from './external/commonwealth.png';
+import externalPolkascan from './external/polkascan.png';
+import externalPolkassembly from './external/polkassembly.png';
+import externalPolkastats from './external/polkastats.png';
+import externalSubscan from './external/subscan.png';
+
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
@@ -103,10 +110,32 @@ const extensionLogos: Record<string, any> = {
   'polkadot-js': extensionPolkadotJs
 };
 
+// external logos
+const externalLogos: Record<string, any> = {
+  commonwealth: externalCommonwealth,
+  polkascan: externalPolkascan,
+  polkassembly: externalPolkassembly,
+  polkastats: externalPolkastats,
+  subscan: externalSubscan
+};
+
+// empty logos
+const emptyLogos: Record<string, any> = {
+  empty: emptyLogo
+};
+
+// preload all
+[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].map((imageSet): void => {
+  Object.values(imageSet).forEach((src): void => {
+    new Image().src = src as string;
+  });
+});
+
 export {
   chainLogos,
   emptyLogo,
   extensionLogos,
+  externalLogos,
   namedLogos,
   nodeLogos
 };
