@@ -14,6 +14,7 @@ const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
 const chainRoccoAcala = '#173DC9';
+const chainRoccoDarwinia = '#7C30DD';
 const laminarRoccoAcala = '#004FFF';
 const chainWestend = '#da68a7';
 
@@ -38,6 +39,7 @@ const chainColors: Record<string, any> = [
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
   ['acala mandala pc1', chainRoccoAcala],
+  ['darwinia parachain', chainRoccoDarwinia],
   ['laminar turbulence pc1', laminarRoccoAcala],
   ['Westend', chainWestend]
 ].reduce((colors, [chain, color]): Record<string, any> => ({

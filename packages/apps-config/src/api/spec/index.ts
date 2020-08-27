@@ -5,6 +5,7 @@
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
+import darwiniaParachain from './darwinia-parachain';
 import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
@@ -22,6 +23,7 @@ export default {
   acala,
   'centrifuge-chain': centrifugeChain,
   'cumulus-test-parachain': testPara,
+  'darwinia-parachain': darwiniaParachain,
   edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,

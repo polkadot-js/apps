@@ -15,6 +15,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
+import nodeDarwinia from './nodes/darwinia.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -53,6 +54,7 @@ const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['crab', nodeCrab],
+  ['darwinia parachain', nodeDarwinia],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -86,6 +88,7 @@ const namedLogos: Record<string, any> = {
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
+  rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
