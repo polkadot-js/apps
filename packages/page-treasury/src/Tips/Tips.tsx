@@ -61,7 +61,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
     [],
     [],
     [undefined, 'badge media--1700'],
-    [undefined, 'badge'],
+    [],
     [undefined, 'mini media--1700']
   ]);
 

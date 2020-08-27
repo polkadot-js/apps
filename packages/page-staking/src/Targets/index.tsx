@@ -140,7 +140,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       1,
       (): void => _sort(header as 'rankComm')
     ]),
-    [undefined, 'badge'],
+    [],
     []
   ], [_sort, labels, sortBy, sorted, sortFromMax, t]);
 
