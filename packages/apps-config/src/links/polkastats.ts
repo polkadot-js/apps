@@ -15,7 +15,7 @@ export default {
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.polkastats.io/${path}/${data.toString()}`,
   isActive: true,
-  logo: externalLogos.polkastats,
+  logo: externalLogos.polkastats as string,
   paths: {
     address: 'account',
     block: 'block',

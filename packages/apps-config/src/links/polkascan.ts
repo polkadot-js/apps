@@ -18,7 +18,7 @@ export default {
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://polkascan.io/${chain}/${path}/${data.toString()}`,
   isActive: true,
-  logo: externalLogos.polkascan,
+  logo: externalLogos.polkascan as string,
   paths: {
     address: 'account',
     block: 'block',

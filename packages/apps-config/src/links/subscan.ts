@@ -19,7 +19,7 @@ export default {
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
   isActive: true,
-  logo: externalLogos.subscan,
+  logo: externalLogos.subscan as string,
   paths: {
     address: 'account',
     block: 'block',
