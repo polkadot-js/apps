@@ -24,7 +24,7 @@ interface Props {
   toggleFavorite: (address: string) => void;
 }
 
-const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true };
+const WITH_BALANCE = { available: true, bonded: true, free: true, locked: true, reserved: true, total: true, unlocking: true };
 
 const isEditable = true;
 
