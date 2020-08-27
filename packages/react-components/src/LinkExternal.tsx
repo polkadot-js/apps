@@ -98,7 +98,7 @@ export default React.memo(styled(LinkExternal)`
   .links {
     img {
       border-radius: 50%;
-      filter: grayscale(1) opacity(0.75);
+      filter: grayscale(1) opacity(0.66);
       height: 1.5rem;
       width: 1.5rem;
 
