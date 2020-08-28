@@ -166,6 +166,7 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
+  const [keyPassword, setKeyPassword] = useState('');
   const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
@@ -179,6 +180,14 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     { text: t<string>('Mnemonic'), value: 'bip' },
     { text: t<string>('Raw seed'), value: 'raw' }
   ), [isDevelopment, t]);
+
+  const _onChangeKeyPassword = useCallback(
+    (keyPassword: string) => {
+      setKeyPassword(keyPassword);
+      setAddress(updateAddress(seed, `///${keyPassword}`, seedType, pairType));
+    },
+    [pairType, seed, seedType]
+  );
 
   const _onChangeDerive = useCallback(
     (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
@@ -303,10 +312,33 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
           </Modal.Column>
         </Modal.Columns>
+
         <PasswordInput
           onChange={_onPasswordChange}
           onEnter={_onCommit}
           password={password}/>
+
+          <Modal.Columns>
+            <Modal.Column>
+              <Input
+                className='full'
+                help={t<string>('Enter your key password here or set it in the derivation path. If set here it will override the deriviation path.')}
+                isError={!!deriveError}
+                label={t<string>('password')}
+                onChange={_onChangeKeyPassword}
+                onEnter={_onCommit}
+                placeholder={t<string>('password')}
+                value={keyPassword}
+              />
+              {deriveError && (
+                <article className='error'>{deriveError}</article>
+              )}
+            </Modal.Column>
+            <Modal.Column>
+              <p>{t<string>('Enter your key password here or set it in the derivation path. If set here it will override the deriviation path.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
+
         <Expander
           className='accounts--Creator-advanced'
           isOpen
@@ -347,7 +379,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               )}
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+              <p>{t<string>('Enter your key password here as ///password. The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
             </Modal.Column>
           </Modal.Columns>
         </Expander>

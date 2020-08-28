@@ -53,7 +53,7 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
           className='full'
           help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
           isError={!isPassValid}
-          label={t<string>('password')}
+          label={t<string>('account password')}
           onChange={_onPasswordChange}
           onEnter={onEnter}
           value={password}
@@ -62,14 +62,14 @@ export default function PasswordInput ({ onChange, onEnter, password }: Props): 
           className='full'
           help={t<string>('Verify the password entered above.')}
           isError={!isPass2Valid}
-          label={t<string>('password (repeat)')}
+          label={t<string>('account password (repeat)')}
           onChange={onPassword2Change}
           onEnter={onEnter}
           value={password2}
         />
       </Modal.Column>
       <Modal.Column>
-        <p>{t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
+        <p>{t<string>('This is NOT the key password. The password and password confirmation is for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}</p>
       </Modal.Column>
     </Modal.Columns>
   );
