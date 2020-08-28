@@ -37,8 +37,6 @@ function extractTotals (stakingInfo?: DeriveStakingAccount, progress?: DeriveSes
     ]);
   const total = mapped.reduce((total, [{ value }]) => total.iadd(value), new BN(0));
 
-  console.error('results', JSON.stringify({ unlocking: stakingInfo.unlocking, mapped, total: total.toString() }));
-
   return [mapped, total];
 }
 
