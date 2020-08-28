@@ -111,6 +111,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
   const _onAdd = useCallback(
     (): void => {
       isValid && onAdd({
+        at: null,
         isConst: false,
         key,
         params: values.filter(({ value }, index) => !isIterable || (index !== values.length - 1) || !isNull(value))
@@ -124,7 +125,7 @@ function Modules ({ onAdd }: Props): React.ReactElement<Props> {
       isValid: areParamsValid(key, values),
       values
     }),
-    [key]
+    [isIterable, key]
   );
 
   const _onChangeKey = useCallback(

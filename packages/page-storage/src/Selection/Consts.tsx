@@ -28,7 +28,7 @@ function Consts ({ onAdd }: Props): React.ReactElement<Props> {
   const [value, setValue] = useState(defaultValue);
 
   const _onAdd = useCallback(
-    () => onAdd({ isConst: true, key: value }),
+    () => onAdd({ at: null, isConst: true, key: value }),
     [onAdd, value]
   );
 

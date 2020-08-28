@@ -17,7 +17,7 @@ function Raw ({ onAdd }: Props): React.ReactElement<Props> {
 
   const _onAdd = useCallback(
     (): void => {
-      isValid && onAdd({ isConst: false, key });
+      isValid && onAdd({ at: null, isConst: false, key });
     },
     [isValid, key, onAdd]
   );
