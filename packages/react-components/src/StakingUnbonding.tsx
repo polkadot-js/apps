@@ -20,11 +20,24 @@ interface Props {
   stakingInfo?: DeriveStakingAccount;
 }
 
-function remainingBlocks (remainingEras: BN, { eraLength, eraProgress }: DeriveSessionProgress): BN {
-  return remainingEras
-    .sub(BN_ONE)
-    .imul(eraLength)
-    .iadd(eraLength.sub(eraProgress));
+function extractTotals (stakingInfo?: DeriveStakingAccount, progress?: DeriveSessionProgress): [[DeriveUnlocking, BN][], BN] {
+  if (!stakingInfo?.unlocking || !progress) {
+    return [[], BN_ZERO];
+  }
+
+  const mapped = stakingInfo.unlocking
+    .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
+    .map((unlock): [DeriveUnlocking, BN] => [
+      unlock,
+      unlock.remainingEras
+        .sub(BN_ONE)
+        .imul(progress.eraLength)
+        .iadd(progress.eraLength)
+        .isub(progress.eraProgress)
+    ]);
+  const total = mapped.reduce((total, [{ value }]) => total.iadd(value), new BN(0));
+
+  return [mapped, total];
 }
 
 function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactElement<Props> | null {
@@ -33,18 +46,7 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
   const { t } = useTranslation();
 
   const [mapped, total] = useMemo(
-    (): [[DeriveUnlocking, BN][], BN] => {
-      if (!stakingInfo || !progress) {
-        return [[], BN_ZERO];
-      }
-
-      const mapped = (stakingInfo?.unlocking || [])
-        .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
-        .map((unlock): [DeriveUnlocking, BN] => [unlock, remainingBlocks(unlock.remainingEras, progress)]);
-      const total = mapped.reduce((total, [{ value }]) => total.iadd(value), new BN(0));
-
-      return [mapped, total];
-    },
+    () => extractTotals(stakingInfo, progress),
     [progress, stakingInfo]
   );
 
