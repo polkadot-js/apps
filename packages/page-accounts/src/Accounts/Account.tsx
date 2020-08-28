@@ -108,6 +108,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   useEffect((): void => {
     if (balancesAll) {
       setBalance(address, balancesAll.freeBalance.add(balancesAll.reservedBalance));
+
       api.api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()
           ? null
@@ -120,7 +121,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     bestNumber && democracyLocks && setUnlockableIds(
       (prev): DemocracyUnlockable => {
         const ids = democracyLocks
-          .filter(({ isFinished, unlockAt }) => isFinished && bestNumber.gt(unlockAt))
+          .filter(({ balance, isFinished, unlockAt }) => isFinished && (balance.isMax() || bestNumber.gt(unlockAt)))
           .map(({ referendumId }) => referendumId);
 
         if (JSON.stringify(prev.ids) === JSON.stringify(ids)) {
