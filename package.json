@@ -33,12 +33,12 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^1.31.0-beta.9",
-    "@polkadot/api-contract": "^1.31.0-beta.9",
-    "@polkadot/keyring": "^3.4.0-beta.2",
-    "@polkadot/types": "^1.31.0-beta.9",
-    "@polkadot/util": "^3.4.0-beta.2",
-    "@polkadot/util-crypto": "^3.4.0-beta.2",
+    "@polkadot/api": "^1.31.0-beta.11",
+    "@polkadot/api-contract": "^1.31.0-beta.11",
+    "@polkadot/keyring": "^3.4.0-beta.3",
+    "@polkadot/types": "^1.31.0-beta.11",
+    "@polkadot/util": "^3.4.0-beta.3",
+    "@polkadot/util-crypto": "^3.4.0-beta.3",
     "@polkadot/wasm-crypto": "^1.4.1",
     "babel-core": "^7.0.0-bridge.0"
   },

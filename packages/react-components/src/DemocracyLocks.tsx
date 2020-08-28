@@ -47,9 +47,9 @@ function groupLocks (t: TFunction, bestNumber: BN, locks: DeriveDemocracyLock[] 
       .sort((a, b) => a[0].referendumId.cmp(b[0].referendumId))
       .sort((a, b) => a[1].cmp(b[1]))
       .sort((a, b) => a[0].isFinished === b[0].isFinished ? 0 : (a[0].isFinished ? -1 : 1))
-      .reduce((sorted: Entry[], [{ balance, isFinished, referendumId, vote }, blocks]): Entry[] => {
+      .reduce((sorted: Entry[], [{ balance, isDelegated, isFinished, referendumId, vote }, blocks]): Entry[] => {
         const isCountdown = blocks.gt(BN_ZERO);
-        const header = <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction.toString()}</div>;
+        const header = <div>#{referendumId.toString()} {formatBalance(balance, { forceUnit: '-' })} {vote.conviction.toString()}{isDelegated && '/d'}</div>;
         const prev = sorted.length ? sorted[sorted.length - 1] : null;
 
         if (!prev || (isCountdown || (isFinished !== prev.isFinished))) {
