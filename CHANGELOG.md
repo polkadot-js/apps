@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.56.0-beta.30
+
+- Electron test
+
 ## 0.55.1 Aug 24, 2020
 
 - Add Kilt network (Thanks to https://github.com/wischli)
