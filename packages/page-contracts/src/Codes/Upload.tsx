@@ -8,12 +8,15 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { Button, InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useNonEmptyString, useToggle } from '@polkadot/react-hooks';
-import { compactAddLength, isNull } from '@polkadot/util';
+import { compactAddLength, isNull, isWasm } from '@polkadot/util';
 
 import { ABI, InputName } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
+
+// also in params/Code & components/InputWasm
+const WASM_MAGIC = new Uint8Array([0, 97, 115, 109]);
 
 function Upload (): React.ReactElement {
   const { t } = useTranslation();
@@ -31,7 +34,7 @@ function Upload (): React.ReactElement {
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
-      setWasm([compactAddLength(wasm), wasm.subarray(0, 4).toString() === '0,97,115,109']);
+      setWasm([compactAddLength(wasm), isWasm(wasm)]);
       setName(name);
     },
     [setName]
