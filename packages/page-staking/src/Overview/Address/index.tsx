@@ -120,7 +120,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         />
         <Status
           isElected={isElected}
-          numNominators={nominatedBy?.length}
+          numNominators={nominatedBy?.length || nominators.length}
           onlineCount={onlineCount}
           onlineMessage={onlineMessage}
         />
