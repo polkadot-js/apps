@@ -26,6 +26,10 @@ export default function create (t: TFunction): Option[] {
       value: 'es'
     },
     {
+      text: 'Bahasa Indonesia',
+      value: 'idn'
+    },
+    {
       text: '日本語',
       value: 'ja'
     },
