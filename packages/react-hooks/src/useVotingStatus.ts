@@ -5,7 +5,7 @@
 import { BlockNumber, Votes } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 
 import useApi from './useApi';
@@ -50,13 +50,11 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
 export default function useVotingStatus (votes: Votes | null | undefined, numMembers: number, section: 'council' | 'technicalCommittee'): State {
   const { api } = useApi();
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const [state, setState] = useState<State>({ hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null });
 
-  useEffect((): void => {
-    bestNumber && votes && setState(
-      getStatus(api, bestNumber, votes, numMembers, section)
-    );
-  }, [api, bestNumber, numMembers, section, votes]);
-
-  return state;
+  return useMemo(
+    () => bestNumber && votes
+      ? getStatus(api, bestNumber, votes, numMembers, section)
+      : { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null },
+    [api, bestNumber, numMembers, section, votes]
+  );
 }
