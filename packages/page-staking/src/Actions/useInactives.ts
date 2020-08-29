@@ -13,6 +13,7 @@ interface Inactives {
   nomsActive?: string[];
   nomsChilled?: string[];
   nomsInactive?: string[];
+  nomsOver?: string[];
   nomsWaiting?: string[];
 }
 
@@ -28,6 +29,15 @@ function extractState (stashId: string, slashes: Option<SlashingSpans>[], nomine
     return !lastNonzeroSlash.isZero() && lastNonzeroSlash.gte(submittedIn);
   });
 
+  // all nominations that are oversubscribed
+  const nomsOver = exposures
+    .map((exposure, index) =>
+      exposure.others.length > 64
+        ? nominees[index]
+        : null
+    )
+    .filter((nominee): nominee is string => !!nominee && !nomsChilled.includes(nominee));
+
   // first a blanket find of nominations not in the active set
   let nomsInactive = exposures
     .map((exposure, index) =>
@@ -35,7 +45,7 @@ function extractState (stashId: string, slashes: Option<SlashingSpans>[], nomine
         ? null
         : nominees[index]
     )
-    .filter((inactiveId): inactiveId is string => !!inactiveId);
+    .filter((nominee): nominee is string => !!nominee);
 
   // waiting if validator is inactive or we have not submitted long enough ago
   const nomsWaiting = exposures
@@ -44,19 +54,20 @@ function extractState (stashId: string, slashes: Option<SlashingSpans>[], nomine
         ? nominees[index]
         : null
     )
-    .filter((waitingId): waitingId is string => !!waitingId)
-    .filter((nominee) => !nomsChilled.includes(nominee));
+    .filter((nominee): nominee is string => !!nominee)
+    .filter((nominee) => !nomsChilled.includes(nominee) && !nomsOver.includes(nominee));
 
   // filter based on all inactives
-  const nomsActive = nominees.filter((nominee) => !nomsInactive.includes(nominee) && !nomsChilled.includes(nominee));
+  const nomsActive = nominees.filter((nominee) => !nomsInactive.includes(nominee) && !nomsChilled.includes(nominee) && !nomsOver.includes(nominee));
 
   // inactive also contains waiting, remove those
-  nomsInactive = nomsInactive.filter((nominee) => !nomsWaiting.includes(nominee) && !nomsChilled.includes(nominee));
+  nomsInactive = nomsInactive.filter((nominee) => !nomsWaiting.includes(nominee) && !nomsChilled.includes(nominee) && !nomsOver.includes(nominee));
 
   return {
     nomsActive,
     nomsChilled,
     nomsInactive,
+    nomsOver,
     nomsWaiting
   };
 }

@@ -15,10 +15,24 @@ interface Props {
 
 function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { nomsActive, nomsChilled, nomsInactive, nomsWaiting } = useInactives(stashId, nominating);
+  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
 
   return (
     <>
+      {nomsOver && nomsOver.length !== 0 && (
+        <Expander
+          help={t<string>('The validators that are over-subscribed, only the top 64 backing stake will be rewarded.')}
+          summary={t<string>('Oversubscribed nominations ({{count}})', { replace: { count: nomsOver.length } })}
+        >
+          {nomsOver.map((nomineeId, index): React.ReactNode => (
+            <AddressMini
+              key={index}
+              value={nomineeId}
+              withBalance={false}
+            />
+          ))}
+        </Expander>
+      )}
       {nomsActive && nomsActive.length !== 0 && (
         <Expander
           help={t<string>('The validators selected by the Phragmen algorithm to nominate for this era.')}
