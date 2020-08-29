@@ -13,7 +13,6 @@ const transformStashes = {
 
 export default function useStashIds (): string[] | undefined {
   const { api } = useApi();
-  const allStashes = useCall<string[]>(api.derive.staking.stashes, undefined, transformStashes);
 
-  return allStashes;
+  return useCall<string[]>(api.derive.staking.stashes, undefined, transformStashes);
 }

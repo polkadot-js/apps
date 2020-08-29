@@ -4,7 +4,7 @@
 
 import { HeadersReceivedResponse, session } from 'electron';
 
-export const setupContentSecurityPolicy = (environment: string): void => {
+export const setupContentSecurityPolicy = (_: string): void => {
   session.defaultSession.webRequest.onHeadersReceived((details, cb: (headersReceivedResponse: HeadersReceivedResponse) => void) => {
     const headersReceivedResponse = {
       responseHeaders: {
