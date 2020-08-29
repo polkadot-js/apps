@@ -49,7 +49,7 @@ export function useOwnStashIds (): string[] | undefined {
   const ownStashes = useOwnStashes();
 
   return useMemo(
-    ()  => ownStashes
+    () => ownStashes
       ? ownStashes.map(([stashId]) => stashId)
       : undefined,
     [ownStashes]

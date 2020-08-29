@@ -27,8 +27,6 @@ interface State {
   skipQuery?: boolean;
 }
 
-const DEFAULT_STATE = { isRegistrar: false, registrars: [] };
-
 export default function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -37,23 +35,19 @@ export default function useRegistrars (skipQuery?: boolean): State {
   // determine if we have a registrar or not - registrars are allowed to approve
   return useMemo(
     (): State => {
-      if (query) {
-        const registrars = query
-          .map((registrar, index): RegistrarNull => ({
-            address: registrar.isSome
-              ? registrar.unwrap().account.toString()
-              : null,
-            index
-          }))
-          .filter((registrar): registrar is Registrar => !!registrar.address);
+      const registrars = (query || [])
+        .map((registrar, index): RegistrarNull => ({
+          address: registrar.isSome
+            ? registrar.unwrap().account.toString()
+            : null,
+          index
+        }))
+        .filter((registrar): registrar is Registrar => !!registrar.address);
 
-        return{
-          isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
-          registrars
-        };
-      }
-
-      return DEFAULT_STATE;
+      return {
+        isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
+        registrars
+      };
     },
     [allAccounts, query]
   );
