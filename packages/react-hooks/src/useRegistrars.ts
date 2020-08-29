@@ -27,6 +27,8 @@ interface State {
   skipQuery?: boolean;
 }
 
+const DEFAULT_STATE = { isRegistrar: false, registrars: [] };
+
 export default function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -51,7 +53,7 @@ export default function useRegistrars (skipQuery?: boolean): State {
         };
       }
 
-      return { isRegistrar: false, registrars: [] };
+      return DEFAULT_STATE;
     },
     [allAccounts, query]
   );

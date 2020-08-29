@@ -19,6 +19,8 @@ interface State {
   remainingBlocks: BN | null;
 }
 
+const DEFAULT_STATUS = { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null };
+
 function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numMembers: number, section: 'council' | 'technicalCommittee'): State {
   if (!votes.end) {
     return {
@@ -54,7 +56,7 @@ export default function useVotingStatus (votes: Votes | null | undefined, numMem
   return useMemo(
     () => bestNumber && votes
       ? getStatus(api, bestNumber, votes, numMembers, section)
-      : { hasFailed: false, hasPassed: false, isCloseable: false, isVoteable: false, remainingBlocks: null },
+      : DEFAULT_STATUS,
     [api, bestNumber, numMembers, section, votes]
   );
 }
