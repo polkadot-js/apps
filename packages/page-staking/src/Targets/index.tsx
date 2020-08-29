@@ -225,6 +225,12 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 export default React.memo(styled(Targets)`
   text-align: center;
 
+  th.isClickable {
+    .ui--Icon {
+      margin-left: 0.5rem;
+    }
+  }
+
   .ui--Table {
     overflow-x: auto;
   }
