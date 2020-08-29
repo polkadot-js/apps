@@ -5,6 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
+import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
@@ -21,6 +22,7 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodeKilt from './nodes/kilt.svg';
+import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
@@ -44,6 +46,7 @@ import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
 const chainLogos: Record<string, any> = [
+  ['Dusty', chainDusty],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
@@ -72,6 +75,7 @@ const nodeLogos: Record<string, any> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
+  ['Plasm Node', nodePlasm],
   ['polkadot-js', nodePolkadotJs],
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
@@ -87,6 +91,7 @@ const namedLogos: Record<string, any> = {
   alexander: nodePolkadot,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
+  dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   kilt: nodeKilt,
@@ -95,11 +100,13 @@ const namedLogos: Record<string, any> = {
   laminar: nodeLaminar,
   nodle: nodeNodle,
   phala: nodePhala,
+  plasm: nodePlasm,
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
   rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
+  rococoPlasm: nodePlasm,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,

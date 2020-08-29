@@ -44,6 +44,11 @@ export default function create (t: TFunction): Option[] {
       value: 7
     },
     {
+      info: 'plasm',
+      text: t<string>('ss58.plasm', 'Plasm (live)', { ns: 'apps-config' }),
+      value: 5
+    },
+    {
       info: 'subsocial',
       text: t<string>('ss58.subsocial', 'Subsocial (live)', { ns: 'apps-config' }),
       value: 28

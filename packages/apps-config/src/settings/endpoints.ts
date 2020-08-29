@@ -112,6 +112,11 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://main1.nodleprotocol.io'
     },
     {
+      info: 'plasm',
+      text: t<string>('rpc.plasm', 'Plasm (Plasm Mainnet, hosted by Stake Technologies)', { ns: 'apps-config' }),
+      value: 'wss://rpc.plasmnet.io/'
+    },
+    {
       info: 'subsocial',
       text: t<string>('rpc.subsocial', 'Subsocial (Subsocial Network, hosted by DappForce)', { ns: 'apps-config' }),
       value: 'wss://rpc.subsocial.network'
@@ -165,6 +170,12 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://rococo-1.laminar-chain.laminar.one'
     },
     {
+      info: 'rococoPlasm',
+      isChild: true,
+      text: t<string>('rpc.rococo.plasm', 'Plasm PC1 (Plasm Testpara, hosted by Stake Technologies)', { ns: 'apps-config' }),
+      value: 'wss://rpc.parachain.plasmnet.io'
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
@@ -196,6 +207,11 @@ function createTest (t: TFunction): LinkOption[] {
       isDisabled: true,
       text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
       value: 'wss://testnet-harbour.datahighway.com'
+    },
+    {
+      info: 'dusty',
+      text: t<string>('rpc.dusty', 'Dusty (Plasm Testnet, hosted by Stake Technologies)', { ns: 'apps-config' }),
+      value: 'wss://rpc.dusty.plasmnet.io/'
     },
     {
       info: 'acala',

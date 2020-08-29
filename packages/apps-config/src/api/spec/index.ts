@@ -15,6 +15,7 @@ import kulupu from './kulupu';
 import laminar from './laminar';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
+import plasm from './plasm';
 import stablePoc from './stable-poc';
 import subsocialNode from './subsocial';
 
@@ -24,6 +25,7 @@ export default {
   'centrifuge-chain': centrifugeChain,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
@@ -33,6 +35,7 @@ export default {
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
+  plasm,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   subsocial: subsocialNode
