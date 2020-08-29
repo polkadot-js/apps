@@ -20,7 +20,6 @@ import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
-import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
@@ -34,8 +33,6 @@ export default {
   crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
-  'dock-main-runtime': dock,
-  'dock-testnet': dock,
   dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,
@@ -48,7 +45,6 @@ export default {
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   plasm,
-  robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,

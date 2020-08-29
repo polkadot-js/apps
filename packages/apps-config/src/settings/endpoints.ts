@@ -143,6 +143,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
     },
     {
       info: 'plasm',
+<<<<<<< HEAD
       text: t('rpc.plasm', 'Plasm', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Stake Technologies' } }),
       value: 'wss://rpc.plasmnet.io/'
@@ -154,6 +155,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://mainnet-rpc.stafi.io'
     },
     {
+=======
+      text: t<string>('rpc.plasm', 'Plasm (Plasm Mainnet, hosted by Stake Technologies)', { ns: 'apps-config' }),
+      value: 'wss://rpc.plasmnet.io/'
+    },
+    {
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
       info: 'subsocial',
       text: t('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'DappForce' } }),
@@ -215,6 +222,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://rpc.parachain.plasmnet.io'
     },
     {
+<<<<<<< HEAD
       info: 'rococoRobonomics',
       isChild: true,
       text: t('rpc.rococo.robonomics', 'Robonomics PC1', { ns: 'apps-config' }),
@@ -227,6 +235,18 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t('rpc.rococo.laminar', 'Turbulence PC1', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Laminar' } }),
       value: 'wss://rococo-1.laminar-chain.laminar.one'
+=======
+      info: 'rococoPlasm',
+      isChild: true,
+      text: t<string>('rpc.rococo.plasm', 'Plasm PC1 (Plasm Testpara, hosted by Stake Technologies)', { ns: 'apps-config' }),
+      value: 'wss://rpc.parachain.plasmnet.io'
+    },
+    {
+      dnslink: 'westend',
+      info: 'westend',
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://westend-rpc.polkadot.io'
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
     },
     // alphabetical based on chain name
     {
@@ -267,6 +287,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://testnet-harbour.datahighway.com'
     },
     {
+<<<<<<< HEAD
       info: 'dock-testnet',
       text: t('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
@@ -291,6 +312,13 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://substrate-rpc.parity.io'
     },
     {
+=======
+      info: 'dusty',
+      text: t<string>('rpc.dusty', 'Dusty (Plasm Testnet, hosted by Stake Technologies)', { ns: 'apps-config' }),
+      value: 'wss://rpc.dusty.plasmnet.io/'
+    },
+    {
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Acala' } }),

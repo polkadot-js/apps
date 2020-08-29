@@ -4,7 +4,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
+<<<<<<< HEAD
 // alphabetical
+=======
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
@@ -29,9 +32,12 @@ import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
+<<<<<<< HEAD
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodePhala from './nodes/phala.svg';
+=======
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -95,9 +101,13 @@ const nodeLogos: Record<string, any> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
+<<<<<<< HEAD
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
   ['phala-substrate-node', nodePhala],
+=======
+  ['Plasm Node', nodePlasm],
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
   ['polkadot-js', nodePolkadotJs],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
@@ -119,9 +129,12 @@ const namedLogos: Record<string, any> = {
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
+<<<<<<< HEAD
   crust: nodeCrust,
   'dock-mainnet': nodeDockMainnet,
   'dock-testnet': nodeDockTestnet,
+=======
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
@@ -140,7 +153,10 @@ const namedLogos: Record<string, any> = {
   rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
   rococoPlasm: nodePlasm,
+<<<<<<< HEAD
   rococoRobonomics: nodeRobonomics,
+=======
+>>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
