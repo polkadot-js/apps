@@ -51,7 +51,7 @@ function createDev (t: TFunction): LinkOption[] {
   ];
 }
 
-function createLive (t: TFunction): LinkOption[] {
+function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
     // fixed, polkadot
     {
@@ -124,9 +124,9 @@ function createLive (t: TFunction): LinkOption[] {
   ];
 }
 
-function createTest (t: TFunction): LinkOption[] {
+function createTestNetworks (t: TFunction): LinkOption[] {
   return [
-    // polkadot
+    // polkadot test relays
     {
       dnslink: 'rococo',
       info: 'rococo',
@@ -164,22 +164,16 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://parachain-rpc.darwinia.network'
     },
     {
-      info: 'rococoLaminar',
-      isChild: true,
-      text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
-      value: 'wss://rococo-1.laminar-chain.laminar.one'
-    },
-    {
       info: 'rococoPlasm',
       isChild: true,
       text: t<string>('rpc.rococo.plasm', 'Plasm PC1 (Plasm Testpara, hosted by Stake Technologies)', { ns: 'apps-config' }),
       value: 'wss://rpc.parachain.plasmnet.io'
     },
     {
-      dnslink: 'westend',
-      info: 'westend',
-      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://westend-rpc.polkadot.io'
+      info: 'rococoLaminar',
+      isChild: true,
+      text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
+      value: 'wss://rococo-1.laminar-chain.laminar.one'
     },
     // alphabetical based on chain name
     {
@@ -198,11 +192,6 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://beresheet1.edgewa.re'
     },
     {
-      info: 'substrate',
-      text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://substrate-rpc.parity.io'
-    },
-    {
       info: 'datahighway',
       isDisabled: true,
       text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),
@@ -212,6 +201,11 @@ function createTest (t: TFunction): LinkOption[] {
       info: 'dusty',
       text: t<string>('rpc.dusty', 'Dusty (Plasm Testnet, hosted by Stake Technologies)', { ns: 'apps-config' }),
       value: 'wss://rpc.dusty.plasmnet.io/'
+    },
+    {
+      info: 'substrate',
+      text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://substrate-rpc.parity.io'
     },
     {
       info: 'acala',
@@ -224,14 +218,20 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://full-nodes.kilt.io:9944/'
     },
     {
+      info: 'phala',
+      text: t<string>('rpc.phala', 'Phala PoC-2 (Phala Testnet, hosted by Phala Network)', { ns: 'apps-config' }),
+      value: 'wss://poc2.phala.network/ws'
+    },
+    {
       info: 'laminar',
       text: t<string>('rpc.turbulence', 'Turbulence (Laminar Testnet, hosted by Laminar)', { ns: 'apps-config' }),
       value: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
     },
     {
-      info: 'phala',
-      text: t<string>('rpc.phala', 'Phala PoC-2 (Phala Testnet, hosted by Phala Network)', { ns: 'apps-config' }),
-      value: 'wss://poc2.phala.network/ws'
+      dnslink: 'westend',
+      info: 'westend',
+      text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
+      value: 'wss://westend-rpc.polkadot.io'
     }
   ];
 }
@@ -271,13 +271,13 @@ export default function create (t: TFunction): LinkOption[] {
       text: t<string>('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
       value: ''
     },
-    ...createLive(t),
+    ...createLiveNetworks(t),
     {
       isHeader: true,
       text: t<string>('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
       value: ''
     },
-    ...createTest(t),
+    ...createTestNetworks(t),
     {
       isDevelopment: true,
       isHeader: true,
