@@ -9,12 +9,13 @@ import MaxBadge from '../../MaxBadge';
 
 interface Props {
   isElected: boolean;
+  isMain?: boolean;
   numNominators?: number;
   onlineCount?: false | number;
   onlineMessage?: boolean;
 }
 
-function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
+function Status ({ isElected, isMain, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
   return (
     <>
       {isElected
@@ -26,11 +27,15 @@ function Status ({ isElected, numNominators, onlineCount, onlineMessage }: Props
         )
         : <Badge color='transparent' />
       }
-      {(!!onlineCount || onlineMessage) && (
-        <Badge
-          color='green'
-          info={onlineCount || <Icon icon='envelope' />}
-        />
+      {isMain && (
+        !!onlineCount || onlineMessage
+          ? (
+            <Badge
+              color='green'
+              info={onlineCount || <Icon icon='envelope' />}
+            />
+          )
+          : <Badge color='transparent' />
       )}
       <MaxBadge numNominators={numNominators} />
     </>
