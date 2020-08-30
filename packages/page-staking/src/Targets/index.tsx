@@ -6,7 +6,7 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
@@ -123,29 +123,27 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     [api, validators, withIdentity]
   );
 
-  const labels = useMemo(
-    (): Record<string, string> => ({
-      rankBondOther: t<string>('other stake'),
-      rankBondOwn: t<string>('own stake'),
-      rankBondTotal: t<string>('total stake'),
-      rankComm: t<string>('comm.'),
-      rankNumNominators: t<string>('nominators'),
-      rankOverall: t<string>('profit/era')
-    }),
-    [t]
-  );
+  const labelsRef = useRef({
+    rankBondOther: t<string>('other stake'),
+    rankBondOwn: t<string>('own stake'),
+    rankBondTotal: t<string>('total stake'),
+    rankComm: t<string>('comm.'),
+    rankNumNominators: t<string>('nominators'),
+    rankOverall: t<string>('profit/era')
+  });
 
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
-    ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
-      <>{labels[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-      `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
-      1,
-      (): void => _sort(header as 'rankComm')
-    ]),
+    ...(['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'] as (keyof typeof labelsRef.current)[])
+      .map((header) => [
+        <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
+        `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
+        1,
+        () => _sort(header as 'rankComm')
+      ]),
     [],
     []
-  ], [_sort, labels, sortBy, sorted, sortFromMax, t]);
+  ], [_sort, labelsRef, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     sorted && (
