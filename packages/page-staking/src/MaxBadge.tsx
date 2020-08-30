@@ -6,8 +6,6 @@ import React from 'react';
 import { Badge } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { MAX_NOM_PAYOUTS } from './constants';
-
 interface Props {
   numNominators?: number;
 }
@@ -15,9 +13,9 @@ interface Props {
 function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
 
-  const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS);
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator;
 
-  if (!numNominators || max.gten(numNominators)) {
+  if (!numNominators || !max || max.gten(numNominators)) {
     return null;
   }
 

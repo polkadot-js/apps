@@ -10,8 +10,6 @@ import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import { MAX_NOM_PAYOUTS } from '../../constants';
-
 interface Props {
   stakeOther?: BN;
   nominators: [string, Balance][];
@@ -23,10 +21,10 @@ function StakeOther ({ nominators }: Props): React.ReactElement<Props> {
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
     (): [[string, Balance][], BN, [string, Balance][], BN] => {
       const sorted = nominators.sort((a, b) => b[1].cmp(a[1]));
-      const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS).toNumber();
-      const rewarded = sorted.slice(0, max);
+      const max = api.consts.staking?.maxNominatorRewardedPerValidator.toNumber();
+      const rewarded = max ? sorted.slice(0, max) : nominators;
       const rewardedTotal = rewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
-      const unrewarded = sorted.slice(max);
+      const unrewarded = max ? sorted.slice(max) : [];
       const unrewardedTotal = unrewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
 
       return [rewarded, rewardedTotal, unrewarded, unrewardedTotal];

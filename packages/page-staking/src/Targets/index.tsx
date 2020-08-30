@@ -13,7 +13,7 @@ import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
-import { MAX_NOMINATIONS, MAX_NOM_PAYOUTS } from '../constants';
+import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
 import Nominate from './Nominate';
 import Summary from './Summary';
@@ -109,15 +109,17 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const _selectProfitable = useCallback(
-    () => setSelected(
-      (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
-        if ((api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS).gtn(numNominators) && (result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
+    () => setSelected((): string[] => {
+      const max = api.consts.staking?.maxNominatorRewardedPerValidator;
+
+      return (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
+        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero() && (!max || max.gtn(numNominators)) ) {
           result.push(key);
         }
 
         return result;
-      }, [])
-    ),
+      }, []);
+    }),
     [api, validators, withIdentity]
   );
 
