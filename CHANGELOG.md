@@ -1,8 +1,35 @@
 # CHANGELOG
 
-## 0.56.0-beta.30
+## 0.56.0-beta.x
 
-- Electron test
+- Add Laminar Rococo parachain (Thanks to https://github.com/aniiantt)
+- Add Darwinia Rococo parachain (Thanks to https://github.com/WoeOm)
+- Add Subsocial chain (Thanks to https://github.com/F3Joule)
+- Add Phala POC2 testnet (Thanks to https://github.com/krhougs)
+- Add Plasm network (Thanks to https://github.com/akru)
+- Rename Darwinia Crab chain (Thanks to https://github.com/WoeOm)
+- Add I18n For Bahasa Indonesian (Thanks to https://github.com/nzjourney)
+- Add bulk tipping (median) functionality to treasury tips
+- Add a calendar app that show current and upcoming chain events
+- Ensure max nomination limits (64) badges are displayed in all location on staking
+- Show oversubscribed validators under accounts & on staking overview
+- Show the next burn amount on treasury
+- Add warning on new treasury proposals that rejections will lose the bond
+- Add explicit Aye/Nay buttons on all voting modals (no toggle)
+- Display unlocking timer for delegated voting under accounts
+- Fix Electron app security to allow WASM
+- Cleanup indices handling, including size checks on the AccountId level (from non indices lookup chains)
+- Adjust create account modal with advanced options minimized by default
+- Adjust reward destination handling to cater for both current/next generations
+- Adjust slideout z-index (non-hidden behind new menubar)
+- Add checks for multisig thresholds to align with Rust (min 2)
+- Adjust external source links to use destination icons
+- Limit InputNumber around actual available chain decimals
+- Display bonding unlocking on address book
+- Cleanup display for unbonding values, better performant
+- Add a legend on the staking overview pages
+- `@polkadot/api`1.31.1
+- `@polkadot/util` 3.3.1
 
 ## 0.55.1 Aug 24, 2020
 
