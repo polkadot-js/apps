@@ -113,7 +113,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       const max = api.consts.staking?.maxNominatorRewardedPerValidator;
 
       return (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
-        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero() && (!max || max.gtn(numNominators)) ) {
+        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero() && (!max || max.gtn(numNominators))) {
           result.push(key);
         }
 

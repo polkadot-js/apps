@@ -28,7 +28,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
         return [sorted, stakeOther || BN_ZERO, [], BN_ZERO];
       }
 
-      const rewarded =sorted.slice(0, max);
+      const rewarded = sorted.slice(0, max);
       const rewardedTotal = rewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
       const unrewarded = sorted.slice(max);
       const unrewardedTotal = unrewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
