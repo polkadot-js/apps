@@ -19,7 +19,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
 
-  const max = api.consts.staking?.maxNominatorRewardedPerValidator;
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator.toString();
 
   return (
     <>
