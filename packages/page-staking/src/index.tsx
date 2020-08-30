@@ -205,6 +205,8 @@ export default React.memo(styled(StakingApp)`
   }
 
   .ui--Expander.stakeOver {
-    color: darkred;
+    .ui--Expander-summary {
+      color: darkred;
+    }
   }
 `);
