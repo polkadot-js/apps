@@ -17,7 +17,7 @@ function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
 
   const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS);
 
-  if (!numNominators || max.gtn(numNominators)) {
+  if (!numNominators || max.gten(numNominators)) {
     return null;
   }
 

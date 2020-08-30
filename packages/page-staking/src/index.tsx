@@ -203,4 +203,10 @@ export default React.memo(styled(StakingApp)`
       margin-top: 0.5rem;
     }
   }
+
+  .ui--Expander.stakeOver {
+    .ui--Expander-summary {
+      color: darkred;
+    }
+  }
 `);
