@@ -25,6 +25,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
     <>
       {nomsOver && nomsOver.length !== 0 && (
         <Expander
+          className='stakeOver'
           help={t<string>('These validators are active but only the top {{max}} nominators by backing stake will be receiving rewards. The nominating stash is not one of those to be rewarded in the current era.', { replace: max })}
           summary={t<string>('Oversubscribed nominations ({{count}})', { replace: { count: nomsOver.length } })}
         >
