@@ -347,4 +347,10 @@ export default React.memo(styled(Account)`
     margin-right: 0.25rem;
     vertical-align: inherit;
   }
+
+  .ui--Expander.stakeOver {
+    .ui--Expander-summary {
+      color: darkred;
+    }
+  }
 `);
