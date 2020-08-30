@@ -4,7 +4,9 @@
 
 import React from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
+import { MAX_NOM_PAYOUTS } from '../../constants';
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
 
@@ -15,13 +17,16 @@ interface Props {
 
 function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
+
+  const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS).toString();
 
   return (
     <>
       {nomsOver && nomsOver.length !== 0 && (
         <Expander
-          help={t<string>('The validators that are over-subscribed, only the top 64 backing stake will be rewarded.')}
+          help={t<string>('These validators are active but only the top {{max}} nominators by backing stake will be receiving rewards. The nominating stash is not one of those to be rewarded in the current era.', { replace: max })}
           summary={t<string>('Oversubscribed nominations ({{count}})', { replace: { count: nomsOver.length } })}
         >
           {nomsOver.map((nomineeId, index): React.ReactNode => (

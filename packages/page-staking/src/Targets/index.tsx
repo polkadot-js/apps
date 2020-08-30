@@ -9,11 +9,11 @@ import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
-import { useAvailableSlashes } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
-import { MAX_NOMINATIONS } from '../constants';
+import { MAX_NOMINATIONS, MAX_NOM_PAYOUTS } from '../constants';
 import { useTranslation } from '../translate';
 import Nominate from './Nominate';
 import Summary from './Summary';
@@ -67,6 +67,7 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
 
 function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
@@ -110,14 +111,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const _selectProfitable = useCallback(
     () => setSelected(
       (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
-        if ((numNominators < 64) && (result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
+        if ((api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS).gtn(numNominators) && (result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
           result.push(key);
         }
 
         return result;
       }, [])
     ),
-    [validators, withIdentity]
+    [api, validators, withIdentity]
   );
 
   const labels = useMemo(
