@@ -21,7 +21,7 @@ function StakeOther ({ nominators }: Props): React.ReactElement<Props> {
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
     (): [[string, Balance][], BN, [string, Balance][], BN] => {
       const sorted = nominators.sort((a, b) => b[1].cmp(a[1]));
-      const max = api.consts.staking?.maxNominatorRewardedPerValidator.toNumber();
+      const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toNumber();
       const rewarded = max ? sorted.slice(0, max) : nominators;
       const rewardedTotal = rewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
       const unrewarded = max ? sorted.slice(max) : [];

@@ -50,7 +50,7 @@ function Ledgend ({ className }: Props): React.ReactElement<Props> {
       <span>
         <Badge
           color='red'
-          info={(api.consts.staking?.maxNominatorRewardedPerValidator || 64).toString()}
+          info={api.consts.staking?.maxNominatorRewardedPerValidator?.toString() || '64'}
         />
         {t('Oversubscribed')}
       </span>
