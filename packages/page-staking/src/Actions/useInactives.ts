@@ -6,8 +6,11 @@ import { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { EraIndex, Exposure, Nominations, SlashingSpans } from '@polkadot/types/interfaces';
 
 import { useEffect, useState } from 'react';
+import { ApiPromise } from '@polkadot/api';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+
+import { MAX_NOM_PAYOUTS } from '../constants';
 
 interface Inactives {
   nomsActive?: string[];
@@ -17,7 +20,9 @@ interface Inactives {
   nomsWaiting?: string[];
 }
 
-function extractState (stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
+function extractState (api: ApiPromise, stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
+  const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS);
+
   // chilled
   const nomsChilled = nominees.filter((_, index): boolean => {
     if (slashes[index].isNone) {
@@ -31,10 +36,11 @@ function extractState (stashId: string, slashes: Option<SlashingSpans>[], nomine
 
   // all nominations that are oversubscribed
   const nomsOver = exposures
-    .map((exposure, index) =>
-      exposure.others.length > 64
-        ? nominees[index]
-        : null
+    .map(({ others }) => others.sort((a, b) => b.value.unwrap().cmp(a.value.unwrap())))
+    .map((others, index) =>
+      max.gtn(others.map(({ who }) => who.toString()).indexOf(stashId))
+        ? null
+        : nominees[index]
     )
     .filter((nominee): nominee is string => !!nominee && !nomsChilled.includes(nominee));
 
@@ -98,7 +104,7 @@ export default function useInactives (stashId: string, nominees?: string[]): Ina
             const slashes = exposuresAndSpans.slice(nominees.length) as Option<SlashingSpans>[];
 
             mountedRef.current && setState(
-              extractState(stashId, slashes, nominees, indexes.activeEra, optNominators.unwrapOrDefault().submittedIn, exposures)
+              extractState(api, stashId, slashes, nominees, indexes.activeEra, optNominators.unwrapOrDefault().submittedIn, exposures)
             );
           }
         )
