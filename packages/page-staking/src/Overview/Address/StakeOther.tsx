@@ -9,21 +9,25 @@ import React, { useMemo } from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-
-import { MAX_NOM_PAYOUTS } from '../../constants';
+import { BN_ZERO } from '@polkadot/util';
 
 interface Props {
   stakeOther?: BN;
   nominators: [string, Balance][];
 }
 
-function StakeOther ({ nominators }: Props): React.ReactElement<Props> {
+function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Props> {
   const { api } = useApi();
 
   const [rewarded, rewardedTotal, unrewarded, unrewardedTotal] = useMemo(
     (): [[string, Balance][], BN, [string, Balance][], BN] => {
       const sorted = nominators.sort((a, b) => b[1].cmp(a[1]));
-      const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS).toNumber();
+      const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toNumber();
+
+      if (!max || sorted.length <= max) {
+        return [sorted, stakeOther || BN_ZERO, [], BN_ZERO];
+      }
+
       const rewarded = sorted.slice(0, max);
       const rewardedTotal = rewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
       const unrewarded = sorted.slice(max);
@@ -31,7 +35,7 @@ function StakeOther ({ nominators }: Props): React.ReactElement<Props> {
 
       return [rewarded, rewardedTotal, unrewarded, unrewardedTotal];
     },
-    [api, nominators]
+    [api, nominators, stakeOther]
   );
 
   return (

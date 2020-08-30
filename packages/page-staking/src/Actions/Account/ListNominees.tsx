@@ -6,7 +6,6 @@ import React from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { MAX_NOM_PAYOUTS } from '../../constants';
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
 
@@ -20,7 +19,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
 
-  const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS).toString();
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toString();
 
   return (
     <>

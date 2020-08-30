@@ -10,8 +10,6 @@ import { ApiPromise } from '@polkadot/api';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
-import { MAX_NOM_PAYOUTS } from '../constants';
-
 interface Inactives {
   nomsActive?: string[];
   nomsChilled?: string[];
@@ -21,7 +19,7 @@ interface Inactives {
 }
 
 function extractState (api: ApiPromise, stashId: string, slashes: Option<SlashingSpans>[], nominees: string[], activeEra: EraIndex, submittedIn: EraIndex, exposures: Exposure[]): Inactives {
-  const max = (api.consts.staking?.maxNominatorRewardedPerValidator || MAX_NOM_PAYOUTS);
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator;
 
   // chilled
   const nomsChilled = nominees.filter((_, index): boolean => {
@@ -38,7 +36,7 @@ function extractState (api: ApiPromise, stashId: string, slashes: Option<Slashin
   const nomsOver = exposures
     .map(({ others }) => others.sort((a, b) => b.value.unwrap().cmp(a.value.unwrap())))
     .map((others, index) =>
-      max.gtn(others.map(({ who }) => who.toString()).indexOf(stashId))
+      !max || max.gtn(others.map(({ who }) => who.toString()).indexOf(stashId))
         ? null
         : nominees[index]
     )
