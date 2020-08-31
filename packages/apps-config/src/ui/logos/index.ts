@@ -39,7 +39,7 @@ import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
 import externalPolkastats from './external/polkastats.png';
-import externalSubscan from './external/subscan.png';
+import externalSubscan from './external/subscan.svg';
 
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
