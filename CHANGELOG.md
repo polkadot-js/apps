@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.56.0-beta.x
+## 0.56.1 Aug 31, 2020
 
 Contributed:
 
@@ -33,8 +33,8 @@ Changes:
 - Display bonding unlocking on address book
 - Cleanup display for unbonding values, better performant
 - Add a legend on the staking overview pages
-- `@polkadot/api`1.31.1
-- `@polkadot/util` 3.3.1
+- `@polkadot/api`1.31.2
+- `@polkadot/util` 3.4.1
 
 
 ## 0.55.1 Aug 24, 2020
