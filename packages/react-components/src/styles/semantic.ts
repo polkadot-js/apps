@@ -25,6 +25,10 @@ export default css`
     color: inherit;
   }
 
+  .ui.action.input > .buttons {
+    position: relative;
+  }
+
   .ui.dropdown {
     &.disabled {
       background: transparent;
