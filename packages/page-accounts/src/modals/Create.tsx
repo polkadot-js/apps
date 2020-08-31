@@ -11,7 +11,7 @@ import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, Dropdown, Expander, Input, InputAddress, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, CopyButton, Dropdown, Expander, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -307,6 +307,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 onChange={_selectSeedType}
                 options={seedOpt}
               />
+              <CopyButton
+                className='copyMoved'
+                value={seed}
+              />
             </Input>
           </Modal.Column>
           <Modal.Column>
@@ -390,5 +394,11 @@ export default React.memo(styled(Create)`
   .accounts--Creator-advanced {
     margin-top: 1rem;
     overflow: visible;
+  }
+
+  .copyMoved {
+    position: absolute;
+    right: 8rem;
+    top: 0.75rem;
   }
 `);
