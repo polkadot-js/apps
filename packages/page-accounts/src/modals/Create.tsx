@@ -306,12 +306,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 isButton
                 onChange={_selectSeedType}
                 options={seedOpt}
-              >
-                <CopyButton
-                  className='copyMoved'
-                  value={seed}
-                />
-              </Dropdown>
+              />
+              <CopyButton
+                className='copyMoved'
+                value={seed}
+              />
             </Input>
           </Modal.Column>
           <Modal.Column>
@@ -398,8 +397,8 @@ export default React.memo(styled(Create)`
   }
 
   .copyMoved {
-    left: -1.95rem;
     position: absolute;
-    top: 1.3rem;
+    right: 8rem;
+    top: 0.75rem;
   }
 `);
