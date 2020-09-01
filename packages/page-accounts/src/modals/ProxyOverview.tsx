@@ -52,17 +52,17 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
 
 function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
-    ? api.tx.proxy.addProxy(account, type)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
+    // @ts-ignore old version
+    ? api.tx.proxy.addProxy(account, type)
     : api.tx.proxy.addProxy(account, type, 0);
 }
 
 function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.removeProxy.meta.args.length === 2
-    ? api.tx.proxy.removeProxy(account, type)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
+    // @ts-ignore old version
+    ? api.tx.proxy.removeProxy(account, type)
     : api.tx.proxy.removeProxy(account, type, 0);
 }
 
