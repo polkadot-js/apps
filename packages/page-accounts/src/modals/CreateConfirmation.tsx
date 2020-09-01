@@ -27,7 +27,7 @@ function CreateConfirmation ({ address, derivePath, isBusy, name, onClose, onCom
   const splitSeed = seed.split(' ');
   const shortSeed = isHex(seed)
     ? `${seed.substr(10)} … ${seed.substr(-8)}`
-    : `${splitSeed.filter((_, index) => index % 3 === 0).join(' … ')} … `;
+    : splitSeed.map((value, index) => (index % 3) ? '…' : value).join(' ');
 
   return (
     <Modal
