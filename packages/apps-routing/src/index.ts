@@ -16,6 +16,7 @@ import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
+import masterSubmission from './master-submission';
 import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
@@ -68,6 +69,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       contracts(t),
       storage(t),
       extrinsics(t),
+      masterSubmission(t),
       sudo(t),
       null,
       settings(t),

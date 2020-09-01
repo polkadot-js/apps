@@ -3116,6 +3116,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-master-submission@workspace:packages/page-master-submission":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-master-submission@workspace:packages/page-master-submission"
+  dependencies:
+    "@babel/runtime": ^7.10.5
+    "@polkadot/react-components": 0.51.0-beta.2
+    "@polkadot/react-params": 0.51.0-beta.2
+    "@polkadot/react-signer": 0.51.0-beta.2
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-parachains@workspace:packages/page-parachains":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-parachains@workspace:packages/page-parachains"
