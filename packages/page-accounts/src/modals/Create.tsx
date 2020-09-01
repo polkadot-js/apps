@@ -238,7 +238,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         onClose();
       }, 0);
     },
-    [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t, toggleConfirmation]
+    [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t]
   );
 
   return (
@@ -379,7 +379,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </Modal.Columns>
             </Expander>
           </Modal.Content>
-      )}
+        )
+      }
       <Modal.Actions onCancel={onClose}>
         {isConfirmationOpen
           ? (
@@ -404,7 +405,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               label={t<string>('Next')}
               onClick={toggleConfirmation}
             />
-        )}
+          )
+        }
       </Modal.Actions>
     </Modal>
   );

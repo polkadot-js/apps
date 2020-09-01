@@ -165,7 +165,7 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
         onClose();
       }, 0);
     },
-    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
+    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t]
   );
 
   const sourceStatic = (
@@ -252,7 +252,8 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               </AddressRow>
             )}
           </Modal.Content>
-      )}
+        )
+      }
       <Modal.Actions onCancel={onClose}>
         {isLocked
           ? (
@@ -265,28 +266,28 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
             />
           )
           : (isConfirmationOpen
-              ? (
-                <>
-                  <Button
-                    icon='step-backward'
-                    label={t<string>('Prev')}
-                    onClick={toggleConfirmation}
-                  />
-                  <Button
-                    icon='plus'
-                    isBusy={isBusy}
-                    label={t<string>('Save')}
-                    onClick={_onCommit}
-                  />
-                </>
-              )
-              : (
+            ? (
+              <>
                 <Button
-                  icon='step-forward'
-                  isDisabled={!isValid}
-                  label={t<string>('Next')}
+                  icon='step-backward'
+                  label={t<string>('Prev')}
                   onClick={toggleConfirmation}
                 />
+                <Button
+                  icon='plus'
+                  isBusy={isBusy}
+                  label={t<string>('Save')}
+                  onClick={_onCommit}
+                />
+              </>
+            )
+            : (
+              <Button
+                icon='step-forward'
+                isDisabled={!isValid}
+                label={t<string>('Next')}
+                onClick={toggleConfirmation}
+              />
             )
           )
         }

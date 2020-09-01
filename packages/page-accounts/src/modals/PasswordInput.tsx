@@ -28,7 +28,7 @@ export default function PasswordInput ({ onChange, onEnter }: Props): React.Reac
       isPass1Valid: keyring.isPassValid(password1),
       password1
     }),
-    [onChange, isPass2Valid]
+    []
   );
 
   const onPassword2Change = useCallback(
@@ -36,7 +36,7 @@ export default function PasswordInput ({ onChange, onEnter }: Props): React.Reac
       isPass2Valid: keyring.isPassValid(password2) && (password2 === password1),
       password2
     }),
-    [password1, onChange, isPass1Valid]
+    [password1]
   );
 
   return (
