@@ -250,10 +250,13 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}
+          derivePath={derivePath}
           isBusy={isBusy}
           name={name}
           onClose={toggleConfirmation}
           onCommit={_onCommit}
+          pairType={pairType}
+          seed={seed}
         />
       )}
       <Modal.Content>
