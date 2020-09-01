@@ -274,6 +274,7 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
                   <div className='faded'>{t('available to be unlocked')}</div>
                   {formatBalance(balancesAll.vestingPerBlock)}
                   <div className='faded'>{t('per block')}</div>
+                  <div className='faded'>{`${t('until block')} ${balancesAll.vestingEndBlock}`}</div>
                 </div>
               }
               trigger={`${address}-vested-trigger`}
