@@ -3,6 +3,8 @@
 
 import { KeypairType } from '@polkadot/util-crypto/types';
 
+import { KeypairType } from '@polkadot/util-crypto/types';
+
 import React from 'react';
 import { AddressRow, Modal, Static } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
@@ -10,10 +12,10 @@ import { isHex } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  address?: string;
+  address: string;
   derivePath: string;
   isBusy: boolean;
-  name?: string;
+  name: string;
   pairType: KeypairType;
   seed?: string;
 }
@@ -30,12 +32,12 @@ function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Prop
     <Modal.Content>
       <Modal.Columns>
         <Modal.Column>
-          {address && name && <AddressRow
+          <AddressRow
             defaultName={name}
             isInline
             noDefaultNameOpacity
             value={address}
-          />}
+          />
           {shortSeed && (
             <Static
               label={t<string>('partial seed')}
