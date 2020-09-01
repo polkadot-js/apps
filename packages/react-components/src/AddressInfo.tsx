@@ -12,8 +12,7 @@ import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@po
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
-import { BlockToTime } from '@polkadot/react-query';
-import { FormatBalance } from '@polkadot/react-query';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import DemocracyLocks from './DemocracyLocks';
 import StakingRedeemable from './StakingRedeemable';
@@ -275,7 +274,12 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
                   <div className='faded'>{t('available to be unlocked')}</div>
                   {formatBalance(balancesAll.vestingPerBlock)}
                   <div className='faded'>{t('per block')}</div>
-                  <div className='faded'>{`${t('until')} ${formatNumber(balancesAll.vestingEndBlock)} ${t('blocks')} `} <BlockToTime isInline blocks={balancesAll.vestingEndBlock.sub(bestNumber)} /></div>
+                  <div className='faded'>
+                    {`${t('until')} ${formatNumber(balancesAll.vestingEndBlock)} ${t('blocks')} `}
+                    <BlockToTime
+                      blocks={balancesAll.vestingEndBlock.sub(bestNumber)}
+                      isInline />
+                  </div>
                 </div>
               }
               trigger={`${address}-vested-trigger`}
