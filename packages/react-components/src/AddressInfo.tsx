@@ -275,7 +275,7 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
                   <div className='faded'>{t('available to be unlocked')}</div>
                   {formatBalance(balancesAll.vestingPerBlock)}
                   <div className='faded'>{t('per block')}</div>
-                  <div className='faded'>{`${t('remaining')} ${formatNumber(balancesAll.vestingEndBlock)} ${t('blocks')} `} <BlockToTime isInline blocks={balancesAll.vestingEndBlock.sub(bestNumber)} /></div>
+                  <div className='faded'>{`${t('until')} ${formatNumber(balancesAll.vestingEndBlock)} ${t('blocks')} `} <BlockToTime isInline blocks={balancesAll.vestingEndBlock.sub(bestNumber)} /></div>
                 </div>
               }
               trigger={`${address}-vested-trigger`}
