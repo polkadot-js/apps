@@ -11,8 +11,8 @@ import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import PasswordInput from '../Accounts/PasswordInput';
 import { useTranslation } from '../translate';
+import PasswordInput from './PasswordInput';
 
 interface Scanned {
   content: string;
@@ -41,7 +41,6 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const [{ address, isAddress, scanned }, setAddress] = useState<Address>({ address: '', isAddress: false, scanned: null });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
-  // FIXME This gets passed to the useCallback, so we have excessive creations
   const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
 
   const _onNameChange = useCallback(
@@ -139,7 +138,6 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 <PasswordInput
                   onChange={_onPasswordChange}
                   onEnter={_onSave}
-                  password={password}
                 />
               )}
             </>
