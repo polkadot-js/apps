@@ -18,16 +18,16 @@ interface Props {
   onClose: () => void;
   onCommit: () => void;
   pairType: KeypairType;
-  seed: string;
+  seed?: string;
 }
 
 function CreateConfirmation ({ address, derivePath, isBusy, name, onClose, onCommit, pairType, seed }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const splitSeed = seed.split(' ');
+  const splitSeed = seed && seed.split(' ');
   const shortSeed = isHex(seed)
     ? `${seed.substr(10)} … ${seed.substr(-8)}`
-    : splitSeed.map((value, index) => (index % 3) ? '…' : value).join(' ');
+    : splitSeed && splitSeed.map((value, index) => (index % 3) ? '…' : value).join(' ');
 
   return (
     <Modal
@@ -43,10 +43,12 @@ function CreateConfirmation ({ address, derivePath, isBusy, name, onClose, onCom
               noDefaultNameOpacity
               value={address}
             />
-            <Static
-              label={t<string>('partial seed')}
-              value={shortSeed}
-            />
+            {shortSeed && (
+              <Static
+                label={t<string>('partial seed')}
+                value={shortSeed}
+              />
+            )}
             <Static
               label={t<string>('keypair type')}
               value={pairType}

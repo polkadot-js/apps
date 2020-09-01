@@ -186,10 +186,12 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       {address && isConfirmationOpen && (
         <CreateConfirmation
           address={address}
+          derivePath={suri}
           isBusy={isBusy}
           name={name}
           onClose={toggleConfirmation}
           onCommit={_onCommit}
+          pairType={source.type}
         />
       )}
       <Modal.Content>
