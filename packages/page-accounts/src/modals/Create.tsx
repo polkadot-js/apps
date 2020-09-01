@@ -20,8 +20,8 @@ import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from 
 import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../translate';
-import PasswordInput from '../Accounts/PasswordInput';
 import CreateConfirmation from './CreateConfirmation';
+import PasswordInput from './PasswordInput';
 
 interface Props extends ModalProps {
   className?: string;
@@ -178,6 +178,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
   const isValid = !!address && !deriveError && isNameValid && isPasswordValid && isSeedValid;
+
   const seedOpt = useMemo(() => (
     isDevelopment
       ? [{ text: t<string>('Development'), value: 'dev' }]
@@ -232,13 +233,12 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
         const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
 
-        toggleConfirmation();
         onStatusChange(status);
         setIsBusy(false);
         onClose();
       }, 0);
     },
-    [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t, toggleConfirmation]
+    [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t]
   );
 
   return (
@@ -247,144 +247,166 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       header={t<string>('Add an account via seed')}
       size='large'
     >
-      {address && isConfirmationOpen && (
-        <CreateConfirmation
-          address={address}
-          isBusy={isBusy}
-          name={name}
-          onClose={toggleConfirmation}
-          onCommit={_onCommit}
-        />
-      )}
-      <Modal.Content>
-        <Modal.Columns>
-          <Modal.Column>
-            <AddressRow
-              defaultName={name}
-              noDefaultNameOpacity
-              value={isSeedValid ? address : ''}
-            />
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              autoFocus
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
+      {address && isConfirmationOpen
+        ? (
+          <CreateConfirmation
+            address={address}
+            derivePath={derivePath}
+            isBusy={isBusy}
+            name={name}
+            pairType={pairType}
+            seed={seed}
+          />
+        )
+        : (
+          <Modal.Content>
+            <Modal.Columns>
+              <Modal.Column>
+                <AddressRow
+                  defaultName={name}
+                  noDefaultNameOpacity
+                  value={isSeedValid ? address : ''}
+                />
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  autoFocus
+                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+                  isError={!isNameValid}
+                  label={t<string>('name')}
+                  onChange={_onChangeName}
+                  onEnter={_onCommit}
+                  placeholder={t<string>('new account')}
+                  value={name}
+                />
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <Input
+                  help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+                  isAction
+                  isError={!isSeedValid}
+                  isReadOnly={seedType === 'dev'}
+                  label={
+                    seedType === 'bip'
+                      ? t<string>('mnemonic seed')
+                      : seedType === 'dev'
+                        ? t<string>('development seed')
+                        : t<string>('seed (hex or string)')
+                  }
+                  onChange={_onChangeSeed}
+                  onEnter={_onCommit}
+                  value={seed}
+                >
+                  <Dropdown
+                    defaultValue={seedType}
+                    isButton
+                    onChange={_selectSeedType}
+                    options={seedOpt}
+                  />
+                  <CopyButton
+                    className='copyMoved'
+                    value={seed}
+                  />
+                </Input>
+              </Modal.Column>
+              <Modal.Column>
+                <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <PasswordInput
+              onChange={_onPasswordChange}
               onEnter={_onCommit}
-              placeholder={t<string>('new account')}
-              value={name}
             />
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <Modal.Columns>
-          <Modal.Column>
-            <Input
-              help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-              isAction
-              isError={!isSeedValid}
-              isReadOnly={seedType === 'dev'}
-              label={
-                seedType === 'bip'
-                  ? t<string>('mnemonic seed')
-                  : seedType === 'dev'
-                    ? t<string>('development seed')
-                    : t<string>('seed (hex or string)')
-              }
-              onChange={_onChangeSeed}
-              onEnter={_onCommit}
-              value={seed}
+            {!isElectron && (
+              <article className='warning'>
+                <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
+              </article>
+            )}
+            <Expander
+              className='accounts--Creator-advanced'
+              isPadded
+              summary={t<string>('Advanced creation options')}
             >
-              <Dropdown
-                defaultValue={seedType}
-                isButton
-                onChange={_selectSeedType}
-                options={seedOpt}
-              />
-              <CopyButton
-                className='copyMoved'
-                value={seed}
-              />
-            </Input>
-          </Modal.Column>
-          <Modal.Column>
-            <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
-          </Modal.Column>
-        </Modal.Columns>
-        <PasswordInput
-          onChange={_onPasswordChange}
-          onEnter={_onCommit}
-          password={password}
-        />
-        {!isElectron && (
-          <article className='warning'>
-            <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
-          </article>
-        )}
-        <Expander
-          className='accounts--Creator-advanced'
-          isPadded
-          summary={t<string>('Advanced creation options')}
-        >
-          <Modal.Columns>
-            <Modal.Column>
-              <Dropdown
-                defaultValue={pairType}
-                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                label={t<string>('keypair crypto type')}
-                onChange={_onChangePairType}
-                options={uiSettings.availableCryptos}
-                tabIndex={-1}
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
-            </Modal.Column>
-          </Modal.Columns>
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                isError={!!deriveError}
-                label={t<string>('secret derivation path')}
-                onChange={_onChangeDerive}
-                onEnter={_onCommit}
-                placeholder={
-                  seedType === 'raw'
-                    ? pairType === 'sr25519'
-                      ? t<string>('//hard/soft')
-                      : t<string>('//hard')
-                    : pairType === 'sr25519'
-                      ? t<string>('//hard/soft///password')
-                      : t<string>('//hard///password')
-                }
-                tabIndex={-1}
-                value={derivePath}
-              />
-              {deriveError && (
-                <article className='error'>{deriveError}</article>
-              )}
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
-            </Modal.Column>
-          </Modal.Columns>
-        </Expander>
-      </Modal.Content>
+              <Modal.Columns>
+                <Modal.Column>
+                  <Dropdown
+                    defaultValue={pairType}
+                    help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                    label={t<string>('keypair crypto type')}
+                    onChange={_onChangePairType}
+                    options={uiSettings.availableCryptos}
+                    tabIndex={-1}
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+              <Modal.Columns>
+                <Modal.Column>
+                  <Input
+                    help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                    isError={!!deriveError}
+                    label={t<string>('secret derivation path')}
+                    onChange={_onChangeDerive}
+                    onEnter={_onCommit}
+                    placeholder={
+                      seedType === 'raw'
+                        ? pairType === 'sr25519'
+                          ? t<string>('//hard/soft')
+                          : t<string>('//hard')
+                        : pairType === 'sr25519'
+                          ? t<string>('//hard/soft///password')
+                          : t<string>('//hard///password')
+                    }
+                    tabIndex={-1}
+                    value={derivePath}
+                  />
+                  {deriveError && (
+                    <article className='error'>{deriveError}</article>
+                  )}
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+            </Expander>
+          </Modal.Content>
+        )
+      }
       <Modal.Actions onCancel={onClose}>
-        <Button
-          icon='plus'
-          isBusy={isBusy}
-          isDisabled={!isValid}
-          label={t<string>('Save')}
-          onClick={toggleConfirmation}
-        />
+        {isConfirmationOpen
+          ? (
+            <>
+              <Button
+                icon='step-backward'
+                label={t<string>('Prev')}
+                onClick={toggleConfirmation}
+              />
+              <Button
+                icon='plus'
+                isBusy={isBusy}
+                label={t<string>('Save')}
+                onClick={_onCommit}
+              />
+            </>
+          )
+          : (
+            <Button
+              icon='step-forward'
+              isDisabled={!isValid}
+              label={t<string>('Next')}
+              onClick={toggleConfirmation}
+            />
+          )
+        }
       </Modal.Actions>
     </Modal>
   );
