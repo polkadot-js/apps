@@ -54,7 +54,7 @@ export default function useProxies (address?: string | null): State {
       api.query.proxy
         .proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
-          const proxies = api.tx.proxy.addProxy.meta.args.length === 4
+          const proxies = api.tx.proxy.addProxy.meta.args.length === 3
             ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
               createProxy(allAccounts, delegate, proxyType, delay)
             )

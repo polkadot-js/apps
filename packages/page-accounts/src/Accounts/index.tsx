@@ -75,7 +75,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
-      api.tx.proxy.addProxy.meta.args.length === 4
+      api.tx.proxy.addProxy.meta.args.length === 3
         ? result as [ProxyDefinition[], BN][]
         : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
           [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
