@@ -4,8 +4,9 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React, { useCallback, useState } from 'react';
-import { Button, Extrinsic, InputAddress, TxButton } from '@polkadot/react-components';
+import React, { useCallback, useState, useEffect } from 'react';
+import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
+import { Button, Extrinsic, InputAddress } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';
 
@@ -27,6 +28,17 @@ function Create (): React.ReactElement {
     (error?: Error | null) => setError(error ? error.message : null),
     []
   );
+
+  useEffect(() => {
+    console.log('extrinsic', extrinsic)
+    if (extrinsic) {
+      const jprop = extrinsic.method.toJSON();
+
+      // Bug in polkadot-js makes hex-encoded call index unparsable so we convert to an array.
+      jprop.callIndex = [...hexToU8a(jprop.callIndex)];
+      console.log(JSON.stringify(jprop));
+    }
+  }, [extrinsic]);
 
   return (
     <div className='extrinsics--Create'>
@@ -50,25 +62,6 @@ function Create (): React.ReactElement {
       {error && (
         <article className='error'>{error}</article>
       )}
-      <Button.Group>
-        <TxButton
-          extrinsic={extrinsic}
-          icon='sign-in-alt'
-          isBasic
-          isDisabled={!extrinsic}
-          isUnsigned
-          label={t<string>('Submit Unsigned')}
-          withSpinner
-        />
-        <TxButton
-          accountId={accountId}
-          extrinsic={extrinsic}
-          icon='sign-in-alt'
-          isDisabled={!extrinsic || !accountId}
-          isPrimary={false}
-          label={t<string>('Submit Transaction')}
-        />
-      </Button.Group>
     </div>
   );
 }

@@ -221,15 +221,6 @@ function Selection (): React.ReactElement {
   const usedExtrinsic = (defaultExtrinsicValue || apiDefaultTxSudo);
   const { meta, method, section } = usedExtrinsic;
 
-  // console.log('extrinsic', extrinsic)
-  // if (extrinsic) {
-  //   const jprop = extrinsic.method.toJSON();
-  //
-  //   // Bug in polkadot-js makes hex-encoded call index unparsable so we convert to an array.
-  //   jprop.callIndex = [...hexToU8a(jprop.callIndex)];
-  //   console.log(JSON.stringify(jprop));
-  // }
-
   return (
     <div className='extrinsics--Selection'>
       <Input
@@ -258,85 +249,89 @@ function Selection (): React.ReactElement {
 
     <br />
 
-      <div className='ui--row'>
-        <InputAddress
-          className='full'
-          help={t<string>('select the account you wish to sign data with')}
-          isInput={false}
-          label={t<string>('account')}
-          onChange={_onChangeAccount}
-          type='account'
-        />
-      </div>
-      <div className='toolbox--Sign-input'>
+    {proposal && (
+      <>
         <div className='ui--row'>
-          <Output
+          <InputAddress
             className='full'
-            help={t<string>('The input data to sign. This can be either specified as a hex value (0x-prefix) or as a string.')}
-            label={t<string>('sign the following vote payload')}
-            value={data}
-            isMonospace
-            withCopy
+            help={t<string>('select the account you wish to sign data with')}
+            isInput={false}
+            label={t<string>('account')}
+            onChange={_onChangeAccount}
+            type='account'
           />
         </div>
-        <div className='ui--row'>
-          <Output
-            className='full'
-            help={t<string>('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
-            isHidden={signature.length === 0}
-            isMonospace
-            label={t<string>('signature for vote')}
-            value={signature}
-            withCopy
-          />
-        </div>
-        <div
-          className='unlock-overlay'
-          hidden={!isUsable || !isLocked || isInjected}
-        >
-          {isLocked && (
+        <div className='toolbox--Sign-input'>
+          <div className='ui--row'>
+            <Output
+              className='full'
+              help={t<string>('The input data to sign. This can be either specified as a hex value (0x-prefix) or as a string.')}
+              label={t<string>('sign the following vote payload')}
+              value={data}
+              isMonospace
+              withCopy
+            />
+          </div>
+          <div className='ui--row'>
+            <Output
+              className='full'
+              help={t<string>('The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).')}
+              isHidden={signature.length === 0}
+              isMonospace
+              label={t<string>('signature for vote')}
+              value={signature}
+              withCopy
+            />
+          </div>
+          <div
+            className='unlock-overlay'
+            hidden={!isUsable || !isLocked || isInjected}
+          >
+            {isLocked && (
+              <div className='unlock-overlay-warning'>
+                <div className='unlock-overlay-content'>
+                  {t<string>('You need to unlock this account to be able to sign data.')}<br/>
+                  <Button.Group>
+                    <Button
+                      icon='unlock'
+                      label={t<string>('Unlock account')}
+                      onClick={toggleUnlock}
+                    />
+                  </Button.Group>
+                </div>
+              </div>
+            )}
+          </div>
+          <div
+            className='unlock-overlay'
+            hidden={isUsable}
+          >
             <div className='unlock-overlay-warning'>
               <div className='unlock-overlay-content'>
-                {t<string>('You need to unlock this account to be able to sign data.')}<br/>
-                <Button.Group>
-                  <Button
-                    icon='unlock'
-                    label={t<string>('Unlock account')}
-                    onClick={toggleUnlock}
-                  />
-                </Button.Group>
+                {isInjected
+                  ? t<string>('This injected account cannot be used to sign data since the extension does not support raw signing.')
+                  : t<string>('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
               </div>
             </div>
+          </div>
+          {isUnlockVisible && (
+            <Unlock
+              onClose={toggleUnlock}
+              onUnlock={_onUnlock}
+              pair={currentPair}
+            />
           )}
         </div>
-        <div
-          className='unlock-overlay'
-          hidden={isUsable}
-        >
-          <div className='unlock-overlay-warning'>
-            <div className='unlock-overlay-content'>
-              {isInjected
-                ? t<string>('This injected account cannot be used to sign data since the extension does not support raw signing.')
-                : t<string>('This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.')}
-            </div>
-          </div>
-        </div>
-        {isUnlockVisible && (
-          <Unlock
-            onClose={toggleUnlock}
-            onUnlock={_onUnlock}
-            pair={currentPair}
+        <Button.Group>
+          <Button
+            icon='key'
+            isDisabled={!(isUsable && !isLocked)}
+            label={t<string>('Sign and Vote')}
+            onClick={_onSign}
           />
-        )}
-      </div>
-      <Button.Group>
-        <Button
-          icon='key'
-          isDisabled={!(isUsable && !isLocked)}
-          label={t<string>('Sign and Vote')}
-          onClick={_onSign}
-        />
-      </Button.Group>
+        </Button.Group>
+      </>
+    )}
     </div>
   );
 }
