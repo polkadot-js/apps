@@ -40,12 +40,12 @@ function parseFile (file: Uint8Array): FileState {
       ? hexToU8a(json.address)
       : keyring.decodeAddress(json.address, true);
     const address = keyring.encodeAddress(
-        isHex(json.address) && Array.isArray(json.encoding.content) && publicKey.length !== 32
-          ? json.encoding.content[1] === 'ecdsa'
-            ? blake2AsU8a(publicKey)
-            // FIXME Handle Ethereum
-            : publicKey
+      isHex(json.address) && Array.isArray(json.encoding.content) && publicKey.length !== 32
+        ? json.encoding.content[1] === 'ecdsa'
+          ? blake2AsU8a(publicKey)
+          // FIXME Handle Ethereum
           : publicKey
+        : publicKey
     );
     const isFileValid = [32, 33].includes(publicKey.length) && !!json.encoded && isObject(json.meta) && (
       Array.isArray(json.encoding.content)
