@@ -37,20 +37,18 @@ function MasterSubmitApp ({ basePath }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
-        <Route path={`${basePath}`}>
-          <Selection />
-        </Route>
         <Route path={`${basePath}/create`}>
           <Create />
         </Route>
         <Route path={`${basePath}/execute`}>
           TODO
         </Route>
+        <Route>
+          <Selection />
+        </Route>
       </Switch>
     </main>
   );
 }
-
-export { MasterSubmitApp };
 
 export default React.memo(MasterSubmitApp);
