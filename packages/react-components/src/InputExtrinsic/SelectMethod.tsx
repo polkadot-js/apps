@@ -15,12 +15,13 @@ interface Props {
   api: ApiPromise;
   className?: string;
   isError?: boolean;
+  isDisabled?: boolean;
   onChange: (value: SubmittableExtrinsicFunction<'promise'>) => void;
   options: DropdownOptions;
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectMethod ({ api, className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
+function SelectMethod ({ api, className = '', isDisabled, isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
   const transform = useCallback(
     (method: string): SubmittableExtrinsicFunction<'promise'> =>
       api.tx[value.section][method],
@@ -35,6 +36,7 @@ function SelectMethod ({ api, className = '', isError, onChange, options, value 
     <Dropdown
       className={classes('ui--DropdownLinked-Items', className)}
       isError={isError}
+      isDisabled={isDisabled}
       onChange={onChange}
       options={options}
       transform={transform}

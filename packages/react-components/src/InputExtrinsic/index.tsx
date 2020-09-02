@@ -26,7 +26,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
+function InputExtrinsic ({ className = '', isDisabled, defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
@@ -70,6 +70,7 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
         className='small'
         onChange={_onSectionChange}
         options={optionsSection}
+        isDisabled={isDisabled}
         value={value}
       />
       <SelectMethod
@@ -77,6 +78,7 @@ function InputExtrinsic ({ className = '', defaultValue, help, label, onChange, 
         className='large'
         onChange={_onKeyChange}
         options={optionsMethod}
+        isDisabled={isDisabled}
         value={value}
       />
     </LinkedWrapper>

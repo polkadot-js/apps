@@ -43,15 +43,30 @@ function getParams ({ meta }: SubmittableExtrinsicFunction<'promise'>): { name: 
   }));
 }
 
-function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
+function ExtrinsicDisplay ({ defaultValue, defaultParams, isDisabled, isError, isPrivate, label, onChange, onEnter, onError, onEscape, withLabel }: Props): React.ReactElement<Props> {
   const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
-  const [values, setValues] = useState<RawParam[]>([]);
+  const [values, setValues] = useState<RawParam[]>(defaultParams || []);
+
+  // console.log('defaultParams', defaultParams)
+  // console.log('valuesvaluesvalues', values)
+
+  useEffect((): void => {
+    setCall({ fn: defaultValue, params: getParams(defaultValue) });
+  }, [defaultValue]);
+
+  useEffect((): void => {
+    setValues(defaultParams || []);
+  }, [defaultParams]);
 
   useEffect((): void => {
     setValues([]);
   }, [extrinsic]);
 
   useEffect((): void => {
+    if (isDisabled) {
+      return;
+    }
+
     const isValid = values.reduce((isValid, value): boolean =>
       isValid &&
       !isUndefined(value) &&
@@ -95,6 +110,8 @@ function ExtrinsicDisplay ({ defaultValue, isDisabled, isError, isPrivate, label
       />
       <Params
         key={`${section}.${method}:params` /* force re-render on change */}
+        defaultParams={values}
+        isDisabled={isDisabled}
         onChange={setValues}
         onEnter={onEnter}
         onEscape={onEscape}

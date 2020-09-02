@@ -13,18 +13,20 @@ import { classes } from '../util';
 interface Props {
   className?: string;
   defaultValue?: string;
+  isDisabled?: boolean;
   isError?: boolean;
   onChange: (value: string) => void;
   options: DropdownOptions;
   value: SubmittableExtrinsicFunction<'promise'>;
 }
 
-function SelectSection ({ className = '', defaultValue, isError, onChange, options, value }: Props): React.ReactElement<Props> {
+function SelectSection ({ className = '', defaultValue, isDisabled, isError, onChange, options, value }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
       className={classes('ui--DropdownLinked-Sections', className)}
       defaultValue={defaultValue}
       isError={isError}
+      isDisabled={isDisabled}
       onChange={onChange}
       options={options}
       value={value.section}

@@ -38,6 +38,14 @@ class Params extends React.PureComponent<Props, State> {
     params: null
   };
 
+  public constructor(props) {
+    super(props);
+    if (props.defaultParams) {
+      console.log('props.defaultParams', props.defaultParams)
+      this.state.values = props.defaultParams;
+    }
+  }
+
   public static getDerivedStateFromProps ({ isDisabled, params, values }: Props, prevState: State): Pick<State, never> | null {
     const isSame = JSON.stringify(prevState.params) === JSON.stringify(params);
 

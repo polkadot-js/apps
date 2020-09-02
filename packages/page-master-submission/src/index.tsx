@@ -5,32 +5,41 @@
 import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
+import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
 import Selection from './Selection';
+import Create from './Create';
 import { useTranslation } from './translate';
 
-function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
+function MasterSubmitApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [{
     isRoot: true,
+    name: 'vote',
+    text: t<string>('Proposal voting')
+  }, {
+    isRoot: false,
     name: 'create',
-    text: t<string>('Master proposal submission')
+    text: t<string>('Proposal creation')
   }], [t]);
 
   return (
-    <main className='extrinsics--App'>
+    <main className='master-submit--App'>
       <header>
         <Tabs
           basePath={basePath}
           items={items}
         />
       </header>
-      <Selection />
+      <Switch>
+        <Route><Selection /></Route>
+        <Route path={`${basePath}/create`}><Create /></Route>
+      </Switch>
     </main>
   );
 }
 
-export { ExtrinsicsApp };
+export { MasterSubmitApp };
 
-export default React.memo(ExtrinsicsApp);
+export default React.memo(MasterSubmitApp);
