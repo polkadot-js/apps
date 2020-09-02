@@ -179,7 +179,6 @@ function Selection (): React.ReactElement {
     const extr = api.createType('Call', proposal);
     const erxtrinsicValue = api.tx[extr.sectionName][extr.methodName];
     const defaultPs = _encodedParamsToArgs(erxtrinsicValue, proposal.args);
-    console.log('defaultPs', defaultPs)
 
     setProposal(proposal);
     setDefaultParams(() => defaultPs);
@@ -236,8 +235,8 @@ function Selection (): React.ReactElement {
       <Input
         autoFocus
         className='medium'
-        help={t<string>('Enter your serialized proposal here')}
-        label={t<string>('Serialized Proposal')}
+        help={t<string>('Enter the proposal JSON here')}
+        label={t<string>('Proposal JSON')}
         onChange={_onJSONChanged}
         value={proposalJSON}
       />

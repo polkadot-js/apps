@@ -15,6 +15,6 @@ export default function create (t: <T = string> (key: string, text: string, opti
     },
     icon: 'sync',
     name: 'master-submission',
-    text: t<string>('nav.extrinsics', 'Master Submission', { ns: 'apps-routing' })
+    text: t<string>('nav.proposals', 'Proposals', { ns: 'apps-routing' })
   };
 }
