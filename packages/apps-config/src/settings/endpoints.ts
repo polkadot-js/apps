@@ -232,6 +232,11 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      info: 'crust',
+      text: t<string>('rpc.crust.network', 'Maxwell CC2 (Crust BetaNet, hosted by Crust Network)', { ns: 'apps-config' }),
+      value: 'wss://api.crust.network/'
     }
   ];
 }
