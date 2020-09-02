@@ -50,6 +50,7 @@ function Selection (): React.ReactElement {
   const [defaultParams, setDefaultParams] = useState<object[] | null>(null);
   const [proposalJSON, setProposalJSON] = useState<string>('');
   const [proposal, setProposal] = useState<object>('');
+  const [roundNo, setRoundNo] = useState<object>('');
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [defaultExtrinsicValue, setDefaultExtrinsic] = useState<object | null>(null);
@@ -61,7 +62,6 @@ function Selection (): React.ReactElement {
   const [{ isUsable, signer }, setSigner] = useState<SignerState>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
   const [isUnlockVisible, toggleUnlock] = useToggle();
-
 
   useEffect((): void => {
     const meta = (currentPair && currentPair.meta) || {};
@@ -78,6 +78,8 @@ function Selection (): React.ReactElement {
     );
     setSignature('');
     setSigner({ isUsable, signer: null });
+
+    _getRoundNo();
 
     // for injected, retrieve the signer
     if (meta.source && isInjected) {
@@ -109,8 +111,12 @@ function Selection (): React.ReactElement {
     }
   }, [proposal]);
 
+  const _getRoundNo = async () => {
+    const roundNumber = await api.query.master.round();
+    setRoundNo(roundNumber);
+  };
+
   const _setVotePayload = async () => {
-    const roundNo = await api.query.master.round();
     const payload = {
       proposal: [...api.createType('Call', proposal).toU8a()],
       round_no: roundNo,
@@ -226,7 +232,7 @@ function Selection (): React.ReactElement {
       <Input
         autoFocus
         className='medium'
-        help={t<string>('Enter the proposal JSON here')}
+        help={t<string>('Enter the proposal JSON here to vote on it as a master member by providing your signature')}
         label={t<string>('Proposal JSON')}
         onChange={_onJSONChanged}
         value={proposalJSON}
@@ -270,6 +276,15 @@ function Selection (): React.ReactElement {
               value={data}
               isMonospace
               withCopy
+            />
+          </div>
+          <div className='ui--row'>
+            <Output
+              className='full'
+              help={t<string>('This is the current master voting round number')}
+              label={t<string>('at the current round number:')}
+              value={`${roundNo}`}
+              isMonospace
             />
           </div>
           <div className='ui--row'>
