@@ -275,7 +275,7 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
                   {formatBalance(balancesAll.vestingPerBlock)}
                   <div className='faded'>{t('per block')}</div>
                   <div className='faded'>
-                    <div>{`${t('until block')} ${formatNumber(balancesAll.vestingEndBlock)}`}<div>
+                    <div>{`${t('until block')} ${formatNumber(balancesAll.vestingEndBlock)}`}</div>
                     <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
                   </div>
                 </div>
