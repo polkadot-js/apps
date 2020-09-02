@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
+import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -11,8 +11,8 @@ import styled from 'styled-components';
 import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
-import { useAccounts } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import DemocracyLocks from './DemocracyLocks';
 import StakingRedeemable from './StakingRedeemable';
@@ -215,13 +215,13 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function renderBalances (props: Props, allAccounts: string[], t: <T = string> (key: string) => T): React.ReactNode {
+function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockNumber | undefined, t: <T = string> (key: string) => T): React.ReactNode {
   const { address, balancesAll, democracyLocks, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
 
-  if (!balanceDisplay) {
+  if (!bestNumber || !balanceDisplay) {
     return null;
   }
 
@@ -269,7 +269,16 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
           >
             <Tooltip
               text={
-                <div>{formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}<div className='faded'>{t('available to be unlocked')}</div></div>
+                <div>
+                  {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
+                  <div className='faded'>{t('available to be unlocked')}</div>
+                  {formatBalance(balancesAll.vestingPerBlock)}
+                  <div className='faded'>{t('per block')}</div>
+                  <div className='faded'>
+                    <div>{`${t('until block')} ${formatNumber(balancesAll.vestingEndBlock)}`}</div>
+                    <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
+                  </div>
+                </div>
               }
               trigger={`${address}-vested-trigger`}
             />
@@ -379,13 +388,15 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   return (
     <div className={`ui--AddressInfo${className}${withBalanceToggle ? ' ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
-        {renderBalances(props, allAccounts, t)}
+        {renderBalances(props, allAccounts, bestNumber, t)}
         {withHexSessionId && withHexSessionId[0] && (
           <>
             <Label label={t<string>('session keys')} />
