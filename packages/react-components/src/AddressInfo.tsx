@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { LockIdentifier, ValidatorPrefsTo145, BlockNumber } from '@polkadot/types/interfaces';
+import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
