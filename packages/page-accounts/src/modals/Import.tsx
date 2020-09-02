@@ -8,7 +8,8 @@ import { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
-import { isObject, u8aToString } from '@polkadot/util';
+import { hexToU8a, isHex, isObject, u8aToString } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
@@ -35,9 +36,18 @@ const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 function parseFile (file: Uint8Array): FileState {
   try {
     const json = JSON.parse(u8aToString(file)) as KeyringPair$Json;
-    const publicKey = keyring.decodeAddress(json.address, true);
-    const address = keyring.encodeAddress(publicKey);
-    const isFileValid = publicKey.length === 32 && !!json.encoded && isObject(json.meta) && (
+    const publicKey = isHex(json.address)
+      ? hexToU8a(json.address)
+      : keyring.decodeAddress(json.address, true);
+    const address = keyring.encodeAddress(
+      isHex(json.address) && Array.isArray(json.encoding.content) && publicKey.length !== 32
+        ? json.encoding.content[1] === 'ecdsa'
+          ? blake2AsU8a(publicKey)
+          // FIXME Handle Ethereum
+          : publicKey
+        : publicKey
+    );
+    const isFileValid = [32, 33].includes(publicKey.length) && !!json.encoded && isObject(json.meta) && (
       Array.isArray(json.encoding.content)
         ? json.encoding.content[0] === 'pkcs8'
         : json.encoding.content === 'pkcs8'
