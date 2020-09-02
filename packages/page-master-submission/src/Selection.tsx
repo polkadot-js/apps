@@ -111,16 +111,15 @@ function Selection (): React.ReactElement {
 
   const _setVotePayload = async () => {
     const roundNo = await api.query.master.round();
-    console.log(`roundNo ${roundNo}`)
-
-    let payload = {
+    const payload = {
       proposal: [...api.createType('Call', proposal).toU8a()],
       round_no: roundNo,
     };
-    console.log('payload', payload)
-    let encoded_state_change = api.createType('StateChange', { MasterVote: payload }).toU8a();
-    console.log('encoded_state_change', encoded_state_change);
 
+    console.log(`roundNo ${roundNo}`)
+    console.log('payload', payload)
+
+    const encoded_state_change = api.createType('StateChange', { MasterVote: payload }).toU8a();
     setData({ data: u8aToHex(encoded_state_change), isHexData: true });
   };
 
