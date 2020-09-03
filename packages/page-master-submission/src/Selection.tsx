@@ -18,6 +18,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import keyring from '@polkadot/ui-keyring';
 
 import Unlock from '../../page-toolbox/src/Unlock';
+import SignatureDIDs from './SignatureDIDs';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -62,6 +63,7 @@ function Selection (): React.ReactElement {
   const [{ isUsable, signer }, setSigner] = useState<SignerState>({ isUsable: true, signer: null });
   const [signature, setSignature] = useState('');
   const [isUnlockVisible, toggleUnlock] = useToggle();
+  const [isExecuteVisible, toggleExecute] = useToggle();
 
   useEffect((): void => {
     const meta = (currentPair && currentPair.meta) || {};
@@ -139,6 +141,17 @@ function Selection (): React.ReactElement {
   const _onChangeAccount = useCallback(
     (accountId: string | null) => setCurrentPair(keyring.getPair(accountId || '')),
     []
+  );
+
+  const _onExecute = useCallback(
+    (): void => {
+      if (isLocked || !isUsable || !currentPair) {
+        return;
+      }
+
+      toggleExecute(true);
+    },
+    [currentPair, data, isHexData, isLocked, isUsable, signer]
   );
 
   const _onSign = useCallback(
@@ -305,7 +318,7 @@ function Selection (): React.ReactElement {
             {isLocked && (
               <div className='unlock-overlay-warning'>
                 <div className='unlock-overlay-content'>
-                  {t<string>('You need to unlock this account to be able to sign data.')}<br/>
+                  {t<string>('You need to unlock this account to be able to sign data and execute the proposal.')}<br/>
                   <Button.Group>
                     <Button
                       icon='unlock'
@@ -336,13 +349,29 @@ function Selection (): React.ReactElement {
               pair={currentPair}
             />
           )}
+
+          {isExecuteVisible && !isLocked && isUsable && (
+            <SignatureDIDs
+              onClose={toggleExecute}
+              onUnlock={_onUnlock}
+              pair={currentPair}
+            />
+          )}
         </div>
         <Button.Group>
           <Button
             icon='key'
             isDisabled={!(isUsable && !isLocked)}
+            label={t<string>('Execute Proposal')}
+            onClick={_onExecute}
+          />
+
+          <Button
+            icon='key'
+            isDisabled={!(isUsable && !isLocked)}
             label={t<string>('Sign and Vote')}
             onClick={_onSign}
+            isPrimary
           />
         </Button.Group>
       </>
