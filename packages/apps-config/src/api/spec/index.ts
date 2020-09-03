@@ -5,6 +5,7 @@
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
+import crust from './crust';
 import darwiniaParachain from './darwinia-parachain';
 import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
@@ -18,7 +19,6 @@ import nodle from './nodle';
 import plasm from './plasm';
 import stablePoc from './stable-poc';
 import subsocialNode from './subsocial';
-import crust from './crust';
 
 export default {
   Crab: crab,

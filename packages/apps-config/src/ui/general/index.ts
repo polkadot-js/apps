@@ -6,6 +6,7 @@ const defaultColor = undefined; // '#f19135'
 const emptyColor = '#999';
 
 const chainCrab = '#7C30DD';
+const chainCrust = '#ff8812';
 const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
@@ -18,7 +19,6 @@ const chainRoccoDarwinia = '#7C30DD';
 const laminarRoccoAcala = '#004FFF';
 const chainWestend = '#da68a7';
 const chainPhala = '#4dc56a';
-const chainCrust = '#ff8812';
 
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
@@ -41,11 +41,11 @@ const chainColors: Record<string, any> = [
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
   ['acala mandala pc1', chainRoccoAcala],
+  ['crust maxwell cc2', chainCrust],
   ['darwinia parachain', chainRoccoDarwinia],
   ['laminar turbulence pc1', laminarRoccoAcala],
   ['Westend', chainWestend],
-  ['phala poc 2', chainPhala],
-  ['crust maxwell cc2', chainCrust]
+  ['phala poc 2', chainPhala]
 ].reduce((colors, [chain, color]): Record<string, any> => ({
   ...colors,
   [chain.toLowerCase()]: color
