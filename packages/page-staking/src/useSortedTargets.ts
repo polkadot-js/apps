@@ -7,13 +7,14 @@ import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/in
 import { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { useAccounts, useApi, useCall, useDebounce } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
 
 const PERBILL = new BN(1_000_000_000);
+const EMPTY_PARTIAL = {};
 
 function baseBalance (): BN {
   return new BN('1'.padEnd(formatBalance.getDefaults().decimals + 4, '0'));
@@ -166,23 +167,13 @@ export default function useSortedTargets (favorites: string[]): SortedTargets {
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], transformReward);
   const [calcWith, setCalcWith] = useState<BN | undefined>(baseBalance());
   const calcWithDebounce = useDebounce(calcWith);
-  const [state, setState] = useState<SortedTargets>({ setCalcWith });
 
-  useEffect((): void => {
-    electedInfo && waitingInfo && setState(({ calcWith, setCalcWith }) => ({
-      ...extractInfo(allAccounts, calcWithDebounce, electedInfo, waitingInfo, favorites, lastReward),
-      calcWith,
-      lastReward,
-      setCalcWith
-    }));
-  }, [allAccounts, calcWithDebounce, electedInfo, favorites, lastReward, waitingInfo]);
+  const partial = useMemo(
+    () => electedInfo && waitingInfo
+      ? extractInfo(allAccounts, calcWithDebounce, electedInfo, waitingInfo, favorites, lastReward)
+      : EMPTY_PARTIAL,
+    [allAccounts, calcWithDebounce, electedInfo, favorites, lastReward, waitingInfo]
+  );
 
-  useEffect((): void => {
-    calcWith && setState((state) => ({
-      ...state,
-      calcWith
-    }));
-  }, [calcWith]);
-
-  return state;
+  return { ...partial, calcWith, lastReward, setCalcWith };
 }

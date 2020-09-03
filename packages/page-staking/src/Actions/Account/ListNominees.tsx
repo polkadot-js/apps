@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { AddressMini, Expander } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
@@ -15,10 +16,28 @@ interface Props {
 
 function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { nomsActive, nomsChilled, nomsInactive, nomsWaiting } = useInactives(stashId, nominating);
+  const { api } = useApi();
+  const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
+
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toString();
 
   return (
     <>
+      {nomsOver && nomsOver.length !== 0 && (
+        <Expander
+          className='stakeOver'
+          help={t<string>('These validators are active but only the top {{max}} nominators by backing stake will be receiving rewards. The nominating stash is not one of those to be rewarded in the current era.', { replace: max })}
+          summary={t<string>('Oversubscribed nominations ({{count}})', { replace: { count: nomsOver.length } })}
+        >
+          {nomsOver.map((nomineeId, index): React.ReactNode => (
+            <AddressMini
+              key={index}
+              value={nomineeId}
+              withBalance={false}
+            />
+          ))}
+        </Expander>
+      )}
       {nomsActive && nomsActive.length !== 0 && (
         <Expander
           help={t<string>('The validators selected by the Phragmen algorithm to nominate for this era.')}

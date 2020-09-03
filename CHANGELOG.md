@@ -1,10 +1,45 @@
 # CHANGELOG
 
-## 0.56.0-beta.30
+## 0.56.1 Aug 31, 2020
 
-- Electron test
+Contributed:
+
+- Add Laminar Rococo parachain (Thanks to https://github.com/aniiantt)
+- Add Darwinia Rococo parachain (Thanks to https://github.com/WoeOm)
+- Add Subsocial chain (Thanks to https://github.com/F3Joule)
+- Add Phala POC2 testnet (Thanks to https://github.com/krhougs)
+- Add Plasm network (Thanks to https://github.com/akru)
+- Rename Darwinia Crab chain (Thanks to https://github.com/WoeOm)
+- Add I18n For Bahasa Indonesian (Thanks to https://github.com/nzjourney)
+
+Changes:
+
+- Add bulk tipping (median) functionality to treasury tips
+- Add a calendar app that show current and upcoming chain events
+- Ensure max nomination limits (64) badges are displayed in all location on staking
+- Show oversubscribed validators under accounts & on staking overview
+- Show the next burn amount on treasury
+- Add warning on new treasury proposals that rejections will lose the bond
+- Add explicit Aye/Nay buttons on all voting modals (no toggle)
+- Display unlocking timer for delegated voting under accounts
+- Fix Electron app security to allow WASM
+- Cleanup indices handling, including size checks on the AccountId level (from non indices lookup chains)
+- Adjust create account modal with advanced options minimized by default
+- Adjust reward destination handling to cater for both current/next generations
+- Adjust slideout z-index (non-hidden behind new menubar)
+- Add checks for multisig thresholds to align with Rust (min 2)
+- Adjust external source links to use destination icons
+- Limit InputNumber around actual available chain decimals
+- Display bonding unlocking on address book
+- Cleanup display for unbonding values, better performant
+- Add a legend on the staking overview pages
+- `@polkadot/api`1.31.2
+- `@polkadot/util` 3.4.1
+
 
 ## 0.55.1 Aug 24, 2020
+
+Contributed:
 
 - Add Kilt network (Thanks to https://github.com/wischli)
 - Add Nodle mainnet (Thanks to https://github.com/ETeissonniere)
@@ -17,6 +52,9 @@
 - Adjust convictions for Kulupu blocktime calcs (Thanks to https://github.com/sorpaas)
 - Nightly tests for functionality against Substrate (Thanks to https://github.com/EthWorks)
 - I18N Korean translation (Thanks to https://github.com/wooqii)
+
+Changes:
+
 - Move navbar to the top instead of a sidebar (horizontal space becomes available)
 - Add extra payout information on staking to reduce confusion (any account can claim)
 - Rework Aye/Nay votes display in council/democracy with single column
@@ -40,7 +78,10 @@
 - Split addressbook into own app (with top nav)
 - Aplit RPC app into own app (top nav, toolbox remainder now named sign/verify)
 
+
 ## 0.54.1 Aug 17, 2020
+
+Contributed:
 
 - Remove Berlin testnet, replace with Beresheet (Thanks to https://github.com/drewstone)
 - Add links to Polkastats where available (Thanks to https://github.com/mariopino)
@@ -51,6 +92,9 @@
 - Don't allow `///password` in non-mnemonic seeds (Thanks to https://github.com/Tbaut)
 - Allow saving custom RPC endpoints (Thanks to https://github.com/Tbaut)
 - Add tooltip & help info on nominee statusses (Thanks to https://github.com/Tbaut)
+
+Changes:
+
 - Adjust threshold parameters via lookup for treasury proposals
 - Optimize API queries params & options for less re-renders
 - Consistently detect hex data in file uploads (e.g. on parachain data)
@@ -70,7 +114,10 @@
 - Adjust alignment of units (time & symbol) in formatters
 - Do not fail on non-available RPCs for node info retrieval (& hide empty)
 
+
 ## 0.53.1 Aug 10, 2020
+
+Contributed:
 
 - ko i18n first-round support (Thanks to https://github.com/hskang9)
 - Update to latest Centrifuge types (Thanks to https://github.com/mikiquantum)
@@ -79,6 +126,9 @@
 - Adjust council voting balance to include reserved (Thanks to https://github.com/Tbaut)
 - Add tip link to Polkassembly (Thanks to https://github.com/Tbaut)
 - Show existing proxies across all accounts (Thanks to https://github.com/Tbaut)
+
+Changes:
+
 - Add slashes tab to display unapplied, also indicate status in lists
 - Unbonding allows for full-balance unbond (& pre-fills)
 - Rework parachains app initial displays with cross-app consistency
@@ -96,7 +146,10 @@
 - Add IPNS support for Rococo
 - Adjust threshold calculations where members are not (yet) available
 
+
 ## 0.52.1 Aug 3, 2020
+
+Contributed:
 
 - ar i18n support (Thanks to https://github.com/nightwolf3)
 - zh i18n updated (Thanks to https://github.com/kaichaosun)
@@ -104,6 +157,9 @@
 - Allow management of proxies (Thanks to https://github.com/Tbaut)
 - Links for Polkassembly Polkadot support (Thanks to https://github.com/niklabh)
 - Clarify claiming template text (Thanks to https://github.com/Swader)
+
+Changes:
+
 - Remove auto-select defaults for nomination, adjust loading for all selector
 - Display Slashing tab on staking overview (as available)
 - Indicate per-validator slashes in accounts (chilled) & staking targets
@@ -116,10 +172,16 @@
 - Adjust era filters on staking payouts, default to day intervals
 - Convert custom URL inputs to punycode (UTF8 detection)
 
+
 ## 0.51.1 Jul 27, 2020
+
+Contributed:
 
 - Support for Acala chain and types (Thanks to https://github.com/aniiantt)
 - First batch of i18n for Arabic (Thanks to https://github.com/nightwolf3)
+
+Changes:
+
 - Update for Polkadot council thresholds
 - Council motion adjustment to cater for current and previous generations
 - Adjust imminent proposals to not need own type adjustments
@@ -137,10 +199,16 @@
 - Fixed for keyboard locale detection
 - Don't allow display in an iframe
 
+
 ## 0.50.1 Jul 20, 2020
+
+Contributed:
 
 - Adjust CSPs for Electron (Thanks to https://github.com/EthWorks)
 - Move delegation column to badge (Thanks to https://github.com/Tbaut)
+
+Changes:
+
 - Display costs for preimage calls
 - Add buttons for bid/unbid on Society
 - Allow tip endorsements while in countdown
@@ -161,7 +229,10 @@
 - Remove unmaintained page-123code (& references)
 - Don't display finalized blocks when grandpa is not available
 
+
 ## 0.49.1 Jul 13, 2020
+
+Contributed:
 
 - Update Subscan links with supported chains (https://github.com/carumusan)
 - Enhance Electron desktop with CSP & best practices (Thanks to https://github.com/EthWorks)
@@ -170,6 +241,9 @@
 - Add testing around Electron features (Thanks to https://github.com/EthWorks)
 - Support democracy account delegation (Thanks to https://github.com/Tbaut)
 - Don't filter selected on multi account selector (Thanks to https://github.com/Tbaut)
+
+Changes:
+
 - Add support for Polkadot denomination poll
 - Allow input & display of OpaqueCall type from multisig
 - Indicate own nominees on targets page (re-added with badges)
@@ -183,9 +257,15 @@
 - Adjust type injection to override on-connect API defaults
 - Adjust attestation display with no-balance filters
 
+
 ## 0.48.1 Jul 6, 2020
 
+Contributed:
+
 - Fix for electron package build (Thanks to https://github.com/EthWorks)
+
+Changes:
+
 - Allow for setting of sub identities via account action
 - Adjust known account icons (Society & Treasury)
 - Add Westend chain to Subscan link generator
@@ -199,7 +279,10 @@
 - Fix InputAddress component with state change warnings
 - Bump to latest API and utilities
 
+
 ## 0.47.1 Jul 1, 2020
+
+Contributed:
 
 - Update zh translation (Thanks to https://github.com/dushaobindoudou)
 - Add DataHighway Harbour testnet endpoint (Thanks to https://github.com/ltfschoen)
@@ -208,6 +291,9 @@
 - Swap to default conviction of 1x (Thanks to https://github.com/Tbaut)
 - Make preimage hash selectable on FF (Thanks to https://github.com/Tbaut)
 - show unbonding value in staking actions (Thanks to https://github.com/Tbaut)
+
+Changes:
+
 - Default (via toggle) to only last 25% of eras for payouts
 - Allow retracting of tips by proposer
 - Allow tipping with new Substrate types (dual old/new support)
@@ -222,11 +308,17 @@
 - Swap icons to use font-awesome directly, including official components
 - Additional small UI cleanups and fixes
 
+
 ## 0.46.1 Jun 22, 2020
+
+Contributed:
 
 - I18n for es (Thanks to https://github.com/wimel)
 - Support for importing mini secrets via QR (Thanks to https://github.com/hanwencheng)
 - Update SubstrateTEE types (Thanks to https://github.com/brenzi)
+
+Changes:
+
 - Support for multisig calls with new weight parameters
 - Split sign and send updates in the signer modal for better UI tracking
 - Hide zero nonce of accounts/contracts pages
@@ -252,13 +344,19 @@
 - `@polkadot/api` 1.20.1
 - `@polkadot/util` 2.15.1
 
+
 ## 0.45.2 Jun 16, 2020
+
+Contributed:
 
 - I18n for ja (Thanks to https://github.com/SotaWatanabe)
 - I18n for pt (thanks to https://github.com/laurogripa)
 - I18n for ru (Thanks to https://github.com/illlefr4u)
 - Update Encointer types (thanks to https://github.com/brenzi)
 - Improve Electron app security settings (Thanks to https://github.com/EthWorks)
+
+Changes:
+
 - Rework signer dialog to cater for proxies (and multisig/proxy combinations)
 - Construct payouts with oldest eras first (expire first)
 - Show outstanding multisig approvals on accounts page
@@ -275,13 +373,19 @@
 - `@polkadot/api` 1.19.1
 - `@polkadot/util` 2.14.1
 
+
 ## 0.44.1 Jun 10, 2020
+
+Contributed:
 
 - Publish electron images on release (Thanks to https://github.com/EthWorks)
 - Adjust with latest Arcardia types (Thanks to https://github.com/ETeissonniere)
 - Extensions and fixes to the russian translations (Thanks to https://github.com/illlefr4u)
 - Rewrite of the contracts app (Thanks to https://github.com/kwingram25)
 - New types for SubstrateTEE (Thanks to https://github.com/brenzi)
+
+Changes:
+
 - Adjust for new Polkadot CC1 & Kusama types
 - Cater for new multisig module location
 - Filter multisig signatories based on approvals, set final state based on threshold
@@ -297,19 +401,28 @@
 - `@polkadot/api` 1.18.1
 - `@polkadot/util` 2.13.1
 
+
 ## 0.43.1 May 26, 2020
+
+Contributed:
 
 - Support for Polkadot CC1 Claims (Thanks to https://github.com/amaurymartiny & https://github.com/Tbaut)
 - Small typo fixes (Thanks to https://github.com/Swader)
 - updates to russian translation (Thanks to https://github.com/illlefr4u)
 - Adjustments to Electron build support (Thanks to https://github.com/EthWorks)
+
+Changes:
+
 - Support for Polkadot CC1 types & RPC endpoints
 - Detect & support new proposal close process in Substrate
 - Adjust checks for on-click validator (immediate isActive)
 - `@polkadot/api` 1.16.1
 - `@polkadot/util` 2.11.1
 
+
 ## 0.42.1 May 22, 2020
+
+Contributed:
 
 - Adjust Subscan proposal links (Thanks to https://github.com/illlefr4u)
 - Add environment suport for docker images (Thanks to https://github.com/chevdor)
@@ -328,6 +441,9 @@
 - Add block number display to event overview (Thanks to https://github.com/danforbes)
 - Basic Electron support (Thanks to https://github.com/EthWorks)
 - Documentation around IPFS pinning (Thanks to https://github.com/chevdor)
+
+Changes:
+
 - Added IPFS/IPNS publishing (ipns via dotapps.io)
 - Support for multisig wallets
 - Ledger address on-wallet display option
@@ -356,12 +472,18 @@
 - Allow for tabes with aliasses (on renames) & redirects
 - Align types and calls with latest substrate
 
+
 ## 0.41.1 Apr 20, 2020
+
+Contributed:
 
 - Fix for searching child identities on parent name (Thanks to https://github.com/krogla)
 - Support chains with no balances module (Thanks to https://github.com/Voxelot)
 - Add out-of-the-box support for Encointer (Thanks to https://github.com/brenzi)
 - Add ava.do endpoint for Kusama (Thanks to https://github.com/Swader)
+
+Changes:
+
 - Show remaining time on staking payout actions, link payouts from actions
 - Display per-validator nominators on waiting list
 - Add support for Treasury tipping (display of available & creation)
@@ -378,7 +500,10 @@
 - More components to functional, specific focus on TxModal extends
 - Bumps to all @polkadot/* packages for latest support everywhere
 
+
 ## 0.40.1 Apr 9, 2020
+
+Contributed:
 
 - Swap voting to aye/nay toggles (Thanks to https://github.com/Lowhearth)
 - Cater for chains where no tip is present (Thanks to https://github.com/Sushisource)
@@ -391,6 +516,9 @@
 - Text cleanups (Thanks to https://github.com/ltfschoen)
 - update Parachains to support latest Polkadot (Thanks to https://github.com/kwingram25)
 - Rework multi address inputs (e.g. nominations & council) (Thanks to https://github.com/kwingram25)
+
+Changes:
+
 - Introduce apps-config as a single source of config information
 - Cater for metadata updates to extensions
 - Rework explorer layouts, combining extrinsics & events into a single view
@@ -412,11 +540,18 @@
 - Cleanup all voting lock, consistent display
 - ... loads of other under-the-hood improvements and cleanups
 
+
 ## 0.39.1 Jan 31, 2020
 
 - **Breaking** Drop support for V1 Substrate chains
+
+Contributed:
+
 - Translation into Chinese (Thanks to https://github.com/dushaobindoudou)
 - Support for sign-only transactions (Thanks to https://github.com/mzolkiewski)
+
+Changes:
+
 - Add support for WestEnd testnet
 - Add support for social recovery in accounts
 - Add counters for all proposal-based apps
@@ -433,10 +568,16 @@
 - Adjust balance display formats
 - Update to latest libraries (incl. util 2.0 & api 1.0)
 
+
 ## 0.38.1
+
+Contributed:
 
 - Fix summarybar in 123-code (Thanks to https://github.com/anakornk)
 - Update Edgeware with correct keys (Thanks to https://github.com/drewstone)
+
+Changes:
+
 - Add InputAddressMulti inputs, both to council and staking nominators
 - Rework all layouts, removing cards for table-ike-layouts
 - Technical comittee app
@@ -445,10 +586,16 @@
 - Improved staking page rendering (background)
 - Update to latest libraries
 
+
 ## 0.37.1
 
-- Support for Kusama CC3
+Contributed:
+
 - Support for contracts with new ABI v2 (Thanks to https://github.com/kwingram25)
+
+Changes:
+
+- Support for Kusama CC3
 - Support for on-chain nicks
 - Speed improvements for the staking pages
 - Add account derivation from existing account
@@ -468,7 +615,10 @@
 - Account locks are applied on a genesis range (e.g. CC2 & CC3 allow availability)
 - ... lots of smaller enhancements & bug fixes
 
+
 ## 0.36.1
+
+Changes:
 
 - Api 0.95.1, Util 1.6.1, Extension 0.13.1
 - Support latest contracts ABI (via API), incl. rework of contracts UI
@@ -490,7 +640,10 @@
 - Make the network selection clickable on network name (via bounty)
 - ... and a number of cleanups all around
 
+
 ## 0.35.1
+
+Changes:
 
 - Api 0.91.1, Util 1.2.1, Extension 0.10.1
 - Support for accounts added via Qr (for instance, the Parity Signer)
@@ -503,7 +656,10 @@
 - Fix account derivation with `///password`
 - Lots of component & maintainability cleanups
 
+
 ## 0.34.1
+
+Changes:
 
 - Kusama support
 - Full support for Substrate 2.x & Polkadot 0.5.0 networks
@@ -512,7 +668,10 @@
 - Basic Council, Parachains & Treasury apps
 - Moved ui-* packages to react-*
 
+
 ## 0.33.1
+
+Changes:
 
 - Allow for externally injected accounts (i.e. via extension, polkadot-js & SingleSource)
 - Links to extrnisics & addresses on Polkascan
@@ -530,39 +689,60 @@
 - Latest @polkadot/util & @polkadot/api
 - A large number of optimizations and smaller fixes
 
+
 ## 0.32.1
+
+Changes:
 
 - Support for Substrate 1.0 release & metadata v4
 - @polkadot/api 0.77.1
 
+
 ## 0.31.1
+
+Changes:
 
 - Cleanups, fixes and features around the poc-4 staking module
 - Number of UI enhancements
 
+
 ## 0.30.1
+
+Changes:
 
 - Staking page indicator for offline nodes (count & block)
 - Rework page tabs and content layouts
 - Cleanup of all UI summary headers
 - Emberic Elem support (replaces Dried Danta)
 
+
 ## 0.29.1
+
+Changes:
 
 - @polkadot/util & @polkadot/api 0.75.1
 
+
 ## 0.28.1
+
+Changes:
 
 - Support for substrate 1.0-rc
 
+
 ## 0.27.1
+
+Changes:
 
 - Bring in new staking & nominating functions
 - Swap default keyring accounts (on creation) to sr25519
 - New faster crypto algorithms
 - Misc. bug fixes all around
 
+
 ## 0.26.1
+
+Changes:
 
 - Swap keyring to HDKD derivation, mnemonic keys are now not backwards compatible with those created earlier. (Defaults are still for ed25519)
 - Swap crypto to new WASM-backed version (and remove libsodium dependency)
@@ -570,23 +750,38 @@
 - New mobile-friendly sidebar
 - Fix issues with nominating (old non-bonds interface)
 
+
 ## 0.25.1
+
+Changes:
 
 - Swap to publishing -beta.x on merge (non-breaking testing)
 
+
  ## 0.24.1
+
+Changes:
 
  Storage now handles Option type properly
 
+
  ## 0.23.1
+
+Changes:
 
  JavaScript console introduced
 
+
 ## 0.22.1
+
+Changes:
 
 - Use new Compact<Index> transaction format - this requires the latest binaries from either Polkadot or Substrate
 
+
 ## 0.21.1
+
+Changes:
 
 - PoC-3 support with latest Substrate master & Polkadot master
 - Add support for Charred Cherry (Substrate) and Alexander (Polkadot) testnets

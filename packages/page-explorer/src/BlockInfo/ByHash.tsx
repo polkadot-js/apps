@@ -41,6 +41,7 @@ function BlockByHash ({ className = '', value }: Props): React.ReactElement<Prop
 
   const blockNumber = getHeader?.number.unwrap();
   const parentHash = getHeader?.parentHash.toHex();
+  const hasParent = !getHeader?.parentHash.isEmpty;
 
   return (
     <div className={className}>
@@ -67,7 +68,11 @@ function BlockByHash ({ className = '', value }: Props): React.ReactElement<Prop
               )}
             </td>
             <td className='hash overflow'>{getHeader.hash.toHex()}</td>
-            <td className='hash overflow'><Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link></td>
+            <td className='hash overflow'>{
+              hasParent
+                ? <Link to={`/explorer/query/${parentHash || ''}`}>{parentHash}</Link>
+                : parentHash
+            }</td>
             <td className='hash overflow'>{getHeader.extrinsicsRoot.toHex()}</td>
             <td className='hash overflow'>{getHeader.stateRoot.toHex()}</td>
             <td>
