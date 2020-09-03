@@ -353,8 +353,8 @@ function Selection (): React.ReactElement {
           {isExecuteVisible && !isLocked && isUsable && (
             <SignatureDIDs
               onClose={toggleExecute}
-              onUnlock={_onUnlock}
               pair={currentPair}
+              proposal={proposal}
             />
           )}
         </div>
