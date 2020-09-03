@@ -5,9 +5,13 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 <<<<<<< HEAD
+<<<<<<< HEAD
 // alphabetical
 =======
 >>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
+=======
+// alphbetical
+>>>>>>> ac93cde75 (Alphabetical chain config names (#3601))
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
@@ -16,7 +20,11 @@ import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
+<<<<<<< HEAD
 // alphabetical
+=======
+// alphbetical
+>>>>>>> ac93cde75 (Alphabetical chain config names (#3601))
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
@@ -32,12 +40,9 @@ import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
-<<<<<<< HEAD
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodePhala from './nodes/phala.svg';
-=======
->>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
@@ -47,11 +52,11 @@ import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
 // extensions
-// alphabetical
+// alphbetical
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 
 // external links
-// alphabetical
+// alphbetical
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
@@ -62,7 +67,6 @@ import externalSubscan from './external/subscan.svg';
 import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
-// NOTE: this matches up with RPC system.chain
 // alphabetical
 const chainLogos: Record<string, any> = [
   ['Dusty', chainDusty],
@@ -80,7 +84,6 @@ const chainLogos: Record<string, any> = [
 }), {});
 
 // overrides based on the actual software node type (all '-' converted to ' ')
-// NOTE: this matches up with what the RPC via system.name
 // alphabetical
 const nodeLogos: Record<string, any> = [
   ['airalab-robonomics', nodeRobonomics],
@@ -101,27 +104,22 @@ const nodeLogos: Record<string, any> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
-<<<<<<< HEAD
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
   ['phala-substrate-node', nodePhala],
-=======
   ['Plasm Node', nodePlasm],
->>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
+  ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
-  ['substrate-node', nodeSubstrate],
-  ['Equilibrium Node', nodeEquilibrium],
-  ['Equilibrium', nodeEquilibrium]
+  ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
 // overrides when we pass an explicit logo name
-// NOTE: this matches up with what is defined as "info" in settings/endpoints.ts
 // alphabetical
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
@@ -129,12 +127,6 @@ const namedLogos: Record<string, any> = {
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
-<<<<<<< HEAD
-  crust: nodeCrust,
-  'dock-mainnet': nodeDockMainnet,
-  'dock-testnet': nodeDockTestnet,
-=======
->>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
@@ -153,10 +145,6 @@ const namedLogos: Record<string, any> = {
   rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
   rococoPlasm: nodePlasm,
-<<<<<<< HEAD
-  rococoRobonomics: nodeRobonomics,
-=======
->>>>>>> e25c28fe1 (Added Plasm Network logos & endpoints (#3565))
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
