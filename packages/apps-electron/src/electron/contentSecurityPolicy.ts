@@ -4,6 +4,7 @@
 
 import { HeadersReceivedResponse, session } from 'electron';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const setupContentSecurityPolicy = (_: string): void => {
   session.defaultSession.webRequest.onHeadersReceived((details, cb: (headersReceivedResponse: HeadersReceivedResponse) => void) => {
     const headersReceivedResponse = {

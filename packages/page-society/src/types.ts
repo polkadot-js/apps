@@ -10,10 +10,10 @@ export interface OwnMembers {
   ownMembers: string[];
 }
 
+export type VoteType = [string, SocietyVote];
+
 export interface VoteSplit {
   allAye: VoteType[];
   allNay: VoteType[];
   allSkeptic: VoteType[];
 }
-
-export type VoteType = [string, SocietyVote];

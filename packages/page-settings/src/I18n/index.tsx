@@ -14,6 +14,10 @@ import uiSettings from '@polkadot/ui-settings';
 import { useTranslation } from '../translate';
 import StringInput from './StringInput';
 
+type Progress = [[number, number, number], Record<string, [number, number, number]>];
+type Strings = Record<string, string>;
+type StringsMod = Record<string, Strings>;
+
 interface Props {
   className?: string;
 }
@@ -28,10 +32,6 @@ interface Defaults {
   keys: Option[];
   modules: Option[];
 }
-
-type Progress = [[number, number, number], Record<string, [number, number, number]>];
-type Strings = Record<string, string>;
-type StringsMod = Record<string, Strings>;
 
 const cache = new Map<string, unknown>();
 

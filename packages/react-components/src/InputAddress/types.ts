@@ -6,6 +6,11 @@ import { KeyringSectionOption, KeyringOption$Type } from '@polkadot/ui-keyring/o
 
 import React from 'react';
 
+export interface Option extends KeyringSectionOption {
+  className?: string;
+  text: React.ReactNode;
+}
+
 export interface InputAddressProps {
   className?: string;
   defaultValue?: Uint8Array | string | null;
@@ -26,9 +31,4 @@ export interface InputAddressProps {
   value?: string | Uint8Array | string[] | null;
   withEllipsis?: boolean;
   withLabel?: boolean;
-}
-
-export interface Option extends KeyringSectionOption {
-  className?: string;
-  text: React.ReactNode;
 }

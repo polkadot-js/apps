@@ -33,14 +33,15 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^1.32.0-beta.8",
-    "@polkadot/api-contract": "^1.32.0-beta.8",
+    "@polkadot/api": "^1.32.0-beta.16",
+    "@polkadot/api-contract": "^1.32.0-beta.16",
     "@polkadot/keyring": "^3.4.1",
-    "@polkadot/types": "^1.32.0-beta.8",
+    "@polkadot/types": "^1.32.0-beta.16",
     "@polkadot/util": "^3.4.1",
     "@polkadot/util-crypto": "^3.4.1",
     "@polkadot/wasm-crypto": "^1.4.1",
-    "babel-core": "^7.0.0-bridge.0"
+    "babel-core": "^7.0.0-bridge.0",
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "analyze": "yarn clean && BUILD_ANALYZE=1 yarn run build:code && yarn source-map-explorer packages/apps/build/main.*.js",
@@ -78,24 +79,24 @@
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
-    "@babel/register": "^7.10.5",
+    "@babel/core": "^7.11.5",
+    "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
     "@pinata/sdk": "^1.1.11",
-    "@polkadot/dev": "^0.55.43",
-    "@polkadot/ts": "^0.3.40",
+    "@polkadot/dev": "^0.55.45",
+    "@polkadot/ts": "^0.3.41",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.24",
     "@types/file-saver": "^2.0.1",
     "@types/i18next": "^13.0.0",
-    "@types/jest": "^26.0.10",
+    "@types/jest": "^26.0.13",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-copy-to-clipboard": "^4.3.0",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-tooltip": "^4.2.4",
     "@types/store": "^2.0.2",
-    "@types/styled-components": "^5.1.2",
+    "@types/styled-components": "^5.1.3",
     "@types/styled-theming": "^2.2.5",
     "concurrently": "^5.3.0",
     "devtron": "^1.4.0",
@@ -107,13 +108,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "source-map-explorer": "^2.5.0",
-    "stylelint": "^13.6.1",
+    "stylelint": "^13.7.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^5.1.2",
+    "webpack-merge": "^5.1.3",
     "webpack-plugin-serve": "^1.0.1"
   }
 }
