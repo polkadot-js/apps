@@ -6,7 +6,7 @@ import { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/type
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
-import { Button, Modal, VoteAccount, TxButton } from '@polkadot/react-components';
+import { Button, Modal, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle, useWeight } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -24,7 +24,6 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, toggleVoting] = useToggle();
-  // const [voteValue, setVoteValue] = useState(true);
   const { api } = useApi();
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
@@ -115,6 +114,7 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
               accountId={accountId}
               extrinsic={nayExtrinsic}
               icon='ban'
+              isDisabled={hasVotedNay}
               label={ willFail
                 ? t<string>('Vote Nay & Close')
                 : t<string>('Vote Nay')
@@ -125,6 +125,7 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
               accountId={accountId}
               extrinsic={ayeExtrinsic}
               icon='check'
+              isDisabled={hasVotedAye}
               label={ willPass
                 ? t<string>('Vote Aye & Close')
                 : t<string>('Vote Aye')
