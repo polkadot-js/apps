@@ -41,7 +41,6 @@ class Params extends React.PureComponent<Props, State> {
   public constructor(props) {
     super(props);
     if (props.defaultParams) {
-      console.log('props.defaultParams', props.defaultParams)
       this.state.values = props.defaultParams;
     }
   }

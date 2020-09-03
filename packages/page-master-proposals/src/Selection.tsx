@@ -124,9 +124,6 @@ function Selection (): React.ReactElement {
       round_no: roundNo,
     };
 
-    console.log(`roundNo ${roundNo}`)
-    console.log('payload', payload)
-
     const encoded_state_change = api.createType('StateChange', { MasterVote: payload }).toU8a();
     setData({ data: u8aToHex(encoded_state_change), isHexData: true });
   };
