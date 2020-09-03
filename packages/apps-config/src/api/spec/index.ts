@@ -24,6 +24,7 @@ export default {
   Crab: crab,
   acala,
   'centrifuge-chain': centrifugeChain,
+  crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   dusty3: plasm,
@@ -39,6 +40,5 @@ export default {
   plasm,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
-  subsocial: subsocialNode,
-  crust
+  subsocial: subsocialNode
 };

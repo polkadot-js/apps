@@ -18,7 +18,7 @@ const chainRoccoDarwinia = '#7C30DD';
 const laminarRoccoAcala = '#004FFF';
 const chainWestend = '#da68a7';
 const chainPhala = '#4dc56a';
-const chainCrust = '#ff8812'
+const chainCrust = '#ff8812';
 
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
