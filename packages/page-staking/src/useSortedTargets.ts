@@ -64,7 +64,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[], BN, BN] {
+function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
   const defaultExposure = {
     others: registry.createType('Vec<IndividualExposure>'),
     own: registry.createType('Compact<Balance>'),
@@ -74,8 +74,6 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     commission: registry.createType('Compact<Perbill>')
   };
   const nominators: Record<string, boolean> = {};
-  let totalStaked = BN_ZERO;
-  let lowStaked = BN_ZERO;
   const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     const exposure = _exposure || defaultExposure;
     const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || defaultPrefs;
@@ -103,12 +101,6 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       return isNominating || allAccounts.includes(nominator);
     }, allAccounts.includes(key));
 
-    totalStaked = totalStaked.add(bondTotal);
-
-    if ((lowStaked.isZero() || bondTotal.lt(lowStaked)) && _exposure && !_exposure.total.isEmpty) {
-      lowStaked = bondTotal;
-    }
-
     return {
       accountId,
       bondOther: bondTotal.sub(bondOwn),
@@ -117,6 +109,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       bondTotal,
       commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
       hasIdentity: false,
+      isActive: !skipRewards,
       isCommission: !!(prefs as ValidatorPrefs).commission,
       isElected,
       isFavorite: favorites.includes(key),
@@ -137,17 +130,31 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
     };
   });
 
-  return [list, Object.keys(nominators), totalStaked, lowStaked];
+  return [list, Object.keys(nominators)];
 }
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators, totalStaked, lowStaked] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
+  const [elected, nominators] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
   const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward, false);
   const validators = sortValidators(elected.concat(waiting));
   const validatorIds = validators.map(({ accountId }) => accountId.toString());
+  const activeTotals = elected
+    .filter(({ isActive }) => isActive)
+    .map(({ bondTotal }) => bondTotal)
+    .sort((a, b) => a.cmp(b));
+  const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
+  const avgStaked = totalStaked.divn(activeTotals.length);
 
-  return { avgStaked: totalStaked.divn(electedDerive.info.length), lowStaked, nominators, totalStaked, validatorIds, validators };
+  // median
+  // const midIndex = Math.floor(activeTotals.length / 2);
+  // const avgStaked = activeTotals.length
+  //   ? activeTotals.length % 2
+  //     ? activeTotals[midIndex]
+  //     : activeTotals[midIndex - 1].add(activeTotals[midIndex]).divn(2)
+  //   : BN_ZERO;
+
+  return { avgStaked, lowStaked: activeTotals[0] || BN_ZERO, nominators, totalStaked, validatorIds, validators };
 }
 
 const transformEra = {
