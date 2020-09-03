@@ -18,7 +18,7 @@ interface Props {
 
 function TimeNow ({ children, className = '', label }: Props): React.ReactElement<Props> {
   const { api, isSubstrateV2 } = useApi();
-  const timestamp = useCall<Moment>(api.query.timestamp.now, []);
+  const timestamp = useCall<Moment>(api.query.timestamp.now);
   const [now, setNow] = useState<BN | undefined>();
 
   useEffect((): void => {

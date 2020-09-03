@@ -34,7 +34,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       <td className='address'>
         <AddressMini value={proposer} />
       </td>
-      <td className='number together ui--media-1200'>
+      <td className='number together media--1200'>
         <FormatBalance value={balance} />
       </td>
       <td>
@@ -64,11 +64,11 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
           )}
         </Button.Group>
       </td>
-      <td className='mini ui--media-1000'>
+      <td className='links media--1000'>
         <LinkExternal
           data={index}
+          isLogo
           type='proposal'
-          withShort
         />
       </td>
     </tr>

@@ -9,6 +9,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { isString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+import Ledgend from './Ledgend';
 
 interface Props {
   children?: React.ReactNode;
@@ -52,6 +53,7 @@ function Filtering ({ children, className, nameFilter, setNameFilter, setWithIde
             value={withIdentity}
           />
         )}
+        <Ledgend />
       </div>
     </div>
   );

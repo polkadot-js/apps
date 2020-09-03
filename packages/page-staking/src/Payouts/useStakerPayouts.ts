@@ -12,7 +12,7 @@ import { isFunction } from '@polkadot/util';
 
 export default function useStakerPayouts (): BN {
   const { api } = useApi();
-  const migrateEraOpt = useCall<Option<EraIndex>>(api.query.staking?.migrateEra, []);
+  const migrateEraOpt = useCall<Option<EraIndex>>(api.query.staking?.migrateEra);
 
   return useMemo(
     () => (migrateEraOpt && migrateEraOpt.isSome && migrateEraOpt.unwrap()) || (

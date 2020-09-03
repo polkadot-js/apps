@@ -67,11 +67,11 @@ export default React.memo(styled(Body)`
     }
 
     &.badge {
-      padding: 0;
+      padding: 0.5rem;
     }
 
     &.button {
-      padding: 0.5rem 0.25rem;
+      padding: 0.5rem;
       text-align: right;
       white-space: nowrap;
 
@@ -84,8 +84,22 @@ export default React.memo(styled(Body)`
       border-top-width: 0;
     }
 
+    &.expand {
+      text-align: left;
+
+      .ui--Expander+.ui--Expander {
+        margin-top: 0.5rem;
+      }
+    }
+
     &.hash {
       font-family: monospace;
+    }
+
+    &.links {
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+      width: 0;
     }
 
     &.number {
@@ -137,7 +151,7 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #faf9f8;
+      background: #faf8f6;
     }
 
     &:nth-child(odd) {

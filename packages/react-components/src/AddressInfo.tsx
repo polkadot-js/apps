@@ -438,7 +438,7 @@ export default withMulti(
       justify-content: start;
 
       &.column--expander {
-        width: 16.5rem;
+        width: 17.5rem;
 
         .ui--Expander {
           width: 100%;

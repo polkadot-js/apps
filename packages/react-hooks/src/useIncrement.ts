@@ -8,6 +8,7 @@ import useIsMountedRef from './useIsMountedRef';
 export default function useIncrement (defaultValue = 1): [number, () => void, (value: number) => void] {
   const mountedRef = useIsMountedRef();
   const [value, setValue] = useState(defaultValue);
+
   const increment = useCallback(
     (): void => {
       mountedRef.current && setValue((value: number) => ++value);

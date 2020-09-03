@@ -6,10 +6,10 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
-import { useAvailableSlashes } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
@@ -35,8 +35,8 @@ interface SortState {
 }
 
 const CLASSES: Record<string, string> = {
-  rankBondOther: 'ui--media-1600',
-  rankNumNominators: 'ui--media-1200'
+  rankBondOther: 'media--1600',
+  rankNumNominators: 'media--1200'
 };
 
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): number[] {
@@ -65,8 +65,9 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { calcWith, lastReward, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
@@ -108,40 +109,41 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   );
 
   const _selectProfitable = useCallback(
-    () => setSelected(
-      (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, rewardPayout }): string[] => {
-        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero()) {
+    () => setSelected((): string[] => {
+      const max = api.consts.staking?.maxNominatorRewardedPerValidator;
+
+      return (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
+        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero() && (!max || max.gtn(numNominators))) {
           result.push(key);
         }
 
         return result;
-      }, [])
-    ),
-    [validators, withIdentity]
+      }, []);
+    }),
+    [api, validators, withIdentity]
   );
 
-  const labels = useMemo(
-    (): Record<string, string> => ({
-      rankBondOther: t<string>('other stake'),
-      rankBondOwn: t<string>('own stake'),
-      rankBondTotal: t<string>('total stake'),
-      rankComm: t<string>('comm.'),
-      rankNumNominators: t<string>('nominators'),
-      rankOverall: t<string>('profit/era')
-    }),
-    [t]
-  );
+  const labelsRef = useRef({
+    rankBondOther: t<string>('other stake'),
+    rankBondOwn: t<string>('own stake'),
+    rankBondTotal: t<string>('total stake'),
+    rankComm: t<string>('comm.'),
+    rankNumNominators: t<string>('nominators'),
+    rankOverall: t<string>('profit/era')
+  });
 
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
-    ...['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'].map((header) => [
-      <>{labels[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
-      `${sorted ? `isClickable ${sortBy === header ? 'ui--highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
-      1,
-      (): void => _sort(header as 'rankComm')
-    ]),
+    ...(['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'] as (keyof typeof labelsRef.current)[])
+      .map((header) => [
+        <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
+        `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
+        1,
+        () => _sort(header as 'rankComm')
+      ]),
+    [],
     []
-  ], [_sort, labels, sortBy, sorted, sortFromMax, t]);
+  ], [_sort, labelsRef, sortBy, sorted, sortFromMax, t]);
 
   const filter = useMemo(() => (
     sorted && (
@@ -175,7 +177,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
   return (
     <div className={className}>
       <Summary
+        avgStaked={avgStaked}
         lastReward={lastReward}
+        lowStaked={lowStaked}
         numNominators={nominators?.length}
         numValidators={validators?.length}
         totalStaked={totalStaked}
@@ -222,7 +226,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { calcWit
 export default React.memo(styled(Targets)`
   text-align: center;
 
-  th {
+  th.isClickable {
     .ui--Icon {
       margin-left: 0.5rem;
     }

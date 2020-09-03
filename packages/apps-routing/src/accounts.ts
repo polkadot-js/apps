@@ -12,6 +12,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
+    group: 'accounts',
     icon: 'users',
     name: 'accounts',
     text: t<string>('nav.accounts', 'Accounts', { ns: 'apps-routing' }),

@@ -46,13 +46,13 @@ export default React.memo(styled(HelpOverlay)`
   .help-button {
     cursor: pointer;
     font-size: 2rem;
-    padding: 1.25rem 1.5rem 0 0;
+    padding: 1rem 2.5rem 0 0;
   }
 
   > .help-button {
     position: absolute;
     right: 0rem;
-    top: 0rem;
+    top: 0.125rem;
   }
 
   .help-slideout {
@@ -66,7 +66,7 @@ export default React.memo(styled(HelpOverlay)`
     top: 0;
     transition-duration: .5s;
     transition-property: all;
-    z-index: 10;
+    z-index: 225; // 5 more than menubar
 
     .help-button {
       text-align: right;

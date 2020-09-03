@@ -15,6 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'query.technicalCommittee.members'
       ]
     },
+    group: 'governance',
     icon: 'microchip',
     name: 'techcomm',
     text: t<string>('nav.tech-comm', 'Tech. comm.', { ns: 'apps-routing' }),

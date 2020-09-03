@@ -22,7 +22,7 @@ export default function useMembers (): OwnMembers {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const [state, setState] = useState<OwnMembers>({ allMembers: [], isMember: false, ownMembers: [] });
-  const members = useCall<DeriveSocietyMember[]>(api.derive.society?.members, []);
+  const members = useCall<DeriveSocietyMember[]>(api.derive.society?.members);
 
   useEffect((): void => {
     allAccounts && members && setState(

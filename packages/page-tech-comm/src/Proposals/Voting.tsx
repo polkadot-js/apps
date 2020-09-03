@@ -5,10 +5,9 @@
 import { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Modal, VoteAccount, VoteActions, VoteToggle } from '@polkadot/react-components';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Button, Modal, VoteAccount, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle, useWeight } from '@polkadot/react-hooks';
-import { isBoolean } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -25,34 +24,25 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
   const [isVotingOpen, toggleVoting] = useToggle();
-  const [voteValue, setVoteValue] = useState(true);
+  // const [voteValue, setVoteValue] = useState(true);
   const { api } = useApi();
   const [proposalWeight, proposalLength] = useWeight(proposal);
-  // this account has not voted on this motion yet, or they are changing their vote
-  const isNewVote = useMemo(() =>
-    voteValue
-      ? !votes.ayes.some((account) => accountId && account.toString() === accountId)
-      : !votes.nays.some((account) => accountId && account.toString() === accountId)
-  , [accountId, voteValue, votes.ayes, votes.nays]);
-  // will the proposal pass if this member votes aye
-  const willPass = (voteValue && votes?.threshold.eqn(votes?.ayes.length + 1)) || false;
-  // will the proposal fail if this member votes nay
-  const willFail = (!voteValue && votes?.threshold.eqn(votes?.nays.length + 1)) || false;
 
-  useEffect((): void => {
-    isVotingOpen && setVoteValue(true);
-  }, [isVotingOpen]);
+  // this account has voted on this motion already
+  const hasVotedAye = useMemo(() => votes?.ayes.some((account) => accountId && account.toString() === accountId)
+  , [accountId, votes?.ayes, votes?.nays]);
+  const hasVotedNay = useMemo(() => votes?.nays.some((account) => accountId && account.toString() === accountId)
+  , [accountId, votes?.ayes, votes?.nays]);
 
-  const _onChangeVote = useCallback(
-    (vote?: boolean): void => setVoteValue(isBoolean(vote) ? vote : true),
-    []
-  );
+  // will the proposal pass if this member votes aye now
+  const willPass = (!hasVotedAye && votes?.threshold.gten(votes?.ayes.length + 1)) || false;
+  // will the proposal fail if this member votes nay now
+  const willFail = (!hasVotedNay && votes?.threshold.gten(votes?.nays.length + 1)) || false;
 
   const isPrime = accountId === prime?.toString();
 
-  // vote and close if this vote ends the vote
-  const extrinsic = useMemo(() => {
-    const voteExtrinsic = api.tx.technicalCommittee.vote(hash, proposalId, voteValue);
+  const getExtrinsic = useCallback((aye: boolean) => {
+    const voteExtrinsic = api.tx.technicalCommittee.vote(hash, proposalId, aye);
 
     // protect against older versions
     if (!api.tx.technicalCommittee.close) {
@@ -65,11 +55,21 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
       // @ts-ignore older version (2 params)
       : api.tx.technicalCommittee.close(hash, proposalId);
 
-    return willPass || willFail
-      ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
-      : voteExtrinsic;
+    return (aye && willPass || !aye && willFail)
+    ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
+    : voteExtrinsic
   },
-  [api, hash, proposalId, proposalLength, proposalWeight, voteValue, willFail, willPass]);
+  [api, hash, proposalId, proposalLength, proposalWeight, willPass, willFail])
+
+  const ayeExtrinsic = useMemo(
+    () => getExtrinsic(true),
+    [getExtrinsic]
+  );
+
+  const nayExtrinsic = useMemo(
+    () => getExtrinsic(false),
+    [getExtrinsic]
+  );
 
   if (!hasAccounts) {
     return null;
@@ -84,43 +84,54 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
         >
           <Modal.Content>
             <VoteAccount onChange={setAccountId} />
-            <VoteToggle
-              onChange={_onChangeVote}
-              value={voteValue}
-            />
             {isPrime && (
               <article className='warning'>
                 <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>
             )}
-            {willFail && isNewVote && (
-              <article className='warning'>
-                <div>{t<string>('Your "Nay" vote will end this proposal. This will close it.')}</div>
+            {hasVotedAye && (
+              <article className='full warning'>
+                <div>{t<string>('You have previously voted "Aye" on this proposal. You can change your vote.')}</div>
               </article>
             )}
-            {willPass && isNewVote && (
-              <article className='warning'>
-                <div>{t<string>('Your "Aye" vote will end this proposal. This will close it.')}</div>
+            {hasVotedNay && (
+              <article className='full warning'>
+                <div>{t<string>('You have previously voted "Nay" on this proposal. You can change your vote.')}</div>
               </article>
             )}
-            {!isNewVote && (
-              <article className='warning'>
-                {voteValue
-                  ? <div>{t<string>('This account has allready voted Aye on this motion. Voting Aye again would not change anything.')}</div>
-                  : <div>{t<string>('This account has allready voted Nay on this motion. Voting Nay again would not change anything.')}</div>
-                }
+            {willFail && (
+              <article className='full warning'>
+                <div>{t<string>('Voting "Nay" would end this proposal and close it.')}</div>
+              </article>
+            )}
+            {willPass && (
+              <article className='full warning'>
+                <div>{t<string>('Voting "Aye" would end this proposal and close it.')}</div>
               </article>
             )}
           </Modal.Content>
-          <VoteActions
-            accountId={accountId}
-            aye={voteValue}
-            extrinsic={extrinsic}
-            isClosing={willPass || willFail}
-            isDisabled={!isNewVote}
-            onClick={toggleVoting}
-            params={[hash, proposalId, voteValue]}
-          />
+          <Modal.Actions onCancel={toggleVoting}>
+            <TxButton
+              accountId={accountId}
+              extrinsic={nayExtrinsic}
+              icon='ban'
+              label={ willFail
+                ? t<string>('Vote Nay & Close')
+                : t<string>('Vote Nay')
+              }
+              onStart={toggleVoting}
+            />
+            <TxButton
+              accountId={accountId}
+              extrinsic={ayeExtrinsic}
+              icon='check'
+              label={ willPass
+                ? t<string>('Vote Aye & Close')
+                : t<string>('Vote Aye')
+              }
+              onStart={toggleVoting}
+            />
+          </Modal.Actions>
         </Modal>
       )}
       <Button

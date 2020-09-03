@@ -27,6 +27,13 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
+const HIDDEN_ACC = ['actions', 'payouts', 'query'];
+const HIDDEN_QUE = ['returns', 'query'];
+
+const transformElection = {
+  transform: (status: ElectionStatus) => status.isOpen
+};
+
 function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -37,10 +44,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
-  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview, []);
-  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, [], {
-    transform: (status: ElectionStatus) => status.isOpen
-  });
+  const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
+  const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
 
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
@@ -85,8 +90,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
       text: t<string>('Waiting')
     },
     {
+      count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0),
       name: 'slashes',
-      text: t<string>('Slashes ({{count}})', { replace: { count: slashes.reduce((count, [, unapplied]) => count + unapplied.length, 0) } })
+      text: t<string>('Slashes')
     },
     {
       hasParams: true,
@@ -95,22 +101,19 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
     }
   ].filter((q): q is { name: string; text: string } => !!q), [api, slashes, t]);
 
-  const hiddenTabs = useMemo(
-    (): string[] => !hasAccounts
-      ? ['actions', 'payouts', 'query']
-      : !hasQueries
-        ? ['returns', 'query']
-        : [],
-    [hasAccounts, hasQueries]
-  );
-
   return (
     <main className={`staking--App ${className}`}>
       <HelpOverlay md={basicMd as string} />
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hiddenTabs}
+          hidden={
+            !hasAccounts
+              ? HIDDEN_ACC
+              : !hasQueries
+                ? HIDDEN_QUE
+                : undefined
+          }
           items={items}
         />
       </header>
@@ -198,6 +201,12 @@ export default React.memo(styled(StakingApp)`
       display: inline-block;
       margin-right: 1rem;
       margin-top: 0.5rem;
+    }
+  }
+
+  .ui--Expander.stakeOver {
+    .ui--Expander-summary {
+      color: darkred;
     }
   }
 `);

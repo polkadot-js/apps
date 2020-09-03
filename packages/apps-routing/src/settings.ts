@@ -10,6 +10,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
   return {
     Component,
     display: {},
+    group: 'settings',
     icon: 'cogs',
     name: 'settings',
     text: t<string>('nav.settings', 'Settings', { ns: 'apps-routing' }),

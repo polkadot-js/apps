@@ -15,6 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.poll.vote'
       ]
     },
+    group: 'governance',
     icon: 'podcast',
     name: 'poll',
     text: t<string>('nav.poll', 'Token poll', { ns: 'apps-routing' })

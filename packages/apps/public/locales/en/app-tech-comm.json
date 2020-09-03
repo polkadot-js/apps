@@ -15,6 +15,8 @@
   "The minimum number of committee votes required to approve this motion": "The minimum number of committee votes required to approve this motion",
   "The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.": "The proposal that will be affected. Once closed for the current voting round, it would need to be re-submitted for a subsequent voting round.",
   "Vote": "Vote",
+  "Vote Aye": "Vote Aye",
+  "Vote Nay": "Vote Nay",
   "Vote on proposal": "Vote on proposal",
   "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.": "You are voting with this collective's prime account. The vote will be the default outcome in case of any abstentions.",
   "aye": "aye",

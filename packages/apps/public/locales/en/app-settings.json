@@ -14,6 +14,7 @@
   "Genesis Hash": "Genesis Hash",
   "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched": "Genesis Hash refers to initial state of the chain, it cannot be changed once the chain is launched",
   "Manage your connection to Ledger S": "Manage your connection to Ledger S",
+  "Metadata": "Metadata",
   "Metadata {{count}}": "Metadata {{count}}",
   "Name of the network. It is only for display purposes.": "Name of the network. It is only for display purposes.",
   "Network Name": "Network Name",

@@ -16,6 +16,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'tx.genericAsset.transfer'
       ]
     },
+    group: 'network',
     icon: 'cubes',
     name: 'generic-asset',
     text: t<string>('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })

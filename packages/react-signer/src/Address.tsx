@@ -123,7 +123,7 @@ async function queryForProxy (api: ApiPromise, allAccounts: string[], address: s
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
     const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address);
-    const proxies = api.tx.proxy.addProxy.meta.args.length === 4
+    const proxies = api.tx.proxy.addProxy.meta.args.length === 3
       ? (_proxies as ProxyDefinition[]).map(({ delegate, proxyType }): [string, ProxyType] => [delegate.toString(), proxyType])
       : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]): [string, ProxyType] => [delegate.toString(), proxyType]);
     const proxiesFilter = filterProxies(allAccounts, tx, proxies);

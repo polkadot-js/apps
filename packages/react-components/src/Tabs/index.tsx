@@ -59,11 +59,15 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
 }
 
 export default React.memo(styled(Tabs)`
-  border-bottom: 1px solid #e6e6e6;
-  margin: 0 -2em;
+  align-items: flex-end;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  margin: 0 -3rem;
   overflow-x: scroll;
-  padding: 2em 2em 0.75rem;
+  padding: 1.5rem 3rem 0;
   text-align: left;
+  z-index: 1;
 
   &::-webkit-scrollbar {
     display: none;

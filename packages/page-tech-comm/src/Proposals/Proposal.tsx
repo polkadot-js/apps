@@ -23,14 +23,18 @@ interface Props {
   prime?: AccountId | null;
 }
 
+const transformProposal = {
+  transform: (optProp: Option<ProposalType>) => optProp.unwrapOr(null)
+};
+
+const transformVotes = {
+  transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
+};
+
 function Proposal ({ className = '', imageHash, isMember, members, prime }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const proposal = useCall<ProposalType | null>(api.query.technicalCommittee.proposalOf, [imageHash], {
-    transform: (optProp: Option<ProposalType>) => optProp.unwrapOr(null)
-  });
-  const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], {
-    transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
-  });
+  const proposal = useCall<ProposalType | null>(api.query.technicalCommittee.proposalOf, [imageHash], transformProposal);
+  const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], transformVotes);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
 
   if (!proposal || !votes) {

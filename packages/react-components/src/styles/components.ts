@@ -104,16 +104,6 @@ export default css`
       width: 6rem;
       text-align: center;
     }
-
-    .ui--MaxButton {
-      position: absolute;
-      right: 6.5rem;
-      top: 20%;
-      height: 60%;
-      text-transform: uppercase;
-      padding: 0 0.5rem !important;
-      border-radius: 0.3rem !important;
-    }
   }
 
   .ui--Static {

@@ -12,9 +12,9 @@ import { BN_ONE } from '@polkadot/util';
 
 export default function useEraBlocks (era?: BN): BN | undefined {
   const { api } = useApi();
-  const depth = useCall<BN>(api.query.staking.historyDepth, []);
-  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress, []);
-  const forcing = useCall<Forcing>(api.query.staking.forceEra, []);
+  const depth = useCall<BN>(api.query.staking.historyDepth);
+  const progress = useCall<DeriveSessionProgress>(api.derive.session.progress);
+  const forcing = useCall<Forcing>(api.query.staking.forceEra);
 
   return useMemo(
     () => (depth && era && forcing && progress && progress.sessionLength.gt(BN_ONE))
