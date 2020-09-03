@@ -29,9 +29,9 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
 
   // this account has voted on this motion already
   const hasVotedAye = useMemo(() => votes?.ayes.some((account) => accountId && account.toString() === accountId)
-  , [accountId, votes?.ayes, votes?.nays]);
+    , [accountId, votes?.ayes]);
   const hasVotedNay = useMemo(() => votes?.nays.some((account) => accountId && account.toString() === accountId)
-  , [accountId, votes?.ayes, votes?.nays]);
+    , [accountId, votes?.nays]);
 
   // will the proposal pass if this member votes aye now
   const willPass = (!hasVotedAye && votes?.threshold.gten(votes?.ayes.length + 1)) || false;
@@ -54,11 +54,11 @@ function Voting ({ hash, prime, proposal, proposalId, votes }: Props): React.Rea
       // @ts-ignore older version (2 params)
       : api.tx.technicalCommittee.close(hash, proposalId);
 
-    return (aye && willPass || !aye && willFail)
-    ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
-    : voteExtrinsic
+    return (aye && willPass) || (!aye && willFail)
+      ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
+      : voteExtrinsic;
   },
-  [api, hash, proposalId, proposalLength, proposalWeight, willPass, willFail])
+  [api, hash, proposalId, proposalLength, proposalWeight, willPass, willFail]);
 
   const ayeExtrinsic = useMemo(
     () => getExtrinsic(true),

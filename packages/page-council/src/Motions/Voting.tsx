@@ -30,12 +30,12 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
   const [proposalWeight, proposalLength] = useWeight(proposal);
   const ayeThreshold = getMaxThreshold({ isAye: true, members, threshold: votes?.threshold });
   const nayThreshold = getMaxThreshold({ isAye: false, members, threshold: votes?.threshold });
-  
+
   // this account has voted on this motion already
   const hasVotedAye = useMemo(() => votes?.ayes.some((account) => accountId && account.toString() === accountId)
-  , [accountId, votes?.ayes, votes?.nays]);
+    , [accountId, votes?.ayes]);
   const hasVotedNay = useMemo(() => votes?.nays.some((account) => accountId && account.toString() === accountId)
-  , [accountId, votes?.ayes, votes?.nays]);
+    , [accountId, votes?.nays]);
 
   // will the proposal pass if this member votes aye
   const willPass = (votes && !hasVotedAye && (ayeThreshold === votes.ayes.length + 1)) || false;
@@ -58,11 +58,11 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
       // @ts-ignore older version (2 params)
       : api.tx.council.close(hash, idNumber);
 
-    return (aye && willPass || !aye && willFail)
-    ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
-    : voteExtrinsic
+    return (aye && willPass) || (!aye && willFail)
+      ? api.tx.utility.batch([voteExtrinsic, closeExtrinsic])
+      : voteExtrinsic;
   },
-  [api, hash, idNumber, proposalLength, proposalWeight, willPass, willFail])
+  [api, hash, idNumber, proposalLength, proposalWeight, willPass, willFail]);
 
   const ayeExtrinsic = useMemo(
     () => getExtrinsic(true),
