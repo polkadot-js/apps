@@ -15,12 +15,12 @@ const chainPhala = '#4dc56a';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
 const chainRocco = '#6f36dc';
-const chainRoccoTick = '#22bb22';
-const chainRoccoTrack = '#bb2222';
-const chainRoccoTrick = '#2222bb';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoDarwinia = '#7C30DD';
 const chainRococoLaminar = '#004FFF';
+const chainRoccoTick = '#22bb22';
+const chainRoccoTrack = '#bb2222';
+const chainRoccoTrick = '#2222bb';
 const chainWestend = '#da68a7';
 
 // based on node name
