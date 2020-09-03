@@ -87,7 +87,7 @@ const nodeLogos: Record<string, any> = [
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['subsocial-node', nodeSubsocial],
-  ['substrate-node', nodeSubstrate],
+  ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
