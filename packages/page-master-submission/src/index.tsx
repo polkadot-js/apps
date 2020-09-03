@@ -22,10 +22,6 @@ function MasterSubmitApp ({ basePath }: Props): React.ReactElement<Props> {
     isRoot: false,
     name: 'create',
     text: t<string>('Proposal creation')
-  }, {
-    isRoot: false,
-    name: 'execute',
-    text: t<string>('Proposal execution')
   }], [t]);
 
   return (
@@ -39,9 +35,6 @@ function MasterSubmitApp ({ basePath }: Props): React.ReactElement<Props> {
       <Switch>
         <Route path={`${basePath}/create`}>
           <Create />
-        </Route>
-        <Route path={`${basePath}/execute`}>
-          TODO
         </Route>
         <Route>
           <Selection />
