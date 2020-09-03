@@ -3116,9 +3116,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/app-master-submission@workspace:packages/page-master-submission":
+"@polkadot/app-master-proposals@workspace:packages/page-master-proposals":
   version: 0.0.0-use.local
-  resolution: "@polkadot/app-master-submission@workspace:packages/page-master-submission"
+  resolution: "@polkadot/app-master-proposals@workspace:packages/page-master-proposals"
   dependencies:
     "@babel/runtime": ^7.10.5
     "@polkadot/react-components": 0.51.0-beta.2

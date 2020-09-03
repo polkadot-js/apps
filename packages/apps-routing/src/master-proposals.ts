@@ -4,7 +4,7 @@
 
 import { Route } from './types';
 
-import Component from '@polkadot/app-master-submission';
+import Component from '@polkadot/app-master-proposals';
 
 export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
   return {
@@ -14,7 +14,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       needsApi: []
     },
     icon: 'sync',
-    name: 'master-submission',
+    name: 'master-proposals',
     text: t<string>('nav.proposals', 'Proposals', { ns: 'apps-routing' })
   };
 }

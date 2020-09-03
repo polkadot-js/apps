@@ -51,7 +51,7 @@ i18next
       'app-democracy',
       'app-explorer',
       'app-extrinsics',
-      'app-master-submission',
+      'app-master-proposals',
       'app-generic-asset',
       'app-js',
       'app-parachains',

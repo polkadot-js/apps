@@ -16,7 +16,7 @@ import council from './council';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
-import masterSubmission from './master-submission';
+import masterSubmission from './master-proposals';
 import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';

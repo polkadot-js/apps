@@ -41,7 +41,7 @@ function Create (): React.ReactElement {
       const propJSON = JSON.stringify(jprop);
 
       setProposalJSON(propJSON);
-      setProposalUrl(window.location.origin + '/#/master-submission?proposal=' + encodeURIComponent(btoa(propJSON)));
+      setProposalUrl(window.location.origin + '/#/master-proposals?proposal=' + encodeURIComponent(btoa(propJSON)));
     }
   }, [extrinsic]);
 
