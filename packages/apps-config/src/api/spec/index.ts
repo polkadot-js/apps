@@ -18,6 +18,7 @@ import nodle from './nodle';
 import plasm from './plasm';
 import stablePoc from './stable-poc';
 import subsocialNode from './subsocial';
+import crust from './crust';
 
 export default {
   Crab: crab,
@@ -38,5 +39,6 @@ export default {
   plasm,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
-  subsocial: subsocialNode
+  subsocial: subsocialNode,
+  crust
 };

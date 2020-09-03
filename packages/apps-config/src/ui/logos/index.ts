@@ -30,6 +30,7 @@ import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodePhala from './nodes/phala.svg';
+import nodeCrust from './nodes/crust.svg';
 
 // extensions
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -79,7 +80,8 @@ const nodeLogos: Record<string, any> = [
   ['polkadot-js', nodePolkadotJs],
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
-  ['phala-substrate-node', nodePhala]
+  ['phala-substrate-node', nodePhala],
+  ['crust node', nodeCrust]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -112,7 +114,8 @@ const namedLogos: Record<string, any> = {
   rococoTrick: chainRococoTrick,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  crust: nodeCrust
 };
 
 // extension logos
