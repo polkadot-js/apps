@@ -52,7 +52,7 @@ function EventsBase ({ children }: Props): React.ReactElement<Props> {
 
           // retrieve the last header, this will map to the current state
           api.rpc.chain.getHeader().then((header): void => {
-            const blockNumber = header.number.unwrap && header.number.unwrap();
+            const blockNumber = header.number.unwrap();
             const blockHash = header.hash.toHex();
 
             if (blockHash !== prevBlockHash) {
