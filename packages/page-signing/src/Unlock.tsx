@@ -24,7 +24,7 @@ function Unlock ({ onClose, onUnlock, pair }: Props): React.ReactElement<Props> 
 
   useEffect((): void => {
     setAddress(pair?.address || '');
-  }, [pair?.address]);
+  }, [pair]);
 
   useEffect((): void => {
     setUnlockError(null);
