@@ -6,6 +6,7 @@ const defaultColor = undefined; // '#f19135'
 const emptyColor = '#999';
 
 const chainCrab = '#7C30DD';
+const chainCrust = '#ff8812';
 const chainKulupu = '#003366';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000'; // '#d32e79';
@@ -40,6 +41,7 @@ const chainColors: Record<string, any> = [
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
   ['acala mandala pc1', chainRoccoAcala],
+  ['crust maxwell cc2', chainCrust],
   ['darwinia parachain', chainRoccoDarwinia],
   ['laminar turbulence pc1', laminarRoccoAcala],
   ['Westend', chainWestend],

@@ -5,6 +5,7 @@
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
+import crust from './crust';
 import darwiniaParachain from './darwinia-parachain';
 import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
@@ -23,6 +24,7 @@ export default {
   Crab: crab,
   acala,
   'centrifuge-chain': centrifugeChain,
+  crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   dusty3: plasm,
