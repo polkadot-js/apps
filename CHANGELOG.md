@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 0.57-beta.x
+
+Contributed:
+
+- Add Crust network (Thanks to https://github.com/zikunfan)
+- i18n Chinese round-out (Thanks to Polkaworld)
+- i18n Italian (Thanks to https://github.com/fomod-in)
+- Initial i18n Italian (Thanks to https://github.com/excerebrose)
+- i18n Bahasa Indonesian updates (Thanks to https://github.com/nzjourney)
+- Ad per-block/end-block vesting info (thanks to https://github.com/niklabh)
+- Update Polkastats logo (https://github.com/mariopino)
+- Fixes for i18n translation page on swapping (Thanks to https://github.com/motinados)
+
+Changes:
+
+- Add individual era-slash cancels on staking sleashes page
+- Add "copy seed" button to align with the extension UX on new accounts
+- Combine confirmation/backup of imports/new account into the modals (no double-modal)
+- Fix ecdsa JSON import dialogs
+- Fix detection of old/new proxy chains based on args to support Kusama 2023
+- Ensure all network-related configs are maintainable
+- Adjust average calcs for targets (optimization)
+
+
 ## 0.56.1 Aug 31, 2020
 
 Contributed:
@@ -10,7 +34,7 @@ Contributed:
 - Add Phala POC2 testnet (Thanks to https://github.com/krhougs)
 - Add Plasm network (Thanks to https://github.com/akru)
 - Rename Darwinia Crab chain (Thanks to https://github.com/WoeOm)
-- Add I18n For Bahasa Indonesian (Thanks to https://github.com/nzjourney)
+- Add I18n for Bahasa Indonesian (Thanks to https://github.com/nzjourney)
 
 Changes:
 

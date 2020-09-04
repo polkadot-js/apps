@@ -135,6 +135,12 @@ export default createGlobalStyle<Props>`
   .ui--Table td .ui--Button {
     &:not(.isDisabled):not(.isIcon):not(.isToplevel),
     &.withoutLink:not(.isDisabled) {
+      &:hover {
+        .ui--Icon {
+          color: #f5f5f4;
+        }
+      }
+
       .ui--Icon {
         background: transparent;
         color: ${getHighlight};
