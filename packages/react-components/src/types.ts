@@ -62,6 +62,7 @@ export interface TxButtonProps extends TxProps {
   isBusy?: boolean;
   isDisabled?: boolean;
   isIcon?: boolean;
+  isToplevel?: boolean;
   isUnsigned?: boolean;
   label?: React.ReactNode;
   onClick?: VoidFn;
