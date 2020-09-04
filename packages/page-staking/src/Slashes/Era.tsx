@@ -59,14 +59,16 @@ function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactEle
   return (
     <Table header={[[t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 8]]}>
       <Summary slash={slash}>
-        <Button.Group>
-          <TxButton
-            accountId={councilId}
-            extrinsic={tx}
-            isDisabled={!tx}
-            label={t('Cancel selected')}
-          />
-        </Button.Group>
+        {councilId && (
+          <Button.Group>
+            <TxButton
+              accountId={councilId}
+              extrinsic={tx}
+              isDisabled={!tx}
+              label={t('Cancel selected')}
+            />
+          </Button.Group>
+        )}
       </Summary>
       <tr className='transparent'>
         {headerRef.current.map(([label, className, colSpan = 1], index): React.ReactNode => (
