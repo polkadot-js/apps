@@ -114,11 +114,10 @@ function getFullyQualifiedDID(did) {
  * @param call - as on-chain type
  * @returns {Promise<()>}
  */
-async function asEncodedStateChange(api, call) {
-  const roundNo = await api.query.master.round();
+async function asEncodedStateChange(api, call, roundNo) {
   let payload = {
     proposal: [...call.toU8a()],
-    round_no: parseInt(`${roundNo}`),
+    round_no: roundNo
   };
 
   console.log('asEncodedStateChange', payload);
@@ -156,13 +155,13 @@ function toPMAuth(api, votes) {
  * @param mpauth - as on-chain type MPAuth
  * @returns {Promise<()>}
  */
-async function assertValidAuth(api, proposal, mpauth, membership) {
+async function assertValidAuth(api, proposal, mpauth, membership, roundNo) {
   if (!membership) {
     throw `No membership info from chain`;
   }
 
   // * - all signatures are valid over proposal for current voting round
-  const encoded_state_change = await asEncodedStateChange(api, proposal);
+  const encoded_state_change = await asEncodedStateChange(api, proposal, roundNo);
   for (let [did, sig] of mpauth) {
     const idStr = typeof did === 'string' ? did : u8aToHex(did);
     const hexId = getHexIdentifierFromDID(idStr);
@@ -217,7 +216,6 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
   const { t } = useTranslation();
   const { api } = useApi();
   const [address, setAddress] = useState('');
-  const [password, setPassword] = useState('');
   const [unlockError, setUnlockError] = useState<string | null>(null);
   const [pairCount, setPairCount] = useState(1);
   const [membership, setMembership] = useState(null);
@@ -256,23 +254,27 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     setAddress(pair?.address || '');
   }, [pair?.address]);
 
-  useEffect((): void => {
-    setUnlockError(null);
-  }, [password]);
-
   const doAuthStuff = async () => {
+    setUnlockError(null);
+
     if (!membership || !proposal) {
       return;
     }
 
+    try {
       const call = api.createType('Call', proposal);
+    } catch (error) {
+      setUnlockError(`${error.message || error}`);
+      setExtrinsic(() => null);
+      return;
+    }
 
-      // parse votes
-      const mpauth = toPMAuth(api, didSignaturePairs);
+      const roundNo = await api.query.master.round();
 
       // verify votes are valid and sufficient before submitting
       try {
-        await assertValidAuth(api, call, mpauth, membership);
+        const mpauth = toPMAuth(api, didSignaturePairs);
+        await assertValidAuth(api, call, mpauth, membership, roundNo.toNumber());
       } catch (error) {
         setUnlockError(`${error.message || error}`);
         setExtrinsic(() => null);

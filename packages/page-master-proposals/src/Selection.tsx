@@ -51,7 +51,7 @@ function Selection (): React.ReactElement {
   const [defaultParams, setDefaultParams] = useState<object[] | null>(null);
   const [proposalJSON, setProposalJSON] = useState<string>('');
   const [proposal, setProposal] = useState<object>('');
-  const [roundNo, setRoundNo] = useState<object>('');
+  const [roundNo, setRoundNo] = useState<object>(null);
   const [error, setError] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [defaultExtrinsicValue, setDefaultExtrinsic] = useState<object | null>(null);
@@ -64,6 +64,18 @@ function Selection (): React.ReactElement {
   const [signature, setSignature] = useState('');
   const [isUnlockVisible, toggleUnlock] = useToggle();
   const [isExecuteVisible, toggleExecute] = useToggle();
+
+  useEffect(() => {
+    if (!proposalJSON && roundNo !== null) {
+      const proposalB64 = window.location.hash.split('proposal=')[1];
+      if (proposalB64) {
+        const proposalJSON = atob(decodeURIComponent(proposalB64));
+        setProposalJSON(proposalJSON);
+        const proposal = JSON.parse(proposalJSON);
+        _setProposal(proposal);
+      }
+    }
+  }, [proposalJSON, roundNo]);
 
   useEffect((): void => {
     const meta = (currentPair && currentPair.meta) || {};
@@ -96,32 +108,23 @@ function Selection (): React.ReactElement {
   }, [currentPair]);
 
   useEffect(() => {
-    if (!proposalJSON) {
-      const proposalB64 = window.location.hash.split('proposal=')[1];
-      if (proposalB64) {
-        const proposalJSON = atob(decodeURIComponent(proposalB64));
-        setProposalJSON(proposalJSON);
-        const proposal = JSON.parse(proposalJSON);
-        _setProposal(proposal);
-      }
-    }
-  }, [proposalJSON]);
-
-  useEffect(() => {
-    if (proposal) {
+    if (proposal && !isNaN(roundNo)) {
       _setVotePayload();
     }
-  }, [proposal]);
+  }, [proposal, roundNo]);
 
   const _getRoundNo = async () => {
     const roundNumber = await api.query.master.round();
-    setRoundNo(roundNumber);
+    setRoundNo(roundNumber.toNumber());
   };
 
   const _setVotePayload = async () => {
+    console.log('roundNo', roundNo);
+    console.log('parseInt(${roundNo})', parseInt(`${roundNo}`))
+
     const payload = {
       proposal: [...api.createType('Call', proposal).toU8a()],
-      round_no: parseInt(`${roundNo}`),
+      round_no: roundNo,
     };
 
     console.log('_setVotePayload', payload);
