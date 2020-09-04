@@ -15,10 +15,11 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
+  children: React.ReactNode;
   slash: SlashEra;
 }
 
-function Header ({ slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
+function Header ({ children, slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
@@ -35,7 +36,7 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
 
   return (
     <tr>
-      <td colSpan={8}>
+      <td colSpan={9}>
         <SummaryBox isSmall>
           <section>
             <CardSummary label={t<string>('validators')}>
@@ -66,6 +67,7 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
             </CardSummary>
           </section>
         </SummaryBox>
+        {children}
       </td>
     </tr>
   );
