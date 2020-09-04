@@ -14,7 +14,8 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
-const MAX_BATCH_SIZE = 40;
+const DEFAULT_BATCH = 40;
+const DEFAULT_PAYOUTS = 64;
 
 interface Props {
   className?: string;
@@ -28,10 +29,12 @@ interface SinglePayout {
   validatorId: string;
 }
 
-function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[]): SubmittableExtrinsic<'promise'> | null {
+function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'> | null {
+  const batchSize = DEFAULT_BATCH * (DEFAULT_PAYOUTS / maxPayouts);
+
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
-      return createExtrinsic(api, payout[0]);
+      return createExtrinsic(api, payout[0], maxPayouts);
     }
 
     return api.tx.utility.batch(
@@ -44,7 +47,7 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
           return payouts;
         }, [])
         .sort((a, b) => a.era.cmp(b.era))
-        .filter((_, index) => index < MAX_BATCH_SIZE)
+        .filter((_, index) => index < batchSize)
         .map(({ era, validatorId }) => api.tx.staking.payoutStakers(validatorId, era))
     );
   }
@@ -56,7 +59,7 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
     : api.tx.utility.batch(
       eras
         .sort((a, b) => a.era.cmp(b.era))
-        .filter((_, index) => index < MAX_BATCH_SIZE)
+        .filter((_, index) => index < batchSize)
         .map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
     );
 }
@@ -70,7 +73,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
 
   useEffect((): void => {
     api.tx.utility && payout && setExtrinsic(
-      () => createExtrinsic(api, payout)
+      () => createExtrinsic(api, payout, api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || DEFAULT_PAYOUTS)
     );
   }, [api, isDisabled, payout]);
 
