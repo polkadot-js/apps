@@ -33,7 +33,7 @@ function createLive (t: TFunction): LinkOption[] {
       dnslink: 'dock',
       info: 'dock',
       text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
-      value: 'wss://testnet-1.dock.io'
+      value: 'wss://danforth-1.dock.io'
     },
   ];
 }
@@ -44,7 +44,7 @@ function createTest (t: TFunction): LinkOption[] {
       dnslink: 'dock',
       info: 'dock',
       text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
-      value: 'wss://testnet-1.dock.io'
+      value: 'wss://danforth-1.dock.io'
     },
   ];
 }
