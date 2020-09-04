@@ -15,7 +15,8 @@ Contributed:
 
 Changes:
 
-- Add individual era-slash cancels on staking sleashes page
+- Add individual era-slash cancels on staking slashes page
+- Adjust max payout batch size (40 txs for 64 payees) based on staking payout constant
 - Add "copy seed" button to align with the extension UX on new accounts
 - Combine confirmation/backup of imports/new account into the modals (no double-modal)
 - Fix ecdsa JSON import dialogs
