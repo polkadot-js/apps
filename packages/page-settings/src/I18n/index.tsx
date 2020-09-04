@@ -82,7 +82,7 @@ async function retrieveAll (): Promise<Defaults> {
         }
       });
     });
-  })
+  });
 
   return {
     english,
