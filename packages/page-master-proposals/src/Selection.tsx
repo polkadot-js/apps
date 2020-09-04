@@ -121,8 +121,10 @@ function Selection (): React.ReactElement {
   const _setVotePayload = async () => {
     const payload = {
       proposal: [...api.createType('Call', proposal).toU8a()],
-      round_no: roundNo,
+      round_no: parseInt(`${roundNo}`),
     };
+
+    console.log('_setVotePayload', payload);
 
     const encoded_state_change = api.createType('StateChange', { MasterVote: payload }).toU8a();
     setData({ data: u8aToHex(encoded_state_change), isHexData: true });
@@ -366,7 +368,7 @@ function Selection (): React.ReactElement {
           <Button
             icon='key'
             isDisabled={!(isUsable && !isLocked)}
-            label={t<string>('Sign and Vote')}
+            label={t<string>('Sign to vote')}
             onClick={_onSign}
             isPrimary
           />
