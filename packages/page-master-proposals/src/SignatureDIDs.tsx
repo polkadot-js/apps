@@ -115,10 +115,14 @@ function getFullyQualifiedDID(did) {
  * @returns {Promise<()>}
  */
 async function asEncodedStateChange(api, call) {
+  const roundNo = await api.query.master.round();
   let payload = {
     proposal: [...call.toU8a()],
-    round_no: await api.query.master.round(),
+    round_no: parseInt(`${roundNo}`),
   };
+
+  console.log('asEncodedStateChange', payload);
+
   return api.createType('StateChange', { MasterVote: payload }).toU8a();
 }
 
