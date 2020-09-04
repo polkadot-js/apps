@@ -68,11 +68,13 @@ async function retrieveAll (): Promise<Defaults> {
     ? await Promise.all(missing.map((lng) => retrieveJson(`${lng}/translation.json`)))
     : [];
 
+  // setup the language cache
   missing.forEach((lng, index): void => {
-    // setup the language cache
     languageCache[lng] = translations[index] as Record<string, string>;
+  });
 
-    // fill in all empty values (useful for download, filling in)
+  // fill in all empty values (useful for download, filling in)
+  keys.forEach((lng):void => {
     Object.keys(english).forEach((record): void => {
       Object.keys(english[record]).forEach((key): void => {
         if (!languageCache[lng][key]) {
