@@ -18,6 +18,7 @@ export interface ButtonProps {
   isFull?: boolean;
   isIcon?: boolean;
   isSelected?: boolean;
+  isToplevel?: boolean;
   label?: React.ReactNode;
   onClick?: Button$Callback;
   onMouseEnter?: Button$Callback;

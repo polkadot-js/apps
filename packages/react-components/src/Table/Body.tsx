@@ -144,7 +144,7 @@ export default React.memo(styled(Body)`
       color: darkorange;
     }
 
-    .ui--Button-Group .ui--Button {
+    .ui--Button-Group .ui--Button:not(.isToplevel) {
       margin: 0;
     }
   }
@@ -190,7 +190,7 @@ export default React.memo(styled(Body)`
       background: transparent;
     }
 
-    .ui--Button:not(.isIcon):not(:hover) {
+    .ui--Button:not(.isIcon):not(.isToplevel):not(:hover) {
       background: transparent !important;
       box-shadow: none !important;
     }

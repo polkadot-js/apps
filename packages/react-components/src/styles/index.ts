@@ -133,7 +133,7 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Table td .ui--Button {
-    &:not(.isDisabled):not(.isIcon),
+    &:not(.isDisabled):not(.isIcon):not(.isToplevel),
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: transparent;

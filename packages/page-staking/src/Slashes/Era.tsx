@@ -21,13 +21,18 @@ interface Props {
 
 interface Selected {
   selected: number[];
-  tx: SubmittableExtrinsic<'promise'> | null;
+  txAll: SubmittableExtrinsic<'promise'>;
+  txSome: SubmittableExtrinsic<'promise'> | null;
 }
 
 function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [{ selected, tx }, setSelected] = useState<Selected>({ selected: [], tx: null });
+  const [{ selected, txAll, txSome }, setSelected] = useState<Selected>((): Selected => {
+    const proposal = api.tx.staking.cancelDeferredSlash(slash.era, slash.slashes.map((_, index) => index));
+
+    return { selected: [], txAll: api.tx.council.propose(councilThreshold, proposal, proposal.encodedLength), txSome: null };
+  });
 
   const headerRef = useRef<[string?, string?, number?][]>([
     [undefined, 'start', 3],
@@ -47,11 +52,11 @@ function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactEle
       const proposal = selected.length
         ? api.tx.staking.cancelDeferredSlash(slash.era, selected)
         : null;
-      const tx = proposal
+      const txSome = proposal
         ? api.tx.council.propose(councilThreshold, proposal, proposal.encodedLength)
         : null;
 
-      return { selected, tx };
+      return { selected, txAll: state.txAll, txSome };
     }),
     [api, councilThreshold, slash]
   );
@@ -63,9 +68,17 @@ function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactEle
           <Button.Group>
             <TxButton
               accountId={councilId}
-              extrinsic={tx}
-              isDisabled={!tx}
+              extrinsic={txSome}
+              isDisabled={!txSome}
+              isToplevel
               label={t('Cancel selected')}
+            />
+            <TxButton
+              accountId={councilId}
+              extrinsic={txAll}
+              isDisabled={!txAll}
+              isToplevel
+              label={t('Cancel all')}
             />
           </Button.Group>
         )}
