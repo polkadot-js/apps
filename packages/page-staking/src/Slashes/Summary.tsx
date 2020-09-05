@@ -36,6 +36,9 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
   return (
     <SummaryBox>
       <section>
+        <CardSummary label={t<string>('era')}>
+          {formatNumber(era)}
+        </CardSummary>
         <CardSummary label={t<string>('validators')}>
           {formatNumber(validators.length)}
         </CardSummary>
@@ -47,22 +50,18 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
         </CardSummary>
       </section>
       {blockProgress.gtn(0) && (
-        <section>
-          <CardSummary
-            label={t<string>('defer')}
-            progress={{
-              total: blockEnd,
-              value: blockProgress,
-              withTime: true
-            }}
-          />
-        </section>
+        <CardSummary
+          label={t<string>('defer')}
+          progress={{
+            total: blockEnd,
+            value: blockProgress,
+            withTime: true
+          }}
+        />
       )}
-      <section>
-        <CardSummary label={t<string>('total')}>
-          <FormatBalance value={total} />
-        </CardSummary>
-      </section>
+      <CardSummary label={t<string>('total')}>
+        <FormatBalance value={total} />
+      </CardSummary>
     </SummaryBox>
   );
 }
