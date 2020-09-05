@@ -15,9 +15,6 @@ import store from '../store';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
 
-// also in params/Code & components/InputWasm
-const WASM_MAGIC = new Uint8Array([0, 97, 115, 109]);
-
 function Upload (): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();

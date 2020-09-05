@@ -12,9 +12,6 @@ interface Props extends Omit<InputFileProps, 'accept'> {
   onChange: (contents: Uint8Array, name?: string) => void;
 }
 
-// also in params/Code & contracts/Upload
-const WASM_MAGIC = new Uint8Array([0, 97, 115, 109]);
-
 function InputWasm ({ isValidRef, onChange, ...props }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     (wasm: Uint8Array, name: string): void => {
