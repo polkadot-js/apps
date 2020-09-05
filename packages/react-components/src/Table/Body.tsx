@@ -151,7 +151,7 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(odd) {
-      background: rgba(255, 253, 251, 0.55);
+      background: rgba(255, 254, 253, 0.55);
       // background: #faf8f6;
     }
 
