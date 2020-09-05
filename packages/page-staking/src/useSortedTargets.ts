@@ -65,14 +65,8 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 }
 
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
-  const defaultExposure = {
-    others: registry.createType('Vec<IndividualExposure>'),
-    own: registry.createType('Compact<Balance>'),
-    total: registry.createType('Compact<Balance>')
-  };
-  const defaultPrefs = {
-    commission: registry.createType('Compact<Perbill>')
-  };
+  const defaultExposure = registry.createType('Exposure');
+  const defaultPrefs = registry.createType('ValidatorPrefs');
   const nominators: Record<string, boolean> = {};
   const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     const exposure = _exposure || defaultExposure;
@@ -108,6 +102,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       bondShare: 0,
       bondTotal,
       commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
+      exposure,
       hasIdentity: false,
       isActive: !skipRewards,
       isCommission: !!(prefs as ValidatorPrefs).commission,
@@ -126,7 +121,8 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       rankReward: 0,
       rewardPayout: skipRewards ? BN_ZERO : rewardPayout,
       rewardSplit,
-      validatorPayment
+      validatorPayment,
+      validatorPrefs: prefs
     };
   });
 
@@ -145,14 +141,6 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
     .sort((a, b) => a.cmp(b));
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
-
-  // median
-  // const midIndex = Math.floor(activeTotals.length / 2);
-  // const avgStaked = activeTotals.length
-  //   ? activeTotals.length % 2
-  //     ? activeTotals[midIndex]
-  //     : activeTotals[midIndex - 1].add(activeTotals[midIndex]).divn(2)
-  //   : BN_ZERO;
 
   return { avgStaked, lowStaked: activeTotals[0] || BN_ZERO, nominators, totalStaked, validatorIds, validators };
 }

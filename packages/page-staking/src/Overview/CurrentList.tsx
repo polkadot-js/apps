@@ -5,6 +5,7 @@
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
+import { SortedTargets } from '../types';
 
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -23,6 +24,7 @@ interface Props {
   next?: string[];
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
+  targets: SortedTargets;
   toggleFavorite: (address: string) => void;
 }
 
@@ -91,7 +93,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
   }, {});
 }
 
-function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -149,10 +151,11 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
+          validatorInfo={targets?.validators?.find(({ accountId }) => accountId.eq(address))}
           withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, nameFilter, nominatedBy, recentlyOnline, targets, toggleFavorite, withIdentity]
   );
 
   return isIntentions
