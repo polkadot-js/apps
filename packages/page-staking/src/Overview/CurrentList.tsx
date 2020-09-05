@@ -5,7 +5,7 @@
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
-import { SortedTargets } from '../types';
+import { SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -110,6 +110,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
     [favorites, next, stakingOverview]
   );
 
+  const infoMap = useMemo(
+    () => (targets?.validators || []).reduce((result: Record<string, ValidatorInfo>, info): Record<string, ValidatorInfo> => {
+      result[info.accountId.toString()] = info;
+
+      return result;
+    }, {}),
+    [targets]
+  );
+
   const nominatedBy = useMemo(
     () => nominators ? extractNominators(nominators) : null,
     [nominators]
@@ -151,11 +160,11 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
-          validatorInfo={targets?.validators?.find(({ accountId }) => accountId.eq(address))}
+          validatorInfo={infoMap[address]}
           withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, nameFilter, nominatedBy, recentlyOnline, targets, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions
