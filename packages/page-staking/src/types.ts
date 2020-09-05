@@ -47,6 +47,7 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   bondTotal: Balance;
   commissionPer: number;
   hasIdentity: boolean;
+  isActive: boolean;
   isCommission: boolean;
   isElected: boolean;
   isFavorite: boolean;

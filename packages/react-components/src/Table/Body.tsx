@@ -144,7 +144,7 @@ export default React.memo(styled(Body)`
       color: darkorange;
     }
 
-    .ui--Button-Group .ui--Button {
+    .ui--Button-Group .ui--Button:not(.isToplevel) {
       margin: 0;
     }
   }

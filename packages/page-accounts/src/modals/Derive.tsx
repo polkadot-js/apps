@@ -160,13 +160,12 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       setTimeout((): void => {
         const status = createAccount(source, suri, name, password, t<string>('created account'), isDevelopment ? undefined : api.genesisHash.toString());
 
-        toggleConfirmation();
         queueAction(status);
         setIsBusy(false);
         onClose();
       }, 0);
     },
-    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t, toggleConfirmation]
+    [api, isDevelopment, isValid, name, onClose, password, queueAction, source, suri, t]
   );
 
   const sourceStatic = (
@@ -183,74 +182,78 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
       className={className}
       header={t<string>('Derive account from pair')}
     >
-      {address && isConfirmationOpen && (
-        <CreateConfirmation
-          address={address}
-          isBusy={isBusy}
-          name={name}
-          onClose={toggleConfirmation}
-          onCommit={_onCommit}
-        />
-      )}
-      <Modal.Content>
-        {isLocked && (
-          <>
-            {sourceStatic}
-            <Password
-              autoFocus
-              help={t<string>('The password to unlock the selected account.')}
-              isError={!!lockedError}
-              label={t<string>('password')}
-              onChange={_onChangeRootPass}
-              value={rootPass}
-            />
-          </>
-        )}
-        {!isLocked && (
-          <AddressRow
-            defaultName={name}
-            noDefaultNameOpacity
-            value={deriveError ? '' : address}
-          >
-            {sourceStatic}
-            <Input
-              autoFocus
-              help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
-              label={t<string>('derivation path')}
-              onChange={setSuri}
-              placeholder={t<string>('//hard/soft')}
-            />
-            <Input
-              className='full'
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!isNameValid}
-              label={t<string>('name')}
-              onChange={_onChangeName}
-              onEnter={_onCommit}
-              placeholder={t<string>('new account')}
-              value={name}
-            />
-            <Password
-              className='full'
-              help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
-              isError={!isPassValid}
-              label={t<string>('password')}
-              onChange={_onChangePass}
-              onEnter={_onCommit}
-              value={password}
-            />
-            <Password
-              className='full'
-              help={t<string>('Verify the password entered above.')}
-              isError={!isPass2Valid}
-              label={t<string>('password (repeat)')}
-              onChange={_onChangePass2}
-              onEnter={_onCommit}
-              value={password2}
-            />
-          </AddressRow>
-        )}
-      </Modal.Content>
+      {address && isConfirmationOpen
+        ? (
+          <CreateConfirmation
+            address={address}
+            derivePath={suri}
+            isBusy={isBusy}
+            name={name}
+            pairType={source.type}
+          />
+        )
+        : (
+          <Modal.Content>
+            {isLocked && (
+              <>
+                {sourceStatic}
+                <Password
+                  autoFocus
+                  help={t<string>('The password to unlock the selected account.')}
+                  isError={!!lockedError}
+                  label={t<string>('password')}
+                  onChange={_onChangeRootPass}
+                  value={rootPass}
+                />
+              </>
+            )}
+            {!isLocked && (
+              <AddressRow
+                defaultName={name}
+                noDefaultNameOpacity
+                value={deriveError ? '' : address}
+              >
+                {sourceStatic}
+                <Input
+                  autoFocus
+                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>///<password>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. The "///password" is optional and should only occur once.')}
+                  label={t<string>('derivation path')}
+                  onChange={setSuri}
+                  placeholder={t<string>('//hard/soft')}
+                />
+                <Input
+                  className='full'
+                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+                  isError={!isNameValid}
+                  label={t<string>('name')}
+                  onChange={_onChangeName}
+                  onEnter={_onCommit}
+                  placeholder={t<string>('new account')}
+                  value={name}
+                />
+                <Password
+                  className='full'
+                  help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
+                  isError={!isPassValid}
+                  label={t<string>('password')}
+                  onChange={_onChangePass}
+                  onEnter={_onCommit}
+                  value={password}
+                />
+                <Password
+                  className='full'
+                  help={t<string>('Verify the password entered above.')}
+                  isError={!isPass2Valid}
+                  label={t<string>('password (repeat)')}
+                  onChange={_onChangePass2}
+                  onEnter={_onCommit}
+                  value={password2}
+                />
+              </AddressRow>
+            )}
+          </Modal.Content>
+        )
+      }
       <Modal.Actions onCancel={onClose}>
         {isLocked
           ? (
@@ -262,14 +265,30 @@ function Derive ({ className = '', from, onClose }: Props): React.ReactElement {
               onClick={_onUnlock}
             />
           )
-          : (
-            <Button
-              icon='plus'
-              isBusy={isBusy}
-              isDisabled={!isValid}
-              label={t<string>('Save')}
-              onClick={toggleConfirmation}
-            />
+          : (isConfirmationOpen
+            ? (
+              <>
+                <Button
+                  icon='step-backward'
+                  label={t<string>('Prev')}
+                  onClick={toggleConfirmation}
+                />
+                <Button
+                  icon='plus'
+                  isBusy={isBusy}
+                  label={t<string>('Save')}
+                  onClick={_onCommit}
+                />
+              </>
+            )
+            : (
+              <Button
+                icon='step-forward'
+                isDisabled={!isValid}
+                label={t<string>('Next')}
+                onClick={toggleConfirmation}
+              />
+            )
           )
         }
       </Modal.Actions>

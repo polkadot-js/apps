@@ -4,22 +4,25 @@
 
 import React from 'react';
 import { Badge } from '@polkadot/react-components';
-
-import { MAX_PAYOUTS } from './constants';
+import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
   numNominators?: number;
 }
 
 function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
-  if (!numNominators || (numNominators < MAX_PAYOUTS)) {
+  const { api } = useApi();
+
+  const max = api.consts.staking?.maxNominatorRewardedPerValidator;
+
+  if (!numNominators || !max || max.gten(numNominators)) {
     return null;
   }
 
   return (
     <Badge
       color='red'
-      info='64+'
+      info={max.toString()}
     />
   );
 }

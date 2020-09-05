@@ -4,12 +4,6 @@
 
 import React from 'react';
 
-export interface Group {
-  header: React.ReactNode;
-  isDevelopment?: boolean;
-  networks: Network[];
-}
-
 export interface Network {
   icon?: string;
   isChild?: boolean;
@@ -18,4 +12,10 @@ export interface Network {
     name: string;
     url: string;
   }[]
+}
+
+export interface Group {
+  header: React.ReactNode;
+  isDevelopment?: boolean;
+  networks: Network[];
 }

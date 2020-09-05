@@ -77,7 +77,7 @@
   "Aura": "هالة",
   "Authorize transaction": "السماح بالمعاملة",
   "Aye": "نعم",
-  "Aye {{counter}}": "نعم {{عداد}}",
+  "Aye {{count}}": "نعم {{عداد}}",
   "Aye, I approve": "نعم, أنا أوافق",
   "Aye, I can support this": "نعم ، يمكنني دعم هذا",
   "Aye, I support this": "نعم ، أنا أدعم هذا",

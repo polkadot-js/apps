@@ -4,19 +4,27 @@
 
 import { Slash } from './types';
 
-import React from 'react';
-import { AddressMini, AddressSmall, Badge, Expander } from '@polkadot/react-components';
+import React, { useCallback } from 'react';
+import { AddressMini, AddressSmall, Badge, Checkbox, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
 interface Props {
+  index: number;
+  isSelected: boolean;
+  onSelect?: (index: number) => void;
   slash: Slash;
 }
 
-function Row ({ slash: { isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
+function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, own, payout, reporters, validator }, total, totalOther } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const _onSelect = useCallback(
+    () => onSelect && onSelect(index),
+    [index, onSelect]
+  );
 
   return (
     <tr>
@@ -64,6 +72,13 @@ function Row ({ slash: { isMine, slash: { others, own, payout, reporters, valida
       </td>
       <td className='number together'>
         <FormatBalance value={payout} />
+      </td>
+      <td>
+        <Checkbox
+          isDisabled={!onSelect}
+          onChange={_onSelect}
+          value={isSelected}
+        />
       </td>
     </tr>
   );

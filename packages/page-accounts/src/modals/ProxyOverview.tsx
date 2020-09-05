@@ -50,20 +50,20 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
   return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
 }
 
-function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
+function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
-    ? api.tx.proxy.addProxy(account, type)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
-    : api.tx.proxy.addProxy(account, type, 0);
+    // @ts-ignore old version
+    ? api.tx.proxy.addProxy(account, type)
+    : api.tx.proxy.addProxy(account, type, delay);
 }
 
-function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
+function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.removeProxy.meta.args.length === 2
-    ? api.tx.proxy.removeProxy(account, type)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
-    : api.tx.proxy.removeProxy(account, type, 0);
+    // @ts-ignore old version
+    ? api.tx.proxy.removeProxy(account, type)
+    : api.tx.proxy.removeProxy(account, type, delay);
 }
 
 function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: PrevProxyProps): React.ReactElement<PrevProxyProps> {

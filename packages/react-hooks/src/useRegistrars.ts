@@ -4,7 +4,7 @@
 
 import { RegistrarInfo } from '@polkadot/types/interfaces';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Option } from '@polkadot/types';
 
 import useAccounts from './useAccounts';
@@ -31,12 +31,11 @@ export default function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && hasAccounts && api.query.identity?.registrars);
-  const [state, setState] = useState<State>({ isRegistrar: false, registrars: [] });
 
   // determine if we have a registrar or not - registrars are allowed to approve
-  useEffect((): void => {
-    if (allAccounts && query) {
-      const registrars = query
+  return useMemo(
+    (): State => {
+      const registrars = (query || [])
         .map((registrar, index): RegistrarNull => ({
           address: registrar.isSome
             ? registrar.unwrap().account.toString()
@@ -45,12 +44,11 @@ export default function useRegistrars (skipQuery?: boolean): State {
         }))
         .filter((registrar): registrar is Registrar => !!registrar.address);
 
-      setState({
+      return {
         isRegistrar: registrars.some(({ address }) => allAccounts.includes(address)),
         registrars
-      });
-    }
-  }, [allAccounts, query]);
-
-  return state;
+      };
+    },
+    [allAccounts, query]
+  );
 }
