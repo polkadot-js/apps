@@ -51,7 +51,7 @@ export default React.memo(styled(Head)`
   th {
     font-family: sans-serif;
     font-weight: 100;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem 0.5rem;
     text-align: right;
     vertical-align: baseline;
     white-space: nowrap;
