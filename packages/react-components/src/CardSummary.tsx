@@ -10,7 +10,7 @@ import { formatNumber, isUndefined } from '@polkadot/util';
 
 import Progress from './Progress';
 import Labelled from './Labelled';
-import { BlockToTime } from '@polkadot/react-query';
+import { BlockToCountdown, BlockToTime } from '@polkadot/react-query';
 
 interface ProgressProps {
   hideValue?: boolean;
@@ -63,8 +63,11 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
         {children}{
           progress && !progress.hideValue && (
             <>
-              {isTimed && (
-                <BlockToTime blocks={progress.total} />
+              {isTimed && progress.total && progress.value && (
+                <BlockToCountdown
+                  currBlocks={progress.value}
+                  maxBlocks={progress.total}
+                />
               )}
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
@@ -77,7 +80,7 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
                     }`
                     : (
                       <BlockToTime
-                        blocks={progress.total.sub(progress.value)}
+                        blocks={progress.total}
                         className='timer'
                       />
                     )

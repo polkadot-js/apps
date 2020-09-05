@@ -2,14 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Time } from '@polkadot/util/types';
+
 import BN from 'bn.js';
 import { useMemo } from 'react';
 import { timeToString } from '@polkadot/react-components/util';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ONE, extractTime } from '@polkadot/util';
+
 import { useTranslation } from './translate';
 
-type Result = [number, string];
+type Result = [number, string, Time];
 
 const DEFAULT_TIME = new BN(6000);
 
@@ -24,11 +27,13 @@ export default function useBlockTime (blocks = BN_ONE): Result {
         api.consts.difficulty?.targetBlockTime ||
         api.consts.timestamp?.minimumPeriod.muln(2) ||
         DEFAULT_TIME
-      );
+      ).toNumber();
+      const extracted = extractTime(blockTime * blocks.toNumber());
 
       return [
-        blockTime.toNumber(),
-        timeToString(t, extractTime(blockTime.mul(blocks).toNumber()))
+        blockTime,
+        timeToString(t, extracted),
+        extracted
       ];
     },
     [api, blocks, t]
