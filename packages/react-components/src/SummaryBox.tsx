@@ -21,7 +21,7 @@ function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactE
 
 export default React.memo(styled(SummaryBox)`
   align-items: stretch;
-  // background: rgba(255, 255, 255, 0.45);
+  // background: rgba(255, 255, 255, 0.55);
   border-radius: 0.25rem;
   // border-bottom: 1px solid #ddd;
   display: flex;

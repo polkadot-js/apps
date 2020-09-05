@@ -35,7 +35,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? <h1>{label}</h1>
+              ? <h1 className='highlight--color'>{label}</h1>
               : isEmpty
                 ? ''
                 : label
@@ -57,12 +57,12 @@ export default React.memo(styled(Head)`
     white-space: nowrap;
 
     &:first-child {
-      border-left: 1px solid #e4e6e8;
+      // border-left: 1px solid #e4e6e8;
       border-top-left-radius: 0.25rem;
     }
 
     &:last-child {
-      border-right: 1px solid #e4e6e8;
+      // border-right: 1px solid #e4e6e8;
       border-top-rights-radius: 0.25rem;
     }
 
@@ -94,17 +94,17 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.55);
     text-transform: lowercase;
 
-    &:first-child th {
-      border-top: 1px solid #e4e6e8;
-    }
+    // &:first-child th {
+    //   border-top: 1px solid #e4e6e8;
+    // }
 
     &.filter {
       .ui.input {
        &:first-child {
-          margin-top: -1px;
+          margin-top: 0; // -1px;
         }
       }
 
