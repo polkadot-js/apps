@@ -155,9 +155,9 @@ export default React.memo(styled(Body)`
       background: #faf8f6;
     }
 
-    // &:nth-child(even) {
-    //   background: rgba(255, 254, 253, 1);
-    // }
+    &:nth-child(even) {
+      background: rgba(255, 254, 253, 1);
+    }
 
     // &:last-child td {
     //   border-bottom: 1px solid #e4e6e8;
