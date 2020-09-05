@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -20,7 +20,6 @@ import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
 import useStakerPayouts from './useStakerPayouts';
 import PayButton from './PayButton';
-import PayToggle from './PayToggle';
 import Stash from './Stash';
 import Validator from './Validator';
 
@@ -216,15 +215,15 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
       )}
       {api.tx.staking.payoutStakers && (
         <Button.Group>
-          <PayToggle
+          <ToggleGroup
             onChange={setMyStashesIndex}
             options={valOptions}
-            selected={myStashesIndex}
+            value={myStashesIndex}
           />
-          <PayToggle
+          <ToggleGroup
             onChange={setEraSelectionIndex}
             options={eraSelection}
-            selected={eraSelectionIndex}
+            value={eraSelectionIndex}
           />
           <PayButton
             isAll
