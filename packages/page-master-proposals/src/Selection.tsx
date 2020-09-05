@@ -66,16 +66,16 @@ function Selection (): React.ReactElement {
   const [isExecuteVisible, toggleExecute] = useToggle();
 
   useEffect(() => {
-    if (!proposalJSON && roundNo !== null) {
+    if (!proposalJSON) {
       const proposalB64 = window.location.hash.split('proposal=')[1];
       if (proposalB64) {
         const proposalJSON = atob(decodeURIComponent(proposalB64));
-        setProposalJSON(proposalJSON);
         const proposal = JSON.parse(proposalJSON);
+        setProposalJSON(proposalJSON);
         _setProposal(proposal);
       }
     }
-  }, [proposalJSON, roundNo]);
+  }, [proposalJSON]);
 
   useEffect((): void => {
     const meta = (currentPair && currentPair.meta) || {};
@@ -93,8 +93,6 @@ function Selection (): React.ReactElement {
     setSignature('');
     setSigner({ isUsable, signer: null });
 
-    _getRoundNo();
-
     // for injected, retrieve the signer
     if (meta.source && isInjected) {
       web3FromSource(meta.source as string)
@@ -107,27 +105,21 @@ function Selection (): React.ReactElement {
     }
   }, [currentPair]);
 
-  useEffect(() => {
-    if (proposal && !isNaN(roundNo)) {
-      _setVotePayload();
-    }
-  }, [proposal, roundNo]);
-
   const _getRoundNo = async () => {
     const roundNumber = await api.query.master.round();
-    setRoundNo(roundNumber.toNumber());
+    const num = roundNumber.toNumber();
+    setRoundNo(num);
+    return num;
   };
 
-  const _setVotePayload = async () => {
-    console.log('roundNo', roundNo);
-    console.log('parseInt(${roundNo})', parseInt(`${roundNo}`))
-
+  const _setVotePayload = async (proposal) => {
+    const roundNo = await _getRoundNo();
     const payload = {
       proposal: [...api.createType('Call', proposal).toU8a()],
       round_no: roundNo,
     };
 
-    console.log('_setVotePayload', payload);
+    console.log('_setVotePayload', roundNo, payload);
 
     const encoded_state_change = api.createType('StateChange', { MasterVote: payload }).toU8a();
     setData({ data: u8aToHex(encoded_state_change), isHexData: true });
@@ -208,9 +200,9 @@ function Selection (): React.ReactElement {
       setDefaultExtrinsic(() => erxtrinsicValue);
     }
 
-
     const extrParams = defaultPs.map(({ value }): any => value);
     setExtrinsic(() => erxtrinsicValue(...extrParams));
+    _setVotePayload(proposal);
   };
 
   const _onExtrinsicChange = useCallback(
