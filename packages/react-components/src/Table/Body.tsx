@@ -151,13 +151,13 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(odd) {
-      background: rgba(255, 254, 253, 0.55);
-      // background: #faf8f6;
+      // background: rgba(255, 254, 253, 0.55);
+      background: #faf8f6;
     }
 
-    &:nth-child(even) {
-      background: rgba(255, 254, 253, 1);
-    }
+    // &:nth-child(even) {
+    //   background: rgba(255, 254, 253, 1);
+    // }
 
     // &:last-child td {
     //   border-bottom: 1px solid #e4e6e8;
