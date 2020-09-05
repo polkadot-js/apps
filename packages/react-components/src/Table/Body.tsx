@@ -35,14 +35,6 @@ export default React.memo(styled(Body)`
     text-align: left;
     vertical-align: middle;
 
-    // &:first-child {
-    //   border-left: 1px solid #e4e6e8;
-    // }
-
-    // &:last-child {
-    //   border-right: 1px solid #e4e6e8;
-    // }
-
     label {
       display: block !important;
       white-space: nowrap;
@@ -151,17 +143,12 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(odd) {
-      // background: rgba(255, 254, 253, 0.55);
       background: #faf8f6;
     }
 
     &:nth-child(even) {
       background: rgba(255, 254, 253, 1);
     }
-
-    // &:last-child td {
-    //   border-bottom: 1px solid #e4e6e8;
-    // }
 
     &:first-child {
       td:first-child {

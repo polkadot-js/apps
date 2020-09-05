@@ -60,12 +60,10 @@ export default React.memo(styled(Head)`
     white-space: nowrap;
 
     &:first-child {
-      // border-left: 1px solid #e4e6e8;
       border-top-left-radius: 0.25rem;
     }
 
     &:last-child {
-      // border-right: 1px solid #e4e6e8;
       border-top-rights-radius: 0.25rem;
     }
 
@@ -100,13 +98,6 @@ export default React.memo(styled(Head)`
     background: rgba(255, 254, 253, 1);
     text-transform: lowercase;
 
-    // &:first-child th {
-    //   border-top: 1px solid #e4e6e8;
-    // }
-
-    // &:last-child th {
-    //   border-bottom: 1px solid #e4e6e8;
-    // }
 
     &:not(.filter) {
       th {
@@ -119,7 +110,7 @@ export default React.memo(styled(Head)`
         background: transparent;
 
         &:first-child {
-          margin-top: 0; // -1px;
+          margin-top: 0;
         }
       }
 
