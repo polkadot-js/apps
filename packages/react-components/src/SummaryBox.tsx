@@ -21,14 +21,11 @@ function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactE
 
 export default React.memo(styled(SummaryBox)`
   align-items: stretch;
-  // background: rgba(255, 255, 255, 0.55);
   border-radius: 0.25rem;
-  // border-bottom: 1px solid #ddd;
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
-  margin: -1.5rem -2rem 1.5rem;
-  padding: 1.5rem 2rem 0;
+  margin: 1.5rem 0;
 
   > section {
     display: flex;
