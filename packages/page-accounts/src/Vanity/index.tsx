@@ -233,7 +233,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
       </Button.Group>
       {matches.length !== 0 && (
         <>
-          <article className='warning nomargin'>{t<string>('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address any funds and the associated seed any funds sent to it will be lost.')}</article>
+          <article className='warning centered'>{t<string>('Ensure that you utilized the "Save" functionality before using a generated address to receive funds. Without saving the address any funds and the associated seed any funds sent to it will be lost.')}</article>
           <Table
             className='vanity--App-matches'
             empty={t<string>('No matches found')}

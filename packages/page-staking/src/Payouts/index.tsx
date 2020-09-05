@@ -206,13 +206,6 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
 
   return (
     <div className={className}>
-      <ElectionBanner isInElection={isInElection} />
-      {api.tx.staking.payoutStakers && !isLoadingRewards && !stashes?.length && (
-        <article className='warning nomargin'>
-          <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
-          <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
-        </article>
-      )}
       {api.tx.staking.payoutStakers && (
         <Button.Group>
           <ToggleGroup
@@ -231,6 +224,13 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
             payout={validators}
           />
         </Button.Group>
+      )}
+      <ElectionBanner isInElection={isInElection} />
+      {api.tx.staking.payoutStakers && !isLoadingRewards && !stashes?.length && (
+        <article className='warning centered'>
+          <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
+          <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
+        </article>
       )}
       <Table
         empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}
