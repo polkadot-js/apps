@@ -11,10 +11,10 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@acala-network/type-definitions": "^0.4.0-beta.1",
+    "@acala-network/type-definitions": "^0.4.0-beta.4",
     "@babel/runtime": "^7.11.2",
-    "@edgeware/node-types": "^2.4.1",
-    "@laminar/type-definitions": "^0.2.0-beta.134",
+    "@edgeware/node-types": "^2.4.4",
+    "@laminar/type-definitions": "^0.2.0-beta.141",
     "@subsocial/types": "^0.4.3"
   }
 }
