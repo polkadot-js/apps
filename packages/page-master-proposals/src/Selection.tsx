@@ -223,8 +223,7 @@ function Selection (): React.ReactElement {
         try {
           _setProposal(JSON.parse(jsonStr));
         } catch (error) {
-          console.error(error);
-          // TODO: set json de-serialize error
+          
         }
       }
     },
