@@ -20,7 +20,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   }
 
   return (
-    <thead className={className}>
+    <thead className={`${className}`}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>
@@ -35,7 +35,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? <h1 className='highlight--color'>{label}</h1>
+              ? <h1>{label}</h1>
               : isEmpty
                 ? ''
                 : label
@@ -100,6 +100,10 @@ export default React.memo(styled(Head)`
     // &:first-child th {
     //   border-top: 1px solid #e4e6e8;
     // }
+
+    &:last-child th {
+      border-bottom: 1px solid #e4e6e8;
+    }
 
     &.filter {
       .ui.input {

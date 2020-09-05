@@ -36,7 +36,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 
   return (
     <div className={`ui--Table ${className}`}>
-      <table className={(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'}`}>
         <Head
           filter={filter}
           header={header}
@@ -66,7 +66,9 @@ export default React.memo(styled(Table)`
     border-spacing: 0;
     max-width: 100%;
     overflow: hidden;
+    position: relative;
     width: 100%;
+    z-index: 1;
 
     &.isFixed {
       table-layout: fixed;
