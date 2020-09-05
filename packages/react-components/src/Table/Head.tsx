@@ -108,9 +108,17 @@ export default React.memo(styled(Head)`
     //   border-bottom: 1px solid #e4e6e8;
     // }
 
+    &:not(.filter) {
+      th {
+        color: rgba(78, 78, 78, 0.66);
+      }
+    }
+
     &.filter {
       .ui.input {
-       &:first-child {
+        background: transparent;
+
+        &:first-child {
           margin-top: 0; // -1px;
         }
       }
