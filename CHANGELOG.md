@@ -5,8 +5,8 @@
 Contributed:
 
 - Add Crust network (Thanks to https://github.com/zikunfan)
-- i18n Chinese round-out (Thanks to Polkaworld)
-- i18n Italian (Thanks to https://github.com/fomod-in)
+- i18n comprehensive Chinese round-out (Thanks to Polkaworld)
+- i18n comprehensive Italian (Thanks to https://github.com/fomod-in)
 - Initial i18n Italian (Thanks to https://github.com/excerebrose)
 - i18n Bahasa Indonesian updates (Thanks to https://github.com/nzjourney)
 - Ad per-block/end-block vesting info (thanks to https://github.com/niklabh)
@@ -16,6 +16,7 @@ Contributed:
 Changes:
 
 - Add individual era-slash cancels on staking slashes page
+- Adjust staking slashes with per-era selector
 - Adjust max payout batch size (40 txs for 64 payees) based on staking payout constant
 - Add "copy seed" button to align with the extension UX on new accounts
 - Combine confirmation/backup of imports/new account into the modals (no double-modal)
@@ -23,6 +24,8 @@ Changes:
 - Fix detection of old/new proxy chains based on args to support Kusama 2023
 - Ensure all network-related configs are maintainable
 - Adjust average calcs for targets (optimization)
+- Adjust Table UI, crisper table layouts
+- Update WASM uploads to use `isWasm` from utilities
 
 
 ## 0.56.1 Aug 31, 2020

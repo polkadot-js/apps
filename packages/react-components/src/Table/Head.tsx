@@ -49,13 +49,22 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 
 export default React.memo(styled(Head)`
   th {
-    color: rgba(78, 78, 78, .66);
     font-family: sans-serif;
     font-weight: 100;
-    padding: 0.75rem 1rem 0.25rem;
+    padding: 0.75rem 1rem;
     text-align: right;
     vertical-align: baseline;
     white-space: nowrap;
+
+    &:first-child {
+      border-left: 1px solid #e4e6e8;
+      border-top-left-radius: 0.25rem;
+    }
+
+    &:last-child {
+      border-right: 1px solid #e4e6e8;
+      border-top-rights-radius: 0.25rem;
+    }
 
     h1, h2 {
       font-size: 1.75rem;
@@ -85,11 +94,21 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.5);
     text-transform: lowercase;
 
-    &.filter th {
-      padding: 0;
+    &:first-child th {
+      border-top: 1px solid #e4e6e8;
+    }
+
+    &.filter {
+      .ui.input {
+        margin-top: 0;
+      }
+
+      th {
+        padding: 0;
+      }
     }
   }
 `);

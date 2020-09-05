@@ -18,10 +18,6 @@ function ButtonGroup ({ children, className = '', isCentered }: GroupProps): Rea
 export default React.memo(styled(ButtonGroup)`
   text-align: right;
 
-  :not(:first-child) {
-    margin-top: 0.75rem;
-  }
-
   &.isCentered {
     margin-bottom: 0.5rem;
     text-align: center;

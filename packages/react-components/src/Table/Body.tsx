@@ -151,15 +151,11 @@ export default React.memo(styled(Body)`
 
   tr {
     &:nth-child(even) {
-      background: #faf8f6;
+      background: rgba(255, 255, 255, 0.5); // #faf8f6;
     }
 
     &:nth-child(odd) {
       background: white;
-    }
-
-    &:first-child td {
-      border-top: 1px solid #e4e6e8;
     }
 
     &:last-child td {
