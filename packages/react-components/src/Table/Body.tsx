@@ -150,14 +150,14 @@ export default React.memo(styled(Body)`
   }
 
   tr {
-    &:nth-child(even) {
-      // background: #faf8f6;
-      background: rgba(255, 255, 255, 0.55);
+    &:nth-child(odd) {
+      background: #faf8f6;
+      // background: rgba(255, 255, 255, 0.55);
     }
 
-    &:nth-child(odd) {
-      background: white;
-    }
+    // &:nth-child(even) {
+    //   background: rgba(255, 255, 255, 0.95);
+    // }
 
     // &:last-child td {
     //   border-bottom: 1px solid #e4e6e8;

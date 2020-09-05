@@ -20,7 +20,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   }
 
   return (
-    <thead className={`${className}`}>
+    <thead className={className}>
       {filter && (
         <tr className='filter'>
           <th colSpan={100}>{filter}</th>
@@ -48,6 +48,9 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 }
 
 export default React.memo(styled(Head)`
+  position: relative;
+  z-index: 1;
+
   th {
     font-family: sans-serif;
     font-weight: 100;
@@ -94,7 +97,9 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: rgba(255, 255, 255, 0.55);
+    // background: #faf8f6;
+    // background: rgba(255, 255, 255, 0.55);
+    // background: rgba(255, 255, 255, 0.95);
     text-transform: lowercase;
 
     // &:first-child th {

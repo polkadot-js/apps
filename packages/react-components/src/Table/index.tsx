@@ -63,6 +63,7 @@ export default React.memo(styled(Table)`
   width: 100%;
 
   table {
+    background: rgba(255, 253, 251, 1);
     border-spacing: 0;
     max-width: 100%;
     overflow: hidden;
