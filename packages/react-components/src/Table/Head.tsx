@@ -97,9 +97,7 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    // background: #faf8f6;
-    // background: rgba(255, 255, 255, 0.55);
-    // background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 253, 251, 1);
     text-transform: lowercase;
 
     // &:first-child th {
