@@ -103,7 +103,9 @@ export default React.memo(styled(Head)`
 
     &.filter {
       .ui.input {
-        margin-top: 0;
+       &:first-child {
+          margin-top: -1px;
+        }
       }
 
       th {
