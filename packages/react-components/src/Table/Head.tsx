@@ -48,14 +48,26 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 }
 
 export default React.memo(styled(Head)`
+  position: relative;
+  z-index: 1;
+
   th {
-    color: rgba(78, 78, 78, .66);
     font-family: sans-serif;
     font-weight: 100;
-    padding: 0.75rem 1rem 0.25rem;
+    padding: 0.75rem 1rem 0.5rem;
     text-align: right;
     vertical-align: baseline;
     white-space: nowrap;
+
+    &:first-child {
+      // border-left: 1px solid #e4e6e8;
+      border-top-left-radius: 0.25rem;
+    }
+
+    &:last-child {
+      // border-right: 1px solid #e4e6e8;
+      border-top-rights-radius: 0.25rem;
+    }
 
     h1, h2 {
       font-size: 1.75rem;
@@ -85,11 +97,27 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: transparent;
+    background: rgba(255, 254, 253, 1);
     text-transform: lowercase;
 
-    &.filter th {
-      padding: 0;
+    // &:first-child th {
+    //   border-top: 1px solid #e4e6e8;
+    // }
+
+    // &:last-child th {
+    //   border-bottom: 1px solid #e4e6e8;
+    // }
+
+    &.filter {
+      .ui.input {
+       &:first-child {
+          margin-top: 0; // -1px;
+        }
+      }
+
+      th {
+        padding: 0;
+      }
     }
   }
 `);

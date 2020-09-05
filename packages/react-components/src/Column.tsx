@@ -38,7 +38,7 @@ export default translate(
     max-width: 100%;
     flex: 1 1;
     margin: 0;
-    padding: 0 0.5rem;
+    padding: 0 0.75rem;
 
     &:first-child {
       padding-left: 0;
