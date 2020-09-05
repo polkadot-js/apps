@@ -101,9 +101,9 @@ export default React.memo(styled(Head)`
     //   border-top: 1px solid #e4e6e8;
     // }
 
-    &:last-child th {
-      border-bottom: 1px solid #e4e6e8;
-    }
+    // &:last-child th {
+    //   border-bottom: 1px solid #e4e6e8;
+    // }
 
     &.filter {
       .ui.input {
