@@ -14,6 +14,7 @@ import Row from './Row';
 import Summary from './Summary';
 
 interface Props {
+  buttons: React.ReactNode;
   councilId: string | null;
   councilThreshold: number;
   slash: SlashEra;
@@ -25,7 +26,7 @@ interface Selected {
   txSome: SubmittableExtrinsic<'promise'> | null;
 }
 
-function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactElement<Props> | null {
+function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const [{ selected, txAll, txSome }, setSelected] = useState<Selected>((): Selected => {
@@ -35,7 +36,7 @@ function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactEle
   });
 
   const headerRef = useRef<[string?, string?, number?][]>([
-    [undefined, 'start', 3],
+    [t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 3],
     [t('reporters'), 'address'],
     [t('own')],
     [t('other')],
@@ -62,52 +63,41 @@ function Slashes ({ councilId, councilThreshold, slash }: Props): React.ReactEle
   );
 
   return (
-    <Table header={[[t('era {{era}}/unapplied', { replace: { era: slash.era.toString() } }), 'start', 8]]}>
-      <Summary slash={slash}>
-        {councilId && (
-          <Button.Group>
-            <TxButton
-              accountId={councilId}
-              extrinsic={txSome}
-              isDisabled={!txSome}
-              isToplevel
-              label={t('Cancel selected')}
-            />
-            <TxButton
-              accountId={councilId}
-              extrinsic={txAll}
-              isDisabled={!txAll}
-              isToplevel
-              label={t('Cancel all')}
-            />
-          </Button.Group>
-        )}
-      </Summary>
-      <tr className='transparent'>
-        {headerRef.current.map(([label, className, colSpan = 1], index): React.ReactNode => (
-          <td
-            className={className}
-            colSpan={colSpan}
-            key={index}
-          >
-            <label>{label}</label>
-          </td>
-        ))}
-      </tr>
-      {slash.slashes.map((slash, index): React.ReactNode => (
-        <Row
-          index={index}
-          isSelected={selected.includes(index)}
-          key={index}
-          onSelect={
-            councilId
-              ? _onSelect
-              : undefined
-          }
-          slash={slash}
+    <>
+      <Summary slash={slash} />
+      <Button.Group>
+        {buttons}
+        <TxButton
+          accountId={councilId}
+          extrinsic={txSome}
+          isDisabled={!txSome}
+          isToplevel
+          label={t('Cancel selected')}
         />
-      ))}
-    </Table>
+        <TxButton
+          accountId={councilId}
+          extrinsic={txAll}
+          isDisabled={!txAll}
+          isToplevel
+          label={t('Cancel all')}
+        />
+      </Button.Group>
+      <Table header={headerRef.current}>
+        {slash.slashes.map((slash, index): React.ReactNode => (
+          <Row
+            index={index}
+            isSelected={selected.includes(index)}
+            key={index}
+            onSelect={
+              councilId
+                ? _onSelect
+                : undefined
+            }
+            slash={slash}
+          />
+        ))}
+      </Table>
+    </>
   );
 }
 

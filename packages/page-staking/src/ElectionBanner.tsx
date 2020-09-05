@@ -18,7 +18,7 @@ function ElectionBanner ({ isInElection }: Props): React.ReactElement<Props> | n
   }
 
   return (
-    <article className='warning nomargin'>
+    <article className='warning centered'>
       {t<string>('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
     </article>
   );

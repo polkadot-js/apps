@@ -169,8 +169,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <BannerExtension />
-      <BannerClaims />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -241,6 +239,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClick={toggleProxy}
         />
       </Button.Group>
+      <BannerExtension />
+      <BannerClaims />
       <Table
         empty={(!hasAccounts || (!isLoading && sortedAccountsWithDelegation)) && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}

@@ -11,7 +11,7 @@ import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
-import { Button, Table } from '@polkadot/react-components';
+import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useApi, useCall, useOwnEraRewards } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, isFunction } from '@polkadot/util';
@@ -20,7 +20,6 @@ import ElectionBanner from '../ElectionBanner';
 import { useTranslation } from '../translate';
 import useStakerPayouts from './useStakerPayouts';
 import PayButton from './PayButton';
-import PayToggle from './PayToggle';
 import Stash from './Stash';
 import Validator from './Validator';
 
@@ -207,24 +206,17 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
 
   return (
     <div className={className}>
-      <ElectionBanner isInElection={isInElection} />
-      {api.tx.staking.payoutStakers && !isLoadingRewards && !stashes?.length && (
-        <article className='warning nomargin'>
-          <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
-          <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
-        </article>
-      )}
       {api.tx.staking.payoutStakers && (
         <Button.Group>
-          <PayToggle
+          <ToggleGroup
             onChange={setMyStashesIndex}
             options={valOptions}
-            selected={myStashesIndex}
+            value={myStashesIndex}
           />
-          <PayToggle
+          <ToggleGroup
             onChange={setEraSelectionIndex}
             options={eraSelection}
-            selected={eraSelectionIndex}
+            value={eraSelectionIndex}
           />
           <PayButton
             isAll
@@ -232,6 +224,13 @@ function Payouts ({ className = '', isInElection, ownValidators }: Props): React
             payout={validators}
           />
         </Button.Group>
+      )}
+      <ElectionBanner isInElection={isInElection} />
+      {api.tx.staking.payoutStakers && !isLoadingRewards && !stashes?.length && (
+        <article className='warning centered'>
+          <p>{t('Payouts of rewards for a validator can be initiated by any account. This means that as soon as a validator or nominator requests a payout for an era, all the nominators for that validator will be rewarded. Each user does not need to claim individually and the suggestion is that validators should claim rewards for everybody as soon as an era ends.')}</p>
+          <p>{t('If you have not claimed rewards straight after the end of the era, the validator is in the active set and you are seeing no rewards, this would mean that the reward payout transaction was made by another account on your behalf. Always check your favorite explorer to see any historic payouts made to your accounts.')}</p>
+        </article>
       )}
       <Table
         empty={!isLoadingRewards && stashes && t<string>('No pending payouts for your stashes')}

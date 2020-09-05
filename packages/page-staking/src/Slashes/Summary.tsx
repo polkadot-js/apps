@@ -15,11 +15,10 @@ import { formatNumber } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  children: React.ReactNode;
   slash: SlashEra;
 }
 
-function Header ({ children, slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
+function Header ({ slash: { era, nominators, reporters, total, validators } }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const sessionInfo = useCall<DeriveSessionProgress>(api.derive.session?.progress);
@@ -35,41 +34,35 @@ function Header ({ children, slash: { era, nominators, reporters, total, validat
   );
 
   return (
-    <tr>
-      <td colSpan={9}>
-        <SummaryBox isSmall>
-          <section>
-            <CardSummary label={t<string>('validators')}>
-              {formatNumber(validators.length)}
-            </CardSummary>
-            <CardSummary label={t<string>('nominators')}>
-              {formatNumber(nominators.length)}
-            </CardSummary>
-            <CardSummary label={t<string>('reporters')}>
-              {formatNumber(reporters.length)}
-            </CardSummary>
-          </section>
-          {blockProgress.gtn(0) && (
-            <section>
-              <CardSummary
-                label={t<string>('defer')}
-                progress={{
-                  total: blockEnd,
-                  value: blockProgress,
-                  withTime: true
-                }}
-              />
-            </section>
-          )}
-          <section>
-            <CardSummary label={t<string>('total')}>
-              <FormatBalance value={total} />
-            </CardSummary>
-          </section>
-        </SummaryBox>
-        {children}
-      </td>
-    </tr>
+    <SummaryBox>
+      <section>
+        <CardSummary label={t<string>('era')}>
+          {formatNumber(era)}
+        </CardSummary>
+        <CardSummary label={t<string>('validators')}>
+          {formatNumber(validators.length)}
+        </CardSummary>
+        <CardSummary label={t<string>('nominators')}>
+          {formatNumber(nominators.length)}
+        </CardSummary>
+        <CardSummary label={t<string>('reporters')}>
+          {formatNumber(reporters.length)}
+        </CardSummary>
+      </section>
+      {blockProgress.gtn(0) && (
+        <CardSummary
+          label={t<string>('defer')}
+          progress={{
+            total: blockEnd,
+            value: blockProgress,
+            withTime: true
+          }}
+        />
+      )}
+      <CardSummary label={t<string>('total')}>
+        <FormatBalance value={total} />
+      </CardSummary>
+    </SummaryBox>
   );
 }
 

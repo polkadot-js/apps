@@ -7,10 +7,11 @@ import { UnappliedSlash } from '@polkadot/types/interfaces';
 import { Slash, SlashEra } from './types';
 
 import BN from 'bn.js';
-import React, { useMemo } from 'react';
-import { Table } from '@polkadot/react-components';
+import React, { useMemo, useState } from 'react';
+import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
 import { getSlashThreshold } from '@polkadot/app-council/thresholds';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Era from './Era';
@@ -90,10 +91,19 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { members } = useMembers();
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const rows = useMemo(
     () => calcSlashEras(slashes, ownStashes),
     [ownStashes, slashes]
+  );
+
+  const eraOpts = useMemo(
+    () => rows.map(({ era }) => ({
+      text: t<string>('era {{era}}', { replace: { era: formatNumber(era) } }),
+      value: era.toString()
+    })),
+    [rows, t]
   );
 
   const councilId = useMemo(
@@ -113,16 +123,19 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
   const councilThreshold = Math.ceil((members.length || 0) * getSlashThreshold(api));
 
   return (
-    <>
-      {rows.map((slash): React.ReactNode => (
-        <Era
-          councilId={councilId}
-          councilThreshold={councilThreshold}
-          key={slash.era.toString()}
-          slash={slash}
+    <Era
+      buttons={
+        <ToggleGroup
+          onChange={setSelectedIndex}
+          options={eraOpts}
+          value={selectedIndex}
         />
-      ))}
-    </>
+      }
+      councilId={councilId}
+      councilThreshold={councilThreshold}
+      key={rows[selectedIndex].era.toString()}
+      slash={rows[selectedIndex]}
+    />
   );
 }
 
