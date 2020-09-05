@@ -15,10 +15,9 @@ function Code ({ className = '', defaultValue, isDisabled, isError, label, onCha
 
   const _onChange = useCallback(
     (value: Uint8Array): void => {
-      onChange && onChange({
-        isValid: isWasm(value),
-        value
-      });
+      const isValid = isWasm(value);
+
+      onChange && onChange({ isValid, value });
       setIsValid(isValid);
     },
     [onChange]
