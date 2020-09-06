@@ -22,7 +22,7 @@ interface Props {
 
 interface Selected {
   selected: number[];
-  txAll: SubmittableExtrinsic<'promise'>;
+  txAll: SubmittableExtrinsic<'promise'> | null;
   txSome: SubmittableExtrinsic<'promise'> | null;
 }
 
@@ -32,7 +32,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
   const [{ selected, txAll, txSome }, setSelected] = useState<Selected>((): Selected => {
     const proposal = api.tx.staking.cancelDeferredSlash(slash.era, slash.slashes.map((_, index) => index));
 
-    return { selected: [], txAll: api.tx.council.propose(councilThreshold, proposal, proposal.encodedLength), txSome: null };
+    return { selected: [], txAll: api.tx.council?.propose(councilThreshold, proposal, proposal.encodedLength) || null, txSome: null };
   });
 
   const headerRef = useRef<[string?, string?, number?][]>([
@@ -53,11 +53,9 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
       const proposal = selected.length
         ? api.tx.staking.cancelDeferredSlash(slash.era, selected)
         : null;
-      const txSome = proposal
-        ? api.tx.council.propose(councilThreshold, proposal, proposal.encodedLength)
-        : null;
+      const txSome = proposal && api.tx.council?.propose(councilThreshold, proposal, proposal.encodedLength);
 
-      return { selected, txAll: state.txAll, txSome };
+      return { selected, txAll: state.txAll, txSome: txSome || null };
     }),
     [api, councilThreshold, slash]
   );
