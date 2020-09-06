@@ -1272,8 +1272,8 @@
   "{{percentage}}% of block time": "النسبة المئوية}}% من وقت البلوك}}",
   "{{percentage}}% turnout": "{{نسبة مئوية}}٪ إقبال",
   "{{relayDispatchQueueSize}} dispatch messages pending": "حجم ترحيل  إرسال قائمة الانتظار}} الرسائل المرسلة المعلقة}}",
-  "{{step}}. Sign with your ETH address": "{{قم بتسجيل الدخول باستخدام عنوان إيثيريوم الخاص بك {{خطوة",
   "{{seconds}} s": "{{دقائق {{د",
+  "{{step}}. Sign with your ETH address": "{{قم بتسجيل الدخول باستخدام عنوان إيثيريوم الخاص بك {{خطوة",
   "{{threshold}}, not passing": "سقف}}، لا يتم  تمريره}}",
   "{{threshold}}, passing": "سقف}}،   يتم  تمريره}}",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "({{قفل}} (تاريخ إصدار {{أيام}}x رصيد التصويت، مقفل لـ x  {{قيمة }}"

@@ -562,6 +562,6 @@
   "{{minutes}} mins": "{{minutes}} 分",
   "{{percentage}}% of block time": "ブロックタイム {{percentage}} %",
   "{{relayDispatchQueueSize}} dispatch messages pending": "{{relayDispatchQueueSize}} ディスパッチメッセージペンディング",
-  "{{step}}. Sign with your ETH address": "{{step}}. ETHアドレスでサインしてください",
-  "{{seconds}} s": "{{seconds}} 秒"
+  "{{seconds}} s": "{{seconds}} 秒",
+  "{{step}}. Sign with your ETH address": "{{step}}. ETHアドレスでサインしてください"
 }

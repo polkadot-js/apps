@@ -983,8 +983,8 @@
   "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
   "{{percentage}} aye": "{{percentage}} aye",
   "{{percentage}}% of block time": "{{percentage}}% waktu blok",
-  "{{step}}. Sign with your ETH address": "{{step}}. Tanda tangan dengan alamat ETH anda",
   "{{seconds}} s": "{{seconds}} detik",
+  "{{step}}. Sign with your ETH address": "{{step}}. Tanda tangan dengan alamat ETH anda",
   "{{threshold}}, not passing": "{{threshold}}, tidak melewati",
   "{{threshold}}, passing": "{{threshold}}, melewati",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x memilih saldo, terkunci untuk {{lock}}x berlaku ({{period}} hari)"
