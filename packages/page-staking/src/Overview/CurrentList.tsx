@@ -156,7 +156,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           key={address}
           lastBlock={byAuthor[address]}
           nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
-          onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
+          onlineCount={recentlyOnline?.[address]?.blockCount}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}

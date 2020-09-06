@@ -30,7 +30,7 @@ interface Props {
   isMain?: boolean;
   lastBlock?: string;
   nominatedBy?: [string, EraIndex, number][];
-  onlineCount?: false | number;
+  onlineCount?: false | BN;
   onlineMessage?: boolean;
   points?: string;
   toggleFavorite: (accountId: string) => void;
@@ -118,7 +118,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <Status
           isElected={isElected}
           isMain={isMain}
-          numNominators={nominatedBy?.length || nominators.length}
+          numNominators={(nominatedBy || nominators).length}
           onlineCount={onlineCount}
           onlineMessage={onlineMessage}
         />
