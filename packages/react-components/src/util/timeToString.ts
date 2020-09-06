@@ -7,10 +7,10 @@ import { Time } from '@polkadot/util/types';
 
 export default function timeToString (t: TFunction, { days, hours, minutes, seconds }: Time): string {
   return [
-    days ? (days > 1) ? t<string>('{{days}} days', { replace: { days } }) : t<string>('1 day') : null,
-    hours ? (hours > 1) ? t<string>('{{hours}} hrs', { replace: { hours } }) : t<string>('1 hr') : null,
-    minutes ? (minutes > 1) ? t<string>('{{minutes}} mins', { replace: { minutes } }) : t<string>('1 min') : null,
-    seconds ? (seconds > 1) ? t<string>('{{seconds}} s', { replace: { seconds } }) : t<string>('1 s') : null
+    days ? (days > 1) ? t<string>('{{d}} days', { replace: { d: days } }) : t<string>('1 day') : null,
+    hours ? (hours > 1) ? t<string>('{{h}} hrs', { replace: { h: hours } }) : t<string>('1 hr') : null,
+    minutes ? (minutes > 1) ? t<string>('{{m}} mins', { replace: { m: minutes } }) : t<string>('1 min') : null,
+    seconds ? (seconds > 1) ? t<string>('{{s}} s', { replace: { s: seconds } }) : t<string>('1 s') : null
   ]
     .filter((value): value is string => !!value)
     .slice(0, 2)
