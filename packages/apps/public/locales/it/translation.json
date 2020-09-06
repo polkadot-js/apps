@@ -1355,8 +1355,8 @@
   "{{percentage}} aye": "{{percentage}} Si",
   "{{percentage}}% of block time": "{percentage}}% di avanzamento del blocco",
   "{{relayDispatchQueueSize}} dispatch messages pending": "{{relayDispatchQueueSize}} messaggi in coda di implementazione",
-  "{{step}}. Sign with your ETH address": "{{step}}. Firma con il tuo indirizzo ETH",
   "{{seconds}} s": "{{seconds}} secondi",
+  "{{step}}. Sign with your ETH address": "{{step}}. Firma con il tuo indirizzo ETH",
   "{{threshold}}, not passing": "{{threshold}}, respinta",
   "{{threshold}}, passing": "{{threshold}}, approvato",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}} x saldo dei voti, bloccato per {{lock}}x promulgazione {{period}} giorni)"
