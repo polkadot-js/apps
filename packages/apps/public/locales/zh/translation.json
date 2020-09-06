@@ -1365,7 +1365,6 @@
   "{{currency}} rewards": "{{currency}} 奖励",
   "{{currency}} slashed": "{{currency}} slashed",
   "{{currency}} total": "{{currency}} 总数",
-  "{{days}} days": "{{days}} 天",
   "{{done}}/{{total}}, {{progress}}% done": "{{done}}/{{total}}, {{progress}}% done",
   "{{days}} days": "{{days}} 天",
   "{{executionTime}}s execution time": "{{executionTime}}s 执行时间",
