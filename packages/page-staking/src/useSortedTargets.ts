@@ -3,12 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
-import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
 import { useMemo, useState } from 'react';
-import { registry } from '@polkadot/react-api';
 import { useAccounts, useApi, useCall, useDebounce } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import { BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
@@ -65,23 +64,19 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 }
 
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
-  const defaultExposure = registry.createType('Exposure');
-  const defaultPrefs = registry.createType('ValidatorPrefs');
   const nominators: Record<string, boolean> = {};
-  const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    const exposure = _exposure || defaultExposure;
-    const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || defaultPrefs;
+  const list = info.map(({ accountId, exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     let bondOwn = exposure.own.unwrap();
     let bondTotal = exposure.total.unwrap();
     const skipRewards = bondTotal.isZero();
 
-    if (bondTotal.isZero() && stakingLedger) {
+    if (bondTotal.isZero()) {
       bondTotal = bondOwn = stakingLedger.total.unwrap();
     }
 
-    const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
-      ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
-      : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
+    const validatorPayment = (validatorPrefs as unknown as ValidatorPrefsTo196).validatorPayment
+      ? (validatorPrefs as unknown as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
+      : validatorPrefs.commission.unwrap().mul(perValidatorReward).div(PERBILL);
     const key = accountId.toString();
     const rewardSplit = perValidatorReward.sub(validatorPayment);
     const rewardPayout = amount.isZero() || rewardSplit.isZero()
@@ -101,11 +96,11 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       bondOwn,
       bondShare: 0,
       bondTotal,
-      commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
+      commissionPer: ((validatorPrefs.commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
       exposure,
       hasIdentity: false,
       isActive: !skipRewards,
-      isCommission: !!(prefs as ValidatorPrefs).commission,
+      isCommission: !!validatorPrefs.commission,
       isElected,
       isFavorite: favorites.includes(key),
       isNominating,
@@ -122,7 +117,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       rewardPayout: skipRewards ? BN_ZERO : rewardPayout,
       rewardSplit,
       validatorPayment,
-      validatorPrefs: prefs
+      validatorPrefs
     };
   });
 
