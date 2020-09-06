@@ -17,6 +17,8 @@ interface Props {
 }
 
 function Status ({ isElected, isMain, numNominators, onlineCount, onlineMessage }: Props): React.ReactElement<Props> {
+  const blockCount = onlineCount && onlineCount.toNumber();
+
   return (
     <>
       {isElected
@@ -29,11 +31,11 @@ function Status ({ isElected, isMain, numNominators, onlineCount, onlineMessage 
         : <Badge color='transparent' />
       }
       {isMain && (
-        !!onlineCount || onlineMessage
+        blockCount || onlineMessage
           ? (
             <Badge
               color='green'
-              info={onlineCount ? onlineCount.toNumber() : <Icon icon='envelope' />}
+              info={blockCount || <Icon icon='envelope' />}
             />
           )
           : <Badge color='transparent' />
