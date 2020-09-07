@@ -4009,20 +4009,22 @@ __metadata:
   linkType: hard
 
 "@subsocial/utils@npm:^0.1.23":
-  version: 0.1.23
-  resolution: "@subsocial/utils@npm:0.1.23"
+  version: 0.1.24
+  resolution: "@subsocial/utils@npm:0.1.24"
   dependencies:
     "@babel/runtime": ^7.8.4
     "@types/circular-json": ^0.4.0
+    "@types/lodash.isempty": ^4.4.6
     "@types/lodash.truncate": ^4.4.6
     "@types/winston": ^2.4.4
     bn.js: ^5.1.1
     chalk: ^3.0.0
     circular-json: ^0.5.9
     dotenv: ^8.0.0
+    lodash.isempty: ^4.4.0
     lodash.truncate: ^4.4.2
     winston: ^3.2.0
-  checksum: 497ecb7bf89a9289de77245dceba4f596b1013e56269ae766e0fc57e58faaa8d447cea006abc49b6820622a92cd4ce61dfbde18e15885c141fda1e18808df2de
+  checksum: f56b0047465f338659f4a9d70955f0bf079237e3d91ef4cce19848c5be01d94e85cd0febeffbcab32ea149f6123d509ed53b8d888251769a234f2f0cf43dbcb9
   languageName: node
   linkType: hard
 
@@ -4378,6 +4380,15 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 3aaf557d5b82e733d5a17b7f55af5d6be953363c3a594f006d64265790fe87c301c6e1400c0b6b1cf72add50a0ceddc25afb8231ab8302a2e5b6ebfbfac30e5d
+  languageName: node
+  linkType: hard
+
+"@types/lodash.isempty@npm:^4.4.6":
+  version: 4.4.6
+  resolution: "@types/lodash.isempty@npm:4.4.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 477687f2104060f9d11b923fb8822ac6bf20a88bb5be29d0baba8fa3ba9bcdf7136d3b7d440f94beab8971a3e9a3b40cb3ec83c991420db5a61b2b995956b2f4
   languageName: node
   linkType: hard
 
@@ -9868,11 +9879,11 @@ __metadata:
   linkType: hard
 
 "dot-prop@npm:^5.1.0, dot-prop@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "dot-prop@npm:5.2.0"
+  version: 5.3.0
+  resolution: "dot-prop@npm:5.3.0"
   dependencies:
     is-obj: ^2.0.0
-  checksum: d2f62e0b5ec467edb8e278ab6070955f0a4aec973ec1fa837ff6152f3cdd96cd2a04c7e2626cb3eac4f639b8f6786b5b87d3c01df7ba729693c636cb78b7ae93
+  checksum: 76e6693d8803eeff9cb920988446bf223cf1f6e5b1c0c2fe07a66906392134931a481b11e3c0bd852c5cfc97fad65258bcb4359169ad1d8d624cb3f56932be98
   languageName: node
   linkType: hard
 
@@ -15816,6 +15827,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isempty@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.isempty@npm:4.4.0"
+  checksum: f5cf56151caafd6c121a4957c44395c16b0df86fe9631c2f9bc814add0497ae4c2512c507166621f0ba1f572348e0b482716ec353756a9a4d54d9d05b554bb42
+  languageName: node
+  linkType: hard
+
 "lodash.isequal@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.isequal@npm:4.5.0"
@@ -17253,9 +17271,9 @@ __metadata:
   linkType: hard
 
 "node-fetch@npm:^2.3.0, node-fetch@npm:^2.5.0":
-  version: 2.6.0
-  resolution: "node-fetch@npm:2.6.0"
-  checksum: dd9f586a9f7ddb7dd94d2aba9cb693d32f5001e9850098512fbc8a4cbdd56838afa08ed0a6725b9fce9b01ec12b713e622cbfc16d92762d8b937b238330a632a
+  version: 2.6.1
+  resolution: "node-fetch@npm:2.6.1"
+  checksum: cbb171635e538162b977eac5dfe7a1e07a9a02e991924377a6435502291e2f823d306b95aabc455caebf4a118ccf836868462bc70ccc3095af02bb9da61fda37
   languageName: node
   linkType: hard
 
@@ -21089,18 +21107,18 @@ __metadata:
   linkType: hard
 
 "rxjs-compat@npm:^6.6.2":
-  version: 6.6.2
-  resolution: "rxjs-compat@npm:6.6.2"
-  checksum: 0cb470fef520addd5a27bed51353010f37fb872875c9c904617a1d1184bf55df08448f60710b199dfb164e63885c70dc64fc5d6ac04c59fdbbe1fd5f56076331
+  version: 6.6.3
+  resolution: "rxjs-compat@npm:6.6.3"
+  checksum: 487a948df603706a165642f97d0554924461d5cd35d2a7c390cb74c2acbab18d63b319579c7d8a6cd7bf8dbb79daebbbc0ee737f693fc9796ba85c6ef247d5de
   languageName: node
   linkType: hard
 
 "rxjs@npm:^6.4.0, rxjs@npm:^6.5.2, rxjs@npm:^6.6.2":
-  version: 6.6.2
-  resolution: "rxjs@npm:6.6.2"
+  version: 6.6.3
+  resolution: "rxjs@npm:6.6.3"
   dependencies:
     tslib: ^1.9.0
-  checksum: 9b16cd36093b87ce454726f14783e204b80431e6657d36191877e4d9d4b0713c73e5ee8b45be336b081d47b10cd016b3812ea3bd4b27bf87942b1410aa18ee04
+  checksum: 61a3da6db947f69b7d805df3a619d8f60678b7372c4d571dd63e45ef3532be984a88307ea0aa2cd8d2578b62c3c022186e8da9dca47c9c1b8c9ecba6f5581deb
   languageName: node
   linkType: hard
 
@@ -23824,11 +23842,11 @@ __metadata:
   linkType: hard
 
 "uglify-js@npm:^3.1.4":
-  version: 3.10.3
-  resolution: "uglify-js@npm:3.10.3"
+  version: 3.10.4
+  resolution: "uglify-js@npm:3.10.4"
   bin:
     uglifyjs: bin/uglifyjs
-  checksum: 61582fd815d1d3f8ef86de706350abdf43dc64dde4d54be8a138b237d8e95dc5b25564edbc4910a4642cbaf99ce8813aed43b172e4665d2352d58295306382b7
+  checksum: b16ee80e2d4bcddc6e792fdcc58a17f837eed9609f9b945012ab0829bb3a60b71e20a653d9f7a0eb73275694a08a33974bc2f9a8d9b3c829eb5e4a24bd81120d
   languageName: node
   linkType: hard
 
@@ -25209,13 +25227,13 @@ __metadata:
   linkType: hard
 
 "whatwg-url@npm:^8.0.0":
-  version: 8.2.1
-  resolution: "whatwg-url@npm:8.2.1"
+  version: 8.2.2
+  resolution: "whatwg-url@npm:8.2.2"
   dependencies:
     lodash.sortby: ^4.7.0
     tr46: ^2.0.2
     webidl-conversions: ^6.1.0
-  checksum: d0878feda0616889459ffe012e85b3edbb9da8085af3dd2da555808f279ad926361c803877b162fc826b33933e67b0fb0de46533fd7d8a424d75b51664d877f5
+  checksum: 3200508d0b79cfee888fb36bf26873e0583608d59be5e7486959de492c5d1aa649f8457930d0be6920d1c9b2fbd4238af45c5bd57f7fa12bb0b03483f9ccb56b
   languageName: node
   linkType: hard
 
