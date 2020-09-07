@@ -133,6 +133,10 @@ function toPMAuth(api, votes) {
 
   let vote_map = new Map();
   for (let [did, key] of dtk_sorted) {
+    if (!did || !key) {
+      continue;
+    }
+
     vote_map.set(did, { Sr25519: key });
   }
 
