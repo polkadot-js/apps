@@ -23,6 +23,7 @@ Changes:
 - Combine confirmation/backup of imports/new account into the modals (no double-modal)
 - Fix ecdsa JSON import dialogs
 - Fix detection of old/new proxy chains based on args to support Kusama 2023
+- Allow Enter to work as expected (doing submission) on the signer modal
 - Ensure all network-related configs are maintainable
 - Adjust average calcs for targets (optimization)
 - Adjust Table UI, crisper table layouts

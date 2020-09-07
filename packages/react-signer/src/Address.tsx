@@ -24,6 +24,7 @@ interface Props {
   className?: string;
   currentItem: QueueTx;
   onChange: (address: AddressProxy) => void;
+  onEnter?: () => void;
   passwordError: string | null;
   requestAddress: string;
 }
@@ -136,7 +137,7 @@ async function queryForProxy (api: ApiPromise, allAccounts: string[], address: s
   return null;
 }
 
-function Address ({ currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
+function Address ({ currentItem, onChange, onEnter, passwordError, requestAddress }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
@@ -257,6 +258,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           address={signAddress}
           error={passwordError}
           onChange={setSignPassword}
+          onEnter={onEnter}
         />
       )}
       {proxyInfo && (
