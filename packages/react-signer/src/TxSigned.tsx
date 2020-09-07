@@ -302,6 +302,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
                 <Address
                   currentItem={currentItem}
                   onChange={setSenderInfo}
+                  onEnter={_doStart}
                   passwordError={passwordError}
                   requestAddress={requestAddress}
                 />
