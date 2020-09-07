@@ -264,7 +264,7 @@ function Selection (): React.ReactElement {
         <div className='ui--row'>
           <InputAddress
             className='full'
-            help={t<string>('select the account you wish to sign data with')}
+            help={t<string>('Select the account you wish to sign data with. The public/private keys must match that which created your DID. Go to the accounts page to add one.')}
             isInput={false}
             label={t<string>('account')}
             onChange={_onChangeAccount}
