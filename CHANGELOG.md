@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.57-beta.x
+## 0.57.1 Sep 7, 2020
 
 Contributed:
 
@@ -28,6 +28,7 @@ Changes:
 - Adjust average calcs for targets (optimization)
 - Adjust Table UI, crisper table layouts
 - Update WASM uploads to use `isWasm` from utilities
+- Adjust i18n strings, allowing countdown translations
 
 
 ## 0.56.1 Aug 31, 2020
