@@ -34,7 +34,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
     isCouncil
       ? allBalances?.votingBalance.add(allBalances?.reservedBalance)
       : allBalances?.votingBalance
-  , [allBalances?.reservedBalance, allBalances?.votingBalance, isCouncil]);
+  , [allBalances, isCouncil]);
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it

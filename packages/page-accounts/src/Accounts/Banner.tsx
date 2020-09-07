@@ -13,7 +13,7 @@ interface Props {
 
 function Banner ({ children, className = '', type }: Props): React.ReactElement<Props> | null {
   return (
-    <article className={`${className} ${type} nomargin`}>
+    <article className={`${className} ${type} centered`}>
       <div className='box'>
         {children}
       </div>

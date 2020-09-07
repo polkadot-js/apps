@@ -192,6 +192,11 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://beresheet1.edgewa.re'
     },
     {
+      info: 'crust',
+      text: t<string>('rpc.crust.network', 'Crust Maxwell CC2 (Crust Testnet, hosted by Crust Network)', { ns: 'apps-config' }),
+      value: 'wss://api.crust.network/'
+    },
+    {
       info: 'datahighway',
       isDisabled: true,
       text: t<string>('rpc.datahighway.harbour', 'Harbour (DataHighway Testnet, hosted by MXC)', { ns: 'apps-config' }),

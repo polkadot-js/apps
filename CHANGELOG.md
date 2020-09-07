@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 0.57.1 Sep 7, 2020
+
+Contributed:
+
+- Add Crust network (Thanks to https://github.com/zikunfan)
+- i18n comprehensive Chinese round-out (Thanks to Polkaworld)
+- i18n comprehensive Italian (Thanks to https://github.com/fomod-in)
+- Initial i18n Italian (Thanks to https://github.com/excerebrose)
+- i18n Bahasa Indonesian updates (Thanks to https://github.com/nzjourney)
+- Ad per-block/end-block vesting info (thanks to https://github.com/niklabh)
+- Update Polkastats logo (https://github.com/mariopino)
+- Fixes for i18n translation page on swapping (Thanks to https://github.com/motinados)
+
+Changes:
+
+- Add individual era-slash cancels on staking slashes page
+- Adjust staking slashes with per-era selector
+- Optimization of staking list details queries (shared with targets, remove extras)
+- Adjust max payout batch size (40 txs for 64 payees) based on staking payout constant
+- Add "copy seed" button to align with the extension UX on new accounts
+- Combine confirmation/backup of imports/new account into the modals (no double-modal)
+- Fix ecdsa JSON import dialogs
+- Fix detection of old/new proxy chains based on args to support Kusama 2023
+- Allow Enter to work as expected (doing submission) on the signer modal
+- Ensure all network-related configs are maintainable
+- Adjust average calcs for targets (optimization)
+- Adjust Table UI, crisper table layouts
+- Update WASM uploads to use `isWasm` from utilities
+- Adjust i18n strings, allowing countdown translations
+
+
 ## 0.56.1 Aug 31, 2020
 
 Contributed:
@@ -10,7 +41,7 @@ Contributed:
 - Add Phala POC2 testnet (Thanks to https://github.com/krhougs)
 - Add Plasm network (Thanks to https://github.com/akru)
 - Rename Darwinia Crab chain (Thanks to https://github.com/WoeOm)
-- Add I18n For Bahasa Indonesian (Thanks to https://github.com/nzjourney)
+- Add I18n for Bahasa Indonesian (Thanks to https://github.com/nzjourney)
 
 Changes:
 

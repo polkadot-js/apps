@@ -15,7 +15,7 @@ export default function useCounter (): number {
 
   useEffect((): void => {
     setCounter(proposals?.proposals.length || 0);
-  }, [proposals?.proposals.length]);
+  }, [proposals]);
 
   return counter;
 }

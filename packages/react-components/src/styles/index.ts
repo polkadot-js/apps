@@ -133,8 +133,14 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Table td .ui--Button {
-    &:not(.isDisabled):not(.isIcon),
+    &:not(.isDisabled):not(.isIcon):not(.isToplevel),
     &.withoutLink:not(.isDisabled) {
+      &:hover {
+        .ui--Icon {
+          color: #f5f5f4;
+        }
+      }
+
       .ui--Icon {
         background: transparent;
         color: ${getHighlight};
@@ -227,8 +233,8 @@ export default createGlobalStyle<Props>`
       margin: 2rem auto;
     }
 
-    &.nomargin {
-      margin: 0.5rem auto;
+    &.centered {
+      margin: 1.5rem auto;
       max-width: 75rem;
 
       &+.ui--Button-Group {

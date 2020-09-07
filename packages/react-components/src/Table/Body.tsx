@@ -35,14 +35,6 @@ export default React.memo(styled(Body)`
     text-align: left;
     vertical-align: middle;
 
-    &:first-child {
-      border-left: 1px solid #e4e6e8;
-    }
-
-    &:last-child {
-      border-right: 1px solid #e4e6e8;
-    }
-
     label {
       display: block !important;
       white-space: nowrap;
@@ -144,26 +136,18 @@ export default React.memo(styled(Body)`
       color: darkorange;
     }
 
-    .ui--Button-Group .ui--Button {
+    .ui--Button-Group .ui--Button:not(.isToplevel) {
       margin: 0;
     }
   }
 
   tr {
-    &:nth-child(even) {
+    &:nth-child(odd) {
       background: #faf8f6;
     }
 
-    &:nth-child(odd) {
-      background: white;
-    }
-
-    &:first-child td {
-      border-top: 1px solid #e4e6e8;
-    }
-
-    &:last-child td {
-      border-bottom: 1px solid #e4e6e8;
+    &:nth-child(even) {
+      background: rgba(255, 254, 253, 1);
     }
 
     &:first-child {
