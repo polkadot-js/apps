@@ -232,10 +232,11 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
 
   const _setMasterReqs = async () => {
     const members = await api.query.master.members();
-    const reqCount = parseInt(members.vote_requirement);
+    const membersList = Array.from(members.members);
     const curLen = didSignaturePairs.length;
+    const reqCount = Math.min(membersList.length, parseInt(members.vote_requirement));
     for (let i = curLen; i < reqCount; i++) {
-      didSignaturePairs.push(['0x0', '0x0']);
+      didSignaturePairs.push([u8aToHex(membersList[i]), '']);
     }
 
     setMembership(members);
@@ -245,8 +246,6 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
   useEffect((): void => {
     if (!membership) {
       _setMasterReqs();
-    } else {
-      doAuthStuff();
     }
   }, [membership, proposal]);
 
@@ -261,34 +260,35 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
       return;
     }
 
+    let call;
     try {
-      const call = api.createType('Call', proposal);
+      call = api.createType('Call', proposal);
     } catch (error) {
       setUnlockError(`${error.message || error}`);
       setExtrinsic(() => null);
       return;
     }
 
-      const roundNo = await api.query.master.round();
+    const roundNo = await api.query.master.round();
 
-      // verify votes are valid and sufficient before submitting
-      try {
-        const mpauth = toPMAuth(api, didSignaturePairs);
-        await assertValidAuth(api, call, mpauth, membership, roundNo.toNumber());
-      } catch (error) {
-        setUnlockError(`${error.message || error}`);
-        setExtrinsic(() => null);
-        return;
-      }
+    // verify votes are valid and sufficient before submitting
+    try {
+      const mpauth = toPMAuth(api, didSignaturePairs);
+      await assertValidAuth(api, call, mpauth, membership, roundNo.toNumber());
+    } catch (error) {
+      setUnlockError(`${error.message || error}`);
+      setExtrinsic(() => null);
+      return;
+    }
 
-      // combine signatures and encoded call into a single "execute" extrinsic
-      const extrinsic = api.tx.master.execute(call, mpauth);
-      setExtrinsic(() => extrinsic);
+    // combine signatures and encoded call into a single "execute" extrinsic
+    const extrinsic = api.tx.master.execute(call, mpauth);
+    setExtrinsic(() => extrinsic);
   };
 
   const _onAddDIDPair = useCallback(
     (): void => {
-      didSignaturePairs.push(['0x0', '0x0']);
+      didSignaturePairs.push(['', '']);
       setDidSignaturePairs(didSignaturePairs);
       setPairCount(didSignaturePairs.length);
     },
