@@ -119,8 +119,6 @@ function Selection (): React.ReactElement {
       round_no: roundNo,
     };
 
-    console.log('_setVotePayload', roundNo, payload);
-
     const encoded_state_change = api.createType('StateChange', { MasterVote: payload }).toU8a();
     setData({ data: u8aToHex(encoded_state_change), isHexData: true });
   };
@@ -223,7 +221,7 @@ function Selection (): React.ReactElement {
         try {
           _setProposal(JSON.parse(jsonStr));
         } catch (error) {
-          
+
         }
       }
     },

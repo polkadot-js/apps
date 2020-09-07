@@ -104,9 +104,6 @@ function getFullyQualifiedDID(did) {
   return `${DockDIDQualifier}${did}`;
 }
 
-
-
-
 /**
  * Dumps call into a StateChange::MasterVote and serializes the result.
  * Round number is infered from current chainstate.
@@ -119,8 +116,6 @@ async function asEncodedStateChange(api, call, roundNo) {
     proposal: [...call.toU8a()],
     round_no: roundNo
   };
-
-  console.log('asEncodedStateChange', payload);
 
   return api.createType('StateChange', { MasterVote: payload }).toU8a();
 }
