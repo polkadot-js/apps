@@ -319,7 +319,6 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
               onChange={setAccountId}
               type='account'
               value={address}
-              isDisabled
             />
 
           </Modal.Column>
