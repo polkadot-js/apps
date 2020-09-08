@@ -40,7 +40,7 @@ function Row ({ index, isSelected, onSelect, slash: { isMine, slash: { others, o
         <AddressSmall value={validator} />
       </td>
       <td className='start all'>
-        {others.length && (
+        {!!others.length && (
           <Expander summary={t<string>('Nominators ({{count}})', { replace: { count: formatNumber(others.length) } })}>
             {others.map(([accountId, balance], index): React.ReactNode => (
               <AddressMini

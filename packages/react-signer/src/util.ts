@@ -10,6 +10,10 @@ import keyring from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
 
+const LOCK_DELAY = 15 * 60 * 1000;
+
+const lockCountdown: Record<string, number> = {};
+
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
     return { isHardware: false, isMultisig: false, isProxied: false, isQr: false, isUnlockable: false, threshold: 0, who: [] };
@@ -26,6 +30,18 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   const pair = keyring.getPair(publicKey);
+  const isUnlockable = !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected;
+
+  if (isUnlockable) {
+    const entry = lockCountdown[pair.address];
+    const now = Date.now();
+
+    if (entry && (now > entry) && !pair.isLocked) {
+      pair.lock();
+    }
+
+    lockCountdown[pair.address] = now + LOCK_DELAY;
+  }
 
   return {
     hardwareType: pair.meta.hardwareType as string,
@@ -33,7 +49,7 @@ export function extractExternal (accountId: string | null): AddressFlags {
     isMultisig: !!pair.meta.isMultisig,
     isProxied: !!pair.meta.isProxied,
     isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied,
-    isUnlockable: !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected && pair.isLocked,
+    isUnlockable: isUnlockable && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)
   };
