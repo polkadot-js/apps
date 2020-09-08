@@ -59,14 +59,6 @@ export default React.memo(styled(Head)`
     vertical-align: baseline;
     white-space: nowrap;
 
-    &:first-child {
-      border-top-left-radius: 0.25rem;
-    }
-
-    &:last-child {
-      border-top-rights-radius: 0.25rem;
-    }
-
     h1, h2 {
       font-size: 1.75rem;
     }
@@ -95,13 +87,38 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: rgba(255, 254, 253, 1);
+    background: white; // rgba(255, 254, 253, 1);
     text-transform: lowercase;
 
+    &:first-child {
+      th {
+        &:first-child {
+          border-top-left-radius: 0.25rem;
+        }
+
+        &:last-child {
+          border-top-rights-radius: 0.25rem;
+        }
+      }
+    }
 
     &:not(.filter) {
       th {
         color: rgba(78, 78, 78, 0.66);
+
+        &:first-child {
+          border-left: 1px solid #eeecea;
+        }
+
+        &:last-child {
+          border-right: 1px solid #eeecea;
+        }
+      }
+
+      &:first-child {
+        th {
+          border-top: 1px solid #eeecea;
+        }
       }
     }
 

@@ -152,7 +152,7 @@ export default React.memo(styled(CalendarApp)`
 
       > div {
         background-color: #fff;
-        border: 1px solid #ddd;
+        border: 1px solid #eeecea;
         border-radius: 0.25rem;
       }
 
