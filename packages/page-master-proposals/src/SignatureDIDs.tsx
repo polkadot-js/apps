@@ -383,15 +383,6 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
-          extrinsic={extrinsic}
-          icon='sign-in-alt'
-          isBasic
-          isDisabled={!extrinsic || unlockError}
-          isUnsigned
-          label={t<string>('Submit Unsigned')}
-          withSpinner
-        />
-        <TxButton
           accountId={accountId}
           extrinsic={extrinsic}
           icon='sign-in-alt'
