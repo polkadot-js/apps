@@ -151,17 +151,17 @@ function toPMAuth(api, votes) {
  * - number of votes is sufficient
  * @param api
  * @param proposal - as on-chain type Call
- * @param mpauth - as on-chain type MPAuth
+ * @param pmauth - as on-chain type pmauth
  * @returns {Promise<()>}
  */
-async function assertValidAuth(api, proposal, mpauth, membership, roundNo) {
+async function assertValidAuth(api, proposal, pmauth, membership, roundNo) {
   if (!membership) {
     throw `No membership info from chain`;
   }
 
   // * - all signatures are valid over proposal for current voting round
   const encoded_state_change = await asEncodedStateChange(api, proposal, roundNo);
-  for (let [did, sig] of mpauth) {
+  for (let [did, sig] of pmauth) {
     const idStr = typeof did === 'string' ? did : u8aToHex(did);
     const hexId = getHexIdentifierFromDID(idStr);
 
@@ -195,7 +195,7 @@ async function assertValidAuth(api, proposal, mpauth, membership, roundNo) {
   }
 
   // * - all dids are members of master
-  for (let [did, _sig] of mpauth) {
+  for (let [did, _sig] of pmauth) {
     let is_member = [...membership.members].some(member => u8aToHex(member) === u8aToHex(did));
     if (!is_member) {
       throw `${did} is not a member of master`;
@@ -203,7 +203,7 @@ async function assertValidAuth(api, proposal, mpauth, membership, roundNo) {
   }
 
   // * - number of votes is sufficient
-  let vote_count = [...mpauth].length;
+  let vote_count = [...pmauth].length;
   if (membership.vote_requirement > vote_count) {
     throw `Not enough votes. ${membership.vote_requirement} required. ${vote_count} provided.`;
   }
@@ -271,9 +271,10 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     const roundNo = await api.query.master.round();
 
     // verify votes are valid and sufficient before submitting
+    let pmauth;
     try {
-      const mpauth = toPMAuth(api, didSignaturePairs);
-      await assertValidAuth(api, call, mpauth, membership, roundNo.toNumber());
+      pmauth = toPMAuth(api, didSignaturePairs);
+      await assertValidAuth(api, call, pmauth, membership, roundNo.toNumber());
     } catch (error) {
       setUnlockError(`${error.message || error}`);
       setExtrinsic(() => null);
@@ -281,7 +282,7 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     }
 
     // combine signatures and encoded call into a single "execute" extrinsic
-    const extrinsic = api.tx.master.execute(call, mpauth);
+    const extrinsic = api.tx.master.execute(call, pmauth);
     setExtrinsic(() => extrinsic);
   };
 
