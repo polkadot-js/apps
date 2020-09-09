@@ -2,34 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DeriveStakerPoints } from '@polkadot/api-derive/types';
+import { DeriveStakerPrefs } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
 
+import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
+const MULT = new BN(100 * 100);
+const BILLION = new BN(1_000_000_000);
 const COLORS_POINTS = [undefined, '#acacac'];
 
-function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
+function extractPrefs (prefs: DeriveStakerPrefs[] = []): ChartInfo {
   const labels: string[] = [];
   const avgSet: LineDataEntry = [];
   const idxSet: LineDataEntry = [];
   let avgCount = 0;
   let total = 0;
 
-  points.forEach(({ era, points }): void => {
-    total += points.toNumber();
+  prefs.forEach(({ era, validatorPrefs }): void => {
+    const comm = validatorPrefs.commission.unwrap().mul(MULT).div(BILLION).toNumber() / 100;
+
+    total += comm;
     labels.push(era.toHuman());
 
-    if (points.gtn(0)) {
+    if (comm !== 0) {
       avgCount++;
     }
 
     avgSet.push((avgCount ? Math.ceil(total * 100 / avgCount) : 0) / 100);
-    idxSet.push(points);
+    idxSet.push(comm);
   });
 
   return {
@@ -38,25 +43,25 @@ function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
   };
 }
 
-function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
+function ChartPrefs ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const params = useMemo(() => [validatorId, false], [validatorId]);
-  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
+  const stakerPrefs = useCall<DeriveStakerPrefs[]>(api.derive.staking.stakerPrefs, params);
 
   const { chart, labels } = useMemo(
-    () => extractPoints(stakerPoints),
-    [stakerPoints]
+    () => extractPrefs(stakerPrefs),
+    [stakerPrefs]
   );
 
   const legendsRef = useRef([
-    t<string>('points'),
+    t<string>('commission'),
     t<string>('average')
   ]);
 
   return (
     <div className='staking--Chart'>
-      <h1>{t<string>('era points')}</h1>
+      <h1>{t<string>('commission')}</h1>
       {labels.length
         ? (
           <Chart.Line
@@ -72,4 +77,4 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(ChartPoints);
+export default React.memo(ChartPrefs);

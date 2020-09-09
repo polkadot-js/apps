@@ -5,9 +5,11 @@
 import { Props } from './types';
 
 import React from 'react';
+import styled from 'styled-components';
 import { Columar, Column } from '@polkadot/react-components';
 
 import ChartPoints from './ChartPoints';
+import ChartPrefs from './ChartPrefs';
 import ChartRewards from './ChartRewards';
 import ChartStake from './ChartStake';
 
@@ -20,9 +22,17 @@ function Validator ({ className = '', validatorId }: Props): React.ReactElement<
       </Column>
       <Column>
         <ChartStake validatorId={validatorId} />
+        <ChartPrefs validatorId={validatorId} />
       </Column>
     </Columar>
   );
 }
 
-export default React.memo(Validator);
+export default React.memo(styled(Validator)`
+  .staking--Chart {
+    background: white;
+    border: 1px solid #eeecea;
+    border-radius: 0.25rem;
+    padding: 1rem 1.5rem;
+  }
+`);

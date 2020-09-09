@@ -63,6 +63,14 @@ export default React.memo(styled(Head)`
       font-size: 1.75rem;
     }
 
+    &:first-child {
+      border-left: 1px solid #eeecea;
+    }
+
+    &:last-child {
+      border-right: 1px solid #eeecea;
+    }
+
     &.address {
       padding-left: 3rem;
       text-align: left;
@@ -87,7 +95,7 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: white; // rgba(255, 254, 253, 1);
+    background: white;
     text-transform: lowercase;
 
     &:first-child {
@@ -105,14 +113,6 @@ export default React.memo(styled(Head)`
     &:not(.filter) {
       th {
         color: rgba(78, 78, 78, 0.66);
-
-        &:first-child {
-          border-left: 1px solid #eeecea;
-        }
-
-        &:last-child {
-          border-right: 1px solid #eeecea;
-        }
       }
 
       &:first-child {
