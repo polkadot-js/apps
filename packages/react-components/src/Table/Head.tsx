@@ -100,25 +100,13 @@ export default React.memo(styled(Head)`
 
     &:first-child {
       th {
-        &:first-child {
-          border-top-left-radius: 0.25rem;
-        }
-
-        &:last-child {
-          border-top-rights-radius: 0.25rem;
-        }
+        border-top: 1px solid #eeecea;
       }
     }
 
     &:not(.filter) {
       th {
         color: rgba(78, 78, 78, 0.66);
-      }
-
-      &:first-child {
-        th {
-          border-top: 1px solid #eeecea;
-        }
       }
     }
 
@@ -127,7 +115,7 @@ export default React.memo(styled(Head)`
         background: transparent;
 
         &:first-child {
-          margin-top: 0;
+          margin-top: -1px;
         }
       }
 
