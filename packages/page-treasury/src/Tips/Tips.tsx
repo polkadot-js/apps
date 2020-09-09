@@ -105,7 +105,7 @@ export default React.memo(styled(Tips)`
 
     .ui--Toggle {
       margin-right: 1rem;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     }
   }
 `);
