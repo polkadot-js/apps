@@ -63,6 +63,14 @@ export default React.memo(styled(Head)`
       font-size: 1.75rem;
     }
 
+    &:first-child {
+      border-left: 1px solid #eeecea;
+    }
+
+    &:last-child {
+      border-right: 1px solid #eeecea;
+    }
+
     &.address {
       padding-left: 3rem;
       text-align: left;
@@ -87,38 +95,18 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: white; // rgba(255, 254, 253, 1);
+    background: white;
     text-transform: lowercase;
 
     &:first-child {
       th {
-        &:first-child {
-          border-top-left-radius: 0.25rem;
-        }
-
-        &:last-child {
-          border-top-rights-radius: 0.25rem;
-        }
+        border-top: 1px solid #eeecea;
       }
     }
 
     &:not(.filter) {
       th {
         color: rgba(78, 78, 78, 0.66);
-
-        &:first-child {
-          border-left: 1px solid #eeecea;
-        }
-
-        &:last-child {
-          border-right: 1px solid #eeecea;
-        }
-      }
-
-      &:first-child {
-        th {
-          border-top: 1px solid #eeecea;
-        }
       }
     }
 
@@ -127,7 +115,7 @@ export default React.memo(styled(Head)`
         background: transparent;
 
         &:first-child {
-          margin-top: 0;
+          margin-top: -1px;
         }
       }
 

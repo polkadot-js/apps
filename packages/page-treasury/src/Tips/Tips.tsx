@@ -5,8 +5,9 @@
 import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useMemo, useRef } from 'react';
-import { Table } from '@polkadot/react-components';
+import React, { useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Table, Toggle } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
@@ -46,6 +47,7 @@ function extractTips (optTips?: Option<OpenTip>[], hashes?: string[] | null): Ti
 function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectTip }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
 
@@ -69,6 +71,15 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
     <Table
       className={className}
       empty={tips && t<string>('No open tips')}
+      filter={isMember && (
+        <div className='tipsFilter'>
+          <Toggle
+            label={t<string>('show only untipped/closing')}
+            onChange={setOnlyUntipped}
+            value={onlyUntipped}
+          />
+        </div>
+      )}
       header={headerRef.current}
     >
       {tips?.map(([hash, tip]): React.ReactNode => (
@@ -80,6 +91,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
           key={hash}
           members={members}
           onSelect={onSelectTip}
+          onlyUntipped={onlyUntipped}
           tip={tip}
         />
       ))}
@@ -87,4 +99,13 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   );
 }
 
-export default React.memo(Tips);
+export default React.memo(styled(Tips)`
+  .tipsFilter {
+    text-align: right;
+
+    .ui--Toggle {
+      margin-right: 1rem;
+      margin-top: 0.5rem;
+    }
+  }
+`);
