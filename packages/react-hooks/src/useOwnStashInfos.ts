@@ -35,7 +35,6 @@ function getStakerState (stashId: string, allAccounts: string[], allStashes: str
   return {
     controllerId,
     destination: rewardDestination,
-    destinationId: rewardDestination?.toNumber() || 0,
     exposure,
     hexSessionIdNext: u8aToHex(nextConcat, 48),
     hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),

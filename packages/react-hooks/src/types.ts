@@ -123,7 +123,6 @@ export interface UseAccountInfo {
 export interface StakerState {
   controllerId: string | null;
   destination?: RewardDestination;
-  destinationId: number;
   exposure?: Exposure;
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;

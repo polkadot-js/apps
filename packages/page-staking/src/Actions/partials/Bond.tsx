@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { AmountValidateState } from '../types';
+import { AmountValidateState, DestinationType } from '../types';
 import { BondInfo } from './types';
 
 import BN from 'bn.js';
@@ -16,15 +16,13 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 import InputValidateAmount from '../Account/InputValidateAmount';
 import InputValidationController from '../Account/InputValidationController';
-import { rewardDestinationOptions } from '../constants';
+import { rewardDestinationOptionsPrev } from '../constants';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
   className?: string;
   onChange: (info: BondInfo) => void;
 }
-
-type DestinationType = 'Staked' | 'Stash' | 'Controller' | 'Account';
 
 function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -152,7 +150,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
             help={t<string>('The destination account for any payments as either a nominator or validator')}
             label={t<string>('payment destination')}
             onChange={setDestination}
-            options={rewardDestinationOptions}
+            options={rewardDestinationOptionsPrev}
             value={destination}
           />
         </Modal.Column>
