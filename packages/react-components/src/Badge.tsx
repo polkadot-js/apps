@@ -50,6 +50,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
 
 export default React.memo(styled(Badge)`
   border-radius: 16px;
+  box-sizing: border-box;
   color: #eeedec;
   display: inline-block;
   font-size: 12px;
@@ -96,6 +97,7 @@ export default React.memo(styled(Badge)`
   }
 
   &.counterColor {
+    border: 1px solid #f5f3f1;
     margin: 0 0.5rem;
     vertical-align: middle;
   }
