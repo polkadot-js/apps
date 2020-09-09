@@ -101,7 +101,11 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
 
 export default React.memo(styled(Tips)`
   .tipsFilter {
-    padding: 0.5rem 0.5rem 0 0;
     text-align: right;
+
+    .ui--Toggle {
+      margin-right: 1rem;
+      margin-top: 0.5rem;
+    }
   }
 `);
