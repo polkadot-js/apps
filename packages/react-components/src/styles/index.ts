@@ -57,7 +57,7 @@ export default createGlobalStyle<Props>`
   }
 
   .highlight--bg-faint:before {
-    opacity: 0.02;
+    opacity: 0.025;
   }
 
   .highlight--bg-light:before {
