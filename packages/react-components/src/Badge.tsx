@@ -20,7 +20,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const HIGHLIGHTS = ['counter', 'highlight'];
+const HIGHLIGHTS = ['highlight'];
 
 let badgeId = 0;
 
@@ -97,7 +97,8 @@ export default React.memo(styled(Badge)`
   }
 
   &.counterColor {
-    border: 1px solid #f5f3f1;
+    // border: 1px solid #f5f3f1;
+    background: #4e4e4e;
     margin: 0 0.5rem;
     vertical-align: middle;
   }
