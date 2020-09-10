@@ -32,7 +32,7 @@ const NOT_FOUND: Route = {
   text: 'Unknown'
 };
 
-function Content ({ className }: Props): React.ReactElement<Props> {
+function Content ({ className = '' }: Props): React.ReactElement<Props> {
   const location = useLocation();
   const { t } = useTranslation();
   const { api, isApiConnected, isApiReady } = useApi();
@@ -50,7 +50,8 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const missingApis = findMissingApis(api, needsApi);
 
   return (
-    <div className={className}>
+    // highlight--bg-faint
+    <div className={`${className}`}>
       {needsApi && (!isApiReady || !isApiConnected)
         ? (
           <div className='connecting'>
@@ -95,6 +96,7 @@ export default React.memo(styled(Content)`
   padding: 0 2rem 1rem;
   position: relative;
   width: 100%;
+  z-index: 1;
 
   @media(max-width: 768px) {
     padding: 0 0.5rem;
