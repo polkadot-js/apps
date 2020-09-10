@@ -5,11 +5,11 @@
 import { RewardDestination } from '@polkadot/types/interfaces';
 import { DestinationType } from '../types';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
-import { rewardDestinationOptions, rewardDestinationOptionsPrev } from '../constants';
+import { createDestCurr, createDestPrev } from '../destOptions';
 
 interface Props {
   defaultDestination?: RewardDestination;
@@ -23,9 +23,13 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   const [destination, setDestination] = useState<DestinationType>(((defaultDestination?.isAccount ? 'Account' : defaultDestination?.toString()) || 'Staked') as 'Staked');
   const [destAccount, setDestAccount] = useState<string | null>(defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
 
-  const options = defaultDestination?.isAccount
-    ? rewardDestinationOptions
-    : rewardDestinationOptionsPrev;
+  const options = useMemo(
+    () => defaultDestination?.isAccount
+      ? createDestCurr(t)
+      : createDestPrev(t),
+    [defaultDestination, t]
+  );
+
   const isAccount = destination === 'Account';
 
   return (
