@@ -154,7 +154,7 @@ export default React.memo(styled(Body)`
     //   background: #faf8f6;
     // }
 
-    &:nth-child(even) {
+    &:nth-child(odd) {
       background: white;
     }
 
