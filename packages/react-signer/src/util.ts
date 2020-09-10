@@ -48,7 +48,7 @@ export function extractExternal (accountId: string | null): AddressFlags {
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
     isProxied: !!pair.meta.isProxied,
-    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied,
+    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied && !pair.meta.isHardware,
     isUnlockable: isUnlockable && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)
