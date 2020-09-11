@@ -87,7 +87,7 @@ export default React.memo(styled(Month)`
   max-width: max-content;
 
   .calendar {
-    padding: 1.5rem 1.5rem 1rem;
+    padding: 1rem 1.5rem;
 
     .dateGrid,
     .dayOfWeek {
