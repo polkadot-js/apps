@@ -159,7 +159,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       </td>
       <td>
         <Icon
-          className='staking--stats'
+          className='staking--stats highlight--color'
           icon='chart-line'
           onClick={_onQueryStats}
         />
