@@ -21,7 +21,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
   if (routes.length === 1) {
     return (
       <Item
-        className='topLevel'
+        isToplevel
         route={routes[0]}
       />
     );

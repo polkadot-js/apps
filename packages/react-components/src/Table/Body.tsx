@@ -150,12 +150,12 @@ export default React.memo(styled(Body)`
   }
 
   tr {
-    &:nth-child(odd) {
-      background: #faf8f6;
-    }
+    // &:nth-child(odd) {
+    //   background: #faf8f6;
+    // }
 
-    &:nth-child(even) {
-      background: rgba(255, 254, 253, 1);
+    &:nth-child(odd) {
+      background: white;
     }
 
     &:first-child {

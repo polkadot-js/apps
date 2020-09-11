@@ -39,6 +39,7 @@ export default createGlobalStyle<Props>`
     background: ${getHighlight} !important;
   }
 
+  .highlight--bg-faint,
   .highlight--bg-light {
     background: white;
     position: relative;
@@ -48,12 +49,19 @@ export default createGlobalStyle<Props>`
       bottom: 0;
       content: ' ';
       left: 0;
-      opacity: 0.09;
       position: absolute;
       right: 0;
       top: 0;
       z-index: -1;
     }
+  }
+
+  .highlight--bg-faint:before {
+    opacity: 0.025;
+  }
+
+  .highlight--bg-light:before {
+    opacity: 0.09;
   }
 
   .highlight--border {

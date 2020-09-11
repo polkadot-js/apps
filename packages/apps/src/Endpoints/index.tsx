@@ -257,6 +257,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 }
 
 export default React.memo(styled(Endpoints)`
+  color: #4e4e4e;
   padding-top: 3.5rem;
 
   .customButton {
