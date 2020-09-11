@@ -161,6 +161,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       <td>
         {hasQueries && (
           <Icon
+            className='highlight--color'
             icon='chart-line'
             onClick={_onQueryStats}
           />
