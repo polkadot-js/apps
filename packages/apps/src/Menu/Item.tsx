@@ -11,17 +11,18 @@ import { useToggle } from '@polkadot/react-hooks';
 
 interface Props {
   className?: string;
+  isToplevel?: boolean;
   route: ItemRoute;
 }
 
 const DUMMY_COUNTER = () => 0;
 
-function Item ({ className = '', route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
+function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''} highlight--hover-color`}>
+    <li className={`${className}${count ? ' withCounter' : ''}${isToplevel ? ' topLevel' : ''} highlight--hover-color`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}

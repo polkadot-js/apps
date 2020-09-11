@@ -35,6 +35,6 @@ export default React.memo(styled(Foot)`
   }
 
   tr {
-    background: transparent;
+    background: #f5f3f1;
   }
 `);

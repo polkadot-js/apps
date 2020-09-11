@@ -35,7 +35,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? <h1>{label}</h1>
+              ? <h1 className='highlight--color'>{label}</h1>
               : isEmpty
                 ? ''
                 : label
