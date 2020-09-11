@@ -85,6 +85,7 @@ const nodeLogos: Record<string, any> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
+  ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
