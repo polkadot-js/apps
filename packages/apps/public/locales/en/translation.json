@@ -696,6 +696,7 @@
   "Type the password chosen at the account creation. It was used to encrypt your account's private key in the backup file.": "",
   "Unable to find deployed contract code at the specified address": "",
   "Unable to find on-chain WASM code for the supplied codeHash": "",
+  "Unable to retrieve the specified block details. {{error}}": "",
   "Unbond": "",
   "Unbond funds": "",
   "Unbonding {{value}}, ": "",

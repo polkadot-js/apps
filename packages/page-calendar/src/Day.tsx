@@ -64,7 +64,7 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
           />
         </Button.Group>
       </h1>
-      <div className='hoursContainer'>
+      <div className='hoursContainer highlight--bg-faint'>
         {HOURS.map((hour, index): React.ReactNode =>
           <DayHour
             date={date}
@@ -89,5 +89,9 @@ export default React.memo(styled(Day)`
     font-size: 1.25rem;
     justify-content: space-between;
     padding: 1rem 1.5rem 0;
+  }
+
+  .hoursContainer {
+    z-index: 1;
   }
 `);

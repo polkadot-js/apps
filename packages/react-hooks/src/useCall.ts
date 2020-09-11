@@ -73,7 +73,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 
         tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<() => void>)(...params, (value: Codec): void => {
           // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
-          // since .subscriber may not be set on immeditae callback)
+          // since .subscriber may not be set on immediate callback)
           if (mountedRef.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
             tracker.current.count++;
 
