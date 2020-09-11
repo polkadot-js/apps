@@ -58,9 +58,9 @@ export default React.memo(styled(DayHour)`
   position: relative;
   z-index: 2;
 
-  &:nth-child(even) {
-    background: #faf8f6;
-  }
+  // &:nth-child(even) {
+  //   background: #faf8f6;
+  // }
 
   &:nth-child(odd) {
     background: white;
