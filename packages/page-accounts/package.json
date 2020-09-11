@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-accounts",
   "private": true,
-  "version": "0.58.0-beta.17",
+  "version": "0.58.0-beta.18",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@polkadot/react-components": "0.58.0-beta.17",
+    "@polkadot/react-components": "0.58.0-beta.18",
     "@polkadot/vanitygen": "^0.21.0-beta.3",
     "detect-browser": "^5.1.1",
     "file-saver": "^2.0.2"
