@@ -386,7 +386,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     value={derivePath}
                   />
                   {deriveValidation?.error && (
-                    <article className='error'>{errorIndex[deriveValidation.error]}</article>
+                    <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
                   )}
                   {deriveValidation?.warning && (
                     <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
