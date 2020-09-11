@@ -12,7 +12,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'blue' | 'counter' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
+  color: 'blue' | 'counter' | 'counterInvert' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
@@ -20,7 +20,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const HIGHLIGHTS = ['highlight'];
+const HIGHLIGHTS = ['counter', 'highlight'];
 
 let badgeId = 0;
 
@@ -34,7 +34,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''}${color === 'counterInvert' ? ' highlight--color' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       {info || (icon && <Icon icon={icon} />)}
@@ -96,11 +96,14 @@ export default React.memo(styled(Badge)`
     background: steelblue;
   }
 
-  &.counterColor {
-    // border: 1px solid #f5f3f1;
-    background: #4e4e4e;
+  &.counterColor,
+  &.counterInvertColor {
     margin: 0 0.5rem;
     vertical-align: middle;
+  }
+
+  &.counterInvertColor {
+    background: #eeedec;
   }
 
   &.grayColor {
