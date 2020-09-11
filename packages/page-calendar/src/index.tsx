@@ -146,14 +146,12 @@ export default React.memo(styled(CalendarApp)`
     flex-wrap: nowrap;
 
     > div {
+      background-color: #fff;
+      border: 1px solid #eeecea;
+      border-radius: 0.25rem;
+
       &+div {
         margin-left: 1.5rem;
-      }
-
-      > div {
-        background-color: #fff;
-        border: 1px solid #eeecea;
-        border-radius: 0.25rem;
       }
 
       .ui--Button-Group {
@@ -165,7 +163,7 @@ export default React.memo(styled(CalendarApp)`
       align-items: center;
       display: flex;
       justify-content: space-between;
-      padding: 0 0 0 1rem;
+      padding: 0.5rem 0.5rem 0 1rem;
 
       .ui--Button {
         font-size: 1rem;
