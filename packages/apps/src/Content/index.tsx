@@ -50,8 +50,7 @@ function Content ({ className = '' }: Props): React.ReactElement<Props> {
   const missingApis = findMissingApis(api, needsApi);
 
   return (
-    // highlight--bg-faint
-    <div className={`${className}`}>
+    <div className={className}>
       {needsApi && (!isApiReady || !isApiConnected)
         ? (
           <div className='connecting'>
@@ -96,7 +95,6 @@ export default React.memo(styled(Content)`
   padding: 0 2rem 1rem;
   position: relative;
   width: 100%;
-  z-index: 1;
 
   @media(max-width: 768px) {
     padding: 0 0.5rem;
