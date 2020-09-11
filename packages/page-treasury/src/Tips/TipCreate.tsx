@@ -29,11 +29,7 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
   const hasReason = reason?.length >= MIN_REASON_LEN && reason?.length <= MAX_REASON_LEN;
 
   useEffect((): void => {
-    setIsMember(
-      accountId
-        ? members.includes(accountId)
-        : false
-    );
+    setIsMember(members.includes(accountId || ''));
   }, [accountId, members]);
 
   return (
@@ -110,7 +106,7 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!accountId || (isMember ? !hasValue : false) || !hasReason}
+              isDisabled={!accountId || (isMember && !hasValue) || !hasReason}
               label={t<string>('Propose tip')}
               onStart={toggleOpen}
               onSuccess={refresh}

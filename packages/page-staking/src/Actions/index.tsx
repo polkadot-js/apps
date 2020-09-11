@@ -59,7 +59,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
   const headerRef = useRef([
     [t('stashes'), 'start', 2],
     [t('controller'), 'address'],
-    [t('rewards'), 'number media--1200'],
+    [t('rewards'), 'start media--1200'],
     [t('bonded'), 'number'],
     [undefined, undefined, 2]
   ]);
@@ -81,7 +81,6 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
 
   return (
     <div className={className}>
-      <ElectionBanner isInElection={isInElection} />
       <Button.Group>
         <NewNominator
           isInElection={isInElection}
@@ -90,6 +89,7 @@ function Actions ({ className = '', isInElection, ownStashes, targets }: Props):
         <NewValidator isInElection={isInElection} />
         <NewStash />
       </Button.Group>
+      <ElectionBanner isInElection={isInElection} />
       <Table
         empty={foundStashes && t<string>('No funds staked yet. Bond funds to validate or nominate a validator')}
         footer={footer}

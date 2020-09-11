@@ -18,6 +18,12 @@ import { isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
+interface TypeDefExt extends TypeDef {
+  withOptionActive?: boolean;
+}
+
+type ParamsType = { type: TypeDefExt }[];
+
 interface KeyState {
   defaultValues: RawParams | undefined | null;
   isIterable: boolean;
@@ -29,12 +35,6 @@ interface ValState {
   isValid: boolean;
   values: RawParams;
 }
-
-interface TypeDefExt extends TypeDef {
-  withOptionActive?: boolean;
-}
-
-type ParamsType = { type: TypeDefExt }[];
 
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value): boolean => {

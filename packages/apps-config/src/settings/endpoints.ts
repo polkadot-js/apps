@@ -170,6 +170,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://rpc.parachain.plasmnet.io'
     },
     {
+      info: 'rococoRobonomics',
+      isChild: true,
+      text: t<string>('rpc.rococo.robonomics', 'Robonomics PC1 (Robonomics Testpara, hosted by Airalab)', { ns: 'apps-config' }),
+      value: 'wss://parachain-rpc.robonomics.network'
+    },
+    {
       info: 'rococoLaminar',
       isChild: true,
       text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
@@ -190,6 +196,11 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t<string>('rpc.beresheet', 'Beresheet (Edgeware Testnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
       value: 'wss://beresheet1.edgewa.re'
+    },
+    {
+      info: 'crust',
+      text: t<string>('rpc.crust.network', 'Crust Maxwell CC2 (Crust Testnet, hosted by Crust Network)', { ns: 'apps-config' }),
+      value: 'wss://api.crust.network/'
     },
     {
       info: 'datahighway',

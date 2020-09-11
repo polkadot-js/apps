@@ -88,10 +88,6 @@ export default React.memo(styled(LinkExternal)`
 
     .links {
       white-space: nowrap;
-
-      span+span {
-        margin-left: 0.25rem;
-      }
     }
   }
 

@@ -16,7 +16,7 @@ import { balanceToNumber } from './util';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
-function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
+function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartInfo {
   const labels: string[] = [];
   const cliSet: LineDataEntry = [];
   const expSet: LineDataEntry = [];
@@ -49,7 +49,8 @@ function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
 function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, [validatorId, true]);
+  const params = useMemo(() => [validatorId, false], [validatorId]);
+  const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
 
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
@@ -57,9 +58,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   }), []);
 
   const { chart, labels } = useMemo(
-    () => ownExposures
-      ? extractStake(ownExposures, divisor)
-      : { chart: [], labels: [] },
+    () => extractStake(ownExposures, divisor),
     [divisor, ownExposures]
   );
 
@@ -72,7 +71,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   return (
     <div className='staking--Chart'>
       <h1>{t<string>('elected stake')}</h1>
-      {chart && !!chart[0]?.length
+      {labels.length
         ? (
           <Chart.Line
             colors={COLORS_STAKE}

@@ -36,11 +36,11 @@ export default React.memo(styled(Body)`
     vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid #e4e6e8;
+      border-left: 1px solid #eeecea;
     }
 
     &:last-child {
-      border-right: 1px solid #e4e6e8;
+      border-right: 1px solid #eeecea;
     }
 
     label {
@@ -144,26 +144,18 @@ export default React.memo(styled(Body)`
       color: darkorange;
     }
 
-    .ui--Button-Group .ui--Button {
+    .ui--Button-Group .ui--Button:not(.isToplevel) {
       margin: 0;
     }
   }
 
   tr {
-    &:nth-child(even) {
-      background: #faf8f6;
-    }
+    // &:nth-child(odd) {
+    //   background: #faf8f6;
+    // }
 
     &:nth-child(odd) {
       background: white;
-    }
-
-    &:first-child td {
-      border-top: 1px solid #e4e6e8;
-    }
-
-    &:last-child td {
-      border-bottom: 1px solid #e4e6e8;
     }
 
     &:first-child {
@@ -177,12 +169,16 @@ export default React.memo(styled(Body)`
     }
 
     &:last-child {
-      td:first-child {
-        border-bottom-left-radius: 0.25rem;
-      }
+      td {
+        border-bottom: 1px solid #eeecea;
 
-      td:last-child {
-        border-bottom-right-radius: 0.25rem;
+        &:first-child {
+          border-bottom-left-radius: 0.25rem;
+        }
+
+        :last-child {
+          border-bottom-right-radius: 0.25rem;
+        }
       }
     }
 

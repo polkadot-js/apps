@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { AmountValidateState } from '../types';
+import { AmountValidateState, DestinationType } from '../types';
 import { BondInfo } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
 import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -16,15 +16,13 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 import InputValidateAmount from '../Account/InputValidateAmount';
 import InputValidationController from '../Account/InputValidationController';
-import { rewardDestinationOptions } from '../constants';
+import { createDestPrev } from '../destOptions';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
   className?: string;
   onChange: (info: BondInfo) => void;
 }
-
-type DestinationType = 'Staked' | 'Stash' | 'Controller' | 'Account';
 
 function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -38,6 +36,11 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const [startBalance, setStartBalance] = useState<BN | null>(null);
   const stashBalance = useCall<DeriveBalancesAll>(api.derive.balances.all, [stashId]);
   const bondedBlocks = useUnbondDuration();
+
+  const options = useMemo(
+    () => createDestPrev(t),
+    [t]
+  );
 
   const _setError = useCallback(
     // eslint-disable-next-line handle-callback-err
@@ -152,7 +155,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
             help={t<string>('The destination account for any payments as either a nominator or validator')}
             label={t<string>('payment destination')}
             onChange={setDestination}
-            options={rewardDestinationOptions}
+            options={options}
             value={destination}
           />
         </Modal.Column>

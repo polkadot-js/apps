@@ -14,7 +14,12 @@ export default function useCacheKey <T> (storageKeyBase: string): [(defaultValue
     () => `${storageKeyBase}:${isDevelopment ? 'development' : api.genesisHash.toHex()}`,
     [api, isDevelopment, storageKeyBase]
   );
+
+  // FIXME both these want "T"... incorrect
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getter = useCallback((): T | undefined => store.get(storageKey) as T, [storageKey]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const setter = useCallback((value: T): T => store.set(storageKey, value) as T, [storageKey]);
 
   return [getter, setter];

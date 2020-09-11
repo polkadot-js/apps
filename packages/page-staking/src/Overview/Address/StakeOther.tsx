@@ -40,7 +40,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
 
   return (
     <td className='number all'>
-      {rewarded.length > 0 && (
+      {!!rewarded.length && (
         <>
           <Expander summary={
             <FormatBalance
@@ -57,7 +57,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
               />
             )}
           </Expander>
-          {unrewarded.length > 0 && (
+          {!!unrewarded.length && (
             <Expander
               className='stakeOver'
               summary={

@@ -23,3 +23,5 @@ export interface Slash {
   era: BN;
   slashes: Unapplied[];
 }
+
+export type DestinationType = 'Staked' | 'Stash' | 'Controller' | 'Account';

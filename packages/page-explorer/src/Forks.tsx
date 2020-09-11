@@ -24,8 +24,9 @@ interface LinkHeader {
   width: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface,no-use-before-define
 interface LinkArray extends Array<Link> {}
+
 interface Link {
   arr: LinkArray;
   hdr: LinkHeader;

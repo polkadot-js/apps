@@ -556,12 +556,12 @@
   "your current password": "現在のパスワード",
   "your new password": "新しいパスワード",
   "{{count}} key/value pairs encoded for submission": "エンコードされた {count}} キー/値 のペアー",
-  "{{d}} days": "{{d}}日",
+  "{{days}} days": "{{days}}日",
   "{{executionTime}}s execution time": "{{executionTime}} 実行時間",
-  "{{h}} hrs": "{{h}} 時間",
-  "{{m}} mins": "{{m}} 分",
+  "{{hours}} hrs": "{{hours}} 時間",
+  "{{minutes}} mins": "{{minutes}} 分",
   "{{percentage}}% of block time": "ブロックタイム {{percentage}} %",
   "{{relayDispatchQueueSize}} dispatch messages pending": "{{relayDispatchQueueSize}} ディスパッチメッセージペンディング",
-  "{{step}}. Sign with your ETH address": "{{step}}. ETHアドレスでサインしてください",
-  "{{s}} s": "{{s}} 秒"
+  "{{seconds}} s": "{{seconds}} 秒",
+  "{{step}}. Sign with your ETH address": "{{step}}. ETHアドレスでサインしてください"
 }

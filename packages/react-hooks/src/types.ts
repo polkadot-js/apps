@@ -5,7 +5,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { ConstructTxFn, StringOrNull, VoidFn } from '@polkadot/react-components/types';
-import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, Call, Exposure, Hash, RewardDestination, SessionIndex, StakingLedger, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { IExtrinsic } from '@polkadot/types/types';
 import { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
@@ -122,8 +122,7 @@ export interface UseAccountInfo {
 
 export interface StakerState {
   controllerId: string | null;
-  destination?: string;
-  destinationId: number;
+  destination?: RewardDestination;
   exposure?: Exposure;
   hexSessionIdNext: string | null;
   hexSessionIdQueue: string | null;

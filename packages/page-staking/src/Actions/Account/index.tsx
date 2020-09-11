@@ -66,7 +66,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -149,7 +149,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {isRewardDestinationOpen && controllerId && (
           <SetRewardDestination
             controllerId={controllerId}
-            defaultDestination={destinationId}
+            defaultDestination={destination}
             onClose={toggleRewardDestination}
             stashId={stashId}
           />
@@ -180,7 +180,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td className='number media--1200'>{destination}</td>
+      <td className='start media--1200'>
+        {destination?.isAccount
+          ? <AddressMini value={destination.asAccount} />
+          : destination?.toString()
+        }
+      </td>
       <td className='number'>
         <StakingBonded stakingInfo={stakingAccount} />
         <StakingUnbonding stakingInfo={stakingAccount} />
