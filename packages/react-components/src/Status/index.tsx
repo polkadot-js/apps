@@ -221,7 +221,6 @@ export default React.memo(styled(Status)`
     > .wrapper > .container {
       align-items: center;
       background: #00688b;
-      // border: 1px solid #eeecea;
       border-radius: 0.25rem;
       color: white;
       display: flex;
