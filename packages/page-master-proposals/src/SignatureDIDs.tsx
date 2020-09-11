@@ -209,8 +209,6 @@ async function assertValidAuth(api, proposal, pmauth, membership, roundNo) {
   }
 }
 
-
-
 function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -233,7 +231,7 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     const members = await api.query.master.members();
     const membersList = Array.from(members.members);
     const curLen = didSignaturePairs.length;
-    const reqCount = Math.min(membersList.length, parseInt(members.vote_requirement));
+    const reqCount = Math.max(membersList.length, parseInt(members.vote_requirement));
     for (let i = curLen; i < reqCount; i++) {
       didSignaturePairs.push([u8aToHex(membersList[i]), '']);
     }
@@ -294,7 +292,6 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     },
     [didSignaturePairs]
   );
-
 
   if (!pair) {
     return null;
