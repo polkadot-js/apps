@@ -33,9 +33,9 @@ function Voting ({ hash, idNumber, isDisabled, members, prime, proposal, votes }
 
   // this account has voted on this motion already
   const hasVotedAye = useMemo(() => votes?.ayes.some((account) => accountId && account.toString() === accountId)
-    , [accountId, votes?.ayes]);
+    , [accountId, votes]);
   const hasVotedNay = useMemo(() => votes?.nays.some((account) => accountId && account.toString() === accountId)
-    , [accountId, votes?.nays]);
+    , [accountId, votes]);
 
   // will the proposal pass if this member votes aye
   const willPass = (votes && !hasVotedAye && (ayeThreshold === votes.ayes.length + 1)) || false;
