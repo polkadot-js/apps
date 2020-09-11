@@ -64,17 +64,17 @@ function deriveValidate (seed: string, seedType: SeedType, derivePath: string, p
 
     // show a warning in case the password contains an unintended / character
     if (password?.includes('/')) {
-      result = { warning: 'Your password contains at least one "/" character. Disregard this warning if it is intended.' };
+      result = { warning: 'WARNING_SLASH_PASSWORD' };
     }
 
     // we don't allow soft for ed25519
     if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
-      return { ...result, error: 'Soft derivation paths are not allowed on ed25519' };
+      return { ...result, error: 'SOFT_NOT_ALLOWED' };
     }
 
     // we don't allow password for hex seed
     if (seedType === 'raw' && password) {
-      return { ...result, error: 'Password are ignored for hex seed' };
+      return { ...result, error: 'PASSWORD_IGNORED' };
     }
 
     return result;
@@ -189,6 +189,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
   const isValid = !!address && !deriveValidation?.error && isNameValid && isPasswordValid && isSeedValid;
+  const errorIndex: Record<string, string> = useMemo(() => ({
+    PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
+    SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
+    WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
+  }), [t]);
 
   const seedOpt = useMemo(() => (
     isDevelopment
@@ -381,10 +386,10 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     value={derivePath}
                   />
                   {deriveValidation?.error && (
-                    <article className='error'>{deriveValidation.error}</article>
+                    <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
                   )}
                   {deriveValidation?.warning && (
-                    <article className='warning'>{deriveValidation.warning}</article>
+                    <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
                   )}
                 </Modal.Column>
                 <Modal.Column>
