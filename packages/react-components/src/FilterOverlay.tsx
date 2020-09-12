@@ -31,7 +31,7 @@ export default React.memo(styled(FilterOverlay)`
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    right: 5rem;
+    right: 1.5rem;
     top: 0.525rem;
 
     > div {
