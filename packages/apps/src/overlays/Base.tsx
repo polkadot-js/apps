@@ -54,8 +54,8 @@ export default React.memo(styled(BaseOverlay)`
   line-height: 1.5em;
   padding: 0 1rem;
   position: fixed;
-  right: 0;
-  top: 0;
+  right: 0.25rem;
+  top: 0.25rem;
   max-width: 55rem;
   z-index: 500;
 
