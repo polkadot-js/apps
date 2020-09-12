@@ -24,6 +24,7 @@ export interface Props {
   isOpen?: boolean;
   isPadded?: boolean;
   summary?: React.ReactNode;
+  summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
   summarySub?: React.ReactNode;
   withHidden?: boolean;
@@ -44,7 +45,7 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   ).join(' ');
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, summary, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen);
   const headerMain = useMemo(
@@ -73,6 +74,7 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
               icon={helpIcon}
             />
           )}
+          {summaryHead}
           {headerMain || t<string>('Details')}
           {headerSub && (
             <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
