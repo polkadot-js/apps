@@ -79,7 +79,7 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
           )}
         </div>
         {hasContent &&
-          <Icon icon={isExpanded ? 'angle-double-up' : 'angle-double-down'} />
+          <Icon icon={isExpanded ? 'caret-up' : 'caret-down'} />
         }
       </div>
       {hasContent && (isExpanded || withHidden) && (
