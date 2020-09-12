@@ -85,7 +85,9 @@ export default React.memo(styled(Body)`
     }
 
     &.expand {
-      text-align: right;
+      &:not(.left) {
+        text-align: right;
+      }
 
       .ui--Expander+.ui--Expander {
         margin-top: 0.375rem;
