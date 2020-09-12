@@ -101,7 +101,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
             icon='times'
             label={t<string>('Close')}
             params={
-              api.tx.technicalCommittee.close.meta.args.length === 4
+              api.tx.technicalCommittee.close?.meta.args.length === 4
                 ? hasFailed
                   ? [imageHash, index, 0, 0]
                   : [imageHash, index, proposalWeight, proposalLength]

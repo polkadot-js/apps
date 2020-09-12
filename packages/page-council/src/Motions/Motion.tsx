@@ -111,7 +111,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
             icon='times'
             label={t<string>('Close')}
             params={
-              api.tx.council.close.meta.args.length === 4
+              api.tx.council.close?.meta.args.length === 4
                 ? hasFailed
                   ? [hash, index, 0, 0]
                   : [hash, index, proposalWeight, proposalLength]
