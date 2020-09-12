@@ -125,12 +125,12 @@ export default React.memo(styled(Expander)`
       display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
-      vertical-align: text-bottom;
+      vertical-align: middle;
     }
 
     .ui--Icon {
       margin-left: 0.75rem;
-      vertical-align: baseline;
+      vertical-align: middle;
     }
 
     .ui--LabelHelp {
