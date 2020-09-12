@@ -46,7 +46,7 @@ export default React.memo(styled(HelpOverlay)`
   .help-button {
     cursor: pointer;
     font-size: 2rem;
-    padding: 1rem 2.5rem 0 0;
+    padding: 1rem 1.5rem 0 0;
   }
 
   > .help-button {

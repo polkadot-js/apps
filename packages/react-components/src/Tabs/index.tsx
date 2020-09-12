@@ -63,9 +63,9 @@ export default React.memo(styled(Tabs)`
   background: #fff;
   border-bottom: 1px solid #eeecea;
   display: flex;
-  margin: 0 -3rem;
+  margin: 0 -1.5rem;
   overflow-x: scroll;
-  padding: 1.5rem 3rem 0;
+  padding: 1.5rem 1.5rem 0;
   text-align: left;
   z-index: 1;
 

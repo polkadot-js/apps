@@ -47,15 +47,14 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
 
 export default React.memo(styled(BaseOverlay)`
   background: white;
-  border: 0 solid transparent;
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-width: 1px;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
   border-left-width: 0.25rem;
   line-height: 1.5em;
   padding: 0 1rem;
   position: fixed;
-  right: 0;
-  top: 0;
+  right: 0.75rem;
+  top: 0.75rem;
   max-width: 55rem;
   z-index: 500;
 
