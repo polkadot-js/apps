@@ -23,8 +23,10 @@ function CallExpander ({ children, className = '', labelHash, value, withHash }:
 
   return (
     <div className={`ui--CallExpander ${className}`}>
-      <div>{section}.{method}</div>
-      <Expander summaryMeta={meta}>
+      <Expander
+        summaryHead={<div>{section}.{method}</div>}
+        summaryMeta={meta}
+      >
         <CallDisplay
           labelHash={labelHash}
           value={value}
