@@ -12,7 +12,7 @@ import Tooltip from './Tooltip';
 
 interface Props {
   className?: string;
-  color: 'blue' | 'counter' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
+  color: 'blue' | 'counter' | 'counterInvert' | 'gray' | 'green' | 'highlight' | 'normal' | 'purple' | 'red' | 'transparent';
   hover?: React.ReactNode;
   icon?: IconName;
   info?: React.ReactNode;
@@ -34,7 +34,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''}${color === 'counterInvert' ? ' highlight--color' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       {info || (icon && <Icon icon={icon} />)}
@@ -50,6 +50,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
 
 export default React.memo(styled(Badge)`
   border-radius: 16px;
+  box-sizing: border-box;
   color: #eeedec;
   display: inline-block;
   font-size: 12px;
@@ -95,9 +96,14 @@ export default React.memo(styled(Badge)`
     background: steelblue;
   }
 
-  &.counterColor {
+  &.counterColor,
+  &.counterInvertColor {
     margin: 0 0.5rem;
     vertical-align: middle;
+  }
+
+  &.counterInvertColor {
+    background: #eeedec;
   }
 
   &.grayColor {

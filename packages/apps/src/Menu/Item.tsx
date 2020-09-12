@@ -22,21 +22,18 @@ function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, t
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''}${isToplevel ? ' topLevel' : ''} highlight--hover-color`}>
+    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel' : 'highlight--hover-color'}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
         rel='noopener noreferrer'
         target={href ? '_blank' : undefined}
       >
-        <Icon
-          className='highlight--color'
-          icon={icon}
-        />
+        <Icon icon={icon} />
         {text}
         {!!count && (
           <Badge
-            color='counter'
+            color={isToplevel ? 'counterInvert' : 'counter'}
             info={count}
           />
         )}

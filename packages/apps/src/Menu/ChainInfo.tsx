@@ -28,7 +28,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
   return (
     <div className={className}>
       <div
-        className={`apps--SideBar-logo-inner${canToggle ? ' isClickable  highlight--hover-color' : ''}`}
+        className={`apps--SideBar-logo-inner${canToggle ? ' isClickable' : ''}`}
         onClick={toggleEndpoints}
       >
         <ChainImg />
@@ -44,7 +44,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         </div>
         {canToggle && (
           <Icon
-            className='dropdown highlight--color'
+            className='dropdown'
             icon={isEndpointsVisible ? 'caret-right' : 'caret-down'}
           />
         )}

@@ -31,10 +31,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
     <li className={className}>
       <div className='groupHdr'>
         <span>{name}</span>
-        <Icon
-          className='highlight--color'
-          icon='caret-down'
-        />
+        <Icon icon='caret-down' />
       </div>
       <ul className='groupMenu highlight--bg-light'>
         {routes.map((route): React.ReactNode => (
@@ -81,6 +78,8 @@ export default React.memo(styled(Grouping)`
   }
 
   &:hover {
+    color: #4e4e4e;
+
     .groupHdr,
     .groupMenu li {
       background: #fff;

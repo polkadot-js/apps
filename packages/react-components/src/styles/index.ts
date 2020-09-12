@@ -61,7 +61,7 @@ export default createGlobalStyle<Props>`
   }
 
   .highlight--bg-light:before {
-    opacity: 0.09;
+    opacity: 0.125;
   }
 
   .highlight--border {
