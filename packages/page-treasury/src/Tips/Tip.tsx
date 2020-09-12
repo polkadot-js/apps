@@ -113,7 +113,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='start'>
+      <td className='expand'>
         {tips.length !== 0 && (
           <>
             <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>

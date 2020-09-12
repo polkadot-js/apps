@@ -23,7 +23,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, prime }: Props
 
   const headerRef = useRef([
     [t('members'), 'start', 2],
-    [t('backing')],
+    [t('backing'), 'expand'],
     [t('votes')]
   ]);
 

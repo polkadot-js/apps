@@ -67,12 +67,13 @@ function Expander ({ children, className = '', help, isOpen, isPadded, summary, 
       >
         <div className='ui--Expander-summary-header'>
           {help && <LabelHelp help={help}/>}
+          {headerMain || t<string>('Details')}
           {hasContent
-            ? <Icon icon={isExpanded ? 'angle-double-down' : 'angle-double-right'} />
+            ? <Icon icon={isExpanded ? 'angle-double-up' : 'angle-double-down'} />
             : withDot
               ? <Icon icon='circle' />
               : undefined
-          }{headerMain || t<string>('Details')}
+          }
         </div>
         {headerSub && (
           <div className='ui--Expander-summary-sub'>{headerSub}</div>
@@ -117,17 +118,20 @@ export default React.memo(styled(Expander)`
     min-width: 13.5rem;
     overflow: hidden;
 
-    .ui--Expander-summary-header > .ui--FormatBalance {
-      min-width: 11rem;
-    }
-
     > div {
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .ui--Icon {
-      margin-right: 0.5rem;
+      margin-left: 0.5rem;
+    }
+
+    .ui--LabelHelp {
+      .ui--Icon {
+        margin-left: 0;
+        margin-right: 0.5rem;
+      }
     }
 
     .ui--Expander-summary-sub {

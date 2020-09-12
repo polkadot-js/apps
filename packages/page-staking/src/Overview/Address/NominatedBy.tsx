@@ -42,7 +42,7 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
   );
 
   return (
-    <td className='start all'>
+    <td className='expand all'>
       {nominators
         ? (
           <>

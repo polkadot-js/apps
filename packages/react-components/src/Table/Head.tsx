@@ -80,6 +80,10 @@ export default React.memo(styled(Head)`
       padding: 0;
     }
 
+    &.expand {
+      text-align: right;
+    }
+
     &.isClickable {
       border-bottom: 2px solid transparent;
       cursor: pointer;
