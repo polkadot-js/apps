@@ -27,7 +27,7 @@ function Candidates ({ allMembers, className = '', isMember, ownMembers }: Props
     [t('candidates'), 'start'],
     [t('kind')],
     [t('value')],
-    [t('votes'), 'start'],
+    [t('votes'), 'expand'],
     []
   ]);
 

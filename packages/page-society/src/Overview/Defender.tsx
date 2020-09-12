@@ -36,7 +36,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
 
   const headerRef = useRef([
     [t('defender'), 'start'],
-    [t('votes'), 'start'],
+    [t('votes'), 'expand'],
     []
   ]);
 

@@ -39,7 +39,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
   );
 
   return (
-    <td className='number all'>
+    <td className='expand all'>
       {!!rewarded.length && (
         <>
           <Expander summary={

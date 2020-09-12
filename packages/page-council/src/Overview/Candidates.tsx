@@ -28,7 +28,7 @@ function Candidates ({ allVotes = {}, electionsInfo }: Props): React.ReactElemen
 
   const headerRunnersRef = useRef([
     [t('runners up'), 'start', 2],
-    [t('backing')],
+    [t('backing'), 'expand'],
     [t('votes')]
   ]);
 

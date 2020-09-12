@@ -53,7 +53,6 @@ function PaymentInfo ({ accountId, className = '', extrinsic }: Props): React.Re
           Fees of <span className='highlight'>{formatBalance(dispatchInfo.partialFee, { withSiFull: true })}</span> will be applied to the submission
         </Trans>
       }
-      withDot
     />
   );
 }
