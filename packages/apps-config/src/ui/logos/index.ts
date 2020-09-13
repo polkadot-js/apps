@@ -31,6 +31,7 @@ import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeRobonomics from './nodes/robonomics.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
@@ -69,6 +70,7 @@ const chainLogos: Record<string, any> = [
 // overrides based on the actual software node type (all '-' converted to ' ')
 // alphabetical
 const nodeLogos: Record<string, any> = [
+  ['airalab-robonomics', nodeRobonomics],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['crab', nodeCrab],
@@ -83,6 +85,7 @@ const nodeLogos: Record<string, any> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
+  ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
@@ -117,6 +120,7 @@ const namedLogos: Record<string, any> = {
   rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
   rococoPlasm: nodePlasm,
+  rococoRobonomics: nodeRobonomics,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,

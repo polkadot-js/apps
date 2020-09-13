@@ -24,7 +24,8 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
-  onSelect: (hash: string, isSelected: boolean, value: BN) => void,
+  onSelect: (hash: string, isSelected: boolean, value: BN) => void;
+  onlyUntipped: boolean;
   tip: OpenTip | OpenTipTo225;
 }
 
@@ -76,7 +77,7 @@ function extractTipState (tip: OpenTip | OpenTipTo225, hash: string, allAccounts
   };
 }
 
-function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onSelect, tip }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
 
@@ -95,6 +96,10 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
     setMedianTip(isMember && !isTipper);
   }, [isMember, isTipper]);
 
+  if (onlyUntipped && !closesAt && isTipper) {
+    return null;
+  }
+
   const { reason, tips, who } = tip;
 
   return (
@@ -108,21 +113,23 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='start'>
+      <td className='expand'>
         {tips.length !== 0 && (
-          <>
-            <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>
-              {tips.map(([tipper, balance]) => (
-                <AddressMini
-                  balance={balance}
-                  key={tipper.toString()}
-                  value={tipper}
-                  withBalance
-                />
-              ))}
-            </Expander>
-            <FormatBalance value={median} />
-          </>
+          <Expander summary={
+            <>
+              <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
+              <FormatBalance value={median} />
+            </>
+          }>
+            {tips.map(([tipper, balance]) => (
+              <AddressMini
+                balance={balance}
+                key={tipper.toString()}
+                value={tipper}
+                withBalance
+              />
+            ))}
+          </Expander>
         )}
       </td>
       <td className='button together'>

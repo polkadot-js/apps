@@ -17,6 +17,7 @@ import laminar from './laminar';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
+import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import subsocialNode from './subsocial';
 
@@ -38,6 +39,7 @@ export default {
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   plasm,
+  robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   subsocial: subsocialNode

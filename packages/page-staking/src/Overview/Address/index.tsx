@@ -118,7 +118,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <Status
           isElected={isElected}
           isMain={isMain}
-          numNominators={(nominatedBy || nominators).length}
+          nominators={nominatedBy || nominators}
           onlineCount={onlineCount}
           onlineMessage={onlineMessage}
         />
@@ -140,11 +140,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )
       }
-      <td className='number media--1100'>
-        {stakeOwn?.gtn(0) && (
-          <FormatBalance value={stakeOwn} />
-        )}
-      </td>
+      {isMain && (
+        <td className='number media--1100'>
+          {stakeOwn?.gtn(0) && (
+            <FormatBalance value={stakeOwn} />
+          )}
+        </td>
+      )}
       <td className='number'>
         {commission}
       </td>
@@ -161,6 +163,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       <td>
         {hasQueries && (
           <Icon
+            className='highlight--color'
             icon='chart-line'
             onClick={_onQueryStats}
           />

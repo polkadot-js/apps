@@ -21,7 +21,7 @@ function Voters ({ balance, voters }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <td className='all number'>
+      <td className='all expand'>
         <Expander summary={<FormatBalance value={balance} />} >
           {voters.map((who): React.ReactNode =>
             <AddressMini

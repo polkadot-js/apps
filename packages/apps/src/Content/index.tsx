@@ -90,15 +90,10 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Content)`
   flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 0 2rem 1rem;
+  overflow: hidden auto;
+  padding: 0 1.5rem 1rem;
   position: relative;
   width: 100%;
-
-  @media(max-width: 768px) {
-    padding: 0 0.5rem;
-  }
 
   .connecting {
     padding: 3.5rem 0;

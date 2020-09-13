@@ -13,6 +13,7 @@
   "Multisig approval with hash (not message with call)": "Multisig approval with hash (not message with call)",
   "Multisig message with call (for final approval)": "Multisig message with call (for final approval)",
   "Multisig message with call (not approval with hash)": "Multisig message with call (not approval with hash)",
+  "Non-signature, non-hex data received from QR. Data contains \"{{sample}}\" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.": "Non-signature, non-hex data received from QR. Data contains \"{{sample}}\" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.",
   "Nonce": "Nonce",
   "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.": "Override any applicable values for the specific signed output. These will be used to construct and display the signed transaction.",
   "Preparing QR for signing": "Preparing QR for signing",

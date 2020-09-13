@@ -35,7 +35,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             onClick={onClick}
           >
             {index === 0
-              ? <h1>{label}</h1>
+              ? <h1 className='highlight--color'>{label}</h1>
               : isEmpty
                 ? ''
                 : label
@@ -54,21 +54,21 @@ export default React.memo(styled(Head)`
   th {
     font-family: sans-serif;
     font-weight: 100;
-    padding: 0.75rem 1rem 0.5rem;
+    padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
     white-space: nowrap;
 
+    h1, h2 {
+      font-size: 1.75rem;
+    }
+
     &:first-child {
-      border-top-left-radius: 0.25rem;
+      border-left: 1px solid #eeecea;
     }
 
     &:last-child {
-      border-top-rights-radius: 0.25rem;
-    }
-
-    h1, h2 {
-      font-size: 1.75rem;
+      border-right: 1px solid #eeecea;
     }
 
     &.address {
@@ -78,6 +78,10 @@ export default React.memo(styled(Head)`
 
     &.badge {
       padding: 0;
+    }
+
+    &.expand {
+      text-align: right;
     }
 
     &.isClickable {
@@ -95,9 +99,14 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: rgba(255, 254, 253, 1);
+    background: white;
     text-transform: lowercase;
 
+    &:first-child {
+      th {
+        border-top: 1px solid #eeecea;
+      }
+    }
 
     &:not(.filter) {
       th {
@@ -110,7 +119,7 @@ export default React.memo(styled(Head)`
         background: transparent;
 
         &:first-child {
-          margin-top: 0;
+          margin-top: -1px;
         }
       }
 

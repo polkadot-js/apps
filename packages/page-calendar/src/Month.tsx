@@ -44,7 +44,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   return (
     <div className={className}>
       <h1>
-        <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
+        <div className='highlight--color'>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
         <Button.Group>
           <Button
             icon='chevron-left'
@@ -87,7 +87,7 @@ export default React.memo(styled(Month)`
   max-width: max-content;
 
   .calendar {
-    padding: 1.5rem 1.5rem 1rem;
+    padding: 1rem 1.5rem;
 
     .dateGrid,
     .dayOfWeek {

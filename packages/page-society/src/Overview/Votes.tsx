@@ -26,7 +26,7 @@ function Votes ({ votes }: Props): React.ReactElement<Props> {
   }, [votes]);
 
   return (
-    <td className='start'>
+    <td className='expand'>
       <VotesExpander
         label={t<string>('Skeptics')}
         votes={allSkeptic}

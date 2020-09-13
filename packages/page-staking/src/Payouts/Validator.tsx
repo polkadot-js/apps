@@ -68,7 +68,7 @@ function Validator ({ className = '', isDisabled, payout }: Props): React.ReactE
       <td className='number'><FormatBalance value={payout.available} /></td>
       <td className='number'>{eraBlocks && <BlockToTime blocks={eraBlocks} />}</td>
       <td
-        className='start'
+        className='expand'
         colSpan={2}
       >
         <Expander summary={t<string>('{{count}} own stashes', { replace: { count: numNominators } })}>

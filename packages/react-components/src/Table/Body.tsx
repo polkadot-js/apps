@@ -35,6 +35,14 @@ export default React.memo(styled(Body)`
     text-align: left;
     vertical-align: middle;
 
+    &:first-child {
+      border-left: 1px solid #eeecea;
+    }
+
+    &:last-child {
+      border-right: 1px solid #eeecea;
+    }
+
     label {
       display: block !important;
       white-space: nowrap;
@@ -77,10 +85,12 @@ export default React.memo(styled(Body)`
     }
 
     &.expand {
-      text-align: left;
+      &:not(.left) {
+        text-align: right;
+      }
 
       .ui--Expander+.ui--Expander {
-        margin-top: 0.5rem;
+        margin-top: 0.375rem;
       }
     }
 
@@ -142,12 +152,12 @@ export default React.memo(styled(Body)`
   }
 
   tr {
-    &:nth-child(odd) {
-      background: #faf8f6;
-    }
+    // &:nth-child(odd) {
+    //   background: #faf8f6;
+    // }
 
-    &:nth-child(even) {
-      background: rgba(255, 254, 253, 1);
+    &:nth-child(odd) {
+      background: white;
     }
 
     &:first-child {
@@ -161,12 +171,16 @@ export default React.memo(styled(Body)`
     }
 
     &:last-child {
-      td:first-child {
-        border-bottom-left-radius: 0.25rem;
-      }
+      td {
+        border-bottom: 1px solid #eeecea;
 
-      td:last-child {
-        border-bottom-right-radius: 0.25rem;
+        &:first-child {
+          border-bottom-left-radius: 0.25rem;
+        }
+
+        :last-child {
+          border-bottom-right-radius: 0.25rem;
+        }
       }
     }
 

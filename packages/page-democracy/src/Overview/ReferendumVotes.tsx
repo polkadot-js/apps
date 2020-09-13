@@ -5,8 +5,8 @@
 import { DeriveReferendumVote } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import React, { useMemo, useState } from 'react';
-import { Expander, Icon, Tooltip } from '@polkadot/react-components';
+import React, { useMemo } from 'react';
+import { Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -19,18 +19,14 @@ interface Props {
   count: number;
   isAye: boolean;
   isWinning: boolean;
-  index: BN;
   total: BN;
   votes: DeriveReferendumVote[];
 }
 
 const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
-let id = 0;
-
-function ReferendumVotes ({ change, className, count, index, isAye, isWinning, total, votes }: Props): React.ReactElement<Props> | null {
+function ReferendumVotes ({ change, className, count, isAye, isWinning, total, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const [trigger] = useState(`votes-${index.toString()}-${++id}`);
 
   const sorted = useMemo(
     () => votes.sort((a, b) => {
@@ -45,36 +41,23 @@ function ReferendumVotes ({ change, className, count, index, isAye, isWinning, t
   return (
     <Expander
       className={className}
+      help={change.gtn(0) && (
+        <>
+          <FormatBalance value={change} />
+          <p>{isWinning
+            ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
+            : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
+          }</p>
+        </>
+      )}
+      helpIcon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
       summary={
         <>
           {isAye
             ? t<string>('Aye {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
             : t<string>('Nay {{count}}', { replace: { count: count ? ` (${formatNumber(count)})` : '' } })
-          }{change.gtn(0) && (
-            <>
-              {' '}
-              <Icon
-                className='double-icon'
-                icon={isWinning ? 'arrow-circle-down' : 'arrow-circle-up'}
-                tooltip={trigger}
-              />
-              <Tooltip
-                text={
-                  <>
-                    <FormatBalance value={change} />
-                    <p>{isWinning
-                      ? t<string>('The amount this total can be reduced by to change the referendum outcome. This assumes changes to the convictions of the existing votes, with no additional turnout.')
-                      : t<string>('The amount this total should be increased by to change the referendum outcome. This assumes additional turnout with new votes at 1x conviction.')
-                    }</p>
-                  </>
-                }
-                trigger={trigger}
-              />
-            </>
-          )}
-          <div>
-            <FormatBalance value={total} />
-          </div>
+          }
+          <div><FormatBalance value={total} /></div>
         </>
       }
     >

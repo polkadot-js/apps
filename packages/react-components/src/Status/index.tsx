@@ -221,13 +221,12 @@ export default React.memo(styled(Status)`
     > .wrapper > .container {
       align-items: center;
       background: #00688b;
-      border-radius: $small-corner;
+      border-radius: 0.25rem;
       color: white;
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.25rem;
       padding: 0 0.5rem;
-      opacity: 0.95;
       vertical-align: middle;
       position: relative;
 
