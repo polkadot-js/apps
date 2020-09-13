@@ -125,9 +125,11 @@ export default React.memo(styled(Expander)`
 
     .ui--Expander-summary-header {
       display: inline-block;
+      max-width: calc(100% - 2rem);
       overflow: hidden;
       text-overflow: ellipsis;
       vertical-align: middle;
+      white-space: nowrap;
     }
 
     .ui--Icon {
