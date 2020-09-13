@@ -83,7 +83,7 @@
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
     "@pinata/sdk": "^1.1.11",
-    "@polkadot/dev": "^0.55.49",
+    "@polkadot/dev": "^0.55.50",
     "@polkadot/ts": "^0.3.44",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.24",
@@ -108,13 +108,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "source-map-explorer": "^2.5.0",
-    "stylelint": "^13.7.0",
+    "stylelint": "^13.7.1",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "terser-webpack-plugin": "^4.1.0",
+    "terser-webpack-plugin": "^4.2.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^5.1.3",
+    "webpack-merge": "^5.1.4",
     "webpack-plugin-serve": "^1.0.1"
   }
 }
