@@ -1,5 +1,37 @@
 # CHANGELOG
 
+## 0.58.1 Sep 14, 2020
+
+Contributed:
+
+- Completion of i18n Italian (Thanks to https://github.com/fomod-in)
+- Completion of i18n Indonesian (Thanks to https://github.com/nzjourney)
+- Add Robonomics Rococo endpoints (Thanks to https://github.com/akru)
+- Show warning where derived password contains `/` (Thanks to https://github.com/Tbaut)
+- i18n capability for derive error messages (Thanks to https://github.com/Tbaut)
+- Adjust menubar for solid primary color background (As per designs from https://github.com/EthWorks)
+
+Changes:
+
+- Block explorer will display error message where block cannot be retrieved
+- Allow for display of Reward destination as Account on account actions
+- Display commission graphs in validator chart breakdown
+- Optimize rendering of staking charts
+- Show own nomination (badge) in all validator lists
+- QR codes are checked for hex validity before sending
+- Optimization of re-renders in signer
+- Ensure signer does not confuse Ledger with QR (button text)
+- Detect WebUSB, if not active don't support Ledger integration
+- Small cleanups & bugfixes on global table layouts
+- Extract i18n reward destination options
+- Update Centrifuge types for non-cyclic dependencies
+- Adjust table alternate row colors to alow with primary
+- Adjust calendar layout to conform to new-generation Tables
+- Fix display of Plasm logos (for different node types)
+- Allow IPFS to add QR addresses to storage (no accounts allowed)
+- Adjust Expander rendering with consistent up/down right caret
+
+
 ## 0.57.1 Sep 7, 2020
 
 Contributed:
