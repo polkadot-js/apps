@@ -80,9 +80,14 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
             <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
           )}
         </div>
-        {hasContent &&
-          <Icon icon={isExpanded ? 'caret-up' : 'caret-down'} />
-        }
+        <Icon
+          color={hasContent ? undefined : 'transparent'}
+          icon={
+            isExpanded
+              ? 'caret-up'
+              : 'caret-down'
+          }
+        />
       </div>
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-content'>{children}</div>

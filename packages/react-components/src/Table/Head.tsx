@@ -81,6 +81,7 @@ export default React.memo(styled(Head)`
     }
 
     &.expand {
+      padding-right: 2.25rem;
       text-align: right;
     }
 
