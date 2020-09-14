@@ -22,7 +22,7 @@ function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, t
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel' : 'highlight--hover-color'}`}>
+    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : 'highlight--hover-color'}`}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}

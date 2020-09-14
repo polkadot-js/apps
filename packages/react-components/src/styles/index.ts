@@ -15,10 +15,20 @@ interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#f19135'; // #999
+const defaultHighlight = '#ff9933'; // '#f19135'; // #999
 
-const getHighlight = (props: Props): string =>
-  (props.uiHighlight || defaultHighlight);
+function getHighlight (props: Props): string {
+  return (props.uiHighlight || defaultHighlight);
+}
+
+function getContrast (props: Props): string {
+  const hc = getHighlight(props).replace('#', '');
+  const [r, g, b] = [0, 2, 4].map((p) => parseInt(hc.substr(p, 2), 16));
+
+  return ((r * 299) + (g * 587) + (b * 114)) / 1000 >= 128
+    ? 'rgba(39, 37, 35, 0.9)'
+    : 'rgba(247, 245, 243, 0.9)';
+}
 
 export default createGlobalStyle<Props>`
   .highlight--all {
@@ -37,6 +47,10 @@ export default createGlobalStyle<Props>`
 
   .highlight--bg {
     background: ${getHighlight} !important;
+  }
+
+  .highlight--bg-contrast {
+    background: ${getContrast};
   }
 
   .highlight--bg-faint,
@@ -70,6 +84,10 @@ export default createGlobalStyle<Props>`
 
   .highlight--color {
     color: ${getHighlight} !important;
+  }
+
+  .highlight--color-contrast {
+    color: ${getContrast};
   }
 
   .highlight--fill {

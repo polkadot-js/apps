@@ -34,7 +34,7 @@ function Badge ({ className = '', color = 'normal', hover, icon, info, isSmall, 
   return (
     <div
       {...extraProps}
-      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''}${color === 'counterInvert' ? ' highlight--color' : ''} ${color}Color ${className}`}
+      className={`ui--Badge${hover ? ' isTooltip' : ''}${isSmall ? ' isSmall' : ''}${onClick ? ' isClickable' : ''}${isHighlight ? ' highlight--bg' : ''}${color === 'counterInvert' ? ' highlight--bg-contrast highlight--color' : ''} ${color}Color ${className}`}
       onClick={onClick}
     >
       {info || (icon && <Icon icon={icon} />)}
@@ -100,10 +100,6 @@ export default React.memo(styled(Badge)`
   &.counterInvertColor {
     margin: 0 0.5rem;
     vertical-align: middle;
-  }
-
-  &.counterInvertColor {
-    background: #eeedec;
   }
 
   &.grayColor {
