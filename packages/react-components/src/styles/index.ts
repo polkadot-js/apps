@@ -25,7 +25,7 @@ function getContrast (props: Props): string {
   const hc = getHighlight(props).replace('#', '');
   const [r, g, b] = [0, 2, 4].map((p) => parseInt(hc.substr(p, 2), 16));
 
-  return ((r * 299) + (g * 587) + (b * 114)) / 1000 >= 128
+  return (((r * 299) + (g * 587) + (b * 114)) / 1000) >= (128 + 24)
     ? 'rgba(39, 37, 35, 0.9)'
     : 'rgba(247, 245, 243, 0.9)';
 }
