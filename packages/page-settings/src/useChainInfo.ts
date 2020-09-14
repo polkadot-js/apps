@@ -23,8 +23,8 @@ export default function useChainInfo (): ChainInfo | null {
         icon: getSystemIcon(systemName),
         metaCalls: Buffer.from(api.runtimeMetadata.asCallsOnly.toU8a()).toString('base64'),
         specVersion: api.runtimeVersion.specVersion.toNumber(),
-        ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : DEFAULT_SS58.toNumber(),
-        tokenDecimals: isNumber(api.registry.chainDecimals) ? api.registry.chainDecimals : DEFAULT_DECIMALS.toNumber(),
+        ss58Format: isNumber(api.registry.chainSS58) ? api.registry.chainSS58 : 42,
+        tokenDecimals: isNumber(api.registry.chainDecimals) ? api.registry.chainDecimals : 12,
         tokenSymbol: api.registry.chainToken || 'Unit',
         types: getSpecTypes(registry, systemChain, api.runtimeVersion.specName, api.runtimeVersion.specVersion) as unknown as Record<string, string>
       }
