@@ -9,8 +9,7 @@ import { Delegation, SortedAccount } from '../types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import keyring from '@polkadot/ui-keyring';
-import { getLedger, isLedger } from '@polkadot/react-api';
+import { isLedger } from '@polkadot/react-api';
 import { useApi, useAccounts, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
@@ -19,6 +18,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import CreateModal from '../modals/Create';
 import ImportModal from '../modals/Import';
+import Ledger from '../modals/Ledger';
 import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
@@ -44,19 +44,6 @@ interface Props {
 
 const STORE_FAVS = 'accounts:favorites';
 
-// query the ledger for the address, adding it to the keyring
-async function queryLedger (): Promise<void> {
-  const ledger = getLedger();
-
-  try {
-    const { address } = await ledger.getAddress();
-
-    keyring.addHardware(address, 'ledger', { name: 'ledger' });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -64,6 +51,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
+  const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
@@ -181,6 +169,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isLedgerOpen && (
+        <Ledger onClose={toggleLedger} />
+      )}
       {isMultisigOpen && (
         <Multisig
           onClose={toggleMultisig}
@@ -221,8 +212,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <>
             <Button
               icon='question'
-              label={t<string>('Query Ledger')}
-              onClick={queryLedger}
+              label={t<string>('Add Ledger')}
+              onClick={toggleLedger}
             />
           </>
         )}

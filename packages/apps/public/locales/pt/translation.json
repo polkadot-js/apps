@@ -308,7 +308,7 @@
   "Propose tip": "Propor gorjeta",
   "Provide judgement": "Fornecer julgamento",
   "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "Forneça o QR da conta no módulo/aplicativo externo para digitalização. Se for detectado como válido, você será levado para a próxima etapa para adicionar a conta à sua lista.",
-  "Query Ledger": "Livro de consultas",
+  "Add Ledger": "Livro de consultas",
   "RPC calls": "Chamadas RPC",
   "Random": "Aleatória",
   "Raw seed": "Semente bruta",

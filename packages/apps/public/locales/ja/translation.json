@@ -186,7 +186,7 @@
   "Propose a council motion": "カウンシルモーションを提出する",
   "Provide judgement": "ジャッジメントを提供する",
   "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "スキャンするためにモジュール/外部アプリケーションからアカウントのQRを提供します。有効として検出された場合、次のステップに移行しあなたのリストにアカウントが追加されます。",
-  "Query Ledger": "クエリーレッジャー",
+  "Add Ledger": "クエリーレッジャー",
   "RPC calls": "RPCコール",
   "Raw seed": "生のシード",
   "Raw storage": "生のストレージ",

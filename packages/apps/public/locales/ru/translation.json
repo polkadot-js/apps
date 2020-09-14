@@ -314,7 +314,7 @@
   "Propose tip": "Предложить чаевые",
   "Provide judgement": "Сделать оценку",
   "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "Предоставьте QR-код аккаунта из модуля/внешнего приложения для сканирования. Когда он будет правильным, Вы перейдете к следующему шагу, чтобы добавить учетную запись в свой список.",
-  "Query Ledger": "Книга запросов",
+  "Add Ledger": "Книга запросов",
   "RPC calls": "RPC вызовы",
   "Random": "Случайный",
   "Raw seed": "Исходная секретная фраза",
