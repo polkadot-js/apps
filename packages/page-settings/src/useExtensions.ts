@@ -4,7 +4,7 @@
 
 import { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@polkadot/extension-inject/types';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
@@ -22,7 +22,7 @@ interface ExtensionInfo extends ExtensionKnown {
 
 interface Extensions {
   count: number;
-  extensions?: ExtensionInfo[];
+  extensions: ExtensionInfo[];
 }
 
 interface ExtensionProperties {
@@ -131,7 +131,8 @@ async function getExtensionInfo (api: ApiPromise, extension: InjectedExtension):
   }
 }
 
-async function getKnown (api: ApiPromise, extensions: InjectedExtension[]): Promise<ExtensionKnown[]> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function getKnown (api: ApiPromise, extensions: InjectedExtension[], _: number): Promise<ExtensionKnown[]> {
   const all = await Promise.all(
     extensions.map((extension) => getExtensionInfo(api, extension))
   );
@@ -139,10 +140,11 @@ async function getKnown (api: ApiPromise, extensions: InjectedExtension[]): Prom
   return all.filter((info): info is ExtensionKnown => !!info);
 }
 
+const EMPTY_STATE = { count: 0, extensions: [] };
+
 export default function useExtensions (): Extensions {
   const { api, extensions, isApiReady, isDevelopment } = useApi();
   const [all, setAll] = useState<ExtensionKnown[] | undefined>();
-  const [state, setState] = useState<Extensions>({ count: 0 });
   const [trigger, setTrigger] = useState(0);
 
   useEffect((): () => void => {
@@ -156,14 +158,13 @@ export default function useExtensions (): Extensions {
   }, []);
 
   useEffect((): void => {
-    extensions && getKnown(api, extensions).then(setAll);
+    extensions && getKnown(api, extensions, trigger).then(setAll);
   }, [api, extensions, trigger]);
 
-  useEffect((): void => {
-    isDevelopment
-      ? setState({ count: 0, extensions: [] })
-      : isApiReady && all && setState(filterAll(api, all));
-  }, [all, api, isApiReady, isDevelopment]);
-
-  return state;
+  return useMemo(
+    () => isDevelopment || !isApiReady || !all
+      ? EMPTY_STATE
+      : filterAll(api, all),
+    [all, api, isApiReady, isDevelopment]
+  );
 }
