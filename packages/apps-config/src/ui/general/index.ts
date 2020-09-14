@@ -61,6 +61,7 @@ const chainColors: Record<string, any> = [
 // alphabetical
 const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
+  ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
