@@ -140,11 +140,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )
       }
-      <td className='number media--1100'>
-        {stakeOwn?.gtn(0) && (
-          <FormatBalance value={stakeOwn} />
-        )}
-      </td>
+      {isMain && (
+        <td className='number media--1100'>
+          {stakeOwn?.gtn(0) && (
+            <FormatBalance value={stakeOwn} />
+          )}
+        </td>
+      )}
       <td className='number'>
         {commission}
       </td>
