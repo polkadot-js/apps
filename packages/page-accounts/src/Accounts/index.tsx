@@ -89,7 +89,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances')],
+    [t('balances'), 'expand'],
     [],
     [undefined, 'media--1400']
   ]);
