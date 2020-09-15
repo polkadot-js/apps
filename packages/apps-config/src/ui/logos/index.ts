@@ -117,7 +117,6 @@ const namedLogos: Record<string, any> = {
   nodle: nodeNodle,
   phala: nodePhala,
   plasm: nodePlasm,
-  stafi: nodeStafi,
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,
@@ -128,6 +127,7 @@ const namedLogos: Record<string, any> = {
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   westend: nodePolkadot
