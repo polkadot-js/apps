@@ -9,7 +9,7 @@ import React, { useMemo, useState } from 'react';
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
-import { createDestCurr, createDestPrev } from '../destOptions';
+import { createDestCurr } from '../destOptions';
 
 interface Props {
   defaultDestination?: RewardDestination;
@@ -24,10 +24,8 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   const [destAccount, setDestAccount] = useState<string | null>(defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
 
   const options = useMemo(
-    () => defaultDestination?.isAccount
-      ? createDestCurr(t)
-      : createDestPrev(t),
-    [defaultDestination, t]
+    () => createDestCurr(t),
+    [t]
   );
 
   const isAccount = destination === 'Account';
