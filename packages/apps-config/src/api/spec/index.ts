@@ -22,7 +22,11 @@ import nodle from './nodle';
 import plasm from './plasm';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
+<<<<<<< HEAD
 import subsocial from './subsocial';
+=======
+import subsocialNode from './subsocial';
+>>>>>>> 09de052ea (Added Stafi Network logos & endpoints (#3683))
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -48,5 +52,9 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
+<<<<<<< HEAD
   subsocial
+=======
+  subsocial: subsocialNode
+>>>>>>> 09de052ea (Added Stafi Network logos & endpoints (#3683))
 };
