@@ -117,6 +117,11 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://rpc.plasmnet.io/'
     },
     {
+      info: 'stafi',
+      text: t<string>('rpc.stafi', 'Stafi (Stafi Mainnet, hosted by Stafi Foundation)', { ns: 'apps-config' }),
+      value: 'wss://mainnet-rpc.stafi.io'
+    },
+    {
       info: 'subsocial',
       text: t<string>('rpc.subsocial', 'Subsocial (Subsocial Network, hosted by DappForce)', { ns: 'apps-config' }),
       value: 'wss://rpc.subsocial.network'

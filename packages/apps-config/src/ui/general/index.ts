@@ -29,6 +29,7 @@ const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
+const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 
 // overrides based on the actual matched chain name
@@ -65,6 +66,7 @@ const nodeColors: Record<string, any> = [
   ['edgeware node', nodeEdgeware],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
+  ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
   // ['node template', emptyColor],
   // ['parity polkadot', emptyColor],

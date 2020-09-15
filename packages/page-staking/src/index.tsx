@@ -27,8 +27,7 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
-const HIDDEN_ACC = ['actions', 'payouts', 'query'];
-const HIDDEN_QUE = ['returns', 'query'];
+const HIDDEN_ACC = ['actions', 'payouts'];
 
 const transformElection = {
   transform: (status: ElectionStatus) => status.isOpen
@@ -108,11 +107,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Tabs
           basePath={basePath}
           hidden={
-            !hasAccounts
-              ? HIDDEN_ACC
-              : !hasQueries
-                ? HIDDEN_QUE
-                : undefined
+            hasAccounts
+              ? undefined
+              : HIDDEN_ACC
           }
           items={items}
         />
