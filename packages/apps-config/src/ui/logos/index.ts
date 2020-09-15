@@ -32,6 +32,7 @@ import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
@@ -89,6 +90,8 @@ const nodeLogos: Record<string, any> = [
   ['Plasm Node', nodePlasm],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['Stafi Node', nodeStafi],
+  ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
@@ -124,6 +127,7 @@ const namedLogos: Record<string, any> = {
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   westend: nodePolkadot
