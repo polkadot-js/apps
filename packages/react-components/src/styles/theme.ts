@@ -10,7 +10,7 @@ export const colorBtnDefault = '#767778';
 export const colorBtnShadow = '#98999a';
 
 /* highlighted buttons, orange */
-export const colorBtnHighlight = '#f19135';
+export const colorBtnHighlight = '#222222';
 
 /* primary buttons, blue */
 export const colorBtnPrimary = colorBtnDefault; // '#2e86ab';

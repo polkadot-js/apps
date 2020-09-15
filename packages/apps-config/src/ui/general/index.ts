@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // defaults
-const defaultColor = undefined; // '#f19135'
+const defaultColor = undefined; // '#222222'
 const emptyColor = '#999';
 
 // based on chain name
