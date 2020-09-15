@@ -10,6 +10,7 @@
   "app-extrinsics.json",
   "app-generic-asset.json",
   "app-js.json",
+  "app-master-proposals.json",
   "app-parachains.json",
   "app-poll.json",
   "app-rpc.json",
