@@ -29,10 +29,10 @@ import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
-import nodeStafi from './nodes/stafi.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
@@ -88,10 +88,10 @@ const nodeLogos: Record<string, any> = [
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
-  ['Stafi Node', nodeStafi],
-  ['Stafi', nodeStafi],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['Stafi Node', nodeStafi],
+  ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
