@@ -97,7 +97,6 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
 
 export default React.memo(styled(Expander)`
   max-width: 100%;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   &:not(.isExpanded) .ui--Expander-content {
@@ -131,6 +130,21 @@ export default React.memo(styled(Expander)`
       display: inline-block;
       max-width: calc(100% - 2rem);
       overflow: hidden;
+    .ui--Expander-summary-header > .ui--FormatBalance {
+      min-width: 11rem;
+    }
+
+    .ui--Expander-summary-header > svg {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+
+    > div {
+      font-weight: 800;
+      font-size: 10px;
+      line-height: 14px;
+      text-transform: uppercase;
+      color: #000000;
       text-overflow: ellipsis;
       vertical-align: middle;
       white-space: nowrap;
@@ -153,6 +167,20 @@ export default React.memo(styled(Expander)`
       font-size: 1rem;
       opacity: 0.6;
       overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .ui--Expander-summary-header > svg {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+
+    > div {
+      font-weight: 800;
+      font-size: 10px;
+      line-height: 14px;
+      text-transform: uppercase;
+      color: #000000;
       text-overflow: ellipsis;
     }
   }

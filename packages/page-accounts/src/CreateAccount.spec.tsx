@@ -18,24 +18,28 @@ const WaitForApi = ({ children }: { children: React.ReactNode }): PropsWithChild
   return api.isApiReady ? (children) : null;
 };
 
+const renderAccounts = () => {
+  const memoryStore = new MemoryStore();
+
+  return render(
+    <MemoryRouter>
+      <Api store={memoryStore}
+        url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+        <WaitForApi>
+          <div>
+            <AccountsApp basePath='/accounts'
+              onStatusChange={() => { /* */
+              }}/>
+          </div>
+        </WaitForApi>
+      </Api>
+    </MemoryRouter>
+  );
+};
+
 describe('--SLOW--: Account Create', () => {
   it('asks for confirmation after saving new account', async () => {
-    const memoryStore = new MemoryStore();
-
-    const { findByPlaceholderText, findByTestId, findByText } = render(
-      <MemoryRouter>
-        <Api store={memoryStore}
-          url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
-          <WaitForApi>
-            <div>
-              <AccountsApp basePath='/accounts'
-                onStatusChange={() => { /* */
-                }}/>
-            </div>
-          </WaitForApi>
-        </Api>
-      </MemoryRouter>
-    );
+    const { findByPlaceholderText, findByTestId, findByText } = renderAccounts();
 
     const addAccountButton = await findByText('Add account', {}, { timeout: 4000 });
 
@@ -58,5 +62,42 @@ describe('--SLOW--: Account Create', () => {
     fireEvent.click(saveButton);
 
     expect(await findByText('Create and backup account')).toBeTruthy();
+  });
+
+  it('new create modal', async () => {
+    const { findByTestId, findByText } = renderAccounts();
+
+    const addAccountButton = await findByTestId('addAccount2');
+
+    fireEvent.click(addAccountButton);
+
+    const isSeedSavedCheckbox = await findByTestId('isSeedSaved-Checkbox');
+    const hiddenCheckbox = isSeedSavedCheckbox as HTMLInputElement;
+
+    fireEvent.click(hiddenCheckbox);
+
+    const nextStepButton = await findByText('Next step', {}, { timeout: 4000 });
+
+    fireEvent.click(nextStepButton);
+
+    expect(await findByText('Add an account via seed 2/2')).toBeTruthy();
+
+    const accountNameInput = await findByTestId('accountName');
+
+    fireEvent.change(accountNameInput, { target: { value: 'name' } });
+
+    const passwordInput = await findByTestId('password');
+
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+
+    const passwordInput2 = await findByTestId('password2');
+
+    fireEvent.change(passwordInput2, { target: { value: 'password' } });
+
+    const createAnAccountButton = await findByText('Create an account');
+
+    fireEvent.click(createAnAccountButton);
+
+    expect(await findByText('created account')).toBeTruthy();
   });
 });

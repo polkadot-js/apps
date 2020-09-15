@@ -131,11 +131,11 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
 
 export default React.memo(styled(InputFile)`
   background: #fff;
-  border: 1px solid rgba(34, 36, 38, 0.15);
+  border: 1px solid #DFDFDF;
   border-radius: 0.28571429rem;
   font-size: 1rem;
   margin: 0.25rem 0;
-  padding: 0.67857143em 1em;
+  padding: 0.6rem 1.2rem;
   width: 100% !important;
 
   &.error {

@@ -1,5 +1,6 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// SPDX-License-Identifier: Apache-2.0
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -7,12 +8,12 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
-import Labelled from './Labelled';
+import LabelledNew from './LabelledNew';
 
 interface Props<Option> {
   allowAdd?: boolean;
-  children?: React.ReactNode;
   className?: string;
+  classNameButton?: string;
   defaultValue?: any;
   dropdownClassName?: string;
   help?: React.ReactNode;
@@ -32,7 +33,6 @@ interface Props<Option> {
   placeholder?: string;
   renderLabel?: (item: any) => any;
   searchInput?: { autoFocus: boolean };
-  tabIndex?: number;
   transform?: (value: any) => any;
   value?: any;
   withEllipsis?: boolean;
@@ -43,7 +43,7 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option> ({ allowAdd = false, children, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, tabIndex, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option> ({ allowAdd = false, className = '', classNameButton = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -102,7 +102,6 @@ function BaseDropdown<Option> ({ allowAdd = false, children, className = '', def
       search={onSearch || allowAdd}
       searchInput={searchInput}
       selection
-      tabIndex={tabIndex}
       value={stored}
     />
   );
@@ -110,32 +109,39 @@ function BaseDropdown<Option> ({ allowAdd = false, children, className = '', def
   return (
     <div className={className}>
       {isButton
-        ? <SUIButton.Group>{dropdown}{children}</SUIButton.Group>
-        : <Labelled
+        ? <SUIButton.Group className={classNameButton}>{dropdown}</SUIButton.Group>
+        : <LabelledNew
           className='ui--Dropdown'
           help={help}
           isFull={isFull}
+          isOuter
           label={label}
           labelExtra={labelExtra}
           withEllipsis={withEllipsis}
           withLabel={withLabel}
         >
           {dropdown}
-          {children}
-        </Labelled>
+        </LabelledNew>
+
       }
     </div>
   );
 }
 
-const Dropdown = React.memo(styled(BaseDropdown)`
-  .ui.selection.dropdown {
-    font-size: 1rem;
+const DropdownNew = React.memo(styled(BaseDropdown)`
+  & .ui.selection.dropdown {
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 3rem 0.65rem 1.15rem;
+    font-size: 1.15rem;
+    line-height: 1.5rem;
     color: #000000;
     font-weight: 400;
     border: 1px solid #DFDFDF;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+
+    .dropdown.icon {
+      padding: 0 1.15rem;
+    }
   }
   .ui--Dropdown-item {
     position: relative;
@@ -152,10 +158,6 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       position: absolute;
       top: -9px;
       width: 32px;
-
-      &.opaque {
-        opacity: 0.5;
-      }
     }
 
     .ui--Dropdown-name {
@@ -176,9 +178,12 @@ const Dropdown = React.memo(styled(BaseDropdown)`
       }
     }
   }
+  .seedDropdown {
+    height: 100%
+  }
 `) as unknown as IDropdown<any>;
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-(Dropdown as any).Header = SUIDropdown.Header;
+(DropdownNew as any).Header = SUIDropdown.Header;
 
-export default Dropdown;
+export default DropdownNew;

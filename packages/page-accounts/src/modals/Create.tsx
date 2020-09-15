@@ -1,26 +1,34 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { CreateResult } from '@polkadot/ui-keyring/types';
-import { KeypairType } from '@polkadot/util-crypto/types';
-import { ModalProps } from '../types';
-
-import FileSaver from 'file-saver';
+import NewPasswordInput from '@polkadot/app-accounts/Accounts/NewPasswordInput';
 import React, { useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { DEV_PHRASE } from '@polkadot/keyring/defaults';
-import { AddressRow, Button, CopyButton, Dropdown, Expander, Input, InputAddress, Modal } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { ModalProps } from '@polkadot/app-accounts/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { KeypairType } from '@polkadot/util-crypto/types';
+import { AddressRow,
+  Button,
+  BackButton,
+  Checkbox,
+  CopyToClipboard,
+  DropdownNew,
+  Expander,
+  InputNew,
+  InputAddress,
+  Modal,
+  Icon,
+  InputSection } from '@polkadot/react-components';
+import { useTranslation } from '@polkadot/app-accounts/translate';
 import keyring from '@polkadot/ui-keyring';
-import uiSettings from '@polkadot/ui-settings';
-import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { getEnvironment } from '@polkadot/react-api/util';
-
-import { useTranslation } from '../translate';
-import CreateConfirmation from './CreateConfirmation';
-import PasswordInput from './PasswordInput';
+import { DEV_PHRASE } from '@polkadot/keyring/defaults';
+import { isHex, u8aToHex } from '@polkadot/util';
+import { useApi } from '@polkadot/react-hooks';
+import styled from 'styled-components';
+import uiSettings from '@polkadot/ui-settings';
+import print from 'print-js';
+import ToastProvider from '@polkadot/react-components/Toast/ToastProvider';
+import TextAriaWithLabel from '@polkadot/react-components/TextAriaWithLabel';
 
 interface Props extends ModalProps {
   className?: string;
@@ -34,61 +42,16 @@ type SeedType = 'bip' | 'raw' | 'dev';
 
 interface AddressState {
   address: string | null;
+  deriveError: string | null;
   derivePath: string;
-  deriveValidation? : DeriveValidationOutput
   isSeedValid: boolean;
   pairType: KeypairType;
   seed: string;
   seedType: SeedType;
 }
 
-interface CreateOptions {
-  genesisHash?: string;
-  name: string;
-  tags?: string[];
-}
-
-interface DeriveValidationOutput {
-  error?: string;
-  warning?: string;
-}
-
 const DEFAULT_PAIR_TYPE = 'sr25519';
-const isElectron = navigator.userAgent.toLowerCase().indexOf(' electron/') > -1;
-
-function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): DeriveValidationOutput {
-  try {
-    const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
-    let result: DeriveValidationOutput = {};
-
-    // show a warning in case the password contains an unintended / character
-    if (password?.includes('/')) {
-      result = { warning: 'WARNING_SLASH_PASSWORD' };
-    }
-
-    // we don't allow soft for ed25519
-    if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
-      return { ...result, error: 'SOFT_NOT_ALLOWED' };
-    }
-
-    // we don't allow password for hex seed
-    if (seedType === 'raw' && password) {
-      return { ...result, error: 'PASSWORD_IGNORED' };
-    }
-
-    return result;
-  } catch (error) {
-    return { error: (error as Error).message };
-  }
-}
-
-function isHexSeed (seed: string): boolean {
-  return isHex(seed) && seed.length === 66;
-}
-
-function rawValidate (seed: string): boolean {
-  return ((seed.length > 0) && (seed.length <= 32)) || isHexSeed(seed);
-}
+const NUM_STEPS = 2;
 
 function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
   return keyring
@@ -113,8 +76,8 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 
   return {
     address,
+    deriveError: null,
     derivePath,
-    deriveValidation: undefined,
     isSeedValid: true,
     pairType,
     seed,
@@ -122,14 +85,42 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
   };
 }
 
+function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): string | null {
+  try {
+    const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
+
+    // we don't allow soft for ed25519
+    if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
+      return 'Soft derivation paths are not allowed on ed25519';
+    }
+
+    // we don't allow password for hex seed
+    if (seedType === 'raw' && password) {
+      return 'Password are ignored for hex seed';
+    }
+  } catch (error) {
+    return (error as Error).message;
+  }
+
+  return null;
+}
+
+function isHexSeed (seed: string): boolean {
+  return isHex(seed) && seed.length === 66;
+}
+
+function rawValidate (seed: string): boolean {
+  return ((seed.length > 0) && (seed.length <= 32)) || isHexSeed(seed);
+}
+
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
-  const deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
+  const deriveError = deriveValidate(seed, seedType, derivePath, pairType);
   let isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
     : mnemonicValidate(seed);
   let address: string | null = null;
 
-  if (!deriveValidation?.error && isSeedValid) {
+  if (!deriveError && isSeedValid) {
     try {
       address = addressFromSeed(seed, derivePath, pairType);
     } catch (error) {
@@ -139,8 +130,8 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
 
   return {
     address,
+    deriveError,
     derivePath,
-    deriveValidation,
     isSeedValid,
     pairType,
     seed,
@@ -148,10 +139,10 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   };
 }
 
-export function downloadAccount ({ json, pair }: CreateResult): void {
-  const blob = new Blob([JSON.stringify(json)], { type: 'application/json; charset=utf-8' });
-
-  FileSaver.saveAs(blob, `${pair.address}.json`);
+interface CreateOptions {
+  genesisHash?: string;
+  name: string;
+  tags?: string[];
 }
 
 function createAccount (suri: string, pairType: KeypairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
@@ -167,10 +158,6 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
     status.message = success;
 
     InputAddress.setLastValue('account', address);
-
-    if (getEnvironment() === 'web') {
-      downloadAccount(result);
-    }
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;
@@ -182,17 +169,12 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
-  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
-  const [isConfirmationOpen, toggleConfirmation] = useToggle();
-  const [isBusy, setIsBusy] = useState(false);
+  const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
+  const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
+  const [step, setStep] = useState(1);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const isValid = !!address && !deriveValidation?.error && isNameValid && isPasswordValid && isSeedValid;
-  const errorIndex: Record<string, string> = useMemo(() => ({
-    PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
-    SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
-    WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
-  }), [t]);
+  const isValid = !deriveError && isNameValid && isPasswordValid;
 
   const seedOpt = useMemo(() => (
     isDevelopment
@@ -203,19 +185,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     { text: t<string>('Raw seed'), value: 'raw' }
   ), [isDevelopment, t]);
 
-  const _onChangeDerive = useCallback(
-    (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
-    [pairType, seed, seedType]
-  );
-
   const _onChangeSeed = useCallback(
     (newSeed: string) => setAddress(updateAddress(newSeed, derivePath, seedType, pairType)),
     [derivePath, pairType, seedType]
-  );
-
-  const _onChangePairType = useCallback(
-    (newPairType: KeypairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
-    [derivePath, seed, seedType]
   );
 
   const _selectSeedType = useCallback(
@@ -225,6 +197,15 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       }
     },
     [derivePath, pairType, seedType]
+  );
+
+  const _toggleMnemonicSaved = () => {
+    setIsMnemonicSaved(!isMnemonicSaved);
+  };
+
+  const _nextStep = useCallback(
+    () => setStep((step) => step + 1),
+    []
   );
 
   const _onChangeName = useCallback(
@@ -237,19 +218,31 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     []
   );
 
+  const _onChangePairType = useCallback(
+    (newPairType: KeypairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
+    [derivePath, seed, seedType]
+  );
+
+  const _onChangeDerive = useCallback(
+    (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
+    [pairType, seed, seedType]
+  );
+
+  const onPrintSeed = () => {
+    print('printJS-seed', 'html');
+  };
+
   const _onCommit = useCallback(
     (): void => {
       if (!isValid) {
         return;
       }
 
-      setIsBusy(true);
       setTimeout((): void => {
         const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
         const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
 
         onStatusChange(status);
-        setIsBusy(false);
         onClose();
       }, 0);
     },
@@ -258,187 +251,242 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   return (
     <Modal
-      className={className}
-      header={t<string>('Add an account via seed')}
-      size='large'
+      className={`${className} ui--Modal-Wrapper medium`}
+      header={t<string>('Add an account via seed {{step}}/{{NUM_STEPS}}', {
+        replace: {
+          NUM_STEPS,
+          step
+        }
+      })}
     >
-      {address && isConfirmationOpen
-        ? (
-          <CreateConfirmation
-            address={address}
-            derivePath={derivePath}
-            isBusy={isBusy}
-            name={name}
-            pairType={pairType}
-            seed={seed}
-          />
-        )
-        : (
+      <Button
+        icon='times'
+        onClick={onClose}
+      />
+      {step === 1
+        ? <>
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <AddressRow
-                  defaultName={name}
-                  noDefaultNameOpacity
-                  value={isSeedValid ? address : ''}
-                />
-              </Modal.Column>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Input
-                  autoFocus
-                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-                  isError={!isNameValid}
-                  label={t<string>('name')}
-                  onChange={_onChangeName}
-                  onEnter={_onCommit}
-                  placeholder={t<string>('new account')}
-                  value={name}
-                />
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Input
-                  help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-                  isAction
-                  isError={!isSeedValid}
-                  isReadOnly={seedType === 'dev'}
-                  label={
-                    seedType === 'bip'
-                      ? t<string>('mnemonic seed')
-                      : seedType === 'dev'
-                        ? t<string>('development seed')
-                        : t<string>('seed (hex or string)')
-                  }
-                  onChange={_onChangeSeed}
-                  onEnter={_onCommit}
-                  value={seed}
-                >
-                  <Dropdown
-                    defaultValue={seedType}
-                    isButton
-                    onChange={_selectSeedType}
-                    options={seedOpt}
-                  />
-                  <CopyButton
-                    className='copyMoved'
-                    value={seed}
-                  />
-                </Input>
-              </Modal.Column>
-              <Modal.Column>
-                <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
-              </Modal.Column>
-            </Modal.Columns>
-            <PasswordInput
-              onChange={_onPasswordChange}
-              onEnter={_onCommit}
-            />
-            {!isElectron && (
-              <article className='warning'>
-                <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
+            <ToastProvider>
+              <AddressRow
+                defaultName={name}
+                noDefaultNameOpacity
+                value={isSeedValid ? address : ''}
+              />
+              <article className='ui--Warning'>
+                <Icon icon='exclamation-triangle'/>
+                <div>{t<string>("PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE")}</div>
               </article>
-            )}
+              <TextAriaWithLabel
+                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+                isAction
+                isError={!isSeedValid}
+                isReadOnly={seedType === 'dev'}
+                label={
+                  seedType === 'bip'
+                    ? t<string>('mnemonic seed')
+                    : seedType === 'dev'
+                      ? t<string>('development seed')
+                      : t<string>('seed (hex or string)')
+                }
+                onChange={_onChangeSeed}
+                seed={seed}
+              >
+                <DropdownNew
+                  classNameButton='seedDropdown'
+                  defaultValue={seedType}
+                  isButton
+                  onChange={_selectSeedType}
+                  options={seedOpt}
+                />
+              </TextAriaWithLabel>
+              <div className='ui--Buttons-row'>
+                <CopyToClipboard
+                  className='ui--Print-btn'
+                  elementId='printJS-seed'/>
+                <button
+                  className='ui--Print-btn'
+                  onClick={onPrintSeed}
+                >
+                  <Icon icon='print'/>
+                  Print {seedType === 'bip' ? 'seed phrase' : 'raw seed'}
+                </button>
+              </div>
+              <Checkbox
+                data-testid='isSeedSaved-Checkbox'
+                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                onChange={_toggleMnemonicSaved}
+                value={isMnemonicSaved}
+              />
+            </ToastProvider>
+          </Modal.Content>
+          <div className='ui--Modal-Footer'>
+            <Button
+              isDisabled={!isMnemonicSaved}
+              isSelected={true}
+              label={t<string>('Next step')}
+              onClick={_nextStep}
+            />
+          </div>
+        </>
+        : <>
+          <Modal.Content>
+            <AddressRow
+              defaultName={name}
+              noDefaultNameOpacity
+              value={address}
+            />
+            <InputSection>
+              <InputNew
+                autoFocus
+                data-testid='accountName'
+                help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+                isError={!!name && !isNameValid}
+                label={t<string>('A DESCRIPTIVE NAME FOR YOUR ACCOUNT')}
+                onChange={_onChangeName}
+                placeholder={t<string>('Account Name')}
+                value={name}
+              />
+            </InputSection>
+            <InputSection>
+              <NewPasswordInput
+                onChange={_onPasswordChange}
+                password={password}
+              />
+            </InputSection>
             <Expander
               className='accounts--Creator-advanced'
-              isPadded
+              isOpen
               summary={t<string>('Advanced creation options')}
             >
-              <Modal.Columns>
-                <Modal.Column>
-                  <Dropdown
-                    defaultValue={pairType}
-                    help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                    label={t<string>('keypair crypto type')}
-                    onChange={_onChangePairType}
-                    options={uiSettings.availableCryptos}
-                    tabIndex={-1}
-                  />
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
-                </Modal.Column>
-              </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <Input
-                    help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                    isError={!!deriveValidation?.error}
-                    label={t<string>('secret derivation path')}
-                    onChange={_onChangeDerive}
-                    onEnter={_onCommit}
-                    placeholder={
-                      seedType === 'raw'
-                        ? pairType === 'sr25519'
-                          ? t<string>('//hard/soft')
-                          : t<string>('//hard')
-                        : pairType === 'sr25519'
-                          ? t<string>('//hard/soft///password')
-                          : t<string>('//hard///password')
-                    }
-                    tabIndex={-1}
-                    value={derivePath}
-                  />
-                  {deriveValidation?.error && (
-                    <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
-                  )}
-                  {deriveValidation?.warning && (
-                    <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
-                  )}
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
-                </Modal.Column>
-              </Modal.Columns>
+              <InputSection>
+                <DropdownNew
+                  defaultValue={pairType}
+                  help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                  label={t<string>('KEYPAIR CRYPTO TYPE')}
+                  onChange={_onChangePairType}
+                  options={uiSettings.availableCryptos}
+                />
+              </InputSection>
+              <InputSection>
+                <InputNew
+                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                  isError={!!deriveError}
+                  label={t<string>('SECRET DERIVATION PATH')}
+                  onChange={_onChangeDerive}
+                  placeholder={
+                    seedType === 'raw'
+                      ? pairType === 'sr25519'
+                        ? t<string>('//hard/soft')
+                        : t<string>('//hard')
+                      : pairType === 'sr25519'
+                        ? t<string>('//hard/soft///password')
+                        : t<string>('//hard///password')
+                  }
+                  value={derivePath}
+                />
+                {deriveError && (
+                  <article className='error'>{deriveError}</article>
+                )}
+              </InputSection>
             </Expander>
           </Modal.Content>
-        )
-      }
-      <Modal.Actions onCancel={onClose}>
-        {isConfirmationOpen
-          ? (
-            <>
-              <Button
-                icon='step-backward'
-                label={t<string>('Prev')}
-                onClick={toggleConfirmation}
-              />
-              <Button
-                icon='plus'
-                isBusy={isBusy}
-                label={t<string>('Save')}
-                onClick={_onCommit}
-              />
-            </>
-          )
-          : (
+          <div className='ui--Modal-Footer'>
+            <BackButton className='ui--Modal-back-button'
+              onClick={() => setStep(1)}/>
             <Button
-              icon='step-forward'
-              isDisabled={!isValid}
-              label={t<string>('Next')}
-              onClick={toggleConfirmation}
+              icon='plus'
+              isSelected={true}
+              label={t<string>('Create an account')}
+              onClick={_onCommit}
             />
-          )
-        }
-      </Modal.Actions>
+          </div>
+        </>
+      }
     </Modal>
   );
 }
 
-export default React.memo(styled(Create)`
-  .accounts--Creator-advanced {
-    margin-top: 1rem;
-    overflow: visible;
+export default styled(Create)`
+  & * {
+    font-family: 'Nunito Sans', sans-serif;
   }
 
-  .copyMoved {
-    position: absolute;
-    right: 8rem;
-    top: 0.75rem;
+  &.ui--Modal-Wrapper.medium {
+    width: 655px;
   }
-`);
+  &&.ui--Modal-Wrapper {
+    border-radius: 0;
+    background: #FAFAFA;
+
+    .ui--Button:not(.hasLabel) {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+
+      svg {
+        background: none;
+        color: #000;
+      }
+    }
+    .ui--Warning {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0.7rem 0.9rem 0.6rem;
+      margin: 0 0 16px;
+      background: rgba(232, 111, 0, 0.08);
+      border: 0;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 10px;
+      line-height: 14px;
+      color: #E86F00;
+
+      svg {
+        margin-right: 12px;
+      }
+    }
+    .ui--Buttons-row {
+      display: flex;
+      align-items: center;
+      margin: 0.45rem 0 1.1rem;
+
+      button + button {
+        margin-left: 24px;
+      }
+    }
+    .ui--Print-btn {
+      padding: 0;
+      background: none;
+      border: none;
+      font-size: 14px;
+      line-height: 22px;
+      text-decoration: underline;
+      color: #4D4D4D;
+
+      svg {
+        margin-right: 12px;
+      }
+    }
+    .accounts--Creator-advanced {
+      margin-top: 1.9rem;
+    }
+  }
+  &&.ui--Modal-Wrapper > div.header {
+    padding: 1.5rem 2.60rem 0 1.75rem;
+    font-size: 1.45rem;
+    line-height: 1.75rem;
+    color: #000000;
+  }
+  .ui--Modal-Footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.1rem 1.7rem;
+    background: #ECECEC;
+    border-top: 1px solid #DFDFDF;
+
+  }
+  .ui--Modal-Footer .ui--Modal-back-button {
+    margin-right: auto;
+  }
+`;

@@ -11,6 +11,7 @@ import Input from './Input';
 import Tags from './Tags';
 
 export const styles = `
+  width: 100%;
   text-align: left;
 
   &.isDisabled {
@@ -39,7 +40,12 @@ export const styles = `
 
   .ui--Row-base {
     display: flex;
+    align-items: center;
     min-width: 16rem;
+    padding: 0.75rem 1.1rem;
+    background: #FFFFFF;
+    border: 1px solid #DFDFDF;
+    border-radius: 4px;
   }
 
   .ui--Row-buttons {
@@ -80,9 +86,11 @@ export const styles = `
   .ui--Row-address,
   .ui--Row-accountIndex {
     font-family: monospace;
-    font-size: 1.25em;
     padding: 0;
     margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+    color: #4D4D4D;
   }
 
   .ui--Row-name {
@@ -100,6 +108,8 @@ export const styles = `
   }
 
   .ui--Row-icon {
+    width: 4rem;
+    height: 4rem;
     flex: 0;
     margin-right: 1em;
     position: relative;

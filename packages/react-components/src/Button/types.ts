@@ -9,7 +9,7 @@ export type Button$Callback = () => void | Promise<void>;
 export interface ButtonProps {
   children?: React.ReactNode;
   className?: string;
-  icon: IconName;
+  icon?: IconName;
   isBasic?: boolean;
   isBusy?: boolean;
   isCircular?: boolean;
