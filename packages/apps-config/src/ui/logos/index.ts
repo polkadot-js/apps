@@ -29,6 +29,7 @@ import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
+import nodeStafi from './nodes/stafi.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
@@ -87,6 +88,8 @@ const nodeLogos: Record<string, any> = [
   ['parity-polkadot', nodePolkadot],
   ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
+  ['Stafi Node', nodeStafi],
+  ['Stafi', nodeStafi],
   ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
   ['subsocial-node', nodeSubsocial],
@@ -114,6 +117,7 @@ const namedLogos: Record<string, any> = {
   nodle: nodeNodle,
   phala: nodePhala,
   plasm: nodePlasm,
+  stafi: nodeStafi,
   polkadot: nodePolkadot,
   rococo: chainRococo,
   rococoAcala: nodeAcala,

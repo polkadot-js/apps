@@ -18,6 +18,7 @@ import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
 import robonomics from './robonomics';
+import stafi from './stafi';
 import stablePoc from './stable-poc';
 import subsocialNode from './subsocial';
 
@@ -40,6 +41,7 @@ export default {
   'nodle-chain': nodle,
   plasm,
   robonomics,
+  stafi,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   subsocial: subsocialNode
