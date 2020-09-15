@@ -6,7 +6,7 @@ import { DeriveParachainFull } from '@polkadot/api-derive/types';
 import { Bytes, Option } from '@polkadot/types';
 
 import FileSaver from 'file-saver';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Card, IconLink, Labelled, Output, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -21,8 +21,8 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
   const { t } = useTranslation();
   const { api } = useApi();
 
-  const onDownload = (): void => {
-    try {
+  const _onDownload = useCallback(
+    (): void => {
       api.query.parachains
         .code<Option<Bytes>>(id)
         .then((code) => {
@@ -33,51 +33,41 @@ function Details ({ parachain: { heads, id, info } }: Props): React.ReactElement
           }
         })
         .catch(console.error);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [api, id, info, t]
+  );
 
   return (
     <Card>
-      <div className='ui--row'>
-        <Static
-          className='full label-small'
-          help={t<string>('The scheduling setting for this parachain.')}
-          label={t<string>('scheduling')}
-          value={info?.scheduling?.toString() || t<string>('Unknown')}
-        />
-      </div>
+      <Static
+        help={t<string>('The scheduling setting for this parachain.')}
+        isFull
+        label={t<string>('scheduling')}
+        value={info?.scheduling?.toString() || t<string>('Unknown')}
+      />
       {heads && (
-        <div className='ui--row'>
-          <Output
-            className='full label-small'
-            help={t<string>('Most recent head data')}
-            isMonospace
-            label={t<string>('heads')}
-            value={heads.toHex()}
-            withCopy
+        <Output
+          help={t<string>('Most recent head data')}
+          isFull
+          isMonospace
+          label={t<string>('heads')}
+          value={heads.toHex()}
+          withCopy
+        />
+      )}
+      <Labelled
+        help={t<string>('The compiled runtime WASM for this parachain.')}
+        isFull
+        label={t<string>('code')}
+      >
+        <div className='ui--Static ui selection dropdown'>
+          <IconLink
+            icon='download'
+            label={t<string>('Download')}
+            onClick={_onDownload}
           />
         </div>
-      )}
-      <div className='ui--row'>
-        <Labelled
-          className='full label-small'
-          help={t<string>('The compiled runtime WASM for this parachain.')}
-          label={t<string>('code')}
-        >
-          <div
-            className='ui--Static ui selection dropdown'
-            onClick={onDownload}
-          >
-            <IconLink
-              icon='download'
-              label={t<string>('Download')}
-              onClick={onDownload}
-            />
-          </div>
-        </Labelled>
-      </div>
+      </Labelled>
     </Card>
   );
 }

@@ -26,7 +26,7 @@ interface Props {
 function Overview ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const info = useCall<DeriveSociety>(api.derive.society.info, []);
+  const info = useCall<DeriveSociety>(api.derive.society.info);
   const { allMembers, isMember, ownMembers } = useMembers();
   const [isBidOpen, toggleBidOpen] = useToggle();
 

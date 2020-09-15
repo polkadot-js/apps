@@ -5,9 +5,10 @@
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import uiSettings from '@polkadot/ui-settings';
 
 import basicMd from './md/basic.md';
+import Execute from './Execute';
+import useDispatchCounter from './Execute/useCounter';
 import Overview from './Overview';
 import { useTranslation } from './translate';
 
@@ -17,19 +18,22 @@ interface Props {
   basePath: string;
 }
 
-const hidden = uiSettings.uiMode === 'full'
-  ? []
-  : ['propose'];
-
 function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const dispatchCount = useDispatchCounter();
+
   const items = useMemo(() => [
     {
       isRoot: true,
       name: 'overview',
       text: t<string>('Democracy overview')
+    },
+    {
+      count: dispatchCount,
+      name: 'dispatch',
+      text: t<string>('Dispatch')
     }
-  ], [t]);
+  ], [dispatchCount, t]);
 
   return (
     <main className='democracy--App'>
@@ -37,12 +41,14 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
       <header>
         <Tabs
           basePath={basePath}
-          hidden={hidden}
           items={items}
         />
       </header>
       <Switch>
-        <Route component={Overview} />
+        <Route path={`${basePath}/dispatch`}>
+          <Execute />
+        </Route>
+        <Route><Overview /></Route>
       </Switch>
     </main>
   );

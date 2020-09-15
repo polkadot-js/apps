@@ -5,12 +5,10 @@
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
 import React from 'react';
-import styled from 'styled-components';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import DispatchQueue from './DispatchQueue';
 import Externals from './Externals';
 import Proposals from './Proposals';
 import Referendums from './Referendums';
@@ -27,7 +25,7 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [isPreimageOpen, togglePreimage] = useToggle();
   const [isProposeOpen, togglePropose] = useToggle();
-  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums, []);
+  const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy.referendums);
 
   return (
     <div className={className}>
@@ -52,14 +50,9 @@ function Overview ({ className }: Props): React.ReactElement<Props> {
       )}
       <Referendums referendums={referendums} />
       <Proposals />
-      <DispatchQueue />
       <Externals />
     </div>
   );
 }
 
-export default React.memo(styled(Overview)`
-  .proposalSection {
-    margin-bottom: 1.5rem;
-  }
-`);
+export default React.memo(Overview);

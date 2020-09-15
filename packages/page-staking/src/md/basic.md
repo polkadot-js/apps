@@ -1,12 +1,12 @@
 # Staking
 
-Welcome to the staking module. Here you can see an overview of all the validators on the network and participate in the network as either a validator (running a node that helps secure the network), or a nominator (adding funds to help secure the network).
+Welcome to the staking module. Here you can see an overview of all the validators on the network and participate in the network either a validator (running a node that helps secure the network), or as a nominator (adding funds to help secure the network).
 
-Validators and nominators earn rewards at the end of an era: the rewards are split between the validators and nominators for that validator, in proportion to the amount bonded by each individual.
+Validators and nominators earn rewards at the end of each era. The rewards are split between the validators and its nominators, in proportion to the amount bonded.
 
 # Bonding
 
-Bonding funds is the first step that either a validator or nominator performs. It locks up a portion of funds that is used to secure the network. These funds are placed at risk, i.e. you can be slashed and lose a portion if the validator node misbehaves. Validators and nominators share both rewards and the slashing effects. Choosing a well behaving validator to nominate is crucial.
+Bonding funds is the first step to validate or nominate. It locks up a portion of funds that is used to secure the network. These funds are placed at risk, i.e. you can be slashed and lose a portion if the validator node misbehaves. Validators and nominators share both rewards and the slashing effects. Choosing a well behaving validator to nominate is crucial.
 
 For bonding (with an intention to either validate or nominate), you need to have 2 accounts -
 
@@ -19,7 +19,7 @@ To bond, you select the stash account, bond from it and designate a controller. 
 
 Nomination (using the controller account as set as part of the bonding) is a process of selecting a number of validators (or potential validators) that you deem trustworthy. Once the validators are selected, the bonded value is assigned to participate in the network security.
 
-At any point you could stop nominating (using the controller) or top up the funds bonded (from the stash).
+You can stop nominating at any point in time, using the controller account. You can also bond more funds using the stash account.
 
 # Validating
 

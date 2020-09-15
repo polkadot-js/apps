@@ -15,6 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         'query.claims.claims'
       ]
     },
+    group: 'accounts',
     icon: 'star',
     name: 'claims',
     text: t<string>('nav.claims', 'Claim Tokens', { ns: 'apps-routing' }),

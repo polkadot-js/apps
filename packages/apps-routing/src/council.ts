@@ -17,6 +17,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
         ]
       ]
     },
+    group: 'governance',
     icon: 'building',
     name: 'council',
     text: t<string>('nav.council', 'Council', { ns: 'apps-routing' }),

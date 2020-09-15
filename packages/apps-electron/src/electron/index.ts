@@ -10,18 +10,20 @@ import { createWindow } from './window';
 
 const ENV = process.env.NODE_ENV || 'production';
 
-const onReady = async () => {
-  registerAccountStoreHandlers();
-  setupContentSecurityPolicy(ENV);
-  await createWindow(ENV);
-  await setupAutoUpdater();
-};
-
-app.on('web-contents-created', (e, webContents) => {
-  webContents.on('new-window', (e, url) => {
+app.on('web-contents-created', (_, webContents): void => {
+  webContents.on('new-window', (e, url): void => {
     e.preventDefault();
     shell.openExternal(url).catch(console.error);
   });
 });
 
-app.whenReady().then(onReady).catch(console.error);
+app
+  .whenReady()
+  .then(async (): Promise<void> => {
+    registerAccountStoreHandlers();
+    setupContentSecurityPolicy(ENV);
+
+    await createWindow(ENV);
+    await setupAutoUpdater();
+  })
+  .catch(console.error);

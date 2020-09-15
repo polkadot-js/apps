@@ -17,7 +17,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 
 import keyring from '@polkadot/ui-keyring';
 
-import Unlock from '../../page-toolbox/src/Unlock';
+import Unlock from '../../page-signing/src/Unlock';
 import SignatureDIDs from './SignatureDIDs';
 import { useTranslation } from './translate';
 

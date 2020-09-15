@@ -7,7 +7,7 @@ import { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { Codec, ITuple } from '@polkadot/types/types';
 import { StakerState } from './types';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import useAccounts from './useAccounts';
@@ -34,8 +34,7 @@ function getStakerState (stashId: string, allAccounts: string[], allStashes: str
 
   return {
     controllerId,
-    destination: rewardDestination?.toString().toLowerCase(),
-    destinationId: rewardDestination?.toNumber() || 0,
+    destination: rewardDestination,
     exposure,
     hexSessionIdNext: u8aToHex(nextConcat, 48),
     hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),
@@ -64,7 +63,6 @@ export default function useOwnStashInfos (): StakerState[] | undefined {
   const ownStashes = useOwnStashes();
   const allStashes = useStashIds();
   const [queried, setQueried] = useState<Queried | undefined>();
-  const [state, setState] = useState<StakerState[] | undefined>();
 
   useEffect((): () => void => {
     let unsub: (() => void) | undefined;
@@ -97,13 +95,12 @@ export default function useOwnStashInfos (): StakerState[] | undefined {
     };
   }, [api, mountedRef, ownStashes]);
 
-  useEffect((): void => {
-    allAccounts && allStashes && ownStashes && queried && ownStashes.length === Object.keys(queried).length && setState(
-      ownStashes
+  return useMemo(
+    () => allStashes && ownStashes && queried && ownStashes.length === Object.keys(queried).length
+      ? ownStashes
         .filter(([stashId]) => queried[stashId])
         .map(([stashId]) => getStakerState(stashId, allAccounts, allStashes, queried[stashId]))
-    );
-  }, [allAccounts, allStashes, ownStashes, queried]);
-
-  return state;
+      : undefined,
+    [allAccounts, allStashes, ownStashes, queried]
+  );
 }

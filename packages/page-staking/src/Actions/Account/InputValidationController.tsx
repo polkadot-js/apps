@@ -6,7 +6,6 @@ import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
-import { Icon } from '@polkadot/react-components';
 import { Option } from '@polkadot/types';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -24,21 +23,25 @@ interface ErrorState {
   isFatal: boolean;
 }
 
+const transformBonded = {
+  transform: (value: Option<AccountId>): string | null =>
+    value.isSome
+      ? value.unwrap().toString()
+      : null
+};
+
+const transformStash = {
+  transform: (value: Option<StakingLedger>): string | null =>
+    value.isSome
+      ? value.unwrap().stash.toString()
+      : null
+};
+
 function ValidateController ({ accountId, controllerId, defaultController, onError }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bondedId = useCall<string | null>(controllerId ? api.query.staking.bonded : null, [controllerId], {
-    transform: (value: Option<AccountId>): string | null =>
-      value.isSome
-        ? value.unwrap().toString()
-        : null
-  });
-  const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], {
-    transform: (value: Option<StakingLedger>): string | null =>
-      value.isSome
-        ? value.unwrap().stash.toString()
-        : null
-  });
+  const bondedId = useCall<string | null>(controllerId ? api.query.staking.bonded : null, [controllerId], transformBonded);
+  const stashId = useCall<string | null>(controllerId ? api.query.staking.ledger : null, [controllerId], transformStash);
   const allBalances = useCall<DeriveBalancesAll>(controllerId ? api.derive.balances.all : null, [controllerId]);
   const [{ error, isFatal }, setError] = useState<ErrorState>({ error: null, isFatal: false });
 
@@ -73,7 +76,7 @@ function ValidateController ({ accountId, controllerId, defaultController, onErr
 
   return (
     <article className={isFatal ? 'error' : 'warning'}>
-      <div><Icon icon='exclamation-triangle' />{error}</div>
+      <div>{error}</div>
     </article>
   );
 }

@@ -90,7 +90,6 @@ function Attest ({ accountId, className, ethereumAddress, onSuccess, statementKi
             accountId={accountId}
             icon='paper-plane'
             isDisabled={!statementSentence}
-            isPrimary
             label={t<string>('I agree')}
             onSuccess={onSuccess}
             params={[statementSentence]}

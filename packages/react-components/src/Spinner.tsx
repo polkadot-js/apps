@@ -6,44 +6,59 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useTranslation } from './translate';
-import Icon from './Icon';
+import spinnerSrc from './Spinner.png';
 
 interface Props {
   className?: string;
   label?: React.ReactNode;
-  variant?: 'app' | 'push' | 'mini';
+  variant?: 'app' | 'cover' | 'push' | 'mini';
 }
+
+// prefetch
+const img = new Image();
+
+img.src = spinnerSrc as string;
 
 function Spinner ({ className = '', label, variant = 'app' }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const isApp = variant === 'app';
 
   return (
-    <div className={`${className} ui--Spinner ${variant}`}>
-      <Icon
-        className='ui--highlight--color'
-        icon='spinner'
-        isSpinning
-        size={isApp ? '2x' : '1x'}
+    <div className={`${className} ui--Spinner${variant === 'cover' ? ' isCover' : ''}`}>
+      <img
+        className={variant === 'push' ? '' : 'highlight--bg highlight--border'}
+        src={spinnerSrc as string}
       />
-      {isApp && <div className='text'>{label || t('Retrieving data')}</div>}
+      {variant === 'app' && <div className='text'>{label || t('Retrieving data')}</div>}
     </div>
   );
 }
 
 export default React.memo(styled(Spinner)`
   display: block;
+  line-height: 1;
   margin: 0 auto;
   text-align: center;
 
-  .ui--Icon {
-    margin-bottom: 0.5rem;
-    opacity: 0.75;
+  &.isCover {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+
+    img {
+      border: 1 px solid white;
+      margin: 0 auto;
+    }
+  }
+
+  img {
+    border: 1px solid transparent;
+    border-radius: 10rem;
   }
 
   .text {
     color: inherit !important;
-    margin: 0 auto 1.5rem auto;
+    margin: 0.25rem auto 1.5rem auto;
     opacity: 0.6;
   }
 `);

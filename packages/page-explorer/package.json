@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-explorer",
   "private": true,
-  "version": "0.51.0-beta.2",
+  "version": "0.59.0-beta.7",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
-    "@polkadot/react-components": "0.51.0-beta.2"
+    "@babel/runtime": "^7.11.2",
+    "@polkadot/react-components": "0.59.0-beta.7"
   }
 }

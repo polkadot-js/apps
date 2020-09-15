@@ -4,10 +4,11 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
-import { Call, Multisig, ProxyType } from '@polkadot/types/interfaces';
-import { AddressProxy } from './types';
+import { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
+import { ITuple } from '@polkadot/types/types';
+import { AddressFlags, AddressProxy } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
@@ -23,6 +24,7 @@ interface Props {
   className?: string;
   currentItem: QueueTx;
   onChange: (address: AddressProxy) => void;
+  onEnter?: () => void;
   passwordError: string | null;
   requestAddress: string;
 }
@@ -121,8 +123,10 @@ async function queryForMultisig (api: ApiPromise, requestAddress: string, proxyA
 async function queryForProxy (api: ApiPromise, allAccounts: string[], address: string, tx: SubmittableExtrinsic<'promise'>): Promise<ProxyState | null> {
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
-    const [_proxies] = await api.query.proxy.proxies(address);
-    const proxies = _proxies.map(([accountId, type]): [string, ProxyType] => [accountId.toString(), type]);
+    const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address);
+    const proxies = api.tx.proxy.addProxy.meta.args.length === 3
+      ? (_proxies as ProxyDefinition[]).map(({ delegate, proxyType }): [string, ProxyType] => [delegate.toString(), proxyType])
+      : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]): [string, ProxyType] => [delegate.toString(), proxyType]);
     const proxiesFilter = filterProxies(allAccounts, tx, proxies);
 
     if (proxiesFilter.length) {
@@ -133,24 +137,33 @@ async function queryForProxy (api: ApiPromise, allAccounts: string[], address: s
   return null;
 }
 
-function Address ({ currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
+function Address ({ currentItem, onChange, onEnter, passwordError, requestAddress }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
-  const { t } = useTranslation();
   const [multiAddress, setMultiAddress] = useState<string | null>(null);
   const [proxyAddress, setProxyAddress] = useState<string | null>(null);
-  const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
   const [isProxyActive, setIsProxyActive] = useState(true);
   const [multiInfo, setMultInfo] = useState<MultiState | null>(null);
   const [proxyInfo, setProxyInfo] = useState<ProxyState | null>(null);
-  const [signAddress, setSignAddress] = useState<string | null>(requestAddress);
   const [signPassword, setSignPassword] = useState('');
 
+  const [signAddress, flags] = useMemo(
+    (): [string, AddressFlags] => {
+      const signAddress = (multiInfo && multiAddress) ||
+        (isProxyActive && proxyInfo && proxyAddress) ||
+        requestAddress;
+
+      return [signAddress, extractExternal(signAddress)];
+    },
+    [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]
+  );
+
   useEffect((): void => {
-    setFlags(extractExternal(signAddress));
-  }, [signAddress]);
+    !proxyInfo && setProxyAddress(null);
+  }, [proxyInfo]);
 
   // proxy for requestor
   useEffect((): void => {
@@ -161,10 +174,6 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
         .then((info) => mountedRef.current && setProxyInfo(info))
         .catch(console.error);
   }, [allAccounts, api, currentItem, mountedRef, requestAddress]);
-
-  useEffect((): void => {
-    !proxyInfo && setProxyAddress(null);
-  }, [proxyInfo]);
 
   // multisig
   useEffect((): void => {
@@ -180,15 +189,6 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
         })
         .catch(console.error);
   }, [proxyAddress, api, currentItem, mountedRef, requestAddress]);
-
-  // address
-  useEffect((): void => {
-    setSignAddress(
-      (multiInfo && multiAddress) ||
-      (isProxyActive && proxyInfo && proxyAddress) ||
-      requestAddress
-    );
-  }, [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]);
 
   useEffect((): void => {
     onChange({
@@ -254,6 +254,7 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
           address={signAddress}
           error={passwordError}
           onChange={setSignPassword}
+          onEnter={onEnter}
         />
       )}
       {proxyInfo && (

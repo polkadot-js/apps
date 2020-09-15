@@ -15,7 +15,7 @@ interface Props {
 
 function Available ({ address, filter, isHidden, onSelect }: Props): React.ReactElement<Props> | null {
   const _onSelect = useCallback(
-    (): void => onSelect(address),
+    () => onSelect(address),
     [address, onSelect]
   );
 
@@ -27,7 +27,6 @@ function Available ({ address, filter, isHidden, onSelect }: Props): React.React
     <AddressToggle
       address={address}
       filter={filter}
-      noLookup
       noToggle
       onChange={_onSelect}
     />

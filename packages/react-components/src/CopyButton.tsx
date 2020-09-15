@@ -20,6 +20,8 @@ interface Props {
   value: string;
 }
 
+const NOOP = () => undefined;
+
 function CopyButton ({ children, className, icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
@@ -48,7 +50,7 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
             <Button
               className='icon-button show-on-hover'
               icon={icon}
-              isPrimary
+              onClick={NOOP}
             />
           </span>
         </div>
@@ -58,12 +60,6 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
 }
 
 export default React.memo(styled(CopyButton)`
-  cursor: copy;
-
-  button.u.ui--Icon.primary.button.icon-button {
-    cursor: copy;
-  }
-
   .copySpan {
     white-space: nowrap;
   }

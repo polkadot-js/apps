@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
@@ -17,7 +17,8 @@ interface Props {
 
 function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const items = useMemo(() => [
+
+  const itemsRef = useRef([
     {
       isRoot: true,
       name: 'assets',
@@ -27,14 +28,14 @@ function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
       name: 'transfer',
       text: t<string>('Transfer')
     }
-  ], [t]);
+  ]);
 
   return (
     <main className='treasury--App'>
       <header>
         <Tabs
           basePath={basePath}
-          items={items}
+          items={itemsRef.current}
         />
       </header>
       <Switch>

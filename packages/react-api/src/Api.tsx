@@ -11,6 +11,7 @@ import store from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@polkadot/apps-config/api';
+import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -70,7 +71,8 @@ function getDevTypes (): Record<string, Record<string, string>> {
 }
 
 async function retrieve (api: ApiPromise): Promise<ChainData> {
-  const [properties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
+  const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
+    api.rpc.chain.getHeader(),
     api.rpc.system.properties(),
     api.rpc.system.chain(),
     api.rpc.system.chainType
@@ -94,6 +96,13 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
         return [];
       })
   ]);
+
+  // HACK Horrible hack to try and give some window to the DOT denomination
+  const properties = api.genesisHash.eq(POLKADOT_GENESIS)
+    ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
+      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'DOT' })
+      : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
+    : chainProperties;
 
   return {
     injectedAccounts,

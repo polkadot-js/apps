@@ -3,25 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { Voting } from '@polkadot/types/interfaces';
+import { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
 import { Delegation, SortedAccount } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import keyring from '@polkadot/ui-keyring';
-import { getLedger, isLedger } from '@polkadot/react-api';
-import { useApi, useAccounts, useCall, useFavorites, useIpfs, useToggle } from '@polkadot/react-hooks';
+import { isLedger } from '@polkadot/react-api';
+import { useApi, useAccounts, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import CreateModal from './modals/Create';
-import ImportModal from './modals/Import';
-import Multisig from './modals/MultisigCreate';
-import Proxy from './modals/ProxyAdd';
-import Qr from './modals/Qr';
+import CreateModal from '../modals/Create';
+import ImportModal from '../modals/Import';
+import Ledger from '../modals/Ledger';
+import Multisig from '../modals/MultisigCreate';
+import Proxy from '../modals/ProxiedAdd';
+import Qr from '../modals/Qr';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
@@ -44,35 +44,43 @@ interface Props {
 
 const STORE_FAVS = 'accounts:favorites';
 
-// query the ledger for the address, adding it to the keyring
-async function queryLedger (): Promise<void> {
-  const ledger = getLedger();
-
-  try {
-    const { address } = await ledger.getAddress();
-
-    keyring.addHardware(address, 'ledger', { name: 'ledger' });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts } = useAccounts();
+  const { allAccounts, hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
+  const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS);
   const [{ balanceTotal }, setBalances] = useState<Balances>({ accounts: {} });
   const [filterOn, setFilter] = useState<string>('');
-  const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[]>([]);
+  const [sortedAccountsWithDelegation, setSortedAccountsWithDelegation] = useState<SortedAccount[] | undefined>();
   const [{ sortedAccounts, sortedAddresses }, setSorted] = useState<Sorted>({ sortedAccounts: [], sortedAddresses: [] });
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
+  const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
+    transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
+      api.tx.proxy.addProxy.meta.args.length === 3
+        ? result as [ProxyDefinition[], BN][]
+        : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
+          [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
+        )
+  });
+  const isLoading = useLoadingDelay();
+
+  const headerRef = useRef([
+    [t('accounts'), 'start', 3],
+    [t('parent'), 'address media--1400'],
+    [t('type')],
+    [t('tags'), 'start'],
+    [t('transactions'), 'media--1500'],
+    [t('balances'), 'expand'],
+    [],
+    [undefined, 'media--1400']
+  ]);
 
   useEffect((): void => {
     const sortedAccounts = sortAccounts(allAccounts, favorites);
@@ -121,28 +129,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     []
   );
 
-  const header = useMemo(() => [
-    [t('accounts'), 'start', 3],
-    [t('parent'), 'address ui--media-1400'],
-    [t('type')],
-    [t('tags'), 'start'],
-    [t('transactions'), 'ui--media-1500'],
-    [t('balances')],
-    [],
-    [undefined, 'mini ui--media-1400']
-  ], [t]);
-
   const footer = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='ui--media-1400' />
+      <td className='media--1400' />
       <td colSpan={2} />
-      <td className='ui--media-1500' />
+      <td className='media--1500' />
       <td className='number'>
         {balanceTotal && <FormatBalance value={balanceTotal} />}
       </td>
       <td />
-      <td className='ui--media-1400' />
+      <td className='media--1400' />
     </tr>
   ), [balanceTotal]);
 
@@ -160,8 +157,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <BannerExtension />
-      <BannerClaims />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -173,6 +168,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClose={toggleImport}
           onStatusChange={onStatusChange}
         />
+      )}
+      {isLedgerOpen && (
+        <Ledger onClose={toggleLedger} />
       )}
       {isMultisigOpen && (
         <Multisig
@@ -214,8 +212,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <>
             <Button
               icon='question'
-              label={t<string>('Query Ledger')}
-              onClick={queryLedger}
+              label={t<string>('Add Ledger')}
+              onClick={toggleLedger}
             />
           </>
         )}
@@ -232,19 +230,22 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClick={toggleProxy}
         />
       </Button.Group>
+      <BannerExtension />
+      <BannerClaims />
       <Table
-        empty={t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={(!hasAccounts || (!isLoading && sortedAccountsWithDelegation)) && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
-        header={header}
+        header={headerRef.current}
       >
-        {sortedAccountsWithDelegation.map(({ account, delegation, isFavorite }): React.ReactNode => (
+        {isLoading ? undefined : sortedAccountsWithDelegation?.map(({ account, delegation, isFavorite }, index): React.ReactNode => (
           <Account
             account={account}
             delegation={delegation}
             filter={filterOn}
             isFavorite={isFavorite}
             key={account.address}
+            proxy={proxies?.[index]}
             setBalance={_setBalance}
             toggleFavorite={toggleFavorite}
           />

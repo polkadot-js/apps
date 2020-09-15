@@ -21,58 +21,144 @@ const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
 
 export default createGlobalStyle<Props>`
-  .ui--highlight--all {
+  .highlight--all {
     background: ${getHighlight} !important;
     border-color: ${getHighlight} !important;
     color: ${getHighlight} !important;
   }
 
-  .ui--highlight--bg {
+  .highlight--before:before {
     background: ${getHighlight} !important;
   }
 
-  .ui--highlight--border {
+  .highlight--before-border:before {
     border-color: ${getHighlight} !important;
   }
 
-  .ui--highlight--button {
+  .highlight--bg {
     background: ${getHighlight} !important;
-    // box-shadow: 0 0 0 1px ${getHighlight} !important;
+  }
 
-    &:hover {
-      // box-shadow: inherit !important;
+  .highlight--bg-faint,
+  .highlight--bg-light {
+    background: white;
+    position: relative;
+
+    &:before {
+      background: ${getHighlight};
+      bottom: 0;
+      content: ' ';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: -1;
     }
   }
 
-  .ui--highlight--color {
+  .highlight--bg-faint:before {
+    opacity: 0.025;
+  }
+
+  .highlight--bg-light:before {
+    opacity: 0.125;
+  }
+
+  .highlight--border {
+    border-color: ${getHighlight} !important;
+  }
+
+  .highlight--color {
     color: ${getHighlight} !important;
   }
 
-  .ui--highlight--fill {
+  .highlight--fill {
     fill: ${getHighlight} !important;
   }
 
-  .ui--highlight--gradient {
-    background: ${(props: Props): string => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+  .highlight--gradient {
+    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
   }
 
-  .ui--highlight--icon {
+  .highlight--hover-bg:hover {
+    background: ${getHighlight} !important;
+  }
+
+  .highlight--hover-color:hover {
+    color: ${getHighlight} !important;
+  }
+
+  .highlight--icon {
     .ui--Icon {
       color: ${getHighlight} !important;
     }
   }
 
-  .ui--highlight--stroke {
+  .highlight--shadow {
+    box-shadow: 0 0 1px ${getHighlight} !important;
+  }
+
+  .highlight--stroke {
     stroke: ${getHighlight} !important;
+  }
+
+  .ui--Button {
+    &:not(.isDisabled):not(.isIcon):not(.isBasic),
+    &.withoutLink:not(.isDisabled) {
+      .ui--Icon {
+        background: ${getHighlight};
+        color: #f5f5f4;
+      }
+    }
+
+    &.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) {
+      &:not(.isReadOnly) {
+        box-shadow: 0 0 1px ${getHighlight};
+      }
+
+      .ui--Icon {
+        color: ${getHighlight};
+      }
+    }
+
+    &.isSelected {
+      box-shadow: 0 0 1px ${getHighlight};
+    }
+
+    &:hover:not(.isDisabled):not(.isReadOnly),
+    &.isSelected {
+      background: ${getHighlight};
+      color: #f5f5f4;
+      text-shadow: none;
+
+      &:not(.isIcon),
+      &.withoutLink {
+        .ui--Icon {
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .ui--Table td .ui--Button {
+    &:not(.isDisabled):not(.isIcon):not(.isToplevel),
+    &.withoutLink:not(.isDisabled) {
+      &:hover {
+        .ui--Icon {
+          color: #f5f5f4;
+        }
+      }
+
+      .ui--Icon {
+        background: transparent;
+        color: ${getHighlight};
+      }
+    }
   }
 
   .theme--default {
     .ui--Tabs-Tab.tabLinkActive {
       border-bottom-color: ${getHighlight};
-    }
-
-    .ui--Progress > div {
-      background-color: ${getHighlight} !important;
     }
 
     .ui.negative.button,
@@ -92,11 +178,15 @@ export default createGlobalStyle<Props>`
       }
     }
 
-    .ui--Toggle.isChecked .ui--Toggle-Slider {
-      background-color: ${getHighlight} !important;
+    .ui--Toggle.isChecked {
+      &:not(.isRadio) {
+        .ui--Toggle-Slider {
+          background-color: ${getHighlight} !important;
 
-      &:before {
-        border-color: ${getHighlight} !important;
+          &:before {
+            border-color: ${getHighlight} !important;
+          }
+        }
       }
     }
   }
@@ -121,17 +211,6 @@ export default createGlobalStyle<Props>`
     position: relative;
     text-align: left;
 
-    &:not(:hover):not(.keepAlive) {
-      .ui.button:not(.disabled) {
-        background: #eee !important;
-        color: #555 !important;
-      }
-
-      .ui.button.show-on-hover {
-        visibility: hidden;
-      }
-    }
-
     > ul {
       margin: 0;
       padding: 0;
@@ -139,19 +218,44 @@ export default createGlobalStyle<Props>`
 
     &.error,
     &.warning {
-      font-size: 0.95rem;
+      border-left-width: 0.25rem;
+      line-height: 1.5;
       margin-left: 2.25rem;
       padding: 0.75rem 1rem;
+      position: relative;
+      z-index: 5;
+
+      &:before {
+        border-radius: 0.25rem;
+        bottom: 0;
+        content: ' ';
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: -1;
+      }
     }
 
-    &.nomargin {
-      margin-left: 0;
+    &.extraMargin {
+      margin: 2rem auto;
+    }
+
+    &.centered {
+      margin: 1.5rem auto;
+      max-width: 75rem;
+
+      &+.ui--Button-Group {
+        margin-top: 2rem;
+      }
     }
 
     &.error {
-      background: #fff6f6;
-      border-color: #e0b4b4;
-      color: #9f3a38;
+      &:before {
+        background: rgba(255, 12, 12, 0.05);
+      }
+
+      border-color: rgba(255, 12, 12, 1);
     }
 
     &.padded {
@@ -163,12 +267,16 @@ export default createGlobalStyle<Props>`
     }
 
     &.warning {
-      background: #ffffe0;
-      border-color: #eeeeae;
+      &:before {
+        background: rgba(255, 196, 12, 0.05);
+      }
+
+      border-color: rgba(255, 196, 12, 1);
     }
   }
 
   body {
+    background: #f5f3f1;
     height: 100%;
     margin: 0;
   }
@@ -242,8 +350,6 @@ export default createGlobalStyle<Props>`
   }
 
   main {
-    min-height: 100vh;
-
     > section {
       margin-bottom: 2em;
     }

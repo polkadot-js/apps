@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 
-function ChainColorIndicator ({ className = '', color }: Props): React.ReactElement<Props> {
+function ChainColorIndicator ({ className, color }: Props): React.ReactElement<Props> {
   return (
     <div
       className={className}

@@ -5,7 +5,6 @@
 import { I18nProps } from '@polkadot/react-components/types';
 
 import React, { useEffect, useState } from 'react';
-import { Icon } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
 
@@ -37,7 +36,7 @@ function ValidateSessionEd25519 ({ onError, sessionId, stashId }: Props): React.
 
   return (
     <article className='warning'>
-      <div><Icon icon='exclamation-triangle' />{error}</div>
+      <div>{error}</div>
     </article>
   );
 }

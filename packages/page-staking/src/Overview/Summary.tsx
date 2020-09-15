@@ -29,16 +29,22 @@ function Summary ({ className = '', isVisible, next, nominators, stakingOverview
       <section>
         {stakingOverview && (
           <CardSummary label={t<string>('validators')}>
-            {stakingOverview.validators.length}{`/${stakingOverview.validatorCount.toString()}`}
+            {stakingOverview.validators.length}&nbsp;/&nbsp;{stakingOverview.validatorCount.toString()}
           </CardSummary>
         )}
         {!!next?.length && (
-          <CardSummary label={t<string>('waiting')}>
+          <CardSummary
+            className='media--1000'
+            label={t<string>('waiting')}
+          >
             {next.length}
           </CardSummary>
         )}
         {!!nominators?.length && (
-          <CardSummary label={t<string>('nominators')}>
+          <CardSummary
+            className='media--1100'
+            label={t<string>('nominators')}
+          >
             {nominators.length}
           </CardSummary>
         )}

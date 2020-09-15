@@ -16,6 +16,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
       ],
       needsSudo: true
     },
+    group: 'developer',
     icon: 'unlock',
     name: 'sudo',
     text: t<string>('nav.sudo', 'Sudo', { ns: 'apps-routing' })

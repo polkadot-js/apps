@@ -8,11 +8,12 @@ import styled from 'styled-components';
 interface Props {
   children?: React.ReactNode;
   className?: string;
+  isSmall?: boolean;
 }
 
-function SummaryBox ({ children, className }: Props): React.ReactElement<Props> {
+function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactElement<Props> {
   return (
-    <div className={className}>
+    <div className={`${className}${isSmall ? ' isSmall' : ''}`}>
       {children}
     </div>
   );
@@ -20,10 +21,11 @@ function SummaryBox ({ children, className }: Props): React.ReactElement<Props> 
 
 export default React.memo(styled(SummaryBox)`
   align-items: stretch;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
+  margin: 1.5rem 0;
 
   > section {
     display: flex;
@@ -46,16 +48,8 @@ export default React.memo(styled(SummaryBox)`
     }
   }
 
-  @media(max-width: 767px) {
-    padding: 0;
-
-    .ui--media-small {
-      display: none !important;
-    }
-  }
-
-  @media(min-width: 768px) {
-    margin-bottom: 1.5rem;
+  &.isSmall {
+    margin-bottom: 0;
   }
 
   .ui.label {

@@ -69,18 +69,25 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
               <div className={isTimed ? 'isSecondary' : 'isPrimary'}>
                 {!left || isUndefined(progress.total)
                   ? '-'
-                  : `${left}${progress.isPercent ? '' : '/'}${
-                    progress.isPercent
-                      ? '%'
-                      : formatNumber(progress.total)
-                  }`
+                  : !isTimed || progress.isPercent || !progress.value
+                    ? `${left}${progress.isPercent ? '' : '/'}${
+                      progress.isPercent
+                        ? '%'
+                        : formatNumber(progress.total)
+                    }`
+                    : (
+                      <BlockToTime
+                        blocks={progress.total.sub(progress.value)}
+                        className='timer'
+                      />
+                    )
                 }
               </div>
             </>
           )
         }
-        {progress && <Progress {...progress} />}
       </Labelled>
+      {progress && <Progress {...progress} />}
     </article>
   );
 }
@@ -95,17 +102,17 @@ export default React.memo(styled(CardSummary)`
   flex: 0 1 auto;
   flex-flow: row wrap;
   justify-content: flex-end;
-  padding: 0rem 1.5rem 0.5rem 1.5rem;
+  padding: 0 1.5rem;
 
   .ui--FormatBalance .balance-postfix {
     opacity: 1;
   }
 
   .ui--Progress {
-    margin: 0.2rem 0 -0.5rem;
+    margin: 0.5rem 0.125rem 0.125rem 0.75rem;
   }
 
-  > div {
+  > .ui--Labelled {
     font-size: 1.75rem;
     font-weight: 100;
     position: relative;
@@ -129,9 +136,12 @@ export default React.memo(styled(CardSummary)`
     }
 
     .isSecondary {
-      font-size: 1.1rem;
-      font-weight: normal;
-      margin-top: 0.25rem;
+      font-size: 1rem;
+      font-weight: 100;
+
+      .timer {
+        min-width: 8rem;
+      }
     }
   }
 

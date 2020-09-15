@@ -4,6 +4,8 @@
 
 import BN from 'bn.js';
 
+import { externalLogos } from '../ui/logos';
+
 export default {
   chains: {
     Edgeware: 'edgeware',
@@ -17,6 +19,7 @@ export default {
   create: (chain: string, path: string, data: BN | number | string): string =>
     `https://${chain}.subscan.io/${path}/${data.toString()}`,
   isActive: true,
+  logo: externalLogos.subscan as string,
   paths: {
     address: 'account',
     block: 'block',

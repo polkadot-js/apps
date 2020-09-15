@@ -2,13 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { HeadData } from '@polkadot/types/interfaces';
 import { DeriveParachain } from '@polkadot/api-derive/types';
 
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { Badge, Icon } from '@polkadot/react-components';
-import ParachainInfo from '../ParachainInfo';
+import { Badge, Button, Icon } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -17,14 +20,26 @@ interface Props {
   parachain: DeriveParachain;
 }
 
+const transformHead = {
+  transform: (headData: Option<HeadData>): string | null => {
+    if (headData.isSome) {
+      const hex = headData.unwrap().toHex();
+
+      return `${hex.slice(0, 18)}…${hex.slice(-16)}`;
+    }
+
+    return null;
+  }
+};
+
 function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingSwapId, relayDispatchQueueSize = 0 } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const headHex = useCall<string | null>(api.query.parachains.heads, [id], transformHead);
   const history = useHistory();
 
   const _onClick = useCallback(
-    (): void => {
-      history.push(`/parachains/${id.toString()}`);
-    },
+    () => history.push(`/parachains/${id.toString()}`),
     [history, id]
   );
 
@@ -40,39 +55,35 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
         <div>
           <Badge
             className='did-update'
-            color='green'
+            color={didUpdate ? 'green' : 'gray'}
             hover={
               didUpdate
                 ? t<string>('Updated in the latest block')
                 : t<string>('Not updated in the last block')
             }
-            info={
-              <Icon icon='check' />
-            }
-            isGray={!didUpdate}
+            info={<Icon icon='check' />}
           />
           <Badge
             className='pending-messages'
-            color='counter'
-            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', {
-              replace: {
-                relayDispatchQueueSize
-              }
-            })}
-            info={relayDispatchQueueSize}
-            isGray={relayDispatchQueueSize <= 0}
+            color={relayDispatchQueueSize ? 'counter' : 'gray'}
+            hover={t<string>('{{relayDispatchQueueSize}} dispatch messages pending', { replace: { relayDispatchQueueSize } })}
+            info={formatNumber(relayDispatchQueueSize)}
           />
         </div>
       </td>
-      <td className='all info'>
-        <ParachainInfo info={info} />
-      </td>
-      <td className='all'></td>
-      <td className='number pending-swap-id ui--media-small'>
+      <td className='all start together headhex'>{headHex}</td>
+      <td className='number pending-swap-id media--800'>
         {pendingSwapId?.toString()}
       </td>
-      <td className='number ui--media-small'>
+      <td className='number media--800'>
         {info?.scheduling?.toString() || t<string>('<unknown>')}
+      </td>
+      <td className='button'>
+        <Button
+          icon='arrow-right'
+          label={t('Info')}
+          onClick={_onClick}
+        />
       </td>
     </tr>
   );
@@ -102,6 +113,10 @@ export default React.memo(styled(Parachain)`
     &, & * {
       color: red !important;
     }
+  }
+
+  td.headhex {
+    font-family: monospace;
   }
 
   .did-update {

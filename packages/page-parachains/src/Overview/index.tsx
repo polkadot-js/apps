@@ -3,70 +3,63 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DeriveParachain } from '@polkadot/api-derive/types';
+import { ParaId, ParachainProposal } from '@polkadot/types/interfaces';
+import { ProposalExt } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
-import { Button, Icon, Spinner } from '@polkadot/react-components';
+import { Button } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
+import Transfer from '../Transfer';
 import Parachains from './Parachains';
+import Proposals from './Proposals';
 import Register from './Register';
 import Summary from './Summary';
-
-import { useTranslation } from '../translate';
 
 interface Props {
   isMine?: boolean;
   sudoKey?: string;
 }
 
+const transformProposals = {
+  transform: (entries: [{ args: [ParaId] }, Option<ParachainProposal>][]): ProposalExt[] => {
+    return entries
+      .filter(([, opt]) => opt.isSome)
+      .map(([{ args: [id] }, optProposal]) => ({ id, proposal: optProposal.unwrap() }));
+  }
+};
+
 function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
-  const { t } = useTranslation();
   const { api } = useApi();
-  const parachains = useCall<DeriveParachain[]>(api.derive.parachains.overview) || null;
-  const nextFreeId = useCall<BN>(api.query.registrar.nextFreeId);
-
-  if (!parachains) {
-    return (
-      <Spinner />
-    );
-  }
-
-  const actions = isMine && sudoKey
-    ? (
-      <Button.Group>
-        <Register
-          nextFreeId={nextFreeId}
-          sudoKey={sudoKey}
-        />
-      </Button.Group>
-    )
-    : null;
-
-  if (!!parachains && !parachains.length) {
-    return (
-      <>
-        {actions}
-        <article className='error padded'>
-          <div>
-            <Icon icon='ban' />
-            {t<string>('There are no registered parachains')}
-          </div>
-        </article>
-      </>
-    );
-  }
+  const parachains = useCall<DeriveParachain[]>(api.derive.parachains?.overview);
+  const proposals = useCall<ProposalExt[]>(api.query.proposeParachain?.proposals.entries as any, undefined, transformProposals);
+  const nextFreeId = useCall<BN>(api.query.registrar?.nextFreeId);
 
   return (
     <>
-      {actions}
       <Summary
         nextFreeId={nextFreeId}
-        parachainCount={parachains.length}
+        parachainCount={parachains?.length}
+        proposalCount={proposals?.length}
       />
-      <Parachains
-        parachains={parachains}
-      />
+      <Button.Group>
+        <Transfer parachains={parachains} />
+        {api.query.parachains && (
+          <Register
+            isDisabled={!isMine}
+            nextFreeId={nextFreeId}
+            sudoKey={sudoKey}
+          />
+        )}
+      </Button.Group>
+      {api.query.parachains && (
+        <Parachains parachains={parachains} />
+      )}
+      {api.query.proposeParachain && (
+        <Proposals proposals={proposals} />
+      )}
     </>
   );
 }

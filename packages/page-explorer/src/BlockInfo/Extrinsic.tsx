@@ -86,21 +86,18 @@ function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }
         )}
       </td>
       <td className='top'>
-        {value.isSigned
-          ? (
-            <>
-              <AddressMini value={value.signer} />
-              <div className='explorer--BlockByHash-nonce'>
-                {t<string>('index')} {formatNumber(value.nonce)}
-              </div>
-              <LinkExternal
-                data={value.hash.toHex()}
-                type='extrinsic'
-              />
-            </>
-          )
-          : <div className='explorer--BlockByHash-unsigned'>{t<string>('not signed')}</div>
-        }
+        {value.isSigned && (
+          <>
+            <AddressMini value={value.signer} />
+            <div className='explorer--BlockByHash-nonce'>
+              {t<string>('index')} {formatNumber(value.nonce)}
+            </div>
+            <LinkExternal
+              data={value.hash.toHex()}
+              type='extrinsic'
+            />
+          </>
+        )}
       </td>
     </tr>
   );

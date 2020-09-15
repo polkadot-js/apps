@@ -6,10 +6,10 @@ import { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { Button, Columar, InputAddress, Progress, Spinner, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Columar, InputAddress, Progress, Spinner, Tabs, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance, BlockToTime } from '@polkadot/react-query';
 import { BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/util';
@@ -17,6 +17,7 @@ import { BN_ONE, BN_ZERO, bnMax, formatBalance, formatNumber } from '@polkadot/u
 import { useTranslation } from './translate';
 
 interface Props {
+  basePath: string;
   className?: string;
 }
 
@@ -27,12 +28,12 @@ interface Turnout {
 
 const DIV = new BN(1_000_000);
 
-function PollApp ({ className }: Props): React.ReactElement<Props> {
+function PollApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals, []);
-  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber, []);
-  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance, []);
+  const totals = useCall<ITuple<[Balance, Balance, Balance, Balance]>>(api.query.poll.totals);
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
+  const totalIssuance = useCall<Balance>(api.query.balances.totalIssuance);
   const [accountId, setAccountId] = useState<string | null>(null);
   const [turnout, setTurnout] = useState<Turnout | null>(null);
   const [opt10m, setOpt10m] = useState(false);
@@ -40,6 +41,12 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
   const [opt1b, setOpt1b] = useState(false);
   const [opt10b, setOpt10b] = useState(false);
   const [progress, setProgress] = useState<BN[] | undefined>();
+
+  const itemsRef = useRef([{
+    isRoot: true,
+    name: 'poll',
+    text: t<string>('Denomination poll')
+  }]);
 
   useEffect((): void => {
     if (totalIssuance && totals) {
@@ -69,8 +76,6 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
     );
   }
 
-  console.error(turnout);
-
   const blocksLeft = (api.consts.poll.end as BlockNumber).sub(bestNumber);
   const canVote = blocksLeft.gt(BN_ZERO);
   const options: [string, string, boolean, (value: boolean) => void][] = [
@@ -85,6 +90,12 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
 
   return (
     <main className={className}>
+      <header>
+        <Tabs
+          basePath={basePath}
+          items={itemsRef.current}
+        />
+      </header>
       <div className='pollContainer'>
         <div className='pollHeader'>
           <h1>{t('denomination vote')}</h1>
@@ -96,7 +107,10 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
               </div>
             )}
             <div>
-              {canVote && <BlockToTime blocks={blocksLeft} />}
+              {canVote
+                ? <BlockToTime blocks={blocksLeft} />
+                : t<string>('Completed')
+              }
               <div>#{formatNumber(api.consts.poll.end as BlockNumber)}</div>
             </div>
           </div>
@@ -105,7 +119,9 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
           <p><Trans key='poll1'>The Polkadot DOT denomination vote: Seventy-two hours after the DOT token becomes transferable, the most popular option from this poll will decide the denomination used for the DOT token.</Trans></p>
           <p><Trans key='poll2'>This is an <a href='https://en.wikipedia.org/wiki/Approval_voting' rel='noreferrer' target='_blank'>approval vote</a>. There are four options and you may select any combination of them. The most popular of the four will be selected as the final DOT denomination three days after DOT token transfers are enabled.</Trans></p>
           <p><Trans key='poll3'>Please see the <a href='https://medium.com/polkadot-network/the-first-polkadot-vote-1fc1b8bd357b' rel='noreferrer' target='_blank'>Medium article </a> for more information</Trans></p>
-          <p className='pollAll'><Trans key='poll4'><b>Please vote for any combination of options</b></Trans></p>
+          {canVote && (
+            <p className='pollAll'><Trans key='poll4'><b>Please vote for any combination of options</b></Trans></p>
+          )}
           <div className={`options ${canVote ? 'canVote' : ''}`}>
             {options.map(([label, desc, value, onChange], index) =>
               <Columar
@@ -115,30 +131,33 @@ function PollApp ({ className }: Props): React.ReactElement<Props> {
                 <Columar.Column className='option'>
                   <div className='optionName'>{label}</div>
                   <div className='optionDesc'>{desc}</div>
-                  <Toggle
-                    className='pollToggle'
-                    isDisabled={!canVote}
-                    label={
-                      canVote
-                        ? value
-                          ? t<string>('Aye, I support this')
-                          : t<string>('Nay, I do not support this')
-                        : t<string>('Voting closed')
-                    }
-                    onChange={onChange}
-                    value={canVote && value}
-                  />
+                  {canVote && (
+                    <Toggle
+                      className='pollToggle'
+                      isDisabled={!canVote}
+                      label={
+                        canVote
+                          ? value
+                            ? t<string>('Aye, I support this')
+                            : t<string>('Nay, I do not support this')
+                          : t<string>('Voting closed')
+                      }
+                      onChange={onChange}
+                      value={canVote && value}
+                    />
+                  )}
                 </Columar.Column>
                 <Columar.Column>
                   {totals[index].isZero()
                     ? <div className='result' />
                     : (
                       <div className='result'>
-                        <Progress
-                          total={DIV}
-                          value={progress[index]}
-                        />
                         <FormatBalance value={totals[index]} />
+                        <Progress
+                          isDisabled={!turnout}
+                          total={turnout?.voted}
+                          value={totals[index]}
+                        />
                       </div>
                     )
                   }
@@ -260,11 +279,20 @@ export default React.memo(styled(PollApp)`
   }
 
   .result {
-    margin: 2.2rem 0 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
     text-align: right;
 
+    .ui--FormatBalance {
+      font-size: 1.2rem;
+      font-weight: 100;
+      line-height: 1;
+    }
+
     .ui--Progress {
-      margin-bottom: 0.5rem;
+      margin: 0.75rem;
     }
   }
 `);

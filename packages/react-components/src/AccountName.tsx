@@ -21,7 +21,6 @@ interface Props {
   className?: string;
   defaultName?: string;
   label?: React.ReactNode;
-  noLookup?: boolean;
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
@@ -37,6 +36,12 @@ const KNOWN: [AccountId, string][] = [
 
 const displayCache = new Map<string, React.ReactNode>();
 const indexCache = new Map<string, string>();
+
+const parentCache = new Map<string, string>();
+
+export function getParentAccount (value: string): string | undefined {
+  return parentCache.get(value);
+}
 
 function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
@@ -125,9 +130,9 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
-function AccountName ({ children, className = '', defaultName, label, noLookup, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [value]);
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarToggle);
 
@@ -135,6 +140,10 @@ function AccountName ({ children, className = '', defaultName, label, noLookup, 
   useEffect((): void => {
     const { accountId, accountIndex, identity, nickname } = info || {};
     const cacheAddr = (accountId || value || '').toString();
+
+    if (identity?.parent) {
+      parentCache.set(cacheAddr, identity.parent.toString());
+    }
 
     if (isFunction(api.query.identity?.identityOf)) {
       setName(() =>

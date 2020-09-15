@@ -94,7 +94,6 @@ function Fasttrack ({ imageHash, threshold }: Props): React.ReactElement<Props> 
               accountId={accountId}
               icon='fast-forward'
               isDisabled={!accountId || !proposal || !memberThreshold}
-              isPrimary
               label={t<string>('Fast track')}
               onStart={toggleFasttrack}
               params={

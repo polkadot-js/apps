@@ -4,70 +4,45 @@
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
-import { getAddressName } from './util';
 import AddressMini from './AddressMini';
 import Toggle from './Toggle';
+import { checkVisibility } from './util';
 
 interface Props {
   address: string;
   className?: string;
   isHidden?: boolean;
   filter?: string;
-  noLookup?: boolean;
   noToggle?: boolean;
   onChange?: (isChecked: boolean) => void;
   value?: boolean;
 }
 
-function getIsFiltered (address: string, filter?: string, info?: DeriveAccountInfo): boolean {
-  if (!filter || address.includes(filter)) {
-    return false;
-  }
-
-  const [,, extracted] = getAddressName(address);
-  const filterLower = filter.toLowerCase();
-
-  if (extracted.toLowerCase().includes(filterLower)) {
-    return false;
-  }
-
-  if (info) {
-    const { accountId, accountIndex, identity, nickname } = info;
-
-    if (identity.display?.toLowerCase().includes(filterLower) || accountId?.toString().includes(filter) || accountIndex?.toString().includes(filter) || nickname?.toLowerCase().includes(filterLower)) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function AddressToggle ({ address, className = '', filter, isHidden, noLookup, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
+function AddressToggle ({ address, className = '', filter, isHidden, noToggle, onChange, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(!noLookup && api.derive.accounts.info, [address]);
-  const [isFiltered, setIsFiltered] = useState(false);
+  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
 
-  useEffect((): void => {
-    setIsFiltered(getIsFiltered(address, filter, info));
-  }, [address, filter, info]);
+  const isVisible = useMemo(
+    () => info ? checkVisibility(api, address, info, filter, false) : true,
+    [api, address, filter, info]
+  );
 
   const _onClick = useCallback(
-    (): void => onChange && onChange(!value),
+    () => onChange && onChange(!value),
     [onChange, value]
   );
 
   return (
     <div
-      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || isFiltered ? ' isHidden' : ''}`}
+      className={`ui--AddressToggle ${className}${(value || noToggle) ? ' isAye' : ' isNay'}${isHidden || !isVisible ? ' isHidden' : ''}`}
       onClick={_onClick}
     >
       <AddressMini
         className='ui--AddressToggle-address'
-        noLookup={noLookup}
         value={address}
         withSidebar={false}
       />

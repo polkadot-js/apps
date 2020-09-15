@@ -25,6 +25,7 @@ const NOT_FOUND: Route = {
   display: {
     needsApi: undefined
   },
+  group: 'settings',
   icon: 'times',
   isIgnored: false,
   name: 'unknown',
@@ -36,6 +37,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isApiConnected, isApiReady } = useApi();
   const { queueAction } = useContext(StatusContext);
+
   const { Component, display: { needsApi }, name } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
@@ -44,6 +46,8 @@ function Content ({ className }: Props): React.ReactElement<Props> {
     },
     [location, t]
   );
+
+  const missingApis = findMissingApis(api, needsApi);
 
   return (
     <div className={className}>
@@ -56,18 +60,25 @@ function Content ({ className }: Props): React.ReactElement<Props> {
         : (
           <>
             <Suspense fallback='...'>
-              {findMissingApis(api, needsApi).length
-                ? <NotFound />
-                : (
-                  <ErrorBoundary trigger={name}>
+              <ErrorBoundary trigger={name}>
+                {missingApis.length
+                  ? (
+                    <NotFound
+                      basePath={`/${name}`}
+                      location={location}
+                      missingApis={missingApis}
+                      onStatusChange={queueAction}
+                    />
+                  )
+                  : (
                     <Component
                       basePath={`/${name}`}
                       location={location}
                       onStatusChange={queueAction}
                     />
-                  </ErrorBoundary>
-                )
-              }
+                  )
+                }
+              </ErrorBoundary>
             </Suspense>
             <Status />
           </>
@@ -78,19 +89,11 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Content)`
-  background: #f5f4f3;
   flex-grow: 1;
-  height: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 0 1.5rem;
+  overflow: hidden auto;
+  padding: 0 1.5rem 1rem;
   position: relative;
   width: 100%;
-
-  @media(max-width: 768px) {
-    padding: 0 0.5rem;
-  }
 
   .connecting {
     padding: 3.5rem 0;

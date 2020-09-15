@@ -4,11 +4,12 @@
 
 /* eslint-disable camelcase */
 
-const path = require('path');
-const merge = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const baseConfig = require('@polkadot/apps/webpack.base.config');
+const path = require('path');
+const { merge } = require('webpack-merge');
+
+const baseConfig = require('../apps/webpack.base.config');
 
 const ENV = process.env.NODE_ENV || 'production';
 const isProd = ENV === 'production';

@@ -2,8 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useState, useMemo } from 'react';
-import { useApi } from '@polkadot/react-hooks';
+import BN from 'bn.js';
+import { TFunction } from 'i18next';
+import React, { useRef } from 'react';
+import { ApiPromise } from '@polkadot/api';
+import { useApi, useBlockTime } from '@polkadot/react-hooks';
 
 import Dropdown from './Dropdown';
 import { useTranslation } from './translate';
@@ -16,28 +19,31 @@ export interface Props {
   value?: number;
 }
 
-const CONVICTIONS: [number, number][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock]);
+const CONVICTIONS: [number, number, BN][] = [1, 2, 4, 8, 16, 32].map((lock, index) => [index + 1, lock, new BN(lock)]);
+const SEC_DAY = 60 * 60 * 24;
 
-function AvailableDisplay ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
-  const { api } = useApi();
-  const { t } = useTranslation();
-  const [enact] = useState(
-    (api.consts.democracy.enactmentPeriod.toNumber() * api.consts.timestamp.minimumPeriod.toNumber() / 1000 * 2) / 60 / 60 / 24
-  );
-
-  const convictionOpts = useMemo(() => [
+function createOptions (api: ApiPromise, t: TFunction, blockTime: number): { text: string; value: number }[] {
+  return [
     { text: t<string>('0.1x voting balance, no lockup period'), value: 0 },
-    ...CONVICTIONS.map(([value, lock]): { text: string; value: number } => ({
+    ...CONVICTIONS.map(([value, lock, bnLock]): { text: string; value: number } => ({
       text: t<string>('{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)', {
         replace: {
           lock,
-          period: (enact * lock).toFixed(2),
+          period: (bnLock.mul(api.consts.democracy.enactmentPeriod.muln(blockTime).divn(1000)).toNumber() / SEC_DAY).toFixed(2),
           value
         }
       }),
       value
     }))
-  ], [t, enact]);
+  ];
+}
+
+function Convictions ({ className = '', help, label, onChange, value }: Props): React.ReactElement<Props> | null {
+  const { api } = useApi();
+  const { t } = useTranslation();
+  const [blockTime] = useBlockTime();
+
+  const optionsRef = useRef(createOptions(api, t, blockTime));
 
   return (
     <Dropdown
@@ -45,10 +51,10 @@ function AvailableDisplay ({ className = '', help, label, onChange, value }: Pro
       help={help}
       label={label}
       onChange={onChange}
-      options={convictionOpts}
+      options={optionsRef.current}
       value={value}
     />
   );
 }
 
-export default React.memo(AvailableDisplay);
+export default React.memo(Convictions);

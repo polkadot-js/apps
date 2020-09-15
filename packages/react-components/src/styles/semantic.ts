@@ -25,6 +25,10 @@ export default css`
     color: inherit;
   }
 
+  .ui.action.input > .buttons {
+    position: relative;
+  }
+
   .ui.dropdown {
     &.disabled {
       background: transparent;
@@ -147,14 +151,6 @@ export default css`
   .ui[class*="left icon"].input.left.icon > .ui--Icon.big {
     left: -7px;
     opacity: 1;
-  }
-
-  .ui.button:disabled,
-  .ui.buttons .disabled.button,
-  .ui.disabled.active.button,
-  .ui.disabled.button,
-  .ui.disabled.button:hover {
-    opacity: 0.2 !important;
   }
 
   /* modals aligned to top, not center */

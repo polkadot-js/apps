@@ -2,16 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
+import { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { ValidatorInfo } from '../../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useState } from 'react';
-import { AddressSmall, Icon } from '@polkadot/react-components';
+import React, { useCallback, useMemo } from 'react';
+import { ApiPromise } from '@polkadot/api';
+import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
+import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
+import { Option } from '@polkadot/types';
 
-import { checkVisibility } from '../../util';
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';
 import Status from './Status';
@@ -26,11 +29,12 @@ interface Props {
   isFavorite: boolean;
   isMain?: boolean;
   lastBlock?: string;
-  nominatedBy?: [string, number][];
-  onlineCount?: false | number;
+  nominatedBy?: [string, EraIndex, number][];
+  onlineCount?: false | BN;
   onlineMessage?: boolean;
   points?: string;
   toggleFavorite: (accountId: string) => void;
+  validatorInfo?: ValidatorInfo;
   withIdentity: boolean;
 }
 
@@ -42,9 +46,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-const PERBILL_PERCENT = 10_000_000;
-
-function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
+function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState {
   let nominators: [string, Balance][] = [];
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
@@ -57,12 +59,10 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
     stakeOther = stakeTotal.sub(stakeOwn);
   }
 
-  const commission = validatorPrefs?.commission?.unwrap();
+  const commission = (validatorPrefs as ValidatorPrefs)?.commission?.unwrap();
 
   return {
-    commission: commission
-      ? `${(commission.toNumber() / PERBILL_PERCENT).toFixed(2)}%`
-      : undefined,
+    commission: commission?.toHuman(),
     nominators,
     stakeOther,
     stakeOwn,
@@ -70,22 +70,31 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
   };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withIdentity }: Props): React.ReactElement<Props> | null {
+const transformSlashes = {
+  transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
+};
+
+function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
+  const params = useMemo(() => [address], [address]);
+  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, params);
+  const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
+
+  return { accountInfo, slashingSpans };
+}
+
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [address]);
-  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, [address]);
-  const [{ commission, nominators, stakeOther, stakeOwn }, setStakingState] = useState<StakingState>({ nominators: [] });
-  const [isVisible, setIsVisible] = useState(true);
+  const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
-  useEffect((): void => {
-    stakingInfo && setStakingState(expandInfo(stakingInfo));
-  }, [stakingInfo]);
+  const { commission, nominators, stakeOther, stakeOwn } = useMemo(
+    () => validatorInfo ? expandInfo(validatorInfo) : { nominators: [] },
+    [validatorInfo]
+  );
 
-  useEffect((): void => {
-    setIsVisible(
-      checkVisibility(api, address, filterName, withIdentity, accountInfo)
-    );
-  }, [api, accountInfo, address, filterName, withIdentity]);
+  const isVisible = useMemo(
+    () => accountInfo ? checkVisibility(api, address, accountInfo, filterName, withIdentity) : true,
+    [api, accountInfo, address, filterName, withIdentity]
+  );
 
   const _onQueryStats = useCallback(
     (): void => {
@@ -108,7 +117,8 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         />
         <Status
           isElected={isElected}
-          numNominators={nominatedBy?.length}
+          isMain={isMain}
+          nominators={nominatedBy || nominators}
           onlineCount={onlineCount}
           onlineMessage={onlineMessage}
         />
@@ -123,13 +133,20 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
             stakeOther={stakeOther}
           />
         )
-        : <NominatedBy nominators={nominatedBy} />
+        : (
+          <NominatedBy
+            nominators={nominatedBy}
+            slashingSpans={slashingSpans}
+          />
+        )
       }
-      <td className='number'>
-        {stakeOwn?.gtn(0) && (
-          <FormatBalance value={stakeOwn} />
-        )}
-      </td>
+      {isMain && (
+        <td className='number media--1100'>
+          {stakeOwn?.gtn(0) && (
+            <FormatBalance value={stakeOwn} />
+          )}
+        </td>
+      )}
       <td className='number'>
         {commission}
       </td>
@@ -146,10 +163,18 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       <td>
         {hasQueries && (
           <Icon
+            className='highlight--color'
             icon='chart-line'
             onClick={_onQueryStats}
           />
         )}
+      </td>
+      <td className='links media--1200'>
+        <LinkExternal
+          data={address}
+          isLogo
+          type={isMain ? 'validator' : 'intention'}
+        />
       </td>
     </tr>
   );

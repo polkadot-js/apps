@@ -1,0 +1,19 @@
+// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+/* eslint-disable sort-keys */
+
+export default {
+  Record: 'Vec<u8>',
+  TechnicalParam: 'Vec<u8>',
+  TechnicalReport: 'Vec<u8>',
+  EconomicalParam: '{}',
+  ProofParam: 'MultiSignature',
+  LiabilityIndex: 'u64',
+  ValidationFunctionParams: {
+    max_code_size: 'u32',
+    relay_chain_height: 'u32',
+    code_upgrade_allowed: 'Option<u32>'
+  }
+};

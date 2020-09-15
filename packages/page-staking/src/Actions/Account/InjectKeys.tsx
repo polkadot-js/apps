@@ -4,8 +4,8 @@
 
 import { KeypairType } from '@polkadot/util-crypto/types';
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Button, Dropdown, Icon, Input, Modal, StatusContext } from '@polkadot/react-components';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Dropdown, Input, Modal, StatusContext } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { assert, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicValidate } from '@polkadot/util-crypto';
@@ -34,13 +34,14 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
   const [publicKey, setPublicKey] = useState(EMPTY_KEY);
   const [suri, setSuri] = useState('');
   const [keyType, setKeyType] = useState('babe');
-  const keyTypeOpt = useMemo(() => [
+
+  const keyTypeOptRef = useRef([
     { text: t<string>('Aura'), value: 'aura' },
     { text: t<string>('Babe'), value: 'babe' },
     { text: t<string>('Grandpa'), value: 'gran' },
     { text: t<string>('I\'m Online'), value: 'imon' },
     { text: t<string>('Parachains'), value: 'para' }
-  ], [t]);
+  ]);
 
   useEffect((): void => {
     setCrypto(CRYPTO_MAP[keyType][0]);
@@ -66,6 +67,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
     }),
     [keyType, publicKey, queueRpc, suri]
   );
+
   const _cryptoOptions = useMemo(
     () => CRYPTO_MAP[keyType].map((value): { text: string; value: KeypairType } => ({
       text: value === 'ed25519'
@@ -92,7 +94,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
               value={suri}
             />
             <article className='warning'>
-              <div><Icon icon='exclamation-triangle' />{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
+              <div>{t<string>('This operation will submit the seed via an RPC call. Do not perform this operation on a public RPC node, but ensure that the node is local, connected to your validator and secure.')}</div>
             </article>
           </Modal.Column>
           <Modal.Column>
@@ -104,7 +106,7 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
             <Dropdown
               label={t<string>('key type to set')}
               onChange={setKeyType}
-              options={keyTypeOpt}
+              options={keyTypeOptRef.current}
               value={keyType}
             />
             <Dropdown
@@ -135,7 +137,6 @@ function InjectKeys ({ onClose }: Props): React.ReactElement<Props> | null {
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in-alt'
-          isPrimary
           label={t<string>('Submit key')}
           onClick={_onSubmit}
         />

@@ -21,6 +21,7 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
   const [isOpen, toggleOpen] = useToggle();
   const [value, setValue] = useState<BN | undefined>();
   const hasValue = value?.gtn(0);
+
   const bondPercentage = useMemo(
     () => `${api.consts.treasury.proposalBond.muln(100).divn(1_000_000).toNumber().toFixed(2)}%`,
     [api]
@@ -88,13 +89,15 @@ function Propose ({ className }: Props): React.ReactElement<Props> | null {
                 <p>{t<string>('Of the beneficiary amount, at least {{bondPercentage}} would need to be put up as collateral. The maximum of this and the minimum bond will be used to secure the proposal, refundable if it passes.', { replace: { bondPercentage } })}</p>
               </Modal.Column>
             </Modal.Columns>
+            <article className='warning'>
+              <p>{t<string>('Be aware that once submitted the proposal will be put to a council vote. If the proposal is rejected due to a lack of info, invalid requirements or non-benefit to the network as a whole, the full bond posted (as describe above) will be lost.')}</p>
+            </article>
           </Modal.Content>
           <Modal.Actions onCancel={toggleOpen}>
             <TxButton
               accountId={accountId}
               icon='plus'
               isDisabled={!accountId || !hasValue}
-              isPrimary
               label={t<string>('Submit proposal')}
               onStart={toggleOpen}
               params={[value, beneficiary]}

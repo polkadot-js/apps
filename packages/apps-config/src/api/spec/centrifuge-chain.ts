@@ -24,5 +24,17 @@ export default {
   Proof: {
     leafHash: 'H256',
     sortedHashes: 'H256'
-  }
+  },
+  // MultiAccount
+  MultiAccountData: {
+    threshold: 'u16',
+    signatories: 'Vec<AccountId>',
+    deposit: 'Balance',
+    depositor: 'AccountId'
+  },
+  // Bridge constants
+  ChainId: 'u8',
+  ResourceId: '[u8; 32]',
+  'chainbridge::ChainId': 'u8',
+  DepositNonce: 'u64'
 };

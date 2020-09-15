@@ -102,7 +102,6 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                   accountId={stashId}
                   icon='sign-in-alt'
                   isDisabled={!bondTx || !sessionTx || !validateTx}
-                  isPrimary
                   label={t<string>('Bond & Validate')}
                   onStart={_toggle}
                   params={[
@@ -117,7 +116,6 @@ function NewValidator ({ isInElection }: Props): React.ReactElement<Props> {
                 <Button
                   icon='step-forward'
                   isDisabled={!bondTx}
-                  isPrimary
                   label={t<string>('next')}
                   onClick={_nextStep}
                 />

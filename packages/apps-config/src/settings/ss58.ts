@@ -11,14 +11,15 @@ import { Option } from './types';
 //   value: The actual ss5Format value (as registered)
 export default function create (t: TFunction): Option[] {
   return [
+    // base defaults
     {
       info: 'default',
       text: t<string>('ss58.default', 'Default for the connected node', { ns: 'apps-config' }),
       value: -1
     },
     {
-      info: 'substrate',
-      text: t<string>('ss58.substrate', 'Substrate (generic)', { ns: 'apps-config' }),
+      info: 'dock',
+      text: t<string>('ss58.dock', 'Dock (testnet)', { ns: 'apps-config' }),
       value: 42
     },
     {
@@ -32,14 +33,35 @@ export default function create (t: TFunction): Option[] {
       value: 2
     },
     {
+      info: 'substrate',
+      text: t<string>('ss58.substrate', 'Substrate (generic)', { ns: 'apps-config' }),
+      value: 42
+    },
+    // alphabetical extended chains
+    {
+      info: 'centrifuge',
+      text: t<string>('ss58.centrifuge', 'Centrifuge (live)', { ns: 'apps-config' }),
+      value: 36
+    },
+    {
       info: 'edgeware',
       text: t<string>('ss58.edgeware', 'Edgeware (live)', { ns: 'apps-config' }),
       value: 7
     },
     {
-      info: 'centrifuge',
-      text: t<string>('ss58.centrifuge', 'Centrifuge (live)', { ns: 'apps-config' }),
-      value: 36
+      info: 'plasm',
+      text: t<string>('ss58.plasm', 'Plasm (live)', { ns: 'apps-config' }),
+      value: 5
+    },
+    {
+      info: 'stafi',
+      text: t<string>('ss58.stafi', 'Stafi (live)', { ns: 'apps-config' }),
+      value: 20
+    },
+    {
+      info: 'subsocial',
+      text: t<string>('ss58.subsocial', 'Subsocial (live)', { ns: 'apps-config' }),
+      value: 28
     }
   ];
 }

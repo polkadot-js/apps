@@ -8,13 +8,13 @@ import { TxButtonProps as Props } from './types';
 import React, { useCallback, useContext } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { useApi, useToggle } from '@polkadot/react-hooks';
-import { assert, isFunction, isUndefined } from '@polkadot/util';
+import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isDisabled, isIcon, isNegative, isPrimary, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner }: Props): React.ReactElement<Props> {
+function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -87,17 +87,14 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       className={className}
       icon={icon || 'check'}
       isBasic={isBasic}
+      isBusy={isBusy}
       isDisabled={isSending || isDisabled || needsAccount}
       isIcon={isIcon}
-      isNegative={isNegative}
-      isPrimary={
-        isUndefined(isPrimary) && isUndefined(isIcon)
-          ? (!isNegative && !isBasic)
-          : isPrimary
-      }
+      isToplevel={isToplevel}
       label={label || (isIcon ? '' : t<string>('Submit'))}
       onClick={_onSend}
       tooltip={tooltip}
+      withoutLink={withoutLink}
     />
   );
 }

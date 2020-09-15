@@ -21,16 +21,21 @@ interface Props {
   proposalCount?: number;
 }
 
+const PM_DIV = new BN(1000000);
+
 function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber, []);
-  const totalProposals = useCall<BN>(api.query.treasury.proposalCount, []);
+  const bestNumber = useCall<Balance>(api.derive.chain.bestNumber);
+  const totalProposals = useCall<BN>(api.query.treasury.proposalCount);
   const treasuryBalance = useCall<DeriveBalancesAccount>(api.derive.balances.account, [TREASURY_ACCOUNT]);
   const spendPeriod = api.consts.treasury.spendPeriod;
 
   const value = treasuryBalance?.freeBalance.gtn(0)
-    ? treasuryBalance.freeBalance.toString()
+    ? treasuryBalance.freeBalance
+    : null;
+  const burn = treasuryBalance?.freeBalance.gtn(0) && !api.consts.treasury.burn.isZero()
+    ? api.consts.treasury.burn.mul(treasuryBalance?.freeBalance).div(PM_DIV)
     : null;
 
   return (
@@ -43,7 +48,7 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           {formatNumber(totalProposals || 0)}
         </CardSummary>
       </section>
-      <section>
+      <section className='media--1200'>
         <CardSummary label={t<string>('approved')}>
           {formatNumber(approvalCount)}
         </CardSummary>
@@ -53,6 +58,17 @@ function Summary ({ approvalCount, proposalCount }: Props): React.ReactElement<P
           <CardSummary label={t<string>('available')}>
             <FormatBalance
               value={value}
+              withSi
+            />
+          </CardSummary>
+        )}
+        {burn && (
+          <CardSummary
+            className='media--1000'
+            label={t<string>('next burn')}
+          >
+            <FormatBalance
+              value={burn}
               withSi
             />
           </CardSummary>

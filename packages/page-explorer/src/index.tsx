@@ -4,13 +4,11 @@
 
 import { KeyedEvent } from '@polkadot/react-query/types';
 
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Route, Switch } from 'react-router';
-// import styled from 'styled-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
-import uiSettings from '@polkadot/ui-settings';
 
 import BlockInfo from './BlockInfo';
 import Forks from './Forks';
@@ -24,12 +22,15 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
+const HIDDESN_NOBABE = ['forks'];
+
 function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { lastHeaders } = useContext(BlockAuthorsContext);
   const events = useContext(EventsContext);
-  const items = useMemo(() => [
+
+  const itemsRef = useRef([
     {
       isRoot: true,
       name: 'chain',
@@ -48,19 +49,15 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       name: 'node',
       text: t<string>('Node info')
     }
-  ], [t]);
+  ]);
 
   return (
     <main className={className}>
       <header>
         <Tabs
           basePath={basePath}
-          hidden={
-            uiSettings.uiMode === 'full'
-              ? api.query.babe ? [] : ['forks']
-              : ['node', 'forks']
-          }
-          items={items}
+          hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
+          items={itemsRef.current}
         />
       </header>
       <Switch>

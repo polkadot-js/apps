@@ -12,11 +12,11 @@ import Head from './Head';
 interface TableProps {
   children: React.ReactNode;
   className?: string;
-  empty?: React.ReactNode;
+  empty?: React.ReactNode | false;
   emptySpinner?: React.ReactNode;
   filter?: React.ReactNode;
   footer?: React.ReactNode;
-  header: [React.ReactNode?, string?, number?, (() => void)?][];
+  header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
 }
 
@@ -36,7 +36,7 @@ function Table ({ children, className = '', empty, emptySpinner, filter, footer,
 
   return (
     <div className={`ui--Table ${className}`}>
-      <table className={isFixed ? 'isFixed' : 'isNotFixed'}>
+      <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint`}>
         <Head
           filter={filter}
           header={header}
@@ -66,7 +66,9 @@ export default React.memo(styled(Table)`
     border-spacing: 0;
     max-width: 100%;
     overflow: hidden;
+    position: relative;
     width: 100%;
+    z-index: 1;
 
     &.isFixed {
       table-layout: fixed;
@@ -76,19 +78,8 @@ export default React.memo(styled(Table)`
       max-width: 100%;
       width: 100%;
 
-      label {
-        opacity: 0.6;
-      }
-
-      th label {
-        opacity: 1;
-      }
-
-      &:hover label {
-        opacity: 1;
-      }
-
-      td, &:not(.filter) th {
+      td,
+      &:not(.filter) th {
         &:first-child {
           padding-left: 1.5rem;
         }

@@ -13,6 +13,8 @@ import { ButtonProps } from './Button/types';
 import { InputAddressProps } from './InputAddress/types';
 import { TxCallback, TxFailedCallback } from './Status/types';
 
+export type StringOrNull = string | null;
+
 export type VoidFn = () => void;
 
 export interface BareProps {
@@ -31,11 +33,11 @@ export type I18nProps = BareProps & WithTranslation;
 
 export type ConstructTxFn = () => any[];
 
-export type TxTrigger = React.ComponentType<TxTriggerProps>;
-
 export interface TxTriggerProps {
   onOpen: () => void;
 }
+
+export type TxTrigger = React.ComponentType<TxTriggerProps>;
 
 export interface TxProps {
   extrinsic?: SubmittableExtrinsic | null;
@@ -57,10 +59,10 @@ export interface TxButtonProps extends TxProps {
   className?: string;
   icon?: IconName;
   isBasic?: boolean;
+  isBusy?: boolean;
   isDisabled?: boolean;
   isIcon?: boolean;
-  isNegative?: boolean;
-  isPrimary?: boolean;
+  isToplevel?: boolean;
   isUnsigned?: boolean;
   label?: React.ReactNode;
   onClick?: VoidFn;
@@ -70,6 +72,7 @@ export interface TxButtonProps extends TxProps {
   onSuccess?: TxCallback;
   onUpdate?: TxCallback;
   tooltip?: string;
+  withoutLink?: boolean;
   withSpinner?: boolean;
 }
 
@@ -103,8 +106,6 @@ export interface TxModalProps extends I18nProps, TxState {
 }
 
 export type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
-
-export type StringOrNull = string | null;
 
 interface ContractBase {
   abi: Abi;

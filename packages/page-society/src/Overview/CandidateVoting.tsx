@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useMemo, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
@@ -19,10 +19,11 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
   const [isVisible, toggleVisible] = useToggle();
   const [vote, setVote] = useState(true);
   const [accountId, setAccountId] = useState<string | null>(null);
-  const voteOpts = useMemo(() => [
+
+  const voteOptsRef = useRef([
     { text: t<string>('Aye, I approve'), value: true },
     { text: t<string>('Nay, I do not approve'), value: false }
-  ], [t]);
+  ]);
 
   return (
     <>
@@ -39,7 +40,7 @@ function CandidateVoting ({ candidateId, isMember, ownMembers }: Props): React.R
               help={t<string>('Approve this candidacy.')}
               label={t<string>('vote for candidate')}
               onChange={setVote}
-              options={voteOpts}
+              options={voteOptsRef.current}
               value={vote}
             />
           </Modal.Content>

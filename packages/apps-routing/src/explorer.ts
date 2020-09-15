@@ -12,6 +12,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     display: {
       needsApi: []
     },
+    group: 'network',
     icon: 'braille',
     name: 'explorer',
     text: t<string>('nav.explorer', 'Explorer', { ns: 'apps-routing' })
