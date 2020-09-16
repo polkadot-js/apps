@@ -11,6 +11,7 @@ const HASH_PATHS = ['proposal/councilmotion'];
 export default {
   chains: {
     Edgeware: 'edgeware',
+    Kulupu: 'kulupu',
     Kusama: 'kusama',
     'Kusama CC3': 'kusama'
   },
