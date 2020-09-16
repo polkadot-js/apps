@@ -21,6 +21,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocialNode from './subsocial';
+import dock from './dock';
 
 export default {
   Crab: crab,
@@ -29,6 +30,7 @@ export default {
   crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  'dock-testnet': dock,
   dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,

@@ -18,7 +18,7 @@ import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
-import dockTypes from '@docknetwork/sdk/types.json';
+// import dockTypes from '@docknetwork/sdk/types.json';
 
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
@@ -61,9 +61,9 @@ let api: ApiPromise;
 export { api };
 
 function getDevTypes (): Record<string, Record<string, string>> {
-  const types = Object.assign(dockTypes, store.get('types', {}) as Record<string, Record<string, string>>);
-
-  const names =  Object.keys(types);
+  // const types = Object.assign(dockTypes, store.get('types', {}) as Record<string, Record<string, string>>);
+  const types = store.get('types', {}) as Record<string, Record<string, string>>;
+  const names = Object.keys(types);
 
   names.length && console.log('Injected types:', names.join(', '));
 

@@ -106,7 +106,7 @@ function getFullyQualifiedDID(did) {
 
 /**
  * Dumps call into a StateChange::MasterVote and serializes the result.
- * Round number is infered from current chainstate.
+ * Round number is inferred from current chainstate.
  * @param api
  * @param call - as on-chain type
  * @returns {Promise<()>}
