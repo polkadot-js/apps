@@ -1,3 +1,6 @@
+// Copyright 2017-2020 @polkadot/apps authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
 const base = require('@polkadot/dev/config/eslint');
 
 // add override for any (a metric ton of them, initial conversion)
