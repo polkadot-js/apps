@@ -236,7 +236,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(senderInfo.signAddress, { tip }, setQrState)
+          extractParams(senderInfo.signAddress, { nonce: -1, tip }, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
