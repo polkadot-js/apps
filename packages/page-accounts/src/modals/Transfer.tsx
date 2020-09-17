@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+
 import BN from 'bn.js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
-import { BN_ZERO } from '@polkadot/util';
+import { BN_ZERO, isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -25,11 +27,40 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [amount, setAmount] = useState<BN | undefined>(BN_ZERO);
   const [hasAvailable] = useState(true);
   const [isProtected, setIsProtected] = useState(true);
-  const [maxBalance] = useState(BN_ZERO);
+  const [isAll, setIsAll] = useState(false);
+  const [maxTransfer, setMaxTransfer] = useState<BN | null>(null);
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
+  const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
+
+  useEffect((): void => {
+    if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
+      setTimeout((): void => {
+        try {
+          api.tx.balances
+            .transfer(recipientId, balances.availableBalance)
+            .paymentInfo(senderId)
+            .then(({ partialFee }): void => {
+              const maxTransfer = balances.availableBalance.sub(partialFee);
+
+              setMaxTransfer(
+                maxTransfer.gt(api.consts.balances.existentialDeposit)
+                  ? maxTransfer
+                  : null
+              );
+            })
+            .catch(console.error);
+        } catch (error) {
+          console.error((error as Error).message);
+        }
+      }, 0);
+    } else {
+      setMaxTransfer(null);
+    }
+  }, [api, balances, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
+  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer;
 
   return (
     <Modal
@@ -83,25 +114,39 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           </Modal.Columns>
           <Modal.Columns>
             <Modal.Column>
-              <InputBalance
-                autoFocus
-                help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
-                isError={!hasAvailable}
-                isZeroable
-                label={t<string>('amount')}
-                maxValue={maxBalance}
-                onChange={setAmount}
-                withMax
-              />
-              <InputBalance
-                defaultValue={api.consts.balances.existentialDeposit}
-                help={t<string>('The minimum amount that an account should have to be deemed active')}
-                isDisabled
-                label={t<string>('existential deposit')}
-              />
+              {canToggleAll && isAll
+                ? (
+                  <InputBalance
+                    autoFocus
+                    defaultValue={maxTransfer}
+                    help={t<string>('The full account balance to be transferred, minus the transaction fees')}
+                    isDisabled
+                    key={maxTransfer?.toString()}
+                    label={t<string>('transferrable minus fees')}
+                  />
+                )
+                : (
+                  <>
+                    <InputBalance
+                      autoFocus
+                      help={t<string>('Type the amount you want to transfer. Note that you can select the unit on the right e.g sending 1 milli is equivalent to sending 0.001.')}
+                      isError={!hasAvailable}
+                      isZeroable
+                      label={t<string>('amount')}
+                      onChange={setAmount}
+                    />
+                    <InputBalance
+                      defaultValue={api.consts.balances.existentialDeposit}
+                      help={t<string>('The minimum amount that an account should have to be deemed active')}
+                      isDisabled
+                      label={t<string>('existential deposit')}
+                    />
+                  </>
+                )
+              }
               {api.tx.balances.transferKeepAlive && (
                 <Toggle
-                  className='aliveToggle'
+                  className='typeToggle'
                   label={
                     isProtected
                       ? t<string>('Transfer with account keep-alive checks')
@@ -109,6 +154,14 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                   }
                   onChange={setIsProtected}
                   value={isProtected}
+                />
+              )}
+              {canToggleAll && (
+                <Toggle
+                  className='typeToggle'
+                  label={t<string>('Transfer the full account balance, reap the sender')}
+                  onChange={setIsAll}
+                  value={isAll}
                 />
               )}
             </Modal.Column>
@@ -126,7 +179,11 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
           isDisabled={!hasAvailable || !recipientId || !amount}
           label={t<string>('Make Transfer')}
           onStart={onClose}
-          params={[recipientId, amount]}
+          params={
+            canToggleAll && isAll
+              ? [recipientId, maxTransfer]
+              : [recipientId, amount]
+          }
           tx={
             isProtected && api.tx.balances.transferKeepAlive
               ? 'balances.transferKeepAlive'
@@ -153,7 +210,11 @@ export default React.memo(styled(Transfer)`
     flex-basis: 10rem;
   }
 
-  .aliveToggle {
+  .typeToggle {
     text-align: right;
+  }
+
+  .typeToggle+.typeToggle {
+    margin-top: 0.375rem;
   }
 `);
