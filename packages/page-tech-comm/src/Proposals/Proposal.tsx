@@ -4,15 +4,15 @@
 
 import { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 
-import React from 'react';
-import { AddressMini } from '@polkadot/react-components';
-import { useApi, useCall, useVotingStatus } from '@polkadot/react-hooks';
+import React, { useMemo } from 'react';
+import { AddressMini, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
-import Close from './Close';
+import { useTranslation } from '../translate';
 import Voting from './Voting';
 
 interface Props {
@@ -31,11 +31,19 @@ const transformVotes = {
   transform: (optVotes: Option<Votes>) => optVotes.unwrapOr(null)
 };
 
-function Proposal ({ className = '', imageHash, isMember, members, prime }: Props): React.ReactElement<Props> | null {
+function Proposal ({ className = '', imageHash, members, prime }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
   const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const proposal = useCall<ProposalType | null>(api.query.technicalCommittee.proposalOf, [imageHash], transformProposal);
   const votes = useCall<Votes | null>(api.query.technicalCommittee.voting, [imageHash], transformVotes);
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
+  const [proposalWeight, proposalLength] = useWeight(proposal);
+
+  const councilId = useMemo(
+    () => allAccounts.find((accountId) => members.includes(accountId)) || null,
+    [allAccounts, members]
+  );
 
   if (!proposal || !votes) {
     return null;
@@ -88,13 +96,18 @@ function Proposal ({ className = '', imageHash, isMember, members, prime }: Prop
           />
         )}
         {isCloseable && (
-          <Close
-            hasFailed={hasFailed}
-            hash={imageHash}
-            idNumber={index}
-            isDisabled={!isMember}
-            members={members}
-            proposal={proposal}
+          <TxButton
+            accountId={councilId}
+            icon='times'
+            label={t<string>('Close')}
+            params={
+              api.tx.technicalCommittee.close?.meta.args.length === 4
+                ? hasFailed
+                  ? [imageHash, index, 0, 0]
+                  : [imageHash, index, proposalWeight, proposalLength]
+                : [imageHash, index]
+            }
+            tx='technicalCommittee.close'
           />
         )}
       </td>

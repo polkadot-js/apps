@@ -5,14 +5,14 @@
 import { AccountId } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
-import { Icon, LinkExternal } from '@polkadot/react-components';
-import { useAccounts, useVotingStatus } from '@polkadot/react-hooks';
+import { Icon, LinkExternal, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import Close from './Close';
+import { useTranslation } from '../translate';
 import Voters from './Voters';
 import Voting from './Voting';
 
@@ -30,20 +30,32 @@ interface VoterState {
 }
 
 function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+  const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
-  const [{ hasVoted, hasVotedAye }, setIsVoter] = useState<VoterState>({ hasVoted: false, hasVotedAye: false });
+  const [proposalWeight, proposalLength] = useWeight(proposal);
 
-  useEffect((): void => {
-    if (votes) {
-      const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+  const councilId = useMemo(
+    () => allAccounts.find((accountId) => members.includes(accountId)) || null,
+    [allAccounts, members]
+  );
 
-      setIsVoter({
-        hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
-        hasVotedAye
-      });
-    }
-  }, [allAccounts, votes]);
+  const { hasVoted, hasVotedAye } = useMemo(
+    (): VoterState => {
+      if (votes) {
+        const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
+
+        return {
+          hasVoted: hasVotedAye || allAccounts.some((address) => votes.nays.some((accountId) => accountId.eq(address))),
+          hasVotedAye
+        };
+      }
+
+      return { hasVoted: false, hasVotedAye: false };
+    },
+    [allAccounts, votes]
+  );
 
   if (!votes) {
     return null;
@@ -94,13 +106,18 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           />
         )}
         {isCloseable && (
-          <Close
-            hasFailed={hasFailed}
-            hash={hash}
-            idNumber={index}
-            isDisabled={!isMember}
-            members={members}
-            proposal={proposal}
+          <TxButton
+            accountId={councilId}
+            icon='times'
+            label={t<string>('Close')}
+            params={
+              api.tx.council.close?.meta.args.length === 4
+                ? hasFailed
+                  ? [hash, index, 0, 0]
+                  : [hash, index, proposalWeight, proposalLength]
+                : [hash, index]
+            }
+            tx='council.close'
           />
         )}
       </td>
