@@ -463,6 +463,7 @@ export default styled(Create)`
       line-height: 22px;
       text-decoration: underline;
       color: #4D4D4D;
+      cursor: pointer;
 
       svg {
         margin-right: 12px;

@@ -29,4 +29,5 @@ export default React.memo(styled(BackButton)`
   border: 1px solid #C2C2C2;
   border-radius: 4px;
   color: #8B8B8B;
+  cursor: pointer;
 `);
