@@ -53,6 +53,7 @@ export default React.memo(styled(Checkbox)`
     display: inline-block;
     margin: 0 0.5rem;
     opacity: 1;
+    cursor: pointer;
   }
 
   > label,
