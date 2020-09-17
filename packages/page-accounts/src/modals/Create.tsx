@@ -308,7 +308,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   onClick={onPrintSeed}
                 >
                   <Icon icon='print'/>
-                  Print {seedType === 'bip' ? 'seed phrase' : 'raw seed'}
+                  Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
                 </button>
               </div>
               <Checkbox

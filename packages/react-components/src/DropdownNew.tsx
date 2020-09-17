@@ -179,7 +179,10 @@ const DropdownNew = React.memo(styled(BaseDropdown)`
     }
   }
   .seedDropdown {
-    height: 100%
+    height: 100%;
+    > .ui.selection.dropdown > .text {
+      white-space: nowrap;
+    }
   }
 `) as unknown as IDropdown<any>;
 
