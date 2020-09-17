@@ -161,14 +161,13 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Menu)`
   align-items: center;
-  color: #f5f3f1;
   display: flex;
   justify-content: space-between;
   padding: 0;
   z-index: 220;
 
   &.isLoading {
-    background: #888 !important;
+    background: #999 !important;
 
     &:before {
       filter: grayscale(1);

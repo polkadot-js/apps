@@ -15,10 +15,24 @@ interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#f19135'; // #999
+const BRIGHTNESS = 128 + 32;
+const FACTORS = [0.2126, 0.7152, 0.0722];
+const PARTS = [0, 2, 4];
 
-const getHighlight = (props: Props): string =>
-  (props.uiHighlight || defaultHighlight);
+const defaultHighlight = '#f19135'; // '#f19135'; // #999
+
+function getHighlight (props: Props): string {
+  return (props.uiHighlight || defaultHighlight);
+}
+
+function getContrast (props: Props): string {
+  const hc = getHighlight(props).replace('#', '').toLowerCase();
+  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return brightness > BRIGHTNESS
+    ? 'rgba(47, 45, 43, 0.9)'
+    : 'rgba(247, 245, 243, 0.9)';
+}
 
 export default createGlobalStyle<Props>`
   .highlight--all {
@@ -37,6 +51,10 @@ export default createGlobalStyle<Props>`
 
   .highlight--bg {
     background: ${getHighlight} !important;
+  }
+
+  .highlight--bg-contrast {
+    background: ${getContrast};
   }
 
   .highlight--bg-faint,
@@ -70,6 +88,10 @@ export default createGlobalStyle<Props>`
 
   .highlight--color {
     color: ${getHighlight} !important;
+  }
+
+  .highlight--color-contrast {
+    color: ${getContrast};
   }
 
   .highlight--fill {
@@ -107,7 +129,7 @@ export default createGlobalStyle<Props>`
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: ${getHighlight};
-        color: #f5f5f4;
+        color: ${getContrast};
       }
     }
 
@@ -128,7 +150,7 @@ export default createGlobalStyle<Props>`
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
       background: ${getHighlight};
-      color: #f5f5f4;
+      color: ${getContrast};
       text-shadow: none;
 
       &:not(.isIcon),
@@ -145,7 +167,7 @@ export default createGlobalStyle<Props>`
     &.withoutLink:not(.isDisabled) {
       &:hover {
         .ui--Icon {
-          color: #f5f5f4;
+          color: ${getContrast};
         }
       }
 
