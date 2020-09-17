@@ -29,6 +29,8 @@
       "@polkadot/app-dashboard/*": [ "packages/page-dashboard/src/*" ],
       "@polkadot/app-democracy": [ "packages/page-democracy/src" ],
       "@polkadot/app-democracy/*": [ "packages/page-democracy/src/*" ],
+      "@polkadot/app-ethereum-bridge": [ "packages/page-ethereum-bridge/src" ],
+      "@polkadot/app-ethereum-bridge/*": [ "packages/page-ethereum-bridge/src/*" ],
       "@polkadot/app-extrinsics": [ "packages/page-extrinsics/src" ],
       "@polkadot/app-extrinsics/*": [ "packages/page-extrinsics/src/*" ],
       "@polkadot/app-explorer": [ "packages/page-explorer/src" ],
@@ -78,6 +80,7 @@
     "typeRoots": [
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
-    ]
+    ],
+    "resolveJsonModule": true
   }
 }

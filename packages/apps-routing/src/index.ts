@@ -12,6 +12,7 @@ import contracts from './contracts';
 import council from './council';
 // import dashboard from './dashboard';
 import democracy from './democracy';
+import ethereumBridge from './ethereum-bridge';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import genericAsset from './generic-asset';
@@ -34,6 +35,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     // dashboard(t),
     accounts(t),
     addresses(t),
+    ethereumBridge(t),
     explorer(t),
     claims(t),
     poll(t),

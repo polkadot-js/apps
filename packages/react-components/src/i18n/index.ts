@@ -49,6 +49,7 @@ i18next
       'app-council',
       'app-dashboard',
       'app-democracy',
+      'app-ethereum-bridge',
       'app-explorer',
       'app-extrinsics',
       'app-generic-asset',

@@ -1,0 +1,21 @@
+{
+  "name": "@polkadot/app-ethereum-bridge",
+  "private": true,
+  "version": "0.59.0-beta.7",
+  "description": "A basic app that interacts with Ethereum based smart contracts via metamask",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Snowfork",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "@material-ui/core": "^4.11.0",
+    "@metamask/detect-provider": "^1.1.0",
+    "@polkadot/react-components": "0.59.0-beta.7",
+    "bignumber.js": "^9.0.0",
+    "web3": "^1.2.9"
+  },
+  "devDependencies": {
+    "json-loader": "^0.5.7"
+  }
+}
