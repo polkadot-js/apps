@@ -55,6 +55,9 @@ function reformat (value: string | BN, isDisabled?: boolean): string {
     return fmt;
   }
 
+  // The following log is intentional as it shows the exact value
+  console.log(`Balance is ${value}`);
+
   return formatBalance(value, { forceUnit: '-', withSi: false }).replace(',', isDisabled ? ',' : '');
 }
 

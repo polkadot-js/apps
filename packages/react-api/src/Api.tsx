@@ -18,7 +18,6 @@ import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
-// import dockTypes from '@docknetwork/sdk/types.json';
 
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
@@ -53,7 +52,8 @@ interface ChainData {
   systemVersion: string;
 }
 
-const DEFAULT_DECIMALS = registry.createType('u32', 15);
+// XXX: Temporarily setting decimal places since testnet genesis does not have it.
+const DEFAULT_DECIMALS = registry.createType('u32', 7);
 const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
@@ -61,7 +61,6 @@ let api: ApiPromise;
 export { api };
 
 function getDevTypes (): Record<string, Record<string, string>> {
-  // const types = Object.assign(dockTypes, store.get('types', {}) as Record<string, Record<string, string>>);
   const types = store.get('types', {}) as Record<string, Record<string, string>>;
   const names = Object.keys(types);
 

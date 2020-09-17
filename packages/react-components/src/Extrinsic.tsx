@@ -47,9 +47,6 @@ function ExtrinsicDisplay ({ defaultValue, defaultParams, isDisabled, isError, i
   const [extrinsic, setCall] = useState<CallState>({ fn: defaultValue, params: getParams(defaultValue) });
   const [values, setValues] = useState<RawParam[]>(defaultParams || []);
 
-  // console.log('defaultParams', defaultParams)
-  // console.log('valuesvaluesvalues', values)
-
   useEffect((): void => {
     setCall({ fn: defaultValue, params: getParams(defaultValue) });
   }, [defaultValue]);
