@@ -4,7 +4,7 @@
 
 // defaults
 const defaultColor = undefined; // '#f19135'
-const emptyColor = '#999';
+const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
@@ -13,7 +13,7 @@ const chainCrust = '#ff8812';
 const chainKulupu = '#003366';
 const chainPhala = '#4dc56a';
 const chainPolkadot = '#e6007a';
-const chainKusama = '#000'; // '#d32e79';
+const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoDarwinia = '#7C30DD';

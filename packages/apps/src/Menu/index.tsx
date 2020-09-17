@@ -167,7 +167,7 @@ export default React.memo(styled(Menu)`
   z-index: 220;
 
   &.isLoading {
-    background: #ccc !important;
+    background: #999 !important;
 
     &:before {
       filter: grayscale(1);
