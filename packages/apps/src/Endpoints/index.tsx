@@ -111,6 +111,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const [groups, setGroups] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
+
   const isKnownUrl = useMemo(() => {
     let result = false;
 
@@ -192,7 +193,9 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const _onApply = useCallback(
     (): void => {
       uiSettings.set({ ...(uiSettings.get()), apiUrl });
-      window.location.reload();
+
+      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${apiUrl}${window.location.hash}`);
+      // window.location.reload();
 
       onClose();
     },
