@@ -13,12 +13,12 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@polkadot/react-components": "0.59.0-beta.11",
-    "@polkadot/vanitygen": "^0.21.0-beta.3",
+    "@polkadot/vanitygen": "^0.21.0-beta.4",
     "detect-browser": "^5.1.1",
     "file-saver": "^2.0.2"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.0.3",
-    "testcontainers": "^3.4.4"
+    "@testing-library/react": "^11.0.4",
+    "testcontainers": "^3.4.11"
   }
 }
