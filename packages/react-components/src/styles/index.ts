@@ -17,6 +17,7 @@ interface Props {
 
 const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
+const PARTS = [0, 2, 4];
 
 const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
@@ -25,11 +26,8 @@ function getHighlight (props: Props): string {
 }
 
 function getContrast (props: Props): string {
-  const brightness = getHighlight(props)
-    .replace('#', '')
-    .match(/.{1,2}/g)
-    .map((h) => parseInt(h.toLowerCase(), 16))
-    .reduce((b, v, index) => b + (v * FACTORS[index]), 0);
+  const hc = getHighlight(props).replace('#', '').toLowerCase();
+  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
 
   return brightness > BRIGHTNESS
     ? 'rgba(47, 45, 43, 0.9)'
