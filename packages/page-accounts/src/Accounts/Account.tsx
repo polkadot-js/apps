@@ -190,12 +190,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
       getLedger()
-        .getAddress(true)
+        .getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0)
         .catch((error): void => {
           console.error(`ledger: ${(error as Error).message}`);
         });
     },
-    []
+    [meta]
   );
 
   if (!isVisible) {

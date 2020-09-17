@@ -19,6 +19,7 @@ import nodle from './nodle';
 import plasm from './plasm';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
+import stafi from './stafi';
 import subsocialNode from './subsocial';
 
 export default {
@@ -42,5 +43,6 @@ export default {
   robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
+  stafi,
   subsocial: subsocialNode
 };

@@ -16,7 +16,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 import InputValidateAmount from '../Account/InputValidateAmount';
 import InputValidationController from '../Account/InputValidationController';
-import { createDestPrev } from '../destOptions';
+import { createDestCurr } from '../destOptions';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
@@ -38,7 +38,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const bondedBlocks = useUnbondDuration();
 
   const options = useMemo(
-    () => createDestPrev(t),
+    () => createDestCurr(t),
     [t]
   );
 

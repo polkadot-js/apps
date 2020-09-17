@@ -94,7 +94,6 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
   const [valRiot, setValRiot] = useState('');
   const [valTwitter, setValTwitter] = useState('');
   const [valWeb, setValWeb] = useState('');
-  const { basicDeposit } = api.consts.identity;
   const [gotPreviousIdentity, setGotPreviousIdentity] = useState(false);
 
   useEffect((): void => {
@@ -241,7 +240,7 @@ function IdentityMain ({ address, className = '', onClose }: Props): React.React
           />
         </WrapToggle>
         <InputBalance
-          defaultValue={basicDeposit}
+          defaultValue={api.consts.identity?.basicDeposit}
           help={t<string>('Total amount of fund that will be reserved. These funds are returned when the identity is cleared')}
           isDisabled
           label={t<string>('total deposit')}
