@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
@@ -136,10 +135,10 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
 
 async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', KeyringPair | string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
-  const { meta: { isExternal, isHardware, isInjected, source } } = pair;
+  const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 
   if (isHardware) {
-    return ['signing', address, { ...options, signer: new LedgerSigner() }];
+    return ['signing', address, { ...options, signer: new LedgerSigner(accountOffset as number || 0, addressOffset as number || 0) }];
   } else if (isExternal) {
     return ['qr', address, { ...options, signer: new QrSigner(setQrState) }];
   } else if (isInjected) {
@@ -236,7 +235,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
       if (senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
-          extractParams(senderInfo.signAddress, { tip }, setQrState)
+          extractParams(senderInfo.signAddress, { nonce: -1, tip }, setQrState)
         ]);
 
         queueSetTxStatus(currentItem.id, status);

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { createGlobalStyle } from 'styled-components';
 
@@ -30,8 +29,8 @@ function getContrast (props: Props): string {
   const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
 
   return brightness > BRIGHTNESS
-    ? 'rgba(47, 45, 43, 0.9)'
-    : 'rgba(247, 245, 243, 0.9)';
+    ? 'rgba(45, 43, 41, 0.875)'
+    : 'rgba(255, 253, 251, 0.875)';
 }
 
 export default createGlobalStyle<Props>`
