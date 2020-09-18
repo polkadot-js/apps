@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import React, { useEffect, useState } from 'react';
-import { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import React, { useMemo } from 'react';
+import { DeriveEraExposure, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -20,38 +20,28 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
   const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
-  const [nomBalanceMap, setNomBalanceMap] = useState<Record<string, BN>>({});
+  const eraExposure = useCall<DeriveEraExposure>(api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+  const nomBalanceMap: Record<string, BN> = useMemo(() => {
+    const res: Record<string, BN> = {};
 
-  useEffect(() => {
-    let unsub: (() => void) | undefined;
+    if (nomsActive && eraExposure) {
+      // for every active nominee
+      nomsActive.forEach((nom) => {
+        // cycle through its nominator to find our current stash
+        eraExposure.validators?.[nom].others.some((o) => {
+          if (o.who.toString() === stashId) {
+            res[nom] = o.value.toBn();
 
-    if (nomsActive && sessionInfo?.activeEra) {
-      api.derive.staking.eraExposure(sessionInfo.activeEra, (v) => {
-        // for every active nominee
-        nomsActive.forEach((nom) => {
-          // cycle through its nominator to find our current stash
-          v.validators?.[nom].others.some((o) => {
-            if (o.who.toString() === stashId) {
-              const newN = { [nom]: o.value.toBn() };
+            return true;
+          }
 
-              setNomBalanceMap({ ...nomBalanceMap, ...newN });
-
-              return true;
-            }
-
-            return false;
-          });
+          return false;
         });
-      })
-        .then((_unsub): void => {
-          unsub = _unsub;
-        }).catch(console.error);
+      });
     }
 
-    return (): void => {
-      unsub && unsub();
-    };
-  }, [api, nomBalanceMap, nomsActive, sessionInfo?.activeEra, stashId]);
+    return res;
+  }, [eraExposure, nomsActive, stashId]);
 
   const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toString();
 
