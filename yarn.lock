@@ -3125,6 +3125,7 @@ __metadata:
     "@testing-library/react": ^11.0.4
     detect-browser: ^5.1.1
     file-saver: ^2.0.2
+    print-js: ^1.0.63
     testcontainers: ^3.4.11
   languageName: unknown
   linkType: soft
@@ -3596,10 +3597,12 @@ __metadata:
     "@polkadot/util": ^3.4.1
     "@polkadot/util-crypto": ^3.4.1
     "@types/codeflask": ^1.4.2
+    "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^2.9.3
     codeflask: ^1.4.1
     i18next: ^19.7.0
     i18next-browser-languagedetector: ^5.0.1
+    owasp-password-strength-test: ^1.3.0
     react: ^16.13.1
     react-beautiful-dnd: ^13.0.0
     react-chartjs-2: ^2.10.0
@@ -4449,6 +4452,13 @@ __metadata:
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
   checksum: 6d077e73be7ac6227b678829c7bd765607136cdef537fd4ee7f368d9302a651aea924254d69826663322048436d90d6e7c679c9aa99c4824a687c568aab8ce4f
+  languageName: node
+  linkType: hard
+
+"@types/owasp-password-strength-test@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@types/owasp-password-strength-test@npm:1.3.0"
+  checksum: 0650d0bde06513692bca073c997d5d37c52ac6a60390761a05d3dc57cb23ed22c36c6f847eb58de004aeee995d780ec270931ae3cdbc69865941c02ca1dd5981
   languageName: node
   linkType: hard
 
@@ -17669,6 +17679,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"owasp-password-strength-test@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "owasp-password-strength-test@npm:1.3.0"
+  checksum: beb2e677826e1e3b6fd29d5c75ed89bb6fe231b855a39537f8dbd241dd97ae91e83d044290c4b167f1e8495b3b99e984f73aa6ba30b3103e2497d4c118a29f3b
+  languageName: node
+  linkType: hard
+
 "p-cancelable@npm:^1.0.0":
   version: 1.1.0
   resolution: "p-cancelable@npm:1.1.0"
@@ -19026,6 +19043,13 @@ fsevents@^1.2.7:
   version: 1.1.0
   resolution: "pretty-time@npm:1.1.0"
   checksum: 1467cfb88f0478c277dd4b47419d536f92e417ce17da927390145f9e69ba3ac5c36e54b2a5244538c64e3ed8d299c604117c3018b3a15772c5d030030adbdef6
+  languageName: node
+  linkType: hard
+
+"print-js@npm:^1.0.63":
+  version: 1.3.0
+  resolution: "print-js@npm:1.3.0"
+  checksum: dcd11cd25711e49582c6661ee85da7c9b1ff7fc2cee8d11bdf77d7b63b41d794dde4229ee8a90b99c15343248215b22a2fb44f76d8d6fb75e4b7e53aca22c8fe
   languageName: node
   linkType: hard
 

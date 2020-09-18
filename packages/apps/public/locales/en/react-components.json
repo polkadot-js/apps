@@ -54,6 +54,7 @@
   "reserved": "reserved",
   "session keys": "session keys",
   "session next": "session next",
+  "strong": "strong",
   "tip": "tip",
   "total": "total",
   "transactions": "transactions",
@@ -74,6 +75,7 @@
   "vote value": "vote value",
   "vote with account": "vote with account",
   "voting balance": "voting balance",
+  "weak": "weak",
   "{{blocks}} blocks": "{{blocks}} blocks",
   "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
