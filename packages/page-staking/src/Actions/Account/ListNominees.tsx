@@ -29,7 +29,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
       nomsActive.forEach((nom) => {
         // cycle through its nominator to find our current stash
         eraExposure.validators?.[nom].others.some((o) => {
-          if (o.who.toString() === stashId) {
+          if (o.who.eq(stashId)) {
             res[nom] = o.value.toBn();
 
             return true;
