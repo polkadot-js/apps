@@ -20,7 +20,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
   const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
-  const eraExposure = useCall<DeriveEraExposure>(api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+  const eraExposure = useCall<DeriveEraExposure>(api.derive.staking?.eraExposure, [sessionInfo?.activeEra]);
   const nomBalanceMap: Record<string, BN> = useMemo(() => {
     const res: Record<string, BN> = {};
 
