@@ -27,7 +27,6 @@ import { useApi } from '@polkadot/react-hooks';
 import styled from 'styled-components';
 import uiSettings from '@polkadot/ui-settings';
 import print from 'print-js';
-import ToastProvider from '@polkadot/react-components/Toast/ToastProvider';
 import TextAriaWithLabel from '@polkadot/react-components/TextAriaWithLabel';
 
 interface Props extends ModalProps {
@@ -266,58 +265,57 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       {step === 1
         ? <>
           <Modal.Content>
-            <ToastProvider>
-              <AddressRow
-                defaultName={name}
-                noDefaultNameOpacity
-                value={isSeedValid ? address : ''}
+            <AddressRow
+              defaultName={name}
+              noDefaultNameOpacity
+              value={isSeedValid ? address : ''}
+            />
+            <article className='ui--Warning'>
+              <Icon icon='exclamation-triangle'/>
+              <div>{t<string>("PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE")}</div>
+            </article>
+            <TextAriaWithLabel
+              help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              isAction
+              isError={!isSeedValid}
+              isReadOnly={seedType === 'dev'}
+              label={
+                seedType === 'bip'
+                  ? t<string>('mnemonic seed')
+                  : seedType === 'dev'
+                    ? t<string>('development seed')
+                    : t<string>('seed (hex or string)')
+              }
+              onChange={_onChangeSeed}
+              seed={seed}
+            >
+              <DropdownNew
+                classNameButton='seedDropdown'
+                defaultValue={seedType}
+                isButton
+                onChange={_selectSeedType}
+                options={seedOpt}
               />
-              <article className='ui--Warning'>
-                <Icon icon='exclamation-triangle'/>
-                <div>{t<string>("PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE")}</div>
-              </article>
-              <TextAriaWithLabel
-                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-                isAction
-                isError={!isSeedValid}
-                isReadOnly={seedType === 'dev'}
-                label={
-                  seedType === 'bip'
-                    ? t<string>('mnemonic seed')
-                    : seedType === 'dev'
-                      ? t<string>('development seed')
-                      : t<string>('seed (hex or string)')
-                }
-                onChange={_onChangeSeed}
-                seed={seed}
+            </TextAriaWithLabel>
+            <div className='ui--Buttons-row'>
+              <CopyToClipboard
+                className='ui--Print-btn'
+                description={t<string>('seed')}
+                elementId='printJS-seed'/>
+              <button
+                className='ui--Print-btn'
+                onClick={onPrintSeed}
               >
-                <DropdownNew
-                  classNameButton='seedDropdown'
-                  defaultValue={seedType}
-                  isButton
-                  onChange={_selectSeedType}
-                  options={seedOpt}
-                />
-              </TextAriaWithLabel>
-              <div className='ui--Buttons-row'>
-                <CopyToClipboard
-                  className='ui--Print-btn'
-                  elementId='printJS-seed'/>
-                <button
-                  className='ui--Print-btn'
-                  onClick={onPrintSeed}
-                >
-                  <Icon icon='print'/>
+                <Icon icon='print'/>
                   Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
-                </button>
-              </div>
-              <Checkbox
-                data-testid='isSeedSaved-Checkbox'
-                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-                onChange={_toggleMnemonicSaved}
-                value={isMnemonicSaved}
-              />
-            </ToastProvider>
+              </button>
+            </div>
+            <Checkbox
+              data-testid='isSeedSaved-Checkbox'
+              label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+              onChange={_toggleMnemonicSaved}
+              value={isMnemonicSaved}
+            />
           </Modal.Content>
           <div className='ui--Modal-Footer'>
             <Button
@@ -411,7 +409,7 @@ export default styled(Create)`
   & * {
     font-family: 'Nunito Sans', sans-serif;
   }
-  
+
   &.ui.modal > .header:not(.ui) {
     font-family: 'Nunito Sans', sans-serif;
     text-transform: initial;

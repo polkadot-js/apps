@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useCallback } from 'react';
 import { Icon } from '@polkadot/react-components';
-import useToast from '@polkadot/react-hooks/useToast';
+import StatusContext from '@polkadot/react-components/Status/Context';
+import { useTranslation } from '@polkadot/react-components/translate';
+import React, { useCallback, useContext } from 'react';
 
-interface CopyButtonProps {
+interface Props {
   elementId: string;
   className?: string;
+  description?: string;
 }
 
 function onCopy (id: string) {
@@ -22,12 +24,18 @@ function onCopy (id: string) {
   }
 }
 
-function CopyToClipboard ({ className, elementId }: CopyButtonProps) {
-  const { show } = useToast();
+function CopyToClipboard ({ className, elementId, description = undefined }: Props) {
+  const { queueAction } = useContext(StatusContext);
+  const { t } = useTranslation();
+
   const _onCopy = useCallback((id: string): void => {
     onCopy(id);
-    show('Copied');
-  }, [show]);
+    queueAction({
+      action: t('clipboard'),
+      message: t(description ? `${description} copied` : 'copied'),
+      status: 'queued'
+    });
+  }, [queueAction, description, t]);
 
   return (
     <button
