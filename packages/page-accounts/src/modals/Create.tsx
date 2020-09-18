@@ -266,7 +266,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         ? <>
           <Modal.Content>
             <AddressRow
+              className='ui--AddressRow-new-create-modal'
               defaultName={name}
+              isEditableName={false}
               noDefaultNameOpacity
               value={isSeedValid ? address : ''}
             />
@@ -329,7 +331,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         : <>
           <Modal.Content>
             <AddressRow
+              className='ui--AddressRow-new-create-modal'
               defaultName={name}
+              isEditableName={false}
               noDefaultNameOpacity
               value={address}
             />

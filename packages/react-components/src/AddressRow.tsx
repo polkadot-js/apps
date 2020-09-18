@@ -26,7 +26,7 @@ export interface Props extends RowProps {
 const DEFAULT_ADDR = '5'.padEnd(48, 'x');
 const ICON_SIZE = 48;
 
-function AddressRow ({ buttons, children, className, defaultName, isContract = false, isDisabled, isInline, isValid: propsIsValid, overlay, value, withTags = false }: Props): React.ReactElement<Props> | null {
+function AddressRow ({ buttons, children, className, defaultName, isContract = false, isDisabled, isEditableName, isInline, isValid: propsIsValid, overlay, value, withTags = false }: Props): React.ReactElement<Props> | null {
   const { accountIndex, isNull, name, onSaveName, onSaveTags, setName, setTags, tags } = useAccountInfo(value ? value.toString() : null, isContract);
 
   const isValid = !isNull && (propsIsValid || value || accountIndex);
@@ -45,7 +45,7 @@ function AddressRow ({ buttons, children, className, defaultName, isContract = f
         />
       }
       isDisabled={isDisabled}
-      isEditableName
+      isEditableName={isEditableName}
       isEditableTags
       isInline={isInline}
       name={name}
@@ -106,6 +106,24 @@ export default React.memo(
 
     .ui--AddressRow-placeholder {
       opacity: 0.5;
+    }
+    
+    &.ui--AddressRow-new-create-modal {
+      & .ui--Row-name {
+        text-transform: none;
+        font-size: 16px;
+        color: #8B8B8B;
+        line-height: 22px;
+        font-weight: 600;
+      }
+      
+      & .ui--Row-address {
+        font-family: 'Nunito Sans', sans-serif;
+        color: #4D4D4D;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: normal;
+      }
     }
   `
 );
