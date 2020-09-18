@@ -4,7 +4,6 @@
 import { Call } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { registry } from '@polkadot/react-api';
 
 import CallDisplay from './Call';
 import Expander from './Expander';
@@ -18,7 +17,7 @@ interface Props {
 }
 
 function CallExpander ({ children, className = '', labelHash, value, withHash }: Props): React.ReactElement<Props> {
-  const { meta, method, section } = registry.findMetaCall(value.callIndex);
+  const { meta, method, section } = value.registry.findMetaCall(value.callIndex);
 
   return (
     <div className={`ui--CallExpander ${className}`}>

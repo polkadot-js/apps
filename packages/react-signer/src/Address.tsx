@@ -9,7 +9,6 @@ import { AddressFlags, AddressProxy } from './types';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option, Vec } from '@polkadot/types';
@@ -44,7 +43,7 @@ interface ProxyState {
 
 function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
   try {
-    const { method, section } = registry.findMetaCall(tx.callIndex);
+    const { method, section } = tx.registry.findMetaCall(tx.callIndex);
 
     return { method, section };
   } catch (error) {

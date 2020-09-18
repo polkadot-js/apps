@@ -6,7 +6,6 @@ import { KeyedEvent } from '@polkadot/react-query/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
@@ -37,7 +36,7 @@ function filterEvents (index: number, events: KeyedEvent[] = []): KeyedEvent[] {
 
 function ExtrinsicDisplay ({ blockNumber, className = '', events, index, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { meta, method, section } = registry.findMetaCall(value.callIndex);
+  const { meta, method, section } = value.registry.findMetaCall(value.callIndex);
   const era = getEra(value, blockNumber);
   const thisEvents = filterEvents(index, events);
 

@@ -6,7 +6,6 @@ import { QueueTx } from '@polkadot/react-components/Status/types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
 import { Call, Expander, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
@@ -27,7 +26,7 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
     return null;
   }
 
-  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+  const { meta, method, section } = extrinsic.registry.findMetaCall(extrinsic.callIndex);
   const args = meta?.args.map(({ name }) => name).join(', ') || '';
 
   return (

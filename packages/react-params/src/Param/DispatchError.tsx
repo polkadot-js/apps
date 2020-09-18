@@ -5,7 +5,6 @@ import { DispatchError } from '@polkadot/types/interfaces';
 import { Props } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
 import { Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -34,7 +33,8 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
 
     if (isModuleError(value as ModuleErrorDefault)) {
       try {
-        const { documentation, name, section } = registry.findMetaError((value as DispatchError).asModule);
+        const mod = (value as DispatchError).asModule;
+        const { documentation, name, section } = mod.registry.findMetaError(mod);
 
         return setDetails({
           details: documentation.join(', '),
