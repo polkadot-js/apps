@@ -29,6 +29,20 @@ export interface Props {
   withHidden?: boolean;
 }
 
+function splitSingle (value: string[], sep: string): string[] {
+  return value.reduce((result: string[], value: string): string[] => {
+    return value.split(sep).reduce((result: string[], value: string): string[] => {
+      return result.concat(value);
+    }, result);
+  }, []);
+}
+
+function splitParts (value: string, seps: string[]): string[] {
+  return seps.reduce((result: string[], sep): string[] => {
+    return splitSingle(result, sep);
+  }, [value]);
+}
+
 function formatMeta (meta?: Meta): React.ReactNode | null {
   if (!meta || !meta.documentation.length) {
     return null;
@@ -36,12 +50,17 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
 
   const strings = meta.documentation.map((doc) => doc.toString().trim());
   const firstEmpty = strings.findIndex((doc) => !doc.length);
-
-  return (
+  const data = (
     firstEmpty === -1
       ? strings
       : strings.slice(0, firstEmpty)
-  ).join(' ');
+  ).join(' ').replace(/\\/g, '').replace(/`/g, '');
+
+  const parts = splitParts(data, ['[', ']']);
+
+  console.error(parts);
+
+  return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
 function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
