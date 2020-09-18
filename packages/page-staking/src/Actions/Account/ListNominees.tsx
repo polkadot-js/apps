@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { AddressMini, Expander } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
+import BN from 'bn.js';
 
 interface Props {
   nominating?: string[];
@@ -18,6 +20,39 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { t } = useTranslation();
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
+  const [nomBalanceMap, setNomBalanceMap] = useState<Record<string, BN>>({});
+
+  useEffect(() => {
+    let unsub: (() => void) | undefined;
+
+    if (nomsActive && sessionInfo?.activeEra) {
+      api.derive.staking.eraExposure(sessionInfo.activeEra, (v) => {
+        // for every active nominee
+        nomsActive.forEach((nom) => {
+          // cycle through its nominator to find our current stash
+          v.validators?.[nom].others.some((o) => {
+            if (o.who.toString() === stashId) {
+              const newN = { [nom]: o.value.toBn() };
+
+              setNomBalanceMap({ ...nomBalanceMap, ...newN });
+
+              return true;
+            }
+
+            return false;
+          });
+        });
+      })
+        .then((_unsub): void => {
+          unsub = _unsub;
+        }).catch(console.error);
+    }
+
+    return (): void => {
+      unsub && unsub();
+    };
+  }, [api, nomBalanceMap, nomsActive, sessionInfo?.activeEra, stashId]);
 
   const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toString();
 
@@ -45,9 +80,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         >
           {nomsActive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
+              balance={nomBalanceMap[nomineeId]}
               key={index}
               value={nomineeId}
-              withBalance={false}
+              withBalance
             />
           ))}
         </Expander>
