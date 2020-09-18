@@ -6,7 +6,6 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { registry } from '@polkadot/react-api';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';
@@ -104,7 +103,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
   let { method, section } = rpc;
 
   if (extrinsic) {
-    const found = registry.findMetaCall(extrinsic.callIndex);
+    const found = extrinsic.registry.findMetaCall(extrinsic.callIndex);
 
     if (found.section !== 'unknown') {
       method = found.method;

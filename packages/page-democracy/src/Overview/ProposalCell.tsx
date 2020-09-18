@@ -4,7 +4,6 @@
 import { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
-import { registry } from '@polkadot/react-api';
 import { CallExpander } from '@polkadot/react-components';
 import { Compact } from '@polkadot/types';
 
@@ -34,7 +33,7 @@ function ProposalCell ({ className = '', imageHash, proposal }: Props): React.Re
     );
   }
 
-  const { method, section } = registry.findMetaCall(proposal.callIndex);
+  const { method, section } = proposal.registry.findMetaCall(proposal.callIndex);
   const isTreasury = section === 'treasury' && METHOD_TREA.includes(method);
   const isExternal = section === 'democracy' && METHOD_EXTE.includes(method);
 

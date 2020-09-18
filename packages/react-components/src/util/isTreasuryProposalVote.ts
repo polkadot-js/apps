@@ -3,14 +3,12 @@
 
 import { Proposal } from '@polkadot/types/interfaces';
 
-import { registry } from '@polkadot/react-api';
-
 export default function isTreasuryProposalVote (proposal?: Proposal | null): boolean {
   if (!proposal) {
     return false;
   }
 
-  const { method, section } = registry.findMetaCall(proposal.callIndex);
+  const { method, section } = proposal.registry.findMetaCall(proposal.callIndex);
 
   return section === 'treasury' &&
     ['approveProposal', 'rejectProposal'].includes(method) &&

@@ -63,7 +63,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
           if (dispatchError.isModule) {
             try {
               const mod = dispatchError.asModule;
-              const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+              const error = dispatchError.registry.findMetaError(mod);
 
               message = `${error.section}.${error.name}`;
             } catch (error) {

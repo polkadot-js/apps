@@ -29,6 +29,8 @@ function Body ({ children, className = '', empty, emptySpinner }: Props): React.
 }
 
 export default React.memo(styled(Body)`
+  position: relative;
+
   td {
     padding: 0.75rem 1rem;
     text-align: left;
