@@ -5,7 +5,7 @@
 import React from 'react';
 
 import Labelled from './LabelledNew';
-import TextAreaWithDropdown from '@polkadot/react-components/TextAriaWithDropdown';
+import TextAreaWithDropdown from '@polkadot/react-components/TextAreaWithDropdown';
 import styled from 'styled-components';
 
 interface Props {
@@ -59,7 +59,7 @@ const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
 const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
   isPreKeyDown && key === KEYS.A;
 
-function TextAriaWithLabel ({ children, className, help, isReadOnly, label, onChange, seed }: Props): React.ReactElement<Props> {
+function TextAreaWithLabel ({ children, className, help, isReadOnly, label, onChange, seed }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -81,7 +81,7 @@ function TextAriaWithLabel ({ children, className, help, isReadOnly, label, onCh
   );
 }
 
-export default React.memo(styled(TextAriaWithLabel)`
+export default React.memo(styled(TextAreaWithLabel)`
   .TextAreaWithDropdown {
     display: flex;
 

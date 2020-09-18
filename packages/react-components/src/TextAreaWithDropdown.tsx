@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React, { useCallback } from 'react';
-import { TextArea } from '@polkadot/react-components/TextAria';
+import { TextArea } from '@polkadot/react-components/TextArea';
 
 interface Props {
   children?: React.ReactNode;

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import NewPasswordInput from '@polkadot/app-accounts/Accounts/NewPasswordInput';
+import TextAreaWithLabel from '@polkadot/react-components/TextAreaWithLabel';
 import React, { useCallback, useMemo, useState } from 'react';
 import { ModalProps } from '@polkadot/app-accounts/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
@@ -27,7 +28,6 @@ import { useApi } from '@polkadot/react-hooks';
 import styled from 'styled-components';
 import uiSettings from '@polkadot/ui-settings';
 import print from 'print-js';
-import TextAriaWithLabel from '@polkadot/react-components/TextAriaWithLabel';
 
 interface Props extends ModalProps {
   className?: string;
@@ -276,7 +276,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               <Icon icon='exclamation-triangle'/>
               <div>{t<string>("PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE")}</div>
             </article>
-            <TextAriaWithLabel
+            <TextAreaWithLabel
               help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
               isAction
               isError={!isSeedValid}
@@ -298,7 +298,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 onChange={_selectSeedType}
                 options={seedOpt}
               />
-            </TextAriaWithLabel>
+            </TextAreaWithLabel>
             <div className='ui--Buttons-row'>
               <CopyToClipboard
                 className='ui--Print-btn'
