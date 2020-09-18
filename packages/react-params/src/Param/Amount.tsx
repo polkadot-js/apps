@@ -40,6 +40,7 @@ function Amount ({ className = '', defaultValue: { value }, isDisabled, isError,
             isDisabled
             label={label}
             withEllipsis
+            withLabel={withLabel}
           />
         )
         : (
