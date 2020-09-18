@@ -9,9 +9,17 @@ import { getLedger, registry } from '@polkadot/react-api';
 let id = 0;
 
 export default class LedgerSigner implements Signer {
+  #accountOffset: number;
+  #addressOffset: number;
+
+  constructor (accountOffset: number, addressOffset: number) {
+    this.#accountOffset = accountOffset;
+    this.#addressOffset = addressOffset;
+  }
+
   public async signPayload (payload: SignerPayloadJSON): Promise<SignerResult> {
     const raw = registry.createType('ExtrinsicPayload', payload, { version: payload.version });
-    const { signature } = await getLedger().sign(raw.toU8a(true));
+    const { signature } = await getLedger().sign(raw.toU8a(true), this.#accountOffset, this.#addressOffset);
 
     return { id: ++id, signature };
   }
