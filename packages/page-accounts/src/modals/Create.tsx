@@ -313,7 +313,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </button>
             </div>
             <Checkbox
-              data-testid='isSeedSaved-Checkbox'
               label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
               onChange={_toggleMnemonicSaved}
               value={isMnemonicSaved}
@@ -340,7 +339,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <InputSection>
               <InputNew
                 autoFocus
-                data-testid='accountName'
                 help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
                 isError={!!name && !isNameValid}
                 label={t<string>('A descriptive name for your account')}

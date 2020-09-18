@@ -6,7 +6,7 @@ import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
 import { Api } from '@polkadot/react-api';
 import '@polkadot/react-components/i18n';
 import { useApi } from '@polkadot/react-hooks';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
 import React, { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -38,40 +38,14 @@ const renderAccounts = () => {
 };
 
 describe('--SLOW--: Account Create', () => {
-  it('asks for confirmation after saving new account', async () => {
-    const { findByPlaceholderText, findByTestId, findByText } = renderAccounts();
+  it('new create modal', async () => {
+    const { findByTestId, findByText, queryByText } = renderAccounts();
 
     const addAccountButton = await findByText('Add account', {}, { timeout: 4000 });
 
     fireEvent.click(addAccountButton);
 
-    const nameInput = await findByPlaceholderText('new account');
-
-    fireEvent.change(nameInput, { target: { value: 'my super account' } });
-
-    const passwordInput = await findByTestId('password');
-
-    fireEvent.change(passwordInput, { target: { value: 'a' } });
-
-    const passwordRepeatInput = await findByTestId('password (repeat)');
-
-    fireEvent.change(passwordRepeatInput, { target: { value: 'a' } });
-
-    const saveButton = await findByText('Save');
-
-    fireEvent.click(saveButton);
-
-    expect(await findByText('Create and backup account')).toBeTruthy();
-  });
-
-  it('new create modal', async () => {
-    const { findByTestId, findByText } = renderAccounts();
-
-    const addAccountButton = await findByTestId('addAccount2');
-
-    fireEvent.click(addAccountButton);
-
-    const isSeedSavedCheckbox = await findByTestId('isSeedSaved-Checkbox');
+    const isSeedSavedCheckbox = await findByTestId('checkbox');
     const hiddenCheckbox = isSeedSavedCheckbox as HTMLInputElement;
 
     fireEvent.click(hiddenCheckbox);
@@ -82,15 +56,15 @@ describe('--SLOW--: Account Create', () => {
 
     expect(await findByText('Add an account via seed 2/2')).toBeTruthy();
 
-    const accountNameInput = await findByTestId('accountName');
+    const accountNameInput = await findByTestId('A descriptive name for your account');
 
-    fireEvent.change(accountNameInput, { target: { value: 'name' } });
+    fireEvent.change(accountNameInput, { target: { value: 'my new account' } });
 
-    const passwordInput = await findByTestId('password');
+    const passwordInput = await findByTestId('A new password for this account');
 
     fireEvent.change(passwordInput, { target: { value: 'password' } });
 
-    const passwordInput2 = await findByTestId('password2');
+    const passwordInput2 = await findByTestId('Repeat password for verification');
 
     fireEvent.change(passwordInput2, { target: { value: 'password' } });
 
@@ -98,6 +72,8 @@ describe('--SLOW--: Account Create', () => {
 
     fireEvent.click(createAnAccountButton);
 
-    expect(await findByText('created account')).toBeTruthy();
+    await waitForElementToBeRemoved(() => queryByText('Add an account via seed 2/2'));
+
+    expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
 });
