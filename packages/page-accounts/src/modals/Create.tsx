@@ -355,6 +355,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             </InputSection>
             <Expander
               className='accounts--Creator-advanced'
+              iconPlacement='left'
               isOpen
               summary={t<string>('Advanced creation options')}
             >
@@ -409,6 +410,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 export default styled(Create)`
   & * {
     font-family: 'Nunito Sans', sans-serif;
+  }
+  
+  &.ui.modal > .header:not(.ui) {
+    font-family: 'Nunito Sans', sans-serif;
+    text-transform: initial;
   }
 
   &.ui--Modal-Wrapper.medium {

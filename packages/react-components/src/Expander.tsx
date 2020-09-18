@@ -27,6 +27,7 @@ export interface Props {
   summaryMeta?: Meta;
   summarySub?: React.ReactNode;
   withHidden?: boolean;
+  iconPlacement?: 'left' | 'right';
 }
 
 function formatMeta (meta?: Meta): React.ReactNode | null {
@@ -44,7 +45,25 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   ).join(' ');
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
+interface ExpandIconProps {
+  isExpanded: boolean;
+  isVisible?: boolean;
+  className?: string;
+}
+
+function ExpandIcon ({ className = '', isExpanded, isVisible = true }: ExpandIconProps): React.ReactElement<ExpandIconProps> {
+  return <Icon
+    className={className}
+    color={isVisible ? undefined : 'transparent'}
+    icon={
+      isExpanded
+        ? 'caret-up'
+        : 'caret-down'
+    }
+  />;
+}
+
+function Expander ({ children, className = '', help, helpIcon, iconPlacement = 'right', isOpen, isPadded, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen);
   const headerMain = useMemo(
@@ -66,6 +85,8 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
         className='ui--Expander-summary'
         onClick={toggleExpanded}
       >
+        {iconPlacement === 'left' && <ExpandIcon className='ui--Expander-icon-left'
+          isExpanded={isExpanded} />}
         <div className='ui--Expander-summary-header'>
           {help && (
             <LabelHelp
@@ -79,14 +100,8 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
             <div className='ui--Expander-summary-header-sub'>{headerSub}</div>
           )}
         </div>
-        <Icon
-          color={hasContent ? undefined : 'transparent'}
-          icon={
-            isExpanded
-              ? 'caret-up'
-              : 'caret-down'
-          }
-        />
+        {iconPlacement === 'right' && <ExpandIcon className='ui--Expander-icon-right'
+          isExpanded={isExpanded} />}
       </div>
       {hasContent && (isExpanded || withHidden) && (
         <div className='ui--Expander-content'>{children}</div>
@@ -120,7 +135,7 @@ export default React.memo(styled(Expander)`
       margin-left: 2.25rem;
     }
   }
-
+  
   .ui--Expander-summary {
     margin: 0;
     min-width: 13.5rem;
@@ -130,29 +145,21 @@ export default React.memo(styled(Expander)`
       display: inline-block;
       max-width: calc(100% - 2rem);
       overflow: hidden;
-    .ui--Expander-summary-header > .ui--FormatBalance {
-      min-width: 11rem;
-    }
-
-    .ui--Expander-summary-header > svg {
-      width: 0.8rem;
-      height: 0.8rem;
-    }
-
-    > div {
-      font-weight: 800;
-      font-size: 10px;
-      line-height: 14px;
-      text-transform: uppercase;
-      color: #000000;
       text-overflow: ellipsis;
       vertical-align: middle;
       white-space: nowrap;
     }
-
+    
     .ui--Icon {
-      margin-left: 0.75rem;
       vertical-align: middle;
+    }
+    
+    .ui--Icon.ui--Expander-icon-left {
+      margin-right: 0.75rem;
+    }
+    
+    .ui--Icon.ui--Expander-icon-right {
+      margin-left: 0.75rem;
     }
 
     .ui--LabelHelp {
@@ -169,19 +176,16 @@ export default React.memo(styled(Expander)`
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
-    .ui--Expander-summary-header > svg {
-      width: 0.8rem;
-      height: 0.8rem;
-    }
-
-    > div {
-      font-weight: 800;
-      font-size: 10px;
-      line-height: 14px;
-      text-transform: uppercase;
-      color: #000000;
-      text-overflow: ellipsis;
-    }
+  }
+  
+  &.accounts--Creator-advanced > .ui--Expander-summary > .ui--Expander-summary-header {
+    font-weight: 800;
+    font-size: 10px;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: #000000;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
   }
 `);
