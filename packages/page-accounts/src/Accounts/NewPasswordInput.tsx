@@ -54,7 +54,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
             data-testid='password'
             help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
             isError={!!password && !isPassValid}
-            label={t<string>('A NEW PASSWORD TO THIS ACCOUNT')}
+            label={t<string>('A NEW PASSWORD FOR THIS ACCOUNT')}
             onChange={_onPasswordChange}
             value={password}
           />
@@ -65,7 +65,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
           data-testid='password2'
           help={t<string>('Verify the password entered above.')}
           isError={!!password2 && !isPass2Valid}
-          label={t<string>('A NEW PASSWORD TO THIS ACCOUNT')}
+          label={t<string>('REPEAT PASSWORD FOR VERIFICATION')}
           onChange={onPassword2Change}
           value={password2}
         />
