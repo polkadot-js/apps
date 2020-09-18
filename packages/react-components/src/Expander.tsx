@@ -31,16 +31,12 @@ export interface Props {
 
 function splitSingle (value: string[], sep: string): string[] {
   return value.reduce((result: string[], value: string): string[] => {
-    return value.split(sep).reduce((result: string[], value: string): string[] => {
-      return result.concat(value);
-    }, result);
+    return value.split(sep).reduce((result: string[], value: string) => result.concat(value), result);
   }, []);
 }
 
-function splitParts (value: string, seps: string[]): string[] {
-  return seps.reduce((result: string[], sep): string[] => {
-    return splitSingle(result, sep);
-  }, [value]);
+function splitParts (value: string): string[] {
+  return ['[', ']'].reduce((result: string[], sep) => splitSingle(result, sep), [value]);
 }
 
 function formatMeta (meta?: Meta): React.ReactNode | null {
@@ -50,15 +46,11 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
 
   const strings = meta.documentation.map((doc) => doc.toString().trim());
   const firstEmpty = strings.findIndex((doc) => !doc.length);
-  const data = (
+  const parts = splitParts((
     firstEmpty === -1
       ? strings
       : strings.slice(0, firstEmpty)
-  ).join(' ').replace(/\\/g, '').replace(/`/g, '');
-
-  const parts = splitParts(data, ['[', ']']);
-
-  console.error(parts);
+  ).join(' ').replace(/\\/g, '').replace(/`/g, ''));
 
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
