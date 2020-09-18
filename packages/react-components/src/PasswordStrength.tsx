@@ -1,9 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useTranslation } from '@polkadot/react-components/translate';
 import React from 'react';
 import styled from 'styled-components';
-import owasp from 'owasp-password-strength-test';
+import strengthTester from 'owasp-password-strength-test';
+
+const MAX_STRENGTH = 7; // equal to number of password tests in owasp strength tester
 
 interface Props {
   className?: string;
@@ -11,35 +14,37 @@ interface Props {
 }
 
 function calcStrength (password: string): number {
-  owasp.config({
+  strengthTester.config({
     allowPassphrases: true,
     maxLength: 128,
     minLength: 8,
     minPhraseLength: 20
   });
-  const passedTests = owasp.test(password).passedTests.length;
+  const testResult = strengthTester.test(password);
+  const passedTests = Math.max(0, testResult.passedTests.length - testResult.failedTests.length);
 
-  return owasp.test(password).isPassphrase ? 6 : passedTests - 2;
+  return testResult.isPassphrase ? MAX_STRENGTH : passedTests;
 }
 
 function PasswordStrength ({ className = '', value }: Props): React.ReactElement<Props> {
-  // No need for memo, component is already memo-ed (only changes on value)
+  const { t } = useTranslation();
+
   const passwordStrength = calcStrength(value);
-  const style = { width: `${passwordStrength * 100 / 6}%` };
+  const style = { width: `${passwordStrength * 100 / MAX_STRENGTH}%` };
 
   return (
     <div
       className={className}
       style={{ display: passwordStrength ? 'flex' : 'none' }}
     >
-      week
+      {t<string>('weak')}
       <div className='ui--Strength-bar'>
         <div
           className='ui--Strength-bar-highlighted'
           style={style}
         />
       </div>
-      strong
+      {t<string>('strong')}
     </div>
   );
 }
@@ -65,7 +70,6 @@ export default React.memo(styled(PasswordStrength)`
   .ui--Strength-bar-highlighted {
     position: absolute;
     top: -0.07rem;
-    left: -0.07rem;
     height: 0.6rem;
     width: 100%;
     border-radius: 0.15rem;
