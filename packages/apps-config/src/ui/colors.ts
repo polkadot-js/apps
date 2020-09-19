@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // defaults
-const defaultColor = undefined; // '#f19135'
 const emptyColor = '#99999';
 
 // based on chain name
@@ -11,6 +10,7 @@ const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainKulupu = '#003366';
 const chainPhala = '#4dc56a';
+const chainPlasm = '#2096F3';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
@@ -45,6 +45,7 @@ const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['phala poc 2', chainPhala],
+  ['Plasm', chainPlasm],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],
@@ -76,7 +77,6 @@ const nodeColors: Record<string, any> = [
 }), {});
 
 export {
-  defaultColor,
   chainColors,
   emptyColor,
   nodeColors

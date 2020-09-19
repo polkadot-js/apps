@@ -7,7 +7,6 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { getSystemChainColor } from '@polkadot/apps-config/ui';
-import { defaultColor } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -29,7 +28,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
+      <GlobalStyle uiHighlight={uiHighlight} />
       <div className={`apps--Wrapper theme--default ${className}`}>
         <Menu />
         <AccountSidebar>
