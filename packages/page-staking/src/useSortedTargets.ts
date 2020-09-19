@@ -65,8 +65,8 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const list = info.map(({ accountId, exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    let bondOwn = exposure.own.unwrap();
-    let bondTotal = exposure.total.unwrap();
+    let bondOwn = exposure.own?.unwrap() || BN_ZERO;
+    let bondTotal = exposure.total?.unwrap() || BN_ZERO;
     const skipRewards = bondTotal.isZero();
 
     if (bondTotal.isZero()) {
