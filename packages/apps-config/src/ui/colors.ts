@@ -2,12 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // defaults
-<<<<<<< HEAD:packages/apps-config/src/ui/colors.ts
-const emptyColor = '#99999';
-=======
 const defaultColor = undefined; // '#f19135'
 const emptyColor = '#999';
->>>>>>> ac93cde75 (Alphabetical chain config names (#3601)):packages/apps-config/src/ui/general/index.ts
 
 // based on chain name
 // alphabetical
@@ -16,10 +12,7 @@ const chainCrust = '#ff8812';
 const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
 const chainPhala = '#4dc56a';
-<<<<<<< HEAD:packages/apps-config/src/ui/colors.ts
 const chainPlasm = '#2096F3';
-=======
->>>>>>> ac93cde75 (Alphabetical chain config names (#3601)):packages/apps-config/src/ui/general/index.ts
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
@@ -33,10 +26,6 @@ const chainWestend = '#da68a7';
 
 // based on node name
 // alphabetical
-<<<<<<< HEAD:packages/apps-config/src/ui/colors.ts
-const nodeCanvas = '#c77cff';
-=======
->>>>>>> ac93cde75 (Alphabetical chain config names (#3601)):packages/apps-config/src/ui/general/index.ts
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 const nodeEquilibrium = '#1792ff';
@@ -60,6 +49,7 @@ const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['phala poc 2', chainPhala],
+  ['Plasm', chainPlasm],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],

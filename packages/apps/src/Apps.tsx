@@ -30,7 +30,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight} />
-      <div className={`apps--Wrapper theme--${theme} ${className}`}>
+      <div className={`apps--Wrapper theme--default ${className}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
