@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { chainColors, nodeColors } from './general';
+import { chainColors, nodeColors } from './colors';
 import { identityNodes } from './identityIcons';
 
 function sanitize (value?: string): string {
