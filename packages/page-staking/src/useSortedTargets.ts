@@ -65,6 +65,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const list = info.map(({ accountId, exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
+    // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
     let bondOwn = exposure.own?.unwrap() || BN_ZERO;
     let bondTotal = exposure.total?.unwrap() || BN_ZERO;
     const skipRewards = bondTotal.isZero();
