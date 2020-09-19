@@ -2,7 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
+import { BN_ZERO, isBn, isFunction } from '@polkadot/util';
 
-export function balanceToNumber (amount: BN, divisor: BN): number {
-  return amount.muln(1000).div(divisor).toNumber() / 1000;
+interface ToBN {
+  toBn: () => BN;
+}
+
+export function balanceToNumber (amount: BN | ToBN = BN_ZERO, divisor: BN): number {
+  const value = isBn(amount)
+    ? amount
+    : isFunction(amount.toBn)
+      ? amount.toBn()
+      : BN_ZERO;
+
+  return value.muln(1000).div(divisor).toNumber() / 1000;
 }
