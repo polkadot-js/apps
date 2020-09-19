@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // defaults
-const defaultColor = undefined; // '#f19135'
 const emptyColor = '#99999';
 
 // based on chain name
@@ -78,7 +77,6 @@ const nodeColors: Record<string, any> = [
 }), {});
 
 export {
-  defaultColor,
   chainColors,
   emptyColor,
   nodeColors
