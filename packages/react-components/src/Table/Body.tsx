@@ -189,6 +189,10 @@ export default React.memo(styled(Body)`
       background: transparent;
     }
 
+    .ui--Button-Group {
+      margin: 0;
+    }
+
     .ui--Button:not(.isIcon):not(:hover) {
       background: transparent !important;
       box-shadow: none !important;
