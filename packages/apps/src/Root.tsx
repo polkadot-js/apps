@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
 
 import React, { Suspense, useEffect, useState } from 'react';
@@ -18,12 +19,8 @@ interface Props {
   store?: KeyringStore;
 }
 
-interface Theme {
-  theme: string;
-}
-
-function createTheme ({ uiTheme }: { uiTheme: string }): Theme {
-  return { theme: uiTheme === 'dark' ? 'dark' : 'light' };
+function createTheme ({ uiTheme }: { uiTheme: string }): ThemeProps {
+  return { theme: (uiTheme === 'dark' ? 'dark' : 'light') as 'dark' };
 }
 
 function Root ({ store }: Props): React.ReactElement<Props> {

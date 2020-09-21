@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from './types';
+
 import React from 'react';
 import ReactMd from 'react-markdown';
 import styled from 'styled-components';
@@ -41,8 +43,9 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(styled(HelpOverlay)`
+export default React.memo(styled(HelpOverlay)(({ theme: { theme } }: ThemeProps) => `
   .help-button {
+    color: ${theme === 'dark' ? 'rgba(254, 242, 240, 0.9)' : '#4e4e4e'};
     cursor: pointer;
     font-size: 2rem;
     padding: 1rem 1.5rem 0 0;
@@ -79,4 +82,4 @@ export default React.memo(styled(HelpOverlay)`
       right: 0;
     }
   }
-`);
+`));

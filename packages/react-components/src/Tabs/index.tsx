@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
 import { TabItem } from './types';
 
 import React, { useEffect } from 'react';
@@ -57,8 +58,9 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
   );
 }
 
-export default React.memo(styled(Tabs)`
+export default React.memo(styled(Tabs)(({ theme: { theme } }: ThemeProps) => `
   align-items: flex-end;
+  background: ${theme === 'dark' ? '#6e6c6a' : '#fff'};
   border-bottom: 1px solid #eeecea;
   display: flex;
   margin: 0 -1.5rem;
@@ -70,4 +72,4 @@ export default React.memo(styled(Tabs)`
     display: none;
     width: 0px;
   }
-`);
+`));

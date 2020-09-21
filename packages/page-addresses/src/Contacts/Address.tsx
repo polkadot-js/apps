@@ -4,6 +4,7 @@
 import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
@@ -29,7 +30,7 @@ const isEditable = true;
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<{ theme: string }>(ThemeContext);
+  const { theme } = useContext<ThemeProps>(ThemeContext);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);

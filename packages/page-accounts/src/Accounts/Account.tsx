@@ -4,6 +4,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { Delegation } from '../types';
@@ -78,7 +79,7 @@ const transformRecovery = {
 
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { theme } = useContext<{ theme: string }>(ThemeContext);
+  const { theme } = useContext<ThemeProps>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);

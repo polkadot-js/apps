@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { ActionsProps, ColumnProps, ModalProps } from './types';
 
 import React, { useContext } from 'react';
@@ -21,7 +22,7 @@ type ModalType = React.FC<ModalProps> & {
 };
 
 function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
-  const { theme } = useContext<{ theme: string }>(ThemeContext);
+  const { theme } = useContext<ThemeProps>(ThemeContext);
   const { children, className = '', header, open = true } = props;
 
   return (

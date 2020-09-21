@@ -124,3 +124,9 @@ export interface NullContract {
   abi: null;
   address: null;
 }
+
+export interface ThemeProps {
+  theme: {
+    theme: 'dark' | 'light';
+  };
+}

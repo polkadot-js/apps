@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
+
 import React from 'react';
 import styled from 'styled-components';
 
@@ -46,7 +48,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(Head)`
+export default React.memo(styled(Head)(({ theme: { theme } }: ThemeProps) => `
   position: relative;
   z-index: 1;
 
@@ -98,6 +100,7 @@ export default React.memo(styled(Head)`
   }
 
   tr {
+    background: ${theme === 'dark' ? '#6e6c6a' : '#fff'};
     text-transform: lowercase;
 
     &:first-child {
@@ -119,5 +122,11 @@ export default React.memo(styled(Head)`
         padding: 0;
       }
     }
+
+    &:not(.filter) {
+      th {
+        color: rgba(${theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+      }
+    }
   }
-`);
+`));
