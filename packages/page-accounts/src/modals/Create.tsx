@@ -273,7 +273,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               value={isSeedValid ? address : ''}
             />
             <article className='ui--Warning'>
-              <Icon icon='exclamation-triangle'/>
+              <Icon icon='exclamation-triangle' />
               <div>{t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}</div>
             </article>
             <TextAreaWithLabel
@@ -303,12 +303,12 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               <CopyToClipboard
                 className='ui--Print-btn'
                 description={t<string>('seed')}
-                elementId='printJS-seed'/>
+                elementId='printJS-seed' />
               <button
                 className='ui--Print-btn'
                 onClick={onPrintSeed}
               >
-                <Icon icon='print'/>
+                <Icon icon='print' />
                   Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
               </button>
             </div>
@@ -393,7 +393,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           </Modal.Content>
           <div className='ui--Modal-Footer'>
             <BackButton className='ui--Modal-back-button'
-              onClick={() => setStep(1)}/>
+              onClick={() => setStep(1)} />
             <Button
               icon='plus'
               isSelected={true}

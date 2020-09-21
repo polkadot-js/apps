@@ -148,6 +148,12 @@ export default React.memo(styled(Expander)`
       text-overflow: ellipsis;
       vertical-align: middle;
       white-space: nowrap;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none; 
+      -ms-user-select: none;
+      user-select: none;
     }
     
     .ui--Icon {
