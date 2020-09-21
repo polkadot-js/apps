@@ -124,7 +124,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
-    <div className={`ui--TopMenu ${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
+    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
@@ -159,7 +159,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Menu)(({ theme: { theme } }: ThemeProps) => `
+export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -189,10 +189,10 @@ export default React.memo(styled(Menu)(({ theme: { theme } }: ThemeProps) => `
   }
 
   .menuActive {
-    background: ${theme === 'dark' ? '#6e6c6a' : '#fff'};
+    background: ${theme.bgTabs};
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
-    color: ${theme === 'dark' ? 'rgba(254, 242, 240, 0.9)' : '#4e4e4e'};
+    color: ${theme.color};
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;

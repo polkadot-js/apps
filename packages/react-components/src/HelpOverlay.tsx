@@ -43,9 +43,9 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(styled(HelpOverlay)(({ theme: { theme } }: ThemeProps) => `
+export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
   .help-button {
-    color: ${theme === 'dark' ? 'rgba(254, 242, 240, 0.9)' : '#4e4e4e'};
+    color: ${theme.color};
     cursor: pointer;
     font-size: 2rem;
     padding: 1rem 1.5rem 0 0;

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import { BareProps as Props, ThemeDef } from '@polkadot/react-components/types';
 
 import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
@@ -19,7 +19,7 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
-  const { theme } = useContext<ThemeProps>(ThemeContext);
+  const { theme } = useContext<ThemeDef>(ThemeContext);
   const { systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
