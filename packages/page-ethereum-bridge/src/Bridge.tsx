@@ -14,7 +14,6 @@ import AppEthereum from './AppETH';
 import AppERC20 from './AppERC20';
 
 /* tslint:disable */
-// import * as BankContract from "./contracts/Bank.json";
 import * as ETHApp from './contracts/ETHApp.json';
 import * as ERC20App from './contracts/ERC20App.json';
 /* tslint:enable */
