@@ -13,7 +13,7 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 
-const DEFAULT_BATCH = 40;
+const DEFAULT_BATCH = 36;
 const DEFAULT_PAYOUTS = 64;
 
 interface Props {
@@ -29,7 +29,7 @@ interface SinglePayout {
 }
 
 function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'> | null {
-  const batchSize = DEFAULT_BATCH * (DEFAULT_PAYOUTS / maxPayouts);
+  const batchSize = DEFAULT_BATCH * DEFAULT_PAYOUTS / maxPayouts;
 
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
