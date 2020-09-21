@@ -10,7 +10,7 @@ import { Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
@@ -78,6 +78,7 @@ const transformRecovery = {
 
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { theme } = useContext<{ theme: string }>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);
@@ -416,7 +417,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         )}
         <Popup
-          className='theme--default'
+          className={`theme--${theme}`}
           isOpen={isSettingsOpen}
           onClose={toggleSettings}
           trigger={

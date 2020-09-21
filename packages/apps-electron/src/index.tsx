@@ -22,7 +22,7 @@ import { RemoteElectronStore } from './renderer/remote-electron-store';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
-const theme = { theme: settings.uiTheme };
+const theme = { theme: settings.uiTheme === 'dark' ? 'dark' : 'light' };
 
 const store = new RemoteElectronStore(electronMainApi.accountStore);
 

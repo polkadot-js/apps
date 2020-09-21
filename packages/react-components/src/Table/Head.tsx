@@ -98,18 +98,11 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: white;
     text-transform: lowercase;
 
     &:first-child {
       th {
         border-top: 1px solid #eeecea;
-      }
-    }
-
-    &:not(.filter) {
-      th {
-        color: rgba(78, 78, 78, 0.66);
       }
     }
 

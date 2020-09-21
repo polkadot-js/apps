@@ -3,7 +3,8 @@
 
 import { ActionsProps, ColumnProps, ModalProps } from './types';
 
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 
 import Actions from './Actions';
@@ -20,12 +21,13 @@ type ModalType = React.FC<ModalProps> & {
 };
 
 function ModalBase (props: ModalProps): React.ReactElement<ModalProps> {
+  const { theme } = useContext<{ theme: string }>(ThemeContext);
   const { children, className = '', header, open = true } = props;
 
   return (
     <SUIModal
       {...props}
-      className={`theme--default ui--Modal ${className}`}
+      className={`theme--${theme} ui--Modal ${className}`}
       header={undefined}
       open={open}
     >

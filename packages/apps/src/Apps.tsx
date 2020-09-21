@@ -3,8 +3,8 @@
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useMemo } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { getSystemChainColor } from '@polkadot/apps-config/ui';
 import GlobalStyle from '@polkadot/react-components/styles';
@@ -19,6 +19,7 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
+  const { theme } = useContext<{ theme: string }>(ThemeContext);
   const { systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
@@ -29,7 +30,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   return (
     <>
       <GlobalStyle uiHighlight={uiHighlight} />
-      <div className={`apps--Wrapper theme--default ${className}`}>
+      <div className={`apps--Wrapper theme--${theme} ${className}`}>
         <Menu />
         <AccountSidebar>
           <Signer>

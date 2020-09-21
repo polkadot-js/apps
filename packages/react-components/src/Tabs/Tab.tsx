@@ -31,7 +31,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   return (
     <NavLink
       activeClassName='tabLinkActive'
-      className={`ui--Tabs-Tab ${className}`}
+      className={`ui--Tab ${className}`}
       exact={tabIsExact}
       strict={tabIsExact}
       to={to}
@@ -55,7 +55,6 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 
 export default React.memo(styled(Tab)`
   border-bottom: 2px solid transparent;
-  color: #4e4e4e !important;
   margin-bottom: -3px;
   padding: 0.5rem 1.5rem 0.75rem;
 
@@ -64,7 +63,7 @@ export default React.memo(styled(Tab)`
   }
 
   &:hover {
-    color: inherit !important;
+    color: inherit;
 
     &:not(.tabLinkActive) {
       border-bottom-color: #e6e6e6;

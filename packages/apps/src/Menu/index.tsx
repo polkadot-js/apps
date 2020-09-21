@@ -123,7 +123,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
-    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
+    <div className={`ui--TopMenu ${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
@@ -172,10 +172,6 @@ export default React.memo(styled(Menu)`
       filter: grayscale(1);
     }
 
-    .menuActive {
-      background: #f5f3f1;
-    }
-
     .menuItems {
       filter: grayscale(1);
     }
@@ -188,10 +184,8 @@ export default React.memo(styled(Menu)`
   }
 
   .menuActive {
-    background: #fff;
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
-    color: #4e4e4e;
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;

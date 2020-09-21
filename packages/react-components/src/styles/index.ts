@@ -177,14 +177,12 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  .theme--default {
-    .ui--Tabs-Tab.tabLinkActive {
-      border-bottom-color: ${getHighlight};
-    }
-
-    .ui.negative.button,
-    .ui.buttons .negative.button {
-      background: #666 !important;
+  .theme--dark,
+  .theme--light {
+    .ui--Tabs {
+      .ui--Tab.tabLinkActive {
+        border-bottom-color: ${getHighlight};
+      }
     }
 
     .ui.primary.button,

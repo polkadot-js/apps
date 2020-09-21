@@ -20,7 +20,7 @@ import WindowDimensions from './WindowDimensions';
 
 const rootId = 'root';
 const rootElement = document.getElementById(rootId);
-const theme = { theme: settings.uiTheme };
+const theme = { theme: settings.uiTheme === 'dark' ? 'dark' : 'light' };
 
 if (!rootElement) {
   throw new Error(`Unable to find element with id '${rootId}'`);
