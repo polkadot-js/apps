@@ -9,12 +9,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { AddressMini, Button, Modal, InputAddress, Static, TxButton } from '@polkadot/react-components';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi, useAccounts, useToggle } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-
-const DEFAULT_BATCH = 36;
-const DEFAULT_PAYOUTS = 64;
 
 interface Props {
   className?: string;
@@ -29,8 +26,6 @@ interface SinglePayout {
 }
 
 function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'> | null {
-  const batchSize = DEFAULT_BATCH * DEFAULT_PAYOUTS / maxPayouts;
-
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
       return createExtrinsic(api, payout[0], maxPayouts);
@@ -46,7 +41,7 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
           return payouts;
         }, [])
         .sort((a, b) => a.era.cmp(b.era))
-        .filter((_, index) => index < batchSize)
+        .filter((_, index) => index < maxPayouts)
         .map(({ era, validatorId }) => api.tx.staking.payoutStakers(validatorId, era))
     );
   }
@@ -58,23 +53,47 @@ function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValid
     : api.tx.utility.batch(
       eras
         .sort((a, b) => a.era.cmp(b.era))
-        .filter((_, index) => index < batchSize)
+        .filter((_, index) => index < maxPayouts)
         .map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
     );
 }
 
 function PayButton ({ className, isAll, isDisabled, payout }: Props): React.ReactElement<Props> {
-  const { api } = useApi();
   const { t } = useTranslation();
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
   const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [maxPayouts, setMaxPayouts] = useState(0);
+
+  useEffect((): void => {
+    if (api.tx.utility && allAccounts.length && payout && (!Array.isArray(payout) || payout.length !== 0)) {
+      const { eras, validatorId } = Array.isArray(payout)
+        ? payout[0]
+        : payout;
+
+      api.tx.staking
+        .payoutStakers(validatorId, eras[0].era)
+        .paymentInfo(allAccounts[0])
+        .then((info) => setMaxPayouts(Math.floor(
+          // 65% of the block weight on a single extrinsic (64 for safety)
+          api.consts.system.maximumBlockWeight.muln(64).div(info.weight).toNumber() / 100
+        )))
+        .catch(console.error);
+    } else {
+      // at 64 payouts we can fit in 36 (as per tests)
+      setMaxPayouts(Math.floor(
+        36 * 64 / (api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || 64)
+      ));
+    }
+  }, [allAccounts, api, payout]);
 
   useEffect((): void => {
     api.tx.utility && payout && setExtrinsic(
-      () => createExtrinsic(api, payout, api.consts.staking.maxNominatorRewardedPerValidator?.toNumber() || DEFAULT_PAYOUTS)
+      () => createExtrinsic(api, payout, maxPayouts)
     );
-  }, [api, isDisabled, payout]);
+  }, [api, maxPayouts, payout]);
 
   const isPayoutEmpty = !payout || (Array.isArray(payout) && payout.length === 0);
 
