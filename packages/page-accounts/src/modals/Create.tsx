@@ -356,7 +356,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <Expander
               className='accounts--Creator-advanced'
               iconPlacement='left'
-              isOpen
+              isOpen={false}
               summary={t<string>('Advanced creation options')}
             >
               <InputSection>
