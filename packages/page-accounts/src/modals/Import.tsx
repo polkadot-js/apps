@@ -174,7 +174,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         </Modal.Columns>
         { differentGenesis &&
             <article className='warning'>
-              <p>{t<string>('The network from which this account was originaly generated is different than the network you are currently connected to.')}</p>
+              <p>{t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')}</p>
             </article>
         }
         <ExternalWarning />
