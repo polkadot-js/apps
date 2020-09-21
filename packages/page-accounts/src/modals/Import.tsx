@@ -12,6 +12,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
+import ExternalWarning from './ExternalWarning';
 
 interface Props extends ModalProps {
   className?: string;
@@ -163,6 +164,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             <p>{t<string>('The password previously used to encrypt this account.')}</p>
           </Modal.Column>
         </Modal.Columns>
+        <ExternalWarning />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button

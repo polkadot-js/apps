@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.60.0-beta.x
+
+Changes:
+
+- Show warning on JSON import to store accounts externally (same as create)
+
+
 ## 0.59.1 Sep 21, 2020
 
 Contributed:
