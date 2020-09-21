@@ -274,7 +274,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             />
             <article className='ui--Warning'>
               <Icon icon='exclamation-triangle'/>
-              <div>{t<string>("PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE")}</div>
+              <div>{t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}</div>
             </article>
             <TextAreaWithLabel
               help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
@@ -363,7 +363,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 <DropdownNew
                   defaultValue={pairType}
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                  label={t<string>('KEYPAIR CRYPTO TYPE')}
+                  label={t<string>('Keypair crypto type')}
                   onChange={_onChangePairType}
                   options={uiSettings.availableCryptos}
                 />
@@ -372,7 +372,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 <InputNew
                   help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
                   isError={!!deriveError}
-                  label={t<string>('SECRET DERIVATION PATH')}
+                  label={t<string>('Secret Derivation Path')}
                   onChange={_onChangeDerive}
                   placeholder={
                     seedType === 'raw'
@@ -447,6 +447,7 @@ export default styled(Create)`
       font-size: 10px;
       line-height: 14px;
       color: #E86F00;
+      text-transform: uppercase;
 
       svg {
         margin-right: 12px;
