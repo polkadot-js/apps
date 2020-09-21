@@ -6,7 +6,7 @@ import { I18nProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { BestFinalized, BestNumber, TimeNow, TimePeriod, TotalIssuance } from '@polkadot/react-query';
+import { BestFinalized, BestNumber, TimeNow, TimePeriod } from '@polkadot/react-query';
 
 import SummarySession from './SummarySession';
 import translate from './translate';
@@ -23,12 +23,6 @@ function Summary ({ t }: Props): React.ReactElement<Props> {
           label={t('target')}
         >
           <TimePeriod />
-        </CardSummary>
-        <CardSummary
-          className='ui--media-small'
-          label={t('total issuance')}
-        >
-          <TotalIssuance />
         </CardSummary>
       </section>
       <section className='ui--media-large'>
