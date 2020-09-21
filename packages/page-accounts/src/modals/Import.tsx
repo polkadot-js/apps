@@ -5,8 +5,9 @@ import { KeyringPair$Json } from '@polkadot/keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 import { hexToU8a, isHex, isObject, u8aToString } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 import keyring from '@polkadot/ui-keyring';
@@ -63,9 +64,12 @@ function parseFile (file: Uint8Array): FileState {
 
 function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [isBusy, setIsBusy] = useState(false);
   const [{ address, isFileValid, json }, setFile] = useState<FileState>({ address: null, isFileValid: false, json: null });
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
+  const apiGenesisHash = useMemo(() => api.genesisHash.toHex(), [api]);
+  const differentGenesis = useMemo(() => json?.meta.genesisHash && json.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, json]);
 
   const _onChangeFile = useCallback(
     (file: Uint8Array) => setFile(parseFile(file)),
@@ -88,7 +92,11 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
-          const pair = keyring.restoreAccount(json, password);
+          const pair = keyring.restoreAccount({
+            ...json,
+            // forcing the use of current genesis hash
+            meta: { ...json.meta, genesisHash: apiGenesisHash }
+          }, password);
           const { address } = pair;
 
           status.status = pair ? 'success' : 'error';
@@ -112,7 +120,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         }
       }, 0);
     },
-    [json, onClose, onStatusChange, password, t]
+    [apiGenesisHash, json, onClose, onStatusChange, password, t]
   );
 
   return (
@@ -164,6 +172,11 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             <p>{t<string>('The password previously used to encrypt this account.')}</p>
           </Modal.Column>
         </Modal.Columns>
+        { differentGenesis &&
+            <article className='warning'>
+              <p>{t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')}</p>
+            </article>
+        }
         <ExternalWarning />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
