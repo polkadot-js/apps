@@ -109,13 +109,14 @@ function ApproveAndSendERC20 ({ contract, contractERC20, defaultAccount }: Appro
   const [depositAmount, setDepositAmount] = useState(String);
 
   const fetchChainData = async () => {
-    const appAllowance = await contractERC20.methods.allowance(defaultAccount, contract._address).call();
+    const decimals = Number(await contractERC20.methods.decimals().call())
+    const conversionFactor = 10 * 10 ** decimals;
 
-    setAllowance(Number(appAllowance));
+    const appAllowance = Number(await contractERC20.methods.allowance(defaultAccount, contract._address).call());
+    setAllowance(appAllowance/conversionFactor);
 
-    const userBalance = await contractERC20.methods.balanceOf(defaultAccount).call();
-
-    setBalance(userBalance);
+    const userBalance = Number(await contractERC20.methods.balanceOf(defaultAccount).call());
+    setBalance(userBalance/conversionFactor);
   };
 
   useEffect(() => {
@@ -171,7 +172,7 @@ function ApproveAndSendERC20 ({ contract, contractERC20, defaultAccount }: Appro
         justifyContent='space-around'>
         <Box>
           <Typography>
-            Current ERC20 token balance: {balance} TEST
+            Current ERC20 token balance: {balance.toFixed(18)} TEST
           </Typography>
         </Box>
         <Box alignItems='center'
@@ -186,7 +187,7 @@ function ApproveAndSendERC20 ({ contract, contractERC20, defaultAccount }: Appro
             onClick={() => handleApproveERC20()}
             variant='outlined'>
             <Typography variant='button'>
-                      Approve
+              Approve
             </Typography>
           </Button>
         </Box>
@@ -235,7 +236,7 @@ function ApproveAndSendERC20 ({ contract, contractERC20, defaultAccount }: Appro
           justifyContent='space-around'>
           <Box>
             <Typography>
-            Current ERC20 App allowance: {allowance} TEST
+            Current ERC20 App allowance: {allowance.toFixed(18)} TEST
             </Typography>
           </Box>
           <Box alignItems='center'
