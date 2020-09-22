@@ -351,32 +351,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
             </button>
           </div>
-          <Checkbox
-            label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-            onChange={_toggleMnemonicSaved}
-            value={isMnemonicSaved}
-          />
-        </>}
-        {step === 2 && <>
-          <InputSection>
-            <InputNew
-              autoFocus
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!!name && !isNameValid}
-              label={t<string>('A descriptive name for your account')}
-              onChange={_onChangeName}
-              placeholder={t<string>('Account Name')}
-              value={name}
-            />
-          </InputSection>
-          <InputSection>
-            <NewPasswordInput
-              onChange={_onPasswordChange}
-              onEnter={_onCommit}
-              password={password}
-            />
-          </InputSection>
-          <ExternalWarning />
           <Expander
             className='accounts--Creator-advanced'
             iconPlacement='left'
@@ -419,6 +393,32 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               )}
             </InputSection>
           </Expander>
+          <Checkbox
+            label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+            onChange={_toggleMnemonicSaved}
+            value={isMnemonicSaved}
+          />
+        </>}
+        {step === 2 && <>
+          <InputSection>
+            <InputNew
+              autoFocus
+              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              isError={!!name && !isNameValid}
+              label={t<string>('A descriptive name for your account')}
+              onChange={_onChangeName}
+              placeholder={t<string>('Account Name')}
+              value={name}
+            />
+          </InputSection>
+          <InputSection>
+            <NewPasswordInput
+              onChange={_onPasswordChange}
+              onEnter={_onCommit}
+              password={password}
+            />
+          </InputSection>
+          <ExternalWarning />
         </>}
         {step === 3 && address && <CreateConfirmation
           derivePath={derivePath}
@@ -538,7 +538,7 @@ export default styled(Create)`
       }
     }
     .accounts--Creator-advanced {
-      margin-top: 1.9rem;
+      margin: 1rem 0;
     }
   }
   &&.ui--Modal-Wrapper > div.header {
