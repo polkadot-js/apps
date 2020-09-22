@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
+
 import { createGlobalStyle } from 'styled-components';
 
 import cssComponents from './components';
@@ -20,8 +22,8 @@ const PARTS = [0, 2, 4];
 
 const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
-function getHighlight (props: Props): string {
-  return (props.uiHighlight || defaultHighlight);
+function getHighlight ({ uiHighlight }: Props): string {
+  return (uiHighlight || defaultHighlight);
 }
 
 function getContrast (props: Props): string {
@@ -33,7 +35,15 @@ function getContrast (props: Props): string {
     : 'rgba(255, 253, 251, 0.875)';
 }
 
-export default createGlobalStyle<Props>`
+function getThemeTableBg ({ theme }: ThemeProps): string {
+  return theme.bgTable;
+}
+
+function getThemeTextColor ({ theme }: ThemeProps): string {
+  return theme.color;
+}
+
+export default createGlobalStyle<Props & ThemeProps>`
   .highlight--all {
     background: ${getHighlight} !important;
     border-color: ${getHighlight} !important;
@@ -58,7 +68,7 @@ export default createGlobalStyle<Props>`
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: white;
+    background: ${getThemeTableBg};
     position: relative;
 
     &:before {
@@ -98,7 +108,7 @@ export default createGlobalStyle<Props>`
   }
 
   .highlight--gradient {
-    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+    background: ${({ uiHighlight }: Props) => `linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .highlight--hover-bg:hover {
@@ -211,7 +221,7 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
+    color: ${getThemeTextColor};
     font-family: sans-serif;
     height: 100%;
   }

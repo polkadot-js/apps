@@ -61,7 +61,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
 export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
   align-items: flex-end;
   background: ${theme.bgTabs};
-  border-bottom: 1px solid #eeecea;
+  border-bottom: 1px solid ${theme.borderTabs};
   display: flex;
   margin: 0 -1.5rem;
   padding: 1.5rem 1.5rem 0;

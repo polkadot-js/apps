@@ -48,6 +48,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
 export default React.memo(styled(Apps)(({ theme }: ThemeProps) => `
   background: ${theme.bgPage};
   box-sizing: border-box;
+  color: ${theme.color};
   display: flex;
   flex-direction: column;
   min-height: 100vh;

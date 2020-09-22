@@ -48,7 +48,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(Head)(({ theme: { theme } }: ThemeProps) => `
+export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   position: relative;
   z-index: 1;
 
@@ -65,11 +65,11 @@ export default React.memo(styled(Head)(({ theme: { theme } }: ThemeProps) => `
     }
 
     &:first-child {
-      border-left: 1px solid #eeecea;
+      border-left: 1px solid ${theme.borderTable};
     }
 
     &:last-child {
-      border-right: 1px solid #eeecea;
+      border-right: 1px solid ${theme.borderTable};
     }
 
     &.address {
@@ -100,12 +100,12 @@ export default React.memo(styled(Head)(({ theme: { theme } }: ThemeProps) => `
   }
 
   tr {
-    background: ${theme === 'dark' ? '#6e6c6a' : '#fff'};
+    background: ${theme.bgTable};
     text-transform: lowercase;
 
     &:first-child {
       th {
-        border-top: 1px solid #eeecea;
+        border-top: 1px solid ${theme.borderTable};
       }
     }
 
@@ -125,7 +125,7 @@ export default React.memo(styled(Head)(({ theme: { theme } }: ThemeProps) => `
 
     &:not(.filter) {
       th {
-        color: rgba(${theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+        color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
       }
     }
   }
