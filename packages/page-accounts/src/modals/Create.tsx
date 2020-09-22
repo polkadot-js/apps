@@ -431,6 +431,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       {step === 1 &&
       <div className='ui--Modal-Footer'>
         <Button
+          className='ui--Icon-right'
+          icon='arrow-right'
+          iconPlacement='right'
           isDisabled={!isMnemonicSaved}
           isSelected={true}
           label={t<string>('Next step')}
@@ -443,6 +446,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         <BackButton className='ui--Modal-back-button'
           onClick={_previousStep}/>
         <Button
+          className='ui--Icon-right'
+          icon='arrow-right'
+          iconPlacement='right'
           isDisabled={!isMnemonicSaved}
           isSelected={true}
           label={t<string>('Next step')}
@@ -467,6 +473,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     </Modal>
   );
 }
+
+const ICON_PADDING = 0.5;
 
 export default styled(Create)`
   & * {
@@ -552,9 +560,17 @@ export default styled(Create)`
     justify-content: flex-end;
     padding: 1.1rem 1.7rem;
     background: #ECECEC;
-    border-top: 1px solid #DFDFDF;
-
+    border-top: 1px solid #DFDFDF; 
   }
+  .ui--Modal-Footer > .ui--Button.ui--Icon-right.hasLabel {
+    padding: 0.65rem ${1.1 - ICON_PADDING}rem 0.65rem 1.1rem;
+  }
+
+  .ui--Modal-Footer > .ui--Button.ui--Icon-right.hasLabel  > .ui--Icon {
+    margin-left: 0.425rem !important;
+    margin-right: 0 !important;
+  }
+
   .ui--Modal-Footer .ui--Modal-back-button {
     margin-right: auto;
   }

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
-function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
+function Button ({ children, className = '', icon, iconPlacement = 'left', isBasic, isBusy, isCircular, isDisabled, isFull, isIcon, isSelected, isToplevel, label, onClick, onMouseEnter, onMouseLeave, tabIndex, withoutLink }: ButtonProps): React.ReactElement<ButtonProps> {
   const _onClick = useCallback(
     () => !(isBusy || isDisabled) && onClick && onClick(),
     [isBusy, isDisabled, onClick]
@@ -23,8 +23,9 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
       onMouseLeave={onMouseLeave}
       tabIndex={tabIndex}
     >
-      {icon && <Icon icon={icon} />}
+      {icon && iconPlacement === 'left' && <Icon icon={icon} />}
       {label}
+      {icon && iconPlacement === 'right' && <Icon icon={icon} />}
       {children}
       <Spinner
         className='ui--Button-spinner'
