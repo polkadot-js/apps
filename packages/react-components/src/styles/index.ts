@@ -295,7 +295,6 @@ export default createGlobalStyle<Props>`
   }
 
   body {
-    background: #f5f3f1;
     height: 100%;
     margin: 0;
   }

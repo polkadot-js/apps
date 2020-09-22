@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps as Props, ThemeDef } from '@polkadot/react-components/types';
+import { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
@@ -45,9 +45,10 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Apps)`
+export default React.memo(styled(Apps)(({ theme }: ThemeProps) => `
+  background: ${theme.bgPage};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-`);
+`));

@@ -170,7 +170,7 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     background: #999 !important;
 
     .menuActive {
-      background: #f5f3f1;
+      background: ${theme.bgPage};
     }
 
     &:before {

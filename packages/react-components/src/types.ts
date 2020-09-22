@@ -126,6 +126,7 @@ export interface NullContract {
 }
 
 export interface ThemeDef {
+  bgPage: string;
   bgTabs: string;
   color: string;
   theme: 'dark' | 'light';
