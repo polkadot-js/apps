@@ -109,7 +109,7 @@ export default css`
     > .actions {
       border-top: none;
       text-align: right;
-      padding: 1rem !important;
+      padding: 0 1rem !important;
     }
 
     /* approx h1, color, size, font */

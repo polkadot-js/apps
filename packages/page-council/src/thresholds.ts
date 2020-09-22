@@ -18,7 +18,7 @@ const SLASH_THRESHOLDS: Record<string, number> = {
 };
 
 const TREASURY_THRESHOLDS: Record<string, number> = {
-  [KULUPU_GENESIS]: 0.8,
+  [KULUPU_GENESIS]: 0.5,
   [KUSAMA_GENESIS]: 0.6,
   [POLKADOT_GENESIS]: 0.6,
   default: 0.6

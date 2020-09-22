@@ -47,6 +47,7 @@ export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
   ${position}: ${offset};
 
   .ui--Sidebar-buttons {
+    margin: 0;
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;

@@ -96,8 +96,9 @@ export default {
     who: 'AccountId',
     ring_balance: 'Compact<Balance>',
     kton_balance: 'Compact<Balance>',
-    power: 'Power',
-    value: 'Compact<Balance>'
+    power: 'Power'
+    // not in https://github.com/darwinia-network/darwinia-common/blob/master/frame/staking/src/lib.rs
+    // value: 'Compact<Balance>'
   },
   ElectionResultT: {
     elected_stashes: 'Vec<AccountId>',

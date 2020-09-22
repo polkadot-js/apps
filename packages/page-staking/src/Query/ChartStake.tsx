@@ -24,8 +24,9 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartI
   let total = 0;
 
   exposures.forEach(({ clipped, era, exposure }): void => {
-    const cli = balanceToNumber(clipped.total.unwrap(), divisor);
-    const exp = balanceToNumber(exposure.total.unwrap(), divisor);
+    // Darwinia Crab doesn't have the total field
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+    const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
 
     total += cli;
 

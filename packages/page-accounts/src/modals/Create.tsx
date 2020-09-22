@@ -28,6 +28,13 @@ import { useApi } from '@polkadot/react-hooks';
 import styled from 'styled-components';
 import uiSettings from '@polkadot/ui-settings';
 import print from 'print-js';
+import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { getEnvironment } from '@polkadot/react-api/util';
+
+import { useTranslation } from '../translate';
+import CreateConfirmation from './CreateConfirmation';
+import ExternalWarning from './ExternalWarning';
+import PasswordInput from './PasswordInput';
 
 interface Props extends ModalProps {
   className?: string;
@@ -50,6 +57,40 @@ interface AddressState {
 }
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
+
+function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): DeriveValidationOutput {
+  try {
+    const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
+    let result: DeriveValidationOutput = {};
+
+    // show a warning in case the password contains an unintended / character
+    if (password?.includes('/')) {
+      result = { warning: 'WARNING_SLASH_PASSWORD' };
+    }
+
+    // we don't allow soft for ed25519
+    if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
+      return { ...result, error: 'SOFT_NOT_ALLOWED' };
+    }
+
+    // we don't allow password for hex seed
+    if (seedType === 'raw' && password) {
+      return { ...result, error: 'PASSWORD_IGNORED' };
+    }
+
+    return result;
+  } catch (error) {
+    return { error: (error as Error).message };
+  }
+}
+
+function isHexSeed (seed: string): boolean {
+  return isHex(seed) && seed.length === 66;
+}
+
+function rawValidate (seed: string): boolean {
+  return ((seed.length > 0) && (seed.length <= 32)) || isHexSeed(seed);
+}
 const NUM_STEPS = 2;
 
 function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
