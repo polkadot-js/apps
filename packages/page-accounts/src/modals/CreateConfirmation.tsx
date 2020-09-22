@@ -10,10 +10,10 @@ import { isHex } from '@polkadot/util';
 import { useTranslation } from '../translate';
 
 interface Props {
-  address: string;
+  address?: string;
   derivePath: string;
   isBusy: boolean;
-  name: string;
+  name?: string;
   pairType: KeypairType;
   seed?: string;
 }
@@ -30,12 +30,12 @@ function CreateConfirmation ({ address, derivePath, name, pairType, seed }: Prop
     <Modal.Content>
       <Modal.Columns>
         <Modal.Column>
-          <AddressRow
+          {address && name && <AddressRow
             defaultName={name}
             isInline
             noDefaultNameOpacity
             value={address}
-          />
+          />}
           {shortSeed && (
             <Static
               label={t<string>('partial seed')}
