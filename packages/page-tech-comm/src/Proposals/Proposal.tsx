@@ -90,6 +90,7 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
         {isVoteable && !isCloseable && (
           <Voting
             hash={imageHash}
+            members={members}
             prime={prime}
             proposalId={index}
           />
