@@ -145,6 +145,9 @@ export default React.memo(styled(Expander)`
       text-overflow: ellipsis;
       vertical-align: middle;
       white-space: nowrap;
+      span {
+        white-space: normal;
+      }
     }
 
     .ui--Icon {
