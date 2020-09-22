@@ -154,6 +154,10 @@ export default React.memo(styled(InputAddressMulti)`
           min-width: auto;
           max-width: 100%;
         }
+
+        .ui--AddressMini-info {
+          max-width: 100%;
+        }
       }
     }
   }
