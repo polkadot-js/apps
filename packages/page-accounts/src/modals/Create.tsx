@@ -398,6 +398,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             onChange={_toggleMnemonicSaved}
             value={isMnemonicSaved}
           />
+          <ExternalWarning />
         </>}
         {step === 2 && <>
           <InputSection>
@@ -418,7 +419,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               password={password}
             />
           </InputSection>
-          <ExternalWarning />
         </>}
         {step === 3 && address && <CreateConfirmation
           derivePath={derivePath}
