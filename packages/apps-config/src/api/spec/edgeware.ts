@@ -21,5 +21,6 @@ export default {
   StakingLedger: 'StakingLedgerTo223',
   Votes: 'VotesTo230',
   ReferendumInfo: 'ReferendumInfoTo239',
+  RefCount: 'u8',
   Weight: 'u32'
 };

@@ -13,6 +13,7 @@ export default {
     txCount: 'u32',
     sessionIndex: 'u32'
   },
+  RefCount: 'u8',
   TemplateAccountData: {
     txCount: 'u32',
     sessionIndex: 'u32'

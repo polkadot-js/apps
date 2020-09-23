@@ -17,5 +17,6 @@ export default {
   'voting::TallyType': 'TallyType',
   'voting::Tally': 'VotingTally',
   // Substrate overrides
+  RefCount: 'u8',
   Weight: 'u64'
 };

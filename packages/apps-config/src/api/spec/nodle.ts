@@ -17,6 +17,7 @@ export default {
     votes_for: 'Option<Balance>'
   },
   CertificateId: 'AccountId',
+  RefCount: 'u8',
   RootCertificate: {
     child_revocations: 'Vec<CertificateId>',
     created: 'BlockNumber',

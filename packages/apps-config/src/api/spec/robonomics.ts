@@ -4,6 +4,7 @@
 /* eslint-disable sort-keys */
 
 export default {
+  RefCount: 'u8',
   Record: 'Vec<u8>',
   TechnicalParam: 'Vec<u8>',
   TechnicalReport: 'Vec<u8>',
