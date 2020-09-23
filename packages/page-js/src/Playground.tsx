@@ -235,20 +235,6 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
           options={options}
           value={selected.value}
         />
-        {isWarnOpen && (
-          <article className='warning centered'>
-            <Button
-              className='warnClose'
-              icon='times'
-              isBasic
-              isCircular
-              onClick={toggleWarnOpen}
-            />
-            <p>{t('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
-            <p>{t('Never execute JS snippets from untrusted sources.')}</p>
-            <p>{t('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
-          </article>
-        )}
       </header>
       <section className='js--Content'>
         <article className='container js--Editor'>
@@ -277,6 +263,21 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
           />
         </Output>
       </section>
+      {isWarnOpen && (
+        <div className='warnOverlay'>
+          <article className='warning centered'>
+            <Button
+              icon='times'
+              isBasic
+              isCircular
+              onClick={toggleWarnOpen}
+            />
+            <p>{t('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
+            <p>{t('Never execute JS snippets from untrusted sources.')}</p>
+            <p>{t('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
+          </article>
+        </div>
+      )}
     </main>
   );
 }
@@ -286,6 +287,7 @@ export default React.memo(styled(Playground)`
   flex-direction: column;
   height: 100vh;
   padding: 1rem 0 0;
+  position: relative;
 
   article {
     p:last-child {
@@ -381,9 +383,17 @@ export default React.memo(styled(Playground)`
     max-width: 300px;
   }
 
-  .warnClose {
+  .warnOverlay {
+    left: 0;
     position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    right: 0;
+    top: -0.25rem;
+    z-index: 202;
+
+    .ui--Button {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+    }
   }
 `);
