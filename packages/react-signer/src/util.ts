@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { KeyringPair } from '@polkadot/keyring/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import { AddressFlags } from './types';
 
@@ -9,9 +10,21 @@ import keyring from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
 
-const LOCK_DELAY = 15 * 60 * 1000;
+export const UNLOCK_MINS = 15;
+
+const LOCK_DELAY = UNLOCK_MINS * 60 * 1000;
 
 const lockCountdown: Record<string, number> = {};
+
+export function cacheUnlock (pair: KeyringPair): void {
+  lockCountdown[pair.address] = Date.now() + LOCK_DELAY;
+}
+
+export function lockAccount (pair: KeyringPair): void {
+  if ((Date.now() > (lockCountdown[pair.address] || 0)) && !pair.isLocked) {
+    pair.lock();
+  }
+}
 
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
@@ -33,13 +46,11 @@ export function extractExternal (accountId: string | null): AddressFlags {
 
   if (isUnlockable) {
     const entry = lockCountdown[pair.address];
-    const now = Date.now();
 
-    if (entry && (now > entry) && !pair.isLocked) {
+    if (entry && (Date.now() > entry) && !pair.isLocked) {
       pair.lock();
+      lockCountdown[pair.address] = 0;
     }
-
-    lockCountdown[pair.address] = now + LOCK_DELAY;
   }
 
   return {

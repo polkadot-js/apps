@@ -7,7 +7,7 @@ import { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from
 import { ITuple } from '@polkadot/types/types';
 import { AddressFlags, AddressProxy } from './types';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
@@ -32,6 +32,11 @@ interface MultiState {
   isMultiCall: boolean;
   who: string[];
   whoFilter: string[];
+}
+
+interface PasswordState {
+  isUnlockCached: boolean;
+  signPassword: string;
 }
 
 interface ProxyState {
@@ -146,7 +151,7 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
   const [isProxyActive, setIsProxyActive] = useState(true);
   const [multiInfo, setMultInfo] = useState<MultiState | null>(null);
   const [proxyInfo, setProxyInfo] = useState<ProxyState | null>(null);
-  const [signPassword, setSignPassword] = useState('');
+  const [{ isUnlockCached, signPassword }, setSignPassword] = useState<PasswordState>({ isUnlockCached: false, signPassword: '' });
 
   const [signAddress, flags] = useMemo(
     (): [string, AddressFlags] => {
@@ -157,6 +162,11 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
       return [signAddress, extractExternal(signAddress)];
     },
     [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]
+  );
+
+  const _updatePassword = useCallback(
+    (signPassword: string, isUnlockCached: boolean) => setSignPassword({ isUnlockCached, signPassword }),
+    []
   );
 
   useEffect((): void => {
@@ -190,13 +200,14 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
 
   useEffect((): void => {
     onChange({
-      isMultiCall: isMultiCall,
+      isMultiCall,
+      isUnlockCached,
       multiRoot: multiInfo ? multiInfo.address : null,
       proxyRoot: (proxyInfo && isProxyActive) ? proxyInfo.address : null,
       signAddress,
       signPassword
     });
-  }, [isProxyActive, isMultiCall, multiAddress, multiInfo, onChange, proxyAddress, proxyInfo, signAddress, signPassword]);
+  }, [isProxyActive, isMultiCall, isUnlockCached, multiAddress, multiInfo, onChange, proxyAddress, proxyInfo, signAddress, signPassword]);
 
   return (
     <>
@@ -251,7 +262,7 @@ function Address ({ currentItem, onChange, onEnter, passwordError, requestAddres
         <Password
           address={signAddress}
           error={passwordError}
-          onChange={setSignPassword}
+          onChange={_updatePassword}
           onEnter={onEnter}
         />
       )}
