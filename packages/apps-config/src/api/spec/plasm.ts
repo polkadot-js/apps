@@ -27,6 +27,7 @@ export default {
     value: 'u128'
   },
   PredicateHash: 'H256',
+  RefCount: 'u8',
   TickerRate: {
     authority: 'u16',
     btc: 'u128',
