@@ -201,6 +201,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
   const isValid = !!address && !deriveValidation?.error && isNameValid && isPasswordValid && isSeedValid;
+  const isFirstStepValid = !!address && !!isMnemonicSaved && !deriveValidation?.error && isSeedValid;
+  const isSecondStepValid = isNameValid && isPasswordValid;
   const errorIndex: Record<string, string> = useMemo(() => ({
     PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
     SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
@@ -434,7 +436,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           className='ui--Icon-right'
           icon='arrow-right'
           iconPlacement='right'
-          isDisabled={!isMnemonicSaved}
+          isDisabled={!isFirstStepValid}
           isSelected={true}
           label={t<string>('Next step')}
           onClick={_nextStep}
@@ -449,7 +451,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           className='ui--Icon-right'
           icon='arrow-right'
           iconPlacement='right'
-          isDisabled={!isMnemonicSaved}
+          isDisabled={!isSecondStepValid}
           isSelected={true}
           label={t<string>('Next step')}
           onClick={_nextStep}
