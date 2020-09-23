@@ -318,6 +318,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <div>{t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}</div>
           </article>
           <TextAreaWithLabel
+            className='ui--TextArea-lineHeight'
             help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
             isAction
             isError={!isSeedValid}
@@ -575,5 +576,14 @@ export default styled(Create)`
 
   .ui--Modal-Footer .ui--Modal-back-button {
     margin-right: auto;
+  }
+
+  .ui--TextArea-lineHeight > div > div > textarea {
+    line-height: 22px;
+    padding: 8px 16px 8px 16px;
+  }
+
+  .ui--TextArea-lineHeight .ui--Labelled-content .TextAreaWithDropdown .dropdown.icon {
+    top: 2.3rem!important;
   }
 `;
