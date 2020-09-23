@@ -19,14 +19,14 @@ import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, assert } from '@polkadot/util';
 
-import { LedgerSigner, QrSigner } from './signers';
+import { AccountSigner, LedgerSigner, QrSigner } from './signers';
 import { useTranslation } from './translate';
 import Address from './Address';
 import Qr from './Qr';
 import SignFields from './SignFields';
 import Tip from './Tip';
 import Transaction from './Transaction';
-import { extractExternal, handleTxResults } from './util';
+import { cacheUnlock, extractExternal, handleTxResults } from './util';
 
 interface Props {
   className?: string;
@@ -38,7 +38,7 @@ const NOOP = () => undefined;
 
 let qrId = 0;
 
-function unlockAccount ({ signAddress, signPassword }: AddressProxy): string | null {
+function unlockAccount ({ isUnlockCached, signAddress, signPassword }: AddressProxy): string | null {
   let publicKey;
 
   try {
@@ -53,6 +53,7 @@ function unlockAccount ({ signAddress, signPassword }: AddressProxy): string | n
 
   try {
     pair.decodePkcs8(signPassword);
+    isUnlockCached && cacheUnlock(pair);
   } catch (error) {
     console.error(error);
 
@@ -133,7 +134,7 @@ async function wrapTx (api: ApiPromise, currentItem: QueueTx, { isMultiCall, mul
   return tx;
 }
 
-async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', KeyringPair | string, Partial<SignerOptions>]> {
+async function extractParams (address: string, options: Partial<SignerOptions>, setQrState: (state: QrState) => void): Promise<['qr' | 'signing', string, Partial<SignerOptions>]> {
   const pair = keyring.getPair(address);
   const { meta: { accountOffset, addressOffset, isExternal, isHardware, isInjected, source } } = pair;
 
@@ -149,7 +150,7 @@ async function extractParams (address: string, options: Partial<SignerOptions>, 
     return ['signing', address, { ...options, signer: injected.signer }];
   }
 
-  return ['signing', pair, options];
+  return ['signing', pair.address, { ...options, signer: new AccountSigner(pair) }];
 }
 
 function TxSigned ({ className, currentItem, requestAddress }: Props): React.ReactElement<Props> | null {
@@ -162,7 +163,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const [isRenderError, toggleRenderError] = useToggle();
   const [isSubmit, setIsSubmit] = useState(true);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ isMultiCall: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
+  const [senderInfo, setSenderInfo] = useState<AddressProxy>({ isMultiCall: false, isUnlockCached: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
   const [signedOptions, setSignedOptions] = useState<Partial<SignerOptions>>({});
   const [signedTx, setSignedTx] = useState<string | null>(null);
   const [multiCall, setMultiCall] = useState<string | null>(null);
