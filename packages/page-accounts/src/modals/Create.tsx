@@ -200,9 +200,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const isValid = !!address && !deriveValidation?.error && isNameValid && isPasswordValid && isSeedValid;
   const isFirstStepValid = !!address && !!isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPasswordValid;
+  const isValid = isFirstStepValid && isSecondStepValid;
   const errorIndex: Record<string, string> = useMemo(() => ({
     PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
     SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
@@ -583,7 +583,7 @@ export default styled(Create)`
     padding: 8px 16px 8px 16px;
   }
 
-  .ui--TextArea-lineHeight .ui--Labelled-content .TextAreaWithDropdown .dropdown.icon {
+   .ui--TextArea-lineHeight .ui--Labelled-content .TextAreaWithDropdown .dropdown.icon {
     top: 2.3rem!important;
   }
 `;
