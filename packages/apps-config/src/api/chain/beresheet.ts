@@ -7,9 +7,7 @@
 import { Beresheet } from '@edgeware/node-types';
 
 export default {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  ...Beresheet,
+  ...Beresheet.types,
   // aliases that don't do well as part of interfaces
   'voting::VoteType': 'VoteType',
   'voting::TallyType': 'TallyType',
