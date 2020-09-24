@@ -41,7 +41,7 @@ describe('--SLOW--: Account Create', () => {
   it('new create modal', async () => {
     const { findByTestId, findByText, queryByText } = renderAccounts();
 
-    const addAccountButton = await findByText('Add account', {}, { timeout: 4000 });
+    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
 
     fireEvent.click(addAccountButton);
 
@@ -54,7 +54,7 @@ describe('--SLOW--: Account Create', () => {
 
     fireEvent.click(nextStepButton);
 
-    expect(await findByText('Add an account via seed 2/2')).toBeTruthy();
+    expect(await findByText('Add an account via seed 2/3')).toBeTruthy();
 
     const accountNameInput = await findByTestId('A descriptive name for your account');
 
@@ -68,11 +68,17 @@ describe('--SLOW--: Account Create', () => {
 
     fireEvent.change(passwordInput2, { target: { value: 'password' } });
 
-    const createAnAccountButton = await findByText('Create an account');
+    const toStep3Button = await findByText('Next step', {}, { timeout: 4000 });
+
+    fireEvent.click(toStep3Button);
+
+    expect(await findByText('Add an account via seed 3/3')).toBeTruthy();
+
+    const createAnAccountButton = await findByText('Create an account', {}, { timeout: 4000 });
 
     fireEvent.click(createAnAccountButton);
 
-    await waitForElementToBeRemoved(() => queryByText('Add an account via seed 2/2'));
+    await waitForElementToBeRemoved(() => queryByText('Add an account via seed 3/3'));
 
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
