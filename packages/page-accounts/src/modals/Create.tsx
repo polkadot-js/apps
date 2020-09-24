@@ -291,7 +291,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   return (
     <Modal
-      className={`${className} ui--Modal-Wrapper medium`}
+      className={`${className} ui--CreateAccount-new-create-modal ui--Modal-Wrapper medium`}
       header={t<string>('Add an account via seed {{step}}/{{NUM_STEPS}}', {
         replace: {
           NUM_STEPS,

@@ -7,7 +7,7 @@ import React, { useCallback, useState } from 'react';
 import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { isFunction, isUndefined } from '@polkadot/util';
 
-import Labelled from './LabelledNew';
+import Labelled from './Labelled';
 import styled from 'styled-components';
 
 type Input$Type = 'number' | 'password' | 'text';

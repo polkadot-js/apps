@@ -148,4 +148,39 @@ export default React.memo(styled(Labelled)`
       }
     }
   }
+  
+  .ui--CreateAccount-new-create-modal div:not(.ui--Modal-Column) > &.ui--Labelled {
+     > label {
+        font-weight: 800;
+        font-size: 10px;
+        line-height: 14px;
+        text-transform: uppercase;
+        color: #4D4D4D;
+    }
+    &:not(.isSmall) {
+      padding-left: 0;
+      > .ui--Labelled-content {
+        .ui.selection.dropdown {
+          &:not(.floating) {
+            padding-left: 0;
+            padding-top: 0;
+          }
+
+          &.floating {
+            > .dropdown.icon {
+              top: 1.95rem;
+            }
+          }
+
+          > .delete.icon,
+          .dropdown.icon,
+          > .search.icon {
+            top: 1.75rem;
+          }
+        }
+      }
+    }
+    
+
+  }
 `);

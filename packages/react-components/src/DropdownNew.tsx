@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
-
-import LabelledNew from './LabelledNew';
+import { Labelled } from '@polkadot/react-components';
 
 interface Props<Option> {
   allowAdd?: boolean;
@@ -109,7 +108,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', classNameButt
     <div className={className}>
       {isButton
         ? <SUIButton.Group className={classNameButton}>{dropdown}</SUIButton.Group>
-        : <LabelledNew
+        : <Labelled
           className='ui--Dropdown'
           help={help}
           isFull={isFull}
@@ -120,7 +119,7 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', classNameButt
           withLabel={withLabel}
         >
           {dropdown}
-        </LabelledNew>
+        </Labelled>
 
       }
     </div>

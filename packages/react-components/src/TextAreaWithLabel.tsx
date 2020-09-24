@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import Labelled from './LabelledNew';
+import { Labelled } from '@polkadot/react-components';
 import TextAreaWithDropdown from '@polkadot/react-components/TextAreaWithDropdown';
 import styled from 'styled-components';
 
