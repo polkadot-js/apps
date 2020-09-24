@@ -579,8 +579,8 @@ export default styled(Create)`
   }
 
   .ui--TextArea-lineHeight > div > div > textarea {
-    line-height: 22px;
-    padding: 8px 16px 8px 16px;
+    line-height: 1.6rem;
+    padding: 0.6rem 1.15rem 0.6rem 1.15rem;
   }
 
    .ui--TextArea-lineHeight .ui--Labelled-content .TextAreaWithDropdown .dropdown.icon {
