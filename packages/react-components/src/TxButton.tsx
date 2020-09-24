@@ -40,36 +40,42 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
   const _onSend = useCallback(
     (): void => {
-      let extrinsic: SubmittableExtrinsic<'promise'>;
+      let extrinsics: SubmittableExtrinsic<'promise'>[];
 
       if (propsExtrinsic) {
-        extrinsic = propsExtrinsic;
+        extrinsics = Array.isArray(propsExtrinsic)
+          ? propsExtrinsic
+          : [propsExtrinsic];
       } else {
         const [section, method] = (tx || '').split('.');
 
         assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
-        extrinsic = api.tx[section][method](...(
-          isFunction(params)
-            ? params()
-            : (params || [])
-        ));
+        extrinsics = [
+          api.tx[section][method](...(
+            isFunction(params)
+              ? params()
+              : (params || [])
+          ))
+        ];
       }
 
-      assert(extrinsic, 'Expected generated extrinsic passed to TxButton');
+      assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
 
       if (withSpinner) {
         setIsSending(true);
       }
 
-      queueExtrinsic({
-        accountId: accountId && accountId.toString(),
-        extrinsic,
-        isUnsigned,
-        txFailedCb: withSpinner ? _onFailed : onFailed,
-        txStartCb: onStart,
-        txSuccessCb: withSpinner ? _onSuccess : onSuccess,
-        txUpdateCb: onUpdate
+      extrinsics.forEach((extrinsic): void => {
+        queueExtrinsic({
+          accountId: accountId && accountId.toString(),
+          extrinsic,
+          isUnsigned,
+          txFailedCb: withSpinner ? _onFailed : onFailed,
+          txStartCb: onStart,
+          txSuccessCb: withSpinner ? _onSuccess : onSuccess,
+          txUpdateCb: onUpdate
+        });
       });
 
       onClick && onClick();
