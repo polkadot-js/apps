@@ -4,9 +4,9 @@
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { TxButtonProps as Props } from './types';
 
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button';
@@ -17,8 +17,13 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
-  const [isSending, , setIsSending] = useToggle(false);
+  const [isSending, setIsSending] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const needsAccount = !isUnsigned && !accountId;
+
+  useEffect((): void => {
+    (isStarted && onStart) && onStart();
+  }, [isStarted, onStart]);
 
   const _onFailed = useCallback(
     (result: SubmittableResult | null): void => {
@@ -36,6 +41,11 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       onSuccess && onSuccess(result);
     },
     [onSuccess, setIsSending]
+  );
+
+  const _onStart = useCallback(
+    () => setIsStarted(true),
+    [setIsStarted]
   );
 
   const _onSend = useCallback(
@@ -72,7 +82,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
           extrinsic,
           isUnsigned,
           txFailedCb: withSpinner ? _onFailed : onFailed,
-          txStartCb: onStart,
+          txStartCb: _onStart,
           txSuccessCb: withSpinner ? _onSuccess : onSuccess,
           txUpdateCb: onUpdate
         });
@@ -80,7 +90,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       onClick && onClick();
     },
-    [_onFailed, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner]
+    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner]
   );
 
   if (onSendRef) {
