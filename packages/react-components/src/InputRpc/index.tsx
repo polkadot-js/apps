@@ -6,10 +6,14 @@
 
 import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOptions } from '../util/types';
+import { poaRpcDefs } from '../../../apps-config/src/api/spec/dock-rpc';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+
+// Load RPC definitions for PoA
+jsonrpc.poa = poaRpcDefs;
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
 import SelectMethod from './SelectMethod';

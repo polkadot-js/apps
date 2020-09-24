@@ -25,6 +25,7 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
+import { rpcDefs } from '../../apps-config/src/api/spec/dock-rpc';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 
@@ -186,7 +187,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, rpc: rpcDefs, signer, types, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

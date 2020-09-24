@@ -6,5 +6,4 @@ import * as laminarDefinitions from '@laminar/type-definitions';
 import { typesFromDefs } from '../util';
 
 const lamiTypes = typesFromDefs(laminarDefinitions);
-
 export default lamiTypes;
