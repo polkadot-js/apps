@@ -25,37 +25,44 @@ interface SinglePayout {
   validatorId: string;
 }
 
-function createExtrinsic (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'> | null {
+function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayout[]): SubmittableExtrinsic<'promise'>[] {
+  return payouts
+    .sort((a, b) => a.era.cmp(b.era))
+    .reduce((batches: SubmittableExtrinsic<'promise'>[][], { era, validatorId }): SubmittableExtrinsic<'promise'>[][] => {
+      const tx = api.tx.staking.payoutStakers(validatorId, era);
+      const batch = batches[batches.length - 1];
+
+      if (batch.length >= maxPayouts) {
+        batches.push([tx]);
+      } else {
+        batch.push(tx);
+      }
+
+      return batches;
+    }, [[]])
+    .map((batch) => api.tx.utility.batch(batch));
+}
+
+function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {
   if (Array.isArray(payout)) {
     if (payout.length === 1) {
-      return createExtrinsic(api, payout[0], maxPayouts);
+      return createExtrinsics(api, payout[0], maxPayouts);
     }
 
-    return api.tx.utility.batch(
-      payout
-        .reduce((payouts: SinglePayout[], { eras, validatorId }): SinglePayout[] => {
-          eras.forEach(({ era }): void => {
-            payouts.push({ era, validatorId });
-          });
+    return createBatches(api, maxPayouts, payout.reduce((payouts: SinglePayout[], { eras, validatorId }): SinglePayout[] => {
+      eras.forEach(({ era }): void => {
+        payouts.push({ era, validatorId });
+      });
 
-          return payouts;
-        }, [])
-        .sort((a, b) => a.era.cmp(b.era))
-        .filter((_, index) => index < maxPayouts)
-        .map(({ era, validatorId }) => api.tx.staking.payoutStakers(validatorId, era))
-    );
+      return payouts;
+    }, []));
   }
 
   const { eras, validatorId } = payout;
 
   return eras.length === 1
-    ? api.tx.staking.payoutStakers(validatorId, eras[0].era)
-    : api.tx.utility.batch(
-      eras
-        .sort((a, b) => a.era.cmp(b.era))
-        .filter((_, index) => index < maxPayouts)
-        .map(({ era }) => api.tx.staking.payoutStakers(validatorId, era))
-    );
+    ? [api.tx.staking.payoutStakers(validatorId, eras[0].era)]
+    : createBatches(api, maxPayouts, eras.map((era): SinglePayout => ({ era: era.era, validatorId })));
 }
 
 function PayButton ({ className, isAll, isDisabled, payout }: Props): React.ReactElement<Props> {
@@ -64,7 +71,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   const { allAccounts } = useAccounts();
   const [isVisible, togglePayout] = useToggle();
   const [accountId, setAccount] = useState<string | null>(null);
-  const [extrinsic, setExtrinsic] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [extrinsics, setExtrinsics] = useState<SubmittableExtrinsic<'promise'>[] | null>(null);
   const [maxPayouts, setMaxPayouts] = useState(0);
 
   useEffect((): void => {
@@ -90,8 +97,8 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
   }, [allAccounts, api, payout]);
 
   useEffect((): void => {
-    api.tx.utility && payout && setExtrinsic(
-      () => createExtrinsic(api, payout, maxPayouts)
+    api.tx.utility && payout && setExtrinsics(
+      () => createExtrinsics(api, payout, maxPayouts)
     );
   }, [api, maxPayouts, payout]);
 
@@ -154,9 +161,9 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
           <Modal.Actions onCancel={togglePayout}>
             <TxButton
               accountId={accountId}
-              extrinsic={extrinsic}
+              extrinsic={extrinsics}
               icon='credit-card'
-              isDisabled={!extrinsic || !accountId}
+              isDisabled={!extrinsics || !extrinsics.length || !accountId}
               label={t<string>('Payout')}
               onStart={togglePayout}
             />

@@ -194,7 +194,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     (): void => {
       uiSettings.set({ ...(uiSettings.get()), apiUrl });
 
-      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${apiUrl}${window.location.hash}`);
+      window.location.assign(`${window.location.origin}${window.location.pathname}?rpc=${encodeURIComponent(apiUrl)}${window.location.hash}`);
       // window.location.reload();
 
       onClose();

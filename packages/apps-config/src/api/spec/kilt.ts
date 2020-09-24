@@ -11,5 +11,6 @@ export default {
   Permissions: 'u32',
   PublicBoxKey: 'Hash',
   PublicSigningKey: 'Hash',
+  RefCount: 'u8',
   Signature: 'MultiSignature'
 };

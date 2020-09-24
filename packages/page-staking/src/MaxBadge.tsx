@@ -21,7 +21,7 @@ function MaxBadge ({ numNominators }: Props): React.ReactElement<Props> | null {
   return (
     <Badge
       color='red'
-      info={max.toString()}
+      icon='balance-scale-right'
     />
   );
 }

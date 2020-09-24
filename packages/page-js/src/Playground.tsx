@@ -10,7 +10,7 @@ import { Log, LogType, Snippet } from './types';
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Editor } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useToggle } from '@polkadot/react-hooks';
 import uiKeyring from '@polkadot/ui-keyring';
 import * as types from '@polkadot/types';
 import * as util from '@polkadot/util';
@@ -39,25 +39,25 @@ interface Injected {
 }
 
 const ALLOWED_GLOBALS = ['atob', 'btoa'];
+const DEFAULT_NULL = { Atomics: null, Bluetooth: null, Clipboard: null, Document: null, Function: null, Location: null, ServiceWorker: null, SharedWorker: null, USB: null, global: null, window: null };
+
 const snippets = JSON.parse(JSON.stringify(allSnippets)) as Snippet[];
 let hasSnippetWrappers = false;
 
 function setupInjected ({ api, isDevelopment }: ApiProps, setIsRunning: (isRunning: boolean) => void, hookConsole: (type: LogType, args: any[]) => void): Injected {
-  const nullObject = Object
-    .keys(window)
-    .filter((key): boolean => !key.includes('-') && !ALLOWED_GLOBALS.includes(key))
-    .reduce((result: Record<string, null>, key): Record<string, null> => {
-      result[key] = null;
-
-      return result;
-    }, { global: null, window: null });
-
   return {
-    ...nullObject,
+    ...Object
+      .keys(window)
+      .filter((key) => !key.includes('-') && !ALLOWED_GLOBALS.includes(key))
+      .reduce((result: Record<string, null>, key): Record<string, null> => {
+        result[key] = null;
+
+        return result;
+      }, { ...DEFAULT_NULL }),
     api: api.clone(),
     console: {
-      error: (...args: any[]): void => hookConsole('error', args),
-      log: (...args: any[]): void => hookConsole('log', args)
+      error: (...args: any[]) => hookConsole('error', args),
+      log: (...args: any[]) => hookConsole('log', args)
     },
     hashing,
     keyring: isDevelopment
@@ -80,6 +80,7 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
   const [code, setCode] = useState('');
   const [isCustomExample, setIsCustomExample] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const [isWarnOpen, toggleWarnOpen] = useToggle(true);
   const [customExamples, setCustomExamples] = useState<Snippet[]>([]);
   const [logs, setLogs] = useState<Log[]>([]);
   const [options, setOptions] = useState<Snippet[]>([]);
@@ -262,6 +263,21 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
           />
         </Output>
       </section>
+      {isWarnOpen && (
+        <div className='warnOverlay'>
+          <article className='warning centered'>
+            <Button
+              icon='times'
+              isBasic
+              isCircular
+              onClick={toggleWarnOpen}
+            />
+            <p>{t('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
+            <p>{t('Never execute JS snippets from untrusted sources.')}</p>
+            <p>{t('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
+          </article>
+        </div>
+      )}
     </main>
   );
 }
@@ -271,6 +287,13 @@ export default React.memo(styled(Playground)`
   flex-direction: column;
   height: 100vh;
   padding: 1rem 0 0;
+  position: relative;
+
+  article {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
 
   .js--Content {
     align-content: stretch;
@@ -297,6 +320,7 @@ export default React.memo(styled(Playground)`
     min-width: 200px;
 
     .action-button {
+      margin: 0;
       position: absolute;
       right: 0.5rem;
       top: 0.5rem;
@@ -357,5 +381,19 @@ export default React.memo(styled(Playground)`
     display: flex;
     flex: 1 1 100%;
     max-width: 300px;
+  }
+
+  .warnOverlay {
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: -0.25rem;
+    z-index: 202;
+
+    .ui--Button {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+    }
   }
 `);

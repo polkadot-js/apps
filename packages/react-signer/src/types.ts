@@ -16,6 +16,7 @@ export interface AddressFlags {
 
 export interface AddressProxy {
   isMultiCall: boolean;
+  isUnlockCached: boolean;
   multiRoot: string | null;
   proxyRoot: string | null;
   signAddress: string | null;
