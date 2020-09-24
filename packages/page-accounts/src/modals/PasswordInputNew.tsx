@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
-import { PasswordInputNew, PasswordStrength } from '@polkadot/react-components';
+import { PasswordNew, PasswordStrength } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 import { useTranslation } from '../translate';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ type Props = {
   className?: string;
 }
 
-function NewPasswordInput ({ className, onChange, password }: Props): React.ReactElement {
+function PasswordInputNew ({ className, onChange, password }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [isPassValid, setPassValid] = useState<boolean>(false);
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
@@ -48,7 +48,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
     <div className={className}>
       <div className='ui--Row'>
         <div>
-          <PasswordInputNew
+          <PasswordNew
             className='full'
             help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account.')}
             isError={!!password && !isPassValid}
@@ -61,7 +61,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
             value={password}
           />
         </div>
-        <PasswordInputNew
+        <PasswordNew
           className='full'
           help={t<string>('Verify the password.')}
           isError={!!password2 && !isPass2Valid}
@@ -74,7 +74,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
   );
 }
 
-export default React.memo(styled(NewPasswordInput)`
+export default React.memo(styled(PasswordInputNew)`
   .ui--Row {
     display: flex;
 

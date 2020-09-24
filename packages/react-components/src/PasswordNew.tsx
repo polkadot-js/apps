@@ -25,7 +25,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-function PasswordInputNew ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
+function PasswordNew ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <InputNew
       autoFocus={autoFocus}
@@ -51,4 +51,4 @@ function PasswordInputNew ({ autoFocus, children, className = '', defaultValue, 
   );
 }
 
-export default React.memo(PasswordInputNew);
+export default React.memo(PasswordNew);

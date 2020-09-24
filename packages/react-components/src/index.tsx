@@ -76,7 +76,7 @@ export { default as Modal } from './Modal';
 export { default as Nonce } from './Nonce';
 export { default as Output } from './Output';
 export { default as Password } from './Password';
-export { default as PasswordInputNew } from './PasswordInputNew';
+export { default as PasswordNew } from './PasswordNew';
 export { default as PasswordStrength } from './PasswordStrength';
 export { default as Popup } from './Popup';
 export { default as Progress } from './Progress';

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import NewPasswordInput from '@polkadot/app-accounts/Accounts/NewPasswordInput';
+import NewPasswordInput from '@polkadot/app-accounts/modals/PasswordInputNew';
 import CreateConfirmation from '@polkadot/app-accounts/modals/CreateConfirmation';
 import ExternalWarning from '@polkadot/app-accounts/modals/ExternalWarning';
 import { useTranslation } from '@polkadot/app-accounts/translate';
@@ -200,7 +200,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const isFirstStepValid = !!address && !!isMnemonicSaved && !deriveValidation?.error && isSeedValid;
+  const isFirstStepValid = !!address && isMnemonicSaved && !deriveValidation?.error && isSeedValid;
   const isSecondStepValid = isNameValid && isPasswordValid;
   const isValid = isFirstStepValid && isSecondStepValid;
   const errorIndex: Record<string, string> = useMemo(() => ({
