@@ -114,5 +114,8 @@
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.1.4",
     "webpack-plugin-serve": "^1.0.1"
+  },
+  "dependencies": {
+    "@edgeware/node-types": "^2.4.5"
   }
 }

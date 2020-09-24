@@ -7,7 +7,9 @@ import useApi from './useApi';
 import useCall from './useCall';
 
 const transformStashes = {
-  transform: (stashes: AccountId[]) => stashes.map((accountId) => accountId.toString())
+  transform: (stashes: AccountId[]) => stashes
+  	.filter((stashes: AccountId) => !!stashes)
+  	.map((accountId) => accountId.toString())
 };
 
 export default function useStashIds (): string[] | undefined {

@@ -4,23 +4,15 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import * as edgewareDefinitions from '@edgeware/node-types/dist/interfaces/definitions';
-
-const edgTypes = Object
-  .values(edgewareDefinitions)
-  .reduce((res, { types }) => ({ ...res, ...types }), {});
+import { Mainnet } from '@edgeware/node-types';
 
 export default {
-  ...edgTypes,
+  ...Mainnet,
+  // aliases that don't do well as part of interfaces
   'voting::VoteType': 'VoteType',
   'voting::TallyType': 'TallyType',
   'voting::Tally': 'VotingTally',
-  // chain-specific overrides
-  Address: 'GenericAddress',
-  Keys: 'SessionKeys4',
-  StakingLedger: 'StakingLedgerTo223',
-  Votes: 'VotesTo230',
-  ReferendumInfo: 'ReferendumInfoTo239',
+  // Substrate overrides
   RefCount: 'u8',
-  Weight: 'u32'
+  Weight: 'u64'
 };
