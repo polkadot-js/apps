@@ -20,7 +20,6 @@ const defaultConfig = {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
     '\\.(md)$': '<rootDir>/__mocks__/fileMock.js'
   },
-  testTimeout: 25000,
   transformIgnorePatterns: [
     '<rootDir>/node_modules'
   ]
@@ -38,5 +37,6 @@ module.exports = Object.assign({}, config, {
       ...defaultConfig,
       displayName: 'fast-tests'
     }
-  ]
+  ],
+  testTimeout: 25000
 });
