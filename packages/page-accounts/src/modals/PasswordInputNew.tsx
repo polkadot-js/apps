@@ -57,7 +57,7 @@ function PasswordInputNew ({ className, onChange, password }: Props): React.Reac
             value={password}
           />
           <PasswordStrength
-            className='ui--PasswordStrength-isVisible'
+            doNotHide={true}
             value={password}
           />
         </div>
@@ -85,9 +85,5 @@ export default React.memo(styled(PasswordInputNew)`
     & > * + * {
       margin-left: 25px;
     }
-  }
-
-  .ui--PasswordStrength-isVisible {
-    display: flex!important;
   }
 `);
