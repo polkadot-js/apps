@@ -4,23 +4,10 @@
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-import * as edgewareDefinitions from '@edgeware/node-types/dist/interfaces/definitions';
-
-const edgTypes = Object
-  .values(edgewareDefinitions)
-  .reduce((res, { types }) => ({ ...res, ...types }), {});
+import { Beresheet } from '@edgeware/node-types';
 
 export default {
-  ...edgTypes,
-  'voting::VoteType': 'VoteType',
-  'voting::TallyType': 'TallyType',
-  'voting::Tally': 'VotingTally',
+  ...Beresheet.types,
   // chain-specific overrides
-  Address: 'GenericAddress',
-  Keys: 'SessionKeys4',
-  StakingLedger: 'StakingLedgerTo223',
-  Votes: 'VotesTo230',
-  ReferendumInfo: 'ReferendumInfoTo239',
-  RefCount: 'u8',
-  Weight: 'u32'
+  RefCount: 'u8'
 };
