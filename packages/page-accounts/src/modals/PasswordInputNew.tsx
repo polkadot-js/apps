@@ -57,7 +57,7 @@ function PasswordInputNew ({ className, onChange, password }: Props): React.Reac
             value={password}
           />
           <PasswordStrength
-            doNotHide={true}
+            alwaysVisible={true}
             value={password}
           />
         </div>
