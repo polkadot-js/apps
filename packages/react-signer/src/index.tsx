@@ -99,11 +99,7 @@ function Signer ({ children, className = '' }: Props): React.ReactElement<Props>
       {currentItem && isVisible && (
         <Modal
           className={className}
-          header={
-            count > 1
-              ? t('Authorize transaction 1/{{count}}', { replace: { count } })
-              : t('Authorize transaction')
-          }
+          header={<>{t('Authorize transaction')}{(count === 1) ? undefined : <>&nbsp;1/{count}</>}</>}
           key={currentItem.id}
           size='large'
         >
