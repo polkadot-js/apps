@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { AccountId } from '@polkadot/types/interfaces';
@@ -12,6 +12,7 @@ import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Close from './Close';
 import Voters from './Voters';
 import Voting from './Voting';
 
@@ -35,8 +36,12 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
-  const councilId = useMemo(
-    () => allAccounts.find((accountId) => members.includes(accountId)) || null,
+  const [councilId, isMultiMembers] = useMemo(
+    (): [string | null, boolean] => {
+      const councilIds = allAccounts.filter((accountId) => members.includes(accountId));
+
+      return [councilIds[0] || null, councilIds.length > 1];
+    },
     [allAccounts, members]
   );
 
@@ -105,19 +110,31 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
           />
         )}
         {isCloseable && (
-          <TxButton
-            accountId={councilId}
-            icon='times'
-            label={t<string>('Close')}
-            params={
-              api.tx.council.close?.meta.args.length === 4
-                ? hasFailed
-                  ? [hash, index, 0, 0]
-                  : [hash, index, proposalWeight, proposalLength]
-                : [hash, index]
-            }
-            tx='council.close'
-          />
+          isMultiMembers
+            ? (
+              <Close
+                hasFailed={hasFailed}
+                hash={hash}
+                idNumber={index}
+                members={members}
+                proposal={proposal}
+              />
+            )
+            : (
+              <TxButton
+                accountId={councilId}
+                icon='times'
+                label={t<string>('Close')}
+                params={
+                  api.tx.council.close?.meta.args.length === 4
+                    ? hasFailed
+                      ? [hash, index, 0, 0]
+                      : [hash, index, proposalWeight, proposalLength]
+                    : [hash, index]
+                }
+                tx='council.close'
+              />
+            )
         )}
       </td>
       <td className='badge'>

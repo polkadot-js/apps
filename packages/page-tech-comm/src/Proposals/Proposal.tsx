@@ -12,6 +12,7 @@ import { Option } from '@polkadot/types';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
+import Close from './Close';
 import Voting from './Voting';
 
 interface Props {
@@ -39,8 +40,12 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
   const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'technicalCommittee');
   const [proposalWeight, proposalLength] = useWeight(proposal);
 
-  const councilId = useMemo(
-    () => allAccounts.find((accountId) => members.includes(accountId)) || null,
+  const [councilId, isMultiMembers] = useMemo(
+    (): [string | null, boolean] => {
+      const councilIds = allAccounts.filter((accountId) => members.includes(accountId));
+
+      return [councilIds[0] || null, councilIds.length > 1];
+    },
     [allAccounts, members]
   );
 
@@ -96,19 +101,31 @@ function Proposal ({ className = '', imageHash, members, prime }: Props): React.
           />
         )}
         {isCloseable && (
-          <TxButton
-            accountId={councilId}
-            icon='times'
-            label={t<string>('Close')}
-            params={
-              api.tx.technicalCommittee.close?.meta.args.length === 4
-                ? hasFailed
-                  ? [imageHash, index, 0, 0]
-                  : [imageHash, index, proposalWeight, proposalLength]
-                : [imageHash, index]
-            }
-            tx='technicalCommittee.close'
-          />
+          isMultiMembers
+            ? (
+              <Close
+                hasFailed={hasFailed}
+                hash={imageHash}
+                idNumber={index}
+                members={members}
+                proposal={proposal}
+              />
+            )
+            : (
+              <TxButton
+                accountId={councilId}
+                icon='times'
+                label={t<string>('Close')}
+                params={
+                  api.tx.technicalCommittee.close?.meta.args.length === 4
+                    ? hasFailed
+                      ? [imageHash, index, 0, 0]
+                      : [imageHash, index, proposalWeight, proposalLength]
+                    : [imageHash, index]
+                }
+                tx='technicalCommittee.close'
+              />
+            )
         )}
       </td>
     </tr>

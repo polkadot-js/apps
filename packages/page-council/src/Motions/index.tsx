@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
