@@ -317,7 +317,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             icon='exclamation-triangle'
             type='alert'
             upperCase
-            value="Please write down your wallet's mnemonic seed and keep it in a safe place"
+            value={t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}
           />
           <TextAreaWithLabel
             className='ui--TextArea-lineHeight'
@@ -359,7 +359,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <InfoBox
             icon='exclamation-triangle'
             type='alert'
-            value='Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security. Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.'
+            value={t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security. Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}
           />
           <Expander
             className='accounts--Creator-advanced'
