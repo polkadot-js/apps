@@ -13,9 +13,9 @@ interface Props {
   value: string;
 }
 
-function InfoBox ({ className, icon, type, value }: Props): React.ReactElement<Props> {
+function InfoBox ({ className, icon, value }: Props): React.ReactElement<Props> {
   return (
-    <article className={`${className || ''} ui--InfoBox-${type}`}>
+    <article className={className}>
       { icon && <Icon icon={icon}
         size='2x' /> }
       <div>{value}</div>
