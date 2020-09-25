@@ -19,7 +19,7 @@ interface Props {
   votes: Votes;
 }
 
-function Voting ({ hash, members, prime, proposalId, votes }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, members, prime, proposal, proposalId, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -37,8 +37,6 @@ function Voting ({ hash, members, prime, proposalId, votes }: Props): React.Reac
   const willPass = (!hasVotedAye && votes?.threshold.gten(votes?.ayes.length + 1)) || false;
   // will the proposal fail if this member votes nay now
   const willFail = (!hasVotedNay && votes?.threshold.gten(votes?.nays.length + 1)) || false;
-
-  const isPrime = accountId === prime?.toString();
 
   const getExtrinsic = useCallback((aye: boolean) => {
     const voteExtrinsic = api.tx.technicalCommittee.vote(hash, proposalId, aye);
