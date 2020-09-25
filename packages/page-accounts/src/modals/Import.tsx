@@ -29,7 +29,7 @@ const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
 function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair | null {
   try {
-    return keyring.createFromJSON(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
+    return keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
   } catch (error) {
     console.error(error);
   }

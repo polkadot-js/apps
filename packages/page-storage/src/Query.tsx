@@ -104,22 +104,14 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
             ? 1
             : 2;
 
-        if ((values.length === allCount) || (type.isMap && type.asMap.linked.isTrue)) {
-          // render function to create an element for the query results which is plugged to the api
-          renderHelper = withCallDiv('subscribe', {
-            paramName: 'params',
-            paramValid: true,
-            params: [key, ...values],
-            withIndicator: true
-          });
-        } else {
-          renderHelper = withCallDiv('subscribe', {
-            paramName: 'params',
-            paramValid: true,
-            params: [key.entries, ...values],
-            withIndicator: true
-          });
-        }
+        renderHelper = withCallDiv('subscribe', {
+          paramName: 'params',
+          paramValid: true,
+          params: values.length === allCount
+            ? [key, ...values]
+            : [key.entries, ...values],
+          withIndicator: true
+        });
       }
 
       type = key.creator && key.creator.meta
