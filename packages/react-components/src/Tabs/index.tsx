@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TabItem } from './types';
 
@@ -63,9 +62,8 @@ export default React.memo(styled(Tabs)`
   background: #fff;
   border-bottom: 1px solid #eeecea;
   display: flex;
-  margin: 0 -3rem;
-  overflow-x: scroll;
-  padding: 1.5rem 3rem 0;
+  margin: 0 -1.5rem;
+  padding: 1.5rem 1.5rem 0;
   text-align: left;
   z-index: 1;
 

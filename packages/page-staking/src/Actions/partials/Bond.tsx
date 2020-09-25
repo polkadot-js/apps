@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { AmountValidateState, DestinationType } from '../types';
@@ -16,7 +15,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../../translate';
 import InputValidateAmount from '../Account/InputValidateAmount';
 import InputValidationController from '../Account/InputValidationController';
-import { createDestPrev } from '../destOptions';
+import { createDestCurr } from '../destOptions';
 import useUnbondDuration from '../useUnbondDuration';
 
 interface Props {
@@ -38,7 +37,7 @@ function Bond ({ className = '', onChange }: Props): React.ReactElement<Props> {
   const bondedBlocks = useUnbondDuration();
 
   const options = useMemo(
-    () => createDestPrev(t),
+    () => createDestCurr(t),
     [t]
   );
 

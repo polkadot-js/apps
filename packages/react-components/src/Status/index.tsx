@@ -1,13 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { registry } from '@polkadot/react-api';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';
@@ -105,7 +103,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
   let { method, section } = rpc;
 
   if (extrinsic) {
-    const found = registry.findMetaCall(extrinsic.callIndex);
+    const found = extrinsic.registry.findMetaCall(extrinsic.callIndex);
 
     if (found.section !== 'unknown') {
       method = found.method;
@@ -221,13 +219,12 @@ export default React.memo(styled(Status)`
     > .wrapper > .container {
       align-items: center;
       background: #00688b;
-      border-radius: $small-corner;
+      border-radius: 0.25rem;
       color: white;
       display: flex;
       justify-content: space-between;
       margin-bottom: 0.25rem;
       padding: 0 0.5rem;
-      opacity: 0.95;
       vertical-align: middle;
       position: relative;
 

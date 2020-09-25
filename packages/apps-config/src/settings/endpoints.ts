@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TFunction } from 'i18next';
 import { Option } from './types';
@@ -115,6 +114,11 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       info: 'plasm',
       text: t<string>('rpc.plasm', 'Plasm (Plasm Mainnet, hosted by Stake Technologies)', { ns: 'apps-config' }),
       value: 'wss://rpc.plasmnet.io/'
+    },
+    {
+      info: 'stafi',
+      text: t<string>('rpc.stafi', 'Stafi (Stafi Mainnet, hosted by Stafi Foundation)', { ns: 'apps-config' }),
+      value: 'wss://mainnet-rpc.stafi.io'
     },
     {
       info: 'subsocial',

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { CreateResult } from '@polkadot/ui-keyring/types';
@@ -21,6 +20,7 @@ import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
+import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
 
 interface Props extends ModalProps {
@@ -35,8 +35,8 @@ type SeedType = 'bip' | 'raw' | 'dev';
 
 interface AddressState {
   address: string | null;
-  deriveError: string | null;
   derivePath: string;
+  deriveValidation? : DeriveValidationOutput
   isSeedValid: boolean;
   pairType: KeypairType;
   seed: string;
@@ -49,27 +49,37 @@ interface CreateOptions {
   tags?: string[];
 }
 
-const DEFAULT_PAIR_TYPE = 'sr25519';
-const isElectron = navigator.userAgent.toLowerCase().indexOf(' electron/') > -1;
+interface DeriveValidationOutput {
+  error?: string;
+  warning?: string;
+}
 
-function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): string | null {
+const DEFAULT_PAIR_TYPE = 'sr25519';
+
+function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): DeriveValidationOutput {
   try {
     const { password, path } = keyExtractSuri(`${seed}${derivePath}`);
+    let result: DeriveValidationOutput = {};
+
+    // show a warning in case the password contains an unintended / character
+    if (password?.includes('/')) {
+      result = { warning: 'WARNING_SLASH_PASSWORD' };
+    }
 
     // we don't allow soft for ed25519
     if (pairType === 'ed25519' && path.some(({ isSoft }): boolean => isSoft)) {
-      return 'Soft derivation paths are not allowed on ed25519';
+      return { ...result, error: 'SOFT_NOT_ALLOWED' };
     }
 
     // we don't allow password for hex seed
     if (seedType === 'raw' && password) {
-      return 'Password are ignored for hex seed';
+      return { ...result, error: 'PASSWORD_IGNORED' };
     }
-  } catch (error) {
-    return (error as Error).message;
-  }
 
-  return null;
+    return result;
+  } catch (error) {
+    return { error: (error as Error).message };
+  }
 }
 
 function isHexSeed (seed: string): boolean {
@@ -103,8 +113,8 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 
   return {
     address,
-    deriveError: null,
     derivePath,
+    deriveValidation: undefined,
     isSeedValid: true,
     pairType,
     seed,
@@ -113,13 +123,13 @@ function generateSeed (_seed: string | undefined | null, derivePath: string, see
 }
 
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
-  const deriveError = deriveValidate(seed, seedType, derivePath, pairType);
+  const deriveValidation = deriveValidate(seed, seedType, derivePath, pairType);
   let isSeedValid = seedType === 'raw'
     ? rawValidate(seed)
     : mnemonicValidate(seed);
   let address: string | null = null;
 
-  if (!deriveError && isSeedValid) {
+  if (!deriveValidation?.error && isSeedValid) {
     try {
       address = addressFromSeed(seed, derivePath, pairType);
     } catch (error) {
@@ -129,8 +139,8 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
 
   return {
     address,
-    deriveError,
     derivePath,
+    deriveValidation,
     isSeedValid,
     pairType,
     seed,
@@ -172,12 +182,17 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
-  const [{ address, deriveError, derivePath, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
+  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
   const [isConfirmationOpen, toggleConfirmation] = useToggle();
   const [isBusy, setIsBusy] = useState(false);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
-  const isValid = !!address && !deriveError && isNameValid && isPasswordValid && isSeedValid;
+  const isValid = !!address && !deriveValidation?.error && isNameValid && isPasswordValid && isSeedValid;
+  const errorIndex: Record<string, string> = useMemo(() => ({
+    PASSWORD_IGNORED: t<string>('Password are ignored for hex seed'),
+    SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
+    WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
+  }), [t]);
 
   const seedOpt = useMemo(() => (
     isDevelopment
@@ -324,11 +339,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               onChange={_onPasswordChange}
               onEnter={_onCommit}
             />
-            {!isElectron && (
-              <article className='warning'>
-                <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
-              </article>
-            )}
+            <ExternalWarning />
             <Expander
               className='accounts--Creator-advanced'
               isPadded
@@ -353,7 +364,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 <Modal.Column>
                   <Input
                     help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                    isError={!!deriveError}
+                    isError={!!deriveValidation?.error}
                     label={t<string>('secret derivation path')}
                     onChange={_onChangeDerive}
                     onEnter={_onCommit}
@@ -369,8 +380,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     tabIndex={-1}
                     value={derivePath}
                   />
-                  {deriveError && (
-                    <article className='error'>{deriveError}</article>
+                  {deriveValidation?.error && (
+                    <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
+                  )}
+                  {deriveValidation?.warning && (
+                    <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
                   )}
                 </Modal.Column>
                 <Modal.Column>

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveOwnExposure } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
@@ -25,8 +24,9 @@ function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartI
   let total = 0;
 
   exposures.forEach(({ clipped, era, exposure }): void => {
-    const cli = balanceToNumber(clipped.total.unwrap(), divisor);
-    const exp = balanceToNumber(exposure.total.unwrap(), divisor);
+    // Darwinia Crab doesn't have the total field
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+    const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
 
     total += cli;
 

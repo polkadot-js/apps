@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
@@ -126,15 +125,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
 
   const headerWaitingRef = useRef([
     [t('intentions'), 'start', 2],
-    [t('nominators'), 'start', 2],
-    [t('commission'), 'number', 1],
+    [t('nominators'), 'expand'],
+    [t('commission'), 'number'],
     [],
     []
   ]);
 
   const headerActiveRef = useRef([
     [t('validators'), 'start', 2],
-    [t('other stake')],
+    [t('other stake'), 'expand'],
     [t('own stake'), 'media--1100'],
     [t('commission')],
     [t('points')],

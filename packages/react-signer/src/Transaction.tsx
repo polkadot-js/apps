@@ -1,13 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { QueueTx } from '@polkadot/react-components/Status/types';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
 import { Call, Expander, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
@@ -28,7 +26,7 @@ function Transaction ({ className, currentItem: { accountId, extrinsic, isUnsign
     return null;
   }
 
-  const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+  const { meta, method, section } = extrinsic.registry.findMetaCall(extrinsic.callIndex);
   const args = meta?.args.map(({ name }) => name).join(', ') || '';
 
   return (

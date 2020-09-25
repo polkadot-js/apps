@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import queryString from 'query-string';
 import store from 'store';
 import { createEndpoints } from '@polkadot/apps-config/settings';
 import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import settings from '@polkadot/ui-settings';
+import { assert } from '@polkadot/util';
 
 function getApiUrl (): string {
   // we split here so that both these forms are allowed
@@ -16,11 +16,14 @@ function getApiUrl (): string {
 
   // if specified, this takes priority
   if (urlOptions.rpc) {
-    if (Array.isArray(urlOptions.rpc)) {
-      throw new Error('Invalid WS endpoint specified');
-    }
+    assert(!Array.isArray(urlOptions.rpc), 'Invalid WS endpoint specified');
 
-    return urlOptions.rpc.split('#')[0]; // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer;
+    // https://polkadot.js.org/apps/?rpc=ws://127.0.0.1:9944#/explorer;
+    const url = decodeURIComponent(urlOptions.rpc.split('#')[0]);
+
+    assert(url.startsWith('ws://') || url.startsWith('wss://'), 'Non-prefixed ws/wss url');
+
+    return url;
   }
 
   const endpoints = createEndpoints(<T = string>(): T => ('' as unknown as T));

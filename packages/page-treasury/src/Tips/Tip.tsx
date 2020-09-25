@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
@@ -13,7 +12,6 @@ import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import TipClose from './TipClose';
 import TipEndorse from './TipEndorse';
 import TipReason from './TipReason';
 
@@ -86,6 +84,11 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
     [allAccounts, hash, tip]
   );
 
+  const councilId = useMemo(
+    () => allAccounts.find((accountId) => members.includes(accountId)) || null,
+    [allAccounts, members]
+  );
+
   const [isMedianSelected, setMedianTip] = useState(false);
 
   useEffect((): void => {
@@ -113,21 +116,23 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
         )}
       </td>
       <TipReason hash={reason} />
-      <td className='start'>
+      <td className='expand'>
         {tips.length !== 0 && (
-          <>
-            <Expander summary={t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}>
-              {tips.map(([tipper, balance]) => (
-                <AddressMini
-                  balance={balance}
-                  key={tipper.toString()}
-                  value={tipper}
-                  withBalance
-                />
-              ))}
-            </Expander>
-            <FormatBalance value={median} />
-          </>
+          <Expander summary={
+            <>
+              <div>{t<string>('Tippers ({{count}})', { replace: { count: tips.length } })}</div>
+              <FormatBalance value={median} />
+            </>
+          }>
+            {tips.map(([tipper, balance]) => (
+              <AddressMini
+                balance={balance}
+                key={tipper.toString()}
+                value={tipper}
+                withBalance
+              />
+            ))}
+          </Expander>
         )}
       </td>
       <td className='button together'>
@@ -162,10 +167,12 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
             />
           )
           : (
-            <TipClose
-              hash={hash}
-              isMember={isMember}
-              members={members}
+            <TxButton
+              accountId={councilId}
+              icon='times'
+              label={t<string>('Close')}
+              params={[hash]}
+              tx='treasury.closeTip'
             />
           )
         }

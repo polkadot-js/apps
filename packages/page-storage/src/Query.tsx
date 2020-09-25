@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { QueryableStorageEntry } from '@polkadot/api/types';
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
@@ -105,22 +104,14 @@ function getCachedComponent (query: QueryTypes): CacheInstance {
             ? 1
             : 2;
 
-        if ((values.length === allCount) || (type.isMap && type.asMap.linked.isTrue)) {
-          // render function to create an element for the query results which is plugged to the api
-          renderHelper = withCallDiv('subscribe', {
-            paramName: 'params',
-            paramValid: true,
-            params: [key, ...values],
-            withIndicator: true
-          });
-        } else {
-          renderHelper = withCallDiv('subscribe', {
-            paramName: 'params',
-            paramValid: true,
-            params: [key.entries, ...values],
-            withIndicator: true
-          });
-        }
+        renderHelper = withCallDiv('subscribe', {
+          paramName: 'params',
+          paramValid: true,
+          params: values.length === allCount
+            ? [key, ...values]
+            : [key.entries, ...values],
+          withIndicator: true
+        });
       }
 
       type = key.creator && key.creator.meta

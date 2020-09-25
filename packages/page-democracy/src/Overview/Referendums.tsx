@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
@@ -24,7 +23,7 @@ function Referendums ({ className = '', referendums }: Props): React.ReactElemen
     [t('activate'), 'media--1400'],
     [t('turnout'), 'media--1400'],
     [undefined, 'badge'],
-    [t('votes'), 'start'],
+    [t('votes'), 'expand'],
     [undefined, undefined, 2],
     [undefined, 'media--1000']
   ]);

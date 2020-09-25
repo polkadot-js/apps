@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
@@ -47,15 +46,14 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
 
 export default React.memo(styled(BaseOverlay)`
   background: white;
-  border: 0 solid transparent;
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-width: 1px;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
   border-left-width: 0.25rem;
   line-height: 1.5em;
   padding: 0 1rem;
   position: fixed;
-  right: 0;
-  top: 0;
+  right: 0.75rem;
+  top: 0.75rem;
   max-width: 55rem;
   z-index: 500;
 

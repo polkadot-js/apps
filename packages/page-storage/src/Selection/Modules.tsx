@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { QueryableStorageEntry } from '@polkadot/api/types';
 import { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
@@ -72,25 +71,19 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
   });
 }
 
-function checkIterable (api: ApiPromise, type: StorageEntryTypeLatest): boolean {
-  let def;
-
-  if (!api.rpc.state.queryStorageAt) {
-    return type.isMap && type.asMap.linked.isTrue;
-  } else if (type.isMap) {
-    def = getTypeDef(type.asMap.key.toString());
-  } else if (type.isDoubleMap) {
-    def = getTypeDef(type.asDoubleMap.key2.toString());
-  }
+function checkIterable (type: StorageEntryTypeLatest): boolean {
+  const def = type.isMap
+    ? getTypeDef(type.asMap.key.toString())
+    : getTypeDef(type.asDoubleMap.key2.toString());
 
   // in the case of Option<type> keys, we don't allow map iteration, in this case
   // we would have option for the iterable and then option for the key value
-  return !!def && def.info !== TypeDefInfo.Option;
+  return def.info !== TypeDefInfo.Option;
 }
 
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {
   const { creator: { meta: { type }, section } } = key;
-  const isIterable = checkIterable(api, type);
+  const isIterable = checkIterable(type);
 
   return {
     defaultValues: section === 'session' && type.isDoubleMap

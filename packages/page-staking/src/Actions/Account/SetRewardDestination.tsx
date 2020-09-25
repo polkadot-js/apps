@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { RewardDestination } from '@polkadot/types/interfaces';
 import { DestinationType } from '../types';
@@ -9,7 +8,7 @@ import React, { useMemo, useState } from 'react';
 import { Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';
-import { createDestCurr, createDestPrev } from '../destOptions';
+import { createDestCurr } from '../destOptions';
 
 interface Props {
   defaultDestination?: RewardDestination;
@@ -24,10 +23,8 @@ function SetRewardDestination ({ controllerId, defaultDestination, onClose, stas
   const [destAccount, setDestAccount] = useState<string | null>(defaultDestination?.isAccount ? defaultDestination.asAccount.toString() : null);
 
   const options = useMemo(
-    () => defaultDestination?.isAccount
-      ? createDestCurr(t)
-      : createDestPrev(t),
-    [defaultDestination, t]
+    () => createDestCurr(t),
+    [t]
   );
 
   const isAccount = destination === 'Account';

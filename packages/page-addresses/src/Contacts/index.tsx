@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-addresses authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '../types';
 
@@ -30,7 +29,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('contacts'), 'start', 2],
     [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances')],
+    [t('balances'), 'expand'],
     [],
     [undefined, 'media--1400']
   ]);

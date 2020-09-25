@@ -1,5 +1,76 @@
 # CHANGELOG
 
+## 0.60.0-beta.x
+
+Changes:
+
+- Show warning on JSON import to store accounts externally (same as create)
+
+
+## 0.59.1 Sep 21, 2020
+
+Contributed:
+
+- Add Stafi network and endpoints (Thanks to https://github.com/Tore19)
+- Update Commonwealth links to support Kulupu (Thanks to https://github.com/carumusan)
+- Update Kulupu treasury thresholds (Thanks to https://github.com/sorpaas)
+- Update Darwinia Crab types (Thanks to https://github.com/WoeOm)
+- display per-validator breakdown values to nominators (Thanks to https://github.com/Tbaut)
+- Update Italian i18n (Thanks to https://github.com/fomod-in)
+- Update Indonesian i18n (Thanks to https://github.com/nzjourney)
+
+Changes:
+
+- Support Account as payment destination (as per Polkadot & Kusama)
+- Single-click close for tips and council motions (no extra selection)
+- Add ability to transfer full amount (fees deducted), reaping the sender
+- Allow Ledger to use Account & Address indexes (multiple accounts)
+- Adjust formatting for metadata with delimiter info from text
+- Use InputNumber for param Amount input type
+- Update Darwinia Crab types (no errors on staking pages)
+- Move colors config to explicit configuration file
+- Adjust margins for button groups (extra spacing)
+- Always add the `?rpc=...` query param when changing networks
+- Determine nonce via `system.accountNextIndex` via the signer modal
+- Add contrasting text colors for top menu (light vs dark primaries)
+- Check query param URL for wss/ws before saving (protection against bad inputs)
+- Adjust staking pages to correctly link to passed-in paths
+- Only hide settings extension update (not QR) when in dev mode
+- Adjust expander tables with caret at end (including Table reworks)
+
+
+## 0.58.1 Sep 14, 2020
+
+Contributed:
+
+- Completion of i18n Italian (Thanks to https://github.com/fomod-in)
+- Completion of i18n Indonesian (Thanks to https://github.com/nzjourney)
+- Add Robonomics Rococo endpoints (Thanks to https://github.com/akru)
+- Show warning where derived password contains `/` (Thanks to https://github.com/Tbaut)
+- i18n capability for derive error messages (Thanks to https://github.com/Tbaut)
+- Adjust menubar for solid primary color background (As per designs from https://github.com/EthWorks)
+
+Changes:
+
+- Block explorer will display error message where block cannot be retrieved
+- Allow for display of Reward destination as Account on account actions
+- Display commission graphs in validator chart breakdown
+- Optimize rendering of staking charts
+- Show own nomination (badge) in all validator lists
+- QR codes are checked for hex validity before sending
+- Optimization of re-renders in signer
+- Ensure signer does not confuse Ledger with QR (button text)
+- Detect WebUSB, if not active don't support Ledger integration
+- Small cleanups & bugfixes on global table layouts
+- Extract i18n reward destination options
+- Update Centrifuge types for non-cyclic dependencies
+- Adjust table alternate row colors to alow with primary
+- Adjust calendar layout to conform to new-generation Tables
+- Fix display of Plasm logos (for different node types)
+- Allow IPFS to add QR addresses to storage (no accounts allowed)
+- Adjust Expander rendering with consistent up/down right caret
+
+
 ## 0.57.1 Sep 7, 2020
 
 Contributed:

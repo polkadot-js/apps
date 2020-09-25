@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Route, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -124,7 +123,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
-    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg-light highlight--border`}>
+    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
@@ -161,14 +160,13 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Menu)`
   align-items: center;
-  border-top: 0.5rem solid transparent;
   display: flex;
   justify-content: space-between;
   padding: 0;
   z-index: 220;
 
   &.isLoading {
-    background: #eee;
+    background: #999 !important;
 
     &:before {
       filter: grayscale(1);
@@ -193,6 +191,7 @@ export default React.memo(styled(Menu)`
     background: #fff;
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
+    color: #4e4e4e;
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;

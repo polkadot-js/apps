@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
@@ -30,6 +29,8 @@ function Body ({ children, className = '', empty, emptySpinner }: Props): React.
 }
 
 export default React.memo(styled(Body)`
+  position: relative;
+
   td {
     padding: 0.75rem 1rem;
     text-align: left;
@@ -85,10 +86,12 @@ export default React.memo(styled(Body)`
     }
 
     &.expand {
-      text-align: left;
+      &:not(.left) {
+        text-align: right;
+      }
 
       .ui--Expander+.ui--Expander {
-        margin-top: 0.5rem;
+        margin-top: 0.375rem;
       }
     }
 
@@ -184,6 +187,10 @@ export default React.memo(styled(Body)`
 
     &.transparent {
       background: transparent;
+    }
+
+    .ui--Button-Group {
+      margin: 0;
     }
 
     .ui--Button:not(.isIcon):not(:hover) {

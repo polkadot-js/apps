@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
 /* eslint-disable sort-keys */
@@ -8,6 +7,7 @@
 export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
+  RefCount: 'u8',
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
@@ -91,16 +91,15 @@ export default {
     own_kton_balance: 'Compact<Balance>',
     own_power: 'Power',
     total_power: 'Power',
-    others: 'Vec<IndividualExposure>',
-    total: 'Compact<Balance>',
-    own: 'Compact<Balance>'
+    others: 'Vec<IndividualExposure>'
   },
   IndividualExposure: {
     who: 'AccountId',
     ring_balance: 'Compact<Balance>',
     kton_balance: 'Compact<Balance>',
-    power: 'Power',
-    value: 'Compact<Balance>'
+    power: 'Power'
+    // not in https://github.com/darwinia-network/darwinia-common/blob/master/frame/staking/src/lib.rs
+    // value: 'Compact<Balance>'
   },
   ElectionResultT: {
     elected_stashes: 'Vec<AccountId>',
@@ -128,29 +127,36 @@ export default {
     ring_value: 'Balance',
     kton_value: 'Balance',
     ring_bond: 'Balance',
-    kton_bond: 'Balance',
-    value: 'Balance',
-    bond: 'Balance'
+    kton_bond: 'Balance'
   },
-  EthTransactionIndex: '(H256, u64)',
-  EthHeaderBrief: {
+  MappedRing: 'u128',
+  EthereumTransactionIndex: '(H256, u64)',
+  EthereumHeaderBrief: {
     total_difficulty: 'U256',
     parent_hash: 'H256',
-    number: 'EthBlockNumber',
+    number: 'EthereumBlockNumber',
     relayer: 'AccountId'
   },
-  EthBlockNumber: 'u64',
-  EthHeaderThing: {
-    eth_header: 'EthHeader',
+  EthereumBlockNumber: 'u64',
+  EthereumHeaderThingWithProof: {
+    header: 'EthereumHeader',
     ethash_proof: 'Vec<EthashProof>',
-    mmr_root: 'MMRHash',
-    mmr_proof: 'Vec<MMRHash>'
+    mmr_root: 'H256',
+    mmr_proof: 'Vec<H256>'
   },
-  EthHeader: {
+  ConfirmedEthereumHeaderInfo: {
+    header: 'EthereumHeader',
+    mmr_root: 'H256'
+  },
+  EthereumHeaderThing: {
+    header: 'EthereumHeader',
+    mmr_root: 'H256'
+  },
+  EthereumHeader: {
     parent_hash: 'H256',
     timestamp: 'u64',
-    number: 'EthBlockNumber',
-    author: 'EthAddress',
+    number: 'EthereumBlockNumber',
+    author: 'EthereumAddress',
     transactions_root: 'H256',
     uncles_hash: 'H256',
     extra_data: 'Bytes',
@@ -163,14 +169,14 @@ export default {
     seal: 'Vec<Bytes>',
     hash: 'Option<H256>'
   },
-  EthAddress: 'H160',
+  EthereumAddress: 'H160',
   Bloom: '[u8; 256; Bloom]',
   H128: '[u8; 16; H128]',
   EthashProof: {
     dag_nodes: '(H512, H512)',
     proof: 'Vec<H128>'
   },
-  Receipt: {
+  EthereumReceipt: {
     gas_used: 'U256',
     log_bloom: 'Bloom',
     logs: 'Vec<LogEntry>',
@@ -184,8 +190,7 @@ export default {
   },
   RedeemFor: {
     _enum: {
-      Ring: null,
-      Kton: null,
+      Token: null,
       Deposit: null
     }
   },
@@ -194,7 +199,12 @@ export default {
     proof: 'Bytes',
     header_hash: 'H256'
   },
-  MMRProof: 'Vec<H256>',
+  EthereumReceiptProofThing: '(EthereumHeader, EthereumReceiptProof, MMRProof)',
+  MMRProof: {
+    member_leaf_index: 'u64',
+    last_leaf_index: 'u64',
+    proof: 'Vec<H256>'
+  },
   OtherSignature: {
     _enum: {
       Eth: 'EcdsaSignature',
@@ -214,12 +224,16 @@ export default {
     mmr_root: 'Hash'
   },
   Round: 'u64',
-  TcBlockNumber: 'Vec<u8>',
-  TcHeaderHash: 'Vec<u8>',
-  TcHeaderMMR: 'Vec<u8>',
-  MMRHash: 'Vec<u8>',
+  TcHeaderThingWithProof: 'EthereumHeaderThingWithProof',
+  TcHeaderThing: 'EthereumHeaderThing',
+  TcBlockNumber: 'u64',
+  TcHeaderHash: 'H256',
   GameId: 'TcBlockNumber',
-  RawHeaderThing: 'Vec<u8>',
+  RelayProposalT: {
+    relayer: 'AccountId',
+    bonded_proposal: 'Vec<(Balance, TcHeaderThing)>',
+    extend_from_header_hash: 'Option<TcHeaderHash>'
+  },
   BalancesRuntimeDispatchInfo: {
     usable_balance: 'Balance'
   },

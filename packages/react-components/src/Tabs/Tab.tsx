@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TabItem } from './types';
 
@@ -57,6 +56,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 export default React.memo(styled(Tab)`
   border-bottom: 2px solid transparent;
   color: #4e4e4e !important;
+  margin-bottom: -3px;
   padding: 0.5rem 1.5rem 0.75rem;
 
   &.tabLinkActive {

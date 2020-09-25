@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Signer, SignerResult } from '@polkadot/api/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
+
+import { lockAccount } from '../util';
 
 let id = 0;
 
@@ -21,6 +22,7 @@ export default class AccountSigner implements Signer {
     return new Promise((resolve): void => {
       const signed = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.#keyringPair);
 
+      lockAccount(this.#keyringPair);
       resolve({ id: ++id, ...signed });
     });
   }

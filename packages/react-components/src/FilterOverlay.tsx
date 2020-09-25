@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
@@ -31,7 +30,7 @@ export default React.memo(styled(FilterOverlay)`
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    right: 5rem;
+    right: 1.5rem;
     top: 0.525rem;
 
     > div {

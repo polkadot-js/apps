@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveProposal } from '@polkadot/api-derive/types';
 
@@ -37,7 +36,7 @@ function Proposal ({ className = '', value: { balance, image, imageHash, index, 
       <td className='number together media--1200'>
         <FormatBalance value={balance} />
       </td>
-      <td>
+      <td className='expand'>
         {seconding.length !== 0 && (
           <Expander summary={t<string>('Seconds ({{count}})', { replace: { count: seconding.length } })}>
             {seconding.map((address, count): React.ReactNode => (

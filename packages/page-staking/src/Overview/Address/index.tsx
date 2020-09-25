@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
@@ -140,11 +139,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )
       }
-      <td className='number media--1100'>
-        {stakeOwn?.gtn(0) && (
-          <FormatBalance value={stakeOwn} />
-        )}
-      </td>
+      {isMain && (
+        <td className='number media--1100'>
+          {stakeOwn?.gtn(0) && (
+            <FormatBalance value={stakeOwn} />
+          )}
+        </td>
+      )}
       <td className='number'>
         {commission}
       </td>
@@ -161,6 +162,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       <td>
         {hasQueries && (
           <Icon
+            className='highlight--color'
             icon='chart-line'
             onClick={_onQueryStats}
           />

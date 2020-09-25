@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
@@ -190,12 +189,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
       getLedger()
-        .getAddress(true)
+        .getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0)
         .catch((error): void => {
           console.error(`ledger: ${(error as Error).message}`);
         });
     },
-    []
+    [meta]
   );
 
   if (!isVisible) {

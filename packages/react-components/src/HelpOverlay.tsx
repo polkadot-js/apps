@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import ReactMd from 'react-markdown';
@@ -46,7 +45,7 @@ export default React.memo(styled(HelpOverlay)`
   .help-button {
     cursor: pointer;
     font-size: 2rem;
-    padding: 1rem 2.5rem 0 0;
+    padding: 1rem 1.5rem 0 0;
   }
 
   > .help-button {

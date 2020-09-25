@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
@@ -19,7 +18,8 @@ import nodle from './nodle';
 import plasm from './plasm';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
-import subsocialNode from './subsocial';
+import stafi from './stafi';
+import subsocial from './subsocial';
 
 export default {
   Crab: crab,
@@ -42,5 +42,6 @@ export default {
   robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
-  subsocial: subsocialNode
+  stafi,
+  subsocial
 };

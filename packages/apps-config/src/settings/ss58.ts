@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/ui-settings authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TFunction } from 'i18next';
 import { Option } from './types';
@@ -47,6 +46,11 @@ export default function create (t: TFunction): Option[] {
       info: 'plasm',
       text: t<string>('ss58.plasm', 'Plasm (live)', { ns: 'apps-config' }),
       value: 5
+    },
+    {
+      info: 'stafi',
+      text: t<string>('ss58.stafi', 'Stafi (live)', { ns: 'apps-config' }),
+      value: 20
     },
     {
       info: 'subsocial',
