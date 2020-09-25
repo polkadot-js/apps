@@ -57,9 +57,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
 
   const _onChangePass = useCallback(
     (password: string) => {
-      const valid = keyring.isPassValid(password);
-
-      console.log('password', valid);
       setPass({ isPassValid: keyring.isPassValid(password), password });
     },
     []
@@ -76,7 +73,6 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
-          // keyring.addPair(pair, password);
           json && keyring.restoreAccount(json, password);
 
           status.status = 'success';
