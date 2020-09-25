@@ -45,14 +45,23 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
   const apiGenesisHash = useMemo(() => isDevelopment ? null : api.genesisHash.toHex(), [api, isDevelopment]);
   const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
+  const [json, setJson] = useState<KeyringPair$Json | null>(null);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setPair(parseFile(file, apiGenesisHash)),
+    (file: Uint8Array) => {
+      setPair(parseFile(file, apiGenesisHash));
+      setJson(JSON.parse(u8aToString(file)) as KeyringPair$Json);
+    },
     [apiGenesisHash]
   );
 
   const _onChangePass = useCallback(
-    (password: string) => setPass({ isPassValid: keyring.isPassValid(password), password }),
+    (password: string) => {
+      const valid = keyring.isPassValid(password);
+
+      console.log('password', valid);
+      setPass({ isPassValid: keyring.isPassValid(password), password });
+    },
     []
   );
 
@@ -67,7 +76,8 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
-          keyring.addPair(pair, password);
+          // keyring.addPair(pair, password);
+          json && keyring.restoreAccount(json, password);
 
           status.status = 'success';
           status.account = pair.address;
@@ -90,7 +100,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         }
       }, 0);
     },
-    [onClose, onStatusChange, pair, password, t]
+    [json, onClose, onStatusChange, pair, password, t]
   );
 
   return (
