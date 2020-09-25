@@ -3,7 +3,6 @@
 
 import NewPasswordInput from '@polkadot/app-accounts/modals/PasswordInputNew';
 import CreateConfirmation from '@polkadot/app-accounts/modals/CreateConfirmation';
-import ExternalWarning from '@polkadot/app-accounts/modals/ExternalWarning';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import { ModalProps } from '@polkadot/app-accounts/types';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
@@ -22,6 +21,7 @@ import { AddressRow,
   Modal } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import TextAreaWithLabel from '@polkadot/react-components/TextAreaWithLabel';
+import InfoBox from '@polkadot/app-accounts/modals/InfoBox';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { CreateResult } from '@polkadot/ui-keyring/types';
@@ -313,10 +313,12 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           value={isSeedValid ? address : ''}
         />
         {step === 1 && <>
-          <article className='ui--Warning'>
-            <Icon icon='exclamation-triangle' />
-            <div>{t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}</div>
-          </article>
+          <InfoBox
+            icon='exclamation-triangle'
+            type='alert'
+            upperCase
+            value="Please write down your wallet's mnemonic seed and keep it in a safe place"
+          />
           <TextAreaWithLabel
             className='ui--TextArea-lineHeight'
             help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
@@ -354,6 +356,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
             </button>
           </div>
+          <InfoBox
+            icon='exclamation-triangle'
+            type='alert'
+            value='Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security. Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.'
+          />
           <Expander
             className='accounts--Creator-advanced'
             iconPlacement='left'
@@ -401,7 +408,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             onChange={_toggleMnemonicSaved}
             value={isMnemonicSaved}
           />
-          <ExternalWarning />
         </>}
         {step === 2 && <>
           <InputSection>
@@ -504,25 +510,6 @@ export default styled(Create)`
       svg {
         background: none;
         color: #000;
-      }
-    }
-    .ui--Warning {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 0.7rem 0.9rem 0.6rem;
-      margin: 0 0 16px;
-      background: rgba(232, 111, 0, 0.08);
-      border: 0;
-      border-radius: 4px;
-      font-weight: 800;
-      font-size: 10px;
-      line-height: 14px;
-      color: #E86F00;
-      text-transform: uppercase;
-
-      svg {
-        margin-right: 12px;
       }
     }
     .ui--Buttons-row {
