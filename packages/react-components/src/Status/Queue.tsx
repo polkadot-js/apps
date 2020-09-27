@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DispatchError } from '@polkadot/types/interfaces';
@@ -64,7 +63,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
           if (dispatchError.isModule) {
             try {
               const mod = dispatchError.asModule;
-              const error = registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+              const error = dispatchError.registry.findMetaError(mod);
 
               message = `${error.section}.${error.name}`;
             } catch (error) {

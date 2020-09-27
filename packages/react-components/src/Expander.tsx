@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useMemo } from 'react';
@@ -30,6 +29,16 @@ export interface Props {
   withHidden?: boolean;
 }
 
+function splitSingle (value: string[], sep: string): string[] {
+  return value.reduce((result: string[], value: string): string[] => {
+    return value.split(sep).reduce((result: string[], value: string) => result.concat(value), result);
+  }, []);
+}
+
+function splitParts (value: string): string[] {
+  return ['[', ']'].reduce((result: string[], sep) => splitSingle(result, sep), [value]);
+}
+
 function formatMeta (meta?: Meta): React.ReactNode | null {
   if (!meta || !meta.documentation.length) {
     return null;
@@ -37,12 +46,14 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
 
   const strings = meta.documentation.map((doc) => doc.toString().trim());
   const firstEmpty = strings.findIndex((doc) => !doc.length);
-
-  return (
+  const combined = (
     firstEmpty === -1
       ? strings
       : strings.slice(0, firstEmpty)
-  ).join(' ');
+  ).join(' ').replace(/#(<weight>| <weight>).*<\/weight>/, '');
+  const parts = splitParts(combined.replace(/\\/g, '').replace(/`/g, ''));
+
+  return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
 function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
@@ -135,6 +146,10 @@ export default React.memo(styled(Expander)`
       text-overflow: ellipsis;
       vertical-align: middle;
       white-space: nowrap;
+
+      span {
+        white-space: normal;
+      }
     }
 
     .ui--Icon {

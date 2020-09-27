@@ -1,11 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
 import { Badge, Icon } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
 
@@ -15,7 +13,6 @@ interface Props {
 
 function Ledgend ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
 
   return (
     <div className={className}>
@@ -50,7 +47,7 @@ function Ledgend ({ className }: Props): React.ReactElement<Props> {
       <span>
         <Badge
           color='red'
-          info={api.consts.staking?.maxNominatorRewardedPerValidator?.toString() || '64'}
+          icon='balance-scale-right'
         />
         {t('Oversubscribed')}
       </span>

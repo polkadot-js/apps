@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { BareProps as Props } from '@polkadot/react-components/types';
 
@@ -18,7 +17,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
-    <div className={`${className} media--1400`}>
+    <div className={`${className} media--1400 highlight--color-contrast`}>
       {isApiReady && (
         <div>
           <NodeName />&nbsp;

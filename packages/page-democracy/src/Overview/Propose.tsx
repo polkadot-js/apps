@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 import { Input, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { isHex } from '@polkadot/util';
 
@@ -27,6 +26,7 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
   const [accountId, setAccountId] = useState<string | null>(null);
   const [balance, setBalance] = useState<BN | undefined>();
   const [{ hash, isHashValid }, setHash] = useState<HashState>({ hash: '', isHashValid: false });
+  const publicProps = useCall<unknown[]>(api.query.democracy.publicProps);
 
   const _onChangeHash = useCallback(
     (hash?: string): void => setHash({ hash, isHashValid: isHex(hash, 256) }),
@@ -100,10 +100,14 @@ function Propose ({ className = '', onClose }: Props): React.ReactElement<Props>
         <TxButton
           accountId={accountId}
           icon='plus'
-          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId}
+          isDisabled={!balance || !hasMinLocked || !isHashValid || !accountId || !publicProps}
           label={t<string>('Submit proposal')}
           onStart={onClose}
-          params={[hash, balance]}
+          params={
+            api.tx.democracy.propose.meta.args.length === 3
+              ? [hash, balance, publicProps?.length]
+              : [hash, balance]
+          }
           tx='democracy.propose'
         />
       </Modal.Actions>

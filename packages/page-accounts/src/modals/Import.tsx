@@ -1,29 +1,23 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { KeyringPair$Json } from '@polkadot/keyring/types';
+import { KeyringPair, KeyringPair$Json } from '@polkadot/keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AddressRow, Button, InputAddress, InputFile, Modal, Password } from '@polkadot/react-components';
-import { hexToU8a, isHex, isObject, u8aToString } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
+import { useApi } from '@polkadot/react-hooks';
+import { u8aToString } from '@polkadot/util';
 import keyring from '@polkadot/ui-keyring';
 
 import { useTranslation } from '../translate';
+import ExternalWarning from './ExternalWarning';
 
 interface Props extends ModalProps {
   className?: string;
   onClose: () => void;
   onStatusChange: (status: ActionStatus) => void;
-}
-
-interface FileState {
-  address: string | null;
-  isFileValid: boolean;
-  json: KeyringPair$Json | null;
 }
 
 interface PassState {
@@ -33,43 +27,28 @@ interface PassState {
 
 const acceptedFormats = ['application/json', 'text/plain'].join(', ');
 
-function parseFile (file: Uint8Array): FileState {
+function parseFile (file: Uint8Array, genesisHash?: string | null): KeyringPair | null {
   try {
-    const json = JSON.parse(u8aToString(file)) as KeyringPair$Json;
-    const publicKey = isHex(json.address)
-      ? hexToU8a(json.address)
-      : keyring.decodeAddress(json.address, true);
-    const address = keyring.encodeAddress(
-      isHex(json.address) && Array.isArray(json.encoding.content) && publicKey.length !== 32
-        ? json.encoding.content[1] === 'ecdsa'
-          ? blake2AsU8a(publicKey)
-          // FIXME Handle Ethereum
-          : publicKey
-        : publicKey
-    );
-    const isFileValid = [32, 33].includes(publicKey.length) && !!json.encoded && isObject(json.meta) && (
-      Array.isArray(json.encoding.content)
-        ? json.encoding.content[0] === 'pkcs8'
-        : json.encoding.content === 'pkcs8'
-    );
-
-    return { address, isFileValid, json };
+    return keyring.createFromJson(JSON.parse(u8aToString(file)) as KeyringPair$Json, { genesisHash });
   } catch (error) {
     console.error(error);
   }
 
-  return { address: null, isFileValid: false, json: null };
+  return null;
 }
 
 function Import ({ className = '', onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api, isDevelopment } = useApi();
   const [isBusy, setIsBusy] = useState(false);
-  const [{ address, isFileValid, json }, setFile] = useState<FileState>({ address: null, isFileValid: false, json: null });
+  const [pair, setPair] = useState<KeyringPair | null>(null);
   const [{ isPassValid, password }, setPass] = useState<PassState>({ isPassValid: false, password: '' });
+  const apiGenesisHash = useMemo(() => isDevelopment ? null : api.genesisHash.toHex(), [api, isDevelopment]);
+  const differentGenesis = useMemo(() => pair?.meta.genesisHash && pair.meta.genesisHash !== apiGenesisHash, [apiGenesisHash, pair]);
 
   const _onChangeFile = useCallback(
-    (file: Uint8Array) => setFile(parseFile(file)),
-    []
+    (file: Uint8Array) => setPair(parseFile(file, apiGenesisHash)),
+    [apiGenesisHash]
   );
 
   const _onChangePass = useCallback(
@@ -79,7 +58,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
 
   const _onSave = useCallback(
     (): void => {
-      if (!json) {
+      if (!pair) {
         return;
       }
 
@@ -88,14 +67,13 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         const status: Partial<ActionStatus> = { action: 'restore' };
 
         try {
-          const pair = keyring.restoreAccount(json, password);
-          const { address } = pair;
+          keyring.addPair(pair, password);
 
-          status.status = pair ? 'success' : 'error';
-          status.account = address;
+          status.status = 'success';
+          status.account = pair.address;
           status.message = t<string>('account restored');
 
-          InputAddress.setLastValue('account', address);
+          InputAddress.setLastValue('account', pair.address);
         } catch (error) {
           setPass((state: PassState) => ({ ...state, isPassValid: false }));
 
@@ -112,7 +90,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         }
       }, 0);
     },
-    [json, onClose, onStatusChange, password, t]
+    [onClose, onStatusChange, pair, password, t]
   );
 
   return (
@@ -125,9 +103,9 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
         <Modal.Columns>
           <Modal.Column>
             <AddressRow
-              defaultName={(isFileValid && json?.meta.name as string) || null}
+              defaultName={(pair?.meta.name as string) || null}
               noDefaultNameOpacity
-              value={isFileValid && address ? address : null}
+              value={pair?.address || null}
             />
           </Modal.Column>
         </Modal.Columns>
@@ -137,7 +115,7 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
               accept={acceptedFormats}
               className='full'
               help={t<string>('Select the JSON key file that was downloaded when you created the account. This JSON file contains your private key encrypted with your password.')}
-              isError={!isFileValid}
+              isError={!pair}
               label={t<string>('backup file')}
               onChange={_onChangeFile}
               withLabel
@@ -164,12 +142,18 @@ function Import ({ className = '', onClose, onStatusChange }: Props): React.Reac
             <p>{t<string>('The password previously used to encrypt this account.')}</p>
           </Modal.Column>
         </Modal.Columns>
+        { differentGenesis &&
+            <article className='warning'>
+              <p>{t<string>('The network from which this account was originally generated is different than the network you are currently connected to. Once imported ensure you toggle the "allow on any network" option for the account to keep it visible on the current network.')}</p>
+            </article>
+        }
+        <ExternalWarning />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sync'
           isBusy={isBusy}
-          isDisabled={!isFileValid || !isPassValid}
+          isDisabled={!pair || !isPassValid}
           label={t<string>('Restore')}
           onClick={_onSave}
         />

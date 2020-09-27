@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Group } from './types';
 
@@ -29,7 +28,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
 
   return (
     <li className={className}>
-      <div className='groupHdr'>
+      <div className='groupHdr  highlight--color-contrast'>
         <span>{name}</span>
         <Icon icon='caret-down' />
       </div>
@@ -78,11 +77,10 @@ export default React.memo(styled(Grouping)`
   }
 
   &:hover {
-    color: #4e4e4e;
-
     .groupHdr,
     .groupMenu li {
       background: #fff;
+      color: #4e4e4e;
     }
 
     .groupHdr {

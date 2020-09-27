@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Route, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
@@ -161,14 +160,13 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Menu)`
   align-items: center;
-  color: #f5f3f1;
   display: flex;
   justify-content: space-between;
   padding: 0;
   z-index: 220;
 
   &.isLoading {
-    background: #888 !important;
+    background: #999 !important;
 
     &:before {
       filter: grayscale(1);

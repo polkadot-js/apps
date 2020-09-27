@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useRef, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
@@ -27,7 +26,7 @@ async function queryLedger (accountOffset: number, addressOffset: number): Promi
     const ledger = getLedger();
     const { address } = await ledger.getAddress(false, accountOffset, addressOffset);
 
-    keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: 'ledger' });
+    keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: `ledger ${accountOffset}/${addressOffset}` });
   } catch (error) {
     console.error(error);
 
