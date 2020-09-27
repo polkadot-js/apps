@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { BitLengthOption } from '@polkadot/react-components/constants';
-import { BN_TEN, BN_THOUSAND, formatBalance, isBn } from '@polkadot/util';
+import { BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
 import InputNumber from './InputNumber';
 
@@ -35,11 +35,13 @@ interface Props {
   withMax?: boolean;
 }
 
+const BN_TEN_THOUSAND = new BN(10_000);
 const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 
 function reformat (value: string | BN, isDisabled?: boolean): string {
   if (isBn(value)) {
-    let fmt = (value.mul(BN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 1000).toFixed(3);
+    // format for 4 decimals (align with util)
+    let fmt = (value.mul(BN_TEN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 10000).toFixed(4);
 
     while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
       const isLast = fmt.endsWith('.');
