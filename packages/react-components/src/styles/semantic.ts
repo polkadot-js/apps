@@ -104,9 +104,9 @@ export default css`
   }
 
   .ui.modal {
-    background: #f9f8f7;
+    background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
-    color: #4e4e4e;
+    color: ${({ theme }: ThemeProps) => theme.color};
     font-family: sans-serif;
 
     > .actions,
@@ -124,7 +124,7 @@ export default css`
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: rgba(0, 0, 0, .6);
+      color: ${({ theme }: ThemeProps) => theme.colorSummary};
       font-family: sans-serif;
       font-size: 1.75rem;
       font-weight: 100;
