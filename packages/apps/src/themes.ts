@@ -13,6 +13,7 @@ export const darkTheme: ThemeDef = {
   borderTable: 'transparent',
   borderTabs: 'transparent',
   color: 'rgba(254, 242, 240, 0.9)',
+  colorError: 'rgba(255, 0, 0, 0.85)',
   colorLabel: 'rgba(254, 242, 240, 0.45)',
   colorSummary: 'rgba(254, 242, 240, 0.9)',
   theme: 'dark'
@@ -28,6 +29,7 @@ export const lightTheme: ThemeDef = {
   borderTable: '#eeecea',
   borderTabs: '#eeecea',
   color: '#4e4e4e',
+  colorError: 'rgba(139, 0, 0)',
   colorLabel: 'rgba(78, 78, 78, 0.66)',
   colorSummary: 'rgba(0, 0, 0, 0.6)',
   theme: 'light'

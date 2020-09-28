@@ -135,6 +135,7 @@ export interface ThemeDef {
   borderTable: string;
   borderTabs: string;
   color: string;
+  colorError: string;
   colorLabel: string;
   colorSummary: string;
   theme: 'dark' | 'light';

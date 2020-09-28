@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { AppProps as Props } from '@polkadot/react-components/types';
+import { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -175,7 +175,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   );
 }
 
-export default React.memo(styled(StakingApp)`
+export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .staking--hidden {
     display: none;
   }
@@ -204,7 +204,7 @@ export default React.memo(styled(StakingApp)`
 
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
-      color: darkred;
+      color: ${theme.colorError};
     }
   }
-`);
+`));

@@ -224,7 +224,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   }
 
   article {
-    background: white;
+    background: ${({ theme }) => theme.bgTable};
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
