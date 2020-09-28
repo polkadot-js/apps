@@ -14,11 +14,11 @@ export default {
     miscFrozen: 'Balance',
     feeFrozen: 'Balance',
     txCount: 'u32',
-    sessionIndex: 'u32',
+    sessionIndex: 'u32'
   },
   TemplateAccountData: {
     txCount: 'u32',
-    sessionIndex: 'u32',
+    sessionIndex: 'u32'
   },
   TxCount: 'u32',
   Value: 'u128',
@@ -27,15 +27,15 @@ export default {
   TxHash: 'H256',
   TransactionOutput: {
     value: 'Value',
-    pubkey: 'AccountId',
+    pubkey: 'AccountId'
   },
   SignedPair: {
     input: 'Vec<UtxoHash>',
-    output: 'Vec<TransactionOutput>',
+    output: 'Vec<TransactionOutput>'
   },
   ArchivedTransaction: 'Vec<ArchivedPair>',
   ArchivedPair: {
     inputs: 'Vec<TransactionOutput>',
-    outputs: 'Vec<UtxoHash>',
+    outputs: 'Vec<UtxoHash>'
   }
 };
