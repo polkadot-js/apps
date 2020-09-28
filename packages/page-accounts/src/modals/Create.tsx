@@ -293,7 +293,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   return (
     <Modal
-      className={`${className} ui--CreateAccount-new-create-modal ui--Modal-Wrapper medium`}
+      className={`${className} ui--CreateAccount-new-create-modal ui--Modal-Wrapper ${!areHintsVisible ? 'medium' : 'mediumWithHints'}`}
       header={t<string>('Add an account via seed {{step}}/{{NUM_STEPS}}', {
         replace: {
           NUM_STEPS,
@@ -326,30 +326,37 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             upperCase
             value={t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}
           />
-          <TextAreaWithLabel
-            className='ui--TextArea-lineHeight'
-            help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-            isAction
-            isError={!isSeedValid}
-            isReadOnly={seedType === 'dev'}
-            label={
-              seedType === 'bip'
-                ? t<string>('mnemonic seed')
-                : seedType === 'dev'
-                  ? t<string>('development seed')
-                  : t<string>('seed (hex or string)')
-            }
-            onChange={_onChangeSeed}
-            seed={seed}
-          >
-            <DropdownNew
-              classNameButton='seedDropdown'
-              defaultValue={seedType}
-              isButton
-              onChange={_selectSeedType}
-              options={seedOpt}
-            />
-          </TextAreaWithLabel>
+          <Modal.Columns>
+            <Modal.Column>
+              <TextAreaWithLabel
+                className='ui--TextArea-lineHeight'
+                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+                isAction
+                isError={!isSeedValid}
+                isReadOnly={seedType === 'dev'}
+                label={
+                  seedType === 'bip'
+                    ? t<string>('mnemonic seed')
+                    : seedType === 'dev'
+                      ? t<string>('development seed')
+                      : t<string>('seed (hex or string)')
+                }
+                onChange={_onChangeSeed}
+                seed={seed}
+              >
+                <DropdownNew
+                  classNameButton='seedDropdown'
+                  defaultValue={seedType}
+                  isButton
+                  onChange={_selectSeedType}
+                  options={seedOpt}
+                />
+              </TextAreaWithLabel>
+            </Modal.Column>
+            <Modal.Column>
+              <p className='ui--Hint'>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
           <div className='ui--Buttons-row'>
             <CopyToClipboard
               className='ui--Print-btn'
@@ -374,49 +381,63 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             isOpen={false}
             summary={t<string>('Advanced creation options')}
           >
-            <InputSection>
-              <DropdownNew
-                defaultValue={pairType}
-                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                label={t<string>('keypair crypto type')}
-                onChange={_onChangePairType}
-                options={uiSettings.availableCryptos}
-              />
-            </InputSection>
-            <InputSection>
-              <InputNew
-                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                isError={!!deriveValidation?.error}
-                label={t<string>('secret derivation path')}
-                onChange={_onChangeDerive}
-                onEnter={_onCommit}
-                placeholder={
-                  seedType === 'raw'
-                    ? pairType === 'sr25519'
-                      ? t<string>('//hard/soft')
-                      : t<string>('//hard')
-                    : pairType === 'sr25519'
-                      ? t<string>('//hard/soft///password')
-                      : t<string>('//hard///password')
-                }
-                tabIndex={-1}
-                value={derivePath}
-              />
-              {deriveValidation?.error && (
-                <InfoBox
-                  icon='exclamation-triangle'
-                  type='error'
-                  value={errorIndex[deriveValidation.error] || deriveValidation.error}
-                />
-              )}
-              {deriveValidation?.warning && (
-                <InfoBox
-                  icon='exclamation-triangle'
-                  type='alert'
-                  value={errorIndex[deriveValidation.warning]}
-                />
-              )}
-            </InputSection>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputSection>
+                  <DropdownNew
+                    defaultValue={pairType}
+                    help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                    label={t<string>('keypair crypto type')}
+                    onChange={_onChangePairType}
+                    options={uiSettings.availableCryptos}
+                  />
+                </InputSection>
+              </Modal.Column>
+              <Modal.Column>
+                <p className='ui--Hint'>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <InputSection>
+                  <InputNew
+                    help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                    isError={!!deriveValidation?.error}
+                    label={t<string>('secret derivation path')}
+                    onChange={_onChangeDerive}
+                    onEnter={_onCommit}
+                    placeholder={
+                      seedType === 'raw'
+                        ? pairType === 'sr25519'
+                          ? t<string>('//hard/soft')
+                          : t<string>('//hard')
+                        : pairType === 'sr25519'
+                          ? t<string>('//hard/soft///password')
+                          : t<string>('//hard///password')
+                    }
+                    tabIndex={-1}
+                    value={derivePath}
+                  />
+                  {deriveValidation?.error && (
+                    <InfoBox
+                      icon='exclamation-triangle'
+                      type='error'
+                      value={errorIndex[deriveValidation.error] || deriveValidation.error}
+                    />
+                  )}
+                  {deriveValidation?.warning && (
+                    <InfoBox
+                      icon='exclamation-triangle'
+                      type='alert'
+                      value={errorIndex[deriveValidation.warning]}
+                    />
+                  )}
+                </InputSection>
+              </Modal.Column>
+              <Modal.Column>
+                <p className='ui--Hint'>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+              </Modal.Column>
+            </Modal.Columns>
           </Expander>
           <Checkbox
             label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
@@ -516,6 +537,31 @@ export default styled(Create)`
   }
   &.ui--Modal-Wrapper.medium {
     width: 655px;
+    .ui--Modal-Column {
+      &:nth-child(1) {
+        flex: 100%;
+        max-width: 100%;
+      }
+    
+      &:nth-child(2) {
+        display: none;
+        flex: 0%;
+      }
+    }
+  }
+  &.ui--Modal-Wrapper.mediumWithHints {
+    width: 1031px;
+    .ui--Modal-Column {
+      &:nth-child(1) {
+        flex: 65%;
+        max-width: 65%;
+      }
+    
+      &:nth-child(2) {
+        display: flex;
+        flex: 35%;
+      }
+    }
   }
   &&.ui--Modal-Wrapper {
     border-radius: 0;
@@ -563,6 +609,11 @@ export default styled(Create)`
     font-size: 1.45rem;
     line-height: 1.75rem;
     color: #000000;
+  }
+  .ui--Hint {
+    background: #ECECEC;
+    border-radius: 4px;
+    padding: 8px 8px;
   }
   .ui--Modal-Footer {
     display: flex;

@@ -149,7 +149,7 @@ export default React.memo(styled(Labelled)`
     }
   }
   
-  .ui--CreateAccount-new-create-modal div:not(.ui--Modal-Column) > &.ui--Labelled {
+  .ui--CreateAccount-new-create-modal div.ui--Modal-Column > &.ui--Labelled,  .ui--CreateAccount-new-create-modal div:not(.ui--Modal-Column) > &.ui--Labelled {
      > label {
         font-weight: 800;
         font-size: 10px;
