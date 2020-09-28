@@ -33,13 +33,15 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
         <ChainImg />
         <div className='info media--1000'>
           <Chain className='chain' />
-          {runtimeVersion && (
-            <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
-          )}
-          <BestNumber
-            className='bestNumber'
-            label='#'
-          />
+          <div className='info-text-wrapper'>
+            {runtimeVersion && (
+              <div className='runtimeVersion'>{t<string>('version {{version}}', { replace: { version: runtimeVersion.specVersion.toNumber() } })}</div>
+            )}
+            <BestNumber
+              className='bestNumber'
+              label='#'
+            />
+          </div>
         </div>
         {canToggle && (
           <Icon
@@ -78,7 +80,6 @@ export default React.memo(styled(ChainInfo)`
 
     .ui--Icon.dropdown,
     > div.info {
-      text-align: right;
       vertical-align: middle;
     }
 
@@ -90,17 +91,27 @@ export default React.memo(styled(ChainInfo)`
 
     .info {
       flex: 1;
-      padding-right: 0.5rem;
+      padding-right: 0.571rem;
 
-      .bestNumber,
-      .chain {
-        font-size: 0.9rem;
-        line-height: 1.2;
+      .info-text-wrapper {
+        display: flex;
+        align-items: center;
       }
 
+      .chain {
+        font-weight: 600;
+        font-size: 1.142rem;
+        line-height: 1.571rem;
+      }
+
+      .bestNumber,
       .runtimeVersion {
-        font-size: 0.75rem;
-        line-height: 1.2;
+        font-size: 0.715rem;
+        line-height: 1.4rem;
+      }
+
+      .bestNumber {
+        margin-left: .5715rem;
       }
     }
   }
