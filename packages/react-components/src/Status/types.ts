@@ -9,11 +9,18 @@ import { DefinitionRpcExt, SignerPayloadJSON } from '@polkadot/types/types';
 
 export type Actions = 'create' | 'edit' | 'restore' | 'forget' | 'backup' | 'changePassword' | 'transfer';
 
-export interface ActionStatus {
+export interface ActionStatusBase {
   account?: AccountId | Address | string;
-  action: Actions | string;
   message?: string;
   status: 'error' | 'event' | 'queued' | 'received' | 'success';
+}
+
+export interface ActionStatusPartial extends ActionStatusBase {
+  action: Actions | string;
+}
+
+export interface ActionStatus extends ActionStatusBase {
+  action: Actions | string | string[];
 }
 
 export interface AccountInfo {
