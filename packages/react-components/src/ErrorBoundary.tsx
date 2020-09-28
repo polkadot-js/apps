@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { I18nProps } from './types';
 
@@ -11,6 +10,7 @@ import translate from './translate';
 interface Props extends I18nProps {
   children: React.ReactNode;
   doThrow?: boolean;
+  error?: Error | null;
   onError?: () => void;
   trigger?: unknown;
 }
@@ -47,14 +47,15 @@ class ErrorBoundary extends React.Component<Props> {
   }
 
   public render (): React.ReactNode {
-    const { children, t } = this.props;
+    const { children, error: errorProps, t } = this.props;
     const { error } = this.state;
+    const displayError = errorProps || error;
 
-    return error
+    return displayError
       ? (
         <article className='error extraMargin'>
           {t<string>('Uncaught error. Something went wrong with the query and rendering of this component. {{message}}', {
-            replace: { message: error.message }
+            replace: { message: displayError.message }
           })}
         </article>
       )

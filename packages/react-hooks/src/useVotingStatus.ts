@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { BlockNumber, Votes } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
+import { isFunction } from '@polkadot/util';
 
 import useApi from './useApi';
 import useCall from './useCall';
@@ -39,9 +39,11 @@ function getStatus (api: ApiPromise, bestNumber: BlockNumber, votes: Votes, numM
   return {
     hasFailed,
     hasPassed,
-    isCloseable: api.tx[section].close?.meta.args.length === 4 // current-generation
-      ? isEnd || hasPassed || hasFailed
-      : isEnd,
+    isCloseable: isFunction(api.tx[section].close)
+      ? api.tx[section].close.meta.args.length === 4 // current-generation
+        ? isEnd || hasPassed || hasFailed
+        : isEnd
+      : false,
     isVoteable: !isEnd,
     remainingBlocks: isEnd
       ? null

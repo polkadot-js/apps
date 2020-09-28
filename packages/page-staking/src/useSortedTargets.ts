@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
@@ -66,8 +65,9 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const list = info.map(({ accountId, exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    let bondOwn = exposure.own.unwrap();
-    let bondTotal = exposure.total.unwrap();
+    // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
+    let bondOwn = exposure.own?.unwrap() || BN_ZERO;
+    let bondTotal = exposure.total?.unwrap() || BN_ZERO;
     const skipRewards = bondTotal.isZero();
 
     if (bondTotal.isZero()) {

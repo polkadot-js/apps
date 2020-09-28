@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 // structs need to be in order
 /* eslint-disable sort-keys */
@@ -8,6 +7,7 @@
 export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
+  RefCount: 'u8',
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
@@ -97,8 +97,9 @@ export default {
     who: 'AccountId',
     ring_balance: 'Compact<Balance>',
     kton_balance: 'Compact<Balance>',
-    power: 'Power',
-    value: 'Compact<Balance>'
+    power: 'Power'
+    // not in https://github.com/darwinia-network/darwinia-common/blob/master/frame/staking/src/lib.rs
+    // value: 'Compact<Balance>'
   },
   ElectionResultT: {
     elected_stashes: 'Vec<AccountId>',

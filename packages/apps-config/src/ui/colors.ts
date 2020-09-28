@@ -1,10 +1,8 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 // defaults
-const defaultColor = undefined; // '#222222'
-const emptyColor = '#999';
+const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
@@ -12,8 +10,9 @@ const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainKulupu = '#003366';
 const chainPhala = '#4dc56a';
+const chainPlasm = '#2096F3';
 const chainPolkadot = '#e6007a';
-const chainKusama = '#000'; // '#d32e79';
+const chainKusama = '#000000';
 const chainRocco = '#6f36dc';
 const chainRoccoAcala = '#173DC9';
 const chainRoccoDarwinia = '#7C30DD';
@@ -46,6 +45,7 @@ const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['phala poc 2', chainPhala],
+  ['Plasm', chainPlasm],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],
@@ -77,7 +77,6 @@ const nodeColors: Record<string, any> = [
 }), {});
 
 export {
-  defaultColor,
   chainColors,
   emptyColor,
   nodeColors

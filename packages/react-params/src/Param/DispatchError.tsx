@@ -1,12 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DispatchError } from '@polkadot/types/interfaces';
 import { Props } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
 import { Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -35,7 +33,8 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
 
     if (isModuleError(value as ModuleErrorDefault)) {
       try {
-        const { documentation, name, section } = registry.findMetaError((value as DispatchError).asModule);
+        const mod = (value as DispatchError).asModule;
+        const { documentation, name, section } = mod.registry.findMetaError(mod);
 
         return setDetails({
           details: documentation.join(', '),

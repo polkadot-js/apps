@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, Hash } from '@polkadot/types/interfaces';
 
@@ -13,11 +12,12 @@ import { useTranslation } from '../translate';
 
 interface Props {
   hash: Hash | string;
+  members: string[];
   prime?: AccountId | null;
   proposalId: BN | number;
 }
 
-function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> | null {
+function Voting ({ hash, members, prime, proposalId }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { hasAccounts } = useAccounts();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -27,8 +27,6 @@ function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> 
     return null;
   }
 
-  const isPrime = accountId === prime?.toString();
-
   return (
     <>
       {isVotingOpen && (
@@ -37,8 +35,11 @@ function Voting ({ hash, prime, proposalId }: Props): React.ReactElement<Props> 
           size='small'
         >
           <Modal.Content>
-            <VoteAccount onChange={setAccountId} />
-            {isPrime && (
+            <VoteAccount
+              filter={members}
+              onChange={setAccountId}
+            />
+            {(accountId === prime?.toString()) && (
               <article className='warning'>
                 <div>{t<string>('You are voting with this collective\'s prime account. The vote will be the default outcome in case of any abstentions.')}</div>
               </article>

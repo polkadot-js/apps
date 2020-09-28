@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { CreateResult } from '@polkadot/ui-keyring/types';
@@ -21,6 +20,7 @@ import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
+import ExternalWarning from './ExternalWarning';
 import PasswordInput from './PasswordInput';
 
 interface Props extends ModalProps {
@@ -55,7 +55,6 @@ interface DeriveValidationOutput {
 }
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
-const isElectron = navigator.userAgent.toLowerCase().indexOf(' electron/') > -1;
 
 function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): DeriveValidationOutput {
   try {
@@ -340,11 +339,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               onChange={_onPasswordChange}
               onEnter={_onCommit}
             />
-            {!isElectron && (
-              <article className='warning'>
-                <p>{t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}&nbsp;{t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}</p>
-              </article>
-            )}
+            <ExternalWarning />
             <Expander
               className='accounts--Creator-advanced'
               isPadded

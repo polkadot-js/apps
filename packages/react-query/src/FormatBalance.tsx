@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import React from 'react';
@@ -28,17 +27,17 @@ const K_LENGTH = 3 + 1;
 function format (value: Compact<any> | BN | string, withCurrency = true, withSi?: boolean, _isShort?: boolean, labelPost?: string): React.ReactNode {
   const [prefix, postfix] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
-  const unitPost = withCurrency ? ` ${formatBalance.getDefaults().unit}` : '';
+  const unitPost = withCurrency ? formatBalance.getDefaults().unit : '';
 
   if (prefix.length > M_LENGTH) {
     const [major, rest] = formatBalance(value, { withUnit: false }).split('.');
-    const minor = rest.substr(0, 3);
-    const unit = rest.substr(3);
+    const minor = rest.substr(0, 4);
+    const unit = rest.substr(4);
 
-    return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span><span className='ui--FormatBalance-unit'>{unit}{unitPost}</span>{labelPost || ''}</>;
+    return <>{major}.<span className='ui--FormatBalance-postfix'>{minor}</span><span className='ui--FormatBalance-unit'>{unit}{unit ? unitPost : ` ${unitPost}`}</span>{labelPost || ''}</>;
   }
 
-  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && <span className='ui--FormatBalance-postfix'>{`000${postfix || ''}`.slice(-3)}</span>}<span className='ui--FormatBalance-unit'>{unitPost}</span>{labelPost || ''}</>;
+  return <>{`${prefix}${isShort ? '' : '.'}`}{!isShort && <span className='ui--FormatBalance-postfix'>{`0000${postfix || ''}`.slice(-4)}</span>}<span className='ui--FormatBalance-unit'> {unitPost}</span>{labelPost || ''}</>;
 }
 
 function FormatBalance ({ children, className = '', isShort, label, labelPost, value, withCurrency, withSi }: Props): React.ReactElement<Props> {
@@ -75,7 +74,7 @@ export default React.memo(styled(FormatBalance)`
   }
 
   .ui--FormatBalance-unit {
-    font-size: 0.85em;
+    font-size: 0.825em;
   }
 
   .ui--FormatBalance-value {
