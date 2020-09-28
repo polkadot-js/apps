@@ -51,12 +51,16 @@ function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
         : { ...status, action: `${status.action} (x${count})` }
     )
     .filter((status): boolean => {
-      if (status.account || status.action.startsWith('system.ExtrinsicFailed') || status.action.startsWith('system.ExtrinsicSuccess') || status.message !== EVENT_MESSAGE) {
+      if (status.message !== EVENT_MESSAGE) {
         return true;
       }
 
       if (others) {
-        (others.action as string[]).push(status.action);
+        if (status.action.startsWith('system.ExtrinsicSuccess')) {
+          (others.action as string[]).unshift(status.action);
+        } else {
+          (others.action as string[]).push(status.action);
+        }
       } else {
         others = {
           ...status,
