@@ -120,7 +120,7 @@ export default React.memo(
       & .ui--Row-address {
         font-family: 'Nunito Sans', sans-serif;
         color: #4D4D4D;
-        font-size: 12px;
+        font-size: 1rem;
         line-height: 16px;
         font-weight: normal;
       }
