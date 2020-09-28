@@ -142,7 +142,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           ))}
         </ul>
       </div>
-      <div className='menuSection media--1200'>
+      <div className='menuSection media--1200 centered'>
         <ul className='menuItems'>
           {externalRef.current.map((route): React.ReactNode => (
             <Item
@@ -176,25 +176,47 @@ export default React.memo(styled(Menu)`
       background: #f5f3f1;
     }
 
+    .menuActive::before {
+      background: #f5f3f1;
+    }
+
     .menuItems {
       filter: grayscale(1);
     }
   }
 
   .menuSection {
-    align-items: flex-end;
+    align-items: center;
     align-self: flex-end;
     display: flex;
   }
 
+  .centered {
+    margin: auto 0;
+  }
+
   .menuActive {
-    background: #fff;
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
     color: #4e4e4e;
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;
+    position: relative;
+
+    &::before {
+      content: '';
+      background: #fff;
+      width: 100%;
+      height: 52px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateY(.5rem);
+      border-top-left-radius: .2rem;
+      border-top-right-radius: .2rem;
+      z-index: -1;
+    }
 
     .ui--Icon {
       margin-right: 0.5rem;
