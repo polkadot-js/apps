@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.60.0-beta.29",
+  "version": "0.60.0",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -33,10 +33,10 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^1.35.0-beta.19",
-    "@polkadot/api-contract": "^1.35.0-beta.19",
+    "@polkadot/api": "^2.0.1",
+    "@polkadot/api-contract": "^2.0.1",
     "@polkadot/keyring": "^3.5.1",
-    "@polkadot/types": "^1.35.0-beta.19",
+    "@polkadot/types": "^2.0.1",
     "@polkadot/util": "^3.5.1",
     "@polkadot/util-crypto": "^3.5.1",
     "@polkadot/wasm-crypto": "^1.4.1",
