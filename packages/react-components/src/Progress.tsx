@@ -128,6 +128,7 @@ export default React.memo(styled(Progress)`
     background: rgba(245, 243, 241, 0.91);
     border-radius: 100%;
     bottom: 0.375rem;
+    color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     left: 0.375rem;

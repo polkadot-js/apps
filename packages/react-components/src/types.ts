@@ -126,12 +126,17 @@ export interface NullContract {
 }
 
 export interface ThemeDef {
+  bgInput: string;
+  bgMenu: string;
+  bgMenuHover: string;
   bgPage: string;
   bgTable: string;
   bgTabs: string;
   borderTable: string;
   borderTabs: string;
   color: string;
+  colorLabel: string;
+  colorSummary: string;
   theme: 'dark' | 'light';
 }
 

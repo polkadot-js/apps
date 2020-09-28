@@ -35,14 +35,6 @@ function getContrast (props: Props): string {
     : 'rgba(255, 253, 251, 0.875)';
 }
 
-function getThemeTableBg ({ theme }: ThemeProps): string {
-  return theme.bgTable;
-}
-
-function getThemeTextColor ({ theme }: ThemeProps): string {
-  return theme.color;
-}
-
 export default createGlobalStyle<Props & ThemeProps>`
   .highlight--all {
     background: ${getHighlight} !important;
@@ -68,7 +60,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: ${getThemeTableBg};
+    background: ${({ theme }) => theme.bgTable};
     position: relative;
 
     &:before {
@@ -221,7 +213,8 @@ export default createGlobalStyle<Props & ThemeProps>`
   }
 
   #root {
-    color: ${getThemeTextColor};
+    background: ${({ theme }) => theme.bgPage};
+    color: ${({ theme }) => theme.color};
     font-family: sans-serif;
     height: 100%;
   }
@@ -370,7 +363,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: ${({ theme }) => theme.colorLabel};
     display: block;
     font-family: sans-serif;
     font-size: 1rem;

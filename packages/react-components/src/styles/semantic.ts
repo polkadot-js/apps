@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
+
 import { css } from 'styled-components';
 
 export default css`
@@ -21,7 +23,13 @@ export default css`
 
   .ui.selection.dropdown,
   .ui.input > input {
-    color: inherit;
+    background: ${({ theme }: ThemeProps) => theme.bgInput};
+    color: ${({ theme }: ThemeProps) => theme.color};
+
+    &:focus {
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
+    }
   }
 
   .ui.action.input > .buttons {
