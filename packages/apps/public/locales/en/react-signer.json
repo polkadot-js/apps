@@ -51,5 +51,6 @@
   "sending from my account": "sending from my account",
   "signatory": "signatory",
   "unlock account with password": "unlock account with password",
+  "unlock for {{expiry}} min": "unlock for {{expiry}} min",
   "wrong password supplied": "wrong password supplied"
 }

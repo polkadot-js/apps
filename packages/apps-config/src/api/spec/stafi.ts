@@ -6,5 +6,6 @@
 
 export default {
   Address: 'AccountId',
-  LookupSource: 'AccountId'
+  LookupSource: 'AccountId',
+  RefCount: 'u8'
 };

@@ -14,5 +14,6 @@ export default {
     genesisBlockHash: 'H256',
     finalBlockHash: 'H256',
     finalStateRoot: 'H256'
-  }
+  },
+  RefCount: 'u8'
 };

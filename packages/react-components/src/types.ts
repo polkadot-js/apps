@@ -39,7 +39,7 @@ export interface TxTriggerProps {
 export type TxTrigger = React.ComponentType<TxTriggerProps>;
 
 export interface TxProps {
-  extrinsic?: SubmittableExtrinsic | null;
+  extrinsic?: SubmittableExtrinsic | SubmittableExtrinsic[] | null;
   tx?: string;
   params?: any[] | ConstructTxFn;
 }

@@ -32,10 +32,6 @@ export default css`
     }
 
     .ui--Button {
-      &:hover:not(.isDisabled) {
-        filter: brightness(110%);
-      }
-
       &.isIcon:not(.isDisabled):not(.withoutLink):not(:hover) {
         .ui--Icon {
           color: ${colorLink};

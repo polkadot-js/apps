@@ -26,7 +26,7 @@ async function queryLedger (accountOffset: number, addressOffset: number): Promi
     const ledger = getLedger();
     const { address } = await ledger.getAddress(false, accountOffset, addressOffset);
 
-    keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: 'ledger' });
+    keyring.addHardware(address, 'ledger', { accountOffset, addressOffset, name: `ledger ${accountOffset}/${addressOffset}` });
   } catch (error) {
     console.error(error);
 

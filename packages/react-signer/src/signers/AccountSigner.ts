@@ -7,6 +7,8 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
 
+import { lockAccount } from '../util';
+
 let id = 0;
 
 export default class AccountSigner implements Signer {
@@ -20,6 +22,7 @@ export default class AccountSigner implements Signer {
     return new Promise((resolve): void => {
       const signed = registry.createType('ExtrinsicPayload', payload, { version: payload.version }).sign(this.#keyringPair);
 
+      lockAccount(this.#keyringPair);
       resolve({ id: ++id, ...signed });
     });
   }

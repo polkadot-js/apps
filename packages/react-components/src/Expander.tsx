@@ -46,11 +46,12 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
 
   const strings = meta.documentation.map((doc) => doc.toString().trim());
   const firstEmpty = strings.findIndex((doc) => !doc.length);
-  const parts = splitParts((
+  const combined = (
     firstEmpty === -1
       ? strings
       : strings.slice(0, firstEmpty)
-  ).join(' ').replace(/\\/g, '').replace(/`/g, ''));
+  ).join(' ').replace(/#(<weight>| <weight>).*<\/weight>/, '');
+  const parts = splitParts(combined.replace(/\\/g, '').replace(/`/g, ''));
 
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
@@ -145,6 +146,10 @@ export default React.memo(styled(Expander)`
       text-overflow: ellipsis;
       vertical-align: middle;
       white-space: nowrap;
+
+      span {
+        white-space: normal;
+      }
     }
 
     .ui--Icon {
