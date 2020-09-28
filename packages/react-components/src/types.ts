@@ -127,6 +127,7 @@ export interface NullContract {
 
 export interface ThemeDef {
   bgInput: string;
+  bgInverse: string;
   bgMenu: string;
   bgMenuHover: string;
   bgPage: string;

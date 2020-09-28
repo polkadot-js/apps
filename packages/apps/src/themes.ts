@@ -5,6 +5,7 @@ import { ThemeDef } from '@polkadot/react-components/types';
 
 export const darkTheme: ThemeDef = {
   bgInput: '#38393f',
+  bgInverse: 'rgba(0, 0, 0, 0.6)',
   bgMenu: '#26272c',
   bgMenuHover: 'rgba(255, 255, 255, 0.05)',
   bgPage: '#26272c',
@@ -15,12 +16,13 @@ export const darkTheme: ThemeDef = {
   color: 'rgba(254, 242, 240, 0.9)',
   colorError: 'rgba(255, 0, 0, 0.85)',
   colorLabel: 'rgba(254, 242, 240, 0.45)',
-  colorSummary: 'rgba(254, 242, 240, 0.9)',
+  colorSummary: 'rgba(254, 242, 240, 0.75)',
   theme: 'dark'
 };
 
 export const lightTheme: ThemeDef = {
   bgInput: '#fff',
+  bgInverse: 'rgba(254, 242, 240, 0.91)',
   bgMenu: '#fff',
   bgMenuHover: 'rgba(255, 255, 255, 0.5)',
   bgPage: '#f5f3f1',
