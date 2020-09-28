@@ -133,6 +133,7 @@ export interface ThemeDef {
   bgPage: string;
   bgTable: string;
   bgTabs: string;
+  bgToggle: string;
   borderTable: string;
   borderTabs: string;
   color: string;
