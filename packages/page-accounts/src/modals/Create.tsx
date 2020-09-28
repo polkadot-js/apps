@@ -396,10 +396,18 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 value={derivePath}
               />
               {deriveValidation?.error && (
-                <article className='error'>{errorIndex[deriveValidation.error] || deriveValidation.error}</article>
+                <InfoBox
+                  icon='exclamation-triangle'
+                  type='error'
+                  value={errorIndex[deriveValidation.error] || deriveValidation.error}
+                />
               )}
               {deriveValidation?.warning && (
-                <article className='warning'>{errorIndex[deriveValidation.warning]}</article>
+                <InfoBox
+                  icon='exclamation-triangle'
+                  type='alert'
+                  value={errorIndex[deriveValidation.warning]}
+                />
               )}
             </InputSection>
           </Expander>

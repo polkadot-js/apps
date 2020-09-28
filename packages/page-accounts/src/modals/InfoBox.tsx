@@ -8,7 +8,7 @@ import styled from 'styled-components';
 interface Props {
   className?: string;
   icon?: string;
-  type: 'alert';
+  type: 'alert' | 'error';
   upperCase?: boolean;
   value: string;
 }
@@ -34,9 +34,9 @@ export default styled(InfoBox)`
     font-weight: 800;
     font-size: 0.72rem;
     line-height: 1rem;
-    color: #E86F00;
     text-transform: ${(props) => props.upperCase ? 'uppercase' : 'none'};
-    background: ${(props) => props.type === 'alert' ? 'rgba(232, 111, 0, 0.08)' : 'none'};
+    color: ${(props) => props.type === 'alert' ? '#E86F00' : '#FF4848'};
+    background: ${(props) => props.type === 'alert' ? 'rgba(232, 111, 0, 0.08)' : 'rgba(255, 72, 72, 0.08)'};
 
     & > .ui--Icon {
         margin-right: 0.8rem;
