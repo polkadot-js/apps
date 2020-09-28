@@ -31,6 +31,7 @@ export default {
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
   'dock-testnet': dock,
+  'dock-main-runtime': dock,
   dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,
