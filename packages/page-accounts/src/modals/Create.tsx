@@ -457,24 +457,38 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           />
         </>}
         {step === 2 && <>
-          <InputSection>
-            <InputNew
-              autoFocus
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!!name && !isNameValid}
-              label={t<string>('A descriptive name for your account')}
-              onChange={_onChangeName}
-              placeholder={t<string>('Account Name')}
-              value={name}
-            />
-          </InputSection>
-          <InputSection>
-            <NewPasswordInput
-              onChange={_onPasswordChange}
-              onEnter={_onCommit}
-              password={password}
-            />
-          </InputSection>
+          <Modal.Columns>
+            <Modal.Column>
+              <InputSection>
+                <InputNew
+                  autoFocus
+                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+                  isError={!!name && !isNameValid}
+                  label={t<string>('A descriptive name for your account')}
+                  onChange={_onChangeName}
+                  placeholder={t<string>('Account Name')}
+                  value={name}
+                />
+              </InputSection>
+            </Modal.Column>
+            <Modal.Column>
+              <p className='ui--Hint'>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
+          <Modal.Columns>
+            <Modal.Column>
+              <InputSection>
+                <NewPasswordInput
+                  onChange={_onPasswordChange}
+                  onEnter={_onCommit}
+                  password={password}
+                />
+              </InputSection>
+            </Modal.Column>
+            <Modal.Column>
+              <p className='ui--Hint'>{t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair. Ensure you are using a strong password for proper account protection.')}</p>
+            </Modal.Column>
+          </Modal.Columns>
         </>}
         {step === 3 && address && <CreateConfirmation
           derivePath={derivePath}
