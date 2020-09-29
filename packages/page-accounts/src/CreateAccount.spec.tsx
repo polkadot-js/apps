@@ -82,4 +82,40 @@ describe('--SLOW--: Account Create', () => {
 
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
+
+  xit('hints display', async () => {
+    const { findByText } = renderAccounts();
+
+    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+
+    fireEvent.click(addAccountButton);
+
+    const showHintsButton = await findByText('Hints', {}, { timeout: 5000 });
+
+    fireEvent.click(showHintsButton);
+
+    const hintText = await findByText('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.', {}, { timeout: 5000 });
+
+    expect(hintText).toBeTruthy();
+  });
+
+  xit('error message for derivation path', async () => {
+    const { findByTestId, findByText } = renderAccounts();
+
+    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
+
+    fireEvent.click(addAccountButton);
+
+    const showAdvancedOptionsButton = await findByText('Advanced creation options', {}, { timeout: 5000 });
+
+    fireEvent.click(showAdvancedOptionsButton);
+
+    const derivationPathInput = await findByTestId('secret derivation path', {}, { timeout: 5000 });
+
+    fireEvent.change(derivationPathInput, { target: { value: '//abc//' } });
+
+    const errorMsg = await findByText('Unable to match provided value to a secret URI', {}, { timeout: 5000 });
+
+    expect(errorMsg).toBeTruthy();
+  });
 });
