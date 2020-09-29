@@ -197,9 +197,10 @@ export default React.memo(styled(Menu)`
 
   .menuActive {
     border-bottom: none;
-    border-radius: 0.25rem 0.25rem 0 0;
-    color: #4e4e4e;
-    padding: 1rem 1.5rem;
+    border-radius: 0.15rem 0.15rem 0 0;
+    color: #1A1B20;
+    font-weight: 600;
+    padding: 1rem .85rem;
     margin: 0 1rem -1px;
     z-index: 1;
     position: relative;
@@ -208,18 +209,18 @@ export default React.memo(styled(Menu)`
       content: '';
       background: #fff;
       width: 100%;
-      height: 52px;
+      height: 3.92rem;
       position: absolute;
       bottom: 0;
       left: 0;
       transform: translateY(.5rem);
-      border-top-left-radius: .2rem;
-      border-top-right-radius: .2rem;
+      border-top-left-radius: .15rem;
+      border-top-right-radius: .15rem;
       z-index: -1;
     }
 
     .ui--Icon {
-      margin-right: 0.5rem;
+      margin-right: 0.85rem;
     }
   }
 
@@ -228,9 +229,14 @@ export default React.memo(styled(Menu)`
     list-style: none;
     margin: 0 1rem 0 0;
     padding: 0;
+    font-weight: 600;
 
     > li {
       display: inline-block;
+    }
+
+    > li:not(:last-child) {
+      margin-left: 1.57rem;
     }
   }
 `);

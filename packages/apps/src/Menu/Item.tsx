@@ -68,7 +68,7 @@ export default React.memo(styled(Item)`
   a {
     color: inherit !important;
     display: block;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1.28rem;
     text-decoration: none;
   }
 
@@ -79,6 +79,8 @@ export default React.memo(styled(Item)`
   }
 
   .ui--Icon {
-    margin-right: 0.5rem;
+    margin-right: 0.85rem;
+    max-width: 1rem;
+    max-height: 1rem;
   }
 `);

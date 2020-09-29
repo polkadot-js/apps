@@ -30,7 +30,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
     <li className={className}>
       <div className='groupHdr  highlight--color-contrast'>
         <span>{name}</span>
-        <Icon icon='caret-down' />
+        {/* <Icon icon='caret-down' /> */}
       </div>
       <ul className='groupMenu highlight--bg-light'>
         {routes.map((route): React.ReactNode => (
@@ -49,8 +49,9 @@ export default React.memo(styled(Grouping)`
   position: relative;
 
   .groupHdr {
-    border-radius: 0.25rem 0.25rem 0 0;
-    padding: 1rem 1.25rem 1rem 1.5rem;
+    position: relative;
+    border-radius: 0.15rem 0.15rem 0 0;
+    padding: 1rem .85rem 1rem .85rem;
 
     > .ui--Icon {
       margin-left: 0.75rem;
@@ -58,7 +59,7 @@ export default React.memo(styled(Grouping)`
   }
 
   .groupMenu {
-    border-radius: 0 0 0.25rem 0.25rem;
+    border-radius: 0.25rem;
     box-shadow: 0 ${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
     display: none;
     margin: 0;
@@ -66,29 +67,59 @@ export default React.memo(styled(Grouping)`
     padding: 0;
     position: absolute;
     z-index: 250;
+    left: 50%;
+    transform: translate(-50%, 2px);
+
+    > li:first-child {
+      padding-top: 1rem;
+    }
+
+    > li:last-child {
+      padding-bottom: 1rem;
+    }
 
     > li {
       z-index: 1;
+      padding: .5rem 0;
 
       a {
         padding-right: 4rem;
+
+        .ui--Badge {
+          top: 50%;
+          transform: translateY(-33%);
+        }
       }
     }
   }
 
   &:hover {
-    .groupHdr,
     .groupMenu li {
       background: #fff;
-      color: #4e4e4e;
+    }
+
+    .groupHdr::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: #fff;
+      width: 100%;
+      height: 3.92rem;
+      transform: translateY(.5rem);
+      border-top-left-radius: .15rem;
+      border-top-right-radius: .15rem;
+      z-index: -1;
     }
 
     .groupHdr {
       box-shadow: 0 -${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
+      color: #1A1B20;
     }
 
     .groupMenu {
       display: block;
+      color: #4D4D4D;
 
       > li:hover {
         background: rgba(255, 255, 255, 0.5);
