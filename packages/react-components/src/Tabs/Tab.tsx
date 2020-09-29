@@ -54,20 +54,31 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 }
 
 export default React.memo(styled(Tab)`
+  position: relative;
   border-bottom: 2px solid transparent;
   color: #4e4e4e !important;
   margin-bottom: -3px;
-  padding: 0.5rem 1.5rem 0.75rem;
+  padding: 0 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
 
-  &.tabLinkActive {
-    border-bottom-color: #e6e6e6;
+  &.tabLinkActive::after {
+    content: '';
+    position: absolute;
+    width: 3.14rem;
+    height: 2px;
+    background: #e6e6e6;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   &:hover {
     color: inherit !important;
 
-    &:not(.tabLinkActive) {
-      border-bottom-color: #e6e6e6;
+    &:not(.tabLinkActive::after) {
+      background: #e6e6e6;
     }
   }
 

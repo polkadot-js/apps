@@ -178,8 +178,8 @@ export default createGlobalStyle<Props>`
   }
 
   .theme--default {
-    .ui--Tabs-Tab.tabLinkActive {
-      border-bottom-color: ${getHighlight};
+    .ui--Tabs-Tab.tabLinkActive::after {
+      background: ${getHighlight};
     }
 
     .ui.negative.button,
