@@ -66,7 +66,7 @@ export default React.memo(styled(Grouping)`
     position: absolute;
     z-index: 250;
     left: 50%;
-    transform: translate(-50%, 2px);
+    transform: translate(-50%, 0);
 
     > li:first-child {
       padding-top: 1rem;

@@ -21,8 +21,6 @@ export const colorLink = '#2e86ab';
 
 export default css`
   .theme--default {
-    font-family: 'Nunito Sans',sans-serif;
-
     a {
       color: ${colorLink};
 
