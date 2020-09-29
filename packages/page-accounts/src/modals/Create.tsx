@@ -312,20 +312,27 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         onClick={onClose}
       />
       <Modal.Content>
-        <AddressRow
-          className='ui--AddressRow-new-create-modal'
-          defaultName={name}
-          isEditableName={false}
-          noDefaultNameOpacity
-          value={isSeedValid ? address : ''}
-        />
+        <Modal.Columns>
+          <Modal.Column>
+            <AddressRow
+              className='ui--AddressRow-new-create-modal'
+              defaultName={name}
+              isEditableName={false}
+              noDefaultNameOpacity
+              value={isSeedValid ? address : ''}
+            />
+          </Modal.Column>
+        </Modal.Columns>
         {step === 1 && <>
-          <InfoBox
-            icon='exclamation-triangle'
-            type='alert'
-            upperCase
-            value={t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}
-          />
+          <Modal.Columns>
+            <Modal.Column>
+              <InfoBox
+                icon='exclamation-triangle'
+                type='alert'
+                upperCase
+                value={t<string>("Please write down your wallet's mnemonic seed and keep it in a safe place")}
+              /></Modal.Column>
+          </Modal.Columns>
           <Modal.Columns>
             <Modal.Column>
               <TextAreaWithLabel
@@ -370,11 +377,15 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
             </button>
           </div>
-          <InfoBox
-            icon='exclamation-triangle'
-            type='alert'
-            value={t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security. Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}
-          />
+          <Modal.Columns>
+            <Modal.Column>
+              <InfoBox
+                icon='exclamation-triangle'
+                type='alert'
+                value={t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security. Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}
+              />
+            </Modal.Column>
+          </Modal.Columns>
           <Expander
             className='accounts--Creator-advanced'
             iconPlacement='left'
