@@ -3391,7 +3391,7 @@ __metadata:
     "@babel/runtime": ^7.11.2
     "@edgeware/node-types": ^2.4.5
     "@laminar/type-definitions": ^0.2.0-beta.141
-    "@subsocial/types": ^0.4.4
+    "@subsocial/types": ^0.4.6
   languageName: unknown
   linkType: soft
 
@@ -4054,14 +4054,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@subsocial/types@npm:^0.4.4":
-  version: 0.4.4
-  resolution: "@subsocial/types@npm:0.4.4"
+"@subsocial/types@npm:^0.4.6":
+  version: 0.4.6
+  resolution: "@subsocial/types@npm:0.4.6"
   dependencies:
     "@babel/runtime": ^7.8.4
     "@subsocial/utils": ^0.1.23
     cids: ^0.7.1
-  checksum: f63132b78b23814535e59e43be06a7ba24610e368f63583f49ec7cebe44e45dce09a8c98cbd23421653cfd7bf076f80ce8020ec7d130b07080a2c432add9a7ab
+  checksum: f3032c08e2fc3880a72489986eafc6f24d3268ef7127a6e6fe58adbc62a9d4a49197d6f984b41dfdfce5c25d8c2fd8278eac143e188ca7df08944a65c4e1958e
   languageName: node
   linkType: hard
 
