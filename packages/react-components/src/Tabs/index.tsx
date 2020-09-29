@@ -68,6 +68,7 @@ export default React.memo(styled(Tabs)`
   text-align: left;
   height: 4.35rem;
   z-index: 1;
+  font-family: 'Nunito Sans',sans-serif;
 
   &::-webkit-scrollbar {
     display: none;

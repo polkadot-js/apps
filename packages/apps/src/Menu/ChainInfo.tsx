@@ -59,7 +59,7 @@ function ChainInfo ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(ChainInfo)`
   box-sizing: border-box;
-  padding: 0.75rem 1rem 0.75rem 1.5rem;
+  padding: 0.75rem 2.6rem 0.75rem 1.5rem;
   margin: 0;
 
   .apps--SideBar-logo-inner {

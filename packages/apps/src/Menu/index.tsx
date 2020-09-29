@@ -30,6 +30,7 @@ const disabledLog = new Map<string, string>();
 
 function createExternals (t: TFunction): ItemRoute[] {
   return [
+    { href: '/#/settings', icon: 'cogs', name: 'settings', text: t<string>('nav.settings', 'Settings', { ns: 'apps-routing' }) },
     { href: 'https://github.com/polkadot-js/apps', icon: 'code-branch', name: 'github', text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' }) },
     { href: 'https://wiki.polkadot.network', icon: 'book', name: 'wiki', text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' }) }
   ];
@@ -143,7 +144,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
           ))}
         </ul>
       </div>
-      <div className='menuSection media--1200 centered'>
+      <div className='menuSection media--1200 centered right'>
         <ul className='menuItems'>
           {externalRef.current.map((route): React.ReactNode => (
             <Item
@@ -162,9 +163,9 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
 export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   align-items: center;
   display: flex;
-  justify-content: space-between;
   padding: 0;
   z-index: 220;
+  font-family: 'Nunito Sans',sans-serif;
 
   &.isLoading {
     background: #999 !important;
@@ -196,6 +197,17 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     margin: auto 0;
   }
 
+  .menuSection.right {
+    margin-left: auto;
+    margin-right: 2.42rem;
+
+    .menuItems {
+      & > li a {
+        padding: 0;
+      }
+    }
+  }
+
   .menuActive {
     background: ${theme.bgTabs};
     border-bottom: none;
@@ -203,19 +215,19 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
     color: ${theme.color};
     font-weight: 600;
     padding: 1rem .85rem;
-    margin: 0 1rem -1px;
+    margin: 0 3.14rem 0 -1px;
     z-index: 1;
     position: relative;
 
     &::before {
       content: '';
-      background: #fff;
-      width: 100%;
-      height: 3.92rem;
       position: absolute;
       bottom: 0;
       left: 0;
-      transform: translateY(.5rem);
+      background: #fff;
+      width: 100%;
+      height: 4.02rem;
+      transform: translateY(0.57rem);
       border-top-left-radius: .15rem;
       border-top-right-radius: .15rem;
       z-index: -1;
@@ -229,16 +241,16 @@ export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   .menuItems {
     flex: 1 1;
     list-style: none;
-    margin: 0 1rem 0 0;
     padding: 0;
+    margin: 0;
     font-weight: 600;
 
     > li {
       display: inline-block;
     }
 
-    > li:not(:last-child) {
-      margin-left: 1.57rem;
+    > li:not(:first-child) {
+      margin-left: 1.78rem;
     }
   }
 `));
