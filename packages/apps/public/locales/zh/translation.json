@@ -410,7 +410,7 @@
   "Propose motion": "提出 motion",
   "Propose tip": "提出小费",
   "Provide judgement": "提供评价",
-  "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "提供来自模块/外部应用的账户二维码来扫描。一旦检测结果为有效，你就可以进入下一步，将此账户添加到你的列表中。",
+  "Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.": "提供来自模块/外部应用的账户二维码来扫描。一旦检测结果为有效，你就可以进入下一步，将此账户添加到你的列表中。",
   "Proxied": "代理",
   "Proxied account has no owned proxies": "代理帐户没有自己的代理",
   "Proxy overview": "代理概览",

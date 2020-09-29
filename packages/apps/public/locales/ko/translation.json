@@ -101,7 +101,7 @@
   "Pending call hashes": "대기중인 콜 해시",
   "Please make sure to save this file in a secure location as it is required, together with your password, to restore your account.": "이 파일과 비밀번호를 반드시 안전한 위치에 저장하고, 계정 복구시 사용하세요.",
   "Provide judgement": "평가 제공",
-  "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "모듈/외부 어플리케이션을 통해 계정의 QR코드를 스캔하세요. 계정 검증이 유효하다면 다음 단계로 넘어가 이 계정을 주소록에 추가할 수 있습니다.",
+  "Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.": "모듈/외부 어플리케이션을 통해 계정의 QR코드를 스캔하세요. 계정 검증이 유효하다면 다음 단계로 넘어가 이 계정을 주소록에 추가할 수 있습니다.",
   "Proxied": "프록시 된",
   "Proxied account has no owned proxies": "프록시 계정에 소유하고 있는 프록시가 없음",
   "Proxy overview": "프록시 개요",

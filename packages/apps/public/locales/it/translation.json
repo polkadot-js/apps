@@ -421,7 +421,7 @@
   "Propose motion": "Proponi una mozione",
   "Propose tip": "Proponi mancia",
   "Provide judgement": "Emetti giudizio",
-  "Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.": "Fornisci un QR Code via fotocamera. Se riconosciuto come valido, riceverai successive istruzioni.",
+  "Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.": "Fornisci un QR Code via fotocamera. Se riconosciuto come valido, riceverai successive istruzioni.",
   "Proxied": "Proxy",
   "Proxied account has no owned proxies": "L'account scelto non possiede proxy",
   "Proxy overview": "Riepilogo Proxy",
