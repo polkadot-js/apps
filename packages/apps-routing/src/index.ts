@@ -18,7 +18,6 @@ import js from './js';
 import parachains from './parachains';
 import poll from './poll';
 import rpc from './rpc';
-import settings from './settings';
 import signing from './signing';
 import society from './society';
 import staking from './staking';
@@ -52,7 +51,6 @@ export default function create (t: <T = string> (key: string, text: string, opti
     rpc(t),
     signing(t),
     sudo(t),
-    js(t),
-    settings(t)
+    js(t)
   ];
 }
