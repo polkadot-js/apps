@@ -83,7 +83,7 @@ describe('--SLOW--: Account Create', () => {
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
 
-  xit('hints display', async () => {
+  it('hints display', async () => {
     const { findByText } = renderAccounts();
 
     const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
@@ -99,7 +99,7 @@ describe('--SLOW--: Account Create', () => {
     expect(hintText).toBeTruthy();
   });
 
-  xit('error message for derivation path', async () => {
+  it('error message for derivation path', async () => {
     const { findByTestId, findByText } = renderAccounts();
 
     const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
