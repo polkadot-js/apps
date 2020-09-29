@@ -147,7 +147,7 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
 
     > div {
       background-color: ${theme.bgTable};
-      border: 1px solid #eeecea;
+      border: 1px solid ${theme.borderTable};
       border-radius: 0.25rem;
 
       &+div {
