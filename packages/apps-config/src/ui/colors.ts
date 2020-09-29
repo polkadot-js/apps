@@ -30,6 +30,7 @@ const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
+const nodeEquilibrium = '#1792ff'
 
 // overrides based on the actual matched chain name
 // alphabetical
@@ -64,6 +65,7 @@ const nodeColors: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
+  ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
   ['Stafi node', nodeStafi],

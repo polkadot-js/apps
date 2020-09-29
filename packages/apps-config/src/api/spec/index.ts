@@ -10,6 +10,7 @@ import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
+import equilibrium from './equilibrium';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
@@ -33,6 +34,7 @@ export default {
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
+  Equilibrium: equilibrium,
   kulupu,
   laminar,
   'mashnet-node': kilt,

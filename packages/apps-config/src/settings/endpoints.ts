@@ -247,6 +247,11 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      info: 'equilibrium',
+      text: t<string>('rpc.equilibriumr', 'Equilibrium Testnet', { ns: 'apps-config' }),
+      value: 'wss://api.testnet.equilibrium.io:9944'
     }
   ];
 }

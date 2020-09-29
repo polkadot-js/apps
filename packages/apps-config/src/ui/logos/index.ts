@@ -34,6 +34,7 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeEquilibrium from './nodes/equilibrium.svg';
 
 // extensions
 // alphbetical
@@ -92,7 +93,9 @@ const nodeLogos: Record<string, any> = [
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
-  ['substrate-node', nodeSubstrate]
+  ['substrate-node', nodeSubstrate],
+  ['Equilibrium Node', nodeEquilibrium],
+  ['Equilibrium', nodeEquilibrium]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -129,7 +132,8 @@ const namedLogos: Record<string, any> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot
+  westend: nodePolkadot,
+  equilibrium: nodeEquilibrium
 };
 
 // extension logos
