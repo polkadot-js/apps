@@ -14,21 +14,25 @@ interface Props {
   isError?: boolean;
   isFull?: boolean;
   isHidden?: boolean;
+  isOuter?: boolean;
   isSmall?: boolean;
+  modalNew?: boolean;
   label?: React.ReactNode;
   value?: React.ReactNode;
   withLabel?: boolean;
 }
 
-function Static ({ children, className = '', defaultValue, help, isFull, isHidden, isSmall, label, value, withLabel }: Props): React.ReactElement<Props> {
+function Static ({ children, className = '', defaultValue, help, isFull, isHidden, isOuter, isSmall, label, modalNew, value, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
       help={help}
       isFull={isFull}
       isHidden={isHidden}
+      isOuter={isOuter}
       isSmall={isSmall}
       label={label}
+      modalNew={modalNew}
       withLabel={withLabel}
     >
       <div className='ui--Static ui dropdown selection disabled'>

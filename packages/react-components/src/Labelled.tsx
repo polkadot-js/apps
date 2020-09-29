@@ -13,6 +13,7 @@ interface Props {
   isFull?: boolean;
   isOuter?: boolean;
   isSmall?: boolean;
+  modalNew?: boolean;
   label?: React.ReactNode;
   labelExtra?: React.ReactNode;
   children: React.ReactNode;
@@ -147,6 +148,11 @@ export default React.memo(styled(Labelled)`
         }
       }
     }
+
+    & > .ui--Labelled-content > .ui--Static {
+      ${(props) => props.modalNew ? 'border: 1px solid #DFDFDF;' : ''}
+      ${(props) => props.modalNew ? 'background-color: #FFFFFF;' : ''}
+    }
   }
   
   .ui--CreateAccount-new-create-modal div.ui--Modal-Column > &.ui--Labelled,  .ui--CreateAccount-new-create-modal div:not(.ui--Modal-Column) > &.ui--Labelled {
@@ -165,7 +171,7 @@ export default React.memo(styled(Labelled)`
             padding-top: 0.65rem;
             padding-left: 1.15rem;
           }
-
+          
           &.floating {
             > .dropdown.icon {
               top: 1.95rem;

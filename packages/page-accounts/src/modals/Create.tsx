@@ -493,6 +493,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         {step === 3 && address && <CreateConfirmation
           derivePath={derivePath}
           isBusy={isBusy}
+          modalNew
           pairType={pairType}
           seed={seed}
         />}
@@ -639,6 +640,7 @@ export default styled(Create)`
     background: #ECECEC;
     border-radius: 4px;
     padding: 8px 8px;
+    margin-left: 8px;
   }
   .ui--Modal-Footer {
     display: flex;
@@ -667,5 +669,9 @@ export default styled(Create)`
 
    .ui--TextArea-lineHeight .ui--Labelled-content .TextAreaWithDropdown .dropdown.icon {
     top: 2.3rem!important;
+  }
+
+  .ui--Flex-column {
+    flex-direction: column;
   }
 `;
