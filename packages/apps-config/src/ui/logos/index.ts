@@ -112,6 +112,7 @@ const namedLogos: Record<string, any> = {
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  equilibrium: nodeEquilibrium,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
@@ -132,8 +133,7 @@ const namedLogos: Record<string, any> = {
   stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
-  westend: nodePolkadot,
-  equilibrium: nodeEquilibrium
+  westend: nodePolkadot
 };
 
 // extension logos

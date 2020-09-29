@@ -24,6 +24,7 @@ import subsocial from './subsocial';
 
 export default {
   Crab: crab,
+  Equilibrium: equilibrium,
   acala,
   'centrifuge-chain': centrifugeChain,
   crust,
@@ -34,7 +35,6 @@ export default {
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
-  Equilibrium: equilibrium,
   kulupu,
   laminar,
   'mashnet-node': kilt,

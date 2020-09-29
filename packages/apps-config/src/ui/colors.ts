@@ -26,11 +26,11 @@ const chainWestend = '#da68a7';
 // alphabetical
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
+const nodeEquilibrium = '#1792ff';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
-const nodeEquilibrium = '#1792ff'
 
 // overrides based on the actual matched chain name
 // alphabetical
