@@ -182,9 +182,20 @@ export default createGlobalStyle<Props & ThemeProps>`
   .theme--dark,
   .theme--light {
     .ui--Tabs {
-      .ui--Tab.tabLinkActive {
-        border-bottom-color: ${getHighlight};
+      .ui--Tab.tabLinkActive::after {
+        background: ${getHighlight};
       }
+    }
+  }
+
+  .theme--default {
+    .ui--Tabs-Tab.tabLinkActive::after {
+      background: ${getHighlight};
+    }
+
+    .ui.negative.button,
+    .ui.buttons .negative.button {
+      background: #666 !important;
     }
 
     .ui.primary.button,

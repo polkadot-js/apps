@@ -6,7 +6,6 @@ import { Group } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@polkadot/react-components';
 
 import Item from './Item';
 
@@ -31,7 +30,6 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
     <li className={className}>
       <div className='groupHdr highlight--color-contrast'>
         <span>{name}</span>
-        {/* <Icon icon='caret-down' /> */}
       </div>
       <ul className='groupMenu highlight--bg-light'>
         {routes.map((route): React.ReactNode => (
