@@ -218,6 +218,11 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://rpc.dusty.plasmnet.io/'
     },
     {
+      info: 'equilibrium',
+      text: t<string>('rpc.equilibriumr', 'Equilibrium Testnet', { ns: 'apps-config' }),
+      value: 'wss://api.testnet.equilibrium.io:9944'
+    },
+    {
       info: 'substrate',
       text: t<string>('rpc.flamingfir', 'Flaming Fir (Substrate Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://substrate-rpc.parity.io'
@@ -247,11 +252,6 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
       value: 'wss://westend-rpc.polkadot.io'
-    },
-    {
-      info: 'equilibrium',
-      text: t<string>('rpc.equilibriumr', 'Equilibrium Testnet', { ns: 'apps-config' }),
-      value: 'wss://api.testnet.equilibrium.io:9944'
     }
   ];
 }

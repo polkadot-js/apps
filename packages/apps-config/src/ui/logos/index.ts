@@ -22,6 +22,7 @@ import nodeDarwinia from './nodes/darwinia.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -34,7 +35,6 @@ import nodeRobonomics from './nodes/robonomics.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
-import nodeEquilibrium from './nodes/equilibrium.svg';
 
 // extensions
 // alphbetical
