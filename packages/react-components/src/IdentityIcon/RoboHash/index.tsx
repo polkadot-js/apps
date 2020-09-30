@@ -12,12 +12,16 @@
 
 import { ImageInfo } from './types';
 
+import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { u8aToBn } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import backgrounds from './backgrounds';
 import sets from './sets';
+
+const INCREMENT = new BN(362437);
 
 interface Props {
   className?: string;
@@ -25,18 +29,20 @@ interface Props {
   size: number;
 }
 
-function getIndex <T> (list: T[], hash: Uint8Array, offset: number): T {
-  return list[
-    ((hash[offset * 2] * 256) + hash[(offset * 2) + 1]) % list.length
-  ];
+function getIndex <T> (list: T[], hash: BN): T {
+  const index = hash.modn(list.length);
+
+  hash.iadd(INCREMENT);
+
+  return list[index];
 }
 
 function createInfo (value: string): ImageInfo {
-  const hash = blake2AsU8a(value);
+  const hash = u8aToBn(blake2AsU8a(value));
 
   return {
-    background: getIndex(backgrounds, hash, 0) as string,
-    parts: getIndex(sets, hash, 1).map((section, index) => getIndex(section, hash, 2 + index) as string)
+    background: getIndex(backgrounds, hash) as string,
+    parts: getIndex(sets, hash).map((section) => getIndex(section, hash) as string)
   };
 }
 
