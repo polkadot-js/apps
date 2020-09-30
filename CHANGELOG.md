@@ -1,10 +1,33 @@
 # CHANGELOG
 
-## 0.60.0-beta.x
+## 0.60.1 Sep 28, 2020
+
+Contributed:
+
+- Update Italian i18n (Thanks to https://github.com/fomod-in)
+- Show JSON import warning for different genesis (Thanks to https://github.com/Tbaut)
+- Adjust Expander component overflows (Thanks to https://github.com/Tbaut)
 
 Changes:
 
+- Adjust payout calculations based on new weights (auto-detect batch size)
+- Allow for multiple extrinsic submissions when payouts span multiple batches
 - Show warning on JSON import to store accounts externally (same as create)
+- Combine events displays in status overlays
+- Swap treasury proposal defaults to accept
+- Adjust multiple input address stretch (use full width for names)
+- Filter event/extrinsic metadata with additional readability formatting
+- Ensure that tech. comm. voting is filtered by members
+- Adjust proposal close to allow account selection when multiple accounts found
+- add warning around "this is a dev tool" to the JS playground
+- Add toggle to control unlock duration
+- URI-encode RPC param (allowing for WS url params)
+- Bump Edgeware types (after 2.0-rc upgrade)
+- Adjust warning icon for oversubscribed validators
+- Simplify JSON import via new keyring functionality
+- Adjust button hover highlights for consistency
+- `@polkadot/api` 2.0.1
+- `@polkadot/util` 3.5.1
 
 
 ## 0.59.1 Sep 21, 2020
