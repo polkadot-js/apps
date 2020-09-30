@@ -51,6 +51,28 @@ export default React.memo(styled(Item)`
   cursor: pointer;
   position: relative;
   white-space: nowrap;
+  font-size: 1rem;
+
+  &.menuRight.withCounter {
+    margin-right: 1.85rem;
+  }
+
+  &.menuRight {
+    .ui--Badge {
+      right: -2.25rem;
+      top: 0;
+    }
+
+    a {
+      padding: 0.5rem 1.28rem;
+    }
+
+    &.topLevel {
+      .ui--Badge {
+        top: 0;
+      }
+    }
+  }
 
   &.topLevel {
     padding: 0;
@@ -71,7 +93,7 @@ export default React.memo(styled(Item)`
   a {
     color: inherit !important;
     display: block;
-    padding: 0.5rem 1.28rem;
+    padding: 0.75rem 1.5rem;
     text-decoration: none;
   }
 
