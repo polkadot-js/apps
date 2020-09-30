@@ -32,9 +32,9 @@ interface UrlState {
 
 function textToParts (text: string): [string, string, string] {
   const [first, remainder] = text.replace(')', '').split(' (');
-  const [middle, last] = remainder.split(', ');
+  const [middle, last] = (remainder || '').split(', ');
 
-  return [first, middle, last];
+  return [first, middle || '', last || ''];
 }
 
 function isValidUrl (url: string): boolean {
