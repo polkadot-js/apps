@@ -283,7 +283,7 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     }
 
     // combine signatures and encoded call into a single "execute" extrinsic
-    const extrinsic = executeFunc(call, pmauth, useWeight ? weight : undefined);
+    const extrinsic = useWeight ? executeFunc(call, pmauth, parseFloat(weight)) : executeFunc(call, pmauth);
     setExtrinsic(() => extrinsic);
   };
 
