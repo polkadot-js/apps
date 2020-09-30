@@ -83,22 +83,6 @@ describe('--SLOW--: Account Create', () => {
     expect(await findByText('MY NEW ACCOUNT')).toBeTruthy();
   });
 
-  it('hints display', async () => {
-    const { findByText } = renderAccounts();
-
-    const addAccountButton = await findByText('Add account', {}, { timeout: 5000 });
-
-    fireEvent.click(addAccountButton);
-
-    const showHintsButton = await findByText('Hints', {}, { timeout: 5000 });
-
-    fireEvent.click(showHintsButton);
-
-    const hintText = await findByText('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.', {}, { timeout: 5000 });
-
-    expect(hintText).toBeTruthy();
-  });
-
   it('error message for derivation path', async () => {
     const { findByTestId, findByText } = renderAccounts();
 
