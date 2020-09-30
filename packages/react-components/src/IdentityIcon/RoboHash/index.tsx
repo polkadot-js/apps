@@ -96,5 +96,9 @@ export default React.memo(styled(RoboHash)`
     position: absolute;
     top: 0;
     width: 100%;
+
+    &:first-child {
+      opacity: 0.5;
+    }
   }
 `);
