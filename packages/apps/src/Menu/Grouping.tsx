@@ -68,14 +68,6 @@ export default React.memo(styled(Grouping)`
     left: 50%;
     transform: translate(-50%, 0);
 
-    > li:first-child {
-      padding-top: 1rem;
-    }
-
-    > li:last-child {
-      padding-bottom: 1rem;
-    }
-
     > li {
       z-index: 1;
       padding: .5rem 0;
@@ -85,7 +77,8 @@ export default React.memo(styled(Grouping)`
 
         .ui--Badge {
           top: 50%;
-          transform: translateY(-33%);
+          right: .85rem;
+          transform: translateY(-50%);
         }
       }
     }

@@ -153,11 +153,13 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       <div className='menuSection media--1200 centered right'>
         <ul className='menuItems'>
           <Item
+            className='menuRight'
             isToplevel
             route={settingsRoute}
           />
           {externalRef.current.map((route): React.ReactNode => (
             <Item
+              className='menuRight'
               isToplevel
               key={route.name}
               route={route}
