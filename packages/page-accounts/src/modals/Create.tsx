@@ -18,8 +18,7 @@ import { AddressRow,
   InputAddress,
   InputNew,
   InputSection,
-  Modal,
-  Toggle } from '@polkadot/react-components';
+  Modal } from '@polkadot/react-components';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import TextAreaWithLabel from '@polkadot/react-components/TextAreaWithLabel';
 import InfoBox from '@polkadot/app-accounts/modals/InfoBox';
@@ -209,7 +208,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     SOFT_NOT_ALLOWED: t<string>('Soft derivation paths are not allowed on ed25519'),
     WARNING_SLASH_PASSWORD: t<string>('Your password contains at least one "/" character. Disregard this warning if it is intended.')
   }), [t]);
-  const [areHintsVisible, setAreHintsVisible] = useState(false);
 
   const seedOpt = useMemo(() => (
     isDevelopment
@@ -293,7 +291,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
 
   return (
     <Modal
-      className={`${className} ui--CreateAccount-new-create-modal ui--Modal-Wrapper ${!areHintsVisible ? 'medium' : 'mediumWithHints'}`}
+      className={`${className} ui--CreateAccount-new-create-modal ui--Modal-Wrapper medium`}
       header={t<string>('Add an account via seed {{step}}/{{NUM_STEPS}}', {
         replace: {
           NUM_STEPS,
@@ -302,11 +300,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       })}
       size='large'
     >
-      <Toggle
-        label='Hints'
-        onChange={setAreHintsVisible}
-        value={areHintsVisible}
-      />
       <Button
         icon='times'
         onClick={onClose}
@@ -556,33 +549,13 @@ export default styled(Create)`
     font-family: 'Nunito Sans', sans-serif;
     text-transform: initial;
   }
-  &.ui.modal > .ui--Toggle {
-    position: absolute;
-    top: 1.72rem;
-    right: 5rem;
-  }
   &.ui--Modal-Wrapper.medium {
-    width: 655px;
-    .ui--Modal-Column {
-      &:nth-child(1) {
-        flex: 100%;
-        max-width: 100%;
-      }
-    
-      &:nth-child(2) {
-        display: none;
-        flex: 0%;
-      }
-    }
-  }
-  &.ui--Modal-Wrapper.mediumWithHints {
     width: 1031px;
     .ui--Modal-Column {
       &:nth-child(1) {
         flex: 65%;
         max-width: 65%;
       }
-    
       &:nth-child(2) {
         display: flex;
         flex: 35%;
