@@ -14,15 +14,15 @@ import { ImageInfo } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { decodeAddress, blake2AsU8a } from '@polkadot/util-crypto';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import backgrounds from './backgrounds';
 import sets from './sets';
 
 interface Props {
   className?: string;
-  size?: number;
-  value?: string | Uint8Array | null;
+  publicKey: string;
+  size: number;
 }
 
 function getIndex <T> (list: T[], hash: Uint8Array, offset: number): T {
@@ -31,36 +31,24 @@ function getIndex <T> (list: T[], hash: Uint8Array, offset: number): T {
   ];
 }
 
-function createInfo (value?: string | Uint8Array | null): ImageInfo | null {
-  if (value) {
-    try {
-      const hash = blake2AsU8a(decodeAddress(value));
+function createInfo (value: string): ImageInfo {
+  const hash = blake2AsU8a(value);
 
-      return {
-        background: getIndex(backgrounds, hash, 0) as string,
-        parts: getIndex(sets, hash, 1).map((section, index) => getIndex(section, hash, 2 + index) as string)
-      };
-    } catch (error) {
-      // ignore, set to null below
-    }
-  }
-
-  return null;
+  return {
+    background: getIndex(backgrounds, hash, 0) as string,
+    parts: getIndex(sets, hash, 1).map((section, index) => getIndex(section, hash, 2 + index) as string)
+  };
 }
 
-function RoboHash ({ className, size = 24, value }: Props): React.ReactElement<Props> | null {
+function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Props> | null {
   const info = useMemo(
-    () => createInfo(value),
-    [value]
+    () => createInfo(publicKey),
+    [publicKey]
   );
   const style = useMemo(
     () => ({ height: `${size}px`, width: `${size}px` }),
     [size]
   );
-
-  if (!info) {
-    return null;
-  }
 
   return (
     <div
@@ -84,10 +72,10 @@ export default React.memo(styled(RoboHash)`
   overflow: hidden;
 
   img {
-    bottom: 0;
+    height: 100%;
     left: 0;
     position: absolute;
-    right: 0;
     top: 0;
+    width: 100%;
   }
 `);
