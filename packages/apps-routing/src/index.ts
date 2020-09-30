@@ -22,6 +22,7 @@ import society from './society';
 import staking from './staking';
 import storage from './storage';
 import sudo from './sudo';
+import settings from './settings';
 import techcomm from './techcomm';
 import transfer from './transfer';
 import treasury from './treasury';
@@ -50,6 +51,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     rpc(t),
     signing(t),
     sudo(t),
-    js(t)
+    js(t),
+    settings(t)
   ];
 }
