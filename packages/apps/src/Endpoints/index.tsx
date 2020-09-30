@@ -30,13 +30,6 @@ interface UrlState {
   isUrlValid: boolean;
 }
 
-function textToParts (text: string): [string, string, string] {
-  const [first, remainder] = text.replace(')', '').split(' (');
-  const [middle, last] = (remainder || '').split(', ');
-
-  return [first, middle || '', last || ''];
-}
-
 function isValidUrl (url: string): boolean {
   return (
     // some random length... we probably want to parse via some lib
@@ -51,17 +44,16 @@ function combineEndpoints (endpoints: LinkOption[]): Group[] {
     if (e.isHeader) {
       result.push({ header: e.text, isDevelopment: e.isDevelopment, networks: [] });
     } else {
-      const [name, , providerName] = textToParts(e.text as string);
       const prev = result[result.length - 1];
-      const prov = { name: providerName, url: e.value as string };
+      const prov = { name: e.textHoster, url: e.value as string };
 
-      if (prev.networks[prev.networks.length - 1] && name === prev.networks[prev.networks.length - 1].name) {
+      if (prev.networks[prev.networks.length - 1] && e.text === prev.networks[prev.networks.length - 1].name) {
         prev.networks[prev.networks.length - 1].providers.push(prov);
       } else {
         prev.networks.push({
           icon: e.info,
           isChild: e.isChild,
-          name,
+          name: e.text as string,
           providers: [prov]
         });
       }
