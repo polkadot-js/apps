@@ -217,6 +217,9 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
   const [pairCount, setPairCount] = useState(1);
   const [membership, setMembership] = useState(null);
   const [didSignaturePairs, setDidSignaturePairs] = useState([]);
+  const [weight, setWeight] = useState('');
+  const useWeight = weight !== '' && !isNaN(weight);
+  const executeFunc = useWeight ? api.tx.master.executeUncheckedWeight : api.tx.master.execute;
 
   const { apiDefaultTxSudo } = useApi();
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -280,7 +283,7 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
     }
 
     // combine signatures and encoded call into a single "execute" extrinsic
-    const extrinsic = api.tx.master.execute(call, pmauth);
+    const extrinsic = executeFunc(call, pmauth, useWeight ? weight : undefined);
     setExtrinsic(() => extrinsic);
   };
 
@@ -322,6 +325,20 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
           </Modal.Column>
           <Modal.Column>
             <p>{t<string>(`This account will used to pay for and submit the proposal. It requires at least ${membership ? membership.vote_requirement : 0} master member DID/signature pairs to execute successfully.`)}</p>
+          </Modal.Column>
+        </Modal.Columns>
+
+        <Modal.Columns>
+          <Modal.Column>
+            <Input
+              help={t<string>('The weight for the proposal. Leave empty if not using weight.')}
+              label={t<string>('weight')}
+              onChange={setWeight}
+              value={weight}
+            />
+          </Modal.Column>
+          <Modal.Column>
+            <p>{t<string>(`The weight for the proposal. Leave empty to call the master.execute function or fill the field to use the master.executeUncheckedWeight function.`)}</p>
           </Modal.Column>
         </Modal.Columns>
 
@@ -369,9 +386,10 @@ function SignatureDIDs ({ onClose, proposal, pair }: Props): React.ReactElement<
 
         <div className='extrinsics--Selection'>
           <Extrinsic
-            defaultValue={api.tx.master.execute}
+            defaultValue={executeFunc}
             label={t<string>('submit the following extrinsic')}
             isDisabled={true}
+            key={useWeight ? 'w' : 'k'}
           />
           {unlockError && (
             <article className='error'>{unlockError}</article>
