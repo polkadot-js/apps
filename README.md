@@ -4,7 +4,7 @@
 
 # @polkadot/apps
 
-A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
+A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.ok well carry on
 
 This can be accessed as a hosted application via https://polkadot.js.org/apps/ or you can access the IPFS hosted version via https://polkadot.js.org/apps/ipfs (via hash) or https://dotapps.io (via ipns) to explore any of the supported Polkadot and Substrate chains.
 
