@@ -474,7 +474,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 <NewPasswordInput
                   onChange={_onPasswordChange}
                   onEnter={_onCommit}
-                  password={password}
                 />
               </InputSection>
             </Modal.Column>
