@@ -11,25 +11,25 @@ import settings from '@polkadot/ui-settings';
 import keyring from '@polkadot/ui-keyring';
 import { assert } from '@polkadot/util';
 
-// Different validator addresses for testnet and mainnet. As the keyring is shared for all networks, 
-// the needed URL should be uncommented. Need mainnet for now.
+// Pull validator addresses into contacts based on betwork
+const validatorAddressUriMap = {
+  'wss://danforth-1.dock.io': 'https://gist.githubusercontent.com/lovesh/c540b975774735fe0001c86fa47a91b3/raw',
+  'wss://mainnet-node.dock.io': 'https://gist.githubusercontent.com/lovesh/2cc067d1442d71b8beb9ac2443fdd34c/raw'
+};
 
-// For testnet
-// const addressUri = 'https://gist.githubusercontent.com/lovesh/c540b975774735fe0001c86fa47a91b3/raw';
-
-// For mainnet
-const addressUri = 'https://gist.githubusercontent.com/lovesh/2cc067d1442d71b8beb9ac2443fdd34c/raw';
-
-function setDefaultContacts (): null {
-  axios.get(addressUri)
-    .then(function (response): null {
-      const hardcodedAddresses = response.data;
-      for (let address in hardcodedAddresses) {
-        const name = hardcodedAddresses[address];
-        console.log('saving address', address, name.trim())
-        keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
-      }
-    });
+function setDefaultContacts (apiUrl): null {
+  const addressUri = validatorAddressUriMap[apiUrl];
+  if (addressUri) {
+    axios.get(addressUri)
+      .then(function (response): null {
+        const hardcodedAddresses = response.data;
+        for (let address in hardcodedAddresses) {
+          const name = hardcodedAddresses[address];
+          console.log('saving address', address, name.trim())
+          keyring.saveAddress(address, { genesisHash: keyring.genesisHash, name: name.trim(), tags: [] });
+        }
+      });
+  }
 }
 
 function getApiUrl (): string {
@@ -75,7 +75,7 @@ function getApiUrl (): string {
 
 const apiUrl = getApiUrl();
 // const defaultContactCount = getDefaultContacts();
-setDefaultContacts();
+setDefaultContacts(apiUrl);
 
 // set the default as retrieved here
 settings.set({ apiUrl });
