@@ -47,7 +47,7 @@ function createDev (t: TFunction): LinkOption[] {
       dnslink: 'local',
       info: 'local',
       text: t<string>('rpc.local', 'Local Node', { ns: 'apps-config' }),
-      textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: '127.0.0.1:9944' } }),
+      textHoster: '127.0.0.1:9944',
       value: 'ws://127.0.0.1:9944'
     }
   ];
