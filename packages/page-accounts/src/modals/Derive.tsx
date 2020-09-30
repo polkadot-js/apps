@@ -12,6 +12,7 @@ import keyring from '@polkadot/ui-keyring';
 import { keyExtractPath } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
+import { downloadAccount } from './Create';
 import CreateConfirmation from './CreateConfirmation';
 
 interface Props {
@@ -61,6 +62,7 @@ function createAccount (source: KeyringPair, suri: string, name: string, passwor
     status.status = 'success';
     status.message = success;
 
+    downloadAccount(result);
     InputAddress.setLastValue('account', address);
   } catch (error) {
     status.status = 'error';
