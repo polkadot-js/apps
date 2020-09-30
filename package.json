@@ -52,6 +52,7 @@
     "build:release:ipfs": "node scripts/ipfsUpload.js",
     "build:release:ghpages": "yarn polkadot-ci-ghact-docs",
     "build:release:www": "yarn polkadot-ci-ghact-build && yarn build:release:ipfs && yarn build:release:ghpages",
+    "build:robohash": "node scripts/robohash.js",
     "build:www": "rm -rf packages/apps/build && mkdir -p packages/apps/build && yarn run build:i18n && cd packages/apps && NODE_ENV=production webpack --config webpack.config.js",
     "build:electron": "yarn clean:electronBuild && yarn build:electronMain && yarn build:electronRenderer",
     "build:devElectronRenderer": "cd packages/apps-electron && NODE_ENV=development webpack --config webpack.renderer.config.js",
