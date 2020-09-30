@@ -12,7 +12,6 @@ import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import equilibrium from './equilibrium';
-import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
@@ -22,17 +21,13 @@ import nodle from './nodle';
 import plasm from './plasm';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
-<<<<<<< HEAD
-import subsocial from './subsocial';
-=======
 import subsocialNode from './subsocial';
->>>>>>> 09de052ea (Added Stafi Network logos & endpoints (#3683))
 
 // mapping from specName in state.getRuntimeVersion
 export default {
   Crab: crab,
   Equilibrium: equilibrium,
-  canvas,
+  acala,
   'centrifuge-chain': centrifugeChain,
   crust,
   'cumulus-test-parachain': testPara,
@@ -52,9 +47,5 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
-<<<<<<< HEAD
-  subsocial
-=======
   subsocial: subsocialNode
->>>>>>> 09de052ea (Added Stafi Network logos & endpoints (#3683))
 };
