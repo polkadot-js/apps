@@ -29,7 +29,6 @@ const disabledLog = new Map<string, string>();
 
 function createExternals (t: TFunction): ItemRoute[] {
   return [
-    { href: '/#/settings', icon: 'cogs', name: 'settings', text: t<string>('nav.settings', 'Settings', { ns: 'apps-routing' }) },
     { href: 'https://github.com/polkadot-js/apps', icon: 'code-branch', name: 'github', text: t<string>('nav.github', 'GitHub', { ns: 'apps-routing' }) },
     { href: 'https://wiki.polkadot.network', icon: 'book', name: 'wiki', text: t<string>('nav.wiki', 'Wiki', { ns: 'apps-routing' }) }
   ];
@@ -44,6 +43,8 @@ function logDisabled (route: string, message: string): void {
 }
 
 function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
+  if (name === 'settings') return false;
+
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
@@ -67,6 +68,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   return notFound.length === 0;
 }
 
+
 function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, hasAccounts: boolean, hasSudo: boolean): Group[] {
   return Object
     .values(
@@ -87,6 +89,10 @@ function extractGroups (routing: Routes, groupNames: Record<string, string>, api
     .filter(({ routes }) => routes.length);
 }
 
+function extractSettingsRoute (routing: Routes): Route | undefined {
+  return routing.find((route) => route.name === 'settings');
+}
+
 function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -100,11 +106,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     accounts: t('Accounts'),
     developer: t('Developer'),
     governance: t('Governance'),
-    network: t('Network'),
-    settings: t('Settings')
+    network: t('Network')
   });
 
   const routeRef = useRef(createRoutes(t));
+
+  const settingsRoute = extractSettingsRoute(routeRef.current);
 
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
@@ -145,6 +152,10 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       </div>
       <div className='menuSection media--1200 centered right'>
         <ul className='menuItems'>
+          <Item
+            isToplevel
+            route={settingsRoute}
+          />
           {externalRef.current.map((route): React.ReactNode => (
             <Item
               isToplevel
