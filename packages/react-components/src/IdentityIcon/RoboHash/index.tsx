@@ -15,8 +15,8 @@ import { ImageInfo } from './types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { u8aToBn } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
+import { hexToBn } from '@polkadot/util';
+import { blake2AsHex } from '@polkadot/util-crypto';
 
 import backgrounds from './backgrounds';
 import sets from './sets';
@@ -38,7 +38,7 @@ function getIndex <T> (list: T[], hash: BN): T {
 }
 
 function createInfo (value: string): ImageInfo {
-  const hash = u8aToBn(blake2AsU8a(value));
+  const hash = hexToBn(blake2AsHex(value));
 
   return {
     background: getIndex(backgrounds, hash) as string,
