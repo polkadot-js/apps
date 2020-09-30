@@ -53,9 +53,9 @@ function createDev (t: TFunction): LinkOption[] {
 function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
     {
-      dnslink: 'dock',
-      info: 'dock',
-      text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
+      dnslink: 'dock-main',
+      info: 'dock mainnet',
+      text: t<string>('rpc.dock.io', 'Dock (Mainnet)', { ns: 'apps-config' }),
       value: 'wss://mainnet-node.dock.io'
     },
   ];
@@ -64,9 +64,9 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
 function createTestNetworks (t: TFunction): LinkOption[] {
   return [
     {
-      dnslink: 'dock',
-      info: 'dock',
-      text: t<string>('rpc.dock.io', 'Dock (POA Testnet)', { ns: 'apps-config' }),
+      dnslink: 'dock-test',
+      info: 'dock-testnet',
+      text: t<string>('rpc.dock.io', 'Dock (Danforth Testnet)', { ns: 'apps-config' }),
       value: 'wss://danforth-1.dock.io'
     },
   ];
