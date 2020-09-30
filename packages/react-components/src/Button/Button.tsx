@@ -38,21 +38,18 @@ function Button ({ children, className = '', icon, iconPlacement = 'left', isBas
 const ICON_PADDING = 0.5;
 
 export default React.memo(styled(Button)`
-  position: relative;
-  margin: 0;
-  line-height: 1.5rem;
-  border: none;
-  box-shadow: none;
-  vertical-align: middle;
-  text-align: center;
   background: transparent;
   border: none;
   color: inherit;
   cursor: pointer;
+  line-height: 1;
+  margin: 0;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
 
   &:not(.hasLabel) {
     padding: 0.7em;
-    line-height: initial;
 
     .ui--Icon {
       padding: 0.6rem;
@@ -69,7 +66,7 @@ export default React.memo(styled(Button)`
   }
 
   &.hasLabel {
-    padding: 0.65rem 1.1rem 0.65rem ${1.1 - ICON_PADDING}rem;
+    padding: 0.7rem 1.1rem 0.7rem ${1.1 - ICON_PADDING}rem;
 
     .ui--Icon {
       margin-right: 0.425rem !important;
@@ -132,9 +129,26 @@ export default React.memo(styled(Button)`
     }
   }
 
-  &&.isDisabled {
+  &.isDisabled {
+    color: #bcbbba;
+  }
+  
+  .ui--CreateAccount-new-create-modal && {
+    box-shadow: none;
+    line-height: 1.5rem;
+  }
+  
+  .ui--CreateAccount-new-create-modal &&.isDisabled {
     color: #fff;
     background: #C2C2C2;
     box-shadow: none;  
+  }
+  
+  .ui--CreateAccount-new-create-modal &&:not(.hasLabel) {
+    line-height: initial;
+  }
+  
+  .ui--CreateAccount-new-create-modal &.hasLabel {
+    padding: 0.65rem 1.1rem 0.65rem ${1.1 - ICON_PADDING}rem;
   }
 `);
