@@ -1,6 +1,6 @@
 {
-  "short_name": "Polkadot Apps",
-  "name": "Apps for interacting with a Polkadot node",
+  "short_name": "Dock Node Frontend",
+  "name": "Frontend for interacting with a Dock node",
   "icons": [
     {
       "src": "favicon.ico",
