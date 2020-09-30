@@ -12,16 +12,12 @@
 
 import { ImageInfo } from './types';
 
-import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { hexToBn } from '@polkadot/util';
-import { blake2AsHex } from '@polkadot/util-crypto';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import backgrounds from './backgrounds';
 import sets from './sets';
-
-const INCREMENT = new BN(362437);
 
 interface Props {
   className?: string;
@@ -29,16 +25,33 @@ interface Props {
   size: number;
 }
 
-function getIndex <T> (list: T[], hash: BN): T {
-  const index = hash.modn(list.length);
+interface HashRef {
+  hash: Uint8Array;
+  index: number;
+}
 
-  hash.iadd(INCREMENT);
+function getIndex <T> (list: T[], hash: HashRef): T {
+  let value = 0;
 
-  return list[index];
+  // grab 48 bits worth of data (last increment before max int)
+  // (6 also doesn't divide into 32, so we have a rolling window)
+  for (let i = 0; i < 6; i++) {
+    value = (value * 256) + hash.hash[hash.index];
+    hash.index++;
+
+    if (hash.index === 32) {
+      hash.index = 0;
+    }
+  }
+
+  return list[value % list.length];
 }
 
 function createInfo (value: string): ImageInfo {
-  const hash = hexToBn(blake2AsHex(value));
+  const hash = {
+    hash: blake2AsU8a(value),
+    index: 0
+  };
 
   return {
     background: getIndex(backgrounds, hash) as string,
