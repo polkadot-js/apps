@@ -95,15 +95,9 @@ export default React.memo(styled(Badge)`
     background: steelblue;
   }
 
-  &.counterColor,
-  &.counterInvertColor {
-    margin: 0 0.5rem;
-    vertical-align: middle;
-  }
-
   &.grayColor {
-    background: #eeedec !important;
-    color: #aaa9a8;
+    background: #4D4D4D !important;
+    color: #fff;
   }
 
   &.redColor {

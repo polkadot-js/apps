@@ -3,7 +3,7 @@
 
 import { ItemRoute } from './types';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Badge, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
@@ -18,10 +18,13 @@ const DUMMY_COUNTER = () => 0;
 
 function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, text, useCounter = DUMMY_COUNTER } }: Props): React.ReactElement<Props> {
   const [isModalVisible, toggleModal] = useToggle();
+  const [colorState, setColorState] = useState('gray');
   const count = useCounter();
 
   return (
-    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : 'highlight--hover-color'}`}>
+    <li className={`${className}${count ? ' withCounter' : ''} ${isToplevel ? 'topLevel  highlight--color-contrast' : 'highlight--hover-color'}`}
+      onMouseEnter={() => setColorState('counter')}
+      onMouseLeave={() => setColorState('gray')}>
       <a
         href={Modal ? undefined : (href || `#/${name}`)}
         onClick={Modal ? toggleModal : undefined}
@@ -32,7 +35,7 @@ function Item ({ className = '', isToplevel, route: { Modal, href, icon, name, t
         {text}
         {!!count && (
           <Badge
-            color={isToplevel ? 'counterInvert' : 'counter'}
+            color={isToplevel ? 'counterInvert' : colorState}
             info={count}
           />
         )}
