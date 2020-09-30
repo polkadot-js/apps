@@ -152,6 +152,7 @@ export default React.memo(styled(Labelled)`
     & > .ui--Labelled-content > .ui--Static {
       ${(props) => props.modalNew ? 'border: 1px solid #DFDFDF;' : ''}
       ${(props) => props.modalNew ? 'background-color: #FFFFFF;' : ''}
+      ${(props) => props.modalNew ? 'color: #8B8B8B;' : ''}
     }
   }
   
