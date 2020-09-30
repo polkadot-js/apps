@@ -4,7 +4,7 @@
 
 # @polkadot/apps
 
-A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.
+A Portal into the Polkadot and Substrate networks. Provides a view and interaction layer from a browser.ok well carry on
 
 This can be accessed as a hosted application via https://polkadot.js.org/apps/ or you can access the IPFS hosted version via https://polkadot.js.org/apps/ipfs (via hash) or https://dotapps.io (via ipns) to explore any of the supported Polkadot and Substrate chains.
 
@@ -14,7 +14,7 @@ If you run one or more IPFS node(s), pinning the UI (which only gets updated on 
 
 ## overview
 
-The repo is split into a number of packages, each representing an application. These are -
+The repo is split into a number of packages, each representing an application. These are -om
 
 - [apps](packages/apps/) This is the main entry point. It handles the selection sidebar and routing to the specific application being displayed.
 - [apps-electron](packages/apps-electron/) Desktop app running [apps](packages/apps/).
