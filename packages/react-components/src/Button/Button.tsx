@@ -136,19 +136,19 @@ export default React.memo(styled(Button)`
   .ui--CreateAccount-new-create-modal && {
     box-shadow: none;
     line-height: 1.5rem;
-  }
-  
-  .ui--CreateAccount-new-create-modal &&.isDisabled {
-    color: #fff;
-    background: #C2C2C2;
-    box-shadow: none;  
-  }
-  
-  .ui--CreateAccount-new-create-modal &&:not(.hasLabel) {
-    line-height: initial;
-  }
-  
-  .ui--CreateAccount-new-create-modal &.hasLabel {
-    padding: 0.65rem 1.1rem 0.65rem ${1.1 - ICON_PADDING}rem;
+
+    &.isDisabled {
+      color: #fff;
+      background: #C2C2C2;
+      box-shadow: none;  
+    }
+
+    &:not(.hasLabel) {
+      line-height: initial;
+    }
+
+    &.hasLabel {
+      padding: 0.65rem 1.1rem 0.65rem ${1.1 - ICON_PADDING}rem;
+    }
   }
 `);
