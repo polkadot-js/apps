@@ -17,7 +17,6 @@ interface Props {
 }
 
 const ledgerConnOptions = uiSettings.availableLedgerConn;
-const isLocalDev = window.location.host === 'localhost:3000';
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -118,16 +117,14 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           />
         </div>
       )}
-      {isLocalDev && (
-        <div className='ui--row'>
-          <Dropdown
-            defaultValue={uiTheme}
-            label={t<string>('default interface theme')}
-            onChange={_handleChange('uiTheme')}
-            options={themeOptions}
-          />
-        </div>
-      )}
+      <div className='ui--row'>
+        <Dropdown
+          defaultValue={uiTheme}
+          label={t<string>('default interface theme')}
+          onChange={_handleChange('uiTheme')}
+          options={themeOptions}
+        />
+      </div>
       <div className='ui--row'>
         <Dropdown
           defaultValue={i18nLang}
