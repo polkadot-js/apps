@@ -47,7 +47,7 @@ function PasswordInputNew ({ className, onChange }: Props): React.ReactElement {
         <div>
           <PasswordNew
             className='full'
-            help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account.')}
+            help={t<string>('This password is used to encrypt your private key. It must be strong and unique! You will need it to sign transactions with this account. You can recover this account using this password together with the backup file (generated in the next step).')}
             isError={!!password && !isPass1Valid}
             label={t<string>('A new password for this account')}
             onChange={_onPasswordChange}

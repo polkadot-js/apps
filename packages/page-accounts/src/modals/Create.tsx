@@ -354,20 +354,21 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </TextAreaWithLabel>
             </Modal.Column>
             <Modal.Column>
-              <p className='ui--Hint'>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
+              <p
+                className='ui--Hint'>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
             </Modal.Column>
           </Modal.Columns>
           <div className='ui--Buttons-row'>
             <CopyToClipboard
               className='ui--Print-btn'
               description={t<string>('seed')}
-              elementId='printJS-seed' />
+              elementId='printJS-seed'/>
             <button
               className='ui--Print-btn'
               onClick={onPrintSeed}
             >
-              <Icon icon='print' />
-                  Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
+              <Icon icon='print'/>
+              Print {seedType === 'bip' ? 'seed phrase' : 'seed'}
             </button>
           </div>
           <Modal.Columns>
@@ -375,7 +376,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               <InfoBox
                 icon='exclamation-triangle'
                 type='alert'
-                value={t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security. Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}
+                value={`${t<string>('Consider storing your account in a signer such as a browser extension, hardware device, QR-capable phone wallet (non-connected) or desktop application for optimal account security.')}\u00a0${t<string>('Future versions of the web-only interface will drop support for non-external accounts, much like the IPFS version.')}`}
               />
             </Modal.Column>
           </Modal.Columns>
@@ -465,7 +466,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </InputSection>
             </Modal.Column>
             <Modal.Column>
-              <p className='ui--Hint'>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
+              <p
+                className='ui--Hint'>{t<string>('The name for this account and how it will appear under your addresses. With an on-chain identity, it can be made available to others.')}</p>
             </Modal.Column>
           </Modal.Columns>
           <Modal.Columns>
@@ -478,7 +480,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </InputSection>
             </Modal.Column>
             <Modal.Column>
-              <p className='ui--Hint'>{t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair. Ensure you are using a strong password for proper account protection.')}</p>
+              <p className='ui--Hint'>
+                {t<string>('The password and password confirmation for this account. This is required to authenticate any transactions made and to encrypt the keypair.')}
+                <br />
+                {t<string>('Ensure you are using a strong password for proper account protection.')}
+              </p>
             </Modal.Column>
           </Modal.Columns>
         </>}
@@ -502,7 +508,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           label={t<string>('Next step')}
           onClick={_nextStep}
         />
-      </div> }
+      </div>}
 
       {step === 2 &&
       <div className='ui--Modal-Footer'>
