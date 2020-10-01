@@ -5,7 +5,7 @@ import { ThemeDef } from '@polkadot/react-components/types';
 
 export const darkTheme: ThemeDef = {
   bgInput: '#38393f',
-  bgInverse: 'rgba(0, 0, 0, 0.6)',
+  bgInverse: 'rgba(64, 64, 64, 0.8)',
   bgMenu: '#26272c',
   bgMenuHover: 'rgba(255, 255, 255, 0.05)',
   bgPage: '#26272c',

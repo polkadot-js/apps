@@ -47,19 +47,38 @@ export default css`
       }
     }
 
+    &.selection.visible {
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
+    }
+
+    .menu {
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
+
+      > .item {
+        border-color: transparent !important;
+        color: ${({ theme }: ThemeProps) => theme.color} !important;
+
+        &.header.disabled {
+          margin: 1em 0 0 0;
+          opacity: 1;
+
+          &:hover,
+          &.selected {
+            background: ${({ theme }: ThemeProps) => theme.bgInput};
+          }
+        }
+      }
+    }
+
     > .text {
       min-height: 1em;
+
+      &:not(.default) {
+        color: ${({ theme }: ThemeProps) => theme.color} !important;
+      }
     }
-  }
-
-  .ui.dropdown .menu > .item.header.disabled {
-    margin: 1em 0 0 0;
-    opacity: 1;
-  }
-
-  .ui.dropdown .menu > .item.header.disabled:hover,
-  .ui.dropdown .menu > .item.header.disabled.selected {
-    background: white;
   }
 
   .ui.input {
