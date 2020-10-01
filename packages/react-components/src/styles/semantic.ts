@@ -166,6 +166,15 @@ export default css`
     display: flex !important;
   }
 
+  .ui.popup {
+    background: ${({ theme }: ThemeProps) => theme.bgInput};
+    color: ${({ theme }: ThemeProps) => theme.color};
+
+    .ui.text.menu .item {
+      color: ${({ theme }: ThemeProps) => theme.color};
+    }
+  }
+
   .ui.secondary.vertical.menu > .item {
     margin: 0;
   }
