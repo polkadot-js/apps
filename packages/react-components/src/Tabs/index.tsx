@@ -3,9 +3,13 @@
 
 import { TabItem } from './types';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import createRoutes from '@polkadot/apps-routing';
+import { useTranslation } from '../translate';
+import { Icon } from '@polkadot/react-components';
+import { TabsSectionDelimiter } from './TabsSectionDelimiter';
 
 import Tab from './Tab';
 
@@ -19,6 +23,13 @@ interface Props {
 
 function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): React.ReactElement<Props> {
   const location = useLocation();
+  const { t } = useTranslation();
+  const routeRef = useRef(createRoutes(t));
+
+  const activeRoute = useMemo(
+    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
+    [location]
+  );
 
   // redirect on invalid tabs
   useEffect((): void => {
@@ -43,6 +54,13 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
 
   return (
     <div className={`ui--Tabs ${className}`}>
+      {activeRoute && (
+        <MenuActiveItem className='highlight--color'>
+          <Icon icon={activeRoute.icon} />
+          <span>{activeRoute.text}</span>
+        </MenuActiveItem>
+      )}
+      <TabsSectionDelimiter/>
       {filtered.map((tab, index) => (
         <Tab
           {...tab}
@@ -74,3 +92,14 @@ export default React.memo(styled(Tabs)`
     width: 0px;
   }
 `);
+
+const MenuActiveItem = styled.div`
+  margin-left: 1.7rem;
+  font-weight: 600;
+  font-size: 1.14rem;
+  line-height: 1.57rem;
+
+  .ui--Icon {
+    margin-right: 0.85rem;
+  }
+`;
