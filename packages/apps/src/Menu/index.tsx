@@ -8,10 +8,8 @@ import { Group, Groups, ItemRoute } from './types';
 
 import { TFunction } from 'i18next';
 import React, { useMemo, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
-import { Icon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -98,7 +96,6 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { allAccounts, hasAccounts } = useAccounts();
   const apiProps = useApi();
   const sudoKey = useCall<AccountId>(apiProps.isApiReady && apiProps.api.query.sudo?.key);
-  const location = useLocation();
 
   const externalRef = useRef(createExternals(t));
 
@@ -123,23 +120,12 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     [apiProps, hasAccounts, hasSudo]
   );
 
-  const activeRoute = useMemo(
-    () => routeRef.current.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
-    [location]
-  );
-
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
     <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuSection'>
         <ChainInfo />
-        {activeRoute && (
-          <div className='menuActive'>
-            <Icon icon={activeRoute.icon} />
-            <span>{activeRoute.text}</span>
-          </div>
-        )}
         <ul className='menuItems'>
           {visibleGroups.map(({ name, routes }): React.ReactNode => (
             <Grouping
@@ -217,35 +203,6 @@ export default React.memo(styled(Menu)`
       & > li a {
         padding: 0;
       }
-    }
-  }
-
-  .menuActive {
-    border-bottom: none;
-    border-radius: 0.15rem 0.15rem 0 0;
-    color: #1A1B20;
-    font-weight: 600;
-    padding: 1rem .85rem;
-    margin: 0 3.14rem 0 -1px;
-    z-index: 1;
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background: #fff;
-      width: 100%;
-      height: 4.02rem;
-      transform: translateY(0.57rem);
-      border-top-left-radius: .15rem;
-      border-top-right-radius: .15rem;
-      z-index: -1;
-    }
-
-    .ui--Icon {
-      margin-right: 0.85rem;
     }
   }
 
