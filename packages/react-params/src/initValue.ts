@@ -139,7 +139,7 @@ export default function getInitValue (def: TypeDef): unknown {
         console.info(`params: initValue: No default value for type ${type} from ${JSON.stringify(def)}, using defaults`);
       }
 
-      return undefined;
+      return'0x';
     }
   }
 }
