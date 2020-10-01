@@ -32,6 +32,8 @@ function ValidatorsList (): React.ReactElement<Props> {
   const [ accountsData, accountsError ] = getQuery(VALIDATORS_QUERY);
   const headers = [
     [t('validators'), 'start', 5],
+    [t('total locked rewards')],
+    [t('total unlocked rewards')],
     [t('produced blocks'), 'expand'],
   ];
 
