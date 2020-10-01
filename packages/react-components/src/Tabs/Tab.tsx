@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
 import { TabItem } from './types';
 
 import React from 'react';
@@ -31,7 +32,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   return (
     <NavLink
       activeClassName='tabLinkActive'
-      className={`ui--Tabs-Tab ${className}`}
+      className={`ui--Tab ${className}`}
       exact={tabIsExact}
       strict={tabIsExact}
       to={to}
@@ -53,9 +54,9 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
   );
 }
 
-export default React.memo(styled(Tab)`
+export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   border-bottom: 2px solid transparent;
-  color: #4e4e4e !important;
+  color: ${theme.color} !important;
   margin-bottom: -3px;
   padding: 0.5rem 1.5rem 0.75rem;
 
@@ -64,7 +65,7 @@ export default React.memo(styled(Tab)`
   }
 
   &:hover {
-    color: inherit !important;
+    filter: highlight(120%);
 
     &:not(.tabLinkActive) {
       border-bottom-color: #e6e6e6;
@@ -78,4 +79,4 @@ export default React.memo(styled(Tab)`
   .tabIcon {
     margin-left: 0.75rem;
   }
-`);
+`));

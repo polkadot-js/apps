@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from './types';
+
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
@@ -91,12 +93,12 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
   );
 }
 
-export default React.memo(styled(CardSummary)`
+export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
   align-items: center;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: rgba(0, 0, 0, 0.6);
+  color: ${theme.colorSummary};
   display: flex;
   flex: 0 1 auto;
   flex-flow: row wrap;
@@ -152,4 +154,4 @@ export default React.memo(styled(CardSummary)`
       font-size: 1.4rem;
     }
   }
-`);
+`));

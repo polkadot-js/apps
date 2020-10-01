@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
@@ -32,8 +34,8 @@ function Sidebar ({ button, children, className = '', onClose }: Props): React.R
   );
 }
 
-export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
-  background: #f5f3f1;
+export default React.memo(styled(Sidebar)(({ offset = 0, position, theme }: Props & ThemeProps) => `
+  background: ${theme.bgPage};
   bottom: 0;
   box-shadow: ${position === 'right' ? '-6px' : '6px'} 0px 20px 0px rgba(0, 0, 0, 0.3);
   margin-left: -0.125rem;

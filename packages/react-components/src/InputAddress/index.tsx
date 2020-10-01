@@ -289,9 +289,10 @@ const ExportedComponent = withMulti(
           left: -2.75rem;
           top: -1.05rem;
 
-          svg {
-            height: 32px;
-            width: 32px;
+          > div,
+          > svg {
+            height: 32px !important;
+            width: 32px !important;
           }
         }
 
