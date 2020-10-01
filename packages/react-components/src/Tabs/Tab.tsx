@@ -57,11 +57,19 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
   border-bottom: 2px solid transparent;
   color: ${theme.color} !important;
+  font-size: 1.14rem;
+  line-height: 1.57rem;
   margin-bottom: -3px;
   padding: 0 1.5rem;
   height: 100%;
   display: flex;
   align-items: center;
+  color: #8B8B8B !important;
+
+  &.tabLinkActive {
+    font-weight: bold;
+    color: #000 !important;
+  }
 
   &.tabLinkActive::after {
     content: '';
