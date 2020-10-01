@@ -17,7 +17,7 @@ interface Props {
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--KeyPair', className].join(' ')}>
+    <div className={`ui--KeyPair ${className}`}>
       <IdentityIcon
         className='icon'
         value={address}
@@ -52,7 +52,7 @@ export default React.memo(styled(KeyPair)`
 
   > .icon {
     position: absolute;
-    top: -3px;
+    top: -5px;
     left: 0;
   }
 

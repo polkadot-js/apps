@@ -30,7 +30,9 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   });
 
   const iconOptions = useMemo(
-    () => uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default'])),
+    () => uiSettings.availableIcons
+      .map((o): Option => createIdenticon(o, ['default']))
+      .concat(createIdenticon({ info: 'robohash', text: 'RoboHash', value: 'robohash' })),
     []
   );
 
