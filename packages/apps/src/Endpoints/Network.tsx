@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { Network } from './types';
 
 import React, { useCallback, useMemo } from 'react';
@@ -52,7 +53,7 @@ function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isC
   );
 }
 
-export default React.memo(styled(NetworkDisplay)`
+export default React.memo(styled(NetworkDisplay)(({ theme }: ThemeProps) => `
   border-left: 0.25rem solid transparent;
   border-radius: 0.25rem;
   cursor: pointer;
@@ -62,7 +63,7 @@ export default React.memo(styled(NetworkDisplay)`
 
   &.isSelected,
   &:hover {
-    background: #fffefd;
+    background: ${theme.bgTable};
   }
 
   .endpointIcon {
@@ -85,4 +86,4 @@ export default React.memo(styled(NetworkDisplay)`
       margin-top: -0.125rem;
     }
   }
-`);
+`));

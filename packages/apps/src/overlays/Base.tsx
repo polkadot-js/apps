@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
+
 import React from 'react';
 import styled from 'styled-components';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -44,8 +46,8 @@ function BaseOverlay ({ children, className = '', icon, type }: Props): React.Re
   );
 }
 
-export default React.memo(styled(BaseOverlay)`
-  background: white;
+export default React.memo(styled(BaseOverlay)(({ theme }: ThemeProps) => `
+  background: ${theme.bgMenu};
   border: 1px solid transparent;
   border-radius: 0.25rem;
   border-left-width: 0.25rem;
@@ -111,4 +113,4 @@ export default React.memo(styled(BaseOverlay)`
     right: 0em;
     top: 0.75rem;
   }
-`);
+`));

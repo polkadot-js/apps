@@ -17,12 +17,17 @@ interface Props {
 }
 
 const ledgerConnOptions = uiSettings.availableLedgerConn;
+const isLocalDev = window.location.host === 'localhost:3000';
 
 function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
-  const [settings, setSettings] = useState(uiSettings.get());
+  const [settings, setSettings] = useState((): SettingsStruct => {
+    const settings = uiSettings.get();
+
+    return { ...settings, uiTheme: settings.uiTheme === 'dark' ? 'dark' : 'light' };
+  });
 
   const iconOptions = useMemo(
     () => uiSettings.availableIcons
@@ -33,6 +38,14 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
 
   const prefixOptions = useMemo(
     () => createSs58(t).map((o): Option | React.ReactNode => createOption(o, ['default'])),
+    [t]
+  );
+
+  const themeOptions = useMemo(
+    () => [
+      { text: t('Light theme (default)'), value: 'light' },
+      { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
+    ],
     [t]
   );
 
@@ -54,7 +67,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   }, [settings]);
 
   const _handleChange = useCallback(
-    (key: keyof SettingsStruct) => <T extends string | number>(value: T): void =>
+    (key: keyof SettingsStruct) => <T extends string | number>(value: T) =>
       setSettings((settings) => ({ ...settings, [key]: value })),
     []
   );
@@ -72,7 +85,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     [settings]
   );
 
-  const { i18nLang, icon, ledgerConn, prefix } = settings;
+  const { i18nLang, icon, ledgerConn, prefix, uiTheme } = settings;
 
   return (
     <div className={className}>
@@ -102,6 +115,16 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
             label={t<string>('manage hardware connections')}
             onChange={_handleChange('ledgerConn')}
             options={ledgerConnOptions}
+          />
+        </div>
+      )}
+      {isLocalDev && (
+        <div className='ui--row'>
+          <Dropdown
+            defaultValue={uiTheme}
+            label={t<string>('default interface theme')}
+            onChange={_handleChange('uiTheme')}
+            options={themeOptions}
           />
         </div>
       )}

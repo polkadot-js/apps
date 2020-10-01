@@ -1,11 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
+
 import { css } from 'styled-components';
 
 export default css`
   .ui--output {
-    background: #fefefe;
+    background: ${({ theme }: ThemeProps) => theme.bgInput};
     border-radius: 4px;
     border: 1px dashed #eee;
     box-sizing: border-box;

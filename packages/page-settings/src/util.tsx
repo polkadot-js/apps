@@ -79,7 +79,7 @@ export function save (settings: SettingsStruct): void {
 export function saveAndReload (settings: SettingsStruct): void {
   save(settings);
 
-  // HACK This is terrible, but since the API needs to re-connect, but since
+  // HACK This is terrible, but since the API needs to re-connect and
   // the API does not yet handle re-connections properly, it is what it is
   window.location.reload();
 }

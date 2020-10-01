@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { LinkOption } from '@polkadot/apps-config/settings/endpoints';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { Group } from './types';
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -250,8 +251,8 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   );
 }
 
-export default React.memo(styled(Endpoints)`
-  color: #4e4e4e;
+export default React.memo(styled(Endpoints)(({ theme }: ThemeProps) => `
+  color: ${theme.color};
   padding-top: 3.5rem;
 
   .customButton {
@@ -269,4 +270,4 @@ export default React.memo(styled(Endpoints)`
   .endpointCustomWrapper {
     position: relative;
   }
-`);
+`));
