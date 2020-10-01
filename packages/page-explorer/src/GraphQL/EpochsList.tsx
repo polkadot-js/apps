@@ -45,34 +45,8 @@ function EpochsList (): React.ReactElement<Props> {
     [t('produced blocks'), 'expand'],
   ];
 
-
-// async function loadStats() {
-//   console.log('Epochs');
-//   console.log('');
-//   const epochs = await api.query.poAModule.epochs.entries();
-//   sortEntriesOfMapWithNumKey(epochs);
-//   epochs.forEach((element) => {
-//     console.log(element[0]._args[0].toNumber());
-//     const epochNo = element[0].toHuman();
-//     console.log(`epoch no ${epochNo}`);
-//     const lastSlot = element[1].ending_slot.isSome ? element[1].ending_slot.unwrap().toHuman() : 'Nil';
-//     console.log(`No of validators: ${element[1].validator_count}, starting slot: ${element[1].starting_slot.toHuman()}, expected ending slot: ${element[1].expected_ending_slot.toHuman()}, ending slot ${lastSlot}`);
-//     if (element[1].total_emission.isSome) {
-//       const totalEmission = element[1].total_emission.unwrap().toHuman();
-//       const treasEmission = element[1].emission_for_treasury.unwrap().toHuman();
-//       const valdEmission = element[1].emission_for_validators.unwrap().toHuman();
-//       console.log(`Total emission: ${totalEmission}, Emission for Treasury: ${treasEmission}, Emission for validators: ${valdEmission}`);
-//     }
-//     console.log('');
-//   });
-//   console.log('------------------------------------------------------------------------------------------------------------');
-//   console.log('');
-// }
-
-  async function printEpochStats() {
+  async function setEpochIndices() {
     const currentEpoch = await api.query.poAModule.epoch();
-    console.log(`currentEpoch ${currentEpoch}`);
-
     const promises = [];
     for (let i = currentEpoch; i >= Math.max(currentEpoch - epochsPerPage, 1); i--) {
       promises.push({
@@ -85,8 +59,7 @@ function EpochsList (): React.ReactElement<Props> {
 
   useEffect(() => {
     if (accounts.length === 0) {
-      printEpochStats();
-      // loadStats();
+      setEpochIndices();
     }
   }, []);
 
@@ -96,7 +69,7 @@ function EpochsList (): React.ReactElement<Props> {
     [t('starting slot')],
     [t('expected ending slot')],
     [t('ending slot')],
-    [t('total_emission')],
+    [t('total emission')],
     [t('treasury rewards')],
     [t('validator rewards'), 'expand'],
     [],

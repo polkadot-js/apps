@@ -63,7 +63,7 @@ function EpochDetails (props: Props): React.ReactElement<Props> {
     [t('starting slot')],
     [t('expected ending slot')],
     [t('ending slot')],
-    [t('total_emission')],
+    [t('total emission')],
     [t('treasury rewards')],
     [t('validator rewards'), 'expand'],
     [],
