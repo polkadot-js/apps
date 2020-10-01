@@ -117,18 +117,18 @@ export default function useOwnEraRewards (maxEras?: number, ownValidators?: Stak
             }
           }
         });
+
+        // When we have just claimed, we have filtered eras, but no validator eras - set accordingly
+        if (filteredEras.length && !validatorEras.length) {
+          setState({
+            allRewards: {},
+            isLoadingRewards: false,
+            rewardCount: 0
+          });
+        }
       }
 
       setFiltered({ filteredEras, validatorEras });
-
-      // When we have just claimed, we have filtered eras, but no validator eras - set accordingly
-      if (filteredEras.length && !validatorEras.length) {
-        setState({
-          allRewards: {},
-          isLoadingRewards: false,
-          rewardCount: 0
-        });
-      }
     }
   }, [allEras, maxEras, ownValidators]);
 
