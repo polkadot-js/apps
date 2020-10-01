@@ -75,23 +75,11 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     (): void => {
       if (!accountId || !message || !value || !weight) return;
 
-      contract
-        .read(message, message.isPayable ? value : 0, weight.weight, ...params)
+      callContract
+        .call('rpc', callMessage.def.name, endowment, weight, ...params)
         .send(accountId)
-        .then((result): void => {
-          setOutcomes([{
-            ...result,
-            from: accountId,
-            message,
-            params,
-            when: new Date()
-          }, ...outcomes]);
-          onCallResult && onCallResult(messageIndex, result);
-        })
-        .catch((error): void => {
-          console.error(error);
-          onCallResult && onCallResult(messageIndex);
-        });
+        .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
+        .catch(console.error);
     },
     [accountId, contract, message, messageIndex, onCallResult, outcomes, params, value, weight]
   );
@@ -102,8 +90,14 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     [outcomes]
   );
 
-  const isValid = !!(accountId && weight.isValid && isValueValid);
-  const isViaRpc = contract.hasRpcContractsCall && (isViaCall || !message.isMutating);
+  const isValid = useMemo(
+    () => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
+    [accountId, callContract, isEndowmentValid, isWeightValid]
+  );
+
+  if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
+    return null;
+  }
 
   return (
     <Modal
