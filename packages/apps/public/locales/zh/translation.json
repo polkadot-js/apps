@@ -588,7 +588,7 @@
   "The account you will send funds from.": "你用来发送资金的账户。",
   "The account's password specified at the creation of this account.": "创建此帐户时指定的帐户密码。",
   "The actual JSONRPC module and function to make a call to.": "要调用的实际JSONRPC模块和函数。",
-  "The actual account you wish to sub,it the bid with": "你想要提交竞标的账户",
+  "The actual account you wish to submit the bid with": "你想要提交竞标的账户",
   "The actual fully constructed signed output. This can be used for submission via other channels.": "实际的完全构造的有符号输出。这可以用于通过其他渠道提交。",
   "The actual proposal to make, based on the selected call and parameters thereof.": "实际提出的议案，基于所选的调用和参数。",
   "The address for the deployed contract instance.": "部署合同实例的地址.",

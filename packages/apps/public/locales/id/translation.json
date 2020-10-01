@@ -606,7 +606,7 @@
   "The account you will send funds from.": "Akun yang ingin anda kirimkan dana",
   "The account's password specified at the creation of this account.": "Kata sandi akun ditentukan saat pembuatan akun ini.",
   "The actual JSONRPC module and function to make a call to.": "Modul dan fungsi JSONRPC sebenarnya untuk melakukan panggilan.",
-  "The actual account you wish to sub,it the bid with": "Akun sebenarnya yang ingin anda gunakan untuk mengajukan tawaran",
+  "The actual account you wish to submit the bid with": "Akun sebenarnya yang ingin anda gunakan untuk mengajukan tawaran",
   "The actual fully constructed signed output. This can be used for submission via other channels.": "Output ditandatangani yang benar-benar dibangun sepenuhnya. Ini dapat digunakan untuk pengiriman melalui saluran lain.",
   "The actual proposal to make, based on the selected call and parameters thereof.": "Proposal sebenarnya untuk dibuat, berdasarkan panggilan yang dipilih dan parameternya.",
   "The address for the deployed contract instance.": "Alamat untuk contoh kontrak yang diterapkan.",

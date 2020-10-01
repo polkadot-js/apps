@@ -533,7 +533,7 @@
   "The account you will send funds from.": ".الحساب الذي سترسل منه الأموال",
   "The account's password specified at the creation of this account.": ".كلمة مرور الحساب المحددة عند إنشاء هذا الحساب",
   "The actual JSONRPC module and function to make a call to.": ".وحدة جسون لاستدعاء إجراء عن بُعد والوظيفة الفعليين لإجراء مكالمة",
-  "The actual account you wish to sub,it the bid with": "الحساب الفعلي الذي ترغب في استخدامه فرعيًا ، هو المزايدة مع",
+  "The actual account you wish to submit the bid with": "الحساب الفعلي الذي ترغب في استخدامه فرعيًا ، هو المزايدة مع",
   "The actual fully constructed signed output. This can be used for submission via other channels.": ".المخرج الموقع الفعلي الذي تم إنشاؤه بالكامل. يمكن استخدام هذا لتقديمه عبر قنوات أخرى",
   "The actual proposal to make, based on the selected call and parameters thereof.": ".الاقتراح الفعلي الذي يجب طرحه، استناداً إلى المكالمة المحددة  والإعدادات الموجودة",
   "The address for the deployed contract instance.": ".عنوان لحالة العقد المنتشر",
