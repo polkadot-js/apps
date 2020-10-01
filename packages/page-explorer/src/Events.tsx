@@ -18,13 +18,14 @@ interface Props {
   events?: KeyedEvent[];
   eventClassName?: string;
   label?: React.ReactNode;
+  title?: string;
 }
 
-function Events ({ className = '', emptyLabel, eventClassName, events, label }: Props): React.ReactElement<Props> {
+function Events ({ className = '', emptyLabel, eventClassName, events, label, title = 'recent events' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
-    [label || t<string>('recent events'), 'start']
+    [label || t<string>(title), 'start']
   ], [label, t]);
 
   return (

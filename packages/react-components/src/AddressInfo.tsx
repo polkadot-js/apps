@@ -247,7 +247,7 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
       )}
       {balancesAll && balanceDisplay.available && (
         <>
-          <Label label={t<string>('transferrable')} />
+          <Label label={t<string>('available')} />
           <FormatBalance
             className='result'
             value={balancesAll.availableBalance}
@@ -283,7 +283,7 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
           </FormatBalance>
         </>
       )}
-      {balanceDisplay.locked && balancesAll && (isAllLocked || balancesAll.lockedBalance.gtn(0)) && (
+      {balanceDisplay.locked && balancesAll && (
         <>
           <Label label={t<string>('locked')} />
           <FormatBalance

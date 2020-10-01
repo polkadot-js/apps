@@ -120,6 +120,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       setBalances(({ accounts }: Balances): Balances => {
         accounts[account] = balance;
 
+        console.log('account', account, balance)
+
         return {
           accounts,
           balanceTotal: Object.values(accounts).reduce((total: BN, value: BN) => total.add(value), BN_ZERO)

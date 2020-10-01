@@ -82,7 +82,7 @@
     "@babel/core": "^7.11.6",
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
-    "@docknetwork/sdk": "https://github.com/docknetwork/sdk#fix-deps",
+    "@docknetwork/sdk": "^0.3.4",
     "@pinata/sdk": "^1.1.11",
     "@polkadot/dev": "^0.55.54",
     "@polkadot/ts": "^0.3.47",
@@ -115,5 +115,13 @@
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.1.4",
     "webpack-plugin-serve": "^1.0.1"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.4.9",
+    "apollo-client": "^2.6.10",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
+    "is-extglob": "^2.1.1",
+    "react-apollo": "^3.1.5"
   }
 }

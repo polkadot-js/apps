@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
 import { Table } from '@polkadot/react-components';
 
-import BlockHeader from './BlockHeader';
+import DID from './DID';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -13,23 +13,22 @@ interface Props {
   title: string,
 }
 
-function BlockHeaders ({ headers, title = 'recent blocks' }: Props): React.ReactElement<Props> {
+function DIDs ({ headers, title = 'DIDs' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
   const headerRef = useRef([
     [t(title), 'start', 3]
   ]);
 
   return (
     <Table
-      empty={t<string>('No blocks available')}
+      empty={t<string>('No DIDs available')}
       header={headerRef.current}
     >
       {headers
         .filter((header) => !!header)
         .map((header): React.ReactNode => (
-          <BlockHeader
-            key={header.number.toString()}
+          <DID
+            key={header.identity.toString()}
             value={header}
           />
         ))}
@@ -37,4 +36,4 @@ function BlockHeaders ({ headers, title = 'recent blocks' }: Props): React.React
   );
 }
 
-export default React.memo(BlockHeaders);
+export default React.memo(DIDs);

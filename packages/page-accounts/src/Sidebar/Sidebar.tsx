@@ -140,7 +140,8 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
           )}
         </div>
       </div>
-      <Balances address={address} />
+      <Balances address={address}
+        withBalanceToggle={false} />
       <Identity
         address={address}
         identity={identity}
