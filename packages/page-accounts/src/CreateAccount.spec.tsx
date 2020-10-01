@@ -5,10 +5,31 @@ import AccountsApp from '@polkadot/app-accounts';
 import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
 import { Api } from '@polkadot/react-api';
 import '@polkadot/react-components/i18n';
+import { ThemeDef } from '@polkadot/react-components/types';
 import { useApi } from '@polkadot/react-hooks';
 import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react';
 import React, { PropsWithChildren } from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+
+// copied from packages/apps/src/themes.ts, as we cannot reference apps module
+const lightTheme: ThemeDef = {
+  bgInput: '#fff',
+  bgInverse: 'rgba(254, 242, 240, 0.91)',
+  bgMenu: '#fff',
+  bgMenuHover: 'rgba(255, 255, 255, 0.5)',
+  bgPage: '#f5f3f1',
+  bgTable: '#fff',
+  bgTabs: '#fff',
+  bgToggle: '#e4e5e6',
+  borderTable: '#eeecea',
+  borderTabs: '#eeecea',
+  color: '#4e4e4e',
+  colorError: 'rgba(139, 0, 0)',
+  colorLabel: 'rgba(78, 78, 78, 0.66)',
+  colorSummary: 'rgba(0, 0, 0, 0.6)',
+  theme: 'light'
+};
 
 const SUBSTRATE_PORT = Number.parseInt(process.env.TEST_SUBSTRATE_PORT || '30333');
 
@@ -23,16 +44,18 @@ const renderAccounts = () => {
 
   return render(
     <MemoryRouter>
-      <Api store={memoryStore}
-        url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
-        <WaitForApi>
-          <div>
-            <AccountsApp basePath='/accounts'
-              onStatusChange={() => { /* */
-              }}/>
-          </div>
-        </WaitForApi>
-      </Api>
+      <ThemeProvider theme={lightTheme}>
+        <Api store={memoryStore}
+          url={`ws://127.0.0.1:${SUBSTRATE_PORT}`}>
+          <WaitForApi>
+            <div>
+              <AccountsApp basePath='/accounts'
+                onStatusChange={() => { /* */
+                }}/>
+            </div>
+          </WaitForApi>
+        </Api>
+      </ThemeProvider>
     </MemoryRouter>
   );
 };
