@@ -167,7 +167,7 @@ export default css`
   }
 
   .ui.popup {
-    background: ${({ theme }: ThemeProps) => theme.bgInput};
+    background: ${({ theme }: ThemeProps) => theme.bgMenu};
     color: ${({ theme }: ThemeProps) => theme.color};
 
     .ui.text.menu .item {
