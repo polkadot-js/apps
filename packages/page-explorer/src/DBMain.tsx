@@ -35,7 +35,10 @@ const BLOCK_QUERY = gql`
 
 const EVENT_QUERY = gql`
   query events {
-    event(order_by: { block_number: desc }, where: {}, limit: 10) {
+    event(order_by: { block_number: desc }, where: {
+      section: { _neq: "system" }
+      method: { _neq: "ExtrinsicSuccess" }
+    }, limit: 10) {
       block_number
       event_index
       data
@@ -126,18 +129,18 @@ function DBMain (): React.ReactElement<Props> {
     <>
       <Columar>
         <Column>
-          <Transfers headers={lastTransfers} title="last transfers" hideLongFields={true} />
-        </Column>
-        <Column>
-          <Accounts headers={richAccounts} title="top 10 rich accounts" hideLongFields={true} useComplex={false} />
-        </Column>
-      </Columar>
-      <Columar>
-        <Column>
           <BlockHeaders headers={lastBlocks} title="last blocks" hideLongFields={true} />
         </Column>
         <Column>
           <Events events={lastEvents} title="last events" hideLongFields={true} />
+        </Column>
+      </Columar>
+      <Columar>
+        <Column>
+          <Transfers headers={lastTransfers} title="last transfers" hideLongFields={true} />
+        </Column>
+        <Column>
+          <Accounts headers={richAccounts} title="top 10 rich accounts" hideLongFields={true} useComplex={false} />
         </Column>
       </Columar>
     </>
