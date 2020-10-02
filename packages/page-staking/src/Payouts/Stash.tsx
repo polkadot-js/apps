@@ -88,7 +88,7 @@ function Stash ({ className = '', isDisabled, payout: { available, rewards, stas
       <td className='number'>{eraBlocks && <BlockToTime blocks={eraBlocks} />}</td>
       <td
         className='button'
-        colSpan={3}
+        colSpan={4}
       >
         {extrinsic && stakingAccount && (
           <TxButton

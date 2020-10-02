@@ -25,8 +25,8 @@ interface SinglePayout {
   validatorId: string;
 }
 
-function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayout[]): SubmittableExtrinsic<'promise'>[] {
-  return payouts
+function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayout[]): SubmittableExtrinsic<'promise'>[] | null {
+  const batches = payouts
     .sort((a, b) => a.era.cmp(b.era))
     .reduce((batches: SubmittableExtrinsic<'promise'>[][], { era, validatorId }): SubmittableExtrinsic<'promise'>[][] => {
       const tx = api.tx.staking.payoutStakers(validatorId, era);
@@ -40,7 +40,14 @@ function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayo
 
       return batches;
     }, [[]])
+    .filter((batch) => batch.length)
     .map((batch) => api.tx.utility.batch(batch));
+
+  console.error('batches', batches);
+
+  return batches.length
+    ? batches
+    : null;
 }
 
 function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {
@@ -80,7 +87,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         ? payout[0]
         : payout;
 
-      api.tx.staking
+      eras[0] && api.tx.staking
         .payoutStakers(validatorId, eras[0].era)
         .paymentInfo(allAccounts[0])
         .then((info) => setMaxPayouts(Math.floor(
@@ -102,7 +109,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
     );
   }, [api, maxPayouts, payout]);
 
-  const isPayoutEmpty = !payout || (Array.isArray(payout) && payout.length === 0);
+  const isPayoutEmpty = !extrinsics || !extrinsics.length;
 
   return (
     <>
@@ -163,7 +170,7 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               accountId={accountId}
               extrinsic={extrinsics}
               icon='credit-card'
-              isDisabled={!extrinsics || !extrinsics.length || !accountId}
+              isDisabled={isPayoutEmpty}
               label={t<string>('Payout')}
               onStart={togglePayout}
             />

@@ -123,6 +123,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Route path={`${basePath}/payout`}>
           <Payouts
             isInElection={isInElection}
+            ownStashes={ownStashes}
             ownValidators={ownValidators}
           />
         </Route>

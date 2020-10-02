@@ -14,6 +14,7 @@ export interface PayoutEraValidator {
 export interface PayoutValidator {
   available: BN;
   eras: PayoutEraValidator[];
+  lastEra: BN;
   validatorId: string;
 }
 
