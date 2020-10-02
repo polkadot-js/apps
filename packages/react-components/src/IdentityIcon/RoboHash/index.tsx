@@ -11,7 +11,6 @@
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
 import { ThemeProps } from '../../types';
-import { ImageInfo } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -48,16 +47,18 @@ function getIndex <T> (list: T[], hash: HashRef): T {
   return list[value % list.length];
 }
 
-function createInfo (value: string): ImageInfo {
+function createInfo (value: string): string[] {
   const hash = {
     hash: blake2AsU8a(value),
     index: 0
   };
+  const result = [getIndex(backgrounds, hash) as string];
 
-  return {
-    background: getIndex(backgrounds, hash) as string,
-    parts: getIndex(sets, hash).map((section) => getIndex(section, hash) as string)
-  };
+  getIndex(sets, hash).forEach((section): void => {
+    result.push(getIndex(section, hash) as string);
+  });
+
+  return result;
 }
 
 function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Props> | null {
@@ -75,8 +76,7 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
       className={className}
       style={style}
     >
-      <img src={info.background} />
-      {info.parts.map((src, index) =>
+      {info.map((src, index) =>
         <img
           key={index}
           src={src}
