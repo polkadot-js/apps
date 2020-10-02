@@ -11,6 +11,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
 import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, Modal } from '@polkadot/react-components';
+import TextAreaWithLabel from '@polkadot/react-components/TextAreaWithLabel';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
@@ -297,7 +298,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
         {step === 1 && <>
           <Modal.Columns>
             <Modal.Column>
-              <Input
+              <TextAreaWithLabel
+                className='ui--TextArea-lineHeight'
                 help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
                 isAction
                 isError={!isSeedValid}
@@ -310,8 +312,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                       : t<string>('seed (hex or string)')
                 }
                 onChange={_onChangeSeed}
-                onEnter={_onCommit}
-                value={seed}
+                seed={seed}
               >
                 <Dropdown
                   defaultValue={seedType}
@@ -323,7 +324,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   className='copyMoved'
                   value={seed}
                 />
-              </Input>
+              </TextAreaWithLabel>
             </Modal.Column>
             <Modal.Column>
               <p>{t<string>('The secret seed value for this account. Ensure that you keep this in a safe place, with access to the seed you can re-create the account.')}</p>
@@ -469,7 +470,23 @@ export default React.memo(styled(Create)`
 
   .copyMoved {
     position: absolute;
-    right: 8rem;
-    top: 0.75rem;
+    right: 7.5rem;
+    top: 1.25rem;
+  }
+  && .TextAreaWithDropdown {
+    textarea {
+      width: 85%;
+    }
+    .ui.buttons {
+      width: 15%;
+      .compact.floating.selection.dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .dropdown.icon {
+          top: 2rem;
+        }
+      }
+    }
   }
 `);
