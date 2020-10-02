@@ -10,7 +10,7 @@
 // The Cats/"set4" were created by David Revoy, used under CC-BY-4.0 https://www.peppercarrot.com/en/article391/cat-avatar-generator
 // The avatars used in "set5" were created by Pablo Stanley, for https://avataaars.com/ They are "Free for personal and commercial use. 😇"
 
-import { ImageInfo } from './types';
+import { ThemeProps } from '../../types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -47,16 +47,18 @@ function getIndex <T> (list: T[], hash: HashRef): T {
   return list[value % list.length];
 }
 
-function createInfo (value: string): ImageInfo {
+function createInfo (value: string): string[] {
   const hash = {
     hash: blake2AsU8a(value),
     index: 0
   };
+  const result = [getIndex(backgrounds, hash) as string];
 
-  return {
-    background: getIndex(backgrounds, hash) as string,
-    parts: getIndex(sets, hash).map((section) => getIndex(section, hash) as string)
-  };
+  getIndex(sets, hash).forEach((section): void => {
+    result.push(getIndex(section, hash) as string);
+  });
+
+  return result;
 }
 
 function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Props> | null {
@@ -74,8 +76,7 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
       className={className}
       style={style}
     >
-      <img src={info.background} />
-      {info.parts.map((src, index) =>
+      {info.map((src, index) =>
         <img
           key={index}
           src={src}
@@ -85,7 +86,8 @@ function RoboHash ({ className, publicKey, size }: Props): React.ReactElement<Pr
   );
 }
 
-export default React.memo(styled(RoboHash)`
+export default React.memo(styled(RoboHash)(({ theme }: ThemeProps) => `
+  background: ${theme.bgPage};
   border-radius: 50%;
   position: relative;
   overflow: hidden;
@@ -98,7 +100,7 @@ export default React.memo(styled(RoboHash)`
     width: 100%;
 
     &:first-child {
-      opacity: 0.5;
+      opacity: 0.35;
     }
   }
-`);
+`));
