@@ -100,7 +100,7 @@ export default React.memo(styled(RoboHash)(({ theme }: ThemeProps) => `
     width: 100%;
 
     &:first-child {
-      opacity: 0.5;
+      opacity: 0.35;
     }
   }
 `));
