@@ -12,7 +12,6 @@ import { useApi } from '@polkadot/react-hooks';
 
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
-import Summary from './Summary';
 import Transfers from './Transfers';
 import Accounts from './Accounts';
 
@@ -125,7 +124,6 @@ function DBMain (): React.ReactElement<Props> {
 
   return (
     <>
-      <Summary />
       <Columar>
         <Column>
           <Transfers headers={lastTransfers} title="last transfers" hideLongFields={true} />

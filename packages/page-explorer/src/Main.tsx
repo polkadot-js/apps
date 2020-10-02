@@ -11,6 +11,7 @@ import { Columar, Column } from '@polkadot/react-components';
 import BlockHeaders from './BlockHeaders';
 import Events from './Events';
 import Query from './Query';
+import Summary from './Summary';
 
 interface Props {
   events: KeyedEvent[];
@@ -20,6 +21,7 @@ interface Props {
 function Main ({ events, headers }: Props): React.ReactElement<Props> {
   return (
     <>
+      <Summary />
       <Query />
       <Columar>
         <Column>

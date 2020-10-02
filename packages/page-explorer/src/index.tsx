@@ -122,13 +122,13 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Route path={`${basePath}/epochs/:value`} component={EpochDetails}/>
           <Route path={`${basePath}/epochs`}><EpochsList /></Route>
           <Route>
-            {showDBStates && (
-              <DBMain />
-            )}
             <Main
               events={events}
               headers={lastHeaders}
             />
+            {showDBStates && (
+              <DBMain />
+            )}
           </Route>
         </Switch>
       </main>
