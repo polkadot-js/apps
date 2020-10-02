@@ -60,7 +60,7 @@ function transformToAddress (value?: string | Uint8Array | null): string | null 
   try {
     return addressToAddress(value) || null;
   } catch (error) {
-    console.error('Unable to transform address', value);
+    // noop, handled by return
   }
 
   return null;

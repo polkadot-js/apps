@@ -88,14 +88,11 @@ function Call (props: Props): React.ReactElement<Props> | null {
     (): void => {
       if (!accountId || !callContract || !callMessage || !endowment || !weight) return;
 
-      !!callContract && callContract
+      callContract
         .call('rpc', callMessage.def.name, endowment, weight, ...params)
         .send(accountId)
-        .then(
-          (outcome: ContractCallOutcome): void => {
-            setOutcomes([outcome, ...outcomes]);
-          }
-        );
+        .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
+        .catch(console.error);
     },
     [accountId, callContract, callMessage, endowment, weight, outcomes, params]
   );
@@ -111,7 +108,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 
   const isValid = useMemo(
-    (): boolean => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
+    () => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
     [accountId, callContract, isEndowmentValid, isWeightValid]
   );
 
