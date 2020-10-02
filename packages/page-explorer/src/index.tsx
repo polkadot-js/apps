@@ -64,6 +64,10 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
       name: 'node',
       text: t<string>('Node info')
     },
+    {
+      name: 'epochs',
+      text: t<string>('Epochs')
+    },
   ].concat(showDBStates ? [{
       name: 'blocks',
       text: t<string>('Blocks')
@@ -91,10 +95,6 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
     {
       name: 'master-members',
       text: t<string>('Master Members')
-    },
-    {
-      name: 'epochs',
-      text: t<string>('Epochs')
     }] : []));
 
   return (
