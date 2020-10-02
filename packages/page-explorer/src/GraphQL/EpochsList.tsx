@@ -123,8 +123,6 @@ function EpochsList (): React.ReactElement<Props> {
     [],
   ]);
 
-  // TODO: add pagination
-
   return (
     <>
       <Table
