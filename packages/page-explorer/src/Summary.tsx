@@ -16,10 +16,16 @@ function Summary (): React.ReactElement {
   const [ validatorCount, setValidatorCount ] = useState(0);
   const [ treasuryBalance, setTreasuryBalance ] = useState();
   const [ remainingSupply, setRemainingSupply ] = useState();
+  const [ currentEpoch, setCurrentEpoch ] = useState(0);
 
   async function loadValidators() {
-    const validators = await api.query.poAModule.activeValidators();
-    setValidatorCount(validators.length);
+    if (api.query.poAModule) {
+      const validators = await api.query.poAModule.activeValidators();
+      setValidatorCount(validators.length);
+
+      const currentEpoch = await api.query.poAModule.epoch();
+      setCurrentEpoch(currentEpoch);
+    }
   }
 
   async function getTreasuryBalance() {
@@ -36,19 +42,17 @@ function Summary (): React.ReactElement {
     }
   }
 
-  if (api.query.poAModule) {
-    useEffect(() => {
-      if (validatorCount === 0) {
-        loadValidators();
-      }
-      if (treasuryBalance === undefined) {
-        getTreasuryBalance();
-      }
-      if (remainingSupply === undefined) {
-        getRemainingSupply();
-      }
-    }, []);
-  }
+  useEffect(() => {
+    if (validatorCount === 0) {
+      loadValidators();
+    }
+    if (treasuryBalance === undefined) {
+      getTreasuryBalance();
+    }
+    if (remainingSupply === undefined) {
+      getRemainingSupply();
+    }
+  }, []);
 
   return (
     <SummaryBox>
@@ -102,6 +106,14 @@ function Summary (): React.ReactElement {
         )}
       </section>
       <section>
+        {currentEpoch && (
+          <CardSummary
+            className='media--800'
+            label={t<string>('epoch')}
+          >
+            {currentEpoch.toNumber()}
+          </CardSummary>
+        )}
         {api.query.grandpa && (
           <CardSummary label={t<string>('finalized')}>
             <BestFinalized />
