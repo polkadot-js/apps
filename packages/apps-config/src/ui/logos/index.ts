@@ -22,6 +22,7 @@ import nodeDarwinia from './nodes/darwinia.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
@@ -92,7 +93,9 @@ const nodeLogos: Record<string, any> = [
   ['Stafi Node', nodeStafi],
   ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
-  ['substrate-node', nodeSubstrate]
+  ['substrate-node', nodeSubstrate],
+  ['Equilibrium Node', nodeEquilibrium],
+  ['Equilibrium', nodeEquilibrium]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
@@ -109,6 +112,7 @@ const namedLogos: Record<string, any> = {
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  equilibrium: nodeEquilibrium,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,

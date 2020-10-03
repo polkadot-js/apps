@@ -20,8 +20,9 @@ export const colorBtnText = '#f9f8f7';
 export const colorLink = '#2e86ab';
 
 export default css`
-  .theme--default {
-    a {
+  .theme--dark,
+  .theme--light {
+    a:not(.ui--Tab) {
       color: ${colorLink};
 
       &:hover,
@@ -40,6 +41,11 @@ export default css`
 
     .ui.modal > .header:not(.ui) {
       border-bottom-color: ${colorBtnDefault};
+    }
+
+    .ui.negative.button,
+    .ui.buttons .negative.button {
+      background: #666 !important;
     }
   }
 `;
