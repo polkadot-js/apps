@@ -33,10 +33,10 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^2.1.0-beta.0",
-    "@polkadot/api-contract": "^2.1.0-beta.0",
+    "@polkadot/api": "^2.1.0-beta.5",
+    "@polkadot/api-contract": "^2.1.0-beta.5",
     "@polkadot/keyring": "^3.5.1",
-    "@polkadot/types": "^2.1.0-beta.0",
+    "@polkadot/types": "^2.1.0-beta.5",
     "@polkadot/util": "^3.5.1",
     "@polkadot/util-crypto": "^3.5.1",
     "@polkadot/wasm-crypto": "^1.4.1",
@@ -84,8 +84,8 @@
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
     "@pinata/sdk": "^1.1.11",
-    "@polkadot/dev": "^0.55.55",
-    "@polkadot/ts": "^0.3.48",
+    "@polkadot/dev": "^0.57.1",
+    "@polkadot/ts": "^0.3.49",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.24",
     "@types/file-saver": "^2.0.1",
@@ -107,13 +107,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "source-map-explorer": "^2.5.0",
-    "stylelint": "^13.7.1",
+    "stylelint": "^13.7.2",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "terser-webpack-plugin": "^4.2.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.1.4",
-    "webpack-plugin-serve": "^1.0.1"
+    "webpack-plugin-serve": "^1.1.0"
   }
 }
