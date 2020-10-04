@@ -2347,7 +2347,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.11.6
     "@babel/polyfill": ^7.11.5
-    "@polkadot/dev": ^0.57.4
+    "@polkadot/dev": ^0.57.5
     "@polkadot/react-components": 0.61.0-beta.17
     "@types/react": ^16.9.50
     "@types/react-dom": ^16.9.8
@@ -2382,7 +2382,7 @@ __metadata:
     "@babel/runtime": ^7.11.2
     "@polkadot/apps-config": ^0.61.0-beta.17
     "@polkadot/apps-routing": ^0.61.0-beta.17
-    "@polkadot/dev": ^0.57.4
+    "@polkadot/dev": ^0.57.5
     "@polkadot/react-api": ^0.61.0-beta.17
     "@polkadot/react-components": ^0.61.0-beta.17
     "@polkadot/react-hooks": ^0.61.0-beta.17
@@ -2409,9 +2409,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.57.4":
-  version: 0.57.4
-  resolution: "@polkadot/dev@npm:0.57.4"
+"@polkadot/dev@npm:^0.57.5":
+  version: 0.57.5
+  resolution: "@polkadot/dev@npm:0.57.5"
   dependencies:
     "@babel/cli": ^7.11.6
     "@babel/core": ^7.11.6
@@ -2500,7 +2500,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: b8e7ab9ee9020ad10308adcc8d2daa181ecd6eb0d7275ed891bb3224a85b723f51678e2b2f6eb77093d1c4c30d750ae5a0e6ad2027302f2f1310fdd07c341ba5
+  checksum: 26b88b30f0ea53c604f016766b939860b93e392e341ccc55a72cac3e33d9e1b87651054a2bc991439967918f9949ce989404710815b8c2f146ed9b7228729534
   languageName: node
   linkType: hard
 
@@ -16157,7 +16157,7 @@ fsevents@^1.2.7:
     "@babel/register": ^7.11.5
     "@babel/runtime": ^7.11.2
     "@pinata/sdk": ^1.1.11
-    "@polkadot/dev": ^0.57.4
+    "@polkadot/dev": ^0.57.5
     "@polkadot/ts": ^0.3.49
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.24
