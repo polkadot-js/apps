@@ -2329,7 +2329,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/apps-config@0.61.0-beta.17, @polkadot/apps-config@workspace:packages/apps-config":
+"@polkadot/apps-config@0.61.0-beta.17, @polkadot/apps-config@^0.61.0-beta.17, @polkadot/apps-config@workspace:packages/apps-config":
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
@@ -2347,7 +2347,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.11.6
     "@babel/polyfill": ^7.11.5
-    "@polkadot/dev": ^0.57.2
+    "@polkadot/dev": ^0.57.4
     "@polkadot/react-components": 0.61.0-beta.17
     "@types/react": ^16.9.50
     "@types/react-dom": ^16.9.8
@@ -2365,7 +2365,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/apps-routing@0.61.0-beta.17, @polkadot/apps-routing@workspace:packages/apps-routing":
+"@polkadot/apps-routing@0.61.0-beta.17, @polkadot/apps-routing@^0.61.0-beta.17, @polkadot/apps-routing@workspace:packages/apps-routing":
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-routing@workspace:packages/apps-routing"
   dependencies:
@@ -2380,9 +2380,15 @@ __metadata:
     "@babel/core": ^7.11.6
     "@babel/polyfill": ^7.11.5
     "@babel/runtime": ^7.11.2
-    "@polkadot/dev": ^0.57.2
-    "@polkadot/react-components": 0.61.0-beta.17
-    "@polkadot/react-signer": 0.61.0-beta.17
+    "@polkadot/apps-config": ^0.61.0-beta.17
+    "@polkadot/apps-routing": ^0.61.0-beta.17
+    "@polkadot/dev": ^0.57.4
+    "@polkadot/react-api": ^0.61.0-beta.17
+    "@polkadot/react-components": ^0.61.0-beta.17
+    "@polkadot/react-hooks": ^0.61.0-beta.17
+    "@polkadot/react-params": ^0.61.0-beta.17
+    "@polkadot/react-query": ^0.61.0-beta.17
+    "@polkadot/react-signer": ^0.61.0-beta.17
     "@types/punycode": ^2.1.0
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.2.0
@@ -2403,9 +2409,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.57.2":
-  version: 0.57.2
-  resolution: "@polkadot/dev@npm:0.57.2"
+"@polkadot/dev@npm:^0.57.4":
+  version: 0.57.4
+  resolution: "@polkadot/dev@npm:0.57.4"
   dependencies:
     "@babel/cli": ^7.11.6
     "@babel/core": ^7.11.6
@@ -2494,7 +2500,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.js
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.js
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.js
-  checksum: ce86f6c40c37c3a2687bc74efd17ced3748a3b948878ee9f88cbf0798724818780a61d9fefdfb965304e81360045bed9f6de8cad2a37d848fd14afdf9590d836
+  checksum: b8e7ab9ee9020ad10308adcc8d2daa181ecd6eb0d7275ed891bb3224a85b723f51678e2b2f6eb77093d1c4c30d750ae5a0e6ad2027302f2f1310fdd07c341ba5
   languageName: node
   linkType: hard
 
@@ -2548,7 +2554,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-api@0.61.0-beta.17, @polkadot/react-api@workspace:packages/react-api":
+"@polkadot/react-api@0.61.0-beta.17, @polkadot/react-api@^0.61.0-beta.17, @polkadot/react-api@workspace:packages/react-api":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-api@workspace:packages/react-api"
   dependencies:
@@ -2559,7 +2565,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-components@0.61.0-beta.17, @polkadot/react-components@workspace:packages/react-components":
+"@polkadot/react-components@0.61.0-beta.17, @polkadot/react-components@^0.61.0-beta.17, @polkadot/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-components@workspace:packages/react-components"
   dependencies:
@@ -2601,7 +2607,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-hooks@workspace:packages/react-hooks":
+"@polkadot/react-hooks@^0.61.0-beta.17, @polkadot/react-hooks@workspace:packages/react-hooks":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-hooks@workspace:packages/react-hooks"
   dependencies:
@@ -2633,7 +2639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-params@0.61.0-beta.17, @polkadot/react-params@workspace:packages/react-params":
+"@polkadot/react-params@0.61.0-beta.17, @polkadot/react-params@^0.61.0-beta.17, @polkadot/react-params@workspace:packages/react-params":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-params@workspace:packages/react-params"
   dependencies:
@@ -2659,7 +2665,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/react-query@0.61.0-beta.17, @polkadot/react-query@workspace:packages/react-query":
+"@polkadot/react-query@0.61.0-beta.17, @polkadot/react-query@^0.61.0-beta.17, @polkadot/react-query@workspace:packages/react-query":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-query@workspace:packages/react-query"
   dependencies:
@@ -2667,7 +2673,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/react-signer@0.61.0-beta.17, @polkadot/react-signer@workspace:packages/react-signer":
+"@polkadot/react-signer@0.61.0-beta.17, @polkadot/react-signer@^0.61.0-beta.17, @polkadot/react-signer@workspace:packages/react-signer":
   version: 0.0.0-use.local
   resolution: "@polkadot/react-signer@workspace:packages/react-signer"
   dependencies:
@@ -16151,7 +16157,7 @@ fsevents@^1.2.7:
     "@babel/register": ^7.11.5
     "@babel/runtime": ^7.11.2
     "@pinata/sdk": ^1.1.11
-    "@polkadot/dev": ^0.57.2
+    "@polkadot/dev": ^0.57.4
     "@polkadot/ts": ^0.3.49
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.24
