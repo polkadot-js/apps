@@ -489,4 +489,7 @@ export default React.memo(styled(Create)`
       }
     }
   }
+  & .ui--Checkbox {
+    margin: 0.8rem 0 0 2rem;
+  }
 `);
