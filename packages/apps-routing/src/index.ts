@@ -9,7 +9,6 @@ import calendar from './calendar';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
-// import dashboard from './dashboard';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';

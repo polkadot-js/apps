@@ -7,7 +7,7 @@ const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
 const createEndpoints = require('../packages/apps-config/build/settings/endpoints').default;
-const lernaInfo = require('../lerna.json');
+const pkgJson = require('../package.json');
 
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
@@ -113,7 +113,7 @@ async function dnslink (hash) {
 
 async function main () {
   // only run on non-beta versions
-  if (!lernaInfo.version.includes('-beta.')) {
+  if (!pkgJson.version.includes('-')) {
     const hash = await pin();
 
     await dnslink(hash);
