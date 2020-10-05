@@ -68,7 +68,7 @@ async function unpin (exclude) {
 
   if (result.count > 1) {
     const filtered = result.rows
-      .map(({ ipfs_pin_hash: hash }) => hash)
+      .map((r) => r.ipfs_pin_hash)
       .filter((hash) => hash !== exclude);
 
     if (filtered.length) {
@@ -86,10 +86,9 @@ async function unpin (exclude) {
 
 async function dnslink (hash) {
   const records = createEndpoints(() => '')
-    .map(({ dnslink }) => dnslink)
-    .filter((dnslink) => !!dnslink)
+    .map((e) => e.dnslink)
     .reduce((all, dnslink) => {
-      if (!all.includes(dnslink)) {
+      if (dnslink && !all.includes(dnslink)) {
         all.push(dnslink);
       }
 

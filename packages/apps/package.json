@@ -18,7 +18,7 @@
     "@babel/runtime": "^7.11.2",
     "@polkadot/apps-config": "0.61.0-beta.19",
     "@polkadot/apps-routing": "0.61.0-beta.19",
-    "@polkadot/dev": "^0.57.5",
+    "@polkadot/dev": "^0.57.6",
     "@polkadot/react-api": "0.61.0-beta.19",
     "@polkadot/react-components": "0.61.0-beta.19",
     "@polkadot/react-hooks": "0.61.0-beta.19",
