@@ -19,8 +19,8 @@ import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
-import nodeDockTestnet from './nodes/dock-testnet.svg';
 import nodeDockMainnet from './nodes/dock-mainnet.svg';
+import nodeDockTestnet from './nodes/dock-testnet.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -79,8 +79,8 @@ const nodeLogos: Record<string, any> = [
   ['crab', nodeCrab],
   ['crust node', nodeCrust],
   ['darwinia parachain', nodeDarwinia],
-  ['Dock Testnet Node', nodeDockTestnet],
   ['Dock Mainnet Node', nodeDockMainnet],
+  ['Dock Testnet Node', nodeDockTestnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -113,8 +113,8 @@ const namedLogos: Record<string, any> = {
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
   crust: nodeCrust,
-  dockTestnet: nodeDockTestnet,
   dockMainnet: nodeDockMainnet,
+  dockTestnet: nodeDockTestnet,
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
