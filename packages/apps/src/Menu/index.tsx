@@ -67,8 +67,7 @@ function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiPro
   return notFound.length === 0;
 }
 
-
-function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, hasAccounts: boolean, hasSudo: boolean): Group[] {
+export function extractGroups (routing: Routes, groupNames: Record<string, string>, apiProps: ApiProps, hasAccounts: boolean, hasSudo: boolean): Group[] {
   return Object
     .values(
       routing.reduce((all: Groups, route): Groups => {

@@ -55,6 +55,7 @@ function Tab ({ basePath, className = '', count, hasParams, index, isExact, isRo
 }
 
 export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
+  position: relative;
   border-bottom: 2px solid transparent;
   color: ${theme.color} !important;
   font-size: 1.14rem;

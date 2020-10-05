@@ -4,8 +4,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const TabsSectionDelimiter = (): React.ReactElement => (
-  <Wrapper>
+interface TabsSectionDelimiterProps {
+  className?: string;
+}
+
+export const TabsSectionDelimiter = ({ className }: TabsSectionDelimiterProps): React.ReactElement => (
+  <Wrapper className={className}>
     <svg fill='none'
       height='65'
       viewBox='0 0 17 65'
@@ -19,7 +23,6 @@ export const TabsSectionDelimiter = (): React.ReactElement => (
 
 const Wrapper = styled.div`
   width: 1.07rem;
-  margin: 0 1.21rem 0  2.35rem;
 
   svg {
     height: 100%;
