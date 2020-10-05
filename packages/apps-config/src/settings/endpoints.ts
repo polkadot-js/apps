@@ -140,6 +140,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       text: t<string>('rpc.subsocial', 'Subsocial', { ns: 'apps-config' }),
       textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'DappForce' } }),
       value: 'wss://rpc.subsocial.network'
+    },
+    {
+      info: 'dock-mainnet',
+      text: t<string>('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
+      textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
+      value: 'wss://mainnet-node.dock.io'
     }
   ];
 }
@@ -290,6 +296,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t<string>('rpc.westend', 'Westend', { ns: 'apps-config' }),
       textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      info: 'dock-testnet',
+      text: t<string>('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
+      textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
+      value: 'wss://danforth-1.dock.io'
     }
   ];
 }
