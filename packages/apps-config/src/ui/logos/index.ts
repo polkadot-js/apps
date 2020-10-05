@@ -54,6 +54,7 @@ import externalSubscan from './external/subscan.svg';
 import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
+// NOTE: this matchs up with RPC system.chain
 // alphabetical
 const chainLogos: Record<string, any> = [
   ['Dusty', chainDusty],
@@ -71,6 +72,7 @@ const chainLogos: Record<string, any> = [
 }), {});
 
 // overrides based on the actual software node type (all '-' converted to ' ')
+// NOTE: this matches up with what the RPC via system.name
 // alphabetical
 const nodeLogos: Record<string, any> = [
   ['airalab-robonomics', nodeRobonomics],
@@ -79,8 +81,7 @@ const nodeLogos: Record<string, any> = [
   ['crab', nodeCrab],
   ['crust node', nodeCrust],
   ['darwinia parachain', nodeDarwinia],
-  ['Dock Mainnet Node', nodeDockMainnet],
-  ['Dock Testnet Node', nodeDockTestnet],
+  ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -106,6 +107,7 @@ const nodeLogos: Record<string, any> = [
 }), {});
 
 // overrides when we pass an explicit logo name
+// NOTE: this matches up with what is defined as "info" in settings/endpoints.ts
 // alphabetical
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,

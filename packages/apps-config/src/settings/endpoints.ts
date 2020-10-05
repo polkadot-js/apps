@@ -104,7 +104,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://crab.darwinia.network'
     },
     {
-      info: 'dock-mainnet',
+      info: 'dockMainnet',
       text: t<string>('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
       textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
       value: 'wss://mainnet-node.dock.io'
@@ -249,7 +249,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://testnet-harbour.datahighway.com'
     },
     {
-      info: 'dock-testnet',
+      info: 'dockTestnet',
       text: t<string>('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
       textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
       value: 'wss://danforth-1.dock.io'
