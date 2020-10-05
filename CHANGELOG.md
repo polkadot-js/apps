@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.61.1 Oct 5, 2020
+
+Contributed:
+
+- Update Arabic i18n for calendar (Thanks to https://github.com/YessineAmor)
+- Additional Korean i18n (Thanks to https://github.com/hskang9)
+- Italian i18n typo fix (Thanks to https://github.com/roccomuso)
+- Add Equilibrium testnet endpoint (Thanks to https://github.com/mikolajsobolewski)
+- Update types for stable-poc (Thanks to https://github.com/riusricardo)
+
+Changes:
+
+- Add experimental dark UI theme
+- Adjust i18n strings for network endpoint (explicit as per display)
+- Adjust vesting display with no countdown when fully vested
+- Adjust validator rewards, fixing issues with "keeps loading" when retrieved in the current era
+- Adjust updates on per-era change, protecting against non-existent (not yet retrieved) exposures
+- Add RoboHash icon theme
+- Adjust logging in InputAddress transforms (don't log already-handled errors)
+- Remove unmaintained packages (e.g. page-dashboard)
+
+
 ## 0.60.1 Sep 28, 2020
 
 Contributed:
