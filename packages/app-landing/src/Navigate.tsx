@@ -67,7 +67,7 @@ function Navigate({ className }: Props): React.ReactElement<Props> {
             accounts that you frequently interact with.
           </div>
           <div className='action'>
-            <Link to='/addressbook'>
+            <Link to='/accounts/addressBook'>
               <button className='button'>Go to Address book</button>
             </Link>
           </div>
