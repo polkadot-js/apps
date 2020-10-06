@@ -3,6 +3,7 @@
 
 import { Route, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { Group, Groups, ItemRoute } from './types';
 
@@ -158,7 +159,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Menu)`
+export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -168,12 +169,12 @@ export default React.memo(styled(Menu)`
   &.isLoading {
     background: #999 !important;
 
-    &:before {
-      filter: grayscale(1);
+    .menuActive {
+      background: ${theme.bgPage};
     }
 
-    .menuActive {
-      background: #f5f3f1;
+    &:before {
+      filter: grayscale(1);
     }
 
     .menuItems {
@@ -188,10 +189,10 @@ export default React.memo(styled(Menu)`
   }
 
   .menuActive {
-    background: #fff;
+    background: ${theme.bgTabs};
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
-    color: #4e4e4e;
+    color: ${theme.color};
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;
@@ -211,4 +212,4 @@ export default React.memo(styled(Menu)`
       display: inline-block;
     }
   }
-`);
+`));

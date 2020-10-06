@@ -53,6 +53,16 @@ export default function create (t: TFunction): Option[] {
       value: 20
     },
     {
+      info: 'dock-testnet',
+      text: t<string>('ss58.dock-testnet', 'Dock Testnet (test)', { ns: 'apps-config' }),
+      value: 21
+    },
+    {
+      info: 'dock-mainnet',
+      text: t<string>('ss58.dock-mainnet', 'Dock Mainnet (live)', { ns: 'apps-config' }),
+      value: 22
+    },
+    {
       info: 'subsocial',
       text: t<string>('ss58.subsocial', 'Subsocial (live)', { ns: 'apps-config' }),
       value: 28

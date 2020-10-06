@@ -6,10 +6,12 @@ import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
 import darwiniaParachain from './darwinia-parachain';
+import dock from './dock';
 import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
+import equilibrium from './equilibrium';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import laminar from './laminar';
@@ -23,11 +25,14 @@ import subsocial from './subsocial';
 
 export default {
   Crab: crab,
+  Equilibrium: equilibrium,
   acala,
   'centrifuge-chain': centrifugeChain,
   crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  'dock-main-runtime': dock,
+  'dock-testnet': dock,
   dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,

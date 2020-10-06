@@ -1,10 +1,55 @@
 # CHANGELOG
 
-## 0.60.0-beta.x
+## 0.61.1 Oct 5, 2020
+
+Contributed:
+
+- Update Arabic i18n for calendar (Thanks to https://github.com/YessineAmor)
+- Additional Korean i18n (Thanks to https://github.com/hskang9)
+- Italian i18n typo fix (Thanks to https://github.com/roccomuso)
+- Add Equilibrium testnet endpoint (Thanks to https://github.com/mikolajsobolewski)
+- Update types for stable-poc (Thanks to https://github.com/riusricardo)
 
 Changes:
 
+- Add experimental dark UI theme
+- Adjust i18n strings for network endpoint (explicit as per display)
+- Adjust vesting display with no countdown when fully vested
+- Adjust validator rewards, fixing issues with "keeps loading" when retrieved in the current era
+- Adjust updates on per-era change, protecting against non-existent (not yet retrieved) exposures
+- Add RoboHash icon theme
+- Adjust logging in InputAddress transforms (don't log already-handled errors)
+- Remove unmaintained packages (e.g. page-dashboard)
+
+
+## 0.60.1 Sep 28, 2020
+
+Contributed:
+
+- Update Italian i18n (Thanks to https://github.com/fomod-in)
+- Show JSON import warning for different genesis (Thanks to https://github.com/Tbaut)
+- Adjust Expander component overflows (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Adjust payout calculations based on new weights (auto-detect batch size)
+- Allow for multiple extrinsic submissions when payouts span multiple batches
 - Show warning on JSON import to store accounts externally (same as create)
+- Combine events displays in status overlays
+- Swap treasury proposal defaults to accept
+- Adjust multiple input address stretch (use full width for names)
+- Filter event/extrinsic metadata with additional readability formatting
+- Ensure that tech. comm. voting is filtered by members
+- Adjust proposal close to allow account selection when multiple accounts found
+- add warning around "this is a dev tool" to the JS playground
+- Add toggle to control unlock duration
+- URI-encode RPC param (allowing for WS url params)
+- Bump Edgeware types (after 2.0-rc upgrade)
+- Adjust warning icon for oversubscribed validators
+- Simplify JSON import via new keyring functionality
+- Adjust button hover highlights for consistency
+- `@polkadot/api` 2.0.1
+- `@polkadot/util` 3.5.1
 
 
 ## 0.59.1 Sep 21, 2020
