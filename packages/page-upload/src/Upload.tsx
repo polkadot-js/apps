@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
@@ -13,7 +12,7 @@ import { Button, InputABI, InputAddress, InputFile, Input, TxButton } from '@can
 import PendingTx from '@canvas-ui/react-components/PendingTx';
 import { useAccountId, useAbi, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
-import { compactAddLength, isNull } from '@polkadot/util';
+import { compactAddLength, isNull, u8aToHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -26,7 +25,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
     onChange: ({ name }: FileState): void => setName(name),
     validate: (file: FileState) => file?.data.subarray(0, 4).toString() === '0,97,115,109'
   });
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const { abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
 
   const pendingTx = usePendingTx('contracts.putCode');
@@ -41,6 +40,9 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
       const section = api.tx.contracts ? 'contracts' : 'contract';
       const record = result.findRecord(section, 'CodeStored');
 
+      console.log(result);
+      console.log(record);
+
       if (record) {
         const codeHash = record.event.data[0];
 
@@ -48,7 +50,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           return;
         }
 
-        store.saveCode({ abi, codeHash: codeHash.toHex(), name, tags: [] })
+        store.saveCode({ abi: abi?.json || undefined, codeHash: codeHash.toHex(), name, tags: [] })
           .then((id): void => navigateTo.uploadSuccess(id)())
           .catch((error: any): void => {
             console.error('Unable to save code', error);
@@ -112,7 +114,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           value={wasm}
         />
         <InputABI
-          contractAbi={contractAbi}
+          abi={abi}
           errorText={errorText}
           file={abiFile}
           isError={isAbiError}

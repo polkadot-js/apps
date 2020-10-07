@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/react-api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { InjectedExtension } from '@polkadot/extension-inject/types';
 import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import storage from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@canvas-ui/apps-config/api';
@@ -166,6 +166,10 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
   // initial initialization
   useEffect((): void => {
+    if (!storage.get('types')) {
+      storage.set('types', { Address: 'AccountId', LookupSource: 'AccountId' });
+    }
+
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 

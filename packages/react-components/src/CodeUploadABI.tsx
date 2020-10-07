@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { BareProps } from './types';
@@ -24,7 +23,7 @@ function CodeUploadABI ({ codeHash, label, onSave }: Props): React.ReactElement<
   const { t } = useTranslation();
   const showNotification = useNotification();
   const [isOpen, toggleIsOpen] = useToggle();
-  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const { abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
 
   const _onSave = useCallback(
@@ -56,7 +55,7 @@ function CodeUploadABI ({ codeHash, label, onSave }: Props): React.ReactElement<
         <Modal.Header>{t<string>('Upload ABI')}</Modal.Header>
         <Modal.Content>
           <InputABI
-            contractAbi={contractAbi}
+            abi={abi}
             errorText={errorText}
             file={abiFile}
             isError={isAbiError}

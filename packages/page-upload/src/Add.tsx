@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { PrefabWasmModule } from '@polkadot/types/interfaces';
@@ -24,7 +23,7 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
   const [codeHash, setCodeHash, , , isCodeHashTouched] = useNonEmptyString();
   const codeStorage = useCall<Option<PrefabWasmModule>>((api.query.contracts || api.query.contract).codeStorage, [codeHash]);
   const [name, setName, isNameValid, isNameError] = useNonEmptyString();
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const { abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
   const { hasCodes } = useCodes();
   const [isCodeHashValid, status] = useMemo(
@@ -63,12 +62,12 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
 
   const _onSave = useCallback(
     (): void => {
-      if (!codeHash || !name) {
+      if (!codeHash || !name || !abi) {
         return;
       }
 
       store
-        .saveCode({ abi, codeHash, name, tags: [] })
+        .saveCode({ abi: abi.json, codeHash, name, tags: [] })
         .then((id): void => {
           showNotification({
             action: truncate(codeHash, 12),
@@ -117,7 +116,7 @@ function Add ({ className, navigateTo }: Props): React.ReactElement<Props> {
           value={name || undefined}
         />
         <InputABI
-          contractAbi={contractAbi}
+          abi={abi}
           errorText={errorText}
           file={abiFile}
           isError={isAbiError}

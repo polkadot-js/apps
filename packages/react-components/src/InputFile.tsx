@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { BareProps } from './types';
@@ -38,14 +37,19 @@ export interface InputFileProps extends BareProps {
 
 const BYTE_STR_0 = '0'.charCodeAt(0);
 const BYTE_STR_X = 'x'.charCodeAt(0);
+const STR_NL = '\n';
 const NOOP = (): void => undefined;
 
-function convertResult (result: ArrayBuffer, convertHex?: boolean): Uint8Array {
+function convertResult (result: ArrayBuffer): Uint8Array {
   const data = new Uint8Array(result);
 
-  // this converts the input (if detected as hex), vai the hex conversion route
-  if (convertHex && data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
-    const hex = u8aToString(data);
+  // this converts the input (if detected as hex), via the hex conversion route
+  if (data[0] === BYTE_STR_0 && data[1] === BYTE_STR_X) {
+    let hex = u8aToString(data);
+
+    while (hex[hex.length - 1] === STR_NL) {
+      hex = hex.substr(0, hex.length - 1);
+    }
 
     if (isHex(hex)) {
       return hexToU8a(hex);
@@ -69,7 +73,7 @@ function InputFile ({ accept, children, className, convertHex, errorText, help, 
 
         reader.onload = ({ target }: ProgressEvent<FileReader>): void => {
           if (target && target.result) {
-            const data = convertResult(target.result as ArrayBuffer, convertHex);
+            const data = convertResult(target.result as ArrayBuffer);
             const fileState = {
               data,
               name: file.name,
@@ -83,7 +87,7 @@ function InputFile ({ accept, children, className, convertHex, errorText, help, 
         reader.readAsArrayBuffer(file);
       });
     },
-    [convertHex, onChange]
+    [onChange]
   );
 
   const _onRemove = useCallback(

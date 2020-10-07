@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
+import { Code } from '@canvas-ui/apps/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import { BareProps } from './types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { CodeStored } from '@canvas-ui/apps/types';
 import { useNotification, useToggle } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 
@@ -17,7 +16,7 @@ import Modal from './Modal';
 import { useTranslation } from './translate';
 
 interface Props extends BareProps {
-  code: CodeStored;
+  code: Code;
   onForget: VoidFn;
 }
 
@@ -32,12 +31,12 @@ function CodeForget ({ className, code, onForget }: Props): React.ReactElement<P
       toggleIsOpen();
 
       showNotification({
-        action: truncate(code.json.codeHash),
+        action: truncate(code.codeHash),
         message: t<string>('code bundle removed'),
         status: 'success'
       });
     },
-    [code.json.codeHash, onForget, showNotification, t, toggleIsOpen]
+    [code.codeHash, onForget, showNotification, t, toggleIsOpen]
   );
 
   return (

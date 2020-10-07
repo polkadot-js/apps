@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from './types';
 
@@ -69,16 +68,14 @@ const Wrapper = styled.div`
   }
 
   &:not(.label-small) {
-    &:not(.label-outer) {
-      > label,
-      .labelExtra {
-        color: var(--grey80);
-        font-size: 0.875rem;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        text-align: left;
-        z-index: 1;
-      }
+    > label,
+    .labelExtra {
+      color: var(--grey80);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      text-align: left;
+      z-index: 1;
     }
 
     &.label-full {

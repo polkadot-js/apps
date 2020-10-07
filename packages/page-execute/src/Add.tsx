@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ContractInfo } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from './types';
@@ -21,7 +20,7 @@ function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<
   const [address, setAddress, , , isAddressTouched] = useNonEmptyString();
   const contractInfo = useCall<Option<ContractInfo>>(api.query.contracts.contractInfoOf, [address]);
   const [name, setName, isNameValid, isNameError] = useNonEmptyString('New Contract');
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const { abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
   const [abiFile, setAbiFile] = useFile({ onChange: onChangeAbi, onRemove: onRemoveAbi });
   const [isAddress, setIsAddress] = useState(false);
   const [isStored, setIsStored] = useState(false);
@@ -82,7 +81,7 @@ function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<
       try {
         const json = {
           contract: {
-            abi,
+            abi: abi.json,
             genesisHash: api.genesisHash.toHex()
           },
           name,
@@ -138,7 +137,7 @@ function Add ({ className, isContract, navigateTo }: Props): React.ReactElement<
           value={name || undefined}
         />
         <InputABI
-          contractAbi={contractAbi}
+          abi={abi}
           errorText={errorText}
           file={abiFile}
           isContract

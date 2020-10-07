@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIMessage } from '@polkadot/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
+import { InkMessageBase } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Abi } from '@polkadot/api-contract';
+import { InkAbi } from '@polkadot/api-contract';
 import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_3_CSS } from './styles/constants';
@@ -17,8 +16,8 @@ import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
 
 export interface Props extends BareProps {
+  abi: InkAbi;
   address?: string;
-  contractAbi: Abi;
   isLabelled?: boolean;
   isRemovable: boolean;
   onRemove?: () => void;
@@ -31,7 +30,7 @@ export interface Props extends BareProps {
 
 function onSelect (props: Props, messageIndex: number): () => void {
   return function (): void {
-    const { address: callAddress, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
+    const { abi: { messages }, address: callAddress, onSelect } = props;
 
     if (!callAddress || !messages || !messages[messageIndex]) {
       return;
@@ -43,7 +42,7 @@ function onSelect (props: Props, messageIndex: number): () => void {
 
 function onSelectConstructor (props: Props, index: number): () => void {
   return function (): void {
-    const { contractAbi: { abi: { contract: { constructors } } }, onSelectConstructor } = props;
+    const { abi: { constructors }, onSelectConstructor } = props;
 
     if (!constructors || !constructors[index]) {
       return;
@@ -53,13 +52,14 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
-  const { docs = [], name } = message;
+function renderItem (props: Props, message: InkMessageBase, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
+  console.log(message);
+  const { docs = [], identifier } = message;
 
   return (
     <div
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'asConstructor')}
-      key={name}
+      key={identifier}
     >
       <div className='info'>
         <MessageSignature
@@ -74,8 +74,8 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
               ? docs
                 .filter((line) => line !== '')
                 .map((line, index) => ((
-                  <React.Fragment key={`${name}-docs-${index}`}>
-                    <span>{line}</span>
+                  <React.Fragment key={`${identifier.toString()}-docs-${index}`}>
+                    <span>{line.toString()}</span>
                     <br />
                   </React.Fragment>
                 )))
@@ -110,7 +110,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
 }
 
 function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { constructors } } } } = props;
+  const { abi: { constructors } } = props;
 
   if (!constructors[index]) {
     return null;
@@ -120,7 +120,7 @@ function renderConstructor (props: Props, index: number, t: <T = string> (key: s
 }
 
 function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { messages } } } } = props;
+  const { abi: { messages } } = props;
 
   if (!messages[index]) {
     return null;
@@ -131,7 +131,7 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, /* isRemovable, onRemove = NOOP, */ withConstructors } = props;
+  const { abi: { constructors, messages }, className = '', isLabelled, /* isRemovable, onRemove = NOOP, */ withConstructors } = props;
 
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
@@ -161,7 +161,7 @@ export default React.memo(styled(Messages)`
   & .message {
     ${ELEV_3_CSS}
     display: inline-flex;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     transition: all 0.2s;
     width: 100%;
 

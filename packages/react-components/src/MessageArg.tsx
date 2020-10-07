@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIArgBase } from '@polkadot/api-contract/types';
+import { InkMessageParam } from '@polkadot/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 import { CodecArg } from '@polkadot/types/types';
 
@@ -12,7 +11,7 @@ import { displayType } from '@polkadot/types';
 import { truncate } from '@canvas-ui/react-util';
 
 export interface Props extends BareProps {
-  arg?: ContractABIArgBase;
+  arg?: InkMessageParam;
   param?: CodecArg;
 }
 
@@ -20,6 +19,10 @@ function MessageArg ({ arg, param }: Props): React.ReactElement<Props> | null {
   if (!arg) {
     return null;
   }
+
+  console.log('cuntoff');
+  console.log(arg);
+  console.log(arg.type);
 
   return (
     <>

@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { CodeStored } from '@canvas-ui/apps/types';
+import { Code } from '@canvas-ui/apps/types';
 import { BareProps } from './types';
 
 import React, { useCallback } from 'react';
@@ -19,11 +18,11 @@ import { useTranslation } from './translate';
 import { truncate } from '@canvas-ui/react-util';
 
 interface Props extends BareProps {
-  code: CodeStored;
+  code: Code;
   isEditable?: boolean;
 }
 
-function CodeInfo ({ children, className, code: { id, json: { codeHash, name } }, isEditable }: Props): React.ReactElement<Props> {
+function CodeInfo ({ children, className, code: { codeHash, id, name }, isEditable }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [newName, setNewName, isNewNameValid, isNewNameError] = useNonEmptyString(name);
   const [isEditingName, toggleIsEditingName] = useToggle();

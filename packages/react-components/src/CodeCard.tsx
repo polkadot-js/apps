@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { CodeStored, ComponentProps } from '@canvas-ui/apps/types';
+import { Code, ComponentProps } from '@canvas-ui/apps/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 
@@ -12,23 +11,22 @@ import store from '@canvas-ui/apps/store';
 import { ELEV_1_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useToggle } from '@canvas-ui/react-hooks';
 
+import Abi from './Abi';
 import Button from './Button';
 import CodeForget from './CodeForget';
 import CodeInfo from './CodeInfo';
 import CodeUploadABI from './CodeUploadABI';
-import Expander from './Expander';
-import Messages from './Messages';
 import { useTranslation } from './translate';
 
 interface Props extends ComponentProps {
-  code: CodeStored;
+  code: Code;
   onForget?: VoidFn;
 }
 
-function CodeCard ({ className, code, code: { contractAbi, id }, navigateTo, onForget: _onForget }: Props): React.ReactElement<Props> {
+function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onForget }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isAbiOpen, toggleIsAbiOpen, setIsAbiOpen] = useToggle();
-  const { isAbiSupplied, onChangeAbi } = useAbi(code);
+  const [, , setIsAbiOpen] = useToggle();
+  const { abi, isAbiSupplied, onChangeAbi } = useAbi(code);
 
   const onDeploy = useCallback(
     (): void => {
@@ -61,26 +59,15 @@ function CodeCard ({ className, code, code: { contractAbi, id }, navigateTo, onF
         isEditable
       >
         {
-          isAbiSupplied && contractAbi && (
-            <Expander
-              isOpen={isAbiOpen}
-              onClick={toggleIsAbiOpen}
-              summary={t<string>('ABI')}
-            >
-              <Messages
-                contractAbi={contractAbi}
-                isLabelled={false}
-                isRemovable={false}
-                withConstructors
-              />
-            </Expander>
+          isAbiSupplied && abi && (
+            <Abi abi={abi} />
           )
         }
       </CodeInfo>
       <div className='footer'>
         <Button.Group>
           <CodeUploadABI
-            codeHash={code.json.codeHash}
+            codeHash={code.codeHash}
             label={t(isAbiSupplied ? 'Edit ABI' : 'Add ABI')}
             onSave={onSaveABI}
           />

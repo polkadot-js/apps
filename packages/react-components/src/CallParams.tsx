@@ -1,9 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIFnArg } from '@polkadot/api-contract/types';
-import { TypeDef } from '@polkadot/types/types';
+import { InkMessageParam } from '@polkadot/api-contract/types';
 import { RawParams } from '@canvas-ui/react-params/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -11,18 +9,13 @@ import UIParams from '@canvas-ui/react-params';
 
 interface Props {
   isDisabled?: boolean;
-  params?: ContractABIFnArg[];
+  params?: InkMessageParam[];
   onChange: (values: any[]) => void;
   onEnter?: () => void;
 }
 
-interface ParamDef {
-  name: string;
-  type: TypeDef;
-}
-
 function CallParams ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
-  const [params, setParams] = useState<ParamDef[]>([]);
+  const [params, setParams] = useState<InkMessageParam[]>([]);
 
   useEffect((): void => {
     propParams && setParams(propParams);

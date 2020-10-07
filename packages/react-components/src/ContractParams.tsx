@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIFnArg } from '@polkadot/api-contract/types';
+import { InkMessageParam } from '@polkadot/api-contract/types';
 import { RawParams } from '@canvas-ui/react-params/types';
 
 import React from 'react';
@@ -10,7 +9,7 @@ import UIParams from '@canvas-ui/react-params';
 
 interface Props {
   isDisabled?: boolean;
-  params?: ContractABIFnArg[];
+  params?: InkMessageParam[];
   onChange: (values: RawParams) => void;
   onEnter?: () => void;
   values: RawParams;

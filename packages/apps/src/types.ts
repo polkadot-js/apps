@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@canvas-ui/react-components/Status/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
+import { AnyJson } from '@polkadot/types/types';
 
-import { Abi } from '@polkadot/api-contract';
+import { InkAbi } from '@polkadot/api-contract';
 
 export interface AppNavigation {
   deploy: VoidFn;
@@ -34,19 +34,26 @@ export interface AppProps extends BareProps, WithBasePath, WithAppNavigation {
   onStatusChange: (status: ActionStatus) => void;
 }
 
-export interface CodeJson {
-  abi?: string | null;
+interface CodeBase {
+  id: string;
   codeHash: string;
   name: string;
   genesisHash: string;
   tags: string[];
 }
 
-export interface CodeStored {
-  id: string;
-  json: CodeJson;
-  contractAbi?: Abi;
+export interface Code extends CodeBase {
+  abi?: AnyJson | null;
 }
+
+// export interface Code extends CodeBase {
+//   abi: InkAbi | null;
+// }
+
+// export interface CodeStored {
+//   id: string;
+//   contractAbi?: InkAbi;
+// }
 
 export interface ContractJsonOld {
   genesisHash: string;
@@ -56,7 +63,7 @@ export interface ContractJsonOld {
 }
 
 export interface WithCodes {
-  allCodes: CodeStored[];
+  allCodes: Code[];
   hasCodes: boolean;
   updated: number;
 }

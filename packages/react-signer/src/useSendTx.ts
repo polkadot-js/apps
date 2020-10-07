@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SignerResult, SubmittableExtrinsic } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
@@ -296,7 +295,7 @@ export default function useSendTx (currentItem: QueueTx, requestAddress: string)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
-
+        console.log(tx.method.args[0]);
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
     },

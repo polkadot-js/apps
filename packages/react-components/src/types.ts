@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { WithTranslation } from 'react-i18next';
 import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Abi } from '@polkadot/api-contract';
+import { InkAbi } from '@polkadot/api-contract';
 import { TxState } from '@canvas-ui/react-hooks/types';
 import { AccountId, Index } from '@polkadot/types/interfaces';
 import { ButtonProps } from './Button/types';

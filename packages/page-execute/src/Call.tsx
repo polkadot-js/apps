@@ -1,10 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
+// SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { RawParams } from '@canvas-ui/react-params/types';
-import { ContractMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import { InkMessage, InkMessageParam, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
@@ -13,7 +12,7 @@ import styled from 'styled-components';
 import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
 import { PromiseContract as Contract } from '@polkadot/api-contract';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
-import createValues, { extractValues } from '@canvas-ui/react-params/values';
+import createValues, { createValue, extractValues } from '@canvas-ui/react-params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { getContractForAddress } from '@canvas-ui/react-util';
 import { BN_ZERO, isNull, u8aToHex } from '@polkadot/util';
@@ -25,9 +24,9 @@ type Options = { key: string, text: React.ReactNode, value: number }[];
 
 function getCallMessageOptions (callContract: Contract | null): Options {
   return callContract
-    ? callContract.messages.map(({ def: message, def: { name }, index }): { key: string; text: React.ReactNode; value: number } => {
+    ? callContract.abi.messages.map((message, index): { key: string; text: React.ReactNode; value: number } => {
       return {
-        key: name,
+        key: message.identifier,
         text: (
           <MessageSignature message={message} />
         ),
@@ -62,30 +61,78 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     },
     [api, pageParams.address]
   );
-  const message = useMemo(
-    (): ContractMessage | null => {
-      try {
-        return contract?.getMessage(messageIndex) || null;
-      } catch (e) {
-        return null;
+
+  // const [message, setMessage] = useState<InkMessage | null>(contract?.abi.messages[messageIndex] || null);
+  const [params, setParams] = useState<InkMessageParam[]>(contract?.abi?.messages[messageIndex]?.args || []);
+  const [values, setValues] = useState<RawParams>(createValues(params));
+  const encoder = useCallback((): Uint8Array | null => {
+    return contract?.abi?.messages[messageIndex]
+      ? contract.abi.messages[messageIndex](...extractValues(values || [])) as unknown as Uint8Array
+      : null;
+  }, [contract?.abi?.messages, messageIndex, values]);
+
+  useEffect(
+    (): void => {
+      const newMessage = contract?.abi?.messages[messageIndex] || null;
+      const newParams = newMessage?.args || [];
+      const newValues = newParams.map((param, index) => {
+        console.log(param, params[index]);
+        if (param.type === params[index].type) {
+          console.log('Match at same index');
+          return values[index];
+        }
+
+        return createValue(param);
+      });
+
+      if (params !== newParams) {
+        setParams(newParams);
+        setValues(newValues);
+      }
+
+      if (hasRpc) {
+        if (!newMessage || newMessage.mutates) {
+          setUseRpc(false);
+        } else {
+          setUseRpc(true);
+        }
       }
     },
-    [contract, messageIndex]
+    [contract?.abi?.messages, hasRpc, messageIndex, params, values]
   );
 
-  const [params, setParams] = useState<any[]>(message ? message.def.args : []);
-  const [values, setValues] = useState<RawParams>(createValues(params));
+  // const [values, setValues] = useState<RawParams>(createValues(message?.args || []));
+
+  // useEffect(
+  //   (): void => {
+  //     const message = contract?.abi.messages[messageIndex] || null;
+
+  //     setMessage(message);
+  //     setValues(createValues(message?.args || []));
+
+  //     if (hasRpc) {
+  //       if (!message || message.mutates) {
+  //         setUseRpc(false);
+  //       } else {
+  //         setUseRpc(true);
+  //       }
+  //     }
+  //   },
+  //   [contract, messageIndex, hasRpc]
+  // );
+
   const [accountId, setAccountId] = useAccountId();
   const [endowment, setEndowment, isEndowmentValid, isEndowmentError] = useFormField<BN>(BN_ZERO);
-  const [useRpc, setUseRpc] = useState(hasRpc && message && !message.def.mutates);
+  const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].mutates);
   const useWeightHook = useGasWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
-  const data = useMemo(
-    (): Uint8Array | null => {
-      return message?.fn(...values.map(({ value }) => value) as any[]) || null;
-    },
-    [message, values]
-  );
+
+  // const data = useMemo(
+  //   (): Uint8Array | null => {
+  //     return message ? message(...extractValues(values)) as unknown as Uint8Array : null;
+  //   },
+  //   [message, values]
+  // );
   const messageOptions = useMemo(
     (): Options => getCallMessageOptions(contract),
     [contract]
@@ -98,45 +145,25 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     [contract]
   );
 
-  useEffect(
-    (): void => {
-      setParams(message ? message.def.args : []);
-
-      if (hasRpc) {
-        if (!message || message.def.mutates) {
-          setUseRpc(false);
-        } else {
-          setUseRpc(true);
-        }
-      }
-    },
-    [message, hasRpc]
-  );
-
-  useEffect(
-    (): void => {
-      setValues(createValues(params));
-    },
-    [params]
-  );
-
   const _constructTx = useCallback(
     (): any[] => {
-      if (!accountId || !message || !message.fn || !contract || !contract.address) {
+      const data = encoder();
+
+      if (!accountId || !data || !contract || !contract.address) {
         return [];
       }
 
-      return [contract.address.toString(), endowment, weight, message.fn(...extractValues(values))];
+      return [contract.address.toString(), endowment, weight, data];
     },
-    [accountId, contract, message, endowment, values, weight]
+    [accountId, contract, encoder, endowment, weight]
   );
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !contract || !message || !endowment || !weight) return;
+      if (!accountId || !contract || !endowment || !weight) return;
 
       !!contract && contract
-        .call('rpc', message.def.name, endowment, weight, ...extractValues(values))
+        .call('rpc', messageIndex, endowment, weight, ...extractValues(values))
         .send(accountId)
         .then(
           (outcome: ContractCallOutcome): void => {
@@ -144,7 +171,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
           }
         );
     },
-    [accountId, contract, message, endowment, weight, outcomes, values]
+    [accountId, contract, messageIndex, endowment, weight, outcomes, values]
   );
 
   // const _onClearOutcomes = useCallback(
@@ -166,16 +193,16 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   const additionalDetails = useMemo(
     (): Record<string, any> => ({
-      data: data ? u8aToHex(data) : null,
+      // data: data ? u8aToHex(data) : null,
       message: messageOptions[messageIndex]?.text,
       name: name || '',
       params: params.map((param, index) => ({
-        arg: <MessageArg arg={message?.def.args[index]} />,
+        arg: <MessageArg arg={param} />,
         value: values[index].value
       })),
       weight: weight.toString()
     }),
-    [data, name, messageOptions, message, messageIndex, params, values, weight]
+    [name, messageOptions, messageIndex, params, values, weight]
   );
 
   if (pendingTx.currentItem) {
@@ -188,7 +215,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     );
   }
 
-  if (isNull(contract) || isNull(messageIndex) || !message) {
+  if (isNull(contract) || isNull(messageIndex) || !contract?.abi?.messages[messageIndex]) {
     return null;
   }
 
@@ -214,7 +241,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
             <Dropdown
               defaultValue={messageIndex}
               help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
-              isError={message === null}
+              isError={messageIndex >= contract?.abi?.messages.length}
               label={t<string>('Message to Send')}
               onChange={setMessageIndex}
               options={messageOptions}
@@ -222,11 +249,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
             />
             <ContractParams
               onChange={setValues}
-              params={
-                message
-                  ? message.def.args
-                  : undefined
-              }
+              params={params}
               values={values}
             />
             <InputBalance

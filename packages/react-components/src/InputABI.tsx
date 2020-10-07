@@ -1,20 +1,19 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Abi } from '@polkadot/api-contract';
+import { InkAbi } from '@polkadot/api-contract';
 
 import InputFile from './InputFile';
 import Messages from './Messages';
 import { useTranslation } from './translate';
 
 interface Props extends BareProps {
-  contractAbi?: Abi | null;
+  abi?: InkAbi | null;
   errorText?: string | null;
   file: FileState | null;
   isContract?: boolean;
@@ -32,10 +31,10 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructor, withLabel }: Props): React.ReactNode {
+function renderMessages ({ abi, isDisabled, onRemove, onSelectConstructor, withLabel }: Props): React.ReactNode {
   return (
     <Messages
-      contractAbi={contractAbi}
+      abi={abi}
       isLabelled={withLabel}
       isRemovable={!isDisabled}
       onRemove={onRemove}
@@ -46,7 +45,7 @@ function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructo
 }
 
 function InputABI (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi, errorText, file, isContract = false, isDisabled, isError, isRequired = false, isValid, setFile, withLabel } = props;
+  const { abi, className, errorText, file, isContract = false, isDisabled, isError, isRequired = false, isValid, setFile, withLabel } = props;
   const { t } = useTranslation();
 
   const help = isContract
@@ -71,7 +70,7 @@ function InputABI (props: Props): React.ReactElement<Props> {
       value={file}
       withLabel={withLabel}
     >
-      {(contractAbi && isValid) ? renderMessages(props) : null}
+      {(abi && isValid) ? renderMessages(props) : null}
     </InputFile>
   );
 }

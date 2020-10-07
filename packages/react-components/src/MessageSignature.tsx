@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { InkMessage } from '@polkadot/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 import { CodecArg } from '@polkadot/types/types';
 
@@ -17,37 +16,44 @@ import { useTranslation } from './translate';
 import { classes } from '@canvas-ui/react-util';
 
 export interface Props extends BareProps {
-  asConstructor?: boolean;
-  message: ContractABIMessage;
+  message: InkMessage;
   params?: CodecArg[];
   withTooltip?: boolean;
 }
 
-function MessageSignature ({ className, message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, identifier, isConstructor, mutates, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  // console.log('fuckoff');
+  // console.log(returnType);
+  // console.log(args[0]);
+
+  console.log(returnType);
+
   return (
-    <div className={classes(className, asConstructor && 'asConstructor')}>
+    <div className={classes(className, isConstructor && 'asConstructor')}>
       <span className='ui--MessageSignature-name'>
-        {name}
+        {identifier}
       </span>
       (
       {args.map((arg, index): React.ReactNode => {
         return (
-          <MessageArg
-            arg={arg}
-            key={arg.name}
-            param={params[index]}
-          />
+          <React.Fragment key={arg.name}>
+            <MessageArg
+              arg={arg}
+              param={params[index]}
+            />
+            {index < args.length - 1 && ', '}
+          </React.Fragment>
         );
       })}
       )
-      {(!asConstructor && returnType) && (
+      {(!isConstructor && returnType) && (
         <>
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {displayType(returnType)}
+            {displayType({ ...returnType.type, displayName: returnType.displayName })}
           </span>
         </>
       )}
@@ -55,14 +61,14 @@ function MessageSignature ({ className, message: { args, mutates, name, returnTy
         <>
           <Icon
             className='ui--MessageSignature-mutates'
-            data-for={`mutates-${name}`}
+            data-for={`mutates-${identifier}`}
             data-tip
             name='database'
           />
           {withTooltip && (
             <Tooltip
               text={t<string>('Mutates contract state')}
-              trigger={`mutates-${name}`}
+              trigger={`mutates-${identifier}`}
             />
           )}
         </>

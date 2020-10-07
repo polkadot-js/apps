@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @canvas-ui/react-hooks authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { CodeStored } from '@canvas-ui/apps/types';
-import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
+import { Code } from '@canvas-ui/apps/types';
+import { VoidFn } from '@canvas-ui/react-util/types';
+import { AnyJson } from '@polkadot/types/types';
 import { FileState } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Abi } from '@polkadot/api-contract';
+import { InkAbi } from '@polkadot/api-contract';
 import store from '@canvas-ui/apps/store';
 import { registry } from '@canvas-ui/react-api';
 import { u8aToString } from '@polkadot/util';
@@ -15,8 +15,7 @@ import { u8aToString } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface UseAbi {
-  abi: string | null;
-  contractAbi: Abi | null;
+  abi: InkAbi | null;
   errorText: string | null;
   isAbiError: boolean;
   isAbiValid: boolean;
@@ -25,25 +24,30 @@ interface UseAbi {
   onRemoveAbi: VoidFn;
 }
 
-type State = [StringOrNull, Abi | null, boolean, boolean];
+type State = [InkAbi | null, boolean, boolean];
 
-interface ContractABIOutdated {
+interface InkAbiSpecOutdated {
   deploy?: any;
   messages?: any;
+  registry?: {
+    strings?: any;
+  }
 }
 
-export default function useAbi (source: CodeStored | null = null, isRequired = false): UseAbi {
+export default function useAbi (source: Code | null = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
+  console.log(source?.abi);
   const initialState: State = source
-    ? [source.json.abi || null, source.contractAbi || null, !!source.contractAbi, !isRequired || !!source.contractAbi]
-    : [null, null, false, false];
-  const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>(initialState);
+    ? [new InkAbi(registry, source.abi || null), !!source?.abi, !isRequired || !!source.abi]
+    : [null, false, false];
+  const [[abi, isAbiSupplied, isAbiValid], setAbi] = useState<State>(initialState);
   const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
 
   useEffect(
     (): void => {
-      if (!!source?.json?.abi && abi !== source.json.abi) {
-        setAbi([source.json.abi, source?.contractAbi || null, !!source.contractAbi, !isRequired || !!source.contractAbi]);
+      if (!!source?.abi && abi?.json !== source.abi) {
+        console.log(source.abi);
+        setAbi([new InkAbi(registry, source.abi || null), !!source.abi, !isRequired || !!source.abi]);
       }
     },
     [abi, source, isRequired]
@@ -54,21 +58,23 @@ export default function useAbi (source: CodeStored | null = null, isRequired = f
       const json = u8aToString(data);
 
       try {
-        const abiOutdated = JSON.parse(json) as ContractABIOutdated;
+        const abiOutdated = JSON.parse(json) as InkAbiSpecOutdated;
 
         if (abiOutdated.deploy || abiOutdated.messages) {
           throw new Error(t<string>('You are using an ABI with an outdated format. Please generate a new one.'));
         }
 
-        setAbi([json, new Abi(registry, JSON.parse(json)), true, true]);
+        const newAbi = JSON.parse(json) as AnyJson;
+
+        setAbi([new InkAbi(registry, newAbi), true, true]);
         source?.id && store.saveCode(
-          { abi: json },
+          { abi: newAbi },
           source.id
         );
       } catch (error) {
         console.error(error);
 
-        setAbi([null, null, false, false]);
+        setAbi([null, false, false]);
         setError([true, error]);
       }
     },
@@ -77,7 +83,7 @@ export default function useAbi (source: CodeStored | null = null, isRequired = f
 
   const onRemoveAbi = useCallback(
     (): void => {
-      setAbi([null, null, false, false]);
+      setAbi([null, false, false]);
       setError([false, null]);
 
       source?.id && store.saveCode(
@@ -89,6 +95,6 @@ export default function useAbi (source: CodeStored | null = null, isRequired = f
   );
 
   return {
-    abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi
+    abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi
   };
 }

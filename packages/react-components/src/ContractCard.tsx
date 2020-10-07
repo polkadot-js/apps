@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { PromiseContract as Contract } from '@polkadot/api-contract';
 import { ComponentProps } from '@canvas-ui/apps/types';
@@ -8,13 +7,11 @@ import { ComponentProps } from '@canvas-ui/apps/types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { ELEV_1_CSS } from '@canvas-ui/react-components/styles/constants';
-import { useToggle } from '@canvas-ui/react-hooks';
 
+import Abi from './Abi';
 import Button from './Button';
 import ContractForget from './ContractForget';
 import ContractInfo from './ContractInfo';
-import Expander from './Expander';
-import Messages from './Messages';
 import { useTranslation } from './translate';
 
 interface Props extends ComponentProps {
@@ -23,7 +20,6 @@ interface Props extends ComponentProps {
 
 function ContractCard ({ className, contract: { abi, address }, navigateTo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isAbiOpen, toggleIsAbiOpen] = useToggle();
 
   const onExecute = useCallback(
     (): void => {
@@ -38,17 +34,7 @@ function ContractCard ({ className, contract: { abi, address }, navigateTo }: Pr
         address={address.toString()}
         isEditable
       >
-        <Expander
-          isOpen={isAbiOpen}
-          onClick={toggleIsAbiOpen}
-          summary={t<string>('ABI')}
-        >
-          <Messages
-            contractAbi={abi}
-            isLabelled={false}
-            isRemovable={false}
-          />
-        </Expander>
+        <Abi abi={abi} />
       </ContractInfo>
       <div className='footer'>
         <Button.Group>

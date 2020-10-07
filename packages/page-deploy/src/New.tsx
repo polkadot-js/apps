@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { CodeStored } from '@canvas-ui/apps/types';
+import { Code } from '@canvas-ui/apps/types';
 import { RawParams } from '@canvas-ui/react-params/types';
+import { InkMessage, InkMessageParam, InkConstructor } from '@polkadot/api-contract/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from './types';
 
@@ -18,7 +18,7 @@ import { useAbi, useAccountId, useGasWeight, useNonEmptyString, useNonZeroBn, us
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import keyring from '@polkadot/ui-keyring';
 import { truncate } from '@canvas-ui/react-util';
-import createValues from '@canvas-ui/react-params/values';
+import createValues, { extractValues } from '@canvas-ui/react-params/values';
 import { u8aToHex } from '@polkadot/util';
 
 // import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
@@ -37,8 +37,8 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   const { t } = useTranslation();
   const { api } = useApi();
   const code = useMemo(
-    (): CodeStored | undefined => {
-      return allCodes.find((code: CodeStored) => id === code.id);
+    (): Code | null => {
+      return allCodes.find((code: Code) => id === code.id) || null;
       // allCodes.map(({ json: { codeHash, name } }): { text: string; value: string } => ({
       //   text: `${name} (${codeHash})`,
       //   value: codeHash
@@ -51,31 +51,31 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   const [accountId, setAccountId] = useAccountId();
   const [endowment, setEndowment, isEndowmentValid] = useNonZeroBn(ENDOWMENT);
   const [constructorIndex, setConstructorIndex] = useState(parseInt(index, 10) || 0);
-  const [name, setName, isNameValid, isNameError] = useNonEmptyString(t(defaultContractName(code?.json.name)));
-  const { abi, contractAbi } = useAbi(code);
+  const [name, setName, isNameValid, isNameError] = useNonEmptyString(t(defaultContractName(code?.name)));
+  const { abi } = useAbi(code);
   const pendingTx = usePendingTx('contracts.instantiate');
 
   const constructOptions = useMemo(
     (): ConstructOptions => {
-      if (!contractAbi) {
+      if (!abi) {
         return [];
       }
 
-      return contractAbi.abi.contract.constructors.map(
-        (constr, index) => {
+      return abi.constructors.map(
+        (constructor, index) => {
           return {
             key: `${index}`,
             text: (
               <MessageSignature
                 asConstructor
-                message={constr}
+                message={constructor}
               />
             ),
             value: `${index}`
           };
         });
     },
-    [contractAbi]
+    [abi]
   );
 
   const isValid = useMemo(
@@ -90,45 +90,85 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   //   [allCodes]
   // );
 
-  const [params, setParams] = useState<any[]>(
-    contractAbi && constructorIndex >= 0 ? contractAbi.abi.contract.constructors[constructorIndex].args : []
-  );
+  // const constructor = useMemo(
+  //   (): InkConstructor | null => abi?.constructors[constructorIndex] || null,
+  //   [abi?.constructors, constructorIndex]
+  // );
 
+  const [params, setParams] = useState<InkMessageParam[]>(abi?.constructors[constructorIndex].args || []);
   const [values, setValues] = useState<RawParams>(createValues(params));
+  const encoder = useCallback((): Uint8Array | null => {
+    return abi?.constructors[constructorIndex]
+      ? abi.constructors[constructorIndex](...extractValues(values || [])) as unknown as Uint8Array
+      : null;
+  }, [abi?.constructors, constructorIndex, values]);
+
+  // const [data, setData] = useState<Uint8Array | null>(
+  //   abi?.constructors[constructorIndex]
+  //     ? abi.constructors[constructorIndex](...extractValues(values || [])) as unknown as Uint8Array
+  //     : null
+  // );
+
+  console.log('horseshit');
 
   useEffect(
     (): void => {
-      const newParams = contractAbi ? contractAbi.abi.contract.constructors[constructorIndex].args : [];
+      // console.log('constructorIndex', constructorIndex);
+      // console.log('constructor', constructor);
+      // console.log('values', values);
+      // console.log('data', data ? u8aToHex(data) : null);
+      const newParams = abi?.constructors[constructorIndex].args || [];
+      const defaults = createValues(newParams);
+      // const encoder = abi?.constructors[constructorIndex];
 
       setParams(newParams);
-      setValues(createValues(newParams));
+      setValues(defaults);
+      // setData(
+      //   encoder
+      //     ? encoder(...extractValues(defaults)) as unknown as Uint8Array
+      //     : null
+      // );
     },
-    [constructorIndex, contractAbi]
+    [abi, constructorIndex]
   );
+
+  // useEffect(
+  //   (): void => {
+  //     const encoder = abi?.constructors[constructorIndex];
+
+  //     setData()
+  //   }
+  // )
 
   useEffect(
     (): void => {
-      setName(t(defaultContractName(code?.json.name)));
+      setName(t(defaultContractName(code?.name)));
     },
     [code, setName, t]
   );
 
-  const data = useMemo(
-    (): Uint8Array | null => {
-      return contractAbi?.constructors[constructorIndex](...values.map(({ value }) => value) as any[]) || null;
-    },
-    [contractAbi, constructorIndex, values]
-  );
+  // const data = useMemo(
+  //   (): Uint8Array | null => {
+  //     let result: Uint8Array | null = null;
+
+  //     if (abi?.constructors[constructorIndex]) {
+  //       result = abi.constructors[constructorIndex](...extractValues(values)) as unknown as Uint8Array;
+  //     }
+
+  //     return result || null;
+  //   },
+  //   [abi?.constructors, constructorIndex, values]
+  // );
 
   const _constructCall = useCallback(
     (): any[] => {
-      if (!contractAbi || constructorIndex < 0) {
+      if (!abi || constructorIndex < 0) {
         return [];
       }
 
-      return [endowment, weight, code?.json.codeHash, data];
+      return [endowment, weight, code?.codeHash || null, encoder()];
     },
-    [code, constructorIndex, contractAbi, data, endowment, weight]
+    [code, constructorIndex, abi, encoder, endowment, weight]
   );
 
   const _onSuccess = useCallback(
@@ -141,9 +181,14 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
         // more clever here to find the exact contract deployed, this works for eg. Delegator)
         const address = records[records.length - 1].event.data[1] as unknown as AccountId;
 
+        console.log(address);
+        console.log(address.toString());
+
+        console.log(abi?.json);
+
         keyring.saveContract(address.toString(), {
           contract: {
-            abi,
+            abi: abi?.json || undefined,
             genesisHash: api.genesisHash.toHex()
           },
           name,
@@ -159,24 +204,24 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   const additionalDetails = useMemo(
     (): Record<string, any> => ({
       constructor: constructOptions[constructorIndex]?.text,
-      data: data ? u8aToHex(data) : null,
+      // data: encoder ? u8aToHex(encoder()) : null,
       name: name || '',
       params: params.map((param, index) => ({
-        arg: <MessageArg arg={contractAbi?.abi.contract.constructors[constructorIndex].args[index]} />,
+        arg: <MessageArg arg={param} />,
         value: values[index].value
       })),
       weight: weight.toString()
     }),
-    [contractAbi, data, name, constructOptions, constructorIndex, params, values, weight]
+    [name, constructOptions, constructorIndex, params, values, weight]
   );
 
   useEffect(
     (): void => {
-      if (!contractAbi) {
+      if (!abi) {
         navigateTo.deploy();
       }
     },
-    [contractAbi, navigateTo]
+    [abi, navigateTo]
   );
 
   // if (!contractAbi) {
@@ -196,7 +241,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   return (
     <div className={className}>
       <header>
-        <h1>{t<string>('Deploy {{contractName}}', { replace: { contractName: code?.json.name || 'Contract' } })}</h1>
+        <h1>{t<string>('Deploy {{contractName}}', { replace: { contractName: code?.name || 'Contract' } })}</h1>
         <div className='instructions'>
           {t<string>('Choose an account to deploy the contract from, give it a descriptive name and set the endowment amount.')}
         </div>
@@ -219,18 +264,18 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
         <Labelled label={t<string>('Code Bundle')}>
           <div className='code-bundle'>
             <div className='name'>
-              {code?.json.name || ''}
+              {code?.name || ''}
             </div>
             <div className='code-hash'>
-              {truncate(code?.json.codeHash || '', 16)}
+              {truncate(code?.codeHash || '', 16)}
             </div>
           </div>
         </Labelled>
-        {contractAbi && (
+        {abi && (
           <>
             <Dropdown
               help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
-              isDisabled={contractAbi.abi.contract.constructors.length <= 1}
+              isDisabled={abi.constructors.length <= 1}
               label={t<string>('Deployment Constructor')}
               onChange={setConstructorIndex}
               options={constructOptions}
@@ -238,11 +283,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             />
             <ContractParams
               onChange={setValues}
-              params={
-                contractAbi && constructorIndex >= 0
-                  ? contractAbi.abi.contract.constructors[constructorIndex].args
-                  : []
-              }
+              params={params || []}
               values={values}
             />
           </>

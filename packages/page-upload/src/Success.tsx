@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { CodeStored } from '@canvas-ui/apps/types';
+import { Code } from '@canvas-ui/apps/types';
 import { ComponentProps as Props } from './types';
 
 import React, { useEffect, useMemo } from 'react';
@@ -16,7 +15,7 @@ function Success ({ allCodes, basePath, navigateTo }: Props): React.ReactElement
   const { t } = useTranslation();
 
   const code = useMemo(
-    (): CodeStored | null => allCodes.find(({ id: codeId }) => codeId === id) || null,
+    (): Code | null => allCodes.find(({ id: codeId }) => codeId === id) || null,
     [allCodes, id]
   );
 

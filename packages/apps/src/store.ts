@@ -1,15 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIPre } from '@polkadot/api-contract/types';
-import { CodeJson, CodeStored } from './types';
+import { Code } from './types';
 
 import EventEmitter from 'eventemitter3';
 import { nanoid } from 'nanoid';
 import store from 'store';
-import { Abi } from '@polkadot/api-contract';
-import { api, registry } from '@canvas-ui/react-api';
+import { api } from '@canvas-ui/react-api';
 
 const KEY_CODE = 'code:';
 
@@ -18,7 +15,7 @@ function newId (): string {
 }
 
 class Store extends EventEmitter {
-  private allCode: Record<string, CodeStored> = {};
+  private allCode: Record<string, Code> = {};
 
   private hashToId: Record<string, string> = {};
 
@@ -32,11 +29,11 @@ class Store extends EventEmitter {
 
   public isReady = false;
 
-  public getAllCode (): CodeStored[] {
+  public getAllCode (): Code[] {
     return Object.values(this.allCode);
   }
 
-  public getCode (id: string): CodeStored | null {
+  public getCode (id: string): Code | null {
     return this.allCode[id] || null;
   }
 
@@ -45,19 +42,20 @@ class Store extends EventEmitter {
   // }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async saveCode (code: Pick<CodeJson, never>, anId?: string): Promise<string> {
+  public async saveCode (code: Pick<Code, never>, anId?: string): Promise<string> {
     const id = anId || newId();
     const existing = anId ? this.getCode(anId) : null;
 
     const json = {
-      ...(existing ? existing.json : {}),
+      ...existing,
       ...code,
-      genesisHash: api.genesisHash.toHex()
+      genesisHash: api.genesisHash.toHex(),
+      id
     };
 
     store.set(`${KEY_CODE}${id || newId()}`, json);
 
-    this.addCode(id, json as CodeJson);
+    this.addCode(id, json as Code);
 
     return id;
   }
@@ -76,12 +74,16 @@ class Store extends EventEmitter {
   // }
 
   public async loadAll (): Promise<void> {
+    // if (!store.get('types')) {
+    //   await store.set('types', { Address: 'AccountId', LookupSource: 'AccountId' });
+    // }
+
     try {
       await api.isReady;
 
       const genesisHash = api.genesisHash.toHex();
 
-      store.each((json: CodeJson, key: string): void => {
+      store.each((json: Code, key: string): void => {
         if (json && json.genesisHash !== genesisHash) {
           return;
         }
@@ -98,20 +100,10 @@ class Store extends EventEmitter {
     }
   }
 
-  private addCode (id: string, json: CodeJson): void {
+  private addCode (id: string, json: Code): void {
     try {
-      const abi = json.abi
-        ? JSON.parse(json.abi) as ContractABIPre
-        : null;
-
       this.hashToId[json.codeHash] = id;
-      this.allCode[id] = {
-        contractAbi: abi
-          ? new Abi(registry, abi)
-          : undefined,
-        id,
-        json
-      };
+      this.allCode[id] = json;
 
       this.emit('new-code');
     } catch (error) {
@@ -121,7 +113,7 @@ class Store extends EventEmitter {
 
   private removeCode (id: string): void {
     try {
-      const { json: { codeHash } } = this.allCode[id];
+      const { codeHash } = this.allCode[id];
 
       delete this.hashToId[codeHash];
       delete this.allCode[id];
