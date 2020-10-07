@@ -94,8 +94,6 @@ export default React.memo(styled(ChainInfo)`
       padding-right: 0.571rem;
 
       .info-text-wrapper {
-        display: flex;
-        align-items: center;
       }
 
       .chain {
@@ -107,11 +105,7 @@ export default React.memo(styled(ChainInfo)`
       .bestNumber,
       .runtimeVersion {
         font-size: 0.715rem;
-        line-height: 1.4rem;
-      }
-
-      .bestNumber {
-        margin-left: .5715rem;
+        line-height: 1rem;
       }
     }
   }

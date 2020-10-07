@@ -17,6 +17,8 @@ export const darkTheme: ThemeDef = {
   color: 'rgba(244, 242, 240, 0.9)',
   colorError: 'rgba(255, 0, 0, 0.85)',
   colorLabel: 'rgba(244, 242, 240, 0.45)',
+  colorMenuHover: '#1A1B20',
+  colorMenuItem: '#4D4D4D',
   colorSummary: 'rgba(244, 242, 240, 0.75)',
   theme: 'dark'
 };
@@ -35,6 +37,8 @@ export const lightTheme: ThemeDef = {
   color: '#4e4e4e',
   colorError: 'rgba(139, 0, 0)',
   colorLabel: 'rgba(78, 78, 78, 0.66)',
+  colorMenuHover: '#1A1B20',
+  colorMenuItem: '#4D4D4D',
   colorSummary: 'rgba(0, 0, 0, 0.6)',
   theme: 'light'
 };

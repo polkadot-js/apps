@@ -26,10 +26,10 @@ function Grouping ({ activeRoute, className = '', name, routes, variant }: Props
       case 'active-tab': {
         return (
           <>{activeRoute &&
-            <MenuActiveItem className='highlight--color'>
+            <div className='active-tab highlight--color'>
               <Icon icon={activeRoute.icon} />
               <span>{activeRoute.text}</span>
-            </MenuActiveItem>}
+            </div>}
           </>
         );
       }
@@ -49,28 +49,27 @@ function Grouping ({ activeRoute, className = '', name, routes, variant }: Props
     case 'active-tab': {
       return (
         <li className={className}>
-          {activeRoute &&
-          <MenuActiveItem className='highlight--color'>
-            <Icon icon={activeRoute.icon} />
-            <span>{activeRoute.text}</span>
-            {routes && routes.length > 1 &&
-              <Icon
-                className='dropdown'
-                icon={'caret-down'}
-              />
-            }
-          </MenuActiveItem>}
+          {activeRoute && (
+            <div className='active-tab highlight--color'>
+              <Icon icon={activeRoute.icon} />
+              <span>{activeRoute.text}</span>
+              {routes && routes.length > 1 &&
+                <Icon
+                  className='dropdown'
+                  icon={'caret-down'}
+                />
+              }
+            </div>
+          )}
           {routes && routes.length > 1 &&
             <ul className='groupMenu tab highlight--bg-light'>
-              {routes.map((route): React.ReactNode => {
-                const itemClassName = (activeRoute && activeRoute.text === route.text) ? 'active highlight--color' : '';
-
-                return <Item
-                  className={itemClassName}
+              {routes.map((route): React.ReactNode => (
+                <Item
+                  className={(activeRoute && activeRoute.text === route.text) ? 'active highlight--color' : ''}
                   key={route.name}
                   route={route}
-                />;
-              })}
+                />
+              ))}
             </ul>
           }
         </li>
@@ -97,22 +96,6 @@ function Grouping ({ activeRoute, className = '', name, routes, variant }: Props
   }
 }
 
-const MenuActiveItem = styled.div`
-  margin: 0 2.5rem 0 1.7rem;
-  font-weight: 600;
-  font-size: 1.14rem;
-  line-height: 1.57rem;
-  min-width: max-content;
-
-  .ui--Icon {
-    margin-right: 0.85rem;
-  }
-
-  @media only screen and (max-width: 900px) {
-    margin: 0 1.2rem;
-  }
-`;
-
 export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   cursor: pointer;
   position: relative;
@@ -127,6 +110,24 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   .dropdown {
     transition: .3s;
     margin-left: .57rem;
+  }
+
+  .active-tab {
+    margin: 0 2.5rem 0 1.7rem;
+    font-weight: 600;
+    font-size: 1.14rem;
+    line-height: 1.57rem;
+    min-width: max-content;
+
+    .ui--Icon {
+      margin-right: 0.85rem;
+      max-width: 1rem;
+      max-height: 1rem;
+    }
+
+    @media only screen and (max-width: 900px) {
+      margin: 0 1.5rem;
+    }
   }
 
   .groupHdr {
@@ -188,6 +189,14 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     transform: translateY(95%);
     bottom: 0;
     transform-origin: bottom;
+
+    li a {
+      padding-left: 1.7rem;
+
+      @media only screen and (max-width: 900px) {
+        padding-left: 1.5rem;
+      }
+    }
   }
 
   &:hover {
@@ -210,7 +219,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
       position: absolute;
       bottom: 0;
       left: 0;
-      background: #fff;
+      background: ${theme.bgMenu};
       width: 100%;
       height: 3.92rem;
       transform: translateY(.5rem);
@@ -221,12 +230,12 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
 
     .groupHdr {
       box-shadow: 0 -${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
-      color: #1A1B20;
+      color: ${theme.colorMenuHover};
     }
 
     .groupMenu {
       display: block;
-      color: #4D4D4D;
+      color: ${theme.colorMenuItem};
 
       > li:hover {
         background: ${theme.bgMenuHover};

@@ -42,8 +42,6 @@ function logDisabled (route: string, message: string): void {
 }
 
 function checkVisible (name: string, { api, isApiConnected, isApiReady }: ApiProps, hasAccounts: boolean, hasSudo: boolean, { isHidden, needsAccounts, needsApi, needsSudo }: Route['display']): boolean {
-  if (name === 'settings') return false;
-
   if (isHidden) {
     return false;
   } else if (needsAccounts && !hasAccounts) {
@@ -87,10 +85,6 @@ export function extractGroups (routing: Routes, groupNames: Record<string, strin
     .filter(({ routes }) => routes.length);
 }
 
-function extractSettingsRoute (routing: Routes): Route | undefined {
-  return routing.find((route) => route.name === 'settings');
-}
-
 function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allAccounts, hasAccounts } = useAccounts();
@@ -103,12 +97,11 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
     accounts: t('Accounts'),
     developer: t('Developer'),
     governance: t('Governance'),
-    network: t('Network')
+    network: t('Network'),
+    settings: t('Settings')
   });
 
   const routeRef = useRef(createRoutes(t));
-
-  const settingsRoute = extractSettingsRoute(routeRef.current);
 
   const hasSudo = useMemo(
     () => !!sudoKey && allAccounts.some((address) => sudoKey.eq(address)),
@@ -138,11 +131,6 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
       </div>
       <div className='menuSection media--1200 centered right'>
         <ul className='menuItems'>
-          <Item
-            className='menuRight'
-            isToplevel
-            route={settingsRoute}
-          />
           {externalRef.current.map((route): React.ReactNode => (
             <Item
               className='menuRight'

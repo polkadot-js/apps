@@ -93,7 +93,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
         />
       )}
       <TabsSectionDelimiter/>
-      <TabList>
+      <ul className='ui--TabsList'>
         {filtered.map((tab, index) => (
           <li
             key={tab.name}>
@@ -106,7 +106,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
             />
           </li>
         ))}
-      </TabList>
+      </ul>
     </div>
   );
 }
@@ -127,27 +127,27 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
     display: none;
     width: 0px;
   }
+
+  .ui--TabsList {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    padding: 0 2.72rem 0 0;
+    margin: 0 2.72rem;
+    overflow: auto;
+    white-space: nowrap;
+
+    > li:not(:first-child) {
+      margin-left: 2.57rem;
+    }
+
+    .ui--Tab {
+      padding: 0;
+      border: unset;
+    }
+
+    @media only screen and (max-width: 900px) {
+      margin: 0 2.72rem 0 2.35rem;
+    }
+  }
 `));
-
-const TabList = styled.ul`
-  display: flex;
-  list-style: none;
-  height: 100%;
-  border: unset;
-  padding: 0 2.72rem 0 0;
-  margin: 0 2.72rem;
-  overflow: auto;
-  white-space: nowrap;
-
-  > li:not(:first-child) {
-    margin-left: 2.57rem;
-  }
-
-  .ui--Tab {
-    padding: 0;
-  }
-
-  @media only screen and (max-width: 900px) {
-    margin: 0 2.72rem 0 1.2rem;
-  }
-`;

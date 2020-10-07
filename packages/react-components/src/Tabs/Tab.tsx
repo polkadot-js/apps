@@ -78,7 +78,7 @@ export default React.memo(styled(Tab)(({ theme }: ThemeProps) => `
     width: 3.14rem;
     height: 2px;
     background: #e6e6e6;
-    bottom: -1px;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
   }

@@ -139,6 +139,8 @@ export interface ThemeDef {
   color: string;
   colorError: string;
   colorLabel: string;
+  colorMenuHover: string;
+  colorMenuItem: string;
   colorSummary: string;
   theme: 'dark' | 'light';
 }
