@@ -1501,10 +1501,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@edgeware/node-types@npm:^2.4.5":
-  version: 2.4.5
-  resolution: "@edgeware/node-types@npm:2.4.5"
-  checksum: 7da8acd432f944771e8ee99f8f0305e1950e88660e5f3a3ae5593546715c49a8766c18f64b0de7247df53410cc4564aa5489a26656bf7cd18155c088239160f6
+"@edgeware/node-types@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@edgeware/node-types@npm:3.0.4"
+  checksum: 51596147418388ceed5b6b16bb168ac6733b1b17bbf8a70feb701ee64574a790fe7670b429e97acfb4d89066e380680fa379d6d83c8f8c3f867cb08b61dde247
   languageName: node
   linkType: hard
 
@@ -2325,7 +2325,7 @@ __metadata:
   dependencies:
     "@acala-network/type-definitions": ^0.4.0-beta.4
     "@babel/runtime": ^7.11.2
-    "@edgeware/node-types": ^2.4.5
+    "@edgeware/node-types": ^3.0.4
     "@laminar/type-definitions": ^0.2.0-beta.141
     "@subsocial/types": ^0.4.6
   languageName: unknown
