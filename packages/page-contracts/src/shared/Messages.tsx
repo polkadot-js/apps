@@ -131,8 +131,6 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  console.error(props.contractAbi);
-
   const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
 
   return (
