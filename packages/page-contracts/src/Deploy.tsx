@@ -29,7 +29,6 @@ interface Props {
   allCodes: CodeStored[];
   codeHash: string;
   constructorIndex?: number;
-  isOpen?: boolean;
   onClose: VoidFn;
   setCodeHash: React.Dispatch<string>;
   setConstructorIndex: React.Dispatch<number>;
@@ -39,7 +38,7 @@ function defaultContractName (name: string) {
   return `${name} (instance)`;
 }
 
-function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, onClose, setCodeHash, setConstructorIndex }: Props): React.ReactElement<Props> {
+function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, onClose, setCodeHash, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const history = useHistory();
@@ -141,7 +140,6 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
     <Modal
       header={t('Add an existing code hash')}
       onClose={onClose}
-      open={isOpen}
     >
       <Modal.Content>
         <InputAddress
@@ -170,35 +168,33 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
           onChange={setName}
           value={name || ''}
         />
-        {
-          isAbiSupplied
-            ? null
-            : (
-              <ABI
-                contractAbi={contractAbi}
-                errorText={errorText}
-                isError={isAbiError}
-                isSupplied={isAbiSupplied}
-                isValid={isAbiValid}
-                onChange={onChangeAbi}
-                onRemove={onRemoveAbi}
-                withLabel
-              />
-            )
+        {isAbiSupplied
+          ? null
+          : (
+            <ABI
+              contractAbi={contractAbi}
+              errorText={errorText}
+              isError={isAbiError}
+              isSupplied={isAbiSupplied}
+              isValid={isAbiValid}
+              onChange={onChangeAbi}
+              onRemove={onRemoveAbi}
+              withLabel
+            />
+          )
         }
-        {
-          contractAbi
-            ? (
-              <Dropdown
-                help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
-                isDisabled={contractAbi.constructors.length <= 1}
-                label={t('deployment constructor')}
-                onChange={setConstructorIndex}
-                options={constructOptions}
-                value={`${constructorIndex}`}
-              />
-            )
-            : null
+        {contractAbi
+          ? (
+            <Dropdown
+              help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
+              isDisabled={contractAbi.constructors.length <= 1}
+              label={t('deployment constructor')}
+              onChange={setConstructorIndex}
+              options={constructOptions}
+              value={`${constructorIndex}`}
+            />
+          )
+          : null
         }
         <Params
           onChange={setParams}

@@ -35,20 +35,18 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
-  const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }): any => createValue({ type })) : []);
+  const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
   const [useRpc, setUseRpc] = useState(callContract.hasRpcContractsCall && !callMessage.isMutating);
   const useWeightHook = useWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
   useEffect((): void => {
-    if (callContract && callMessageIndex) {
-      const callMessage = callContract.abi.messages[callMessageIndex];
+    const callMessage = callContract.abi.messages[callMessageIndex];
 
-      setParams(callMessage ? callMessage.args.map(({ type }): any => createValue({ type })) : []);
+    setParams(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
 
-      if (callContract.hasRpcContractsCall) {
-        setUseRpc(callMessage.isMutating || false);
-      }
+    if (callContract.hasRpcContractsCall) {
+      setUseRpc(callMessage.isMutating || false);
     }
   }, [callContract, callMessageIndex]);
 
@@ -67,7 +65,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
 
   const _constructTx = useCallback(
     (): unknown[] => {
-      if (!accountId || !callMessage || !callContract || !callContract.address) {
+      if (!accountId || !callMessage || !callContract.address) {
         return [];
       }
 
@@ -78,10 +76,10 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !callContract || !callMessage || !endowment || !weight) return;
+      if (!accountId || !callMessage || !endowment || !weight) return;
 
       callContract
-        .call('rpc', 0 /* callMessage.def.name */, endowment, weight, ...params)
+        .call('rpc', callMessage, endowment, weight, ...params)
         .send(accountId)
         .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
         .catch(console.error);
@@ -100,8 +98,8 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   );
 
   const isValid = useMemo(
-    () => !!(accountId && callContract && callContract.address && callContract.abi && isWeightValid && isEndowmentValid),
-    [accountId, callContract, isEndowmentValid, isWeightValid]
+    () => !!(accountId && isWeightValid && isEndowmentValid),
+    [accountId, isEndowmentValid, isWeightValid]
   );
 
   return (

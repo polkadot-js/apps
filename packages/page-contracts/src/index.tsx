@@ -105,13 +105,12 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
           <Contracts {...componentProps} />
         </Route>
       </Switch>
-      {codeHash && (
+      {codeHash && isDeployOpen && (
         <Deploy
           allCodes={allCodes}
           basePath={basePath}
           codeHash={codeHash}
           constructorIndex={constructorIndex}
-          isOpen={isDeployOpen}
           onClose={_onCloseDeploy}
           setCodeHash={setCodeHash}
           setConstructorIndex={setConstructorIndex}
