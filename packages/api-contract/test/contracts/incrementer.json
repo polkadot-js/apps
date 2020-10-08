@@ -1,0 +1,108 @@
+{
+  "metadataVersion": "0.1.0",
+  "source": {
+    "hash": "0xafe9cfb918e19fc701470017985ab0324017c66dbcfb13cb3ceca39e68cddd86",
+    "language": "ink! 3.0.0",
+    "compiler": "rustc 1.48.0-nightly"
+  },
+  "contract": {
+    "name": "incrementer",
+    "version": "3.0.0",
+    "authors": [
+      "Parity Technologies <admin@parity.io>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "name": "init_value",
+            "type": {
+              "displayName": [
+                "i32"
+              ],
+              "id": 1
+            }
+          }
+        ],
+        "docs": [],
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
+      },
+      {
+        "args": [],
+        "docs": [],
+        "name": [
+          "default"
+        ],
+        "selector": "0x6a3712e2"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "messages": [
+      {
+        "args": [
+          {
+            "name": "by",
+            "type": {
+              "displayName": [
+                "i32"
+              ],
+              "id": 1
+            }
+          }
+        ],
+        "docs": [],
+        "mutates": true,
+        "name": [
+          "inc"
+        ],
+        "payable": false,
+        "returnType": null,
+        "selector": "0x2fb8d143"
+      },
+      {
+        "args": [],
+        "docs": [],
+        "mutates": false,
+        "name": [
+          "get"
+        ],
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "i32"
+          ],
+          "id": 1
+        },
+        "selector": "0x1e5ca456"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": [
+        {
+          "layout": {
+            "cell": {
+              "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "ty": 1
+            }
+          },
+          "name": "value"
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "primitive": "i32"
+      }
+    }
+  ]
+}

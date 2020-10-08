@@ -1,0 +1,37 @@
+{
+  "name": "@canvas-ui/api-contract",
+  "version": "0.0.1",
+  "description": "Interfaces for interacting with contracts and contract ABIs",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "ABI"
+  ],
+  "author": "Keith Ingram <keith@parity.io>",
+  "maintainers": [
+    "Keith Ingram <keith@parity.io>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-contract#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "@polkadot/api": "2.1.2-5",
+    "@polkadot/rpc-core": "2.1.2-5",
+    "@polkadot/types": "2.1.2-5",
+    "@polkadot/util": "^3.5.1",
+    "bn.js": "^5.1.3",
+    "rxjs": "^6.6.3"
+  }
+}

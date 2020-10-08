@@ -1,0 +1,680 @@
+[
+  {
+    "displayName": "Header",
+    "namespace": "ink_storage::collections::stash",
+    "info": 9,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "last_vacant"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "len"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "len_entries"
+      }
+    ],
+    "type": "{\"last_vacant\":\"u32\",\"len\":\"u32\",\"len_entries\":\"u32\"}"
+  },
+  {
+    "info": 6,
+    "type": "u32"
+  },
+  {
+    "displayName": "Entry",
+    "namespace": "ink_storage::collections::stash",
+    "params": [
+      {
+        "info": 10,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32"
+          },
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId"
+          }
+        ],
+        "type": "(u32, AccountId)"
+      }
+    ],
+    "info": 3,
+    "sub": [
+      {
+        "displayName": "VacantEntry",
+        "namespace": "ink_storage::collections::stash",
+        "info": 9,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "next"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "prev"
+          }
+        ],
+        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "name": "Vacant"
+      },
+      {
+        "info": 10,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32"
+          },
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId"
+          }
+        ],
+        "type": "(u32, AccountId)",
+        "name": "Occupied"
+      }
+    ],
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(u32, AccountId)\"}}"
+  },
+  {
+    "info": 10,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32"
+      },
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId"
+      }
+    ],
+    "type": "(u32, AccountId)"
+  },
+  {
+    "displayName": "AccountId",
+    "namespace": "ink_env::types",
+    "info": 6,
+    "type": "AccountId"
+  },
+  {
+    "info": 12,
+    "length": 32,
+    "sub": {
+      "info": 6,
+      "type": "u8"
+    },
+    "type": "[u8;32]"
+  },
+  {
+    "info": 6,
+    "type": "u8"
+  },
+  {
+    "displayName": "VacantEntry",
+    "namespace": "ink_storage::collections::stash",
+    "info": 9,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "next"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "prev"
+      }
+    ],
+    "type": "{\"next\":\"u32\",\"prev\":\"u32\"}"
+  },
+  {
+    "displayName": "ValueEntry",
+    "namespace": "ink_storage::collections::hashmap",
+    "params": [
+      {
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "info": 9,
+    "sub": [
+      {
+        "info": 10,
+        "sub": [],
+        "type": "()",
+        "name": "value"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "key_index"
+      }
+    ],
+    "type": "{\"value\":\"()\",\"key_index\":\"u32\"}"
+  },
+  {
+    "info": 10,
+    "sub": [],
+    "type": "()"
+  },
+  {
+    "displayName": "Entry",
+    "namespace": "ink_storage::collections::stash",
+    "params": [
+      {
+        "info": 6,
+        "type": "u32"
+      }
+    ],
+    "info": 3,
+    "sub": [
+      {
+        "displayName": "VacantEntry",
+        "namespace": "ink_storage::collections::stash",
+        "info": 9,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "next"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "prev"
+          }
+        ],
+        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "name": "Vacant"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "Occupied"
+      }
+    ],
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"u32\"}}"
+  },
+  {
+    "displayName": "ValueEntry",
+    "namespace": "ink_storage::collections::hashmap",
+    "params": [
+      {
+        "info": 6,
+        "type": "u32"
+      }
+    ],
+    "info": 9,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "value"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "key_index"
+      }
+    ],
+    "type": "{\"value\":\"u32\",\"key_index\":\"u32\"}"
+  },
+  {
+    "displayName": "Entry",
+    "namespace": "ink_storage::collections::stash",
+    "params": [
+      {
+        "displayName": "Transaction",
+        "namespace": "multisig_plain::multisig_plain",
+        "info": 9,
+        "sub": [
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId",
+            "name": "callee"
+          },
+          {
+            "info": 12,
+            "length": 4,
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "type": "[u8;4]",
+            "name": "selector"
+          },
+          {
+            "info": 11,
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "type": "Vec<u8>",
+            "name": "input"
+          },
+          {
+            "info": 6,
+            "type": "u128",
+            "name": "transferred_value"
+          },
+          {
+            "info": 6,
+            "type": "u64",
+            "name": "gas_limit"
+          }
+        ],
+        "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
+      }
+    ],
+    "info": 3,
+    "sub": [
+      {
+        "displayName": "VacantEntry",
+        "namespace": "ink_storage::collections::stash",
+        "info": 9,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "next"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "prev"
+          }
+        ],
+        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "name": "Vacant"
+      },
+      {
+        "displayName": "Transaction",
+        "namespace": "multisig_plain::multisig_plain",
+        "info": 9,
+        "sub": [
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId",
+            "name": "callee"
+          },
+          {
+            "info": 12,
+            "length": 4,
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "type": "[u8;4]",
+            "name": "selector"
+          },
+          {
+            "info": 11,
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "type": "Vec<u8>",
+            "name": "input"
+          },
+          {
+            "info": 6,
+            "type": "u128",
+            "name": "transferred_value"
+          },
+          {
+            "info": 6,
+            "type": "u64",
+            "name": "gas_limit"
+          }
+        ],
+        "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}",
+        "name": "Occupied"
+      }
+    ],
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"{\\\"callee\\\":\\\"AccountId\\\",\\\"selector\\\":\\\"[u8;4]\\\",\\\"input\\\":\\\"Vec<u8>\\\",\\\"transferred_value\\\":\\\"u128\\\",\\\"gas_limit\\\":\\\"u64\\\"}\"}}"
+  },
+  {
+    "displayName": "Transaction",
+    "namespace": "multisig_plain::multisig_plain",
+    "info": 9,
+    "sub": [
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId",
+        "name": "callee"
+      },
+      {
+        "info": 12,
+        "length": 4,
+        "sub": {
+          "info": 6,
+          "type": "u8"
+        },
+        "type": "[u8;4]",
+        "name": "selector"
+      },
+      {
+        "info": 11,
+        "sub": {
+          "info": 6,
+          "type": "u8"
+        },
+        "type": "Vec<u8>",
+        "name": "input"
+      },
+      {
+        "info": 6,
+        "type": "u128",
+        "name": "transferred_value"
+      },
+      {
+        "info": 6,
+        "type": "u64",
+        "name": "gas_limit"
+      }
+    ],
+    "type": "{\"callee\":\"AccountId\",\"selector\":\"[u8;4]\",\"input\":\"Vec<u8>\",\"transferred_value\":\"u128\",\"gas_limit\":\"u64\"}"
+  },
+  {
+    "info": 12,
+    "length": 4,
+    "sub": {
+      "info": 6,
+      "type": "u8"
+    },
+    "type": "[u8;4]"
+  },
+  {
+    "info": 11,
+    "sub": {
+      "info": 6,
+      "type": "u8"
+    },
+    "type": "Vec<u8>"
+  },
+  {
+    "info": 6,
+    "type": "u128"
+  },
+  {
+    "info": 6,
+    "type": "u64"
+  },
+  {
+    "displayName": "Entry",
+    "namespace": "ink_storage::collections::stash",
+    "params": [
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId"
+      }
+    ],
+    "info": 3,
+    "sub": [
+      {
+        "displayName": "VacantEntry",
+        "namespace": "ink_storage::collections::stash",
+        "info": 9,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "next"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "prev"
+          }
+        ],
+        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "name": "Vacant"
+      },
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId",
+        "name": "Occupied"
+      }
+    ],
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
+  },
+  {
+    "info": 11,
+    "sub": {
+      "displayName": "AccountId",
+      "namespace": "ink_env::types",
+      "info": 6,
+      "type": "AccountId"
+    },
+    "type": "Vec<AccountId>"
+  },
+  {
+    "info": 10,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32"
+      },
+      {
+        "displayName": "ConfirmationStatus",
+        "namespace": "multisig_plain::multisig_plain",
+        "info": 3,
+        "sub": [
+          {
+            "info": 10,
+            "sub": [],
+            "name": "Confirmed"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "ConfirmationsNeeded"
+          }
+        ],
+        "type": "{\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}}"
+      }
+    ],
+    "type": "(u32, {\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}})"
+  },
+  {
+    "displayName": "ConfirmationStatus",
+    "namespace": "multisig_plain::multisig_plain",
+    "info": 3,
+    "sub": [
+      {
+        "info": 10,
+        "sub": [],
+        "name": "Confirmed"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "ConfirmationsNeeded"
+      }
+    ],
+    "type": "{\"_enum\":{\"Confirmed\":\"()\",\"ConfirmationsNeeded\":\"u32\"}}"
+  },
+  {
+    "displayName": "Result",
+    "params": [
+      {
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      },
+      {
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "info": 7,
+    "sub": [
+      {
+        "name": "Ok",
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      },
+      {
+        "name": "Error",
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "type": "Result<(), ()>"
+  },
+  {
+    "displayName": "Result",
+    "params": [
+      {
+        "info": 11,
+        "sub": {
+          "info": 6,
+          "type": "u8"
+        },
+        "type": "Vec<u8>"
+      },
+      {
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "info": 7,
+    "sub": [
+      {
+        "name": "Ok",
+        "info": 11,
+        "sub": {
+          "info": 6,
+          "type": "u8"
+        },
+        "type": "Vec<u8>"
+      },
+      {
+        "name": "Error",
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "type": "Result<Vec<u8>, ()>"
+  },
+  {
+    "displayName": "Result",
+    "params": [
+      {
+        "displayName": "Option",
+        "params": [
+          {
+            "info": 11,
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "type": "Vec<u8>"
+          }
+        ],
+        "info": 5,
+        "sub": {
+          "info": 11,
+          "sub": {
+            "info": 6,
+            "type": "u8"
+          },
+          "type": "Vec<u8>"
+        },
+        "type": "Option<Vec<u8>>"
+      },
+      {
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "info": 7,
+    "sub": [
+      {
+        "name": "Ok",
+        "displayName": "Option",
+        "params": [
+          {
+            "info": 11,
+            "sub": {
+              "info": 6,
+              "type": "u8"
+            },
+            "type": "Vec<u8>"
+          }
+        ],
+        "info": 5,
+        "sub": {
+          "info": 11,
+          "sub": {
+            "info": 6,
+            "type": "u8"
+          },
+          "type": "Vec<u8>"
+        },
+        "type": "Option<Vec<u8>>"
+      },
+      {
+        "name": "Error",
+        "info": 10,
+        "sub": [],
+        "type": "()"
+      }
+    ],
+    "type": "Result<Option<Vec<u8>>, ()>"
+  },
+  {
+    "displayName": "Option",
+    "params": [
+      {
+        "info": 11,
+        "sub": {
+          "info": 6,
+          "type": "u8"
+        },
+        "type": "Vec<u8>"
+      }
+    ],
+    "info": 5,
+    "sub": {
+      "info": 11,
+      "sub": {
+        "info": 6,
+        "type": "u8"
+      },
+      "type": "Vec<u8>"
+    },
+    "type": "Option<Vec<u8>>"
+  }
+]

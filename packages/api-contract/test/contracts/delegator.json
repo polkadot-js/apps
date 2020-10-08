@@ -1,0 +1,252 @@
+{
+  "metadataVersion": "0.1.0",
+  "source": {
+    "hash": "0x87175ad8e56de12e8bac275483adb1990a61c8b8caca9ddc18f1d5ad3b5dc976",
+    "language": "ink! 3.0.0",
+    "compiler": "rustc 1.48.0-nightly"
+  },
+  "contract": {
+    "name": "delegator",
+    "version": "3.0.0",
+    "authors": [
+      "Parity Technologies <admin@parity.io>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "name": "init_value",
+            "type": {
+              "displayName": [
+                "i32"
+              ],
+              "id": 4
+            }
+          },
+          {
+            "name": "accumulator_code_hash",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "id": 5
+            }
+          },
+          {
+            "name": "adder_code_hash",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "id": 5
+            }
+          },
+          {
+            "name": "subber_code_hash",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "id": 5
+            }
+          }
+        ],
+        "docs": [
+          " Instantiate a delegator with the given sub-contract codes."
+        ],
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "messages": [
+      {
+        "args": [],
+        "docs": [
+          " Returns the accumulator's value."
+        ],
+        "mutates": false,
+        "name": [
+          "get"
+        ],
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "i32"
+          ],
+          "id": 4
+        },
+        "selector": "0x1e5ca456"
+      },
+      {
+        "args": [
+          {
+            "name": "by",
+            "type": {
+              "displayName": [
+                "i32"
+              ],
+              "id": 4
+            }
+          }
+        ],
+        "docs": [
+          " Delegates the call to either `Adder` or `Subber`."
+        ],
+        "mutates": true,
+        "name": [
+          "change"
+        ],
+        "payable": false,
+        "returnType": null,
+        "selector": "0x0af938f2"
+      },
+      {
+        "args": [],
+        "docs": [
+          " Switches the delegator."
+        ],
+        "mutates": true,
+        "name": [
+          "switch"
+        ],
+        "payable": false,
+        "returnType": null,
+        "selector": "0x5d37c38d"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": [
+        {
+          "layout": {
+            "enum": {
+              "dispatch_key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "variants": {
+                "0": {
+                  "fields": []
+                },
+                "1": {
+                  "fields": []
+                }
+              }
+            }
+          },
+          "name": "which"
+        },
+        {
+          "layout": {
+            "struct": {
+              "fields": [
+                {
+                  "layout": {
+                    "cell": {
+                      "key": "0x0100000000000000000000000000000000000000000000000000000000000000",
+                      "ty": 1
+                    }
+                  },
+                  "name": "account_id"
+                }
+              ]
+            }
+          },
+          "name": "accumulator"
+        },
+        {
+          "layout": {
+            "struct": {
+              "fields": [
+                {
+                  "layout": {
+                    "cell": {
+                      "key": "0x0200000000000000000000000000000000000000000000000000000000000000",
+                      "ty": 1
+                    }
+                  },
+                  "name": "account_id"
+                }
+              ]
+            }
+          },
+          "name": "adder"
+        },
+        {
+          "layout": {
+            "struct": {
+              "fields": [
+                {
+                  "layout": {
+                    "cell": {
+                      "key": "0x0300000000000000000000000000000000000000000000000000000000000000",
+                      "ty": 1
+                    }
+                  },
+                  "name": "account_id"
+                }
+              ]
+            }
+          },
+          "name": "subber"
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "type": 2
+            }
+          ]
+        }
+      },
+      "path": [
+        "ink_env",
+        "types",
+        "AccountId"
+      ]
+    },
+    {
+      "def": {
+        "array": {
+          "len": 32,
+          "type": 3
+        }
+      }
+    },
+    {
+      "def": {
+        "primitive": "u8"
+      }
+    },
+    {
+      "def": {
+        "primitive": "i32"
+      }
+    },
+    {
+      "def": {
+        "composite": {
+          "fields": [
+            {
+              "type": 2
+            }
+          ]
+        }
+      },
+      "path": [
+        "ink_env",
+        "types",
+        "Hash"
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractCallOutcome } from '@polkadot/api-contract/types';
+import { ContractCallOutcome } from '@canvas-ui/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
@@ -13,7 +13,7 @@ interface Props extends BareProps {
   outcome: ContractCallOutcome;
 }
 
-function Outcome ({ className, onClear, outcome: { isSuccess, message, output, params, time } }: Props): React.ReactElement<Props> | null {
+function Outcome ({ className, onClear, outcome: { isSuccess, message, output, params, time, type } }: Props): React.ReactElement<Props> | null {
   const dateTime = new Date(time);
 
   return (
@@ -44,7 +44,8 @@ function Outcome ({ className, onClear, outcome: { isSuccess, message, output, p
       </div>
       <Output
         isError={!isSuccess}
-        value={(output || '()').toString()}
+        type={type}
+        value={output}
         withCopy
         withLabel={false}
       />

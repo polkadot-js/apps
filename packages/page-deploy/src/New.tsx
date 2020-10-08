@@ -3,7 +3,7 @@
 
 import { Code } from '@canvas-ui/apps/types';
 import { RawParams } from '@canvas-ui/react-params/types';
-import { InkMessage, InkMessageParam, InkConstructor } from '@polkadot/api-contract/types';
+import { InkMessage, InkMessageParam, InkConstructor } from '@canvas-ui/api-contract/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from './types';
 
@@ -18,7 +18,8 @@ import { useAbi, useAccountId, useGasWeight, useNonEmptyString, useNonZeroBn, us
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import keyring from '@polkadot/ui-keyring';
 import { truncate } from '@canvas-ui/react-util';
-import createValues, { extractValues } from '@canvas-ui/react-params/values';
+import { useTxParams } from '@canvas-ui/react-params';
+import { extractValues } from '@canvas-ui/react-params/values';
 import { u8aToHex } from '@polkadot/util';
 
 // import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
@@ -95,8 +96,10 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   //   [abi?.constructors, constructorIndex]
   // );
 
-  const [params, setParams] = useState<InkMessageParam[]>(abi?.constructors[constructorIndex].args || []);
-  const [values, setValues] = useState<RawParams>(createValues(params));
+  // const [params, setParams] = useState<InkMessageParam[]>(abi?.constructors[constructorIndex].args || []);
+  // const [values, setValues] = useState<RawParams>(createValues(params));
+
+  const [params, values, setValues] = useTxParams(abi?.constructors[constructorIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return abi?.constructors[constructorIndex]
       ? abi.constructors[constructorIndex](...extractValues(values || [])) as unknown as Uint8Array
@@ -109,28 +112,26 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   //     : null
   // );
 
-  console.log('horseshit');
+  // useEffect(
+  //   (): void => {
+  //     // console.log('constructorIndex', constructorIndex);
+  //     // console.log('constructor', constructor);
+  //     // console.log('values', values);
+  //     // console.log('data', data ? u8aToHex(data) : null);
+  //     const newParams = abi?.constructors[constructorIndex].args || [];
+  //     const defaults = createValues(newParams);
+  //     // const encoder = abi?.constructors[constructorIndex];
 
-  useEffect(
-    (): void => {
-      // console.log('constructorIndex', constructorIndex);
-      // console.log('constructor', constructor);
-      // console.log('values', values);
-      // console.log('data', data ? u8aToHex(data) : null);
-      const newParams = abi?.constructors[constructorIndex].args || [];
-      const defaults = createValues(newParams);
-      // const encoder = abi?.constructors[constructorIndex];
-
-      setParams(newParams);
-      setValues(defaults);
-      // setData(
-      //   encoder
-      //     ? encoder(...extractValues(defaults)) as unknown as Uint8Array
-      //     : null
-      // );
-    },
-    [abi, constructorIndex]
-  );
+  //     setParams(newParams);
+  //     setValues(defaults);
+  //     // setData(
+  //     //   encoder
+  //     //     ? encoder(...extractValues(defaults)) as unknown as Uint8Array
+  //     //     : null
+  //     // );
+  //   },
+  //   [abi, constructorIndex]
+  // );
 
   // useEffect(
   //   (): void => {
@@ -180,11 +181,6 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
         // find the last EventRecord (in the case of multiple contracts deployed - we should really be
         // more clever here to find the exact contract deployed, this works for eg. Delegator)
         const address = records[records.length - 1].event.data[1] as unknown as AccountId;
-
-        console.log(address);
-        console.log(address.toString());
-
-        console.log(abi?.json);
 
         keyring.saveContract(address.toString(), {
           contract: {

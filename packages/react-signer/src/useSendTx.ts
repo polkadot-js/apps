@@ -295,7 +295,6 @@ export default function useSendTx (currentItem: QueueTx, requestAddress: string)
         ]);
 
         queueSetTxStatus(currentItem.id, status);
-        console.log(tx.method.args[0]);
         await signAndSend(queueSetTxStatus, currentItem, tx, pairOrAddress, options);
       }
     },

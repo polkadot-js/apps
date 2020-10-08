@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkMessage } from '@polkadot/api-contract/types';
+import { InkMessage } from '@canvas-ui/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 import { CodecArg } from '@polkadot/types/types';
 
@@ -23,12 +23,6 @@ export interface Props extends BareProps {
 
 function MessageSignature ({ className, message: { args, identifier, isConstructor, mutates, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
-  // console.log('fuckoff');
-  // console.log(returnType);
-  // console.log(args[0]);
-
-  console.log(returnType);
 
   return (
     <div className={classes(className, isConstructor && 'asConstructor')}>

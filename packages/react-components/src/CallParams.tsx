@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkMessageParam } from '@polkadot/api-contract/types';
+import { InkMessageParam } from '@canvas-ui/api-contract/types';
 import { RawParams } from '@canvas-ui/react-params/types';
 
 import React, { useCallback, useEffect, useState } from 'react';

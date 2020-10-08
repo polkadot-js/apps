@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkMessageParam } from '@polkadot/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
+import { ParamDef } from '@canvas-ui/react-params/types';
 import { CodecArg } from '@polkadot/types/types';
 
 import React from 'react';
@@ -11,7 +11,7 @@ import { displayType } from '@polkadot/types';
 import { truncate } from '@canvas-ui/react-util';
 
 export interface Props extends BareProps {
-  arg?: InkMessageParam;
+  arg?: ParamDef;
   param?: CodecArg;
 }
 
@@ -20,14 +20,14 @@ function MessageArg ({ arg, param }: Props): React.ReactElement<Props> | null {
     return null;
   }
 
-  console.log('cuntoff');
-  console.log(arg);
-  console.log(arg.type);
-
   return (
     <>
-      {arg.name}:
-      {' '}
+      {arg.name && (
+        <>
+          {arg.name}
+          {': '}
+        </>
+      )}
       <span>
         {param
           ? <b>{truncate(param.toString())}</b>

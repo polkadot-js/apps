@@ -112,7 +112,7 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
                       key={`arg-${index}`}
                       label={arg}
                     >
-                      {value.toString()}
+                      {truncate(value.toString(), 92)}
                     </Labelled>
                   );
                 }

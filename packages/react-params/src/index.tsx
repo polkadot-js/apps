@@ -2,26 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { I18nProps } from '@canvas-ui/react-components/types';
-import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue } from './types';
+import { ComponentMap, ParamDef, RawParam, RawParams, RawParamOnChangeValue, UseTxParams } from './types';
 
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { ErrorBoundary } from '@canvas-ui/react-components';
 
 import Holder from './Holder';
 import ParamComp from './ParamComp';
 import translate from './translate';
-import { createValue } from './values';
 
-interface Props extends I18nProps {
+export { default as useTxParams } from './useTxParams';
+
+interface Props extends I18nProps, UseTxParams {
   children?: React.ReactNode;
   isDisabled?: boolean;
-  onChange?: (value: RawParams) => void;
   onEnter?: () => void;
   onError?: () => void;
   onEscape?: () => void;
   overrides?: ComponentMap;
-  params: ParamDef[];
-  values?: RawParams | null;
   withBorder?: boolean;
 }
 
@@ -32,121 +30,77 @@ interface State {
 
 export { Holder };
 
-class Params extends React.PureComponent<Props, State> {
-  public state: State = {
-    params: null
-  };
+function Params ({ children, className = '', isDisabled, onChange, onEnter, onError, onEscape, overrides, params, values, withBorder = true }: Props): React.ReactElement<Props> | null {
+  const onRenderError = useCallback((): void => {
+    onError && onError();
+  }, [onError]);
 
-  public static getDerivedStateFromProps ({ isDisabled, params, values }: Props, prevState: State): Pick<State, never> | null {
-    const isSame = JSON.stringify(prevState.params) === JSON.stringify(params);
+  const prevValues = useRef(values);
 
-    if (isDisabled || isSame) {
-      return null;
-    }
+  const onChangeParam = useCallback(
+    (index: number, newValue: RawParamOnChangeValue): void => {
+      if (isDisabled) {
+        return;
+      }
 
-    return {
-      params,
-      values: params.reduce(
-        (result: RawParams, param, index): RawParams => [
-          ...result,
-          values && values[index]
-            ? values[index]
-            : createValue(param)
-        ],
-        []
-      )
-    };
-  }
+      const { isValid = false, value } = newValue;
 
-  // Fire the initial onChange (we did update) when the component is loaded
-  public componentDidMount (): void {
-    this.componentDidUpdate(null, {});
-  }
-
-  // This is needed in the case where the item changes, i.e. the values get
-  // initialized and we need to alert the parent that we have new values
-  public componentDidUpdate (_: Props | null, prevState: State): void {
-    const { isDisabled } = this.props;
-    const { values } = this.state;
-
-    if (!isDisabled && JSON.stringify(prevState.values) !== JSON.stringify(values)) {
-      this.triggerUpdate();
-    }
-  }
-
-  public render (): React.ReactNode {
-    const { children, className = '', isDisabled, onEnter, onEscape, overrides, params, withBorder = true } = this.props;
-    const { values = this.props.values } = this.state;
-
-    if (!values || !values.length) {
-      return null;
-    }
-
-    return (
-      <Holder
-        className={className}
-        withBorder={withBorder}
-      >
-        <ErrorBoundary onError={this.onRenderError}>
-          <div className='ui--Params-Content'>
-            {values && params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
-              <ParamComp
-                defaultValue={values[index]}
-                index={index}
-                isDisabled={isDisabled}
-                key={`${name || ''}:${type.toString()}:${index}`}
-                name={name}
-                onChange={this.onChangeParam}
-                onEnter={onEnter}
-                onEscape={onEscape}
-                overrides={overrides}
-                type={type}
-              />
-            ))}
-          </div>
-          {children}
-        </ErrorBoundary>
-      </Holder>
-    );
-  }
-
-  private onChangeParam = (index: number, newValue: RawParamOnChangeValue): void => {
-    const { isDisabled } = this.props;
-
-    if (isDisabled) {
-      return;
-    }
-
-    const { isValid = false, value } = newValue;
-
-    this.setState(
-      (prevState: State): Pick<State, never> => ({
-        values: (prevState.values || []).map((prev, prevIndex): RawParam =>
+      onChange && onChange(
+        (prevValues.current || []).map((prev, prevIndex): RawParam =>
           prevIndex !== index
             ? prev
             : { isValid, value }
         )
-      }),
-      this.triggerUpdate
-    );
+      );
+    },
+    [isDisabled, onChange, prevValues]
+  );
+
+  useEffect((): void => {
+    prevValues.current = values;
+  });
+
+  const content = useMemo(
+    (): React.ReactNode => {
+      if (values && values.length > 0 && params) {
+        return params.map(({ name, type }: ParamDef, index: number): React.ReactNode => (
+          <ParamComp
+            defaultValue={values[index]}
+            index={index}
+            isDisabled={isDisabled}
+            key={`${name || ''}:${type.toString()}:${index}`}
+            name={name}
+            onChange={onChangeParam}
+            onEnter={onEnter}
+            onEscape={onEscape}
+            overrides={overrides}
+            type={type}
+          />
+        ));
+      }
+
+      return null;
+    },
+    [isDisabled, onChangeParam, onEnter, onEscape, overrides, params, values]
+  );
+
+  if (!values || !values.length) {
+    return null;
   }
 
-  private triggerUpdate = (): void => {
-    const { isDisabled, onChange } = this.props;
-    const { values } = this.state;
-
-    if (isDisabled || !values) {
-      return;
-    }
-
-    onChange && onChange(values);
-  }
-
-  private onRenderError = (): void => {
-    const { onError } = this.props;
-
-    onError && onError();
-  }
+  return (
+    <Holder
+      className={className}
+      withBorder={withBorder}
+    >
+      <ErrorBoundary onError={onRenderError}>
+        <div className='ui--Params-Content'>
+          {content}
+        </div>
+        {children}
+      </ErrorBoundary>
+    </Holder>
+  );
 }
 
 export default translate(Params);

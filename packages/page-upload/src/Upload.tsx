@@ -40,9 +40,6 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
       const section = api.tx.contracts ? 'contracts' : 'contract';
       const record = result.findRecord(section, 'CodeStored');
 
-      console.log(result);
-      console.log(record);
-
       if (record) {
         const codeHash = record.event.data[0];
 

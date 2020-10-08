@@ -4,7 +4,7 @@
 import { StringOrNull } from '@canvas-ui/react-util/types';
 
 import { useMemo } from 'react';
-import { PromiseContract as Contract } from '@polkadot/api-contract';
+import { PromiseContract as Contract } from '@canvas-ui/api-contract';
 import keyring from '@polkadot/ui-keyring';
 import useApi from './useApi';
 

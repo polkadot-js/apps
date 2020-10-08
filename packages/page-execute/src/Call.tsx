@@ -3,15 +3,16 @@
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { RawParams } from '@canvas-ui/react-params/types';
-import { InkMessage, InkMessageParam, ContractCallOutcome } from '@polkadot/api-contract/types';
+import { InkMessage, InkMessageParam, ContractCallOutcome } from '@canvas-ui/api-contract/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
-import { PromiseContract as Contract } from '@polkadot/api-contract';
+import { ScrollToTop, Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
+import { PromiseContract as Contract } from '@canvas-ui/api-contract';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
+import { useTxParams } from '@canvas-ui/react-params';
 import createValues, { createValue, extractValues } from '@canvas-ui/react-params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { getContractForAddress } from '@canvas-ui/react-util';
@@ -63,8 +64,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   );
 
   // const [message, setMessage] = useState<InkMessage | null>(contract?.abi.messages[messageIndex] || null);
-  const [params, setParams] = useState<InkMessageParam[]>(contract?.abi?.messages[messageIndex]?.args || []);
-  const [values, setValues] = useState<RawParams>(createValues(params));
+  const [params, values, setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return contract?.abi?.messages[messageIndex]
       ? contract.abi.messages[messageIndex](...extractValues(values || [])) as unknown as Uint8Array
@@ -74,21 +74,6 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   useEffect(
     (): void => {
       const newMessage = contract?.abi?.messages[messageIndex] || null;
-      const newParams = newMessage?.args || [];
-      const newValues = newParams.map((param, index) => {
-        console.log(param, params[index]);
-        if (param.type === params[index].type) {
-          console.log('Match at same index');
-          return values[index];
-        }
-
-        return createValue(param);
-      });
-
-      if (params !== newParams) {
-        setParams(newParams);
-        setValues(newValues);
-      }
 
       if (hasRpc) {
         if (!newMessage || newMessage.mutates) {
@@ -98,7 +83,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         }
       }
     },
-    [contract?.abi?.messages, hasRpc, messageIndex, params, values]
+    [contract?.abi?.messages, hasRpc, messageIndex]
   );
 
   // const [values, setValues] = useState<RawParams>(createValues(message?.args || []));
@@ -198,7 +183,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       name: name || '',
       params: params.map((param, index) => ({
         arg: <MessageArg arg={param} />,
-        value: values[index].value
+        value: values[index]?.value
       })),
       weight: weight.toString()
     }),
@@ -220,7 +205,8 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   }
 
   return (
-    <>
+    <div className={className}>
+      <ScrollToTop />
       <header>
         <h1>{t<string>('Execute {{name}}', { replace: { name } })}</h1>
         <div className='instructions'>
@@ -331,7 +317,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
           </div>
         </footer>
       )}
-    </>
+    </div>
   );
 }
 

@@ -7,6 +7,7 @@ import { ComponentProps } from './types';
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import useCodes from '@canvas-ui/apps/useCodes';
+import { ScrollToTop } from '@canvas-ui/react-components';
 
 import Codes from './Codes';
 import New from './New';

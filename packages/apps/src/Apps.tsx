@@ -12,6 +12,7 @@ import GlobalStyle from '@canvas-ui/react-components/styles';
 import { useApi } from '@canvas-ui/react-hooks';
 
 import { SideBarTransition, SIDEBAR_MENU_THRESHOLD } from './constants';
+import { ScrollToTop } from '@canvas-ui/react-components';
 import Content from './Content';
 import SideBar from './SideBar';
 import WarmUp from './WarmUp';
@@ -71,6 +72,7 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <>
+      <ScrollToTop />
       <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
       <div className={`apps--Wrapper ${isCollapsed ? 'collapsed' : 'expanded'} ${isMenuOpen ? 'menu-open' : ''} theme--default ${className}`}>
         <div

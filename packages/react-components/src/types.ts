@@ -5,7 +5,7 @@ import { WithTranslation } from 'react-i18next';
 import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { InkAbi } from '@polkadot/api-contract';
+import { InkAbi } from '@canvas-ui/api-contract';
 import { TxState } from '@canvas-ui/react-hooks/types';
 import { AccountId, Index } from '@polkadot/types/interfaces';
 import { ButtonProps } from './Button/types';

@@ -1,0 +1,98 @@
+{
+  "metadataVersion": "0.1.0",
+  "source": {
+    "hash": "0x179d0c2653da24d3194d7ee539c24a33f762313d3fe801e69708832bd1281458",
+    "language": "ink! 2.1.0",
+    "compiler": "rustc 1.48.0-nightly"
+  },
+  "contract": {
+    "name": "incrementer",
+    "version": "2.1.0",
+    "authors": [
+      "Parity Technologies <admin@parity.io>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "name": "init_value",
+            "type": {
+              "displayName": [
+                "i32"
+              ],
+              "id": 1
+            }
+          }
+        ],
+        "docs": [],
+        "name": "new",
+        "selector": "0x41e691fc"
+      },
+      {
+        "args": [],
+        "docs": [],
+        "name": "default",
+        "selector": "0xcfee7c08"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "messages": [
+      {
+        "args": [
+          {
+            "name": "by",
+            "type": {
+              "displayName": [
+                "i32"
+              ],
+              "id": 1
+            }
+          }
+        ],
+        "docs": [],
+        "mutates": true,
+        "name": "inc",
+        "returnType": null,
+        "selector": "0x37b82f69"
+      },
+      {
+        "args": [],
+        "docs": [],
+        "mutates": false,
+        "name": "get",
+        "returnType": {
+          "displayName": [
+            "i32"
+          ],
+          "id": 1
+        },
+        "selector": "0x6817c00f"
+      }
+    ]
+  },
+  "storage": {
+    "Struct": {
+      "fields": [
+        {
+          "layout": {
+            "Cell": {
+              "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "ty": 1
+            }
+          },
+          "name": "value"
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "primitive": "i32"
+      }
+    }
+  ]
+}

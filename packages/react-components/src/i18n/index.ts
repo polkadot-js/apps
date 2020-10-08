@@ -38,6 +38,7 @@ i18n
     keySeparator: false,
     load: 'languageOnly',
     ns: [
+      'api-contract',
       'apps',
       'apps-config',
       'apps-electron',

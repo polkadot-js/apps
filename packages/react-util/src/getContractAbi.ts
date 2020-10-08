@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkAbi } from '@polkadot/api-contract';
+import { InkAbi } from '@canvas-ui/api-contract';
 import { registry } from '@canvas-ui/react-api';
 
 import getAddressMeta from './getAddressMeta';

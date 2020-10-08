@@ -1,11 +1,13 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Codec, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { BareProps } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import AddressSmall from './AddressMini';
 import CopyButton from './CopyButton';
 import Icon from './Icon';
 import Labelled from './Labelled';
@@ -20,12 +22,40 @@ interface Props extends BareProps {
   isMonospace?: boolean;
   isTrimmed?: boolean;
   label?: React.ReactNode;
-  value?: string;
+  type?: TypeDef | null;
+  value?: Codec;
   withCopy?: boolean;
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+  const content = useMemo(
+    (): React.ReactNode => {
+      let typeDef = type;
+
+      if (typeDef?.info === TypeDefInfo.Option && typeDef?.params) {
+        typeDef = typeDef.params[0];
+      }
+
+      const asString = value?.toString();
+
+      if (!value || !asString || asString.length === 0) {
+        return '()';
+      }
+
+      if (typeDef?.type === 'AccountId') {
+        return (
+          <AddressSmall value={asString} />
+        );
+      }
+
+      return isTrimmed && asString && (asString.length > 256)
+        ? `${asString.substr(0, 96)}…${asString.substr(-96)}`
+        : asString;
+    },
+    [isTrimmed, type, value]
+  );
+
   return (
     <Labelled
       className={className}
@@ -36,10 +66,7 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
       withLabel={withLabel}
     >
       <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
-        {isTrimmed && value && (value.length > 256)
-          ? `${value.substr(0, 96)}…${value.substr(-96)}`
-          : value
-        }
+        {content}
         {children}
         {withCopy
           ? (

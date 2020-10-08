@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// import { PromiseContract as Contract } from '@polkadot/api-contract';
+// import { PromiseContract as Contract } from '@canvas-ui/api-contract';
 // import { CodeStored } from '@canvas-ui/apps/types';
 import { BareProps } from './types';
 
@@ -15,7 +15,7 @@ import { truncate } from '@canvas-ui/react-util';
 import CopyButton from './CopyButton';
 import EditButton from './EditButton';
 import Input from './Input';
-
+ 
 interface Props extends BareProps {
   address: string;
   isEditable?: boolean;

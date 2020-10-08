@@ -7,7 +7,7 @@ import { AnyJson } from '@polkadot/types/types';
 import { FileState } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
-import { InkAbi } from '@polkadot/api-contract';
+import { InkAbi } from '@canvas-ui/api-contract';
 import store from '@canvas-ui/apps/store';
 import { registry } from '@canvas-ui/react-api';
 import { u8aToString } from '@polkadot/util';
@@ -36,7 +36,6 @@ interface InkAbiSpecOutdated {
 
 export default function useAbi (source: Code | null = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
-  console.log(source?.abi);
   const initialState: State = source
     ? [new InkAbi(registry, source.abi || null), !!source?.abi, !isRequired || !!source.abi]
     : [null, false, false];
@@ -46,7 +45,6 @@ export default function useAbi (source: Code | null = null, isRequired = false):
   useEffect(
     (): void => {
       if (!!source?.abi && abi?.json !== source.abi) {
-        console.log(source.abi);
         setAbi([new InkAbi(registry, source.abi || null), !!source.abi, !isRequired || !!source.abi]);
       }
     },

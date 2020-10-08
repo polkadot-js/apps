@@ -1,0 +1,243 @@
+[
+  {
+    "info": 6,
+    "type": "u128"
+  },
+  {
+    "displayName": "Header",
+    "namespace": "ink_storage::collections::stash",
+    "info": 9,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "last_vacant"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "len"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "len_entries"
+      }
+    ],
+    "type": "{\"last_vacant\":\"u32\",\"len\":\"u32\",\"len_entries\":\"u32\"}"
+  },
+  {
+    "info": 6,
+    "type": "u32"
+  },
+  {
+    "displayName": "Entry",
+    "namespace": "ink_storage::collections::stash",
+    "params": [
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId"
+      }
+    ],
+    "info": 3,
+    "sub": [
+      {
+        "displayName": "VacantEntry",
+        "namespace": "ink_storage::collections::stash",
+        "info": 9,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "next"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "prev"
+          }
+        ],
+        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "name": "Vacant"
+      },
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId",
+        "name": "Occupied"
+      }
+    ],
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"AccountId\"}}"
+  },
+  {
+    "displayName": "AccountId",
+    "namespace": "ink_env::types",
+    "info": 6,
+    "type": "AccountId"
+  },
+  {
+    "info": 12,
+    "length": 32,
+    "sub": {
+      "info": 6,
+      "type": "u8"
+    },
+    "type": "[u8;32]"
+  },
+  {
+    "info": 6,
+    "type": "u8"
+  },
+  {
+    "displayName": "VacantEntry",
+    "namespace": "ink_storage::collections::stash",
+    "info": 9,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "next"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "prev"
+      }
+    ],
+    "type": "{\"next\":\"u32\",\"prev\":\"u32\"}"
+  },
+  {
+    "displayName": "ValueEntry",
+    "namespace": "ink_storage::collections::hashmap",
+    "params": [
+      {
+        "info": 6,
+        "type": "u128"
+      }
+    ],
+    "info": 9,
+    "sub": [
+      {
+        "info": 6,
+        "type": "u128",
+        "name": "value"
+      },
+      {
+        "info": 6,
+        "type": "u32",
+        "name": "key_index"
+      }
+    ],
+    "type": "{\"value\":\"u128\",\"key_index\":\"u32\"}"
+  },
+  {
+    "displayName": "Entry",
+    "namespace": "ink_storage::collections::stash",
+    "params": [
+      {
+        "info": 10,
+        "sub": [
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId"
+          },
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId"
+          }
+        ],
+        "type": "(AccountId, AccountId)"
+      }
+    ],
+    "info": 3,
+    "sub": [
+      {
+        "displayName": "VacantEntry",
+        "namespace": "ink_storage::collections::stash",
+        "info": 9,
+        "sub": [
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "next"
+          },
+          {
+            "info": 6,
+            "type": "u32",
+            "name": "prev"
+          }
+        ],
+        "type": "{\"next\":\"u32\",\"prev\":\"u32\"}",
+        "name": "Vacant"
+      },
+      {
+        "info": 10,
+        "sub": [
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId"
+          },
+          {
+            "displayName": "AccountId",
+            "namespace": "ink_env::types",
+            "info": 6,
+            "type": "AccountId"
+          }
+        ],
+        "type": "(AccountId, AccountId)",
+        "name": "Occupied"
+      }
+    ],
+    "type": "{\"_enum\":{\"Vacant\":\"{\\\"next\\\":\\\"u32\\\",\\\"prev\\\":\\\"u32\\\"}\",\"Occupied\":\"(AccountId, AccountId)\"}}"
+  },
+  {
+    "info": 10,
+    "sub": [
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId"
+      },
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId"
+      }
+    ],
+    "type": "(AccountId, AccountId)"
+  },
+  {
+    "info": 6,
+    "type": "bool"
+  },
+  {
+    "displayName": "Option",
+    "params": [
+      {
+        "displayName": "AccountId",
+        "namespace": "ink_env::types",
+        "info": 6,
+        "type": "AccountId"
+      }
+    ],
+    "info": 5,
+    "sub": {
+      "displayName": "AccountId",
+      "namespace": "ink_env::types",
+      "info": 6,
+      "type": "AccountId"
+    },
+    "type": "Option<AccountId>"
+  }
+]

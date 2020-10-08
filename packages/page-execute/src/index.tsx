@@ -6,7 +6,7 @@ import { ComponentProps } from './types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { WithLoader } from '@canvas-ui/react-components';
+import { WithLoader, ScrollToTop } from '@canvas-ui/react-components';
 import { useAccounts, useContracts } from '@canvas-ui/react-hooks';
 import { classes } from '@canvas-ui/react-util';
 

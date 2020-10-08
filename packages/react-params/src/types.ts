@@ -54,3 +54,11 @@ export interface ParamDef {
   name?: string;
   type: TypeDef;
 }
+
+export interface UseTxParams {
+  params: ParamDef[],
+  values: RawParams,
+  onChange: React.Dispatch<RawParams>
+}
+
+export type UseTxParamsHook = [UseTxParams['params'], UseTxParams['values'], UseTxParams['onChange']];

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
-import { InkMessageBase } from '@polkadot/api-contract/types';
+import { InkMessageBase } from '@canvas-ui/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { InkAbi } from '@polkadot/api-contract';
+import { InkAbi } from '@canvas-ui/api-contract';
 import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_3_CSS } from './styles/constants';
@@ -53,7 +53,6 @@ function onSelectConstructor (props: Props, index: number): () => void {
 }
 
 function renderItem (props: Props, message: InkMessageBase, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
-  console.log(message);
   const { docs = [], identifier } = message;
 
   return (

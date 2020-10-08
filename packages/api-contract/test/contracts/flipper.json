@@ -1,0 +1,106 @@
+{
+  "metadataVersion": "0.1.0",
+  "source": {
+    "hash": "0x98f9fc872ae9db158c8f695018a1b3c5a2fb863f9bed7c83ec039f05ea67fc57",
+    "language": "ink! 3.0.0",
+    "compiler": "rustc 1.48.0-nightly"
+  },
+  "contract": {
+    "name": "flipper",
+    "version": "3.0.0",
+    "authors": [
+      "Parity Technologies <admin@parity.io>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "name": "init_value",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "id": 1
+            }
+          }
+        ],
+        "docs": [
+          " Creates a new flipper smart contract initialized with the given value."
+        ],
+        "name": [
+          "new"
+        ],
+        "selector": "0xd183512b"
+      },
+      {
+        "args": [],
+        "docs": [
+          " Creates a new flipper smart contract initialized to `false`."
+        ],
+        "name": [
+          "default"
+        ],
+        "selector": "0x6a3712e2"
+      }
+    ],
+    "docs": [],
+    "events": [],
+    "messages": [
+      {
+        "args": [],
+        "docs": [
+          " Flips the current value of the Flipper's bool."
+        ],
+        "mutates": true,
+        "name": [
+          "flip"
+        ],
+        "payable": false,
+        "returnType": null,
+        "selector": "0xc096a5f3"
+      },
+      {
+        "args": [],
+        "docs": [
+          " Returns the current value of the Flipper's bool."
+        ],
+        "mutates": false,
+        "name": [
+          "get"
+        ],
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "bool"
+          ],
+          "id": 1
+        },
+        "selector": "0x1e5ca456"
+      }
+    ]
+  },
+  "storage": {
+    "struct": {
+      "fields": [
+        {
+          "layout": {
+            "cell": {
+              "key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "ty": 1
+            }
+          },
+          "name": "value"
+        }
+      ]
+    }
+  },
+  "types": [
+    {
+      "def": {
+        "primitive": "bool"
+      }
+    }
+  ]
+}

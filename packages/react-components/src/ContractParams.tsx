@@ -1,18 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkMessageParam } from '@polkadot/api-contract/types';
-import { RawParams } from '@canvas-ui/react-params/types';
+import { InkMessageParam } from '@canvas-ui/api-contract/types';
+import { RawParams, UseTxParams } from '@canvas-ui/react-params/types';
 
 import React from 'react';
 import UIParams from '@canvas-ui/react-params';
 
-interface Props {
+interface Props extends UseTxParams {
   isDisabled?: boolean;
-  params?: InkMessageParam[];
-  onChange: (values: RawParams) => void;
   onEnter?: () => void;
-  values: RawParams;
 }
 
 function Params ({ isDisabled, onChange, onEnter, params = [], values }: Props): React.ReactElement<Props> | null {

@@ -8,6 +8,8 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
+      "@canvas-ui/api-contract/*": ["packages/api-contract/src/*"],
+      "@canvas-ui/api-contract": ["packages/api-contract/src"],
       "@canvas-ui/apps/*": ["packages/apps/src/*"],
       "@canvas-ui/apps": ["packages/apps/src"],
       "@canvas-ui/apps-config/*": [ "packages/apps-config/src/*" ],
