@@ -79,7 +79,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
       if (!accountId || !callMessage || !endowment || !weight) return;
 
       callContract
-        .call('rpc', callMessage, endowment, weight, ...params)
+        .read(callMessage, endowment, weight, ...params)
         .send(accountId)
         .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
         .catch(console.error);
