@@ -62,8 +62,6 @@ function Contracts (props: Props): React.ReactElement<Props> {
     };
   };
 
-  console.error(callContract);
-
   return (
     <>
       <CardGrid
@@ -89,14 +87,16 @@ function Contracts (props: Props): React.ReactElement<Props> {
           />
         ))}
       </CardGrid>
-      <Call
-        callContract={callContract}
-        callMessageIndex={callMessageIndex}
-        isOpen={isCallOpen}
-        onChangeCallContractAddress={_onChangeCallContractAddress}
-        onChangeCallMessageIndex={_onChangeCallMessageIndex}
-        onClose={_toggleCall}
-      />
+      {isCallOpen && callContract && (
+        <Call
+          callContract={callContract}
+          callMessageIndex={callMessageIndex}
+          isOpen={isCallOpen}
+          onChangeCallContractAddress={_onChangeCallContractAddress}
+          onChangeCallMessageIndex={_onChangeCallMessageIndex}
+          onClose={_toggleCall}
+        />
+      )}
     </>
   );
 }

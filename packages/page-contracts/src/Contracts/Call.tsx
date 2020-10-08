@@ -11,7 +11,7 @@ import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, M
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
-import { BN_ZERO, isNull } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
 import Outcome from './Outcome';
@@ -20,27 +20,23 @@ import { getCallMessageOptions } from './util';
 import useWeight from '../useWeight';
 
 interface Props {
-  callContract: ApiContract | null;
-  callMessageIndex: number | null;
+  callContract: ApiContract;
+  callMessageIndex: number;
   className?: string;
-  isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
   onChangeCallMessageIndex: (callMessageIndex: number) => void;
   onClose: () => void;
 }
 
-function Call (props: Props): React.ReactElement<Props> | null {
+function Call ({ callContract, callMessageIndex, className = '', onChangeCallContractAddress, onChangeCallMessageIndex, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { callContract, callMessageIndex, className = '', isOpen, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
-  const hasRpc = callContract?.hasRpcContractsCall;
-  const callMessage = callContract?.abi.messages[isNull(callMessageIndex) ? 0 : callMessageIndex];
-
+  const callMessage = callContract.abi.messages[callMessageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }): any => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.isMutating);
+  const [useRpc, setUseRpc] = useState(callContract.hasRpcContractsCall && !callMessage.isMutating);
   const useWeightHook = useWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
@@ -50,15 +46,11 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
       setParams(callMessage ? callMessage.args.map(({ type }): any => createValue({ type })) : []);
 
-      if (hasRpc) {
-        if (!callMessage || callMessage.isMutating) {
-          setUseRpc(false);
-        } else {
-          setUseRpc(true);
-        }
+      if (callContract.hasRpcContractsCall) {
+        setUseRpc(callMessage.isMutating || false);
       }
     }
-  }, [callContract, callMessageIndex, hasRpc]);
+  }, [callContract, callMessageIndex]);
 
   useEffect((): void => {
     setOutcomes([]);
@@ -112,16 +104,11 @@ function Call (props: Props): React.ReactElement<Props> | null {
     [accountId, callContract, isEndowmentValid, isWeightValid]
   );
 
-  if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
-    return null;
-  }
-
   return (
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
       header={t<string>('Call a contract')}
       onClose={onClose}
-      open={isOpen}
     >
       <Modal.Content>
         {callContract && (
@@ -146,14 +133,14 @@ function Call (props: Props): React.ReactElement<Props> | null {
             {callMessageIndex !== null && (
               <>
                 <Dropdown
-                  defaultValue={`${callMessage.index}`}
+                  defaultValue={`${callMessageIndex}`}
                   help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
                   isDisabled={isBusy}
                   isError={callMessage === null}
                   label={t<string>('message to send')}
                   onChange={_onChangeCallMessageIndexString}
                   options={getCallMessageOptions(callContract)}
-                  value={`${callMessage.index}`}
+                  value={`${callMessageIndex}`}
                 />
                 <Params
                   isDisabled={isBusy}
@@ -182,7 +169,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
             />
           </div>
         )}
-        {hasRpc && (
+        {callContract.hasRpcContractsCall && (
           <Toggle
             className='rpc-toggle'
             label={
