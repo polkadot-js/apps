@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIFn, ContractABIMessage } from '@polkadot/api-contract/types';
+import { AbiMessage, AbiMessageBase } from '@polkadot/api-contract/types';
 import { StringOrNull } from '@polkadot/react-components/types';
 
 import React from 'react';
@@ -11,13 +11,13 @@ import { getContractAbi } from '@polkadot/react-components/util';
 
 import MessageSignature from '../shared/MessageSignature';
 
-export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): ContractABIMessage | null {
-  const message = callContract && callContract.abi.abi.contract.messages[callMethodIndex];
+export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): AbiMessageBase | null {
+  const message = callContract && callContract.abi.messages[callMethodIndex];
 
   return message || null;
 }
 
-export function getContractMethodFn (callContract: Contract | null, callMethodIndex: number | null): ContractABIFn | null {
+export function getContractMethodFn (callContract: Contract | null, callMethodIndex: number | null): AbiMessage | null {
   const fn = callContract && callContract.abi && callMethodIndex !== null && callContract.abi.messages[callMethodIndex];
 
   return fn || null;

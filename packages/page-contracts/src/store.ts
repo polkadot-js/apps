@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIPre } from '@polkadot/api-contract/types';
 import { Hash } from '@polkadot/types/interfaces';
 import { CodeJson, CodeStored } from './types';
 
@@ -75,7 +74,7 @@ class Store extends EventEmitter {
   private addCode (json: CodeJson): void {
     try {
       const abi = json.abi
-        ? JSON.parse(json.abi) as ContractABIPre
+        ? JSON.parse(json.abi) as Record<string, any>
         : null;
 
       this.allCode[json.codeHash] = {

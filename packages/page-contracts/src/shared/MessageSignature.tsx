@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { AbiMessage, AbiConstructor, AbiType } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -15,7 +15,7 @@ const MAX_PARAM_LENGTH = 20;
 export interface Props {
   asConstructor?: boolean;
   className?: string;
-  message: ContractABIMessage;
+  message: AbiMessage | AbiConstructor;
   params?: any[];
   withTooltip?: boolean;
 }
@@ -26,16 +26,13 @@ function truncate (param: string): string {
     : param;
 }
 
-function MessageSignature ({ className, message: { args, mutates, name, returnType }, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message, params = [], asConstructor = false, withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
     <div className={className}>
-      <span className='ui--MessageSignature-name'>
-        {name}
-      </span>
-      (
-      {args.map(({ name, type }, index): React.ReactNode => {
+      <span className='ui--MessageSignature-name'>{message.identifier}</span>
+      {' '}({message.args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
             {name}:
@@ -46,31 +43,30 @@ function MessageSignature ({ className, message: { args, mutates, name, returnTy
                 : displayType(type)
               }
             </span>
-            {index < args.length - 1 && ', '}
+            {index < (message.args.length) - 1 && ', '}
           </React.Fragment>
         );
-      })}
-      )
-      {(!asConstructor && returnType) && (
+      })})
+      {(!asConstructor && (message as AbiMessage).returnType) && (
         <>
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {displayType(returnType)}
+            {displayType((message as AbiMessage).returnType as AbiType)}
           </span>
         </>
       )}
-      {mutates && (
+      {(message as AbiMessage).isMutating && (
         <>
           <Icon
             className='ui--MessageSignature-mutates'
             icon='database'
-            tooltip={`mutates-${name}`}
+            tooltip={`mutates-${message.identifier}`}
           />
           {withTooltip && (
             <Tooltip
               text={t<string>('Mutates contract state')}
-              trigger={`mutates-${name}`}
+              trigger={`mutates-${message.identifier}`}
             />
           )}
         </>

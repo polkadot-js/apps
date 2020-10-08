@@ -73,7 +73,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
         return [];
       }
 
-      return contractAbi.abi.contract.constructors.map((message, index) => ({
+      return contractAbi.constructors.map((message, index) => ({
         key: `${index}`,
         text: (
           <MessageSignature
@@ -87,10 +87,10 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
     [contractAbi]
   );
 
-  const [params, setParams] = useState<unknown[]>(contractAbi && constructorIndex >= 0 ? contractAbi.abi.contract.constructors[constructorIndex].args : []);
+  const [params, setParams] = useState<unknown[]>(contractAbi && constructorIndex >= 0 ? contractAbi.constructors[constructorIndex].args : []);
 
   useEffect(
-    () => setParams(contractAbi ? contractAbi.abi.contract.constructors[constructorIndex].args : []),
+    () => setParams(contractAbi ? contractAbi.constructors[constructorIndex].args : []),
     [constructorIndex, contractAbi]
   );
 
@@ -191,7 +191,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
             ? (
               <Dropdown
                 help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
-                isDisabled={contractAbi.abi.contract.constructors.length <= 1}
+                isDisabled={contractAbi.constructors.length <= 1}
                 label={t('deployment constructor')}
                 onChange={setConstructorIndex}
                 options={constructOptions}
@@ -204,7 +204,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
           onChange={setParams}
           params={
             contractAbi && constructorIndex >= 0
-              ? contractAbi.abi.contract.constructors[constructorIndex].args
+              ? contractAbi.constructors[constructorIndex].args
               : []
           }
         />

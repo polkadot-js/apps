@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { AbiConstructor, AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -28,7 +28,7 @@ const NOOP = (): void => undefined;
 
 function onSelect (props: Props, messageIndex: number): () => void {
   return function (): void {
-    const { address: callAddress, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
+    const { address: callAddress, contractAbi: { messages }, onSelect } = props;
 
     if (!callAddress || !messages || !messages[messageIndex]) {
       return;
@@ -40,7 +40,7 @@ function onSelect (props: Props, messageIndex: number): () => void {
 
 function onSelectConstructor (props: Props, index: number): () => void {
   return function (): void {
-    const { contractAbi: { abi: { contract: { constructors } } }, onSelectConstructor } = props;
+    const { contractAbi: { constructors }, onSelectConstructor } = props;
 
     if (!constructors || !constructors[index]) {
       return;
@@ -50,8 +50,10 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
-  const { docs = [], name } = message;
+function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
+  const { docs = [], identifier } = message;
+
+  console.error(message);
 
   return (
     <div
@@ -71,7 +73,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
               ? docs
                 .filter((line) => line !== '')
                 .map((line, index) => ((
-                  <React.Fragment key={`${name}-docs-${index}`}>
+                  <React.Fragment key={`${identifier}-docs-${index}`}>
                     <span>{line}</span>
                     <br />
                   </React.Fragment>
@@ -107,7 +109,7 @@ function renderItem (props: Props, message: ContractABIMessage, index: number, a
 }
 
 function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { constructors } } } } = props;
+  const { contractAbi: { constructors } } = props;
 
   if (!constructors[index]) {
     return null;
@@ -117,7 +119,7 @@ function renderConstructor (props: Props, index: number, t: <T = string> (key: s
 }
 
 function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { messages } } } } = props;
+  const { contractAbi: { messages } } = props;
 
   if (!messages[index]) {
     return null;
@@ -128,7 +130,10 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+
+  console.error(props.contractAbi);
+
+  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
 
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
