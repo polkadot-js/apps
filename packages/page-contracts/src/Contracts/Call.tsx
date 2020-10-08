@@ -33,25 +33,25 @@ function Call (props: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { callContract, callMessageIndex, className = '', isOpen, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
   const hasRpc = callContract?.hasRpcContractsCall;
-  const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
+  const callMessage = callContract?.abi.messages[isNull(callMessageIndex) ? 0 : callMessageIndex];
 
   const [accountId, setAccountId] = useAccountId();
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
-  const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
+  const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }): any => createValue({ type })) : []);
+  const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.isMutating);
   const useWeightHook = useWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
   useEffect((): void => {
     if (callContract && callMessageIndex) {
-      const callMessage = callContract.getMessage(callMessageIndex);
+      const callMessage = callContract.abi.messages[callMessageIndex];
 
-      setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
+      setParams(callMessage ? callMessage.args.map(({ type }): any => createValue({ type })) : []);
 
       if (hasRpc) {
-        if (!callMessage || callMessage.def.mutates) {
+        if (!callMessage || callMessage.isMutating) {
           setUseRpc(false);
         } else {
           setUseRpc(true);
@@ -75,11 +75,11 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   const _constructTx = useCallback(
     (): unknown[] => {
-      if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
+      if (!accountId || !callMessage || !callContract || !callContract.address) {
         return [];
       }
 
-      return [callContract.address.toString(), endowment, weight, callMessage.fn(...params)];
+      return [callContract.address.toString(), endowment, weight, callMessage(...params)];
     },
     [accountId, callContract, callMessage, endowment, weight, params]
   );
@@ -89,7 +89,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
       if (!accountId || !callContract || !callMessage || !endowment || !weight) return;
 
       callContract
-        .call('rpc', callMessage.def.name, endowment, weight, ...params)
+        .call('rpc', 0 /* callMessage.def.name */, endowment, weight, ...params)
         .send(accountId)
         .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
         .catch(console.error);
@@ -108,7 +108,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 
   const isValid = useMemo(
-    () => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
+    () => !!(accountId && callContract && callContract.address && callContract.abi && isWeightValid && isEndowmentValid),
     [accountId, callContract, isEndowmentValid, isWeightValid]
   );
 
@@ -160,7 +160,7 @@ function Call (props: Props): React.ReactElement<Props> | null {
                   onChange={setParams}
                   params={
                     callMessage
-                      ? callMessage.def.args
+                      ? callMessage.args
                       : undefined
                   }
                 />

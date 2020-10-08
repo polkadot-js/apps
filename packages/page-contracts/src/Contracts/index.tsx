@@ -62,6 +62,8 @@ function Contracts (props: Props): React.ReactElement<Props> {
     };
   };
 
+  console.error(callContract);
+
   return (
     <>
       <CardGrid
