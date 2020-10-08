@@ -1,3 +1,9 @@
+// Copyright 2017-2020 @polkadot/apps-config authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+// structs need to be in order
+/* eslint-disable sort-keys */
+
 export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
@@ -84,7 +90,6 @@ export default {
     starting_slot: 'SlotNo',
     expected_ending_slot: 'SlotNo',
     ending_slot: 'Option<SlotNo>',
-    total_emission: 'Option<Balance>',
     emission_for_treasury: 'Option<Balance>',
     emission_for_validators: 'Option<Balance>'
   },
