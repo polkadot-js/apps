@@ -137,10 +137,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, onClose, 
   );
 
   return (
-    <Modal
-      header={t('Add an existing code hash')}
-      onClose={onClose}
-    >
+    <Modal header={t('Add an existing code hash')}>
       <Modal.Content>
         <InputAddress
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
@@ -226,15 +223,7 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, onClose, 
           onClick={onClose}
           onSuccess={_onSuccess}
           params={_constructCall}
-          tx={
-            api.tx.contracts
-              ? (
-                !api.tx.contracts.instantiate
-                  ? 'contracts.create' // V2 (new)
-                  : 'contracts.instantiate' // V2 (old)
-              )
-              : 'contract.create' // V1
-          }
+          tx='contracts.instantiate'
           withSpinner
         />
       </Modal.Actions>

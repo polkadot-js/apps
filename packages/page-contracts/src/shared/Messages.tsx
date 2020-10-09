@@ -53,12 +53,10 @@ function onSelectConstructor (props: Props, index: number): () => void {
 function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
   const { docs = [], identifier } = message;
 
-  console.error(message);
-
   return (
     <div
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
-      key={name}
+      key={identifier}
     >
       <div className='info'>
         <MessageSignature
@@ -70,17 +68,13 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
           className='docs'
           summary={
             docs && docs.length > 0
-              ? docs
-                .filter((line) => line !== '')
-                .map((line, index) => ((
-                  <React.Fragment key={`${identifier}-docs-${index}`}>
-                    <span>{line}</span>
-                    <br />
-                  </React.Fragment>
-                )))
-              : (
-                <i>{t<string>('No documentation provided')}</i>
-              )
+              ? docs.filter((line) => line).map((line, index) => ((
+                <React.Fragment key={`${identifier}-docs-${index}`}>
+                  <span>{line}</span>
+                  <br />
+                </React.Fragment>
+              )))
+              : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
           }
         />
       </div>
@@ -95,14 +89,12 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
         </div>
       )}
       {asConstructor && props.onSelectConstructor && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='upload'
-            onClick={onSelectConstructor(props, index)}
-            tooltip={t<string>('Deploy with this constructor')}
-          />
-        </div>
+        <Button
+          className='accessory'
+          icon='upload'
+          onClick={onSelectConstructor(props, index)}
+          tooltip={t<string>('Deploy with this constructor')}
+        />
       )}
     </div>
   );
@@ -177,6 +169,7 @@ export default React.memo(styled(Messages)`
   }
 
   & .message {
+    align-items: center;
     background: #f8f8f8;
     border-radius: 0.25rem;
     display: flex;
@@ -190,19 +183,6 @@ export default React.memo(styled(Messages)`
       opacity: 1 !important;
       background: #eee !important;
       color: #555 !important;
-    }
-
-    .accessory {
-      width: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .execute {
-        font-size: 1.5rem;
-        margin: 0;
-        padding: 0;
-      }
     }
 
     .info {

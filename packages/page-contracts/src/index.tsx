@@ -23,7 +23,10 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   const { allContracts } = useContracts();
   const [codeHash, setCodeHash] = useState<string | undefined>();
   const [constructorIndex, setConstructorIndex] = useState(0);
-  const [isDeployOpen, toggleIsDeployOpen, setIsDeployOpen] = useToggle();
+  const [isAddOpen, toggleAdd] = useToggle();
+  const [isDeployOpen, toggleDeploy, setIsDeployOpen] = useToggle();
+  const [isHashOpen, toggleHash] = useToggle();
+  const [isUploadOpen, toggleUpload] = useToggle();
   const [updated, setUpdated] = useState(0);
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
@@ -48,9 +51,9 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
       (): void => {
         setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
         setConstructorIndex(constructorIndex);
-        toggleIsDeployOpen();
+        toggleDeploy();
       },
-    [allCodes, toggleIsDeployOpen]
+    [allCodes, toggleDeploy]
   );
 
   const _onCloseDeploy = useCallback(
@@ -82,15 +85,27 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
         />
       </header>
       <Button.Group>
-        <CodeUpload />
-        <CodeAdd />
         <Button
+          icon='plus'
+          label={t('Upload WASM')}
+          onClick={toggleUpload}
+        />
+        <Button
+          icon='plus'
+          label={t('Add an existing code hash')}
+          onClick={toggleHash}
+        />
+        {/* <Button
           icon='upload'
           isDisabled={!store.hasCode}
           label={t('Deploy code hash')}
           onClick={_onShowDeploy()}
+        /> */}
+        <Button
+          icon='plus'
+          label={t('Add an existing contract')}
+          onClick={toggleAdd}
         />
-        <ContractAdd />
       </Button.Group>
       <Contracts
         contracts={allContracts}
@@ -110,6 +125,15 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           setCodeHash={setCodeHash}
           setConstructorIndex={setConstructorIndex}
         />
+      )}
+      {isUploadOpen && (
+        <CodeUpload onClose={toggleUpload} />
+      )}
+      {isHashOpen && (
+        <CodeAdd onClose={toggleHash} />
+      )}
+      {isAddOpen && (
+        <ContractAdd onClose={toggleAdd} />
       )}
     </main>
   );

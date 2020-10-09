@@ -78,6 +78,8 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
     (): void => {
       if (!accountId || !callMessage || !endowment || !weight) return;
 
+      console.error(accountId);
+
       callContract
         .read(callMessage, endowment, weight, ...params)
         .send(accountId)

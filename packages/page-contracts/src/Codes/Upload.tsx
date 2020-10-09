@@ -5,8 +5,8 @@ import { Hash } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { Button, InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
-import { useAccountId, useApi, useNonEmptyString, useToggle } from '@polkadot/react-hooks';
+import { InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
+import { useAccountId, useNonEmptyString } from '@polkadot/react-hooks';
 import { compactAddLength, isNull, isWasm } from '@polkadot/util';
 
 import { ABI, InputName } from '../shared';
@@ -14,17 +14,19 @@ import store from '../store';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
 
-function Upload (): React.ReactElement {
+interface Props {
+  onClose: () => void;
+}
+
+function Upload ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const [isOpen, toggleIsOpen] = useToggle();
   const [accountId, setAccountId] = useAccountId();
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
   const isSubmittable = useMemo(
-    (): boolean => !!accountId && (!isNull(name) && isNameValid) && isWasmValid && (!isAbiSupplied || isAbiValid),
+    () => !!accountId && (!isNull(name) && isNameValid) && isWasmValid && (!isAbiSupplied || isAbiValid),
     [accountId, name, isAbiSupplied, isAbiValid, isNameValid, isWasmValid]
   );
 
@@ -38,8 +40,7 @@ function Upload (): React.ReactElement {
 
   const _onSuccess = useCallback(
     (result: SubmittableResult): void => {
-      const section = api.tx.contracts ? 'contracts' : 'contract';
-      const record = result.findRecord(section, 'CodeStored');
+      const record = result.findRecord('contracts', 'CodeStored');
 
       if (record) {
         const codeHash = record.event.data[0];
@@ -55,69 +56,60 @@ function Upload (): React.ReactElement {
           });
       }
     },
-    [api, abi, name]
+    [abi, name]
   );
 
   return (
-    <>
-      <Button
-        icon='plus'
-        label={t('Upload WASM')}
-        onClick={toggleIsOpen}
-      />
-      {isOpen && (
-        <Modal header={t('Upload WASM')}>
-          <Modal.Content>
-            <InputAddress
-              help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
-              isInput={false}
-              label={t('deployment account')}
-              onChange={setAccountId}
-              type='account'
-              value={accountId}
-            />
-            <InputFile
-              help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
-              isError={!isWasmValid}
-              label={t<string>('compiled contract WASM')}
-              onChange={_onAddWasm}
-              placeholder={
-                wasm && !isWasmValid
-                  ? t<string>('The code is not recognized as being in valid WASM format')
-                  : null
-              }
-            />
-            <InputName
-              isError={!isNameValid}
-              onChange={setName}
-              value={name || undefined}
-            />
-            <ABI
-              contractAbi={contractAbi}
-              errorText={errorText}
-              isError={isAbiError}
-              isSupplied={isAbiSupplied}
-              isValid={isAbiValid}
-              onChange={onChangeAbi}
-              onRemove={onRemoveAbi}
-              withLabel
-            />
-          </Modal.Content>
-          <Modal.Actions onCancel={toggleIsOpen}>
-            <TxButton
-              accountId={accountId}
-              icon='upload'
-              isDisabled={!isSubmittable}
-              label={t('Upload')}
-              onClick={toggleIsOpen}
-              onSuccess={_onSuccess}
-              params={[wasm]}
-              tx={api.tx.contracts ? 'contracts.putCode' : 'contract.putCode'}
-            />
-          </Modal.Actions>
-        </Modal>
-      )}
-    </>
+    <Modal header={t('Upload WASM')}>
+      <Modal.Content>
+        <InputAddress
+          help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
+          isInput={false}
+          label={t('deployment account')}
+          onChange={setAccountId}
+          type='account'
+          value={accountId}
+        />
+        <InputFile
+          help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
+          isError={!isWasmValid}
+          label={t<string>('compiled contract WASM')}
+          onChange={_onAddWasm}
+          placeholder={
+            wasm && !isWasmValid
+              ? t<string>('The code is not recognized as being in valid WASM format')
+              : null
+          }
+        />
+        <InputName
+          isError={!isNameValid}
+          onChange={setName}
+          value={name || undefined}
+        />
+        <ABI
+          contractAbi={contractAbi}
+          errorText={errorText}
+          isError={isAbiError}
+          isSupplied={isAbiSupplied}
+          isValid={isAbiValid}
+          onChange={onChangeAbi}
+          onRemove={onRemoveAbi}
+          withLabel
+        />
+      </Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        <TxButton
+          accountId={accountId}
+          icon='upload'
+          isDisabled={!isSubmittable}
+          label={t('Upload')}
+          onClick={onClose}
+          onSuccess={_onSuccess}
+          params={[wasm]}
+          tx='contracts.putCode'
+        />
+      </Modal.Actions>
+    </Modal>
   );
 }
 
