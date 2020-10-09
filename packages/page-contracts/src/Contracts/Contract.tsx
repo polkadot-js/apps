@@ -6,7 +6,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useCallback } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { AddressRow, Button, Card, Forget } from '@polkadot/react-components';
+import { AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Messages from '../shared/Messages';
@@ -53,28 +53,17 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
 
   return (
     <tr className={className}>
-      <td className='top'>
-        <Card>
-          {isForgetOpen && (
-            <Forget
-              address={address.toString()}
-              key='modal-forget-contract'
-              mode='contract'
-              onClose={toggleIsForgetOpen}
-              onForget={_onForget}
-            />
-          )}
-          <AddressRow
-            isContract
-            isEditableName
-            isEditableTags
-            type='contract'
-            value={address}
-            withBalance={false}
-            withNonce={false}
-            withTags={false}
+      <td className='address top'>
+        {isForgetOpen && (
+          <Forget
+            address={address.toString()}
+            key='modal-forget-contract'
+            mode='contract'
+            onClose={toggleIsForgetOpen}
+            onForget={_onForget}
           />
-        </Card>
+        )}
+        <AddressMini value={address} />
       </td>
       <td className='all top'>
         <Messages

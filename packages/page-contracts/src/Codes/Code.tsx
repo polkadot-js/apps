@@ -55,7 +55,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
 
   return (
     <tr className={className}>
-      <td className='top'>
+      <td className='address top'>
         <Card>
           <CodeRow
             code={code}
