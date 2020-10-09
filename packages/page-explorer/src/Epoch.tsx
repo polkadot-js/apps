@@ -51,7 +51,7 @@ function Epoch ({ value }: Props): React.ReactElement<Props> | null {
             <p>{`${stats.ending_slot.isSome ? stats.ending_slot.unwrap().toHuman() : '-'}`}</p>
           </td>
           <td className='number'>
-            <FormatBalance value={stats.total_emission.isSome ? stats.total_emission.unwrap() : 0} />
+            <FormatBalance value={stats.emission_for_treasury.isSome ? stats.emission_for_treasury.unwrap() + stats.emission_for_validators.unwrap() : 0} />
           </td>
           <td className='number'>
             <FormatBalance value={stats.emission_for_treasury.isSome ? stats.emission_for_treasury.unwrap() : 0} />
