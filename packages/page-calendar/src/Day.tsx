@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { EntryInfo } from './types';
 
@@ -50,7 +49,7 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
   return (
     <div className={className}>
       <h1>
-        <div>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
+        <div className='highlight--color'>{date.getDate()} {monthRef.current[date.getMonth()]} {date.getFullYear()} {isToday && <DayTime />}</div>
         <Button.Group>
           <Button
             icon='chevron-left'
@@ -64,7 +63,7 @@ function Day ({ className, date, hasNextDay, now, scheduled, setNextDay, setPrev
           />
         </Button.Group>
       </h1>
-      <div className='hoursContainer'>
+      <div className='hoursContainer highlight--bg-faint'>
         {HOURS.map((hour, index): React.ReactNode =>
           <DayHour
             date={date}
@@ -89,5 +88,9 @@ export default React.memo(styled(Day)`
     font-size: 1.25rem;
     justify-content: space-between;
     padding: 1rem 1.5rem 0;
+  }
+
+  .hoursContainer {
+    z-index: 1;
   }
 `);

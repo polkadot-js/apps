@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
 import { SocietyVote } from '@polkadot/types/interfaces';
@@ -36,7 +35,7 @@ function Defender ({ className = '', info, isMember, ownMembers }: Props): React
 
   const headerRef = useRef([
     [t('defender'), 'start'],
-    [t('votes'), 'start'],
+    [t('votes'), 'expand'],
     []
   ]);
 

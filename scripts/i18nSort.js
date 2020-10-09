@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 const fs = require('fs');
 const path = require('path');
 
 const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
 
-const SKIP_NS = ['app-123code', 'app-dashboard', 'app-i18n', 'translation'].map((f) => `${f}.json`);
+const SKIP_NS = ['translation'].map((f) => `${f}.json`);
 
 function getEntries (langRoot) {
   return fs

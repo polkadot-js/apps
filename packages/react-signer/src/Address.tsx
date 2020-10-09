@@ -1,16 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { QueueTx } from '@polkadot/react-components/Status/types';
 import { AccountId, BalanceOf, Call, Multisig, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
-import { AddressProxy } from './types';
+import { AddressFlags, AddressProxy } from './types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { registry } from '@polkadot/react-api';
 import { InputAddress, Modal, Toggle } from '@polkadot/react-components';
 import { useAccounts, useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option, Vec } from '@polkadot/types';
@@ -24,6 +22,7 @@ interface Props {
   className?: string;
   currentItem: QueueTx;
   onChange: (address: AddressProxy) => void;
+  onEnter?: () => void;
   passwordError: string | null;
   requestAddress: string;
 }
@@ -35,6 +34,11 @@ interface MultiState {
   whoFilter: string[];
 }
 
+interface PasswordState {
+  isUnlockCached: boolean;
+  signPassword: string;
+}
+
 interface ProxyState {
   address: string;
   isProxied: boolean;
@@ -44,7 +48,7 @@ interface ProxyState {
 
 function findCall (tx: Call | SubmittableExtrinsic<'promise'>): { method: string; section: string } {
   try {
-    const { method, section } = registry.findMetaCall(tx.callIndex);
+    const { method, section } = tx.registry.findMetaCall(tx.callIndex);
 
     return { method, section };
   } catch (error) {
@@ -123,7 +127,7 @@ async function queryForProxy (api: ApiPromise, allAccounts: string[], address: s
   if (isFunction(api.query.proxy?.proxies)) {
     const { isProxied } = extractExternal(address);
     const [_proxies] = await api.query.proxy.proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address);
-    const proxies = api.tx.proxy.addProxy.meta.args.length === 4
+    const proxies = api.tx.proxy.addProxy.meta.args.length === 3
       ? (_proxies as ProxyDefinition[]).map(({ delegate, proxyType }): [string, ProxyType] => [delegate.toString(), proxyType])
       : (_proxies as [AccountId, ProxyType][]).map(([delegate, proxyType]): [string, ProxyType] => [delegate.toString(), proxyType]);
     const proxiesFilter = filterProxies(allAccounts, tx, proxies);
@@ -136,24 +140,38 @@ async function queryForProxy (api: ApiPromise, allAccounts: string[], address: s
   return null;
 }
 
-function Address ({ currentItem, onChange, passwordError, requestAddress }: Props): React.ReactElement<Props> {
+function Address ({ currentItem, onChange, onEnter, passwordError, requestAddress }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
-  const { t } = useTranslation();
   const [multiAddress, setMultiAddress] = useState<string | null>(null);
   const [proxyAddress, setProxyAddress] = useState<string | null>(null);
-  const [flags, setFlags] = useState(extractExternal(requestAddress));
   const [isMultiCall, setIsMultiCall] = useState(false);
   const [isProxyActive, setIsProxyActive] = useState(true);
   const [multiInfo, setMultInfo] = useState<MultiState | null>(null);
   const [proxyInfo, setProxyInfo] = useState<ProxyState | null>(null);
-  const [signAddress, setSignAddress] = useState<string | null>(requestAddress);
-  const [signPassword, setSignPassword] = useState('');
+  const [{ isUnlockCached, signPassword }, setSignPassword] = useState<PasswordState>({ isUnlockCached: false, signPassword: '' });
+
+  const [signAddress, flags] = useMemo(
+    (): [string, AddressFlags] => {
+      const signAddress = (multiInfo && multiAddress) ||
+        (isProxyActive && proxyInfo && proxyAddress) ||
+        requestAddress;
+
+      return [signAddress, extractExternal(signAddress)];
+    },
+    [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]
+  );
+
+  const _updatePassword = useCallback(
+    (signPassword: string, isUnlockCached: boolean) => setSignPassword({ isUnlockCached, signPassword }),
+    []
+  );
 
   useEffect((): void => {
-    setFlags(extractExternal(signAddress));
-  }, [signAddress]);
+    !proxyInfo && setProxyAddress(null);
+  }, [proxyInfo]);
 
   // proxy for requestor
   useEffect((): void => {
@@ -164,10 +182,6 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
         .then((info) => mountedRef.current && setProxyInfo(info))
         .catch(console.error);
   }, [allAccounts, api, currentItem, mountedRef, requestAddress]);
-
-  useEffect((): void => {
-    !proxyInfo && setProxyAddress(null);
-  }, [proxyInfo]);
 
   // multisig
   useEffect((): void => {
@@ -184,24 +198,16 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
         .catch(console.error);
   }, [proxyAddress, api, currentItem, mountedRef, requestAddress]);
 
-  // address
-  useEffect((): void => {
-    setSignAddress(
-      (multiInfo && multiAddress) ||
-      (isProxyActive && proxyInfo && proxyAddress) ||
-      requestAddress
-    );
-  }, [multiAddress, proxyAddress, isProxyActive, multiInfo, proxyInfo, requestAddress]);
-
   useEffect((): void => {
     onChange({
-      isMultiCall: isMultiCall,
+      isMultiCall,
+      isUnlockCached,
       multiRoot: multiInfo ? multiInfo.address : null,
       proxyRoot: (proxyInfo && isProxyActive) ? proxyInfo.address : null,
       signAddress,
       signPassword
     });
-  }, [isProxyActive, isMultiCall, multiAddress, multiInfo, onChange, proxyAddress, proxyInfo, signAddress, signPassword]);
+  }, [isProxyActive, isMultiCall, isUnlockCached, multiAddress, multiInfo, onChange, proxyAddress, proxyInfo, signAddress, signPassword]);
 
   return (
     <>
@@ -256,7 +262,8 @@ function Address ({ currentItem, onChange, passwordError, requestAddress }: Prop
         <Password
           address={signAddress}
           error={passwordError}
-          onChange={setSignPassword}
+          onChange={_updatePassword}
+          onEnter={onEnter}
         />
       )}
       {proxyInfo && (

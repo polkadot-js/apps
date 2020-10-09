@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { CodeStored } from '@polkadot/app-contracts/types';
 
@@ -8,9 +7,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
-import { toShortAddress } from '@polkadot/react-components/util';
 import Row from '@polkadot/react-components/Row';
-import { CopyButton, Icon } from '@polkadot/react-components';
+import { Icon } from '@polkadot/react-components';
 
 import contracts from '../store';
 
@@ -60,26 +58,13 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
 
   return (
     <Row
-      address={
-        <CopyButton
-          isAddress
-          value={codeHash}
-        >
-          <span>{toShortAddress(codeHash)}</span>
-        </CopyButton>
-      }
       buttons={buttons}
       className={className}
       icon={
         <div className='ui--CodeRow-icon'>
-          <Icon
-            icon='code'
-            size='large'
-          />
+          <Icon icon='code' />
         </div>
       }
-      isEditableName
-      isEditableTags
       isInline={isInline}
       name={name}
       onChangeName={setName}
@@ -93,18 +78,17 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
   );
 }
 
-export default React.memo(
-  styled(CodeRow)`
-    .ui--CodeRow-icon {
-      margin-right: 1em;
-      background: #eee;
-      color: #666;
-      width: 4rem;
-      height: 5rem;
-      padding: 0.5rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-  `
-);
+export default React.memo(styled(CodeRow)`
+  .ui--CodeRow-icon {
+    margin-right: 1em;
+    background: #eee;
+    border-radius: 50%;
+    color: #666;
+    width: 28px;
+    height: 28px;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+`);

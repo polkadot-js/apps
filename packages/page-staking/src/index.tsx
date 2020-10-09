@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { AppProps as Props } from '@polkadot/react-components/types';
+import { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
 import { ElectionStatus } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
@@ -27,8 +26,7 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
-const HIDDEN_ACC = ['actions', 'payouts', 'query'];
-const HIDDEN_QUE = ['returns', 'query'];
+const HIDDEN_ACC = ['actions', 'payouts'];
 
 const transformElection = {
   transform: (status: ElectionStatus) => status.isOpen
@@ -108,11 +106,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         <Tabs
           basePath={basePath}
           hidden={
-            !hasAccounts
-              ? HIDDEN_ACC
-              : !hasQueries
-                ? HIDDEN_QUE
-                : undefined
+            hasAccounts
+              ? undefined
+              : HIDDEN_ACC
           }
           items={items}
         />
@@ -155,6 +151,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             isIntentions
             next={next}
             stakingOverview={stakingOverview}
+            targets={targets}
             toggleFavorite={toggleFavorite}
           />
         </Route>
@@ -171,13 +168,14 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         hasQueries={hasQueries}
         next={next}
         stakingOverview={stakingOverview}
+        targets={targets}
         toggleFavorite={toggleFavorite}
       />
     </main>
   );
 }
 
-export default React.memo(styled(StakingApp)`
+export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   .staking--hidden {
     display: none;
   }
@@ -206,7 +204,7 @@ export default React.memo(styled(StakingApp)`
 
   .ui--Expander.stakeOver {
     .ui--Expander-summary {
-      color: darkred;
+      color: ${theme.colorError};
     }
   }
-`);
+`));

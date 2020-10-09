@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Balance } from '@polkadot/types/interfaces';
 
@@ -39,8 +38,8 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
   );
 
   return (
-    <td className='number all'>
-      {rewarded.length > 0 && (
+    <td className='expand all'>
+      {!!rewarded.length && (
         <>
           <Expander summary={
             <FormatBalance
@@ -57,7 +56,7 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
               />
             )}
           </Expander>
-          {unrewarded.length > 0 && (
+          {!!unrewarded.length && (
             <Expander
               className='stakeOver'
               summary={

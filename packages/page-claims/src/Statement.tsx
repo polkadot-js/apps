@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { StatementKind } from '@polkadot/types/interfaces';
 
 import React from 'react';
@@ -57,7 +57,7 @@ function Statement ({ className, kind, systemChain }: Props): React.ReactElement
   );
 }
 
-export default React.memo(styled(Statement)`
+export default React.memo(styled(Statement)(({ theme }: ThemeProps) => `
   .statement{
     border: 1px solid #c2c2c2;
     background: #f2f2f2;
@@ -68,7 +68,7 @@ export default React.memo(styled(Statement)`
     white-space: normal;
 
     p {
-      color: #4e4e4e !important;
+      color: ${theme.color} !important;
     }
 
     iframe {
@@ -81,4 +81,4 @@ export default React.memo(styled(Statement)`
   .statementUrl{
     margin-left: 0.3rem
   }
-`);
+`));

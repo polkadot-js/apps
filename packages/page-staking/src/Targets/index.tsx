@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
@@ -184,7 +183,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         numValidators={validators?.length}
         totalStaked={totalStaked}
       />
-      <ElectionBanner isInElection={isInElection} />
       <Button.Group>
         <Button
           icon='check'
@@ -198,6 +196,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           targets={selected}
         />
       </Button.Group>
+      <ElectionBanner isInElection={isInElection} />
       <Table
         empty={sorted && t<string>('No active validators to check')}
         filter={filter}

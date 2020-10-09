@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
@@ -34,8 +33,7 @@ function getStakerState (stashId: string, allAccounts: string[], allStashes: str
 
   return {
     controllerId,
-    destination: rewardDestination?.toString().toLowerCase(),
-    destinationId: rewardDestination?.toNumber() || 0,
+    destination: rewardDestination,
     exposure,
     hexSessionIdNext: u8aToHex(nextConcat, 48),
     hexSessionIdQueue: u8aToHex(currConcat.length ? currConcat : nextConcat, 48),

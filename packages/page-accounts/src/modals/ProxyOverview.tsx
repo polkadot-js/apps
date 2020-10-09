@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ApiPromise } from '@polkadot/api';
 import { SubmittableExtrinsic } from '@polkadot/api/types';
@@ -50,20 +49,20 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
   return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
 }
 
-function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
+function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.addProxy.meta.args.length === 2
-    ? api.tx.proxy.addProxy(account, type)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
-    : api.tx.proxy.addProxy(account, type, 0);
+    // @ts-ignore old version
+    ? api.tx.proxy.addProxy(account, type)
+    : api.tx.proxy.addProxy(account, type, delay);
 }
 
-function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType): SubmittableExtrinsic<'promise'> {
+function createRmProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
   return api.tx.proxy.removeProxy.meta.args.length === 2
-    ? api.tx.proxy.removeProxy(account, type)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore new version
-    : api.tx.proxy.removeProxy(account, type, 0);
+    // @ts-ignore old version
+    ? api.tx.proxy.removeProxy(account, type)
+    : api.tx.proxy.removeProxy(account, type, delay);
 }
 
 function PrevProxy ({ index, onRemove, typeOpts, value: [accountId, type] }: PrevProxyProps): React.ReactElement<PrevProxyProps> {

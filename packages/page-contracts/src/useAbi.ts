@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { StringOrNull } from '@polkadot/react-components/types';
 
@@ -23,11 +22,6 @@ interface UseAbi {
   onRemoveAbi: () => void;
 }
 
-interface ContractABIOutdated {
-  deploy?: any;
-  messages?: any;
-}
-
 export default function useAbi (initialValue: [string | null, Abi | null] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
   const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
@@ -47,13 +41,14 @@ export default function useAbi (initialValue: [string | null, Abi | null] = [nul
       const json = u8aToString(u8a);
 
       try {
-        const abiOutdated = JSON.parse(json) as ContractABIOutdated;
+        const abi = JSON.parse(json) as Record<string, any>;
 
-        if (abiOutdated.deploy || abiOutdated.messages) {
+        if (!abi.metadataVersion) {
           throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
         }
 
-        setAbi([json, new Abi(registry, JSON.parse(json)), true, true]);
+        setAbi([json, new Abi(registry, abi), true, true]);
+
         codeHash && store.saveCode(
           codeHash,
           { abi: json }

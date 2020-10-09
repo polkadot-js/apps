@@ -1,17 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { ThemeDef } from '@polkadot/react-components/types';
 import { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { Delegation } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
@@ -79,6 +79,7 @@ const transformRecovery = {
 
 function Account ({ account: { address, meta }, className = '', delegation, filter, isFavorite, proxy, setBalance, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { theme } = useContext<ThemeDef>(ThemeContext);
   const { queueExtrinsic } = useContext(StatusContext);
   const api = useApi();
   const bestNumber = useCall<BN>(api.api.derive.chain.bestNumber);
@@ -190,12 +191,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
     // for now we are always assuming hardwareType === 'ledger'
     (): void => {
       getLedger()
-        .getAddress(true)
+        .getAddress(true, meta.accountOffset as number || 0, meta.addressOffset as number || 0)
         .catch((error): void => {
           console.error(`ledger: ${(error as Error).message}`);
         });
     },
-    []
+    [meta]
   );
 
   if (!isVisible) {
@@ -417,7 +418,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           />
         )}
         <Popup
-          className='theme--default'
+          className={`theme--${theme}`}
           isOpen={isSettingsOpen}
           onClose={toggleSettings}
           trigger={

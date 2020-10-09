@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { InjectedExtension } from '@polkadot/extension-inject/types';
+import { KeyringStore } from '@polkadot/ui-keyring/types';
 import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
@@ -17,7 +17,6 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
-import { KeyringStore } from '@polkadot/ui-keyring/types';
 
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';

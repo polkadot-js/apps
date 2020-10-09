@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, BalanceOf, ProxyDefinition, ProxyType } from '@polkadot/types/interfaces';
 import { ITuple } from '@polkadot/types/types';
@@ -54,7 +53,7 @@ export default function useProxies (address?: string | null): State {
       api.query.proxy
         .proxies<ITuple<[Vec<ITuple<[AccountId, ProxyType]> | ProxyDefinition>, BalanceOf]>>(address)
         .then(([_proxies]): void => {
-          const proxies = api.tx.proxy.addProxy.meta.args.length === 4
+          const proxies = api.tx.proxy.addProxy.meta.args.length === 3
             ? (_proxies as ProxyDefinition[]).map(({ delay, delegate, proxyType }) =>
               createProxy(allAccounts, delegate, proxyType, delay)
             )

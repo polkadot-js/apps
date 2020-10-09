@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Route, Routes } from '@polkadot/apps-routing/types';
 import { ApiProps } from '@polkadot/react-api/types';
+import { ThemeProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { Group, Groups, ItemRoute } from './types';
 
@@ -124,7 +124,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   const isLoading = !apiProps.isApiReady || !apiProps.isApiConnected;
 
   return (
-    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg-light highlight--border`}>
+    <div className={`${className}${isLoading ? ' isLoading' : ''} highlight--bg`}>
       <div className='menuSection'>
         <ChainInfo />
         {activeRoute && (
@@ -147,7 +147,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
         <ul className='menuItems'>
           {externalRef.current.map((route): React.ReactNode => (
             <Item
-              className='topLevel'
+              isToplevel
               key={route.name}
               route={route}
             />
@@ -159,23 +159,22 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Menu)`
+export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   align-items: center;
-  border-top: 0.5rem solid transparent;
   display: flex;
   justify-content: space-between;
   padding: 0;
   z-index: 220;
 
   &.isLoading {
-    background: #eee;
+    background: #999 !important;
+
+    .menuActive {
+      background: ${theme.bgPage};
+    }
 
     &:before {
       filter: grayscale(1);
-    }
-
-    .menuActive {
-      background: #f5f3f1;
     }
 
     .menuItems {
@@ -190,9 +189,10 @@ export default React.memo(styled(Menu)`
   }
 
   .menuActive {
-    background: #fff;
+    background: ${theme.bgTabs};
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
+    color: ${theme.color};
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;
@@ -212,4 +212,4 @@ export default React.memo(styled(Menu)`
       display: inline-block;
     }
   }
-`);
+`));

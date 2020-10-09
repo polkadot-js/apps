@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import { ThemeProps } from '../types';
 
 import { css } from 'styled-components';
 
@@ -22,7 +23,17 @@ export default css`
 
   .ui.selection.dropdown,
   .ui.input > input {
-    color: inherit;
+    background: ${({ theme }: ThemeProps) => theme.bgInput};
+    color: ${({ theme }: ThemeProps) => theme.color};
+
+    &:focus {
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
+    }
+  }
+
+  .ui.action.input > .buttons {
+    position: relative;
   }
 
   .ui.dropdown {
@@ -36,19 +47,38 @@ export default css`
       }
     }
 
+    &.selection.visible {
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
+    }
+
+    .menu {
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
+
+      > .item {
+        border-color: transparent !important;
+        color: ${({ theme }: ThemeProps) => theme.color} !important;
+
+        &.header.disabled {
+          margin: 1em 0 0 0;
+          opacity: 1;
+
+          &:hover,
+          &.selected {
+            background: ${({ theme }: ThemeProps) => theme.bgInput};
+          }
+        }
+      }
+    }
+
     > .text {
       min-height: 1em;
+
+      &:not(.default) {
+        color: ${({ theme }: ThemeProps) => theme.color} !important;
+      }
     }
-  }
-
-  .ui.dropdown .menu > .item.header.disabled {
-    margin: 1em 0 0 0;
-    opacity: 1;
-  }
-
-  .ui.dropdown .menu > .item.header.disabled:hover,
-  .ui.dropdown .menu > .item.header.disabled.selected {
-    background: white;
   }
 
   .ui.input {
@@ -75,8 +105,8 @@ export default css`
       }
     }
 
-    &.disabled.error input {
-      background-color: #fff6f6;
+    &.error input {
+      background-color: ${({ theme }: ThemeProps) => theme.bgInputError};
       border-color: #e0b4b4;
     }
 
@@ -93,9 +123,9 @@ export default css`
   }
 
   .ui.modal {
-    background: #f9f8f7;
+    background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
-    color: #4e4e4e;
+    color: ${({ theme }: ThemeProps) => theme.color};
     font-family: sans-serif;
 
     > .actions,
@@ -106,14 +136,14 @@ export default css`
     > .actions {
       border-top: none;
       text-align: right;
-      padding: 1rem !important;
+      padding: 0 1rem !important;
     }
 
     /* approx h1, color, size, font */
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: rgba(0, 0, 0, .6);
+      color: ${({ theme }: ThemeProps) => theme.colorSummary};
       font-family: sans-serif;
       font-size: 1.75rem;
       font-weight: 100;
@@ -134,6 +164,15 @@ export default css`
 
   .ui.page.modals.transition.visible {
     display: flex !important;
+  }
+
+  .ui.popup {
+    background: ${({ theme }: ThemeProps) => theme.bgMenu};
+    color: ${({ theme }: ThemeProps) => theme.color};
+
+    .ui.text.menu .item {
+      color: ${({ theme }: ThemeProps) => theme.color};
+    }
   }
 
   .ui.secondary.vertical.menu > .item {

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-api authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { Ledger } from '@polkadot/ui-keyring';
@@ -18,7 +17,7 @@ let ledger: Ledger | null = null;
 
 export function isLedgerCapable (): boolean {
   try {
-    return !!api && ALLOWED_CHAINS.map(([g]) => g).includes(api.genesisHash.toHex());
+    return !!(window as unknown as { USB?: unknown }).USB && !!api && ALLOWED_CHAINS.map(([g]) => g).includes(api.genesisHash.toHex());
   } catch (error) {
     return false;
   }

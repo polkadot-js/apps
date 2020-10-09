@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -11,18 +11,19 @@ import Tooltip from './Tooltip';
 
 interface Props {
   help: React.ReactNode;
+  icon?: IconName;
   className?: string;
 }
 
 let id = 0;
 
-function LabelHelp ({ className = '', help }: Props): React.ReactElement<Props> {
+function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): React.ReactElement<Props> {
   const [trigger] = useState(`label-help-${++id}`);
 
   return (
     <div className={classes('ui--LabelHelp', className)}>
       <Icon
-        icon='question-circle'
+        icon={icon}
         tooltip={trigger}
       />
       <Tooltip

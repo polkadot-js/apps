@@ -1,25 +1,29 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { TxButtonProps as Props } from './types';
 
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { useApi, useToggle } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button';
 import { StatusContext } from './Status';
 import { useTranslation } from './translate';
 
-function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
+function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
-  const [isSending, , setIsSending] = useToggle(false);
+  const [isSending, setIsSending] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const needsAccount = !isUnsigned && !accountId;
+
+  useEffect((): void => {
+    (isStarted && onStart) && onStart();
+  }, [isStarted, onStart]);
 
   const _onFailed = useCallback(
     (result: SubmittableResult | null): void => {
@@ -39,43 +43,54 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
     [onSuccess, setIsSending]
   );
 
+  const _onStart = useCallback(
+    () => setIsStarted(true),
+    [setIsStarted]
+  );
+
   const _onSend = useCallback(
     (): void => {
-      let extrinsic: SubmittableExtrinsic<'promise'>;
+      let extrinsics: SubmittableExtrinsic<'promise'>[];
 
       if (propsExtrinsic) {
-        extrinsic = propsExtrinsic;
+        extrinsics = Array.isArray(propsExtrinsic)
+          ? propsExtrinsic
+          : [propsExtrinsic];
       } else {
         const [section, method] = (tx || '').split('.');
 
         assert(api.tx[section] && api.tx[section][method], `Unable to find api.tx.${section}.${method}`);
 
-        extrinsic = api.tx[section][method](...(
-          isFunction(params)
-            ? params()
-            : (params || [])
-        ));
+        extrinsics = [
+          api.tx[section][method](...(
+            isFunction(params)
+              ? params()
+              : (params || [])
+          ))
+        ];
       }
 
-      assert(extrinsic, 'Expected generated extrinsic passed to TxButton');
+      assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
 
       if (withSpinner) {
         setIsSending(true);
       }
 
-      queueExtrinsic({
-        accountId: accountId && accountId.toString(),
-        extrinsic,
-        isUnsigned,
-        txFailedCb: withSpinner ? _onFailed : onFailed,
-        txStartCb: onStart,
-        txSuccessCb: withSpinner ? _onSuccess : onSuccess,
-        txUpdateCb: onUpdate
+      extrinsics.forEach((extrinsic): void => {
+        queueExtrinsic({
+          accountId: accountId && accountId.toString(),
+          extrinsic,
+          isUnsigned,
+          txFailedCb: withSpinner ? _onFailed : onFailed,
+          txStartCb: _onStart,
+          txSuccessCb: withSpinner ? _onSuccess : onSuccess,
+          txUpdateCb: onUpdate
+        });
       });
 
       onClick && onClick();
     },
-    [_onFailed, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onStart, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner]
+    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner]
   );
 
   if (onSendRef) {
@@ -90,6 +105,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
       isBusy={isBusy}
       isDisabled={isSending || isDisabled || needsAccount}
       isIcon={isIcon}
+      isToplevel={isToplevel}
       label={label || (isIcon ? '' : t<string>('Submit'))}
       onClick={_onSend}
       tooltip={tooltip}

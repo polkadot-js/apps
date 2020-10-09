@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
@@ -21,10 +20,11 @@ function SummaryBox ({ children, className = '', isSmall }: Props): React.ReactE
 
 export default React.memo(styled(SummaryBox)`
   align-items: stretch;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   display: flex;
   flex-wrap: no-wrap;
   justify-content: space-between;
+  margin: 1.5rem 0;
 
   > section {
     display: flex;
@@ -45,14 +45,6 @@ export default React.memo(styled(SummaryBox)`
     + div {
       margin-top: 0.75rem;
     }
-  }
-
-  @media(max-width: 767px) {
-    padding: 0;
-  }
-
-  @media(min-width: 768px) {
-    margin-bottom: 1.5rem;
   }
 
   &.isSmall {

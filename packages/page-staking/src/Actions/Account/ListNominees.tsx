@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import BN from 'bn.js';
+import React, { useMemo } from 'react';
+import { DeriveEraExposure, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { AddressMini, Expander } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../../translate';
 import useInactives from '../useInactives';
@@ -18,6 +19,29 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { t } = useTranslation();
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
+  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
+  const eraExposure = useCall<DeriveEraExposure>(api.query.staking.erasStakers && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
+  const nomBalanceMap: Record<string, BN> = useMemo(() => {
+    const res: Record<string, BN> = {};
+
+    if (nomsActive && eraExposure) {
+      // for every active nominee
+      nomsActive.forEach((nom) => {
+        // cycle through its nominator to find our current stash
+        eraExposure.validators?.[nom].others.some((o) => {
+          if (o.who.eq(stashId)) {
+            res[nom] = o.value.toBn();
+
+            return true;
+          }
+
+          return false;
+        });
+      });
+    }
+
+    return res;
+  }, [eraExposure, nomsActive, stashId]);
 
   const max = api.consts.staking?.maxNominatorRewardedPerValidator?.toString();
 
@@ -45,9 +69,10 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
         >
           {nomsActive.map((nomineeId, index): React.ReactNode => (
             <AddressMini
+              balance={nomBalanceMap[nomineeId]}
               key={index}
               value={nomineeId}
-              withBalance={false}
+              withBalance={!!eraExposure}
             />
           ))}
         </Expander>

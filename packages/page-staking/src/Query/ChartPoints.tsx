@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveStakerPoints } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
@@ -13,7 +12,7 @@ import { useTranslation } from '../translate';
 
 const COLORS_POINTS = [undefined, '#acacac'];
 
-function extractPoints (points: DeriveStakerPoints[]): ChartInfo {
+function extractPoints (points: DeriveStakerPoints[] = []): ChartInfo {
   const labels: string[] = [];
   const avgSet: LineDataEntry = [];
   const idxSet: LineDataEntry = [];
@@ -41,12 +40,11 @@ function extractPoints (points: DeriveStakerPoints[]): ChartInfo {
 function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
+  const params = useMemo(() => [validatorId, false], [validatorId]);
+  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
 
   const { chart, labels } = useMemo(
-    () => stakerPoints
-      ? extractPoints(stakerPoints)
-      : { chart: [], labels: [] },
+    () => extractPoints(stakerPoints),
     [stakerPoints]
   );
 
@@ -58,7 +56,7 @@ function ChartPoints ({ validatorId }: Props): React.ReactElement<Props> {
   return (
     <div className='staking--Chart'>
       <h1>{t<string>('era points')}</h1>
-      {chart.length
+      {labels.length
         ? (
           <Chart.Line
             colors={COLORS_POINTS}

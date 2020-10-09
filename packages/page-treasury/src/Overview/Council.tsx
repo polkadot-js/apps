@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ProposalIndex } from '@polkadot/types/interfaces';
@@ -28,7 +27,7 @@ function Council ({ id, isDisabled, members }: Props): React.ReactElement<Props>
   const { api } = useApi();
   const [isOpen, toggleOpen] = useToggle();
   const [accountId, setAccountId] = useState<string | null>(null);
-  const [councilType, setCouncilType] = useState('reject');
+  const [councilType, setCouncilType] = useState('accept');
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposalLength: 0 });
 
   const threshold = Math.ceil((members?.length || 0) * getTreasuryThreshold(api));

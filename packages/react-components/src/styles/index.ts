@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import { ThemeProps } from '../types';
 
 import { createGlobalStyle } from 'styled-components';
 
@@ -15,12 +16,26 @@ interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#f19135'; // #999
+const BRIGHTNESS = 128 + 32;
+const FACTORS = [0.2126, 0.7152, 0.0722];
+const PARTS = [0, 2, 4];
 
-const getHighlight = (props: Props): string =>
-  (props.uiHighlight || defaultHighlight);
+const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
-export default createGlobalStyle<Props>`
+function getHighlight ({ uiHighlight }: Props): string {
+  return (uiHighlight || defaultHighlight);
+}
+
+function getContrast (props: Props): string {
+  const hc = getHighlight(props).replace('#', '').toLowerCase();
+  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return brightness > BRIGHTNESS
+    ? 'rgba(45, 43, 41, 0.875)'
+    : 'rgba(255, 253, 251, 0.875)';
+}
+
+export default createGlobalStyle<Props & ThemeProps>`
   .highlight--all {
     background: ${getHighlight} !important;
     border-color: ${getHighlight} !important;
@@ -39,8 +54,13 @@ export default createGlobalStyle<Props>`
     background: ${getHighlight} !important;
   }
 
+  .highlight--bg-contrast {
+    background: ${getContrast};
+  }
+
+  .highlight--bg-faint,
   .highlight--bg-light {
-    background: white;
+    background: ${({ theme }) => theme.bgTable};
     position: relative;
 
     &:before {
@@ -48,12 +68,19 @@ export default createGlobalStyle<Props>`
       bottom: 0;
       content: ' ';
       left: 0;
-      opacity: 0.09;
       position: absolute;
       right: 0;
       top: 0;
       z-index: -1;
     }
+  }
+
+  .highlight--bg-faint:before {
+    opacity: 0.025;
+  }
+
+  .highlight--bg-light:before {
+    opacity: 0.125;
   }
 
   .highlight--border {
@@ -64,12 +91,16 @@ export default createGlobalStyle<Props>`
     color: ${getHighlight} !important;
   }
 
+  .highlight--color-contrast {
+    color: ${getContrast};
+  }
+
   .highlight--fill {
     fill: ${getHighlight} !important;
   }
 
   .highlight--gradient {
-    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+    background: ${({ uiHighlight }: Props) => `linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .highlight--hover-bg:hover {
@@ -99,7 +130,7 @@ export default createGlobalStyle<Props>`
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
         background: ${getHighlight};
-        color: #f5f5f4;
+        color: ${getContrast};
       }
     }
 
@@ -120,7 +151,7 @@ export default createGlobalStyle<Props>`
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
       background: ${getHighlight};
-      color: #f5f5f4;
+      color: ${getContrast};
       text-shadow: none;
 
       &:not(.isIcon),
@@ -133,8 +164,14 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Table td .ui--Button {
-    &:not(.isDisabled):not(.isIcon),
+    &:not(.isDisabled):not(.isIcon):not(.isToplevel),
     &.withoutLink:not(.isDisabled) {
+      &:hover {
+        .ui--Icon {
+          color: ${getContrast};
+        }
+      }
+
       .ui--Icon {
         background: transparent;
         color: ${getHighlight};
@@ -142,14 +179,12 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  .theme--default {
-    .ui--Tabs-Tab.tabLinkActive {
-      border-bottom-color: ${getHighlight};
-    }
-
-    .ui.negative.button,
-    .ui.buttons .negative.button {
-      background: #666 !important;
+  .theme--dark,
+  .theme--light {
+    .ui--Tabs {
+      .ui--Tab.tabLinkActive {
+        border-bottom-color: ${getHighlight};
+      }
     }
 
     .ui.primary.button,
@@ -178,7 +213,8 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
+    background: ${({ theme }) => theme.bgPage};
+    color: ${({ theme }) => theme.color};
     font-family: sans-serif;
     height: 100%;
   }
@@ -188,7 +224,7 @@ export default createGlobalStyle<Props>`
   }
 
   article {
-    background: white;
+    background: ${({ theme }) => theme.bgTable};
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
@@ -227,8 +263,8 @@ export default createGlobalStyle<Props>`
       margin: 2rem auto;
     }
 
-    &.nomargin {
-      margin: 0.5rem auto;
+    &.centered {
+      margin: 1.5rem auto;
       max-width: 75rem;
 
       &+.ui--Button-Group {
@@ -262,7 +298,6 @@ export default createGlobalStyle<Props>`
   }
 
   body {
-    background: #f5f3f1;
     height: 100%;
     margin: 0;
   }
@@ -295,7 +330,7 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: rgba(0, 0, 0, .6);
+    color: ${({ theme }) => theme.colorSummary};
     font-family: sans-serif;
     font-weight: 100;
   }
@@ -328,7 +363,7 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: ${({ theme }) => theme.colorLabel};
     display: block;
     font-family: sans-serif;
     font-size: 1rem;

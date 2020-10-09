@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import { ThemeProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -70,7 +71,7 @@ function Progress ({ className = '', isDisabled, size = 'normal', total, value }
   );
 }
 
-export default React.memo(styled(Progress)`
+export default React.memo(styled(Progress)(({ theme }: ThemeProps) => `
   border-radius: 100%;
   clip-path: circle(50%);
   height: 4.5rem;
@@ -126,9 +127,10 @@ export default React.memo(styled(Progress)`
 
   .inner {
     align-items: center;
-    background: rgba(245, 243, 241, 0.91);
+    background: ${theme.bgInverse};
     border-radius: 100%;
     bottom: 0.375rem;
+    color: ${theme.colorSummary};
     display: flex;
     justify-content: center;
     left: 0.375rem;
@@ -158,4 +160,4 @@ export default React.memo(styled(Progress)`
       font-size: 0.625rem;
     }
   }
-`);
+`));

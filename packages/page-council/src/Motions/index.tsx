@@ -1,6 +1,5 @@
-// Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// Copyright 2017-2020 @polkadot/app-council authors & contributors
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
@@ -29,7 +28,7 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
     [t('motions'), 'start', 2],
     [t('threshold')],
     [t('voting end')],
-    [t('votes'), 'start'],
+    [t('votes'), 'expand'],
     [],
     [undefined, 'badge'],
     []

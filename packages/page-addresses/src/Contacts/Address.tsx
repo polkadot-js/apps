@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-addresses authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { KeyringAddress } from '@polkadot/ui-keyring/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { ThemeDef } from '@polkadot/react-components/types';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
 import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
@@ -30,6 +30,7 @@ const isEditable = true;
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { theme } = useContext<ThemeDef>(ThemeContext);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
@@ -204,7 +205,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           />
         )}
         <Popup
-          className='theme--default'
+          className={`theme--${theme}`}
           isOpen={isSettingPopupOpen}
           onClose={_toggleSettingPopup}
           trigger={

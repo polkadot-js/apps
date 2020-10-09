@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveEraRewards, DeriveOwnSlashes, DeriveStakerPoints } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
@@ -16,7 +15,7 @@ import { balanceToNumber } from './util';
 
 const COLORS_REWARD = ['#8c2200', '#008c22', '#acacac'];
 
-function extractRewards (erasRewards: DeriveEraRewards[], ownSlashes: DeriveOwnSlashes[], allPoints: DeriveStakerPoints[], divisor: BN): ChartInfo {
+function extractRewards (erasRewards: DeriveEraRewards[] = [], ownSlashes: DeriveOwnSlashes[] = [], allPoints: DeriveStakerPoints[] = [], divisor: BN): ChartInfo {
   const labels: string[] = [];
   const slashSet: LineDataEntry = [];
   const rewardSet: LineDataEntry = [];
@@ -55,19 +54,18 @@ function extractRewards (erasRewards: DeriveEraRewards[], ownSlashes: DeriveOwnS
 function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes, [validatorId, true]);
+  const params = useMemo(() => [validatorId, false], [validatorId]);
+  const ownSlashes = useCall<DeriveOwnSlashes[]>(api.derive.staking.ownSlashes, params);
   const erasRewards = useCall<DeriveEraRewards[]>(api.derive.staking.erasRewards);
-  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, [validatorId, true]);
+  const stakerPoints = useCall<DeriveStakerPoints[]>(api.derive.staking.stakerPoints, params);
 
-  const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
+  const { currency, divisor } = useMemo(() => ({
     currency: formatBalance.getDefaults().unit,
     divisor: new BN('1'.padEnd(formatBalance.getDefaults().decimals + 1, '0'))
   }), []);
 
   const { chart, labels } = useMemo(
-    () => (erasRewards && ownSlashes && stakerPoints)
-      ? extractRewards(erasRewards, ownSlashes, stakerPoints, divisor)
-      : { chart: [], labels: [] },
+    () => extractRewards(erasRewards, ownSlashes, stakerPoints, divisor),
     [divisor, erasRewards, ownSlashes, stakerPoints]
   );
 
@@ -80,7 +78,7 @@ function ChartRewards ({ validatorId }: Props): React.ReactElement<Props> {
   return (
     <div className='staking--Chart'>
       <h1>{t<string>('rewards & slashes')}</h1>
-      {chart.length
+      {labels.length
         ? (
           <Chart.Line
             colors={COLORS_REWARD}

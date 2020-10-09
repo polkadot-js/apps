@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 
@@ -18,7 +17,7 @@ function ElectionBanner ({ isInElection }: Props): React.ReactElement<Props> | n
   }
 
   return (
-    <article className='warning nomargin'>
+    <article className='warning centered'>
       {t<string>('There is currently an ongoing election for new validator candidates. As such staking operations are not permitted.')}
     </article>
   );

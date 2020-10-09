@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { AccountId, MemberCount } from '@polkadot/types/interfaces';
 
@@ -19,7 +18,7 @@ interface Props {
 function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
 
-  const counter = useMemo(
+  const count = useMemo(
     (): string => {
       const num = threshold.toNumber();
       const max = isAye
@@ -33,7 +32,7 @@ function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElemen
     [isAye, members, threshold, votes]
   );
 
-  if (!counter || !votes.length) {
+  if (!count || !votes.length) {
     return null;
   }
 
@@ -41,8 +40,8 @@ function Voters ({ isAye, members, threshold, votes }: Props): React.ReactElemen
     <Expander
       summary={
         isAye
-          ? t<string>('Aye {{counter}}', { replace: { counter } })
-          : t<string>('Nay {{counter}}', { replace: { counter } })
+          ? t<string>('Aye {{count}}', { replace: { count } })
+          : t<string>('Nay {{count}}', { replace: { count } })
       }
     >
       {votes.map((address): React.ReactNode => (

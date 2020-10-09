@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { Balance, EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo, DeriveStakingQuery } from '@polkadot/api-derive/types';
+import { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
+import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import { ValidatorInfo } from '../../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
@@ -29,10 +29,11 @@ interface Props {
   isMain?: boolean;
   lastBlock?: string;
   nominatedBy?: [string, EraIndex, number][];
-  onlineCount?: false | number;
+  onlineCount?: false | BN;
   onlineMessage?: boolean;
   points?: string;
   toggleFavorite: (accountId: string) => void;
+  validatorInfo?: ValidatorInfo;
   withIdentity: boolean;
 }
 
@@ -44,9 +45,7 @@ interface StakingState {
   stakeOwn?: BN;
 }
 
-const PERBILL_PERCENT = 10_000_000;
-
-function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingState {
+function expandInfo ({ exposure, validatorPrefs }: ValidatorInfo): StakingState {
   let nominators: [string, Balance][] = [];
   let stakeTotal: BN | undefined;
   let stakeOther: BN | undefined;
@@ -59,12 +58,10 @@ function expandInfo ({ exposure, validatorPrefs }: DeriveStakingQuery): StakingS
     stakeOther = stakeTotal.sub(stakeOwn);
   }
 
-  const commission = validatorPrefs?.commission?.unwrap();
+  const commission = (validatorPrefs as ValidatorPrefs)?.commission?.unwrap();
 
   return {
-    commission: commission
-      ? `${(commission.toNumber() / PERBILL_PERCENT).toFixed(2)}%`
-      : undefined,
+    commission: commission?.toHuman(),
     nominators,
     stakeOther,
     stakeOwn,
@@ -80,18 +77,17 @@ function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   const params = useMemo(() => [address], [address]);
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, params);
   const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
-  const stakingInfo = useCall<DeriveStakingQuery>(api.derive.staking.query, params);
 
-  return { accountInfo, slashingSpans, stakingInfo };
+  return { accountInfo, slashingSpans };
 }
 
-function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, withIdentity }: Props): React.ReactElement<Props> | null {
+function Address ({ address, className = '', filterName, hasQueries, isElected, isFavorite, isMain, lastBlock, nominatedBy, onlineCount, onlineMessage, points, toggleFavorite, validatorInfo, withIdentity }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const { accountInfo, slashingSpans, stakingInfo } = useAddressCalls(api, address, isMain);
+  const { accountInfo, slashingSpans } = useAddressCalls(api, address, isMain);
 
   const { commission, nominators, stakeOther, stakeOwn } = useMemo(
-    () => stakingInfo ? expandInfo(stakingInfo) : { nominators: [] },
-    [stakingInfo]
+    () => validatorInfo ? expandInfo(validatorInfo) : { nominators: [] },
+    [validatorInfo]
   );
 
   const isVisible = useMemo(
@@ -121,7 +117,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
         <Status
           isElected={isElected}
           isMain={isMain}
-          numNominators={nominatedBy?.length || nominators.length}
+          nominators={nominatedBy || nominators}
           onlineCount={onlineCount}
           onlineMessage={onlineMessage}
         />
@@ -143,11 +139,13 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
           />
         )
       }
-      <td className='number media--1100'>
-        {stakeOwn?.gtn(0) && (
-          <FormatBalance value={stakeOwn} />
-        )}
-      </td>
+      {isMain && (
+        <td className='number media--1100'>
+          {stakeOwn?.gtn(0) && (
+            <FormatBalance value={stakeOwn} />
+          )}
+        </td>
+      )}
       <td className='number'>
         {commission}
       </td>
@@ -164,6 +162,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
       <td>
         {hasQueries && (
           <Icon
+            className='highlight--color'
             icon='chart-line'
             onClick={_onQueryStats}
           />

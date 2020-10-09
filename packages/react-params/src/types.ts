@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TypeDef } from '@polkadot/types/types';
 
@@ -41,6 +40,7 @@ export interface Props {
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
+  // eslint-disable-next-line no-use-before-define
   overrides?: ComponentMap;
   type: TypeDef & { withOptionActive?: boolean };
   withLabel?: boolean;

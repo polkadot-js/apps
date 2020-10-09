@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -36,6 +35,7 @@ function ChainImg ({ className = '', logo, onClick }: Props): React.ReactElement
 }
 
 export default React.memo(styled(ChainImg)`
+  background: white;
   border-radius: 50%;
   box-sizing: border-box;
 `);

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { EntryInfo } from './types';
 
@@ -58,9 +57,9 @@ export default React.memo(styled(DayHour)`
   position: relative;
   z-index: 2;
 
-  &:nth-child(even) {
-    background: #faf8f6;
-  }
+  // &:nth-child(even) {
+  //   background: #faf8f6;
+  // }
 
   &:nth-child(odd) {
     background: white;

@@ -1,14 +1,12 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { BareProps as Props } from '@polkadot/react-components/types';
+import { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
 
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useMemo } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { getSystemChainColor } from '@polkadot/apps-config/ui';
-import { defaultColor } from '@polkadot/apps-config/ui/general';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
@@ -21,6 +19,7 @@ import WarmUp from './WarmUp';
 export const PORTAL_ID = 'portals';
 
 function Apps ({ className = '' }: Props): React.ReactElement<Props> {
+  const { theme } = useContext<ThemeDef>(ThemeContext);
   const { systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(
@@ -30,8 +29,8 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
 
   return (
     <>
-      <GlobalStyle uiHighlight={defaultColor || uiHighlight} />
-      <div className={`apps--Wrapper theme--default ${className}`}>
+      <GlobalStyle uiHighlight={uiHighlight} />
+      <div className={`apps--Wrapper theme--${theme} ${className}`}>
         <Menu />
         <AccountSidebar>
           <Signer>
@@ -46,9 +45,10 @@ function Apps ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Apps)`
+export default React.memo(styled(Apps)(({ theme }: ThemeProps) => `
+  background: ${theme.bgPage};
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-`);
+`));

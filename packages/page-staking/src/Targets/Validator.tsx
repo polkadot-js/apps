@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import { UnappliedSlash } from '@polkadot/types/interfaces';
@@ -159,7 +158,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       </td>
       <td>
         <Icon
-          className='staking--stats'
+          className='staking--stats highlight--color'
           icon='chart-line'
           onClick={_onQueryStats}
         />

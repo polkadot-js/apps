@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { Group } from './types';
 
 import React from 'react';
@@ -21,7 +21,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
   if (routes.length === 1) {
     return (
       <Item
-        className='topLevel'
+        isToplevel
         route={routes[0]}
       />
     );
@@ -29,12 +29,9 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
 
   return (
     <li className={className}>
-      <div className='groupHdr'>
+      <div className='groupHdr highlight--color-contrast'>
         <span>{name}</span>
-        <Icon
-          className='highlight--color'
-          icon='caret-down'
-        />
+        <Icon icon='caret-down' />
       </div>
       <ul className='groupMenu highlight--bg-light'>
         {routes.map((route): React.ReactNode => (
@@ -48,7 +45,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
   );
 }
 
-export default React.memo(styled(Grouping)`
+export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   cursor: pointer;
   position: relative;
 
@@ -83,7 +80,8 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: #fff;
+      background: ${theme.bgMenu};
+      color: ${theme.color};
     }
 
     .groupHdr {
@@ -94,8 +92,8 @@ export default React.memo(styled(Grouping)`
       display: block;
 
       > li:hover {
-        background: rgba(255, 255, 255, 0.5);
+        background: ${theme.bgMenuHover};
       }
     }
   }
-`);
+`));

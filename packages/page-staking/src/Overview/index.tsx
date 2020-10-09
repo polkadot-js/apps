@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import { SortedTargets } from '../types';
 
 import React from 'react';
 
@@ -15,10 +15,11 @@ interface Props {
   isIntentions?: boolean;
   next?: string[];
   stakingOverview?: DeriveStakingOverview;
+  targets: SortedTargets;
   toggleFavorite: (address: string) => void;
 }
 
-function Overview ({ className = '', favorites, hasQueries, isIntentions, next, stakingOverview, toggleFavorite }: Props): React.ReactElement<Props> {
+function Overview ({ className = '', favorites, hasQueries, isIntentions, next, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> {
   return (
     <div className={`staking--Overview ${className}`}>
       <CurrentList
@@ -27,6 +28,7 @@ function Overview ({ className = '', favorites, hasQueries, isIntentions, next, 
         isIntentions={isIntentions}
         next={next}
         stakingOverview={stakingOverview}
+        targets={targets}
         toggleFavorite={toggleFavorite}
       />
     </div>

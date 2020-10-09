@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Route } from '@polkadot/apps-routing/types';
 
@@ -90,15 +89,10 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Content)`
   flex-grow: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 0 2rem 1rem;
+  overflow: hidden auto;
+  padding: 0 1.5rem 1rem;
   position: relative;
   width: 100%;
-
-  @media(max-width: 768px) {
-    padding: 0 0.5rem;
-  }
 
   .connecting {
     padding: 3.5rem 0;

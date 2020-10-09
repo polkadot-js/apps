@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -160,15 +161,15 @@ function FullSidebar ({ address, className = '', onClose, onUpdateName }: Props)
   );
 }
 
-export default React.memo(styled(FullSidebar)`
+export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
   input {
     width: auto !important;
   }
 
   .ui--AddressMenu-header {
     align-items: center;
-    background: white;
-    border-bottom: 1px solid #e6e6e6;
+    background: ${theme.bgTabs};
+    border-bottom: 1px solid ${theme.borderTable};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -196,7 +197,7 @@ export default React.memo(styled(FullSidebar)`
 
     .ui--AddressMenu-sectionHeader {
       display: inline-flex;
-      color: #aaa;
+      color: ${theme.color};
       margin-bottom: 0.4rem;
       width: 100%;
 
@@ -300,4 +301,4 @@ export default React.memo(styled(FullSidebar)`
       }
     }
   }
-`);
+`));

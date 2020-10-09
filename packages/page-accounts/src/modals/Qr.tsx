@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ModalProps } from '../types';
@@ -11,8 +10,8 @@ import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
-import PasswordInput from '../Accounts/PasswordInput';
 import { useTranslation } from '../translate';
+import PasswordInput from './PasswordInput';
 
 interface Scanned {
   content: string;
@@ -41,7 +40,6 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
   const [{ address, isAddress, scanned }, setAddress] = useState<Address>({ address: '', isAddress: false, scanned: null });
   const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
 
-  // FIXME This gets passed to the useCallback, so we have excessive creations
   const isValid = !!address && isNameValid && (isAddress || isPasswordValid);
 
   const _onNameChange = useCallback(
@@ -139,7 +137,6 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 <PasswordInput
                   onChange={_onPasswordChange}
                   onEnter={_onSave}
-                  password={password}
                 />
               )}
             </>
@@ -152,7 +149,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 </div>
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>('Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.')}</p>
+                <p>{t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}</p>
               </Modal.Column>
             </Modal.Columns>
           )
@@ -161,7 +158,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
       <Modal.Actions onCancel={onClose}>
         <Button
           icon='sign-in-alt'
-          isDisabled={!scanned || !isValid || (isAddress && isIpfs)}
+          isDisabled={!scanned || !isValid || (!isAddress && isIpfs)}
           label={t<string>('Create')}
           onClick={_onSave}
         />

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
@@ -23,7 +22,7 @@ function Members ({ allVotes = {}, className = '', electionsInfo, prime }: Props
 
   const headerRef = useRef([
     [t('members'), 'start', 2],
-    [t('backing')],
+    [t('backing'), 'expand'],
     [t('votes')]
   ]);
 

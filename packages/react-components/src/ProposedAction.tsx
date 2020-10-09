@@ -1,13 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Proposal } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
 import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';
@@ -51,7 +49,7 @@ function ProposedAction ({ asInset, className = '', expandNested, idNumber, inse
     );
   }
 
-  const { meta, method, section } = registry.findMetaCall(proposal.callIndex);
+  const { meta, method, section } = proposal.registry.findMetaCall(proposal.callIndex);
 
   const header = `#${stringId}: ${section}.${method}`;
   const documentation = meta?.documentation

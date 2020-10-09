@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
+import { KeyringPair } from '@polkadot/keyring/types';
 import { QueueTx, QueueTxMessageSetStatus, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import { AddressFlags } from './types';
 
@@ -9,6 +9,22 @@ import { SubmittableResult } from '@polkadot/api';
 import keyring from '@polkadot/ui-keyring';
 
 const NOOP = () => undefined;
+
+export const UNLOCK_MINS = 15;
+
+const LOCK_DELAY = UNLOCK_MINS * 60 * 1000;
+
+const lockCountdown: Record<string, number> = {};
+
+export function cacheUnlock (pair: KeyringPair): void {
+  lockCountdown[pair.address] = Date.now() + LOCK_DELAY;
+}
+
+export function lockAccount (pair: KeyringPair): void {
+  if ((Date.now() > (lockCountdown[pair.address] || 0)) && !pair.isLocked) {
+    pair.lock();
+  }
+}
 
 export function extractExternal (accountId: string | null): AddressFlags {
   if (!accountId) {
@@ -26,14 +42,24 @@ export function extractExternal (accountId: string | null): AddressFlags {
   }
 
   const pair = keyring.getPair(publicKey);
+  const isUnlockable = !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected;
+
+  if (isUnlockable) {
+    const entry = lockCountdown[pair.address];
+
+    if (entry && (Date.now() > entry) && !pair.isLocked) {
+      pair.lock();
+      lockCountdown[pair.address] = 0;
+    }
+  }
 
   return {
     hardwareType: pair.meta.hardwareType as string,
     isHardware: !!pair.meta.isHardware,
     isMultisig: !!pair.meta.isMultisig,
     isProxied: !!pair.meta.isProxied,
-    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied,
-    isUnlockable: !pair.meta.isExternal && !pair.meta.isHardware && !pair.meta.isInjected && pair.isLocked,
+    isQr: !!pair.meta.isExternal && !pair.meta.isMultisig && !pair.meta.isProxied && !pair.meta.isHardware,
+    isUnlockable: isUnlockable && pair.isLocked,
     threshold: (pair.meta.threshold as number) || 0,
     who: ((pair.meta.who as string[]) || []).map(recodeAddress)
   };

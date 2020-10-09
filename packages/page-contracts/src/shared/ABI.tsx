@@ -1,9 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 import { InputFile, Labelled } from '@polkadot/react-components';
 
@@ -26,18 +24,21 @@ interface Props {
   onRemoved?: () => void;
   onSelect?: () => void;
   onSelectConstructor?: (constructorIndex?: number) => void;
+  withConstructors?: boolean;
   withLabel?: boolean;
+  withMessages?: boolean;
 }
 
-function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructor, withLabel }: Props): React.ReactNode {
+function renderMessages ({ contractAbi, onRemove, onSelectConstructor, withConstructors = true, withLabel, withMessages = true }: Props): React.ReactNode {
   return (
     <Messages
       contractAbi={contractAbi}
       isLabelled={withLabel}
-      isRemovable={!isDisabled}
+      isRemovable={false}
       onRemove={onRemove}
       onSelectConstructor={onSelectConstructor}
-      withConstructors
+      withConstructors={withConstructors}
+      withMessages={withMessages}
     />
   );
 }
@@ -98,8 +99,4 @@ function ABI (props: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(
-  styled(ABI)`
-    min-height: 4rem;
-  `
-);
+export default React.memo(ABI);

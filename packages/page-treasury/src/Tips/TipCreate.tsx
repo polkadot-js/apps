@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -29,11 +28,7 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
   const hasReason = reason?.length >= MIN_REASON_LEN && reason?.length <= MAX_REASON_LEN;
 
   useEffect((): void => {
-    setIsMember(
-      accountId
-        ? members.includes(accountId)
-        : false
-    );
+    setIsMember(members.includes(accountId || ''));
   }, [accountId, members]);
 
   return (
@@ -110,7 +105,7 @@ function TipCreate ({ members, refresh }: Props): React.ReactElement<Props> {
             <TxButton
               accountId={accountId}
               icon='plus'
-              isDisabled={!accountId || (isMember ? !hasValue : false) || !hasReason}
+              isDisabled={!accountId || (isMember && !hasValue) || !hasReason}
               label={t<string>('Propose tip')}
               onStart={toggleOpen}
               onSuccess={refresh}

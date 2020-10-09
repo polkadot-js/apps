@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Props, Props as CProps } from '../types';
 
 import React, { useRef } from 'react';
 import { classes } from '@polkadot/react-components/util';
-import { displayType } from '@polkadot/types';
+import { encodeTypeDef } from '@polkadot/types';
 import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';
@@ -20,8 +19,8 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
   }
 
   const label = isUndefined(name)
-    ? displayType(type)
-    : `${name}: ${displayType(type)}`;
+    ? encodeTypeDef(type)
+    : `${name}: ${encodeTypeDef(type)}`;
 
   return isOptional
     ? (

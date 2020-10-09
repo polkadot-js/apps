@@ -1,14 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { AddressRow, Button, Card, Expander, Forget } from '@polkadot/react-components';
+import { AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Messages from '../shared/Messages';
@@ -54,57 +52,41 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
   }
 
   return (
-    <Card className={className}>
-      {isForgetOpen && (
-        <Forget
-          address={address.toString()}
-          key='modal-forget-contract'
-          mode='contract'
-          onClose={toggleIsForgetOpen}
-          onForget={_onForget}
-        />
-      )}
-      <AddressRow
-        buttons={
-          <div className='contracts--Contract-buttons'>
-            <Button
-              icon='trash'
-              onClick={toggleIsForgetOpen}
-              tooltip={t<string>('Forget this contract')}
-            />
-            <Button
-              icon='play'
-              label={t<string>('execute')}
-              onClick={onCall()}
-              tooltip={t<string>('Call a method on this contract')}
-            />
-          </div>
-        }
-        isContract
-        isEditableName
-        isEditableTags
-        type='contract'
-        value={address}
-        withBalance={false}
-        withNonce={false}
-        withTags
-      >
-        <Expander summary={t<string>('Messages')}>
-          <Messages
+    <tr className={className}>
+      <td className='address top'>
+        {isForgetOpen && (
+          <Forget
             address={address.toString()}
-            contractAbi={abi}
-            isRemovable={false}
-            onSelect={onCall}
+            key='modal-forget-contract'
+            mode='contract'
+            onClose={toggleIsForgetOpen}
+            onForget={_onForget}
           />
-        </Expander>
-      </AddressRow>
-    </Card>
+        )}
+        <AddressMini value={address} />
+      </td>
+      <td className='all top'>
+        <Messages
+          address={address.toString()}
+          contractAbi={abi}
+          isRemovable={false}
+          onSelect={onCall}
+          withMessages
+        />
+      </td>
+      <td className='button'>
+        <Button
+          icon='trash'
+          onClick={toggleIsForgetOpen}
+        />
+        <Button
+          icon='play'
+          label={t<string>('exec')}
+          onClick={onCall()}
+        />
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(
-  styled(Contract)`
-    min-width: 100%;
-    max-width: 100%;
-  `
-);
+export default React.memo(Contract);

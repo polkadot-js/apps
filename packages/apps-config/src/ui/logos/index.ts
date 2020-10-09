@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
+// alphabetical
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
@@ -13,28 +13,37 @@ import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
+// alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
+import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
+import nodeDockMainnet from './nodes/dock-mainnet.png';
+import nodeDockTestnet from './nodes/dock-testnet.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
+import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
 import nodeKilt from './nodes/kilt.svg';
-import nodePlasm from './nodes/plasm.png';
-import nodePolkadot from './nodes/polkadot-circle.svg';
-import nodePolkadotJs from './nodes/polkadot-js.svg';
-import nodeSubsocial from './nodes/subsocial.svg';
-import nodeSubstrate from './nodes/substrate-hexagon.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import nodePhala from './nodes/phala.svg';
+import nodePlasm from './nodes/plasm.png';
+import nodePolkadot from './nodes/polkadot-circle.svg';
+import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeRobonomics from './nodes/robonomics.svg';
+import nodeStafi from './nodes/stafi.png';
+import nodeSubsocial from './nodes/subsocial.svg';
+import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
 // extensions
+// alphabetical
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 
 // external links
+// alphabetical
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
@@ -45,6 +54,8 @@ import externalSubscan from './external/subscan.svg';
 import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
+// NOTE: this matches up with RPC system.chain
+// alphabetical
 const chainLogos: Record<string, any> = [
   ['Dusty', chainDusty],
   ['Kusama', chainKusama], // new name after CC3
@@ -61,11 +72,16 @@ const chainLogos: Record<string, any> = [
 }), {});
 
 // overrides based on the actual software node type (all '-' converted to ' ')
+// NOTE: this matches up with what the RPC via system.name
+// alphabetical
 const nodeLogos: Record<string, any> = [
+  ['airalab-robonomics', nodeRobonomics],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['crab', nodeCrab],
+  ['crust node', nodeCrust],
   ['darwinia parachain', nodeDarwinia],
+  ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -75,25 +91,36 @@ const nodeLogos: Record<string, any> = [
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
+  ['Plasm', nodePlasm],
   ['Plasm Node', nodePlasm],
+  ['phala-substrate-node', nodePhala],
   ['polkadot-js', nodePolkadotJs],
+  ['Stafi Node', nodeStafi],
+  ['Stafi', nodeStafi],
   ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate],
-  ['phala-substrate-node', nodePhala]
+  ['Equilibrium Node', nodeEquilibrium],
+  ['Equilibrium', nodeEquilibrium]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
 // overrides when we pass an explicit logo name
+// NOTE: this matches up with what is defined as "info" in settings/endpoints.ts
+// alphabetical
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
+  crust: nodeCrust,
+  dockMainnet: nodeDockMainnet,
+  dockTestnet: nodeDockTestnet,
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
+  equilibrium: nodeEquilibrium,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
@@ -107,9 +134,11 @@ const namedLogos: Record<string, any> = {
   rococoDarwinia: nodeDarwinia,
   rococoLaminar: nodeLaminar,
   rococoPlasm: nodePlasm,
+  rococoRobonomics: nodeRobonomics,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  stafi: nodeStafi,
   subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   westend: nodePolkadot

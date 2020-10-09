@@ -1,14 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { StakerState } from '@polkadot/react-hooks/types';
 import { UnappliedSlash } from '@polkadot/types/interfaces';
 import { Slash, SlashEra } from './types';
 
 import BN from 'bn.js';
-import React, { useMemo } from 'react';
-import { Table } from '@polkadot/react-components';
+import React, { useMemo, useState } from 'react';
+import { Table, ToggleGroup } from '@polkadot/react-components';
+import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
+import { getSlashThreshold } from '@polkadot/app-council/thresholds';
+import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Era from './Era';
@@ -85,7 +87,28 @@ function calcSlashEras (slashes: [BN, UnappliedSlash[]][], ownStashes: StakerSta
 
 function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const rows = useMemo(() => calcSlashEras(slashes, ownStashes), [ownStashes, slashes]);
+  const { api } = useApi();
+  const { allAccounts } = useAccounts();
+  const { members } = useMembers();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const rows = useMemo(
+    () => calcSlashEras(slashes, ownStashes),
+    [ownStashes, slashes]
+  );
+
+  const eraOpts = useMemo(
+    () => rows.map(({ era }) => ({
+      text: t<string>('era {{era}}', { replace: { era: formatNumber(era) } }),
+      value: era.toString()
+    })),
+    [rows, t]
+  );
+
+  const councilId = useMemo(
+    () => allAccounts.find((accountId) => members.includes(accountId)) || null,
+    [allAccounts, members]
+  );
 
   if (!rows.length) {
     return (
@@ -96,15 +119,22 @@ function Slashes ({ ownStashes = [], slashes }: Props): React.ReactElement<Props
     );
   }
 
+  const councilThreshold = Math.ceil((members.length || 0) * getSlashThreshold(api));
+
   return (
-    <>
-      {rows.map((slash): React.ReactNode => (
-        <Era
-          key={slash.era.toString()}
-          slash={slash}
+    <Era
+      buttons={
+        <ToggleGroup
+          onChange={setSelectedIndex}
+          options={eraOpts}
+          value={selectedIndex}
         />
-      ))}
-    </>
+      }
+      councilId={councilId}
+      councilThreshold={councilThreshold}
+      key={rows[selectedIndex].era.toString()}
+      slash={rows[selectedIndex]}
+    />
   );
 }
 

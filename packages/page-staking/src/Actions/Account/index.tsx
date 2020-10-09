@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { SlashingSpans, UnappliedSlash } from '@polkadot/types/interfaces';
@@ -66,7 +65,7 @@ function useStashCalls (api: ApiPromise, stashId: string) {
   return { balancesAll, spanCount, stakingAccount };
 }
 
-function Account ({ allSlashes, className = '', info: { controllerId, destination, destinationId, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
+function Account ({ allSlashes, className = '', info: { controllerId, destination, hexSessionIdNext, hexSessionIdQueue, isLoading, isOwnController, isOwnStash, isStashNominating, isStashValidating, nominating, sessionIds, stakingLedger, stashId }, isDisabled, targets }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const { queueExtrinsic } = useContext(StatusContext);
@@ -149,7 +148,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
         {isRewardDestinationOpen && controllerId && (
           <SetRewardDestination
             controllerId={controllerId}
-            defaultDestination={destinationId}
+            defaultDestination={destination}
             onClose={toggleRewardDestination}
             stashId={stashId}
           />
@@ -180,7 +179,12 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
       <td className='address'>
         <AddressMini value={controllerId} />
       </td>
-      <td className='number media--1200'>{destination}</td>
+      <td className='start media--1200'>
+        {destination?.isAccount
+          ? <AddressMini value={destination.asAccount} />
+          : destination?.toString()
+        }
+      </td>
       <td className='number'>
         <StakingBonded stakingInfo={stakingAccount} />
         <StakingUnbonding stakingInfo={stakingAccount} />
@@ -198,7 +202,7 @@ function Account ({ allSlashes, className = '', info: { controllerId, destinatio
           </td>
         )
         : (
-          <td className='all'>
+          <td className='all expand left'>
             {isStashNominating && (
               <ListNominees
                 nominating={nominating}
@@ -346,11 +350,5 @@ export default React.memo(styled(Account)`
     display: inline-block;
     margin-right: 0.25rem;
     vertical-align: inherit;
-  }
-
-  .ui--Expander.stakeOver {
-    .ui--Expander-summary {
-      color: darkred;
-    }
   }
 `);

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DateState, EntryInfo } from './types';
 
@@ -44,7 +43,7 @@ function Month ({ className, hasNextMonth, lastDay, now, scheduled, setDay, setN
   return (
     <div className={className}>
       <h1>
-        <div>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
+        <div className='highlight--color'>{monthRef.current[dateMonth.getMonth()]} {dateMonth.getFullYear()}</div>
         <Button.Group>
           <Button
             icon='chevron-left'
@@ -87,7 +86,7 @@ export default React.memo(styled(Month)`
   max-width: max-content;
 
   .calendar {
-    padding: 1.5rem 1.5rem 1rem;
+    padding: 1rem 1.5rem;
 
     .dateGrid,
     .dayOfWeek {

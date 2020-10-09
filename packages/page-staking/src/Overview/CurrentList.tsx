@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
 import { Authors } from '@polkadot/react-query/BlockAuthors';
+import { SortedTargets, ValidatorInfo } from '../types';
 
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Table } from '@polkadot/react-components';
@@ -23,6 +23,7 @@ interface Props {
   next?: string[];
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
+  targets: SortedTargets;
   toggleFavorite: (address: string) => void;
 }
 
@@ -91,7 +92,7 @@ function extractNominators (nominations: [StorageKey, Option<Nominations>][]): R
   }, {});
 }
 
-function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -108,6 +109,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
     [favorites, next, stakingOverview]
   );
 
+  const infoMap = useMemo(
+    () => (targets?.validators || []).reduce((result: Record<string, ValidatorInfo>, info): Record<string, ValidatorInfo> => {
+      result[info.accountId.toString()] = info;
+
+      return result;
+    }, {}),
+    [targets]
+  );
+
   const nominatedBy = useMemo(
     () => nominators ? extractNominators(nominators) : null,
     [nominators]
@@ -115,15 +125,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
 
   const headerWaitingRef = useRef([
     [t('intentions'), 'start', 2],
-    [t('nominators'), 'start', 2],
-    [t('commission'), 'number', 1],
+    [t('nominators'), 'expand'],
+    [t('commission'), 'number'],
     [],
     []
   ]);
 
   const headerActiveRef = useRef([
     [t('validators'), 'start', 2],
-    [t('other stake')],
+    [t('other stake'), 'expand'],
     [t('own stake'), 'media--1100'],
     [t('commission')],
     [t('points')],
@@ -145,14 +155,15 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           key={address}
           lastBlock={byAuthor[address]}
           nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
-          onlineCount={recentlyOnline?.[address]?.blockCount.toNumber()}
+          onlineCount={recentlyOnline?.[address]?.blockCount}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
+          validatorInfo={infoMap[address]}
           withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions

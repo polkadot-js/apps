@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Balance, BlockNumber, Hash, SessionIndex } from '@polkadot/types/interfaces';
+import { AccountId, Balance, BlockNumber, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 
@@ -46,7 +45,9 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   bondShare: number;
   bondTotal: Balance;
   commissionPer: number;
+  exposure: Exposure;
   hasIdentity: boolean;
+  isActive: boolean;
   isCommission: boolean;
   isElected: boolean;
   isFavorite: boolean;
@@ -56,6 +57,7 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   rewardPayout: BN;
   rewardSplit: BN;
   validatorPayment: BN;
+  validatorPrefs?: ValidatorPrefs | ValidatorPrefsTo196;
 }
 
 export type TargetSortBy = keyof ValidatorInfoRank;

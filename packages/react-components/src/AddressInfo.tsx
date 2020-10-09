@@ -1,18 +1,18 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
+import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
+import { TFunction } from 'i18next';
 import styled from 'styled-components';
 import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
-import { useAccounts } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
+import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import DemocracyLocks from './DemocracyLocks';
 import StakingRedeemable from './StakingRedeemable';
@@ -143,7 +143,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
   return [own, other];
 }
 
-function renderExtended ({ address, balancesAll, withExtended }: Props, t: <T = string> (key: string) => T): React.ReactNode {
+function renderExtended ({ address, balancesAll, withExtended }: Props, t: TFunction): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -173,7 +173,7 @@ function renderExtended ({ address, balancesAll, withExtended }: Props, t: <T = 
   );
 }
 
-function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: <T = string> (key: string) => T): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: TFunction): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
@@ -215,13 +215,13 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function renderBalances (props: Props, allAccounts: string[], t: <T = string> (key: string) => T): React.ReactNode {
+function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode {
   const { address, balancesAll, democracyLocks, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
     : withBalance || false;
 
-  if (!balanceDisplay) {
+  if (!bestNumber || !balanceDisplay) {
     return null;
   }
 
@@ -269,7 +269,18 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
           >
             <Tooltip
               text={
-                <div>{formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}<div className='faded'>{t('available to be unlocked')}</div></div>
+                <div>
+                  {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
+                  <div className='faded'>{t('available to be unlocked')}</div>
+                  {bestNumber.lt(balancesAll.vestingEndBlock) && (
+                    <>
+                      <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
+                      <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
+                      {formatBalance(balancesAll.vestingPerBlock)}
+                      <div className='faded'>{t('per block')}</div>
+                    </>
+                  )}
+                </div>
               }
               trigger={`${address}-vested-trigger`}
             />
@@ -379,13 +390,15 @@ function renderBalances (props: Props, allAccounts: string[], t: <T = string> (k
 
 function AddressInfo (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const { children, className = '', extraInfo, withBalanceToggle, withHexSessionId } = props;
 
   return (
     <div className={`ui--AddressInfo${className}${withBalanceToggle ? ' ui--AddressInfo-expander' : ''}`}>
       <div className={`column${withBalanceToggle ? ' column--expander' : ''}`}>
-        {renderBalances(props, allAccounts, t)}
+        {renderBalances(props, allAccounts, bestNumber, t)}
         {withHexSessionId && withHexSessionId[0] && (
           <>
             <Label label={t<string>('session keys')} />

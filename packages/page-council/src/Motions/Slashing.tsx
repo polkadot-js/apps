@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Dropdown, Input, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useToggle } from '@polkadot/react-hooks';
 
@@ -34,27 +33,25 @@ function Slashing ({ className = '', isMember, members }: Props): React.ReactEle
   const [isVisible, toggleVisible] = useToggle();
   const [accountId, setAcountId] = useState<string | null>(null);
   const [{ proposal, proposalLength }, setProposal] = useState<ProposalState>({ proposal: null, proposalLength: 0 });
-  const [eras, setEras] = useState<Option[]>([]);
   const [selectedEra, setSelectedEra] = useState(0);
 
   const threshold = Math.ceil((members.length || 0) * getSlashThreshold(api));
 
-  useEffect((): void => {
-    setEras(
-      (slashes || []).map(([era, slashes]): Option => ({
-        text: t<string>('era {{era}}, {{count}} slashes', {
-          replace: {
-            count: slashes.length,
-            era: era.toNumber()
-          }
-        }),
-        value: era.toNumber()
-      }))
-    );
-  }, [slashes, t]);
+  const eras = useMemo(
+    () => (slashes || []).map(([era, slashes]): Option => ({
+      text: t<string>('era {{era}}, {{count}} slashes', {
+        replace: {
+          count: slashes.length,
+          era: era.toNumber()
+        }
+      }),
+      value: era.toNumber()
+    })),
+    [slashes, t]
+  );
 
   useEffect((): void => {
-    const actioned = selectedEra && slashes && slashes.find(([era]): boolean => era.eqn(selectedEra));
+    const actioned = selectedEra && slashes && slashes.find(([era]) => era.eqn(selectedEra));
     const proposal = actioned
       ? api.tx.staking.cancelDeferredSlash(actioned[0], actioned[1].map((_, index): number => index))
       : null;

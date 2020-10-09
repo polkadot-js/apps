@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
 import { Group } from './types';
 
 import React, { useCallback } from 'react';
@@ -55,7 +55,7 @@ function GroupDisplay ({ apiUrl, children, className = '', index, isSelected, se
   );
 }
 
-export default React.memo(styled(GroupDisplay)`
+export default React.memo(styled(GroupDisplay)(({ theme }: ThemeProps) => `
   .groupHeader {
     border-radius: 0.25rem;
     cursor: pointer;
@@ -65,7 +65,7 @@ export default React.memo(styled(GroupDisplay)`
     text-transform: uppercase;
 
     &:hover {
-      background: white;
+      background: ${theme.bgTable};
     }
 
     .ui--Icon {
@@ -76,4 +76,4 @@ export default React.memo(styled(GroupDisplay)`
   .groupNetworks {
     padding: 0.25rem 0 0.5rem 1rem;
   }
-`);
+`));

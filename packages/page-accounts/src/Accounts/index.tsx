@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { AccountId, ProxyDefinition, ProxyType, Voting } from '@polkadot/types/interfaces';
@@ -9,8 +8,7 @@ import { Delegation, SortedAccount } from '../types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import keyring from '@polkadot/ui-keyring';
-import { getLedger, isLedger } from '@polkadot/react-api';
+import { isLedger } from '@polkadot/react-api';
 import { useApi, useAccounts, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
@@ -19,6 +17,7 @@ import { BN_ZERO } from '@polkadot/util';
 import { useTranslation } from '../translate';
 import CreateModal from '../modals/Create';
 import ImportModal from '../modals/Import';
+import Ledger from '../modals/Ledger';
 import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
@@ -44,19 +43,6 @@ interface Props {
 
 const STORE_FAVS = 'accounts:favorites';
 
-// query the ledger for the address, adding it to the keyring
-async function queryLedger (): Promise<void> {
-  const ledger = getLedger();
-
-  try {
-    const { address } = await ledger.getAddress();
-
-    keyring.addHardware(address, 'ledger', { name: 'ledger' });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -64,6 +50,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
+  const [isLedgerOpen, toggleLedger] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
   const [isQrOpen, toggleQr] = useToggle();
@@ -75,7 +62,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
-      api.tx.proxy.addProxy.meta.args.length === 4
+      api.tx.proxy.addProxy.meta.args.length === 3
         ? result as [ProxyDefinition[], BN][]
         : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
           [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
@@ -89,7 +76,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('type')],
     [t('tags'), 'start'],
     [t('transactions'), 'media--1500'],
-    [t('balances')],
+    [t('balances'), 'expand'],
     [],
     [undefined, 'media--1400']
   ]);
@@ -169,8 +156,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <BannerExtension />
-      <BannerClaims />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -182,6 +167,9 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClose={toggleImport}
           onStatusChange={onStatusChange}
         />
+      )}
+      {isLedgerOpen && (
+        <Ledger onClose={toggleLedger} />
       )}
       {isMultisigOpen && (
         <Multisig
@@ -223,8 +211,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           <>
             <Button
               icon='question'
-              label={t<string>('Query Ledger')}
-              onClick={queryLedger}
+              label={t<string>('Add Ledger')}
+              onClick={toggleLedger}
             />
           </>
         )}
@@ -241,6 +229,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onClick={toggleProxy}
         />
       </Button.Group>
+      <BannerExtension />
+      <BannerClaims />
       <Table
         empty={(!hasAccounts || (!isLoading && sortedAccountsWithDelegation)) && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}

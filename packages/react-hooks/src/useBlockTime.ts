@@ -1,12 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
-import { timeToString } from '@polkadot/react-components/util';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ONE, extractTime } from '@polkadot/util';
+
 import { useTranslation } from './translate';
 
 type Result = [number, string];
@@ -25,10 +24,20 @@ export default function useBlockTime (blocks = BN_ONE): Result {
         api.consts.timestamp?.minimumPeriod.muln(2) ||
         DEFAULT_TIME
       );
+      const { days, hours, minutes, seconds } = extractTime(blockTime.mul(blocks).toNumber());
+      const timeStr = [
+        days ? (days > 1) ? t<string>('{{days}} days', { replace: { days } }) : t<string>('1 day') : null,
+        hours ? (hours > 1) ? t<string>('{{hours}} hrs', { replace: { hours } }) : t<string>('1 hr') : null,
+        minutes ? (minutes > 1) ? t<string>('{{minutes}} mins', { replace: { minutes } }) : t<string>('1 min') : null,
+        seconds ? (seconds > 1) ? t<string>('{{seconds}} s', { replace: { seconds } }) : t<string>('1 s') : null
+      ]
+        .filter((value): value is string => !!value)
+        .slice(0, 2)
+        .join(' ');
 
       return [
         blockTime.toNumber(),
-        timeToString(t, extractTime(blockTime.mul(blocks).toNumber()))
+        timeStr
       ];
     },
     [api, blocks, t]

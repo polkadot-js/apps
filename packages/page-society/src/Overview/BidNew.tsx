@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
@@ -26,7 +25,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              help={t<string>('The actual account you wish to sub,it the bid with')}
+              help={t<string>('The actual account you wish to submit the bid with')}
               label={t<string>('bid account')}
               onChange={setAccount}
               type='account'

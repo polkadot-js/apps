@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import useClaimCounter from '@polkadot/app-claims/useCounter'; // exceptionally CRAP idea
@@ -18,7 +17,7 @@ function BannerExtension (): React.ReactElement | null {
 
   return (
     <Banner type='error'>
-      <p>{t<string>('You have {{claimCount}} accounts that need attestations. Use the Claim Tokens app on the left navigation bar to complete the process. Until you do, your balances for those accounts will not be reflected.', { replace: { claimCount } })}&nbsp;<a href='#/claims'>{t<string>('Claim tokens...')}</a></p>
+      <p>{t<string>('You have {{claimCount}} accounts that need attestations. Use the Claim Tokens app on the navigation bar to complete the process. Until you do, your balances for those accounts will not be reflected.', { replace: { claimCount } })}&nbsp;<a href='#/claims'>{t<string>('Claim tokens...')}</a></p>
     </Banner>
   );
 }

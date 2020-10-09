@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveSessionProgress } from '@polkadot/api-derive/types';
 import { SlashEra } from './types';
@@ -34,40 +33,32 @@ function Header ({ slash: { era, nominators, reporters, total, validators } }: P
   );
 
   return (
-    <tr>
-      <td colSpan={8}>
-        <SummaryBox isSmall>
-          <section>
-            <CardSummary label={t<string>('validators')}>
-              {formatNumber(validators.length)}
-            </CardSummary>
-            <CardSummary label={t<string>('nominators')}>
-              {formatNumber(nominators.length)}
-            </CardSummary>
-            <CardSummary label={t<string>('reporters')}>
-              {formatNumber(reporters.length)}
-            </CardSummary>
-          </section>
-          {blockProgress.gtn(0) && (
-            <section>
-              <CardSummary
-                label={t<string>('defer')}
-                progress={{
-                  total: blockEnd,
-                  value: blockProgress,
-                  withTime: true
-                }}
-              />
-            </section>
-          )}
-          <section>
-            <CardSummary label={t<string>('total')}>
-              <FormatBalance value={total} />
-            </CardSummary>
-          </section>
-        </SummaryBox>
-      </td>
-    </tr>
+    <SummaryBox>
+      <section>
+        <CardSummary label={t<string>('validators')}>
+          {formatNumber(validators.length)}
+        </CardSummary>
+        <CardSummary label={t<string>('nominators')}>
+          {formatNumber(nominators.length)}
+        </CardSummary>
+        <CardSummary label={t<string>('reporters')}>
+          {formatNumber(reporters.length)}
+        </CardSummary>
+      </section>
+      {blockProgress.gtn(0) && (
+        <CardSummary
+          label={t<string>('defer')}
+          progress={{
+            total: blockEnd,
+            value: blockProgress,
+            withTime: true
+          }}
+        />
+      )}
+      <CardSummary label={t<string>('total')}>
+        <FormatBalance value={total} />
+      </CardSummary>
+    </SummaryBox>
   );
 }
 

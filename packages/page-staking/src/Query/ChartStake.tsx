@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveOwnExposure } from '@polkadot/api-derive/types';
 import { ChartInfo, LineDataEntry, Props } from './types';
@@ -16,7 +15,7 @@ import { balanceToNumber } from './util';
 
 const COLORS_STAKE = [undefined, '#8c2200', '#acacac'];
 
-function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
+function extractStake (exposures: DeriveOwnExposure[] = [], divisor: BN): ChartInfo {
   const labels: string[] = [];
   const cliSet: LineDataEntry = [];
   const expSet: LineDataEntry = [];
@@ -25,8 +24,9 @@ function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
   let total = 0;
 
   exposures.forEach(({ clipped, era, exposure }): void => {
-    const cli = balanceToNumber(clipped.total.unwrap(), divisor);
-    const exp = balanceToNumber(exposure.total.unwrap(), divisor);
+    // Darwinia Crab doesn't have the total field
+    const cli = balanceToNumber(clipped.total?.unwrap(), divisor);
+    const exp = balanceToNumber(exposure.total?.unwrap(), divisor);
 
     total += cli;
 
@@ -49,7 +49,8 @@ function extractStake (exposures: DeriveOwnExposure[], divisor: BN): ChartInfo {
 function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, [validatorId, true]);
+  const params = useMemo(() => [validatorId, false], [validatorId]);
+  const ownExposures = useCall<DeriveOwnExposure[]>(api.derive.staking.ownExposures, params);
 
   const { currency, divisor } = useMemo((): { currency: string; divisor: BN } => ({
     currency: formatBalance.getDefaults().unit,
@@ -57,9 +58,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   }), []);
 
   const { chart, labels } = useMemo(
-    () => ownExposures
-      ? extractStake(ownExposures, divisor)
-      : { chart: [], labels: [] },
+    () => extractStake(ownExposures, divisor),
     [divisor, ownExposures]
   );
 
@@ -72,7 +71,7 @@ function ChartStake ({ validatorId }: Props): React.ReactElement<Props> {
   return (
     <div className='staking--Chart'>
       <h1>{t<string>('elected stake')}</h1>
-      {chart && !!chart[0]?.length
+      {labels.length
         ? (
           <Chart.Line
             colors={COLORS_STAKE}

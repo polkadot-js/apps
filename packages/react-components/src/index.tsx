@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 export * from '@polkadot/react-qr';
 
@@ -90,6 +89,7 @@ export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';
 export { default as Tags } from './Tags';
 export { default as Toggle } from './Toggle';
+export { default as ToggleGroup } from './ToggleGroup';
 export { default as Tooltip } from './Tooltip';
 export { default as TxButton } from './TxButton';
 export { default as TxComponent } from './TxComponent';

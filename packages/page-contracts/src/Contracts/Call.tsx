@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { StringOrNull } from '@polkadot/react-components/types';
@@ -8,11 +7,11 @@ import { StringOrNull } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, IconLink, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
-import { BN_ZERO, isNull } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
 import Outcome from './Outcome';
@@ -21,45 +20,30 @@ import { getCallMessageOptions } from './util';
 import useWeight from '../useWeight';
 
 interface Props {
-  callContract: ApiContract | null;
-  callMessageIndex: number | null;
+  callContract: ApiContract;
+  callMessageIndex: number;
   className?: string;
-  isOpen: boolean;
   onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
   onChangeCallMessageIndex: (callMessageIndex: number) => void;
   onClose: () => void;
 }
 
-function Call (props: Props): React.ReactElement<Props> | null {
+function Call ({ callContract, callMessageIndex, className = '', onChangeCallContractAddress, onChangeCallMessageIndex, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { callContract, callMessageIndex, className = '', isOpen, onChangeCallContractAddress, onChangeCallMessageIndex, onClose } = props;
-  const hasRpc = callContract?.hasRpcContractsCall;
-  const callMessage = callContract?.getMessage(isNull(callMessageIndex) ? undefined : callMessageIndex);
-
+  const callMessage = callContract.abi.messages[callMessageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
-  const [params, setParams] = useState<any[]>(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(hasRpc && callMessage && !callMessage.def.mutates);
+  const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
   const useWeightHook = useWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
   useEffect((): void => {
-    if (callContract && callMessageIndex) {
-      const callMessage = callContract.getMessage(callMessageIndex);
+    const callMessage = callContract.abi.messages[callMessageIndex];
 
-      setParams(callMessage ? callMessage.def.args.map(({ type }): any => createValue({ type })) : []);
-
-      if (hasRpc) {
-        if (!callMessage || callMessage.def.mutates) {
-          setUseRpc(false);
-        } else {
-          setUseRpc(true);
-        }
-      }
-    }
-  }, [callContract, callMessageIndex, hasRpc]);
+    setParams(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
+  }, [callContract, callMessageIndex]);
 
   useEffect((): void => {
     setOutcomes([]);
@@ -76,27 +60,26 @@ function Call (props: Props): React.ReactElement<Props> | null {
 
   const _constructTx = useCallback(
     (): unknown[] => {
-      if (!accountId || !callMessage || !callMessage.fn || !callContract || !callContract.address) {
+      if (!accountId || !callMessage || !callContract.address) {
         return [];
       }
 
-      return [callContract.address.toString(), endowment, weight, callMessage.fn(...params)];
+      return [callContract.address.toString(), endowment, weight, callMessage(...params)];
     },
     [accountId, callContract, callMessage, endowment, weight, params]
   );
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !callContract || !callMessage || !endowment || !weight) return;
+      if (!accountId || !callMessage || !endowment || !weight) return;
 
-      !!callContract && callContract
-        .call('rpc', callMessage.def.name, endowment, weight, ...params)
+      callContract
+        .read(callMessage, 0, weight, ...params)
+        // when we make calls to mutables, we want the endowment & weight
+        // .read(callMessage, endowment, weight, ...params)
         .send(accountId)
-        .then(
-          (outcome: ContractCallOutcome): void => {
-            setOutcomes([outcome, ...outcomes]);
-          }
-        );
+        .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
+        .catch(console.error);
     },
     [accountId, callContract, callMessage, endowment, weight, outcomes, params]
   );
@@ -112,20 +95,17 @@ function Call (props: Props): React.ReactElement<Props> | null {
   );
 
   const isValid = useMemo(
-    (): boolean => !!accountId && !!callContract && !!callContract.address && !!callContract.abi && isWeightValid && isEndowmentValid,
-    [accountId, callContract, isEndowmentValid, isWeightValid]
+    () => !!(accountId && isWeightValid && isEndowmentValid),
+    [accountId, isEndowmentValid, isWeightValid]
   );
 
-  if (isNull(callContract) || isNull(callMessageIndex) || !callMessage) {
-    return null;
-  }
+  const isViaRpc = callContract.hasRpcContractsCall && !callMessage.isMutating;
 
   return (
     <Modal
       className={[className || '', 'app--contracts-Modal'].join(' ')}
       header={t<string>('Call a contract')}
       onClose={onClose}
-      open={isOpen}
     >
       <Modal.Content>
         {callContract && (
@@ -150,35 +130,37 @@ function Call (props: Props): React.ReactElement<Props> | null {
             {callMessageIndex !== null && (
               <>
                 <Dropdown
-                  defaultValue={`${callMessage.index}`}
+                  defaultValue={`${callMessageIndex}`}
                   help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
                   isDisabled={isBusy}
                   isError={callMessage === null}
                   label={t<string>('message to send')}
                   onChange={_onChangeCallMessageIndexString}
                   options={getCallMessageOptions(callContract)}
-                  value={`${callMessage.index}`}
+                  value={`${callMessageIndex}`}
                 />
                 <Params
                   isDisabled={isBusy}
                   onChange={setParams}
                   params={
                     callMessage
-                      ? callMessage.def.args
+                      ? callMessage.args
                       : undefined
                   }
                 />
               </>
             )}
-            <InputBalance
-              help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
-              isDisabled={isBusy}
-              isError={!isEndowmentValid}
-              isZeroable
-              label={t<string>('value')}
-              onChange={setEndowment}
-              value={endowment}
-            />
+            {!isViaRpc && (
+              <InputBalance
+                help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
+                isDisabled={isBusy}
+                isError={!isEndowmentValid}
+                isZeroable
+                label={t<string>('value')}
+                onChange={setEndowment}
+                value={endowment}
+              />
+            )}
             <InputMegaGas
               help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
               label={t<string>('maximum gas allowed')}
@@ -186,45 +168,6 @@ function Call (props: Props): React.ReactElement<Props> | null {
             />
           </div>
         )}
-        {hasRpc && (
-          <Toggle
-            className='rpc-toggle'
-            label={
-              useRpc
-                ? t<string>('send as RPC call')
-                : t<string>('send as transaction')
-            }
-            onChange={setUseRpc}
-            value={useRpc || false}
-          />
-        )}
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          {useRpc
-            ? (
-              <Button
-                icon='sign-in-alt'
-                isDisabled={!isValid}
-                label={t<string>('Call')}
-                onClick={_onSubmitRpc}
-              />
-            )
-            : (
-              <TxButton
-                accountId={accountId}
-                icon='sign-in-alt'
-                isDisabled={!isValid}
-                label={t('Call')}
-                onClick={(): void => setIsBusy(true)}
-                onFailed={(): void => setIsBusy(false)}
-                onSuccess={(): void => setIsBusy(false)}
-                params={_constructTx}
-                tx='contracts.call'
-                withSpinner
-              />
-            )
-          }
-        </Button.Group>
         {outcomes.length > 0 && (
           <>
             <h3>
@@ -248,6 +191,32 @@ function Call (props: Props): React.ReactElement<Props> | null {
           </>
         )}
       </Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        {isViaRpc
+          ? (
+            <Button
+              icon='sign-in-alt'
+              isDisabled={!isValid}
+              label={t<string>('Read')}
+              onClick={_onSubmitRpc}
+            />
+          )
+          : (
+            <TxButton
+              accountId={accountId}
+              icon='sign-in-alt'
+              isDisabled={!isValid}
+              label={t('Execute')}
+              onClick={(): void => setIsBusy(true)}
+              onFailed={(): void => setIsBusy(false)}
+              onSuccess={(): void => setIsBusy(false)}
+              params={_constructTx}
+              tx='contracts.call'
+              withSpinner
+            />
+          )
+        }
+      </Modal.Actions>
     </Modal>
   );
 }

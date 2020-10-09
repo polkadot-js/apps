@@ -1,12 +1,16 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Columar, QrDisplayPayload, QrScanSignature, Spinner } from '@polkadot/react-components';
+import { isHex } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+
+interface SigData {
+  signature: string
+}
 
 interface Props {
   address: string;
@@ -14,7 +18,7 @@ interface Props {
   genesisHash: Uint8Array;
   isHashed: boolean;
   isScanning: boolean;
-  onSignature: (signature: { signature: string }) => void;
+  onSignature: (data: SigData) => void;
   payload: Uint8Array;
 }
 
@@ -23,6 +27,26 @@ const CMD_MORTAL = 2;
 
 function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const [sigError, setSigError] = useState<string | null>(null);
+
+  const _onSignature = useCallback(
+    (data: SigData): void => {
+      if (isHex(data.signature)) {
+        onSignature(data);
+      } else {
+        const signature = data.signature as string;
+
+        setSigError(t<string>('Non-signature, non-hex data received from QR. Data contains "{{sample}}" instead of a hex-only signature. Please present the correct signature generated from the QR presented for submission.', {
+          replace: {
+            sample: signature.length > 47
+              ? `${signature.substr(0, 24)}…${signature.substr(-22)}`
+              : signature
+          }
+        }));
+      }
+    },
+    [onSignature, t]
+  );
 
   if (!address) {
     return (
@@ -31,27 +55,30 @@ function Qr ({ address, className, genesisHash, isHashed, onSignature, payload }
   }
 
   return (
-    <Columar className={className}>
-      <Columar.Column>
-        <div className='qrDisplay'>
-          <QrDisplayPayload
-            address={address}
-            cmd={
-              isHashed
-                ? CMD_HASH
-                : CMD_MORTAL
-            }
-            genesisHash={genesisHash}
-            payload={payload}
-          />
-        </div>
-      </Columar.Column>
-      <Columar.Column>
-        <div className='qrDisplay'>
-          <QrScanSignature onScan={onSignature} />
-        </div>
-      </Columar.Column>
-    </Columar>
+    <>
+      <Columar className={className}>
+        <Columar.Column>
+          <div className='qrDisplay'>
+            <QrDisplayPayload
+              address={address}
+              cmd={
+                isHashed
+                  ? CMD_HASH
+                  : CMD_MORTAL
+              }
+              genesisHash={genesisHash}
+              payload={payload}
+            />
+          </div>
+        </Columar.Column>
+        <Columar.Column>
+          <div className='qrDisplay'>
+            <QrScanSignature onScan={_onSignature} />
+          </div>
+        </Columar.Column>
+      </Columar>
+      {sigError && <article className='error nomargin'>{sigError}</article>}
+    </>
   );
 }
 

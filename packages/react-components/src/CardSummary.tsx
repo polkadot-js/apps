@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import { ThemeProps } from './types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -92,17 +93,17 @@ function CardSummary ({ children, className = '', help, label, progress }: Props
   );
 }
 
-export default React.memo(styled(CardSummary)`
+export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
   align-items: center;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: rgba(0, 0, 0, 0.6);
+  color: ${theme.colorSummary};
   display: flex;
   flex: 0 1 auto;
   flex-flow: row wrap;
   justify-content: flex-end;
-  padding: 0rem 1.5rem 0.5rem 1.5rem;
+  padding: 0 1.5rem;
 
   .ui--FormatBalance .balance-postfix {
     opacity: 1;
@@ -153,4 +154,4 @@ export default React.memo(styled(CardSummary)`
       font-size: 1.4rem;
     }
   }
-`);
+`));

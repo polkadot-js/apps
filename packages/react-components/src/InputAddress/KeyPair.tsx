@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
 import styled from 'styled-components';
@@ -18,7 +17,7 @@ interface Props {
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--KeyPair', className].join(' ')}>
+    <div className={`ui--KeyPair ${className}`}>
       <IdentityIcon
         className='icon'
         value={address}
@@ -53,7 +52,7 @@ export default React.memo(styled(KeyPair)`
 
   > .icon {
     position: absolute;
-    top: -3px;
+    top: -5px;
     left: 0;
   }
 

@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps-routing authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { Routes } from './types';
 
@@ -10,7 +9,6 @@ import calendar from './calendar';
 import claims from './claims';
 import contracts from './contracts';
 import council from './council';
-// import dashboard from './dashboard';
 import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';

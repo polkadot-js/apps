@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 
@@ -34,7 +33,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
     isCouncil
       ? allBalances?.votingBalance.add(allBalances?.reservedBalance)
       : allBalances?.votingBalance
-  , [allBalances?.reservedBalance, allBalances?.votingBalance, isCouncil]);
+  , [allBalances, isCouncil]);
 
   useEffect((): void => {
     // if the set accountId changes and the new balances is for that id, set it
