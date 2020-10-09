@@ -80,15 +80,14 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
 
 export default React.memo(styled(CodeRow)`
   .ui--CodeRow-icon {
-    margin-right: 1em;
+    margin-right: -0.5em;
     background: #eee;
     border-radius: 50%;
     color: #666;
-    width: 28px;
-    height: 28px;
-    padding: 0.5rem;
+    width: 26px;
+    height: 26px;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
   }
 `);
