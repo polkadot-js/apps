@@ -102,15 +102,14 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
       <td className='button'>
         <Button
           icon='trash'
+          label={t<string>('Forget')}
           onClick={toggleIsForgetOpen}
-          tooltip={t('Forget this code hash')}
         />
         {!contractAbi && (
           <Button
             icon='upload'
             label={t('deploy')}
             onClick={_onShowDeploy}
-            tooltip={t('Deploy this code hash as a smart contract')}
           />
         )}
       </td>

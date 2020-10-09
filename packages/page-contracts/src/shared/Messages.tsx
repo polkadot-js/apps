@@ -84,9 +84,8 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
           <Button
             className='execute'
             icon='play'
-            label={message.isMutating ? t<string>('read') : t<string>('exec')}
+            label={message.isMutating ? t<string>('exec') : t<string>('read')}
             onClick={onSelect(props, index)}
-            tooltip={t<string>('Call this message')}
           />
         </div>
       )}
@@ -96,7 +95,6 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
           icon='upload'
           label={t<string>('deploy')}
           onClick={onSelectConstructor(props, index)}
-          tooltip={t<string>('Deploy with this constructor')}
         />
       )}
     </div>
@@ -172,23 +170,19 @@ export default React.memo(styled(Messages)`
 
   & .message {
     align-items: center;
-    // background: #f8f8f8;
+    background: #f8f8f8;
     border-radius: 0.25rem;
     display: flex;
     padding: 0.25rem 0.75rem;
 
     &.constructor {
-      // background: #e8f4ff;
+      background: #e8f4ff;
     }
 
     &.disabled {
       opacity: 1 !important;
       background: #eee !important;
       color: #555 !important;
-    }
-
-    &:hover {
-      background: #f8f8f8;
     }
 
     .info {

@@ -88,8 +88,8 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
       <td className='button'>
         <Button
           icon='trash'
+          label={t<string>('Forget')}
           onClick={toggleIsForgetOpen}
-          tooltip={t<string>('Forget this contract')}
         />
         {/* <Button
           icon='play'

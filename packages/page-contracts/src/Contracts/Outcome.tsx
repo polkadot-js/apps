@@ -46,7 +46,6 @@ function Outcome ({ className = '', onClear, outcome: { isSuccess, message, orig
         className='output'
         isError={!isSuccess}
         value={(output || '()').toString()}
-        withCopy
         withLabel={false}
       />
     </div>
