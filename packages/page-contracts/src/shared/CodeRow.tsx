@@ -9,7 +9,7 @@ import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { toShortAddress } from '@polkadot/react-components/util';
 import Row from '@polkadot/react-components/Row';
-import { CopyButton, Icon } from '@polkadot/react-components';
+import { Icon } from '@polkadot/react-components';
 
 import contracts from '../store';
 
@@ -59,22 +59,12 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
 
   return (
     <Row
-      address={
-        <CopyButton
-          isAddress
-          value={codeHash}
-        >
-          <span>{toShortAddress(codeHash)}</span>
-        </CopyButton>
-      }
+      address={<span>{toShortAddress(codeHash)}</span>}
       buttons={buttons}
       className={className}
       icon={
         <div className='ui--CodeRow-icon'>
-          <Icon
-            icon='code'
-            size='large'
-          />
+          <Icon icon='code' />
         </div>
       }
       isEditableName
@@ -97,9 +87,10 @@ export default React.memo(
     .ui--CodeRow-icon {
       margin-right: 1em;
       background: #eee;
+      border-radius: 50%;
       color: #666;
-      width: 4rem;
-      height: 5rem;
+      width: 32px;
+      height: 32px;
       padding: 0.5rem;
       display: flex;
       justify-content: flex-end;

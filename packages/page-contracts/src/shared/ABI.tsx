@@ -25,10 +25,12 @@ interface Props {
   onRemoved?: () => void;
   onSelect?: () => void;
   onSelectConstructor?: (constructorIndex?: number) => void;
+  withConstructors?: boolean;
   withLabel?: boolean;
+  withMessages?: boolean;
 }
 
-function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructor, withLabel }: Props): React.ReactNode {
+function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructor, withConstructors = true, withLabel, withMessages = true }: Props): React.ReactNode {
   return (
     <Messages
       contractAbi={contractAbi}
@@ -36,7 +38,8 @@ function renderMessages ({ contractAbi, isDisabled, onRemove, onSelectConstructo
       isRemovable={!isDisabled}
       onRemove={onRemove}
       onSelectConstructor={onSelectConstructor}
-      withConstructors
+      withConstructors={withConstructors}
+      withMessages={withMessages}
     />
   );
 }

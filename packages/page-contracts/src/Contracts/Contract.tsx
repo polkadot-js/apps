@@ -4,10 +4,9 @@
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { AddressRow, Button, Card, Expander, Forget } from '@polkadot/react-components';
+import { AddressRow, Button, Card, Forget } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Messages from '../shared/Messages';
@@ -53,57 +52,52 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
   }
 
   return (
-    <Card className={className}>
-      {isForgetOpen && (
-        <Forget
-          address={address.toString()}
-          key='modal-forget-contract'
-          mode='contract'
-          onClose={toggleIsForgetOpen}
-          onForget={_onForget}
-        />
-      )}
-      <AddressRow
-        buttons={
-          <div className='contracts--Contract-buttons'>
-            <Button
-              icon='trash'
-              onClick={toggleIsForgetOpen}
-              tooltip={t<string>('Forget this contract')}
+    <tr className={className}>
+      <td className='top'>
+        <Card>
+          {isForgetOpen && (
+            <Forget
+              address={address.toString()}
+              key='modal-forget-contract'
+              mode='contract'
+              onClose={toggleIsForgetOpen}
+              onForget={_onForget}
             />
-            <Button
-              icon='play'
-              label={t<string>('execute')}
-              onClick={onCall()}
-              tooltip={t<string>('Call a method on this contract')}
-            />
-          </div>
-        }
-        isContract
-        isEditableName
-        isEditableTags
-        type='contract'
-        value={address}
-        withBalance={false}
-        withNonce={false}
-        withTags
-      >
-        <Expander summary={t<string>('Messages')}>
-          <Messages
-            address={address.toString()}
-            contractAbi={abi}
-            isRemovable={false}
-            onSelect={onCall}
+          )}
+          <AddressRow
+            isContract
+            isEditableName
+            isEditableTags
+            type='contract'
+            value={address}
+            withBalance={false}
+            withNonce={false}
+            withTags={false}
           />
-        </Expander>
-      </AddressRow>
-    </Card>
+        </Card>
+      </td>
+      <td className='all top'>
+        <Messages
+          address={address.toString()}
+          contractAbi={abi}
+          isRemovable={false}
+          onSelect={onCall}
+          withMessages
+        />
+      </td>
+      <td className='button'>
+        <Button
+          icon='trash'
+          onClick={toggleIsForgetOpen}
+        />
+        <Button
+          icon='play'
+          label={t<string>('exec')}
+          onClick={onCall()}
+        />
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(
-  styled(Contract)`
-    min-width: 100%;
-    max-width: 100%;
-  `
-);
+export default React.memo(Contract);

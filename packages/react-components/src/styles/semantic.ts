@@ -105,8 +105,8 @@ export default css`
       }
     }
 
-    &.disabled.error input {
-      background-color: #fff6f6;
+    &.error input {
+      background-color: ${({ theme }: ThemeProps) => theme.bgInputError};
       border-color: #e0b4b4;
     }
 

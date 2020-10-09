@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { AbiConstructor, AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -22,13 +22,14 @@ export interface Props {
   onSelect?: (messageIndex: number) => () => void;
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
+  withMessages?: boolean;
 }
 
 const NOOP = (): void => undefined;
 
 function onSelect (props: Props, messageIndex: number): () => void {
   return function (): void {
-    const { address: callAddress, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
+    const { address: callAddress, contractAbi: { messages }, onSelect } = props;
 
     if (!callAddress || !messages || !messages[messageIndex]) {
       return;
@@ -40,7 +41,7 @@ function onSelect (props: Props, messageIndex: number): () => void {
 
 function onSelectConstructor (props: Props, index: number): () => void {
   return function (): void {
-    const { contractAbi: { abi: { contract: { constructors } } }, onSelectConstructor } = props;
+    const { contractAbi: { constructors }, onSelectConstructor } = props;
 
     if (!constructors || !constructors[index]) {
       return;
@@ -50,64 +51,75 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
-  const { docs = [], name } = message;
+function filterDocs (docs: string[]): string[] {
+  let skip = false;
+
+  return docs
+    .map((line) => line.trim())
+    .filter((line) => line)
+    .filter((line, index): boolean => {
+      if (skip) {
+        return false;
+      } else if (index || line.startsWith('#')) {
+        skip = true;
+
+        return false;
+      }
+
+      return true;
+    });
+}
+
+function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
+  const { docs = [], identifier } = message;
 
   return (
     <div
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
-      key={name}
+      key={identifier}
     >
+      {!asConstructor && props.onSelect && (
+        <div className='accessory'>
+          <Button
+            className='execute'
+            icon='play'
+            label={message.isMutating ? t<string>('exec') : t<string>('read')}
+            onClick={onSelect(props, index)}
+          />
+        </div>
+      )}
+      {asConstructor && props.onSelectConstructor && (
+        <Button
+          className='accessory'
+          icon='upload'
+          label={t<string>('deploy')}
+          onClick={onSelectConstructor(props, index)}
+        />
+      )}
       <div className='info'>
         <MessageSignature
           asConstructor={asConstructor}
           message={message}
           withTooltip
         />
-        <Expander
-          className='docs'
-          summary={
-            docs && docs.length > 0
-              ? docs
-                .filter((line) => line !== '')
-                .map((line, index) => ((
-                  <React.Fragment key={`${name}-docs-${index}`}>
-                    <span>{line}</span>
-                    <br />
-                  </React.Fragment>
-                )))
-              : (
-                <i>{t<string>('No documentation provided')}</i>
-              )
+        <div className='docs'>
+          {docs && docs.length > 0
+            ? filterDocs(docs).map((line, index) => ((
+              <React.Fragment key={`${identifier}-docs-${index}`}>
+                <span>{line}</span>
+                <br />
+              </React.Fragment>
+            )))
+            : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
           }
-        />
+        </div>
       </div>
-      {!asConstructor && props.onSelect && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='play'
-            onClick={onSelect(props, index)}
-            tooltip={t<string>('Call this message')}
-          />
-        </div>
-      )}
-      {asConstructor && props.onSelectConstructor && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='upload'
-            onClick={onSelectConstructor(props, index)}
-            tooltip={t<string>('Deploy with this constructor')}
-          />
-        </div>
-      )}
     </div>
   );
 }
 
 function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { constructors } } } } = props;
+  const { contractAbi: { constructors } } = props;
 
   if (!constructors[index]) {
     return null;
@@ -117,7 +129,7 @@ function renderConstructor (props: Props, index: number, t: <T = string> (key: s
 }
 
 function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { messages } } } } = props;
+  const { contractAbi: { messages } } = props;
 
   if (!messages[index]) {
     return null;
@@ -128,12 +140,20 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, withMessages } = props;
 
   return (
-    <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
-      {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
-      {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
+    <div className={`ui--Messages ${className} ${isLabelled ? 'labelled' : ''}`}>
+      {withConstructors && (
+        <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
+          {constructors.map((_, index) => renderConstructor(props, index, t))}
+        </Expander>
+      )}
+      {withMessages && (
+        <Expander summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}>
+          {messages.map((_, index) => renderMessage(props, index, t))}
+        </Expander>
+      )}
       {isRemovable && (
         <IconLink
           className='remove-abi'
@@ -147,12 +167,12 @@ function Messages (props: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Messages)`
-  font-size: 0.9rem;
   padding: 0;
   margin: 0;
 
   .remove-abi {
     float: right;
+    margin-top: 0.5rem;
 
     &:hover, &:hover :not(i) {
       text-decoration: underline;
@@ -168,18 +188,21 @@ export default React.memo(styled(Messages)`
     width: 100%;
   }
 
-  & .message {
-    width: calc(100% - 1rem);
-    background: #f8f8f8;
-    display: inline-flex;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 0.7rem;
-    transition: all 0.2s;
+  .message+.message {
+    margin-top: 0.5rem;
+  }
 
-    &.constructor {
-      background: #e8f4ff;
-    }
+  & .message {
+    align-items: center;
+    // background: #f8f8f8;
+    border-radius: 0.25rem;
+    // color: #4e4e4e;
+    display: flex;
+    padding: 0.25rem 0.75rem 0.25rem 0;
+
+    // &.constructor {
+    //   background: #e8f4ff;
+    // }
 
     &.disabled {
       opacity: 1 !important;
@@ -187,34 +210,10 @@ export default React.memo(styled(Messages)`
       color: #555 !important;
     }
 
-    .accessory {
-      width: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .execute {
-        display: none;
-        background: transparent !important;
-        font-size: 1.5rem;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    &:hover {
-      .accessory .execute {
-        display: block;
-        color: rgba(0, 0, 0, 0.2);
-
-        &:hover {
-          color: #2e86ab;
-        }
-      }
-    }
-
     .info {
       flex: 1 1;
+      font-size: 0.9rem;
+      margin-left: 1.5rem;
 
       .docs {
         font-size: 0.8rem;

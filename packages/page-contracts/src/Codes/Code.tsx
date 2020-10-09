@@ -4,8 +4,7 @@
 import { CodeStored } from '../types';
 
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import { Button, Card, Expander, Forget } from '@polkadot/react-components';
+import { Button, Card, Forget } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import { ABI, CodeRow } from '../shared';
@@ -23,7 +22,6 @@ interface Props {
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
   const { json: { codeHash } } = code;
   const { t } = useTranslation();
-  const [isAbiOpen, toggleIsAbiOpen] = useToggle();
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
   const [isRemoveABIOpen, toggleIsRemoveABIOpen] = useToggle();
   const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
@@ -55,83 +53,65 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
     [codeHash, toggleIsForgetOpen]
   );
 
-  const abiNode = (
-    <ABI
-      contractAbi={contractAbi}
-      isError={isAbiError}
-      isSupplied={isAbiSupplied}
-      isValid={isAbiValid}
-      onChange={onChangeAbi}
-      onRemove={toggleIsRemoveABIOpen}
-      onSelectConstructor={_onDeployConstructor}
-    />
-  );
-
   return (
-    <Card className={className}>
-      <CodeRow
-        buttons={
-          <>
-            <Button
-              icon='trash'
-              onClick={toggleIsForgetOpen}
-              tooltip={t('Forget this code hash')}
-            />
-            <Button
-              icon='upload'
-              label={t('deploy')}
-              onClick={_onShowDeploy}
-              tooltip={t('Deploy this code hash as a smart contract')}
-            />
-          </>
-        }
-        code={code}
-        withTags
-      >
-        {contractAbi
-          ? (
-            <Expander
-              isOpen={isAbiOpen}
-              onClick={toggleIsAbiOpen}
-              summary={t<string>('ABI')}
-            >
-              {abiNode}
-            </Expander>
-          )
-          : abiNode
-        }
-      </CodeRow>
-      {isForgetOpen && (
-        <Forget
-          key='modal-forget-account'
-          mode='code'
-          onClose={toggleIsForgetOpen}
-          onForget={_onForget}
-        >
+    <tr className={className}>
+      <td className='top'>
+        <Card>
           <CodeRow
-            code={code || ''}
-            isInline
-          >
-            <p>{t<string>('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
-            <p>{t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
-          </CodeRow>
-        </Forget>
-      )}
-      {isRemoveABIOpen && (
-        <RemoveABI
-          code={code}
-          key='modal-remove-abi'
-          onClose={toggleIsRemoveABIOpen}
-          onRemove={onRemoveAbi}
+            code={code}
+            withTags={false}
+          />
+          {isForgetOpen && (
+            <Forget
+              key='modal-forget-account'
+              mode='code'
+              onClose={toggleIsForgetOpen}
+              onForget={_onForget}
+            >
+              <CodeRow
+                code={code || ''}
+                isInline
+              >
+                <p>{t<string>('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
+                <p>{t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
+              </CodeRow>
+            </Forget>
+          )}
+          {isRemoveABIOpen && (
+            <RemoveABI
+              code={code}
+              key='modal-remove-abi'
+              onClose={toggleIsRemoveABIOpen}
+              onRemove={onRemoveAbi}
+            />
+          )}
+        </Card>
+      </td>
+      <td className='all top'>
+        <ABI
+          contractAbi={contractAbi}
+          isError={isAbiError}
+          isSupplied={isAbiSupplied}
+          isValid={isAbiValid}
+          onChange={onChangeAbi}
+          onRemove={toggleIsRemoveABIOpen}
+          onSelectConstructor={_onDeployConstructor}
+          withMessages={false}
         />
-      )}
-    </Card>
+      </td>
+      <td className='button'>
+        <Button
+          icon='trash'
+          onClick={toggleIsForgetOpen}
+        />
+        <Button
+          icon='upload'
+          label={t('deploy')}
+          onClick={_onShowDeploy}
+        />
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(
-  styled(Code)`
-    max-width: 100%;
-    min-width: 100%;
-  `
-);
+export default React.memo(Code);
