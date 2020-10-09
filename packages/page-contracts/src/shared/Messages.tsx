@@ -59,6 +59,24 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
       className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
       key={identifier}
     >
+      {!asConstructor && props.onSelect && (
+        <div className='accessory'>
+          <Button
+            className='execute'
+            icon='play'
+            label={message.isMutating ? t<string>('exec') : t<string>('read')}
+            onClick={onSelect(props, index)}
+          />
+        </div>
+      )}
+      {asConstructor && props.onSelectConstructor && (
+        <Button
+          className='accessory'
+          icon='upload'
+          label={t<string>('deploy')}
+          onClick={onSelectConstructor(props, index)}
+        />
+      )}
       <div className='info'>
         <MessageSignature
           asConstructor={asConstructor}
@@ -79,24 +97,6 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
           }
         />
       </div>
-      {!asConstructor && props.onSelect && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='play'
-            label={message.isMutating ? t<string>('exec') : t<string>('read')}
-            onClick={onSelect(props, index)}
-          />
-        </div>
-      )}
-      {asConstructor && props.onSelectConstructor && (
-        <Button
-          className='accessory'
-          icon='upload'
-          label={t<string>('deploy')}
-          onClick={onSelectConstructor(props, index)}
-        />
-      )}
     </div>
   );
 }
@@ -170,14 +170,15 @@ export default React.memo(styled(Messages)`
 
   & .message {
     align-items: center;
-    background: #f8f8f8;
+    // background: #f8f8f8;
     border-radius: 0.25rem;
+    // color: #4e4e4e;
     display: flex;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.75rem 0.25rem 0;
 
-    &.constructor {
-      background: #e8f4ff;
-    }
+    // &.constructor {
+    //   background: #e8f4ff;
+    // }
 
     &.disabled {
       opacity: 1 !important;
@@ -188,6 +189,7 @@ export default React.memo(styled(Messages)`
     .info {
       flex: 1 1;
       font-size: 0.9rem;
+      margin-left: 1.5rem;
 
       .docs {
         font-size: 0.8rem;
