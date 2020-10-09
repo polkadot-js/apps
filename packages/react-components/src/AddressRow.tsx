@@ -24,7 +24,7 @@ export interface Props extends RowProps {
 }
 
 const DEFAULT_ADDR = '5'.padEnd(48, 'x');
-const ICON_SIZE = 48;
+const ICON_SIZE = 32;
 
 function AddressRow ({ buttons, children, className, defaultName, isContract = false, isDisabled, isInline, isValid: propsIsValid, overlay, value, withTags = false }: Props): React.ReactElement<Props> | null {
   const { accountIndex, isNull, name, onSaveName, onSaveTags, setName, setTags, tags } = useAccountInfo(value ? value.toString() : null, isContract);

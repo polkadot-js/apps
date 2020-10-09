@@ -87,9 +87,10 @@ export default React.memo(
     .ui--CodeRow-icon {
       margin-right: 1em;
       background: #eee;
+      border-radius: 50%;
       color: #666;
-      width: 4rem;
-      height: 5rem;
+      width: 32px;
+      height: 32px;
       padding: 0.5rem;
       display: flex;
       justify-content: flex-end;

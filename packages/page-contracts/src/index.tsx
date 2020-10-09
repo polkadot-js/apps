@@ -16,6 +16,7 @@ import Codes from './Codes';
 import CodeAdd from './Codes/Add';
 import CodeUpload from './codes/Upload';
 import Deploy from './Deploy';
+import Ink3Banner from './Ink3Banner';
 import { useTranslation } from './translate';
 
 function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
@@ -38,14 +39,6 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
     }
   ]);
 
-  const _triggerUpdate = useCallback(
-    (): void => {
-      setUpdated(Date.now());
-      setAllCodes(store.getAllCode());
-    },
-    []
-  );
-
   const _onShowDeploy = useCallback(
     (codeHash?: string, constructorIndex = 0): () => void =>
       (): void => {
@@ -63,16 +56,21 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
 
   useEffect(
     (): void => {
-      store.on('new-code', _triggerUpdate);
-      store.on('removed-code', _triggerUpdate);
+      const triggerUpdate = (): void => {
+        setUpdated(Date.now());
+        setAllCodes(store.getAllCode());
+      };
 
-      store.loadAll()
-        .then((): void => setAllCodes(store.getAllCode()))
+      store.on('new-code', triggerUpdate);
+      store.on('removed-code', triggerUpdate);
+      store
+        .loadAll()
+        .then(() => setAllCodes(store.getAllCode()))
         .catch((): void => {
           // noop, handled internally
         });
     },
-    [_triggerUpdate]
+    []
   );
 
   return (
@@ -107,6 +105,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           onClick={toggleAdd}
         />
       </Button.Group>
+      <Ink3Banner />
       <Contracts
         contracts={allContracts}
         updated={updated}

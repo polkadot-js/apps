@@ -76,7 +76,7 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
           />
         </Card>
       </td>
-      <td className='all'>
+      <td className='all top'>
         <Messages
           address={address.toString()}
           contractAbi={abi}

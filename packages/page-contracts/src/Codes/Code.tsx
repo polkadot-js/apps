@@ -87,7 +87,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           )}
         </Card>
       </td>
-      <td className='all'>
+      <td className='all top'>
         <ABI
           contractAbi={contractAbi}
           isError={isAbiError}

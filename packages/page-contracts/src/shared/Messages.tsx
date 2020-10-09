@@ -51,6 +51,25 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
+function filterDocs (docs: string[]): string[] {
+  let skip = false;
+
+  return docs
+    .map((line) => line.trim())
+    .filter((line) => line)
+    .filter((line, index): boolean => {
+      if (skip) {
+        return false;
+      } else if (index || line.startsWith('#')) {
+        skip = true;
+
+        return false;
+      }
+
+      return true;
+    });
+}
+
 function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
   const { docs = [], identifier } = message;
 
@@ -83,19 +102,17 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
           message={message}
           withTooltip
         />
-        <Expander
-          className='docs'
-          summary={
-            docs && docs.length > 0
-              ? docs.filter((line) => line).map((line, index) => ((
-                <React.Fragment key={`${identifier}-docs-${index}`}>
-                  <span>{line}</span>
-                  <br />
-                </React.Fragment>
-              )))
-              : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
+        <div className='docs'>
+          {docs && docs.length > 0
+            ? filterDocs(docs).map((line, index) => ((
+              <React.Fragment key={`${identifier}-docs-${index}`}>
+                <span>{line}</span>
+                <br />
+              </React.Fragment>
+            )))
+            : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
           }
-        />
+        </div>
       </div>
     </div>
   );
@@ -123,13 +140,20 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
   const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, withMessages } = props;
 
   return (
-    <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
-      {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
-      {withMessages && messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
+    <div className={`ui--Messages ${className} ${isLabelled ? 'labelled' : ''}`}>
+      {withConstructors && (
+        <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
+          {constructors.map((_, index) => renderConstructor(props, index, t))}
+        </Expander>
+      )}
+      {withMessages && (
+        <Expander summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}>
+          {messages.map((_, index) => renderMessage(props, index, t))}
+        </Expander>
+      )}
       {isRemovable && (
         <IconLink
           className='remove-abi'
