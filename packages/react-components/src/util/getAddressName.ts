@@ -7,12 +7,13 @@ import getAddressMeta from './getAddressMeta';
 import toShortAddress from './toShortAddress';
 
 // isName, isDefault, name
-export default function getAddressName (address: string, type: KeyringItemType | null = null, defaultName?: string): [boolean, boolean, string] {
+export default function getAddressName (address: string, type: KeyringItemType | null = null, defaultName?: string): [boolean, boolean, string, string] {
   const meta = getAddressMeta(address, type);
+  const short = toShortAddress(address);
 
   return meta.name
-    ? [false, false, meta.name.toUpperCase()]
+    ? [false, false, meta.name.toUpperCase(), short]
     : defaultName
-      ? [false, true, defaultName.toUpperCase()]
-      : [true, false, toShortAddress(address)];
+      ? [false, true, defaultName.toUpperCase(), short]
+      : [true, false, short, short];
 }

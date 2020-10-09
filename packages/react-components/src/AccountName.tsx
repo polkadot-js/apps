@@ -25,6 +25,7 @@ interface Props {
   // this is used by app-account/addresses to toggle editing
   toggle?: boolean;
   value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
+  withLocal?: boolean;
   withSidebar?: boolean;
 }
 
@@ -42,7 +43,7 @@ export function getParentAccount (value: string): string | undefined {
   return parentCache.get(value);
 }
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
+function defaultOrAddr (withLocal: boolean, defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
 
   if (known) {
@@ -55,7 +56,7 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
     return [defaultName, false, false, false];
   }
 
-  const [isAddressExtracted,, extracted] = getAddressName(accountId, null, defaultName);
+  const [isAddressExtracted,, extracted, shortAddress] = getAddressName(accountId, null, defaultName);
   const accountIndex = (_accountIndex || '').toString() || indexCache.get(accountId);
 
   if (isAddressExtracted && accountIndex) {
@@ -64,17 +65,17 @@ function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | A
     return [accountIndex, false, true, false];
   }
 
-  return [extracted, !isAddressExtracted, isAddressExtracted, false];
+  return [withLocal ? extracted : shortAddress, withLocal && !isAddressExtracted, !withLocal || isAddressExtracted, false];
 }
 
-function extractName (address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
+function extractName (withLocal: boolean, address: string, accountIndex?: AccountIndex, defaultName?: string): React.ReactNode {
   const displayCached = displayCache.get(address);
 
   if (displayCached) {
     return displayCached;
   }
 
-  const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(defaultName, address, accountIndex);
+  const [displayName, isLocal, isAddress, isSpecial] = defaultOrAddr(withLocal, defaultName, address, accountIndex);
 
   return (
     <div className='via-identity'>
@@ -129,10 +130,10 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
-function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withLocal = true, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
-  const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
+  const [name, setName] = useState<React.ReactNode>(() => extractName(withLocal, (value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarToggle);
 
   // set the actual nickname, local name, accountIndex, accountId
@@ -148,18 +149,18 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
       setName(() =>
         identity?.display
           ? extractIdentity(cacheAddr, identity)
-          : extractName(cacheAddr, accountIndex)
+          : extractName(withLocal, cacheAddr, accountIndex)
       );
     } else if (nickname) {
       setName(nickname);
     } else {
-      setName(defaultOrAddr(defaultName, cacheAddr, accountIndex));
+      setName(defaultOrAddr(withLocal, defaultName, cacheAddr, accountIndex));
     }
-  }, [api, defaultName, info, toggle, value]);
+  }, [api, defaultName, info, toggle, value, withLocal]);
 
   const _onNameEdit = useCallback(
-    () => setName(defaultOrAddr(defaultName, (value || '').toString())),
-    [defaultName, value]
+    () => setName(defaultOrAddr(withLocal, defaultName, (value || '').toString())),
+    [defaultName, value, withLocal]
   );
 
   const _onToggleSidebar = useCallback(
