@@ -104,6 +104,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://crab.darwinia.network'
     },
     {
+      info: 'dockMainnet',
+      text: t<string>('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
+      textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
+      value: 'wss://mainnet-node.dock.io'
+    },
+    {
       dnslink: 'edgeware',
       info: 'edgeware',
       text: t<string>('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
@@ -241,6 +247,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t<string>('rpc.datahighway.harbour', 'Harbour', { ns: 'apps-config' }),
       textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'MXC' } }),
       value: 'wss://testnet-harbour.datahighway.com'
+    },
+    {
+      info: 'dockTestnet',
+      text: t<string>('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
+      textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
+      value: 'wss://danforth-1.dock.io'
     },
     {
       info: 'dusty',

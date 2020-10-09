@@ -6,6 +6,7 @@ import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
 import darwiniaParachain from './darwinia-parachain';
+import dock from './dock';
 import testPara from './cumulus-test-parachain';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
@@ -30,6 +31,8 @@ export default {
   crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  'dock-main-runtime': dock,
+  'dock-testnet': dock,
   dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,

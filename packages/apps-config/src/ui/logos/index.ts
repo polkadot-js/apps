@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
-// alphbetical
+// alphabetical
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
@@ -13,12 +13,14 @@ import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
-// alphbetical
+// alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
 import nodeCrust from './nodes/crust.svg';
 import nodeDarwinia from './nodes/darwinia.png';
+import nodeDockMainnet from './nodes/dock-mainnet.png';
+import nodeDockTestnet from './nodes/dock-testnet.png';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -37,11 +39,11 @@ import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
 
 // extensions
-// alphbetical
+// alphabetical
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
 
 // external links
-// alphbetical
+// alphabetical
 import externalCommonwealth from './external/commonwealth.png';
 import externalPolkascan from './external/polkascan.png';
 import externalPolkassembly from './external/polkassembly.png';
@@ -52,6 +54,7 @@ import externalSubscan from './external/subscan.svg';
 import emptyLogo from './empty.svg';
 
 // overrides based on the actual matched chain name
+// NOTE: this matches up with RPC system.chain
 // alphabetical
 const chainLogos: Record<string, any> = [
   ['Dusty', chainDusty],
@@ -69,6 +72,7 @@ const chainLogos: Record<string, any> = [
 }), {});
 
 // overrides based on the actual software node type (all '-' converted to ' ')
+// NOTE: this matches up with what the RPC via system.name
 // alphabetical
 const nodeLogos: Record<string, any> = [
   ['airalab-robonomics', nodeRobonomics],
@@ -77,6 +81,7 @@ const nodeLogos: Record<string, any> = [
   ['crab', nodeCrab],
   ['crust node', nodeCrust],
   ['darwinia parachain', nodeDarwinia],
+  ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
@@ -102,6 +107,7 @@ const nodeLogos: Record<string, any> = [
 }), {});
 
 // overrides when we pass an explicit logo name
+// NOTE: this matches up with what is defined as "info" in settings/endpoints.ts
 // alphabetical
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
@@ -109,6 +115,8 @@ const namedLogos: Record<string, any> = {
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
   crust: nodeCrust,
+  dockMainnet: nodeDockMainnet,
+  dockTestnet: nodeDockTestnet,
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,

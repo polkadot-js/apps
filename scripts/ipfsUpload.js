@@ -7,7 +7,7 @@ const cloudflare = require('dnslink-cloudflare');
 const execSync = require('@polkadot/dev/scripts/execSync');
 
 const createEndpoints = require('../packages/apps-config/build/settings/endpoints').default;
-const lernaInfo = require('../lerna.json');
+const pkgJson = require('../package.json');
 
 // https://gateway.pinata.cloud/ipfs/
 const GATEWAY = 'https://ipfs.io/ipfs/';
@@ -68,7 +68,7 @@ async function unpin (exclude) {
 
   if (result.count > 1) {
     const filtered = result.rows
-      .map(({ ipfs_pin_hash: hash }) => hash)
+      .map((r) => r.ipfs_pin_hash)
       .filter((hash) => hash !== exclude);
 
     if (filtered.length) {
@@ -86,10 +86,9 @@ async function unpin (exclude) {
 
 async function dnslink (hash) {
   const records = createEndpoints(() => '')
-    .map(({ dnslink }) => dnslink)
-    .filter((dnslink) => !!dnslink)
+    .map((e) => e.dnslink)
     .reduce((all, dnslink) => {
-      if (!all.includes(dnslink)) {
+      if (dnslink && !all.includes(dnslink)) {
         all.push(dnslink);
       }
 
@@ -113,7 +112,7 @@ async function dnslink (hash) {
 
 async function main () {
   // only run on non-beta versions
-  if (!lernaInfo.version.includes('-beta.')) {
+  if (!pkgJson.version.includes('-')) {
     const hash = await pin();
 
     await dnslink(hash);
