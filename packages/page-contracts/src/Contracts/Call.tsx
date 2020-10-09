@@ -7,7 +7,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
+import { Button, Dropdown, IconLink, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
@@ -74,7 +74,9 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
       if (!accountId || !callMessage || !endowment || !weight) return;
 
       callContract
-        .read(callMessage, endowment, weight, ...params)
+        .read(callMessage, 0, weight, ...params)
+        // when we make calls to mutables, we want the endowment & weight
+        // .read(callMessage, endowment, weight, ...params)
         .send(accountId)
         .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
         .catch(console.error);
@@ -148,15 +150,17 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
                 />
               </>
             )}
-            <InputBalance
-              help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
-              isDisabled={isBusy}
-              isError={!isEndowmentValid}
-              isZeroable
-              label={t<string>('value')}
-              onChange={setEndowment}
-              value={endowment}
-            />
+            {!isViaRpc && (
+              <InputBalance
+                help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
+                isDisabled={isBusy}
+                isError={!isEndowmentValid}
+                isZeroable
+                label={t<string>('value')}
+                onChange={setEndowment}
+                value={endowment}
+              />
+            )}
             <InputMegaGas
               help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
               label={t<string>('maximum gas allowed')}
@@ -164,33 +168,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
             />
           </div>
         )}
-        <Button.Group>
-          <ButtonCancel onClick={onClose} />
-          {isViaRpc
-            ? (
-              <Button
-                icon='sign-in-alt'
-                isDisabled={!isValid}
-                label={t<string>('Read')}
-                onClick={_onSubmitRpc}
-              />
-            )
-            : (
-              <TxButton
-                accountId={accountId}
-                icon='sign-in-alt'
-                isDisabled={!isValid}
-                label={t('Execute')}
-                onClick={(): void => setIsBusy(true)}
-                onFailed={(): void => setIsBusy(false)}
-                onSuccess={(): void => setIsBusy(false)}
-                params={_constructTx}
-                tx='contracts.call'
-                withSpinner
-              />
-            )
-          }
-        </Button.Group>
         {outcomes.length > 0 && (
           <>
             <h3>
@@ -214,6 +191,32 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
           </>
         )}
       </Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        {isViaRpc
+          ? (
+            <Button
+              icon='sign-in-alt'
+              isDisabled={!isValid}
+              label={t<string>('Read')}
+              onClick={_onSubmitRpc}
+            />
+          )
+          : (
+            <TxButton
+              accountId={accountId}
+              icon='sign-in-alt'
+              isDisabled={!isValid}
+              label={t('Execute')}
+              onClick={(): void => setIsBusy(true)}
+              onFailed={(): void => setIsBusy(false)}
+              onSuccess={(): void => setIsBusy(false)}
+              params={_constructTx}
+              tx='contracts.call'
+              withSpinner
+            />
+          )
+        }
+      </Modal.Actions>
     </Modal>
   );
 }

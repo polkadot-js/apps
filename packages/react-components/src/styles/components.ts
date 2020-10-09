@@ -19,7 +19,7 @@ export default css`
     word-break: break-all;
 
     &.error {
-      background: #fff6f6;
+      background: ${({ theme }: ThemeProps) => theme.bgInputError};
       border-color: #e0b4b4;
     }
 
