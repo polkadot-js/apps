@@ -86,9 +86,8 @@ export default React.memo(styled(CodeRow)`
     color: #666;
     width: 26px;
     height: 26px;
-    padding: 0 0.25rem 0.375rem;
     display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
   }
 `);
