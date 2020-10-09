@@ -14,7 +14,7 @@ import Contracts from './Contracts';
 import ContractAdd from './Contracts/Add';
 import Codes from './Codes';
 import CodeAdd from './Codes/Add';
-import CodeUpload from './codes/Upload';
+import CodeUpload from './Codes/Upload';
 import Deploy from './Deploy';
 import Ink3Banner from './Ink3Banner';
 import { useTranslation } from './translate';
