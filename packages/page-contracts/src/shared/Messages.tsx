@@ -156,6 +156,7 @@ export default React.memo(styled(Messages)`
 
   .remove-abi {
     float: right;
+    margin-top: 0.5rem;
 
     &:hover, &:hover :not(i) {
       text-decoration: underline;
@@ -171,14 +172,15 @@ export default React.memo(styled(Messages)`
     width: 100%;
   }
 
+  .message+.message {
+    margin-top: 0.5rem;
+  }
+
   & .message {
-    width: calc(100% - 1rem);
     background: #f8f8f8;
-    display: inline-flex;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 0.7rem;
-    transition: all 0.2s;
+    border-radius: 0.25rem;
+    display: flex;
+    padding: 0.25rem 0.75rem;
 
     &.constructor {
       background: #e8f4ff;
@@ -197,22 +199,9 @@ export default React.memo(styled(Messages)`
       justify-content: center;
 
       .execute {
-        display: none;
-        background: transparent !important;
         font-size: 1.5rem;
         margin: 0;
         padding: 0;
-      }
-    }
-
-    &:hover {
-      .accessory .execute {
-        display: block;
-        color: rgba(0, 0, 0, 0.2);
-
-        &:hover {
-          color: #2e86ab;
-        }
       }
     }
 

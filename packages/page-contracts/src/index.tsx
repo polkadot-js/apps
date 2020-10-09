@@ -2,22 +2,24 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { useAccounts, useContracts, useToggle } from '@polkadot/react-hooks';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Button, HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useContracts, useToggle } from '@polkadot/react-hooks';
 
 import introMd from './md/intro.md';
 import store from './store';
 import Contracts from './Contracts';
+import ContractAdd from './Contracts/Add';
 import Codes from './Codes';
+import CodeAdd from './Codes/Add';
+import CodeUpload from './codes/Upload';
 import Deploy from './Deploy';
 import { useTranslation } from './translate';
 
-function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
   const { allContracts } = useContracts();
   const [codeHash, setCodeHash] = useState<string | undefined>();
   const [constructorIndex, setConstructorIndex] = useState(0);
@@ -26,10 +28,6 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
   const itemsRef = useRef([
-    {
-      name: 'code',
-      text: t('Code')
-    },
     {
       isRoot: true,
       name: 'contracts',
@@ -60,19 +58,6 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
     [setIsDeployOpen]
   );
 
-  const componentProps = useMemo(
-    (): ComponentProps => ({
-      accounts: allAccounts,
-      basePath,
-      contracts: allContracts,
-      hasCode: store.hasCode,
-      onShowDeploy: _onShowDeploy,
-      onStatusChange,
-      updated
-    }),
-    [allAccounts, allContracts, basePath, _onShowDeploy, onStatusChange, updated]
-  );
-
   useEffect(
     (): void => {
       store.on('new-code', _triggerUpdate);
@@ -88,7 +73,7 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
   );
 
   return (
-    <main className='contracts--App'>
+    <main className={`contracts--App ${className}`}>
       <HelpOverlay md={introMd as string} />
       <header>
         <Tabs
@@ -96,8 +81,25 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
           items={itemsRef.current}
         />
       </header>
-      <Contracts {...componentProps} />
-      <Codes {...componentProps} />
+      <Button.Group>
+        <CodeUpload />
+        <CodeAdd />
+        <Button
+          icon='upload'
+          isDisabled={!store.hasCode}
+          label={t('Deploy code hash')}
+          onClick={_onShowDeploy()}
+        />
+        <ContractAdd />
+      </Button.Group>
+      <Contracts
+        contracts={allContracts}
+        updated={updated}
+      />
+      <Codes
+        onShowDeploy={_onShowDeploy}
+        updated={updated}
+      />
       {codeHash && isDeployOpen && (
         <Deploy
           allCodes={allCodes}
@@ -113,4 +115,11 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
   );
 }
 
-export default React.memo(ContractsApp);
+export default React.memo(styled(ContractsApp)`
+  .ui--Table td > article {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+`);
