@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '@polkadot/react-components/types';
+
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
@@ -41,23 +43,16 @@ function InputMegaGas ({ className, executionTime, help, isValid, label, megaGas
   );
 }
 
-export default React.memo(styled(InputMegaGas)`
+export default React.memo(styled(InputMegaGas)(({ theme }: ThemeProps) => `
   .contracts--InputMegaGas-input {
     .ui.input {
       display: flex;
 
       .contracts--InputMegaGas-meter {
+        color: ${theme.color};
         flex: 1;
         padding: 0.8rem 0.8rem 0;
-
-        .contracts--InputMegaGas-progress {
-          margin-top: 0.4rem;
-          position: relative;
-          bottom: 0;
-          left: 0;
-          right: 0;
-        }
       }
     }
   }
-`);
+`));
