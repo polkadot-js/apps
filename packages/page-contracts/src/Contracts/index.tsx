@@ -34,7 +34,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
 
   const headerRef = useRef<[string?, string?, number?][]>([
     [t('contracts'), 'start'],
-    [],
+    [t('messages'), 'start'],
     []
   ]);
 

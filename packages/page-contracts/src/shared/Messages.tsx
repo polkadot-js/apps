@@ -22,6 +22,7 @@ export interface Props {
   onSelect?: (messageIndex: number) => () => void;
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
+  withMessages?: boolean;
 }
 
 const NOOP = (): void => undefined;
@@ -83,6 +84,7 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
           <Button
             className='execute'
             icon='play'
+            label={message.isMutating ? t<string>('read') : t<string>('exec')}
             onClick={onSelect(props, index)}
             tooltip={t<string>('Call this message')}
           />
@@ -92,6 +94,7 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
         <Button
           className='accessory'
           icon='upload'
+          label={t<string>('deploy')}
           onClick={onSelectConstructor(props, index)}
           tooltip={t<string>('Deploy with this constructor')}
         />
@@ -123,12 +126,12 @@ function renderMessage (props: Props, index: number, t: <T = string> (key: strin
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, withMessages } = props;
 
   return (
     <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
       {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
-      {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
+      {withMessages && messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
       {isRemovable && (
         <IconLink
           className='remove-abi'
@@ -142,7 +145,6 @@ function Messages (props: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Messages)`
-  font-size: 0.9rem;
   padding: 0;
   margin: 0;
 
@@ -170,13 +172,13 @@ export default React.memo(styled(Messages)`
 
   & .message {
     align-items: center;
-    background: #f8f8f8;
+    // background: #f8f8f8;
     border-radius: 0.25rem;
     display: flex;
     padding: 0.25rem 0.75rem;
 
     &.constructor {
-      background: #e8f4ff;
+      // background: #e8f4ff;
     }
 
     &.disabled {
@@ -185,8 +187,13 @@ export default React.memo(styled(Messages)`
       color: #555 !important;
     }
 
+    &:hover {
+      background: #f8f8f8;
+    }
+
     .info {
       flex: 1 1;
+      font-size: 0.9rem;
 
       .docs {
         font-size: 0.8rem;

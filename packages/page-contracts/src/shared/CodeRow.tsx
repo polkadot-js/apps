@@ -64,10 +64,7 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
       className={className}
       icon={
         <div className='ui--CodeRow-icon'>
-          <Icon
-            icon='code'
-            size='large'
-          />
+          <Icon icon='code' />
         </div>
       }
       isEditableName

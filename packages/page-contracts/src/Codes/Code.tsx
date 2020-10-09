@@ -96,6 +96,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           onChange={onChangeAbi}
           onRemove={toggleIsRemoveABIOpen}
           onSelectConstructor={_onDeployConstructor}
+          withMessages={false}
         />
       </td>
       <td className='button'>
@@ -104,12 +105,14 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           onClick={toggleIsForgetOpen}
           tooltip={t('Forget this code hash')}
         />
-        <Button
-          icon='upload'
-          label={t('deploy')}
-          onClick={_onShowDeploy}
-          tooltip={t('Deploy this code hash as a smart contract')}
-        />
+        {!contractAbi && (
+          <Button
+            icon='upload'
+            label={t('deploy')}
+            onClick={_onShowDeploy}
+            tooltip={t('Deploy this code hash as a smart contract')}
+          />
+        )}
       </td>
     </tr>
   );

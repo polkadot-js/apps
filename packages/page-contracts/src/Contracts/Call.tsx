@@ -7,7 +7,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+import { Button, ButtonCancel, Dropdown, IconLink, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
 import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { createValue } from '@polkadot/react-params/values';
@@ -36,7 +36,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
-  const [useRpc, setUseRpc] = useState(callContract.hasRpcContractsCall && !callMessage.isMutating);
   const useWeightHook = useWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
@@ -44,10 +43,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
     const callMessage = callContract.abi.messages[callMessageIndex];
 
     setParams(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
-
-    if (callContract.hasRpcContractsCall) {
-      setUseRpc(callMessage.isMutating || false);
-    }
   }, [callContract, callMessageIndex]);
 
   useEffect((): void => {
@@ -78,8 +73,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
     (): void => {
       if (!accountId || !callMessage || !endowment || !weight) return;
 
-      console.error(accountId);
-
       callContract
         .read(callMessage, endowment, weight, ...params)
         .send(accountId)
@@ -103,6 +96,8 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
     () => !!(accountId && isWeightValid && isEndowmentValid),
     [accountId, isEndowmentValid, isWeightValid]
   );
+
+  const isViaRpc = callContract.hasRpcContractsCall && !callMessage.isMutating;
 
   return (
     <Modal
@@ -169,26 +164,14 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
             />
           </div>
         )}
-        {callContract.hasRpcContractsCall && (
-          <Toggle
-            className='rpc-toggle'
-            label={
-              useRpc
-                ? t<string>('send as RPC call')
-                : t<string>('send as transaction')
-            }
-            onChange={setUseRpc}
-            value={useRpc || false}
-          />
-        )}
         <Button.Group>
           <ButtonCancel onClick={onClose} />
-          {useRpc
+          {isViaRpc
             ? (
               <Button
                 icon='sign-in-alt'
                 isDisabled={!isValid}
-                label={t<string>('Call')}
+                label={t<string>('Read')}
                 onClick={_onSubmitRpc}
               />
             )
@@ -197,7 +180,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
                 accountId={accountId}
                 icon='sign-in-alt'
                 isDisabled={!isValid}
-                label={t('Call')}
+                label={t('Execute')}
                 onClick={(): void => setIsBusy(true)}
                 onFailed={(): void => setIsBusy(false)}
                 onSuccess={(): void => setIsBusy(false)}
