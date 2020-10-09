@@ -5,7 +5,6 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 import { ComponentProps } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useContracts, useToggle } from '@polkadot/react-hooks';
 
@@ -97,14 +96,8 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/code`}>
-          <Codes {...componentProps} />
-        </Route>
-        <Route exact>
-          <Contracts {...componentProps} />
-        </Route>
-      </Switch>
+      <Contracts {...componentProps} />
+      <Codes {...componentProps} />
       {codeHash && isDeployOpen && (
         <Deploy
           allCodes={allCodes}

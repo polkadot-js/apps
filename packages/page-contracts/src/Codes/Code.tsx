@@ -86,7 +86,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           </>
         }
         code={code}
-        withTags
+        withTags={false}
       >
         {contractAbi
           ? (
