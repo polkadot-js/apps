@@ -91,6 +91,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
         <ABI
           contractAbi={contractAbi}
           isError={isAbiError}
+          isFull
           isSupplied={isAbiSupplied}
           isValid={isAbiValid}
           onChange={onChangeAbi}
