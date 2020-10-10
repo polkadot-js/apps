@@ -59,7 +59,8 @@ export default css`
 
   .ui.input {
     > input, > input:focus {
-      color: var(--grey90);
+      font-family: var(--default-font-family, sans-serif);
+      color: var(--grey80);
       ${ELEV_2_CSS}
     }
 
@@ -69,7 +70,7 @@ export default css`
 
     &.error {
       > input {
-        background: var(--red-secondary);
+        background: var(--grey15);
         border: 1px solid var(--red-primary);
       }
     }
@@ -77,7 +78,7 @@ export default css`
 
   .ui.selection.dropdown {
     ${ELEV_2_CSS}
-    color: var(--grey90);
+    color: var(--grey80);
     border: 1px solid var(--grey20);
 
     > .delete.icon, > .dropdown.icon, > .search.icon {
@@ -127,7 +128,7 @@ export default css`
   }
 
   .ui.dropdown .menu > .header {
-    color: var(--grey90);
+    color: var(--grey80);
   }
 
   .ui.loader {
@@ -161,13 +162,13 @@ export default css`
   }
 
   .ui.selection.visible.dropdown>.text:not(.default) {
-    color: var(--grey90);
+    color: var(--grey80);
   }
 
   .ui.selection.dropdown .menu > .item {
     &, &:hover {
       border-top: 0;
-      color: var(--grey90);
+      color: var(--grey80);
     }
 
     &:hover {
@@ -176,7 +177,7 @@ export default css`
   }
 
   .ui.dropdown .menu .selected.item {
-    color: var(--grey90);
+    color: var(--grey80);
   }
 
   // .ui.dropdown .menu > .item.header.disabled:hover,

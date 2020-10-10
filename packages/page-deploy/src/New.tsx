@@ -338,7 +338,7 @@ export default React.memo(styled(New)`
     .code-hash {
       font-family: monospace;
       font-size: 1rem;
-      color: var(--grey90);
+      color: var(--grey80);
     }
   }
 `);

@@ -16,7 +16,7 @@ export default css`
     --blue-secondary: #195580;
     --green-primary: #16DB9A;
     --red-primary: #F54E4E;
-    --red-secondary: #431818;
+    --red-secondary: #FF8080;
     --orange-primary: #F8C34F;
 
     --grey00: #000;
@@ -141,7 +141,7 @@ export default css`
 
     &.ui.modal > .header:not(.ui),
     .ui.modal > .header:not(.ui) {
-      color: var(--grey90);
+      color: var(--grey80);
       font-weight: 300;
     }
 
@@ -167,7 +167,7 @@ export default css`
     }
 
     .ui.input>input {
-      color: var(--grey90);
+      color: var(--grey80);
     }
   }
 `;

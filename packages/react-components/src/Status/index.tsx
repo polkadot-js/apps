@@ -281,7 +281,7 @@ export default React.memo(styled(Status)`
         cursor: pointer;
 
         &:hover {
-          color: var(--grey90);
+          color: var(--grey80);
         }
       }
     }

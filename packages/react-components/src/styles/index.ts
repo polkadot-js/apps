@@ -105,7 +105,7 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: var(--grey90);
+    color: var(--grey60);
     font-family: var(--default-font-family, sans-serif);
     font-size: 0.875rem;
     height: 100%;
@@ -166,9 +166,9 @@ export default createGlobalStyle<Props>`
     }
 
     &.error {
-      background: #fff6f6;
-      border-color: #e0b4b4;
-      color: #9f3a38;
+      /* background: #fff6f6; */
+      border-color: var(--red-secondary);
+      /* color: #9f3a38; */
     }
 
     &.padded {
@@ -231,7 +231,7 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: var(--grey90);
+    color: var(--grey80);
     font-family: var(--default-font-family, sans-serif);
     font-weight: 300;
   }
@@ -264,7 +264,7 @@ export default createGlobalStyle<Props>`
   }
 
   input {
-    color: var(--grey90);
+    color: var(--grey80);
   }
 
   input::selection, textarea::selection {
@@ -273,7 +273,7 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: var(--grey90);
+    color: var(--grey80);
     display: block;
     font-family: var(--default-font-family, sans-serif);
     font-size: 1rem;
@@ -286,7 +286,7 @@ export default createGlobalStyle<Props>`
 
     section {
       > :not(:last-child) {
-        margin-bottom: 1.5rem;
+        margin-bottom: 2.5rem;
       }
     }
 
