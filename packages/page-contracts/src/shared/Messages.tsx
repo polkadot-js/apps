@@ -1,157 +1,90 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiConstructor, AbiMessage } from '@polkadot/api-contract/types';
+import { ContractCallOutcome } from '@polkadot/api-contract/types';
 
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Abi } from '@polkadot/api-contract';
-import { classes } from '@polkadot/react-components/util';
-import { Button, Expander, IconLink } from '@polkadot/react-components';
+import { Abi, PromiseContract } from '@polkadot/api-contract';
+import { Expander, IconLink } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
-import MessageSignature from './MessageSignature';
+import Message from './Message';
 import { useTranslation } from '../translate';
 
 export interface Props {
   address?: string;
   className?: string;
+  contract?: PromiseContract;
   contractAbi: Abi;
   isLabelled?: boolean;
-  isRemovable: boolean;
+  isRemovable?: boolean;
+  isWatching?: boolean;
   onRemove?: () => void;
-  onSelect?: (messageIndex: number) => () => void;
+  onSelect?: (messageIndex: number) => void;
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
   withMessages?: boolean;
 }
 
 const NOOP = (): void => undefined;
+const READ_ADDR = '0x'.padEnd(66, '0');
 
-function onSelect (props: Props, messageIndex: number): () => void {
-  return function (): void {
-    const { address: callAddress, contractAbi: { messages }, onSelect } = props;
-
-    if (!callAddress || !messages || !messages[messageIndex]) {
-      return;
-    }
-
-    onSelect && onSelect(messageIndex)();
-  };
-}
-
-function onSelectConstructor (props: Props, index: number): () => void {
-  return function (): void {
-    const { contractAbi: { constructors }, onSelectConstructor } = props;
-
-    if (!constructors || !constructors[index]) {
-      return;
-    }
-
-    onSelectConstructor && onSelectConstructor(index);
-  };
-}
-
-function filterDocs (docs: string[]): string[] {
-  let skip = false;
-
-  return docs
-    .map((line) => line.trim())
-    .filter((line) => line)
-    .filter((line, index): boolean => {
-      if (skip) {
-        return false;
-      } else if (index || line.startsWith('#')) {
-        skip = true;
-
-        return false;
-      }
-
-      return true;
-    });
-}
-
-function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
-  const { docs = [], identifier } = message;
-
-  return (
-    <div
-      className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
-      key={identifier}
-    >
-      {!asConstructor && props.onSelect && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='play'
-            label={message.isMutating ? t<string>('exec') : t<string>('read')}
-            onClick={onSelect(props, index)}
-          />
-        </div>
-      )}
-      {asConstructor && props.onSelectConstructor && (
-        <Button
-          className='accessory'
-          icon='upload'
-          label={t<string>('deploy')}
-          onClick={onSelectConstructor(props, index)}
-        />
-      )}
-      <div className='info'>
-        <MessageSignature
-          asConstructor={asConstructor}
-          message={message}
-          withTooltip
-        />
-        <div className='docs'>
-          {docs && docs.length > 0
-            ? filterDocs(docs).map((line, index) => ((
-              <React.Fragment key={`${identifier}-docs-${index}`}>
-                <span>{line}</span>
-                <br />
-              </React.Fragment>
-            )))
-            : <i>&nbsp;{t<string>('No documentation provided')}&nbsp;</i>
-          }
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { constructors } } = props;
-
-  if (!constructors[index]) {
-    return null;
-  }
-
-  return renderItem(props, constructors[index], index, true, t);
-}
-
-function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { messages } } = props;
-
-  if (!messages[index]) {
-    return null;
-  }
-
-  return renderItem(props, messages[index], index, false, t);
-}
-
-function Messages (props: Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isRemovable, isWatching, onRemove = NOOP, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, withMessages } = props;
+  const { api } = useApi();
+  const bestNumber = useCall(api.derive.chain.bestNumber);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
+
+  const _onExpander = useCallback(
+    (isOpen: boolean): void => {
+      isWatching && setIsUpdating(isOpen);
+    },
+    [isWatching]
+  );
+
+  useEffect((): void => {
+    const maxWeight = api.consts.system.maximumBlockWeight.muln(64).divn(100);
+
+    bestNumber && contract && isUpdating && Promise
+      .all(messages.map((m) =>
+        m.isMutating || m.args.length !== 0
+          ? Promise.resolve(undefined)
+          : contract.read(m, 0, maxWeight).send(READ_ADDR)
+      ))
+      .then(setLastResults)
+      .catch(console.error);
+  }, [api, bestNumber, contract, isUpdating, isWatching, messages]);
 
   return (
     <div className={`ui--Messages ${className} ${isLabelled ? 'labelled' : ''}`}>
       {withConstructors && (
         <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
-          {constructors.map((_, index) => renderConstructor(props, index, t))}
+          {constructors.map((message, index) => (
+            <Message
+              index={index}
+              key={index}
+              message={message}
+              onSelect={onSelectConstructor}
+            />
+          ))}
         </Expander>
       )}
       {withMessages && (
-        <Expander summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}>
-          {messages.map((_, index) => renderMessage(props, index, t))}
+        <Expander
+          onClick={_onExpander}
+          summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}
+        >
+          {messages.map((message, index) => (
+            <Message
+              index={index}
+              key={index}
+              lastResult={lastResults[index]}
+              message={message}
+              onSelect={onSelect}
+            />
+          ))}
         </Expander>
       )}
       {isRemovable && (
@@ -167,8 +100,7 @@ function Messages (props: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(Messages)`
-  padding: 0;
-  margin: 0;
+  padding-bottom: 0.75rem !important;
 
   .remove-abi {
     float: right;
@@ -186,39 +118,5 @@ export default React.memo(styled(Messages)`
     border-radius: .28571429rem;
     padding: 1rem 1rem 0.5rem;
     width: 100%;
-  }
-
-  .message+.message {
-    margin-top: 0.5rem;
-  }
-
-  & .message {
-    align-items: center;
-    // background: #f8f8f8;
-    border-radius: 0.25rem;
-    // color: #4e4e4e;
-    display: flex;
-    padding: 0.25rem 0.75rem 0.25rem 0;
-
-    // &.constructor {
-    //   background: #e8f4ff;
-    // }
-
-    &.disabled {
-      opacity: 1 !important;
-      background: #eee !important;
-      color: #555 !important;
-    }
-
-    .info {
-      flex: 1 1;
-      font-size: 0.9rem;
-      margin-left: 1.5rem;
-
-      .docs {
-        font-size: 0.8rem;
-        font-weight: normal;
-      }
-    }
   }
 `);

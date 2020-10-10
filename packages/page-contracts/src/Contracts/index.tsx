@@ -10,7 +10,7 @@ import { Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
-import ContractCard from './Contract';
+import Contract from './Contract';
 import Call from './Call';
 import { getContractForAddress } from './util';
 
@@ -34,8 +34,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
 
   const headerRef = useRef<[string?, string?, number?][]>([
     [t('contracts'), 'start'],
-    [],
-    []
+    [undefined, undefined, 3]
   ]);
 
   const contracts = useMemo(
@@ -68,12 +67,11 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
 
   const _onCall = useCallback(
     (callContractIndex: number) =>
-      (callMessageIndex?: number) =>
-        (): void => {
-          setCallContractIndex(callContractIndex);
-          setCallMessageIndex(callMessageIndex || 0);
-          setIsCallOpen(true);
-        },
+      (callMessageIndex?: number): void => {
+        setCallContractIndex(callContractIndex);
+        setCallMessageIndex(callMessageIndex || 0);
+        setIsCallOpen(true);
+      },
     []
   );
 
@@ -84,7 +82,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
         header={headerRef.current}
       >
         {contracts.map((contract: ApiContract, index): React.ReactNode => (
-          <ContractCard
+          <Contract
             contract={contract}
             key={contract.address.toString()}
             onCall={_onCall(index)}

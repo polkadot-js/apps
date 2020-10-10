@@ -34,7 +34,6 @@ function renderMessages ({ contractAbi, onRemove, onSelectConstructor, withConst
     <Messages
       contractAbi={contractAbi}
       isLabelled={withLabel}
-      isRemovable={false}
       onRemove={onRemove}
       onSelectConstructor={onSelectConstructor}
       withConstructors={withConstructors}

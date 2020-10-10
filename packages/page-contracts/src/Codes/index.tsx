@@ -19,8 +19,7 @@ function Codes ({ onShowDeploy }: Props): React.ReactElement<Props> {
 
   const headerRef = useRef<[string?, string?, number?][]>([
     [t('code hashes'), 'start'],
-    [],
-    []
+    [undefined, undefined, 2]
   ]);
 
   return (
