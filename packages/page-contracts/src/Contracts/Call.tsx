@@ -46,7 +46,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   useEffect((): void => {
     endowment && callMessage.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return callContract.exec(callMessage, endowment, weight, ...params);
+        return callContract.exec(callMessage, callMessage.isPayable ? endowment : 0, weight, ...params);
       } catch (error) {
         return null;
       }
@@ -137,7 +137,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
             />
           </>
         )}
-        {!isViaRpc && (
+        {!isViaRpc && callMessage.isPayable && (
           <InputBalance
             help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isEndowmentValid}
