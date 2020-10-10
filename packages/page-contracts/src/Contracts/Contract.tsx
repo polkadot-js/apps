@@ -5,7 +5,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback } from 'react';
 import keyring from '@polkadot/ui-keyring';
-import { PromiseContract as ApiContract } from '@polkadot/api-contract';
+import { PromiseContract } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -14,27 +14,23 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  contract: ApiContract;
-  onCall: (_?: number) => () => void;
+  contract: PromiseContract;
+  onCall: (index?: number) => void;
 }
 
-function Contract ({ className, contract: { abi, address }, onCall }: Props): React.ReactElement<Props> | null {
+function Contract ({ className, contract, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
 
   const _onForget = useCallback(
     (): void => {
-      if (!address) {
-        return;
-      }
-
       const status: Partial<ActionStatus> = {
-        account: address,
+        account: contract.address,
         action: 'forget'
       };
 
       try {
-        keyring.forgetContract(address.toString());
+        keyring.forgetContract(contract.address.toString());
         status.status = 'success';
         status.message = t<string>('address forgotten');
       } catch (error) {
@@ -44,31 +40,28 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
 
       toggleIsForgetOpen();
     },
-    [address, t, toggleIsForgetOpen]
+    [contract.address, t, toggleIsForgetOpen]
   );
-
-  if (!address || !abi) {
-    return null;
-  }
 
   return (
     <tr className={className}>
       <td className='address top'>
         {isForgetOpen && (
           <Forget
-            address={address.toString()}
+            address={contract.address.toString()}
             key='modal-forget-contract'
             mode='contract'
             onClose={toggleIsForgetOpen}
             onForget={_onForget}
           />
         )}
-        <AddressMini value={address} />
+        <AddressMini value={contract.address} />
       </td>
       <td className='all top'>
         <Messages
-          address={address.toString()}
-          contractAbi={abi}
+          address={contract.address.toString()}
+          contract={contract}
+          contractAbi={contract.abi}
           isWatching
           onSelect={onCall}
           withMessages
@@ -76,7 +69,7 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
       </td>
       <td className='number'>
         <AddressInfo
-          address={address}
+          address={contract.address}
           withBalance
           withBalanceToggle
           withExtended={false}
@@ -90,7 +83,7 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
         <Button
           icon='play'
           label={t<string>('exec')}
-          onClick={onCall()}
+          onClick={onCall}
         />
       </td>
     </tr>
