@@ -75,9 +75,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
 
-      if (withSpinner) {
-        mountedRef.current && setIsSending(true);
-      }
+      mountedRef.current && withSpinner && setIsSending(true);
 
       extrinsics.forEach((extrinsic): void => {
         queueExtrinsic({
