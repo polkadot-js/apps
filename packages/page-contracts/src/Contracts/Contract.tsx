@@ -6,7 +6,7 @@ import { ActionStatus } from '@polkadot/react-components/Status/types';
 import React, { useCallback } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { AddressMini, Button, Forget } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
 import Messages from '../shared/Messages';
@@ -69,9 +69,17 @@ function Contract ({ className, contract: { abi, address }, onCall }: Props): Re
         <Messages
           address={address.toString()}
           contractAbi={abi}
-          isRemovable={false}
+          isWatching
           onSelect={onCall}
           withMessages
+        />
+      </td>
+      <td className='number'>
+        <AddressInfo
+          address={address}
+          withBalance
+          withBalanceToggle
+          withExtended={false}
         />
       </td>
       <td className='button'>

@@ -3,11 +3,12 @@
 
 import { AbiConstructor, AbiMessage } from '@polkadot/api-contract/types';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Abi } from '@polkadot/api-contract';
 import { classes } from '@polkadot/react-components/util';
 import { Button, Expander, IconLink } from '@polkadot/react-components';
+import { useApi } from '@polkadot/react-hooks';
 
 import MessageSignature from './MessageSignature';
 import { useTranslation } from '../translate';
@@ -17,7 +18,8 @@ export interface Props {
   className?: string;
   contractAbi: Abi;
   isLabelled?: boolean;
-  isRemovable: boolean;
+  isRemovable?: boolean;
+  isWatching?: boolean;
   onRemove?: () => void;
   onSelect?: (messageIndex: number) => () => void;
   onSelectConstructor?: (constructorIndex: number) => void;
@@ -118,40 +120,32 @@ function renderItem (props: Props, message: AbiConstructor | AbiMessage, index: 
   );
 }
 
-function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { constructors } } = props;
-
-  if (!constructors[index]) {
-    return null;
-  }
-
-  return renderItem(props, constructors[index], index, true, t);
-}
-
-function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { messages } } = props;
-
-  if (!messages[index]) {
-    return null;
-  }
-
-  return renderItem(props, messages[index], index, false, t);
-}
-
 function Messages (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, onRemove = NOOP, withConstructors, withMessages } = props;
+  const { className = '', contractAbi: { constructors, messages }, isLabelled, isRemovable, isWatching, onRemove = NOOP, withConstructors, withMessages } = props;
+
+  const _onExpander = useCallback(
+    (isOpen: boolean): void => {
+      if (isWatching) {
+        // ignore, for now
+      }
+    },
+    [isWatching]
+  );
 
   return (
     <div className={`ui--Messages ${className} ${isLabelled ? 'labelled' : ''}`}>
       {withConstructors && (
         <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
-          {constructors.map((_, index) => renderConstructor(props, index, t))}
+          {constructors.map((c, index) => renderItem(props, c, index, true, t))}
         </Expander>
       )}
       {withMessages && (
-        <Expander summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}>
-          {messages.map((_, index) => renderMessage(props, index, t))}
+        <Expander
+          onClick={_onExpander}
+          summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}
+        >
+          {messages.map((m, index) => renderItem(props, m, index, false, t))}
         </Expander>
       )}
       {isRemovable && (

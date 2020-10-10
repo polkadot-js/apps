@@ -22,6 +22,7 @@ export interface Props {
   helpIcon?: IconName;
   isOpen?: boolean;
   isPadded?: boolean;
+  onClick?: (isOpen: boolean) => void;
   summary?: React.ReactNode;
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
@@ -56,17 +57,20 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [isExpanded, toggleExpanded] = useToggle(isOpen);
+  const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
+
   const headerMain = useMemo(
     () => summary || formatMeta(summaryMeta),
     [summary, summaryMeta]
   );
+
   const headerSub = useMemo(
     () => summary ? (formatMeta(summaryMeta) || summarySub) : null,
     [summary, summaryMeta, summarySub]
   );
+
   const hasContent = useMemo(
     () => !!children && (!Array.isArray(children) || children.length !== 0),
     [children]
