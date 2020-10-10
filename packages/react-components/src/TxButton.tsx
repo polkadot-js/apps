@@ -6,7 +6,7 @@ import { TxButtonProps as Props } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
-import { useApi } from '@polkadot/react-hooks';
+import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 
 import Button from './Button';
@@ -16,6 +16,7 @@ import { useTranslation } from './translate';
 function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon, isBasic, isBusy, isDisabled, isIcon, isToplevel, isUnsigned, label, onClick, onFailed, onSendRef, onStart, onSuccess, onUpdate, params, tooltip, tx, withSpinner, withoutLink }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
+  const mountedRef = useIsMountedRef();
   const { queueExtrinsic } = useContext(StatusContext);
   const [isSending, setIsSending] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
@@ -27,25 +28,27 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
   const _onFailed = useCallback(
     (result: SubmittableResult | null): void => {
-      setIsSending(false);
+      mountedRef.current && setIsSending(false);
 
       onFailed && onFailed(result);
     },
-    [onFailed, setIsSending]
+    [onFailed, setIsSending, mountedRef]
   );
 
   const _onSuccess = useCallback(
     (result: SubmittableResult): void => {
-      setIsSending(false);
+      mountedRef.current && setIsSending(false);
 
       onSuccess && onSuccess(result);
     },
-    [onSuccess, setIsSending]
+    [onSuccess, setIsSending, mountedRef]
   );
 
   const _onStart = useCallback(
-    () => setIsStarted(true),
-    [setIsStarted]
+    (): void => {
+      mountedRef.current && setIsStarted(true);
+    },
+    [setIsStarted, mountedRef]
   );
 
   const _onSend = useCallback(
@@ -72,9 +75,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       assert(extrinsics?.length, 'Expected generated extrinsic passed to TxButton');
 
-      if (withSpinner) {
-        setIsSending(true);
-      }
+      mountedRef.current && withSpinner && setIsSending(true);
 
       extrinsics.forEach((extrinsic): void => {
         queueExtrinsic({
@@ -90,7 +91,7 @@ function TxButton ({ accountId, className = '', extrinsic: propsExtrinsic, icon,
 
       onClick && onClick();
     },
-    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner]
+    [_onFailed, _onStart, _onSuccess, accountId, api.tx, isUnsigned, onClick, onFailed, onSuccess, onUpdate, params, propsExtrinsic, queueExtrinsic, setIsSending, tx, withSpinner, mountedRef]
   );
 
   if (onSendRef) {
