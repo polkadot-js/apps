@@ -13,8 +13,9 @@ interface Props {
   contractAbi?: Abi | null;
   errorText?: string | null;
   isContract?: boolean;
-  isError?: boolean;
   isDisabled?: boolean;
+  isError?: boolean;
+  isFull?: boolean;
   isRequired?: boolean;
   isValid?: boolean;
   isSupplied?: boolean;
@@ -43,7 +44,7 @@ function renderMessages ({ contractAbi, onRemove, onSelectConstructor, withConst
 }
 
 function ABI (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi, errorText, isContract = false, isDisabled, isError, isSupplied, isValid, onChange, withLabel } = props;
+  const { className, contractAbi, errorText, isContract = false, isDisabled, isError, isFull, isSupplied, isValid, onChange, withLabel } = props;
   const { t } = useTranslation();
 
   const help = isContract
@@ -74,7 +75,7 @@ function ABI (props: Props): React.ReactElement<Props> {
               help={help}
               isDisabled={isDisabled}
               isError={isError}
-              isFull
+              isFull={isFull}
               label={label}
               onChange={onChange}
               placeholder={
