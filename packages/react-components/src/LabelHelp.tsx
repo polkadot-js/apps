@@ -45,4 +45,5 @@ export default React.memo(styled(LabelHelp)`
   display: inline-block;
   line-height: 1rem;
   margin: 0 0 0 0.25rem;
+  color: var(--grey50);
 `);
