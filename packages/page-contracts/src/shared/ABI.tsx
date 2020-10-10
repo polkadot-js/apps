@@ -74,6 +74,7 @@ function ABI (props: Props): React.ReactElement<Props> {
               help={help}
               isDisabled={isDisabled}
               isError={isError}
+              isFull
               label={label}
               onChange={onChange}
               placeholder={

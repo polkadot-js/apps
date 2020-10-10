@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractCallOutcome } from '@polkadot/api-contract/types';
+import { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -29,6 +29,18 @@ export interface Props {
 
 const NOOP = (): void => undefined;
 const READ_ADDR = '0x'.padEnd(66, '0');
+
+function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
+  return messages
+    .map((m, index): [AbiMessage, number] => [m, index])
+    .sort((a, b) => a[0].identifier.localeCompare(b[0].identifier))
+    .sort((a, b) => a[0].isMutating === b[0].isMutating
+      ? 0
+      : a[0].isMutating
+        ? -1
+        : 1
+    );
+}
 
 function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isRemovable, isWatching, onRemove = NOOP, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -61,7 +73,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
     <div className={`ui--Messages ${className} ${isLabelled ? 'labelled' : ''}`}>
       {withConstructors && (
         <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
-          {constructors.map((message, index) => (
+          {sortMessages(constructors).map(([message, index]) => (
             <Message
               index={index}
               key={index}
@@ -74,9 +86,9 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
       {withMessages && (
         <Expander
           onClick={_onExpander}
-          summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}
+          summary={t<string>('Messages ({{count}})', { replace: { count: messages.length } })}
         >
-          {messages.map((message, index) => (
+          {sortMessages(messages).map(([message, index]) => (
             <Message
               index={index}
               key={index}
