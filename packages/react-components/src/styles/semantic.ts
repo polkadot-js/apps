@@ -21,7 +21,7 @@ export default css`
     border-radius: 0.1875rem;
     font-family: var(--default-font-family, sans-serif);
     font-weight: normal;
-    padding: 0.375rem 0.75rem;
+    padding: 0.5rem 1rem;
     font-weight: normal;
     transition: all .1s ease;
   }

@@ -53,7 +53,7 @@ export default css`
     .ui.button,
     .ui.buttons .button {
       background-color: transparent;
-      color: var(--white);
+      color: var(--grey80);
 
       &.dropdown {
         border: none !important;
