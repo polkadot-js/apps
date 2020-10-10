@@ -10,7 +10,7 @@ import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useFormField } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
@@ -33,7 +33,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   const callMessage = callContract.abi.messages[callMessageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
-  const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>([]);
@@ -105,7 +104,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
         <InputAddress
           defaultValue={accountId}
           help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
-          isDisabled={isBusy}
           label={t<string>('call from account')}
           onChange={setAccountId}
           type='account'
@@ -113,7 +111,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
         />
         <InputAddress
           help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
-          isDisabled={isBusy}
           label={t<string>('contract to use')}
           onChange={onChangeCallContractAddress}
           type='contract'
@@ -124,7 +121,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
             <Dropdown
               defaultValue={`${callMessageIndex}`}
               help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
-              isDisabled={isBusy}
               isError={callMessage === null}
               label={t<string>('message to send')}
               onChange={_onChangeCallMessageIndexString}
@@ -132,7 +128,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
               value={`${callMessageIndex}`}
             />
             <Params
-              isDisabled={isBusy}
               onChange={setParams}
               params={
                 callMessage
@@ -145,7 +140,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
         {!isViaRpc && (
           <InputBalance
             help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
-            isDisabled={isBusy}
             isError={!isEndowmentValid}
             isZeroable
             label={t<string>('value')}
@@ -198,9 +192,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
               icon='sign-in-alt'
               isDisabled={!isValid}
               label={t('Execute')}
-              onClick={(): void => setIsBusy(true)}
-              onFailed={(): void => setIsBusy(false)}
-              onSuccess={(): void => setIsBusy(false)}
               withSpinner
             />
           )

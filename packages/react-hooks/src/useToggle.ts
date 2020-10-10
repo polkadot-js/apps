@@ -3,13 +3,25 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
+import useIsMountedRef from './useIsMountedRef';
+
 // Simple wrapper for a true/false toggle
 export default function useToggle (defaultValue = false, onToggle?: (isActive: boolean) => void): [boolean, () => void, (value: boolean) => void] {
+  const mountedRef = useIsMountedRef();
   const [isActive, setActive] = useState(defaultValue);
 
-  const toggleActive = useCallback(
-    () => setActive((isActive: boolean) => !isActive),
-    []
+  const _toggleActive = useCallback(
+    (): void => {
+      mountedRef.current && setActive((isActive) => !isActive);
+    },
+    [mountedRef]
+  );
+
+  const _setActive = useCallback(
+    (isActive: boolean): void => {
+      mountedRef.current && setActive(isActive);
+    },
+    [mountedRef]
   );
 
   useEffect(
@@ -17,5 +29,5 @@ export default function useToggle (defaultValue = false, onToggle?: (isActive: b
     [isActive, onToggle]
   );
 
-  return [isActive, toggleActive, setActive];
+  return [isActive, _toggleActive, _setActive];
 }
