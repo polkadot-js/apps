@@ -10,7 +10,7 @@ import { useTranslation } from '../translate';
 import Code from './Code';
 
 interface Props {
-  onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
+  onShowDeploy: (codeHash: string, constructorIndex: number) => void;
   updated: number;
 }
 
@@ -27,15 +27,13 @@ function Codes ({ onShowDeploy }: Props): React.ReactElement<Props> {
       empty={t<string>('No code hashes available')}
       header={headerRef.current}
     >
-      {contracts.getAllCode().map((code): React.ReactNode => {
-        return (
-          <Code
-            code={code}
-            key={code.json.codeHash}
-            onShowDeploy={onShowDeploy}
-          />
-        );
-      })}
+      {contracts.getAllCode().map((code): React.ReactNode => (
+        <Code
+          code={code}
+          key={code.json.codeHash}
+          onShowDeploy={onShowDeploy}
+        />
+      ))}
     </Table>
   );
 }

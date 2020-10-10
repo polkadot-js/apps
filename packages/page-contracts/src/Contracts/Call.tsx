@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { StringOrNull } from '@polkadot/react-components/types';
 
@@ -35,6 +36,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [isBusy, , setIsBusy] = useToggle();
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
+  const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>(callMessage ? callMessage.args.map(({ type }) => createValue({ type })) : []);
   const useWeightHook = useWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
@@ -46,8 +48,10 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   }, [callContract, callMessageIndex]);
 
   useEffect((): void => {
-    setOutcomes([]);
-  }, [callContract]);
+    endowment && callContract.hasRpcContractsCall && callMessage.isMutating && setExecTx(
+      () => callContract.exec(callMessage, endowment, weight, ...params)
+    );
+  }, [accountId, callContract, callMessage, endowment, weight, params]);
 
   const _onChangeCallMessageIndexString = useCallback(
     (callMessageIndexString: string): void => {
@@ -56,17 +60,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
       );
     },
     [onChangeCallMessageIndex]
-  );
-
-  const _constructTx = useCallback(
-    (): unknown[] => {
-      if (!accountId || !callMessage || !callContract.address) {
-        return [];
-      }
-
-      return [callContract.address.toString(), endowment, weight, callMessage(...params)];
-    },
-    [accountId, callContract, callMessage, endowment, weight, params]
   );
 
   const _onSubmitRpc = useCallback(
@@ -108,68 +101,64 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
       onClose={onClose}
     >
       <Modal.Content>
-        {callContract && (
-          <div className='contracts--CallControls'>
-            <InputAddress
-              defaultValue={accountId}
-              help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
-              isDisabled={isBusy}
-              label={t<string>('call from account')}
-              onChange={setAccountId}
-              type='account'
-              value={accountId}
-            />
-            <InputAddress
-              help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
-              isDisabled={isBusy}
-              label={t<string>('contract to use')}
-              onChange={onChangeCallContractAddress}
-              type='contract'
-              value={callContract.address.toString()}
-            />
-            {callMessageIndex !== null && (
-              <>
-                <Dropdown
-                  defaultValue={`${callMessageIndex}`}
-                  help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
-                  isDisabled={isBusy}
-                  isError={callMessage === null}
-                  label={t<string>('message to send')}
-                  onChange={_onChangeCallMessageIndexString}
-                  options={getCallMessageOptions(callContract)}
-                  value={`${callMessageIndex}`}
-                />
-                <Params
-                  isDisabled={isBusy}
-                  onChange={setParams}
-                  params={
-                    callMessage
-                      ? callMessage.args
-                      : undefined
-                  }
-                />
-              </>
-            )}
-            {!isViaRpc && (
-              <InputBalance
-                help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
-                isDisabled={isBusy}
-                isError={!isEndowmentValid}
-                isZeroable
-                label={t<string>('value')}
-                onChange={setEndowment}
-                value={endowment}
-              />
-            )}
-            <InputMegaGas
-              help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-              label={t<string>('maximum gas allowed')}
-              {...useWeightHook}
-            />
-          </div>
-        )}
-        {outcomes.length > 0 && (
+        <InputAddress
+          defaultValue={accountId}
+          help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
+          isDisabled={isBusy}
+          label={t<string>('call from account')}
+          onChange={setAccountId}
+          type='account'
+          value={accountId}
+        />
+        <InputAddress
+          help={t<string>('A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.')}
+          isDisabled={isBusy}
+          label={t<string>('contract to use')}
+          onChange={onChangeCallContractAddress}
+          type='contract'
+          value={callContract.address.toString()}
+        />
+        {callMessageIndex !== null && (
           <>
+            <Dropdown
+              defaultValue={`${callMessageIndex}`}
+              help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
+              isDisabled={isBusy}
+              isError={callMessage === null}
+              label={t<string>('message to send')}
+              onChange={_onChangeCallMessageIndexString}
+              options={getCallMessageOptions(callContract)}
+              value={`${callMessageIndex}`}
+            />
+            <Params
+              isDisabled={isBusy}
+              onChange={setParams}
+              params={
+                callMessage
+                  ? callMessage.args
+                  : undefined
+              }
+            />
+          </>
+        )}
+        {!isViaRpc && (
+          <InputBalance
+            help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
+            isDisabled={isBusy}
+            isError={!isEndowmentValid}
+            isZeroable
+            label={t<string>('value')}
+            onChange={setEndowment}
+            value={endowment}
+          />
+        )}
+        <InputMegaGas
+          help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+          label={t<string>('maximum gas allowed')}
+          {...useWeightHook}
+        />
+        {outcomes.length > 0 && (
+          <div>
             <h3>
               {t<string>('Call results')}
               <IconLink
@@ -188,7 +177,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
                 />
               ))}
             </div>
-          </>
+          </div>
         )}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
@@ -204,14 +193,13 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
           : (
             <TxButton
               accountId={accountId}
+              extrinsic={execTx}
               icon='sign-in-alt'
               isDisabled={!isValid}
               label={t('Execute')}
               onClick={(): void => setIsBusy(true)}
               onFailed={(): void => setIsBusy(false)}
               onSuccess={(): void => setIsBusy(false)}
-              params={_constructTx}
-              tx='contracts.call'
               withSpinner
             />
           )
