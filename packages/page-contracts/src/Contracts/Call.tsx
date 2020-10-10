@@ -46,8 +46,6 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
   }, [callContract, callMessageIndex]);
 
   useEffect((): void => {
-    console.error(params);
-
     endowment && callMessage.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
         return callContract.exec(callMessage, endowment, weight, ...params);
