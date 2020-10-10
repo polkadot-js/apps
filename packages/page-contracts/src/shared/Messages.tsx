@@ -74,7 +74,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
       {withMessages && (
         <Expander
           onClick={_onExpander}
-          summary={t<string>('Messages ({{count}})', { replace: { count: constructors.length } })}
+          summary={t<string>('Messages ({{count}})', { replace: { count: messages.length } })}
         >
           {messages.map((message, index) => (
             <Message

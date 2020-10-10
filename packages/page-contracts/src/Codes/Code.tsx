@@ -104,11 +104,13 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           icon='trash'
           onClick={toggleIsForgetOpen}
         />
-        <Button
-          icon='upload'
-          label={t('deploy')}
-          onClick={_onShowDeploy}
-        />
+        {!contractAbi && (
+          <Button
+            icon='upload'
+            label={t('deploy')}
+            onClick={_onShowDeploy}
+          />
+        )}
       </td>
     </tr>
   );

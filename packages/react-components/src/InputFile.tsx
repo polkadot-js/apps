@@ -8,7 +8,6 @@ import Dropzone, { DropzoneRef } from 'react-dropzone';
 import styled from 'styled-components';
 import { formatNumber, isHex, u8aToString, hexToU8a } from '@polkadot/util';
 
-import { classes } from './util';
 import Labelled from './Labelled';
 import { useTranslation } from './translate';
 
@@ -21,6 +20,7 @@ export interface InputFileProps {
   help?: React.ReactNode;
   isDisabled?: boolean;
   isError?: boolean;
+  isFull?: boolean;
   label: React.ReactNode;
   onChange?: (contents: Uint8Array, name: string) => void;
   placeholder?: React.ReactNode | null;
@@ -57,7 +57,7 @@ function convertResult (result: ArrayBuffer): Uint8Array {
   return data;
 }
 
-function InputFile ({ accept, className = '', clearContent, help, isDisabled, isError = false, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
+function InputFile ({ accept, className = '', clearContent, help, isDisabled, isError = false, isFull, label, onChange, placeholder, withEllipsis, withLabel }: InputFileProps): React.ReactElement<InputFileProps> {
   const { t } = useTranslation();
   const dropRef = createRef<DropzoneRef>();
   const [file, setFile] = useState<FileState | undefined>();
@@ -98,7 +98,7 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
       ref={dropRef}
     >
       {({ getInputProps, getRootProps }): JSX.Element => (
-        <div {...getRootProps({ className: classes('ui--InputFile', isError ? 'error' : '', className) })} >
+        <div {...getRootProps({ className: `ui--InputFile${isError ? ' error' : ''} ${className}` })} >
           <input {...getInputProps()} />
           <em className='label' >
             {
@@ -121,6 +121,7 @@ function InputFile ({ accept, className = '', clearContent, help, isDisabled, is
     ? (
       <Labelled
         help={help}
+        isFull={isFull}
         label={label}
         withEllipsis={withEllipsis}
         withLabel={withLabel}

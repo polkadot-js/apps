@@ -80,11 +80,13 @@ function Contract ({ className, contract, onCall }: Props): React.ReactElement<P
           icon='trash'
           onClick={toggleIsForgetOpen}
         />
-        <Button
-          icon='play'
-          label={t<string>('exec')}
-          onClick={onCall}
-        />
+        {!contract.abi && (
+          <Button
+            icon='play'
+            label={t<string>('exec')}
+            onClick={onCall}
+          />
+        )}
       </td>
     </tr>
   );

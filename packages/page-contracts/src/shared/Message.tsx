@@ -46,8 +46,6 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
     [index, onSelect]
   );
 
-  console.log(lastResult, lastResult?.output, lastResult?.output?.toHuman());
-
   return (
     <div
       className={`${className} ${!onSelect ? 'exempt-hover' : ''} ${message.isConstructor ? 'constructor' : ''}`}
@@ -67,6 +65,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             <Button
               className='accessory'
               icon='play'
+              isDisabled={lastResult?.isSuccess}
               label={message.isMutating ? t<string>('exec') : t<string>('read')}
               onClick={_onSelect}
             />
@@ -87,7 +86,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
           }
         </div>
       </div>
-      {lastResult && lastResult.output && (
+      {lastResult && lastResult.isSuccess && lastResult.output && (
         <Output
           className='result'
           isFull
