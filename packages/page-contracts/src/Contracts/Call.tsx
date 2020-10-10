@@ -10,7 +10,7 @@ import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, IconLink, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
-import { useAccountId, useApi, useFormField, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
@@ -30,7 +30,6 @@ interface Props {
 
 function Call ({ callContract, callMessageIndex, className = '', onChangeCallContractAddress, onChangeCallMessageIndex, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { api } = useApi();
   const callMessage = callContract.abi.messages[callMessageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
@@ -53,7 +52,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
         return null;
       }
     });
-  }, [api, accountId, callContract, callMessage, endowment, weight, params]);
+  }, [accountId, callContract, callMessage, endowment, weight, params]);
 
   const _onChangeCallMessageIndexString = useCallback(
     (callMessageIndexString: string): void => {
