@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { CodecArg } from '@polkadot/types/types';
 import { CodeStored } from './types';
@@ -21,16 +21,13 @@ import useAbi from './useAbi';
 import useWeight from './useWeight';
 import { ENDOWMENT } from './constants';
 
-type CodeOptions = { text: string; value: string }[];
 type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
 
 interface Props {
   basePath: string;
-  allCodes: CodeStored[];
   codeHash: string;
   constructorIndex?: number;
-  onClose: VoidFn;
-  setCodeHash: React.Dispatch<string>;
+  onClose: () => void;
   setConstructorIndex: React.Dispatch<number>;
 }
 
@@ -38,7 +35,7 @@ function defaultContractName (name: string) {
   return `${name} (instance)`;
 }
 
-function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, onClose, setCodeHash, setConstructorIndex }: Props): React.ReactElement<Props> {
+function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const history = useHistory();
@@ -52,18 +49,11 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, onClose, 
   const [accountId, isAccountIdValid, setAccountId] = useFormField<StringOrNull>(null);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(new BN(ENDOWMENT));
   const [name, isNameValid, setName] = useNonEmptyString(t(defaultContractName(code.json.name)));
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
+  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], codeHash, true);
 
   const isValid = useMemo(
-    (): boolean => isNameValid && isEndowmentValid && isWeightValid && isAccountIdValid,
+    () => isNameValid && isEndowmentValid && isWeightValid && isAccountIdValid,
     [isAccountIdValid, isEndowmentValid, isNameValid, isWeightValid]
-  );
-  const codeOptions = useMemo(
-    (): CodeOptions => allCodes.map(({ json: { codeHash, name } }): { text: string; value: string } => ({
-      text: `${name} (${codeHash})`,
-      value: codeHash
-    })),
-    [allCodes]
   );
 
   const constructOptions = useMemo(
@@ -146,18 +136,6 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, onClose, 
           onChange={setAccountId}
           type='account'
           value={accountId}
-        />
-        <Dropdown
-          defaultValue={
-            codeOptions.length
-              ? codeOptions[codeOptions.length - 1].value
-              : undefined
-          }
-          help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
-          label={t('code for this contract')}
-          onChange={setCodeHash}
-          options={codeOptions}
-          value={codeHash}
         />
         <InputName
           isContract

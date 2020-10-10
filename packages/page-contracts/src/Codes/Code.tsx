@@ -16,41 +16,38 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   code: CodeStored;
-  onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
+  onShowDeploy: (codeHash: string, constructorIndex: number) => void;
 }
 
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
-  const { json: { codeHash } } = code;
   const { t } = useTranslation();
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
   const [isRemoveABIOpen, toggleIsRemoveABIOpen] = useToggle();
-  const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
+  const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 
   const _onShowDeploy = useCallback(
-    () => onShowDeploy(codeHash)(),
-    [codeHash, onShowDeploy]
+    () => onShowDeploy(code.json.codeHash, 0),
+    [code, onShowDeploy]
   );
 
   const _onDeployConstructor = useCallback(
-    (constructorIndex = 0) => codeHash && onShowDeploy && onShowDeploy(codeHash, constructorIndex)(),
-    [codeHash, onShowDeploy]
+    (constructorIndex = 0): void => {
+      onShowDeploy && onShowDeploy(code.json.codeHash, constructorIndex);
+    },
+    [code, onShowDeploy]
   );
 
   const _onForget = useCallback(
     (): void => {
-      if (!codeHash) {
-        return;
-      }
-
       try {
-        store.forgetCode(codeHash);
+        store.forgetCode(code.json.codeHash);
       } catch (error) {
         console.error(error);
       } finally {
         toggleIsForgetOpen();
       }
     },
-    [codeHash, toggleIsForgetOpen]
+    [code, toggleIsForgetOpen]
   );
 
   return (

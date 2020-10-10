@@ -40,12 +40,11 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   ]);
 
   const _onShowDeploy = useCallback(
-    (codeHash?: string, constructorIndex = 0): () => void =>
-      (): void => {
-        setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
-        setConstructorIndex(constructorIndex);
-        toggleDeploy();
-      },
+    (codeHash: string, constructorIndex: number): void => {
+      setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
+      setConstructorIndex(constructorIndex);
+      toggleDeploy();
+    },
     [allCodes, toggleDeploy]
   );
 
@@ -93,12 +92,6 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           label={t('Add an existing code hash')}
           onClick={toggleHash}
         />
-        {/* <Button
-          icon='upload'
-          isDisabled={!store.hasCode}
-          label={t('Deploy code hash')}
-          onClick={_onShowDeploy()}
-        /> */}
         <Button
           icon='plus'
           label={t('Add an existing contract')}
@@ -116,12 +109,10 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
       />
       {codeHash && isDeployOpen && (
         <Deploy
-          allCodes={allCodes}
           basePath={basePath}
           codeHash={codeHash}
           constructorIndex={constructorIndex}
           onClose={_onCloseDeploy}
-          setCodeHash={setCodeHash}
           setConstructorIndex={setConstructorIndex}
         />
       )}
