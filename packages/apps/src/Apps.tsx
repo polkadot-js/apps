@@ -103,20 +103,24 @@ export default React.memo(styled(Apps)`
   &.theme--default {
     a.apps--SideBar-Item-NavLink {
       border-radius: 0.25rem;
-      color: var(--grey70);
+      color: var(--grey60);
       display: block;
-      margin: 0 0 0.24rem;
       padding: 0.5rem 0.5rem;
       white-space: nowrap;
 
       i.icon {
         float: right;
+        color: var(--grey50);
       }
 
       &:hover {
         background: var(--grey40);
         border-radius: var(--btn-radius-default);
         color: var(--grey80);
+        
+        i.icon {
+        color: var(--grey80);
+      }
       }
     }
 
@@ -125,7 +129,11 @@ export default React.memo(styled(Apps)`
       border-radius: 4px;
       /* border-bottom: 2px solid transparent; */
       color: var(--grey80);
-      font-weight: bold;
+      font-weight: 600;
+
+      i.icon {
+        color: var(--grey80);
+      }
 
       &:hover {
         background: var(--grey40);

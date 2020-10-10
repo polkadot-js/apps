@@ -126,7 +126,7 @@ export default React.memo(styled(SideBar)`
       width: inherit;
 
       &:not(:last-child) {
-        margin-bottom: 0.9rem;
+        margin-bottom: 0.75rem;
       }
 
       .ui--Badge {
