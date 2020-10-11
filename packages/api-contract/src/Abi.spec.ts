@@ -1,20 +1,19 @@
-// Copyright 2017-2020 @canvas-ui/api-contract authors & contributors
+// Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeRegistry } from '@polkadot/types';
-import { TestContracts } from './types';
 
-import InkAbi from './InkAbi';
+import Abi from './Abi';
 
 import * as testContracts from '../test/contracts';
 
-const abis: Record<TestContracts, any> = { ...testContracts };
+const abis: Record<string, any> = { ...testContracts };
 
-function compare (name: TestContracts, registry: TypeRegistry, messageIds: string[]): void {
+function compare (name: string, registry: TypeRegistry, messageIds: string[]): void {
   try {
-    const inkAbi = new InkAbi(registry, abis[name]);
+    const inkAbi = new Abi(registry, abis[name]);
 
-    expect(inkAbi.messages.map(({ identifier }): string => identifier)).toEqual(messageIds);
+    expect(inkAbi.messages.map(({ identifier }) => identifier)).toEqual(messageIds);
   } catch (error) {
     console.error(error);
 
@@ -22,7 +21,7 @@ function compare (name: TestContracts, registry: TypeRegistry, messageIds: strin
   }
 }
 
-describe('InkAbi', (): void => {
+describe('Abi', (): void => {
   describe('construction', (): void => {
     const registry = new TypeRegistry();
 

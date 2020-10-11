@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { Codec, TypeDef } from '@polkadot/types/types';
 import { BareProps } from './types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import AddressSmall from './AddressMini';
 import CopyButton from './CopyButton';
 import Data from './Data';
 import Icon from './Icon';
@@ -29,7 +28,7 @@ interface Props extends BareProps {
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', help, isError, isFull, isHidden, isTrimmed, label, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}

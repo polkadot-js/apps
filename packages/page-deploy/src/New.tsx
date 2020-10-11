@@ -77,7 +77,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
     [accountId, isEndowmentValid, isNameValid, isWeightValid]
   );
 
-  const [params, values, setValues] = useTxParams(abi?.constructors[constructorIndex].args || []);
+  const [params, values = [], setValues] = useTxParams(abi?.constructors[constructorIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return abi?.constructors[constructorIndex]
       ? abi.constructors[constructorIndex](...extractValues(values || [])) as unknown as Uint8Array

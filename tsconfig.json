@@ -42,6 +42,7 @@
       "@polkadot/types/*": ["packages/types/src/*"],
       "@polkadot/types": ["packages/types/src"],
     },
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "typeRoots": [
       "./node_modules/@polkadot/ts",

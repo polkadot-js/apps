@@ -1,14 +1,12 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, Codec, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { AnyJson, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { BareProps } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { isUndefined, isNull } from '@polkadot/util';
-import { formatData } from '@canvas-ui/api-contract/util';
-import { useApi, useCodec } from '@canvas-ui/react-hooks';
+import { useCodec } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import { Option } from '@polkadot/types';
 
@@ -37,11 +35,14 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
 }
 
 // function isCodec (value: Codec | AnyJson): value is Codec {
-  
+
 // }
 
 function Data ({ className, type, value }: Props): React.ReactElement<Props> | null {
   const [codec] = useCodec(value, type);
+
+  console.log(value);
+  console.log(codec.toString());
 
   const content = useMemo(
     (): React.ReactNode => {

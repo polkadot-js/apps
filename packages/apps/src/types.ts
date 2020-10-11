@@ -6,8 +6,6 @@ import { BareProps } from '@canvas-ui/react-components/types';
 import { VoidFn } from '@canvas-ui/react-util/types';
 import { AnyJson } from '@polkadot/types/types';
 
-import { InkAbi } from '@canvas-ui/api-contract';
-
 export interface AppNavigation {
   deploy: VoidFn;
   deployNew: (_: string, __?: number) => VoidFn;

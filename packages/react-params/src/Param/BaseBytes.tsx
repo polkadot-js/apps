@@ -79,6 +79,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
 
   useEffect((): void => {
     _onChange(defaultValue?.toString() || '');
+    /* eslint-disable-next-line */
   }, []);
 
   return (

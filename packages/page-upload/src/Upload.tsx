@@ -12,7 +12,7 @@ import { Button, InputABI, InputAddress, InputFile, Input, TxButton } from '@can
 import PendingTx from '@canvas-ui/react-components/PendingTx';
 import { useAccountId, useAbi, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
-import { compactAddLength, isNull, u8aToHex } from '@polkadot/util';
+import { compactAddLength, isNull } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 

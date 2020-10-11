@@ -1,18 +1,14 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps } from './types';
-
 import React from 'react';
-import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
-// import { useToggle } from '@canvas-ui/react-hooks';
 
-// import Button from './Button';
 import Input from './Input';
 
-interface Props extends BareProps {
+interface Props {
   autoFocus?: boolean;
   children?: React.ReactNode;
+  className?: string;
   defaultValue?: string;
   help?: string;
   isDisabled?: boolean;
@@ -30,8 +26,6 @@ interface Props extends BareProps {
 }
 
 function Password ({ autoFocus, children, className = '', defaultValue, help, isDisabled, isError, isFull, label, labelExtra, name, onChange, onEnter, onEscape, tabIndex, value, withLabel }: Props): React.ReactElement<Props> {
-  // const [isVisible, toggleVisible] = useToggle();
-
   return (
     <Input
       autoFocus={autoFocus}
@@ -43,29 +37,15 @@ function Password ({ autoFocus, children, className = '', defaultValue, help, is
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
-      maxLength={MAX_PASS_LEN}
       name={name}
       onChange={onChange}
       onEnter={onEnter}
       onEscape={onEscape}
       tabIndex={tabIndex}
-      // type={
-      //   isVisible
-      //     ? 'text'
-      //     : 'password'
-      // }
       type='password'
       value={value}
       withLabel={withLabel}
     >
-      {/* <Button
-        icon={
-          isVisible
-            ? 'hide'
-            : 'unhide'
-        }
-        onClick={toggleVisible}
-      /> */}
       {children}
     </Input>
   );

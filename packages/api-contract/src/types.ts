@@ -1,62 +1,45 @@
-// Copyright 2017-2020 @canvas-ui/api-contract authors & contributors
+// Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
+import { ApiTypes } from '@polkadot/api/types';
 import { AccountId, Address, ContractExecResult } from '@polkadot/types/interfaces';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Codec, CodecArg } from '@polkadot/types/types';
-import { TypeDef } from '@polkadot/types/create/types';
+import { Codec, CodecArg, TypeDef } from '@polkadot/types/types';
 
 import { ApiPromise, ApiRx } from '@polkadot/api';
-import InkAbi from './InkAbi';
-
-// I give up, too hard to untangle atm... and is basically deprecated
-/* eslint-disable no-use-before-define */
-
-export type TestContracts = 'flipper' | 'incrementer' | 'erc20' | 'delegator' | 'dns' | 'erc721' | 'multisigPlain';
+import Abi from './Abi';
 
 export type ApiObject<ApiType extends ApiTypes> = ApiType extends 'rxjs'
   ? ApiRx
   : ApiPromise;
 
 export interface ContractBase<ApiType extends ApiTypes> {
-  readonly abi: InkAbi;
+  readonly abi: Abi;
   readonly api: ApiObject<ApiType>;
-  readonly decorateMethod: DecorateMethod<ApiType>;
-  getMessage: (name: string) => InkMessage;
-  messages: InkMessage[];
+
+  getMessage: (name: string) => AbiMessage;
+  messages: AbiMessage[];
 }
 
-export interface InkType {
-  displayName?: string;
-  type: TypeDef;
-}
-
-export interface InkMessageParam {
+export interface AbiMessageParam {
   name: string;
   type: TypeDef;
 }
 
-export interface InkMessageBase {
-  args: InkMessageParam[];
+export interface AbiMessage {
+  args: AbiMessageParam[];
   docs: string[];
   identifier: string;
-  selector: string;
+  index: number;
   isConstructor?: boolean;
+  isMutating?: boolean;
+  isPayable?: boolean;
+  returnType?: TypeDef | null;
+  selector: string;
+
   (...args: CodecArg[]): Uint8Array;
 }
 
-export type InkConstructor = InkMessageBase;
-
-export interface InkMessage extends InkMessageBase {
-  mutates: boolean;
-  payable: boolean;
-  returnType: InkType | null;
-}
-
-export type InkConstructors = InkMessage[];
-
-export type InkMessages = InkMessage[];
+export type AbiConstructor = AbiMessage;
 
 export interface InterfaceContractCalls {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -69,12 +52,12 @@ export interface InterfaceContract {
 }
 
 export interface ContractCallOutcome {
-  time: number;
-  result: ContractExecResult;
+  isSuccess: boolean;
+  message: AbiMessage;
   origin: AccountId;
   output: Codec | null;
   params: any[];
-  isSuccess: boolean;
-  message: InkMessage;
+  result: ContractExecResult;
+  time: number;
   type: TypeDef | null;
 }

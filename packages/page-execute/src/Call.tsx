@@ -46,6 +46,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   const [messageIndex, setMessageIndex] = useState(parseInt(pageParams.messageIndex || '0', 10));
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
+
   const [contract, hasRpc] = useMemo(
     (): [Contract | null, boolean] => {
       try {
@@ -62,8 +63,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     [api, pageParams.address]
   );
 
-  // const [message, setMessage] = useState<InkMessage | null>(contract?.abi.messages[messageIndex] || null);
-  const [params, values, setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
+  const [params, values = [], setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return contract?.abi?.messages[messageIndex]
       ? contract.abi.messages[messageIndex](...extractValues(values || [])) as unknown as Uint8Array
@@ -75,7 +75,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       const newMessage = contract?.abi?.messages[messageIndex] || null;
 
       if (hasRpc) {
-        if (!newMessage || newMessage.mutates) {
+        if (!newMessage || newMessage.isMutating) {
           setUseRpc(false);
         } else {
           setUseRpc(true);
@@ -107,7 +107,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   const [accountId, setAccountId] = useAccountId();
   const [endowment, setEndowment, isEndowmentValid, isEndowmentError] = useFormField<BN>(BN_ZERO);
-  const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].mutates);
+  const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].isMutating);
   const useWeightHook = useGasWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
@@ -147,7 +147,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       if (!accountId || !contract || !endowment || !weight) return;
 
       !!contract && contract
-        .call('rpc', messageIndex, endowment, weight, ...extractValues(values))
+        .read(messageIndex, 0, weight, ...extractValues(values))
         .send(accountId)
         .then(
           (outcome: ContractCallOutcome): void => {

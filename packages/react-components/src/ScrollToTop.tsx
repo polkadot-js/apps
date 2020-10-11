@@ -17,6 +17,7 @@ function ScrollToTop ({ history }: RouteComponentProps): React.ReactElement {
     return () => {
       unlisten();
     };
+  /* eslint-disable-next-line */
   }, []);
 
   return <></>;

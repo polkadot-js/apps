@@ -6,7 +6,6 @@ import { BareProps } from './types';
 import React from 'react';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader/Loader';
 import styled from 'styled-components';
-import { classes } from '@canvas-ui/react-util';
 
 import { useTranslation } from './translate';
 

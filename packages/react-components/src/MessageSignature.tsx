@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkMessage } from '@canvas-ui/api-contract/types';
+import { AbiMessage } from '@canvas-ui/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 import { CodecArg } from '@polkadot/types/types';
 
@@ -16,12 +16,12 @@ import { useTranslation } from './translate';
 import { classes } from '@canvas-ui/react-util';
 
 export interface Props extends BareProps {
-  message: InkMessage;
+  message: AbiMessage;
   params?: CodecArg[];
   withTooltip?: boolean;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, mutates, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -48,7 +48,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           {' '}
           <span className='ui--MessageSignature-returnType'>
             {encodeTypeDef({
-              ...returnType.type,
+              ...returnType,
               ...(
                 (returnType.displayName || '').length > 0
                   ? { displayName: returnType.displayName }
@@ -58,7 +58,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           </span>
         </>
       )}
-      {mutates && (
+      {isMutating && (
         <>
           <Icon
             className='ui--MessageSignature-mutates'

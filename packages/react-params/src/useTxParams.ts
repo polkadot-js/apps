@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeDef } from '@polkadot/types/types';
-import { ParamDef, RawParams, UseTxParams, UseTxParamsHook } from './types';
+import { RawParams, UseTxParamsHook } from './types';
 
-import BN from 'bn.js';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { BN_ZERO } from '@polkadot/util';
-import createValues, { createValue } from './values';
+import { useEffect, useState } from 'react';
+import createValues from './values';
 
 // function mergeValues (params: ParamDef[], prevValues: RawParams = [], prevParams: ParamDef[] = []): RawParams {
 //   return params.map((param, index) => {

@@ -21,10 +21,11 @@ function DeployApp ({ basePath, navigateTo }: Props): React.ReactElement<Props> 
       allCodes,
       basePath,
       hasCodes,
+      isLoading,
       navigateTo,
       updated
     }),
-    [allCodes, basePath, hasCodes, navigateTo, updated]
+    [allCodes, basePath, hasCodes, isLoading, navigateTo, updated]
   );
 
   return (
