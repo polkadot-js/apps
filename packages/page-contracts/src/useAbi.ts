@@ -28,9 +28,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
 
   useEffect(
     (): void => {
-      if (!!initialValue[0] && abi !== initialValue[0]) {
-        setAbi([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
-      }
+      initialValue[0] && abi !== initialValue[0] && setAbi([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
     },
     [abi, initialValue, isRequired]
   );

@@ -3,7 +3,7 @@
 
 import { Hash } from '@polkadot/types/interfaces';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useNonEmptyString } from '@polkadot/react-hooks';
@@ -25,15 +25,10 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [name, isNameValid, setName] = useNonEmptyString();
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
-  const isSubmittable = useMemo(
-    () => !!accountId && (!isNull(name) && isNameValid) && isWasmValid && (!isAbiSupplied || isAbiValid),
-    [accountId, name, isAbiSupplied, isAbiValid, isNameValid, isWasmValid]
-  );
-
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
       setWasm([compactAddLength(wasm), isWasm(wasm)]);
-      setName(name);
+      setName(name.replace('.wasm', ''));
     },
     [setName]
   );
@@ -49,7 +44,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
           return;
         }
 
-        store.saveCode(codeHash as Hash, { abi, name, tags: [] })
+        store
+          .saveCode(codeHash as Hash, { abi, name, tags: [] })
           .then()
           .catch((error: any): void => {
             console.error('Unable to save code', error);
@@ -58,6 +54,8 @@ function Upload ({ onClose }: Props): React.ReactElement {
     },
     [abi, name]
   );
+
+  const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid;
 
   return (
     <Modal header={t('Upload WASM')}>
@@ -89,7 +87,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
         <ABI
           contractAbi={contractAbi}
           errorText={errorText}
-          isError={isAbiError}
+          isError={isAbiError || !isAbiSupplied}
           isSupplied={isAbiSupplied}
           isValid={isAbiValid}
           onChange={onChangeAbi}
