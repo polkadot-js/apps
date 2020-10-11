@@ -1,11 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Codec } from '@polkadot/types/types';
 import { CodeStored } from '../types';
 
 import React, { useCallback } from 'react';
 import { Button, Card, Forget } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
 import { ABI, CodeRow } from '../shared';
 import RemoveABI from '../RemoveABI';
@@ -21,6 +23,8 @@ interface Props {
 
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const optCode = useCall<Option<Codec>>(api.query.contracts.codeStorage, [code.json.codeHash]);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
   const [isRemoveABIOpen, toggleIsRemoveABIOpen] = useToggle();
   const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
@@ -96,6 +100,11 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
           onSelectConstructor={_onDeployConstructor}
           withMessages={false}
         />
+      </td>
+      <td className='start together'>
+        {optCode && (
+          optCode.isSome ? t<string>('Available') : t<string>('Not on-chain')
+        )}
       </td>
       <td className='button'>
         <Button

@@ -34,7 +34,9 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
 
   const headerRef = useRef<[string?, string?, number?][]>([
     [t('contracts'), 'start'],
-    [undefined, undefined, 3]
+    [undefined, undefined, 2],
+    [t('status'), 'start'],
+    []
   ]);
 
   const contracts = useMemo(

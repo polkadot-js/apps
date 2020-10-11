@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Abi, PromiseContract } from '@polkadot/api-contract';
 import { Expander, IconLink } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
 import Message from './Message';
 import { useTranslation } from '../translate';
@@ -44,7 +46,7 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
 function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isRemovable, isWatching, onRemove = NOOP, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const bestNumber = useCall(api.derive.chain.bestNumber);
+  const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
 
@@ -58,7 +60,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
   useEffect((): void => {
     const maxWeight = api.consts.system.maximumBlockWeight.muln(64).divn(100);
 
-    bestNumber && contract && isUpdating && Promise
+    isUpdating && optInfo && contract && Promise
       .all(messages.map((m) =>
         m.isMutating || m.args.length !== 0
           ? Promise.resolve(undefined)
@@ -66,7 +68,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
       ))
       .then(setLastResults)
       .catch(console.error);
-  }, [api, bestNumber, contract, isUpdating, isWatching, messages]);
+  }, [api, contract, isUpdating, isWatching, messages, optInfo]);
 
   return (
     <div className={`ui--Messages ${className} ${isLabelled ? 'labelled' : ''}`}>

@@ -2,12 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import { PromiseContract } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
+import { isUndefined } from '@polkadot/util';
 
 import Messages from '../shared/Messages';
 import { useTranslation } from '../translate';
@@ -18,8 +21,14 @@ interface Props {
   onCall: (index?: number) => void;
 }
 
+function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
+  return optInfo.unwrapOr(null);
+}
+
 function Contract ({ className, contract, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
 
   const _onForget = useCallback(
@@ -73,6 +82,13 @@ function Contract ({ className, contract, onCall }: Props): React.ReactElement<P
           withBalanceToggle
           withExtended={false}
         />
+      </td>
+      <td className='start together'>
+        {!isUndefined(info) && (
+          info
+            ? info.type
+            : t<string>('Not on-chain')
+        )}
       </td>
       <td className='button'>
         <Button
