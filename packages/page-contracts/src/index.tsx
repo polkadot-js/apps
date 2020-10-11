@@ -17,6 +17,7 @@ import CodeAdd from './Codes/Add';
 import CodeUpload from './Codes/Upload';
 import Deploy from './Deploy';
 import Ink3Banner from './Ink3Banner';
+import Summary from './Summary';
 import { useTranslation } from './translate';
 
 function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
@@ -28,7 +29,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   const [isDeployOpen, toggleDeploy, setIsDeployOpen] = useToggle();
   const [isHashOpen, toggleHash] = useToggle();
   const [isUploadOpen, toggleUpload] = useToggle();
-  const [updated, setUpdated] = useState(0);
+  const [updated, setUpdated] = useState(Date.now());
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
   const itemsRef = useRef([
@@ -81,6 +82,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           items={itemsRef.current}
         />
       </header>
+      <Summary trigger={updated} />
       <Button.Group>
         <Button
           icon='plus'
