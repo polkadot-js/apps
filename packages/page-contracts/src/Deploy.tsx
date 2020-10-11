@@ -49,7 +49,7 @@ function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstru
     [codeHash]
   );
 
-  const [name, isNameValid, setName] = useNonEmptyString(t<string>('{{codeWasm}} (instance)', { replace: { codeWasm: code.json.name } }));
+  const [name, isNameValid, setName] = useNonEmptyString(code.json.name);
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], codeHash, true);
 
   const blueprint = useMemo(
