@@ -28,7 +28,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
       setWasm([compactAddLength(wasm), isWasm(wasm)]);
-      setName(name);
+      setName(name.replace('.wasm', ''));
     },
     [setName]
   );

@@ -78,8 +78,6 @@ function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstru
   useEffect((): void => {
     endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
       if (blueprint) {
-        console.error(constructorIndex, endowment, weight.weight, ...params);
-
         try {
           return blueprint.instantiate(constructorIndex, endowment, weight.weight, ...params);
         } catch (error) {
