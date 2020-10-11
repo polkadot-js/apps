@@ -8,13 +8,14 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { useCodec } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
-import { Option } from '@polkadot/types';
+import { Option, TypeRegistry } from '@polkadot/types';
 
 import AddressSmall from './AddressMini';
 import Labelled from './Labelled';
 
 interface Props extends BareProps {
   isTrimmed?: boolean;
+  registry: TypeRegistry;
   type?: TypeDef;
   value?: AnyJson;
 }
@@ -38,11 +39,8 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
 
 // }
 
-function Data ({ className, type, value }: Props): React.ReactElement<Props> | null {
-  const [codec] = useCodec(value, type);
-
-  console.log(value);
-  console.log(codec.toString());
+function Data ({ className, registry, type, value }: Props): React.ReactElement<Props> | null {
+  const [codec] = useCodec(registry, value, type);
 
   const content = useMemo(
     (): React.ReactNode => {
@@ -74,6 +72,7 @@ function Data ({ className, type, value }: Props): React.ReactElement<Props> | n
                 {'('}
                 <div className='inner'>
                   <Data
+                    registry={registry}
                     type={type.sub as TypeDef}
                     value={codec.toString()}
                   />
@@ -106,6 +105,7 @@ function Data ({ className, type, value }: Props): React.ReactElement<Props> | n
                     name={key}
                     value={
                       <Data
+                        registry={registry}
                         type={(type.sub as TypeDef[])[index]}
                         value={field}
                       />
@@ -145,6 +145,7 @@ function Data ({ className, type, value }: Props): React.ReactElement<Props> | n
                     name={`${index}`}
                     value={
                       <Data
+                        registry={registry}
                         type={sub}
                         value={element}
                       />
@@ -159,7 +160,7 @@ function Data ({ className, type, value }: Props): React.ReactElement<Props> | n
 
       return truncate(codec.toHex(), TRUNCATE_TO);
     },
-    [codec, type]
+    [codec, registry, type]
   );
 
   return (

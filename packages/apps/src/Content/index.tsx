@@ -56,7 +56,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
     []
   );
 
-  if (!isApiConnected) {
+  if (!isApiConnected && name !== 'settings') {
     return (
       <div className={className}>
         <div className='disconnected'>

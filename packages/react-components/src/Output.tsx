@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
+import { TypeRegistry } from '@polkadot/types';
 
 import CopyButton from './CopyButton';
 import Data from './Data';
@@ -22,13 +23,14 @@ interface Props extends BareProps {
   isMonospace?: boolean;
   isTrimmed?: boolean;
   label?: React.ReactNode;
+  registry: TypeRegistry;
   type?: TypeDef | null;
   value?: Codec;
   withCopy?: boolean;
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isFull, isHidden, isTrimmed, label, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', help, isError, isFull, isHidden, isTrimmed, label, registry, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -39,9 +41,12 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
       withLabel={withLabel}
     >
       <div className={classes('ui--output', isError && 'error', 'monospace')}>
-        <Data isTrimmed={isTrimmed}
+        <Data
+          isTrimmed={isTrimmed}
+          registry={registry}
           type={type}
-          value={value} />
+          value={value}
+        />
         {children}
         {withCopy
           ? (

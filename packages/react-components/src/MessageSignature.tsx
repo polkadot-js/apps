@@ -7,7 +7,7 @@ import { CodecArg } from '@polkadot/types/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { encodeTypeDef } from '@polkadot/types';
+import { encodeTypeDef, TypeRegistry } from '@polkadot/types';
 
 import Icon from './Icon';
 import MessageArg from './MessageArg';
@@ -18,10 +18,11 @@ import { classes } from '@canvas-ui/react-util';
 export interface Props extends BareProps {
   message: AbiMessage;
   params?: CodecArg[];
+  registry: TypeRegistry;
   withTooltip?: boolean;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], registry, withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -36,6 +37,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
             <MessageArg
               arg={arg}
               param={params[index]}
+              registry={registry}
             />
             {index < args.length - 1 && ', '}
           </React.Fragment>

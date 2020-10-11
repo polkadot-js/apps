@@ -7,13 +7,15 @@ import { BareProps } from '@canvas-ui/react-components/types';
 import React from 'react';
 import styled from 'styled-components';
 import { Button, MessageSignature, Output } from '@canvas-ui/react-components';
+import { TypeRegistry } from '@polkadot/types';
 
 interface Props extends BareProps {
   onClear?: () => void;
   outcome: ContractCallOutcome;
+  registry: TypeRegistry;
 }
 
-function Outcome ({ className, onClear, outcome: { isSuccess, message, output, params, time, type } }: Props): React.ReactElement<Props> | null {
+function Outcome ({ className, onClear, outcome: { isSuccess, message, output, params, time, type }, registry }: Props): React.ReactElement<Props> | null {
   const dateTime = new Date(time);
 
   return (
@@ -28,6 +30,7 @@ function Outcome ({ className, onClear, outcome: { isSuccess, message, output, p
         <MessageSignature
           message={message}
           params={params}
+          registry={registry}
         />
         <span className='date-time'>
           {dateTime.toLocaleDateString()}
@@ -44,6 +47,7 @@ function Outcome ({ className, onClear, outcome: { isSuccess, message, output, p
       </div>
       <Output
         isError={!isSuccess}
+        registry={registry}
         type={type}
         value={output}
         withCopy

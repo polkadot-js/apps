@@ -63,6 +63,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
               <MessageSignature
                 asConstructor
                 message={constructor}
+                registry={abi.registry}
               />
             ),
             value: `${index}`
@@ -133,13 +134,18 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
       // data: encoder ? u8aToHex(encoder()) : null,
       name: name || '',
       params: params.map((param, index) => ({
-        arg: <MessageArg arg={param} />,
+        arg: (
+          <MessageArg
+            arg={param}
+            registry={abi.registry}
+          />
+        ),
         type: param.type,
         value: values[index].value
       })),
       weight: weight.toString()
     }),
-    [name, constructOptions, constructorIndex, params, values, weight]
+    [abi.registry, name, constructOptions, constructorIndex, params, values, weight]
   );
 
   useEffect(
@@ -160,6 +166,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
       <PendingTx
         additionalDetails={additionalDetails}
         instructions={t<string>('Sign and submite to instantiate this contract derived from the code hash.')}
+        registry={abi.registry}
         {...pendingTx}
       />
     );

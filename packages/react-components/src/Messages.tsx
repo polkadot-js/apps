@@ -64,6 +64,7 @@ function renderItem (props: Props, message: AbiMessage, index: number, asConstru
         <MessageSignature
           asConstructor={asConstructor}
           message={message}
+          registry={props.abi.registry}
           withTooltip
         />
         <Expander

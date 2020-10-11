@@ -7,14 +7,15 @@ import { CodecArg } from '@polkadot/types/types';
 
 import React from 'react';
 import Data from './Data';
-import { encodeTypeDef } from '@polkadot/types';
+import { encodeTypeDef, TypeRegistry } from '@polkadot/types';
 
 export interface Props extends BareProps {
   arg?: ParamDef;
   param?: CodecArg;
+  registry: TypeRegistry;
 }
 
-function MessageArg ({ arg, param }: Props): React.ReactElement<Props> | null {
+function MessageArg ({ arg, param, registry }: Props): React.ReactElement<Props> | null {
   if (!arg) {
     return null;
   }
@@ -31,6 +32,7 @@ function MessageArg ({ arg, param }: Props): React.ReactElement<Props> | null {
         {param
           ? <b>
             <Data
+              registry={registry}
               type={arg.type}
               value={param}
             />

@@ -28,7 +28,10 @@ function getCallMessageOptions (callContract: Contract | null): Options {
       return {
         key: message.identifier,
         text: (
-          <MessageSignature message={message} />
+          <MessageSignature
+            message={message}
+            registry={callContract.registry}
+          />
         ),
         value: index
       };
@@ -181,13 +184,18 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       message: messageOptions[messageIndex]?.text,
       name: name || '',
       params: params.map((param, index) => ({
-        arg: <MessageArg arg={param} />,
+        arg: (
+          <MessageArg
+            arg={param}
+            registry={contract.registry}
+          />
+        ),
         type: param.type,
         value: values[index]?.value
       })),
       weight: weight.toString()
     }),
-    [name, messageOptions, messageIndex, params, values, weight]
+    [contract.registry, name, messageOptions, messageIndex, params, values, weight]
   );
 
   if (pendingTx.currentItem) {
@@ -195,6 +203,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       <PendingTx
         additionalDetails={additionalDetails}
         instructions={t<string>('Sign and submit to call the contract message with the above parameters.')}
+        registry={contract.registry}
         {...pendingTx}
       />
     );
@@ -311,6 +320,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
                 key={`outcome-${index}`}
                 onClear={_onClearOutcome(index)}
                 outcome={outcome}
+                registry={contract.registry}
               />
             ))}
           </div>

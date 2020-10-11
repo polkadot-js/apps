@@ -5,14 +5,12 @@ import { AnyJson, Codec, TypeDef } from '@polkadot/types/types';
 
 import { useMemo } from 'react';
 import { formatData } from '@canvas-ui/api-contract/util';
-import useApi from './useApi';
+import { TypeRegistry } from '@polkadot/types';
 
-export default function useCodec (source: AnyJson, type?: TypeDef): [Codec, string] {
-  const { api } = useApi();
-
+export default function useCodec (registry: TypeRegistry, source: AnyJson, type?: TypeDef): [Codec, string] {
   return useMemo(
     (): [Codec, string] => {
-      const codec = formatData(api.registry, source, type);
+      const codec = formatData(registry, source, type);
 
       let asString = '()';
 
@@ -24,6 +22,6 @@ export default function useCodec (source: AnyJson, type?: TypeDef): [Codec, stri
 
       return [codec, asString];
     },
-    [api, source, type]
+    [registry, source, type]
   );
 }
