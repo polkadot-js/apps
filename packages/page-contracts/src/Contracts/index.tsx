@@ -28,8 +28,8 @@ function filterContracts (api: ApiPromise, keyringContracts: string[] = []): Api
 function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [callContractIndex, setCallContractIndex] = useState<number>(0);
-  const [callMessageIndex, setCallMessageIndex] = useState<number>(0);
+  const [contractIndex, setContractIndex] = useState<number>(0);
+  const [messageIndex, setMessageIndex] = useState<number>(0);
   const [isCallOpen, setIsCallOpen] = useState(false);
 
   const headerRef = useRef<[string?, string?, number?][]>([
@@ -42,8 +42,6 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
     [api, keyringContracts]
   );
 
-  const callContract = contracts[callContractIndex] || null;
-
   const _toggleCall = useCallback(
     () => setIsCallOpen((isCallOpen) => !isCallOpen),
     []
@@ -53,27 +51,27 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
     const index = contracts.findIndex(({ address }: ApiContract) => newCallContractAddress === address.toString());
 
     if (index > -1) {
-      index !== callContractIndex && setCallMessageIndex(0);
-      setCallContractIndex(index);
+      index !== contractIndex && setMessageIndex(0);
+      setContractIndex(index);
     }
   };
 
   const _onChangeCallMessageIndex = useCallback(
-    (callMessageIndex: number): void => {
-      contracts[callContractIndex] && setCallMessageIndex(callMessageIndex);
-    },
-    [callContractIndex, contracts]
+    (messageIndex: number) => contracts[contractIndex] && setMessageIndex(messageIndex || 0),
+    [contractIndex, contracts]
   );
 
   const _onCall = useCallback(
-    (callContractIndex: number) =>
-      (callMessageIndex?: number): void => {
-        setCallContractIndex(callContractIndex);
-        setCallMessageIndex(callMessageIndex || 0);
+    (contractIndex: number) =>
+      (messageIndex?: number): void => {
+        setContractIndex(contractIndex);
+        setMessageIndex(messageIndex || 0);
         setIsCallOpen(true);
       },
     []
   );
+
+  const contract = contracts[contractIndex] || null;
 
   return (
     <>
@@ -89,11 +87,11 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
           />
         ))}
       </Table>
-      {isCallOpen && callContract && (
+      {isCallOpen && contract && (
         <Call
-          callContract={callContract}
-          callMessageIndex={callMessageIndex}
+          contract={contract}
           isOpen={isCallOpen}
+          messageIndex={messageIndex}
           onChangeCallContractAddress={_onChangeCallContractAddress}
           onChangeCallMessageIndex={_onChangeCallMessageIndex}
           onClose={_toggleCall}

@@ -59,7 +59,6 @@ function Contract ({ className, contract, onCall }: Props): React.ReactElement<P
       </td>
       <td className='all top'>
         <Messages
-          address={contract.address.toString()}
           contract={contract}
           contractAbi={contract.abi}
           isWatching

@@ -13,7 +13,6 @@ import Message from './Message';
 import { useTranslation } from '../translate';
 
 export interface Props {
-  address?: string;
   className?: string;
   contract?: PromiseContract;
   contractAbi: Abi;

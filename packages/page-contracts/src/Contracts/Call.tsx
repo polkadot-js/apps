@@ -3,7 +3,6 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
@@ -20,17 +19,17 @@ import { getCallMessageOptions } from './util';
 import useWeight from '../useWeight';
 
 interface Props {
-  callContract: ApiContract;
-  callMessageIndex: number;
   className?: string;
-  onChangeCallContractAddress: (callContractAddress: StringOrNull) => void;
-  onChangeCallMessageIndex: (callMessageIndex: number) => void;
+  contract: ApiContract;
+  messageIndex: number;
+  onChangeCallContractAddress: (address: string | null) => void;
+  onChangeCallMessageIndex: (messageIndex: number) => void;
   onClose: () => void;
 }
 
-function Call ({ callContract, callMessageIndex, className = '', onChangeCallContractAddress, onChangeCallMessageIndex, onClose }: Props): React.ReactElement<Props> | null {
+function Call ({ className = '', contract, messageIndex, onChangeCallContractAddress, onChangeCallMessageIndex, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const callMessage = callContract.abi.messages[callMessageIndex];
+  const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
   const [endowment, isEndowmentValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
@@ -41,40 +40,31 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
 
   useEffect((): void => {
     setParams([]);
-  }, [callContract, callMessageIndex]);
+  }, [contract, messageIndex]);
 
   useEffect((): void => {
-    endowment && callMessage.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
+    endowment && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return callContract.exec(callMessage, callMessage.isPayable ? endowment : 0, weight, ...params);
+        return contract.exec(message, message.isPayable ? endowment : 0, weight, ...params);
       } catch (error) {
         return null;
       }
     });
-  }, [accountId, callContract, callMessage, endowment, weight, params]);
-
-  const _onChangeCallMessageIndexString = useCallback(
-    (callMessageIndexString: string): void => {
-      onChangeCallMessageIndex && onChangeCallMessageIndex(
-        parseInt(callMessageIndexString, 10) || 0
-      );
-    },
-    [onChangeCallMessageIndex]
-  );
+  }, [accountId, contract, endowment, message, weight, params]);
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !callMessage || !endowment || !weight) return;
+      if (!accountId || !message || !endowment || !weight) return;
 
-      callContract
-        .read(callMessage, 0, weight, ...params)
+      contract
+        .read(message, 0, weight, ...params)
         // when we make calls to mutables, we want the endowment & weight
         // .read(callMessage, endowment, weight, ...params)
         .send(accountId)
         .then((outcome: ContractCallOutcome) => setOutcomes([outcome, ...outcomes]))
         .catch(console.error);
     },
-    [accountId, callContract, callMessage, endowment, weight, outcomes, params]
+    [accountId, contract, endowment, message, weight, outcomes, params]
   );
 
   const _onClearOutcomes = useCallback(
@@ -92,7 +82,7 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
     [accountId, isEndowmentValid, isWeightValid]
   );
 
-  const isViaRpc = callContract.hasRpcContractsCall && !callMessage.isMutating;
+  const isViaRpc = contract.hasRpcContractsCall && !message.isMutating;
 
   return (
     <Modal
@@ -114,30 +104,30 @@ function Call ({ callContract, callMessageIndex, className = '', onChangeCallCon
           label={t<string>('contract to use')}
           onChange={onChangeCallContractAddress}
           type='contract'
-          value={callContract.address.toString()}
+          value={contract.address}
         />
-        {callMessageIndex !== null && (
+        {messageIndex !== null && (
           <>
             <Dropdown
-              defaultValue={`${callMessageIndex}`}
+              defaultValue={messageIndex}
               help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
-              isError={callMessage === null}
+              isError={message === null}
               label={t<string>('message to send')}
-              onChange={_onChangeCallMessageIndexString}
-              options={getCallMessageOptions(callContract)}
-              value={`${callMessageIndex}`}
+              onChange={onChangeCallMessageIndex}
+              options={getCallMessageOptions(contract)}
+              value={messageIndex}
             />
             <Params
               onChange={setParams}
               params={
-                callMessage
-                  ? callMessage.args
+                message
+                  ? message.args
                   : undefined
               }
             />
           </>
         )}
-        {!isViaRpc && callMessage.isPayable && (
+        {!isViaRpc && message.isPayable && (
           <InputBalance
             help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
             isError={!isEndowmentValid}
