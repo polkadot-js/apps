@@ -66,6 +66,7 @@
   "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.": "You are about to remove this code's ABI. Once completed, should you need to access it again, you will have to manually re-upload it.",
   "You are using an ABI with an outdated format. Please generate a new one.": "You are using an ABI with an outdated format. Please generate a new one.",
   "address forgotten": "address forgotten",
+  "addresses": "addresses",
   "call from account": "call from account",
   "click to select or drag and drop a JSON ABI file": "click to select or drag and drop a JSON ABI file",
   "code for this contract": "code for this contract",
