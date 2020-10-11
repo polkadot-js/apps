@@ -24,5 +24,6 @@ jobs:
           git config --global user.email "action@github.com"
           yarn install --immutable | grep -v 'YN0013'
           yarn lint
+          mkdir packages/apps/build
           yarn build
           yarn deploy
