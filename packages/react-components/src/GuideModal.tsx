@@ -178,15 +178,27 @@ function GuideModal ({ className, onClose }: Props): React.ReactElement<Props> {
 }
 
 export default styled(React.memo(GuideModal))`
+  height: 320px;
+
+  &.visible.transition {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+
   .page-control {
     display: flex;
     justify-content: center;
+    margin-top: 1.5rem;
     
     .page {
       background: var(--grey40);
       cursor: pointer;
-      width: 0.75rem;
-      height: 0.75rem;
+      width: 0.5rem;
+      height: 0.5rem;
       border-radius: 2rem;
 
       &:not(.isActive):hover {

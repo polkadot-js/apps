@@ -243,6 +243,10 @@ export default css`
       padding: 0 1.5rem 1.5rem;
     }
 
+    .content {
+      font-size: 0.875rem;
+    }
+
     /* approx h1, color, size, font */
     > .header:not(.ui) {
       background: transparent;
