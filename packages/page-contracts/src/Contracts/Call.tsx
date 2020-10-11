@@ -5,7 +5,7 @@ import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { CallResult } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { PromiseContract as ApiContract } from '@polkadot/api-contract';
@@ -35,8 +35,7 @@ function Call ({ className = '', contract, messageIndex, onChangeCallContractAdd
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>([]);
-  const useWeightHook = useWeight();
-  const { isValid: isWeightValid, weight } = useWeightHook;
+  const weight = useWeight();
 
   useEffect((): void => {
     setParams([]);
@@ -45,7 +44,7 @@ function Call ({ className = '', contract, messageIndex, onChangeCallContractAdd
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.exec(message, message.isPayable ? value : 0, weight, ...params);
+        return contract.exec(message, message.isPayable ? value : 0, weight.weight, ...params);
       } catch (error) {
         return null;
       }
@@ -57,7 +56,7 @@ function Call ({ className = '', contract, messageIndex, onChangeCallContractAdd
       if (!accountId || !message || !value || !weight) return;
 
       contract
-        .read(message, message.isPayable ? value : 0, weight, ...params)
+        .read(message, message.isPayable ? value : 0, weight.weight, ...params)
         .send(accountId)
         .then((outcome) => setOutcomes([
           {
@@ -75,15 +74,12 @@ function Call ({ className = '', contract, messageIndex, onChangeCallContractAdd
   );
 
   const _onClearOutcome = useCallback(
-    (outcomeIndex: number) => () => setOutcomes(outcomes.slice(0, outcomeIndex).concat(outcomes.slice(outcomeIndex + 1))),
+    (outcomeIndex: number) =>
+      () => setOutcomes([...outcomes.filter((_, index) => index !== outcomeIndex)]),
     [outcomes]
   );
 
-  const isValid = useMemo(
-    () => !!(accountId && isWeightValid && isValueValid),
-    [accountId, isValueValid, isWeightValid]
-  );
-
+  const isValid = !!(accountId && weight.isValid && isValueValid);
   const isViaRpc = contract.hasRpcContractsCall && !message.isMutating;
 
   return (
@@ -142,7 +138,7 @@ function Call ({ className = '', contract, messageIndex, onChangeCallContractAdd
         <InputMegaGas
           help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
           label={t<string>('maximum gas allowed')}
-          {...useWeightHook}
+          {...weight}
         />
         {outcomes.length > 0 && (
           <Expander
@@ -175,7 +171,7 @@ function Call ({ className = '', contract, messageIndex, onChangeCallContractAdd
               accountId={accountId}
               extrinsic={execTx}
               icon='sign-in-alt'
-              isDisabled={!isValid}
+              isDisabled={!isValid || !execTx}
               label={t('Execute')}
               withSpinner
             />

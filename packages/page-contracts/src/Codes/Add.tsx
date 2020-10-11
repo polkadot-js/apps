@@ -3,7 +3,7 @@
 
 import { StringOrNull } from '@polkadot/react-components/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { isNull } from '@polkadot/util';
 import { ABI, InputName } from '../shared';
@@ -24,16 +24,6 @@ function Add ({ onClose }: Props): React.ReactElement {
   const [name, setName] = useState<StringOrNull>(null);
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
-  const isNameValid = useMemo(
-    (): boolean => !isNull(name) && name.length > 0,
-    [name]
-  );
-
-  const isValid = useMemo(
-    (): boolean => isCodeHashValid && isNameValid,
-    [isCodeHashValid, isNameValid]
-  );
-
   const _onSave = useCallback(
     (): void => {
       if (!codeHash || !name) {
@@ -49,6 +39,9 @@ function Add ({ onClose }: Props): React.ReactElement {
     },
     [abi, codeHash, name, onClose]
   );
+
+  const isNameValid = !isNull(name) && name.length > 0;
+  const isValid = isCodeHashValid && isNameValid && isAbiSupplied && isAbiValid;
 
   return (
     <Modal header={t('Add an existing code hash')}>
@@ -73,7 +66,7 @@ function Add ({ onClose }: Props): React.ReactElement {
         <ABI
           contractAbi={contractAbi}
           errorText={errorText}
-          isError={isAbiError}
+          isError={isAbiError || !isAbiError}
           isSupplied={isAbiSupplied}
           isValid={isAbiValid}
           onChange={onChangeAbi}
