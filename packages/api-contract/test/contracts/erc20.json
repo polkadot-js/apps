@@ -1,13 +1,13 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0xae28fa9f075f218d559a36f720b0704b2c09326590fe19d7d76a7eaa40d079b3",
-    "language": "ink! 3.0.0",
+    "hash": "0xe9c60864c76c770865b66c79aa304bc22d2d08cc799d36310df4256db107b8fc",
+    "language": "ink! 3.0.0-rc1",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "erc20",
-    "version": "3.0.0",
+    "version": "3.0.0-rc1",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -22,7 +22,7 @@
               "displayName": [
                 "Balance"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -45,7 +45,7 @@
               "displayName": [
                 "Option"
               ],
-              "id": 13
+              "type": 13
             }
           },
           {
@@ -56,7 +56,7 @@
               "displayName": [
                 "Option"
               ],
-              "id": 13
+              "type": 13
             }
           },
           {
@@ -67,7 +67,7 @@
               "displayName": [
                 "Balance"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -84,7 +84,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -95,7 +95,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -106,7 +106,7 @@
               "displayName": [
                 "Balance"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -127,7 +127,7 @@
           "displayName": [
             "Balance"
           ],
-          "id": 1
+          "type": 1
         },
         "selector": "0xdcb736b5"
       },
@@ -139,7 +139,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           }
         ],
@@ -153,7 +153,7 @@
           "displayName": [
             "Balance"
           ],
-          "id": 1
+          "type": 1
         },
         "selector": "0x56e929b2"
       },
@@ -165,7 +165,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -174,7 +174,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           }
         ],
@@ -188,7 +188,7 @@
           "displayName": [
             "Balance"
           ],
-          "id": 1
+          "type": 1
         },
         "selector": "0xf3cfff66"
       },
@@ -200,7 +200,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -209,7 +209,7 @@
               "displayName": [
                 "Balance"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -223,7 +223,7 @@
           "displayName": [
             "bool"
           ],
-          "id": 12
+          "type": 12
         },
         "selector": "0xfae3a09d"
       },
@@ -235,7 +235,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -244,7 +244,7 @@
               "displayName": [
                 "Balance"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -258,7 +258,7 @@
           "displayName": [
             "bool"
           ],
-          "id": 12
+          "type": 12
         },
         "selector": "0x03d0e114"
       },
@@ -270,7 +270,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -279,7 +279,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -288,7 +288,7 @@
               "displayName": [
                 "Balance"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -302,7 +302,7 @@
           "displayName": [
             "bool"
           ],
-          "id": 12
+          "type": 12
         },
         "selector": "0xfcfb2ccd"
       }
@@ -353,7 +353,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0200000001000000000000000000000000000000000000000000000000000000",
@@ -433,7 +433,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0400000002000000000000000000000000000000000000000000000000000000",

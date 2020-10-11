@@ -16,7 +16,7 @@ export default css`
     word-break: break-all;
 
     &.error {
-      background: #fff6f6;
+      background: var(--red-secondary);
       border-color: #e0b4b4;
     }
 

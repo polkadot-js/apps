@@ -165,12 +165,12 @@ function GuideModal ({ className, onClose }: Props): React.ReactElement<Props> {
       </Modal.Content>
       <Modal.Actions
         cancelLabel={t<string>(isFirstPage ? 'Skip Intro' : 'Go Back')}
-        onCancel={isFirstPage ? onClose : decrementIndex}
+        onCancel={isFirstPage ? _onClose : decrementIndex}
       >
         <Button
           isPrimary
           label={t<string>(isLastPage ? 'Let\'s Go' : 'Next')}
-          onClick={isLastPage ? onClose : incrementIndex}
+          onClick={isLastPage ? _onClose : incrementIndex}
         />
       </Modal.Actions>
     </Modal>

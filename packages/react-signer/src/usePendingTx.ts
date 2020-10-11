@@ -4,11 +4,11 @@
 import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@canvas-ui/react-components/Status/types';
 import { DefinitionRpcExt } from '@polkadot/types/types';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@canvas-ui/react-api';
 import { StatusContext } from '@canvas-ui/react-components';
-import { useApi } from '@canvas-ui/react-hooks';
+import { useApi, useScrollToTop } from '@canvas-ui/react-hooks';
 import { assert, isFunction } from '@polkadot/util';
 import { format } from '@polkadot/util/logger';
 
@@ -76,15 +76,32 @@ function extractCurrent (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetSta
 }
 
 export default function usePendingTx (signature?: string): ItemState {
+  const scrollToTop = useScrollToTop();
   const { api } = useApi();
   const { queueSetTxStatus, txqueue } = useContext(StatusContext);
   const [item, setItem] = useState<ItemState>({ currentItem: null, requestAddress: null });
 
-  useEffect(
-    (): void => {
-      setItem(extractCurrent(api, queueSetTxStatus, txqueue, signature));
+  const extracted = useMemo(
+    (): ItemState => {
+      return extractCurrent(api, queueSetTxStatus, txqueue, signature);
     },
     [api, queueSetTxStatus, signature, txqueue]
+  );
+
+  useEffect(
+    (): void => {
+      if (extracted.currentItem !== item.currentItem) {
+        setItem(extracted);
+      }
+    },
+    [extracted, item.currentItem]
+  );
+
+  useEffect(
+    (): void => {
+      scrollToTop();
+    },
+    [item, scrollToTop]
   );
 
   return item;

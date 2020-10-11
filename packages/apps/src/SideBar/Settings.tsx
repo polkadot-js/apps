@@ -53,8 +53,8 @@ export default React.memo(styled(Settings)`
   display: flex;
   left: 0;
   padding: 0 1rem 1rem;
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 14.25rem;
 
   .chain-dropdown {
     flex-grow: 1;

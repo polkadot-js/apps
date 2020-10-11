@@ -1,13 +1,13 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0x4c7e27282d0877aef2390dd50254a0fea52de5b61bc1104b41c791044f47133c",
-    "language": "ink! 3.0.0",
+    "hash": "0x568432b99f4ebd39ec03c2caaf69992b248999cc857326174b220b5587c3515f",
+    "language": "ink! 3.0.0-rc1",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "flipper",
-    "version": "3.0.0",
+    "version": "3.0.0-rc1",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -32,7 +32,7 @@
               "displayName": [
                 "bool"
               ],
-              "id": 1
+              "type": 1
             }
           }
         ],
@@ -72,7 +72,7 @@
           "displayName": [
             "bool"
           ],
-          "id": 1
+          "type": 1
         },
         "selector": "0x6b3549bc"
       }

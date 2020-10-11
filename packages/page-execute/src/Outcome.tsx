@@ -6,7 +6,7 @@ import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, MessageSignature, Output } from '@canvas-ui/react-components';
+import { Button, Data, MessageSignature, Output } from '@canvas-ui/react-components';
 
 interface Props extends BareProps {
   onClear?: () => void;

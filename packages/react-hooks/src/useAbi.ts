@@ -37,7 +37,7 @@ interface InkAbiSpecOutdated {
 export default function useAbi (source: Code | null = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
   const initialState: State = source
-    ? [new InkAbi(registry, source.abi || null), !!source?.abi, !isRequired || !!source.abi]
+    ? [source.abi ? new InkAbi(registry, source.abi) : null, !!source?.abi, !isRequired || !!source.abi]
     : [null, false, false];
   const [[abi, isAbiSupplied, isAbiValid], setAbi] = useState<State>(initialState);
   const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);

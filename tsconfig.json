@@ -39,6 +39,8 @@
       "@canvas-ui/react-signer/*": [ "packages/react-signer/src/*" ],
       "@canvas-ui/react-util": [ "packages/react-util/src" ],
       "@canvas-ui/react-util/*": [ "packages/react-util/src/*" ],
+      "@polkadot/types/*": ["packages/types/src/*"],
+      "@polkadot/types": ["packages/types/src"],
     },
     "skipLibCheck": true,
     "typeRoots": [

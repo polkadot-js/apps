@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Code } from '@canvas-ui/apps/types';
-import { RawParams } from '@canvas-ui/react-params/types';
-import { InkMessage, InkMessageParam, InkConstructor } from '@canvas-ui/api-contract/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { ComponentProps as Props } from './types';
 
@@ -20,7 +18,6 @@ import keyring from '@polkadot/ui-keyring';
 import { truncate } from '@canvas-ui/react-util';
 import { useTxParams } from '@canvas-ui/react-params';
 import { extractValues } from '@canvas-ui/react-params/values';
-import { u8aToHex } from '@polkadot/util';
 
 // import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
 import { useTranslation } from './translate';
@@ -40,10 +37,6 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   const code = useMemo(
     (): Code | null => {
       return allCodes.find((code: Code) => id === code.id) || null;
-      // allCodes.map(({ json: { codeHash, name } }): { text: string; value: string } => ({
-      //   text: `${name} (${codeHash})`,
-      //   value: codeHash
-      // })),
     },
     [allCodes, id]
   );
@@ -83,21 +76,6 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
     (): boolean => isNameValid && isEndowmentValid && isWeightValid && !!accountId,
     [accountId, isEndowmentValid, isNameValid, isWeightValid]
   );
-  // const codeOptions = useMemo(
-  //   (): CodeOptions => allCodes.map(({ json: { codeHash, name } }): { text: string; value: string } => ({
-  //     text: `${name} (${codeHash})`,
-  //     value: codeHash
-  //   })),
-  //   [allCodes]
-  // );
-
-  // const constructor = useMemo(
-  //   (): InkConstructor | null => abi?.constructors[constructorIndex] || null,
-  //   [abi?.constructors, constructorIndex]
-  // );
-
-  // const [params, setParams] = useState<InkMessageParam[]>(abi?.constructors[constructorIndex].args || []);
-  // const [values, setValues] = useState<RawParams>(createValues(params));
 
   const [params, values, setValues] = useTxParams(abi?.constructors[constructorIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
@@ -106,60 +84,12 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
       : null;
   }, [abi?.constructors, constructorIndex, values]);
 
-  // const [data, setData] = useState<Uint8Array | null>(
-  //   abi?.constructors[constructorIndex]
-  //     ? abi.constructors[constructorIndex](...extractValues(values || [])) as unknown as Uint8Array
-  //     : null
-  // );
-
-  // useEffect(
-  //   (): void => {
-  //     // console.log('constructorIndex', constructorIndex);
-  //     // console.log('constructor', constructor);
-  //     // console.log('values', values);
-  //     // console.log('data', data ? u8aToHex(data) : null);
-  //     const newParams = abi?.constructors[constructorIndex].args || [];
-  //     const defaults = createValues(newParams);
-  //     // const encoder = abi?.constructors[constructorIndex];
-
-  //     setParams(newParams);
-  //     setValues(defaults);
-  //     // setData(
-  //     //   encoder
-  //     //     ? encoder(...extractValues(defaults)) as unknown as Uint8Array
-  //     //     : null
-  //     // );
-  //   },
-  //   [abi, constructorIndex]
-  // );
-
-  // useEffect(
-  //   (): void => {
-  //     const encoder = abi?.constructors[constructorIndex];
-
-  //     setData()
-  //   }
-  // )
-
   useEffect(
     (): void => {
       setName(t(defaultContractName(code?.name)));
     },
     [code, setName, t]
   );
-
-  // const data = useMemo(
-  //   (): Uint8Array | null => {
-  //     let result: Uint8Array | null = null;
-
-  //     if (abi?.constructors[constructorIndex]) {
-  //       result = abi.constructors[constructorIndex](...extractValues(values)) as unknown as Uint8Array;
-  //     }
-
-  //     return result || null;
-  //   },
-  //   [abi?.constructors, constructorIndex, values]
-  // );
 
   const _constructCall = useCallback(
     (): any[] => {
@@ -204,6 +134,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
       name: name || '',
       params: params.map((param, index) => ({
         arg: <MessageArg arg={param} />,
+        type: param.type,
         value: values[index].value
       })),
       weight: weight.toString()
@@ -280,7 +211,6 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             <ContractParams
               onChange={setValues}
               params={params || []}
-              values={values}
             />
           </>
         )}

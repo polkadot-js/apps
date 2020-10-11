@@ -6,9 +6,11 @@ import { ParamDef } from '@canvas-ui/react-params/types';
 import { CodecArg } from '@polkadot/types/types';
 
 import React from 'react';
-import { displayType } from '@polkadot/types';
+import Data from './Data';
+import { encodeTypeDef } from '@polkadot/types';
 
 import { truncate } from '@canvas-ui/react-util';
+import { formatData } from '@canvas-ui/api-contract/util';
 
 export interface Props extends BareProps {
   arg?: ParamDef;
@@ -30,8 +32,13 @@ function MessageArg ({ arg, param }: Props): React.ReactElement<Props> | null {
       )}
       <span>
         {param
-          ? <b>{truncate(param.toString())}</b>
-          : displayType(arg.type)
+          ? <b>
+              <Data
+                value={param}
+                type={arg.type}
+              />
+            </b>
+          : encodeTypeDef(arg.type)
         }
       </span>
     </>

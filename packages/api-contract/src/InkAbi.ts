@@ -5,17 +5,17 @@ import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types'
 import { InkConstructorSpec, InkMessageSpec, InkTypeSpec } from '@polkadot/types/interfaces';
 import { InkConstructor, InkMessageBase, InkMessage, InkMessageParam, InkType } from './types';
 
-import { Compact, createClass, encodeType } from '@polkadot/types';
+import { Compact, createClass, encodeTypeDef } from '@polkadot/types';
 import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
 
-import InkRegistry from './InkRegistry';
+import InkRegistry, { joinInkPath } from './InkRegistry';
 
 function createArgClass (registry: Registry, args: InkMessageParam[], baseDef: Record<string, string>): Constructor {
   return createClass(
     registry,
     JSON.stringify(
       args.reduce((base: Record<string, any>, { name, type }): Record<string, any> => {
-        base[name] = type.displayName || encodeType(type);
+        base[name] = type.displayName || encodeTypeDef(type);
 
         return base;
       }, baseDef)
@@ -34,12 +34,12 @@ export default class InkAbi extends InkRegistry {
   }
 
   private _createInkType (spec: InkTypeSpec): InkType {
-    const displayName = spec.displayName.toString();
-
-    return {
-      displayName: displayName?.length > 0 ? displayName : undefined,
-      type: this.typeDefAt(spec.id)
+    const inkType = {
+      displayName: spec.displayName?.length > 0 ? joinInkPath(spec.displayName) : undefined,
+      type: this.typeDefAt(spec.type)
     };
+
+    return inkType;
   }
 
   private _createBase (identifier: string, spec: InkMessageSpec | InkConstructorSpec): InkMessageBase {
@@ -48,7 +48,7 @@ export default class InkAbi extends InkRegistry {
 
       return {
         name: stringCamelCase(name.toString()),
-        type: this.typeDefAt(type.id)
+        type: this.typeDefAt(type.type)
       };
     });
 

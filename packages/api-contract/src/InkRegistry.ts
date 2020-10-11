@@ -1,25 +1,42 @@
 // Copyright 2017-2020 @canvas-ui/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefComposite, MtTypeDefVariant, MtTypeDefSlice, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
+import { MtPath, InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefComposite, MtTypeDefSequence, MtTypeDefVariant, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
 import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isUndefined } from '@polkadot/util';
-import { withTypeString } from '@polkadot/types';
+import { withTypeString, encodeTypeDef } from '@polkadot/types';
 import { u32 as U32 } from '@polkadot/types/primitive';
+
+export function joinInkPath (path: MtPath, namespaceOnly?: boolean): string {
+  const array = path.toArray().map((segment) => segment.toString());
+
+  if (namespaceOnly) {
+    array.pop();
+  }
+
+  return array.join('::');
+}
 
 // convert the offset into project-specific, index-1
 export function getRegistryOffset (id: MtLookupTypeId): number {
   return id.toNumber() - 1;
 }
 
-function isPrimitiveInkType (inkType: MtType) {
-  const inkEnvTypes = inkType.path
-    .map((segment) => segment.toString())
-    .slice(0, inkType.path.length - 1)
-    .join('::');
+function isNativeInkType (inkType: MtType) {
+  if (!inkType.path[0]) {
+    return true;
+  }
 
-  return inkEnvTypes === 'ink_env::types';
+  const prefix = inkType.path[0].toString();
+
+  return ['ink_env', 'ink_storage', 'Option', 'Result'].includes(prefix);
+}
+
+function isPrimitiveInkType (inkType: MtType) {
+  const namespace = joinInkPath(inkType.path, true);
+
+  return namespace === 'ink_env::types';
 }
 
 export default class InkRegistry {
@@ -73,7 +90,20 @@ export default class InkRegistry {
   }
 
   public setTypeDef (id: MtLookupTypeId): void {
-    this.typeDefs[getRegistryOffset(id)] = this.resolveType(this.getInkType(id), id) as TypeDef;
+    const inkType = this.getInkType(id);
+    const typeDef = this.resolveType(this.getInkType(id), id) as TypeDef;
+
+    this.typeDefs[getRegistryOffset(id)] = typeDef;
+
+    if (!isNativeInkType(inkType) && typeDef.displayName && !this.registry.hasType(typeDef.displayName)) {
+      const newDefinition = {
+        [typeDef.displayName]: encodeTypeDef(typeDef, true)
+      };
+
+      console.log(newDefinition);
+
+      this.registry.register(newDefinition);
+    }
   }
 
   private resolveType (inkType: MtType, id: MtLookupTypeId): Pick<TypeDef, never> {
@@ -90,8 +120,6 @@ export default class InkRegistry {
       typeDef = this.resolveArray(inkType.def.asArray);
     } else if (inkType.def.isSequence) {
       typeDef = this.resolveSequence(inkType.def.asSequence, id);
-    } else if (inkType.def.isSlice) {
-      typeDef = this.resolveSlice(inkType.def.asSlice, id);
     } else if (inkType.def.isTuple) {
       typeDef = this.resolveTuple(inkType.def.asTuple);
     } else {
@@ -99,13 +127,12 @@ export default class InkRegistry {
       throw new Error(`Invalid ink! type at index ${id.toString()}`);
     }
 
-    const displayName = path.pop()?.toString();
+    const displayName = path[path.length - 1]?.toString() || undefined;
+    const namespace = path.length > 1 ? joinInkPath(path, true) : undefined;
 
     const result = withTypeString({
       ...(displayName ? { displayName } : {}),
-      ...(path.length > 1 ? { namespace: path
-        .map((segment) => segment.toString())
-        .join('::') } : {}),
+      ...(namespace ? { namespace } : {}),
       ...(inkType.params.length > 0 ? { params: this.typeDefsAt(inkType.params) } : {}),
       ...typeDef
     });
@@ -119,7 +146,7 @@ export default class InkRegistry {
 
   private resolveVariant ({ variants }: MtTypeDefVariant, id: MtLookupTypeId): Pick<TypeDef, never> {
     const { params, path } = this.getInkType(id);
-    const specialVariant = path[0].toString();
+    const specialVariant = path[0]?.toString() || null;
 
     switch (specialVariant) {
       case 'Option':
@@ -237,17 +264,8 @@ export default class InkRegistry {
     };
   }
 
-  private resolveSequence ({ type }: MtTypeDefSlice, id: MtLookupTypeId): Pick<TypeDef, never> {
+  private resolveSequence ({ type }: MtTypeDefSequence, id: MtLookupTypeId): Pick<TypeDef, never> {
     assert(!!type, `InkRegistry: Invalid sequence type found at id ${id.toString()}`);
-
-    return {
-      info: TypeDefInfo.Vec,
-      sub: this.typeDefAt(type)
-    };
-  }
-
-  private resolveSlice ({ type }: MtTypeDefSlice, id: MtLookupTypeId): Pick<TypeDef, never> {
-    assert(!!type, `InkRegistry: Invalid slice type found at id ${id.toString()}`);
 
     return {
       info: TypeDefInfo.Vec,

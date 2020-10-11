@@ -6,7 +6,6 @@ import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import storage from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
 import { typesChain, typesSpec } from '@canvas-ui/apps-config/api';
@@ -166,10 +165,6 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
   // initial initialization
   useEffect((): void => {
-    if (!storage.get('types')) {
-      storage.set('types', { Address: 'AccountId', LookupSource: 'AccountId' });
-    }
-
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
 

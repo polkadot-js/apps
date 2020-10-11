@@ -2,21 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
-import { RawParams } from '@canvas-ui/react-params/types';
-import { InkMessage, InkMessageParam, ContractCallOutcome } from '@canvas-ui/api-contract/types';
+import { ContractCallOutcome } from '@canvas-ui/api-contract/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { ScrollToTop, Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
+import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
 import { PromiseContract as Contract } from '@canvas-ui/api-contract';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { useTxParams } from '@canvas-ui/react-params';
-import createValues, { createValue, extractValues } from '@canvas-ui/react-params/values';
+import { extractValues } from '@canvas-ui/react-params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { getContractForAddress } from '@canvas-ui/react-util';
-import { BN_ZERO, isNull, u8aToHex } from '@polkadot/util';
+import { BN_ZERO, isNull } from '@polkadot/util';
 
 import Outcome from './Outcome';
 import { useTranslation } from './translate';
@@ -183,6 +182,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       name: name || '',
       params: params.map((param, index) => ({
         arg: <MessageArg arg={param} />,
+        type: param.type,
         value: values[index]?.value
       })),
       weight: weight.toString()
@@ -206,7 +206,6 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   return (
     <div className={className}>
-      <ScrollToTop />
       <header>
         <h1>{t<string>('Execute {{name}}', { replace: { name } })}</h1>
         <div className='instructions'>

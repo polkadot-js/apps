@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import AddressSmall from './AddressMini';
 import CopyButton from './CopyButton';
+import Data from './Data';
 import Icon from './Icon';
 import Labelled from './Labelled';
 import { classes } from '@canvas-ui/react-util';
@@ -29,33 +30,6 @@ interface Props extends BareProps {
 }
 
 function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
-  const content = useMemo(
-    (): React.ReactNode => {
-      let typeDef = type;
-
-      if (typeDef?.info === TypeDefInfo.Option && typeDef?.params) {
-        typeDef = typeDef.params[0];
-      }
-
-      const asString = value?.toString();
-
-      if (!value || !asString || asString.length === 0) {
-        return '()';
-      }
-
-      if (typeDef?.type === 'AccountId') {
-        return (
-          <AddressSmall value={asString} />
-        );
-      }
-
-      return isTrimmed && asString && (asString.length > 256)
-        ? `${asString.substr(0, 96)}…${asString.substr(-96)}`
-        : asString;
-    },
-    [isTrimmed, type, value]
-  );
-
   return (
     <Labelled
       className={className}
@@ -65,14 +39,16 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
       label={label}
       withLabel={withLabel}
     >
-      <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
-        {content}
+      <div className={classes('ui--output', isError && 'error', 'monospace')}>
+        <Data isTrimmed={isTrimmed}
+          type={type}
+          value={value} />
         {children}
         {withCopy
           ? (
             <CopyButton
               className='copy-output'
-              value={value}
+              value={value?.toString() || ''}
               withButton={false}
             >
               <Icon

@@ -54,7 +54,11 @@ settings.set({ apiUrl });
 console.log('WS endpoint=', apiUrl);
 
 try {
-  const types = store.get('types') as Record<string, Record<string, string>> || {};
+  const types = {
+    ...store.get('types') as Record<string, Record<string, string>> || {},
+    Address: 'AccountId',
+    LookupSource: 'AccountId'
+  };
   const names = Object.keys(types);
 
   if (names.length) {

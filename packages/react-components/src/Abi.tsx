@@ -6,7 +6,7 @@ import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { ELEV_1_CSS, ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
+import { ELEV_3_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useToggle } from '@canvas-ui/react-hooks';
 
 import Expander from './Expander';
@@ -15,9 +15,10 @@ import { useTranslation } from './translate';
 
 interface Props extends BareProps {
   abi: InkAbi;
+  withConstructors?: boolean;
 }
 
-function Abi ({ abi, className }: Props): React.ReactElement<Props> {
+function Abi ({ abi, className, withConstructors = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isInfoOpen, toggleIsInfoOpen] = useToggle();
   const [isAbiOpen, toggleIsAbiOpen] = useToggle();
@@ -52,6 +53,7 @@ function Abi ({ abi, className }: Props): React.ReactElement<Props> {
           abi={abi}
           isLabelled={false}
           isRemovable={false}
+          withConstructors={withConstructors}
         />
       </Expander>
     </div>

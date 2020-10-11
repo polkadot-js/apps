@@ -3,7 +3,7 @@
 
 import { Props as BaseProps, Size } from '../types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@canvas-ui/react-components';
 import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
@@ -76,6 +76,10 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
     },
     [asHex, length, onChange, validate, withLength]
   );
+
+  useEffect((): void => {
+    _onChange(defaultValue?.toString() || '');
+  }, []);
 
   return (
     <Bare className={className}>

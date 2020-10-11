@@ -65,5 +65,6 @@ export interface ContractJsonOld {
 export interface WithCodes {
   allCodes: Code[];
   hasCodes: boolean;
+  isLoading: boolean;
   updated: number;
 }

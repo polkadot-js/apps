@@ -7,7 +7,7 @@ import { CodecArg } from '@polkadot/types/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { displayType } from '@polkadot/types';
+import { encodeTypeDef } from '@polkadot/types';
 
 import Icon from './Icon';
 import MessageArg from './MessageArg';
@@ -47,7 +47,14 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           :
           {' '}
           <span className='ui--MessageSignature-returnType'>
-            {displayType({ ...returnType.type, displayName: returnType.displayName })}
+            {encodeTypeDef({
+              ...returnType.type,
+              ...(
+                (returnType.displayName || '').length > 0
+                  ? { displayName: returnType.displayName }
+                  : {}
+              )
+            })}
           </span>
         </>
       )}
