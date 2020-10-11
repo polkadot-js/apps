@@ -5,7 +5,6 @@ import { StringOrNull } from '@polkadot/react-components/types';
 
 import { useCallback, useEffect, useState } from 'react';
 import { Abi } from '@polkadot/api-contract';
-import { registry } from '@polkadot/react-api';
 import { u8aToString } from '@polkadot/util';
 
 import store from './store';
@@ -47,7 +46,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
           throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
         }
 
-        setAbi([json, new Abi(registry, abi), true, true]);
+        setAbi([json, new Abi(abi), true, true]);
 
         codeHash && store.saveCode(
           codeHash,
