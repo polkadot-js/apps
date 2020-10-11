@@ -74,10 +74,6 @@ class Store extends EventEmitter {
   // }
 
   public async loadAll (): Promise<void> {
-    // if (!store.get('types')) {
-    //   await store.set('types', { Address: 'AccountId', LookupSource: 'AccountId' });
-    // }
-
     try {
       await api.isReady;
 

@@ -113,7 +113,6 @@ export default React.memo(styled(AddressMini)`
 
   .ui--AddressMini-address {
     max-width: 9rem;
-    min-width: 9rem;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;

@@ -57,7 +57,7 @@ export interface ParamDef {
 
 export interface UseTxParams {
   params: ParamDef[],
-  values: RawParams,
+  values?: RawParams,
   onChange: React.Dispatch<RawParams>
 }
 

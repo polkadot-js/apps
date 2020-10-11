@@ -6,16 +6,15 @@ import fs from 'fs';
 import path from 'path';
 
 import { TypeRegistry } from '@polkadot/types';
-import { TestContracts } from './types';
 
-import InkRegistry from './InkRegistry';
+import ContractRegistry from './ContractRegistry';
 
 import * as testContracts from '../test/contracts';
 
-const abis: Record<TestContracts, any> = { ...testContracts };
+const abis: Record<string, any> = { ...testContracts };
 
-function compare (name: TestContracts, registry: TypeRegistry): void {
-  const inkRegistry = new InkRegistry(registry, abis[name]);
+function compare (name: string, registry: TypeRegistry): void {
+  const inkRegistry = new ContractRegistry(registry, abis[name]);
 
   try {
     const cmpPath = path.join(__dirname, `../test/compare/${name}.test.json`);
@@ -32,7 +31,7 @@ function compare (name: TestContracts, registry: TypeRegistry): void {
   }
 }
 
-describe('InkRegistry', (): void => {
+describe('ContractRegistry', (): void => {
   describe('construction', (): void => {
     const registry = new TypeRegistry();
 
@@ -61,7 +60,7 @@ describe('InkRegistry', (): void => {
     });
 
     it('stores base project as JSON', (): void => {
-      const inkRegistry = new InkRegistry(registry, abis.dns);
+      const inkRegistry = new ContractRegistry(registry, abis.dns);
 
       expect(inkRegistry.json).toEqual(abis.dns);
     });

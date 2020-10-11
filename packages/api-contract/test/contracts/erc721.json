@@ -1,13 +1,13 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0xe069a3d4cd8354eaed681c9c827ec32400a86f75c63d20c11697a5d17bc64472",
-    "language": "ink! 3.0.0",
+    "hash": "0xf7dac8dd8a2d9c7419c766facfa29d91823625305be8a1e7a9e6d750b894782b",
+    "language": "ink! 3.0.0-rc1",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "erc721",
-    "version": "3.0.0",
+    "version": "3.0.0-rc1",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -37,7 +37,7 @@
               "displayName": [
                 "Option"
               ],
-              "id": 15
+              "type": 15
             }
           },
           {
@@ -48,7 +48,7 @@
               "displayName": [
                 "Option"
               ],
-              "id": 15
+              "type": 15
             }
           },
           {
@@ -59,7 +59,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -78,7 +78,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -89,7 +89,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -100,7 +100,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -119,7 +119,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -130,7 +130,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -141,7 +141,7 @@
               "displayName": [
                 "bool"
               ],
-              "id": 14
+              "type": 14
             }
           }
         ],
@@ -161,7 +161,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           }
         ],
@@ -179,7 +179,7 @@
           "displayName": [
             "u32"
           ],
-          "id": 2
+          "type": 2
         },
         "selector": "0x56e929b2"
       },
@@ -191,7 +191,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -207,7 +207,7 @@
           "displayName": [
             "Option"
           ],
-          "id": 15
+          "type": 15
         },
         "selector": "0xf7860ada"
       },
@@ -219,7 +219,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -235,7 +235,7 @@
           "displayName": [
             "Option"
           ],
-          "id": 15
+          "type": 15
         },
         "selector": "0xb09dc487"
       },
@@ -247,7 +247,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -256,7 +256,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           }
         ],
@@ -272,7 +272,7 @@
           "displayName": [
             "bool"
           ],
-          "id": 14
+          "type": 14
         },
         "selector": "0xc666bf03"
       },
@@ -284,7 +284,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -293,7 +293,7 @@
               "displayName": [
                 "bool"
               ],
-              "id": 14
+              "type": 14
             }
           }
         ],
@@ -309,7 +309,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 16
+          "type": 16
         },
         "selector": "0x51176f12"
       },
@@ -321,7 +321,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -330,7 +330,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -346,7 +346,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 16
+          "type": 16
         },
         "selector": "0x03d0e114"
       },
@@ -358,7 +358,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -367,7 +367,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -383,7 +383,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 16
+          "type": 16
         },
         "selector": "0xfae3a09d"
       },
@@ -395,7 +395,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -404,7 +404,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 6
+              "type": 6
             }
           },
           {
@@ -413,7 +413,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -429,7 +429,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 16
+          "type": 16
         },
         "selector": "0xfcfb2ccd"
       },
@@ -441,7 +441,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -457,7 +457,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 16
+          "type": 16
         },
         "selector": "0xf8885eeb"
       },
@@ -469,7 +469,7 @@
               "displayName": [
                 "TokenId"
               ],
-              "id": 2
+              "type": 2
             }
           }
         ],
@@ -485,7 +485,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 16
+          "type": 16
         },
         "selector": "0x120bc564"
       }
@@ -527,7 +527,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0100000001000000000000000000000000000000000000000000000000000000",
@@ -607,7 +607,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0300000002000000000000000000000000000000000000000000000000000000",
@@ -687,7 +687,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0500000003000000000000000000000000000000000000000000000000000000",
@@ -767,7 +767,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0700000004000000000000000000000000000000000000000000000000000000",

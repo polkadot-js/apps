@@ -22,6 +22,7 @@ export { default as ContractInfo } from './ContractInfo';
 export { default as ContractParams } from './ContractParams';
 export { default as CopyButton } from './CopyButton';
 export { default as CryptoType } from './CryptoType';
+export { default as Data } from './Data';
 export { default as Divider } from './Divider';
 export { default as Dropdown } from './Dropdown';
 export { default as EditButton } from './EditButton';

@@ -4,15 +4,20 @@
 import React, { useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
+import { useScrollToTop } from '@canvas-ui/react-hooks';
+
 function ScrollToTop ({ history }: RouteComponentProps): React.ReactElement {
+  const scrollToTop = useScrollToTop();
+
   useEffect(() => {
     const unlisten = history.listen(() => {
-      window.scrollTo(0, 0);
+      scrollToTop();
     });
 
     return () => {
       unlisten();
     };
+  /* eslint-disable-next-line */
   }, []);
 
   return <></>;

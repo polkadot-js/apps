@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @canvas-ui/api-contract authors & contributors
+// Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 export { default as PromiseBlueprint } from './PromiseBlueprint';

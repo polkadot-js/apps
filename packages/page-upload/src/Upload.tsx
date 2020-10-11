@@ -10,9 +10,10 @@ import { SubmittableResult } from '@polkadot/api';
 import store from '@canvas-ui/apps/store';
 import { Button, InputABI, InputAddress, InputFile, Input, TxButton } from '@canvas-ui/react-components';
 import PendingTx from '@canvas-ui/react-components/PendingTx';
+import { registry } from '@canvas-ui/react-api';
 import { useAccountId, useAbi, useApi, useFile, useNonEmptyString } from '@canvas-ui/react-hooks';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
-import { compactAddLength, isNull, u8aToHex } from '@polkadot/util';
+import { compactAddLength, isNull } from '@polkadot/util';
 
 import { useTranslation } from './translate';
 
@@ -65,6 +66,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
       <PendingTx
         additionalDetails={additionalDetails}
         instructions={t<string>('Sign and submit to upload this code bundle on the chain.')}
+        registry={registry}
         {...pendingTx}
       />
     );

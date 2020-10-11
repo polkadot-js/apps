@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import store from './store';
 
 export default function useAppNavigation (): WithCodes {
+  const [isLoading, setIsLoading] = useState(true);
   const [updated, setUpdated] = useState(0);
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
@@ -29,7 +30,10 @@ export default function useAppNavigation (): WithCodes {
       store.on('removed-code', _triggerUpdate);
 
       store.loadAll()
-        .then((): void => setAllCodes(store.getAllCode()))
+        .then((): void => {
+          setAllCodes(store.getAllCode());
+          setIsLoading(false);
+        })
         .catch((): void => {
           // noop, handled internally
         });
@@ -38,6 +42,6 @@ export default function useAppNavigation (): WithCodes {
   );
 
   return {
-    allCodes, hasCodes, updated
+    allCodes, hasCodes, isLoading, updated
   };
 }

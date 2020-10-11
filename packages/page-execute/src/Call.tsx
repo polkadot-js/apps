@@ -2,21 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
-import { RawParams } from '@canvas-ui/react-params/types';
-import { InkMessage, InkMessageParam, ContractCallOutcome } from '@canvas-ui/api-contract/types';
+import { ContractCallOutcome } from '@canvas-ui/api-contract/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { ScrollToTop, Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
+import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
 import { PromiseContract as Contract } from '@canvas-ui/api-contract';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { useTxParams } from '@canvas-ui/react-params';
-import createValues, { createValue, extractValues } from '@canvas-ui/react-params/values';
+import { extractValues } from '@canvas-ui/react-params/values';
 import usePendingTx from '@canvas-ui/react-signer/usePendingTx';
 import { getContractForAddress } from '@canvas-ui/react-util';
-import { BN_ZERO, isNull, u8aToHex } from '@polkadot/util';
+import { BN_ZERO, isNull } from '@polkadot/util';
 
 import Outcome from './Outcome';
 import { useTranslation } from './translate';
@@ -29,7 +28,10 @@ function getCallMessageOptions (callContract: Contract | null): Options {
       return {
         key: message.identifier,
         text: (
-          <MessageSignature message={message} />
+          <MessageSignature
+            message={message}
+            registry={callContract.registry}
+          />
         ),
         value: index
       };
@@ -47,6 +49,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   const [messageIndex, setMessageIndex] = useState(parseInt(pageParams.messageIndex || '0', 10));
   const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
+
   const [contract, hasRpc] = useMemo(
     (): [Contract | null, boolean] => {
       try {
@@ -63,8 +66,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     [api, pageParams.address]
   );
 
-  // const [message, setMessage] = useState<InkMessage | null>(contract?.abi.messages[messageIndex] || null);
-  const [params, values, setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
+  const [params, values = [], setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return contract?.abi?.messages[messageIndex]
       ? contract.abi.messages[messageIndex](...extractValues(values || [])) as unknown as Uint8Array
@@ -76,7 +78,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       const newMessage = contract?.abi?.messages[messageIndex] || null;
 
       if (hasRpc) {
-        if (!newMessage || newMessage.mutates) {
+        if (!newMessage || newMessage.isMutating) {
           setUseRpc(false);
         } else {
           setUseRpc(true);
@@ -108,7 +110,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   const [accountId, setAccountId] = useAccountId();
   const [endowment, setEndowment, isEndowmentValid, isEndowmentError] = useFormField<BN>(BN_ZERO);
-  const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].mutates);
+  const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].isMutating);
   const useWeightHook = useGasWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
@@ -148,7 +150,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       if (!accountId || !contract || !endowment || !weight) return;
 
       !!contract && contract
-        .call('rpc', messageIndex, endowment, weight, ...extractValues(values))
+        .read(messageIndex, 0, weight, ...extractValues(values))
         .send(accountId)
         .then(
           (outcome: ContractCallOutcome): void => {
@@ -182,12 +184,18 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       message: messageOptions[messageIndex]?.text,
       name: name || '',
       params: params.map((param, index) => ({
-        arg: <MessageArg arg={param} />,
+        arg: (
+          <MessageArg
+            arg={param}
+            registry={contract.registry}
+          />
+        ),
+        type: param.type,
         value: values[index]?.value
       })),
       weight: weight.toString()
     }),
-    [name, messageOptions, messageIndex, params, values, weight]
+    [contract.registry, name, messageOptions, messageIndex, params, values, weight]
   );
 
   if (pendingTx.currentItem) {
@@ -195,6 +203,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       <PendingTx
         additionalDetails={additionalDetails}
         instructions={t<string>('Sign and submit to call the contract message with the above parameters.')}
+        registry={contract.registry}
         {...pendingTx}
       />
     );
@@ -206,7 +215,6 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
 
   return (
     <div className={className}>
-      <ScrollToTop />
       <header>
         <h1>{t<string>('Execute {{name}}', { replace: { name } })}</h1>
         <div className='instructions'>
@@ -312,6 +320,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
                 key={`outcome-${index}`}
                 onClear={_onClearOutcome(index)}
                 outcome={outcome}
+                registry={contract.registry}
               />
             ))}
           </div>

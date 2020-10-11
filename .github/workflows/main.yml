@@ -1,0 +1,29 @@
+name: Master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  www:
+    strategy:
+      matrix:
+        step: ["ghpages"]
+    name: ${{ matrix.step }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          token: ${{ secrets.GH_PAT }}
+      - name: ${{ matrix.step }}
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          NODE_ENV: production
+        run: |
+          git config --global user.name "Github Actions"
+          git config --global user.email "action@github.com"
+          yarn install --immutable | grep -v 'YN0013'
+          yarn lint
+          mkdir ./packages/apps/build
+          yarn build:www
+          yarn deploy

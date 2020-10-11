@@ -7,7 +7,7 @@ import { AnyJson } from '@polkadot/types/types';
 import { FileState } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
-import { InkAbi } from '@canvas-ui/api-contract';
+import { Abi } from '@canvas-ui/api-contract';
 import store from '@canvas-ui/apps/store';
 import { registry } from '@canvas-ui/react-api';
 import { u8aToString } from '@polkadot/util';
@@ -15,7 +15,7 @@ import { u8aToString } from '@polkadot/util';
 import { useTranslation } from './translate';
 
 interface UseAbi {
-  abi: InkAbi | null;
+  abi: Abi | null;
   errorText: string | null;
   isAbiError: boolean;
   isAbiValid: boolean;
@@ -24,9 +24,9 @@ interface UseAbi {
   onRemoveAbi: VoidFn;
 }
 
-type State = [InkAbi | null, boolean, boolean];
+type State = [Abi | null, boolean, boolean];
 
-interface InkAbiSpecOutdated {
+interface AbiSpecOutdated {
   deploy?: any;
   messages?: any;
   registry?: {
@@ -37,7 +37,7 @@ interface InkAbiSpecOutdated {
 export default function useAbi (source: Code | null = null, isRequired = false): UseAbi {
   const { t } = useTranslation();
   const initialState: State = source
-    ? [new InkAbi(registry, source.abi || null), !!source?.abi, !isRequired || !!source.abi]
+    ? [source.abi ? new Abi(registry, source.abi) : null, !!source?.abi, !isRequired || !!source.abi]
     : [null, false, false];
   const [[abi, isAbiSupplied, isAbiValid], setAbi] = useState<State>(initialState);
   const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
@@ -45,7 +45,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
   useEffect(
     (): void => {
       if (!!source?.abi && abi?.json !== source.abi) {
-        setAbi([new InkAbi(registry, source.abi || null), !!source.abi, !isRequired || !!source.abi]);
+        setAbi([new Abi(registry, source.abi || null), !!source.abi, !isRequired || !!source.abi]);
       }
     },
     [abi, source, isRequired]
@@ -56,7 +56,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
       const json = u8aToString(data);
 
       try {
-        const abiOutdated = JSON.parse(json) as InkAbiSpecOutdated;
+        const abiOutdated = JSON.parse(json) as AbiSpecOutdated;
 
         if (abiOutdated.deploy || abiOutdated.messages) {
           throw new Error(t<string>('You are using an ABI with an outdated format. Please generate a new one.'));
@@ -64,7 +64,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
 
         const newAbi = JSON.parse(json) as AnyJson;
 
-        setAbi([new InkAbi(registry, newAbi), true, true]);
+        setAbi([new Abi(registry, newAbi), true, true]);
         source?.id && store.saveCode(
           { abi: newAbi },
           source.id

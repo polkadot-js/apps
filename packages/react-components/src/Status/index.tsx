@@ -182,18 +182,17 @@ function Status ({ className = '', stqueue, txqueue }: Props): React.ReactElemen
 
   return (
     <div className={`ui--Status ${className}`}>
-      {/* {(allSt.length + completedTx.length) > 1 && ( */
-        false && (
-          <div className='dismiss'>
-            <Button
-              icon='cancel'
-              isFluid
-              isPrimary
-              label={t<string>('Dismiss all notifications')}
-              onClick={_onDismiss}
-            />
-          </div>
-        )}
+      {(allSt.length + completedTx.length) > 1 && (
+        <div className='dismiss'>
+          <Button
+            icon='cancel'
+            isFluid
+            isPrimary
+            label={t<string>('Dismiss all notifications')}
+            onClick={_onDismiss}
+          />
+        </div>
+      )}
       {allTx.map(renderItem)}
       {allSt.map(renderStatus)}
     </div>

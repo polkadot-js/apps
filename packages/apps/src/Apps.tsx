@@ -98,7 +98,6 @@ export default React.memo(styled(Apps)`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  height: 100vh;
 
   &.theme--default {
     a.apps--SideBar-Item-NavLink {

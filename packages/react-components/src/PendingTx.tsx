@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { QueueTx } from '@canvas-ui/react-components/Status/types';
+import { TypeDef } from '@polkadot/types/types';
 import { BareProps } from './types';
 
 import React, { useCallback, useMemo, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { registry } from '@canvas-ui/react-api';
-import { Button, Labelled, InputAddress } from '@canvas-ui/react-components';
+import { registry as baseRegistry } from '@canvas-ui/react-api';
+import { Button, Data, Labelled, InputAddress } from '@canvas-ui/react-components';
 import useSendTx from '@canvas-ui/react-signer/useSendTx';
+import { TypeRegistry } from '@polkadot/types';
 
 import { ELEV_2_CSS } from './styles/constants';
 import { useTranslation } from './translate';
@@ -20,10 +22,11 @@ interface Props extends BareProps {
   instructions: React.ReactNode;
   isSendable: boolean;
   onError: () => void;
+  registry: TypeRegistry;
   requestAddress: string;
 }
 
-function PendingTx ({ additionalDetails, className, currentItem, currentItem: { accountId, extrinsic }, instructions, requestAddress }: Props): React.ReactElement<Props> | null {
+function PendingTx ({ additionalDetails, className, currentItem, currentItem: { accountId, extrinsic }, instructions, registry, requestAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const willSend = useRef(false);
   const { onCancel, onSend, tx } = useSendTx(currentItem, requestAddress);
@@ -53,7 +56,7 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
         return null;
       }
 
-      const { meta, method, section } = registry.findMetaCall(extrinsic.callIndex);
+      const { meta, method, section } = baseRegistry.findMetaCall(extrinsic.callIndex);
 
       let details: React.ReactNode = null;
 
@@ -102,8 +105,8 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
               >
                 {additionalDetails.constructor}
               </Labelled>
-              {(additionalDetails.params as { arg: React.ReactNode, value: string }[]).map(
-                ({ arg, value }: { arg: React.ReactNode, value: string }, index): React.ReactNode => {
+              {(additionalDetails.params as { arg: React.ReactNode, type: TypeDef, value: string }[]).map(
+                ({ arg, type, value }: { arg: React.ReactNode, type: TypeDef, value: string }, index): React.ReactNode => {
                   return (
                     <Labelled
                       isIndented
@@ -112,7 +115,12 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
                       key={`arg-${index}`}
                       label={arg}
                     >
-                      {truncate(value.toString(), 92)}
+                      <Data
+                        isTrimmed
+                        registry={registry}
+                        type={type}
+                        value={value}
+                      />
                     </Labelled>
                   );
                 }
@@ -163,8 +171,8 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
               >
                 {additionalDetails.message}
               </Labelled>
-              {(additionalDetails.params as { arg: React.ReactNode, value: string }[]).map(
-                ({ arg, value }: { arg: React.ReactNode, value: string }, index): React.ReactNode => {
+              {(additionalDetails.params as { arg: React.ReactNode, type: TypeDef, value: string }[]).map(
+                ({ arg, type, value }: { arg: React.ReactNode, type: TypeDef, value: string }, index): React.ReactNode => {
                   return (
                     <Labelled
                       isIndented
@@ -173,7 +181,12 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
                       key={`arg-${index}`}
                       label={arg}
                     >
-                      {value.toString()}
+                      <Data
+                        isTrimmed
+                        registry={registry}
+                        type={type}
+                        value={value}
+                      />
                     </Labelled>
                   );
                 }
@@ -211,7 +224,7 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
         </>
       );
     },
-    [accountId, additionalDetails, extrinsic, t]
+    [accountId, additionalDetails, extrinsic, registry, t]
   );
 
   if (!extrinsic) {

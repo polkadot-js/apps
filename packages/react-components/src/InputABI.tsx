@@ -6,14 +6,14 @@ import { FileState } from '@canvas-ui/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { InkAbi } from '@canvas-ui/api-contract';
+import { Abi } from '@canvas-ui/api-contract';
 
 import InputFile from './InputFile';
 import Messages from './Messages';
 import { useTranslation } from './translate';
 
 interface Props extends BareProps {
-  abi?: InkAbi | null;
+  abi?: Abi | null;
   errorText?: string | null;
   file: FileState | null;
   isContract?: boolean;

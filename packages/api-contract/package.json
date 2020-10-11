@@ -1,6 +1,6 @@
 {
   "name": "@canvas-ui/api-contract",
-  "version": "0.0.1",
+  "version": "0.45.0-beta.33",
   "description": "Interfaces for interacting with contracts and contract ABIs",
   "main": "index.js",
   "keywords": [

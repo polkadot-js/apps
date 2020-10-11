@@ -1,13 +1,13 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0x1f1aa9abdcef699d384445b485ed35d890c9a1185510d03d6e1142248187b247",
-    "language": "ink! 3.0.0",
+    "hash": "0xcf3eee6ac5d38f6f503293735a72b011960e09ec1dd09185ab3c3d28e7770009",
+    "language": "ink! 3.0.0-rc1",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "dns",
-    "version": "3.0.0",
+    "version": "3.0.0-rc1",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -37,7 +37,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           },
           {
@@ -48,7 +48,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           }
         ],
@@ -67,7 +67,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           },
           {
@@ -78,7 +78,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           },
           {
@@ -89,7 +89,7 @@
               "displayName": [
                 "Option"
               ],
-              "id": 13
+              "type": 13
             }
           },
           {
@@ -100,7 +100,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           }
         ],
@@ -119,7 +119,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           },
           {
@@ -130,7 +130,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           },
           {
@@ -141,7 +141,7 @@
               "displayName": [
                 "Option"
               ],
-              "id": 13
+              "type": 13
             }
           },
           {
@@ -152,7 +152,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           }
         ],
@@ -171,7 +171,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           }
         ],
@@ -187,7 +187,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 10
+          "type": 10
         },
         "selector": "0x7fb0aded"
       },
@@ -199,7 +199,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           },
           {
@@ -208,7 +208,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           }
         ],
@@ -224,7 +224,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 10
+          "type": 10
         },
         "selector": "0x220ac6e3"
       },
@@ -236,7 +236,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           },
           {
@@ -245,7 +245,7 @@
               "displayName": [
                 "AccountId"
               ],
-              "id": 9
+              "type": 9
             }
           }
         ],
@@ -261,7 +261,7 @@
           "displayName": [
             "Result"
           ],
-          "id": 10
+          "type": 10
         },
         "selector": "0xfae3a09d"
       },
@@ -273,7 +273,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 4
+              "type": 4
             }
           }
         ],
@@ -289,7 +289,7 @@
           "displayName": [
             "AccountId"
           ],
-          "id": 9
+          "type": 9
         },
         "selector": "0xb9ee7664"
       }
@@ -331,7 +331,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0100000001000000000000000000000000000000000000000000000000000000",
@@ -411,7 +411,7 @@
                                 {
                                   "layout": {
                                     "array": {
-                                      "cells_per_elem": 1,
+                                      "cellsPerElem": 1,
                                       "layout": {
                                         "cell": {
                                           "key": "0x0300000002000000000000000000000000000000000000000000000000000000",

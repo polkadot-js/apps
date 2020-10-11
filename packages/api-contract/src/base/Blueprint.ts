@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @canvas-ui/api-contract authors & contributors
+// Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AccountId, Address, Hash } from '@polkadot/types/interfaces';
+import { ApiTypes, DecorateMethod, SignerOptions } from '@polkadot/api/types';
+import { AccountId, EventRecord, Hash } from '@polkadot/types/interfaces';
 import { AnyJson, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
@@ -12,15 +12,16 @@ import { map } from 'rxjs/operators';
 import { SubmittableResult } from '@polkadot/api';
 import { assert } from '@polkadot/util';
 
-import InkAbi from '../InkAbi';
+import Abi from '../Abi';
+import Base from './Base';
 import Contract from './Contract';
-import { BaseWithTx } from './util';
+import { applyOnEvent } from './util';
 
 // eslint-disable-next-line no-use-before-define
 type BlueprintCreateResultSubscription<ApiType extends ApiTypes> = Observable<BlueprintCreateResult<ApiType>>;
 
 export interface BlueprintCreate<ApiType extends ApiTypes> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId, options?: SignerOptions): BlueprintCreateResultSubscription<ApiType>;
 }
 
 class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult {
@@ -34,13 +35,13 @@ class BlueprintCreateResult<ApiType extends ApiTypes> extends SubmittableResult 
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiType> {
+export default class Blueprint<ApiType extends ApiTypes> extends Base<ApiType> {
   public readonly codeHash: Hash;
 
-  constructor (api: ApiObject<ApiType>, abi: AnyJson | InkAbi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
+  constructor (api: ApiObject<ApiType>, abi: AnyJson | Abi, decorateMethod: DecorateMethod<ApiType>, codeHash: string | Hash) {
     super(api, abi, decorateMethod);
 
-    this.codeHash = this.api.registry.createType('Hash', codeHash);
+    this.codeHash = this.registry.createType('Hash', codeHash);
   }
 
   public deployContract (constructorIndex = 0, endowment: number | BN, maxGas: number | BN, ...params: any[]): BlueprintCreate<ApiType> {
@@ -48,28 +49,19 @@ export default class Blueprint<ApiType extends ApiTypes> extends BaseWithTx<ApiT
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      signAndSend: this.decorateMethod(
-        (account: IKeyringPair | string | AccountId | Address): BlueprintCreateResultSubscription<ApiType> => {
-          return this._apiContracts
+      signAndSend: this._decorateMethod(
+        (account: IKeyringPair | string | AccountId, options?: SignerOptions): BlueprintCreateResultSubscription<ApiType> =>
+          this.api.rx.tx.contracts
             .create(endowment, maxGas, this.codeHash, this.abi.constructors[constructorIndex](...params))
-            .signAndSend(account)
-            .pipe(map(this._createResult));
-        }
+            .signAndSend(account, options)
+            .pipe(
+              map((result) =>
+                new BlueprintCreateResult(result, applyOnEvent(result, 'Instantiated', (record: EventRecord) =>
+                  new Contract<ApiType>(this.api, this.abi, this._decorateMethod, record.event.data[1] as AccountId)
+                ))
+              )
+            )
       )
     };
-  }
-
-  private _createResult = (result: SubmittableResult): BlueprintCreateResult<ApiType> => {
-    let contract: Contract<ApiType> | undefined;
-
-    if (result.isInBlock) {
-      const record = result.findRecord('contract', 'Instantiated');
-
-      if (record) {
-        contract = new Contract<ApiType>(this.api, this.abi, this.decorateMethod, record.event.data[1] as Address);
-      }
-    }
-
-    return new BlueprintCreateResult(result, contract);
   }
 }

@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { Codec, TypeDef } from '@polkadot/types/types';
 import { BareProps } from './types';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { TypeRegistry } from '@polkadot/types';
 
-import AddressSmall from './AddressMini';
 import CopyButton from './CopyButton';
+import Data from './Data';
 import Icon from './Icon';
 import Labelled from './Labelled';
 import { classes } from '@canvas-ui/react-util';
@@ -22,40 +23,14 @@ interface Props extends BareProps {
   isMonospace?: boolean;
   isTrimmed?: boolean;
   label?: React.ReactNode;
+  registry: TypeRegistry;
   type?: TypeDef | null;
   value?: Codec;
   withCopy?: boolean;
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isTrimmed, label, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
-  const content = useMemo(
-    (): React.ReactNode => {
-      let typeDef = type;
-
-      if (typeDef?.info === TypeDefInfo.Option && typeDef?.params) {
-        typeDef = typeDef.params[0];
-      }
-
-      const asString = value?.toString();
-
-      if (!value || !asString || asString.length === 0) {
-        return '()';
-      }
-
-      if (typeDef?.type === 'AccountId') {
-        return (
-          <AddressSmall value={asString} />
-        );
-      }
-
-      return isTrimmed && asString && (asString.length > 256)
-        ? `${asString.substr(0, 96)}…${asString.substr(-96)}`
-        : asString;
-    },
-    [isTrimmed, type, value]
-  );
-
+function Output ({ children, className = '', help, isError, isFull, isHidden, isTrimmed, label, registry, type, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -65,14 +40,19 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
       label={label}
       withLabel={withLabel}
     >
-      <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
-        {content}
+      <div className={classes('ui--output', isError && 'error', 'monospace')}>
+        <Data
+          isTrimmed={isTrimmed}
+          registry={registry}
+          type={type}
+          value={value}
+        />
         {children}
         {withCopy
           ? (
             <CopyButton
               className='copy-output'
-              value={value}
+              value={value?.toString() || ''}
               withButton={false}
             >
               <Icon

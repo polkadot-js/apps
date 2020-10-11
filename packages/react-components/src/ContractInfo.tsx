@@ -15,7 +15,7 @@ import { truncate } from '@canvas-ui/react-util';
 import CopyButton from './CopyButton';
 import EditButton from './EditButton';
 import Input from './Input';
- 
+
 interface Props extends BareProps {
   address: string;
   isEditable?: boolean;

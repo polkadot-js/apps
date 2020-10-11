@@ -1,13 +1,13 @@
 {
   "metadataVersion": "0.1.0",
   "source": {
-    "hash": "0x87175ad8e56de12e8bac275483adb1990a61c8b8caca9ddc18f1d5ad3b5dc976",
-    "language": "ink! 3.0.0",
+    "hash": "0x939d1823be952b4d7114448bb1a27fa13bafb8c4b33149efc24e826d8e54035e",
+    "language": "ink! 3.0.0-rc1",
     "compiler": "rustc 1.48.0-nightly"
   },
   "contract": {
     "name": "delegator",
-    "version": "3.0.0",
+    "version": "3.0.0-rc1",
     "authors": [
       "Parity Technologies <admin@parity.io>"
     ]
@@ -22,7 +22,7 @@
               "displayName": [
                 "i32"
               ],
-              "id": 4
+              "type": 4
             }
           },
           {
@@ -31,7 +31,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -40,7 +40,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 5
+              "type": 5
             }
           },
           {
@@ -49,7 +49,7 @@
               "displayName": [
                 "Hash"
               ],
-              "id": 5
+              "type": 5
             }
           }
         ],
@@ -79,7 +79,7 @@
           "displayName": [
             "i32"
           ],
-          "id": 4
+          "type": 4
         },
         "selector": "0x1e5ca456"
       },
@@ -91,7 +91,7 @@
               "displayName": [
                 "i32"
               ],
-              "id": 4
+              "type": 4
             }
           }
         ],
@@ -127,7 +127,7 @@
         {
           "layout": {
             "enum": {
-              "dispatch_key": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "dispatchKey": "0x0000000000000000000000000000000000000000000000000000000000000000",
               "variants": {
                 "0": {
                   "fields": []

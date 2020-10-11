@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
-import { InkMessageBase } from '@canvas-ui/api-contract/types';
+import { AbiMessage } from '@canvas-ui/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { InkAbi } from '@canvas-ui/api-contract';
+import { Abi } from '@canvas-ui/api-contract';
 import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_3_CSS } from './styles/constants';
@@ -16,7 +16,7 @@ import MessageSignature from './MessageSignature';
 import { useTranslation } from './translate';
 
 export interface Props extends BareProps {
-  abi: InkAbi;
+  abi: Abi;
   address?: string;
   isLabelled?: boolean;
   isRemovable: boolean;
@@ -52,7 +52,7 @@ function onSelectConstructor (props: Props, index: number): () => void {
   };
 }
 
-function renderItem (props: Props, message: InkMessageBase, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
+function renderItem (props: Props, message: AbiMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
   const { docs = [], identifier } = message;
 
   return (
@@ -64,6 +64,7 @@ function renderItem (props: Props, message: InkMessageBase, index: number, asCon
         <MessageSignature
           asConstructor={asConstructor}
           message={message}
+          registry={props.abi.registry}
           withTooltip
         />
         <Expander
