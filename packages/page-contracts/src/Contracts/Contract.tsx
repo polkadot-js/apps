@@ -6,7 +6,7 @@ import { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback } from 'react';
 import keyring from '@polkadot/ui-keyring';
-import { PromiseContract } from '@polkadot/api-contract';
+import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -17,7 +17,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  contract: PromiseContract;
+  contract: ContractPromise;
   onCall: (index?: number) => void;
 }
 

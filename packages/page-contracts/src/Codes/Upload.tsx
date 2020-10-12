@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash } from '@polkadot/types/interfaces';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
 
-import React, { useCallback, useState } from 'react';
-import { SubmittableResult } from '@polkadot/api';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { CodePromise, CodeSubmittableResult } from '@polkadot/api-contract';
 import { InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
-import { useAccountId, useNonEmptyString } from '@polkadot/react-hooks';
-import { compactAddLength, isNull, isWasm } from '@polkadot/util';
+import { useAccountId, useApi, useNonEmptyString } from '@polkadot/react-hooks';
+import { isNull, isWasm } from '@polkadot/util';
 
 import { ABI, InputName } from '../shared';
 import store from '../store';
@@ -20,42 +20,46 @@ interface Props {
 
 function Upload ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
+  const { api } = useApi();
   const [accountId, setAccountId] = useAccountId();
+  const [uploadTx, setUploadTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+
+  const code = useMemo(
+    () => isAbiValid && isWasmValid && wasm && contractAbi
+      ? new CodePromise(api, contractAbi, wasm)
+      : null,
+    [api, contractAbi, isAbiValid, isWasmValid, wasm]
+  );
+
+  useEffect((): void => {
+    setUploadTx(() => code ? code.createBlueprint() : null);
+  }, [code]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
-      setWasm([compactAddLength(wasm), isWasm(wasm)]);
-      setName(name.replace('.wasm', ''));
+      setWasm([wasm, isWasm(wasm)]);
+      setName(name.replace('.wasm', '').replace('_', ' '));
     },
     [setName]
   );
 
   const _onSuccess = useCallback(
-    (result: SubmittableResult): void => {
-      const record = result.findRecord('contracts', 'CodeStored');
-
-      if (record) {
-        const codeHash = record.event.data[0];
-
-        if (!codeHash || !name) {
-          return;
-        }
-
-        store
-          .saveCode(codeHash as Hash, { abi, name, tags: [] })
-          .then()
-          .catch((error: any): void => {
-            console.error('Unable to save code', error);
-          });
-      }
+    (result: CodeSubmittableResult<'promise'>): void => {
+      result.blueprint && store
+        .saveCode(result.blueprint.codeHash, {
+          abi: JSON.stringify(result.blueprint.abi.json),
+          name: name || '<unknown>',
+          tags: []
+        })
+        .catch(console.error);
     },
-    [abi, name]
+    [name]
   );
 
-  const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid;
+  const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid && !!uploadTx;
 
   return (
     <Modal header={t('Upload WASM')}>
@@ -98,13 +102,12 @@ function Upload ({ onClose }: Props): React.ReactElement {
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
+          extrinsic={uploadTx}
           icon='upload'
           isDisabled={!isSubmittable}
           label={t('Upload')}
           onClick={onClose}
           onSuccess={_onSuccess}
-          params={[wasm]}
-          tx='contracts.putCode'
         />
       </Modal.Actions>
     </Modal>

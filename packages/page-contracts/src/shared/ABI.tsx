@@ -80,17 +80,7 @@ function ABI (props: Props): React.ReactElement<Props> {
               onChange={onChange}
               placeholder={
                 isSupplied && !isValid
-                  ? (
-                    <>
-                      {t<string>('invalid ABI file selected')}
-                      {!!errorText && (
-                        <>
-                          {' — '}
-                          {t<string>(errorText)}
-                        </>
-                      )}
-                    </>
-                  )
+                  ? <>{t<string>('invalid ABI file selected')}{!!errorText && ` — ${errorText}`}</>
                   : t<string>('click to select or drag and drop a JSON ABI file')
               }
             />

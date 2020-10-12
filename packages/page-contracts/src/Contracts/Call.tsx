@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { PromiseContract as ApiContract } from '@polkadot/api-contract';
+import { ContractPromise as ApiContract } from '@polkadot/api-contract';
 import { useAccountId, useFormField } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 

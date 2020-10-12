@@ -3,14 +3,11 @@
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
 import { StringOrNull } from '@polkadot/react-components/types';
-import { AccountId } from '@polkadot/types/interfaces';
 import { CodeStored } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SubmittableResult } from '@polkadot/api';
-import { PromiseBlueprint } from '@polkadot/api-contract';
+import { BlueprintPromise, BlueprintSubmittableResult } from '@polkadot/api-contract';
 import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useFormField, useNonEmptyString, useNonZeroBn, useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
@@ -23,17 +20,15 @@ import useWeight from './useWeight';
 import { ENDOWMENT } from './constants';
 
 interface Props {
-  basePath: string;
   codeHash: string;
   constructorIndex: number;
   onClose: () => void;
   setConstructorIndex: React.Dispatch<number>;
 }
 
-function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
+function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const history = useHistory();
   const weight = useWeight();
   const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>([]);
@@ -50,13 +45,13 @@ function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstru
   );
 
   const [name, isNameValid, setName] = useNonEmptyString(code.json.name);
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], codeHash, true);
+  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], codeHash, true);
 
   const blueprint = useMemo(
-    () => codeHash && contractAbi
-      ? new PromiseBlueprint(api, contractAbi, codeHash)
+    () => isAbiValid && codeHash && contractAbi
+      ? new BlueprintPromise(api, contractAbi, codeHash)
       : null,
-    [api, codeHash, contractAbi]
+    [api, codeHash, contractAbi, isAbiValid]
   );
 
   const constructOptions = useMemo(
@@ -79,7 +74,7 @@ function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstru
     endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
       if (blueprint) {
         try {
-          return blueprint.instantiate(constructorIndex, endowment, weight.weight, ...params);
+          return blueprint.createContract(constructorIndex, endowment, weight.weight, ...params);
         } catch (error) {
           console.error(error);
 
@@ -92,30 +87,21 @@ function Deploy ({ basePath, codeHash, constructorIndex = 0, onClose, setConstru
   }, [blueprint, constructorIndex, endowment, params, weight]);
 
   const _onSuccess = useCallback(
-    (result: SubmittableResult): void => {
-      const section = api.tx.contracts ? 'contracts' : 'contract';
-      const records = result.filterRecords(section, 'Instantiated');
-
-      if (records.length) {
-        // find the last EventRecord (in the case of multiple contracts deployed - we should really be
-        // more clever here to find the exact contract deployed, this works for eg. Delegator)
-        const address = records[records.length - 1].event.data[1] as unknown as AccountId;
-
-        keyring.saveContract(address.toString(), {
+    (result: BlueprintSubmittableResult<'promise'>): void => {
+      if (result.contract) {
+        keyring.saveContract(result.contract.address.toString(), {
           contract: {
-            abi,
+            abi: JSON.stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
           name,
           tags: []
         });
 
-        history.push(basePath);
-
         onClose && onClose();
       }
     },
-    [abi, api, basePath, history, name, onClose]
+    [api, name, onClose]
   );
 
   const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid;
