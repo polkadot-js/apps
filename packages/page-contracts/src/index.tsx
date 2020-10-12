@@ -111,7 +111,6 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
       />
       {codeHash && isDeployOpen && (
         <Deploy
-          basePath={basePath}
           codeHash={codeHash}
           constructorIndex={constructorIndex}
           onClose={_onCloseDeploy}

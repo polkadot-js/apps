@@ -6,7 +6,7 @@ import { ContractInfo } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Abi, PromiseContract } from '@polkadot/api-contract';
+import { Abi, ContractPromise } from '@polkadot/api-contract';
 import { Expander, IconLink } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -16,7 +16,7 @@ import { useTranslation } from '../translate';
 
 export interface Props {
   className?: string;
-  contract?: PromiseContract;
+  contract?: ContractPromise;
   contractAbi: Abi;
   isLabelled?: boolean;
   isRemovable?: boolean;

@@ -5,7 +5,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { PromiseContract as ApiContract } from '@polkadot/api-contract';
+import { ContractPromise as ApiContract } from '@polkadot/api-contract';
 import { Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 

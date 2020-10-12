@@ -6,7 +6,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { PromiseContract as Contract } from '@polkadot/api-contract';
+import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { getContractAbi } from '@polkadot/react-components/util';
 
 import MessageSignature from '../shared/MessageSignature';
