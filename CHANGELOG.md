@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.62.1 Oct 13, 202
+
+Contributed:
+
+- Add Dock network (Thanks to https://github.com/lovesh)
+- Bump Edgeware types for network updates (Thanks to https://github.com/jnaviask)
+- Add French i18n (Thanks to https://github.com/Tbaut & https://github.com/chevdor)
+- Update Italian i18n (Thanks to https://github.com/fomod-in)
+- Update Indonesian i18n (Thanks to https://github.com/nzjourney)
+
+Changes:
+
+- Update the contracts UI to support ink! 3.0-rc1 (via API)
+- Align contracts UI with the L&F/layout of the rest of the UI
+- Add contracts on-chain overview
+- Show code & contract availability statuses
+- Auto-query non-param messages from the contract overview
+- Expand info on logos (documentation, better/easier additions)
+- Update i18n to remove left navbar references
+- Support seconding multiple times from a single account
+
+
 ## 0.61.1 Oct 5, 2020
 
 Contributed:

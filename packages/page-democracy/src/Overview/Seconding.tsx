@@ -29,8 +29,6 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
     return null;
   }
 
-  const isDepositor = depositors.some((depositor) => depositor.eq(accountId));
-
   return (
     <>
       {isSecondingOpen && (
@@ -69,7 +67,7 @@ function Seconding ({ depositors, image, proposalId }: Props): React.ReactElemen
             <TxButton
               accountId={accountId}
               icon='sign-in-alt'
-              isDisabled={!accountId || isDepositor}
+              isDisabled={!accountId}
               label={t<string>('Second')}
               onStart={toggleSeconding}
               params={

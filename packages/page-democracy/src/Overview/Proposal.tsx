@@ -21,7 +21,7 @@ interface Props {
 
 function Proposal ({ className = '', value: { balance, image, imageHash, index, proposer, seconds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const seconding = seconds.filter((_address, index): boolean => index !== 0);
+  const seconding = seconds.filter((_address, index) => index !== 0);
 
   return (
     <tr className={className}>
