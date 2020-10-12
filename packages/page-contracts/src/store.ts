@@ -69,13 +69,9 @@ class Store extends EventEmitter {
 
   private addCode (key: string, json: CodeJson): void {
     try {
-      const abi = json.abi
-        ? JSON.parse(json.abi) as Record<string, any>
-        : null;
-
       this.allCode[json.codeHash] = {
-        contractAbi: abi
-          ? new Abi(abi)
+        contractAbi: json.abi
+          ? new Abi(json.abi)
           : undefined,
         json
       };

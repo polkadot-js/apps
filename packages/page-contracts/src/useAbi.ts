@@ -8,7 +8,6 @@ import { Abi } from '@polkadot/api-contract';
 import { u8aToString } from '@polkadot/util';
 
 import store from './store';
-import { useTranslation } from './translate';
 
 interface UseAbi {
   abi: string | null;
@@ -22,7 +21,6 @@ interface UseAbi {
 }
 
 export default function useAbi (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
-  const { t } = useTranslation();
   const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[string | null | undefined, Abi | null | undefined, boolean, boolean]>([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
   const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
 
@@ -38,13 +36,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
       const json = u8aToString(u8a);
 
       try {
-        const abi = JSON.parse(json) as Record<string, any>;
-
-        if (!abi.metadataVersion) {
-          throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
-        }
-
-        setAbi([json, new Abi(abi), true, true]);
+        setAbi([json, new Abi(json), true, true]);
 
         codeHash && store.saveCode(
           codeHash,
@@ -57,7 +49,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
         setError([true, error]);
       }
     },
-    [codeHash, t]
+    [codeHash]
   );
 
   const onRemoveAbi = useCallback(
