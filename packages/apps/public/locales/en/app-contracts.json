@@ -88,6 +88,7 @@
   "maximum gas allowed": "maximum gas allowed",
   "message to send": "message to send",
   "read": "read",
+  "read contract only, no execution": "read contract only, no execution",
   "send as RPC call": "send as RPC call",
   "send as transaction": "send as transaction",
   "status": "status",
