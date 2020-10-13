@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import acala from './acala';
+import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
@@ -23,10 +24,12 @@ import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
 
+// mapping from specName in state.getRuntimeVersion
 export default {
   Crab: crab,
   Equilibrium: equilibrium,
   acala,
+  canvas,
   'centrifuge-chain': centrifugeChain,
   crust,
   'cumulus-test-parachain': testPara,
