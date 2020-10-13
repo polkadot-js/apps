@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import acala from './acala';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
@@ -26,7 +25,6 @@ import subsocial from './subsocial';
 export default {
   Crab: crab,
   Equilibrium: equilibrium,
-  acala,
   'centrifuge-chain': centrifugeChain,
   crust,
   'cumulus-test-parachain': testPara,
