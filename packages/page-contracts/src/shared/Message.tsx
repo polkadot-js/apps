@@ -65,7 +65,7 @@ function Message ({ className = '', index, lastResult, message, onSelect }: Prop
             <Button
               className='accessory'
               icon='play'
-              isDisabled={lastResult?.result.isSuccess}
+              isDisabled={message.isMutating ? false : (!message.args.length && lastResult?.result.isSuccess)}
               label={message.isMutating ? t<string>('exec') : t<string>('read')}
               onClick={_onSelect}
             />

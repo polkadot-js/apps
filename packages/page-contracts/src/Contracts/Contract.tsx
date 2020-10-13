@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { ContractInfo } from '@polkadot/types/interfaces';
 
@@ -18,18 +19,24 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   contract: ContractPromise;
-  onCall: (index?: number) => void;
+  index: number;
+  onCall: (contractIndex: number, messaeIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => void;
 }
 
 function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
   return optInfo.unwrapOr(null);
 }
 
-function Contract ({ className, contract, onCall }: Props): React.ReactElement<Props> | null {
+function Contract ({ className, contract, index, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
+
+  const _onCall = useCallback(
+    (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => onCall(index, messageIndex, resultCb),
+    [index, onCall]
+  );
 
   const _onForget = useCallback(
     (): void => {
@@ -71,7 +78,7 @@ function Contract ({ className, contract, onCall }: Props): React.ReactElement<P
           contract={contract}
           contractAbi={contract.abi}
           isWatching
-          onSelect={onCall}
+          onSelect={_onCall}
           withMessages
         />
       </td>
@@ -95,13 +102,6 @@ function Contract ({ className, contract, onCall }: Props): React.ReactElement<P
           icon='trash'
           onClick={toggleIsForgetOpen}
         />
-        {!contract.abi && (
-          <Button
-            icon='play'
-            label={t<string>('exec')}
-            onClick={onCall}
-          />
-        )}
       </td>
     </tr>
   );

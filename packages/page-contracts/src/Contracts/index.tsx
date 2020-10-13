@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull } from '@polkadot/react-components/types';
+import { ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
@@ -19,17 +19,22 @@ export interface Props {
   updated: number;
 }
 
+interface Indexes {
+  contractIndex: number;
+  messageIndex: number;
+  onCallResult?: (messageIndex: number, result?: ContractCallOutcome) => void;
+}
+
 function filterContracts (api: ApiPromise, keyringContracts: string[] = []): ContractPromise[] {
   return keyringContracts
-    .map((address): ContractPromise | null => getContractForAddress(api, address.toString()))
-    .filter((contract: ContractPromise | null): contract is ContractPromise => !!contract);
+    .map((address) => getContractForAddress(api, address.toString()))
+    .filter((contract): contract is ContractPromise => !!contract);
 }
 
 function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [contractIndex, setContractIndex] = useState<number>(0);
-  const [messageIndex, setMessageIndex] = useState<number>(0);
+  const [{ contractIndex, messageIndex, onCallResult }, setIndexes] = useState<Indexes>({ contractIndex: 0, messageIndex: 0 });
   const [isCallOpen, setIsCallOpen] = useState(false);
 
   const headerRef = useRef<[string?, string?, number?][]>([
@@ -49,27 +54,16 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
     []
   );
 
-  const _onChangeCallContractAddress = (newCallContractAddress: StringOrNull): void => {
-    const index = contracts.findIndex(({ address }) => newCallContractAddress === address.toString());
-
-    if (index > -1) {
-      index !== contractIndex && setMessageIndex(0);
-      setContractIndex(index);
-    }
-  };
-
-  const _onChangeCallMessageIndex = useCallback(
-    (messageIndex: number) => contracts[contractIndex] && setMessageIndex(messageIndex || 0),
-    [contractIndex, contracts]
+  const _onCall = useCallback(
+    (contractIndex: number, messageIndex: number, onCallResult: (messageIndex: number, result?: ContractCallOutcome) => void): void => {
+      setIndexes({ contractIndex, messageIndex, onCallResult });
+      setIsCallOpen(true);
+    },
+    []
   );
 
-  const _onCall = useCallback(
-    (contractIndex: number) =>
-      (messageIndex?: number): void => {
-        setContractIndex(contractIndex);
-        setMessageIndex(messageIndex || 0);
-        setIsCallOpen(true);
-      },
+  const _setMessageIndex = useCallback(
+    (messageIndex: number) => setIndexes((state) => ({ ...state, messageIndex })),
     []
   );
 
@@ -84,8 +78,9 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
         {contracts.map((contract, index): React.ReactNode => (
           <Contract
             contract={contract}
+            index={index}
             key={contract.address.toString()}
-            onCall={_onCall(index)}
+            onCall={_onCall}
           />
         ))}
       </Table>
@@ -94,8 +89,8 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
           contract={contract}
           isOpen={isCallOpen}
           messageIndex={messageIndex}
-          onChangeCallContractAddress={_onChangeCallContractAddress}
-          onChangeCallMessageIndex={_onChangeCallMessageIndex}
+          onCallResult={onCallResult}
+          onChangeMessage={_setMessageIndex}
           onClose={_toggleCall}
         />
       )}
