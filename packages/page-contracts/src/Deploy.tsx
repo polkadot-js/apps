@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
 import { StringOrNull } from '@polkadot/react-components/types';
 import { CodeStored } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { BlueprintPromise, BlueprintSubmittableResult } from '@polkadot/api-contract';
+import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useFormField, useNonEmptyString, useNonZeroBn, useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
@@ -76,8 +77,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         try {
           return blueprint.createContract(constructorIndex, endowment, weight.weight, ...params);
         } catch (error) {
-          console.error(error);
-
           return null;
         }
       }
@@ -87,7 +86,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   }, [blueprint, constructorIndex, endowment, params, weight]);
 
   const _onSuccess = useCallback(
-    (result: BlueprintSubmittableResult<'promise'>): void => {
+    (result: BlueprintSubmittableResult): void => {
       if (result.contract) {
         keyring.saveContract(result.contract.address.toString(), {
           contract: {
@@ -107,7 +106,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid;
 
   return (
-    <Modal header={t('Add an existing code hash')}>
+    <Modal header={t('Deploy a contract')}>
       <Modal.Content>
         <InputAddress
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
