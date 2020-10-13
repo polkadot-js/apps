@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { CodeSubmittableResult } from '@polkadot/api-contract/promise/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { CodePromise, CodeSubmittableResult } from '@polkadot/api-contract';
+import { CodePromise } from '@polkadot/api-contract';
 import { InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import { isNull, isWasm } from '@polkadot/util';
@@ -47,7 +48,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   );
 
   const _onSuccess = useCallback(
-    (result: CodeSubmittableResult<'promise'>): void => {
+    (result: CodeSubmittableResult): void => {
       result.blueprint && store
         .saveCode(result.blueprint.codeHash, {
           abi: JSON.stringify(result.blueprint.abi.json),

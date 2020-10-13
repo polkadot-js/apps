@@ -5,7 +5,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { ContractPromise as ApiContract } from '@polkadot/api-contract';
+import { ContractPromise } from '@polkadot/api-contract';
 import { Table } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
@@ -19,10 +19,10 @@ export interface Props {
   updated: number;
 }
 
-function filterContracts (api: ApiPromise, keyringContracts: string[] = []): ApiContract[] {
+function filterContracts (api: ApiPromise, keyringContracts: string[] = []): ContractPromise[] {
   return keyringContracts
-    .map((address): ApiContract | null => getContractForAddress(api, address.toString()))
-    .filter((contract: ApiContract | null): contract is ApiContract => !!contract);
+    .map((address): ContractPromise | null => getContractForAddress(api, address.toString()))
+    .filter((contract: ContractPromise | null): contract is ContractPromise => !!contract);
 }
 
 function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<Props> {
@@ -50,7 +50,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
   );
 
   const _onChangeCallContractAddress = (newCallContractAddress: StringOrNull): void => {
-    const index = contracts.findIndex(({ address }: ApiContract) => newCallContractAddress === address.toString());
+    const index = contracts.findIndex(({ address }) => newCallContractAddress === address.toString());
 
     if (index > -1) {
       index !== contractIndex && setMessageIndex(0);
@@ -81,7 +81,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
         empty={t<string>('No contracts available')}
         header={headerRef.current}
       >
-        {contracts.map((contract: ApiContract, index): React.ReactNode => (
+        {contracts.map((contract, index): React.ReactNode => (
           <Contract
             contract={contract}
             key={contract.address.toString()}
