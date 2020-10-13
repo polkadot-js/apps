@@ -187,7 +187,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         arg: (
           <MessageArg
             arg={param}
-            registry={contract.registry}
+            registry={contract?.registry}
           />
         ),
         type: param.type,
@@ -195,7 +195,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       })),
       weight: weight.toString()
     }),
-    [contract.registry, name, messageOptions, messageIndex, params, values, weight]
+    [contract?.registry, name, messageOptions, messageIndex, params, values, weight]
   );
 
   if (pendingTx.currentItem) {
@@ -203,7 +203,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       <PendingTx
         additionalDetails={additionalDetails}
         instructions={t<string>('Sign and submit to call the contract message with the above parameters.')}
-        registry={contract.registry}
+        registry={contract?.registry}
         {...pendingTx}
       />
     );

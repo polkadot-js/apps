@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ApiTypes, DecorateMethod } from '@polkadot/api/types';
-import { AnyJson, Registry } from '@polkadot/types/types';
+import { AnyJson } from '@polkadot/types/types';
 import { ApiObject } from '../types';
 
 import { TypeRegistry } from '@polkadot/types';
@@ -14,7 +14,7 @@ export default abstract class Base<ApiType extends ApiTypes> {
 
   public readonly api: ApiObject<ApiType>;
 
-  public readonly registry: Registry;
+  public readonly registry: TypeRegistry;
 
   protected readonly _decorateMethod: DecorateMethod<ApiType>;
 

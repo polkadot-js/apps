@@ -12,7 +12,7 @@ import { encodeTypeDef, TypeRegistry } from '@polkadot/types';
 export interface Props extends BareProps {
   arg?: ParamDef;
   param?: CodecArg;
-  registry: TypeRegistry;
+  registry?: TypeRegistry;
 }
 
 function MessageArg ({ arg, param, registry }: Props): React.ReactElement<Props> | null {

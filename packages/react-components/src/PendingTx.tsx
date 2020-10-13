@@ -22,7 +22,7 @@ interface Props extends BareProps {
   instructions: React.ReactNode;
   isSendable: boolean;
   onError: () => void;
-  registry: TypeRegistry;
+  registry?: TypeRegistry;
   requestAddress: string;
 }
 

@@ -23,7 +23,7 @@ interface Props extends BareProps {
   isMonospace?: boolean;
   isTrimmed?: boolean;
   label?: React.ReactNode;
-  registry: TypeRegistry;
+  registry?: TypeRegistry;
   type?: TypeDef | null;
   value?: Codec;
   withCopy?: boolean;

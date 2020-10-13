@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { InkProject, MtField, MtLookupTypeId, MtType, MtTypeDefArray, MtTypeDefVariant, MtTypeDefSequence, MtTypeDefTuple, MtVariant } from '@polkadot/types/interfaces';
-import { AnyJson, Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { AnyJson, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { assert, isObject, isUndefined } from '@polkadot/util';
-import { withTypeString } from '@polkadot/types';
+import { TypeRegistry, withTypeString } from '@polkadot/types';
 
 // convert the offset into project-specific, index-1
 export function getRegistryOffset (id: MtLookupTypeId): number {
@@ -25,13 +25,13 @@ function isNativeInkType (inkType: MtType) {
 export default class ContractRegistry {
   public typeDefs: TypeDef[] = [];
 
-  public registry: Registry;
+  public registry: TypeRegistry;
 
   public project: InkProject;
 
   public json: AnyJson;
 
-  constructor (registry: Registry, json: AnyJson) {
+  constructor (registry: TypeRegistry, json: AnyJson) {
     assert(isObject(json) && !Array.isArray(json) && json.metadataVersion && isObject(json.spec) && !Array.isArray(json.spec) && Array.isArray(json.spec.constructors) && Array.isArray(json.spec.messages), 'Invalid JSON ABI structure supplied, expected a recent metadata version');
 
     this.registry = registry;

@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/api-contract authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AnyJson, CodecArg, Constructor, Registry } from '@polkadot/types/types';
+import { AnyJson, CodecArg, Constructor } from '@polkadot/types/types';
 import { InkConstructorSpec, InkMessageSpec } from '@polkadot/types/interfaces';
 import { AbiConstructor, AbiMessage, AbiMessageParam } from './types';
 
-import { Compact, createClass, encodeTypeDef } from '@polkadot/types';
+import { Compact, createClass, encodeTypeDef, TypeRegistry } from '@polkadot/types';
 import { assert, isObject, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import ContractRegistry from './ContractRegistry';
 
-function createArgClass (registry: Registry, args: AbiMessageParam[], baseDef: Record<string, string>): Constructor {
+function createArgClass (registry: TypeRegistry, args: AbiMessageParam[], baseDef: Record<string, string>): Constructor {
   return createClass(
     registry,
     JSON.stringify(
@@ -37,7 +37,7 @@ export default class Abi extends ContractRegistry {
 
   public readonly messages: AbiMessage[];
 
-  constructor (registry: Registry, json: AnyJson) {
+  constructor (registry: TypeRegistry, json: AnyJson) {
     super(registry, json);
 
     this.constructors = this.project.spec.constructors.map((spec: InkConstructorSpec, index) =>

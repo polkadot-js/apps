@@ -6,6 +6,7 @@ import { BareProps } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { registry as baseRegistry } from '@canvas-ui/react-api'
 import { useCodec } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import { Option, TypeRegistry } from '@polkadot/types';
@@ -15,7 +16,7 @@ import Labelled from './Labelled';
 
 interface Props extends BareProps {
   isTrimmed?: boolean;
-  registry: TypeRegistry;
+  registry?: TypeRegistry;
   type?: TypeDef;
   value?: AnyJson;
 }
@@ -39,7 +40,7 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
 
 // }
 
-function Data ({ className, registry, type, value }: Props): React.ReactElement<Props> | null {
+function Data ({ className, registry = baseRegistry, type, value }: Props): React.ReactElement<Props> | null {
   const [codec] = useCodec(registry, value, type);
 
   const content = useMemo(

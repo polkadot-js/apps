@@ -65,6 +65,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
         const newAbi = JSON.parse(json) as AnyJson;
 
         setAbi([new Abi(registry, newAbi), true, true]);
+        setError([false, null]);
         source?.id && store.saveCode(
           { abi: newAbi },
           source.id

@@ -137,7 +137,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
         arg: (
           <MessageArg
             arg={param}
-            registry={abi.registry}
+            registry={abi?.registry}
           />
         ),
         type: param.type,
@@ -145,7 +145,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
       })),
       weight: weight.toString()
     }),
-    [abi.registry, name, constructOptions, constructorIndex, params, values, weight]
+    [abi?.registry, name, constructOptions, constructorIndex, params, values, weight]
   );
 
   useEffect(
@@ -166,7 +166,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
       <PendingTx
         additionalDetails={additionalDetails}
         instructions={t<string>('Sign and submite to instantiate this contract derived from the code hash.')}
-        registry={abi.registry}
+        registry={abi?.registry}
         {...pendingTx}
       />
     );
