@@ -106,7 +106,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
   const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid;
 
   return (
-    <Modal header={t('Add an existing code hash')}>
+    <Modal header={t('Deploy a contract')}>
       <Modal.Content>
         <InputAddress
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
