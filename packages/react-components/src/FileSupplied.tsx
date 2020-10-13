@@ -72,7 +72,7 @@ export default React.memo(styled(FileSupplied)`
     height: 100%;
 
     &:hover {
-      color: var(--grey90);
+      color: var(--grey80);
     }
   }
 

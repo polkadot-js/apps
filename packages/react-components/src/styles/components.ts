@@ -7,7 +7,7 @@ import { ELEV_2_CSS, ELEV_4_CSS } from './constants';
 export default css`
   .ui--output {
     ${ELEV_4_CSS}
-    color: var(--grey90);
+    color: var(--grey80);
     box-sizing: border-box;
     flex-grow: 1;
     line-height: 1rem;

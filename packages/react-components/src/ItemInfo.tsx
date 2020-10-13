@@ -50,7 +50,7 @@ export default styled(React.memo(ItemInfo))`
     }
 
     .title {
-      color: var(--grey90);
+      color: var(--grey80);
       font-size: 1.125rem;
       height: 1.25rem;
 

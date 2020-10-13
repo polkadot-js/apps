@@ -28,9 +28,9 @@ function InputStatus ({ className, isError = false, isValid = false, text = null
 
 export default React.memo(styled(InputStatus)`
   color: var(--grey60);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   height: 1rem;
-  margin-top: 0.25rem;
+  margin-top: 0.75rem;
   width: 100%;
 
   &.isValid {
