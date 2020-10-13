@@ -3,6 +3,7 @@
 
 import { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 import { ContractInfo } from '@polkadot/types/interfaces';
+import { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -112,7 +113,7 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
   );
 }
 
-export default React.memo(styled(Messages)`
+export default React.memo(styled(Messages)(({ theme }: ThemeProps) => `
   padding-bottom: 0.75rem !important;
 
   .remove-abi {
@@ -125,11 +126,11 @@ export default React.memo(styled(Messages)`
   }
 
   &.labelled {
-    background: white;
+    background: ${theme.bgInput};
     box-sizing: border-box;
     border: 1px solid rgba(34,36,38,.15);
     border-radius: .28571429rem;
     padding: 1rem 1rem 0.5rem;
     width: 100%;
   }
-`);
+`));
