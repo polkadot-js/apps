@@ -16,6 +16,7 @@
   "Contracts": "Contracts",
   "Deploy": "Deploy",
   "Deploy a code hash": "Deploy a code hash",
+  "Deploy a contract": "Deploy a contract",
   "Deploy this code hash as a smart contract": "Deploy this code hash as a smart contract",
   "Deploy with this constructor": "Deploy with this constructor",
   "Execute": "Execute",
