@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { ContractPromise as ApiContract } from '@polkadot/api-contract';
+import { ContractPromise } from '@polkadot/api-contract';
 import { useAccountId, useFormField } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
@@ -20,7 +20,7 @@ import useWeight from '../useWeight';
 
 interface Props {
   className?: string;
-  contract: ApiContract;
+  contract: ContractPromise;
   messageIndex: number;
   onChangeCallContractAddress: (address: string | null) => void;
   onChangeCallMessageIndex: (messageIndex: number) => void;
