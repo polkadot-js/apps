@@ -26,6 +26,7 @@ const chainWestend = '#da68a7';
 
 // based on node name
 // alphabetical
+const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 const nodeEquilibrium = '#1792ff';
