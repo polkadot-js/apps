@@ -6,6 +6,7 @@ import { CallResult } from './types';
 import React from 'react';
 import styled from 'styled-components';
 import { Button, IdentityIcon, Output } from '@polkadot/react-components';
+import valueToText from '@polkadot/react-params/valueToText';
 
 import MessageSignature from '../shared/MessageSignature';
 
@@ -36,7 +37,7 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
             {when.toLocaleTimeString()}
           </span>
         }
-        value={(output || '()').toString()}
+        value={valueToText('Text', output)}
       />
       <Button
         icon='times'
