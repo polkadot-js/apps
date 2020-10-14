@@ -92,7 +92,6 @@ function Add ({ onClose }: Props): React.ReactElement {
           <ABI
             contractAbi={contractAbi}
             errorText={errorText}
-            isContract
             isError={isAbiError}
             isSupplied={isAbiSupplied}
             isValid={isAbiValid}
