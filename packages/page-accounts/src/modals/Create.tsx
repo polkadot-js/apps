@@ -291,6 +291,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <AddressRow
               defaultName={name}
               fullLength
+              isEditableName={false}
               noDefaultNameOpacity
               value={isSeedValid ? address : ''}
             />
