@@ -16,12 +16,13 @@ interface Props {
   className?: string;
   icon?: IconName;
   isAddress?: boolean;
+  isMnemonic?: boolean;
   value: string;
 }
 
 const NOOP = () => undefined;
 
-function CopyButton ({ children, className, icon = 'copy', isAddress = false, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy', isAddress = false, isMnemonic = false, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -33,8 +34,13 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, va
         message: t<string>('address copied'),
         status: 'queued'
       });
+      isMnemonic && queueAction && queueAction({
+        action: t<string>('clipboard'),
+        message: t<string>('mnemonic copied'),
+        status: 'queued'
+      });
     },
-    [isAddress, queueAction, t, value]
+    [isAddress, isMnemonic, queueAction, t, value]
   );
 
   return (

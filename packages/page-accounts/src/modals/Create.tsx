@@ -322,6 +322,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 />
                 <CopyButton
                   className='copyMoved'
+                  isMnemonic
                   value={seed}
                 />
               </TextAreaWithLabel>
