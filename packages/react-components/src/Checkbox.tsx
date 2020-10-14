@@ -23,11 +23,11 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 
   return (
-    <div className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}>
+    <div className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}
+      onClick={_onClick}>
       <Icon
         color={value ? 'normal' : 'transparent'}
         icon='check'
-        onClick={_onClick}
       />
       {label && <label>{label}</label>}
     </div>
@@ -35,6 +35,9 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
 }
 
 export default React.memo(styled(Checkbox)`
+  display: inline-block;
+  cursor: pointer;
+
   &.isDisabled {
     opacity: 0.5;
   }
@@ -48,6 +51,12 @@ export default React.memo(styled(Checkbox)`
     display: inline-block;
     margin: 0 0.5rem;
     opacity: 1;
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
   }
 
   > label,
