@@ -9,8 +9,7 @@ import { Button, Card, Forget } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
-import { ABI, CodeRow } from '../shared';
-import RemoveABI from '../RemoveABI';
+import { CodeRow, Messages } from '../shared';
 import store from '../store';
 import useAbi from '../useAbi';
 import { useTranslation } from '../translate';
@@ -26,8 +25,7 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
   const { api } = useApi();
   const optCode = useCall<Option<Codec>>(api.query.contracts.codeStorage, [code.json.codeHash]);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
-  const [isRemoveABIOpen, toggleIsRemoveABIOpen] = useToggle();
-  const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
+  const { contractAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 
   const _onShowDeploy = useCallback(
     () => onShowDeploy(code.json.codeHash, 0),
@@ -78,27 +76,13 @@ function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Pro
               </CodeRow>
             </Forget>
           )}
-          {isRemoveABIOpen && (
-            <RemoveABI
-              code={code}
-              key='modal-remove-abi'
-              onClose={toggleIsRemoveABIOpen}
-              onRemove={onRemoveAbi}
-            />
-          )}
         </Card>
       </td>
       <td className='all top'>
-        <ABI
+        <Messages
           contractAbi={contractAbi}
-          isError={isAbiError}
-          isFull
-          isSupplied={isAbiSupplied}
-          isValid={isAbiValid}
-          onChange={onChangeAbi}
-          onRemove={toggleIsRemoveABIOpen}
           onSelectConstructor={_onDeployConstructor}
-          withMessages={false}
+          withConstructors
         />
       </td>
       <td className='start together'>

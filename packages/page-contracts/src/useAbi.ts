@@ -38,10 +38,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
       try {
         setAbi([json, new Abi(json), true, true]);
 
-        codeHash && store.saveCode(
-          codeHash,
-          { abi: json }
-        );
+        codeHash && store.saveCode(codeHash, { abi: json });
       } catch (error) {
         console.error(error);
 
@@ -57,10 +54,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
       setAbi([null, null, false, false]);
       setError([false, null]);
 
-      codeHash && store.saveCode(
-        codeHash,
-        { abi: null }
-      );
+      codeHash && store.saveCode(codeHash, { abi: null });
     },
     [codeHash]
   );

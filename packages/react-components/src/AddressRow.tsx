@@ -66,46 +66,44 @@ export {
   AddressRow
 };
 
-export default React.memo(
-  styled(AddressRow)`
-    button.u.ui--Icon.editButton {
-      padding: 0em .3em .3em .3em;
-      color: #2e86ab;
-      background: none;
-      /*trick to let the button in the flow but keep the content centered regardless*/
-      margin-left: -2em;
-      position: relative;
-      right: -2.3em;
-      z-index: 1;
+export default React.memo(styled(AddressRow)`
+  button.u.ui--Icon.editButton {
+    padding: 0em .3em .3em .3em;
+    color: #2e86ab;
+    background: none;
+    /*trick to let the button in the flow but keep the content centered regardless*/
+    margin-left: -2em;
+    position: relative;
+    right: -2.3em;
+    z-index: 1;
+  }
+
+  .editSpan {
+    white-space: nowrap;
+
+    &:before {
+      content: '';
     }
+  }
 
-    .editSpan {
-      white-space: nowrap;
+  .ui--AddressRow-balances {
+    display: flex;
+    .column {
+      display: block;
 
-      &:before {
-        content: '';
+      label,
+      .result {
+        display: inline-block;
+        vertical-align: middle;
       }
     }
 
-    .ui--AddressRow-balances {
-      display: flex;
-      .column {
-        display: block;
-
-        label,
-        .result {
-          display: inline-block;
-          vertical-align: middle;
-        }
-      }
-
-      > span {
-        text-align: left;
-      }
+    > span {
+      text-align: left;
     }
+  }
 
-    .ui--AddressRow-placeholder {
-      opacity: 0.5;
-    }
-  `
-);
+  .ui--AddressRow-placeholder {
+    opacity: 0.5;
+  }
+`);

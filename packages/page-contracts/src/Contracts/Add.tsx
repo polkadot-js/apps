@@ -92,12 +92,11 @@ function Add ({ onClose }: Props): React.ReactElement {
           <ABI
             contractAbi={contractAbi}
             errorText={errorText}
-            isError={isAbiError}
+            isError={isAbiError || !isAbiValid}
             isSupplied={isAbiSupplied}
             isValid={isAbiValid}
             onChange={onChangeAbi}
             onRemove={onRemoveAbi}
-            withLabel
           />
         </AddressRow>
       </Modal.Content>

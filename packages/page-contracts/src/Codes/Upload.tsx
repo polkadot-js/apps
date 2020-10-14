@@ -97,7 +97,6 @@ function Upload ({ onClose }: Props): React.ReactElement {
           isValid={isAbiValid}
           onChange={onChangeAbi}
           onRemove={onRemoveAbi}
-          withLabel
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
