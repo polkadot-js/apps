@@ -114,6 +114,7 @@ const nodeLogos: Record<string, any> = [
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
   crust: nodeCrust,

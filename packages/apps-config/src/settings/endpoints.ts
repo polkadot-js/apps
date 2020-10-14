@@ -20,6 +20,12 @@ interface EnvWindow {
   }
 }
 
+// The available endpoints that will show in the dropdown. For the most part (with the exception of
+// Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
+//   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos
+//   text: The text to display on the dropdown
+//   value: The actual hosted secure websocket endpoint
+
 function createOwn (t: TFunction): LinkOption[] {
   try {
     const storedItems = localStorage.getItem(CUSTOM_ENDPOINT_KEY);
@@ -236,6 +242,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://beresheet1.edgewa.re'
     },
     {
+      info: 'canvas',
+      text: t<string>('rpc.canvas', 'Canvas', { ns: 'apps-config' }),
+      textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+      value: 'wss://canvas-rpc.parity.io'
+    },
+    {
       info: 'crust',
       text: t<string>('rpc.crust.network', 'Crust Maxwell CC2', { ns: 'apps-config' }),
       textHoster: t<string>('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Crust Network' } }),
@@ -330,11 +342,6 @@ function createCustom (t: TFunction): LinkOption[] {
     : [];
 }
 
-// The available endpoints that will show in the dropdown. For the most part (with the exception of
-// Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
-//   info: The chain logo name as defined in ../logos, specifically in namedLogos
-//   text: The text to display on the dropdown
-//   value: The actual hosted secure websocket endpoint
 export default function create (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
