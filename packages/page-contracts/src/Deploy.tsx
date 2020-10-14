@@ -131,7 +131,6 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
             isValid={isAbiValid}
             onChange={onChangeAbi}
             onRemove={onRemoveAbi}
-            withLabel
           />
         )}
         {contractAbi && (
