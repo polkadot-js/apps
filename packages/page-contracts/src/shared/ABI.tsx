@@ -12,7 +12,6 @@ interface Props {
   className?: string;
   contractAbi?: Abi | null;
   errorText?: string | null;
-  isContract?: boolean;
   isDisabled?: boolean;
   isError?: boolean;
   isFull?: boolean;
@@ -44,15 +43,11 @@ function renderMessages ({ contractAbi, onRemove, onSelectConstructor, withConst
 }
 
 function ABI (props: Props): React.ReactElement<Props> {
-  const { className, contractAbi, errorText, isContract = false, isDisabled, isError, isFull, isSupplied, isValid, onChange, withLabel } = props;
+  const { className, contractAbi, errorText, isDisabled, isError, isFull, isValid, onChange, withLabel } = props;
   const { t } = useTranslation();
 
-  const help = isContract
-    ? t('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')
-    : t('The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.');
-  const label = isContract
-    ? 'contract ABI'
-    : 'contract ABI (optional)';
+  const help = t('The ABI for the WASM code. The ABI is required and stored for future operations such as sending messages.');
+  const label = t('contract ABI');
 
   return (
     <div className={className}>
@@ -78,11 +73,7 @@ function ABI (props: Props): React.ReactElement<Props> {
               isFull={isFull}
               label={label}
               onChange={onChange}
-              placeholder={
-                isSupplied && !isValid
-                  ? <>{t<string>('invalid ABI file selected')}{!!errorText && ` — ${errorText}`}</>
-                  : t<string>('click to select or drag and drop a JSON ABI file')
-              }
+              placeholder={errorText || t<string>('click to select or drag and drop a JSON ABI file')}
             />
           )
       }

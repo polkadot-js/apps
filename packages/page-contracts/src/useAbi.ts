@@ -46,7 +46,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
         console.error(error);
 
         setAbi([null, null, false, false]);
-        setError([true, error]);
+        setError([true, (error as Error).message]);
       }
     },
     [codeHash]
