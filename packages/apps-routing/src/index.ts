@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { TFunction } from 'i18next';
 import { Routes } from './types';
 
 import accounts from './accounts';
@@ -27,9 +28,8 @@ import techcomm from './techcomm';
 import transfer from './transfer';
 import treasury from './treasury';
 
-export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Routes {
+export default function create (t: TFunction): Routes {
   return [
-    // dashboard(t),
     accounts(t),
     addresses(t),
     explorer(t),
