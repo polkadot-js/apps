@@ -290,6 +290,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <Modal.Column>
             <AddressRow
               defaultName={name}
+              fullLength
               noDefaultNameOpacity
               value={isSeedValid ? address : ''}
             />
