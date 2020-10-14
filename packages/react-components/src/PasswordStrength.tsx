@@ -35,7 +35,7 @@ function PasswordStrength ({ className = '', value }: Props): React.ReactElement
   return (
     <div
       className={className}
-      style={{ display: passwordStrength ? 'flex' : 'none' }}
+      style={{ display: (value ? 'flex' : 'none') }}
     >
       {t<string>('weak')}
       <div className='ui--Strength-bar'>
