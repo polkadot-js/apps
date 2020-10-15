@@ -20,8 +20,6 @@ const WaitForApi = ({ children }: { children: React.ReactNode }): PropsWithChild
   return api.isApiReady ? (children) : null;
 };
 
-console.log(`lightTheme = ${JSON.stringify(lightTheme, null, 2)}`);
-
 const renderAccounts = () => {
   const memoryStore = new MemoryStore();
 
