@@ -29,14 +29,16 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route>
-          <Contacts
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
-        </Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route>
+            <Contacts
+              basePath={basePath}
+              onStatusChange={onStatusChange}
+            />
+          </Route>
+        </Switch>
+      </div>
     </main>
   );
 }

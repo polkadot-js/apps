@@ -82,50 +82,52 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           items={itemsRef.current}
         />
       </header>
-      <Summary trigger={updated} />
-      <Button.Group>
-        <Button
-          icon='plus'
-          label={t('Upload WASM')}
-          onClick={toggleUpload}
+      <div className='content-container'>
+        <Summary trigger={updated} />
+        <Button.Group>
+          <Button
+            icon='plus'
+            label={t('Upload WASM')}
+            onClick={toggleUpload}
+          />
+          <Button
+            icon='plus'
+            label={t('Add an existing code hash')}
+            onClick={toggleHash}
+          />
+          <Button
+            icon='plus'
+            label={t('Add an existing contract')}
+            onClick={toggleAdd}
+          />
+        </Button.Group>
+        <Ink3Banner />
+        <Contracts
+          contracts={allContracts}
+          updated={updated}
         />
-        <Button
-          icon='plus'
-          label={t('Add an existing code hash')}
-          onClick={toggleHash}
+        <Codes
+          onShowDeploy={_onShowDeploy}
+          updated={updated}
         />
-        <Button
-          icon='plus'
-          label={t('Add an existing contract')}
-          onClick={toggleAdd}
-        />
-      </Button.Group>
-      <Ink3Banner />
-      <Contracts
-        contracts={allContracts}
-        updated={updated}
-      />
-      <Codes
-        onShowDeploy={_onShowDeploy}
-        updated={updated}
-      />
-      {codeHash && isDeployOpen && (
-        <Deploy
-          codeHash={codeHash}
-          constructorIndex={constructorIndex}
-          onClose={_onCloseDeploy}
-          setConstructorIndex={setConstructorIndex}
-        />
-      )}
-      {isUploadOpen && (
-        <CodeUpload onClose={toggleUpload} />
-      )}
-      {isHashOpen && (
-        <CodeAdd onClose={toggleHash} />
-      )}
-      {isAddOpen && (
-        <ContractAdd onClose={toggleAdd} />
-      )}
+        {codeHash && isDeployOpen && (
+          <Deploy
+            codeHash={codeHash}
+            constructorIndex={constructorIndex}
+            onClose={_onCloseDeploy}
+            setConstructorIndex={setConstructorIndex}
+          />
+        )}
+        {isUploadOpen && (
+          <CodeUpload onClose={toggleUpload} />
+        )}
+        {isHashOpen && (
+          <CodeAdd onClose={toggleHash} />
+        )}
+        {isAddOpen && (
+          <ContractAdd onClose={toggleAdd} />
+        )}
+      </div>
     </main>
   );
 }

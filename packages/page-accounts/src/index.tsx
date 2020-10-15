@@ -45,20 +45,22 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/vanity`}>
-          <Vanity
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
-        </Route>
-        <Route>
-          <Accounts
-            basePath={basePath}
-            onStatusChange={onStatusChange}
-          />
-        </Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route path={`${basePath}/vanity`}>
+            <Vanity
+              basePath={basePath}
+              onStatusChange={onStatusChange}
+            />
+          </Route>
+          <Route>
+            <Accounts
+              basePath={basePath}
+              onStatusChange={onStatusChange}
+            />
+          </Route>
+        </Switch>
+      </div>
     </main>
   );
 }

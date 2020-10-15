@@ -35,9 +35,11 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route component={Overview} />
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route component={Overview} />
+        </Switch>
+      </div>
     </main>
   );
 }

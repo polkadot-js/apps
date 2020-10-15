@@ -59,18 +59,20 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/forks`}><Forks /></Route>
-        <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
-        <Route path={`${basePath}/query`}><BlockInfo /></Route>
-        <Route path={`${basePath}/node`}><NodeInfo /></Route>
-        <Route>
-          <Main
-            events={events}
-            headers={lastHeaders}
-          />
-        </Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route path={`${basePath}/forks`}><Forks /></Route>
+          <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
+          <Route path={`${basePath}/query`}><BlockInfo /></Route>
+          <Route path={`${basePath}/node`}><NodeInfo /></Route>
+          <Route>
+            <Main
+              events={events}
+              headers={lastHeaders}
+            />
+          </Route>
+        </Switch>
+      </div>
     </main>
   );
 }

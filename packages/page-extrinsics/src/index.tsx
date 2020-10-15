@@ -26,7 +26,9 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
           items={itemsRef.current}
         />
       </header>
-      <Selection />
+      <div className='content-container'>
+        <Selection />
+      </div>
     </main>
   );
 }

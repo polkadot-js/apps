@@ -58,22 +58,24 @@ function TreasuryApp ({ basePath }: Props): React.ReactElement<Props> {
           items={items}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/tips`}>
-          <Tips
-            hashes={tipHashes}
-            isMember={isMember}
-            members={members}
-            trigger={triggerTipHashes}
-          />
-        </Route>
-        <Route>
-          <Overview
-            isMember={isMember}
-            members={members}
-          />
-        </Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route path={`${basePath}/tips`}>
+            <Tips
+              hashes={tipHashes}
+              isMember={isMember}
+              members={members}
+              trigger={triggerTipHashes}
+            />
+          </Route>
+          <Route>
+            <Overview
+              isMember={isMember}
+              members={members}
+            />
+          </Route>
+        </Switch>
+      </div>
     </main>
   );
 }

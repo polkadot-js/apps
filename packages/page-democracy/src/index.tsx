@@ -43,12 +43,14 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
           items={items}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/dispatch`}>
-          <Execute />
-        </Route>
-        <Route><Overview /></Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route path={`${basePath}/dispatch`}>
+            <Execute />
+          </Route>
+          <Route><Overview /></Route>
+        </Switch>
+      </div>
     </main>
   );
 }

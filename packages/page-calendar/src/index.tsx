@@ -115,25 +115,27 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
           items={itemsRef.current}
         />
       </header>
-      <div className='calendarFlex'>
-        <Month
-          hasNextMonth={hasNextMonth}
-          lastDay={lastDay}
-          now={now}
-          scheduled={scheduled}
-          setDay={_setDay}
-          setNextMonth={_nextMonth}
-          setPrevMonth={_prevMonth}
-          state={dateState}
-        />
-        <Day
-          date={dateState.dateSelected}
-          hasNextDay={hasNextDay}
-          now={now}
-          scheduled={scheduled}
-          setNextDay={_nextDay}
-          setPrevDay={_prevDay}
-        />
+      <div className='content-container'>
+        <div className='calendarFlex'>
+          <Month
+            hasNextMonth={hasNextMonth}
+            lastDay={lastDay}
+            now={now}
+            scheduled={scheduled}
+            setDay={_setDay}
+            setNextMonth={_nextMonth}
+            setPrevMonth={_prevMonth}
+            state={dateState}
+          />
+          <Day
+            date={dateState.dateSelected}
+            hasNextDay={hasNextDay}
+            now={now}
+            scheduled={scheduled}
+            setNextDay={_nextDay}
+            setPrevDay={_prevDay}
+          />
+        </div>
       </div>
     </main>
   );

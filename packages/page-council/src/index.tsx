@@ -57,18 +57,20 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
           items={items}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/motions`}>
-          <Motions
-            motions={motions}
-            prime={prime}
-          />
-        </Route>
-      </Switch>
-      <Overview
-        className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
-        prime={prime}
-      />
+      <div className='content-container'>
+        <Switch>
+          <Route path={`${basePath}/motions`}>
+            <Motions
+              motions={motions}
+              prime={prime}
+            />
+          </Route>
+        </Switch>
+        <Overview
+          className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
+          prime={prime}
+        />
+      </div>
     </main>
   );
 }

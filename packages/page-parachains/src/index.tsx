@@ -51,20 +51,22 @@ function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
           items={items}
         />
       </header>
-      <Switch>
-        {api.query.parachains && (
-          <Route path={`${basePath}/:id`}>
-            <Parachain
-              basePath={basePath}
-              paraInfoRef={paraInfoRef}
-              {...sudoState}
-            />
+      <div className='content-container'>
+        <Switch>
+          {api.query.parachains && (
+            <Route path={`${basePath}/:id`}>
+              <Parachain
+                basePath={basePath}
+                paraInfoRef={paraInfoRef}
+                {...sudoState}
+              />
+            </Route>
+          )}
+          <Route>
+            <Overview {...sudoState} />
           </Route>
-        )}
-        <Route>
-          <Overview {...sudoState} />
-        </Route>
-      </Switch>
+        </Switch>
+      </div>
     </main>
   );
 }

@@ -113,64 +113,66 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
           items={items}
         />
       </header>
-      <Summary
-        isVisible={pathname === basePath}
-        next={next}
-        nominators={targets.nominators}
-        stakingOverview={stakingOverview}
-      />
-      <Switch>
-        <Route path={`${basePath}/payout`}>
-          <Payouts
-            isInElection={isInElection}
-            ownValidators={ownValidators}
-          />
-        </Route>
-        <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
-          <Query />
-        </Route>
-        <Route path={`${basePath}/slashes`}>
-          <Slashes
-            ownStashes={ownStashes}
-            slashes={slashes}
-          />
-        </Route>
-        <Route path={`${basePath}/targets`}>
-          <Targets
-            isInElection={isInElection}
-            ownStashes={ownStashes}
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-          />
-        </Route>
-        <Route path={`${basePath}/waiting`}>
-          <Overview
-            favorites={favorites}
-            hasQueries={hasQueries}
-            isIntentions
-            next={next}
-            stakingOverview={stakingOverview}
-            targets={targets}
-            toggleFavorite={toggleFavorite}
-          />
-        </Route>
-      </Switch>
-      <Actions
-        className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
-        isInElection={isInElection}
-        ownStashes={ownStashes}
-        targets={targets}
-      />
-      <Overview
-        className={basePath === pathname ? '' : 'staking--hidden'}
-        favorites={favorites}
-        hasQueries={hasQueries}
-        next={next}
-        stakingOverview={stakingOverview}
-        targets={targets}
-        toggleFavorite={toggleFavorite}
-      />
+      <div className='content-container'>
+        <Summary
+          isVisible={pathname === basePath}
+          next={next}
+          nominators={targets.nominators}
+          stakingOverview={stakingOverview}
+        />
+        <Switch>
+          <Route path={`${basePath}/payout`}>
+            <Payouts
+              isInElection={isInElection}
+              ownValidators={ownValidators}
+            />
+          </Route>
+          <Route path={[`${basePath}/query/:value`, `${basePath}/query`]}>
+            <Query />
+          </Route>
+          <Route path={`${basePath}/slashes`}>
+            <Slashes
+              ownStashes={ownStashes}
+              slashes={slashes}
+            />
+          </Route>
+          <Route path={`${basePath}/targets`}>
+            <Targets
+              isInElection={isInElection}
+              ownStashes={ownStashes}
+              stakingOverview={stakingOverview}
+              targets={targets}
+              toggleFavorite={toggleFavorite}
+            />
+          </Route>
+          <Route path={`${basePath}/waiting`}>
+            <Overview
+              favorites={favorites}
+              hasQueries={hasQueries}
+              isIntentions
+              next={next}
+              stakingOverview={stakingOverview}
+              targets={targets}
+              toggleFavorite={toggleFavorite}
+            />
+          </Route>
+        </Switch>
+        <Actions
+          className={pathname === `${basePath}/actions` ? '' : 'staking--hidden'}
+          isInElection={isInElection}
+          ownStashes={ownStashes}
+          targets={targets}
+        />
+        <Overview
+          className={basePath === pathname ? '' : 'staking--hidden'}
+          favorites={favorites}
+          hasQueries={hasQueries}
+          next={next}
+          stakingOverview={stakingOverview}
+          targets={targets}
+          toggleFavorite={toggleFavorite}
+        />
+      </div>
     </main>
   );
 }

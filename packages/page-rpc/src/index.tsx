@@ -29,9 +29,11 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route><Rpc /></Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route><Rpc /></Route>
+        </Switch>
+      </div>
     </main>
   );
 }

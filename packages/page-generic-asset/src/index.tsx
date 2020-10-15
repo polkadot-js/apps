@@ -37,10 +37,12 @@ function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/transfer`}><Transfer /></Route>
-        <Route><Assets /></Route>
-      </Switch>
+      <div className='content-container'>
+        <Switch>
+          <Route path={`${basePath}/transfer`}><Transfer /></Route>
+          <Route><Assets /></Route>
+        </Switch>
+      </div>
     </main>
   );
 }
