@@ -51,8 +51,9 @@ interface ChainData {
   systemVersion: string;
 }
 
-const DEFAULT_DECIMALS = registry.createType('u32', 15);
-const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+export const DEFAULT_DECIMALS = registry.createType('u32', 15);
+export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+
 const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
 
