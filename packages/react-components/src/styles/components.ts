@@ -121,7 +121,10 @@ export default css`
 
   .content-container {
     width: 100%;
-    max-width: 1088px;
     margin: 0 auto;
+
+    @media only screen and (min-width: 1800px) {
+      max-width: 1750px;
+    }
   }
 `;

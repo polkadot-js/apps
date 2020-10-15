@@ -182,6 +182,14 @@ export default createGlobalStyle<Props & ThemeProps>`
   .theme--dark,
   .theme--light {
     .ui--Tabs {
+      min-height: 60px;
+
+      .ui--Tab {
+        display: block;
+        height: 100%;
+        width: max-content;
+      }
+
       .ui--Tab.tabLinkActive {
         border-bottom-color: ${getHighlight};
       }
