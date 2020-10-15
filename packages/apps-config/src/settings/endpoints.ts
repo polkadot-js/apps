@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @canvas-ui/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { TFunction } from 'i18next';
 import { Option } from './types';
 
 interface LinkOption extends Option {
   dnslink?: string;
 }
 
-function createDev (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
+function createDev (t: TFunction): LinkOption[] {
   return [
     {
       dnslink: 'local',
@@ -19,9 +20,17 @@ function createDev (t: <T= string> (key: string, text: string, options: { ns: st
   ];
 }
 
-// function createLive (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
-//   return [];
-// }
+function createLive (t: TFunction): LinkOption[] {
+  return [
+    {
+      dnslink: 'canvas',
+      info: 'canvas',
+      shortText: t<string>('rpc.canvas.test', 'Canvas Test', { ns: 'apps-config' }),
+      text: t<string>('rpc.hosted.by', 'Canvas Test ({{host}}, canvas-rpc.parity.io)', { ns: 'apps-config', replace: { host: 'Parity' } }),
+      value: 'wss://canvas-rpc.parity.io'
+    }
+  ];
+}
 
 // function createTest (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
 //   return [
@@ -39,7 +48,7 @@ function createDev (t: <T= string> (key: string, text: string, options: { ns: st
 //   info: The chain logo name as defined in ../logos, specifically in namedLogos
 //   text: The text to display on teh dropdown
 //   value: The actual hosted secure websocket endpoint
-export default function create (t: <T= string> (key: string, text: string, options: { ns: string }) => T): LinkOption[] {
+export default function create (t: TFunction): LinkOption[] {
   const ENV: LinkOption[] = [];
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
   const WS_URL = process.env.WS_URL || (window as any).process_env?.WS_URL as string;
@@ -59,7 +68,7 @@ export default function create (t: <T= string> (key: string, text: string, optio
     //   text: t<string>('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
     //   value: ''
     // },
-    // ...createLive(t),
+    ...createLive(t),
     // {
     //   isHeader: true,
     //   text: t<string>('rpc.header.test', 'Test networks', { ns: 'apps-config' }),

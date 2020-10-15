@@ -43,13 +43,12 @@ const styles = `
       font-size: 0.75rem;
       overflow: hidden;
       text-overflow: ellipsis;
-    }  
+    }
 
     > .name {
       color: var(--white);
       font-weight: 600;
       margin-bottom: 0.15rem;
-      line-height: 0.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
     }
