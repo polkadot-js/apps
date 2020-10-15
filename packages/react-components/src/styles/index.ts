@@ -215,7 +215,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   #root {
     background: ${({ theme }) => theme.bgPage};
     color: ${({ theme }) => theme.color};
-    font-family: sans-serif;
+    font-family: 'Nunito Sans',sans-serif;
     height: 100%;
   }
 
@@ -300,6 +300,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   body {
     height: 100%;
     margin: 0;
+    font-family: 'Nunito Sans',sans-serif;
   }
 
   br {
@@ -331,7 +332,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
   h1, h2, h3, h4, h5 {
     color: ${({ theme }) => theme.colorSummary};
-    font-family: sans-serif;
+    font-family: 'Nunito Sans',sans-serif;
     font-weight: 100;
   }
 
@@ -365,7 +366,7 @@ export default createGlobalStyle<Props & ThemeProps>`
     box-sizing: border-box;
     color: ${({ theme }) => theme.colorLabel};
     display: block;
-    font-family: sans-serif;
+    font-family: 'Nunito Sans',sans-serif;
     font-size: 1rem;
     font-weight: 100;
   }

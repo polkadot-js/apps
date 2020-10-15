@@ -126,7 +126,7 @@ export default css`
     background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
     color: ${({ theme }: ThemeProps) => theme.color};
-    font-family: sans-serif;
+    font-family: 'Nunito Sans',sans-serif;
 
     > .actions,
     > .content {
@@ -144,7 +144,7 @@ export default css`
       background: transparent;
       border-bottom: none;
       color: ${({ theme }: ThemeProps) => theme.colorSummary};
-      font-family: sans-serif;
+      font-family: 'Nunito Sans',sans-serif;
       font-size: 1.75rem;
       font-weight: 100;
       line-height: 1.25rem;
