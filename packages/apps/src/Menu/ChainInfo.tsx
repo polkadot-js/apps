@@ -70,7 +70,6 @@ export default React.memo(styled(ChainInfo)`
     }
 
     img {
-      flex: 0;
       height: 3rem;
       margin-right: 0.5rem;
       width: 3rem;
