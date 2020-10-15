@@ -118,4 +118,10 @@ export default css`
     z-index: 1002;
     max-width: 300px;
   }
+
+  .content-container {
+    width: 100%;
+    max-width: 1088px;
+    margin: 0 auto;
+  }
 `;
