@@ -32,7 +32,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(NodeInfo)`
   position: absolute;
-  top: 6.3rem;
+  top: 5.8rem;
   right: 5.1rem;
   z-index: 10;
   text-align: right;

@@ -9,11 +9,11 @@ interface TabsSectionDelimiterProps {
   className?: string;
 }
 
-export function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): React.ReactElement {
+function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterProps): React.ReactElement {
   return (
     <div className={className}>
       <svg fill='none'
-        height='65'
+        height='46'
         viewBox='0 0 17 65'
         width='17'
         xmlns='http://www.w3.org/2000/svg'>
@@ -24,11 +24,6 @@ export function TabsSectionDelimiter ({ className = '' }: TabsSectionDelimiterPr
   );
 }
 
-export default React.memo(styled(TabsSectionDelimiter)(({ theme }: ThemeProps) => `
-  width: 1.07rem;
-
-  svg {
-    height: 100%;
-    transform: translateY(1px);
-  }
-`));
+export default React.memo(styled(TabsSectionDelimiter)`
+  height: 100%;
+`);

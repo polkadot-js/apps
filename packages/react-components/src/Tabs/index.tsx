@@ -11,10 +11,9 @@ import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTranslation } from '../translate';
-import { TabsSectionDelimiter } from './TabsSectionDelimiter';
+import TabsSectionDelimiter from './TabsSectionDelimiter';
 import { extractGroups } from '../../../apps/src/Menu/';
 import Grouping from '../../../apps/src/Menu/Grouping';
-import HelpOverlay from '../HelpOverlay';
 
 import Tab from './Tab';
 
@@ -108,7 +107,6 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
           </li>
         ))}
       </ul>
-      <HelpOverlay/>
     </div>
   );
 }
@@ -121,7 +119,7 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
   margin: 0 -1.5rem;
   padding: 0 1.5rem 0;
   text-align: left;
-  height: 4.35rem;
+  height: 3.28rem;
   z-index: 1;
   font-family: 'Nunito Sans',sans-serif;
 
