@@ -53,25 +53,8 @@ function Grouping ({ activeRoute, className = '', name, routes, variant }: Props
             <div className='active-tab highlight--color'>
               <Icon icon={activeRoute.icon} />
               <span>{activeRoute.text}</span>
-              {routes && routes.length > 1 &&
-                <Icon
-                  className='dropdown'
-                  icon={'caret-down'}
-                />
-              }
             </div>
           )}
-          {routes && routes.length > 1 &&
-            <ul className='groupMenu tab highlight--bg-light'>
-              {routes.map((route): React.ReactNode => (
-                <Item
-                  className={(activeRoute && activeRoute.text === route.text) ? 'active highlight--color' : ''}
-                  key={route.name}
-                  route={route}
-                />
-              ))}
-            </ul>
-          }
         </li>
       );
     }
@@ -79,8 +62,9 @@ function Grouping ({ activeRoute, className = '', name, routes, variant }: Props
     default: {
       return (
         <li className={className}>
-          <div className='groupHdr highlight--color-contrast'>
+          <div className='groupHdr  highlight--color-contrast'>
             <span>{name}</span>
+            <Icon icon="caret-down" />
           </div>
           <ul className='groupMenu highlight--bg-light'>
             {routes.map((route): React.ReactNode => (
@@ -134,7 +118,10 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     position: relative;
     border-radius: 0.15rem 0.15rem 0 0;
     padding: 1rem .85rem 1rem .85rem;
-
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.5rem;
+    
     > .ui--Icon {
       margin-left: 0.75rem;
     }
@@ -150,7 +137,7 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     position: absolute;
     z-index: 250;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -10px);
     box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.06);
 
     > li:first-child {
@@ -214,23 +201,21 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
       transform: rotate(180deg);
     }
 
+    .groupHdr svg {
+      transform: rotate(180deg);
+    }
+    
     .groupHdr::before {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
-      background: ${theme.bgMenu};
       width: 100%;
       height: 3.92rem;
       transform: translateY(.5rem);
       border-top-left-radius: .15rem;
       border-top-right-radius: .15rem;
       z-index: -1;
-    }
-
-    .groupHdr {
-      box-shadow: 0 -${SHA_OFF} ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, ${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL}, -${SHA_OFF} 0 ${SHA_OFF} -${SHA_OFF} ${SHA_COL};
-      color: ${theme.colorMenuHover};
     }
 
     .groupMenu {

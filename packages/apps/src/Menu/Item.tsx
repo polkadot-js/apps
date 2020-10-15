@@ -75,6 +75,9 @@ export default React.memo(styled(Item)`
   }
 
   &.topLevel {
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.5rem;
     padding: 0;
 
     a {

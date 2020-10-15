@@ -14,6 +14,7 @@ import { useTranslation } from '../translate';
 import { TabsSectionDelimiter } from './TabsSectionDelimiter';
 import { extractGroups } from '../../../apps/src/Menu/';
 import Grouping from '../../../apps/src/Menu/Grouping';
+import HelpOverlay from '../HelpOverlay';
 
 import Tab from './Tab';
 
@@ -107,6 +108,7 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
           </li>
         ))}
       </ul>
+      <HelpOverlay/>
     </div>
   );
 }

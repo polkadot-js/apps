@@ -28,10 +28,6 @@ export default React.memo(styled(FilterOverlay)`
 
   ${media.DESKTOP`
     display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    right: 1.5rem;
-    top: 0.525rem;
 
     > div {
       max-width: 35rem !important;

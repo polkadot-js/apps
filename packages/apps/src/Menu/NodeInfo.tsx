@@ -17,7 +17,7 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
   const { api, isApiReady } = useApi();
 
   return (
-    <div className={`${className} media--1400 highlight--color-contrast`}>
+    <div className={`${className} media--1400`}>
       {isApiReady && (
         <div>
           <NodeName />&nbsp;
@@ -31,11 +31,16 @@ function NodeInfo ({ className = '' }: Props): React.ReactElement<Props> {
 }
 
 export default React.memo(styled(NodeInfo)`
-  background: transparent;
-  font-size: 0.9rem;
-  line-height: 1.2;
-  padding: 0 1.5rem 0 1rem;
+  position: absolute;
+  top: 6.3rem;
+  right: 5.1rem;
+  z-index: 10;
   text-align: right;
+  font-weight: 600;
+  font-size: 0.55rem;
+  line-height: 0.7rem;
+  text-align: right;
+  color: #8B8B8B;
 
   > div {
     margin-bottom: -0.125em;
