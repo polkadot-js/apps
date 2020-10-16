@@ -22,7 +22,7 @@ interface EnvWindow {
 
 // The available endpoints that will show in the dropdown. For the most part (with the exception of
 // Polkadot) we try to keep this to live chains only, with RPCs hosted by the community/chain vendor
-//   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos
+//   info: The chain logo name as defined in ../ui/logos/index.ts in namedLogos (this also needs to align with @polkadot/networks)
 //   text: The text to display on the dropdown
 //   value: The actual hosted secure websocket endpoint
 
@@ -110,7 +110,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://crab.darwinia.network'
     },
     {
-      info: 'dockMainnet',
+      info: 'dock-mainnet',
       text: t('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
       value: 'wss://mainnet-node.dock.io'
@@ -261,7 +261,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://testnet-harbour.datahighway.com'
     },
     {
-      info: 'dockTestnet',
+      info: 'dock-testnet',
       text: t('rpc.dock-testnet', 'Dock Testnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
       value: 'wss://danforth-1.dock.io'
