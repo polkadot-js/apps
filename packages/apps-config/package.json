@@ -15,7 +15,7 @@
     "@babel/runtime": "^7.11.2",
     "@edgeware/node-types": "^3.0.4",
     "@laminar/type-definitions": "^0.2.0-beta.141",
-    "@polkadot/networks": "^3.6.0-beta.8",
+    "@polkadot/networks": "^3.6.0-beta.14",
     "@subsocial/types": "^0.4.6"
   }
 }
