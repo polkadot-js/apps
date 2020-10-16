@@ -10,7 +10,7 @@ const findPackages = require('./scripts/findPackages');
 function transform (file, enc, done) {
   const { ext } = path.parse(file.path);
 
-  if (ext === '.tsx') {
+  if (['.ts', '.tsx'].includes(ext)) {
     const content = fs.readFileSync(file.path, enc);
 
     const { outputText } = typescript.transpileModule(content, {
