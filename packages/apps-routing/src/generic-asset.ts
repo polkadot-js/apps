@@ -19,6 +19,6 @@ export default function create (t: TFunction): Route {
     group: 'network',
     icon: 'cubes',
     name: 'generic-asset',
-    text: t<string>('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
+    text: t('nav.generic-asset', 'Generic asset', { ns: 'apps-routing' })
   };
 }
