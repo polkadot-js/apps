@@ -12,10 +12,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@acala-network/type-definitions": "^0.4.0-beta.13",
-    "@babel/runtime": "^7.11.2",
-    "@edgeware/node-types": "^3.0.4",
+    "@babel/runtime": "^7.12.1",
+    "@edgeware/node-types": "^3.0.7",
     "@laminar/type-definitions": "^0.2.0-beta.141",
-    "@polkadot/networks": "^3.6.0-beta.15",
+    "@polkadot/networks": "^3.6.0-beta.16",
     "@subsocial/types": "^0.4.6"
   }
 }
