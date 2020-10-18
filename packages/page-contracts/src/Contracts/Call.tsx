@@ -164,7 +164,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         )}
         <InputMegaGas
           help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-          label={t<string>('gas allowed (M)')}
+          label={t<string>('max gas allowed (M)')}
           labelExtra={estimatedMg && t<string>('estimated gas (M) {{estimatedMg}}', { replace: { estimatedMg: estimatedMg.toString() } })}
           {...weight}
         />
