@@ -2537,28 +2537,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/extension-dapp@npm:^0.35.0-beta.21":
-  version: 0.35.0-beta.21
-  resolution: "@polkadot/extension-dapp@npm:0.35.0-beta.21"
+"@polkadot/extension-dapp@npm:^0.35.0-beta.22":
+  version: 0.35.0-beta.22
+  resolution: "@polkadot/extension-dapp@npm:0.35.0-beta.22"
   dependencies:
-    "@babel/runtime": ^7.11.2
-    "@polkadot/extension-inject": 0.35.0-beta.21
-    "@polkadot/util": ^3.6.0-beta.14
-    "@polkadot/util-crypto": ^3.6.0-beta.14
+    "@babel/runtime": ^7.12.1
+    "@polkadot/extension-inject": 0.35.0-beta.22
+    "@polkadot/util": ^3.6.0-beta.16
+    "@polkadot/util-crypto": ^3.6.0-beta.16
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: 482427671c740bea70d71af9e4f7b1f24ece65fdb976be549848dce1724019b8a67a8b68078d1e9c60ceeb6e58ac33ae6ab093d6b53761cf1d73f86e63c260b4
+  checksum: 767c5edf563537f8d7f925f9eba4c82b352aea0d8d6c510ad97d7c2c5dc0f9ced33eb089bcd6b59c380e4eeb98d14bea925b650a343dcd4d71d93f9703b63326
   languageName: node
   linkType: hard
 
-"@polkadot/extension-inject@npm:0.35.0-beta.21":
-  version: 0.35.0-beta.21
-  resolution: "@polkadot/extension-inject@npm:0.35.0-beta.21"
+"@polkadot/extension-inject@npm:0.35.0-beta.22":
+  version: 0.35.0-beta.22
+  resolution: "@polkadot/extension-inject@npm:0.35.0-beta.22"
   dependencies:
-    "@babel/runtime": ^7.11.2
+    "@babel/runtime": ^7.12.1
   peerDependencies:
     "@polkadot/api": "*"
-  checksum: f595425bcb23c8377317a477d369f9b54d160eaa667d168bc000ecb00099b55587adab6cc13e9e136f45186cee07e703e3e37affb7adef12c3afaaba1fce451b
+  checksum: 65eb798c8f444f45910c92f47e3de5db4c8c7775e49b7a0649467e797a3386a9ac80fce38441246dc448fe744ca8af6bbeea74fee329dfbeb61d1c4029e63f5d
   languageName: node
   linkType: hard
 
@@ -2602,7 +2602,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.1
     "@polkadot/api": ^2.2.2-11
-    "@polkadot/extension-dapp": ^0.35.0-beta.21
+    "@polkadot/extension-dapp": ^0.35.0-beta.22
     rxjs-compat: ^6.6.3
   languageName: unknown
   linkType: soft
