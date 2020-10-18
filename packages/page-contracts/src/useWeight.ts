@@ -5,14 +5,17 @@ import { UseWeight } from './types';
 
 import BN from 'bn.js';
 import { useMemo, useState } from 'react';
-import { useBlockTime } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { useApi, useBlockTime } from '@polkadot/react-hooks';
+import { BN_TEN, BN_ZERO } from '@polkadot/util';
 
 const BN_MILLION = new BN(1e6);
 
-export default function useWeight (initialValue: BN = BN_MILLION): UseWeight {
+export default function useWeight (initialValue?: BN): UseWeight {
+  const { api } = useApi();
   const [blockTime] = useBlockTime();
-  const [megaGas, setMegaGas] = useState<BN | undefined>(initialValue);
+  const [megaGas, setMegaGas] = useState<BN | undefined>(
+    initialValue || api.consts.system.maximumBlockWeight.div(BN_MILLION).div(BN_TEN)
+  );
   const [executionTime, percentage, weight, isValid] = useMemo(
     (): [number, number, BN, boolean] => {
       if (!megaGas) {
@@ -20,12 +23,12 @@ export default function useWeight (initialValue: BN = BN_MILLION): UseWeight {
       }
 
       const weight = megaGas.mul(BN_MILLION);
-      const executionTime = megaGas.toNumber() / 1e6;
+      const executionTime = weight.muln(blockTime).div(api.consts.system.maximumBlockWeight).toNumber() / 1000;
       const percentage = Math.round((executionTime / (blockTime / 1000)) * 100);
 
       return [executionTime, percentage, weight, !megaGas.isZero() && percentage < 100];
     },
-    [blockTime, megaGas]
+    [api, blockTime, megaGas]
   );
 
   return useMemo(
