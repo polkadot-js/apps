@@ -65,13 +65,11 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     contract
       .read(message, message.isPayable ? dbValue : 0, -1, ...dbParams)
       .send(accountId)
-      .then(({ result }): void => {
-        setEstimatedMg(
-          result.isSuccess
-            ? result.asSuccess.gasConsumed.divn(1e6).iaddn(1)
-            : null
-        );
-      })
+      .then(({ result }) => setEstimatedMg(
+        result.isSuccess
+          ? result.asSuccess.gasConsumed.divn(1e6).iaddn(1)
+          : null
+      ))
       .catch(() => setEstimatedMg(null));
   }, [accountId, contract, message, dbParams, dbValue]);
 
