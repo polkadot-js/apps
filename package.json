@@ -35,11 +35,11 @@
   "resolutions": {
     "@polkadot/api": "^2.2.2-11",
     "@polkadot/api-contract": "^2.2.2-11",
-    "@polkadot/keyring": "^3.6.0-beta.16",
-    "@polkadot/networks": "^3.6.0-beta.16",
+    "@polkadot/keyring": "^3.6.1",
+    "@polkadot/networks": "^3.6.1",
     "@polkadot/types": "^2.2.2-11",
-    "@polkadot/util": "^3.6.0-beta.16",
-    "@polkadot/util-crypto": "^3.6.0-beta.16",
+    "@polkadot/util": "^3.6.1",
+    "@polkadot/util-crypto": "^3.6.1",
     "@polkadot/wasm-crypto": "^1.4.1",
     "babel-core": "^7.0.0-bridge.0",
     "typescript": "^4.0.3"
