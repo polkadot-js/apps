@@ -11,14 +11,14 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.11.2",
+    "@babel/runtime": "^7.12.1",
     "@polkadot/react-components": "0.62.2-21",
     "@polkadot/vanitygen": "^0.22.1",
-    "detect-browser": "^5.1.1",
+    "detect-browser": "^5.2.0",
     "file-saver": "^2.0.2"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.0.4",
-    "testcontainers": "^4.3.0"
+    "@testing-library/react": "^11.1.0",
+    "testcontainers": "^4.4.0"
   }
 }
