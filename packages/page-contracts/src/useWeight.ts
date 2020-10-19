@@ -24,7 +24,7 @@ export default function useWeight (initialValue?: BN): UseWeight {
 
       const weight = megaGas.mul(BN_MILLION);
       const executionTime = weight.muln(blockTime).div(api.consts.system.maximumBlockWeight).toNumber();
-      const percentage = Math.round((executionTime / blockTime) * 100);
+      const percentage = (executionTime / blockTime) * 100;
 
       // execution is 2s of 6s blocks, i.e. 1/3
       return [executionTime / 3000, percentage, weight, !megaGas.isZero() && percentage < 100];
