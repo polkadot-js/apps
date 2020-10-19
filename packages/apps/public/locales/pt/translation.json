@@ -634,7 +634,7 @@
   "Unable to find on-chain WASM code for the supplied codeHash": "Não foi possível encontrar o código WASM na cadeia para o codeHash fornecido",
   "Unbond": "Desvincular",
   "Unbond funds": "Desvincular fundos",
-  "Unbonding {{value}}, ": "Desvinculando {{value}},",
+  "Unbonding {{value}}": "Desvinculando {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Erro não capturado. Ocorreu um problema com a consulta e a renderização deste componente. {{mensagem}}",
   "Unit": "Unidade",
   "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "A unidade decide o nome de 1 token de unidade, por exemplo \"DOT\" para Polkadot",

@@ -866,7 +866,7 @@
   "Unbid": "Retierer l'enchère",
   "Unbond": "Délier",
   "Unbond funds": "Fonds déliés",
-  "Unbonding {{value}}, ": "Déliaison {{value}},",
+  "Unbonding {{value}}": "Déliaison {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Une erreur non interceptée. Une erreur s'est produite avec la requête et le rendu de ce composant. {{message}}",
   "Undelegate": "Supprimer la déléguation",
   "Understood, close this": "J'ai compris, fermer",
