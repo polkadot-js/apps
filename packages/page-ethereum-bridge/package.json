@@ -13,7 +13,8 @@
     "@metamask/detect-provider": "^1.1.0",
     "@polkadot/react-components": "0.59.0-beta.7",
     "bignumber.js": "^9.0.0",
-    "web3": "^1.2.9"
+    "web3": "^1.2.9",
+    "@polkadot/api": "^2.3.1"
   },
   "devDependencies": {
     "json-loader": "^0.5.7"
