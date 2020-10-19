@@ -270,7 +270,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
             onClick={toggleDelegate}
           />
         )}
-        { !!proxy?.[0].length && (
+        {!!proxy?.[0].length && (
           <Badge
             color='blue'
             hover={t<string>('This account has {{proxyNumber}} proxy set.', {

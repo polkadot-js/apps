@@ -19,7 +19,7 @@
   "This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.": "This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the account on this browser.",
   "This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.": "This operation does not remove the history of the account from the chain, nor any associated funds from the account. The forget operation only limits your access to the address on this browser.",
   "This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.": "This operation does not remove the history of the contract from the chain, nor any associated funds from its account. The forget operation only limits your access to the contract on this browser.",
-  "Unbonding {{value}}, ": "Unbonding {{value}}, ",
+  "Unbonding {{value}}": "Unbonding {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}",
   "View this externally": "View this externally",
   "Withdraw these unbonded funds": "Withdraw these unbonded funds",

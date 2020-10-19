@@ -821,7 +821,7 @@
   "Unbid": "没有竞标",
   "Unbond": "解除绑定",
   "Unbond funds": "解除绑定资金",
-  "Unbonding {{value}}, ": "解除绑定{{value}}",
+  "Unbonding {{value}}": "解除绑定{{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "未捕获的错误。此组件的查询和呈现出现问题。{{message}}",
   "Undelegate": "不受委托的",
   "Unit": "单位",

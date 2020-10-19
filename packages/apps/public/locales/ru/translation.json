@@ -641,7 +641,7 @@
   "Unable to find on-chain WASM code for the supplied codeHash": "Не найден WASM код для этого codeHash",
   "Unbond": "Освободить",
   "Unbond funds": "Освободить средства",
-  "Unbonding {{value}}, ": "Разблокирование {{value}}",
+  "Unbonding {{value}}": "Разблокирование {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Неизвестная ошибка. Что-то пошло не так с запросом и показом этого компонента {{message}}",
   "Unit": "Единица",
   "Unit decides the name of 1 unit token, e.g. \"DOT\" for Polkadot": "Единица измерения определяет имя 1 единицы токена, например, \"DOT\" для Polkadot",
