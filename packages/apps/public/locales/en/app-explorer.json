@@ -28,7 +28,6 @@
   "mortal, valid from #{{startAt}} to #{{endsAt}}": "mortal, valid from #{{startAt}} to #{{endsAt}}",
   "no": "no",
   "no peers connected": "no peers connected",
-  "not signed": "not signed",
   "our best": "our best",
   "parent": "parent",
   "peer best": "peer best",

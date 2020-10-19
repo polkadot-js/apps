@@ -56,17 +56,15 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
   );
 
   useEffect((): void => {
-    const maxWeight = api.consts.system.maximumBlockWeight.muln(64).divn(100);
-
     isUpdating && optInfo && contract && Promise
       .all(messages.map((m) =>
         m.isMutating || m.args.length !== 0
           ? Promise.resolve(undefined)
-          : contract.read(m, 0, maxWeight).send(READ_ADDR).catch(() => undefined)
+          : contract.read(m, 0, -1).send(READ_ADDR).catch(() => undefined)
       ))
       .then(setLastResults)
       .catch(console.error);
-  }, [api, contract, isUpdating, isWatching, messages, optInfo]);
+  }, [contract, isUpdating, isWatching, messages, optInfo]);
 
   const _setMessageResult = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

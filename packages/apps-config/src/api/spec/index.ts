@@ -14,7 +14,6 @@ import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import equilibrium from './equilibrium';
 import kilt from './kilt';
 import kulupu from './kulupu';
-import laminar from './laminar';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
@@ -40,7 +39,6 @@ export default {
   'encointer-node-notee': encointerNodeNotee,
   'encointer-node-teeproxy': encointerNodeTeeproxy,
   kulupu,
-  laminar,
   'mashnet-node': kilt,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
