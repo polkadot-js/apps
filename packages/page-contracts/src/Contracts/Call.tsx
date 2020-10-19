@@ -32,7 +32,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const { t } = useTranslation();
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
-  const [estimatedMg, setEstimatedMg] = useState<BN | null>(null);
+  const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
   const [value, isValueValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
@@ -43,7 +43,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const dbParams = useDebounce(params);
 
   useEffect((): void => {
-    setEstimatedMg(null);
+    setEstimatedWeight(null);
     setParams([]);
   }, [contract, messageIndex]);
 
@@ -65,12 +65,12 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     contract
       .read(message, message.isPayable ? dbValue : 0, -1, ...dbParams)
       .send(accountId)
-      .then(({ result }) => setEstimatedMg(
+      .then(({ result }) => setEstimatedWeight(
         result.isSuccess
-          ? result.asSuccess.gasConsumed.divn(1e6).iaddn(1)
+          ? result.asSuccess.gasConsumed
           : null
       ))
-      .catch(() => setEstimatedMg(null));
+      .catch(() => setEstimatedWeight(null));
   }, [accountId, contract, message, dbParams, dbValue]);
 
   const _onSubmitRpc = useCallback(
@@ -161,9 +161,8 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           />
         )}
         <InputMegaGas
+          estimatedWeight={estimatedWeight}
           help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-          label={t<string>('max gas allowed (M)')}
-          labelExtra={estimatedMg && t<string>('estimated gas (M) {{estimatedMg}}', { replace: { estimatedMg: estimatedMg.toString() } })}
           {...weight}
         />
         {message.isMutating && (
