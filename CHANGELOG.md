@@ -1,6 +1,27 @@
 # CHANGELOG
 
-## 0.62.1 Oct 13, 202
+## 0.63.1 Oct 19, 2020
+
+Contributed:
+
+- Updates for new Acala testnet (Thanks to https://github.com/aniiantt)
+- Update i18n ko (Thanks to https://github.com/maestro779)
+- Update i18n fr (Thanks to https://github.com/Tbaut)
+- Contract metadata display bg on dark mode (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Swap chain/prefix lookups to `@polkadot/networks` (single area to manage)
+- Fix formatting for large decimals on InputNumber (previously had toNumber)
+- Adjust Dock logos naming (aligns with network identifier)
+- Update i18n generation to handle routing strings
+- Estimate contracts execution gas (on contract call)
+- Use RPC for rent projection (to project eviction as available)
+- Metadata QR now aligns decimals with UI defaults (shared with react-api values)
+- Add endpoint for Canvas testnet (& setup types for node)
+
+
+## 0.62.1 Oct 13, 2020
 
 Contributed:
 
