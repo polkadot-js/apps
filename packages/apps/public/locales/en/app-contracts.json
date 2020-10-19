@@ -77,5 +77,6 @@
   "status": "status",
   "value": "value",
   "{{executionTime}}s execution time": "{{executionTime}}s execution time",
-  "{{percentage}}% of block time": "{{percentage}}% of block time"
+  "{{percentage}}% of block time": "{{percentage}}% of block time",
+  "{{percentage}}% of block weight": "{{percentage}}% of block weight"
 }
