@@ -163,7 +163,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
         <InputMegaGas
           estimatedWeight={estimatedWeight}
           help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-          {...weight}
+          weight={weight}
         />
         {message.isMutating && (
           <Toggle

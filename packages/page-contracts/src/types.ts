@@ -25,10 +25,10 @@ export interface ContractJsonOld {
 }
 
 export interface UseWeight {
-  isValid: boolean;
-  weight: BN;
   executionTime: number;
+  isValid: boolean;
   megaGas: BN;
   percentage: number;
-  setMegaGas: React.Dispatch<BN | undefined>
+  setMegaGas: React.Dispatch<BN | undefined>;
+  weight: BN;
 }

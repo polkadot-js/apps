@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { UseWeight } from '../types';
+
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -10,16 +12,12 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  estimatedWeight?: BN | null;
-  executionTime: number;
+  estimatedWeight?: BN;
   help: React.ReactNode;
-  isValid: boolean;
-  megaGas: BN;
-  percentage: number;
-  setMegaGas: (value?: BN) => void;
+  weight: UseWeight;
 }
 
-function InputMegaGas ({ className, estimatedWeight, executionTime, help, isValid, megaGas, percentage, setMegaGas }: Props): React.ReactElement<Props> {
+function InputMegaGas ({ className, estimatedWeight, help, weight: { executionTime, isValid, megaGas, percentage, setMegaGas } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [withEstimate, setWithEstimate] = useState(false);
 
@@ -30,15 +28,8 @@ function InputMegaGas ({ className, estimatedWeight, executionTime, help, isVali
     [estimatedWeight]
   );
 
-  const label = useMemo(
-    () => estimatedMg
-      ? t<string>('max gas allowed (M, {{estimatedMg}} estimated)', { replace: { estimatedMg: estimatedMg.toString() } })
-      : t<string>('max gas allowed (M)'),
-    [estimatedMg, t]
-  );
-
   useEffect((): void => {
-    estimatedMg && withEstimate && setMegaGas(estimatedMg);
+    withEstimate && estimatedMg && setMegaGas(estimatedMg);
   }, [estimatedMg, setMegaGas, withEstimate]);
 
   const isDisabled = !!estimatedMg && withEstimate;
@@ -50,7 +41,11 @@ function InputMegaGas ({ className, estimatedWeight, executionTime, help, isVali
         help={help}
         isDisabled={isDisabled}
         isError={!isValid}
-        label={label}
+        label={
+          estimatedMg
+            ? t<string>('max gas allowed (M, {{estimatedMg}} estimated)', { replace: { estimatedMg: estimatedMg.toString() } })
+            : t<string>('max gas allowed (M)')
+        }
         onChange={isDisabled ? undefined : setMegaGas}
         value={isDisabled ? undefined : megaGas}
       >
