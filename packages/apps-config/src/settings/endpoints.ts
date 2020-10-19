@@ -186,6 +186,18 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
       value: 'wss://rococo-1.laminar-chain.laminar.one'
     },
+    // Snowfork
+    {
+      info: 'snowforkRococo',
+      text: t<string>('rpc.rococo-snowfork', 'Rococo (Polkadot Testnet, hosted by Snowfork)', { ns: 'apps-config' }),
+      value: 'wss://rococo-rpc.snowfork.network'
+    },
+    {
+      info: 'snowforkRococoEthereum',
+      isChild: true,
+      text: t<string>('rpc.rococo-snowfork.parachain', 'Ethereum Bridge PC1 (Testpara, hosted by Snowfork)', { ns: 'apps-config' }),
+      value: 'wss://parachain-rpc.snowfork.network'
+    },
     // alphabetical based on chain name
     {
       info: 'centrifuge',
