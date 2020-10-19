@@ -65,7 +65,7 @@ function InputMegaGas ({ className, estimatedWeight, executionTime, help, isVali
       </InputNumber>
       <div className='contracts--InputMegaGas-meter'>
         {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}{', '}
-        {t<string>('{{percentage}}% of block weight', { replace: { percentage } })}
+        {t<string>('{{percentage}}% of block weight', { replace: { percentage: percentage.toFixed(2) } })}
       </div>
     </div>
   );
