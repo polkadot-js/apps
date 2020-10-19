@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 // Bridge applications
-export const APP_ETH_CONTRACT_ADDRESS = '0x8E7da79fd36d89a381CcFA2412D34E057bFFAdDe';
-export const APP_ERC20_CONTRACT_ADDRESS = '0xD4216c26e961c4e631E9eEe4DdB8df2BfB4be3c7';
+export const APP_ETH_CONTRACT_ADDRESS = '0x19a04AaE0c7F929d8BC0B7f69D106310f168B500';
+export const APP_ERC20_CONTRACT_ADDRESS = '0xF1becfDcA540605451553b4d5f80ACF17C7A490A';
+
 
 // Fetch chain data interval
 export const REFRESH_INTERVAL_MILLISECONDS = 10000;
