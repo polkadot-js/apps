@@ -69,6 +69,7 @@
   "vote with account": "vote with account",
   "voting balance": "voting balance",
   "{{blocks}} blocks": "{{blocks}} blocks",
+  "{{eras}} eras remaining": "{{eras}} eras remaining",
   "{{name}} ({{size}} bytes)": "{{name}} ({{size}} bytes)",
   "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
 }
