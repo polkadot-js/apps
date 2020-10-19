@@ -34,8 +34,8 @@ function InputMegaGas ({ className, executionTime, help, isValid, label, labelEx
         value={megaGas}
       />
       <div className='contracts--InputMegaGas-meter'>
-        {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}{'; '}
-        {t<string>('{{percentage}}% of block time', { replace: { percentage } })}
+        {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}{', '}
+        {t<string>('{{percentage}}% of block weight', { replace: { percentage } })}
       </div>
     </div>
   );
