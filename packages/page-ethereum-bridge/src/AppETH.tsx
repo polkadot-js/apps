@@ -7,6 +7,9 @@ import styled from 'styled-components';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
+const { Keyring } = require('@polkadot/keyring');
+const {u8aToHex} = require('@polkadot/util');
+
 import { Box, Typography, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -51,22 +54,31 @@ function AppETH ({ contract, defaultAccount, web3 }: Props): React.ReactElement<
 
   // Handlers
   const handleSendETH = () => {
-    const execute = async (rawRecipient: string, amount: string) => {
+    const execute = async (ss58Recipient: string, amount: string) => {
+
+      // create a keyring with default options
+      const keyring = new Keyring();
+
+      // SS58 formated address to hexadecimal format
+      const hexRecipient = keyring.decodeAddress(ss58Recipient);
+
+      // hexadecimal formated Address to raw bytes
+      const rawRecipient = u8aToHex(hexRecipient, -1, false);
+
       const recipientBytes = Buffer.from(rawRecipient, 'hex');
-
-      await contract.methods.sendETH(recipientBytes).send({
-        from: defaultAccount,
-        gas: 500000,
-        value: web3.utils.toWei(amount, 'ether')
+        await contract.methods.sendETH(recipientBytes).send({
+          from: defaultAccount,
+          gas: 500000,
+          value: web3.utils.toWei(amount, 'ether')
       });
-
+      
       await sleep(5000);
       getBalance();
     };
 
     execute(polkadotRecipient, depositAmount);
   };
-
+  
   const getBalance = () => {
     const execute = async () => {
       const currBalance = await web3.eth.getBalance(defaultAccount.toString());
