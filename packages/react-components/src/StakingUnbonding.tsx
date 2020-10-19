@@ -71,7 +71,7 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
           >
             <div>{t<string>('Unbonding {{value}}', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
             <div className='faded'>
-              {api.consts.babe.epochDuration
+              {api.consts.babe?.epochDuration
                 ? (
                   <BlockToTime
                     blocks={blocks}
