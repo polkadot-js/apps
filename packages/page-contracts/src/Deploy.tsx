@@ -160,7 +160,7 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
         />
         <InputMegaGas
           help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-          {...weight}
+          weight={weight}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
