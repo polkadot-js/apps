@@ -716,7 +716,7 @@
   "Type the password chosen at the account creation. It was used to encrypt your account's private key in the backup file.": "계정 생성시 선택한 비밀번호를 입력하세요. 비밀번호는 백업파일에서 사용자 계정의 개인키를 암호화하는데 사용됩니다.",
   "Unable to retrieve the specified block details. {{error}}": "지정된 블록 디테일을 찾을 수 없습니다 {{error}}",
   "Unbid": "언비드",
-  "Unbonding {{value}}, ": "언본딩 {{value}},",
+  "Unbonding {{value}}": "언본딩 {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "발견하지 않은 오류. 퀴리 및 요소의 연주 시 이상이 있었습니다",
   "Undelegate": "위임취소",
   "Unit": "단위",

@@ -763,7 +763,7 @@
   "Unbid": "إلغاء العرض",
   "Unbond": "إلغاء الربط",
   "Unbond funds": "إلغاء الربط الأموال",
-  "Unbonding {{value}}, ": "،{{إلغاء الربط {{قيمة",
+  "Unbonding {{value}}": "،{{إلغاء الربط {{قيمة",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "{{خطأ غير مسلط. حدث خطأ ما في الاستعلام عن هذا المكون وتصويله. {{رسالة",
   "Undelegate": "إلغاء التفويض",
   "Unit": "وحدة",

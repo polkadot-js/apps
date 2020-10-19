@@ -849,7 +849,7 @@
   "Unbid": "Batalkan penawaran",
   "Unbond": "Unbond",
   "Unbond funds": "Unbond dana",
-  "Unbonding {{value}}, ": "Tidak terikat {{value}},",
+  "Unbonding {{value}}": "Tidak terikat {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Kesalahan tidak tertangkap. Ada yang tidak beres dengan kueri dan rendering komponen ini. {{message}}",
   "Undelegate": "Undelegasi",
   "Unit": "Unit",

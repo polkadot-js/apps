@@ -837,7 +837,7 @@
   "Unbid": "Cancella l'offerta",
   "Unbond": "Svincola",
   "Unbond funds": "Svincola fondi",
-  "Unbonding {{value}}, ": "Svincolo {{value}},",
+  "Unbonding {{value}}": "Svincolo {{value}}",
   "Uncaught error. Something went wrong with the query and rendering of this component. {{message}}": "Errore inatteso. Qualcosa è andato storto con l'interrogazione o con la lettura di qualche sua componente {{message}}",
   "Undelegate": "Togli la delega",
   "Unit": "Unità",
