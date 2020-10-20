@@ -117,7 +117,7 @@ export default css`
 
   .ui.label {
     background: transparent;
-    font-weight: normal;
+    font-weight: 400;
     position: relative;
     z-index: 1;
   }
@@ -126,7 +126,7 @@ export default css`
     background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
     color: ${({ theme }: ThemeProps) => theme.color};
-    font-family: 'Nunito Sans',sans-serif;
+    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
 
     > .actions,
     > .content {
@@ -144,9 +144,9 @@ export default css`
       background: transparent;
       border-bottom: none;
       color: ${({ theme }: ThemeProps) => theme.colorSummary};
-      font-family: 'Nunito Sans',sans-serif;
+      font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
       font-size: 1.75rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -158,7 +158,7 @@ export default css`
 
     .description {
       margin: 1.5em 0;
-      font-weight: 700;
+      font-weight: 400;
     }
   }
 

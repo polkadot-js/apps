@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { useToggle } from '@polkadot/react-hooks';
 
@@ -79,7 +80,6 @@ export const styles = `
 
   .ui--Row-address,
   .ui--Row-accountIndex {
-    font-family: monospace;
     font-size: 1.25em;
     padding: 0;
     margin-bottom: 0.25rem;

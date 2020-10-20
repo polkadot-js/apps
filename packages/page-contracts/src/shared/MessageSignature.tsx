@@ -4,6 +4,7 @@
 import { AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
+import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
 import { encodeTypeDef } from '@polkadot/types';
@@ -76,8 +77,8 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
 }
 
 export default React.memo(styled(MessageSignature)`
-  font-family: monospace;
-  font-weight: normal;
+  font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+  font-weight: 400;
   flex-grow: 1;
 
   .ui--MessageSignature-mutates {
@@ -88,7 +89,7 @@ export default React.memo(styled(MessageSignature)`
 
   .ui--MessageSignature-name {
     color: #2f8ddb;
-    font-weight: bold;
+    font-weight: 400;
   }
 
   .ui--MessageSignature-type {
