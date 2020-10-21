@@ -20,6 +20,7 @@ export const darkTheme: ThemeDef = {
   colorLabel: 'rgba(244, 242, 240, 0.45)',
   colorSummary: 'rgba(244, 242, 240, 0.75)',
   fontFamily: '"Nunito Sans", sans-serif',
+  fontMono: 'monospace',
   theme: 'dark'
 };
 
@@ -40,5 +41,6 @@ export const lightTheme: ThemeDef = {
   colorLabel: 'rgba(78, 78, 78, 0.66)',
   colorSummary: 'rgba(0, 0, 0, 0.6)',
   fontFamily: '"Nunito Sans", sans-serif',
+  fontMono: 'monospace',
   theme: 'light'
 };
