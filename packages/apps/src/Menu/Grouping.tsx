@@ -4,23 +4,28 @@
 import { ThemeProps } from '@polkadot/react-components/types';
 import { Group } from './types';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import Item from './Item';
 import { Icon } from '@polkadot/react-components';
-import { Route } from '@polkadot/apps-routing/types';
+import { useLocation } from 'react-router-dom';
 
 interface Props extends Group {
   className?: string;
   variant?: string;
-  activeRoute?: Route;
 }
 
 const SHA_COL = 'rgba(34, 36, 38, 0.12)';
 const SHA_OFF = '5px';
 
-function Grouping ({ activeRoute, className = '', name, routes, variant }: Props): React.ReactElement<Props> {
+function Grouping ({ className = '', name, routes, variant }: Props): React.ReactElement<Props> {
+  const location = useLocation();
+  const activeRoute = useMemo(
+    () => routes.find((route) => location.pathname.startsWith(`/${route.name}`)) || null,
+    [location, routes]
+  );
+
   if (routes && routes.length === 1) {
     switch (variant) {
       case 'active-tab': {
@@ -62,9 +67,9 @@ function Grouping ({ activeRoute, className = '', name, routes, variant }: Props
     default: {
       return (
         <li className={className}>
-          <div className='groupHdr  highlight--color-contrast'>
+          <div className={['groupHdr', 'highlight--color-contrast', activeRoute?.group === name?.toLowerCase() ? 'selected' : ''].join(' ')}>
             <span>{name}</span>
-            <Icon icon="caret-down" />
+            <Icon icon='caret-down' />
           </div>
           <ul className='groupMenu highlight--bg-light'>
             {routes.map((route): React.ReactNode => (
@@ -124,6 +129,10 @@ export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
     
     > .ui--Icon {
       margin-left: 0.75rem;
+    }
+    
+    &.selected {
+      color: red;
     }
   }
 
