@@ -8,6 +8,7 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
 import { encodeTypeDef } from '@polkadot/types';
+import { stringCamelCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -32,7 +33,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
 
   return (
     <div className={className}>
-      <span className='ui--MessageSignature-name'>{identifier}</span>
+      <span className='ui--MessageSignature-name'>{stringCamelCase(identifier)}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>

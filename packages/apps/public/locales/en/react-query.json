@@ -1,13 +1,4 @@
 {
-  "1 day": "1 day",
-  "1 hr": "1 hr",
-  "1 min": "1 min",
-  "1 s": "1 s",
   "Unknown": "Unknown",
-  "everything": "everything",
-  "everything{{labelPost}}": "everything{{labelPost}}",
-  "{{days}} days": "{{days}} days",
-  "{{hours}} hrs": "{{hours}} hrs",
-  "{{minutes}} mins": "{{minutes}} mins",
-  "{{seconds}} s": "{{seconds}} s"
+  "everything{{labelPost}}": "everything{{labelPost}}"
 }

@@ -4,39 +4,45 @@
 import { UseWeight } from './types';
 
 import BN from 'bn.js';
-import { useMemo, useState } from 'react';
-import { useBlockTime } from '@polkadot/react-hooks';
-import { BN_ZERO } from '@polkadot/util';
+import { useCallback, useMemo, useState } from 'react';
+import { useApi, useBlockTime } from '@polkadot/react-hooks';
+import { BN_TEN, BN_ZERO } from '@polkadot/util';
 
 const BN_MILLION = new BN(1e6);
 
-export default function useWeight (initialValue: BN = BN_MILLION): UseWeight {
+export default function useWeight (): UseWeight {
+  const { api } = useApi();
   const [blockTime] = useBlockTime();
-  const [megaGas, setMegaGas] = useState<BN | undefined>(initialValue);
-  const [executionTime, percentage, weight, isValid] = useMemo(
-    (): [number, number, BN, boolean] => {
-      if (!megaGas) {
-        return [0, 0, BN_ZERO, false];
-      }
+  const [megaGas, _setMegaGas] = useState<BN>(api.consts.system.maximumBlockWeight.div(BN_MILLION).div(BN_TEN));
 
-      const weight = megaGas.mul(BN_MILLION);
-      const executionTime = megaGas.toNumber() / 1e6;
-      const percentage = Math.round((executionTime / (blockTime / 1000)) * 100);
-
-      return [executionTime, percentage, weight, !megaGas.isZero() && percentage < 100];
-    },
-    [blockTime, megaGas]
+  const setMegaGas = useCallback(
+    (value?: BN | undefined) => _setMegaGas(value || api.consts.system.maximumBlockWeight.div(BN_MILLION).div(BN_TEN)),
+    [api]
   );
 
-  return useMemo(
-    () => ({
+  return useMemo((): UseWeight => {
+    let executionTime = 0;
+    let percentage = 0;
+    let weight = BN_ZERO;
+    let isValid = false;
+
+    if (megaGas) {
+      weight = megaGas.mul(BN_MILLION);
+      executionTime = weight.muln(blockTime).div(api.consts.system.maximumBlockWeight).toNumber();
+      percentage = (executionTime / blockTime) * 100;
+
+      // execution is 2s of 6s blocks, i.e. 1/3
+      executionTime = executionTime / 3000;
+      isValid = !megaGas.isZero() && percentage < 65;
+    }
+
+    return {
       executionTime,
       isValid,
       megaGas: megaGas || BN_ZERO,
       percentage,
       setMegaGas,
       weight
-    }),
-    [executionTime, isValid, megaGas, percentage, setMegaGas, weight]
-  );
+    };
+  }, [api, blockTime, megaGas, setMegaGas]);
 }

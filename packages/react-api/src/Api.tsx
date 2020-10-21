@@ -54,7 +54,6 @@ interface ChainData {
 export const DEFAULT_DECIMALS = registry.createType('u32', 15);
 export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
 
-const injectedPromise = web3Enable('polkadot-js/apps');
 let api: ApiPromise;
 
 export { api };
@@ -68,7 +67,7 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-async function retrieve (api: ApiPromise): Promise<ChainData> {
+async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.chain.getHeader(),
     api.rpc.system.properties(),
@@ -112,10 +111,10 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   };
 }
 
-async function loadOnReady (api: ApiPromise, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
 
-  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
@@ -189,17 +188,17 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
-    api.on('ready', async (): Promise<void> => {
-      try {
-        setState(await loadOnReady(api, store, types));
-      } catch (error) {
-        console.error('Unable to load chain', error);
-      }
-    });
+    api.on('ready', (): void => {
+      const injectedPromise = web3Enable('polkadot-js/apps');
 
-    injectedPromise
-      .then(setExtensions)
-      .catch((error: Error) => console.error(error));
+      injectedPromise
+        .then(setExtensions)
+        .catch(console.error);
+
+      loadOnReady(api, injectedPromise, store, types)
+        .then(setState)
+        .catch(console.error);
+    });
 
     setIsApiInitialized(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps

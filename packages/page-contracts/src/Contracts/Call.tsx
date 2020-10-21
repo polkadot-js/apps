@@ -10,7 +10,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { ContractPromise } from '@polkadot/api-contract';
-import { useAccountId, useFormField, useToggle } from '@polkadot/react-hooks';
+import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
@@ -32,19 +32,25 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   const { t } = useTranslation();
   const message = contract.abi.messages[messageIndex];
   const [accountId, setAccountId] = useAccountId();
+  const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
   const [value, isValueValid, setEndowment] = useFormField<BN>(BN_ZERO);
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
   const [execTx, setExecTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [params, setParams] = useState<any[]>([]);
   const [isViaCall, toggleViaCall] = useToggle();
   const weight = useWeight();
+  const dbValue = useDebounce(value);
+  const dbParams = useDebounce(params);
 
   useEffect((): void => {
+    setEstimatedWeight(null);
     setParams([]);
   }, [contract, messageIndex]);
 
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
+      console.error(weight.weight.toString());
+
       try {
         return contract.exec(message, message.isPayable ? value : 0, weight.weight, ...params);
       } catch (error) {
@@ -52,6 +58,20 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       }
     });
   }, [accountId, contract, message, value, weight, params]);
+
+  useEffect((): void => {
+    if (!accountId || !message || !dbParams || !dbValue) return;
+
+    contract
+      .read(message, message.isPayable ? dbValue : 0, -1, ...dbParams)
+      .send(accountId)
+      .then(({ result }) => setEstimatedWeight(
+        result.isSuccess
+          ? result.asSuccess.gasConsumed
+          : null
+      ))
+      .catch(() => setEstimatedWeight(null));
+  }, [accountId, contract, message, dbParams, dbValue]);
 
   const _onSubmitRpc = useCallback(
     (): void => {
@@ -141,9 +161,9 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           />
         )}
         <InputMegaGas
+          estimatedWeight={estimatedWeight}
           help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-          label={t<string>('maximum gas allowed')}
-          {...weight}
+          weight={weight}
         />
         {message.isMutating && (
           <Toggle

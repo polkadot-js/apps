@@ -51,6 +51,7 @@ export default React.memo(styled(Labelled)`
     position: relative;
 
     .withEllipsis {
+      display: inline;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
