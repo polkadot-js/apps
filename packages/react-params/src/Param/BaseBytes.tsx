@@ -103,7 +103,6 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
       <Input
         className={size}
         defaultValue={defaultValue as string}
-        help={t<string>('0x prefixed hex or ascii data')}
         isAction={!!children}
         isDisabled={isDisabled}
         isError={isError || !isValid}
@@ -111,7 +110,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        placeholder={t<string>('0x prefixed hex or ascii data')}
+        placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
         type='text'
         withEllipsis
         withLabel={withLabel}
