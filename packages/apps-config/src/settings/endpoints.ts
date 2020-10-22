@@ -123,6 +123,13 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://mainnet1.edgewa.re'
     },
     {
+      dnslink: 'hanonycash',
+      info: 'hanonycash',
+      text: t('rpc.hanonycash', 'hanonycash', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Kulupu' } }),
+      value: 'wss://rpc.hanonycash.com'
+    },
+    {
       dnslink: 'kulupu',
       info: 'kulupu',
       text: t('rpc.kulupu', 'Kulupu', { ns: 'apps-config' }),
