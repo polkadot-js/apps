@@ -28,15 +28,10 @@ function CopyButton ({ children, className, icon = 'copy', isAddress = false, is
 
   const _onCopy = useCallback(
     (): void => {
-      isAddress && queueAction && queueAction({
-        account: value,
+      (isAddress || isMnemonic) && queueAction && queueAction({
+        account: isAddress ? value : undefined,
         action: t<string>('clipboard'),
-        message: t<string>('address copied'),
-        status: 'queued'
-      });
-      isMnemonic && queueAction && queueAction({
-        action: t<string>('clipboard'),
-        message: t<string>('mnemonic copied'),
+        message: t<string>(`${isAddress ? 'address' : 'mnemonic'} copied`),
         status: 'queued'
       });
     },
