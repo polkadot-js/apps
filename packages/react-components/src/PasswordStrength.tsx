@@ -63,7 +63,7 @@ export default React.memo(styled(PasswordStrength)(({ theme }: ThemeProps) => `
   .ui--Strength-bar {
     position: relative;
     height: 0.6rem;
-    width: 14rem;
+    width: 100%;
     margin: 0 10px;
     border: 1px solid #DFDFDF;
     border-radius: 0.15rem;
