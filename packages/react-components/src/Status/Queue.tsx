@@ -104,18 +104,32 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             message,
             status: 'error'
           };
-        } else if (section === 'contracts' && method === 'ContractExecution' && data.length === 2) {
-          // see if we have info for this contract
-          const [accountId, encoded] = data;
-          const abi = getContractAbi(accountId.toString());
+        } else if (section === 'contracts') {
+          if (method === 'ContractExecution' && data.length === 2) {
+            // see if we have info for this contract
+            const [accountId, encoded] = data;
 
-          if (abi) {
-            const decoded = abi.decodeEvent(encoded.toU8a(true));
+            try {
+              const abi = getContractAbi(accountId.toString());
 
+              if (abi) {
+                const decoded = abi.decodeEvent(encoded.toU8a(true));
+
+                return {
+                  action: decoded.event.identifier,
+                  message: 'contract event',
+                  status: 'event'
+                };
+              }
+            } catch (error) {
+              // ABI mismatch?
+              console.error(error);
+            }
+          } else if (method === 'Evicted') {
             return {
-              action: decoded.event.identifier,
-              message: 'contract event',
-              status: 'event'
+              action: `${section}.${method}`,
+              message: 'contract evicted',
+              status: 'error'
             };
           }
         }

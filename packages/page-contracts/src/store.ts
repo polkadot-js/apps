@@ -23,7 +23,7 @@ class Store extends EventEmitter {
     return Object.values(this.allCode);
   }
 
-  public getCode (codeHash: string): CodeStored {
+  public getCode (codeHash: string): CodeStored | undefined {
     return this.allCode[codeHash];
   }
 
@@ -36,7 +36,7 @@ class Store extends EventEmitter {
       ...partial,
       codeHash: hex,
       genesisHash: api.genesisHash.toHex(),
-      whenCreated: existing.json?.whenCreated || Date.now()
+      whenCreated: existing?.json.whenCreated || Date.now()
     };
     const key = `${KEY_CODE}${json.codeHash}`;
 
