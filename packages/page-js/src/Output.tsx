@@ -60,7 +60,7 @@ export default React.memo(styled(Output)`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+  font-family: ${({ theme }: ThemeProps) => theme.fontMono};
   font-size: 12px;
   font-variant-ligatures: common-ligatures;
   line-height: 18px;
@@ -71,7 +71,7 @@ export default React.memo(styled(Output)`
   .logs-wrapper {
     display: flex;
     flex: 1;
-    min-height: 0px;
+    min-height: 0;
   }
 
   .logs-container {

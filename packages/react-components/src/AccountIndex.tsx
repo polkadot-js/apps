@@ -45,6 +45,6 @@ function AccountIndex ({ children, className = '', defaultValue, label, value }:
 
 export default React.memo(styled(AccountIndex)`
   .account-index {
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
   }
 `);

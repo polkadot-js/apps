@@ -79,6 +79,7 @@ export const styles = `
 
   .ui--Row-address,
   .ui--Row-accountIndex {
+    font-family: monospace;
     font-size: 1.25em;
     padding: 0;
     margin-bottom: 0.25rem;

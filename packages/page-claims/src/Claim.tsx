@@ -114,6 +114,7 @@ align-items: center;
 margin: 0 1rem;
 
 h3 {
+  font-family: monospace;
   font-size: 1.5rem;
   max-width: 100%;
   margin: 0.5rem;

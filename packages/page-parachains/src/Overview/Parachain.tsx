@@ -116,7 +116,7 @@ export default React.memo(styled(Parachain)`
   }
 
   td.headhex {
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
   }
 
   .did-update {

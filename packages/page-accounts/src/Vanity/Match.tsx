@@ -97,7 +97,7 @@ export default React.memo(styled(Match)`
 
   .vanity--Match-item {
     display: inline-block;
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
     margin: 0 auto;
     padding: 0.5em;
     position: relative;

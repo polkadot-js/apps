@@ -397,7 +397,7 @@ export default React.memo(styled(Forks)`
   table {
     border-collapse: separate;
     border-spacing: 0.25rem;
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
 
     td {
       padding: 0.25rem 0.5rem;

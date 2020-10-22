@@ -43,7 +43,7 @@ export default React.memo(styled(KeyPair)`
   > .address {
     display: inline-block;
     flex: 1;
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
     margin-left: 1rem;
     opacity: 0.5;
     overflow: hidden;

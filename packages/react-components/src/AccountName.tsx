@@ -210,7 +210,7 @@ export default React.memo(styled(AccountName)`
       }
 
       &.isAddress {
-        font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+        font-family: ${({ theme }: ThemeProps) => theme.fontMono};
         text-transform: none;
       }
 
