@@ -5,11 +5,13 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton } from '@polkadot/react-components';
 import { KeyringPair } from '@polkadot/keyring/types';
 import keyring from '@polkadot/ui-keyring';
+import axios from 'axios';
 
 import { useTranslation } from './translate';
 
-var bs58check = require('bs58check');
-var Buffer = require('safe-buffer').Buffer;
+import bs58 from 'bs58';
+import bs58check from 'bs58check';
+import { Buffer } from 'safe-buffer';
 
 
 interface Props {
@@ -25,6 +27,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
   const [submitting, setSubmitting] = useState<Boolean>(false);
   const [txHash, setTxHash] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const [base58Check, setBase58Check] = useState<string>('');
   const [address, setAddress] = useState<string | null>(null);
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
@@ -36,17 +39,47 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     if (!txHash || !address) {
       setBase58Check('');
+      setError('');
       return;
     }
 
-    const addressBuffer = Buffer.from(address);
-    const txHashBuffer = Buffer.from(txHash);
-    const b58Check = bs58check.encode(Buffer.concat([addressBuffer, txHashBuffer]));
-    setBase58Check(b58Check);
+    // Trim 0x from hash incase
+    let txnHash = txHash;
+    if (txnHash.substr(0, 2) === '0x') {
+      txnHash = txnHash.substr(2);
+    }
+
+    // Build payload
+    try {
+      const payloadRaw = Buffer.concat([bs58.decode(address), Buffer.from(txnHash, 'hex')]);
+      const payloadCheck = bs58check.encode(payloadRaw);
+      setBase58Check(payloadCheck);
+      setError('');
+    } catch (e) {
+      setError(e.toString());
+      setBase58Check('');
+    }
   }, [address, txHash]);
 
   async function handleSubmitSwap() {
     setSubmitting(true);
+    setError('');
+
+    try {
+      const res = await axios.post('http://localhost:8080/migrate', {
+        payload: base58Check,
+        signature,
+      });
+      console.log('res', res);
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        setError(error.message);
+      }
+    }
+
+    setSubmitting(false);
   }
 
   return (
@@ -111,16 +144,25 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
             </Modal.Column>
           </Modal.Columns>
 
-          <div style={{textAlign: 'right'}}>
-            <Button
-              accountId={address}
-              icon='sign-in-alt'
-              isDisabled={submitting || !(address && signature && txHash)}
-              isPrimary={true}
-              label={t<string>(submitting ? 'Please wait...' : 'Submit')}
-              onClick={handleSubmitSwap}
-            />
-          </div>
+          <Modal.Columns>
+            <Modal.Column>
+              <p style={{color: '#d82323'}}>
+                {error}
+              </p>
+            </Modal.Column>
+            <Modal.Column>
+            <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
+              <Button
+                accountId={address}
+                icon='sign-in-alt'
+                isDisabled={submitting || !(address && signature && txHash)}
+                isPrimary={true}
+                label={t<string>(submitting ? 'Please wait...' : 'Submit')}
+                onClick={handleSubmitSwap}
+              />
+            </div>
+            </Modal.Column>
+          </Modal.Columns>
         </td>
       </tr>
     </Table>
