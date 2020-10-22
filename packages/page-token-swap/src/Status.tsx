@@ -9,6 +9,16 @@ interface Props {
   title: string,
 }
 
+const statusMap = {
+  '-2': 'Sender address was blacklisted',
+  '-1': 'Invalid due to any reason, like txn was not for Dock\'s contract or was not for Dock\'s vault address',
+  '0': 'Signature valid but transaction not parsed to find out how many tokens to transfer.',
+  '1': 'Parsed and checked that was intended for Dock\'s contract and vault address but not sufficient confirmations',
+  '2': 'Sufficient confirmations',
+  '3': 'Attempting migration',
+  '10': 'Migration is complete',
+};
+
 function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
@@ -19,21 +29,28 @@ function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<P
   const [signature, setSignature] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [submitting, setSubmitting] = useState<Boolean>(false);
-  const [success, setSuccess] = useState<Boolean>(false);
+  const [status, setStatus] = useState<string>('');
   const [error, setError] = useState<string>('');
 
   async function handleSubmitStatus() {
     setSubmitting(true);
-    setSuccess(false);
+    setStatus(false);
     setError('');
+
+    // Trim 0x from hash incase
+    let txnHash = txHash;
+    if (txnHash.substr(0, 2) === '0x') {
+      txnHash = txnHash.substr(2);
+    }
 
     try {
       const res = await axios.post(`${apiUrl}/status`, {
         address,
-        txHash,
+        txnHash,
       });
       if (!res.data.error) {
-        setSuccess(true);
+        const status = res.data.status;
+        setStatus(statusMap[status]);
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
@@ -85,9 +102,9 @@ function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<P
 
           <Modal.Columns>
             <Modal.Column>
-              {success ? (
+              {status ? (
                 <p>
-                  Status: processing
+                  Status: {status}
                 </p>
               ) : (
                 <p style={{color: '#d82323'}}>
