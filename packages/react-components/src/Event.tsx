@@ -39,15 +39,21 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
       if (value.section === 'contracts' && value.method === 'ContractExecution' && value.data.length === 2) {
         // see if we have info for this contract
         const [accountId, encoded] = value.data;
-        const abi = getContractAbi(accountId.toString());
 
-        if (abi) {
-          const decoded = abi.decodeEvent(encoded.toU8a(true));
+        try {
+          const abi = getContractAbi(accountId.toString());
 
-          return {
-            ...decoded,
-            values: decoded.args.map((value) => ({ isValid: true, value }))
-          };
+          if (abi) {
+            const decoded = abi.decodeEvent(encoded.toU8a(true));
+
+            return {
+              ...decoded,
+              values: decoded.args.map((value) => ({ isValid: true, value }))
+            };
+          }
+        } catch (error) {
+          // ABI mismatch?
+          console.error(error);
         }
       }
 
