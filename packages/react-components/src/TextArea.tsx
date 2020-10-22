@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { TextareaHTMLAttributes, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { Labelled } from '.';
@@ -19,50 +19,7 @@ interface Props {
   withLabel?: boolean;
 }
 
-interface TextInputProps extends TextareaHTMLAttributes<any>{
-  withError?: boolean;
-}
-
-const TextInput = ({ withError, ...textAreaProps }: TextInputProps) => <textarea
-  {...textAreaProps}
-  className={[textAreaProps.className, withError ? 'ui-textArea-withError' : ''].join(' ')}
-/>;
-
-const TextAreaInput = styled(TextInput)(({ theme }: ThemeProps) => `
-  background: ${theme.bgInput};
-  border-radius: 0.25rem;
-  border: 1px solid #DDE1EB;
-  box-sizing: border-box;
-  color: ${theme.color};
-  display: block;
-  outline: none;
-  padding: 1.75rem 3rem 0.75rem 1.5rem;
-  resize: none;
-  width: 100%;
-
-  &:read-only {
-    background: ${theme.bgInverse};
-    box-shadow: none;
-    outline: none;
-  }
-
-  &.ui-textArea-withError {
-    background: ${theme.bgInputError};
-    color: ${theme.colorError};
-  }
-`);
-
-interface TextAreaWithDropdownProps {
-  children?: React.ReactNode;
-  isError?: boolean;
-  isReadOnly?: boolean;
-  rowsCount?: number;
-  onChange?: (value: string) => void;
-  value?: string;
-  id: string;
-}
-
-function TextAreaWithDropdown ({ children, id, isError, isReadOnly, onChange, rowsCount, value }: TextAreaWithDropdownProps): React.ReactElement<TextAreaWithDropdownProps> {
+function TextArea ({ children, className, help, isError, isReadOnly, label, onChange, seed, withLabel }: Props): React.ReactElement<Props> {
   const _onChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>): void => {
       onChange && onChange(value);
@@ -71,26 +28,6 @@ function TextAreaWithDropdown ({ children, id, isError, isReadOnly, onChange, ro
   );
 
   return (
-    <>
-      <TextAreaInput
-        autoCapitalize='off'
-        autoCorrect='off'
-        autoFocus={false}
-        id={id}
-        onChange={_onChange}
-        readOnly={isReadOnly}
-        rows={rowsCount || 2}
-        spellCheck={false}
-        value={value}
-        withError={isError}
-      />
-      {children}
-    </>
-  );
-}
-
-function TextArea ({ children, className, help, isError, isReadOnly, label, onChange, seed, withLabel }: Props): React.ReactElement<Props> {
-  return (
     <Labelled
       className={className}
       help={help}
@@ -98,15 +35,18 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
       withLabel={withLabel}
     >
       <div className='TextAreaWithDropdown'>
-        <TextAreaWithDropdown
-          id='printJS-seed'
-          isError={isError}
-          isReadOnly={isReadOnly}
-          onChange={onChange}
+        <textarea
+          autoCapitalize='off'
+          autoCorrect='off'
+          autoFocus={false}
+          className={isError ? 'ui-textArea-withError' : ''}
+          onChange={_onChange}
+          readOnly={isReadOnly}
+          rows={2}
+          spellCheck={false}
           value={seed}
-        >
-          {children}
-        </TextAreaWithDropdown>
+        />
+        {children}
       </div>
     </Labelled>
   );
@@ -116,16 +56,33 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
   .TextAreaWithDropdown {
     display: flex;
     textarea {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-right: none;
-    }
+      border-radius: 0.25rem 0 0 0.25rem;
+      border: 1px solid #DDE1EB;
+      border-right: none;      
+      background: ${theme.bgInput};
+      box-sizing: border-box;
+      color: ${theme.color};
+      display: block;
+      outline: none;
+      padding: 1.75rem 3rem 0.75rem 1.5rem;
+      resize: none;
+      width: 100%;
     
-    textarea:read-only ~ .ui.buttons {
-      .ui.selection.dropdown {
+      &:read-only {
         background: ${theme.bgInverse};
+        box-shadow: none;
+        outline: none;
+        
+        ~ .ui.buttons > .ui.selection.dropdown {
+          background: ${theme.bgInverse};
+        }
       }
-    } 
+      
+      &.ui-textArea-withError {
+        background: ${theme.bgInputError};
+        color: ${theme.colorError};
+      }
+    }
     
     & > .ui.buttons > .ui.button.floating.selection.dropdown {
       border: 1px solid #DDE1EB;
