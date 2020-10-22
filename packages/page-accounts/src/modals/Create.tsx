@@ -378,12 +378,17 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </Modal.Column>
             </Modal.Columns>
           </Expander>
-          <Checkbox
-            label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-            onChange={_toggleMnemonicSaved}
-            value={isMnemonicSaved}
-          />
           <ExternalWarning />
+          <Modal.Columns>
+            <Modal.Column>&nbsp;</Modal.Column>
+            <Modal.Column>
+              <Checkbox
+                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                onChange={_toggleMnemonicSaved}
+                value={isMnemonicSaved}
+              />
+            </Modal.Column>
+          </Modal.Columns>
         </>}
         {step === 2 && <>
           <Modal.Columns>
@@ -480,5 +485,9 @@ export default React.memo(styled(Create)`
   }
   & .ui--Checkbox {
     margin: 0.8rem 0 0 2rem;
+    
+    > label {
+        font-weight: 400;
+    }
   }
 `);
