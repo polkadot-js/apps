@@ -339,7 +339,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                   label={t<string>('keypair crypto type')}
                   onChange={_onChangePairType}
-                  options={uiSettings.availableCryptos}
+                  options={isEthereum
+                    ? uiSettings.availableCryptosEth
+                    : uiSettings.availableCryptos}
                   tabIndex={-1}
                 />
               </Modal.Column>
