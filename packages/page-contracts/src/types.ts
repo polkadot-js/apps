@@ -10,6 +10,7 @@ export interface CodeJson {
   name: string;
   genesisHash: string;
   tags: string[];
+  whenCreated: number;
 }
 
 export interface CodeStored {
