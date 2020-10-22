@@ -133,7 +133,7 @@ class InputAddress extends React.PureComponent<Props, State> {
   }
 
   public render (): React.ReactNode {
-    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel } = this.props;
+    const { className = '', defaultValue, help, hideAddress = false, isDisabled = false, isError, isMultiple, label, labelExtra, options, optionsAll, placeholder, type = DEFAULT_TYPE, withEllipsis, withLabel, isFull } = this.props;
     const { lastValue, value } = this.state;
     const hasOptions = (options && options.length !== 0) || (optionsAll && Object.keys(optionsAll[type]).length !== 0);
 
@@ -163,6 +163,7 @@ class InputAddress extends React.PureComponent<Props, State> {
         className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
         defaultValue={_defaultValue}
         help={help}
+        isFull={isFull}
         isDisabled={isDisabled}
         isError={isError}
         isMultiple={isMultiple}

@@ -119,6 +119,7 @@
   "dependencies": {
     "apollo-boost": "^0.4.9",
     "apollo-client": "^2.6.10",
+    "bs58check": "^2.1.2",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "is-extglob": "^2.1.1",

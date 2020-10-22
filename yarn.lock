@@ -3464,6 +3464,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-token-swap@workspace:packages/page-token-swap":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-token-swap@workspace:packages/page-token-swap"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.61.0-beta.0
+    "@polkadot/react-params": 0.61.0-beta.0
+    "@polkadot/react-signer": 0.61.0-beta.0
+    base58check: ^2.0.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-treasury@workspace:packages/page-treasury":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-treasury@workspace:packages/page-treasury"
@@ -6753,12 +6765,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base-x@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "base-x@npm:1.1.0"
+  checksum: 97378e8fd4e75e5cf722047202bd0ff911d1fbe091c4b1dd841c1c4e91e161627ddf8b2c6d4a8ba88d3facc8bd7d692f5c755642c5ccad33bc925c2a4babe4eb
+  languageName: node
+  linkType: hard
+
 "base-x@npm:^3.0.2, base-x@npm:^3.0.8":
   version: 3.0.8
   resolution: "base-x@npm:3.0.8"
   dependencies:
     safe-buffer: ^5.0.1
   checksum: 9e5832ab00f4413d63f8227901c18b2a9db5f379525f70b627e6e284007dc5e7940a765ef4ab03974b4c14a664153208758656ebb86979451d1995d13e3fa29b
+  languageName: node
+  linkType: hard
+
+"base58check@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "base58check@npm:2.0.0"
+  dependencies:
+    bs58: ^3.0.0
+  checksum: d7d2f439deaa2cce4adb1ffea563c3d581cc27791ef16c79f919552069ea36352980ea854024133bbb7b4999228d848843382d145591cc4e6caf92e5d98c810f
   languageName: node
   linkType: hard
 
@@ -7143,12 +7171,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs58@npm:^4.0.1":
+"bs58@npm:^3.0.0":
+  version: 3.1.0
+  resolution: "bs58@npm:3.1.0"
+  dependencies:
+    base-x: ^1.1.0
+  checksum: b6151c46a5d8f4507821a64674ef96f0a4c3d9bb3ce8ca2730dbb952f652ef3ecdc7f0a99ef8d7e26e27fdbbf7a3829cd80ffe38c7c52bf7ed95cbb36ec02680
+  languageName: node
+  linkType: hard
+
+"bs58@npm:^4.0.0, bs58@npm:^4.0.1":
   version: 4.0.1
   resolution: "bs58@npm:4.0.1"
   dependencies:
     base-x: ^3.0.2
   checksum: 0da897a0e527b31ec0fd7ce4d84a86278196acb4fa4f5010dce38a7b83b8b0bbe26909843878c2aa32bdbe00b93a68408d42c74a1cfaa05ca64f29bd5dff4187
+  languageName: node
+  linkType: hard
+
+"bs58check@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "bs58check@npm:2.1.2"
+  dependencies:
+    bs58: ^4.0.0
+    create-hash: ^1.1.0
+    safe-buffer: ^5.1.2
+  checksum: 43e75980883bff36a591a8ecf790e3b1f4d7cf03bf2a4866f371355e2de121f9130ac41e1abf28451ccf808e32f589048da6250fa9e15d3f766d871ca39f6d67
   languageName: node
   linkType: hard
 
@@ -18987,6 +19035,7 @@ fsevents@^1.2.7:
     "@types/styled-theming": ^2.2.5
     apollo-boost: ^0.4.9
     apollo-client: ^2.6.10
+    bs58check: ^2.1.2
     concurrently: ^5.3.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0

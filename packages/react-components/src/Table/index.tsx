@@ -97,4 +97,8 @@ export default React.memo(styled(Table)`
       }
     }
   }
+
+  &.visible-overflow table {
+    overflow: visible;
+  }
 `);

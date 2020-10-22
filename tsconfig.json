@@ -33,6 +33,8 @@
       "@polkadot/app-extrinsics/*": [ "packages/page-extrinsics/src/*" ],
       "@polkadot/app-master-proposals": [ "packages/page-master-proposals/src" ],
       "@polkadot/app-master-proposals/*": [ "packages/page-master-proposals/src/*" ],
+      "@polkadot/app-token-swap": [ "packages/page-token-swap/src" ],
+      "@polkadot/app-token-swap/*": [ "packages/page-token-swap/src/*" ],
       "@polkadot/app-explorer": [ "packages/page-explorer/src" ],
       "@polkadot/app-explorer/*": [ "packages/page-explorer/src/*" ],
       "@polkadot/app-generic-asset": [ "packages/page-generic-asset/src" ],
