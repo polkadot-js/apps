@@ -19,6 +19,8 @@ export default function getContractAbi (address: string | null): Abi | null {
   try {
     const data = meta.contract && JSON.parse(meta.contract.abi) as AnyJson;
 
+    console.error(api.registry.getChainProperties()?.tokenDecimals.toHuman(), api.registry.getChainProperties()?.ss58Format.toHuman());
+
     abi = new Abi(data, api.registry.getChainProperties());
   } catch (error) {
     console.error(error);
