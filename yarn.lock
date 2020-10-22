@@ -2638,10 +2638,12 @@ __metadata:
     "@polkadot/util": ^3.6.1
     "@polkadot/util-crypto": ^3.6.1
     "@types/codeflask": ^1.4.2
+    "@types/owasp-password-strength-test": ^1.3.0
     chart.js: ^2.9.3
     codeflask: ^1.4.1
     i18next: ^19.8.2
     i18next-browser-languagedetector: ^5.0.1
+    owasp-password-strength-test: ^1.3.0
     react: ^16.14.0
     react-beautiful-dnd: ^13.0.0
     react-chartjs-2: ^2.10.0
@@ -3500,6 +3502,13 @@ __metadata:
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
   checksum: 6d077e73be7ac6227b678829c7bd765607136cdef537fd4ee7f368d9302a651aea924254d69826663322048436d90d6e7c679c9aa99c4824a687c568aab8ce4f
+  languageName: node
+  linkType: hard
+
+"@types/owasp-password-strength-test@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@types/owasp-password-strength-test@npm:1.3.0"
+  checksum: 0650d0bde06513692bca073c997d5d37c52ac6a60390761a05d3dc57cb23ed22c36c6f847eb58de004aeee995d780ec270931ae3cdbc69865941c02ca1dd5981
   languageName: node
   linkType: hard
 
@@ -13782,6 +13791,13 @@ fsevents@^1.2.7:
   version: 1.0.2
   resolution: "os-tmpdir@npm:1.0.2"
   checksum: ca158a3c2e48748adc7736cdbe4c593723f8ed8581d2aae2f2a30fdb9417d4ba14bed1cd487d47561898a7b1ece88bce69745e9ce0303e1dea9ea7d22d1f1082
+  languageName: node
+  linkType: hard
+
+"owasp-password-strength-test@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "owasp-password-strength-test@npm:1.3.0"
+  checksum: beb2e677826e1e3b6fd29d5c75ed89bb6fe231b855a39537f8dbd241dd97ae91e83d044290c4b167f1e8495b3b99e984f73aa6ba30b3103e2497d4c118a29f3b
   languageName: node
   linkType: hard
 

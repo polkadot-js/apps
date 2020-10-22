@@ -15,6 +15,7 @@ import Row, { RowProps } from './Row';
 export interface Props extends RowProps {
   isContract?: boolean;
   isValid?: boolean;
+  fullLength?: boolean;
   label?: string;
   noDefaultNameOpacity?: boolean;
   overlay?: React.ReactNode;
@@ -26,15 +27,16 @@ export interface Props extends RowProps {
 const DEFAULT_ADDR = '5'.padEnd(48, 'x');
 const ICON_SIZE = 32;
 
-function AddressRow ({ buttons, children, className, defaultName, isContract = false, isDisabled, isInline, isValid: propsIsValid, overlay, value, withTags = false }: Props): React.ReactElement<Props> | null {
+function AddressRow ({ buttons, children, className, defaultName, fullLength = false, isContract = false, isDisabled, isEditableName, isInline, isValid: propsIsValid, overlay, value, withTags = false }: Props): React.ReactElement<Props> | null {
   const { accountIndex, isNull, name, onSaveName, onSaveTags, setName, setTags, tags } = useAccountInfo(value ? value.toString() : null, isContract);
 
   const isValid = !isNull && (propsIsValid || value || accountIndex);
   const Icon = value ? IdentityIcon : BaseIdentityIcon;
+  const address = value && isValid ? value : DEFAULT_ADDR;
 
   return (
     <Row
-      address={toShortAddress(value && isValid ? value : DEFAULT_ADDR)}
+      address={fullLength ? address : toShortAddress(address)}
       buttons={buttons}
       className={className}
       defaultName={defaultName}
@@ -45,7 +47,7 @@ function AddressRow ({ buttons, children, className, defaultName, isContract = f
         />
       }
       isDisabled={isDisabled}
-      isEditableName
+      isEditableName={isEditableName}
       isEditableTags
       isInline={isInline}
       name={name}
@@ -68,7 +70,7 @@ export {
 
 export default React.memo(styled(AddressRow)`
   button.u.ui--Icon.editButton {
-    padding: 0em .3em .3em .3em;
+    padding: 0 .3em .3em .3em;
     color: #2e86ab;
     background: none;
     /*trick to let the button in the flow but keep the content centered regardless*/

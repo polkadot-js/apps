@@ -27,7 +27,7 @@
   "Add a tip to this extrinsic, paying the block author for greater priority": "Добавыть чаевые для автора блока для большей приоритезации",
   "Add account": "Добавить аккаунт",
   "Add account via Qr": "Добавить аккаунт с помощью QR-кода",
-  "Add an account via seed": "Добавить аккаунт с помощью секретной фразы",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "Добавить аккаунт с помощью секретной фразы {{step}}/{{STEPS_COUNT}}",
   "Add an address": "Добавить адрес",
   "Add an existing code hash": "Добавить существующий хэш кода",
   "Add an existing contract": "Добавить существующий контракт",

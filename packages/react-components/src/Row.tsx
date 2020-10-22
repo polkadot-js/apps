@@ -214,7 +214,7 @@ function Row ({ address, buttons, children, className, defaultName, details, ico
                           {name || defaultName}
                         </EditButton>
                       )
-                      : name
+                      : name || defaultName
                   }
                 </div>
               )

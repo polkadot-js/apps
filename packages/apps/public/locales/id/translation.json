@@ -42,7 +42,7 @@
   "Add account": "Tambahkan akun",
   "Add account via Ledger": "Tambah akun melalui Ledger",
   "Add account via Qr": "Tambahkan akun melalui Qr",
-  "Add an account via seed": "Tambahkan akun via seed",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "Tambahkan akun via seed {{step}}/{{STEPS_COUNT}}",
   "Add an address": "Tambah sebuah alamat",
   "Add an existing code hash": "Tambahkan kode hash yang ada",
   "Add an existing contract": "Tambahkan kontrak yang ada",

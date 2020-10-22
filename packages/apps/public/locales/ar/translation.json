@@ -36,7 +36,7 @@
   "Add a tip to this extrinsic, paying the block author for greater priority": "أضف جائزة إلى هذا البرنامج الخارجي، لتدفع لكاتب الكتلة في مقابل أولوية أكبر",
   "Add account": "أضف حسابًا",
   "Add account via Qr": "QR أضف حسابًا عبر كود",
-  "Add an account via seed": "seed أضف حسابًا باستخدام الجملة البذرة",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "{{step}}/{{STEPS_COUNT}} seed أضف حسابًا باستخدام الجملة البذرة",
   "Add an address": "أضف عنوانا",
   "Add an existing code hash": "إضافة تجزئة رمز موجودة",
   "Add an existing contract": "إضافة عقد موجود",

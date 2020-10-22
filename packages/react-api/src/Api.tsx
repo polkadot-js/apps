@@ -58,6 +58,14 @@ let api: ApiPromise;
 
 export { api };
 
+function isKeyringLoaded () {
+  try {
+    return !!keyring.keyring;
+  } catch {
+    return false;
+  }
+}
+
 function getDevTypes (): Record<string, Record<string, string>> {
   const types = store.get('types', {}) as Record<string, Record<string, string>>;
   const names = Object.keys(types);
@@ -138,7 +146,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   TokenUnit.setAbbr(tokenSymbol);
 
   // finally load the keyring
-  keyring.loadAll({
+  isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,
