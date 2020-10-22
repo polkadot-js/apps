@@ -110,11 +110,15 @@ function Contract ({ className, contract, index, onCall }: Props): React.ReactEl
         )}
       </td>
       <td className='number together media--1100'>
-        {bestNumber && evictAt && (
-          <>
-            <BlockToTime blocks={evictAt.sub(bestNumber)} />
-            #{formatNumber(evictAt)}
-          </>
+        {bestNumber && (
+          evictAt
+            ? (
+              <>
+                <BlockToTime blocks={evictAt.sub(bestNumber)} />
+                #{formatNumber(evictAt)}
+              </>
+            )
+            : t<string>('None')
         )}
       </td>
       <td className='button'>

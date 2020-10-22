@@ -41,7 +41,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
     [t('contracts'), 'start'],
     [undefined, undefined, 2],
     [t('status'), 'start'],
-    [undefined, 'media--1100'],
+    [t('projection'), 'media--1100'],
     []
   ]);
 
