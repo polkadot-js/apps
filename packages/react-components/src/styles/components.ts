@@ -50,6 +50,10 @@ export default css`
     color: #2e86ab  !important;
     background: none  !important;
   }
+  
+  button.ui--Button {
+    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+  }
 
   .editable {
     cursor: pointer;
