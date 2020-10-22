@@ -41,7 +41,7 @@
   "Add account": "계정 추가하기",
   "Add account via Ledger": "원장 통해서 계정을 추가하다",
   "Add account via Qr": "QR코드로 계정 추가하기",
-  "Add an account via seed": "난수 값을 이용해서 계정 생성하기",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "난수 값을 이용해서 계정 생성하기{{step}}/{{STEPS_COUNT}}",
   "Add an address": "주소 추가하기",
   "Add an existing code hash": "현재 존재하는 코드 해시를 추가하다",
   "Add an existing contract": "현재 존재하는 계약서를 추가하다",

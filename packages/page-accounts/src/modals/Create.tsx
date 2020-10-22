@@ -55,6 +55,7 @@ interface DeriveValidationOutput {
 }
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
+const STEPS_COUNT = 3;
 
 function deriveValidate (seed: string, seedType: SeedType, derivePath: string, pairType: KeypairType): DeriveValidationOutput {
   try {
@@ -275,7 +276,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
   return (
     <Modal
       className={className}
-      header={t<string>('Add an account via seed')}
+      header={t<string>('Add an account via seed {{step}}/{{STEPS_COUNT}}', { replace: { STEPS_COUNT, step } })}
       size='large'
     >
       <Modal.Content>
