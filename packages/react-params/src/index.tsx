@@ -103,8 +103,8 @@ class Params extends React.PureComponent<Props, State> {
                 type={type}
               />
             ))}
+            {children}
           </div>
-          {children}
         </ErrorBoundary>
       </Holder>
     );

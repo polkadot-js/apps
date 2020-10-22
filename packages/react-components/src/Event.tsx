@@ -1,14 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { DecodedEvent } from '@polkadot/api-contract/types';
 import { Event } from '@polkadot/types/interfaces';
-import { Codec, TypeDef } from '@polkadot/types/types';
+import { Codec } from '@polkadot/types/types';
 
-import React from 'react';
-import { getTypeDef } from '@polkadot/types';
+import React, { useMemo } from 'react';
+import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
+import { getTypeDef } from '@polkadot/types';
 
-import { classes } from './util';
+import { useTranslation } from './translate';
+import { classes, getContractAbi } from './util';
 
 export interface Props {
   children?: React.ReactNode;
@@ -16,14 +19,42 @@ export interface Props {
   value: Event;
 }
 
+interface Value {
+  isValid: boolean;
+  value: Codec;
+}
+
+interface AbiEvent extends DecodedEvent {
+  values: Value[];
+}
+
 function EventDisplay ({ children, className = '', value }: Props): React.ReactElement<Props> {
-  const params = value.typeDef.map(({ type }): { type: TypeDef } => ({
-    type: getTypeDef(type)
-  }));
-  const values = value.data.map((value): { isValid: boolean; value: Codec } => ({
-    isValid: true,
-    value
-  }));
+  const { t } = useTranslation();
+  const params = value.typeDef.map(({ type }) => ({ type: getTypeDef(type) }));
+  const values = value.data.map((value) => ({ isValid: true, value }));
+
+  const abiEvent = useMemo(
+    (): AbiEvent | null => {
+      // for contracts, we decode the actual event
+      if (value.section === 'contracts' && value.method === 'ContractExecution' && value.data.length === 2) {
+        // see if we have info for this contract
+        const [accountId, encoded] = value.data;
+        const abi = getContractAbi(accountId.toString());
+
+        if (abi) {
+          const decoded = abi.decodeEvent(encoded.toU8a(true));
+
+          return {
+            ...decoded,
+            values: decoded.args.map((value) => ({ isValid: true, value }))
+          };
+        }
+      }
+
+      return null;
+    },
+    [value]
+  );
 
   return (
     <div className={classes('ui--Event', className)}>
@@ -32,7 +63,22 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
         isDisabled
         params={params}
         values={values}
-      />
+      >
+        {abiEvent && (
+          <>
+            <Input
+              isDisabled
+              label={t<string>('contract event')}
+              value={abiEvent.event.identifier}
+            />
+            <Params
+              isDisabled
+              params={abiEvent.event.args}
+              values={abiEvent.values}
+            />
+          </>
+        )}
+      </Params>
     </div>
   );
 }
