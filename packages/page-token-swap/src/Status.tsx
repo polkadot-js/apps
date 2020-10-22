@@ -1,14 +1,9 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
-// SPDX-License-Identifier: Apache-2.0
-
+import axios from 'axios';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
-
-var bs58check = require('bs58check');
-var Buffer = require('safe-buffer').Buffer;
-
+const apiUrl = 'http://localhost:8080';
 
 interface Props {
   title: string,
@@ -23,6 +18,33 @@ function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<P
   const [txHash, setTxHash] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const [submitting, setSubmitting] = useState<Boolean>(false);
+  const [success, setSuccess] = useState<Boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  async function handleSubmitStatus() {
+    setSubmitting(true);
+    setSuccess(false);
+    setError('');
+
+    try {
+      const res = await axios.post(`${apiUrl}/status`, {
+        address,
+        txHash,
+      });
+      if (!res.data.error) {
+        setSuccess(true);
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        setError(error.message);
+      }
+    }
+
+    setSubmitting(false);
+  }
 
   return (
     <Table
@@ -61,15 +83,31 @@ function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<P
             </Modal.Column>
           </Modal.Columns>
 
-          <div style={{textAlign: 'right'}}>
-            <Button
-              accountId={address}
-              icon='sign-in-alt'
-              isDisabled={!(address && txHash)}
-              isPrimary={false}
-              label={t<string>('Check Status')}
-            />
-          </div>
+          <Modal.Columns>
+            <Modal.Column>
+              {success ? (
+                <p>
+                  Status: processing
+                </p>
+              ) : (
+                <p style={{color: '#d82323'}}>
+                  {error}
+                </p>
+              )}
+            </Modal.Column>
+            <Modal.Column>
+            <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
+              <Button
+                accountId={address}
+                icon='sign-in-alt'
+                isDisabled={!(address && txHash)}
+                isPrimary={true}
+                label={t<string>('Check Status')}
+                onClick={handleSubmitStatus}
+              />
+            </div>
+            </Modal.Column>
+          </Modal.Columns>
         </td>
       </tr>
     </Table>

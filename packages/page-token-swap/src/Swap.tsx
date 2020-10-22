@@ -9,7 +9,6 @@ import keyring from '@polkadot/ui-keyring';
 import axios from 'axios';
 
 import { useTranslation } from './translate';
-
 const apiUrl = 'http://localhost:8080';
 
 interface Props {
@@ -24,9 +23,9 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
 
   const [submitting, setSubmitting] = useState<Boolean>(false);
   const [success, setSuccess] = useState<Boolean>(false);
+  const [error, setError] = useState<string>('');
   const [txHash, setTxHash] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const [base58Check, setBase58Check] = useState<string>('');
   const [address, setAddress] = useState<string | null>(null);
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
@@ -66,7 +65,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
     setError('');
 
     try {
-      const res = await axios.post('${apiUrl}/migrate', {
+      const res = await axios.post(`${apiUrl}/migrate`, {
         payload: base58Check,
         signature,
       });
