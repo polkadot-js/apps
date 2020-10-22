@@ -28,7 +28,7 @@ function Option ({ className = '', defaultValue, isDisabled, name, onChange, onE
         defaultValue={defaultValue}
         isDisabled={isDisabled || !isActive}
         isInOption
-        isOptional={!isActive}
+        isOptional={!isActive && !isDisabled}
         name={name}
         onChange={onChange}
         onEnter={onEnter}

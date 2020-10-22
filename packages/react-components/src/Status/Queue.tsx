@@ -12,6 +12,7 @@ import { registry } from '@polkadot/react-api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { createType } from '@polkadot/types';
 
+import { getContractAbi } from '../util';
 import { QueueProvider } from './Context';
 import { STATUS_COMPLETE } from './constants';
 
@@ -27,7 +28,7 @@ interface StatusCount {
 let nextId = 0;
 
 const EVENT_MESSAGE = 'extrinsic event';
-const REMOVE_TIMEOUT = 7500;
+const REMOVE_TIMEOUT = 75000;
 const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
 
 function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
@@ -103,6 +104,20 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             message,
             status: 'error'
           };
+        } else if (section === 'contracts' && method === 'ContractExecution' && data.length === 2) {
+          // see if we have info for this contract
+          const [accountId, encoded] = data;
+          const abi = getContractAbi(accountId.toString());
+
+          if (abi) {
+            const decoded = abi.decodeEvent(encoded.toU8a(true));
+
+            return {
+              action: decoded.event.identifier,
+              message: 'contract event',
+              status: 'event'
+            };
+          }
         }
 
         return {

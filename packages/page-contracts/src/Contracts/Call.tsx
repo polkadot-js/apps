@@ -49,8 +49,6 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
 
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
-      console.error(weight.weight.toString());
-
       try {
         return contract.exec(message, message.isPayable ? value : 0, weight.weight, ...params);
       } catch (error) {
