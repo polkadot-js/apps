@@ -27,7 +27,7 @@
   "Add a tip to this extrinsic, paying the block author for greater priority": "Adicione uma gorjeta a esse extrínseco, pagando ao autor do bloco por maior prioridade",
   "Add account": "Adicionar Conta",
   "Add account via Qr": "Adicionar conta via código QR",
-  "Add an account via seed": "Adicionar uma conta via semente",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "Adicionar uma conta via semente {{step}}/{{STEPS_COUNT}}",
   "Add an address": "Adicionar um endereço",
   "Add an existing code hash": "Adicione um hash de código existente",
   "Add an existing contract": "Adicionar um contrato existente",

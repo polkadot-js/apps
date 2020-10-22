@@ -42,7 +42,7 @@
   "Add account": "Aggiungi account",
   "Add account via Ledger": "Aggiungi account via Ledger",
   "Add account via Qr": "Aggiungi account via QR Code",
-  "Add an account via seed": "Aggiungi account via seed",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "Aggiungi account via seed {{step}}/{{STEPS_COUNT}}",
   "Add an address": "Aggiungi un indirizzo",
   "Add an existing code hash": "Aggiungi un codice hash",
   "Add an existing contract": "Aggiungi un contratto",

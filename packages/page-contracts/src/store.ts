@@ -35,7 +35,8 @@ class Store extends EventEmitter {
       ...(existing ? existing.json : {}),
       ...partial,
       codeHash: hex,
-      genesisHash: api.genesisHash.toHex()
+      genesisHash: api.genesisHash.toHex(),
+      whenCreated: existing.json?.whenCreated || Date.now()
     };
     const key = `${KEY_CODE}${json.codeHash}`;
 

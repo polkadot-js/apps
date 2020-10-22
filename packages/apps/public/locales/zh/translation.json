@@ -39,7 +39,7 @@
   "Add a tip to this extrinsic, paying the block author for greater priority": "添加小费到这个外部，为获得更高的优先级去支付区块生产者",
   "Add account": "添加账户",
   "Add account via Qr": "通过二维码添加账户",
-  "Add an account via seed": "通过种子添加账户",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "通过种子添加账户 {{step}}/{{STEPS_COUNT}}",
   "Add an address": "添加一个地址",
   "Add an existing code hash": "添加一个已经存在的代码哈希",
   "Add an existing contract": "添加一个已存在的合约",
