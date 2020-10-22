@@ -30,8 +30,6 @@ function filterEvents (allAccounts: string[], t: <T = string> (key: string, opts
 
   return events
     .map(({ event: { data, method, section } }): ActionStatus | null => {
-      console.error(method);
-
       if (section === 'balances' && method === 'Transfer') {
         const account = data[1].toString();
 
