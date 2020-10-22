@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { TextareaHTMLAttributes, useCallback } from 'react';
-
-import { Labelled } from '@polkadot/react-components';
 import styled from 'styled-components';
+
+import { Labelled } from '.';
+import { ThemeProps } from './types';
 
 interface Props {
   children?: React.ReactNode;
@@ -27,35 +28,34 @@ const TextInput = ({ withError, ...textAreaProps }: TextInputProps) => <textarea
   className={[textAreaProps.className, withError ? 'ui-textArea-withError' : ''].join(' ')}
 />;
 
-const TextAreaInput = styled(TextInput)`
-  background: #FAFAFA;
+const TextAreaInput = styled(TextInput)(({ theme }: ThemeProps) => `
+  background: ${theme.bgInput};
   border-radius: 4px;
   border: 1px solid #DDE1EB;
   box-sizing: border-box;
-  color: #242529;
+  color: ${theme.color};
   display: block;
-  font-size: 16px;
+  font-size: 1.15rem;
   outline: none;
   padding: 1.75rem 3rem 0.75rem 1.5rem;
   resize: none;
   width: 100%;
 
   &:read-only {
-    background: #1A1B20;
+    background: ${theme.bgInverse};
     box-shadow: none;
     outline: none;
   }
 
   &.ui-textArea-withError {
-    border-color: #E42F2F;
-    color: #E42F2F;
+    background: ${theme.bgInputError};
+    color: ${theme.colorError};
   }
-`;
+`);
 
 interface TextAreaWithDropdownProps {
   children?: React.ReactNode;
   isError?: boolean;
-  isFocused?: boolean;
   isReadOnly?: boolean;
   rowsCount?: number;
   onChange?: (value: string) => void;
@@ -63,7 +63,7 @@ interface TextAreaWithDropdownProps {
   id: string;
 }
 
-function TextAreaWithDropdown ({ children, id, isError, isFocused, isReadOnly, onChange, rowsCount, value }: TextAreaWithDropdownProps): React.ReactElement<TextAreaWithDropdownProps> {
+function TextAreaWithDropdown ({ children, id, isError, isReadOnly, onChange, rowsCount, value }: TextAreaWithDropdownProps): React.ReactElement<TextAreaWithDropdownProps> {
   const _onChange = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>): void => {
       onChange && onChange(value);
@@ -76,7 +76,7 @@ function TextAreaWithDropdown ({ children, id, isError, isFocused, isReadOnly, o
       <TextAreaInput
         autoCapitalize='off'
         autoCorrect='off'
-        autoFocus={isFocused}
+        autoFocus={false}
         id={id}
         onChange={_onChange}
         readOnly={isReadOnly}
@@ -113,19 +113,32 @@ function TextArea ({ children, className, help, isError, isReadOnly, label, onCh
   );
 }
 
-export default React.memo(styled(TextArea)`
+export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
   .TextAreaWithDropdown {
     display: flex;
     textarea {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
-      background: #fff;
-      border-color: #DFDFDF;
       border-right: none;
     }
-    .ui.selection.dropdown {
+    
+    textarea:read-only ~ .ui.buttons {
+      .ui.selection.dropdown {
+        background: ${theme.bgInverse};
+      }
+    } 
+    
+    & > .ui.buttons > .ui.button.floating.selection.dropdown {
+      border: 1px solid #DDE1EB;
+      border-left: none;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & > .dropdown.icon {
+        top: 2rem;
+      }
     }
   }
-`);
+`));

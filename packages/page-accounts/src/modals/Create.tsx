@@ -307,6 +307,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 }
                 onChange={_onChangeSeed}
                 seed={seed}
+                withLabel
               >
                 <Dropdown
                   defaultValue={seedType}
@@ -465,23 +466,15 @@ export default React.memo(styled(Create)`
 
   .copyMoved {
     position: absolute;
-    right: 7.5rem;
+    right: 9.1rem;
     top: 1.25rem;
   }
   && .TextAreaWithDropdown {
     textarea {
-      width: 85%;
+      width: 80%;
     }
     .ui.buttons {
-      width: 15%;
-      .compact.floating.selection.dropdown {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .dropdown.icon {
-          top: 2rem;
-        }
-      }
+      width: 20%;
     }
   }
   & .ui--Checkbox {
