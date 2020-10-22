@@ -16,6 +16,7 @@
   "rpc.edgeware": "Edgeware",
   "rpc.equilibriumr": "Equilibrium",
   "rpc.flamingfir": "Flaming Fir",
+  "rpc.hanonycash": "hanonycash",
   "rpc.header.dev": "Development",
   "rpc.header.live": "Live networks",
   "rpc.header.test": "Test networks",
