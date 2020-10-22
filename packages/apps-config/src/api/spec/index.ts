@@ -12,6 +12,7 @@ import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
 import equilibrium from './equilibrium';
+import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
 import moonbeam from './moonbeam';

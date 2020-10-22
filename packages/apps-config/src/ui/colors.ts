@@ -44,6 +44,7 @@ const chainColors: Record<string, any> = [
   ['Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia parachain', chainRoccoDarwinia],
+  ['hanonycash', chainHanonycash],
   ['Kulupu', chainKulupu],
   ['Kusama', chainKusama],
   ['Kusama CC1', chainKusama],

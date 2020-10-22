@@ -122,6 +122,7 @@ const namedLogos: Record<string, any> = {
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   equilibrium: nodeEquilibrium,
+  hanonycash: nodeHanonycash,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
