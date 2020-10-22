@@ -30,12 +30,11 @@ const TextInput = ({ withError, ...textAreaProps }: TextInputProps) => <textarea
 
 const TextAreaInput = styled(TextInput)(({ theme }: ThemeProps) => `
   background: ${theme.bgInput};
-  border-radius: 4px;
+  border-radius: 0.25rem;
   border: 1px solid #DDE1EB;
   box-sizing: border-box;
   color: ${theme.color};
   display: block;
-  font-size: 1.15rem;
   outline: none;
   padding: 1.75rem 3rem 0.75rem 1.5rem;
   resize: none;
