@@ -4,6 +4,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
+import { ThemeProps } from './types';
 import Icon from './Icon';
 
 interface Props {
@@ -36,7 +37,7 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 }
 
-export default React.memo(styled(Checkbox)`
+export default React.memo(styled(Checkbox)(({ theme }: ThemeProps) => `
   display: inline-block;
   cursor: pointer;
 
@@ -49,7 +50,7 @@ export default React.memo(styled(Checkbox)`
   }
 
   > label {
-    color: rgba(78, 78, 78, 0.75);
+    color: ${theme.color};
     display: inline-block;
     margin: 0 0.5rem;
     opacity: 1;
@@ -63,7 +64,7 @@ export default React.memo(styled(Checkbox)`
   }
 
   .ui--Icon {
-    border: 1px solid rgba(34, 36, 38, 0.15);
+    border: 1px solid ${theme.colorCheckbox};
     border-radius: 0.125rem;
   }
-`);
+`));
