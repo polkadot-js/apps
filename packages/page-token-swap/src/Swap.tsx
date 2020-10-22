@@ -25,6 +25,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
   ]);
 
   const [submitting, setSubmitting] = useState<Boolean>(false);
+  const [success, setSuccess] = useState<Boolean>(false);
   const [txHash, setTxHash] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -63,6 +64,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
 
   async function handleSubmitSwap() {
     setSubmitting(true);
+    setSuccess(false);
     setError('');
 
     try {
@@ -70,7 +72,9 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
         payload: base58Check,
         signature,
       });
-      console.log('res', res);
+      if (!res.data.error) {
+        setSuccess(true);
+      }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         setError(error.response.data.error);
@@ -146,9 +150,15 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
 
           <Modal.Columns>
             <Modal.Column>
-              <p style={{color: '#d82323'}}>
-                {error}
-              </p>
+              {success ? (
+                <p style={{color: 'green'}}>
+                  Success! Your token withdrawal has been submitted and is being processed. Check the status with the other form on this page.
+                </p>
+              ) : (
+                <p style={{color: '#d82323'}}>
+                  {error}
+                </p>
+              )}
             </Modal.Column>
             <Modal.Column>
             <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
