@@ -12,7 +12,7 @@ import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';
 
-function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, withLabel }: Props): React.ReactElement<Props> {
+function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, type, withLabel }: Props): React.ReactElement<Props> {
   const defaultValue = useMemo(
     () => isDisabled
       ? value instanceof ClassOf(registry, 'AccountIndex')
@@ -20,6 +20,17 @@ function Amount ({ className = '', defaultValue: { value }, isDisabled, isError,
         : formatNumber(value as number)
       : bnToBn((value as number) || 0).toString(),
     [isDisabled, value]
+  );
+
+  const bitLength = useMemo(
+    (): number => {
+      try {
+        return registry.createType(type.type as 'u32').bitLength();
+      } catch (error) {
+        return 32;
+      }
+    },
+    [type]
   );
 
   const _onChange = useCallback(
@@ -45,6 +56,7 @@ function Amount ({ className = '', defaultValue: { value }, isDisabled, isError,
         )
         : (
           <InputNumber
+            bitLength={bitLength}
             className='full'
             defaultValue={defaultValue}
             isError={isError}
