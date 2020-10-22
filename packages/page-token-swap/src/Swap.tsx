@@ -91,18 +91,25 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
     >
       <tr>
         <td>
-          <InputAddress
-            label={t<string>('Dock mainnet address')}
-            onChange={setAddress}
-            type='account'
-            value={address}
-            isFull
-          />
+          <Modal.Columns>
+            <Modal.Column>
+              <InputAddress
+                label={t<string>('Dock mainnet address')}
+                onChange={setAddress}
+                type='account'
+                value={address}
+                isFull
+              />
+            </Modal.Column>
+            <Modal.Column>
+              <p>{t<string>(`Go to the accounts page and add or create an account if one doesn't appear here.`)}</p>
+            </Modal.Column>
+          </Modal.Columns>
 
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('TODO: transaction hash helper msg')}
+                help={t<string>('Look for the ethereum transaction hash from when you sent your tokens and enter it here.')}
                 label={t<string>('transaction hash')}
                 onChange={setTxHash}
                 value={txHash}
@@ -110,7 +117,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>(`TODO: transaction hash helper msg`)}</p>
+              <p>{t<string>(`Look for the ethereum transaction hash from when you sent your tokens and enter it here.`)}</p>
             </Modal.Column>
           </Modal.Columns>
 
@@ -126,7 +133,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
             </Modal.Column>
             <Modal.Column>
               <p>
-                The user will take this base58 string (including checksum), sign using mycrypto and his public key and get signature
+                Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.
               </p>
             </Modal.Column>
           </Modal.Columns>
@@ -134,7 +141,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('TODO: signature msg')}
+                help={t<string>('Take the base 58 string above, sign it and enter it here.')}
                 label={t<string>('signature')}
                 onChange={setSignature}
                 value={signature}
@@ -142,7 +149,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>(`The signature is put in the form and form is submitted.`)}</p>
+              <p>{t<string>(`Take the base 58 string above, sign it and enter it here.`)}</p>
             </Modal.Column>
           </Modal.Columns>
 
