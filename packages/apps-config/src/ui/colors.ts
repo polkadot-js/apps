@@ -8,6 +8,7 @@ const emptyColor = '#99999';
 // alphabetical
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
 const chainPhala = '#4dc56a';
 const chainPlasm = '#2096F3';
@@ -40,6 +41,7 @@ const chainColors: Record<string, any> = [
   ['Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
   ['darwinia parachain', chainRoccoDarwinia],
+  ['hanonycash', chainHanonycash],
   ['Kulupu', chainKulupu],
   ['Kusama', chainKusama],
   ['Kusama CC1', chainKusama],

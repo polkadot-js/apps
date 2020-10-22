@@ -27,6 +27,7 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
+import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
@@ -88,6 +89,7 @@ const nodeLogos: Record<string, any> = [
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['hanonycash', nodeHanonycash],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
@@ -124,6 +126,7 @@ const namedLogos: Record<string, any> = {
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   equilibrium: nodeEquilibrium,
+  hanonycash: nodeHanonycash,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
