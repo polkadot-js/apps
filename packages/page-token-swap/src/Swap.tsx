@@ -1,5 +1,6 @@
-// Copyright 2017-2020 @polkadot/app-explorer authors & contributors
-// SPDX-License-Identifier: Apache-2.0
+import bs58 from 'bs58';
+import bs58check from 'bs58check';
+import { Buffer } from 'safe-buffer';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton } from '@polkadot/react-components';
@@ -9,10 +10,7 @@ import axios from 'axios';
 
 import { useTranslation } from './translate';
 
-import bs58 from 'bs58';
-import bs58check from 'bs58check';
-import { Buffer } from 'safe-buffer';
-
+const apiUrl = 'http://localhost:8080';
 
 interface Props {
   title: string,
@@ -68,7 +66,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:8080/migrate', {
+      const res = await axios.post('${apiUrl}/migrate', {
         payload: base58Check,
         signature,
       });
