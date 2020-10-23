@@ -42,6 +42,7 @@
     "@polkadot/util-crypto": "^3.6.1",
     "@polkadot/wasm-crypto": "^1.4.1",
     "babel-core": "^7.0.0-bridge.0",
+    "styled-components": "^5.2.0",
     "typescript": "^4.0.3"
   },
   "scripts": {
@@ -105,9 +106,11 @@
     "electron-builder": "^22.9.1",
     "electron-builder-notarize": "^1.2.0",
     "i18next-scanner": "^2.11.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-is": "^17.0.1",
     "source-map-explorer": "^2.5.0",
+    "styled-components": "^5.2.0",
     "stylelint": "^13.7.2",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
