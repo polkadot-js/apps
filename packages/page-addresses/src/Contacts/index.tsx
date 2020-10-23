@@ -80,7 +80,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         filter={filter}
         header={headerRef.current}
       >
-        {!isLoading && sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
+        {isLoading ? undefined : sortedAddresses?.map(({ address, isFavorite }): React.ReactNode => (
           <Address
             address={address}
             filter={filterOn}
