@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.1.0",
+    "styled-components": "^5.2.0",
     "testcontainers": "^4.5.0"
   }
 }

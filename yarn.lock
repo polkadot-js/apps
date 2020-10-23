@@ -2044,6 +2044,7 @@ __metadata:
     "@testing-library/react": ^11.1.0
     detect-browser: ^5.2.0
     file-saver: ^2.0.2
+    styled-components: ^5.2.0
     testcontainers: ^4.5.0
   languageName: unknown
   linkType: soft
