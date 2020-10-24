@@ -145,10 +145,15 @@ function createWebpack (ENV, context) {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
+          ...mapChunks('robohash', [
+            /* 00 */ /RoboHash\/(backgrounds|sets\/set1)/,
+            /* 01 */ /RoboHash\/sets\/set(2|3)/,
+            /* 02 */ /RoboHash\/sets\/set(4|5)/
+          ]),
           ...mapChunks('polkadot', [
             /* 00 */ /node_modules\/@polkadot\/(wasm)/,
             /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
-            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
+            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|networks|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
           ]),
           ...mapChunks('react', [
             /* 00 */ /node_modules\/(@fortawesome)/,
