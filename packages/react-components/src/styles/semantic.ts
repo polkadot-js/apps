@@ -3,7 +3,9 @@
 
 import { ThemeProps } from '../types';
 
-export default ({ theme }: ThemeProps): string => `
+import { css } from 'styled-components';
+
+export default css`
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }
@@ -21,12 +23,12 @@ export default ({ theme }: ThemeProps): string => `
 
   .ui.selection.dropdown,
   .ui.input > input {
-    background: ${theme.bgInput};
-    color: ${theme.color};
+    background: ${({ theme }: ThemeProps) => theme.bgInput};
+    color: ${({ theme }: ThemeProps) => theme.color};
 
     &:focus {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
     }
   }
 
@@ -46,17 +48,17 @@ export default ({ theme }: ThemeProps): string => `
     }
 
     &.selection.visible {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
     }
 
     .menu {
-      background: ${theme.bgInput};
-      color: ${theme.color};
+      background: ${({ theme }: ThemeProps) => theme.bgInput};
+      color: ${({ theme }: ThemeProps) => theme.color};
 
       > .item {
         border-color: transparent !important;
-        color: ${theme.color} !important;
+        color: ${({ theme }: ThemeProps) => theme.color} !important;
 
         &.header.disabled {
           margin: 1em 0 0 0;
@@ -64,7 +66,7 @@ export default ({ theme }: ThemeProps): string => `
 
           &:hover,
           &.selected {
-            background: ${theme.bgInput};
+            background: ${({ theme }: ThemeProps) => theme.bgInput};
           }
         }
       }
@@ -74,7 +76,7 @@ export default ({ theme }: ThemeProps): string => `
       min-height: 1em;
 
       &:not(.default) {
-        color: ${theme.color} !important;
+        color: ${({ theme }: ThemeProps) => theme.color} !important;
       }
     }
   }
@@ -104,7 +106,7 @@ export default ({ theme }: ThemeProps): string => `
     }
 
     &.error input {
-      background-color: ${theme.bgInputError};
+      background-color: ${({ theme }: ThemeProps) => theme.bgInputError};
       border-color: #e0b4b4;
     }
 
@@ -121,9 +123,9 @@ export default ({ theme }: ThemeProps): string => `
   }
 
   .ui.modal {
-    background: ${theme.bgPage};
+    background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
-    color: ${theme.color};
+    color: ${({ theme }: ThemeProps) => theme.color};
     font-family: sans-serif;
 
     > .actions,
@@ -141,7 +143,7 @@ export default ({ theme }: ThemeProps): string => `
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: ${theme.colorSummary};
+      color: ${({ theme }: ThemeProps) => theme.colorSummary};
       font-family: sans-serif;
       font-size: 1.75rem;
       font-weight: 100;
@@ -165,11 +167,11 @@ export default ({ theme }: ThemeProps): string => `
   }
 
   .ui.popup {
-    background: ${theme.bgMenu};
-    color: ${theme.color};
+    background: ${({ theme }: ThemeProps) => theme.bgMenu};
+    color: ${({ theme }: ThemeProps) => theme.color};
 
     .ui.text.menu .item {
-      color: ${theme.color};
+      color: ${({ theme }: ThemeProps) => theme.color};
     }
   }
 

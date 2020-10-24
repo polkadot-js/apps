@@ -3,9 +3,11 @@
 
 import { ThemeProps } from '../types';
 
-export default ({ theme }: ThemeProps): string => `
+import { css } from 'styled-components';
+
+export default css`
   .ui--output {
-    background: ${theme.bgInput};
+    background: ${({ theme }: ThemeProps) => theme.bgInput};
     border-radius: 4px;
     border: 1px dashed #eee;
     box-sizing: border-box;
@@ -17,7 +19,7 @@ export default ({ theme }: ThemeProps): string => `
     word-break: break-all;
 
     &.error {
-      background: ${theme.bgInputError};
+      background: ${({ theme }: ThemeProps) => theme.bgInputError};
       border-color: #e0b4b4;
     }
 

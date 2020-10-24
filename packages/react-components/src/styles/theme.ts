@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from '../types';
+import { css } from 'styled-components';
 
 /* default buttons, dark gray */
 export const colorBtnDefault = '#767778';
@@ -19,8 +19,7 @@ export const colorBtnText = '#f9f8f7';
 
 export const colorLink = '#2e86ab';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (props: ThemeProps): string => `
+export default css`
   .theme--dark,
   .theme--light {
     a:not(.ui--Tab) {

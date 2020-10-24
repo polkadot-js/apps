@@ -377,10 +377,10 @@ export default createGlobalStyle<Props & ThemeProps>`
   }
 
   /* Add our overrides */
-  ${(props): string => cssSemantic(props)}
-  ${(props): string => cssTheme(props)}
-  ${(props): string => cssForm(props)}
-  ${(props): string => cssMedia(props)}
-  ${(props): string => cssRx(props)}
-  ${(props): string => cssComponents(props)}
+  ${cssSemantic}
+  ${cssTheme}
+  ${cssForm}
+  ${cssMedia}
+  ${cssRx}
+  ${cssComponents}
 `;
