@@ -33,9 +33,6 @@ function createWebpack () {
           }
         ]
       },
-      node: {
-        __dirname: false
-      },
       optimization: {
         minimize: !!isProd,
         minimizer: [new TerserPlugin()]

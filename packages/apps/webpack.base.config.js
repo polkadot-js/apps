@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
+
 const findPackages = require('../../scripts/findPackages');
 
 function mapChunks (name, regs, inc) {
@@ -105,7 +106,7 @@ function createWebpack (ENV, context) {
               options: {
                 esModule: false,
                 limit: 10000,
-                name: 'static/[name].[hash:8].[ext]'
+                name: 'static/[name].[contenthash:8].[ext]'
               }
             }
           ]
@@ -118,7 +119,7 @@ function createWebpack (ENV, context) {
               loader: require.resolve('file-loader'),
               options: {
                 esModule: false,
-                name: 'static/[name].[hash:8].[ext]'
+                name: 'static/[name].[contenthash:8].[ext]'
               }
             }
           ]
@@ -134,21 +135,14 @@ function createWebpack (ENV, context) {
         }
       ]
     },
-    node: {
-      child_process: 'empty',
-      dgram: 'empty',
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty'
-    },
     optimization: {
       runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           ...mapChunks('polkadot', [
             /* 00 */ /node_modules\/@polkadot\/(wasm)/,
-            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
-            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
+            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types|x-fetch|x-ws))/,
+            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|networks|react|ui|util|vanitygen|x-textdecoder|x-textencoder)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
           ]),
           ...mapChunks('react', [
             /* 00 */ /node_modules\/(@fortawesome)/,
@@ -164,7 +158,7 @@ function createWebpack (ENV, context) {
     },
     output: {
       chunkFilename: '[name].[chunkhash:8].js',
-      filename: '[name].[hash:8].js',
+      filename: '[name].[contenthash:8].js',
       globalObject: '(typeof self !== \'undefined\' ? self : this)',
       path: path.join(context, 'build'),
       publicPath: ''
@@ -173,6 +167,8 @@ function createWebpack (ENV, context) {
       hints: false
     },
     plugins: plugins.concat([
+      new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+      new webpack.ProvidePlugin({ process: ['process'] }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin({
         'process.env': {
@@ -188,11 +184,16 @@ function createWebpack (ENV, context) {
     ]).filter((plugin) => plugin),
     resolve: {
       alias,
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      fallback: {
+        crypto: require.resolve('crypto-browserify'),
+        path: require.resolve('path-browserify'),
+        stream: require.resolve('stream-browserify')
+      }
     },
     watch: !isProd,
     watchOptions: {
-      ignored: ['.yarn', /build/, /node_modules/]
+      ignored: ['.yarn', 'build/**', 'node_modules/**']
     }
   };
 }

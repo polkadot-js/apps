@@ -33,11 +33,11 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^2.3.2-12",
-    "@polkadot/api-contract": "^2.3.2-12",
+    "@polkadot/api": "^2.3.2-13",
+    "@polkadot/api-contract": "^2.3.2-13",
     "@polkadot/keyring": "^3.6.1",
     "@polkadot/networks": "^3.6.1",
-    "@polkadot/types": "^2.3.2-12",
+    "@polkadot/types": "^2.3.2-13",
     "@polkadot/util": "^3.6.1",
     "@polkadot/util-crypto": "^3.6.1",
     "@polkadot/wasm-crypto": "^1.4.1",
@@ -114,9 +114,9 @@
     "stylelint": "^13.7.2",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "terser-webpack-plugin": "^4.2.3",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
+    "terser-webpack-plugin": "^5.0.1",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0",
     "webpack-merge": "^5.2.0",
     "webpack-plugin-serve": "^1.2.0"
   }

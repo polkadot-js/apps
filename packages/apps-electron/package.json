@@ -22,6 +22,6 @@
     "react-dom": "^17.0.1",
     "thread-loader": "^3.0.0",
     "tmp": "^0.2.1",
-    "webpack": "^4.44.2"
+    "webpack": "^5.2.0"
   }
 }
