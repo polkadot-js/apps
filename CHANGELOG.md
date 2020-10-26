@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## 0.64.1 Oct 26, 2020
+
+Contributed:
+
+- New account creation dialog (Thanks to https://github.com/EthWorks)
+- Update Darwinia Crab types (Thanks to https://github.com/WoeOm)
+- Update Kulupu types (Thans to https://github.com/sorpaas)
+- Add Hanonycash types & endpoints (Thanks to https://github.com/Hanonycash)
+- Update ko i18n (Thanks to https://github.com/maestro779)
+- Update links in apps-config (Thanks to https://github.com/NukeManDan)
+
+Changes:
+
+- Allow for Ascii inputs on Bytes (in addition to hex & files)
+- Ensure that InputNumber respects the biLength for the type it is dealing with
+- Displays the last blocks containing contract executions in contract overview
+- Parse contract events (both status pops-up and explorer views)
+- Display actual codeHash (and allow copy) as part of code management
+- Adjust labels for contracts UI with explicit "None" projection
+- Adjust contracts UI to actually use Balance types where so specified in the ABI
+- Add support for Solang i256 & u256 types
+- Adjust contract messages to display names in camelCase (consistent with API)
+- Add gas estimation for contracts
+- Adjust JS bundles to have a better parallel throughput
+- Adjust checks for Aura for unbonding, displaying on era
+
+
 ## 0.63.1 Oct 19, 2020
 
 Contributed:
