@@ -23,7 +23,7 @@ class Store extends EventEmitter {
     return Object.values(this.allCode);
   }
 
-  public getCode (codeHash: string): CodeStored {
+  public getCode (codeHash: string): CodeStored | undefined {
     return this.allCode[codeHash];
   }
 
@@ -35,7 +35,8 @@ class Store extends EventEmitter {
       ...(existing ? existing.json : {}),
       ...partial,
       codeHash: hex,
-      genesisHash: api.genesisHash.toHex()
+      genesisHash: api.genesisHash.toHex(),
+      whenCreated: existing?.json.whenCreated || Date.now()
     };
     const key = `${KEY_CODE}${json.codeHash}`;
 
@@ -71,7 +72,7 @@ class Store extends EventEmitter {
     try {
       this.allCode[json.codeHash] = {
         contractAbi: json.abi
-          ? new Abi(json.abi)
+          ? new Abi(json.abi, api.registry.getChainProperties())
           : undefined,
         json
       };

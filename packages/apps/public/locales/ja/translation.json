@@ -18,7 +18,7 @@
   "Add Ledger": "クエリーレッジャー",
   "Add account": "アカウントを追加する",
   "Add account via Qr": "QRを追加する",
-  "Add an account via seed": "シード経由でアカウントを追加する",
+  "Add an account via seed {{step}}/{{STEPS_COUNT}}": "シード経由でアカウントを追加する{{step}}/{{STEPS_COUNT}}",
   "Add an address": "アドレスを追加する",
   "Add an existing code hash": "既存のコードハッシュを追加する",
   "Add an existing contract": "既存のコントラクトを追加する",

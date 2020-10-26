@@ -138,6 +138,7 @@ export interface ThemeDef {
   borderTable: string;
   borderTabs: string;
   color: string;
+  colorCheckbox: string;
   colorError: string;
   colorLabel: string;
   colorSummary: string;
