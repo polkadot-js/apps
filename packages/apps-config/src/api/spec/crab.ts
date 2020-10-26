@@ -7,7 +7,7 @@
 export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
-  BalanceInfo: null,
+  BalanceInfo: 'null',
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
