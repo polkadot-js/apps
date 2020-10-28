@@ -5,6 +5,9 @@
 /* eslint-disable sort-keys */
 
 export default {
+  Address: 'AccountId',
+  LookupSource: 'AccountId',
+  RefCount: 'u8',
   AccountData: {
     free: 'Balance',
     reserved: 'Balance',
@@ -13,10 +16,26 @@ export default {
     txCount: 'u32',
     sessionIndex: 'u32'
   },
-  RefCount: 'u8',
   TemplateAccountData: {
     txCount: 'u32',
     sessionIndex: 'u32'
   },
-  TxCount: 'u32'
+  TxCount: 'u32',
+  Value: 'u128',
+  UtxoHash: 'H256',
+  AccountHash: 'H256',
+  TxHash: 'H256',
+  TransactionOutput: {
+    value: 'Value',
+    pubkey: 'AccountId'
+  },
+  SignedPair: {
+    input: 'Vec<UtxoHash>',
+    output: 'Vec<TransactionOutput>'
+  },
+  ArchivedTransaction: 'Vec<ArchivedPair>',
+  ArchivedPair: {
+    inputs: 'Vec<TransactionOutput>',
+    outputs: 'Vec<UtxoHash>'
+  }
 };

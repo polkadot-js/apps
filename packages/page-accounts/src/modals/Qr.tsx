@@ -149,7 +149,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 </div>
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>('Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.')}</p>
+                <p>{t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}</p>
               </Modal.Column>
             </Modal.Columns>
           )

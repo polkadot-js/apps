@@ -266,15 +266,16 @@ function Playground ({ className = '' }: Props): React.ReactElement<Props> {
       {isWarnOpen && (
         <div className='warnOverlay'>
           <article className='warning centered'>
-            <Button
-              icon='times'
-              isBasic
-              isCircular
-              onClick={toggleWarnOpen}
-            />
             <p>{t('This is a developer tool that allows you to execute selected snippets in a limited context.')}</p>
             <p>{t('Never execute JS snippets from untrusted sources.')}</p>
             <p>{t('Unless you are a developer with insight into what the specific script does to your environment (based on reading the code being executed) generally the advice would be to not use this environment.')}</p>
+            <Button.Group>
+              <Button
+                icon='times'
+                label={t('Close')}
+                onClick={toggleWarnOpen}
+              />
+            </Button.Group>
           </article>
         </div>
       )}
@@ -390,10 +391,12 @@ export default React.memo(styled(Playground)`
     top: -0.25rem;
     z-index: 202;
 
-    .ui--Button {
-      position: absolute;
-      right: 0.5rem;
-      top: 0.5rem;
+    article p:first-child {
+      padding-top: 1rem;
+    }
+
+    .ui--Button-Group {
+      margin-bottom: 0;
     }
   }
 `);

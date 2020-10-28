@@ -43,6 +43,6 @@ export default React.memo(styled(BlockToTime)`
   }
 
   span.timeUnits {
-    font-size: 0.85em;
+    font-size: 0.825em;
   }
 `);

@@ -60,7 +60,7 @@ function transformToAddress (value?: string | Uint8Array | null): string | null 
   try {
     return addressToAddress(value) || null;
   } catch (error) {
-    console.error('Unable to transform address', value);
+    // noop, handled by return
   }
 
   return null;
@@ -289,9 +289,10 @@ const ExportedComponent = withMulti(
           left: -2.75rem;
           top: -1.05rem;
 
-          svg {
-            height: 32px;
-            width: 32px;
+          > div,
+          > svg {
+            height: 32px !important;
+            width: 32px !important;
           }
         }
 

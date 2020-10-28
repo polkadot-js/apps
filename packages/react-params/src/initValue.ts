@@ -4,7 +4,7 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
-import { Bytes, Raw, createType, getTypeDef } from '@polkadot/types';
+import { Raw, createType, getTypeDef } from '@polkadot/types';
 import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
@@ -63,6 +63,9 @@ export default function getInitValue (def: TypeDef): unknown {
     case 'bool':
       return false;
 
+    case 'Bytes':
+      return undefined;
+
     case 'String':
     case 'Text':
       return '';
@@ -75,9 +78,6 @@ export default function getInitValue (def: TypeDef): unknown {
 
     case 'VoteThreshold':
       return 0;
-
-    case 'Bytes':
-      return new Bytes(registry);
 
     case 'BlockHash':
     case 'CodeHash':

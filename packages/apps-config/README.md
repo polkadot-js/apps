@@ -33,7 +33,7 @@ There are 2 general areas of interest here -
 
 These are self-explanatory and config here actually does get used in other parts as well. Basically the information here is broken down into a couple of categories -
 
-- [general](./src/ui/general)
+- [colors](./src/ui/colors.ts)
   - color configuration based on chain
 - [identityIcon](./src/ui/identityIcons)
   - specific identityIcon to use based on node name

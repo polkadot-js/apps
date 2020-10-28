@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { InjectedExtension } from '@polkadot/extension-inject/types';
+import { KeyringStore } from '@polkadot/ui-keyring/types';
 import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import { ApiProps, ApiState } from './types';
 
@@ -9,14 +10,13 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
-import { typesChain, typesSpec } from '@polkadot/apps-config/api';
+import { typesChain, typesSpec, typesBundle } from '@polkadot/apps-config/api';
 import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import keyring from '@polkadot/ui-keyring';
-import { KeyringStore } from '@polkadot/ui-keyring/types';
 
 import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
@@ -51,12 +51,20 @@ interface ChainData {
   systemVersion: string;
 }
 
-const DEFAULT_DECIMALS = registry.createType('u32', 15);
-const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
-const injectedPromise = web3Enable('polkadot-js/apps');
+export const DEFAULT_DECIMALS = registry.createType('u32', 15);
+export const DEFAULT_SS58 = registry.createType('u32', addressDefaults.prefix);
+
 let api: ApiPromise;
 
 export { api };
+
+function isKeyringLoaded () {
+  try {
+    return !!keyring.keyring;
+  } catch {
+    return false;
+  }
+}
 
 function getDevTypes (): Record<string, Record<string, string>> {
   const types = store.get('types', {}) as Record<string, Record<string, string>>;
@@ -67,7 +75,7 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-async function retrieve (api: ApiPromise): Promise<ChainData> {
+async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.chain.getHeader(),
     api.rpc.system.properties(),
@@ -111,10 +119,10 @@ async function retrieve (api: ApiPromise): Promise<ChainData> {
   };
 }
 
-async function loadOnReady (api: ApiPromise, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
 
-  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api);
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
     : uiSettings.prefix;
@@ -125,7 +133,7 @@ async function loadOnReady (api: ApiPromise, store: KeyringStore | undefined, ty
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
-  registry.setChainProperties(registry.createType('ChainProperties', { ...properties, ss58Format }));
+  registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
 
   // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
   setSS58Format(ss58Format);
@@ -138,7 +146,7 @@ async function loadOnReady (api: ApiPromise, store: KeyringStore | undefined, ty
   TokenUnit.setAbbr(tokenSymbol);
 
   // finally load the keyring
-  keyring.loadAll({
+  isKeyringLoaded() || keyring.loadAll({
     genesisHash: api.genesisHash,
     isDevelopment,
     ss58Format,
@@ -184,21 +192,21 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
-    api.on('ready', async (): Promise<void> => {
-      try {
-        setState(await loadOnReady(api, store, types));
-      } catch (error) {
-        console.error('Unable to load chain', error);
-      }
-    });
+    api.on('ready', (): void => {
+      const injectedPromise = web3Enable('polkadot-js/apps');
 
-    injectedPromise
-      .then(setExtensions)
-      .catch((error: Error) => console.error(error));
+      injectedPromise
+        .then(setExtensions)
+        .catch(console.error);
+
+      loadOnReady(api, injectedPromise, store, types)
+        .then(setState)
+        .catch(console.error);
+    });
 
     setIsApiInitialized(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps

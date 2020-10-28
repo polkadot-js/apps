@@ -7,7 +7,7 @@
 export default {
   Address: 'AccountId',
   LookupSource: 'AccountId',
-  RefCount: 'u8',
+  BalanceInfo: 'Null',
   BalanceLock: {
     id: 'LockIdentifier',
     lock_for: 'LockFor',
@@ -76,16 +76,6 @@ export default {
     start_time: 'Compact<TsInMs>',
     expire_time: 'Compact<TsInMs>'
   },
-  RewardDestination: {
-    _enum: {
-      Staked: 'Staked',
-      Stash: null,
-      Controller: null
-    }
-  },
-  Staked: {
-    promise_month: 'u8'
-  },
   ExposureT: {
     own_ring_balance: 'Compact<Balance>',
     own_kton_balance: 'Compact<Balance>',
@@ -98,8 +88,6 @@ export default {
     ring_balance: 'Compact<Balance>',
     kton_balance: 'Compact<Balance>',
     power: 'Power'
-    // not in https://github.com/darwinia-network/darwinia-common/blob/master/frame/staking/src/lib.rs
-    // value: 'Compact<Balance>'
   },
   ElectionResultT: {
     elected_stashes: 'Vec<AccountId>',
@@ -131,27 +119,7 @@ export default {
   },
   MappedRing: 'u128',
   EthereumTransactionIndex: '(H256, u64)',
-  EthereumHeaderBrief: {
-    total_difficulty: 'U256',
-    parent_hash: 'H256',
-    number: 'EthereumBlockNumber',
-    relayer: 'AccountId'
-  },
   EthereumBlockNumber: 'u64',
-  EthereumHeaderThingWithProof: {
-    header: 'EthereumHeader',
-    ethash_proof: 'Vec<EthashProof>',
-    mmr_root: 'H256',
-    mmr_proof: 'Vec<H256>'
-  },
-  ConfirmedEthereumHeaderInfo: {
-    header: 'EthereumHeader',
-    mmr_root: 'H256'
-  },
-  EthereumHeaderThing: {
-    header: 'EthereumHeader',
-    mmr_root: 'H256'
-  },
   EthereumHeader: {
     parent_hash: 'H256',
     timestamp: 'u64',
@@ -205,6 +173,14 @@ export default {
     last_leaf_index: 'u64',
     proof: 'Vec<H256>'
   },
+  EthereumRelayHeaderParcel: {
+    header: 'EthereumHeader',
+    mmr_root: 'H256'
+  },
+  EthereumRelayProofs: {
+    ethash_proof: 'Vec<EthashProof>',
+    mmr_proof: 'Vec<H256>'
+  },
   OtherSignature: {
     _enum: {
       Eth: 'EcdsaSignature',
@@ -223,16 +199,30 @@ export default {
     prefix: '[u8; 4; Prefix]',
     mmr_root: 'Hash'
   },
-  Round: 'u64',
-  TcHeaderThingWithProof: 'EthereumHeaderThingWithProof',
-  TcHeaderThing: 'EthereumHeaderThing',
-  TcBlockNumber: 'u64',
-  TcHeaderHash: 'H256',
-  GameId: 'TcBlockNumber',
-  RelayProposalT: {
+  RelayHeaderId: 'u64',
+  RelayHeaderParcel: 'EthereumRelayHeaderParcel',
+  RelayProofs: 'Vec<u8>',
+  RelayAffirmationId: {
+    relay_header_id: 'Vec<u8>',
+    round: 'u32',
+    index: 'u32'
+  },
+  RelayAffirmationT: {
     relayer: 'AccountId',
-    bonded_proposal: 'Vec<(Balance, TcHeaderThing)>',
-    extend_from_header_hash: 'Option<TcHeaderHash>'
+    relay_header_parcels: 'Vec<u8>',
+    bond: 'Balance',
+    maybe_extended_relay_affirmation_id: 'Option<Vec<u8>>',
+    verified: 'bool'
+  },
+  ProxyType: {
+    _enum: {
+      Any: null,
+      NonTransfer: null,
+      Governance: null,
+      Staking: null,
+      IdentityJudgement: null,
+      EthereumBridge: null
+    }
   },
   BalancesRuntimeDispatchInfo: {
     usable_balance: 'Balance'

@@ -46,7 +46,6 @@ i18next
       'app-claims',
       'app-contracts',
       'app-council',
-      'app-dashboard',
       'app-democracy',
       'app-explorer',
       'app-extrinsics',

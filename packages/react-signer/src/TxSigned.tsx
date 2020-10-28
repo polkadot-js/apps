@@ -158,6 +158,7 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const { t } = useTranslation();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
+  const [error, setError] = useState<Error | null>(null);
   const [{ isQrHashed, qrAddress, qrPayload, qrResolve }, setQrState] = useState<QrState>({ isQrHashed: false, qrAddress: '', qrPayload: new Uint8Array() });
   const [isBusy, setBusy] = useState(false);
   const [isRenderError, toggleRenderError] = useToggle();
@@ -264,15 +265,26 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   const _doStart = useCallback(
     (): void => {
       setBusy(true);
+
       setTimeout((): void => {
-        if (_unlock()) {
-          isSubmit
-            ? currentItem.payload
-              ? _onSendPayload(queueSetTxStatus, currentItem, senderInfo)
-              : _onSend(queueSetTxStatus, currentItem, senderInfo).catch(console.error)
-            : _onSign(queueSetTxStatus, currentItem, senderInfo).catch(console.error);
-        } else {
+        const errorHandler = (error: Error): void => {
+          console.error(error);
           setBusy(false);
+          setError(error);
+        };
+
+        try {
+          if (_unlock()) {
+            isSubmit
+              ? currentItem.payload
+                ? _onSendPayload(queueSetTxStatus, currentItem, senderInfo)
+                : _onSend(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler)
+              : _onSign(queueSetTxStatus, currentItem, senderInfo).catch(errorHandler);
+          } else {
+            setBusy(false);
+          }
+        } catch (error) {
+          errorHandler(error as Error);
         }
       }, 0);
     },
@@ -282,7 +294,10 @@ function TxSigned ({ className, currentItem, requestAddress }: Props): React.Rea
   return (
     <>
       <Modal.Content className={className}>
-        <ErrorBoundary onError={toggleRenderError}>
+        <ErrorBoundary
+          error={error}
+          onError={toggleRenderError}
+        >
           {(isBusy && flags.isQr)
             ? (
               <Qr

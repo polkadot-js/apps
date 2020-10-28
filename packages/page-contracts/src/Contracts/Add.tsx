@@ -4,9 +4,9 @@
 import { StringOrNull } from '@polkadot/react-components/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, Input, Modal } from '@polkadot/react-components';
-import { useApi, useNonEmptyString, useToggle } from '@polkadot/react-hooks';
+import { useApi, useNonEmptyString } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
 import ValidateAddr from './ValidateAddr';
@@ -14,19 +14,17 @@ import { ABI, InputName } from '../shared';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
 
-function Add (): React.ReactElement {
+interface Props {
+  onClose: () => void;
+}
+
+function Add ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [isOpen, toggleIsOpen, setIsOpen] = useToggle();
   const [address, setAddress] = useState<StringOrNull>(null);
   const [isAddressValid, setIsAddressValid] = useState(false);
   const [name, isNameValid, setName] = useNonEmptyString('New Contract');
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([null, null], null, true);
-
-  const isValid = useMemo(
-    (): boolean => isAddressValid && isNameValid && isAbiValid,
-    [isAbiValid, isAddressValid, isNameValid]
-  );
 
   const _onAdd = useCallback(
     (): void => {
@@ -52,7 +50,7 @@ function Add (): React.ReactElement {
         status.status = address ? 'success' : 'error';
         status.message = 'contract added';
 
-        setIsOpen(false);
+        onClose();
       } catch (error) {
         console.error(error);
 
@@ -60,68 +58,57 @@ function Add (): React.ReactElement {
         status.message = (error as Error).message;
       }
     },
-    [abi, address, api, name, setIsOpen]
+    [abi, address, api, name, onClose]
   );
 
+  const isValid = isAddressValid && isNameValid && isAbiValid;
+
   return (
-    <>
-      <Button
-        icon='plus'
-        label={t('Add an existing contract')}
-        onClick={toggleIsOpen}
-      />
-      <Modal
-        header={t('Add an existing contract')}
-        onClose={toggleIsOpen}
-        open={isOpen}
-      >
-        <Modal.Content>
-          <AddressRow
-            defaultName={name}
-            isValid
-            value={address || null}
-          >
-            <Input
-              autoFocus
-              help={t<string>('The address for the deployed contract instance.')}
-              isError={!isAddressValid}
-              label={t<string>('contract address')}
-              onChange={setAddress}
-              value={address || ''}
-            />
-            <ValidateAddr
-              address={address}
-              onChange={setIsAddressValid}
-            />
-            <InputName
-              isContract
-              isError={!isNameValid}
-              onChange={setName}
-              value={name || undefined}
-            />
-            <ABI
-              contractAbi={contractAbi}
-              errorText={errorText}
-              isContract
-              isError={isAbiError}
-              isSupplied={isAbiSupplied}
-              isValid={isAbiValid}
-              onChange={onChangeAbi}
-              onRemove={onRemoveAbi}
-              withLabel
-            />
-          </AddressRow>
-        </Modal.Content>
-        <Modal.Actions onCancel={toggleIsOpen}>
-          <Button
-            icon='save'
-            isDisabled={!isValid}
-            label={t<string>('Save')}
-            onClick={_onAdd}
+    <Modal header={t('Add an existing contract')}>
+      <Modal.Content>
+        <AddressRow
+          defaultName={name}
+          isValid
+          value={address || null}
+        >
+          <Input
+            autoFocus
+            help={t<string>('The address for the deployed contract instance.')}
+            isError={!isAddressValid}
+            label={t<string>('contract address')}
+            onChange={setAddress}
+            value={address || ''}
           />
-        </Modal.Actions>
-      </Modal>
-    </>
+          <ValidateAddr
+            address={address}
+            onChange={setIsAddressValid}
+          />
+          <InputName
+            isContract
+            isError={!isNameValid}
+            onChange={setName}
+            value={name || undefined}
+          />
+          <ABI
+            contractAbi={contractAbi}
+            errorText={errorText}
+            isError={isAbiError || !isAbiValid}
+            isSupplied={isAbiSupplied}
+            isValid={isAbiValid}
+            onChange={onChangeAbi}
+            onRemove={onRemoveAbi}
+          />
+        </AddressRow>
+      </Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='save'
+          isDisabled={!isValid}
+          label={t<string>('Save')}
+          onClick={_onAdd}
+        />
+      </Modal.Actions>
+    </Modal>
   );
 }
 

@@ -272,10 +272,14 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
                 <div>
                   {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
                   <div className='faded'>{t('available to be unlocked')}</div>
-                  <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
-                  <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
-                  {formatBalance(balancesAll.vestingPerBlock)}
-                  <div className='faded'>{t('per block')}</div>
+                  {bestNumber.lt(balancesAll.vestingEndBlock) && (
+                    <>
+                      <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
+                      <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
+                      {formatBalance(balancesAll.vestingPerBlock)}
+                      <div className='faded'>{t('per block')}</div>
+                    </>
+                  )}
                 </div>
               }
               trigger={`${address}-vested-trigger`}

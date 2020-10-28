@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from '../types';
+
 import { createGlobalStyle } from 'styled-components';
 
 import cssComponents from './components';
@@ -20,8 +22,8 @@ const PARTS = [0, 2, 4];
 
 const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
-function getHighlight (props: Props): string {
-  return (props.uiHighlight || defaultHighlight);
+function getHighlight ({ uiHighlight }: Props): string {
+  return (uiHighlight || defaultHighlight);
 }
 
 function getContrast (props: Props): string {
@@ -33,7 +35,7 @@ function getContrast (props: Props): string {
     : 'rgba(255, 253, 251, 0.875)';
 }
 
-export default createGlobalStyle<Props>`
+export default createGlobalStyle<Props & ThemeProps>`
   .highlight--all {
     background: ${getHighlight} !important;
     border-color: ${getHighlight} !important;
@@ -58,7 +60,7 @@ export default createGlobalStyle<Props>`
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: white;
+    background: ${({ theme }) => theme.bgTable};
     position: relative;
 
     &:before {
@@ -98,7 +100,7 @@ export default createGlobalStyle<Props>`
   }
 
   .highlight--gradient {
-    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+    background: ${({ uiHighlight }: Props) => `linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .highlight--hover-bg:hover {
@@ -177,14 +179,12 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  .theme--default {
-    .ui--Tabs-Tab.tabLinkActive {
-      border-bottom-color: ${getHighlight};
-    }
-
-    .ui.negative.button,
-    .ui.buttons .negative.button {
-      background: #666 !important;
+  .theme--dark,
+  .theme--light {
+    .ui--Tabs {
+      .ui--Tab.tabLinkActive {
+        border-bottom-color: ${getHighlight};
+      }
     }
 
     .ui.primary.button,
@@ -213,7 +213,8 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
+    background: ${({ theme }) => theme.bgPage};
+    color: ${({ theme }) => theme.color};
     font-family: sans-serif;
     height: 100%;
   }
@@ -223,7 +224,7 @@ export default createGlobalStyle<Props>`
   }
 
   article {
-    background: white;
+    background: ${({ theme }) => theme.bgTable};
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
@@ -297,7 +298,6 @@ export default createGlobalStyle<Props>`
   }
 
   body {
-    background: #f5f3f1;
     height: 100%;
     margin: 0;
   }
@@ -330,7 +330,7 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: rgba(0, 0, 0, .6);
+    color: ${({ theme }) => theme.colorSummary};
     font-family: sans-serif;
     font-weight: 100;
   }
@@ -363,7 +363,7 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: ${({ theme }) => theme.colorLabel};
     display: block;
     font-family: sans-serif;
     font-size: 1rem;

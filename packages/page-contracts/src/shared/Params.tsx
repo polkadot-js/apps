@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIFnArg } from '@polkadot/api-contract/types';
 import { TypeDef } from '@polkadot/types/types';
 import { RawParams } from '@polkadot/react-params/types';
 
@@ -10,7 +9,7 @@ import UIParams from '@polkadot/react-params';
 
 interface Props {
   isDisabled?: boolean;
-  params?: ContractABIFnArg[];
+  params?: ParamDef[];
   onChange: (values: any[]) => void;
   onEnter?: () => void;
 }

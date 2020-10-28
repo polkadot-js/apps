@@ -1,23 +1,23 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIFn, ContractABIMessage } from '@polkadot/api-contract/types';
+import { AbiMessage } from '@polkadot/api-contract/types';
 import { StringOrNull } from '@polkadot/react-components/types';
 
 import React from 'react';
 import { ApiPromise } from '@polkadot/api';
-import { PromiseContract as Contract } from '@polkadot/api-contract';
+import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { getContractAbi } from '@polkadot/react-components/util';
 
 import MessageSignature from '../shared/MessageSignature';
 
-export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): ContractABIMessage | null {
-  const message = callContract && callContract.abi.abi.contract.messages[callMethodIndex];
+export function findCallMethod (callContract: Contract | null, callMethodIndex = 0): AbiMessage | null {
+  const message = callContract && callContract.abi.messages[callMethodIndex];
 
   return message || null;
 }
 
-export function getContractMethodFn (callContract: Contract | null, callMethodIndex: number | null): ContractABIFn | null {
+export function getContractMethodFn (callContract: Contract | null, callMethodIndex: number | null): AbiMessage | null {
   const fn = callContract && callContract.abi && callMethodIndex !== null && callContract.abi.messages[callMethodIndex];
 
   return fn || null;
@@ -37,13 +37,13 @@ export function getContractForAddress (api: ApiPromise, address: StringOrNull): 
 
 export function getCallMessageOptions (callContract: Contract | null): any[] {
   return callContract
-    ? callContract.messages.map(({ def: message, def: { name }, index }): { key: string; text: React.ReactNode; value: string } => {
+    ? callContract.abi.messages.map((message, index): { key: string; text: React.ReactNode; value: number } => {
       return {
-        key: name,
+        key: message.identifier,
         text: (
           <MessageSignature message={message} />
         ),
-        value: `${index}`
+        value: index
       };
     })
     : [];

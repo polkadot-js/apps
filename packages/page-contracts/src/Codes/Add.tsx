@@ -3,11 +3,8 @@
 
 import { StringOrNull } from '@polkadot/react-components/types';
 
-import React, { useCallback, useMemo, useState } from 'react';
-import { createType } from '@polkadot/types';
-import { registry } from '@polkadot/react-api';
+import React, { useCallback, useState } from 'react';
 import { Button, Input, Modal } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
 import { isNull } from '@polkadot/util';
 import { ABI, InputName } from '../shared';
 
@@ -16,23 +13,16 @@ import store from '../store';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
 
-function Add (): React.ReactElement {
+interface Props {
+  onClose: () => void;
+}
+
+function Add ({ onClose }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const [isOpen, toggleIsOpen, setIsOpen] = useToggle();
   const [codeHash, setCodeHash] = useState('');
   const [isCodeHashValid, setIsCodeHashValid] = useState(false);
   const [name, setName] = useState<StringOrNull>(null);
   const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
-
-  const isNameValid = useMemo(
-    (): boolean => !isNull(name) && name.length > 0,
-    [name]
-  );
-
-  const isValid = useMemo(
-    (): boolean => isCodeHashValid && isNameValid,
-    [isCodeHashValid, isNameValid]
-  );
 
   const _onSave = useCallback(
     (): void => {
@@ -41,64 +31,57 @@ function Add (): React.ReactElement {
       }
 
       store
-        .saveCode(createType(registry, 'Hash', codeHash), { abi, name, tags: [] })
-        .then((): void => setIsOpen(false))
+        .saveCode(codeHash, { abi, name, tags: [] })
+        .then(() => onClose())
         .catch((error): void => {
           console.error('Unable to save code', error);
         });
     },
-    [abi, codeHash, name, setIsOpen]
+    [abi, codeHash, name, onClose]
   );
 
+  const isNameValid = !isNull(name) && name.length > 0;
+  const isValid = isCodeHashValid && isNameValid && isAbiSupplied && isAbiValid;
+
   return (
-    <>
-      <Button
-        icon='plus'
-        label={t('Add an existing code hash')}
-        onClick={toggleIsOpen}
-      />
-      {isOpen && (
-        <Modal header={t('Add an existing code hash')}>
-          <Modal.Content>
-            <Input
-              autoFocus
-              help={t('The code hash for the on-chain deployed code.')}
-              isError={codeHash.length > 0 && !isCodeHashValid}
-              label={t('code hash')}
-              onChange={setCodeHash}
-              value={codeHash}
-            />
-            <ValidateCode
-              codeHash={codeHash}
-              onChange={setIsCodeHashValid}
-            />
-            <InputName
-              isError={!isNameValid}
-              onChange={setName}
-              value={name || undefined}
-            />
-            <ABI
-              contractAbi={contractAbi}
-              errorText={errorText}
-              isError={isAbiError}
-              isSupplied={isAbiSupplied}
-              isValid={isAbiValid}
-              onChange={onChangeAbi}
-              onRemove={onRemoveAbi}
-              withLabel
-            />
-          </Modal.Content>
-          <Modal.Actions onCancel={toggleIsOpen}>
-            <Button
-              icon='save'
-              isDisabled={!isValid}
-              label={t('Save')}
-              onClick={_onSave}
-            />
-          </Modal.Actions>
-        </Modal>
-      )}
-    </>
+    <Modal header={t('Add an existing code hash')}>
+      <Modal.Content>
+        <Input
+          autoFocus
+          help={t('The code hash for the on-chain deployed code.')}
+          isError={codeHash.length > 0 && !isCodeHashValid}
+          label={t('code hash')}
+          onChange={setCodeHash}
+          value={codeHash}
+        />
+        <ValidateCode
+          codeHash={codeHash}
+          onChange={setIsCodeHashValid}
+        />
+        <InputName
+          isError={!isNameValid}
+          onChange={setName}
+          value={name || undefined}
+        />
+        <ABI
+          contractAbi={contractAbi}
+          errorText={errorText}
+          isError={isAbiError || !isAbiError}
+          isSupplied={isAbiSupplied}
+          isValid={isAbiValid}
+          onChange={onChangeAbi}
+          onRemove={onRemoveAbi}
+        />
+      </Modal.Content>
+      <Modal.Actions onCancel={onClose}>
+        <Button
+          icon='save'
+          isDisabled={!isValid}
+          label={t('Save')}
+          onClick={_onSave}
+        />
+      </Modal.Actions>
+    </Modal>
   );
 }
 

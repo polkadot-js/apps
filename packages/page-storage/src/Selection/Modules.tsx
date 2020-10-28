@@ -38,9 +38,9 @@ interface ValState {
 function areParamsValid ({ creator: { meta: { type } } }: QueryableStorageEntry<'promise'>, values: RawParams): boolean {
   return values.reduce((isValid: boolean, value): boolean => {
     return isValid &&
-    !isUndefined(value) &&
-    !isUndefined(value.value) &&
-    value.isValid;
+      !isUndefined(value) &&
+      !isUndefined(value.value) &&
+      value.isValid;
   }, (
     type.isDoubleMap
       ? values.length === 2
@@ -74,11 +74,13 @@ function expandParams (st: StorageEntryTypeLatest, isIterable: boolean): ParamsT
 function checkIterable (type: StorageEntryTypeLatest): boolean {
   const def = type.isMap
     ? getTypeDef(type.asMap.key.toString())
-    : getTypeDef(type.asDoubleMap.key2.toString());
+    : type.isDoubleMap
+      ? getTypeDef(type.asDoubleMap.key2.toString())
+      : null;
 
   // in the case of Option<type> keys, we don't allow map iteration, in this case
   // we would have option for the iterable and then option for the key value
-  return def.info !== TypeDefInfo.Option;
+  return !!def && def.info !== TypeDefInfo.Option;
 }
 
 function expandKey (api: ApiPromise, key: QueryableStorageEntry<'promise'>): KeyState {

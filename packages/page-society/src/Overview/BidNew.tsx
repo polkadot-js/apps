@@ -25,7 +25,7 @@ function BidNew ({ onClose }: Props): React.ReactElement<Props> {
         <Modal.Columns>
           <Modal.Column>
             <InputAddress
-              help={t<string>('The actual account you wish to sub,it the bid with')}
+              help={t<string>('The actual account you wish to submit the bid with')}
               label={t<string>('bid account')}
               onChange={setAccount}
               type='account'

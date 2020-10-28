@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/apps-config",
   "private": true,
-  "version": "0.60.0-beta.23",
+  "version": "0.64.2-1",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,10 +11,11 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@acala-network/type-definitions": "^0.4.0-beta.4",
-    "@babel/runtime": "^7.11.2",
-    "@edgeware/node-types": "^2.4.5",
+    "@acala-network/type-definitions": "^0.4.0-beta.13",
+    "@babel/runtime": "^7.12.1",
+    "@edgeware/node-types": "^3.0.7",
     "@laminar/type-definitions": "^0.2.0-beta.141",
-    "@subsocial/types": "^0.4.4"
+    "@polkadot/networks": "^3.6.2-6",
+    "@subsocial/types": "^0.4.7"
   }
 }

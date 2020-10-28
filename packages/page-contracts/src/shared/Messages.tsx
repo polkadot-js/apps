@@ -1,225 +1,128 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIMessage } from '@polkadot/api-contract/types';
+import { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import { ContractInfo } from '@polkadot/types/interfaces';
+import { ThemeProps } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Abi } from '@polkadot/api-contract';
-import { classes } from '@polkadot/react-components/util';
-import { Button, Expander, IconLink } from '@polkadot/react-components';
+import { Abi, ContractPromise } from '@polkadot/api-contract';
+import { Expander } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
-import MessageSignature from './MessageSignature';
+import Message from './Message';
 import { useTranslation } from '../translate';
 
 export interface Props {
-  address?: string;
   className?: string;
+  contract?: ContractPromise;
   contractAbi: Abi;
   isLabelled?: boolean;
-  isRemovable: boolean;
-  onRemove?: () => void;
-  onSelect?: (messageIndex: number) => () => void;
+  isWatching?: boolean;
+  onSelect?: (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => void;
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
+  withMessages?: boolean;
 }
 
-const NOOP = (): void => undefined;
+const READ_ADDR = '0x'.padEnd(66, '0');
 
-function onSelect (props: Props, messageIndex: number): () => void {
-  return function (): void {
-    const { address: callAddress, contractAbi: { abi: { contract: { messages } } }, onSelect } = props;
-
-    if (!callAddress || !messages || !messages[messageIndex]) {
-      return;
-    }
-
-    onSelect && onSelect(messageIndex)();
-  };
+function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
+  return messages
+    .map((m, index): [AbiMessage, number] => [m, index])
+    .sort((a, b) => a[0].identifier.localeCompare(b[0].identifier))
+    .sort((a, b) => a[0].isMutating === b[0].isMutating
+      ? 0
+      : a[0].isMutating
+        ? -1
+        : 1
+    );
 }
 
-function onSelectConstructor (props: Props, index: number): () => void {
-  return function (): void {
-    const { contractAbi: { abi: { contract: { constructors } } }, onSelectConstructor } = props;
-
-    if (!constructors || !constructors[index]) {
-      return;
-    }
-
-    onSelectConstructor && onSelectConstructor(index);
-  };
-}
-
-function renderItem (props: Props, message: ContractABIMessage, index: number, asConstructor: boolean, t: <T = string> (key: string) => T): React.ReactNode {
-  const { docs = [], name } = message;
-
-  return (
-    <div
-      className={classes('message', !onSelect && 'exempt-hover', asConstructor && 'constructor')}
-      key={name}
-    >
-      <div className='info'>
-        <MessageSignature
-          asConstructor={asConstructor}
-          message={message}
-          withTooltip
-        />
-        <Expander
-          className='docs'
-          summary={
-            docs && docs.length > 0
-              ? docs
-                .filter((line) => line !== '')
-                .map((line, index) => ((
-                  <React.Fragment key={`${name}-docs-${index}`}>
-                    <span>{line}</span>
-                    <br />
-                  </React.Fragment>
-                )))
-              : (
-                <i>{t<string>('No documentation provided')}</i>
-              )
-          }
-        />
-      </div>
-      {!asConstructor && props.onSelect && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='play'
-            onClick={onSelect(props, index)}
-            tooltip={t<string>('Call this message')}
-          />
-        </div>
-      )}
-      {asConstructor && props.onSelectConstructor && (
-        <div className='accessory'>
-          <Button
-            className='execute'
-            icon='upload'
-            onClick={onSelectConstructor(props, index)}
-            tooltip={t<string>('Deploy with this constructor')}
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function renderConstructor (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { constructors } } } } = props;
-
-  if (!constructors[index]) {
-    return null;
-  }
-
-  return renderItem(props, constructors[index], index, true, t);
-}
-
-function renderMessage (props: Props, index: number, t: <T = string> (key: string) => T): React.ReactNode {
-  const { contractAbi: { abi: { contract: { messages } } } } = props;
-
-  if (!messages[index]) {
-    return null;
-  }
-
-  return renderItem(props, messages[index], index, false, t);
-}
-
-function Messages (props: Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { className = '', contractAbi: { abi: { contract: { constructors, messages } } }, isLabelled, isRemovable, onRemove = NOOP, withConstructors } = props;
+  const { api } = useApi();
+  const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [lastResults, setLastResults] = useState<(ContractCallOutcome | undefined)[]>([]);
+
+  const _onExpander = useCallback(
+    (isOpen: boolean): void => {
+      isWatching && setIsUpdating(isOpen);
+    },
+    [isWatching]
+  );
+
+  useEffect((): void => {
+    isUpdating && optInfo && contract && Promise
+      .all(messages.map((m) =>
+        m.isMutating || m.args.length !== 0
+          ? Promise.resolve(undefined)
+          : contract.read(m, 0, -1).send(READ_ADDR).catch(() => undefined)
+      ))
+      .then(setLastResults)
+      .catch(console.error);
+  }, [contract, isUpdating, isWatching, messages, optInfo]);
+
+  const _setMessageResult = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (messageIndex: number, result?: ContractCallOutcome): void => {
+      // ignore... for now
+      // setLastResults((all) => all.map((r, index) => index === messageIndex ? result : r));
+    },
+    []
+  );
+
+  const _onSelect = useCallback(
+    (index: number) => onSelect && onSelect(index, _setMessageResult),
+    [_setMessageResult, onSelect]
+  );
 
   return (
-    <div className={classes(className, 'ui--Messages', isLabelled && 'labelled')}>
-      {withConstructors && constructors.map((_, index): React.ReactNode => renderConstructor(props, index, t))}
-      {messages.map((_, index): React.ReactNode => renderMessage(props, index, t))}
-      {isRemovable && (
-        <IconLink
-          className='remove-abi'
-          icon='remove'
-          label={t<string>('Remove ABI')}
-          onClick={onRemove}
-        />
+    <div className={`ui--Messages ${className}${isLabelled ? ' isLabelled' : ''}`}>
+      {withConstructors && (
+        <Expander summary={t<string>('Constructors ({{count}})', { replace: { count: constructors.length } })}>
+          {sortMessages(constructors).map(([message, index]) => (
+            <Message
+              index={index}
+              key={index}
+              message={message}
+              onSelect={onSelectConstructor}
+            />
+          ))}
+        </Expander>
+      )}
+      {withMessages && (
+        <Expander
+          onClick={_onExpander}
+          summary={t<string>('Messages ({{count}})', { replace: { count: messages.length } })}
+        >
+          {sortMessages(messages).map(([message, index]) => (
+            <Message
+              index={index}
+              key={index}
+              lastResult={lastResults[index]}
+              message={message}
+              onSelect={_onSelect}
+            />
+          ))}
+        </Expander>
       )}
     </div>
   );
 }
 
-export default React.memo(styled(Messages)`
-  font-size: 0.9rem;
-  padding: 0;
-  margin: 0;
+export default React.memo(styled(Messages)(({ theme }: ThemeProps) => `
+  padding-bottom: 0.75rem !important;
 
-  .remove-abi {
-    float: right;
-
-    &:hover, &:hover :not(i) {
-      text-decoration: underline;
-    }
-  }
-
-  &.labelled {
-    background: white;
+  &.isLabelled {
+    background: ${theme.bgInput};
     box-sizing: border-box;
     border: 1px solid rgba(34,36,38,.15);
     border-radius: .28571429rem;
     padding: 1rem 1rem 0.5rem;
     width: 100%;
   }
-
-  & .message {
-    width: calc(100% - 1rem);
-    background: #f8f8f8;
-    display: inline-flex;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 0.7rem;
-    transition: all 0.2s;
-
-    &.constructor {
-      background: #e8f4ff;
-    }
-
-    &.disabled {
-      opacity: 1 !important;
-      background: #eee !important;
-      color: #555 !important;
-    }
-
-    .accessory {
-      width: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .execute {
-        display: none;
-        background: transparent !important;
-        font-size: 1.5rem;
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    &:hover {
-      .accessory .execute {
-        display: block;
-        color: rgba(0, 0, 0, 0.2);
-
-        &:hover {
-          color: #2e86ab;
-        }
-      }
-    }
-
-    .info {
-      flex: 1 1;
-
-      .docs {
-        font-size: 0.8rem;
-        font-weight: normal;
-      }
-    }
-  }
-`);
+`));

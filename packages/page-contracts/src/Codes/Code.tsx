@@ -1,15 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { Codec } from '@polkadot/types/types';
 import { CodeStored } from '../types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { Button, Card, Expander, Forget } from '@polkadot/react-components';
-import { useToggle } from '@polkadot/react-hooks';
+import { Button, Card, CopyButton, Forget } from '@polkadot/react-components';
+import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { Option } from '@polkadot/types';
 
-import { ABI, CodeRow } from '../shared';
-import RemoveABI from '../RemoveABI';
+import { CodeRow, Messages } from '../shared';
 import store from '../store';
 import useAbi from '../useAbi';
 import { useTranslation } from '../translate';
@@ -17,121 +18,109 @@ import { useTranslation } from '../translate';
 interface Props {
   className?: string;
   code: CodeStored;
-  onShowDeploy: (codeHash?: string, constructorIndex?: number) => () => void;
+  onShowDeploy: (codeHash: string, constructorIndex: number) => void;
 }
 
 function Code ({ className, code, onShowDeploy }: Props): React.ReactElement<Props> {
-  const { json: { codeHash } } = code;
   const { t } = useTranslation();
-  const [isAbiOpen, toggleIsAbiOpen] = useToggle();
+  const { api } = useApi();
+  const optCode = useCall<Option<Codec>>(api.query.contracts.codeStorage, [code.json.codeHash]);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
-  const [isRemoveABIOpen, toggleIsRemoveABIOpen] = useToggle();
-  const { contractAbi, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
+  const { contractAbi } = useAbi([code.json.abi, code.contractAbi], code.json.codeHash, true);
 
   const _onShowDeploy = useCallback(
-    () => onShowDeploy(codeHash)(),
-    [codeHash, onShowDeploy]
+    () => onShowDeploy(code.json.codeHash, 0),
+    [code, onShowDeploy]
   );
 
   const _onDeployConstructor = useCallback(
-    (constructorIndex = 0) => codeHash && onShowDeploy && onShowDeploy(codeHash, constructorIndex)(),
-    [codeHash, onShowDeploy]
+    (constructorIndex = 0): void => {
+      onShowDeploy && onShowDeploy(code.json.codeHash, constructorIndex);
+    },
+    [code, onShowDeploy]
   );
 
   const _onForget = useCallback(
     (): void => {
-      if (!codeHash) {
-        return;
-      }
-
       try {
-        store.forgetCode(codeHash);
+        store.forgetCode(code.json.codeHash);
       } catch (error) {
         console.error(error);
       } finally {
         toggleIsForgetOpen();
       }
     },
-    [codeHash, toggleIsForgetOpen]
-  );
-
-  const abiNode = (
-    <ABI
-      contractAbi={contractAbi}
-      isError={isAbiError}
-      isSupplied={isAbiSupplied}
-      isValid={isAbiValid}
-      onChange={onChangeAbi}
-      onRemove={toggleIsRemoveABIOpen}
-      onSelectConstructor={_onDeployConstructor}
-    />
+    [code, toggleIsForgetOpen]
   );
 
   return (
-    <Card className={className}>
-      <CodeRow
-        buttons={
-          <>
-            <Button
-              icon='trash'
-              onClick={toggleIsForgetOpen}
-              tooltip={t('Forget this code hash')}
-            />
-            <Button
-              icon='upload'
-              label={t('deploy')}
-              onClick={_onShowDeploy}
-              tooltip={t('Deploy this code hash as a smart contract')}
-            />
-          </>
-        }
-        code={code}
-        withTags
-      >
-        {contractAbi
-          ? (
-            <Expander
-              isOpen={isAbiOpen}
-              onClick={toggleIsAbiOpen}
-              summary={t<string>('ABI')}
-            >
-              {abiNode}
-            </Expander>
-          )
-          : abiNode
-        }
-      </CodeRow>
-      {isForgetOpen && (
-        <Forget
-          key='modal-forget-account'
-          mode='code'
-          onClose={toggleIsForgetOpen}
-          onForget={_onForget}
-        >
+    <tr className={className}>
+      <td className='address top'>
+        <Card>
           <CodeRow
-            code={code || ''}
-            isInline
-          >
-            <p>{t<string>('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
-            <p>{t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
-          </CodeRow>
-        </Forget>
-      )}
-      {isRemoveABIOpen && (
-        <RemoveABI
-          code={code}
-          key='modal-remove-abi'
-          onClose={toggleIsRemoveABIOpen}
-          onRemove={onRemoveAbi}
+            code={code}
+            withTags={false}
+          />
+          {isForgetOpen && (
+            <Forget
+              key='modal-forget-account'
+              mode='code'
+              onClose={toggleIsForgetOpen}
+              onForget={_onForget}
+            >
+              <CodeRow
+                code={code || ''}
+                isInline
+              >
+                <p>{t<string>('You are about to remove this code from your list of available code hashes. Once completed, should you need to access it again, you will have to manually add the code hash again.')}</p>
+                <p>{t<string>('This operation does not remove the uploaded code WASM and ABI from the chain, nor any deployed contracts. The forget operation only limits your access to the code on this browser.')}</p>
+              </CodeRow>
+            </Forget>
+          )}
+        </Card>
+      </td>
+      <td className='all top'>
+        <Messages
+          contractAbi={contractAbi}
+          onSelectConstructor={_onDeployConstructor}
+          withConstructors
         />
-      )}
-    </Card>
+      </td>
+      <td className='together codeHash'>
+        <div>{`${code.json.codeHash.substr(0, 8)}…${code.json.codeHash.slice(-6)}`}</div>
+        <CopyButton value={code.json.codeHash} />
+      </td>
+      <td className='start together'>
+        {optCode && (
+          optCode.isSome ? t<string>('Available') : t<string>('Not on-chain')
+        )}
+      </td>
+      <td className='button'>
+        <Button
+          icon='trash'
+          onClick={toggleIsForgetOpen}
+        />
+        {!contractAbi && (
+          <Button
+            icon='upload'
+            label={t('deploy')}
+            onClick={_onShowDeploy}
+          />
+        )}
+      </td>
+    </tr>
   );
 }
 
-export default React.memo(
-  styled(Code)`
-    max-width: 100%;
-    min-width: 100%;
-  `
-);
+export default React.memo(styled(Code)`
+  .codeHash {
+    div {
+      display: inline;
+
+      &:first-child {
+        font-family: monospace;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+`);

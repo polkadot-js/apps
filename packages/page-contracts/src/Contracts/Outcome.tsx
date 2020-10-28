@@ -1,102 +1,58 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractCallOutcome } from '@polkadot/api-contract/types';
+import { CallResult } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { AddressMini, Button, Output } from '@polkadot/react-components';
+import { Button, IdentityIcon, Output } from '@polkadot/react-components';
+import valueToText from '@polkadot/react-params/valueToText';
 
 import MessageSignature from '../shared/MessageSignature';
 
 interface Props {
   className?: string;
   onClear?: () => void;
-  outcome: ContractCallOutcome;
+  outcome: CallResult;
 }
 
-function Outcome ({ className = '', onClear, outcome: { isSuccess, message, origin, output, params, time } }: Props): React.ReactElement<Props> | null {
-  const dateTime = new Date(time);
-
+function Outcome ({ className = '', onClear, outcome: { from, message, output, params, result, when } }: Props): React.ReactElement<Props> | null {
   return (
     <div className={className}>
-      <div className='info'>
-        <AddressMini
-          className='origin'
-          isPadded={false}
-          value={origin}
-          withAddress={false}
-        />
-        <MessageSignature
-          message={message}
-          params={params}
-        />
-        <span className='date-time'>
-          {dateTime.toLocaleDateString()}
-          {' '}
-          {dateTime.toLocaleTimeString()}
-        </span>
-        <Button
-          className='icon-button clear-btn'
-          icon='times'
-          onClick={onClear}
-        />
-      </div>
+      <IdentityIcon value={from} />
       <Output
         className='output'
-        isError={!isSuccess}
-        value={(output || '()').toString()}
-        withCopy
-        withLabel={false}
+        isError={!result.isSuccess}
+        isFull
+        label={
+          <MessageSignature
+            message={message}
+            params={params}
+          />
+        }
+        labelExtra={
+          <span className='date-time'>
+            {when.toLocaleDateString()}
+            {' '}
+            {when.toLocaleTimeString()}
+          </span>
+        }
+        value={valueToText('Text', output)}
+      />
+      <Button
+        icon='times'
+        onClick={onClear}
       />
     </div>
   );
 }
 
 export default React.memo(styled(Outcome)`
-  & {
-    .info {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0.5rem;
+  align-items: center;
+  display: flex;
 
-      & > *:not(:first-child) {
-        padding-left: 1.5rem !important;
-      }
-    }
-
-    .clear-btn {
-      opacity: 0;
-    }
-
-    .date-time {
-      color: #aaa;
-      white-space: nowrap;
-    }
-
-    .origin {
-      padding-left: 0 !important;
-
-      * {
-        margin-left: 0 !important;
-      }
-    }
-
-    .output {
-      font-family: monospace;
-      margin-left: 3.5rem;
-
-      .ui--output {
-        border-color: #aaa;
-        margin: 0;
-      }
-    }
-
-    &:hover {
-      .clear-btn {
-        opacity: 1;
-      }
-    }
+  .output {
+    flex: 1 1;
+    margin: 0.25rem 0.5rem;
   }
 `);

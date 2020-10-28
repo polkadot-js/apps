@@ -1,15 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { CodecArg } from '@polkadot/types/types';
-import { CodeStored } from './types';
+import { SubmittableExtrinsic } from '@polkadot/api/types';
+import { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
+import { StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SubmittableResult } from '@polkadot/api';
+import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useFormField, useNonEmptyString, useNonZeroBn, useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
@@ -21,59 +19,44 @@ import useAbi from './useAbi';
 import useWeight from './useWeight';
 import { ENDOWMENT } from './constants';
 
-type CodeOptions = { text: string; value: string }[];
-type ConstructOptions = { key: string; text: React.ReactNode; value: string }[];
-
 interface Props {
-  basePath: string;
-  allCodes: CodeStored[];
   codeHash: string;
-  constructorIndex?: number;
-  isOpen?: boolean;
-  onClose: VoidFn;
-  setCodeHash: React.Dispatch<string>;
+  constructorIndex: number;
+  onClose: () => void;
   setConstructorIndex: React.Dispatch<number>;
 }
 
-function defaultContractName (name: string) {
-  return `${name} (instance)`;
-}
-
-function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, onClose, setCodeHash, setConstructorIndex }: Props): React.ReactElement<Props> {
+function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const history = useHistory();
-  const useWeightHook = useWeight();
-  const { isValid: isWeightValid, weight } = useWeightHook;
-
-  const code = useMemo(
-    (): CodeStored => store.getCode(codeHash),
-    [codeHash]
-  );
+  const weight = useWeight();
+  const [initTx, setInitTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
+  const [params, setParams] = useState<any[]>([]);
   const [accountId, isAccountIdValid, setAccountId] = useFormField<StringOrNull>(null);
   const [endowment, isEndowmentValid, setEndowment] = useNonZeroBn(new BN(ENDOWMENT));
-  const [name, isNameValid, setName] = useNonEmptyString(t(defaultContractName(code.json.name)));
-  const { abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code.json.abi || null, code.contractAbi || null], codeHash, true);
 
-  const isValid = useMemo(
-    (): boolean => isNameValid && isEndowmentValid && isWeightValid && isAccountIdValid,
-    [isAccountIdValid, isEndowmentValid, isNameValid, isWeightValid]
+  useEffect((): void => {
+    setParams([]);
+  }, [constructorIndex]);
+
+  const code = useMemo(
+    () => store.getCode(codeHash),
+    [codeHash]
   );
-  const codeOptions = useMemo(
-    (): CodeOptions => allCodes.map(({ json: { codeHash, name } }): { text: string; value: string } => ({
-      text: `${name} (${codeHash})`,
-      value: codeHash
-    })),
-    [allCodes]
+
+  const [name, isNameValid, setName] = useNonEmptyString(code && code.json.name);
+  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi([code && code.json.abi, code && code.contractAbi], codeHash, true);
+
+  const blueprint = useMemo(
+    () => isAbiValid && codeHash && contractAbi
+      ? new BlueprintPromise(api, contractAbi, codeHash)
+      : null,
+    [api, codeHash, contractAbi, isAbiValid]
   );
 
   const constructOptions = useMemo(
-    (): ConstructOptions => {
-      if (!contractAbi) {
-        return [];
-      }
-
-      return contractAbi.abi.contract.constructors.map((message, index) => ({
+    () => contractAbi
+      ? contractAbi.constructors.map((message, index) => ({
         key: `${index}`,
         text: (
           <MessageSignature
@@ -81,68 +64,48 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
             message={message}
           />
         ),
-        value: `${index}`
-      }));
-    },
+        value: index
+      }))
+      : [],
     [contractAbi]
   );
 
-  const [params, setParams] = useState<unknown[]>(contractAbi && constructorIndex >= 0 ? contractAbi.abi.contract.constructors[constructorIndex].args : []);
-
-  useEffect(
-    () => setParams(contractAbi ? contractAbi.abi.contract.constructors[constructorIndex].args : []),
-    [constructorIndex, contractAbi]
-  );
-
-  useEffect(
-    () => setName(t(defaultContractName(code.json.name))),
-    [code, setName, t]
-  );
-
-  const _constructCall = useCallback(
-    (): any[] => {
-      if (!contractAbi || constructorIndex < 0) {
-        return [];
+  useEffect((): void => {
+    endowment && setInitTx((): SubmittableExtrinsic<'promise'> | null => {
+      if (blueprint) {
+        try {
+          return blueprint.createContract(constructorIndex, endowment, weight.weight, ...params);
+        } catch (error) {
+          return null;
+        }
       }
 
-      return [endowment, weight, codeHash, contractAbi.constructors[constructorIndex](...(params as CodecArg[]))];
-    },
-    [codeHash, constructorIndex, contractAbi, endowment, params, weight]
-  );
+      return null;
+    });
+  }, [blueprint, constructorIndex, endowment, params, weight]);
 
   const _onSuccess = useCallback(
-    (result: SubmittableResult): void => {
-      const section = api.tx.contracts ? 'contracts' : 'contract';
-      const records = result.filterRecords(section, 'Instantiated');
-
-      if (records.length) {
-        // find the last EventRecord (in the case of multiple contracts deployed - we should really be
-        // more clever here to find the exact contract deployed, this works for eg. Delegator)
-        const address = records[records.length - 1].event.data[1] as unknown as AccountId;
-
-        keyring.saveContract(address.toString(), {
+    (result: BlueprintSubmittableResult): void => {
+      if (result.contract) {
+        keyring.saveContract(result.contract.address.toString(), {
           contract: {
-            abi,
+            abi: JSON.stringify(result.contract.abi.json),
             genesisHash: api.genesisHash.toHex()
           },
           name,
           tags: []
         });
 
-        history.push(basePath);
-
         onClose && onClose();
       }
     },
-    [abi, api, basePath, history, name, onClose]
+    [api, name, onClose]
   );
 
+  const isValid = isNameValid && isEndowmentValid && weight.isValid && isAccountIdValid;
+
   return (
-    <Modal
-      header={t('Add an existing code hash')}
-      onClose={onClose}
-      open={isOpen}
-    >
+    <Modal header={t('Deploy a contract')}>
       <Modal.Content>
         <InputAddress
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
@@ -152,59 +115,38 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
           type='account'
           value={accountId}
         />
-        <Dropdown
-          defaultValue={
-            codeOptions.length
-              ? codeOptions[codeOptions.length - 1].value
-              : undefined
-          }
-          help={t('The contract WASM previously deployed. Internally this is identified by the hash of the code, as either created or attached.')}
-          label={t('code for this contract')}
-          onChange={setCodeHash}
-          options={codeOptions}
-          value={codeHash}
-        />
         <InputName
           isContract
           isError={!isNameValid}
           onChange={setName}
           value={name || ''}
         />
-        {
-          isAbiSupplied
-            ? null
-            : (
-              <ABI
-                contractAbi={contractAbi}
-                errorText={errorText}
-                isError={isAbiError}
-                isSupplied={isAbiSupplied}
-                isValid={isAbiValid}
-                onChange={onChangeAbi}
-                onRemove={onRemoveAbi}
-                withLabel
-              />
-            )
-        }
-        {
-          contractAbi
-            ? (
-              <Dropdown
-                help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
-                isDisabled={contractAbi.abi.contract.constructors.length <= 1}
-                label={t('deployment constructor')}
-                onChange={setConstructorIndex}
-                options={constructOptions}
-                value={`${constructorIndex}`}
-              />
-            )
-            : null
-        }
+        {!isAbiSupplied && (
+          <ABI
+            contractAbi={contractAbi}
+            errorText={errorText}
+            isError={isAbiError}
+            isSupplied={isAbiSupplied}
+            isValid={isAbiValid}
+            onChange={onChangeAbi}
+            onRemove={onRemoveAbi}
+          />
+        )}
+        {contractAbi && (
+          <Dropdown
+            help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
+            isDisabled={contractAbi.constructors.length <= 1}
+            label={t('deployment constructor')}
+            onChange={setConstructorIndex}
+            options={constructOptions}
+            value={constructorIndex}
+          />
+        )}
         <Params
           onChange={setParams}
           params={
-            contractAbi && constructorIndex >= 0
-              ? contractAbi.abi.contract.constructors[constructorIndex].args
+            contractAbi
+              ? contractAbi.constructors[constructorIndex].args
               : []
           }
         />
@@ -217,28 +159,18 @@ function Deploy ({ allCodes, basePath, codeHash, constructorIndex = 0, isOpen, o
         />
         <InputMegaGas
           help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-          label={t<string>('maximum gas allowed')}
-          {...useWeightHook}
+          weight={weight}
         />
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton
           accountId={accountId}
+          extrinsic={initTx}
           icon='upload'
-          isDisabled={!isValid}
+          isDisabled={!isValid || !initTx}
           label={t('Deploy')}
           onClick={onClose}
           onSuccess={_onSuccess}
-          params={_constructCall}
-          tx={
-            api.tx.contracts
-              ? (
-                !api.tx.contracts.instantiate
-                  ? 'contracts.create' // V2 (new)
-                  : 'contracts.instantiate' // V2 (old)
-              )
-              : 'contract.create' // V1
-          }
           withSpinner
         />
       </Modal.Actions>

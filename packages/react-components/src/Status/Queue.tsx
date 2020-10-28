@@ -4,7 +4,7 @@
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { DispatchError } from '@polkadot/types/interfaces';
 import { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
-import { ActionStatus, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
+import { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
@@ -12,6 +12,7 @@ import { registry } from '@polkadot/react-api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 import { createType } from '@polkadot/types';
 
+import { getContractAbi } from '../util';
 import { QueueProvider } from './Context';
 import { STATUS_COMPLETE } from './constants';
 
@@ -21,16 +22,19 @@ export interface Props {
 
 interface StatusCount {
   count: number;
-  status: ActionStatus;
+  status: ActionStatusPartial;
 }
 
 let nextId = 0;
 
+const EVENT_MESSAGE = 'extrinsic event';
 const REMOVE_TIMEOUT = 7500;
 const SUBMIT_RPC = jsonrpc.author.submitAndWatchExtrinsic;
 
-function mergeStatus (status: ActionStatus[]): ActionStatus[] {
-  return status
+function mergeStatus (status: ActionStatusPartial[]): ActionStatus[] {
+  let others: ActionStatus | null = null;
+
+  const initial = status
     .reduce((result: StatusCount[], status): StatusCount[] => {
       const prev = result.find(({ status: prev }) => prev.action === status.action && prev.status === status.status);
 
@@ -42,11 +46,35 @@ function mergeStatus (status: ActionStatus[]): ActionStatus[] {
 
       return result;
     }, [])
-    .map(({ count, status }): ActionStatus =>
+    .map(({ count, status }): ActionStatusPartial =>
       count === 1
         ? status
         : { ...status, action: `${status.action} (x${count})` }
-    );
+    )
+    .filter((status): boolean => {
+      if (status.message !== EVENT_MESSAGE) {
+        return true;
+      }
+
+      if (others) {
+        if (status.action.startsWith('system.ExtrinsicSuccess')) {
+          (others.action as string[]).unshift(status.action);
+        } else {
+          (others.action as string[]).push(status.action);
+        }
+      } else {
+        others = {
+          ...status,
+          action: [status.action]
+        };
+      }
+
+      return false;
+    });
+
+  return others
+    ? initial.concat(others)
+    : initial;
 }
 
 function extractEvents (result?: SubmittableResult): ActionStatus[] {
@@ -55,7 +83,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
       // filter events handled globally, or those we are not interested in, these are
       // handled by the global overview, so don't add them here
       .filter((record): boolean => !!record.event && record.event.section !== 'democracy')
-      .map(({ event: { data, method, section } }): ActionStatus => {
+      .map(({ event: { data, method, section } }): ActionStatusPartial => {
         if (section === 'system' && method === 'ExtrinsicFailed') {
           const [dispatchError] = data as unknown as ITuple<[DispatchError]>;
           let message = dispatchError.type;
@@ -76,11 +104,39 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             message,
             status: 'error'
           };
+        } else if (section === 'contracts') {
+          if (method === 'ContractExecution' && data.length === 2) {
+            // see if we have info for this contract
+            const [accountId, encoded] = data;
+
+            try {
+              const abi = getContractAbi(accountId.toString());
+
+              if (abi) {
+                const decoded = abi.decodeEvent(encoded.toU8a(true));
+
+                return {
+                  action: decoded.event.identifier,
+                  message: 'contract event',
+                  status: 'event'
+                };
+              }
+            } catch (error) {
+              // ABI mismatch?
+              console.error(error);
+            }
+          } else if (method === 'Evicted') {
+            return {
+              action: `${section}.${method}`,
+              message: 'contract evicted',
+              status: 'error'
+            };
+          }
         }
 
         return {
           action: `${section}.${method}`,
-          message: 'extrinsic event',
+          message: EVENT_MESSAGE,
           status: 'event'
         };
       })

@@ -7,9 +7,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { createType } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
-import { toShortAddress } from '@polkadot/react-components/util';
 import Row from '@polkadot/react-components/Row';
-import { CopyButton, Icon } from '@polkadot/react-components';
+import { Icon } from '@polkadot/react-components';
 
 import contracts from '../store';
 
@@ -59,26 +58,13 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
 
   return (
     <Row
-      address={
-        <CopyButton
-          isAddress
-          value={codeHash}
-        >
-          <span>{toShortAddress(codeHash)}</span>
-        </CopyButton>
-      }
       buttons={buttons}
       className={className}
       icon={
         <div className='ui--CodeRow-icon'>
-          <Icon
-            icon='code'
-            size='large'
-          />
+          <Icon icon='code' />
         </div>
       }
-      isEditableName
-      isEditableTags
       isInline={isInline}
       name={name}
       onChangeName={setName}
@@ -92,18 +78,16 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
   );
 }
 
-export default React.memo(
-  styled(CodeRow)`
-    .ui--CodeRow-icon {
-      margin-right: 1em;
-      background: #eee;
-      color: #666;
-      width: 4rem;
-      height: 5rem;
-      padding: 0.5rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-  `
-);
+export default React.memo(styled(CodeRow)`
+  .ui--CodeRow-icon {
+    margin-right: -0.5em;
+    background: #eee;
+    border-radius: 50%;
+    color: #666;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`);

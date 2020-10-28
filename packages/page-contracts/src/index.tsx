@@ -2,35 +2,37 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AppProps as Props } from '@polkadot/react-components/types';
-import { ComponentProps } from './types';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
-import { useAccounts, useContracts, useToggle } from '@polkadot/react-hooks';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Button, HelpOverlay, Tabs } from '@polkadot/react-components';
+import { useContracts, useToggle } from '@polkadot/react-hooks';
 
 import introMd from './md/intro.md';
 import store from './store';
 import Contracts from './Contracts';
+import ContractAdd from './Contracts/Add';
 import Codes from './Codes';
+import CodeAdd from './Codes/Add';
+import CodeUpload from './Codes/Upload';
 import Deploy from './Deploy';
+import Ink3Banner from './Ink3Banner';
+import Summary from './Summary';
 import { useTranslation } from './translate';
 
-function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { allAccounts } = useAccounts();
   const { allContracts } = useContracts();
   const [codeHash, setCodeHash] = useState<string | undefined>();
   const [constructorIndex, setConstructorIndex] = useState(0);
-  const [isDeployOpen, toggleIsDeployOpen, setIsDeployOpen] = useToggle();
-  const [updated, setUpdated] = useState(0);
+  const [isAddOpen, toggleAdd] = useToggle();
+  const [isDeployOpen, toggleDeploy, setIsDeployOpen] = useToggle();
+  const [isHashOpen, toggleHash] = useToggle();
+  const [isUploadOpen, toggleUpload] = useToggle();
+  const [updated, setUpdated] = useState(Date.now());
   const [allCodes, setAllCodes] = useState(store.getAllCode());
 
   const itemsRef = useRef([
-    {
-      name: 'code',
-      text: t('Code')
-    },
     {
       isRoot: true,
       name: 'contracts',
@@ -38,22 +40,13 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
     }
   ]);
 
-  const _triggerUpdate = useCallback(
-    (): void => {
-      setUpdated(Date.now());
-      setAllCodes(store.getAllCode());
-    },
-    []
-  );
-
   const _onShowDeploy = useCallback(
-    (codeHash?: string, constructorIndex = 0): () => void =>
-      (): void => {
-        setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
-        setConstructorIndex(constructorIndex);
-        toggleIsDeployOpen();
-      },
-    [allCodes, toggleIsDeployOpen]
+    (codeHash: string, constructorIndex: number): void => {
+      setCodeHash(codeHash || (allCodes && allCodes[0] ? allCodes[0].json.codeHash : undefined));
+      setConstructorIndex(constructorIndex);
+      toggleDeploy();
+    },
+    [allCodes, toggleDeploy]
   );
 
   const _onCloseDeploy = useCallback(
@@ -61,35 +54,27 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
     [setIsDeployOpen]
   );
 
-  const componentProps = useMemo(
-    (): ComponentProps => ({
-      accounts: allAccounts,
-      basePath,
-      contracts: allContracts,
-      hasCode: store.hasCode,
-      onShowDeploy: _onShowDeploy,
-      onStatusChange,
-      updated
-    }),
-    [allAccounts, allContracts, basePath, _onShowDeploy, onStatusChange, updated]
-  );
-
   useEffect(
     (): void => {
-      store.on('new-code', _triggerUpdate);
-      store.on('removed-code', _triggerUpdate);
+      const triggerUpdate = (): void => {
+        setUpdated(Date.now());
+        setAllCodes(store.getAllCode());
+      };
 
-      store.loadAll()
-        .then((): void => setAllCodes(store.getAllCode()))
+      store.on('new-code', triggerUpdate);
+      store.on('removed-code', triggerUpdate);
+      store
+        .loadAll()
+        .then(() => setAllCodes(store.getAllCode()))
         .catch((): void => {
           // noop, handled internally
         });
     },
-    [_triggerUpdate]
+    []
   );
 
   return (
-    <main className='contracts--App'>
+    <main className={`contracts--App ${className}`}>
       <HelpOverlay md={introMd as string} />
       <header>
         <Tabs
@@ -97,28 +82,59 @@ function ContractsApp ({ basePath, onStatusChange }: Props): React.ReactElement<
           items={itemsRef.current}
         />
       </header>
-      <Switch>
-        <Route path={`${basePath}/code`}>
-          <Codes {...componentProps} />
-        </Route>
-        <Route exact>
-          <Contracts {...componentProps} />
-        </Route>
-      </Switch>
-      {codeHash && (
+      <Summary trigger={updated} />
+      <Button.Group>
+        <Button
+          icon='plus'
+          label={t('Upload WASM')}
+          onClick={toggleUpload}
+        />
+        <Button
+          icon='plus'
+          label={t('Add an existing code hash')}
+          onClick={toggleHash}
+        />
+        <Button
+          icon='plus'
+          label={t('Add an existing contract')}
+          onClick={toggleAdd}
+        />
+      </Button.Group>
+      <Ink3Banner />
+      <Contracts
+        contracts={allContracts}
+        updated={updated}
+      />
+      <Codes
+        onShowDeploy={_onShowDeploy}
+        updated={updated}
+      />
+      {codeHash && isDeployOpen && (
         <Deploy
-          allCodes={allCodes}
-          basePath={basePath}
           codeHash={codeHash}
           constructorIndex={constructorIndex}
-          isOpen={isDeployOpen}
           onClose={_onCloseDeploy}
-          setCodeHash={setCodeHash}
           setConstructorIndex={setConstructorIndex}
         />
+      )}
+      {isUploadOpen && (
+        <CodeUpload onClose={toggleUpload} />
+      )}
+      {isHashOpen && (
+        <CodeAdd onClose={toggleHash} />
+      )}
+      {isAddOpen && (
+        <ContractAdd onClose={toggleAdd} />
       )}
     </main>
   );
 }
 
-export default React.memo(ContractsApp);
+export default React.memo(styled(ContractsApp)`
+  .ui--Table td > article {
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+`);

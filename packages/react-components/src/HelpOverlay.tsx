@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { ThemeProps } from './types';
+
 import React from 'react';
 import ReactMd from 'react-markdown';
 import styled from 'styled-components';
@@ -17,7 +19,7 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   const [isVisible, toggleVisible] = useToggle();
 
   return (
-    <div className={className}>
+    <div className={`ui--HelpOverlay ${className}`}>
       <div className='help-button'>
         <Icon
           icon='question-circle'
@@ -41,8 +43,9 @@ function HelpOverlay ({ className = '', md }: Props): React.ReactElement<Props> 
   );
 }
 
-export default React.memo(styled(HelpOverlay)`
+export default React.memo(styled(HelpOverlay)(({ theme }: ThemeProps) => `
   .help-button {
+    color: ${theme.color};
     cursor: pointer;
     font-size: 2rem;
     padding: 1rem 1.5rem 0 0;
@@ -79,4 +82,4 @@ export default React.memo(styled(HelpOverlay)`
       right: 0;
     }
   }
-`);
+`));

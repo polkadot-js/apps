@@ -19,12 +19,13 @@ interface Props {
   isSmall?: boolean;
   isTrimmed?: boolean;
   label?: React.ReactNode;
+  labelExtra?: React.ReactNode;
   value?: string;
   withCopy?: boolean;
   withLabel?: boolean;
 }
 
-function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
+function Output ({ children, className = '', help, isError, isFull, isHidden, isMonospace, isSmall, isTrimmed, label, labelExtra, value, withCopy = false, withLabel }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
@@ -33,6 +34,7 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
       isHidden={isHidden}
       isSmall={isSmall}
       label={label}
+      labelExtra={labelExtra}
       withLabel={withLabel}
     >
       <div className={classes('ui--output', isError && 'error', isMonospace && 'monospace')}>
