@@ -23,8 +23,6 @@ function Apps({ className = "" }: Props): React.ReactElement<Props> {
   const { systemChain, systemName } = useApi();
 
   const uiHighlight = useMemo(() => {
-    console.log("woot:", systemChain, "|", systemName);
-
     return getSystemChainColor(systemChain, systemName);
   }, [systemChain, systemName]);
 
