@@ -50,18 +50,11 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
-  const { current: isMounted } = useIsMountedRef();
 
   const tips = useMemo(
     () => extractTips(optTips, hashes),
     [hashes, optTips]
   );
-
-  useEffect(() => {
-    if (isMounted) {
-      refresh();
-    }
-  }, [isMounted, refresh, tips?.length]);
 
   const headerRef = useRef([
     [t('tips'), 'start'],
@@ -99,6 +92,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
           members={members}
           onSelect={onSelectTip}
           onlyUntipped={onlyUntipped}
+          refresh={refresh}
           tip={tip}
         />
       ))}
