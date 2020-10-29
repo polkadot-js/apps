@@ -22,9 +22,9 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
+  onRefresh: () => void;
   onSelect: (hash: string, isSelected: boolean, value: BN) => void;
   onlyUntipped: boolean;
-  onRefresh: () => void;
   tip: OpenTip | OpenTipTo225;
 }
 

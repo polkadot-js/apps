@@ -19,8 +19,8 @@ interface Props {
   hashes?: string[] | null;
   isMember: boolean;
   members: string[];
-  onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
   onRefresh: () => void;
+  onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
 }
 
 type Tip = [string, OpenTip | OpenTipTo225];
@@ -90,9 +90,9 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onRefresh
           isMember={isMember}
           key={hash}
           members={members}
+          onRefresh={onRefresh}
           onSelect={onSelectTip}
           onlyUntipped={onlyUntipped}
-          onRefresh={onRefresh}
           tip={tip}
         />
       ))}
