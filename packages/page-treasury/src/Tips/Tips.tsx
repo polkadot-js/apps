@@ -4,10 +4,10 @@
 import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Table, Toggle } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
@@ -20,6 +20,7 @@ interface Props {
   isMember: boolean;
   members: string[];
   onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
+  refresh: () => void;
 }
 
 type Tip = [string, OpenTip | OpenTipTo225];
@@ -43,17 +44,24 @@ function extractTips (optTips?: Option<OpenTip>[], hashes?: string[] | null): Ti
     );
 }
 
-function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectTip }: Props): React.ReactElement<Props> {
+function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectTip, refresh }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
+  const { current: isMounted } = useIsMountedRef();
 
   const tips = useMemo(
     () => extractTips(optTips, hashes),
     [hashes, optTips]
   );
+
+  useEffect(() => {
+    if (isMounted) {
+      refresh();
+    }
+  }, [isMounted, refresh, tips?.length]);
 
   const headerRef = useRef([
     [t('tips'), 'start'],
