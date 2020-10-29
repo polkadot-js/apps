@@ -9,5 +9,5 @@ import { Beresheet } from '@edgeware/node-types';
 export default {
   ...Beresheet.types,
   // chain-specific overrides
-  RefCount: 'u8'
+  RefCount: 'u32'
 };
