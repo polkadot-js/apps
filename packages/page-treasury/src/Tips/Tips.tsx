@@ -4,10 +4,10 @@
 import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Table, Toggle } from '@polkadot/react-components';
-import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
