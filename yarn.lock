@@ -3259,6 +3259,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-anchor@workspace:packages/page-anchor":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-anchor@workspace:packages/page-anchor"
+  dependencies:
+    "@babel/runtime": ^7.11.2
+    "@polkadot/react-components": 0.61.0-beta.0
+    "@polkadot/react-params": 0.61.0-beta.0
+    "@polkadot/react-signer": 0.61.0-beta.0
+    blake2b: ^2.1.3
+    blake2s-js: ^1.3.0
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-calendar@workspace:packages/page-calendar":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-calendar@workspace:packages/page-calendar"
@@ -6896,6 +6909,32 @@ __metadata:
     inherits: ^2.0.4
     readable-stream: ^3.4.0
   checksum: 1f33c5a3da08a87260a7f11acadf088ef331ebb4b86db1160ec332be9326afdf9f73dca1fd5cc431dba7cc9d5574b508192f9fd7c37a9a11c9e4a50025917690
+  languageName: node
+  linkType: hard
+
+"blake2b-wasm@npm:^1.1.0":
+  version: 1.1.7
+  resolution: "blake2b-wasm@npm:1.1.7"
+  dependencies:
+    nanoassert: ^1.0.0
+  checksum: a51c85e9eaf19b4a012c84607f80aaf6e5dbe07563301fd96f5db4cca71f279e5a766beeeefd986562d5e9f469b809868f09862e995636d0f587183e0cb99c39
+  languageName: node
+  linkType: hard
+
+"blake2b@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "blake2b@npm:2.1.3"
+  dependencies:
+    blake2b-wasm: ^1.1.0
+    nanoassert: ^1.0.0
+  checksum: 732a2d2a2b8e5cb3ff4fe926f61d33c0e4ec9339a70433158bca3bacc0c0b8cf1d05f76e175ba44decc4e24318369946549a37e590007e2acbd9b99a8e0c0a2c
+  languageName: node
+  linkType: hard
+
+"blake2s-js@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "blake2s-js@npm:1.3.0"
+  checksum: b64e2b37752c9d569a99228d730dff7c7f28b9fd12dd4a46a416454232125b2aad0650cae0e685ee52f13510b4aa8fcab96ce34d77fdfa58552fc5970b51278a
   languageName: node
   linkType: hard
 
@@ -13041,6 +13080,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"hash-wasm@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "hash-wasm@npm:4.3.0"
+  checksum: f073180ed12e4d5110e7063061975ef448560719d668308df43d91b0e338142a2ff61f47bf7bf2536384011b61ce3f3bc57a413035b28b603a36dab87d3fd6f4
+  languageName: node
+  linkType: hard
+
 "hash.js@npm:^1.0.0, hash.js@npm:^1.0.3":
   version: 1.1.7
   resolution: "hash.js@npm:1.1.7"
@@ -17215,6 +17261,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mrklt@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "mrklt@npm:0.1.0"
+  checksum: 251961fa2afd8b9a820368cb6f7cd549a19a2a44d0dfd36cb0a92191e9ec4bb33181ae7bc57e8fdc296a8d3101f782dd90921ac200e9a9ef2e5dab66865350ed
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -17383,6 +17436,13 @@ fsevents@^1.2.7:
   dependencies:
     node-gyp: latest
   checksum: eeab7cf260362a578f0b8622716a76d19bc009722049c7274748644ce03b2aa38ca01b3ac730a0497fd2c1ec882a21a0592e800a903994ed4d32acd06bf7eba7
+  languageName: node
+  linkType: hard
+
+"nanoassert@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "nanoassert@npm:1.1.0"
+  checksum: 2bc26da2b4ebbd66420557f90d0943ef4032783a666638b0b10398087028564854f4a7ff5e357d34d7d5287c1f639b56654ec12d7e2fccb8e600db1827785246
   languageName: node
   linkType: hard
 
@@ -18995,8 +19055,10 @@ fsevents@^1.2.7:
     electron-builder-notarize: ^1.2.0
     graphql: ^15.3.0
     graphql-tag: ^2.11.0
+    hash-wasm: ^4.3.0
     i18next-scanner: ^2.11.0
     is-extglob: ^2.1.1
+    mrklt: ^0.1.0
     react: ^16.13.1
     react-apollo: ^3.1.5
     react-dom: ^16.13.1

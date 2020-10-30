@@ -22,6 +22,6 @@ module.exports = merge(
         inject: true,
         template: path.join(context, `${hasPublic ? 'public/' : ''}index.html`)
       })
-    ]
+    ],
   }
 );
