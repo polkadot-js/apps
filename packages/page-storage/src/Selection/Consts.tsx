@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
+import { ConstantCodec } from '@polkadot/metadata/decorate/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
 import { ComponentProps as Props } from '../types';
 
