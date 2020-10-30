@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 
 interface Props {
   content: Blob,
-  children: string,
+  children: JSX.Element,
   filename: string,
 }
 
-function Download({ content, children = '', filename }: Props): React.ReactElement {
+function Download({ content, children = <></>, filename }: Props): React.ReactElement {
   const [dataurl, setDataurl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
