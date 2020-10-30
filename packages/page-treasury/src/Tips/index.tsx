@@ -77,6 +77,7 @@ function TipsEntry ({ className, hashes, isMember, members, trigger }: Props): R
         hashes={hashes}
         isMember={isMember}
         members={members}
+        onRefresh={trigger}
         onSelectTip={_selectTip}
       />
     </div>
