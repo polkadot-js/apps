@@ -6,6 +6,7 @@ const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
+const chainAdvanca = "#E34A18";
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
 const chainHanonycash = '#0099CC';
@@ -37,6 +38,7 @@ const nodeSubsocial = '#b9018c';
 // overrides based on the actual matched chain name
 // alphabetical
 const chainColors: Record<string, any> = [
+  ['Advanca Testnet', chainAdvanca],
   ['acala mandala pc1', chainRoccoAcala],
   ['Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],

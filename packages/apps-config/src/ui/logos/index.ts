@@ -14,6 +14,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 // alphabetical
+import nodeAdvanca from './nodes/advanca.png';
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
@@ -77,6 +78,7 @@ const chainLogos: Record<string, any> = [
 // NOTE: this matches up with what the RPC via system.name
 // alphabetical
 const nodeLogos: Record<string, any> = [
+  ['Advanca Node', nodeAdvanca],
   ['airalab-robonomics', nodeRobonomics],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
