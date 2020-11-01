@@ -59,10 +59,12 @@ function createDev (t: TFunction): LinkOption[] {
   ];
 }
 
+/**
 function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
   ]
 }
+**/
 
 function createTestNetworks (t: TFunction): LinkOption[] {
   return [
