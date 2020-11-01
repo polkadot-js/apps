@@ -61,40 +61,6 @@ function createDev (t: TFunction): LinkOption[] {
 
 function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
-    // fixed, polkadot
-    {
-      dnslink: 'polkadot',
-      info: 'polkadot',
-      text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://rpc.polkadot.io'
-    },
-    {
-      info: 'polkadot',
-      text: t('rpc.polkadot.w3f', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Web3 Foundation' } }),
-      value: 'wss://cc1-1.polkadot.network'
-    },
-    {
-      dnslink: 'kusama',
-      info: 'kusama',
-      text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://kusama-rpc.polkadot.io'
-    },
-    {
-      info: 'kusama',
-      text: t('rpc.kusama.w3f', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Web3 Foundation' } }),
-      value: 'wss://cc3-5.kusama.network'
-    },
-    {
-      info: 'kusama',
-      isDisabled: true,
-      text: t('rpc.kusama.ava', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.ava.summary', 'user-run public nodes; see https://status.cloud.ava.do/', { ns: 'apps-config' }),
-      value: 'wss://kusama.polkadot.cloud.ava.do'
-    },
   ]
 }
 
@@ -136,13 +102,15 @@ function createCustom (t: TFunction): LinkOption[] {
 export default function create (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
+    /**
     {
       isHeader: true,
       text: t('rpc.header.live', 'Live networks', { ns: 'apps-config' }),
       textBy: '',
       value: ''
-    },
+    }, 
     ...createLiveNetworks(t),
+   **/
     {
       isHeader: true,
       text: t('rpc.header.test', 'Test networks', { ns: 'apps-config' }),
