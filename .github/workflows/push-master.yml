@@ -11,7 +11,7 @@ jobs:
       matrix:
         step: ['build:release:www']
     name: ${{ matrix.step }}
-    if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && github.repository == 'polkadot-js/apps'"
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && github.repository == 'advanca/polkadot-js-apps'"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
   # only run on "CI skip", i.e. when the actual version has been bumped to release/stable
   docker:
     name: docker
-    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'polkadot-js/apps'"
+    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'advanca/polkadot-js-apps'"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -50,7 +50,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'polkadot-js/apps'"
+    if: "startsWith(github.event.head_commit.message, '[CI Skip] release/stable') && github.repository == 'advanca/polkadot-js-apps'"
     name: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
