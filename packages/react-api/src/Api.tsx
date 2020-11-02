@@ -162,13 +162,15 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
+  const isEthereum:boolean=(api.runtimeVersion.specName.eq('node-moonbeam')||api.runtimeVersion.specName.eq('moonbase-alphanet'))
+
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
     isDevelopment,
-    isEthereum: api.runtimeVersion.specName.eq('node-moonbeam'),
+    isEthereum,
     isSubstrateV2,
     systemChain,
     systemName,

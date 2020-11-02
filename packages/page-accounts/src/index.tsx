@@ -42,7 +42,7 @@ function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
       <header>
         <Tabs
           basePath={basePath}
-          hidden={(hasAccounts && !isIpfs && !isEthereum) ? undefined : HIDDEN_ACC}
+          hidden={(hasAccounts && !isIpfs) ? undefined : HIDDEN_ACC}
           items={itemsRef.current}
         />
       </header>
