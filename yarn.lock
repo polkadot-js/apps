@@ -2277,12 +2277,11 @@ __metadata:
     "@babel/polyfill": ^7.12.1
     "@polkadot/dev": ^0.59.10
     "@polkadot/react-components": ^0.64.2-8
-    "@types/react": ^16.9.53
     "@types/react-dom": ^16.9.8
     "@types/tmp": ^0.2.0
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.2.1
-    electron-log: ^4.2.4
+    electron-log: ^4.3.0
     electron-updater: ^4.3.5
     html-webpack-plugin: ^4.5.0
     react: ^17.0.1
@@ -3468,7 +3467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.9.53":
+"@types/react@npm:*":
   version: 16.9.53
   resolution: "@types/react@npm:16.9.53"
   dependencies:
@@ -7479,10 +7478,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-log@npm:^4.2.4":
-  version: 4.2.4
-  resolution: "electron-log@npm:4.2.4"
-  checksum: 4177cd7dc7670d0942534a5e4a8d1bfa85d87911d4a1699e9d64cc3fd9645126620e65e20f42d55139f94e33712102c0058b4b8085750bb5fd7082a0bfe9ae42
+"electron-log@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "electron-log@npm:4.3.0"
+  checksum: b618b1adb958d5e4590e8d9a7aa22b37d2d6258684f31a6ec4b670ebf6aefc7563fa758562fcfd479582ac380b883e8aa3f1d5a751034928c7c967b8fc91d217
   languageName: node
   linkType: hard
 
@@ -7534,16 +7533,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:^9.3.2":
-  version: 9.3.2
-  resolution: "electron@npm:9.3.2"
+"electron@npm:^10.1.5":
+  version: 10.1.5
+  resolution: "electron@npm:10.1.5"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^12.0.12
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 9464c1bb8c6fc78f1af17ced322a5615fb966f93ce06f3465792cb08db152abc45d43801520c27a0fef62c3d652659bb778b2d8a760befcb3250b885fe7d5fb4
+  checksum: e5047d7928386a3841136e0352e3e1d2f35d3076572bc2fbc3f78210f42f1eb4edf5c7341ee8e57461cf42bc48a78e5959e63787c91233af4af76009b4a41c3a
   languageName: node
   linkType: hard
 
@@ -14146,7 +14145,7 @@ fsevents@^1.2.7:
     concurrently: ^5.3.0
     devtron: ^1.4.0
     dnslink-cloudflare: ^3.0.0
-    electron: ^9.3.2
+    electron: ^10.1.5
     electron-builder: ^22.9.1
     electron-builder-notarize: ^1.2.0
     i18next-scanner: ^2.11.0

@@ -8,11 +8,10 @@
     "@babel/polyfill": "^7.12.1",
     "@polkadot/dev": "^0.59.10",
     "@polkadot/react-components": "^0.64.2-8",
-    "electron-log": "^4.2.4",
+    "electron-log": "^4.3.0",
     "electron-updater": "^4.3.5"
   },
   "devDependencies": {
-    "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.1.0",
