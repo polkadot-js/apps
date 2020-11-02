@@ -170,7 +170,7 @@ const emptyLogos: Record<string, any> = {
 };
 
 // preload all
-[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].map((imageSet): void => {
+[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].forEach((imageSet): void => {
   Object.values(imageSet).forEach((src): void => {
     new Image().src = src as string;
   });
