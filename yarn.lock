@@ -2282,7 +2282,7 @@ __metadata:
     "@types/tmp": ^0.2.0
     babel-loader: ^8.1.0
     copy-webpack-plugin: ^6.2.1
-    electron-log: ^4.2.4
+    electron-log: ^4.3.0
     electron-updater: ^4.3.5
     html-webpack-plugin: ^4.5.0
     react: ^17.0.1
@@ -7479,10 +7479,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-log@npm:^4.2.4":
-  version: 4.2.4
-  resolution: "electron-log@npm:4.2.4"
-  checksum: 4177cd7dc7670d0942534a5e4a8d1bfa85d87911d4a1699e9d64cc3fd9645126620e65e20f42d55139f94e33712102c0058b4b8085750bb5fd7082a0bfe9ae42
+"electron-log@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "electron-log@npm:4.3.0"
+  checksum: b618b1adb958d5e4590e8d9a7aa22b37d2d6258684f31a6ec4b670ebf6aefc7563fa758562fcfd479582ac380b883e8aa3f1d5a751034928c7c967b8fc91d217
   languageName: node
   linkType: hard
 
