@@ -12,7 +12,6 @@
     "electron-updater": "^4.3.5"
   },
   "devDependencies": {
-    "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "@types/tmp": "^0.2.0",
     "babel-loader": "^8.1.0",

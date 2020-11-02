@@ -2277,7 +2277,6 @@ __metadata:
     "@babel/polyfill": ^7.12.1
     "@polkadot/dev": ^0.59.10
     "@polkadot/react-components": ^0.64.2-8
-    "@types/react": ^16.9.53
     "@types/react-dom": ^16.9.8
     "@types/tmp": ^0.2.0
     babel-loader: ^8.1.0
@@ -3468,7 +3467,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.9.53":
+"@types/react@npm:*":
   version: 16.9.53
   resolution: "@types/react@npm:16.9.53"
   dependencies:
