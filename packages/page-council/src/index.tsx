@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { Option } from '@polkadot/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { DeriveCollectiveProposals } from '@polkadot/api-derive/types';
+import { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
@@ -34,7 +33,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   const { pathname } = useLocation();
   const numMotions = useCounter();
   const prime = useCall<AccountId | null>(api.query.council.prime, undefined, transformPrime) || null;
-  const motions = useCall<DeriveCollectiveProposals>(api.derive.council.proposals);
+  const hashes = useCall<Hash[]>(api.query.council.proposals);
 
   const items = useMemo(() => [
     {
@@ -60,7 +59,7 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
       <Switch>
         <Route path={`${basePath}/motions`}>
           <Motions
-            motions={motions}
+            hashes={hashes}
             prime={prime}
           />
         </Route>

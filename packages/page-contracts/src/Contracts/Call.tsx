@@ -63,9 +63,9 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     contract
       .read(message, message.isPayable ? dbValue : 0, -1, ...dbParams)
       .send(accountId)
-      .then(({ result }) => setEstimatedWeight(
-        result.isSuccess
-          ? result.asSuccess.gasConsumed
+      .then(({ gasConsumed, result }) => setEstimatedWeight(
+        result.isOk
+          ? gasConsumed
           : null
       ))
       .catch(() => setEstimatedWeight(null));

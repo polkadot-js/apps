@@ -1,8 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
@@ -16,11 +15,11 @@ import Slashing from './Slashing';
 
 interface Props {
   className?: string;
-  motions?: DeriveCollectiveProposals;
+  hashes?: Hash[];
   prime: AccountId | null;
 }
 
-function Proposals ({ className = '', motions, prime }: Props): React.ReactElement<Props> {
+function Proposals ({ className = '', hashes, prime }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isMember, members } = useMembers();
 
@@ -51,15 +50,15 @@ function Proposals ({ className = '', motions, prime }: Props): React.ReactEleme
         />
       </Button.Group>
       <Table
-        empty={motions && t<string>('No council motions')}
+        empty={hashes && t<string>('No council motions')}
         header={headerRef.current}
       >
-        {motions?.map((motion: DeriveCollectiveProposal): React.ReactNode => (
+        {hashes?.map((hash: Hash): React.ReactNode => (
           <Motion
+            hash={hash}
             isMember={isMember}
-            key={motion.hash.toHex()}
+            key={hash.toHex()}
             members={members}
-            motion={motion}
             prime={prime}
           />
         ))}

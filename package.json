@@ -4,42 +4,21 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.64.1",
+  "version": "0.64.2-9",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
   "workspaces": [
     "packages/*"
   ],
-  "build": {
-    "productName": "Polkadot-JS Apps",
-    "artifactName": "Polkadot-JS-Apps-${version}.${ext}",
-    "files": [
-      "./packages/apps-electron/build",
-      "./packages/apps-electron/assets",
-      "./packages/apps-electron/appleEntitlements"
-    ],
-    "appId": "com.polkadotjs.polkadotjs-apps",
-    "mac": {
-      "artifactName": "Polkadot-JS-Apps-mac-${version}.${ext}",
-      "category": "public.app-category.finance",
-      "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist",
-      "hardenedRuntime": true
-    },
-    "directories": {
-      "buildResources": "./packages/apps-electron/assets",
-      "output": "./packages/apps-electron/release"
-    },
-    "afterSign": "electron-builder-notarize"
-  },
   "resolutions": {
-    "@polkadot/api": "^2.4.1",
-    "@polkadot/api-contract": "^2.4.1",
-    "@polkadot/keyring": "^3.6.1",
-    "@polkadot/networks": "^3.6.1",
-    "@polkadot/types": "^2.4.1",
-    "@polkadot/util": "^3.6.1",
-    "@polkadot/util-crypto": "^3.6.1",
+    "@polkadot/api": "^2.4.2-20",
+    "@polkadot/api-contract": "^2.4.2-20",
+    "@polkadot/keyring": "^3.6.2-12",
+    "@polkadot/networks": "^3.6.2-12",
+    "@polkadot/types": "^2.4.2-20",
+    "@polkadot/util": "^3.6.2-12",
+    "@polkadot/util-crypto": "^3.6.2-12",
     "@polkadot/wasm-crypto": "^1.4.1",
     "babel-core": "^7.0.0-bridge.0",
     "styled-components": "^5.2.0",
@@ -86,7 +65,7 @@
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.1",
     "@pinata/sdk": "^1.1.11",
-    "@polkadot/dev": "^0.59.9",
+    "@polkadot/dev": "^0.59.10",
     "@polkadot/ts": "^0.3.53",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.27",
@@ -102,7 +81,7 @@
     "concurrently": "^5.3.0",
     "devtron": "^1.4.0",
     "dnslink-cloudflare": "^3.0.0",
-    "electron": "^9.3.2",
+    "electron": "^10.1.5",
     "electron-builder": "^22.9.1",
     "electron-builder-notarize": "^1.2.0",
     "i18next-scanner": "^2.11.0",

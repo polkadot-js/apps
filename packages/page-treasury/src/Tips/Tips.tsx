@@ -19,6 +19,7 @@ interface Props {
   hashes?: string[] | null;
   isMember: boolean;
   members: string[];
+  onRefresh: () => void;
   onSelectTip: (hash: string, isSelected: boolean, value: BN) => void,
 }
 
@@ -43,7 +44,7 @@ function extractTips (optTips?: Option<OpenTip>[], hashes?: string[] | null): Ti
     );
 }
 
-function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectTip }: Props): React.ReactElement<Props> {
+function Tips ({ className = '', defaultId, hashes, isMember, members, onRefresh, onSelectTip }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
@@ -89,6 +90,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onSelectT
           isMember={isMember}
           key={hash}
           members={members}
+          onRefresh={onRefresh}
           onSelect={onSelectTip}
           onlyUntipped={onlyUntipped}
           tip={tip}
