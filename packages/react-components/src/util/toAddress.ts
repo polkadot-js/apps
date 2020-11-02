@@ -13,8 +13,9 @@ export default function toAddress (value?: string | Uint8Array | null, allowIndi
         : keyring.decodeAddress(value);
 
       assert(allowIndices || u8a.length === 32 || u8a.length === 20, 'AccountIndex values not allowed');
-      if (u8a.length === 20){
-        return ethereumEncode(u8a)
+
+      if (u8a.length === 20) {
+        return ethereumEncode(u8a);
       } else {
         return keyring.encodeAddress(u8a);
       }

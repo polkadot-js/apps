@@ -212,7 +212,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
           label={t<string>('keypair crypto type')}
           onChange={setType}
-          options={isEthereum? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
+          options={isEthereum ? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
         />
       </div>
       <Button.Group>

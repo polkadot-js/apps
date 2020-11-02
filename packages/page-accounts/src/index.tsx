@@ -5,7 +5,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
-import { useAccounts, useApi, useIpfs } from '@polkadot/react-hooks';
+import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
@@ -20,7 +20,6 @@ const HIDDEN_ACC = ['vanity'];
 
 function AccountsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { isEthereum } = useApi();
   const { hasAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
 

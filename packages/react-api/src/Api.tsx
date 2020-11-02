@@ -162,7 +162,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
-  const isEthereum:boolean=(api.runtimeVersion.specName.eq('node-moonbeam')||api.runtimeVersion.specName.eq('moonbase-alphanet'))
+  const isEthereum:boolean = (api.runtimeVersion.specName.eq('node-moonbeam') || api.runtimeVersion.specName.eq('moonbase-alphanet'));
 
   return {
     apiDefaultTx,

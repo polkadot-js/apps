@@ -8,7 +8,7 @@
 export default {
   Account: {
     nonce: 'U256',
-    balance: 'U256',
+    balance: 'U256'
   },
   AccountId: 'EthereumAccountId',
   Address: 'AccountId',
