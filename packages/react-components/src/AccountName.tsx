@@ -222,6 +222,7 @@ export default React.memo(styled(AccountName)`
       .sub,
       .top {
         vertical-align: middle;
+        line-height: normal;
       }
 
       .sub {
