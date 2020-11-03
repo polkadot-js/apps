@@ -280,7 +280,8 @@ function createTestNetworks (t: TFunction): LinkOption[] {
     },
     {
       info: 'equilibrium',
-      text: t<string>('rpc.equilibriumr', 'Equilibrium Testnet', { ns: 'apps-config' }),
+      text: t('rpc.equilibriumr', 'Equilibrium', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Equilibrium' } }),
       value: 'wss://api.testnet.equilibrium.io:9944'
     },
     {

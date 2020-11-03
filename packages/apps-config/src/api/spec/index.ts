@@ -15,24 +15,25 @@ import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
-import laminar from './laminar';
-import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
+import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
-import subsocialNode from './subsocial';
+import subsocial from './subsocial';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
   Crab: crab,
   Equilibrium: equilibrium,
-  acala,
+  canvas,
   'centrifuge-chain': centrifugeChain,
   crust,
   'cumulus-test-parachain': testPara,
   'darwinia-parachain': darwiniaParachain,
+  'dock-main-runtime': dock,
+  'dock-testnet': dock,
   dusty3: plasm,
   edgeware,
   'encointer-node': encointerNodeNotee,
@@ -41,12 +42,12 @@ export default {
   hanonycash,
   kulupu,
   'mashnet-node': kilt,
-  'node-moonbeam': moonbeam,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   plasm,
+  robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
-  subsocial: subsocialNode
+  subsocial
 };
