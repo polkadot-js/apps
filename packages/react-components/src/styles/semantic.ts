@@ -22,9 +22,11 @@ export default css`
   }
 
   .ui.selection.dropdown,
-  .ui.input > input {
+  .ui.input > input,
+  .ui.selection.dropdown > input {
     background: ${({ theme }: ThemeProps) => theme.bgInput};
     color: ${({ theme }: ThemeProps) => theme.color};
+    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
 
     &:focus {
       background: ${({ theme }: ThemeProps) => theme.bgInput};
@@ -95,7 +97,6 @@ export default css`
       .ui.primary.buttons .ui.button {
         background-color: #666;
         border-color: transparent;
-        border-left-color: transparent;
         color: #f9f8f7;
         opacity: 0.5;
 
