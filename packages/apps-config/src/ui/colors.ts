@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // defaults
-const defaultColor = undefined; // '#f19135'
-const emptyColor = '#999';
+const emptyColor = '#99999';
 
 // based on chain name
 // alphabetical
@@ -30,9 +29,6 @@ const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 const nodeEquilibrium = '#1792ff';
-const nodeMoonbeam = '#53cbc9';
-const nodeEquilibrium = '#1792ff';
-const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';
@@ -75,7 +71,6 @@ const nodeColors: Record<string, any> = [
   ['edgeware node', nodeEdgeware],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
-  ['node moonbeam', nodeMoonbeam],
   ['nodle chain node', nodeNodle],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
