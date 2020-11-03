@@ -52,7 +52,7 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
           prefix={prefix}
           size={size}
           theme={isEthereum? 'ethereum' : thisTheme as 'substrate'}
-          value={value.length==42? value+"000000":value}
+          value={value}
         />
       );
 }
