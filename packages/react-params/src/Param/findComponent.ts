@@ -7,7 +7,7 @@ import { Props, ComponentMap } from '../types';
 
 import BN from 'bn.js';
 import { registry } from '@polkadot/react-api';
-import { createType, getTypeDef, SPECIAL_TYPES } from '@polkadot/types';
+import { createType, getTypeDef } from '@polkadot/types';
 
 import Account from './Account';
 import Amount from './Amount';
@@ -38,6 +38,8 @@ interface TypeToComponent {
   c: React.ComponentType<any>;
   t: string[];
 }
+
+const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const componentDef: TypeToComponent[] = [
   { c: Account, t: ['AccountId', 'AccountIdOf', 'Address', 'AuthorityId', 'LookupSource', 'LookupTarget', 'SessionKey', 'ValidatorId'] },

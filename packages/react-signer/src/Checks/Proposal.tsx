@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedFees } from '@polkadot/api-derive/types';
+import { DeriveFees } from '@polkadot/api-derive/types';
 import { ExtraFees } from './types';
 
 import BN from 'bn.js';
@@ -16,7 +16,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   deposit: BN | Compact<UInt>;
-  fees: DerivedFees;
+  fees: DeriveFees;
   democracy_minimumDeposit?: BN;
   onChange: (fees: ExtraFees) => void;
 }

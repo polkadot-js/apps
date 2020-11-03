@@ -56,7 +56,7 @@ function Events ({ emptyLabel, eventClassName, events, withoutIndex, t }: Props)
               <summary>
                 {
                   event.meta && event.meta.documentation
-                    ? event.meta.documentation.join(' ')
+                    ? event.meta.documentation.join(' ').split('\\[info\\]').join(' ')
                     : 'Details'
                 }
               </summary>

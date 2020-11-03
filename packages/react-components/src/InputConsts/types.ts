@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageEntryBase } from '@polkadot/api/types';
-import { ModuleConstantMetadataV7 } from '@polkadot/types/interfaces';
+import { ModuleConstantMetadataV12 } from '@polkadot/types/interfaces';
 
 export type StorageEntryPromise = StorageEntryBase<'promise', any>;
 
@@ -13,5 +13,5 @@ export interface ConstValueBase {
 }
 
 export interface ConstValue extends ConstValueBase {
-  meta: ModuleConstantMetadataV7;
+  meta: ModuleConstantMetadataV12;
 }

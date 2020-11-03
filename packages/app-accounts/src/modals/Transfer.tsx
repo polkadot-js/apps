@@ -8,11 +8,12 @@ import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
-import { useApi } from '@polkadot/react-hooks';
+import {useApi, useCall} from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 // import Checks from '@polkadot/react-signer/Checks';
 
 import { useTranslation } from '../translate';
+import {AssetId} from "@cennznet/types";
 
 interface Props {
   className?: string;
@@ -69,10 +70,12 @@ function Transfer ({ className, onClose, recipientId: propRecipientId, senderId:
   const [maxBalance] = useState(new BN(0));
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
+  const spendingAssetId = useCall<AssetId>(api.query.genericAsset.spendingAssetId as any, []);
 
   useEffect((): void => {
     if (senderId && recipientId) {
-      setExtrinsic(api.tx.balances.transfer(recipientId, amount || ZERO));
+      // Deposit on address book will transfer some CPAY by default
+      setExtrinsic(api.tx.genericAsset.transfer(spendingAssetId?.toString(), recipientId, amount || ZERO));
 
       // We currently have not enabled the max functionality - we don't take care of weights
       // calcMax(api, balances_fees, senderId, recipientId)

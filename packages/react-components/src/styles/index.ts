@@ -11,7 +11,7 @@ import cssMedia from './media';
 import cssRx from './rx';
 import cssSemantic from './semantic';
 import cssTheme from './theme';
-
+// @ts-ignore
 export default createGlobalStyle`
   #root {
     color: #4e4e4e;

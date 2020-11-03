@@ -14,7 +14,7 @@ import Assets from './Assets';
 import assetsRegistry, {STAKING_ASSET_NAME, SPENDING_ASSET_NAME} from './assetsRegistry';
 
 import { useTranslation } from './translate';
-import { AssetId } from '@cennznet/types/runtime';
+import { AssetId } from '@cennznet/types';
 
 interface Props extends AppProps, BareProps {}
 

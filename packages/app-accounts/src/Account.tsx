@@ -72,7 +72,7 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
   useEffect((): void => {
     const account = keyring.getAccount(address);
 
-    _setTags(account?.meta.tags || []);
+    _setTags(account?.meta?.tags as string[] || []);
     setAccName(account?.meta.name || '');
   }, [address]);
 

@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodeStored } from '@polkadot/app-contracts/types';
 
 import React from 'react';
-import { AddressRow, Button, CodeRow, Modal } from '@polkadot/react-components';
+import { AddressRow, Button, Modal } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -13,7 +12,7 @@ type Mode = 'account' | 'address' | 'contract' | 'code';
 
 interface Props {
   address?: string;
-  code?: CodeStored;
+  children?: React.ReactNode;
   name?: string;
   mode?: Mode;
   onClose: () => void;
@@ -66,33 +65,25 @@ function getHeaderText (mode: Mode, t: (key: string) => string): string {
   }
 }
 
-function renderContent (props: Props, t: (key: string) => string): React.ReactNode {
-  const { address, code, mode = 'account' } = props;
+function renderContent (props: Props, t: <T = string> (key: string) => T): React.ReactNode | null {
+  const { address, mode = 'account' } = props;
 
   switch (mode) {
     case 'account':
     case 'address':
     case 'contract':
       return (
-        <AddressRow
-          isInline
-          value={address || ''}
-        >
-          {getContent(mode, t)}
-        </AddressRow>
+          <AddressRow
+              isInline
+              value={address || ''}
+          >
+            {getContent(mode, t)}
+          </AddressRow>
       );
-    case 'code':
-      return (
-        <CodeRow
-          isInline
-          code={code || ''}
-        >
-          {getContent(mode, t)}
-        </CodeRow>
-      );
+    default:
+      return null;
   }
 }
-
 export default function Forget (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { mode = 'account', onForget, onClose } = props;

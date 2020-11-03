@@ -5,7 +5,6 @@
 import { BareProps } from './types';
 
 import React, { useState } from 'react';
-import { MAX_PASS_LEN } from '@polkadot/ui-keyring/defaults';
 
 import { classes } from './util';
 import Button from './Button';
@@ -47,7 +46,6 @@ export default function Password ({ autoFocus, children, className, defaultValue
       isFull={isFull}
       label={label}
       labelExtra={labelExtra}
-      maxLength={MAX_PASS_LEN}
       name={name}
       onChange={onChange}
       onEnter={onEnter}

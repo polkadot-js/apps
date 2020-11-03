@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll, DerivedStakingAccount } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { BareProps } from './types';
 
@@ -46,10 +46,10 @@ const PERBILL = new BN(1000000000);
 
 interface Props extends BareProps {
   address: string;
-  balancesAll?: DerivedBalancesAll;
+  balancesAll?: DeriveBalancesAll;
   children?: React.ReactNode;
   extraInfo?: [string, string][];
-  stakingInfo?: DerivedStakingAccount;
+  stakingInfo?: DeriveStakingAccount;
   withBalance?: boolean | BalanceActiveType;
   withBalanceToggle?: false;
   withExtended?: boolean | CryptoActiveType;
@@ -112,7 +112,7 @@ function skipStakingIf ({ stakingInfo, withBalance = true, withRewardDestination
 }
 
 // calculates the bonded, first being the own, the second being nominated
-function calcBonded (stakingInfo?: DerivedStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
+function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]): [BN, BN[]] {
   let other: BN[] = [];
   let own = new BN(0);
 
@@ -179,11 +179,11 @@ function renderUnlocking ({ address, stakingInfo }: Props, t: (key: string, data
         data-for={`${address}-unlocking-trigger`}
       />
       <Tooltip
-        text={stakingInfo.unlocking.map(({ remainingBlocks, value }, index): React.ReactNode => (
+        text={stakingInfo.unlocking.map(({ remainingEras, value }, index): React.ReactNode => (
           <div key={index}>
             {t('{{value}}, {{remaining}} blocks left', {
               replace: {
-                remaining: formatNumber(remainingBlocks),
+                remaining: formatNumber(remainingEras),
                 value: formatBalance(value, { forceUnit: '-' })
               }
             })}

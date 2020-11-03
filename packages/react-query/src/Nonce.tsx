@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedBalancesAll } from '@polkadot/api-derive/types';
+import { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { BareProps } from '@polkadot/react-api/types';
 
 import BN from 'bn.js';
@@ -19,7 +19,7 @@ interface Props extends BareProps {
 
 export default function Nonce ({ children, className, label, params }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const allBalances = useCall<DerivedBalancesAll>(api.derive.balances.all as any, [params]);
+  const allBalances = useCall<DeriveBalancesAll>(api.derive.balances.all as any, [params]);
 
   return (
     <div className={className}>

@@ -4,8 +4,8 @@
 
 import { RenderFn, DefaultProps, ComponentRenderer } from '@polkadot/react-api/hoc/types';
 import { ConstValue } from '@polkadot/react-components/InputConsts/types';
-import { QueryTypes, StorageEntryPromise, StorageModuleQuery } from './types';
-
+import { QueryTypes, StorageModuleQuery } from './types';
+import { QueryableStorageEntry } from '@polkadot/api/types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
@@ -29,14 +29,14 @@ interface CacheInstance {
 
 const cache: CacheInstance[] = [];
 
-function keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | ConstValue): string {
+function keyToName (isConst: boolean, _key: Uint8Array | QueryableStorageEntry<'promise'> | ConstValue): string {
   if (isConst) {
     const key = _key as ConstValue;
 
     return `const ${key.section}.${key.method}`;
   }
 
-  const key = _key as Uint8Array | StorageEntryPromise;
+  const key = _key as Uint8Array | QueryableStorageEntry<'promise'>;
 
   if (isU8a(key)) {
     const u8a = Compact.stripLengthPrefix(key);
@@ -50,7 +50,7 @@ function keyToName (isConst: boolean, _key: Uint8Array | StorageEntryPromise | C
   return `${key.creator.section}.${key.creator.method}`;
 }
 
-function typeToString ({ creator: { meta: { modifier, type } } }: StorageEntryPromise): string {
+function typeToString ({ creator: { meta: { modifier, type } } }: QueryableStorageEntry<'promise'>): string {
   const _type = unwrapStorageType(type);
 
   return modifier.isOptional
@@ -146,9 +146,9 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
     //     : []
     // );
     setIsSpreadable(
-      (value.key as StorageEntryPromise).creator &&
-      (value.key as StorageEntryPromise).creator.meta &&
-      ['Bytes', 'Raw'].includes((value.key as StorageEntryPromise).creator.meta.type.toString())
+      (value.key as QueryableStorageEntry<'promise'>).creator &&
+      (value.key as QueryableStorageEntry<'promise'>).creator.meta &&
+      ['Bytes', 'Raw'].includes((value.key as QueryableStorageEntry<'promise'>).creator.meta.type.toString())
     );
   }, [value]);
 
@@ -157,7 +157,7 @@ function Query ({ className, onRemove, value }: Props): React.ReactElement<Props
     ? (key as unknown as ConstValue).meta.type.toString()
     : isU8a(key)
       ? 'Raw'
-      : typeToString(key as StorageEntryPromise);
+      : typeToString(key as QueryableStorageEntry<'promise'>);
 
   if (!Component) {
     return null;

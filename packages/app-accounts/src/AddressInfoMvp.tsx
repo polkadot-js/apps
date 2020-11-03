@@ -15,7 +15,7 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Label from '@polkadot/react-components/Label';
 import { useTranslation } from './translate';
-import { AssetId } from '@cennznet/types/runtime';
+import { AssetId } from '@cennznet/types';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
 export interface BalanceActiveType {

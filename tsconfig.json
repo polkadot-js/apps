@@ -5,6 +5,7 @@
     "**/build/**/*"
   ],
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
       "@polkadot/app-123code": [ "packages/app-123code/src" ],

@@ -1,39 +1,27 @@
-import defaultJsonRpc from '@polkadot/jsonrpc';
-import createMethod from '@polkadot/jsonrpc/create/method';
-import createParam from '@polkadot/jsonrpc/create/param';
+import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+import {DefinitionRpcSub, DefinitionRpcParam, DefinitionTypeType} from '@cennznet/types';
+import {DefinitionRpcExt} from '@polkadot/types/types';
 import cennznetBare from '@cennznet/api/rpc';
 
-const userRpc = Object.entries(cennznetBare).reduce((user, [sectionName, methods]) => {
-  // @ts-ignore
-  user[sectionName] = {
-    // @ts-ignore
-    methods: methods.reduce((section, def) => {
-      const {
-        description = 'User defined',
-        name,
-        params,
-        type
-      } = def;
-      section[name] = createMethod(sectionName, name, {
-        description,
-        params: params.map(({
-                              // @ts-ignore
-                              isOptional,
-                              // @ts-ignore
-                              name,
-                              // @ts-ignore
-                              type
-                            }) => createParam(name, type, {
-          isOptional
-        })),
-        type: type
-      });
-      return section;
-    }, {})
-  }
-  return user;
-}, {}); // decorate the sections with base and user methods
+let cennznetRpc:{[index: string]:any} = cennznetBare;
+const newJsonrpc: Record<string, Record<string, DefinitionRpcExt>> = {};
+Object
+    .keys(cennznetRpc)
+    .forEach((section): void => {
+        newJsonrpc[section] = {};
 
-const cennznetJsonRpc = Object.assign({}, defaultJsonRpc, userRpc);
+        Object.entries(cennznetRpc[section])
+            .forEach(([method, def]): void => {
+                const isSubscription = !!(def as DefinitionRpcSub).pubsub;
+                newJsonrpc[section][method] = ({
+                    ...def as {description: string,params: DefinitionRpcParam[],type: DefinitionTypeType} ,
+                    isSubscription,
+                    jsonrpc: `${section}_${method}`,
+                    method,
+                    section
+                });
+            });
+    });
+const cennznetJsonRpc = Object.assign({}, jsonrpc, newJsonrpc);
 
 export default cennznetJsonRpc;

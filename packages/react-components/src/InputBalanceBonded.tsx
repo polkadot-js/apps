@@ -4,7 +4,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BareProps, BitLength } from './types';
-import { DerivedFees, DerivedBalancesAll } from '@polkadot/api-derive/types';
+import { DeriveFees, DeriveBalancesAll } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
 import React from 'react';
@@ -16,14 +16,15 @@ import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withCalls, withMulti, withApi } from '@polkadot/react-api/hoc';
 import { ZERO_BALANCE, ZERO_FEES } from '@polkadot/react-signer/Checks/constants';
 import { bnMax } from '@polkadot/util';
+import {RewardDestination} from "@cennznet/types";
 
 interface Props extends BareProps, ApiProps {
   autoFocus?: boolean;
-  balances_fees?: DerivedFees;
-  balances_all?: DerivedBalancesAll;
+  balances_fees?: DeriveFees;
+  balances_all?: DeriveBalancesAll;
   controllerId: string;
   defaultValue?: BN | string;
-  destination?: number;
+  destination?: RewardDestination;
   extrinsicProp: 'staking.bond' | 'staking.bondExtra' | 'staking.unbond';
   help?: React.ReactNode;
   isDisabled?: boolean;
@@ -121,7 +122,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
 
       if (extrinsicProp === 'staking.bond') {
         extrinsic = controllerId && (destination || destination === 0)
-          ? api.tx.staking.bond(controllerId, prevMax, destination)
+          ? api.tx.staking.bond(controllerId, prevMax, destination as any)
           : null;
       } else if (extrinsicProp === 'staking.unbond') {
         extrinsic = api.tx.staking.unbond(prevMax);
@@ -146,7 +147,7 @@ class InputBalanceBonded extends React.PureComponent<Props, State> {
       const { api, controllerId, destination, value } = this.props;
       const { maxBalance = prevState.maxBalance } = newState;
       const extrinsic = (value && controllerId && destination)
-        ? api.tx.staking.bond(controllerId, value, destination)
+        ? api.tx.staking.bond(controllerId, value, destination as any)
         : null;
 
       return {

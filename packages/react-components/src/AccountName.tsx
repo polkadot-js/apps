@@ -133,7 +133,7 @@ function AccountName ({ children, className, defaultName, label, onClick, overri
       setAccountId(accountId.toString());
     }
 
-    if (api.query.identity?.identityOf) {
+    if (api.query.identity && api.query.identity.identityOf) {
       if (identity?.display) {
         const judgements = identity.judgements.filter(([, judgement]): boolean => !judgement.isFeePaid);
         const isGood = judgements.some(([, judgement]): boolean => judgement.isKnownGood || judgement.isReasonable);

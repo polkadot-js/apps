@@ -6,7 +6,7 @@ import { SignerOptions, SignerResult, Signer as ApiSigner } from '@polkadot/api/
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ApiProps } from '@polkadot/react-api/types';
 import { I18nProps, BareProps } from '@polkadot/react-components/types';
-import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { DefinitionRpcExt } from '@polkadot/types/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SubjectInfo } from '@polkadot/ui-keyring/observable/types';
 import {
@@ -90,7 +90,7 @@ function extractExternal (
   return {
     isExternal: !!pair.meta.isExternal,
     isHardware: !!pair.meta.isHardware,
-    hardwareType: pair.meta.hardwareType
+    hardwareType: pair.meta.hardwareType as string
   };
 }
 
@@ -491,7 +491,7 @@ class Signer extends React.PureComponent<Props, State> {
     const { currentItem } = this.state;
     let accountNonce: string | undefined;
     if (currentItem?.accountId) {
-      accountNonce = (await this.props.api.rpc.account.nextIndex(currentItem.accountId)).toString();
+      accountNonce = (await this.props.api.rpc.system.accountNextIndex(currentItem.accountId)).toString();
     } else {
       accountNonce = undefined;
     }
@@ -584,16 +584,14 @@ class Signer extends React.PureComponent<Props, State> {
         : this.makeSignedTransaction(submittable, queueTx, keyring.getPair(accountId as string));
   }
 
-  private async submitRpc ({ method, section }: RpcMethod, values: any[]): Promise<QueueTxResult> {
+  private async submitRpc ({ method, section }: DefinitionRpcExt, values: any[]): Promise<QueueTxResult> {
     const { api } = this.props;
 
     try {
-      assert(
-        isFunction((api.rpc as any)[section] && (api.rpc as any)[section][method]),
-        `api.rpc.${section}.${method} does not exist`
-      );
+      const rpc = api.rpc as Record<string, Record<string, (...params: unknown[]) => Promise<unknown>>>;
+      assert(isFunction(rpc[section] && rpc[section][method]), `api.rpc.${section}.${method} does not exist`);
 
-      const result = await (api.rpc as any)[section][method](...values);
+      const result = await rpc[section][method](...values);
 
       console.log('submitRpc: result ::', format(result));
 
@@ -641,7 +639,7 @@ class Signer extends React.PureComponent<Props, State> {
         api.setSigner({ signPayload: this.signQrPayload });
         params.push(address);
       } else if (isInjected) {
-        const injected = await web3FromSource(source);
+        const injected = await web3FromSource(source as string);
 
         assert(injected, `Unable to find a signer for ${address}`);
 
@@ -734,7 +732,7 @@ class Signer extends React.PureComponent<Props, State> {
       queueSetTxStatus(id, 'qr');
       signer = { signPayload: this.signQrPayload };
     } else if (isInjected) {
-      const injected = await web3FromSource(source);
+      const injected = await web3FromSource(source as string);
       signer = injected?.signer;
     }
 

@@ -40,9 +40,10 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
   const [isUnlockVisible, setIsUnlockVisible] = useState<boolean>(false);
 
   useEffect((): void => {
-    const isExternal = currentPair?.meta.isExternal || false;
-    const isHardware = currentPair?.meta.isHardware || false;
-    const isInjected = currentPair?.meta.isInjected || false;
+    const meta = (currentPair && currentPair.meta) || {};
+    const isExternal = (meta.isExternal as boolean) || false;
+    const isHardware = (meta.isHardware as boolean) || false;
+    const isInjected = (meta.isInjected as boolean) || false;
     const isUsable = !(isExternal || isHardware || isInjected);
 
     setAccountState({
@@ -62,7 +63,7 @@ function Sign ({ className }: Props): React.ReactElement<Props> {
     if (currentPair && isInjected) {
       const { meta: { source } } = currentPair;
 
-      web3FromSource(source)
+      web3FromSource(source as string)
         .catch((): null => null)
         .then((injected): void => setSigner({
           isUsable: isFunction(injected?.signer?.signRaw),

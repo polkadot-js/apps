@@ -5,17 +5,32 @@
 import { Ledger } from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 
-import chains from '@polkadot/ui-settings/defaults/chains';
-
+import { assert } from '@polkadot/util';
 import { api } from './Api';
+import networks from '@polkadot/networks';
 
-const ALLOWED_CHAINS = chains.kusama;
+function getGenesis (name: string): string {
+  const network = networks.find(({ network }) => network === name);
+
+  assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
+
+  return network.genesisHash[0];
+}
+
+const KUSAMA_GENESIS = getGenesis('kusama');
+
+const POLKADOT_GENESIS = getGenesis('polkadot');
+
+const ALLOWED_CHAINS: [string, 'kusama' | 'polkadot'][] = [
+  [KUSAMA_GENESIS, 'kusama'],
+  [POLKADOT_GENESIS, 'polkadot']
+];
 
 let ledger: Ledger | null = null;
 
 export function isLedgerCapable (): boolean {
   try {
-    return !!api && ALLOWED_CHAINS.includes(api.genesisHash.toHex());
+    return !!(window as unknown as { USB?: unknown }).USB && !!api && ALLOWED_CHAINS.map(([g]) => g).includes(api.genesisHash.toHex());
   } catch (error) {
     return false;
   }
@@ -31,8 +46,14 @@ export function clearLedger (): void {
 
 export function getLedger (): Ledger {
   if (!ledger) {
-    ledger = new Ledger(uiSettings.ledgerConn as 'u2f');
+    const def = api && ALLOWED_CHAINS.find(([g]) => g === api.genesisHash.toHex());
+
+    assert(def, `Unable to find supported chain for ${api.genesisHash.toHex()}`);
+
+    if (def != null) {
+      ledger = new Ledger(uiSettings.ledgerConn as 'u2f', def[1]);
+    }
   }
 
-  return ledger;
+  return ledger as Ledger;
 }

@@ -34,7 +34,7 @@ function format (value: Compact<any> | BN | string, currency: string): React.Rea
 }
 
 function formatSi (value: Compact<any> | BN | string): React.ReactNode {
-  const strValue = ((value as Compact<any>).toBn ? (value as Compact<any>).toBn() : value).toString();
+  const strValue = (value as Compact<any>).toBn().toString()
   const [prefix, postfix] = strValue === '0'
     ? ['0', '0']
     : formatBalance(value, { withSi: false }).split('.');
