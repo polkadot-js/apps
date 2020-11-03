@@ -62,4 +62,5 @@ export default React.memo(styled(IdentityIcon)`
   border: 1px solid #ddd;
   border-radius: 50%;
   display: inline-block;
+  overflow: hidden;
 `);
