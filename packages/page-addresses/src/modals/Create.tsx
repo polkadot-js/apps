@@ -27,7 +27,7 @@ interface NameState {
 
 function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
+  const { api, isEthereum } = useApi();
   const [{ isNameValid, name }, setName] = useState<NameState>({ isNameValid: false, name: '' });
   const [{ address, addressInput, isAddressExisting, isAddressValid }, setAddress] = useState<AddrState>({ address: '', addressInput: '', isAddressExisting: false, isAddressValid: false, isPublicKey: false });
   const info = useCall<DeriveAccountInfo>(!!address && isAddressValid && api.derive.accounts.info, [address]);
@@ -45,7 +45,7 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
 
         address = keyring.encodeAddress(publicKey);
         isAddressValid = keyring.isAvailable(address);
-        isPublicKey = publicKey.length === 32;
+        isPublicKey = isEthereum? publicKey.length === 20:publicKey.length === 32;
 
         if (!isAddressValid) {
           const old = keyring.getAddress(address);
