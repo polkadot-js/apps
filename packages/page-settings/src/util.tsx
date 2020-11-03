@@ -3,6 +3,7 @@
 
 import { Option } from '@polkadot/apps-config/settings/types';
 import { SettingsStruct } from '@polkadot/ui-settings/types';
+import { useApi } from '@polkadot/react-hooks';
 
 import React from 'react';
 import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
@@ -40,6 +41,7 @@ export function createOption ({ info, isHeader, text, value }: Option, overrides
 }
 
 export function createIdenticon ({ info, text, value }: Option, overrides: string[] = [], override = 'empty'): Option {
+  const { isEthereum } = useApi();
   const theme = info && overrides.includes(info)
     ? override as 'empty'
     : info as 'substrate';
@@ -60,7 +62,7 @@ export function createIdenticon ({ info, text, value }: Option, overrides: strin
           : (
             <IdentityIcon
               className='ui--Dropdown-icon'
-              size={32}
+              size={isEthereum? 20:32}
               theme={theme}
               value='5F9999K9UgTUgSsbXZQcEmRMvQqwJoBUHMv9e1k2MdgghuRA'
             />
