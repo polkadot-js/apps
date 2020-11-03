@@ -45,7 +45,9 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
 
         address = keyring.encodeAddress(publicKey);
         isAddressValid = keyring.isAvailable(address);
-        isPublicKey = isEthereum? publicKey.length === 20:publicKey.length === 32;
+        console.log('TODO:H160')
+        console.log(publicKey.length)
+        isPublicKey = publicKey.length === 32;
 
         if (!isAddressValid) {
           const old = keyring.getAddress(address);
