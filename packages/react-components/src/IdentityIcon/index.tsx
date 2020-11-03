@@ -14,6 +14,8 @@ import StatusContext from '../Status/Context';
 import { useTranslation } from '../translate';
 import RoboHash from './RoboHash';
 
+import makeBlockie from 'ethereum-blockies-base64';
+
 interface Props {
   className?: string;
   prefix?: IdentityProps['prefix'];
@@ -27,7 +29,7 @@ export function getIdentityTheme (systemName: string): 'substrate' {
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
-  const { systemName } = useApi();
+  const { systemName, isEthereum } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const thisTheme = theme || getIdentityTheme(systemName);
@@ -44,18 +46,21 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
     }),
     [queueAction, t]
   );
-
-  return (
-    <BaseIdentityIcon
-      Custom={Custom}
-      className={className}
-      onCopy={_onCopy}
-      prefix={prefix}
-      size={size}
-      theme={thisTheme as 'substrate'}
-      value={value}
-    />
-  );
+    if (isEthereum){
+      return <img src={makeBlockie(value as string)}/>
+    } else {
+      return (
+        <BaseIdentityIcon
+          Custom={Custom}
+          className={className}
+          onCopy={_onCopy}
+          prefix={prefix}
+          size={size}
+          theme={thisTheme as 'substrate'}
+          value={value}
+        />
+      );
+    }
 }
 
 export default React.memo(styled(IdentityIcon)`
