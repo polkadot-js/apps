@@ -9,11 +9,12 @@ import keyring from '@polkadot/ui-keyring';
 import axios from 'axios';
 
 import { useTranslation } from './translate';
-const apiUrl = 'http://localhost:8080';
 
 interface Props {
   title: string,
 }
+const apiUrl = 'http://localhost:8080';
+const useBonusCheckbox = true;
 
 function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
@@ -50,7 +51,12 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
 
     // Build payload
     try {
-      const payloadRaw = Buffer.concat([bs58.decode(address), Buffer.from(txnHash, 'hex'), Buffer.from(isSelected ? '1' : '0')]);
+      const arrayBuff = [bs58.decode(address), Buffer.from(txnHash, 'hex')];
+      if (useBonusCheckbox) {
+        arrayBuff.push(Buffer.from(isSelected ? '1' : '0'));
+      }
+
+      const payloadRaw = Buffer.concat(arrayBuff);
       const payloadCheck = bs58check.encode(payloadRaw);
       setBase58Check(payloadCheck);
       setError('');
@@ -125,19 +131,21 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
             </Modal.Column>
           </Modal.Columns>
 
-          <Modal.Columns>
-            <Modal.Column>
-            </Modal.Column>
-            <Modal.Column>
-              <div style={{display: 'flex'}}>
-                <Checkbox
-                  onChange={_onSelect}
-                  value={isSelected}
-                />
-                <p style={{marginLeft: '10px'}}>{t<string>(`Use vesting bonus`)}</p>
-              </div>
-            </Modal.Column>
-          </Modal.Columns>
+          {useBonusCheckbox && (
+            <Modal.Columns>
+              <Modal.Column>
+              </Modal.Column>x
+              <Modal.Column>
+                <div style={{display: 'flex'}}>
+                  <Checkbox
+                    onChange={_onSelect}
+                    value={isSelected}
+                  />
+                  <p style={{marginLeft: '10px'}}>{t<string>(`Use vesting bonus`)}</p>
+                </div>
+              </Modal.Column>
+            </Modal.Columns>
+          )}
 
           <Modal.Columns>
             <Modal.Column>
