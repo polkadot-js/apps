@@ -26,7 +26,7 @@ export default css`
   .ui.selection.dropdown > input {
     background: ${({ theme }: ThemeProps) => theme.bgInput};
     color: ${({ theme }: ThemeProps) => theme.color};
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontSans};
 
     &:focus {
       background: ${({ theme }: ThemeProps) => theme.bgInput};
@@ -127,7 +127,7 @@ export default css`
     background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
     color: ${({ theme }: ThemeProps) => theme.color};
-    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+    font-family: ${({ theme }: ThemeProps) => theme.fontSans};
 
     > .actions,
     > .content {
@@ -145,7 +145,7 @@ export default css`
       background: transparent;
       border-bottom: none;
       color: ${({ theme }: ThemeProps) => theme.colorSummary};
-      font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
+      font-family: ${({ theme }: ThemeProps) => theme.fontSans};
       font-size: 1.75rem;
       font-weight: 400;
       line-height: 1.25rem;
