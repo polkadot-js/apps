@@ -130,14 +130,19 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
+  const isEthereum:boolean = (api.runtimeVersion.specName.eq('node-moonbeam') || api.runtimeVersion.specName.eq('moonbase-alphanet') || api.runtimeVersion.specName.eq('moonbeam-standalone'));
 
+
+  console.log(api.runtimeVersion.specName)
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
   registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
+  console.log(1)
 
   // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
   setSS58Format(ss58Format);
+  console.log(isEthereum)
 
   // first setup the UI helpers
   formatBalance.setDefaults({
@@ -145,6 +150,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     unit: tokenSymbol
   });
   TokenUnit.setAbbr(tokenSymbol);
+  console.log(1)
 
   // finally load the keyring
   isKeyringLoaded() || keyring.loadAll({
@@ -152,8 +158,9 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isDevelopment,
     ss58Format,
     store,
-    type: 'ed25519'
+    type: isEthereum? 'ethereum': 'ed25519'
   }, injectedAccounts);
+  console.log(1)
 
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
@@ -163,8 +170,10 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
-  const isEthereum:boolean = (api.runtimeVersion.specName.eq('node-moonbeam') || api.runtimeVersion.specName.eq('moonbase-alphanet') || api.runtimeVersion.specName.eq('moonbeam-standalone'));
+  console.log(api.runtimeVersion.specName)
 
+  
+  console.log("isEthereum",isEthereum)
   return {
     apiDefaultTx,
     apiDefaultTxSudo,
