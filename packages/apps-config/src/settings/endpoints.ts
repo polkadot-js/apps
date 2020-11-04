@@ -303,6 +303,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://full-nodes.kilt.io:9944/'
     },
     {
+      info: 'moonbaseAlpha',
+      text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Moonbeam Protocol' } }),
+      value: 'wss://testnet.moonbeam.network'
+    },
+    {
       info: 'phala',
       text: t('rpc.phala', 'Phala PoC-2', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Phala Network' } }),
