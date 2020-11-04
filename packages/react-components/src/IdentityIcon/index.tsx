@@ -27,7 +27,7 @@ export function getIdentityTheme (systemName: string): 'substrate' {
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
-  const { systemName, isEthereum } = useApi();
+  const { isEthereum, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const thisTheme = theme || getIdentityTheme(systemName);
@@ -44,17 +44,18 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
     }),
     [queueAction, t]
   );
-      return (
-        <BaseIdentityIcon
-          Custom={Custom}
-          className={className}
-          onCopy={_onCopy}
-          prefix={prefix}
-          size={size}
-          theme={isEthereum? 'ethereum' : thisTheme as 'substrate'}
-          value={value}
-        />
-      );
+
+  return (
+    <BaseIdentityIcon
+      Custom={Custom}
+      className={className}
+      onCopy={_onCopy}
+      prefix={prefix}
+      size={size}
+      theme={isEthereum ? 'ethereum' : thisTheme as 'substrate'}
+      value={value}
+    />
+  );
 }
 
 export default React.memo(styled(IdentityIcon)`

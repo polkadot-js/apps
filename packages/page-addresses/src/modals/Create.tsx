@@ -47,9 +47,9 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
           const rawAddress = hexToU8a(addressInput);
 
           address = ethereumEncode(rawAddress);
-          console.log("rawaddy",rawAddress,rawAddress.length)
+          console.log('rawaddy', rawAddress, rawAddress.length);
           isPublicKey = rawAddress.length === 20;
-          console.log("isPublicKey",isPublicKey)
+          console.log('isPublicKey', isPublicKey);
         } else {
           const publicKey = keyring.decodeAddress(addressInput);
 
@@ -72,7 +72,8 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
       } catch (error) {
         isAddressValid = false;
       }
-      console.log("isAddressValid",isAddressValid)
+
+      console.log('isAddressValid', isAddressValid);
 
       setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid, isPublicKey });
     },

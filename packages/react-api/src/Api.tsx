@@ -169,7 +169,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     apiDefaultTxSudo,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
-    isDevelopment:isEthereum? false:isDevelopment,
+    isDevelopment: isEthereum ? false : isDevelopment,
     isEthereum,
     isSubstrateV2,
     systemChain,
@@ -196,7 +196,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const types = getDevTypes();
     const rpc:Record<string, Record<string, DefinitionRpc>> = getRPCMethods();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec, rpc });
+    api = new ApiPromise({ provider, registry, rpc, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
