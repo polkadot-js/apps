@@ -66,7 +66,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
     setError('');
 
     try {
-      const res = await axios.post(`${apiUrl}/migrate`, {
+      const res = await axios.post(`${apiUrl}/` + (isSelected ? `migrate_with_bonus` : `migrate`), {
         payload: base58Check,
         signature,
       });
