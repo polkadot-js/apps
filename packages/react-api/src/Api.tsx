@@ -4,6 +4,8 @@
 import { InjectedExtension } from '@polkadot/extension-inject/types';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
 import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
+import {DefinitionRpc} from '@polkadot/types/types'
+import getRPCMethods from './rpcMethods'
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
@@ -121,7 +123,6 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
-
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -162,7 +163,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
 
-  const isEthereum:boolean = (api.runtimeVersion.specName.eq('node-moonbeam') || api.runtimeVersion.specName.eq('moonbase-alphanet')) || api.runtimeVersion.specName.eq('moonbeam-standalone'));
+  const isEthereum:boolean = (api.runtimeVersion.specName.eq('node-moonbeam') || api.runtimeVersion.specName.eq('moonbase-alphanet') || api.runtimeVersion.specName.eq('moonbeam-standalone'));
 
   return {
     apiDefaultTx,
@@ -194,8 +195,9 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
+    const rpc:Record<string, Record<string, DefinitionRpc>> = getRPCMethods();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec, rpc });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
