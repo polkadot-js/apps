@@ -3,7 +3,7 @@ import bs58check from 'bs58check';
 import { Buffer } from 'safe-buffer';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton } from '@polkadot/react-components';
+import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton, Checkbox } from '@polkadot/react-components';
 import { KeyringPair } from '@polkadot/keyring/types';
 import keyring from '@polkadot/ui-keyring';
 import axios from 'axios';
@@ -29,6 +29,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
   const [base58Check, setBase58Check] = useState<string>('');
   const [address, setAddress] = useState<string | null>(null);
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
+  const [isSelected, setIsSelected] = useState(false);
 
   useEffect((): void => {
     setAddress(currentPair?.address || '');
@@ -49,7 +50,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
 
     // Build payload
     try {
-      const payloadRaw = Buffer.concat([bs58.decode(address), Buffer.from(txnHash, 'hex')]);
+      const payloadRaw = Buffer.concat([bs58.decode(address), Buffer.from(txnHash, 'hex'), Buffer.from(isSelected ? '1' : '0')]);
       const payloadCheck = bs58check.encode(payloadRaw);
       setBase58Check(payloadCheck);
       setError('');
@@ -57,7 +58,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
       setError(e.toString());
       setBase58Check('');
     }
-  }, [address, txHash]);
+  }, [address, txHash, isSelected]);
 
   async function handleSubmitSwap() {
     setSubmitting(true);
@@ -81,6 +82,10 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
     }
 
     setSubmitting(false);
+  }
+
+  function _onSelect() {
+    setIsSelected(!isSelected);
   }
 
   return (
@@ -122,8 +127,22 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
 
           <Modal.Columns>
             <Modal.Column>
+            </Modal.Column>
+            <Modal.Column>
+              <div style={{display: 'flex'}}>
+                <Checkbox
+                  onChange={_onSelect}
+                  value={isSelected}
+                />
+                <p style={{marginLeft: '10px'}}>{t<string>(`Use vesting bonus`)}</p>
+              </div>
+            </Modal.Column>
+          </Modal.Columns>
+
+          <Modal.Columns>
+            <Modal.Column>
               <Input
-                help={t<string>('TODO: base58 check msg')}
+                help={t<string>('Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.')}
                 label={t<string>('base58 check encoding')}
                 value={base58Check}
                 disabled
