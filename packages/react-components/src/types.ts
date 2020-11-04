@@ -142,6 +142,8 @@ export interface ThemeDef {
   colorError: string;
   colorLabel: string;
   colorSummary: string;
+  fontFamily: string;
+  fontMono: string;
   theme: 'dark' | 'light';
 }
 

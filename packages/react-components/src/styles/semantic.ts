@@ -22,9 +22,11 @@ export default css`
   }
 
   .ui.selection.dropdown,
-  .ui.input > input {
+  .ui.input > input,
+  .ui.selection.dropdown > input {
     background: ${({ theme }: ThemeProps) => theme.bgInput};
     color: ${({ theme }: ThemeProps) => theme.color};
+    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
 
     &:focus {
       background: ${({ theme }: ThemeProps) => theme.bgInput};
@@ -95,7 +97,6 @@ export default css`
       .ui.primary.buttons .ui.button {
         background-color: #666;
         border-color: transparent;
-        border-left-color: transparent;
         color: #f9f8f7;
         opacity: 0.5;
 
@@ -117,7 +118,7 @@ export default css`
 
   .ui.label {
     background: transparent;
-    font-weight: normal;
+    font-weight: 400;
     position: relative;
     z-index: 1;
   }
@@ -126,7 +127,7 @@ export default css`
     background: ${({ theme }: ThemeProps) => theme.bgPage};
     box-shadow: none;
     color: ${({ theme }: ThemeProps) => theme.color};
-    font-family: sans-serif;
+    font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
 
     > .actions,
     > .content {
@@ -144,9 +145,9 @@ export default css`
       background: transparent;
       border-bottom: none;
       color: ${({ theme }: ThemeProps) => theme.colorSummary};
-      font-family: sans-serif;
+      font-family: ${({ theme }: ThemeProps) => theme.fontFamily};
       font-size: 1.75rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -158,7 +159,7 @@ export default css`
 
     .description {
       margin: 1.5em 0;
-      font-weight: 700;
+      font-weight: 400;
     }
   }
 
