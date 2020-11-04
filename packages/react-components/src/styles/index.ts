@@ -215,7 +215,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   #root {
     background: ${({ theme }) => theme.bgPage};
     color: ${({ theme }) => theme.color};
-    font-family: ${({ theme }) => theme.fontFamily};
+    font-family: ${({ theme }) => theme.fontSans};
     height: 100%;
   }
 
@@ -300,7 +300,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   body {
     height: 100%;
     margin: 0;
-    font-family: ${({ theme }) => theme.fontFamily};
+    font-family: ${({ theme }) => theme.fontSans};
   }
 
   br {
@@ -332,7 +332,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
   h1, h2, h3, h4, h5 {
     color: ${({ theme }) => theme.colorSummary};
-    font-family: ${({ theme }) => theme.fontFamily};
+    font-family: ${({ theme }) => theme.fontSans};
     font-weight: 400;
   }
 
@@ -366,7 +366,7 @@ export default createGlobalStyle<Props & ThemeProps>`
     box-sizing: border-box;
     color: ${({ theme }) => theme.colorLabel};
     display: block;
-    font-family: ${({ theme }) => theme.fontFamily};
+    font-family: ${({ theme }) => theme.fontSans};
     font-size: 1rem;
     font-weight: 400;
   }
