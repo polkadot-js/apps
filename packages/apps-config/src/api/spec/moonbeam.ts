@@ -13,5 +13,6 @@ export default {
   AccountId: 'EthereumAccountId',
   Address: 'AccountId',
   Balance: 'u128',
+  RefCount: "u8",
   LookupSource: 'AccountId'
 };
