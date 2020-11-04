@@ -9,6 +9,8 @@ import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
+import { hexToU8a } from '@polkadot/util';
+import { ethereumEncode } from '@polkadot/util-crypto';
 
 import { useTranslation } from '../translate';
 
@@ -41,13 +43,19 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
       let isPublicKey = false;
 
       try {
-        const publicKey = keyring.decodeAddress(addressInput);
+        if (isEthereum) {
+          const rawAddress = hexToU8a(addressInput);
 
-        address = keyring.encodeAddress(publicKey);
-        isAddressValid = keyring.isAvailable(address);
-        console.log('TODO:H160')
-        console.log(publicKey.length)
-        isPublicKey = publicKey.length === 32;
+          address = ethereumEncode(rawAddress);
+          console.log("rawaddy",rawAddress,rawAddress.length)
+          isPublicKey = rawAddress.length === 20;
+          console.log("isPublicKey",isPublicKey)
+        } else {
+          const publicKey = keyring.decodeAddress(addressInput);
+
+          address = keyring.encodeAddress(publicKey);
+          isPublicKey = publicKey.length === 32;
+        }
 
         if (!isAddressValid) {
           const old = keyring.getAddress(address);
@@ -64,10 +72,11 @@ function Create ({ onClose, onStatusChange }: Props): React.ReactElement<Props> 
       } catch (error) {
         isAddressValid = false;
       }
+      console.log("isAddressValid",isAddressValid)
 
       setAddress({ address: isAddressValid ? address : '', addressInput, isAddressExisting, isAddressValid, isPublicKey });
     },
-    [name]
+    [isEthereum, name]
   );
 
   const _onChangeName = useCallback(
