@@ -42,7 +42,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return !!(tip as OpenTip)?.findersFee;
 }
 
-function extractTipState (tip: OpenTip | OpenTipTo225, hash: string, allAccounts: string[]): TipState {
+function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): TipState {
   const closesAt = tip.closes.unwrapOr(null);
   let finder: AccountId | null = null;
   let deposit: Balance | null = null;
@@ -81,8 +81,8 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
   const { allAccounts } = useAccounts();
 
   const { closesAt, finder, isFinder, isTipped, isTipper, median } = useMemo(
-    () => extractTipState(tip, hash, allAccounts),
-    [allAccounts, hash, tip]
+    () => extractTipState(tip, allAccounts),
+    [allAccounts, tip]
   );
 
   const councilId = useMemo(
