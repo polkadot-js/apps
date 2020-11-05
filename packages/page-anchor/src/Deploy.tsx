@@ -1,132 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import assert from 'assert';
-import Download from './Download';
-import { hex, hexproof, ProofElement } from './hrproof';
-import { blake2sFile } from './hash';
-import { CSSProperties } from 'styled-components';
+import { dehex } from './hrproof';
 import _ from 'lodash';
+import { useApi } from '@polkadot/react-hooks';
+import ApiPromise from '@polkadot/api/promise';
+import { u8aToHex } from '@polkadot/util';
+import { blake2b256 } from './hash';
+import HexInput from './HexInput';
+import { ApiProps } from '@polkadot/react-api/types';
+// import TxSigned from '@polkadot/react-signer/TxSigned';
+import { Modal } from '@polkadot/react-components';
 
-type Proof = {
-  filename: string,
-  proof?: ProofElement<Uint8Array>[],
-  blake2s256?: Uint8Array,
+enum Posted {
+  WillCheck,
+  Checking,
+  Posted,
+  NotPosted,
+}
+
+// a variant of a sum ADT
+type Tagged<Tag, T> = {
+  tag: Tag,
+  data: T,
+}
+
+// construct a tagged type
+function tg<Tag, T>(tag: Tag, data: T): Tagged<Tag, T> {
+  return { tag, data };
+}
+
+// This is a tagged union.
+type State =
+  Tagged<'NoInput', null> |
+  Tagged<'ReceivedInput', {
+    anchorPosted: Posted,
+    anchorbytes: Uint8Array,
+  }>;
+
+const transitions = {
+  // received bytes as input
+  bytesInput(bs: Uint8Array | null, setState: (_: State) => void) {
+    if (bs === null) {
+      setState(tg('NoInput', null));
+    } else {
+      setState(tg('ReceivedInput', {
+        anchorPosted: Posted.Checking,
+        anchorbytes: bs,
+      }));
+    }
+  },
+
+  // the status of an anchor was received from the chain
+  anchorStatus(state: State, isPosted: boolean, setState: (_: State) => void) {
+    assert(state.tag !== 'NoInput');
+    let { anchorbytes } = state.data;
+    const anchorPosted = isPosted ? Posted.Posted : Posted.NotPosted;
+    setState(tg('ReceivedInput', { anchorPosted, anchorbytes }));
+  },
 };
 
-/// a proof with metadata and all hashes converted to hex so they look nice as json
-type OutputProof = {
-  filename: string,
-  proof: ProofElement<string>[],
-  content_hash: string,
-  root: string,
-  hashalg: 'blake2s256',
-}
-
-function toOutput(p: Proof, root: Uint8Array): OutputProof {
-  assert(p.proof !== undefined && p.blake2s256 !== undefined);
-  return {
-    filename: p.filename,
-    proof: hexproof(p.proof),
-    content_hash: hex(p.blake2s256),
-    root: hex(root),
-    hashalg: 'blake2s256',
-  };
-}
-
 function Deploy(): React.ReactElement {
-  const [proofs, setProofs] = useState<Proof[]>([]);
-  const [root, setRoot] = useState<Uint8Array | null>(null);
-  const loading = root === null && proofs.length !== 0;
-  assert((!loading) || root === null, 'loading -> (root === null)');
+  const [state, setState] = useState<State>(tg('NoInput', null));
+  const apiProps: ApiProps = useApi();
 
-  async function onFileSelect(files: File[]) {
-    const proofs: Proof[] = files.map(f => ({ filename: f.name }));
-    setProofs(clone(proofs));
-    setRoot(null);
-
-    if (files.length === 0) {
-      // can't compute a root of zero leaves
-      return;
-    }
-
-    const { compute_root, create_proof } = await import('mrklt');
-
-    // Processing files in sequence seems to be faster than in processing them in parallel
-    // and it helps prevent OOM.
-    for (const [f, i] of enumerate(files)) {
-      proofs[i].blake2s256 = await blake2sFile(f);
-      setProofs(clone(proofs));
-    }
-
-    const pl = pack32(proofs.map(p => p.blake2s256 as Uint8Array));
-    const root = compute_root(pl);
-    for (const [p, i] of enumerate(proofs)) {
-      p.proof = create_proof(i, pl);
-    }
-    setProofs(proofs);
-    setRoot(root);
-  }
+  useEffect(() => {
+    if (state.tag === 'NoInput') { return; }
+    check(state.data.anchorbytes, apiProps.api)
+      .then(exists => transitions.anchorStatus(state, exists, setState));
+  }, [state, apiProps]);
 
   return <div>
-    <input
-      type='file'
-      multiple
-      onChange={a => onFileSelect(a.target.files ? [...a.target.files] : [])}
-      disabled={loading}
+    <HexInput
+      defaultValue={getPayloadFromSearchParams() || new Uint8Array([])}
+      onbytes={bs => transitions.bytesInput(bs, setState)}
     />
-    {root && <Download
-      filename={'allproofs.json'}
-      content={jsonBlob(proofs.map(p => toOutput(p, root)))}
-    >Download Merkle Proofs</Download>}
-    {table(proofs.map(p => proofrow(p, root)))}
+    <Modal
+      size='large'
+      open={false}
+    >
+      {/* <TxSigned currentItem={currentItem} requestAddress={requestAddress} /> */}
+    </Modal>
   </div>;
-
 }
 
-function proofrow(proof: Proof, root: Uint8Array | null): React.ReactElement[] {
-  let hash = <div style={{ fontFamily: 'monospace', width: '64ch' }}>{
-    proof.blake2s256 !== undefined ? hex(proof.blake2s256) : 'hashing...'
-  }</div>;
-  if (proof.proof !== undefined && root !== null) {
-    hash = <Download
-      filename={proof.filename + '.proof.json'}
-      content={jsonBlob(toOutput(proof, root as Uint8Array))}
-    >{hash}</Download>;
+// Check to see if a block was anchored.
+// TODO: subscribe to storage instead of just checking once at start
+async function check(hash: Uint8Array, nc: ApiPromise): Promise<boolean> {
+  let opt: any = await nc.query.anchor.anchors(u8aToHex(await blake2b256(hash)));
+  assert(opt.isNone ^ opt.isSome);
+  return opt.isSome;
+}
+
+function getPayloadFromSearchParams(): Uint8Array | null {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('deployRoot')) {
+    try {
+      return dehex(params.get('deployRoot') as string);
+    } catch (_) { }
   }
-  return [
-    <div style={{ overflow: 'hidden' }}>{proof.filename}</div>,
-    hash,
-  ];
-}
-
-function table(tab: React.ReactElement[][]): React.ReactElement {
-  const parent: CSSProperties = { display: 'flex', flexDirection: 'row', flexFlow: 'spaceBetween' };
-  const child: CSSProperties = { flex: 1 };
-  return <>{tab.map((row, i) => <div key={i} style={parent}>
-    {row.map((elem, i) => <div key={i} style={child}>{elem}</div>)}
-  </div>)}</>;
-}
-
-function jsonBlob(json: any) {
-  return new Blob([JSON.stringify(json, null, 2)], { type: 'text/json' });
-}
-
-// pack a list of hashed leaves into a single byte array
-function pack32(leaves: Uint8Array[]): Uint8Array {
-  for (const leaf of leaves) {
-    assert(leaf instanceof Uint8Array);
-    assert(leaf.length == 32);
-  }
-  let ret = new Uint8Array(leaves.map(a => [...a]).flat());
-  assert(ret.length === leaves.length * 32);
-  return ret;
-}
-
-function enumerate<T>(ls: T[]): [T, number][] {
-  return ls.map((l, i) => [l, i]);
-}
-
-function clone<T>(a: T): T {
-  return _.cloneDeep(a);
+  return null;
 }
 
 export default React.memo(Deploy);

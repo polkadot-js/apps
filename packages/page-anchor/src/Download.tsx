@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 interface Props {
   content: Blob,
-  children: JSX.Element,
+  children: React.ReactChild | React.ReactChildren,
   filename: string,
 }
 

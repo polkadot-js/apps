@@ -10,12 +10,17 @@ import { Tabs } from '@polkadot/react-components';
 
 import Check from './Check';
 import Deploy from './Deploy';
+import Batch from './Batch';
 import { useTranslation } from './translate';
 
 function MasterSubmitApp({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [{
-    isRoot: true,
+    isRoot: false,
+    name: 'batch',
+    text: t<string>('Batch Anchors')
+  }, {
+    isRoot: false,
     name: 'deploy',
     text: t<string>('Deploy Anchor')
   }, {
@@ -33,11 +38,14 @@ function MasterSubmitApp({ basePath }: Props): React.ReactElement<Props> {
         />
       </header>
       <Switch>
+        <Route path={`${basePath}/batch`}>
+          <Batch />
+        </Route>
+        <Route path={`${basePath}/deploy`}>
+          <Deploy />
+        </Route>
         <Route path={`${basePath}/check`}>
           <Check />
-        </Route>
-        <Route path={`${basePath}`}>
-          <Deploy />
         </Route>
       </Switch>
     </main>

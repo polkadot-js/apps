@@ -1,4 +1,4 @@
-import { createBLAKE2s } from 'hash-wasm';
+import { createBLAKE2s, createBLAKE2b, blake2s } from 'hash-wasm';
 import assert from 'assert';
 
 // hash a file using blake2s-256
@@ -14,9 +14,7 @@ export async function blake2sFile(f: Blob): Promise<Uint8Array> {
 // hash a file using blake2s-256 hash is done over a single chunk
 // this will throw an error if the file is too big
 async function blake2sFileFast(f: Blob): Promise<Uint8Array> {
-  const h = await createBLAKE2s();
-  h.update(new Uint8Array(await f.arrayBuffer()));
-  return h.digest('binary');
+  return blake2s256(new Uint8Array(await f.arrayBuffer()));
 }
 
 // hash a file using blake2s-256
@@ -37,4 +35,16 @@ async function processStream(rs: ReadableStream<Uint8Array>, f: (_: Uint8Array) 
     f(value as Uint8Array);
   }
   reader.releaseLock();
+}
+
+export async function blake2b256(bs: Uint8Array): Promise<Uint8Array> {
+  const h = await createBLAKE2b(256);
+  h.update(bs);
+  return h.digest('binary');
+}
+
+async function blake2s256(bs: Uint8Array): Promise<Uint8Array> {
+  const h = await createBLAKE2s();
+  h.update(bs);
+  return h.digest('binary');
 }
