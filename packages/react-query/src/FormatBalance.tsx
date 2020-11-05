@@ -81,7 +81,7 @@ export default React.memo(styled(FormatBalance)`
     text-align: right;
 
     > .ui--FormatBalance-postfix {
-      font-weight: 400;
+      font-weight: 100;
       opacity: 0.7;
       vertical-align: baseline;
     }
