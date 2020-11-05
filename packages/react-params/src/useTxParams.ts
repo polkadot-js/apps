@@ -7,18 +7,7 @@ import { RawParams, UseTxParamsHook } from './types';
 import { useEffect, useState } from 'react';
 import createValues from './values';
 
-// function mergeValues (params: ParamDef[], prevValues: RawParams = [], prevParams: ParamDef[] = []): RawParams {
-//   return params.map((param, index) => {
-//     if (prevParams[index] && prevParams[index].type === param.type && prevValues[index].isValid) {
-//       return prevValues[index];
-//     }
-
-//     return createValue(param);
-//   });
-// }
-
-// for a given call, calculate the weight
-export default function useParams (source: { type: TypeDef }[]): UseTxParamsHook {
+export default function useTxParams (source: { type: TypeDef }[]): UseTxParamsHook {
   const [params, setParams] = useState(source);
   const [values, setValues] = useState<RawParams>(createValues(params));
 
@@ -26,38 +15,6 @@ export default function useParams (source: { type: TypeDef }[]): UseTxParamsHook
     setParams(source);
     setValues(createValues(source));
   }, [source]);
-
-  // const mergeValues = useCallback(
-  //   (newParams: ParamDef[]): RawParams => {
-  //     return newParams.map((param, index) => {
-  //       console.log(params[index], param);
-  //       if (params[index] && params[index].type === param.type && values[index].isValid) {
-  //         console.log('Keep value')
-  //         return values[index];
-  //       }
-
-  //       console.log('Default value')
-  //       return createValue(param);
-  //     });
-  //   },
-  //   [params, values]
-  // );
-
-  // useEffect(
-  //   (): void => {
-  //     console.log(params, prevParams.current)
-
-  //     if (params !== prevParams.current) {
-  //       console.log('has changed!');
-  //       setValues(mergeValues(params));
-  //     }
-  //   },
-  //   [params, mergeValues]
-  // );
-
-  // useEffect((): void => {
-  //   prevParams.current = params;
-  // });
 
   return [params, values, setValues];
 }

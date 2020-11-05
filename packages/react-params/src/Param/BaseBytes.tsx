@@ -1,22 +1,35 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props as BaseProps, Size } from '../types';
+import { TypeDef } from '@polkadot/types/types';
+import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
 
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@canvas-ui/react-components';
-import { hexToU8a, isHex, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import { useTranslation } from '../translate';
 import Bare from './Bare';
 
-interface Props extends BaseProps {
+interface Props {
   asHex?: boolean;
   children?: React.ReactNode;
+  className?: string;
+  defaultValue: RawParam;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: React.ReactNode;
   length?: number;
+  name?: string;
+  onChange?: RawParamOnChange;
+  onEnter?: RawParamOnEnter;
+  onEscape?: RawParamOnEscape;
   size?: Size;
+  type: TypeDef & { withOptionActive?: boolean };
   validate?: (u8a: Uint8Array) => boolean;
+  withLabel?: boolean;
   withLength?: boolean;
 }
 
@@ -24,11 +37,14 @@ const defaultValidate = (): boolean =>
   true;
 
 function convertInput (value: string): [boolean, Uint8Array] {
-  // try hex conversion
-  try {
-    return [true, hexToU8a(value)];
-  } catch (error) {
-    // we continue...
+  if (value === '0x') {
+    return [true, new Uint8Array([])];
+  } else if (value.startsWith('0x')) {
+    try {
+      return [true, hexToU8a(value)];
+    } catch (error) {
+      return [false, new Uint8Array([])];
+    }
   }
 
   // maybe it is an ss58?
@@ -38,15 +54,20 @@ function convertInput (value: string): [boolean, Uint8Array] {
     // we continue
   }
 
-  return [value === '0x', new Uint8Array([])];
+  return isAscii(value)
+    ? [true, stringToU8a(value)]
+    : [value === '0x', new Uint8Array([])];
 }
 
 function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [defaultValue] = useState(
     value
-      ? isHex(value)
-        ? value
-        : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
+      ? isDisabled && isU8a(value) && isAscii(value)
+        ? u8aToString(value)
+        : isHex(value)
+          ? value
+          : u8aToHex(value as Uint8Array, isDisabled ? 256 : -1)
       : undefined
   );
   const [isValid, setIsValid] = useState(false);
@@ -77,11 +98,6 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
     [asHex, length, onChange, validate, withLength]
   );
 
-  useEffect((): void => {
-    _onChange(defaultValue?.toString() || '');
-    /* eslint-disable-next-line */
-  }, []);
-
   return (
     <Bare className={className}>
       <Input
@@ -94,7 +110,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        placeholder='0x...'
+        placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
         type='text'
         withEllipsis
         withLabel={withLabel}

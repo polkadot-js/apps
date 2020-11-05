@@ -6,7 +6,7 @@ import { BareProps } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { registry as baseRegistry } from '@canvas-ui/react-api'
+import { registry as baseRegistry } from '@canvas-ui/react-api';
 import { useCodec } from '@canvas-ui/react-hooks';
 import { truncate } from '@canvas-ui/react-util';
 import { Option, TypeRegistry } from '@polkadot/types';

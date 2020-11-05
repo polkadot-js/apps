@@ -1,8 +1,8 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Codec } from '@polkadot/types/types';
-import { Props as BareProps, RawParam } from '../types';
+import { RawParam } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
@@ -11,10 +11,12 @@ import { Static } from '@canvas-ui/react-components';
 import { useTranslation } from '../translate';
 import Bare from './Bare';
 
-interface Props extends BareProps {
+interface Props {
   asHex?: boolean;
   children?: React.ReactNode;
+  className?: string;
   defaultValue: RawParam;
+  label?: React.ReactNode;
   withLabel?: boolean;
 }
 
@@ -48,5 +50,9 @@ export default React.memo(styled(StaticParam)`
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .ui--Static {
+    margin-bottom: 0 !important;
   }
 `);

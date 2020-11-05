@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
@@ -20,6 +20,10 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
 }
 
 export default React.memo(styled(Holder)`
+  &.withBorder {
+    border-left: 0.25rem solid transparent;
+  }
+
   &.withoutBorder {
     margin-left: -1.75rem;
     padding: 0;
@@ -87,10 +91,6 @@ export default React.memo(styled(Holder)`
       position: absolute;
       top: 0.5rem;
       right: 3.5rem;
-    }
-    
-    &:not(:last-child) {
-      margin-bottom: 2rem;
     }
   }
 `);

@@ -12,5 +12,9 @@ module.exports = {
   rules: {
     ...base.rules,
     '@typescript-eslint/no-explicit-any': 'off',
+    'header/header': [2, 'line', [
+      { pattern: ' Copyright \\d{4}(-\\d{4})? @canvas-ui/' },
+      ' SPDX-License-Identifier: Apache-2.0'
+    ]],
   }
 };

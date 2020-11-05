@@ -6,7 +6,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
     "@canvas-ui/react-components": "0.45.0-beta.33",
-    "@polkadot/dev": "^0.55.9",
+    "@polkadot/dev": "^0.59.5",
     "electron-updater": "^4.3.3"
   },
   "devDependencies": {

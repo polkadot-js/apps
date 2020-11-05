@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
-import { ContractCallOutcome } from '@canvas-ui/api-contract/types';
+import { CallResult } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, ContractParams, Dropdown, InputAddress, InputBalance, InputMegaGas, MessageArg, MessageSignature, PendingTx, TxButton } from '@canvas-ui/react-components';
-import { PromiseContract as Contract } from '@canvas-ui/api-contract';
+import { ContractPromise as Contract } from '@polkadot/api-contract';
 import { useAccountId, useAccountInfo, useApi, useFormField, useGasWeight } from '@canvas-ui/react-hooks';
 import { useTxParams } from '@canvas-ui/react-params';
 import { extractValues } from '@canvas-ui/react-params/values';
@@ -48,7 +48,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   // const { contract, messageIndex, className = '', isOpen, onChangecontractAddress, onChangemessageIndex, onClose } = props;
 
   const [messageIndex, setMessageIndex] = useState(parseInt(pageParams.messageIndex || '0', 10));
-  const [outcomes, setOutcomes] = useState<ContractCallOutcome[]>([]);
+  const [outcomes, setOutcomes] = useState<CallResult[]>([]);
 
   const [contract, hasRpc] = useMemo(
     (): [Contract | null, boolean] => {
@@ -69,7 +69,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   const [params, values = [], setValues] = useTxParams(contract?.abi?.messages[messageIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return contract?.abi?.messages[messageIndex]
-      ? contract.abi.messages[messageIndex](...extractValues(values || [])) as unknown as Uint8Array
+      ? contract.abi.messages[messageIndex].toU8a(extractValues(values || [])) as unknown as Uint8Array
       : null;
   }, [contract?.abi?.messages, messageIndex, values]);
 
@@ -152,13 +152,17 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
       !!contract && contract
         .read(messageIndex, 0, weight, ...extractValues(values))
         .send(accountId)
-        .then(
-          (outcome: ContractCallOutcome): void => {
-            setOutcomes([outcome, ...outcomes]);
-          }
-        );
+        .then((result): void => {
+          setOutcomes([{
+            ...result,
+            from: accountId,
+            message: contract.abi.messages[messageIndex],
+            params,
+            when: new Date()
+          }, ...outcomes]);
+        });
     },
-    [accountId, contract, messageIndex, endowment, weight, outcomes, values]
+    [accountId, contract, messageIndex, endowment, weight, outcomes, params, values]
   );
 
   // const _onClearOutcomes = useCallback(

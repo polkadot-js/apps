@@ -7,9 +7,9 @@ import { AnyJson } from '@polkadot/types/types';
 import { FileState } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Abi } from '@canvas-ui/api-contract';
+import { Abi } from '@polkadot/api-contract';
 import store from '@canvas-ui/apps/store';
-import { registry } from '@canvas-ui/react-api';
+import { useApi } from '@canvas-ui/react-hooks';
 import { u8aToString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -35,9 +35,10 @@ interface AbiSpecOutdated {
 }
 
 export default function useAbi (source: Code | null = null, isRequired = false): UseAbi {
+  const { api } = useApi();
   const { t } = useTranslation();
   const initialState: State = source
-    ? [source.abi ? new Abi(registry, source.abi) : null, !!source?.abi, !isRequired || !!source.abi]
+    ? [source.abi ? new Abi(source.abi, api.registry.getChainProperties()) : null, !!source?.abi, !isRequired || !!source.abi]
     : [null, false, false];
   const [[abi, isAbiSupplied, isAbiValid], setAbi] = useState<State>(initialState);
   const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
@@ -45,10 +46,10 @@ export default function useAbi (source: Code | null = null, isRequired = false):
   useEffect(
     (): void => {
       if (!!source?.abi && abi?.json !== source.abi) {
-        setAbi([new Abi(registry, source.abi || null), !!source.abi, !isRequired || !!source.abi]);
+        setAbi([new Abi(source.abi, api.registry.getChainProperties()), !!source.abi, !isRequired || !!source.abi]);
       }
     },
-    [abi, source, isRequired]
+    [abi, api.registry, source, isRequired]
   );
 
   const onChangeAbi = useCallback(
@@ -64,7 +65,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
 
         const newAbi = JSON.parse(json) as AnyJson;
 
-        setAbi([new Abi(registry, newAbi), true, true]);
+        setAbi([new Abi(newAbi, api.registry.getChainProperties()), true, true]);
         setError([false, null]);
         source?.id && store.saveCode(
           { abi: newAbi },
@@ -77,7 +78,7 @@ export default function useAbi (source: Code | null = null, isRequired = false):
         setError([true, error]);
       }
     },
-    [source, t]
+    [api.registry, source, t]
   );
 
   const onRemoveAbi = useCallback(

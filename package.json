@@ -1,10 +1,10 @@
 {
-  "name": "polkadot-apps",
-  "repository": "https://github.com/polkadot-js/apps",
+  "name": "canvas-ui",
+  "repository": "https://github.com/paritytech/canvas-ui",
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.45.0-beta.33",
+  "author": "Keith Ingram <keith@parity.io>",
+  "version": "0.0.1",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -15,14 +15,14 @@
     "packages/*"
   ],
   "build": {
-    "productName": "Polkadot-JS Apps",
-    "artifactName": "Polkadot-JS-Apps-${version}.${ext}",
+    "productName": "Canvas UI",
+    "artifactName": "canvas-ui-${version}.${ext}",
     "files": [
       "./packages/apps-electron/build",
       "./packages/apps-electron/assets",
       "./packages/apps-electron/appleEntitlements"
     ],
-    "appId": "com.polkadotjs.polkadotjs-apps",
+    "appId": "com.paritytech.canvas-ui",
     "mac": {
       "category": "public.app-category.finance",
       "entitlements": "./packages/apps-electron/appleEntitlements/entitlements.mac.plist",
@@ -36,9 +36,10 @@
     "afterSign": "electron-builder-notarize"
   },
   "resolutions": {
-    "@polkadot/api": "^2.1.2-17",
+    "@polkadot/api": "^2.3.2-13",
+    "@polkadot/api-contract": "^2.3.2-13",
     "@polkadot/keyring": "^3.5.0-beta.13",
-    "@polkadot/types": "^2.1.2-17",
+    "@polkadot/types": "^2.3.2-13",
     "@polkadot/util": "^3.5.0-beta.13",
     "@polkadot/util-crypto": "^3.5.0-beta.13",
     "babel-core": "^7.0.0-bridge.0"
@@ -83,7 +84,7 @@
     "@babel/register": "^7.10.1",
     "@babel/runtime": "^7.10.2",
     "@pinata/sdk": "^1.1.10",
-    "@polkadot/dev": "^0.55.9",
+    "@polkadot/dev": "^0.59.5",
     "@polkadot/ts": "^0.3.26",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.21",

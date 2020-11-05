@@ -1,40 +1,24 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { ParamDef, Props, RawParam } from '../types';
+import { Props, RawParam } from '../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { registry } from '@canvas-ui/react-api';
-import { createType, getTypeDef } from '@polkadot/types';
+import React, { useCallback } from 'react';
 
 import Params from '../';
 import Base from './Base';
 import Static from './Static';
+import useParamDefs from './useParamDefs';
 
 function StructParam (props: Props): React.ReactElement<Props> {
-  const { className = '', isDisabled, label, onChange, overrides, type, withLabel } = props;
-  const [params, setParams] = useState<ParamDef[]>([]);
-
-  useEffect((): void => {
-    let typeDef;
-
-    try {
-      const rawType = createType(registry, type.type as 'u32').toRawType();
-
-      typeDef = getTypeDef(rawType);
-    } catch (e) {
-      typeDef = type;
-    }
-
-    setParams((typeDef.sub as TypeDef[]).map((type): ParamDef => ({ name: type.name, type })));
-  }, [type]);
+  const params = useParamDefs(props.type);
+  const { className = '', isDisabled, label, onChange, overrides, withLabel } = props;
 
   const _onChangeParams = useCallback(
     (values: RawParam[]): void => {
       onChange && onChange({
-        isValid: values.reduce((result, { isValid }): boolean => result && isValid, true as boolean),
-        value: params.reduce((value: Record<string, any>, { name }, index): Record<string, any> => {
+        isValid: values.reduce((result: boolean, { isValid }) => result && isValid, true),
+        value: params.reduce((value: Record<string, unknown>, { name }, index): Record<string, unknown> => {
           value[name as string] = values[index].value;
 
           return value;

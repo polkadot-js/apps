@@ -3,11 +3,9 @@
 
 import { ParamDef, Props, RawParam } from '../types';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button } from '@canvas-ui/react-components';
+import React, { useEffect, useState } from 'react';
 import { isUndefined } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import getInitValue from '../initValue';
 import Params from '../';
 import Base from './Base';
@@ -20,16 +18,15 @@ function generateParam ([{ name, type }]: ParamDef[], index: number): ParamDef {
   };
 }
 
-function Vector ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, type, withLabel }: Props): React.ReactElement<Props> | null {
-  const { t } = useTranslation();
+function VectorFixed ({ className = '', defaultValue, isDisabled = false, label, onChange, overrides, type, withLabel }: Props): React.ReactElement<Props> | null {
   const inputParams = useParamDefs(type);
-  const [count, setCount] = useState(0);
   const [params, setParams] = useState<ParamDef[]>([]);
   const [values, setValues] = useState<RawParam[]>([]);
 
   // build up the list of parameters we are using
   useEffect((): void => {
     if (inputParams.length) {
+      const count = (inputParams[0].length || 1);
       const max = isDisabled ? (defaultValue.value as RawParam[] || []).length : count;
       const params: ParamDef[] = [];
 
@@ -39,12 +36,14 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
 
       setParams(params);
     }
-  }, [count, defaultValue, isDisabled, inputParams]);
+  }, [defaultValue, isDisabled, inputParams]);
 
   // when !isDisable, generating an input list based on count
   useEffect((): void => {
     !isDisabled && inputParams.length &&
       setValues((values): RawParam[] => {
+        const count = (inputParams[0].length || 1);
+
         if (values.length === count) {
           return values;
         }
@@ -57,7 +56,7 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
 
         return values.slice(0, count);
       });
-  }, [count, inputParams, isDisabled]);
+  }, [inputParams, isDisabled]);
 
   // when isDisabled, set the values based on the defaultValue input
   useEffect((): void => {
@@ -79,15 +78,6 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
     });
   }, [values, onChange]);
 
-  const _rowAdd = useCallback(
-    (): void => setCount((count) => count + 1),
-    []
-  );
-  const _rowRemove = useCallback(
-    (): void => setCount((count) => count - 1),
-    []
-  );
-
   return (
     <Base
       className={className}
@@ -95,21 +85,6 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
       label={label}
       withLabel={withLabel}
     >
-      {!isDisabled && (
-        <div className='ui--Param-Vector-buttons'>
-          <Button
-            icon='plus'
-            label={t<string>('Add item')}
-            onClick={_rowAdd}
-          />
-          <Button
-            icon='minus'
-            isDisabled={values.length === 0}
-            label={t<string>('Remove item')}
-            onClick={_rowRemove}
-          />
-        </div>
-      )}
       <Params
         isDisabled={isDisabled}
         onChange={setValues}
@@ -121,4 +96,4 @@ function Vector ({ className = '', defaultValue, isDisabled = false, label, onCh
   );
 }
 
-export default React.memo(Vector);
+export default React.memo(VectorFixed);

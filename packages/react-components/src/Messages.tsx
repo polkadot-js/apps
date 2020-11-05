@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { BareProps } from '@canvas-ui/react-components/types';
-import { AbiMessage } from '@canvas-ui/api-contract/types';
+import { AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Abi } from '@canvas-ui/api-contract';
+import { Abi } from '@polkadot/api-contract';
 import { classes } from '@canvas-ui/react-util';
 
 import { ELEV_3_CSS } from './styles/constants';

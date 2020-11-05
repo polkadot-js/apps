@@ -3,7 +3,7 @@
 
 import { WithTranslation } from 'react-i18next';
 import { ButtonProps as SUIButtonProps } from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
-import { Abi } from '@canvas-ui/api-contract';
+import { Abi } from '@polkadot/api-contract';
 import { StringOrNull, VoidFn } from '@canvas-ui/react-util/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { TxState } from '@canvas-ui/react-hooks/types';

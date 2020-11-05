@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/app-extrinsics authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';

@@ -1,8 +1,7 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { TypeDef } from '@polkadot/types/types';
-import { BareProps } from '@canvas-ui/react-components/types';
 
 // FIXME Ideally, we want these as Base from api-codec - as a stop-gap, any this until we have
 // params returning types extending Base (i.e. anything from api-codec)
@@ -28,21 +27,22 @@ export type RawParamOnEscape = () => void;
 
 export type RawParams = RawParam[];
 
-export interface BaseProps extends BareProps {
+export interface Props {
+  className?: string;
   defaultValue: RawParam;
+  isDisabled?: boolean;
+  isError?: boolean;
+  isInOption?: boolean;
+  isReadOnly?: boolean;
+  isOptional?: boolean;
+  label?: React.ReactNode;
   name?: string;
   onChange?: RawParamOnChange;
   onEnter?: RawParamOnEnter;
   onEscape?: RawParamOnEscape;
+  // eslint-disable-next-line no-use-before-define
   overrides?: ComponentMap;
-  type: TypeDef;
-}
-
-export interface Props extends BaseProps {
-  isDisabled?: boolean;
-  isError?: boolean;
-  isReadOnly?: boolean;
-  label?: React.ReactNode;
+  type: TypeDef & { withOptionActive?: boolean };
   withLabel?: boolean;
 }
 
@@ -51,14 +51,15 @@ export type Size = 'full' | 'large' | 'medium' | 'small';
 export type ComponentMap = Record<string, React.ComponentType<Props>>;
 
 export interface ParamDef {
+  length?: number;
   name?: string;
   type: TypeDef;
 }
 
 export interface UseTxParams {
-  params: ParamDef[],
-  values?: RawParams,
-  onChange: React.Dispatch<RawParams>
+  params: ParamDef[];
+  values: RawParams;
+  onChange: React.Dispatch<RawParams>;
 }
 
-export type UseTxParamsHook = [UseTxParams['params'], UseTxParams['values'], UseTxParams['onChange']];
+export type UseTxParamsHook = [ParamDef[], RawParams, React.Dispatch<RawParams>];

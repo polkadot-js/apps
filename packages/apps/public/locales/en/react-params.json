@@ -1,4 +1,5 @@
 {
+  "0x prefixed hex, e.g. 0x1234 or ascii data": "0x prefixed hex, e.g. 0x1234 or ascii data",
   "<empty>": "<empty>",
   "Add item": "Add item",
   "Aye": "Aye",
@@ -17,6 +18,7 @@
   "conviction: Conviction": "conviction: Conviction",
   "details": "details",
   "exclude option": "exclude option",
+  "file upload": "file upload",
   "include option": "include option",
   "type": "type",
   "{{count}} key/value pairs encoded for submission": "{{count}} key/value pairs encoded for submission"

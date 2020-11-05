@@ -81,7 +81,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   const [params, values = [], setValues] = useTxParams(abi?.constructors[constructorIndex].args || []);
   const encoder = useCallback((): Uint8Array | null => {
     return abi?.constructors[constructorIndex]
-      ? abi.constructors[constructorIndex](...extractValues(values || [])) as unknown as Uint8Array
+      ? abi.constructors[constructorIndex].toU8a(extractValues(values || [])) as unknown as Uint8Array
       : null;
   }, [abi?.constructors, constructorIndex, values]);
 
@@ -218,6 +218,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             <ContractParams
               onChange={setValues}
               params={params || []}
+              values={values}
             />
           </>
         )}

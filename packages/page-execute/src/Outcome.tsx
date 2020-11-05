@@ -1,41 +1,34 @@
-// Copyright 2017-2020 @polkadot/app-contracts authors & contributors
+// Copyright 2017-2020 @canvas-ui/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractCallOutcome } from '@canvas-ui/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
+import { CallResult } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button, MessageSignature, Output } from '@canvas-ui/react-components';
+import { Button, IdentityIcon, MessageSignature, Output } from '@canvas-ui/react-components';
 import { TypeRegistry } from '@polkadot/types';
 
 interface Props extends BareProps {
   onClear?: () => void;
-  outcome: ContractCallOutcome;
+  outcome: CallResult;
   registry: TypeRegistry;
 }
 
-function Outcome ({ className, onClear, outcome: { isSuccess, message, output, params, time, type }, registry }: Props): React.ReactElement<Props> | null {
-  const dateTime = new Date(time);
-
+function Outcome ({ className, onClear, outcome: { from, message, output, params, result, when }, registry }: Props): React.ReactElement<Props> | null {
   return (
     <div className={className}>
       <div className='info'>
-        {/* <AddressMini
-          className='origin'
-          isPadded={false}
-          value={origin}
-          withAddress={false}
-        /> */}
+        <IdentityIcon value={from} />
         <MessageSignature
           message={message}
           params={params}
           registry={registry}
         />
         <span className='date-time'>
-          {dateTime.toLocaleDateString()}
+          {when.toLocaleDateString()}
           {' '}
-          {dateTime.toLocaleTimeString()}
+          {when.toLocaleTimeString()}
         </span>
         <Button
           className='icon-button clear-btn'
@@ -46,9 +39,9 @@ function Outcome ({ className, onClear, outcome: { isSuccess, message, output, p
         />
       </div>
       <Output
-        isError={!isSuccess}
+        isError={!result.isOk}
         registry={registry}
-        type={type}
+        type={message.returnType}
         value={output}
         withCopy
         withLabel={false}

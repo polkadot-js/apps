@@ -1,11 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { DispatchError } from '@polkadot/types/interfaces';
 import { Props } from '../types';
 
 import React, { useEffect, useState } from 'react';
-import { registry } from '@canvas-ui/react-api';
 import { Input } from '@canvas-ui/react-components';
 
 import { useTranslation } from '../translate';
@@ -34,7 +33,8 @@ function ErrorDisplay (props: Props): React.ReactElement<Props> {
 
     if (isModuleError(value as ModuleErrorDefault)) {
       try {
-        const { documentation, name, section } = registry.findMetaError((value as DispatchError).asModule);
+        const mod = (value as DispatchError).asModule;
+        const { documentation, name, section } = mod.registry.findMetaError(mod);
 
         return setDetails({
           details: documentation.join(', '),

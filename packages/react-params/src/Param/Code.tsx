@@ -1,9 +1,10 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+import { isWasm } from '@polkadot/util';
 
 import Bytes from './Bytes';
 import BytesFile from './File';
@@ -11,15 +12,11 @@ import BytesFile from './File';
 function Code ({ className = '', defaultValue, isDisabled, isError, label, onChange, onEnter, onEscape, type, withLabel }: Props): React.ReactElement<Props> {
   const [isValid, setIsValid] = useState(false);
 
-  // TODO: Validate that we have actual proper WASM code
   const _onChange = useCallback(
     (value: Uint8Array): void => {
-      const isValid = value.length !== 0;
+      const isValid = isWasm(value);
 
-      onChange && onChange({
-        isValid,
-        value
-      });
+      onChange && onChange({ isValid, value });
       setIsValid(isValid);
     },
     [onChange]

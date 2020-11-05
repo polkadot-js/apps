@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { PromiseContract as Contract } from '@canvas-ui/api-contract';
 import { ComponentProps as Props } from './types';
 
 import React, { useMemo } from 'react';
@@ -10,8 +9,15 @@ import styled from 'styled-components';
 import { Button, ContractCard } from '@canvas-ui/react-components';
 import { useApi } from '@canvas-ui/react-hooks';
 import { getContractForAddress } from '@canvas-ui/react-util';
+import { ContractPromise as Contract } from '@polkadot/api-contract';
 
 import { useTranslation } from './translate';
+
+// function filterContracts (api: ApiPromise, keyringContracts: string[] = []): ContractPromise[] {
+//   return keyringContracts
+//     .map((address) => getContractForAddress(api, address.toString()))
+//     .filter((contract): contract is Contract => !!contract);
+// }
 
 function Contracts ({ accounts, basePath, className, contracts: contractAddresses, hasContracts, navigateTo }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

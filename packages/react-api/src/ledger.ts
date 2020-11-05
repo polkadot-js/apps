@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/react-api authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '@canvas-ui/apps-config/api/constants';

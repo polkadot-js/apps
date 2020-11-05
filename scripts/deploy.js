@@ -2,7 +2,7 @@
 // Copyright 2017-2020 @canvas-ui/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-var ghpages = require('gh-pages');
+const ghpages = require('gh-pages');
 
 const options = {
   dest: '.',

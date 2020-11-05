@@ -6,7 +6,7 @@ import { FileState } from '@canvas-ui/react-hooks/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import { Abi } from '@canvas-ui/api-contract';
+import { Abi } from '@polkadot/api-contract';
 
 import InputFile from './InputFile';
 import Messages from './Messages';

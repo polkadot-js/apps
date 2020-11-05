@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiMessage } from '@canvas-ui/api-contract/types';
+import { AbiMessage } from '@polkadot/api-contract/types';
 import { BareProps } from '@canvas-ui/react-components/types';
 import { CodecArg } from '@polkadot/types/types';
 

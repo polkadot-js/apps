@@ -1,4 +1,4 @@
-// Copyright 2017-2020 @polkadot/ui-settings authors & contributors
+// Copyright 2017-2020 @canvas-ui/ui-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { Option } from './types';

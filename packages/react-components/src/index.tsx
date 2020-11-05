@@ -42,7 +42,6 @@ export { default as InputABI } from './InputABI';
 export { default as InputAddress } from './InputAddress';
 export { default as InputAddressSimple } from './InputAddressSimple';
 export { default as InputBalance } from './InputBalance';
-export { default as InputConsts } from './InputConsts';
 export { default as InputExtrinsic } from './InputExtrinsic';
 export { default as InputFile } from './InputFile';
 export { default as InputMegaGas } from './InputMegaGas';

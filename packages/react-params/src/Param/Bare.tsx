@@ -1,14 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
 import { classes } from '@canvas-ui/react-util';
 
-interface Props extends BareProps {
+interface Props {
   children?: React.ReactNode;
+  className?: string;
 }
 
 function Bare ({ children, className = '' }: Props): React.ReactElement<Props> {

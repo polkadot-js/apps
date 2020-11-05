@@ -1,14 +1,13 @@
-// Copyright 2017-2020 @canvas-ui/react-components authors & contributors
+// Copyright 2017-2020 @canvas-ui/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
-
-import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';
 import { InputFile } from '@canvas-ui/react-components';
 
 import Bare from './Bare';
 
-interface Props extends BareProps {
+interface Props {
+  className?: string;
   defaultValue?: any;
   isDisabled?: boolean;
   isError?: boolean;
@@ -22,7 +21,6 @@ function File ({ className = '', isDisabled, isError = false, label, onChange, p
   return (
     <Bare className={className}>
       <InputFile
-        convertHex
         isDisabled={isDisabled}
         isError={isError}
         label={label}

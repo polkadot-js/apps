@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @canvas-ui/app-execute authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Abi as InkAbi } from '@canvas-ui/api-contract';
+import { Abi as InkAbi } from '@polkadot/api-contract';
 import { BareProps } from '@canvas-ui/react-components/types';
 
 import React from 'react';

@@ -3,16 +3,16 @@
 
 import { BareProps } from '@canvas-ui/react-components/types';
 import { ParamDef } from '@canvas-ui/react-params/types';
-import { CodecArg } from '@polkadot/types/types';
+import { CodecArg, Registry } from '@polkadot/types/types';
 
 import React from 'react';
 import Data from './Data';
-import { encodeTypeDef, TypeRegistry } from '@polkadot/types';
+import { encodeTypeDef } from '@polkadot/types';
 
 export interface Props extends BareProps {
   arg?: ParamDef;
   param?: CodecArg;
-  registry?: TypeRegistry;
+  registry?: Registry;
 }
 
 function MessageArg ({ arg, param, registry }: Props): React.ReactElement<Props> | null {
