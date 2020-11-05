@@ -22,6 +22,7 @@ interface Props {
   hash: string;
   isMember: boolean;
   members: string[];
+  onRefresh: () => void;
   onSelect: (hash: string, isSelected: boolean, value: BN) => void;
   onlyUntipped: boolean;
   tip: OpenTip | OpenTipTo225;
@@ -41,7 +42,7 @@ function isCurrentTip (tip: OpenTip | OpenTipTo225): tip is OpenTip {
   return !!(tip as OpenTip)?.findersFee;
 }
 
-function extractTipState (tip: OpenTip | OpenTipTo225, hash: string, allAccounts: string[]): TipState {
+function extractTipState (tip: OpenTip | OpenTipTo225, allAccounts: string[]): TipState {
   const closesAt = tip.closes.unwrapOr(null);
   let finder: AccountId | null = null;
   let deposit: Balance | null = null;
@@ -75,13 +76,13 @@ function extractTipState (tip: OpenTip | OpenTipTo225, hash: string, allAccounts
   };
 }
 
-function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
+function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, onRefresh, onSelect, onlyUntipped, tip }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { allAccounts } = useAccounts();
 
   const { closesAt, finder, isFinder, isTipped, isTipper, median } = useMemo(
-    () => extractTipState(tip, hash, allAccounts),
-    [allAccounts, hash, tip]
+    () => extractTipState(tip, allAccounts),
+    [allAccounts, tip]
   );
 
   const councilId = useMemo(
@@ -150,6 +151,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               icon='times'
               isDisabled={!isFinder}
               label={t('Cancel')}
+              onSuccess={onRefresh}
               params={[hash]}
               tx='treasury.retractTip'
             />
@@ -171,6 +173,7 @@ function Tip ({ bestNumber, className = '', defaultId, hash, isMember, members, 
               accountId={councilId}
               icon='times'
               label={t<string>('Close')}
+              onSuccess={onRefresh}
               params={[hash]}
               tx='treasury.closeTip'
             />

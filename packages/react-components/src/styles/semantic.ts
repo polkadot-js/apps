@@ -20,9 +20,11 @@ export default ({ theme }: ThemeProps): string => `
   }
 
   .ui.selection.dropdown,
-  .ui.input > input {
+  .ui.input > input,
+  .ui.selection.dropdown > input {
     background: ${theme.bgInput};
     color: ${theme.color};
+    font-family: ${theme.fontSans};
 
     &:focus {
       background: ${theme.bgInput};
@@ -93,7 +95,6 @@ export default ({ theme }: ThemeProps): string => `
       .ui.primary.buttons .ui.button {
         background-color: #666;
         border-color: transparent;
-        border-left-color: transparent;
         color: #f9f8f7;
         opacity: 0.5;
 
@@ -115,7 +116,7 @@ export default ({ theme }: ThemeProps): string => `
 
   .ui.label {
     background: transparent;
-    font-weight: normal;
+    font-weight: 400;
     position: relative;
     z-index: 1;
   }
@@ -124,7 +125,7 @@ export default ({ theme }: ThemeProps): string => `
     background: ${theme.bgPage};
     box-shadow: none;
     color: ${theme.color};
-    font-family: sans-serif;
+    font-family: ${theme.fontSans};
 
     > .actions,
     > .content {
@@ -142,9 +143,9 @@ export default ({ theme }: ThemeProps): string => `
       background: transparent;
       border-bottom: none;
       color: ${theme.colorSummary};
-      font-family: sans-serif;
+      font-family: ${theme.fontSans};
       font-size: 1.75rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -156,7 +157,7 @@ export default ({ theme }: ThemeProps): string => `
 
     .description {
       margin: 1.5em 0;
-      font-weight: 700;
+      font-weight: 400;
     }
   }
 

@@ -95,7 +95,7 @@ export default React.memo(styled(Labelled)`
 
       .labelExtra {
         color: rgba(78, 78, 78, .85);
-        font-weight: 100;
+        font-weight: 400;
         right: 1.75rem;
         text-align: right;
       }

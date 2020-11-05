@@ -138,7 +138,7 @@ export default React.memo(styled(CardSummary)(({ theme }: ThemeProps) => `
 
     .isSecondary {
       font-size: 1rem;
-      font-weight: 100;
+      font-weight: 400;
 
       .timer {
         min-width: 8rem;

@@ -49,6 +49,10 @@ export default ({ theme }: ThemeProps): string => `
     background: none  !important;
   }
 
+  button.ui--Button {
+    font-family: ${({ theme }: ThemeProps) => theme.fontSans};
+  }
+
   .editable {
     cursor: pointer;
   }

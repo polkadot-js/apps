@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId } from '@polkadot/types/interfaces';
+import { AccountId, Hash } from '@polkadot/types/interfaces';
 import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Icon, LinkExternal, TxButton } from '@polkadot/react-components';
-import { useAccounts, useApi, useVotingStatus, useWeight } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
@@ -18,9 +18,9 @@ import Voting from './Voting';
 
 interface Props {
   className?: string;
+  hash: Hash;
   isMember: boolean;
   members: string[];
-  motion: DeriveCollectiveProposal;
   prime: AccountId | null;
 }
 
@@ -29,12 +29,13 @@ interface VoterState {
   hasVotedAye: boolean;
 }
 
-function Motion ({ className = '', isMember, members, motion: { hash, proposal, votes }, prime }: Props): React.ReactElement<Props> | null {
+function Motion ({ className = '', hash, isMember, members, prime }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { allAccounts } = useAccounts();
-  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(votes, members.length, 'council');
-  const [proposalWeight, proposalLength] = useWeight(proposal);
+  const motion = useCall<DeriveCollectiveProposal | null>(api.derive.council.proposal, [hash]);
+  const { hasFailed, isCloseable, isVoteable, remainingBlocks } = useVotingStatus(motion?.votes, members.length, 'council');
+  const [proposalWeight, proposalLength] = useWeight(motion?.proposal);
 
   const [councilId, isMultiMembers] = useMemo(
     (): [string | null, boolean] => {
@@ -47,7 +48,8 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
 
   const { hasVoted, hasVotedAye } = useMemo(
     (): VoterState => {
-      if (votes) {
+      if (motion && motion.votes) {
+        const { votes } = motion;
         const hasVotedAye = allAccounts.some((address) => votes.ayes.some((accountId) => accountId.eq(address)));
 
         return {
@@ -58,21 +60,21 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
 
       return { hasVoted: false, hasVotedAye: false };
     },
-    [allAccounts, votes]
+    [allAccounts, motion]
   );
 
-  if (!votes) {
+  if (!motion || !motion.votes) {
     return null;
   }
 
-  const { ayes, end, index, nays, threshold } = votes;
+  const { ayes, end, index, nays, threshold } = motion.votes;
 
   return (
     <tr className={className}>
       <td className='number'><h1>{formatNumber(index)}</h1></td>
       <ProposalCell
         imageHash={hash}
-        proposal={proposal}
+        proposal={motion.proposal}
       />
       <td className='number together'>
         {formatNumber(threshold)}
@@ -106,7 +108,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
             isDisabled={!isMember}
             members={members}
             prime={prime}
-            proposal={proposal}
+            proposal={motion.proposal}
           />
         )}
         {isCloseable && (
@@ -117,7 +119,7 @@ function Motion ({ className = '', isMember, members, motion: { hash, proposal, 
                 hash={hash}
                 idNumber={index}
                 members={members}
-                proposal={proposal}
+                proposal={motion.proposal}
               />
             )
             : (

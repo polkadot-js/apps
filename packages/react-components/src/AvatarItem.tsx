@@ -66,7 +66,7 @@ export default React.memo(styled(AvatarItem)`
       flex: 1;
 
       .ui--AvatarItem-title {
-        font-weight: bold;
+        font-weight: 400;
         font-size: 1rem;
       }
 
