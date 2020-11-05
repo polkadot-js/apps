@@ -25,14 +25,18 @@ interface Props {
 
 type Tip = [string, OpenTip | OpenTipTo225];
 
-function extractTips (optTips?: Option<OpenTip>[], hashes?: string[] | null): Tip[] | undefined {
-  if (!hashes || !optTips) {
+const TIP_OPTS = { withParams: true };
+
+function extractTips (tipsWithHashes?: [[string[]], Option<OpenTip>[]], inHashes?: string[] | null): Tip[] | undefined {
+  if (!tipsWithHashes || !inHashes) {
     return undefined;
   }
 
+  const [[hashes], optTips] = tipsWithHashes;
+
   return optTips
     .map((opt, index): [string, OpenTip | null] => [hashes[index], opt.unwrapOr(null)])
-    .filter((val): val is [string, OpenTip] => !!val[1])
+    .filter((val): val is [string, OpenTip] => inHashes.includes(val[0]) && !!val[1])
     .sort((a, b) =>
       a[1].closes.isNone
         ? b[1].closes.isNone
@@ -49,11 +53,11 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onRefresh
   const { api } = useApi();
   const [onlyUntipped, setOnlyUntipped] = useState(false);
   const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
-  const optTips = useCall<Option<OpenTip>[]>(hashes && api.query.treasury.tips.multi, [hashes]);
+  const tipsWithHashes = useCall<[[string[]], Option<OpenTip>[]]>(hashes && api.query.treasury.tips.multi, [hashes], TIP_OPTS);
 
   const tips = useMemo(
-    () => extractTips(optTips, hashes),
-    [hashes, optTips]
+    () => extractTips(tipsWithHashes, hashes),
+    [hashes, tipsWithHashes]
   );
 
   const headerRef = useRef([
@@ -82,7 +86,7 @@ function Tips ({ className = '', defaultId, hashes, isMember, members, onRefresh
       )}
       header={headerRef.current}
     >
-      {tips?.map(([hash, tip]): React.ReactNode => (
+      {tips && tips.map(([hash, tip]): React.ReactNode => (
         <Tip
           bestNumber={bestNumber}
           defaultId={defaultId}
