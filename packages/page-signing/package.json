@@ -1,7 +1,7 @@
 {
   "name": "@polkadot/app-signing",
   "private": true,
-  "version": "0.65.2-6",
+  "version": "0.65.2-7",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/apps.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -12,6 +12,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "@polkadot/react-components": "^0.65.2-6"
+    "@polkadot/react-components": "^0.65.2-7"
   }
 }
