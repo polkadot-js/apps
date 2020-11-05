@@ -378,10 +378,10 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   /* Add our overrides */
-  ${cssSemantic({ theme })}
+  ${cssSemantic(theme)}
   ${cssTheme}
   ${cssForm}
   ${cssMedia}
   ${cssRx}
-  ${cssComponents({ theme })}
+  ${cssComponents(theme)}
 `);
