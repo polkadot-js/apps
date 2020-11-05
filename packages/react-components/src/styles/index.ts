@@ -22,12 +22,12 @@ const PARTS = [0, 2, 4];
 
 const defaultHighlight = '#f19135'; // '#f19135'; // #999
 
-function getHighlight ({ uiHighlight }: Props): string {
+function getHighlight (uiHighlight: string | undefined): string {
   return (uiHighlight || defaultHighlight);
 }
 
-function getContrast (props: Props): string {
-  const hc = getHighlight(props).replace('#', '').toLowerCase();
+function getContrast (uiHighlight: string | undefined): string {
+  const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
   const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
 
   return brightness > BRIGHTNESS
@@ -37,25 +37,25 @@ function getContrast (props: Props): string {
 
 export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
   .highlight--all {
-    background: ${getHighlight({ uiHighlight })} !important;
-    border-color: ${getHighlight({ uiHighlight })} !important;
-    color: ${getHighlight({ uiHighlight })} !important;
+    background: ${getHighlight(uiHighlight)} !important;
+    border-color: ${getHighlight(uiHighlight)} !important;
+    color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--before:before {
-    background: ${getHighlight({ uiHighlight })} !important;
+    background: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--before-border:before {
-    border-color: ${getHighlight({ uiHighlight })} !important;
+    border-color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--bg {
-    background: ${getHighlight({ uiHighlight })} !important;
+    background: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--bg-contrast {
-    background: ${getContrast({ uiHighlight })};
+    background: ${getContrast(uiHighlight)};
   }
 
   .highlight--bg-faint,
@@ -64,7 +64,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     position: relative;
 
     &:before {
-      background: ${getHighlight({ uiHighlight })};
+      background: ${getHighlight(uiHighlight)};
       bottom: 0;
       content: ' ';
       left: 0;
@@ -84,19 +84,19 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--border {
-    border-color: ${getHighlight({ uiHighlight })} !important;
+    border-color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--color {
-    color: ${getHighlight({ uiHighlight })} !important;
+    color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--color-contrast {
-    color: ${getContrast({ uiHighlight })};
+    color: ${getContrast(uiHighlight)};
   }
 
   .highlight--fill {
-    fill: ${getHighlight({ uiHighlight })} !important;
+    fill: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--gradient {
@@ -104,54 +104,54 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   }
 
   .highlight--hover-bg:hover {
-    background: ${getHighlight({ uiHighlight })} !important;
+    background: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--hover-color:hover {
-    color: ${getHighlight({ uiHighlight })} !important;
+    color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--icon {
     .ui--Icon {
-      color: ${getHighlight({ uiHighlight })} !important;
+      color: ${getHighlight(uiHighlight)} !important;
     }
   }
 
   .highlight--shadow {
-    box-shadow: 0 0 1px ${getHighlight({ uiHighlight })} !important;
+    box-shadow: 0 0 1px ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--stroke {
-    stroke: ${getHighlight({ uiHighlight })} !important;
+    stroke: ${getHighlight(uiHighlight)} !important;
   }
 
   .ui--Button {
     &:not(.isDisabled):not(.isIcon):not(.isBasic),
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
-        background: ${getHighlight({ uiHighlight })};
-        color: ${getContrast({ uiHighlight })};
+        background: ${getHighlight(uiHighlight)};
+        color: ${getContrast(uiHighlight)};
       }
     }
 
     &.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) {
       &:not(.isReadOnly) {
-        box-shadow: 0 0 1px ${getHighlight({ uiHighlight })};
+        box-shadow: 0 0 1px ${getHighlight(uiHighlight)};
       }
 
       .ui--Icon {
-        color: ${getHighlight({ uiHighlight })};
+        color: ${getHighlight(uiHighlight)};
       }
     }
 
     &.isSelected {
-      box-shadow: 0 0 1px ${getHighlight({ uiHighlight })};
+      box-shadow: 0 0 1px ${getHighlight(uiHighlight)};
     }
 
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
-      background: ${getHighlight({ uiHighlight })};
-      color: ${getContrast({ uiHighlight })};
+      background: ${getHighlight(uiHighlight)};
+      color: ${getContrast(uiHighlight)};
       text-shadow: none;
 
       &:not(.isIcon),
@@ -168,13 +168,13 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     &.withoutLink:not(.isDisabled) {
       &:hover {
         .ui--Icon {
-          color: ${getContrast({ uiHighlight })};
+          color: ${getContrast(uiHighlight)};
         }
       }
 
       .ui--Icon {
         background: transparent;
-        color: ${getHighlight({ uiHighlight })};
+        color: ${getHighlight(uiHighlight)};
       }
     }
   }
@@ -183,29 +183,29 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   .theme--light {
     .ui--Tabs {
       .ui--Tab.tabLinkActive {
-        border-bottom-color: ${getHighlight({ uiHighlight })};
+        border-bottom-color: ${getHighlight(uiHighlight)};
       }
     }
 
     .ui.primary.button,
     .ui.buttons .primary.button {
-      background: ${getHighlight({ uiHighlight })};
+      background: ${getHighlight(uiHighlight)};
 
       &.active,
       &:active,
       &:focus,
       &:hover {
-        background-color: ${getHighlight({ uiHighlight })};
+        background-color: ${getHighlight(uiHighlight)};
       }
     }
 
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight({ uiHighlight })} !important;
+          background-color: ${getHighlight(uiHighlight)} !important;
 
           &:before {
-            border-color: ${getHighlight({ uiHighlight })} !important;
+            border-color: ${getHighlight(uiHighlight)} !important;
           }
         }
       }
