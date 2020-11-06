@@ -40,7 +40,11 @@ function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayo
 
       return batches;
     }, [[]])
-    .map((batch) => api.tx.utility.batch(batch));
+    .map((batch) =>
+      batch.length === 1
+        ? batch[0]
+        : api.tx.utility.batch(batch)
+    );
 }
 
 function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {
