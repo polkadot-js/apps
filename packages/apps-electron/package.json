@@ -2,12 +2,12 @@
   "name": "@polkadot/apps-electron",
   "main": "index.js",
   "private": true,
-  "version": "0.65.2-7",
+  "version": "0.65.2-8",
   "dependencies": {
     "@babel/core": "^7.12.3",
     "@babel/polyfill": "^7.12.1",
     "@polkadot/dev": "^0.59.18",
-    "@polkadot/react-components": "^0.65.2-7",
+    "@polkadot/react-components": "^0.65.2-8",
     "electron-log": "^4.3.0",
     "electron-updater": "^4.3.5"
   },
