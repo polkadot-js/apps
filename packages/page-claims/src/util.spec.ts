@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /**
- * @jest-environment node
+ * @jest-environment jsdom
  */
 
 import { hexToU8a } from '@polkadot/util';
