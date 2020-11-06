@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import { AccountInfo } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
@@ -31,6 +32,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   const [recipientId, setRecipientId] = useState<string | null>(propRecipientId || null);
   const [senderId, setSenderId] = useState<string | null>(propSenderId || null);
   const balances = useCall<DeriveBalancesAll>(api.derive.balances.all, [senderId]);
+  const accountInfo = useCall<AccountInfo>(api.query.system.account, [senderId]);
 
   useEffect((): void => {
     if (balances && balances.accountId.eq(senderId) && recipientId && senderId && isFunction(api.rpc.payment?.queryInfo)) {
@@ -59,7 +61,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
   }, [api, balances, recipientId, senderId]);
 
   const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
-  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer;
+  const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && (!accountInfo || !accountInfo.refcount || accountInfo.refcount.isZero());
 
   return (
     <Modal
