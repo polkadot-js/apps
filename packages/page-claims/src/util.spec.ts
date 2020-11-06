@@ -1,6 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+/**
+ * @jest-environment node
+ */
+
 import { hexToU8a } from '@polkadot/util';
 
 import { publicToAddr, recoverFromJSON } from './util';
