@@ -333,7 +333,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   h1, h2, h3, h4, h5 {
     color: ${({ theme }) => theme.colorSummary};
     font-family: ${({ theme }) => theme.fontSans};
-    font-weight: 100;
+    font-weight: ${({ theme }) => theme.fontWeightLarge};
   }
 
   h1 {

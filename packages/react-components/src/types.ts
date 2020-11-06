@@ -144,6 +144,8 @@ export interface ThemeDef {
   colorSummary: string;
   fontSans: string;
   fontMono: string;
+  fontWeightLarge: number;
+  fontWeightNormal: number;
   theme: 'dark' | 'light';
 }
 
