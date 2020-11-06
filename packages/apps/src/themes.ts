@@ -9,7 +9,7 @@ import { ThemeDef } from '@polkadot/react-components/types';
 const FONT = {
   fontMono: 'monospace',
   fontSans: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-  fontWeightLarge: 300,
+  fontWeightLight: 300,
   fontWeightNormal: 400
 };
 
