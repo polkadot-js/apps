@@ -46,7 +46,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
       setName(name);
       currentName.current = name;
     },
-    []
+    [setName]
   );
 
   const _onSuccess = useCallback(
