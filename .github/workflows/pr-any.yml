@@ -7,7 +7,8 @@ jobs:
       matrix:
         step: ['lint', 'lint:css', 'test', 'build:code', 'build:i18n', 'build:electron']
     name: ${{ matrix.step }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
+    # ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: ${{ matrix.step }}
