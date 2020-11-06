@@ -4,7 +4,7 @@
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { SubmittableResult } from '@polkadot/api';
 import store from '@canvas-ui/apps/store';
@@ -22,8 +22,13 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const [accountId, setAccountId] = useAccountId();
   const [name, setName, isNameValid, isNameError] = useNonEmptyString();
+  const currentName = useRef(name);
   const [wasm, setWasm, isWasmSupplied, isWasmValid] = useFile({
-    onChange: ({ name }: FileState): void => setName(name),
+    onChange: ({ name }: FileState): void => {
+      if (currentName.current === '') {
+        setName(name);
+      }
+    },
     validate: (file: FileState) => file?.data.subarray(0, 4).toString() === '0,97,115,109'
   });
   const { abi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
@@ -34,6 +39,14 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
   const isSubmittable = useMemo(
     (): boolean => !!accountId && (!isNull(name) && isNameValid) && isWasmValid && (!isAbiSupplied || isAbiValid),
     [accountId, name, isAbiSupplied, isAbiValid, isNameValid, isWasmValid]
+  );
+
+  const _onChangeName = useCallback(
+    (name: string | null): void => {
+      setName(name);
+      currentName.current = name;
+    },
+    []
   );
 
   const _onSuccess = useCallback(
@@ -96,7 +109,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           help={t<string>('A name for this WASM code to help users distinguish. Only used for display purposes.')}
           isError={isNameError}
           label={t<string>('Name')}
-          onChange={setName}
+          onChange={_onChangeName}
           placeholder={t<string>('Give your bundle a descriptive name')}
           value={name}
         />
