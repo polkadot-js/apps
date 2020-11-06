@@ -9,20 +9,15 @@ import { Route, Switch } from 'react-router';
 import { Tabs } from '@polkadot/react-components';
 
 import Check from './Check';
-import Deploy from './Deploy';
 import Batch from './Batch';
 import { useTranslation } from './translate';
 
-function MasterSubmitApp({ basePath }: Props): React.ReactElement<Props> {
+function Anchor({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const items = useMemo(() => [{
     isRoot: false,
     name: 'batch',
-    text: t<string>('Batch Anchors')
-  }, {
-    isRoot: false,
-    name: 'deploy',
-    text: t<string>('Deploy Anchor')
+    text: t<string>('Batch and Deploy Anchor')
   }, {
     isRoot: false,
     name: 'check',
@@ -41,15 +36,15 @@ function MasterSubmitApp({ basePath }: Props): React.ReactElement<Props> {
         <Route path={`${basePath}/batch`}>
           <Batch />
         </Route>
-        <Route path={`${basePath}/deploy`}>
-          <Deploy />
-        </Route>
         <Route path={`${basePath}/check`}>
           <Check />
+        </Route>
+        <Route path={`${basePath}`}>
+          <Batch />
         </Route>
       </Switch>
     </main>
   );
 }
 
-export default React.memo(MasterSubmitApp);
+export default React.memo(Anchor);

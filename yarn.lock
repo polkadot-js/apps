@@ -4361,13 +4361,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/deep-equal@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@types/deep-equal@npm:1.0.1"
-  checksum: 3170079180ba0bea25c349d85d9f828a1fc5118c31e985a5d2bfaf6b5e22bb6680c5b71c86107ff928a7fcf01306e3ac9a6d2cccacb677d61937afa557dfc62a
-  languageName: node
-  linkType: hard
-
 "@types/dockerode@npm:^2.5.34":
   version: 2.5.34
   resolution: "@types/dockerode@npm:2.5.34"
@@ -19043,7 +19036,6 @@ fsevents@^1.2.7:
     "@polkadot/ts": ^0.3.47
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.24
-    "@types/deep-equal": ^1.0.1
     "@types/file-saver": ^2.0.1
     "@types/jest": ^26.0.14
     "@types/react-beautiful-dnd": ^13.0.0

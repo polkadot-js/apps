@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import assert from 'assert';
 import Download from './Download';
 import { hex, hexproof, ProofElement } from './hrproof';
+import { u8aToHex } from '@polkadot/util';
 import { blake2sFile } from './hash';
 import { CSSProperties } from 'styled-components';
 import _ from 'lodash';
+import { useApi } from '@polkadot/react-hooks';
+import Post from './Post';
+import { hexDisplay } from './common';
 
 type Proof = {
   filename: string,
@@ -37,6 +41,8 @@ function Batch(): React.ReactElement {
   const [root, setRoot] = useState<Uint8Array | null>(null);
   const loading = root === null && proofs.length !== 0;
   assert((!loading) || root === null, 'loading -> (root === null)');
+  const api = useApi().api;
+  const extrinsic = root === null ? null : api.tx.anchor.deploy(u8aToHex(root));
 
   async function onFileSelect(files: File[]) {
     const proofs: Proof[] = files.map(f => ({ filename: f.name }));
@@ -77,29 +83,17 @@ function Batch(): React.ReactElement {
         disabled={loading}
         style={topchild}
       />
-      {root && <a href={'?' + asParams({ deployRoot: hex(root) }) + '#/anchor/deploy'}>
-        Write root to chain.
-      </a>}
-      {root && <div style={topchild}>
-        <Download
-          filename={'allproofs.json'}
-          content={jsonBlob(proofs.map(p => toOutput(p, root)))}
-        >Download Merkle Proofs</Download>
-      </div>}
     </div>
+    <Post extrinsic={extrinsic} />
     {root && <div style={topchild}>Merkle root: {hexDisplay(root)}</div>}
+    {root && <div style={topchild}>
+      <Download
+        filename={'allproofs.json'}
+        content={jsonBlob(proofs.map(p => toOutput(p, root)))}
+      >Download All Merkle Proofs</Download>
+    </div>}
     {table(proofs.map(p => proofrow(p, root)))}
   </div>;
-}
-
-function asParams(obj: Record<string, string>): string {
-  return new URLSearchParams(obj).toString();
-}
-
-function hexDisplay(bs: Uint8Array): React.ReactElement {
-  return <span style={{ fontFamily: 'monospace', width: `{bs.length}ch` }}>
-    {hex(bs)}
-  </span>;
 }
 
 function proofrow(proof: Proof, root: Uint8Array | null): React.ReactElement[] {

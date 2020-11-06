@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { hexToU8a, u8aToHex } from '@polkadot/util';
+import { hexToU8a } from '@polkadot/util';
+import { hex } from './hrproof';
 
 type Props = {
   defaultValue: Uint8Array,
@@ -20,10 +21,6 @@ function HexInput({ defaultValue, onbytes }: Props): React.ReactElement {
   return <input type="text" value={text} onChange={a => {
     setText(a.target.value);
   }}></input>;
-}
-
-function hex(bs: Uint8Array): string {
-  return u8aToHex(bs, undefined, false);
 }
 
 function validHex(str: string): boolean {

@@ -9,15 +9,15 @@ export function hex(bs: Uint8Array): string {
 }
 
 export function dehex(str: string): Uint8Array {
-  return hexToU8a(str);
+  return hexToU8a('0x' + str);
 }
 
 export function hexproof(merkleProof: ProofElement<Uint8Array>[]): ProofElement<string>[] {
   return merkleProof.map(pe => map(pe, hex));
 }
 
-export function dehexproof(merkleProof: ProofElement<string>[]): ProofElement<Uint8Array>[] {
-  return merkleProof.map(pe => map(pe, dehex));
+export function dehexproof(merkleProof: ProofElement<string>[]): ProofElement<number[]>[] {
+  return merkleProof.map(pe => map(pe, h => [...dehex(h)]));
 }
 
 export type Left<T> = { Left: T };
