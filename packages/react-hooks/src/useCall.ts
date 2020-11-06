@@ -59,7 +59,7 @@ function unsubscribe (tracker: TrackerRef): void {
 
 // subscribe, trying to play nice with the browser threads
 function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T> = {}): void {
-  const validParams = params.filter((p): boolean => !isUndefined(p));
+  const validParams = params.filter((p) => !isUndefined(p));
 
   unsubscribe(tracker);
 

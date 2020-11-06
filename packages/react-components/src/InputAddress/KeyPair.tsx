@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 
 import AccountName from '../AccountName';
@@ -42,7 +43,7 @@ export default React.memo(styled(KeyPair)`
   > .address {
     display: inline-block;
     flex: 1;
-    font-family: monospace;
+    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
     margin-left: 1rem;
     opacity: 0.5;
     overflow: hidden;

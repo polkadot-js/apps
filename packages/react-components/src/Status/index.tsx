@@ -240,7 +240,7 @@ export default React.memo(styled(Status)`
         padding: 0.5rem 1rem;
 
         .status {
-          font-weight: 700;
+          font-weight: 400;
         }
 
         .ui--AddressMini {

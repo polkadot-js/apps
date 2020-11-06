@@ -256,7 +256,7 @@ export default React.memo(styled(PollApp)`
 
     .optionName {
       font-size: 1.2rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1;
       margin-bottom: 0.75rem;
     }
@@ -286,7 +286,7 @@ export default React.memo(styled(PollApp)`
 
     .ui--FormatBalance {
       font-size: 1.2rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1;
     }
 
