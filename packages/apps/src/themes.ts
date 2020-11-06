@@ -3,9 +3,11 @@
 
 import { ThemeDef } from '@polkadot/react-components/types';
 
+// Suggested '"Nunito Sans", sans-serif', however there are a couple of issues
+//   - alignment of identities are way off, parent + sub + unicode
+//   - additional download size
 const FONT = {
   fontMono: 'monospace',
-  // '"Nunito Sans", sans-serif'
   fontSans: '"Helvetica Neue", Helvetica, Arial, sans-serif',
   fontWeightLarge: 300,
   fontWeightNormal: 400
