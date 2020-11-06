@@ -28,6 +28,8 @@ interface Props {
   onClose: () => void;
 }
 
+const MAX_CALL_WEIGHT = new BN(5_000_000_000_000).subn(1);
+
 function Call ({ className = '', contract, messageIndex, onCallResult, onChangeMessage, onClose }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const message = contract.abi.messages[messageIndex];
@@ -76,7 +78,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       if (!accountId || !message || !value || !weight) return;
 
       contract
-        .read(message, message.isPayable ? value : 0, weight.weight, ...params)
+        .read(message, message.isPayable ? value : 0, weight.isEmpty ? -1 : weight.weight, ...params)
         .send(accountId)
         .then((result): void => {
           setOutcomes([{
@@ -159,8 +161,9 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           />
         )}
         <InputMegaGas
-          estimatedWeight={estimatedWeight}
+          estimatedWeight={message.isMutating ? estimatedWeight : MAX_CALL_WEIGHT}
           help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+          isCall={!message.isMutating}
           weight={weight}
         />
         {message.isMutating && (
