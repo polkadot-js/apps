@@ -72,6 +72,7 @@
   "exec": "exec",
   "max gas allowed (M)": "max gas allowed (M)",
   "max gas allowed (M, {{estimatedMg}} estimated)": "max gas allowed (M, {{estimatedMg}} estimated)",
+  "max read gas": "max read gas",
   "maximum gas allowed": "maximum gas allowed",
   "message to send": "message to send",
   "projection": "projection",
