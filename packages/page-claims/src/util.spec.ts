@@ -5,7 +5,7 @@ import { hexToU8a } from '@polkadot/util';
 
 import { publicToAddr, recoverFromJSON } from './util';
 
-describe('util', (): void => {
+describe.skip('util', (): void => {
   it('converts a publicKey to address via publicToAddr', (): void => {
     expect(
       publicToAddr(
