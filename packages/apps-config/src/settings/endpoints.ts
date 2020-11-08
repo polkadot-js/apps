@@ -294,7 +294,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Acala' } }),
-      value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
+      value: 'wss://node-6714447553211260928.rz.onfinality.io/ws'
     },
     {
       info: 'kilt',
