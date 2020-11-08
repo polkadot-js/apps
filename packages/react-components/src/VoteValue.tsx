@@ -64,7 +64,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
     <InputBalance
       autoFocus={autoFocus}
       defaultValue={
-        accountId !== selectedId
+        isDisabled
           ? undefined
           : maxValue
       }
