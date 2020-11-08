@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceVoting } from '@polkadot/react-query';
-import { BN_ZERO, isBn } from '@polkadot/util';
+import { BN_ZERO } from '@polkadot/util';
 
 import InputBalance from './InputBalance';
 import { useTranslation } from './translate';
@@ -46,7 +46,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
-    isBn(value) && onChange(value);
+    onChange(value);
   }, [onChange, value]);
 
   const _setValue = useCallback(
