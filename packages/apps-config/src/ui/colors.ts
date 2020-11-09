@@ -25,6 +25,7 @@ const chainWestend = '#da68a7';
 
 // based on node name
 // alphabetical
+const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
@@ -65,6 +66,7 @@ const chainColors: Record<string, any> = [
 // overrides based on the actual software node type (all '-' converted to ' ')
 // alphabetical
 const nodeColors: Record<string, any> = [
+  ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],

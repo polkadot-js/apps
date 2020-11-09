@@ -15,6 +15,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 // alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
+import nodeBifrost from './nodes/bifrost.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
@@ -78,6 +79,8 @@ const chainLogos: Record<string, any> = [
 // alphabetical
 const nodeLogos: Record<string, any> = [
   ['airalab-robonomics', nodeRobonomics],
+  ['Bifrost Node', nodeBifrost],
+  ['Bifrost', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
@@ -116,6 +119,7 @@ const nodeLogos: Record<string, any> = [
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  bifrost: nodeBifrost,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
