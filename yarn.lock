@@ -12,12 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@acala-network/type-definitions@npm:^0.4.0-beta.13":
-  version: 0.4.0-beta.26
-  resolution: "@acala-network/type-definitions@npm:0.4.0-beta.26"
+"@acala-network/type-definitions@npm:^0.4.0-beta.33":
+  version: 0.4.0-beta.33
+  resolution: "@acala-network/type-definitions@npm:0.4.0-beta.33"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.6.0-beta.26
-  checksum: 462997f7bf635170793e33ec36f0f0bff1af8b176aaa0c4ef2ca6cfd175ef2185b304cc39a7961bccfdeb58b293525d3d50bc3729659dc3464c1dbe6df800a61
+  checksum: 7dec3d96087d888b3d3d293a2841d6b5e57d90a2bc4dec31dd9e7fff0ff887a0c55a09d997cf45bc8e77023c51f495b1dac838d79d4ca06e19346c3792e8f7a2
   languageName: node
   linkType: hard
 
@@ -2318,7 +2318,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@polkadot/apps-config@workspace:packages/apps-config"
   dependencies:
-    "@acala-network/type-definitions": ^0.4.0-beta.13
+    "@acala-network/type-definitions": ^0.4.0-beta.33
     "@babel/runtime": ^7.12.1
     "@edgeware/node-types": ^3.0.7
     "@laminar/type-definitions": ^0.2.0-beta.141
