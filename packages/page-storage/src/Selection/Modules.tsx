@@ -8,7 +8,7 @@ import { RawParams } from '@polkadot/react-params/types';
 import { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';

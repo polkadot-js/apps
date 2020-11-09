@@ -11,7 +11,7 @@ interface PasswordProps {
   setIsPasswordValid: React.Dispatch<boolean>;
 }
 
-export default function usePassword (): PasswordProps {
+export function usePassword (): PasswordProps {
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
 

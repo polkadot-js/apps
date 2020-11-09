@@ -354,7 +354,7 @@ function createCustom (t: TFunction): LinkOption[] {
     : [];
 }
 
-export default function create (t: TFunction): LinkOption[] {
+export function createEndpoints (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {

@@ -5,7 +5,7 @@ import { DefinitionRpcExt } from '@polkadot/types/types';
 import { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {

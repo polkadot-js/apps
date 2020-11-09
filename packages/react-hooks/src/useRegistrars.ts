@@ -6,9 +6,9 @@ import { RegistrarInfo } from '@polkadot/types/interfaces';
 import { useMemo } from 'react';
 import { Option } from '@polkadot/types';
 
-import useAccounts from './useAccounts';
-import useApi from './useApi';
-import useCall from './useCall';
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 interface RegistrarNull {
   address: string | null;
@@ -26,7 +26,7 @@ interface State {
   skipQuery?: boolean;
 }
 
-export default function useRegistrars (skipQuery?: boolean): State {
+export function useRegistrars (skipQuery?: boolean): State {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const query = useCall<Option<RegistrarInfo>[]>(!skipQuery && hasAccounts && api.query.identity?.registrars);

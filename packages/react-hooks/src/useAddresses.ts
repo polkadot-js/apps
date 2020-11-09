@@ -4,17 +4,17 @@
 import { useEffect, useState } from 'react';
 import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 
-import useIsMountedRef from './useIsMountedRef';
+import { useIsMountedRef } from './useIsMountedRef';
 
-interface UseAccounts {
+interface UseAddresses {
   allAddresses: string[];
   hasAddresses: boolean;
   isAddress: (address: string) => boolean;
 }
 
-export default function useAccounts (): UseAccounts {
+export function useAddresses (): UseAddresses {
   const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<UseAccounts>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
+  const [state, setState] = useState<UseAddresses>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
 
   useEffect((): () => void => {
     const subscription = addressObservable.subject.subscribe((addresses): void => {

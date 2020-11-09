@@ -4,7 +4,7 @@
 import { DropdownOptions, DropdownOption } from '../../util/types';
 
 import React from 'react';
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 import { StorageEntry, unwrapStorageType } from '@polkadot/types/primitive/StorageKey';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {

@@ -3,7 +3,7 @@
 
 import { DropdownOptions } from '../../util/types';
 
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 
 export default function createOptions (api: ApiPromise): DropdownOptions {
   return Object

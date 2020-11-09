@@ -7,7 +7,7 @@ import { PayoutStash } from './types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';

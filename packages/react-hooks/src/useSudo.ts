@@ -6,15 +6,15 @@ import { UseSudo } from './types';
 
 import { useEffect, useState } from 'react';
 
-import useAccounts from './useAccounts';
-import useApi from './useApi';
-import useCall from './useCall';
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
 
 const transformSudo = {
   transform: (key: AccountId) => key.toString()
 };
 
-export default function useSudo (): UseSudo {
+export function useSudo (): UseSudo {
   const { api } = useApi();
   const { allAccounts, hasAccounts } = useAccounts();
   const sudoKey = useCall<string>(hasAccounts && api.query.sudo?.key, undefined, transformSudo);

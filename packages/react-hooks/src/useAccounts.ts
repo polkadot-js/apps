@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 
-import useIsMountedRef from './useIsMountedRef';
+import { useIsMountedRef } from './useIsMountedRef';
 
 interface UseAccounts {
   allAccounts: string[];
@@ -12,7 +12,7 @@ interface UseAccounts {
   isAccount: (address: string) => boolean;
 }
 
-export default function useAccounts (): UseAccounts {
+export function useAccounts (): UseAccounts {
   const mountedRef = useIsMountedRef();
   const [state, setState] = useState<UseAccounts>({ allAccounts: [], hasAccounts: false, isAccount: () => false });
 
