@@ -248,6 +248,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://beresheet1.edgewa.re'
     },
     {
+      info: 'bifrost',
+      text: t('rpc.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Bifrost' } }),
+      value: 'wss://testnet.liebi.com'
+    },
+    {
       info: 'canvas',
       text: t('rpc.canvas', 'Canvas', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
