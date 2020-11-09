@@ -80,7 +80,7 @@ const chainLogos: Record<string, any> = [
 const nodeLogos: Record<string, any> = [
   ['airalab-robonomics', nodeRobonomics],
   ['Bifrost Node', nodeBifrost],
-  ['Bifrost', nodeStafi],
+  ['Bifrost', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
