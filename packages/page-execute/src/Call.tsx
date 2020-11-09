@@ -157,12 +157,12 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
             ...result,
             from: accountId,
             message: contract.abi.messages[messageIndex],
-            params,
+            params: extractValues(values),
             when: new Date()
           }, ...outcomes]);
         });
     },
-    [accountId, contract, messageIndex, endowment, weight, outcomes, params, values]
+    [accountId, contract, messageIndex, endowment, weight, outcomes, values]
   );
 
   // const _onClearOutcomes = useCallback(
