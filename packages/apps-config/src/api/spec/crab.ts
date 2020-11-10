@@ -10,8 +10,8 @@ export default {
   BalanceInfo: 'Null',
   BalanceLock: {
     id: 'LockIdentifier',
-    lock_for: 'LockFor',
-    lock_reasons: 'LockReasons',
+    lockFor: 'LockFor',
+    LockReasons: 'Reasons',
     amount: 'Balance',
     reasons: 'Reasons'
   },
@@ -25,28 +25,25 @@ export default {
     amount: 'Balance'
   },
   StakingLock: {
-    staking_amount: 'Balance',
+    stakingAmount: 'Balance',
     unbondings: 'Vec<Unbonding>'
   },
-  LockReasons: {
-    _enum: {
-      Fee: null,
-      Misc: null,
-      All: null
-    }
+  Reasons: {
+    _enum: ['Fee', 'Misc', 'All']
   },
   Unbonding: {
     amount: 'Balance',
-    until: 'BlockNumber'
+    moment: 'BlockNumber'
   },
   AccountData: {
     free: 'Balance',
     reserved: 'Balance',
-    free_kton: 'Balance',
-    reserved_kton: 'Balance',
-    misc_frozen: 'Balance',
-    fee_frozen: 'Balance'
+    freeKton: 'Balance',
+    reservedKton: 'Balance',
+    miscFrozen: 'Balance',
+    feeFrozen: 'Balance'
   },
+
   RingBalance: 'Balance',
   KtonBalance: 'Balance',
   TsInMs: 'u64',
@@ -60,37 +57,38 @@ export default {
   },
   StakingLedgerT: {
     stash: 'AccountId',
-    active_ring: 'Compact<Balance>',
-    active_deposit_ring: 'Compact<Balance>',
-    active_kton: 'Compact<Balance>',
-    deposit_items: 'Vec<TimeDepositItem>',
-    ring_staking_lock: 'StakingLock',
-    kton_staking_lock: 'StakingLock',
-    claimed_rewards: 'Vec<EraIndex>',
+    activeRing: 'Compact<Balance>',
+    activeDepositRing: 'Compact<Balance>',
+    activeKton: 'Compact<Balance>',
+    depositItems: 'Vec<TimeDepositItem>',
+    ringStakingLock: 'StakingLock',
+    ktonStakingLock: 'StakingLock',
+    claimedRewards: 'Vec<EraIndex>',
     total: 'Compact<Balance>',
     active: 'Compact<Balance>',
     unlocking: 'Vec<UnlockChunk>'
   },
   TimeDepositItem: {
     value: 'Compact<Balance>',
-    start_time: 'Compact<TsInMs>',
-    expire_time: 'Compact<TsInMs>'
+    startTime: 'Compact<TsInMs>',
+    expireTime: 'Compact<TsInMs>'
   },
   ExposureT: {
-    own_ring_balance: 'Compact<Balance>',
-    own_kton_balance: 'Compact<Balance>',
-    own_power: 'Power',
-    total_power: 'Power',
+    ownRingBalance: 'Compact<Balance>',
+    ownKtonBalance: 'Compact<Balance>',
+    ownPower: 'Power',
+    totalPower: 'Power',
     others: 'Vec<IndividualExposure>'
   },
+  Exposure: 'ExposureT',
   IndividualExposure: {
     who: 'AccountId',
-    ring_balance: 'Compact<Balance>',
-    kton_balance: 'Compact<Balance>',
+    ringBalance: 'Compact<Balance>',
+    ktonBalance: 'Compact<Balance>',
     power: 'Power'
   },
   ElectionResultT: {
-    elected_stashes: 'Vec<AccountId>',
+    electedStashes: 'Vec<AccountId>',
     exposures: 'Vec<(AccountId, ExposureT)>',
     compute: 'ElectionCompute'
   },
@@ -100,7 +98,7 @@ export default {
   },
   SpanRecord: {
     slashed: 'RKT',
-    paid_out: 'RKT'
+    paidOut: 'RKT'
   },
   UnappliedSlash: {
     validator: 'AccountId',
@@ -109,15 +107,18 @@ export default {
     reporters: 'Vec<AccountId>',
     payout: 'RKT'
   },
+
   TreasuryProposal: {
     proposer: 'AccountId',
     beneficiary: 'AccountId',
-    ring_value: 'Balance',
-    kton_value: 'Balance',
-    ring_bond: 'Balance',
-    kton_bond: 'Balance'
+    ringValue: 'Balance',
+    ktonValue: 'Balance',
+    ringBond: 'Balance',
+    ktonBond: 'Balance'
   },
+
   MappedRing: 'u128',
+
   EthereumTransactionIndex: '(H256, u64)',
   EthereumBlockNumber: 'u64',
   EthereumHeader: {
@@ -141,15 +142,19 @@ export default {
   Bloom: '[u8; 256; Bloom]',
   H128: '[u8; 16; H128]',
   EthashProof: {
-    dag_nodes: '(H512, H512)',
+    dagNodes: '(H512, H512)',
     proof: 'Vec<H128>'
   },
   EthereumReceipt: {
-    gas_used: 'U256',
-    log_bloom: 'Bloom',
+    gasUsed: 'U256',
+    logBloom: 'Bloom',
     logs: 'Vec<LogEntry>',
     outcome: 'TransactionOutcome'
   },
+
+  LogEntry: {},
+  TransactionOutcome: {},
+
   EthereumNetworkType: {
     _enum: {
       Mainnet: null,
@@ -165,22 +170,23 @@ export default {
   EthereumReceiptProof: {
     index: 'u64',
     proof: 'Bytes',
-    header_hash: 'H256'
+    headerHash: 'H256'
   },
   EthereumReceiptProofThing: '(EthereumHeader, EthereumReceiptProof, MMRProof)',
   MMRProof: {
-    member_leaf_index: 'u64',
-    last_leaf_index: 'u64',
+    memberLeafIndex: 'u64',
+    lastLeafIndex: 'u64',
     proof: 'Vec<H256>'
   },
   EthereumRelayHeaderParcel: {
     header: 'EthereumHeader',
-    mmr_root: 'H256'
+    mmrRoot: 'H256'
   },
   EthereumRelayProofs: {
-    ethash_proof: 'Vec<EthashProof>',
-    mmr_proof: 'Vec<H256>'
+    ethashProof: 'Vec<EthashProof>',
+    mmrProof: 'Vec<H256>'
   },
+
   OtherSignature: {
     _enum: {
       Eth: 'EcdsaSignature',
@@ -188,31 +194,37 @@ export default {
     }
   },
   EcdsaSignature: '[u8; 65; EcdsaSignature]',
+  TronAddress: 'EthereumAddress',
   OtherAddress: {
     _enum: {
-      Eth: '[u8; 20; EthereumAddress]',
-      Tron: '[u8; 20; TronAddress]'
+      Eth: 'EthereumAddress',
+      Tron: 'TronAddress'
     }
   },
   AddressT: '[u8; 20; AddressT]',
+
   MerkleMountainRangeRootLog: {
     prefix: '[u8; 4; Prefix]',
-    mmr_root: 'Hash'
+    mmrRoot: 'Hash'
   },
-  RelayHeaderId: 'u64',
-  RelayHeaderParcel: 'EthereumRelayHeaderParcel',
-  RelayProofs: 'Vec<u8>',
-  RelayAffirmationId: {
-    relay_header_id: 'Vec<u8>',
-    round: 'u32',
-    index: 'u32'
+
+  ChainProperties: {
+    ss58Format: 'Option<u8>',
+    tokenDecimals: 'Option<u32>',
+    tokenSymbol: 'Option<Text>',
+    ktonTokenDecimals: 'Option<u32>',
+    ktonTokenSymbol: 'Option<Text>'
   },
-  RelayAffirmationT: {
-    relayer: 'AccountId',
-    relay_header_parcels: 'Vec<u8>',
-    bond: 'Balance',
-    maybe_extended_relay_affirmation_id: 'Option<Vec<u8>>',
-    verified: 'bool'
+
+  AccountInfo: {
+    nonce: 'Index',
+    refcount: 'RefCount',
+    data: 'AccountData'
+  },
+  ProxyDefinition: {
+    delegate: 'AccountId',
+    proxyType: 'ProxyType',
+    delay: 'BlockNumber'
   },
   ProxyType: {
     _enum: {
@@ -224,10 +236,32 @@ export default {
       EthereumBridge: null
     }
   },
-  BalancesRuntimeDispatchInfo: {
-    usable_balance: 'Balance'
+  ProxyAnnouncement: {
+    real: 'AccountId',
+    callHash: 'Hash',
+    height: 'BlockNumber'
   },
-  StakingRuntimeDispatchInfo: {
+  Announcement: 'ProxyAnnouncement',
+  RelayHeaderId: 'EthereumBlockNumber',
+  RelayHeaderParcel: 'EthereumRelayHeaderParcel',
+  RelayProofs: 'EthereumRelayProofs',
+  RelayAffirmationId: {
+    relayHeaderId: 'EthereumBlockNumber',
+    round: 'u32',
+    index: 'u32'
+  },
+  RelayAffirmationT: {
+    relayer: 'AccountId',
+    relayHeaderParcels: 'EthereumRelayHeaderParcel',
+    bond: 'Balance',
+    maybeExtendedRelayAffirmationId: 'Option<RelayAffirmationId>',
+    verified: 'bool'
+  },
+  RelayVotingState: {
+    ayes: 'Vec<AccountId>',
+    nays: 'Vec<AccountId>'
+  },
+  PowerOf: {
     power: 'Power'
   }
 };
