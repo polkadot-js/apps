@@ -20,7 +20,7 @@ export interface ApiState {
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
-  isEthereum:boolean;
+  isEthereum: boolean;
   isSubstrateV2: boolean;
   systemChain: string;
   systemName: string;
