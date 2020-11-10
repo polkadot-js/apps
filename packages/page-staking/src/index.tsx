@@ -26,7 +26,7 @@ import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 
-const HIDDEN_ACC = ['actions', 'payouts'];
+const HIDDEN_ACC = ['actions', 'payout'];
 
 const transformElection = {
   transform: (status: ElectionStatus) => status.isOpen
