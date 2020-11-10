@@ -198,7 +198,7 @@ export default React.memo(styled(AccountName)`
     width: 100%;
 
     .name {
-      font-weight: normal !important;
+      font-weight: 400 !important;
       filter: grayscale(100%);
       line-height: 1;
       opacity: 0.6;

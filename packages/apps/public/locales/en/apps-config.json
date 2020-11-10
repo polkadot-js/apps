@@ -3,6 +3,7 @@
   "rpc.amber": "Amber",
   "rpc.ava.summary": "user-run public nodes; see https://status.cloud.ava.do/",
   "rpc.beresheet": "Beresheet",
+  "rpc.bifrost": "Bifrost",
   "rpc.canvas": "Canvas",
   "rpc.centrifuge": "Centrifuge",
   "rpc.crab": "Darwinia Crab",

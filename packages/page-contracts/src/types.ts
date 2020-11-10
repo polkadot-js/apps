@@ -27,9 +27,11 @@ export interface ContractJsonOld {
 
 export interface UseWeight {
   executionTime: number;
+  isEmpty: boolean;
   isValid: boolean;
   megaGas: BN;
   percentage: number;
+  setIsEmpty: React.Dispatch<boolean>
   setMegaGas: React.Dispatch<BN | undefined>;
   weight: BN;
 }

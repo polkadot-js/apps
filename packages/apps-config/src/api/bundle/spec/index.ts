@@ -6,5 +6,6 @@ import laminar from './laminar';
 
 export default {
   acala,
-  laminar
+  laminar,
+  mandala: acala
 };

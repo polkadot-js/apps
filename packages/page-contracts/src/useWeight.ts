@@ -8,12 +8,13 @@ import { useCallback, useMemo, useState } from 'react';
 import { useApi, useBlockTime } from '@polkadot/react-hooks';
 import { BN_TEN, BN_ZERO } from '@polkadot/util';
 
-const BN_MILLION = new BN(1e6);
+const BN_MILLION = new BN(1_000_000);
 
 export default function useWeight (): UseWeight {
   const { api } = useApi();
   const [blockTime] = useBlockTime();
   const [megaGas, _setMegaGas] = useState<BN>(api.consts.system.maximumBlockWeight.div(BN_MILLION).div(BN_TEN));
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const setMegaGas = useCallback(
     (value?: BN | undefined) => _setMegaGas(value || api.consts.system.maximumBlockWeight.div(BN_MILLION).div(BN_TEN)),
@@ -38,11 +39,13 @@ export default function useWeight (): UseWeight {
 
     return {
       executionTime,
-      isValid,
+      isEmpty,
+      isValid: isEmpty || isValid,
       megaGas: megaGas || BN_ZERO,
       percentage,
+      setIsEmpty,
       setMegaGas,
       weight
     };
-  }, [api, blockTime, megaGas, setMegaGas]);
+  }, [api, blockTime, isEmpty, megaGas, setIsEmpty, setMegaGas]);
 }
