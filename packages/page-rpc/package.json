@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.66.2-5",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/apps.git",
+  "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
   "contributors": [],
