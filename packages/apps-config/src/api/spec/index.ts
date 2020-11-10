@@ -6,6 +6,7 @@ import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
+import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import dock from './dock';
 import testPara from './cumulus-test-parachain';
@@ -27,6 +28,7 @@ import subsocial from './subsocial';
 // mapping from specName in state.getRuntimeVersion
 export default {
   Crab: crab,
+  Darwinia: darwinia,
   Equilibrium: equilibrium,
   bifrost: bifrost,
   canvas,
