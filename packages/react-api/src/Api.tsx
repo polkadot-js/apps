@@ -4,15 +4,13 @@
 import { InjectedExtension } from '@polkadot/extension-inject/types';
 import { KeyringStore } from '@polkadot/ui-keyring/types';
 import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
-import { DefinitionRpc } from '@polkadot/types/types';
-import getRPCMethods from './rpcMethods';
 import { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
-import { typesChain, typesSpec, typesBundle } from '@polkadot/apps-config/api';
+import { typesChain, typesSpec, typesBundle, typesRpc } from '@polkadot/apps-config/api';
 import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
@@ -76,6 +74,15 @@ function getDevTypes (): Record<string, Record<string, string>> {
 
   return types;
 }
+
+// function getRpcTypes (): Record<string, Record<string, string>> {
+//   const types = store.get('types', {}) as Record<string, Record<string, string>>;
+//   const names = Object.keys(types);
+
+//   names.length && console.log('Injected types:', names.join(', '));
+
+//   return types;
+// }
 
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
@@ -194,9 +201,8 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const provider = new WsProvider(url);
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
-    const rpc:Record<string, Record<string, DefinitionRpc>> = getRPCMethods();
 
-    api = new ApiPromise({ provider, registry, rpc, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, rpc:typesRpc, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

@@ -3,7 +3,7 @@
 
 import { DefinitionRpc } from '@polkadot/types/types';
 
-export default function getRPCMethods ():Record<string, Record<string, DefinitionRpc>> {
+export default function ():Record<string, Record<string, DefinitionRpc>> {
   const dummyDescription = {
     description: 'Just a test method',
     params: [
