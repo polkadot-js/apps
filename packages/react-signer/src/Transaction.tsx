@@ -68,7 +68,7 @@ export default React.memo(styled(Transaction)`
     }
 
     .highlight {
-      font-weight: 600;
+      font-weight: 400;
     }
 
     .meta {

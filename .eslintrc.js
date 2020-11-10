@@ -6,6 +6,15 @@ const base = require('@polkadot/dev/config/eslint');
 // add override for any (a metric ton of them, initial conversion)
 module.exports = {
   ...base,
+  ignorePatterns: [
+    '.eslintrc.js',
+    '.github/**',
+    '.vscode/**',
+    '.yarn/**',
+    '**/build/*',
+    '**/coverage/*',
+    '**/node_modules/*'
+  ],
   parserOptions: {
     ...base.parserOptions,
     project: [

@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import bifrost from './bifrost';
 import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
@@ -27,6 +28,7 @@ import subsocial from './subsocial';
 export default {
   Crab: crab,
   Equilibrium: equilibrium,
+  bifrost: bifrost,
   canvas,
   'centrifuge-chain': centrifugeChain,
   crust,

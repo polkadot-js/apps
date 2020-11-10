@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveCollectiveProposals, DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
@@ -16,7 +16,7 @@ import Slashing from './Slashing';
 
 interface Props {
   className?: string;
-  motions?: DeriveCollectiveProposals;
+  motions?: DeriveCollectiveProposal[];
   prime: AccountId | null;
 }
 

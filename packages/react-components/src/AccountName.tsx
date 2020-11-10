@@ -6,6 +6,7 @@ import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-deri
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
@@ -197,7 +198,7 @@ export default React.memo(styled(AccountName)`
     width: 100%;
 
     .name {
-      font-weight: normal !important;
+      font-weight: 400 !important;
       filter: grayscale(100%);
       line-height: 1;
       opacity: 0.6;
@@ -209,7 +210,7 @@ export default React.memo(styled(AccountName)`
       }
 
       &.isAddress {
-        font-family: monospace;
+        font-family: ${({ theme }: ThemeProps) => theme.fontMono};
         text-transform: none;
       }
 

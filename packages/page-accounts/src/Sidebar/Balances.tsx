@@ -45,7 +45,7 @@ export default React.memo(styled(Balances)`
       label {
         color: inherit;
         font-size: 0.93rem;
-        font-weight: bold;
+        font-weight: 400;
       }
 
       .ui--Expander-content .ui--FormatBalance-value {

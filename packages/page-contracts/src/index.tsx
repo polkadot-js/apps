@@ -12,11 +12,11 @@ import introMd from './md/intro.md';
 import store from './store';
 import Contracts from './Contracts';
 import ContractAdd from './Contracts/Add';
+import Banner from './Banner';
 import Codes from './Codes';
 import CodeAdd from './Codes/Add';
 import CodeUpload from './Codes/Upload';
 import Deploy from './Deploy';
-import Ink3Banner from './Ink3Banner';
 import Summary from './Summary';
 import { useTranslation } from './translate';
 
@@ -100,7 +100,7 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
           onClick={toggleAdd}
         />
       </Button.Group>
-      <Ink3Banner />
+      <Banner />
       <Contracts
         contracts={allContracts}
         updated={updated}

@@ -22,7 +22,7 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
       <IdentityIcon value={from} />
       <Output
         className='output'
-        isError={!result.isSuccess}
+        isError={!result.isOk}
         isFull
         label={
           <MessageSignature
@@ -37,7 +37,7 @@ function Outcome ({ className = '', onClear, outcome: { from, message, output, p
             {when.toLocaleTimeString()}
           </span>
         }
-        value={valueToText('Text', output)}
+        value={valueToText('Text', result.isOk ? output : result)}
       />
       <Button
         icon='times'
