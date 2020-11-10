@@ -12,7 +12,7 @@ import { ApiPromise } from '@polkadot/api';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

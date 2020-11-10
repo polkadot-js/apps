@@ -7,7 +7,8 @@ import { TypeDef } from '@polkadot/types/types';
 import React, { useEffect, useState } from 'react';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
-import { Compact, Option, getTypeDef } from '@polkadot/types';
+import { Compact, Option } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 
 interface Props {
   className?: string;

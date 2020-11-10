@@ -4,9 +4,9 @@
 import { Props } from '../types';
 
 import React, { useCallback } from 'react';
-import { ClassOf } from '@polkadot/types';
 import { registry } from '@polkadot/react-api';
 import { Dropdown } from '@polkadot/react-components';
+import { ClassOf } from '@polkadot/types/create';
 import { bnToBn } from '@polkadot/util';
 
 import Bare from './Bare';

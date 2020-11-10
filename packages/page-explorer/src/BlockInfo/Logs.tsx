@@ -5,7 +5,8 @@ import { DigestItem } from '@polkadot/types/interfaces';
 import { Codec, TypeDef } from '@polkadot/types/types';
 
 import React, { useRef } from 'react';
-import { Struct, Tuple, Raw, Vec, getTypeDef } from '@polkadot/types';
+import { Struct, Tuple, Raw, Vec } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 

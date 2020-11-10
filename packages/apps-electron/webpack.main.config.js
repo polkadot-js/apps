@@ -21,8 +21,13 @@ function createWebpack () {
       module: {
         rules: [
           {
+            include: /node_modules/,
+            test: /\.mjs$/,
+            type: 'javascript/auto'
+          },
+          {
             exclude: /(node_modules)/,
-            test: /\.(js|ts|tsx)$/,
+            test: /\.(js|mjs|ts|tsx)$/,
             use: [
               require.resolve('thread-loader'),
               {
@@ -48,7 +53,7 @@ function createWebpack () {
         new CopyWebpackPlugin({ patterns: [{ from: 'assets' }] })
       ],
       resolve: {
-        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
+        extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
       },
       target: 'electron-main'
     }
