@@ -3,5 +3,6 @@
 
 export { CUSTOM_ENDPOINT_KEY } from './constants';
 export { createEndpoints } from './endpoints';
+export { ethereumNetworks } from './ethereumNetworks';
 export { createLanguages } from './languages';
 export { createSs58 } from './ss58';

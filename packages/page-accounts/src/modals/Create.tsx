@@ -182,8 +182,8 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 
 function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api, isDevelopment } = useApi();
-  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', propsType));
+  const { api, isDevelopment, isEthereum } = useApi();
+  const [{ address, derivePath, deriveValidation, isSeedValid, pairType, seed, seedType }, setAddress] = useState<AddressState>(generateSeed(propsSeed, '', propsSeed ? 'raw' : 'bip', isEthereum ? 'ethereum' : propsType));
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [isBusy, setIsBusy] = useState(false);
@@ -339,7 +339,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
                   label={t<string>('keypair crypto type')}
                   onChange={_onChangePairType}
-                  options={uiSettings.availableCryptos}
+                  options={isEthereum ? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
                   tabIndex={-1}
                 />
               </Modal.Column>
