@@ -31,6 +31,7 @@ const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 const nodeEquilibrium = '#1792ff';
+const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';
@@ -75,6 +76,7 @@ const nodeColors: Record<string, any> = [
   ['edgeware node', nodeEdgeware],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
+  ['moonbase alpha', nodeMoonbeam],
   ['nodle chain node', nodeNodle],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]

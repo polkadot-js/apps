@@ -27,7 +27,7 @@ export function getIdentityTheme (systemName: string): 'substrate' {
 }
 
 function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Props): React.ReactElement<Props> {
-  const { systemName } = useApi();
+  const { isEthereum, systemName } = useApi();
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
   const thisTheme = theme || getIdentityTheme(systemName);
@@ -52,7 +52,7 @@ function IdentityIcon ({ className = '', prefix, size = 24, theme, value }: Prop
       onCopy={_onCopy}
       prefix={prefix}
       size={size}
-      theme={thisTheme as 'substrate'}
+      theme={isEthereum ? 'ethereum' : thisTheme as 'substrate'}
       value={value}
     />
   );

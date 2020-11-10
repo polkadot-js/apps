@@ -88,6 +88,9 @@ export default function getInitValue (def: TypeDef): unknown {
     case 'H512':
       return createType(registry, 'H512');
 
+    case 'H160':
+      return registry.createType('H160');
+
     case 'Raw':
     case 'Keys':
       return '';
@@ -100,6 +103,7 @@ export default function getInitValue (def: TypeDef): unknown {
     case 'Digest':
     case 'Header':
     case 'KeyValue':
+    case 'LookupSource':
     case 'MisbehaviorReport':
     case 'Proposal':
     case 'Signature':

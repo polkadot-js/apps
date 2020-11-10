@@ -10,7 +10,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import ApiPromise from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
-import { typesChain, typesSpec, typesBundle } from '@polkadot/apps-config/api';
+import { typesChain, typesSpec, typesBundle, typesRpc } from '@polkadot/apps-config/api';
 import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
@@ -26,6 +26,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import { ethereumNetworks } from '@polkadot/apps-config/settings';
 
 interface Props {
   children: React.ReactNode;
@@ -121,7 +122,6 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
-
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format = uiSettings.prefix === -1
     ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
@@ -129,6 +129,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
+  const isEthereum: boolean = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
@@ -151,7 +152,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     isDevelopment,
     ss58Format,
     store,
-    type: 'ed25519'
+    type: isEthereum ? 'ethereum' : 'ed25519'
   }, injectedAccounts);
 
   const defaultSection = Object.keys(api.tx)[0];
@@ -167,7 +168,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     apiDefaultTxSudo,
     hasInjectedAccounts: injectedAccounts.length !== 0,
     isApiReady: true,
-    isDevelopment,
+    isDevelopment: isEthereum ? false : isDevelopment,
+    isEthereum,
     isSubstrateV2,
     systemChain,
     systemName,
@@ -192,7 +194,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
