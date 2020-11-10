@@ -3,9 +3,14 @@
 
 import acala from './acala';
 import laminar from './laminar';
+import moonbeam from './moonbeam';
 
 export default {
   acala,
   laminar,
-  mandala: acala
+  mandala: acala,
+  'moonbase-alphanet': moonbeam,
+  'moonbeam-standalone': moonbeam,
+  'node-moonbeam': moonbeam,
+  moonbeam
 };
