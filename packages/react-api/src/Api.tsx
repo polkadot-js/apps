@@ -26,6 +26,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
+import { ethereumNetworks } from '@polkadot/apps-config/settings';
 
 interface Props {
   children: React.ReactNode;
@@ -128,7 +129,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
-  const isEthereum:boolean = (api.runtimeVersion.specName.eq('node-moonbeam') || api.runtimeVersion.specName.eq('moonbase-alphanet') || api.runtimeVersion.specName.eq('moonbeam-standalone'));
+  const isEthereum: boolean = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
