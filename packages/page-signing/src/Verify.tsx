@@ -66,7 +66,6 @@ function Verify ({ className = '' }: Props): React.ReactElement {
 
   const _onChangeAddress = useCallback(
     (accountId: string | null): void => {
-      console.log('TODO:H160');
       let publicKey: Uint8Array | null = null;
 
       try {

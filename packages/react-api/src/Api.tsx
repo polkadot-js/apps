@@ -75,15 +75,6 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-// function getRpcTypes (): Record<string, Record<string, string>> {
-//   const types = store.get('types', {}) as Record<string, Record<string, string>>;
-//   const names = Object.keys(types);
-
-//   names.length && console.log('Injected types:', names.join(', '));
-
-//   return types;
-// }
-
 async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
   const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.chain.getHeader(),
