@@ -89,7 +89,7 @@ export default function getInitValue (def: TypeDef): unknown {
       return createType(registry, 'H512');
 
     case 'H160':
-        return createType(registry, 'H160');
+      return createType(registry, 'H160');
 
     case 'Raw':
     case 'Keys':

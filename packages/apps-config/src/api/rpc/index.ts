@@ -6,5 +6,5 @@ import moonbeam from './moonbeam';
 // mapping from specName in state.getRuntimeVersion
 export default {
   // Moonbeam rpc types (Frontier)
-  ...moonbeam(),
+  ...moonbeam()
 };
