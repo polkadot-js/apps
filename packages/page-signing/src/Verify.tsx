@@ -22,7 +22,7 @@ interface Props {
 
 function Verify ({ className = '' }: Props): React.ReactElement {
   const { t } = useTranslation();
-  //const { isEthereum } = useApi();
+  const { isEthereum } = useApi();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
@@ -62,7 +62,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
           cryptoType = 'sr25519';
         } else {
           try {
-            console.log('signatureVerify(data, signature, publicKey)', publicKey, signatureVerify(data, signature, publicKey));
+            console.log('signatureVerify(data, signature, publicKey)', publicKey, signature, signatureVerify(data, signature, publicKey));
             isValidEc = signatureVerify(data, signature, publicKey).isValid;
           } catch (error) {
             // do nothing, already set to false
