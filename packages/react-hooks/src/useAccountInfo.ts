@@ -9,11 +9,11 @@ import { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 import { useCallback, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 
-import useAccounts from './useAccounts';
-import useAddresses from './useAddresses';
-import useApi from './useApi';
-import useCall from './useCall';
-import useToggle from './useToggle';
+import { useAccounts } from './useAccounts';
+import { useAddresses } from './useAddresses';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
+import { useToggle } from './useToggle';
 
 const IS_NONE = {
   isCouncil: false,
@@ -32,7 +32,7 @@ const IS_NONE = {
   isTechCommittee: false
 };
 
-export default function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
+export function useAccountInfo (value: string | null, isContract = false): UseAccountInfo {
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();

@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { BN_ZERO } from '@polkadot/util';
 
-import useApi from './useApi';
-import useCall from './useCall';
-import useIsMountedRef from './useIsMountedRef';
+import { useApi } from './useApi';
+import { useCall } from './useCall';
+import { useIsMountedRef } from './useIsMountedRef';
 import { useOwnStashIds } from './useOwnStashes';
 
 interface State {
@@ -87,7 +87,7 @@ function getValRewards (validatorEras: ValidatorWithEras[], erasPoints: DeriveEr
   };
 }
 
-export default function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[]): State {
+export function useOwnEraRewards (maxEras?: number, ownValidators?: StakerState[]): State {
   const { api } = useApi();
   const mountedRef = useIsMountedRef();
   const stashIds = useOwnStashIds();

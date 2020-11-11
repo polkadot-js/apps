@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Input, InputNumber } from '@polkadot/react-components';
-import { ClassOf } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types/create';
 import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
 import Bare from './Bare';

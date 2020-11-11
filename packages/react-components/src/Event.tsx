@@ -8,7 +8,7 @@ import { Codec } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 
 import { useTranslation } from './translate';
 import { classes, getContractAbi } from './util';

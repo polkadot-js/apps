@@ -1,17 +1,15 @@
 {
   "name": "@polkadot/app-poll",
   "private": true,
-  "version": "0.66.2-5",
+  "version": "0.66.2-6",
   "description": "A basic polling module",
   "main": "index.js",
   "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "@polkadot/react-components": "^0.66.2-5"
+    "@polkadot/react-components": "^0.66.2-6"
   }
 }

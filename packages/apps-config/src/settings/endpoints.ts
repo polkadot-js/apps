@@ -171,69 +171,69 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
 function createTestNetworks (t: TFunction): LinkOption[] {
   return [
     // polkadot test relays
-    {
-      dnslink: 'rococo',
-      info: 'rococo',
-      text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://rococo-rpc.polkadot.io'
-    },
-    {
-      info: 'rococoTick',
-      isChild: true,
-      text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://tick-rpc.polkadot.io'
-    },
-    {
-      info: 'rococoTrick',
-      isChild: true,
-      text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Prity' } }),
-      value: 'wss://trick-rpc.polkadot.io'
-    },
-    {
-      info: 'rococoTrack',
-      isChild: true,
-      text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
-      value: 'wss://track-rpc.polkadot.io'
-    },
-    {
-      info: 'rococoAcala',
-      isChild: true,
-      text: t('rpc.rococo.acala', 'Mandala PC1', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Acala' } }),
-      value: 'wss://rococo-1.acala.laminar.one'
-    },
-    {
-      info: 'rococoDarwinia',
-      isChild: true,
-      text: t('rpc.rococo.darwinia', 'Darwinia PC1', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Darwinia Network' } }),
-      value: 'wss://parachain-rpc.darwinia.network'
-    },
-    {
-      info: 'rococoPlasm',
-      isChild: true,
-      text: t('rpc.rococo.plasm', 'Plasm PC1', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Stake Technologies' } }),
-      value: 'wss://rpc.parachain.plasmnet.io'
-    },
-    {
-      info: 'rococoRobonomics',
-      isChild: true,
-      text: t('rpc.rococo.robonomics', 'Robonomics PC1', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Airalab' } }),
-      value: 'wss://parachain-rpc.robonomics.network'
-    },
-    {
-      info: 'rococoLaminar',
-      isChild: true,
-      text: t('rpc.rococo.laminar', 'Turbulence PC1', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Laminar' } }),
-      value: 'wss://rococo-1.laminar-chain.laminar.one'
-    },
+    // {
+    //   dnslink: 'rococo',
+    //   info: 'rococo',
+    //   text: t('rpc.rococo', 'Rococo', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+    //   value: 'wss://rococo-rpc.polkadot.io'
+    // },
+    // {
+    //   info: 'rococoTick',
+    //   isChild: true,
+    //   text: t('rpc.rococo.tick', 'Tick', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+    //   value: 'wss://tick-rpc.polkadot.io'
+    // },
+    // {
+    //   info: 'rococoTrick',
+    //   isChild: true,
+    //   text: t('rpc.rococo.trick', 'Trick', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Prity' } }),
+    //   value: 'wss://trick-rpc.polkadot.io'
+    // },
+    // {
+    //   info: 'rococoTrack',
+    //   isChild: true,
+    //   text: t('rpc.rococo.track', 'Track', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
+    //   value: 'wss://track-rpc.polkadot.io'
+    // },
+    // {
+    //   info: 'rococoAcala',
+    //   isChild: true,
+    //   text: t('rpc.rococo.acala', 'Mandala PC1', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Acala' } }),
+    //   value: 'wss://rococo-1.acala.laminar.one'
+    // },
+    // {
+    //   info: 'rococoDarwinia',
+    //   isChild: true,
+    //   text: t('rpc.rococo.darwinia', 'Darwinia PC1', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Darwinia Network' } }),
+    //   value: 'wss://parachain-rpc.darwinia.network'
+    // },
+    // {
+    //   info: 'rococoPlasm',
+    //   isChild: true,
+    //   text: t('rpc.rococo.plasm', 'Plasm PC1', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Stake Technologies' } }),
+    //   value: 'wss://rpc.parachain.plasmnet.io'
+    // },
+    // {
+    //   info: 'rococoRobonomics',
+    //   isChild: true,
+    //   text: t('rpc.rococo.robonomics', 'Robonomics PC1', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Airalab' } }),
+    //   value: 'wss://parachain-rpc.robonomics.network'
+    // },
+    // {
+    //   info: 'rococoLaminar',
+    //   isChild: true,
+    //   text: t('rpc.rococo.laminar', 'Turbulence PC1', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Laminar' } }),
+    //   value: 'wss://rococo-1.laminar-chain.laminar.one'
+    // },
     // alphabetical based on chain name
     {
       info: 'centrifuge',
@@ -360,7 +360,7 @@ function createCustom (t: TFunction): LinkOption[] {
     : [];
 }
 
-export default function create (t: TFunction): LinkOption[] {
+export function createEndpoints (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {

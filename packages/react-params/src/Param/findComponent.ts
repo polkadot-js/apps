@@ -5,7 +5,7 @@ import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 import { Props, ComponentMap } from '../types';
 
 import { registry } from '@polkadot/react-api';
-import { getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import { isBn } from '@polkadot/util';
 
 import Account from './Account';
