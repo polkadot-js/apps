@@ -52,6 +52,7 @@ const chainColors: Record<string, any> = [
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
+  ['Moonbase Alpha', nodeMoonbeam],
   ['phala poc 2', chainPhala],
   ['Plasm', chainPlasm],
   ['Polkadot', chainPolkadot],
@@ -76,7 +77,6 @@ const nodeColors: Record<string, any> = [
   ['edgeware node', nodeEdgeware],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
-  ['moonbase alpha', nodeMoonbeam],
   ['nodle chain node', nodeNodle],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
