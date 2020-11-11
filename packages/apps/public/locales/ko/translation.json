@@ -1254,6 +1254,7 @@
   "rpc.amber": "앰버",
   "rpc.ava.summary": "사용자가-운영하는 공공의 노드; 참조 https://status.cloud.ava.do/",
   "rpc.beresheet": "베레시트(Edgware 테스트넷, Commonwealth Labs가 운영함)",
+  "rpc.bifrost": "Bifrost",
   "rpc.canvas": "캔버스",
   "rpc.centrifuge": "센츄러퓨지",
   "rpc.crab": "다위니아 크랩",

@@ -20,7 +20,7 @@ export interface ApiState {
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
-  isEthereum:boolean;
+  isEthereum: boolean;
   isSubstrateV2: boolean;
   systemChain: string;
   systemName: string;
@@ -54,7 +54,9 @@ export interface CallState {
 
 export type CallProps = ApiProps & CallState;
 
-export type BaseProps<T> = BareProps & CallProps & ChangeProps & {
+export type BaseProps<T> = BareProps &
+CallProps &
+ChangeProps & {
   children?: React.ReactNode;
   label?: string;
   render?: (value?: T) => React.ReactNode;

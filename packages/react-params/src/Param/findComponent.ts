@@ -55,7 +55,7 @@ const componentDef: TypeToComponent[] = [
   { c: Raw, t: ['Raw', 'Keys'] },
   { c: Enum, t: ['Enum'] },
   { c: Hash256, t: ['BlockHash', 'CodeHash', 'Hash', 'H256', 'SeedOf'] },
-  { c: Hash160, t: ['BlockHash', 'CodeHash', 'Hash', 'H160', 'SeedOf'] },
+  { c: Hash160, t: ['H160'] },
   { c: Hash512, t: ['H512', 'Signature'] },
   { c: KeyValue, t: ['KeyValue'] },
   { c: KeyValueArray, t: ['Vec<KeyValue>'] },

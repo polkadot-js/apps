@@ -110,6 +110,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://crab.darwinia.network'
     },
     {
+      info: 'darwinia',
+      text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Darwinia Network' } }),
+      value: 'wss://cc1.darwinia.network'
+    },
+    {
       info: 'dock-mainnet',
       text: t('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),
@@ -248,6 +254,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://beresheet1.edgewa.re'
     },
     {
+      info: 'bifrost',
+      text: t('rpc.bifrost', 'Bifrost Asgard', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Bifrost' } }),
+      value: 'wss://testnet.liebi.com'
+    },
+    {
       info: 'canvas',
       text: t('rpc.canvas', 'Canvas', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
@@ -294,7 +306,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       info: 'acala',
       text: t('rpc.mandala', 'Mandala', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Acala' } }),
-      value: 'wss://node-6684611762228215808.jm.onfinality.io/ws'
+      value: 'wss://node-6714447553211260928.rz.onfinality.io/ws'
     },
     {
       info: 'kilt',

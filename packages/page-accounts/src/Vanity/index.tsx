@@ -8,7 +8,7 @@ import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/van
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
-import { useIsMountedRef, useApi } from '@polkadot/react-hooks';
+import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import uiSettings from '@polkadot/ui-settings';
 import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';

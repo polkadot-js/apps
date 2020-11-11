@@ -6,7 +6,7 @@ import { KeypairType } from '@polkadot/util-crypto/types';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Badge, Dropdown, Input, InputAddress, Static } from '@polkadot/react-components';
-import {  useApi } from '@polkadot/react-hooks';
+import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
@@ -22,7 +22,7 @@ interface Props {
 
 function Verify ({ className = '' }: Props): React.ReactElement {
   const { t } = useTranslation();
-  const { isEthereum } = useApi();
+  //const { isEthereum } = useApi();
   const [{ cryptoType, isValid }, setValidity] = useState<{ cryptoType: CryptoTypes; isValid: boolean }>({ cryptoType: 'unknown', isValid: false });
   const [{ data, isHexData }, setData] = useState<{ data: string; isHexData: boolean }>({ data: '', isHexData: false });
   const [{ isValidPk, publicKey }, setPublicKey] = useState<{ isValidPk: boolean; publicKey: Uint8Array | null }>({ isValidPk: false, publicKey: null });
@@ -32,7 +32,8 @@ function Verify ({ className = '' }: Props): React.ReactElement {
   useEffect((): void => {
     let cryptoType: CryptoTypes = 'unknown';
     let isValid = isValidPk && isValidSignature;
-    console.log(isValidSignature,isValidPk,publicKey)
+
+    console.log(isValidSignature, isValidPk, publicKey);
 
     // We cannot just use the keyring verify since it may be an address. So here we first check
     // for ed25519, if not valid, we try against sr25519 - if neither are valid, well, we have
@@ -61,21 +62,24 @@ function Verify ({ className = '' }: Props): React.ReactElement {
           cryptoType = 'sr25519';
         } else {
           try {
-            console.log("signatureVerify(data, signature, publicKey)",publicKey,signatureVerify(data, signature, publicKey))
+            console.log('signatureVerify(data, signature, publicKey)', publicKey, signatureVerify(data, signature, publicKey));
             isValidEc = signatureVerify(data, signature, publicKey).isValid;
           } catch (error) {
             // do nothing, already set to false
           }
-          console.log('data',data, isValidEc)
-          if (isValidEc){
-            cryptoType='ecdsa'
+
+          console.log('data', data, isValidEc);
+
+          if (isValidEc) {
+            cryptoType = 'ecdsa';
           } else {
             isValid = false;
           }
         }
       }
     }
-console.log('setvalidity',cryptoType,isValid)
+
+    console.log('setvalidity', cryptoType, isValid);
     setValidity({ cryptoType, isValid });
   }, [data, isValidPk, isValidSignature, publicKey, signature]);
 
@@ -89,7 +93,7 @@ console.log('setvalidity',cryptoType,isValid)
         console.error(err);
       }
 
-      setPublicKey({ isValidPk: !!publicKey &&( publicKey.length === 32 ||(isEthereum&&publicKey.length === 20 )), publicKey });
+      setPublicKey({ isValidPk: !!publicKey && (publicKey.length === 32 || (isEthereum && publicKey.length === 20)), publicKey });
     },
     []
   );
@@ -100,7 +104,7 @@ console.log('setvalidity',cryptoType,isValid)
   );
 
   const _onChangeSignature = useCallback(
-    (signature: string) => setSignature({ isValidSignature: isHex(signature) && (signature.length === 130||(isEthereum&&signature.length === 132)), signature }),
+    (signature: string) => setSignature({ isValidSignature: isHex(signature) && (signature.length === 130 || (isEthereum && signature.length === 132)), signature }),
     []
   );
 
