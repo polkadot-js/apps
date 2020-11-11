@@ -10,7 +10,6 @@ import React, { useCallback, useRef, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { createType } from '@polkadot/types';
 
 import { getContractAbi } from '../util';
 import { QueueProvider } from './Context';
@@ -217,8 +216,8 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
       addToTxQueue({
         accountId: payload.address,
         // this is not great, but the Extrinsic we don't need a submittable
-        extrinsic: createType(registry, 'Extrinsic',
-          { method: createType(registry, 'Call', payload.method) },
+        extrinsic: registry.createType('Extrinsic',
+          { method: registry.createType('Call', payload.method) },
           { version: payload.version }
         ) as unknown as SubmittableExtrinsic,
         payload,

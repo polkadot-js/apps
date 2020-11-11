@@ -5,7 +5,7 @@ import { Props, Props as CProps } from '../types';
 
 import React, { useMemo, useRef } from 'react';
 import { classes } from '@polkadot/react-components/util';
-import { encodeTypeDef } from '@polkadot/types';
+import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
 import findComponent from './findComponent';

@@ -6,6 +6,6 @@ import { ApiProps } from '@polkadot/react-api/types';
 import { useContext } from 'react';
 import { ApiContext } from '@polkadot/react-api';
 
-export default function useApi (): ApiProps {
+export function useApi (): ApiProps {
   return useContext(ApiContext);
 }

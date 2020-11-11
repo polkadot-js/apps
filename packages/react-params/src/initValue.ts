@@ -4,7 +4,8 @@
 import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
-import { Raw, createType, getTypeDef } from '@polkadot/types';
+import { Raw } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
@@ -83,10 +84,10 @@ export default function getInitValue (def: TypeDef): unknown {
     case 'CodeHash':
     case 'Hash':
     case 'H256':
-      return createType(registry, 'H256');
+      return registry.createType('H256');
 
     case 'H512':
-      return createType(registry, 'H512');
+      return registry.createType('H512');
 
     case 'H160':
       return registry.createType('H160');
@@ -122,7 +123,7 @@ export default function getInitValue (def: TypeDef): unknown {
       let error: string | null = null;
 
       try {
-        const instance = createType(registry, type as 'u32');
+        const instance = registry.createType(type as 'u32');
         const raw = getTypeDef(instance.toRawType());
 
         if (isBn(instance)) {

@@ -6,12 +6,10 @@
   "main": "index.js",
   "scripts": {},
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "@polkadot/api-contract": "^2.6.1"
+    "@polkadot/api-contract": "^2.6.2-7"
   }
 }

@@ -9,30 +9,19 @@
     "RxJs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
-  ],
+  "maintainers": [],
   "contributors": [],
   "license": "Apache-2.0",
   "engines": {
     "node": ">=8.0"
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/polkadot-js/ui.git"
-  },
-  "bugs": {
-    "url": "https://github.com/polkadot-js/ui/issues"
-  },
-  "homepage": "https://github.com/polkadot-js/ui/tree/master/packages/ui-reactive#readme",
+  "repository": "github:polkadot-js/apps",
+  "bugs": "https://github.com/polkadot-js/apps/issues",
+  "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.1",
-    "@polkadot/api": "^2.6.1",
-    "@polkadot/extension-dapp": "^0.35.0-beta.42",
+    "@polkadot/api": "^2.6.2-7",
+    "@polkadot/extension-dapp": "^0.35.0-beta.47",
     "rxjs-compat": "^6.6.3"
   }
 }

@@ -7,7 +7,7 @@ import React from 'react';
 import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
-import { encodeTypeDef } from '@polkadot/types';
+import { encodeTypeDef } from '@polkadot/types/create';
 import { stringCamelCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
