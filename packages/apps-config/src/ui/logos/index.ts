@@ -98,7 +98,7 @@ const nodeLogos: Record<string, any> = [
   ['hanonycash', nodeHanonycash],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
-  ['moonbase-alphanet', moonbeam],
+  ['moonbeam-alphanet', moonbeam],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
