@@ -1,12 +1,14 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { OverrideBundleDefinition } from '@polkadot/types/types';
+import { OverrideVersionedType } from '@polkadot/types/types';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
 
-export default {
+export default [{
+  minmax: [0, undefined],
+  types:{
   AccountId: 'EthereumAccountId',
   Address: 'AccountId',
   Balance: 'u128',
@@ -76,4 +78,4 @@ export default {
     logs_bloom: 'H2048',
     status_code: 'Option<U64>'
   }
-} as OverrideBundleDefinition;
+} }]as OverrideVersionedType[];
