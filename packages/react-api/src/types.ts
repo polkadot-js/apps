@@ -4,7 +4,7 @@
 import { InjectedExtension } from '@polkadot/extension-inject/types';
 import { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 
-import ApiPromise from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api/promise';
 
 // helpers for HOC props
 export type OmitProps<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -20,6 +20,7 @@ export interface ApiState {
   hasInjectedAccounts: boolean;
   isApiReady: boolean;
   isDevelopment: boolean;
+  isEthereum: boolean;
   isSubstrateV2: boolean;
   systemChain: string;
   systemName: string;

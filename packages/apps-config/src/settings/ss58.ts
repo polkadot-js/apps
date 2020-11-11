@@ -11,7 +11,7 @@ import known from '@polkadot/networks';
 //   text: The text you wish to display in the dropdown
 //   value: The actual ss5Format value (as registered)
 
-export default function create (t: TFunction): Option[] {
+export function createSs58 (t: TFunction): Option[] {
   return [
     {
       info: 'default',

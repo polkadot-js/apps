@@ -127,7 +127,7 @@ h2 {
   margin: 0.5rem 0 2rem;
   font-family: monospace;
   font-size: 2.5rem;
-  font-weight: 200;
+  font-weight: 400;
 }
 `;
 

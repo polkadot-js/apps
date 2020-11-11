@@ -68,5 +68,5 @@ export default {
     attendee_signature: 'Signature'
   },
   // weight changed to u64 since 2.0.0-rc1 (commit 2051ecbf79e April 16th 2020
-  Weight: 'u32'
+  Weight: 'u64'
 };

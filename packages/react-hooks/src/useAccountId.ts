@@ -5,7 +5,7 @@ import { StringOrNull } from '@polkadot/react-components/types';
 
 import { useCallback, useState } from 'react';
 
-export default function useAccountId (initialValue: StringOrNull = null, onChangeAccountId?: (_: StringOrNull) => void): [StringOrNull, (_: StringOrNull) => void] {
+export function useAccountId (initialValue: StringOrNull = null, onChangeAccountId?: (_: StringOrNull) => void): [StringOrNull, (_: StringOrNull) => void] {
   const [accountId, setAccountId] = useState<StringOrNull>(initialValue);
 
   const _setAccountId = useCallback(

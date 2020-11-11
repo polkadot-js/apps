@@ -117,7 +117,7 @@ export default React.memo(styled(Message)`
 
     .docs {
       font-size: 0.9rem;
-      font-weight: normal;
+      font-weight: 400;
     }
   }
 

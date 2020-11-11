@@ -3,7 +3,18 @@
 
 import { ThemeDef } from '@polkadot/react-components/types';
 
+// Suggested '"Nunito Sans", sans-serif', however there are a couple of issues
+//   - alignment of identities are way off, parent + sub + unicode
+//   - additional download size
+const FONT = {
+  fontMono: 'monospace',
+  fontSans: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontWeightLight: 300,
+  fontWeightNormal: 400
+};
+
 export const darkTheme: ThemeDef = {
+  ...FONT,
   bgInput: '#38393f',
   bgInputError: '#48393f',
   bgInverse: 'rgba(78, 78, 78, 0.66)',
@@ -24,6 +35,7 @@ export const darkTheme: ThemeDef = {
 };
 
 export const lightTheme: ThemeDef = {
+  ...FONT,
   bgInput: '#fff',
   bgInputError: '#fff6f6',
   bgInverse: 'rgba(244, 242, 240, 0.91)',

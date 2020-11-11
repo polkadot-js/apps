@@ -8,6 +8,7 @@ const emptyColor = '#99999';
 // alphabetical
 const chainCrab = '#7C30DD';
 const chainCrust = '#ff8812';
+const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
 const chainPhala = '#4dc56a';
@@ -25,10 +26,12 @@ const chainWestend = '#da68a7';
 
 // based on node name
 // alphabetical
+const nodeBifrost = '#002cc3';
 const nodeCanvas = '#c77cff';
 const nodeCentrifuge = '#fcc367';
 const nodeEdgeware = '#0a95df';
 const nodeEquilibrium = '#1792ff';
+const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';
@@ -38,8 +41,9 @@ const nodeSubsocial = '#b9018c';
 // alphabetical
 const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
-  ['Crab', chainCrab],
+  ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
+  ['darwinia cc1', chainDarwinia],
   ['darwinia parachain', chainRoccoDarwinia],
   ['hanonycash', chainHanonycash],
   ['Kulupu', chainKulupu],
@@ -65,12 +69,14 @@ const chainColors: Record<string, any> = [
 // overrides based on the actual software node type (all '-' converted to ' ')
 // alphabetical
 const nodeColors: Record<string, any> = [
+  ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['edgeware node', nodeEdgeware],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
+  ['moonbase alpha', nodeMoonbeam],
   ['nodle chain node', nodeNodle],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]

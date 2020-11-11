@@ -6,7 +6,8 @@ import { RawParam } from '@polkadot/react-params/types';
 import { TypeDef } from '@polkadot/types/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { GenericCall, getTypeDef } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import Params from '@polkadot/react-params';
 import { isUndefined } from '@polkadot/util';
 
