@@ -90,7 +90,7 @@ function createWebpack (ENV, context) {
             require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev/config/babel')
+              options: require('@polkadot/dev/config/babel-config-cjs.cjs')
             }
           ]
         },

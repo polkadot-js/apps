@@ -25,6 +25,21 @@ interface ValueState {
   value: BN;
 }
 
+function getValues (selectedId: string | null | undefined, isCouncil: boolean | undefined, allBalances: DeriveBalancesAll, existential: BN): ValueState {
+  const value = allBalances.lockedBalance;
+  const maxValue = allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO);
+
+  return {
+    maxValue,
+    selectedId,
+    value: value.isZero()
+      ? maxValue.gt(existential)
+        ? maxValue.sub(existential)
+        : BN_ZERO
+      : value
+  };
+}
+
 function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -35,14 +50,10 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
     // if the set accountId changes and the new balances is for that id, set it
     allBalances && allBalances.accountId.eq(accountId) && setValue((state) =>
       state.selectedId !== accountId
-        ? ({
-          maxValue: allBalances.votingBalance.add(isCouncil ? allBalances.reservedBalance : BN_ZERO),
-          selectedId: accountId,
-          value: allBalances.lockedBalance
-        })
+        ? getValues(accountId, isCouncil, allBalances, api.consts.balances.existentialDeposit)
         : state
     );
-  }, [allBalances, accountId, isCouncil]);
+  }, [allBalances, accountId, api, isCouncil]);
 
   // only do onChange to parent when the BN value comes in, not our formatted version
   useEffect((): void => {
@@ -66,7 +77,7 @@ function VoteValue ({ accountId, autoFocus, isCouncil, onChange }: Props): React
       defaultValue={
         isDisabled
           ? undefined
-          : maxValue
+          : value
       }
       help={t<string>('The amount that is associated with this vote. This value is is locked for the duration of the vote.')}
       isDisabled={isDisabled}
