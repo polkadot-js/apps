@@ -110,6 +110,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://crab.darwinia.network'
     },
     {
+      info: 'darwinia',
+      text: t('rpc.darwinia', 'Darwinia', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Darwinia Network' } }),
+      value: 'wss://cc1.darwinia.network'
+    },
+    {
       info: 'dock-mainnet',
       text: t('rpc.dock-mainnet', 'Dock Mainnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Dock Association' } }),

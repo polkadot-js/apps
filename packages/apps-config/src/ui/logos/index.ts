@@ -60,6 +60,7 @@ import emptyLogo from './empty.svg';
 // NOTE: this matches up with RPC system.chain
 // alphabetical
 const chainLogos: Record<string, any> = [
+  ['darwinia crab', nodeCrab],
   ['Dusty', chainDusty],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
@@ -84,8 +85,9 @@ const nodeLogos: Record<string, any> = [
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
-  ['crab', nodeCrab],
+  ['darwinia crab', nodeCrab],
   ['crust node', nodeCrust],
+  ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
@@ -124,6 +126,7 @@ const namedLogos: Record<string, any> = {
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
   crust: nodeCrust,
+  darwinia: nodeDarwinia,
   'dock-mainnet': nodeDockMainnet,
   'dock-testnet': nodeDockTestnet,
   dusty: chainDusty,
