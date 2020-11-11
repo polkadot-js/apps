@@ -128,8 +128,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
     : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
-  const isDevelopment = systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain);
-  const isEthereum: boolean = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
+  const isEthereum = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
+  const isDevelopment = !isEthereum && (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
   console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
