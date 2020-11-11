@@ -10,7 +10,7 @@ export default {
   laminar,
   mandala: acala,
   'moonbase-alphanet': moonbeam,
+  moonbeam,
   'moonbeam-standalone': moonbeam,
-  'node-moonbeam': moonbeam,
-  moonbeam
+  'node-moonbeam': moonbeam
 };
