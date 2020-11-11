@@ -76,7 +76,7 @@ const nodeColors: Record<string, any> = [
   ['edgeware node', nodeEdgeware],
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
-  ['moonbase alpha', nodeMoonbeam],
+  ['moonbeam alphanet', nodeMoonbeam],
   ['nodle chain node', nodeNodle],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
