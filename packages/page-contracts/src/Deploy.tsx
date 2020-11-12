@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useFormField, useNonEmptyString, useNonZeroBn, useApi } from '@polkadot/react-hooks';
+import { Available } from '@polkadot/react-query';
 import keyring from '@polkadot/ui-keyring';
 
 import { ABI, InputMegaGas, InputName, MessageSignature, Params } from './shared';
@@ -111,6 +112,12 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
           isInput={false}
           label={t('deployment account')}
+          labelExtra={
+            <Available
+              label={t<string>('transferrable')}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
           value={accountId}
@@ -133,23 +140,22 @@ function Deploy ({ codeHash, constructorIndex = 0, onClose, setConstructorIndex 
           />
         )}
         {contractAbi && (
-          <Dropdown
-            help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
-            isDisabled={contractAbi.constructors.length <= 1}
-            label={t('deployment constructor')}
-            onChange={setConstructorIndex}
-            options={constructOptions}
-            value={constructorIndex}
-          />
+          <>
+            <Dropdown
+              help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
+              isDisabled={contractAbi.constructors.length <= 1}
+              label={t('deployment constructor')}
+              onChange={setConstructorIndex}
+              options={constructOptions}
+              value={constructorIndex}
+            />
+            <Params
+              onChange={setParams}
+              params={contractAbi.constructors[constructorIndex].args}
+              registry={contractAbi.registry}
+            />
+          </>
         )}
-        <Params
-          onChange={setParams}
-          params={
-            contractAbi
-              ? contractAbi.constructors[constructorIndex].args
-              : []
-          }
-        />
         <InputBalance
           help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
           isError={!isEndowmentValid}

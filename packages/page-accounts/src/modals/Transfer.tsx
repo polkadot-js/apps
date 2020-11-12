@@ -60,7 +60,6 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
     }
   }, [api, balances, recipientId, senderId]);
 
-  const transferrable = <span className='label'>{t<string>('transferrable')}</span>;
   const canToggleAll = !isProtected && balances && balances.accountId.eq(senderId) && maxTransfer && (!accountInfo || !accountInfo.refcount || accountInfo.refcount.isZero());
 
   return (
@@ -80,7 +79,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 label={t<string>('send from account')}
                 labelExtra={
                   <Available
-                    label={transferrable}
+                    label={t<string>('transferrable')}
                     params={senderId}
                   />
                 }
@@ -101,7 +100,7 @@ function Transfer ({ className = '', onClose, recipientId: propRecipientId, send
                 label={t<string>('send to address')}
                 labelExtra={
                   <Available
-                    label={transferrable}
+                    label={t<string>('transferrable')}
                     params={recipientId}
                   />
                 }
