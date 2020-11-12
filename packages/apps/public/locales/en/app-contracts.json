@@ -57,6 +57,7 @@
   "addresses": "addresses",
   "call from account": "call from account",
   "click to select or drag and drop a JSON ABI file": "click to select or drag and drop a JSON ABI file",
+  "click to select or drag and drop a JSON file": "click to select or drag and drop a JSON file",
   "code hash": "code hash",
   "code hashes": "code hashes",
   "compiled contract WASM": "compiled contract WASM",
@@ -71,6 +72,7 @@
   "endowment": "endowment",
   "estimated gas (M) {{estimatedMg}}": "estimated gas (M) {{estimatedMg}}",
   "exec": "exec",
+  "json for either ABI or .contract bundle": "json for either ABI or .contract bundle",
   "max gas allowed (M)": "max gas allowed (M)",
   "max gas allowed (M, {{estimatedMg}} estimated)": "max gas allowed (M, {{estimatedMg}} estimated)",
   "max read gas": "max read gas",
@@ -85,5 +87,6 @@
   "value": "value",
   "{{executionTime}}s execution time": "{{executionTime}}s execution time",
   "{{percentage}}% of block time": "{{percentage}}% of block time",
-  "{{percentage}}% of block weight": "{{percentage}}% of block weight"
+  "{{percentage}}% of block weight": "{{percentage}}% of block weight",
+  "{{size}} WASM bytes": "{{size}} WASM bytes"
 }
