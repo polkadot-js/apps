@@ -27,7 +27,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   const [uploadTx, setUploadTx] = useState<SubmittableExtrinsic<'promise'> | null>(null);
   const [[wasm, isWasmValid], setWasm] = useState<[Uint8Array | null, boolean]>([null, false]);
   const [name, isNameValid, setName] = useNonEmptyString();
-  const { contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
+  const { abiName, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi } = useAbi();
 
   const code = useMemo(
     () => isAbiValid && isWasmValid && wasm && contractAbi
@@ -39,6 +39,18 @@ function Upload ({ onClose }: Props): React.ReactElement {
   useEffect((): void => {
     setUploadTx(() => code ? code.createBlueprint() : null);
   }, [code]);
+
+  useEffect((): void => {
+    setWasm(
+      contractAbi && isWasm(contractAbi.project.source.wasm)
+        ? [contractAbi.project.source.wasm, true]
+        : [null, false]
+    );
+  }, [contractAbi]);
+
+  useEffect((): void => {
+    abiName && setName(abiName);
+  }, [abiName, setName]);
 
   const _onAddWasm = useCallback(
     (wasm: Uint8Array, name: string): void => {
@@ -62,6 +74,7 @@ function Upload ({ onClose }: Props): React.ReactElement {
   );
 
   const isSubmittable = !!accountId && (!isNull(name) && isNameValid) && isWasmValid && isAbiSupplied && isAbiValid && !!uploadTx;
+  const invalidAbi = isAbiError || !isAbiSupplied;
 
   return (
     <Modal header={t('Upload WASM')}>
@@ -80,31 +93,39 @@ function Upload ({ onClose }: Props): React.ReactElement {
           type='account'
           value={accountId}
         />
-        <InputFile
-          help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
-          isError={!isWasmValid}
-          label={t<string>('compiled contract WASM')}
-          onChange={_onAddWasm}
-          placeholder={
-            wasm && !isWasmValid
-              ? t<string>('The code is not recognized as being in valid WASM format')
-              : null
-          }
-        />
-        <InputName
-          isError={!isNameValid}
-          onChange={setName}
-          value={name || undefined}
-        />
         <ABI
           contractAbi={contractAbi}
           errorText={errorText}
-          isError={isAbiError || !isAbiSupplied}
+          isError={invalidAbi}
           isSupplied={isAbiSupplied}
           isValid={isAbiValid}
+          label={t<string>('json for either ABI or .contract bundle')}
           onChange={onChangeAbi}
           onRemove={onRemoveAbi}
+          withWasm
         />
+        {!invalidAbi && contractAbi && (
+          <>
+            {!contractAbi.project.source.wasm.length && (
+              <InputFile
+                help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
+                isError={!isWasmValid}
+                label={t<string>('compiled contract WASM')}
+                onChange={_onAddWasm}
+                placeholder={
+                  wasm && !isWasmValid
+                    ? t<string>('The code is not recognized as being in valid WASM format')
+                    : null
+                }
+              />
+            )}
+            <InputName
+              isError={!isNameValid}
+              onChange={setName}
+              value={name || undefined}
+            />
+          </>
+        )}
       </Modal.Content>
       <Modal.Actions onCancel={onClose}>
         <TxButton

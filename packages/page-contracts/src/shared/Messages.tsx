@@ -11,6 +11,7 @@ import { Abi, ContractPromise } from '@polkadot/api-contract';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
 import Message from './Message';
 import { useTranslation } from '../translate';
@@ -25,6 +26,7 @@ export interface Props {
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
   withMessages?: boolean;
+  withWasm?: boolean;
 }
 
 const READ_ADDR = '0x'.padEnd(66, '0');
@@ -41,7 +43,7 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
     );
 }
 
-function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
@@ -109,6 +111,9 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
             />
           ))}
         </Expander>
+      )}
+      {withWasm && source.wasm.length !== 0 && (
+        <div>{t<string>('{{size}} WASM bytes', { replace: { size: formatNumber(source.wasm.length) } })}</div>
       )}
     </div>
   );
