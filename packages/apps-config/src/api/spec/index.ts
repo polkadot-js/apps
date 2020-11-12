@@ -21,6 +21,7 @@ import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
+import nodePolimec from './polimec-node';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
@@ -53,6 +54,8 @@ export default {
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
   plasm,
+  'polimec-collator': nodePolimec,
+  'polimec-node': nodePolimec,
   robonomics,
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
