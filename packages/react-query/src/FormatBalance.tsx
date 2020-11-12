@@ -48,7 +48,7 @@ function FormatBalance ({ children, className = '', isShort, label, labelPost, v
   // labelPost here looks messy, however we ensure we have one less text node
   return (
     <div className={`ui--FormatBalance ${className}`}>
-      {label || ''}<span className='ui--FormatBalance-value'>{
+      {label ? <>{label}&nbsp;</> : ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
             ? t<string>('everything{{labelPost}}', { replace: { labelPost } })

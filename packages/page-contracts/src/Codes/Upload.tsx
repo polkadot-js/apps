@@ -8,6 +8,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CodePromise } from '@polkadot/api-contract';
 import { InputAddress, InputFile, Modal, TxButton } from '@polkadot/react-components';
 import { useAccountId, useApi, useNonEmptyString } from '@polkadot/react-hooks';
+import { Available } from '@polkadot/react-query';
 import { isNull, isWasm } from '@polkadot/util';
 
 import { ABI, InputName } from '../shared';
@@ -69,6 +70,12 @@ function Upload ({ onClose }: Props): React.ReactElement {
           help={t('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
           isInput={false}
           label={t('deployment account')}
+          labelExtra={
+            <Available
+              label={t<string>('transferrable')}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
           value={accountId}

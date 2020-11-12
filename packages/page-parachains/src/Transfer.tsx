@@ -81,7 +81,7 @@ function Transfer ({ className, parachains }: Props): React.ReactElement<Props> 
                   label={t<string>('send from account')}
                   labelExtra={
                     <Available
-                      label={t<string>('transferrable ')}
+                      label={t<string>('transferrable')}
                       params={accountId}
                     />
                   }

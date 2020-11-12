@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { ContractPromise } from '@polkadot/api-contract';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
+import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
@@ -125,6 +126,12 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
           defaultValue={accountId}
           help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
           label={t<string>('call from account')}
+          labelExtra={
+            <Available
+              label={t<string>('transferrable')}
+              params={accountId}
+            />
+          }
           onChange={setAccountId}
           type='account'
           value={accountId}
@@ -147,6 +154,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
                   ? message.args
                   : undefined
               }
+              registry={contract.abi.registry}
             />
           </>
         )}

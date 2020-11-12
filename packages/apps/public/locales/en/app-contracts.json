@@ -80,6 +80,7 @@
   "read": "read",
   "read contract only, no execution": "read contract only, no execution",
   "status": "status",
+  "transferrable": "transferrable",
   "use estimated gas": "use estimated gas",
   "value": "value",
   "{{executionTime}}s execution time": "{{executionTime}}s execution time",

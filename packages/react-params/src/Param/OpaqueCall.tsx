@@ -4,7 +4,6 @@
 import { Props } from '../types';
 
 import React from 'react';
-import { registry } from '@polkadot/react-api';
 import { Bytes } from '@polkadot/types';
 
 import CallDisplay from './Call';
@@ -17,7 +16,7 @@ function OpaqueCall (props: Props): React.ReactElement<Props> {
     );
   }
 
-  const value = registry.createType('Call', (props.defaultValue.value as Bytes).toHex());
+  const value = props.registry.createType('Call', (props.defaultValue.value as Bytes).toHex());
 
   return (
     <CallDisplay
