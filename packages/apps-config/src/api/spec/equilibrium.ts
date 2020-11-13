@@ -22,18 +22,23 @@ export default {
     block_num: 'BlockNumber'
   },
   Currency: {
-    _enum: [
-      'Unknown',
-      'Usd',
-      'EQ',
-      'Eth',
-      'Btc',
-      'Eos'
-    ]
+    _enum: ['Unknown', 'Usd', 'EQ', 'Eth', 'Btc', 'Eos', 'Dot']
+  },
+  UserGroup: {
+    _enum: ['Unknown', 'Balances', 'Bailsman']
+  },
+  TotalAggregates: {
+    collateral: 'Balance',
+    debt: 'Balance'
+  },
+  PricePeriod: {
+    _enum: ['Min', 'TenMin', 'Hour', 'FourHour', 'Day']
   },
   DataPoint: {
     price: 'u64',
-    account_id: 'AccountId'
+    account_id: 'AccountId',
+    block_number: 'BlockNumber',
+    timestamp: 'u64'
   },
   PricePoint: {
     block_number: 'BlockNumber',
@@ -51,5 +56,24 @@ export default {
     startingBlock: 'BlockNumber'
   },
   LookupSource: 'AccountId',
-  BalanceOf: 'Balance'
+  BalanceOf: 'Balance',
+  TransferReason: {
+    _enum: [
+      'Common',
+      'InterestFee',
+      'MarginCall',
+      'BailsmenRedistribution',
+      'TreasuryEqBuyout',
+      'TreasuryBuyEq'
+    ]
+  },
+  ProposalStatus: {
+    _enum: ['Initiated', 'Approved', 'Rejected']
+  },
+  ProposalVotes: {
+    votes_for: 'Vec<AccountId>',
+    votes_against: 'Vec<AccountId>',
+    status: 'ProposalStatus',
+    expiry: 'BlockNumber'
+  }
 };
