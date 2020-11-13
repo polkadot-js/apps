@@ -1,30 +1,33 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import { Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
 
-import { registry } from '@polkadot/react-api';
 import { Raw } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
 import { BN_ZERO, isBn } from '@polkadot/util';
 
 const warnList: string[] = [];
 
-export default function getInitValue (def: TypeDef): unknown {
+export default function getInitValue (registry: Registry, def: TypeDef): unknown {
   if (def.info === TypeDefInfo.Vec) {
-    return [getInitValue(def.sub as TypeDef)];
+    return [getInitValue(registry, def.sub as TypeDef)];
   } else if (def.info === TypeDefInfo.Tuple) {
-    return Array.isArray(def.sub) ? def.sub.map((def) => getInitValue(def)) : [];
+    return Array.isArray(def.sub)
+      ? def.sub.map((def) => getInitValue(registry, def))
+      : [];
   } else if (def.info === TypeDefInfo.Struct) {
     return Array.isArray(def.sub)
       ? def.sub.reduce((result: Record<string, unknown>, def): Record<string, unknown> => {
-        result[def.name as string] = getInitValue(def);
+        result[def.name as string] = getInitValue(registry, def);
 
         return result;
       }, {})
       : {};
   } else if (def.info === TypeDefInfo.Enum) {
-    return Array.isArray(def.sub) ? { [def.sub[0].name as string]: getInitValue(def.sub[0]) } : {};
+    return Array.isArray(def.sub)
+      ? { [def.sub[0].name as string]: getInitValue(registry, def.sub[0]) }
+      : {};
   }
 
   const type = [TypeDefInfo.Compact, TypeDefInfo.Option].includes(def.info) ? (def.sub as TypeDef).type : def.type;
@@ -125,7 +128,7 @@ export default function getInitValue (def: TypeDef): unknown {
         } else if ([TypeDefInfo.Struct].includes(raw.info)) {
           return undefined;
         } else if ([TypeDefInfo.Enum, TypeDefInfo.Tuple].includes(raw.info)) {
-          return getInitValue(raw);
+          return getInitValue(registry, raw);
         }
       } catch (e) {
         error = (e as Error).message;

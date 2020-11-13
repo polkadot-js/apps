@@ -5,7 +5,6 @@ import { TypeDef } from '@polkadot/types/types';
 import { ParamDef, Props, RawParam } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { registry } from '@polkadot/react-api';
 import { Dropdown } from '@polkadot/react-components';
 import { Enum } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
@@ -25,7 +24,7 @@ interface Options {
 }
 
 function EnumParam (props: Props): React.ReactElement<Props> {
-  const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, type, withLabel } = props;
+  const { className = '', defaultValue, isDisabled, isError, label, onChange, overrides, registry, type, withLabel } = props;
   const [current, setCurrent] = useState<ParamDef[] | null>(null);
   const [initialValue, setInitialValue] = useState<string | null>(null);
   const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
@@ -43,7 +42,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
       subTypes
     });
     setCurrent([{ name: subTypes[0].name, type: subTypes[0] }]);
-  }, [type]);
+  }, [registry, type]);
 
   useEffect((): void => {
     setInitialValue(
@@ -100,6 +99,7 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           onChange={_onChangeParam}
           overrides={overrides}
           params={current}
+          registry={registry}
         />
       )}
     </Bare>

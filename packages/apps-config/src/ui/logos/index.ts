@@ -32,6 +32,7 @@ import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
+import moonbeam from './nodes/moonbeam.png';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
@@ -66,6 +67,7 @@ const chainLogos: Record<string, any> = [
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Moonbase Alpha', moonbeam],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -138,6 +140,7 @@ const namedLogos: Record<string, any> = {
   kulupu: nodeKulupu,
   kusama: chainKusama,
   laminar: nodeLaminar,
+  moonbaseAlpha: moonbeam,
   nodle: nodeNodle,
   phala: nodePhala,
   plasm: nodePlasm,
