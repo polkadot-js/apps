@@ -21,7 +21,6 @@ export default {
     }
   },
   Transaction: {
-    //action: 'String',
     block_hash: 'Option<H256>',
     block_number: 'Option<U256>',
     chain_id: 'Option<u64>',
@@ -30,26 +29,18 @@ export default {
     from: 'H160',
     gas: 'U256',
     gas_price: 'U256',
-    //gas_limit: 'u64',
     hash: 'H256',
     input: 'Bytes',
     nonce: 'U256',
     public_key: 'Option<H512>',
     r: 'U256',
     raw: 'Bytes',
-    //s: 'U256',
-    //signature: 'Signature',
     standard_v: 'U256',
     to: 'Option<H160>',
     transaction_index: 'Option<U256>',
     v: 'U256',
     value: 'U256'
   },
-  // Signature: {
-  //   v: 'u64',
-  //   r: 'H256',
-  //   s: 'H256'
-  // },
   TransactionStatus: {
     transaction_hash: 'H256',
     transaction_index: 'u32',
@@ -74,15 +65,10 @@ export default {
     logs_bloom: 'H2048',
     status_code: 'Option<U64>'
   },
-  ExitReason: {_enum:[
-    /// Machine has succeeded.
-    "ExitSucceed",
-    /// Machine returns a normal EVM error.
-    "ExitError",
-    /// Machine encountered an explict revert.
-    "ExitRevert",
-    /// Machine encountered an error that is not supposed to be normal EVM
-    /// errors, such as requiring too much memory to execute.
-    "ExitFatal",
-  ]}
+  ExitReason: { _enum: {
+    ExitSucceed: 'bool',
+    ExitError: 'bool',
+    ExitRevert: 'bool',
+    ExitFatal: 'bool'
+  } }
 };
