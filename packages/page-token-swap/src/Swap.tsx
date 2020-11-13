@@ -72,7 +72,7 @@ function SwapForm ({ title = 'Submit token migration request' }: Props): React.R
     setError('');
 
     try {
-      const res = await axios.post(`${apiUrl}/` + (isSelected ? `migrate_with_bonus` : `migrate`), {
+      const res = await axios.post(`${apiUrl}/` + (useBonusCheckbox ? `migrate_with_bonus` : `migrate`), {
         payload: base58Check,
         signature,
       });
