@@ -16,6 +16,8 @@
   "The master member's associated DID.": "The master member's associated DID.",
   "The master member's vote signature.": "The master member's vote signature.",
   "The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).": "The resulting signature of the input data, as done with the crypto algorithm from the account. (This could be non-deterministic for some types such as sr25519).",
+  "The weight for the proposal. Leave empty if not using weight.": "The weight for the proposal. Leave empty if not using weight.",
+  "The weight for the proposal. Leave empty to call the master.execute function or fill the field to use the master.executeUncheckedWeight function.": "The weight for the proposal. Leave empty to call the master.execute function or fill the field to use the master.executeUncheckedWeight function.",
   "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.": "This external account cannot be used to sign data. Only Limited support is currently available for signing from any non-internal accounts.",
   "This injected account cannot be used to sign data since the extension does not support raw signing.": "This injected account cannot be used to sign data since the extension does not support raw signing.",
   "This is the current master voting round number": "This is the current master voting round number",
@@ -31,5 +33,6 @@
   "signature for vote": "signature for vote",
   "submit the following extrinsic": "submit the following extrinsic",
   "using the selected account": "using the selected account",
-  "vote on the following proposal": "vote on the following proposal"
+  "vote on the following proposal": "vote on the following proposal",
+  "weight": "weight"
 }

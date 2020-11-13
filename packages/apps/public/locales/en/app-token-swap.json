@@ -1,0 +1,23 @@
+{
+  "Check Status": "Check Status",
+  "Code to sign": "Code to sign",
+  "Dock mainnet address": "Dock mainnet address",
+  "Enter the Ethereum address that you sent your tokens from": "Enter the Ethereum address that you sent your tokens from",
+  "Enter the Ethereum transaction hash in which you sent tokens to the Vault.": "Enter the Ethereum transaction hash in which you sent tokens to the Vault.",
+  "Enter the signature over the above code.": "Enter the signature over the above code.",
+  "Enter the transaction hash of when you sent the tokens": "Enter the transaction hash of when you sent the tokens",
+  "Ethereum address": "Ethereum address",
+  "Go to the accounts page and add or create an account if one doesn't appear here.": "Go to the accounts page and add or create an account if one doesn't appear here.",
+  "Look for the ethereum transaction hash from when you sent your tokens and enter it here.": "Look for the ethereum transaction hash from when you sent your tokens and enter it here.",
+  "Opt-in for vesting bonus?": "Opt-in for vesting bonus?",
+  "Signature": "Signature",
+  "Take the base 58 string above, sign it and enter it here.": "Take the base 58 string above, sign it and enter it here.",
+  "Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.": "Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.",
+  "Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.": "Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.",
+  "Transaction hash": "Transaction hash",
+  "Use vesting bonus": "Use vesting bonus",
+  "base58 check encoding": "base58 check encoding",
+  "ethereum address": "ethereum address",
+  "signature": "signature",
+  "transaction hash": "transaction hash"
+}

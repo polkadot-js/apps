@@ -15,11 +15,12 @@ const statusMap = {
   '0': 'Signature valid but transaction not parsed to find out how many tokens to transfer.',
   '1': 'Parsed and checked that was intended for Dock\'s contract and vault address but not sufficient confirmations',
   '2': 'Sufficient confirmations',
-  '3': 'Attempting migration',
-  '10': 'Migration is complete',
+  '3': 'Initial transfer done',
+  '4': 'Bonus has been calculated but not yet sent.',
+  '5': 'Bonus sent',
 };
 
-function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<Props> {
+function SwapForm ({ title = 'Check token migration status' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
     [t(title), 'start', 3]
@@ -74,7 +75,7 @@ function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<P
             <Modal.Column>
               <Input
                 help={t<string>('Enter the Ethereum address that you sent your tokens from')}
-                label={t<string>('ethereum address')}
+                label={t<string>('Ethereum address')}
                 onChange={setAddress}
                 value={address}
                 isFull
@@ -88,15 +89,15 @@ function SwapForm ({ title = 'check swap status' }: Props): React.ReactElement<P
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('Enter the transaction hash of when you sent the tokens')}
-                label={t<string>('transaction hash')}
+                help={t<string>('Enter the Ethereum transaction hash in which you sent tokens to the Vault.')}
+                label={t<string>('Transaction hash')}
                 onChange={setTxHash}
                 value={txHash}
                 isFull
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>(`Enter the transaction hash of when you sent the tokens`)}</p>
+              <p>{t<string>(`Enter the Ethereum transaction hash in which you sent tokens to the Vault.`)}</p>
             </Modal.Column>
           </Modal.Columns>
 

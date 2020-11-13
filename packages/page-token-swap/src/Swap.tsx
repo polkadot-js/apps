@@ -16,7 +16,7 @@ interface Props {
 const apiUrl = 'http://localhost:8080';
 const useBonusCheckbox = true;
 
-function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
+function SwapForm ({ title = 'Submit token migration request' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
     [t(title), 'start', 3]
@@ -119,15 +119,15 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('Look for the ethereum transaction hash from when you sent your tokens and enter it here.')}
-                label={t<string>('transaction hash')}
+                help={t<string>('Enter the Ethereum transaction hash in which you sent tokens to the Vault.')}
+                label={t<string>('Transaction hash')}
                 onChange={setTxHash}
                 value={txHash}
                 isFull
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>(`Look for the ethereum transaction hash from when you sent your tokens and enter it here.`)}</p>
+              <p>{t<string>(`Enter the Ethereum transaction hash in which you sent tokens to the Vault.`)}</p>
             </Modal.Column>
           </Modal.Columns>
 
@@ -141,7 +141,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
                     onChange={_onSelect}
                     value={isSelected}
                   />
-                  <p style={{marginLeft: '10px'}}>{t<string>(`Use vesting bonus`)}</p>
+                  <p style={{marginLeft: '10px'}}>{t<string>(`Opt-in for vesting bonus?`)}</p>
                 </div>
               </Modal.Column>
             </Modal.Columns>
@@ -150,8 +150,8 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.')}
-                label={t<string>('base58 check encoding')}
+                help={t<string>('Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.')}
+                label={t<string>('Code to sign')}
                 value={base58Check}
                 disabled
                 isFull
@@ -159,7 +159,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
             </Modal.Column>
             <Modal.Column>
               <p>
-                Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.
+                Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.
               </p>
             </Modal.Column>
           </Modal.Columns>
@@ -167,15 +167,15 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
           <Modal.Columns>
             <Modal.Column>
               <Input
-                help={t<string>('Take the base 58 string above, sign it and enter it here.')}
-                label={t<string>('signature')}
+                help={t<string>('Enter the signature over the above code.')}
+                label={t<string>('Signature')}
                 onChange={setSignature}
                 value={signature}
                 isFull
               />
             </Modal.Column>
             <Modal.Column>
-              <p>{t<string>(`Take the base 58 string above, sign it and enter it here.`)}</p>
+              <p>{t<string>(`Enter the signature over the above code.`)}</p>
             </Modal.Column>
           </Modal.Columns>
 
@@ -183,7 +183,7 @@ function SwapForm ({ title = 'token swap' }: Props): React.ReactElement<Props> {
             <Modal.Column>
               {success ? (
                 <p style={{color: 'green'}}>
-                  Success! Your token withdrawal has been submitted and is being processed. Check the status with the other form on this page.
+                  Success! Your token migration request has been submitted and is being processed. Check the status with the other form on this page.
                 </p>
               ) : (
                 <p style={{color: '#d82323'}}>
