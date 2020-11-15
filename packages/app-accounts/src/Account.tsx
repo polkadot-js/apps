@@ -9,7 +9,7 @@ import { RecoveryConfig } from '@polkadot/types/interfaces';
 import React, { useState, useEffect } from 'react';
 import { Label } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { AddressSmall, Badge, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Input } from '@polkadot/react-components';
+import { AddressSmall, Badge, Forget, Icon, IdentityIcon, InputTags, LinkPolkascan, Input, Button, Modal } from '@polkadot/react-components';
 import AddressInfo from './AddressInfoMvp';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
@@ -22,7 +22,7 @@ import Derive from './modals/Derive';
 import Identity from './modals/Identity';
 import RecoverAccount from './modals/RecoverAccount';
 import RecoverSetup from './modals/RecoverSetup';
-import Transfer from './modals/Transfer';
+import Transfer from '../../app-generic-asset/src/Transfer';
 import { useTranslation } from './translate';
 
 interface Props {
@@ -209,8 +209,9 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
                   onEnter={_saveName}
                   withLabel={false}
                 />
-              )
-              : undefined
+            ) : (
+              undefined
+            )
           }
           onClickName={toggleEditName}
           toggle={isEditingName}
@@ -253,11 +254,29 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           />
         )}
         {isTransferOpen && (
-          <Transfer
-            key='modal-transfer'
-            onClose={toggleTransfer}
-            senderId={address}
-          />
+          <Modal
+            className='app--accounts-Modal'
+            header={t('Send assets')}
+          >
+            <Modal.Content>
+              <Transfer
+                key='modal-transfer'
+                onClose={toggleTransfer}
+                senderId={address}
+              />
+            </Modal.Content>
+            {/* <Modal.Actions>
+              <TxButton
+                // accountId={senderId}
+                // extrinsic={extrinsic}
+                icon='send'
+                // isDisabled={!hasAvailable}
+                isPrimary
+                label={t('Send')}
+                onStart={onClose}
+              />
+            </Modal.Actions> */}
+          </Modal>
         )}
         {isRecoverAccountOpen && (
           <RecoverAccount
@@ -275,30 +294,32 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
         )}
       </td>
       <td className='top'>
-        {isEditingTags
-          ? (
-            <InputTags
-              onBlur={_saveTags}
-              onChange={_setTags}
-              onClose={_saveTags}
-              openOnFocus
-              defaultValue={tags}
-              searchInput={{ autoFocus: true }}
-              value={tags}
-              withLabel={false}
-            />
-          )
-          : (
-            <div className='tags--toggle' onClick={toggleEditTags}>
-              {tags.length
-                ? tags.map((tag): React.ReactNode => (
-                  <Label key={tag} size='tiny' color='grey'>{tag}</Label>
-                ))
-                : <label>{t('no tags')}</label>
-              }
-            </div>
-          )
-        }
+        {isEditingTags ? (
+          <InputTags
+            onBlur={_saveTags}
+            onChange={_setTags}
+            onClose={_saveTags}
+            openOnFocus
+            defaultValue={tags}
+            searchInput={{ autoFocus: true }}
+            value={tags}
+            withLabel={false}
+          />
+        ) : (
+          <div className='tags--toggle' onClick={toggleEditTags}>
+            {tags.length ? (
+              tags.map(
+                (tag): React.ReactNode => (
+                  <Label key={tag} size='tiny' color='grey'>
+                    {tag}
+                  </Label>
+                )
+              )
+            ) : (
+              <label>{t('no tags')}</label>
+            )}
+          </div>
+        )}
       </td>
       <td className='top'>
         <AddressInfo
@@ -314,6 +335,17 @@ function Account ({ address, className, filter, isFavorite, toggleFavorite }: Pr
           data={address}
           type='address'
           withShort
+        />
+      </td>
+      <td className='number top'>
+        <Button
+          icon='paper plane'
+          isPrimary
+          key='send'
+          label={t('Send')}
+          onClick={() => toggleTransfer()}
+          size='small'
+          tooltip={t('Send funds to this address')}
         />
       </td>
     </tr>
