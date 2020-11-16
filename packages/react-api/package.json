@@ -20,7 +20,7 @@
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-api#readme",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@polkadot/api": "^2.6.2-15",
+    "@polkadot/api": "^2.6.2-16",
     "@polkadot/extension-dapp": "^0.35.0-beta.48",
     "rxjs-compat": "^6.6.3"
   }
