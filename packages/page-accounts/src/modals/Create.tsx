@@ -379,15 +379,16 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </Modal.Column>
             </Modal.Columns>
           </Expander>
-          <ExternalWarning />
           <Modal.Columns>
-            <Modal.Column>&nbsp;</Modal.Column>
             <Modal.Column>
-              <Checkbox
-                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-                onChange={_toggleMnemonicSaved}
-                value={isMnemonicSaved}
-              />
+              <ExternalWarning />
+              <div className='saveToggle'>
+                <Checkbox
+                  label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                  onChange={_toggleMnemonicSaved}
+                  value={isMnemonicSaved}
+                />
+              </div>
             </Modal.Column>
           </Modal.Columns>
         </>}
@@ -413,7 +414,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             onChange={_onPasswordChange}
             onEnter={_onCommit}
           />
-          <ExternalWarning />
+          <Modal.Columns>
+            <Modal.Column>
+              <ExternalWarning />
+            </Modal.Column>
+          </Modal.Columns>
         </>}
         {step === 3 && address && <CreateConfirmation
           derivePath={derivePath}
@@ -476,6 +481,7 @@ export default React.memo(styled(Create)`
     right: 9.1rem;
     top: 1.25rem;
   }
+
   && .TextAreaWithDropdown {
     textarea {
       width: 80%;
@@ -484,11 +490,16 @@ export default React.memo(styled(Create)`
       width: 20%;
     }
   }
-  & .ui--Checkbox {
-    margin: 0.8rem 0 0 2rem;
-    
-    > label {
-        font-weight: 400;
+
+  .saveToggle {
+    text-align: right;
+
+    .ui--Checkbox {
+      margin: 0.8rem 0;
+
+      > label {
+          font-weight: 400;
+      }
     }
   }
 `);
