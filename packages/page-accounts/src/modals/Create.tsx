@@ -322,7 +322,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 />
                 < CopyButton
                   className='copyMoved'
-                  type={seedType === 'bip' ? 'mnemonic' : seedType === 'raw' ? isEthereum ? 'private key' : 'seed' : 'development seed'}
+                  type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
                   value={seed}
                 />
               </TextArea>

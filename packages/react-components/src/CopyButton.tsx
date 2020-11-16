@@ -22,7 +22,7 @@ interface Props {
 
 const NOOP = () => undefined;
 
-function CopyButton ({ children, className, icon = 'copy', type = 'other', value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className, icon = 'copy', type, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -31,7 +31,7 @@ function CopyButton ({ children, className, icon = 'copy', type = 'other', value
       (type !== 'other') && queueAction && queueAction({
         account: type !== 'mnemonic' ? value : undefined,
         action: t<string>('clipboard'),
-        message: t<string>(`${type} copied`),
+        message: t<string>('{{type}} copied`, { replace: { type: type || t<string>('other') } }),
         status: 'queued'
       });
     },
