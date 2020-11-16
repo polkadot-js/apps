@@ -204,8 +204,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       : []
   ).concat(
     { text: t<string>('Mnemonic'), value: 'bip' },
-    isEthereum?{ text: t<string>('Private Key'), value: 'raw' }:{ text: t<string>('Raw seed'), value: 'raw' }
-  ), [isDevelopment, t]);
+    isEthereum ? { text: t<string>('Private Key'), value: 'raw' } : { text: t<string>('Raw seed'), value: 'raw' }
+  ), [isEthereum, isDevelopment, t]);
 
   const _onChangeDerive = useCallback(
     (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
@@ -272,6 +272,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     },
     [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t]
   );
+
   return (
     <Modal
       className={className}
@@ -295,7 +296,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             <Modal.Column>
               <TextArea
                 help={isEthereum
-                  ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key." )
+                  ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
                   : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
                 isAction
                 isError={!isSeedValid}
@@ -321,7 +322,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 />
                 < CopyButton
                   className='copyMoved'
-                  type={seedType === 'bip'?"mnemonic":seedType === 'raw'?isEthereum?'private key':'seed':'development seed'}
+                  type={seedType === 'bip' ? 'mnemonic' : seedType === 'raw' ? isEthereum ? 'private key' : 'seed' : 'development seed'}
                   value={seed}
                 />
               </TextArea>

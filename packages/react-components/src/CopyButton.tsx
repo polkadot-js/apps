@@ -28,8 +28,8 @@ function CopyButton ({ children, className, icon = 'copy', type = 'other', value
 
   const _onCopy = useCallback(
     (): void => {
-      (type!=="other") && queueAction && queueAction({
-        account: type!=="mnemonic" ? value : undefined,
+      (type !== 'other') && queueAction && queueAction({
+        account: type !== 'mnemonic' ? value : undefined,
         action: t<string>('clipboard'),
         message: t<string>(`${type} copied`),
         status: 'queued'
