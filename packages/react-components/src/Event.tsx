@@ -8,7 +8,7 @@ import { Codec } from '@polkadot/types/types';
 import React, { useMemo } from 'react';
 import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types/create';
+import { Bytes, getTypeDef } from '@polkadot/types';
 
 import { useTranslation } from './translate';
 import { classes, getContractAbi } from './util';
@@ -44,7 +44,7 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
           const abi = getContractAbi(accountId.toString());
 
           if (abi) {
-            const decoded = abi.decodeEvent(encoded.toU8a(true));
+            const decoded = abi.decodeEvent(encoded as Bytes);
 
             return {
               ...decoded,
