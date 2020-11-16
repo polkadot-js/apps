@@ -193,7 +193,7 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: end;
+    align-items: center;
     display: inline-flex;
     width: 100%;
 
