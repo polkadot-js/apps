@@ -1,5 +1,8 @@
 {
+  "0x prefixed hex, e.g. 0x1234 or ascii data": "0x prefixed hex, e.g. 0x1234 or ascii data",
+  "<none>": "<none>",
   "A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.": "A deployed contract that has either been deployed or attached. The address and ABI are used to construct the parameters.",
+  "A hex or string value that acts as a salt for this deployment.": "A hex or string value that acts as a salt for this deployment.",
   "Add an existing code hash": "Add an existing code hash",
   "Add an existing contract": "Add an existing contract",
   "Available": "Available",
@@ -83,6 +86,8 @@
   "read contract only, no execution": "read contract only, no execution",
   "status": "status",
   "transferrable": "transferrable",
+  "unique deployment salt": "unique deployment salt",
+  "use deployment salt": "use deployment salt",
   "use estimated gas": "use estimated gas",
   "value": "value",
   "{{executionTime}}s execution time": "{{executionTime}}s execution time",
