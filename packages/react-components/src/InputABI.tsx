@@ -49,11 +49,11 @@ function InputABI (props: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const help = isContract
-    ? t<string>('The ABI for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')
-    : t<string>('The ABI for the WASM code. In this step it is optional, but setting it here simplifies the setup of contract instances.');
+    ? t<string>('The ABI or .contract bundle for the WASM code. Since we will be making a call into the code, the ABI is required and stored for future operations such as sending messages.')
+    : t<string>('The .contract bundle or ABI for the WASM code. If using an ABI, you will need to upload the generated WASM file separately.');
   const label = isRequired
     ? 'Upload ABI'
-    : 'Upload ABI (optional)';
+    : 'Upload Contract Bundle';
 
   return (
     <InputFile
