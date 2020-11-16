@@ -31,7 +31,7 @@ function CopyButton ({ children, className, icon = 'copy', type, value }: Props)
       (type !== 'other') && queueAction && queueAction({
         account: type !== 'mnemonic' ? value : undefined,
         action: t<string>('clipboard'),
-        message: t<string>('{{type}} copied`, { replace: { type: type || t<string>('other') } }),
+        message: t<string>('{{type}} copied', { replace: { type: type || t<string>('other') } }),
         status: 'queued'
       });
     },
