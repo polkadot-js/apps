@@ -323,7 +323,7 @@ function createTestNetworks (t: TFunction): LinkOption[] {
     {
       info: 'moonbaseAlpha',
       text: t('rpc.moonbeam', 'Moonbase Alpha', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Moonbeam Protocol' } }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Moonbeam Network' } }),
       value: 'wss://wss.testnet.moonbeam.network'
     },
     {

@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-hooks",
-  "version": "0.66.2-13",
+  "version": "0.66.2-16",
   "description": "A collection of React hooks the Polkadot JS Apps UI",
   "main": "index.js",
   "keywords": [
@@ -19,10 +19,10 @@
   "bugs": "https://github.com/polkadot-js/apps/issues",
   "homepage": "https://github.com/polkadot-js/apps/tree/master/packages/react-hooks#readme",
   "dependencies": {
-    "@babel/runtime": "^7.12.1",
+    "@babel/runtime": "^7.12.5",
     "memoizee": "^0.4.14"
   },
   "devDependencies": {
-    "@types/memoizee": "^0.4.4"
+    "@types/memoizee": "^0.4.5"
   }
 }

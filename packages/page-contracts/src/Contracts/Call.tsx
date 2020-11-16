@@ -53,7 +53,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
   useEffect((): void => {
     value && message.isMutating && setExecTx((): SubmittableExtrinsic<'promise'> | null => {
       try {
-        return contract.exec(message, message.isPayable ? value : 0, weight.weight, ...params);
+        return contract.exec(message, { gasLimit: weight.weight, value: message.isPayable ? value : 0 }, ...params);
       } catch (error) {
         return null;
       }
@@ -64,7 +64,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
     if (!accountId || !message || !dbParams || !dbValue) return;
 
     contract
-      .read(message, message.isPayable ? dbValue : 0, -1, ...dbParams)
+      .read(message, { gasLimit: -1, value: message.isPayable ? dbValue : 0 }, ...dbParams)
       .send(accountId)
       .then(({ gasConsumed, result }) => setEstimatedWeight(
         result.isOk
@@ -79,7 +79,7 @@ function Call ({ className = '', contract, messageIndex, onCallResult, onChangeM
       if (!accountId || !message || !value || !weight) return;
 
       contract
-        .read(message, message.isPayable ? value : 0, weight.isEmpty ? -1 : weight.weight, ...params)
+        .read(message, { gasLimit: weight.isEmpty ? -1 : weight.weight, value: message.isPayable ? value : 0 }, ...params)
         .send(accountId)
         .then((result): void => {
           setOutcomes([{
