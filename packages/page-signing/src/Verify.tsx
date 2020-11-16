@@ -33,8 +33,6 @@ function Verify ({ className = '' }: Props): React.ReactElement {
     let cryptoType: CryptoTypes = 'unknown';
     let isValid = isValidPk && isValidSignature;
 
-    console.log(isValidSignature, isValidPk, publicKey);
-
     // We cannot just use the keyring verify since it may be an address. So here we first check
     // for ed25519, if not valid, we try against sr25519 - if neither are valid, well, we have
     // not been able to validate the signature
@@ -61,17 +59,17 @@ function Verify ({ className = '' }: Props): React.ReactElement {
         if (isValidSr) {
           cryptoType = 'sr25519';
         } else {
+          let verification;
+
           try {
-            console.log('signatureVerify(data, signature, publicKey)', publicKey, signature, signatureVerify(data, signature, publicKey));
-            isValidEc = signatureVerify(data, signature, publicKey).isValid;
+            verification = signatureVerify(data, signature, publicKey);
+            isValidEc = verification.isValid;
           } catch (error) {
             // do nothing, already set to false
           }
 
-          console.log('data', data, isValidEc);
-
-          if (isValidEc) {
-            cryptoType = 'ecdsa';
+          if (isValidEc && verification && verification.crypto !== 'none') {
+            cryptoType = verification.crypto;
           } else {
             isValid = false;
           }
@@ -79,9 +77,8 @@ function Verify ({ className = '' }: Props): React.ReactElement {
       }
     }
 
-    console.log('setvalidity', cryptoType, isValid);
     setValidity({ cryptoType, isValid });
-  }, [data, isValidPk, isValidSignature, publicKey, signature]);
+  }, [isEthereum, data, isValidPk, isValidSignature, publicKey, signature]);
 
   const _onChangeAddress = useCallback(
     (accountId: string | null): void => {
@@ -95,7 +92,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
 
       setPublicKey({ isValidPk: !!publicKey && (publicKey.length === 32 || (isEthereum && publicKey.length === 20)), publicKey });
     },
-    []
+    [isEthereum]
   );
 
   const _onChangeData = useCallback(
@@ -105,7 +102,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
 
   const _onChangeSignature = useCallback(
     (signature: string) => setSignature({ isValidSignature: isHex(signature) && (signature.length === 130 || (isEthereum && signature.length === 132)), signature }),
-    []
+    [isEthereum]
   );
 
   return (

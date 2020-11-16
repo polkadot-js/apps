@@ -11,7 +11,6 @@ import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-com
 import { useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { hexToU8a, isFunction, isHex, stringToHex, stringToU8a, u8aToHex } from '@polkadot/util';
-import {secp256k1Sign} from '@polkadot/util-crypto'
 
 import { useTranslation } from './translate';
 import Unlock from './Unlock';
@@ -91,7 +90,6 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
       }
 
       if (signer && isFunction(signer.signRaw)) {
-        console.log('first case')
         setSignature('');
 
         signer
@@ -105,40 +103,6 @@ function Sign ({ className = '' }: Props): React.ReactElement<Props> {
           .then(({ signature }) => setSignature(signature))
           .catch(console.error);
       } else {
-        console.log('second case',currentPair)
-        console.log(currentPair)
-        console.log(u8aToHex(
-          currentPair.sign(
-            isHexData
-              ? hexToU8a(data)
-              : stringToU8a(data)
-          )
-        ))
-        console.log(u8aToHex(
-          currentPair.sign(
-            isHexData
-              ? hexToU8a(data)
-              : stringToU8a(data)
-              ,{withType:true})
-        ))
-        //console.log(keyring)
-        // console.log(secp256k1Sign(isHexData
-        //   ? hexToU8a(data)
-        //   : stringToU8a(data), currentPair, { hashType: 'keccak' }))
-        console.log('1',currentPair.verify(isHexData
-          ? hexToU8a(data)
-          : stringToU8a(data),currentPair.sign(
-            isHexData
-              ? hexToU8a(data)
-              : stringToU8a(data)
-          )))
-          console.log('2',currentPair.verify(isHexData
-            ? hexToU8a(data)
-            : stringToU8a(data),currentPair.sign(
-              isHexData
-                ? hexToU8a(data)
-                : stringToU8a(data),{withType:true}
-            )))
         setSignature(u8aToHex(
           currentPair.sign(
             isHexData
