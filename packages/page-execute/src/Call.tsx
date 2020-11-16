@@ -45,7 +45,6 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   const { t } = useTranslation();
   const { name } = useAccountInfo(pageParams.address?.toString() || null, true);
   const pendingTx = usePendingTx('contracts.call');
-  // const { contract, messageIndex, className = '', isOpen, onChangecontractAddress, onChangemessageIndex, onClose } = props;
 
   const [messageIndex, setMessageIndex] = useState(parseInt(pageParams.messageIndex || '0', 10));
   const [outcomes, setOutcomes] = useState<CallResult[]>([]);
@@ -88,38 +87,12 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     [contract?.abi?.messages, hasRpc, messageIndex]
   );
 
-  // const [values, setValues] = useState<RawParams>(createValues(message?.args || []));
-
-  // useEffect(
-  //   (): void => {
-  //     const message = contract?.abi.messages[messageIndex] || null;
-
-  //     setMessage(message);
-  //     setValues(createValues(message?.args || []));
-
-  //     if (hasRpc) {
-  //       if (!message || message.mutates) {
-  //         setUseRpc(false);
-  //       } else {
-  //         setUseRpc(true);
-  //       }
-  //     }
-  //   },
-  //   [contract, messageIndex, hasRpc]
-  // );
-
   const [accountId, setAccountId] = useAccountId();
-  const [endowment, setEndowment, isEndowmentValid, isEndowmentError] = useFormField<BN>(BN_ZERO);
+  const [payment, setPayment, isPaymentValid, isPaymentError] = useFormField<BN>(BN_ZERO);
   const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].isMutating);
   const useWeightHook = useGasWeight();
   const { isValid: isWeightValid, weight } = useWeightHook;
 
-  // const data = useMemo(
-  //   (): Uint8Array | null => {
-  //     return message ? message(...extractValues(values)) as unknown as Uint8Array : null;
-  //   },
-  //   [message, values]
-  // );
   const messageOptions = useMemo(
     (): Options => getCallMessageOptions(contract),
     [contract]
@@ -140,14 +113,14 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         return [];
       }
 
-      return [contract.address.toString(), endowment, weight, data];
+      return [contract.address.toString(), payment, weight, data];
     },
-    [accountId, contract, encoder, endowment, weight]
+    [accountId, contract, encoder, payment, weight]
   );
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !contract || !endowment || !weight) return;
+      if (!accountId || !contract || !payment || !weight) return;
 
       !!contract && contract
         .read(messageIndex, 0, weight, ...extractValues(values))
@@ -162,13 +135,8 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
           }, ...outcomes]);
         });
     },
-    [accountId, contract, messageIndex, endowment, weight, outcomes, values]
+    [accountId, contract, messageIndex, payment, weight, outcomes, values]
   );
-
-  // const _onClearOutcomes = useCallback(
-  //   (): void => setOutcomes([]),
-  //   []
-  // );
 
   const _onClearOutcome = useCallback(
     (outcomeIndex: number) => (): void => {
@@ -178,8 +146,8 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   );
 
   const isValid = useMemo(
-    (): boolean => !!accountId && !!contract && !!contract.address && !!contract.abi && isWeightValid && isEndowmentValid,
-    [accountId, contract, isEndowmentValid, isWeightValid]
+    (): boolean => !!accountId && !!contract && !!contract.address && !!contract.abi && isWeightValid && isPaymentValid,
+    [accountId, contract, isPaymentValid, isWeightValid]
   );
 
   const additionalDetails = useMemo(
@@ -251,12 +219,14 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
               values={values}
             />
             <InputBalance
-              help={t<string>('The allotted value for this contract, i.e. the amount transferred to the contract as part of this call.')}
-              isError={isEndowmentError}
+              className='retain-appearance'
+              help={t<string>(contract.abi.messages[messageIndex].isPayable ? 'The balance to transfer to the contract as part of this call.' : 'This message is not payable.')}
+              isDisabled={!contract.abi.messages[messageIndex].isPayable}
+              isError={isPaymentError}
               isZeroable
-              label={t<string>('Value')}
-              onChange={setEndowment}
-              value={endowment}
+              label={t<string>('Payment')}
+              onChange={setPayment}
+              value={payment}
             />
             <InputMegaGas
               help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
