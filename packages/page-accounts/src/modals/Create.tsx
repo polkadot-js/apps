@@ -272,7 +272,6 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
     },
     [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t]
   );
-
   return (
     <Modal
       className={className}
@@ -322,7 +321,7 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                 />
                 < CopyButton
                   className='copyMoved'
-                  isMnemonic
+                  type={seedType === 'bip'?"mnemonic":seedType === 'raw'?isEthereum?'private key':'seed':'development seed'}
                   value={seed}
                 />
               </TextArea>
