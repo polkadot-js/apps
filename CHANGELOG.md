@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 0.67.1 Nov 16, 2020
+
+Contributed:
+
+- Improve support/naming for Ethereum-compatible accounts (Thanks to https://github.com/joelamouche)
+- Support for Ethereum-compatible signature verification (https://github.com/joelamouche)
+- Added Moonbeam types for current versions (Thanks to https://github.com/joelamouche)
+- Added Moonbase Alpha to list of test networks (Thanks to (Thanks to https://github.com/joelamouche))
+- Add Equilibrium Mainnet; updated Equilibrium Testnet (Thanks to https://github.com/pr0fedt)
+- Update types of Cantillon testnet (Thanks to https://github.com/brenzi)
+- Update types of Gesell testnet (Thanks to https://github.com/brenzi)
+- Add Darwinia network (Thanks to https://github.com/WoeOm)
+- Add Bitfrost Asgard testnet (Thanks to https://github.com/janpo)
+
+Changes:
+
+- Ensure account addition checkbox shows on smaller screens
+- Add support for contract budles via `.contract` files
+- Allow contracts to specify salt parameter on deployments
+- Update contracts banner to reflect released Solang 0.1.5+ support
+
+
 ## 0.66.1 Nov 9, 2020
 
 Contributed:
