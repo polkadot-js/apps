@@ -159,6 +159,9 @@ function Input ({ autoFocus = false, children, className, defaultValue, help, ic
             isInPlaceEditor
               ? 'inPlaceEditor'
               : '',
+            isDisabled
+              ? 'retain-appearance'
+              : '',
             inputClassName || ''
           ].join(' ')
         }

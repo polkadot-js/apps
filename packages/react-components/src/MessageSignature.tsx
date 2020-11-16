@@ -22,7 +22,7 @@ export interface Props extends BareProps {
   withTooltip?: boolean;
 }
 
-function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, returnType }, params = [], registry, withTooltip = false }: Props): React.ReactElement<Props> {
+function MessageSignature ({ className, message: { args, identifier, isConstructor, isMutating, isPayable, returnType }, params = [], registry, withTooltip = false }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -63,7 +63,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
       {isMutating && (
         <>
           <Icon
-            className='ui--MessageSignature-mutates'
+            className='ui--MessageSignature-icon'
             data-for={`mutates-${identifier}`}
             data-tip
             name='database'
@@ -76,6 +76,23 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
           )}
         </>
       )}
+      {isPayable && (
+        <>
+          <Icon
+            className='ui--MessageSignature-icon'
+            data-for={`payable-${identifier}`}
+            data-tip
+            name='paper plane'
+          />
+          {withTooltip && (
+            <Tooltip
+              text={t<string>('Payable')}
+              trigger={`payable-${identifier}`}
+            />
+          )}
+        </>
+      )}
+
     </div>
   );
 }
@@ -86,7 +103,7 @@ export default React.memo(
     font-weight: normal;
     flex-grow: 1;
 
-    .ui--MessageSignature-mutates {
+    .ui--MessageSignature-icon {
       color: var(--orange-primary);
       margin-left: 0.5rem;
       opacity: 0.6;
