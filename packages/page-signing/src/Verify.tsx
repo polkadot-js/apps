@@ -10,7 +10,7 @@ import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex } from '@polkadot/util';
-import { naclVerify, schnorrkelVerify, signatureVerify } from '@polkadot/util-crypto';
+import { signatureVerify } from '@polkadot/util-crypto';
 
 import { useTranslation } from './translate';
 
@@ -33,47 +33,13 @@ function Verify ({ className = '' }: Props): React.ReactElement {
     let cryptoType: CryptoTypes = 'unknown';
     let isValid = isValidPk && isValidSignature;
 
-    // We cannot just use the keyring verify since it may be an address. So here we first check
-    // for ed25519, if not valid, we try against sr25519 - if neither are valid, well, we have
-    // not been able to validate the signature
+    // We use signatureVerify to detect validity and crypto type
     if (isValid && publicKey) {
-      let isValidSr = false;
-      let isValidEd = false;
-      let isValidEc = false;
+      const verification = signatureVerify(data, signature, publicKey);
 
-      try {
-        isValidEd = naclVerify(data, signature, publicKey);
-      } catch (error) {
-        // do nothing, already set to false
-      }
-
-      if (isValidEd) {
-        cryptoType = 'ed25519';
-      } else {
-        try {
-          isValidSr = schnorrkelVerify(data, signature, publicKey);
-        } catch (error) {
-          // do nothing, already set to false
-        }
-
-        if (isValidSr) {
-          cryptoType = 'sr25519';
-        } else {
-          let verification;
-
-          try {
-            verification = signatureVerify(data, signature, publicKey);
-            isValidEc = verification.isValid;
-          } catch (error) {
-            // do nothing, already set to false
-          }
-
-          if (isValidEc && verification && verification.crypto !== 'none') {
-            cryptoType = verification.crypto;
-          } else {
-            isValid = false;
-          }
-        }
+      if (verification.crypto !== 'none') {
+        isValid = verification.isValid;
+        cryptoType = verification.crypto;
       }
     }
 
