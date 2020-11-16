@@ -44,7 +44,7 @@ function Verify ({ className = '' }: Props): React.ReactElement {
     }
 
     setValidity({ cryptoType, isValid });
-  }, [isEthereum, data, isValidPk, isValidSignature, publicKey, signature]);
+  }, [data, isValidPk, isValidSignature, publicKey, signature]);
 
   const _onChangeAddress = useCallback(
     (accountId: string | null): void => {
