@@ -9,6 +9,7 @@ import { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueu
 import React, { useCallback, useRef, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
+import { Bytes } from '@polkadot/types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
@@ -112,7 +113,7 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
               const abi = getContractAbi(accountId.toString());
 
               if (abi) {
-                const decoded = abi.decodeEvent(encoded.toU8a(true));
+                const decoded = abi.decodeEvent(encoded as Bytes);
 
                 return {
                   action: decoded.event.identifier,
