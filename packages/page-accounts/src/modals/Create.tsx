@@ -204,8 +204,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       : []
   ).concat(
     { text: t<string>('Mnemonic'), value: 'bip' },
-    { text: t<string>('Raw seed'), value: 'raw' }
-  ), [isDevelopment, t]);
+    isEthereum ? { text: t<string>('Private Key'), value: 'raw' } : { text: t<string>('Raw seed'), value: 'raw' }
+  ), [isEthereum, isDevelopment, t]);
 
   const _onChangeDerive = useCallback(
     (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
@@ -295,7 +295,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <Modal.Columns>
             <Modal.Column>
               <TextArea
-                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+                help={isEthereum
+                  ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
+                  : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
                 isAction
                 isError={!isSeedValid}
                 isReadOnly={seedType === 'dev'}
@@ -304,7 +306,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     ? t<string>('mnemonic seed')
                     : seedType === 'dev'
                       ? t<string>('development seed')
-                      : t<string>('seed (hex or string)')
+                      : isEthereum
+                        ? t<string>('ethereum private key')
+                        : t<string>('seed (hex or string)')
                 }
                 onChange={_onChangeSeed}
                 seed={seed}
@@ -316,9 +320,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   onChange={_selectSeedType}
                   options={seedOpt}
                 />
-                <CopyButton
+                < CopyButton
                   className='copyMoved'
-                  isMnemonic
+                  type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
                   value={seed}
                 />
               </TextArea>
