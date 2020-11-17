@@ -15,8 +15,22 @@ interface Props {
 }
 
 interface Chilled {
-  active: string[];
-  chilled: string[];
+  active: null | [number, () => React.ReactNode[]];
+  chilled: null | [number, () => React.ReactNode[]];
+}
+
+function extractFunction (all: string[]): null | [number, () => React.ReactNode[]] {
+  return all.length
+    ? [
+      all.length,
+      () => all.map((who): React.ReactNode =>
+        <AddressMini
+          key={who}
+          value={who}
+        />
+      )
+    ]
+    : null;
 }
 
 function extractChilled (nominators: [string, EraIndex, number][] = [], slashingSpans?: SlashingSpans | null): Chilled {
@@ -25,11 +39,15 @@ function extractChilled (nominators: [string, EraIndex, number][] = [], slashing
       .filter(([, submittedIn]) => !slashingSpans.lastNonzeroSlash.isZero() && slashingSpans.lastNonzeroSlash.gte(submittedIn))
       .map(([who]) => who)
     : [];
-  const active = nominators
-    .filter(([who]) => !chilled.includes(who))
-    .map(([who]) => who);
 
-  return { active, chilled };
+  return {
+    active: extractFunction(
+      nominators
+        .filter(([who]) => !chilled.includes(who))
+        .map(([who]) => who)
+    ),
+    chilled: extractFunction(chilled)
+  };
 }
 
 function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<Props> {
@@ -45,25 +63,17 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
       {nominators
         ? (
           <>
-            {active.length !== 0 && (
-              <Expander summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active.length) } })}>
-                {active.map((who): React.ReactNode =>
-                  <AddressMini
-                    key={who}
-                    value={who}
-                  />
-                )}
-              </Expander>
+            {active && (
+              <Expander
+                renderChildren={active[1]}
+                summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
+              />
             )}
-            {chilled.length !== 0 && (
-              <Expander summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled.length) } })}>
-                {chilled.map((who): React.ReactNode =>
-                  <AddressMini
-                    key={who}
-                    value={who}
-                  />
-                )}
-              </Expander>
+            {chilled && (
+              <Expander
+                renderChildren={chilled[1]}
+                summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
+              />
             )}
           </>
         )
