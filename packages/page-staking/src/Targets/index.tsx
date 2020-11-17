@@ -5,6 +5,7 @@ import { DeriveStakingOverview } from '@polkadot/api-derive/types';
 import { StakerState } from '@polkadot/react-hooks/types';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
+import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
@@ -26,6 +27,11 @@ interface Props {
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
   toggleFavorite: (address: string) => void;
+}
+
+interface Flags {
+  withIdentity: boolean;
+  withGroup: boolean;
 }
 
 interface SortState {
@@ -64,6 +70,28 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
+function selectProfitable (maxPaid: BN, list: ValidatorInfo[], { withGroup, withIdentity }: Flags): string[] {
+  const parentIds: (string | null)[] = [];
+  const result: string[] = [];
+
+  for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
+    const { hasIdentity, isElected, isFavorite, key, numNominators, parentId, rewardPayout } = list[i];
+
+    if (
+      (!withIdentity || hasIdentity) &&
+      (isElected || isFavorite) &&
+      !rewardPayout.isZero() &&
+      (!maxPaid || maxPaid.gtn(numNominators)) &&
+      (!withGroup || (isFavorite || !parentIds.includes(parentId)))
+    ) {
+      result.push(key);
+      parentId && parentIds.push(parentId);
+    }
+  }
+
+  return result;
+}
+
 function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
@@ -72,6 +100,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const [selected, setSelected] = useState<string[]>([]);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [withElected, setWithElected] = useState(false);
+  const [withGroup, setWithGroup] = useState(true);
   const [withIdentity, setWithIdentity] = useState(false);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
   const [sorted, setSorted] = useState<number[] | undefined>();
@@ -108,18 +137,12 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const _selectProfitable = useCallback(
-    () => setSelected((): string[] => {
-      const max = api.consts.staking?.maxNominatorRewardedPerValidator;
-
-      return (validators || []).reduce((result: string[], { hasIdentity, isElected, isFavorite, key, numNominators, rewardPayout }): string[] => {
-        if ((result.length < MAX_NOMINATIONS) && (hasIdentity || !withIdentity) && (isElected || isFavorite) && !rewardPayout.isZero() && (!max || max.gtn(numNominators))) {
-          result.push(key);
-        }
-
-        return result;
-      }, []);
-    }),
-    [api, validators, withIdentity]
+    () => setSelected(selectProfitable(
+      api.consts.staking.maxNominatorRewardedPerValidator,
+      validators || [],
+      { withGroup, withIdentity }
+    )),
+    [api, validators, withGroup, withIdentity]
   );
 
   const labelsRef = useRef({
@@ -164,6 +187,12 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         >
           <Toggle
             className='staking--buttonToggle'
+            label={t<string>('limit single operator exposure')}
+            onChange={setWithGroup}
+            value={withGroup}
+          />
+          <Toggle
+            className='staking--buttonToggle'
             label={t<string>('limit to elected')}
             onChange={setWithElected}
             value={withElected}
@@ -171,7 +200,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         </Filtering>
       </div>
     )
-  ), [calcWith, setCalcWith, nameFilter, sorted, t, withElected, withIdentity]);
+  ), [calcWith, setCalcWith, nameFilter, sorted, t, withElected, withGroup, withIdentity]);
 
   return (
     <div className={className}>
