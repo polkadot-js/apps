@@ -116,6 +116,6 @@ export default React.memo(styled(ExtrinsicDisplay)`
 
   .explorer--BlockByHash-unsigned {
     opacity: 0.6;
-    font-weight: 100;
+    font-weight: 400;
   }
 `);

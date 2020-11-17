@@ -4,10 +4,10 @@
 import { TFunction } from 'i18next';
 import { Option } from './types';
 
-export default function create (t: TFunction): Option[] {
+export function createLanguages (t: TFunction): Option[] {
   return [
     {
-      text: t<string>('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
+      text: t('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
       value: 'default'
     },
     // default/native

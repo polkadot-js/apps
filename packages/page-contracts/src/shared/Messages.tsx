@@ -11,6 +11,7 @@ import { Abi, ContractPromise } from '@polkadot/api-contract';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
+import { formatNumber } from '@polkadot/util';
 
 import Message from './Message';
 import { useTranslation } from '../translate';
@@ -25,6 +26,7 @@ export interface Props {
   onSelectConstructor?: (constructorIndex: number) => void;
   withConstructors?: boolean;
   withMessages?: boolean;
+  withWasm?: boolean;
 }
 
 const READ_ADDR = '0x'.padEnd(66, '0');
@@ -41,7 +43,7 @@ function sortMessages (messages: AbiMessage[]): [AbiMessage, number][] {
     );
 }
 
-function Messages ({ className = '', contract, contractAbi: { constructors, messages }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages } : Props): React.ReactElement<Props> {
+function Messages ({ className = '', contract, contractAbi: { constructors, messages, project: { source } }, isLabelled, isWatching, onSelect, onSelectConstructor, withConstructors, withMessages, withWasm } : Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const optInfo = useCall<Option<ContractInfo>>(contract && api.query.contracts.contractInfoOf, [contract?.address]);
@@ -56,17 +58,15 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
   );
 
   useEffect((): void => {
-    const maxWeight = api.consts.system.maximumBlockWeight.muln(64).divn(100);
-
     isUpdating && optInfo && contract && Promise
       .all(messages.map((m) =>
         m.isMutating || m.args.length !== 0
           ? Promise.resolve(undefined)
-          : contract.read(m, 0, maxWeight).send(READ_ADDR).catch(() => undefined)
+          : contract.read(m, 0, -1).send(READ_ADDR).catch(() => undefined)
       ))
       .then(setLastResults)
       .catch(console.error);
-  }, [api, contract, isUpdating, isWatching, messages, optInfo]);
+  }, [contract, isUpdating, isWatching, messages, optInfo]);
 
   const _setMessageResult = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -111,6 +111,9 @@ function Messages ({ className = '', contract, contractAbi: { constructors, mess
             />
           ))}
         </Expander>
+      )}
+      {withWasm && source.wasm.length !== 0 && (
+        <div>{t<string>('{{size}} WASM bytes', { replace: { size: formatNumber(source.wasm.length) } })}</div>
       )}
     </div>
   );

@@ -8,7 +8,7 @@ import { CallOptions, CallParam, CallParams } from './types';
 import { useEffect, useRef, useState } from 'react';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import useIsMountedRef, { MountedRef } from './useIsMountedRef';
+import { useIsMountedRef, MountedRef } from './useIsMountedRef';
 
 type TrackFnResult = Promise<() => void>;
 
@@ -59,7 +59,7 @@ function unsubscribe (tracker: TrackerRef): void {
 
 // subscribe, trying to play nice with the browser threads
 function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams }: CallOptions<T> = {}): void {
-  const validParams = params.filter((p): boolean => !isUndefined(p));
+  const validParams = params.filter((p) => !isUndefined(p));
 
   unsubscribe(tracker);
 
@@ -94,7 +94,7 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 //  - returns a promise with an unsubscribe function
 //  - has a callback to set the value
 // FIXME The typings here need some serious TLC
-export default function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams, options?: CallOptions<T>): T | undefined {
+export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams, options?: CallOptions<T>): T | undefined {
   const mountedRef = useIsMountedRef();
   const tracker = useRef<Tracker>({ count: 0, isActive: false, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);

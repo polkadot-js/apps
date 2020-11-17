@@ -8,7 +8,7 @@ import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/van
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown, Input, Table } from '@polkadot/react-components';
-import { useIsMountedRef } from '@polkadot/react-hooks';
+import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import uiSettings from '@polkadot/ui-settings';
 import generator from '@polkadot/vanitygen/generator';
 import matchRegex from '@polkadot/vanitygen/regex';
@@ -45,6 +45,7 @@ const BOOL_OPTIONS = [
 
 function VanityApp ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { isEthereum } = useApi();
   const results = useRef<GeneratorResult[]>([]);
   const runningRef = useRef(false);
   const mountedRef = useIsMountedRef();
@@ -211,7 +212,7 @@ function VanityApp ({ className = '', onStatusChange }: Props): React.ReactEleme
           help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
           label={t<string>('keypair crypto type')}
           onChange={setType}
-          options={uiSettings.availableCryptos}
+          options={isEthereum ? uiSettings.availableCryptosEth : uiSettings.availableCryptos}
         />
       </div>
       <Button.Group>

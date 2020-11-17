@@ -11,11 +11,11 @@ import known from '@polkadot/networks';
 //   text: The text you wish to display in the dropdown
 //   value: The actual ss5Format value (as registered)
 
-export default function create (t: TFunction): Option[] {
+export function createSs58 (t: TFunction): Option[] {
   return [
     {
       info: 'default',
-      text: t<string>('ss58.default', 'Default for the connected node', { ns: 'apps-config' }),
+      text: t('ss58.default', 'Default for the connected node', { ns: 'apps-config' }),
       value: -1
     },
     ...known.map(({ displayName, network, prefix }): Option => ({

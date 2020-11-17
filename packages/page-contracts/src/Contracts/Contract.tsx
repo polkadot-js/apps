@@ -3,15 +3,17 @@
 
 import { ContractCallOutcome } from '@polkadot/api-contract/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ContractInfo } from '@polkadot/types/interfaces';
+import { BlockNumber, ContractInfo } from '@polkadot/types/interfaces';
+import { ContractLink } from './types';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { BlockToTime } from '@polkadot/react-query';
 import { Option } from '@polkadot/types';
-import { isUndefined } from '@polkadot/util';
+import { formatNumber, isFunction, isUndefined } from '@polkadot/util';
 
 import Messages from '../shared/Messages';
 import { useTranslation } from '../translate';
@@ -20,6 +22,7 @@ interface Props {
   className?: string;
   contract: ContractPromise;
   index: number;
+  links?: ContractLink[];
   onCall: (contractIndex: number, messaeIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => void;
 }
 
@@ -27,11 +30,22 @@ function transformInfo (optInfo: Option<ContractInfo>): ContractInfo | null {
   return optInfo.unwrapOr(null);
 }
 
-function Contract ({ className, contract, index, onCall }: Props): React.ReactElement<Props> | null {
+function Contract ({ className, contract, index, links, onCall }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
+  const bestNumber = useCall<BlockNumber>(api.derive.chain.bestNumber);
   const info = useCall<ContractInfo | null>(api.query.contracts.contractInfoOf, [contract.address], { transform: transformInfo });
+  const [evictAt, setEvictAt] = useState<BlockNumber | null>(null);
   const [isForgetOpen, toggleIsForgetOpen] = useToggle();
+
+  useEffect((): void => {
+    if (info && isFunction(api.rpc.contracts?.rentProjection)) {
+      api.rpc.contracts
+        .rentProjection(contract.address)
+        .then((value) => setEvictAt(value.unwrapOr(null)))
+        .catch(() => undefined);
+    }
+  }, [api, contract, info]);
 
   const _onCall = useCallback(
     (messageIndex: number, resultCb: (messageIndex: number, result?: ContractCallOutcome) => void) => onCall(index, messageIndex, resultCb),
@@ -82,6 +96,14 @@ function Contract ({ className, contract, index, onCall }: Props): React.ReactEl
           withMessages
         />
       </td>
+      <td className='top'>
+        {links?.map(({ blockHash, blockNumber }, index): React.ReactNode => (
+          <a
+            href={`#/explorer/query/${blockHash}`}
+            key={`${index}-${blockNumber}`}
+          >#{blockNumber}</a>
+        ))}
+      </td>
       <td className='number'>
         <AddressInfo
           address={contract.address}
@@ -95,6 +117,18 @@ function Contract ({ className, contract, index, onCall }: Props): React.ReactEl
           info
             ? info.type
             : t<string>('Not on-chain')
+        )}
+      </td>
+      <td className='number together media--1100'>
+        {bestNumber && (
+          evictAt
+            ? (
+              <>
+                <BlockToTime blocks={evictAt.sub(bestNumber)} />
+                #{formatNumber(evictAt)}
+              </>
+            )
+            : t<string>('None')
         )}
       </td>
       <td className='button'>

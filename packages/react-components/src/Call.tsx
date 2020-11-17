@@ -7,7 +7,8 @@ import { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { GenericCall, getTypeDef } from '@polkadot/types';
+import { GenericCall } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
 

@@ -8,7 +8,7 @@ import { Hash } from '@polkadot/types/interfaces';
 import { SignerPayloadJSON } from '@polkadot/types/types';
 
 import { registry } from '@polkadot/react-api';
-import { ClassOf } from '@polkadot/types';
+import { ClassOf } from '@polkadot/types/create';
 
 export default class ApiSigner implements Signer {
   readonly #queuePayload: QueueTxPayloadAdd;

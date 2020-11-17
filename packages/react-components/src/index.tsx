@@ -97,5 +97,6 @@ export { default as TxModal } from './TxModal';
 export { default as TxModalNew } from './TxModalNew';
 export { default as VoteAccount } from './VoteAccount';
 export { default as VoteValue } from './VoteValue';
+export { default as TextArea } from './TextArea';
 
 export { default as media } from './media';

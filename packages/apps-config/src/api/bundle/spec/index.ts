@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import acala from './acala';
+import laminar from './laminar';
 
 export default {
-  acala
+  acala,
+  laminar,
+  mandala: acala
 };

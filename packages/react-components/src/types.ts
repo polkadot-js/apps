@@ -138,9 +138,14 @@ export interface ThemeDef {
   borderTable: string;
   borderTabs: string;
   color: string;
+  colorCheckbox: string;
   colorError: string;
   colorLabel: string;
   colorSummary: string;
+  fontSans: string;
+  fontMono: string;
+  fontWeightLight: number;
+  fontWeightNormal: number;
   theme: 'dark' | 'light';
 }
 

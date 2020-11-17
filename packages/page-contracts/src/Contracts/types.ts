@@ -9,3 +9,9 @@ export interface CallResult extends ContractCallOutcome {
   params: any[];
   when: Date;
 }
+
+export interface ContractLink {
+  blockHash: string;
+  blockNumber: string;
+  contractId: string;
+}

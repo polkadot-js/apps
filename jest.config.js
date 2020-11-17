@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const config = require('@polkadot/dev/config/jest');
+const config = require('@polkadot/dev/config/jest.cjs');
 
 const findPackages = require('./scripts/findPackages');
 
@@ -16,11 +16,11 @@ const internalModules = findPackages()
 const defaultConfig = {
   moduleNameMapper: {
     ...internalModules,
+    '@polkadot/apps/(.*)$': '<rootDir>/packages/apps/src/$1',
     '\\.(css|less)$': 'empty/object',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'empty/object',
     '\\.(md)$': '<rootDir>/__mocks__/fileMock.js'
   },
-  testTimeout: 25000,
   transformIgnorePatterns: [
     '<rootDir>/node_modules'
   ]
@@ -38,5 +38,6 @@ module.exports = Object.assign({}, config, {
       ...defaultConfig,
       displayName: 'fast-tests'
     }
-  ]
+  ],
+  testTimeout: 25000
 });

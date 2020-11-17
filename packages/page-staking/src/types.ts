@@ -54,6 +54,7 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   isNominating: boolean;
   key: string;
   numNominators: number;
+  parentId: string | null;
   rewardPayout: BN;
   rewardSplit: BN;
   validatorPayment: BN;

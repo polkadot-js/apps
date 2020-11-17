@@ -72,7 +72,7 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
 
 function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Record<string, [string, EraIndex, number][]> {
   return nominations.reduce((mapped: Record<string, [string, EraIndex, number][]>, [key, optNoms]) => {
-    if (optNoms.isSome) {
+    if (optNoms.isSome && key.args.length) {
       const nominatorId = key.args[0].toString();
       const { submittedIn, targets } = optNoms.unwrap();
 

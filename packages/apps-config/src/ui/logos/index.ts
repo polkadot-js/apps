@@ -15,6 +15,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 // alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
+import nodeBifrost from './nodes/bifrost.svg';
 import nodeCanvas from './nodes/canvas-2.png';
 import nodeCentrifuge from './nodes/centrifuge.png';
 import nodeCrab from './nodes/crab.svg';
@@ -27,9 +28,11 @@ import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
 import nodeNodle from './nodes/nodle.svg';
+import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
+import moonbeam from './nodes/moonbeam.png';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
@@ -58,11 +61,13 @@ import emptyLogo from './empty.svg';
 // NOTE: this matches up with RPC system.chain
 // alphabetical
 const chainLogos: Record<string, any> = [
+  ['darwinia crab', nodeCrab],
   ['Dusty', chainDusty],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
   ['Kusama CC2', chainKusama],
   ['Kusama CC3', chainKusama],
+  ['Moonbase Alpha', moonbeam],
   ['Rococo', chainRococo],
   ['Tick', chainRococoTick],
   ['Track', chainRococoTrack],
@@ -77,17 +82,21 @@ const chainLogos: Record<string, any> = [
 // alphabetical
 const nodeLogos: Record<string, any> = [
   ['airalab-robonomics', nodeRobonomics],
+  ['Bifrost Node', nodeBifrost],
+  ['Bifrost', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
-  ['crab', nodeCrab],
+  ['darwinia crab', nodeCrab],
   ['crust node', nodeCrust],
+  ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Dock Full Node', nodeDockMainnet],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
+  ['hanonycash', nodeHanonycash],
   ['KILT Node', nodeKilt],
   ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
@@ -114,20 +123,24 @@ const nodeLogos: Record<string, any> = [
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  bifrost: nodeBifrost,
   canvas: nodeCanvas,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
   crust: nodeCrust,
-  dockMainnet: nodeDockMainnet,
-  dockTestnet: nodeDockTestnet,
+  darwinia: nodeDarwinia,
+  'dock-mainnet': nodeDockMainnet,
+  'dock-testnet': nodeDockTestnet,
   dusty: chainDusty,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   equilibrium: nodeEquilibrium,
+  hanonycash: nodeHanonycash,
   kilt: nodeKilt,
   kulupu: nodeKulupu,
   kusama: chainKusama,
   laminar: nodeLaminar,
+  moonbaseAlpha: moonbeam,
   nodle: nodeNodle,
   phala: nodePhala,
   plasm: nodePlasm,
@@ -167,7 +180,7 @@ const emptyLogos: Record<string, any> = {
 };
 
 // preload all
-[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].map((imageSet): void => {
+[chainLogos, extensionLogos, externalLogos, namedLogos, nodeLogos, emptyLogos].forEach((imageSet): void => {
   Object.values(imageSet).forEach((src): void => {
     new Image().src = src as string;
   });

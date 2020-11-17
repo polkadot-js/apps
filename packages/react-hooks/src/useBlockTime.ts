@@ -12,7 +12,7 @@ type Result = [number, string];
 
 const DEFAULT_TIME = new BN(6000);
 
-export default function useBlockTime (blocks = BN_ONE): Result {
+export function useBlockTime (blocks = BN_ONE): Result {
   const { t } = useTranslation();
   const { api } = useApi();
 

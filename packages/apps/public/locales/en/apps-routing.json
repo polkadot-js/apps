@@ -9,9 +9,9 @@
   "nav.explorer": "Explorer",
   "nav.extrinsics": "Extrinsics",
   "nav.generic-asset": "Generic asset",
-  "nav.github": "GitHub",
   "nav.js": "Javascript",
   "nav.parachains": "Parachains",
+  "nav.poll": "Token poll",
   "nav.rpc": "RPC calls",
   "nav.settings": "Settings",
   "nav.signing": "Sign and verify",
@@ -21,6 +21,5 @@
   "nav.sudo": "Sudo",
   "nav.tech-comm": "Tech. comm.",
   "nav.transfer": "Transfer",
-  "nav.treasury": "Treasury",
-  "nav.wiki": "Wiki"
+  "nav.treasury": "Treasury"
 }

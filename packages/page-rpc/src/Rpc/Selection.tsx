@@ -9,7 +9,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, InputRpc } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { getTypeDef } from '@polkadot/types';
+import { getTypeDef } from '@polkadot/types/create';
 import { isNull } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

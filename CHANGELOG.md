@@ -1,6 +1,113 @@
 # CHANGELOG
 
-## 0.62.1 Oct 13, 202
+## 0.67.1 Nov 16, 2020
+
+Contributed:
+
+- Improve support/naming for Ethereum-compatible accounts (Thanks to https://github.com/joelamouche)
+- Support for Ethereum-compatible signature verification (https://github.com/joelamouche)
+- Added Moonbeam types for current versions (Thanks to https://github.com/joelamouche)
+- Added Moonbase Alpha to list of test networks (Thanks to (Thanks to https://github.com/joelamouche))
+- Add Equilibrium Mainnet; updated Equilibrium Testnet (Thanks to https://github.com/pr0fedt)
+- Update types of Cantillon testnet (Thanks to https://github.com/brenzi)
+- Update types of Gesell testnet (Thanks to https://github.com/brenzi)
+- Add Darwinia network (Thanks to https://github.com/WoeOm)
+- Add Bitfrost Asgard testnet (Thanks to https://github.com/janpo)
+
+Changes:
+
+- Ensure account addition checkbox shows on smaller screens
+- Add support for contract budles via `.contract` files
+- Allow contracts to specify salt parameter on deployments
+- Update contracts banner to reflect released Solang 0.1.5+ support
+
+
+## 0.66.1 Nov 9, 2020
+
+Contributed:
+
+- Adjust font injection into all pages (Thanks to https://github.com/EthWorks)
+- Update types for Acala TC5 (Thanks to https://github.com/xlc)
+- Cleanup global font injection (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Cleanup calculation of available voting balance on council (no unneeded refreshes)
+- Default to make contract calls with maximum weight (& align wih Rust RPC max)
+- Always check the refCount before allowing all-balance transfers
+- Allow council motions to display even when some on-chain proposals are invalid
+- Fix treasury tips to correctly check values against hashes
+- Add support for Ethereum icons (for Ethereum-compatible chains)
+- Bump to major `@polkadot/{keyring, util, util-crypto}` release
+
+
+## 0.65.1 Nov 2, 2020
+
+Contributed:
+
+- Fix for Electron account loading (Thanks to https://github.com/EthWorks)
+- Adjust electron override hashes & bump versions (Thanks to https://github.com/EthWorks)
+- Update i18n zh strings (Thanks to https://github.com/starit)
+- Adjust Edgeware RefCount type (Thanks to https://github.com/drewstone)
+- Trigger tip refresh on close (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Adjust for latest Rococo types
+- Adjust council motion parsing (allow for some non-parseable)
+- Adjust for use of new `api-contracts` (including call errors)
+- Allow for selection of payment destination on initial bonding
+
+
+## 0.64.1 Oct 26, 2020
+
+Contributed:
+
+- New account creation dialog (Thanks to https://github.com/EthWorks)
+- Update Darwinia Crab types (Thanks to https://github.com/WoeOm)
+- Update Kulupu types (Thans to https://github.com/sorpaas)
+- Add Hanonycash types & endpoints (Thanks to https://github.com/Hanonycash)
+- Update ko i18n (Thanks to https://github.com/maestro779)
+- Update links in apps-config (Thanks to https://github.com/NukeManDan)
+
+Changes:
+
+- Allow for Ascii inputs on Bytes (in addition to hex & files)
+- Ensure that InputNumber respects the biLength for the type it is dealing with
+- Displays the last blocks containing contract executions in contract overview
+- Parse contract events (both status pops-up and explorer views)
+- Display actual codeHash (and allow copy) as part of code management
+- Adjust labels for contracts UI with explicit "None" projection
+- Adjust contracts UI to actually use Balance types where so specified in the ABI
+- Add support for Solang i256 & u256 types
+- Adjust contract messages to display names in camelCase (consistent with API)
+- Add gas estimation for contracts
+- Adjust JS bundles to have a better parallel throughput
+- Adjust checks for Aura for unbonding, displaying on era
+
+
+## 0.63.1 Oct 19, 2020
+
+Contributed:
+
+- Updates for new Acala testnet (Thanks to https://github.com/aniiantt)
+- Update i18n ko (Thanks to https://github.com/maestro779)
+- Update i18n fr (Thanks to https://github.com/Tbaut)
+- Contract metadata display bg on dark mode (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Swap chain/prefix lookups to `@polkadot/networks` (single area to manage)
+- Fix formatting for large decimals on InputNumber (previously had toNumber)
+- Adjust Dock logos naming (aligns with network identifier)
+- Update i18n generation to handle routing strings
+- Estimate contracts execution gas (on contract call)
+- Use RPC for rent projection (to project eviction as available)
+- Metadata QR now aligns decimals with UI defaults (shared with react-api values)
+- Add endpoint for Canvas testnet (& setup types for node)
+
+
+## 0.62.1 Oct 13, 2020
 
 Contributed:
 

@@ -9,9 +9,10 @@ import { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueu
 import React, { useCallback, useRef, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
+import { Bytes } from '@polkadot/types';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-import { createType } from '@polkadot/types';
 
+import { getContractAbi } from '../util';
 import { QueueProvider } from './Context';
 import { STATUS_COMPLETE } from './constants';
 
@@ -103,6 +104,34 @@ function extractEvents (result?: SubmittableResult): ActionStatus[] {
             message,
             status: 'error'
           };
+        } else if (section === 'contracts') {
+          if (method === 'ContractExecution' && data.length === 2) {
+            // see if we have info for this contract
+            const [accountId, encoded] = data;
+
+            try {
+              const abi = getContractAbi(accountId.toString());
+
+              if (abi) {
+                const decoded = abi.decodeEvent(encoded as Bytes);
+
+                return {
+                  action: decoded.event.identifier,
+                  message: 'contract event',
+                  status: 'event'
+                };
+              }
+            } catch (error) {
+              // ABI mismatch?
+              console.error(error);
+            }
+          } else if (method === 'Evicted') {
+            return {
+              action: `${section}.${method}`,
+              message: 'contract evicted',
+              status: 'error'
+            };
+          }
         }
 
         return {
@@ -188,8 +217,8 @@ function Queue ({ children }: Props): React.ReactElement<Props> {
       addToTxQueue({
         accountId: payload.address,
         // this is not great, but the Extrinsic we don't need a submittable
-        extrinsic: createType(registry, 'Extrinsic',
-          { method: createType(registry, 'Call', payload.method) },
+        extrinsic: registry.createType('Extrinsic',
+          { method: registry.createType('Call', payload.method) },
           { version: payload.version }
         ) as unknown as SubmittableExtrinsic,
         payload,

@@ -23,6 +23,7 @@ export interface Props {
   isOpen?: boolean;
   isPadded?: boolean;
   onClick?: (isOpen: boolean) => void;
+  renderChildren?: () => React.ReactNode;
   summary?: React.ReactNode;
   summaryHead?: React.ReactNode;
   summaryMeta?: Meta;
@@ -57,9 +58,14 @@ function formatMeta (meta?: Meta): React.ReactNode | null {
   return <>{parts.map((part, index) => index % 2 ? <em key={index}>[{part}]</em> : <span key={index}>{part}</span>)}&nbsp;</>;
 }
 
-function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
+function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded, onClick, renderChildren, summary, summaryHead, summaryMeta, summarySub, withHidden }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [isExpanded, toggleExpanded] = useToggle(isOpen, onClick);
+
+  const demandChildren = useMemo(
+    () => isExpanded && renderChildren && renderChildren(),
+    [isExpanded, renderChildren]
+  );
 
   const headerMain = useMemo(
     () => summary || formatMeta(summaryMeta),
@@ -72,8 +78,8 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
   );
 
   const hasContent = useMemo(
-    () => !!children && (!Array.isArray(children) || children.length !== 0),
-    [children]
+    () => !!renderChildren || (!!children && (!Array.isArray(children) || children.length !== 0)),
+    [children, renderChildren]
   );
 
   return (
@@ -105,7 +111,7 @@ function Expander ({ children, className = '', help, helpIcon, isOpen, isPadded,
         />
       </div>
       {hasContent && (isExpanded || withHidden) && (
-        <div className='ui--Expander-content'>{children}</div>
+        <div className='ui--Expander-content'>{children || demandChildren}</div>
       )}
     </div>
   );

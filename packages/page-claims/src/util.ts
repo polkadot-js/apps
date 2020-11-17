@@ -4,7 +4,7 @@
 import { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
 
 import secp256k1 from 'secp256k1/elliptic';
-import { registry } from '@polkadot/react-api';
+import registry from '@polkadot/react-api/typeRegistry';
 import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 

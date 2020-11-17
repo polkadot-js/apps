@@ -9,11 +9,11 @@ import { StakerState } from './types';
 import { useEffect, useMemo, useState } from 'react';
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
-import useAccounts from './useAccounts';
-import useApi from './useApi';
-import useIsMountedRef from './useIsMountedRef';
-import useOwnStashes from './useOwnStashes';
-import useStashIds from './useStashIds';
+import { useAccounts } from './useAccounts';
+import { useApi } from './useApi';
+import { useIsMountedRef } from './useIsMountedRef';
+import { useOwnStashes } from './useOwnStashes';
+import { useStashIds } from './useStashIds';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 type Queried = Record<string, [boolean, DeriveStakingAccount, ValidatorInfo]>;
@@ -55,7 +55,7 @@ function getStakerState (stashId: string, allAccounts: string[], allStashes: str
   };
 }
 
-export default function useOwnStashInfos (): StakerState[] | undefined {
+export function useOwnStashInfos (): StakerState[] | undefined {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();

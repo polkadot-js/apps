@@ -11,16 +11,12 @@ function transform (file, enc, done) {
   const { ext } = path.parse(file.path);
 
   if (ext === '.tsx') {
-    const content = fs.readFileSync(file.path, enc);
-
-    const { outputText } = typescript.transpileModule(content, {
-      compilerOptions: {
-        target: 'es2018'
-      },
+    const { outputText } = typescript.transpileModule(fs.readFileSync(file.path, enc), {
+      compilerOptions: { target: 'es2018' },
       fileName: path.basename(file.path)
     });
 
-    const parserHandler = (key, options) => {
+    this.parser.parseFuncFromString(outputText, (key, options) => {
       options.defaultValue = key;
 
       if (process.platform !== 'win32') {
@@ -30,9 +26,7 @@ function transform (file, enc, done) {
       }
 
       this.parser.set(key, options);
-    };
-
-    this.parser.parseFuncFromString(outputText, parserHandler);
+    });
   }
 
   done();

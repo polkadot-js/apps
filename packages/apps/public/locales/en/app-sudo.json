@@ -9,10 +9,6 @@
   "You will no longer have sudo access": "You will no longer have sudo access",
   "submit the following change": "submit the following change",
   "sudo key": "sudo key",
-  "sudo with unchecked weight parameter": "sudo with unchecked weight parameter",
-  "sudo without unchecked weight parameter": "sudo without unchecked weight parameter",
   "unchecked weight for this call": "unchecked weight for this call",
-  "with unchecked weight": "with unchecked weight",
-  "with weight override": "with weight override",
-  "without unchecked weight": "without unchecked weight"
+  "with weight override": "with weight override"
 }

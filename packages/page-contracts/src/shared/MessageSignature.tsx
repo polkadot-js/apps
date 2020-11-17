@@ -4,9 +4,11 @@
 import { AbiMessage } from '@polkadot/api-contract/types';
 
 import React from 'react';
+import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { Icon, Tooltip } from '@polkadot/react-components';
-import { encodeTypeDef } from '@polkadot/types';
+import { encodeTypeDef } from '@polkadot/types/create';
+import { stringCamelCase } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 
@@ -31,7 +33,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
 
   return (
     <div className={className}>
-      <span className='ui--MessageSignature-name'>{identifier}</span>
+      <span className='ui--MessageSignature-name'>{stringCamelCase(identifier)}</span>
       {' '}({args.map(({ name, type }, index): React.ReactNode => {
         return (
           <React.Fragment key={`${name}-args-${index}`}>
@@ -76,8 +78,8 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
 }
 
 export default React.memo(styled(MessageSignature)`
-  font-family: monospace;
-  font-weight: normal;
+  font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+  font-weight: 400;
   flex-grow: 1;
 
   .ui--MessageSignature-mutates {
@@ -88,7 +90,7 @@ export default React.memo(styled(MessageSignature)`
 
   .ui--MessageSignature-name {
     color: #2f8ddb;
-    font-weight: bold;
+    font-weight: 400;
   }
 
   .ui--MessageSignature-type {
