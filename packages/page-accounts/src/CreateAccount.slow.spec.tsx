@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import AccountsApp from '@polkadot/app-accounts';
+import { Component as AccountsApp } from '@polkadot/app-accounts';
 import { MemoryStore } from '@polkadot/app-accounts/test-support/MemoryStore';
 import { lightTheme } from '@polkadot/apps/themes';
 import { Api } from '@polkadot/react-api';

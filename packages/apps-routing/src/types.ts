@@ -11,8 +11,10 @@ export interface RouteProps extends AppProps, BareProps {
 }
 
 export interface Route {
+  TabsComponent?: React.ComponentType<RouteProps>;
   Component: React.ComponentType<RouteProps>;
   Modal?: React.ComponentType<any>;
+  helpText?: string;
   display: {
     isHidden?: boolean;
     isModal?: boolean;

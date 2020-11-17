@@ -7,7 +7,7 @@ import React, { Suspense, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import createRoutes from '@polkadot/apps-routing';
-import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
+import { ErrorBoundary, HelpOverlay, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import { findMissingApis } from '../endpoint';
@@ -37,7 +37,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   const { api, isApiConnected, isApiReady } = useApi();
   const { queueAction } = useContext(StatusContext);
 
-  const { Component, display: { needsApi }, name } = useMemo(
+  const { Component, TabsComponent, display: { needsApi }, helpText, name } = useMemo(
     (): Route => {
       const app = location.pathname.slice(1) || '';
 
@@ -70,11 +70,22 @@ function Content ({ className }: Props): React.ReactElement<Props> {
                     />
                   )
                   : (
-                    <Component
-                      basePath={`/${name}`}
-                      location={location}
-                      onStatusChange={queueAction}
-                    />
+                    <main>
+                      {helpText && <HelpOverlay md={helpText} />}
+                      <header>
+                        {TabsComponent && <TabsComponent basePath={`/${name}`}
+                          location={location}
+                          onStatusChange={queueAction}
+                        />}
+                      </header>
+                      <div className='content-container'>
+                        <Component
+                          basePath={`/${name}`}
+                          location={location}
+                          onStatusChange={queueAction}
+                        />
+                      </div>
+                    </main>
                   )
                 }
               </ErrorBoundary>
