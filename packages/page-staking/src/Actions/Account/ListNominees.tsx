@@ -3,7 +3,7 @@
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import { DeriveEraExposure, DeriveSessionProgress } from '@polkadot/api-derive/types';
+import { DeriveEraExposure, DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
@@ -65,7 +65,7 @@ function ListNominees ({ nominating, stashId }: Props): React.ReactElement<Props
   const { t } = useTranslation();
   const { api } = useApi();
   const { nomsActive, nomsChilled, nomsInactive, nomsOver, nomsWaiting } = useInactives(stashId, nominating);
-  const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
+  const sessionInfo = useCall<DeriveSessionIndexes>(api.query.staking && api.derive.session?.indexes);
   const eraExposure = useCall<DeriveEraExposure>(api.query.staking.erasStakers && api.derive.staking.eraExposure, [sessionInfo?.activeEra]);
   const [renActive, renChilled, renInactive, renOver, renWaiting] = useMemo(
     () => [renderNominators(stashId, nomsActive, eraExposure), renderNominators(stashId, nomsChilled), renderNominators(stashId, nomsInactive), renderNominators(stashId, nomsOver), renderNominators(stashId, nomsWaiting)],
