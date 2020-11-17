@@ -108,6 +108,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       isNominating,
       key,
       numNominators: (exposure.others || []).length,
+      parentId: null,
       rankBondOther: 0,
       rankBondOwn: 0,
       rankBondTotal: 0,
