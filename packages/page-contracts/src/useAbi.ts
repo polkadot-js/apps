@@ -51,10 +51,12 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
   const [state, setAbi] = useState<AbiState>(fromInitial(initialValue, isRequired));
 
   useEffect(
-    (): void => {
-      initialValue[0] && state.abi !== initialValue[0] && setAbi(fromInitial(initialValue, isRequired));
-    },
-    [initialValue, isRequired, state]
+    () => setAbi((state) =>
+      initialValue[0] && state.abi !== initialValue[0]
+        ? fromInitial(initialValue, isRequired)
+        : state
+    ),
+    [initialValue, isRequired]
   );
 
   const onChangeAbi = useCallback(
