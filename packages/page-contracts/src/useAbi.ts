@@ -10,7 +10,7 @@ import { u8aToString } from '@polkadot/util';
 
 import store from './store';
 
-interface UseAbi {
+interface AbiState {
   abi: string | null;
   abiName: string | null;
   contractAbi: Abi | null;
@@ -18,24 +18,43 @@ interface UseAbi {
   isAbiError: boolean;
   isAbiValid: boolean;
   isAbiSupplied: boolean;
+}
+
+interface UseAbi extends AbiState {
   onChangeAbi: (u8a: Uint8Array, name: string) => void;
   onRemoveAbi: () => void;
 }
 
-type AbiState = [string | null, Abi | null, boolean, boolean, string | null, boolean, string | null];
-
 function fromInitial (initialValue: [string | null | undefined, Abi | null | undefined], isRequired: boolean): AbiState {
-  return [initialValue[0] || null, initialValue[1] || null, !!initialValue[1], !isRequired || !!initialValue[1], null, false, null];
+  return {
+    abi: initialValue[0] || null,
+    abiName: null,
+    contractAbi: initialValue[1] || null,
+    errorText: null,
+    isAbiError: false,
+    isAbiSupplied: !!initialValue[1],
+    isAbiValid: !isRequired || !!initialValue[1]
+  };
 }
 
+const EMPTY: AbiState = {
+  abi: null,
+  abiName: null,
+  contractAbi: null,
+  errorText: null,
+  isAbiError: false,
+  isAbiSupplied: false,
+  isAbiValid: false
+};
+
 export default function useAbi (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
-  const [[abi, contractAbi, isAbiSupplied, isAbiValid, abiName, isAbiError, errorText], setAbi] = useState<AbiState>(fromInitial(initialValue, isRequired));
+  const [state, setAbi] = useState<AbiState>(fromInitial(initialValue, isRequired));
 
   useEffect(
     (): void => {
-      initialValue[0] && abi !== initialValue[0] && setAbi(fromInitial(initialValue, isRequired));
+      initialValue[0] && state.abi !== initialValue[0] && setAbi(fromInitial(initialValue, isRequired));
     },
-    [abi, initialValue, isRequired]
+    [initialValue, isRequired, state]
   );
 
   const onChangeAbi = useCallback(
@@ -43,13 +62,21 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
       const json = u8aToString(u8a);
 
       try {
-        setAbi([json, new Abi(json, api.registry.getChainProperties()), true, true, name.replace('.contract', '').replace('.json', '').replace('_', ' '), false, null]);
+        setAbi({
+          abi: json,
+          abiName: name.replace('.contract', '').replace('.json', '').replace('_', ' '),
+          contractAbi: new Abi(json, api.registry.getChainProperties()),
+          errorText: null,
+          isAbiError: false,
+          isAbiSupplied: true,
+          isAbiValid: true
+        });
 
         codeHash && store.saveCode(codeHash, { abi: json });
       } catch (error) {
         console.error(error);
 
-        setAbi([null, null, false, false, null, true, (error as Error).message]);
+        setAbi({ ...EMPTY, errorText: (error as Error).message });
       }
     },
     [codeHash]
@@ -57,7 +84,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
 
   const onRemoveAbi = useCallback(
     (): void => {
-      setAbi([null, null, false, false, null, false, null]);
+      setAbi(EMPTY);
 
       codeHash && store.saveCode(codeHash, { abi: null });
     },
@@ -65,13 +92,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
   );
 
   return {
-    abi,
-    abiName,
-    contractAbi,
-    errorText,
-    isAbiError,
-    isAbiSupplied,
-    isAbiValid,
+    ...state,
     onChangeAbi,
     onRemoveAbi
   };
