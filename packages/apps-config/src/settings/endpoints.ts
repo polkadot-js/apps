@@ -63,6 +63,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
     // fixed, polkadot
     {
+      info: 'kilt',
+      text: t('rpc.kilt', 'Mashnet', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'KILT Protocol' } }),
+      value: 'wss://full-nodes.kilt.io:9944/'
+    },
+    {
       dnslink: 'polkadot',
       info: 'polkadot',
       text: t('rpc.polkadot.parity', 'Polkadot', { ns: 'apps-config' }),
@@ -276,6 +282,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t('rpc.crust.network', 'Crust Maxwell CC2', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Crust Network' } }),
       value: 'wss://api.crust.network/'
+    },
+    {
+      info: 'kilt',
+      text: t('rpc.kilt', 'KILT Devnet', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'KILT Protocol' } }),
+      value: 'wss://full-nodes-lb.devnet.kilt.io:9944/'
     },
     {
       info: 'datahighway',
