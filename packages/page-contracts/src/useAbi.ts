@@ -22,13 +22,18 @@ interface UseAbi {
   onRemoveAbi: () => void;
 }
 
+type AbiState = [string | null, Abi | null, boolean, boolean, string | null, boolean, string | null];
+
+function fromInitial (initialValue: [string | null | undefined, Abi | null | undefined], isRequired: boolean): AbiState {
+  return [initialValue[0] || null, initialValue[1] || null, !!initialValue[1], !isRequired || !!initialValue[1], null, false, null];
+}
+
 export default function useAbi (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
-  const [[abi, contractAbi, isAbiSupplied, isAbiValid, abiName], setAbi] = useState<[string | null | undefined, Abi | null | undefined, boolean, boolean, string | null]>([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1], null]);
-  const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
+  const [[abi, contractAbi, isAbiSupplied, isAbiValid, abiName, isAbiError, errorText], setAbi] = useState<AbiState>(fromInitial(initialValue, isRequired));
 
   useEffect(
     (): void => {
-      initialValue[0] && abi !== initialValue[0] && setAbi([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1], null]);
+      initialValue[0] && abi !== initialValue[0] && setAbi(fromInitial(initialValue, isRequired));
     },
     [abi, initialValue, isRequired]
   );
@@ -38,14 +43,13 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
       const json = u8aToString(u8a);
 
       try {
-        setAbi([json, new Abi(json, api.registry.getChainProperties()), true, true, name.replace('.contract', '').replace('.json', '').replace('_', ' ')]);
+        setAbi([json, new Abi(json, api.registry.getChainProperties()), true, true, name.replace('.contract', '').replace('.json', '').replace('_', ' '), false, null]);
 
         codeHash && store.saveCode(codeHash, { abi: json });
       } catch (error) {
         console.error(error);
 
-        setAbi([null, null, false, false, null]);
-        setError([true, (error as Error).message]);
+        setAbi([null, null, false, false, null, true, (error as Error).message]);
       }
     },
     [codeHash]
@@ -53,8 +57,7 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
 
   const onRemoveAbi = useCallback(
     (): void => {
-      setAbi([null, null, false, false, null]);
-      setError([false, null]);
+      setAbi([null, null, false, false, null, false, null]);
 
       codeHash && store.saveCode(codeHash, { abi: null });
     },
@@ -62,9 +65,9 @@ export default function useAbi (initialValue: [string | null | undefined, Abi | 
   );
 
   return {
-    abi: abi || null,
+    abi,
     abiName,
-    contractAbi: contractAbi || null,
+    contractAbi,
     errorText,
     isAbiError,
     isAbiSupplied,
