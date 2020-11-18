@@ -200,7 +200,6 @@ export default React.memo(styled(AccountName)`
     .name {
       font-weight: 400 !important;
       filter: grayscale(100%);
-      line-height: 1;
       opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -222,7 +221,6 @@ export default React.memo(styled(AccountName)`
       .sub,
       .top {
         vertical-align: middle;
-        line-height: normal;
       }
 
       .sub {
