@@ -72,7 +72,7 @@ const transformStatement = {
   transform: (option: Option<StatementKind>) => option.unwrapOr(null)
 };
 
-function ClaimsTabbs({ basePath }: Props): React.ReactElement<Props> {
+function ClaimsTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef([{
     isRoot: true,
@@ -327,4 +327,4 @@ function ClaimsApp (): React.ReactElement<Props> {
 }
 
 export const Component = React.memo(ClaimsApp);
-export const TabsComponent = React.memo(ClaimsTabbs);
+export const TabsComponent = React.memo(ClaimsTabs);

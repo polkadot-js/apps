@@ -20,7 +20,7 @@ import Deploy from './Deploy';
 import Summary from './Summary';
 import { useTranslation } from './translate';
 
-function ContractsTabbs({ basePath }: Props): React.ReactElement<Props> {
+function ContractsTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef([
     {
@@ -38,7 +38,7 @@ function ContractsTabbs({ basePath }: Props): React.ReactElement<Props> {
   );
 }
 
-function ContractsApp(): React.ReactElement<Props> {
+function ContractsApp (): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allContracts } = useContracts();
   const [codeHash, setCodeHash] = useState<string | undefined>();
@@ -141,5 +141,5 @@ export const Component = React.memo(styled(ContractsApp)`
     padding: 0;
   }
 `);
-export const TabsComponent = React.memo(ContractsTabbs);
+export const TabsComponent = React.memo(ContractsTabs);
 export const helpText = introMd as string;

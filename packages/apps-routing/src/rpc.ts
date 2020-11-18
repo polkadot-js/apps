@@ -4,11 +4,12 @@
 import { TFunction } from 'i18next';
 import { Route } from './types';
 
-import Component from '@polkadot/app-rpc';
+import { Component, TabsComponent } from '@polkadot/app-rpc';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
+    TabsComponent,
     display: {
       needsApi: []
     },

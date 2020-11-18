@@ -14,7 +14,7 @@ interface Props {
   basePath: string;
 }
 
-function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
+function AssetTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const itemsRef = useRef([
@@ -30,21 +30,21 @@ function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <main className='treasury--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route path={`${basePath}/transfer`}><Transfer /></Route>
-          <Route><Assets /></Route>
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
   );
 }
 
-export default React.memo(AssetApp);
+function AssetApp ({ basePath }: Props): React.ReactElement<Props> {
+  return (
+    <Switch>
+      <Route path={`${basePath}/transfer`}><Transfer /></Route>
+      <Route><Assets /></Route>
+    </Switch>
+  );
+}
+
+export const Component = React.memo(AssetApp);
+export const TabsComponent = React.memo(AssetTabs);

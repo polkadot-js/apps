@@ -21,14 +21,11 @@ interface Props {
   newEvents?: KeyedEvent[];
 }
 
-const HIDDESN_NOBABE = ['forks'];
+const HIDDEN_NOBABE = ['forks'];
 
-function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function ExplorerTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { lastHeaders } = useContext(BlockAuthorsContext);
-  const events = useContext(EventsContext);
-
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -51,30 +48,33 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
   ]);
 
   return (
-    <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={api.query.babe ? undefined : HIDDESN_NOBABE}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route path={`${basePath}/forks`}><Forks /></Route>
-          <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
-          <Route path={`${basePath}/query`}><BlockInfo /></Route>
-          <Route path={`${basePath}/node`}><NodeInfo /></Route>
-          <Route>
-            <Main
-              events={events}
-              headers={lastHeaders}
-            />
-          </Route>
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      hidden={api.query.babe ? undefined : HIDDEN_NOBABE}
+      items={itemsRef.current}
+    />
   );
 }
 
-export default React.memo(ExplorerApp);
+function ExplorerApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { lastHeaders } = useContext(BlockAuthorsContext);
+  const events = useContext(EventsContext);
+
+  return (
+    <Switch>
+      <Route path={`${basePath}/forks`}><Forks /></Route>
+      <Route path={`${basePath}/query/:value`}><BlockInfo /></Route>
+      <Route path={`${basePath}/query`}><BlockInfo /></Route>
+      <Route path={`${basePath}/node`}><NodeInfo /></Route>
+      <Route>
+        <Main
+          events={events}
+          headers={lastHeaders}
+        />
+      </Route>
+    </Switch>
+  );
+}
+
+export const Component = React.memo(ExplorerApp);
+export const TabsComponent = React.memo(ExplorerTabs);

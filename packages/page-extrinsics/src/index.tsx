@@ -9,7 +9,7 @@ import { Tabs } from '@polkadot/react-components';
 import Selection from './Selection';
 import { useTranslation } from './translate';
 
-function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
+function ExtrinsicsTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const itemsRef = useRef([{
@@ -19,20 +19,18 @@ function ExtrinsicsApp ({ basePath }: Props): React.ReactElement<Props> {
   }]);
 
   return (
-    <main className='extrinsics--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <Selection />
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
   );
 }
 
-export { ExtrinsicsApp };
+function ExtrinsicsApp (): React.ReactElement<Props> {
+  return (
+    <Selection />
+  );
+}
 
-export default React.memo(ExtrinsicsApp);
+export const Component = React.memo(ExtrinsicsApp);
+export const TabsComponent = React.memo(ExtrinsicsTabs);

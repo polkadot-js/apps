@@ -18,14 +18,12 @@ interface Props {
   basePath: string;
 }
 
-function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
+function ParachainsTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const sudoState = useSudo();
-  const paraInfoRef = useRef<DeriveParachainInfo | null>(null);
-
   const location = useLocation();
   const match = matchPath<{ id: string }>(location.pathname, { path: `${basePath}/:id` });
+  const paraInfoRef = useRef<DeriveParachainInfo | null>(null);
+
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -43,32 +41,36 @@ function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
   ], [match, t]);
 
   return (
-    <main>
-      <header>
-        <Tabs
-          basePath={basePath}
-          isSequence
-          items={items}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          {api.query.parachains && (
-            <Route path={`${basePath}/:id`}>
-              <Parachain
-                basePath={basePath}
-                paraInfoRef={paraInfoRef}
-                {...sudoState}
-              />
-            </Route>
-          )}
-          <Route>
-            <Overview {...sudoState} />
-          </Route>
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      isSequence
+      items={items}
+    />
   );
 }
 
-export default React.memo(ParachainsApp);
+function ParachainsApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const sudoState = useSudo();
+  const paraInfoRef = useRef<DeriveParachainInfo | null>(null);
+
+  return (
+    <Switch>
+      {api.query.parachains && (
+        <Route path={`${basePath}/:id`}>
+          <Parachain
+            basePath={basePath}
+            paraInfoRef={paraInfoRef}
+            {...sudoState}
+          />
+        </Route>
+      )}
+      <Route>
+        <Overview {...sudoState} />
+      </Route>
+    </Switch>
+  );
+}
+
+export const Component = React.memo(ParachainsApp);
+export const TabsComponent = React.memo(ParachainsTabs);

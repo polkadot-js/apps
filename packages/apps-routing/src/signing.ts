@@ -4,11 +4,12 @@
 import { TFunction } from 'i18next';
 import { Route } from './types';
 
-import Component from '@polkadot/app-signing';
+import { Component, TabsComponent } from '@polkadot/app-signing';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
+    TabsComponent,
     display: {
       needsAccounts: true,
       needsApi: []

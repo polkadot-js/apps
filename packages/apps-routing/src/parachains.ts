@@ -4,11 +4,12 @@
 import { TFunction } from 'i18next';
 import { Route } from './types';
 
-import Component from '@polkadot/app-parachains';
+import { Component, TabsComponent } from '@polkadot/app-parachains';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
+    TabsComponent,
     display: {
       needsApi: [
         ['query.parachains.code', 'query.parachainUpgrade.didUpdateVFPs']

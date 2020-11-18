@@ -16,7 +16,7 @@ interface Props {
 
 export { useCounter };
 
-function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function SocietyTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const itemsRef = useRef([
@@ -28,20 +28,20 @@ function SocietyApp ({ basePath, className }: Props): React.ReactElement<Props> 
   ]);
 
   return (
-    <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route component={Overview} />
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
   );
 }
 
-export default React.memo(SocietyApp);
+function SocietyApp (): React.ReactElement<Props> {
+  return (
+    <Switch>
+      <Route component={Overview} />
+    </Switch>
+  );
+}
+
+export const Component = React.memo(SocietyApp);
+export const TabsComponent = React.memo(SocietyTabs);

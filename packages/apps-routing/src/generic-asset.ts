@@ -4,11 +4,12 @@
 import { TFunction } from 'i18next';
 import { Route } from './types';
 
-import Component from '@polkadot/app-generic-asset';
+import { Component, TabsComponent } from '@polkadot/app-generic-asset';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
+    TabsComponent,
     display: {
       isHidden: false,
       needsAccounts: true,

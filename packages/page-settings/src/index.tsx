@@ -5,7 +5,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import md from './md/basics.md';
@@ -18,11 +18,10 @@ import useCounter from './useCounter';
 
 export { useCounter };
 
-function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function SettingsTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { isApiConnected, isApiReady } = useApi();
   const numExtensions = useCounter();
-
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -52,34 +51,34 @@ function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<P
   );
 
   return (
-    <main className='settings--App'>
-      <HelpOverlay md={md as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          hidden={hidden}
-          items={items}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route path={`${basePath}/developer`}>
-            <Developer
-              basePath={basePath}
-              onStatusChange={onStatusChange}
-            />
-          </Route>
-          <Route path={`${basePath}/i18n`}>
-            <I18n />
-          </Route>
-          <Route path={`${basePath}/metadata`}>
-            <Metadata />
-          </Route>
-          <Route component={General} />
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      hidden={hidden}
+      items={items}
+    />
   );
 }
 
-export default React.memo(SettingsApp);
+function SettingsApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+  return (
+    <Switch>
+      <Route path={`${basePath}/developer`}>
+        <Developer
+          basePath={basePath}
+          onStatusChange={onStatusChange}
+        />
+      </Route>
+      <Route path={`${basePath}/i18n`}>
+        <I18n />
+      </Route>
+      <Route path={`${basePath}/metadata`}>
+        <Metadata />
+      </Route>
+      <Route component={General} />
+    </Switch>
+  );
+}
+
+export const Component = React.memo(SettingsApp);
+export const TabsComponent = React.memo(SettingsTabs);
+export const helpText = md as string;

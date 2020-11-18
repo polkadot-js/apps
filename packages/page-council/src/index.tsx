@@ -28,14 +28,9 @@ const transformPrime = {
   transform: (result: Option<AccountId>): AccountId | null => result.unwrapOr(null)
 };
 
-function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function CouncilTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const { pathname } = useLocation();
   const numMotions = useCounter();
-  const prime = useCall<AccountId | null>(api.query.council.prime, undefined, transformPrime) || null;
-  const motions = useCall<DeriveCollectiveProposal[]>(api.derive.council.proposals);
-
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -50,33 +45,40 @@ function CouncilApp ({ basePath, className }: Props): React.ReactElement<Props> 
   ], [numMotions, t]);
 
   return (
-    <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route path={`${basePath}/motions`}>
-            <Motions
-              motions={motions}
-              prime={prime}
-            />
-          </Route>
-        </Switch>
-        <Overview
-          className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
-          prime={prime}
-        />
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={items}
+    />
   );
 }
 
-export default React.memo(styled(CouncilApp)`
+function CouncilApp ({ basePath }: Props): React.ReactElement<Props> {
+  const { api } = useApi();
+  const { pathname } = useLocation();
+  const prime = useCall<AccountId | null>(api.query.council.prime, undefined, transformPrime) || null;
+  const motions = useCall<DeriveCollectiveProposal[]>(api.derive.council.proposals);
+
+  return (
+    <div>
+      <Switch>
+        <Route path={`${basePath}/motions`}>
+          <Motions
+            motions={motions}
+            prime={prime}
+          />
+        </Route>
+      </Switch>
+      <Overview
+        className={[basePath, `${basePath}/candidates`].includes(pathname) ? '' : 'council--hidden'}
+        prime={prime}
+      />
+    </div>
+  );
+}
+
+export const Component = React.memo(styled(CouncilApp)`
   .council--hidden {
     display: none;
   }
 `);
+export const TabsComponent = React.memo(CouncilTabs);

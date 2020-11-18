@@ -12,9 +12,8 @@ import Sign from './Sign';
 import Verify from './Verify';
 import { useTranslation } from './translate';
 
-function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
+function SigningTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -32,12 +31,18 @@ function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
   ]);
 
   return (
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
+  );
+}
+
+function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
+  return (
     <main className='toolbox--App'>
       <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
+
       </header>
       <div className='content-container'>
         <Switch>
@@ -50,4 +55,5 @@ function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(SigningApp);
+export const Component = React.memo(SigningApp);
+export const TabsComponent = React.memo(SigningTabs);

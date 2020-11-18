@@ -10,9 +10,8 @@ import Tabs from '@polkadot/react-components/Tabs';
 import Rpc from './Rpc';
 import { useTranslation } from './translate';
 
-function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
+function RpcTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -22,20 +21,20 @@ function RpcApp ({ basePath }: Props): React.ReactElement<Props> {
   ]);
 
   return (
-    <main className='toolbox--App'>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route><Rpc /></Route>
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
   );
 }
 
-export default React.memo(RpcApp);
+function RpcApp (): React.ReactElement<Props> {
+  return (
+    <Switch>
+      <Route><Rpc /></Route>
+    </Switch>
+  );
+}
+
+export const Component = React.memo(RpcApp);
+export const TabsComponent = React.memo(RpcTabs);

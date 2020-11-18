@@ -21,7 +21,7 @@ interface Props {
 
 const NOW_INC = 30 * 1000;
 
-function CalendarTabs({ basePath }: Props): React.ReactElement<Props> {
+function CalendarTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const itemsRef = useRef([{
     isRoot: true,
@@ -37,7 +37,7 @@ function CalendarTabs({ basePath }: Props): React.ReactElement<Props> {
   );
 }
 
-function CalendarApp({ className }: Props): React.ReactElement<Props> {
+function CalendarApp (): React.ReactElement<Props> {
   const scheduled = useScheduled();
   const [now, setNow] = useState(new Date());
   const [dateState, setDateState] = useState(getDateState(now, now));

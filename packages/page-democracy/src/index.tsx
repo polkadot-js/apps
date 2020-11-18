@@ -3,7 +3,7 @@
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Tabs } from '@polkadot/react-components';
 
 import basicMd from './md/basic.md';
 import Execute from './Execute';
@@ -17,10 +17,9 @@ interface Props {
   basePath: string;
 }
 
-function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
+function DemocracyTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const dispatchCount = useDispatchCounter();
-
   const items = useMemo(() => [
     {
       isRoot: true,
@@ -35,24 +34,23 @@ function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
   ], [dispatchCount, t]);
 
   return (
-    <main className='democracy--App'>
-      <HelpOverlay md={basicMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={items}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route path={`${basePath}/dispatch`}>
-            <Execute />
-          </Route>
-          <Route><Overview /></Route>
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={items}
+    />);
+}
+
+function DemocracyApp ({ basePath }: Props): React.ReactElement<Props> {
+  return (
+    <Switch>
+      <Route path={`${basePath}/dispatch`}>
+        <Execute />
+      </Route>
+      <Route><Overview /></Route>
+    </Switch>
   );
 }
 
-export default React.memo(DemocracyApp);
+export const Component = React.memo(DemocracyApp);
+export const TabsComponent = React.memo(DemocracyTabs);
+export const helpText = basicMd as string;
