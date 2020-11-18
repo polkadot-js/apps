@@ -4,11 +4,12 @@
 import { TFunction } from 'i18next';
 import { Route } from './types';
 
-import Component, { useCounter } from '@polkadot/app-claims';
+import { Component, TabsComponent, useCounter } from '@polkadot/app-claims';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
+    TabsComponent,
     display: {
       needsAccounts: true,
       needsApi: [

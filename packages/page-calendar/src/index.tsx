@@ -21,17 +21,26 @@ interface Props {
 
 const NOW_INC = 30 * 1000;
 
-function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props> {
+function CalendarTabs({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const scheduled = useScheduled();
-  const [now, setNow] = useState(new Date());
-  const [dateState, setDateState] = useState(getDateState(now, now));
-
   const itemsRef = useRef([{
     isRoot: true,
     name: 'view',
     text: t<string>('Upcoming events')
   }]);
+
+  return (
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
+  );
+}
+
+function CalendarApp({ className }: Props): React.ReactElement<Props> {
+  const scheduled = useScheduled();
+  const [now, setNow] = useState(new Date());
+  const [dateState, setDateState] = useState(getDateState(now, now));
 
   useEffect((): () => void => {
     const intervalId = setInterval(() => setNow(new Date()), NOW_INC);
@@ -108,40 +117,30 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 
   return (
-    <main className={className}>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <div className='calendarFlex'>
-          <Month
-            hasNextMonth={hasNextMonth}
-            lastDay={lastDay}
-            now={now}
-            scheduled={scheduled}
-            setDay={_setDay}
-            setNextMonth={_nextMonth}
-            setPrevMonth={_prevMonth}
-            state={dateState}
-          />
-          <Day
-            date={dateState.dateSelected}
-            hasNextDay={hasNextDay}
-            now={now}
-            scheduled={scheduled}
-            setNextDay={_nextDay}
-            setPrevDay={_prevDay}
-          />
-        </div>
-      </div>
-    </main>
+    <div className='calendarFlex'>
+      <Month
+        hasNextMonth={hasNextMonth}
+        lastDay={lastDay}
+        now={now}
+        scheduled={scheduled}
+        setDay={_setDay}
+        setNextMonth={_nextMonth}
+        setPrevMonth={_prevMonth}
+        state={dateState}
+      />
+      <Day
+        date={dateState.dateSelected}
+        hasNextDay={hasNextDay}
+        now={now}
+        scheduled={scheduled}
+        setNextDay={_nextDay}
+        setPrevDay={_prevDay}
+      />
+    </div>
   );
 }
 
-export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
+export const Component = React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
   .calendarFlex {
     align-items: flex-start;
     display: flex;
@@ -173,3 +172,5 @@ export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
     }
   }
 `));
+
+export const TabsComponent = React.memo(CalendarTabs);

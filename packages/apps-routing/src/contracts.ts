@@ -4,11 +4,12 @@
 import { TFunction } from 'i18next';
 import { Route } from './types';
 
-import Component from '@polkadot/app-contracts';
+import { Component, TabsComponent, helpText } from '@polkadot/app-contracts';
 
 export default function create (t: TFunction): Route {
   return {
     Component,
+    TabsComponent,
     display: {
       needsAccounts: true,
       needsApi: [
@@ -16,6 +17,7 @@ export default function create (t: TFunction): Route {
       ]
     },
     group: 'developer',
+    helpText,
     icon: 'compress',
     name: 'contracts',
     text: t('nav.contracts', 'Contracts', { ns: 'apps-routing' })

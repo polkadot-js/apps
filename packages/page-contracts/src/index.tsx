@@ -5,7 +5,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, HelpOverlay, Tabs } from '@polkadot/react-components';
+import { Button, Tabs } from '@polkadot/react-components';
 import { useContracts, useToggle } from '@polkadot/react-hooks';
 
 import introMd from './md/intro.md';
@@ -20,7 +20,25 @@ import Deploy from './Deploy';
 import Summary from './Summary';
 import { useTranslation } from './translate';
 
-function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<Props> {
+function ContractsTabbs({ basePath }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
+  const itemsRef = useRef([
+    {
+      isRoot: true,
+      name: 'contracts',
+      text: t('Contracts')
+    }
+  ]);
+
+  return (
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
+  );
+}
+
+function ContractsApp(): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { allContracts } = useContracts();
   const [codeHash, setCodeHash] = useState<string | undefined>();
@@ -31,14 +49,6 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   const [isUploadOpen, toggleUpload] = useToggle();
   const [updated, setUpdated] = useState(Date.now());
   const [allCodes, setAllCodes] = useState(store.getAllCode());
-
-  const itemsRef = useRef([
-    {
-      isRoot: true,
-      name: 'contracts',
-      text: t('Contracts')
-    }
-  ]);
 
   const _onShowDeploy = useCallback(
     (codeHash: string, constructorIndex: number): void => {
@@ -74,65 +84,56 @@ function ContractsApp ({ basePath, className = '' }: Props): React.ReactElement<
   );
 
   return (
-    <main className={`contracts--App ${className}`}>
-      <HelpOverlay md={introMd as string} />
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
+    <React.Fragment>
+      <Summary trigger={updated} />
+      <Button.Group>
+        <Button
+          icon='plus'
+          label={t('Upload WASM')}
+          onClick={toggleUpload}
         />
-      </header>
-      <div className='content-container'>
-        <Summary trigger={updated} />
-        <Button.Group>
-          <Button
-            icon='plus'
-            label={t('Upload WASM')}
-            onClick={toggleUpload}
-          />
-          <Button
-            icon='plus'
-            label={t('Add an existing code hash')}
-            onClick={toggleHash}
-          />
-          <Button
-            icon='plus'
-            label={t('Add an existing contract')}
-            onClick={toggleAdd}
-          />
-        </Button.Group>
-        <Banner />
-        <Contracts
-          contracts={allContracts}
-          updated={updated}
+        <Button
+          icon='plus'
+          label={t('Add an existing code hash')}
+          onClick={toggleHash}
         />
-        <Codes
-          onShowDeploy={_onShowDeploy}
-          updated={updated}
+        <Button
+          icon='plus'
+          label={t('Add an existing contract')}
+          onClick={toggleAdd}
         />
-        {codeHash && isDeployOpen && (
-          <Deploy
-            codeHash={codeHash}
-            constructorIndex={constructorIndex}
-            onClose={_onCloseDeploy}
-            setConstructorIndex={setConstructorIndex}
-          />
-        )}
-        {isUploadOpen && (
-          <CodeUpload onClose={toggleUpload} />
-        )}
-        {isHashOpen && (
-          <CodeAdd onClose={toggleHash} />
-        )}
-        {isAddOpen && (
-          <ContractAdd onClose={toggleAdd} />
-        )}
-      </div>
-    </main>
+      </Button.Group>
+      <Banner />
+      <Contracts
+        contracts={allContracts}
+        updated={updated}
+      />
+      <Codes
+        onShowDeploy={_onShowDeploy}
+        updated={updated}
+      />
+      {codeHash && isDeployOpen && (
+        <Deploy
+          codeHash={codeHash}
+          constructorIndex={constructorIndex}
+          onClose={_onCloseDeploy}
+          setConstructorIndex={setConstructorIndex}
+        />
+      )}
+      {isUploadOpen && (
+        <CodeUpload onClose={toggleUpload} />
+      )}
+      {isHashOpen && (
+        <CodeAdd onClose={toggleHash} />
+      )}
+      {isAddOpen && (
+        <ContractAdd onClose={toggleAdd} />
+      )}
+    </React.Fragment>
   );
 }
 
-export default React.memo(styled(ContractsApp)`
+export const Component = React.memo(styled(ContractsApp)`
   .ui--Table td > article {
     background: transparent;
     border: none;
@@ -140,3 +141,5 @@ export default React.memo(styled(ContractsApp)`
     padding: 0;
   }
 `);
+export const TabsComponent = React.memo(ContractsTabbs);
+export const helpText = introMd as string;

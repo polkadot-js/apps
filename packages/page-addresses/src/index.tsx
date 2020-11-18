@@ -10,9 +10,8 @@ import { Tabs } from '@polkadot/react-components';
 import { useTranslation } from './translate';
 import Contacts from './Contacts';
 
-function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+function AddressTabs ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-
   const itemsRef = useRef([
     {
       isRoot: true,
@@ -22,25 +21,25 @@ function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<
   ]);
 
   return (
-    <main>
-      <header>
-        <Tabs
-          basePath={basePath}
-          items={itemsRef.current}
-        />
-      </header>
-      <div className='content-container'>
-        <Switch>
-          <Route>
-            <Contacts
-              basePath={basePath}
-              onStatusChange={onStatusChange}
-            />
-          </Route>
-        </Switch>
-      </div>
-    </main>
+    <Tabs
+      basePath={basePath}
+      items={itemsRef.current}
+    />
   );
 }
 
-export default React.memo(AddressesApp);
+function AddressesApp ({ basePath, onStatusChange }: Props): React.ReactElement<Props> {
+  return (
+    <Switch>
+      <Route>
+        <Contacts
+          basePath={basePath}
+          onStatusChange={onStatusChange}
+        />
+      </Route>
+    </Switch>
+  );
+}
+
+export const Component = React.memo(AddressesApp);
+export const TabsComponent = React.memo(AddressTabs);
