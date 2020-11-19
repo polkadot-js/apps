@@ -3,7 +3,7 @@
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
-import type { TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import type { TypeDef } from '@polkadot/types/types';
 import type { RawParams } from '@polkadot/react-params/types';
 import type { ComponentProps as Props } from '../types';
 
@@ -12,7 +12,8 @@ import { ApiPromise } from '@polkadot/api';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
-import { getTypeDef } from '@polkadot/types/create';
+import { getTypeDef } from '@polkadot/types';
+import { TypeDefInfo } from '@polkadot/types/types';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
