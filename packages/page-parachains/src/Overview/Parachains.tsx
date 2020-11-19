@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveParachain } from '@polkadot/api-derive/types';
+import type { DeriveParachain } from '@polkadot/api-derive/types';
 
 import React, { useRef } from 'react';
 import styled from 'styled-components';

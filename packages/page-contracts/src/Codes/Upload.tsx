@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { CodeSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { CodeSubmittableResult } from '@polkadot/api-contract/promise/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CodePromise } from '@polkadot/api-contract';

@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeDef } from '../types';
+import type { ThemeDef } from '../types';
 
 export default (theme: ThemeDef): string => `
   .ui--output {

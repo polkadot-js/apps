@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { UnappliedSlash } from '@polkadot/types/interfaces';
-import { ValidatorInfo } from '../types';
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { UnappliedSlash } from '@polkadot/types/interfaces';
+import type { ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo } from 'react';

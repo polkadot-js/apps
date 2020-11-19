@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Log } from './types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Log } from './types';
 
 import React from 'react';
-import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { isError, isNull, isUndefined } from '@polkadot/util';
 

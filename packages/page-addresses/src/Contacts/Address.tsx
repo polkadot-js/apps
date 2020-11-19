@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ThemeDef } from '@polkadot/react-components/types';
+import type { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ThemeDef } from '@polkadot/react-components/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';

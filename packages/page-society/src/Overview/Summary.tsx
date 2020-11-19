@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveSociety } from '@polkadot/api-derive/types';
-import { BlockNumber } from '@polkadot/types/interfaces';
+import type { DeriveSociety } from '@polkadot/api-derive/types';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';

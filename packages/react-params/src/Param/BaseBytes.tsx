@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
+import type { TypeDef } from '@polkadot/types/types';
+import type { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { Input } from '@polkadot/react-components';

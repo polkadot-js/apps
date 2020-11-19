@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { InjectedExtension } from '@polkadot/extension-inject/types';
-import { KeyringStore } from '@polkadot/ui-keyring/types';
-import { ChainProperties, ChainType } from '@polkadot/types/interfaces';
-import { ApiProps, ApiState } from './types';
+import type { InjectedExtension } from '@polkadot/extension-inject/types';
+import type { KeyringStore } from '@polkadot/ui-keyring/types';
+import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
+import type { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';

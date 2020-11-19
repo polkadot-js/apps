@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IdentityProps } from '@polkadot/react-identicon/types';
+import type { IdentityProps } from '@polkadot/react-identicon/types';
 
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';

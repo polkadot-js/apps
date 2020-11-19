@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Codec } from '@polkadot/types/types';
-import { RawParam } from '../types';
+import type { Codec } from '@polkadot/types/types';
+import type { RawParam } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';

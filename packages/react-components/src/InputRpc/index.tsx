@@ -3,8 +3,8 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOptions } from '../util/types';
+import type { DefinitionRpcExt } from '@polkadot/types/types';
+import type { DropdownOptions } from '../util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApi } from '@polkadot/react-hooks';

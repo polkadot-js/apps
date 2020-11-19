@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { LinkOption } from '@polkadot/apps-config/settings/types';
-import { ThemeProps } from '@polkadot/react-components/types';
-import { Group } from './types';
+import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Group } from './types';
 
 import React, { useCallback, useMemo, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import

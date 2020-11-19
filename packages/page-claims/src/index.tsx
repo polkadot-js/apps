@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import { Option } from '@polkadot/types';
-import { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
+import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { Option } from '@polkadot/types';
+import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Trans } from 'react-i18next';

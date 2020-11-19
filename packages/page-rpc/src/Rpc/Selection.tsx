@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-rpc authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ParamDef, RawParam } from '@polkadot/react-params/types';
-import { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
-import { DefinitionRpcExt } from '@polkadot/types/types';
+import type { ParamDef, RawParam } from '@polkadot/react-params/types';
+import type { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
+import type { DefinitionRpcExt } from '@polkadot/types/types';
 
 import React, { useCallback, useState } from 'react';
 import { Button, InputRpc } from '@polkadot/react-components';

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import { DeriveStakerReward } from '@polkadot/api-derive/types';
-import { StakerState } from '@polkadot/react-hooks/types';
-import { PayoutStash, PayoutValidator } from './types';
+import type { DeriveStakerReward } from '@polkadot/api-derive/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
+import type { PayoutStash, PayoutValidator } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';

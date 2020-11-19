@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ComponentProps as Props } from '../types';
+import type { ComponentProps as Props } from '../types';
 
 import React from 'react';
 

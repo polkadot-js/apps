@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BondInfo, NominateInfo } from './partials/types';
-import { SortedTargets } from '../types';
+import type { BondInfo, NominateInfo } from './partials/types';
+import type { SortedTargets } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { Button, Modal, TxButton } from '@polkadot/react-components';

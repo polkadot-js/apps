@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveSocietyMember } from '@polkadot/api-derive/types';
-import { OwnMembers } from './types';
+import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
+import type { OwnMembers } from './types';
 
 import { useEffect, useState } from 'react';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';

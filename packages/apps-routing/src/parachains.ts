@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import { Route } from './types';
+import type { Route } from './types';
 
 import Component from '@polkadot/app-parachains';
 

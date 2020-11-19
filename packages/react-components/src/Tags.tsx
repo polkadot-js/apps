@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { VoidFn } from './types';
+import type { VoidFn } from './types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';

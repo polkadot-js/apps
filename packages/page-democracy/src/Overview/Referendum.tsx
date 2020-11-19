@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveReferendumExt } from '@polkadot/api-derive/types';
-import { Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
+import type { Balance, BlockNumber } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';

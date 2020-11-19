@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
+import type { Option } from '@polkadot/types';
+import type { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Table, Toggle } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 import Tip from './Tip';

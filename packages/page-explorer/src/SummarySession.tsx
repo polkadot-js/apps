@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveSessionProgress } from '@polkadot/api-derive/types';
-import { Forcing } from '@polkadot/types/interfaces';
+import type { DeriveSessionProgress } from '@polkadot/api-derive/types';
+import type { Forcing } from '@polkadot/types/interfaces';
 
 import React from 'react';
 import { CardSummary } from '@polkadot/react-components';
