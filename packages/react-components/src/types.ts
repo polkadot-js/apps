@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { WithTranslation } from 'react-i18next';
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { Abi } from '@polkadot/api-contract';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
