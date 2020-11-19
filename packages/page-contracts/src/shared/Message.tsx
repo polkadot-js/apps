@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { AbiConstructor, AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';

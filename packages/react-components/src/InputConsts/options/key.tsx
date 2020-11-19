@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ConstantCodec } from '@polkadot/metadata/decorate/types';
-import { DropdownOptions, DropdownOption } from '../../util/types';
+import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
+import type { DropdownOptions, DropdownOption } from '../../util/types';
 
 import React from 'react';
 import { ApiPromise } from '@polkadot/api';

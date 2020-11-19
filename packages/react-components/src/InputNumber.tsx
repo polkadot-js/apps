@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SiDef } from '@polkadot/util/types';
-import { BitLength } from './types';
+import type { SiDef } from '@polkadot/util/types';
+import type { BitLength } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';

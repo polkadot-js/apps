@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveEraPoints, DeriveEraRewards, DeriveStakerReward } from '@polkadot/api-derive/types';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { StakerState } from './types';
+import type { DeriveEraPoints, DeriveEraRewards, DeriveStakerReward } from '@polkadot/api-derive/types';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { StakerState } from './types';
 
 import { useEffect, useState } from 'react';
 import { registry } from '@polkadot/react-api';

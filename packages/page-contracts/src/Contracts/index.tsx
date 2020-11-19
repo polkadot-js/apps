@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractCallOutcome } from '@polkadot/api-contract/types';
-import { FullNewBlock } from '@polkadot/api-derive/types';
-import { ContractLink } from './types';
+import type { ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { FullNewBlock } from '@polkadot/api-derive/types';
+import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';

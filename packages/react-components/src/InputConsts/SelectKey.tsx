@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DropdownOptions } from '../util/types';
-import { ConstValueBase } from './types';
+import type { DropdownOptions } from '../util/types';
+import type { ConstValueBase } from './types';
 
 import React from 'react';
 

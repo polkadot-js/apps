@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { KeyringItemType, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
+import type { KeyringItemType, KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import keyring from '@polkadot/ui-keyring';
 

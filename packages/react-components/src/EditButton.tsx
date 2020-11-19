@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import { VoidFn } from './types';
+import type { VoidFn } from './types';
 
 import React from 'react';
 import styled from 'styled-components';

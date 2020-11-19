@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DefinitionRpc, DefinitionRpcParam } from '@polkadot/types/types';
+import type { DefinitionRpc, DefinitionRpcParam } from '@polkadot/types/types';
 
 export default function (): Record<string, Record<string, DefinitionRpc>> {
   function generateDescription (description:string, returnType:string, params:DefinitionRpcParam[] = []):DefinitionRpc {

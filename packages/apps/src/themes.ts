@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeDef } from '@polkadot/react-components/types';
+import type { ThemeDef } from '@polkadot/react-components/types';
 
 // Suggested '"Nunito Sans", sans-serif', however there are a couple of issues
 //   - alignment of identities are way off, parent + sub + unicode

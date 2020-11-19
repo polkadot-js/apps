@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps as Props } from '../types';
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ModalProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { AddressRow, Button, Input, InputAddress, Modal } from '@polkadot/react-components';

@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Route, Routes } from '@polkadot/apps-routing/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { ThemeProps } from '@polkadot/react-components/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { Group, Groups, ItemRoute } from './types';
+import type { Route, Routes } from '@polkadot/apps-routing/types';
+import type { ApiProps } from '@polkadot/react-api/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { AccountId } from '@polkadot/types/interfaces';
+import type { Group, Groups, ItemRoute } from './types';
 
 import type { TFunction } from 'i18next';
 import React, { useMemo, useRef } from 'react';

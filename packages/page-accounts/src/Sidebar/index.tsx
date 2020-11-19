@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull, VoidFn } from '@polkadot/react-components/types';
+import type { StringOrNull, VoidFn } from '@polkadot/react-components/types';
 
 import React, { useCallback, useState } from 'react';
 

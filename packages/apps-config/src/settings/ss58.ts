@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import { Option } from './types';
+import type { Option } from './types';
 
 import known from '@polkadot/networks';
 

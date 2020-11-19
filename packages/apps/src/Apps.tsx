@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
+import type { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';

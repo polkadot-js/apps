@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SignerOptions } from '@polkadot/api/submittable/types';
+import type { SignerOptions } from '@polkadot/api/submittable/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';

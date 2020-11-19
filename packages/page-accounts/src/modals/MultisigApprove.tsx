@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
-import { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';

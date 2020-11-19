@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
-import { BareProps as Props } from '@polkadot/react-components/types';
-import { DefinitionRpcExt } from '@polkadot/types/types';
+import type { QueueTx, QueueTxMessageSetStatus, QueueTxResult } from '@polkadot/react-components/Status/types';
+import type { BareProps as Props } from '@polkadot/react-components/types';
+import type { DefinitionRpcExt } from '@polkadot/types/types';
 
 import React, { useContext, useMemo } from 'react';
 import styled from 'styled-components';

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import { Routes } from './types';
+import type { Routes } from './types';
 
 import accounts from './accounts';
 import addresses from './addresses';

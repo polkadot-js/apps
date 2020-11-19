@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AccountId, Address } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

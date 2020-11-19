@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import { StakerState } from '@polkadot/react-hooks/types';
-import { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
+import type { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';

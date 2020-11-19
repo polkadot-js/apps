@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { KeypairType } from '@polkadot/util-crypto/types';
-import { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/vanitygen/types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
+import type { GeneratorMatches, GeneratorMatch, GeneratorResult } from '@polkadot/vanitygen/types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';

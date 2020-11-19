@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CallResult } from './types';
+import type { CallResult } from './types';
 
 import React from 'react';
 import styled from 'styled-components';

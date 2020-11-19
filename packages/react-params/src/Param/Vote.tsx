@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
+import type { GenericVote } from '@polkadot/types';
+import type { Props } from '../types';
 
 import BN from 'bn.js';
 import React, { useRef } from 'react';
-import { GenericVote } from '@polkadot/types';
 import { Dropdown } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

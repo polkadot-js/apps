@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { WithTranslation } from 'react-i18next';
+import type { WithTranslation } from 'react-i18next';
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { Abi } from '@polkadot/api-contract';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { TxState } from '@polkadot/react-hooks/types';
-import { AccountId, Index } from '@polkadot/types/interfaces';
-import { ButtonProps } from './Button/types';
-import { InputAddressProps } from './InputAddress/types';
-import { TxCallback, TxFailedCallback } from './Status/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { Abi } from '@polkadot/api-contract';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { TxState } from '@polkadot/react-hooks/types';
+import type { AccountId, Index } from '@polkadot/types/interfaces';
+import type { ButtonProps } from './Button/types';
+import type { InputAddressProps } from './InputAddress/types';
+import type { TxCallback, TxFailedCallback } from './Status/types';
 
 export type StringOrNull = string | null;
 

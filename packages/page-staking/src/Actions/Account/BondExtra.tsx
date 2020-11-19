@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { AmountValidateState } from '../types';
+import type { DeriveBalancesAll, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { AmountValidateState } from '../types';
 
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';

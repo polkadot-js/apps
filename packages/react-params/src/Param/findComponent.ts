@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
-import { Props, ComponentMap } from '../types';
+import type { Registry, TypeDef, TypeDefInfo } from '@polkadot/types/types';
+import type { Props, ComponentMap } from '../types';
 
 import { getTypeDef } from '@polkadot/types/create';
 import { isBn } from '@polkadot/util';

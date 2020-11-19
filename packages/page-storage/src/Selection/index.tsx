@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueryTypes, ParitalQueryTypes } from '../types';
+import type { QueryTypes, ParitalQueryTypes } from '../types';
 
 import React, { useCallback, useRef } from 'react';
 import { Route, Switch } from 'react-router';
