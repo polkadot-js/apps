@@ -19,9 +19,19 @@ interface Props {
 
 function Connecting ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { isApiConnected, isWaitingInjected } = useApi();
+  const { isApiConnected, isApiReady, isWaitingInjected } = useApi();
 
-  if (isWaitingInjected) {
+  if (!isApiReady) {
+    return (
+      <BaseOverlay
+        className={className}
+        icon='puzzle-piece'
+        type='info'
+      >
+        <div>{t<string>('Waiting to make a connection to the remote endpoint and finishing API initialization.')}</div>
+      </BaseOverlay>
+    );
+  } else if (isWaitingInjected) {
     return (
       <BaseOverlay
         className={className}
