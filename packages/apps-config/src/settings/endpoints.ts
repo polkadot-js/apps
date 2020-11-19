@@ -241,12 +241,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
     //   value: 'wss://rococo-1.laminar-chain.laminar.one'
     // },
     // alphabetical based on chain name
-    {
-      info: 'centrifuge',
-      text: t('rpc.amber', 'Amber', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Centrifuge' } }),
-      value: 'wss://fullnode.amber.centrifuge.io'
-    },
+    // {
+    //   info: 'centrifuge',
+    //   text: t('rpc.amber', 'Amber', { ns: 'apps-config' }),
+    //   textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Centrifuge' } }),
+    //   value: 'wss://fullnode.amber.centrifuge.io'
+    // },
     {
       info: 'nodle',
       text: t('rpc.nodle-arcadia', 'Arcadia', { ns: 'apps-config' }),
@@ -344,6 +344,14 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Parity' } }),
       value: 'wss://westend-rpc.polkadot.io'
+    },
+    {
+      dnslink: 'metablockchain-testnet',
+      info: 'metablockchain-testnet',
+      text: t('rpc.metablockchain', 'metablockchain-testnet', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Metablockchain' } }),
+      // value: 'ws://ec2-52-76-185-53.ap-southeast-1.compute.amazonaws.com:9944'
+      value: "ws://127.0.0.1:9944"
     }
   ];
 }

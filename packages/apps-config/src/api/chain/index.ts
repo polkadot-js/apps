@@ -7,5 +7,5 @@ import Phala from './phala';
 // alphabetical
 export default {
   Beresheet,
-  'Phala PoC-2': Phala
+  'Phala PoC-2': Phala,
 };

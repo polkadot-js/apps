@@ -1,0 +1,35 @@
+{
+  "name": "@metablockchain/node-types",
+  "version": "3.0.10",
+  "description": "Type definitions for metablockchain chain.",
+  "main": "dist/src/index.js",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@polkadot/api": "^2.6.2-16",
+    "@polkadot/typegen": "^2.6.2-16",
+    "ts-node": "^8.6.2",
+    "typescript": "^4.0.5"
+  },
+  "scripts": {
+    "generate": "yarn generate:defs && yarn generate:meta",
+    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package '.' --input ./src/interfaces",
+    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package '.' --endpoint ./metablockchain.json --output ./src/interfaces",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tsc --noEmit --pretty",
+    "verify": "ts-node ./scripts/verifySpec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hicommonwealth/edgeware-node-types.git"
+  },
+  "author": "Mathew Josepg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hicommonwealth/edgeware-node-types/issues"
+  },
+  "homepage": "https://github.com/hicommonwealth/edgeware-node-types#readme"
+}

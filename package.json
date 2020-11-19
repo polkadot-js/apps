@@ -98,5 +98,8 @@
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.4.0",
     "webpack-plugin-serve": "^1.2.0"
+  },
+  "dependencies": {
+    "@polkadot/typegen": "^2.6.2-16"
   }
 }

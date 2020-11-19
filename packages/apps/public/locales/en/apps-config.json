@@ -52,5 +52,6 @@
   "rpc.subsocial": "Subsocial",
   "rpc.turbulence": "Turbulence",
   "rpc.westend": "Westend",
+  "rpc.metablockchain": "Metablockchain",
   "ss58.default": "Default for the connected node"
 }

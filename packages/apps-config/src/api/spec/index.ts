@@ -25,6 +25,7 @@ import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
 import subsocial from './subsocial';
+import metablockchain from './metablockchain';
 
 // mapping from specName in state.getRuntimeVersion
 export default {
@@ -57,5 +58,6 @@ export default {
   'stable-poc': stablePoc,
   stable_poc: stablePoc,
   stafi,
-  subsocial
+  subsocial,
+  'metablockchain-testnet': metablockchain
 };
