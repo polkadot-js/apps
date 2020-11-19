@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TFunction } from 'i18next';
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
-import { TFunction } from 'i18next';
 import styled from 'styled-components';
 import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';

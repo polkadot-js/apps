@@ -5,7 +5,7 @@ import { ChainInfo } from './types';
 
 import { useMemo } from 'react';
 
-import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config/ui';
+import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config';
 import { getSpecTypes } from '@polkadot/types-known';
 import { DEFAULT_DECIMALS, DEFAULT_SS58, registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';

@@ -5,7 +5,7 @@ import { QueueStatus, QueueTx, QueueTxStatus } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import AddressMini from '../AddressMini';
 import Button from '../Button';

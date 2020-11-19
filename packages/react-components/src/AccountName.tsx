@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 

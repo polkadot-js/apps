@@ -6,7 +6,7 @@ import { LinkTypes } from '@polkadot/apps-config/links/types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import linked from '@polkadot/apps-config/links';
+import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 
 import { useTranslation } from './translate';
@@ -26,7 +26,7 @@ interface Props {
 
 function genLinks (systemChain: string, { data, hash, isLogo, type }: Props): React.ReactNode[] {
   return Object
-    .entries(linked)
+    .entries(externalLinks)
     .map(([name, { chains, create, isActive, logo, paths, url }]): React.ReactNode | null => {
       const extChain = chains[systemChain];
       const extPath = paths[type];

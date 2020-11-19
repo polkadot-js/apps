@@ -10,23 +10,20 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
 import { ApiPromise } from '@polkadot/api/promise';
 import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
-import { typesChain, typesSpec, typesBundle, typesRpc } from '@polkadot/apps-config/api';
-import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS } from '@polkadot/apps-config/api/constants';
+import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, ethereumNetworks, typesChain, typesSpec, typesBundle, typesRpc } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
-import keyring from '@polkadot/ui-keyring';
-
-import uiSettings from '@polkadot/ui-settings';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import keyring from '@polkadot/ui-keyring';
+import uiSettings from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
-import { ethereumNetworks } from '@polkadot/apps-config/settings';
 
 interface Props {
   children: React.ReactNode;

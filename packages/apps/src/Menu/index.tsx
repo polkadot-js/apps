@@ -7,7 +7,7 @@ import { ThemeProps } from '@polkadot/react-components/types';
 import { AccountId } from '@polkadot/types/interfaces';
 import { Group, Groups, ItemRoute } from './types';
 
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';

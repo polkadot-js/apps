@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/endpoints';
+import { LinkOption } from '@polkadot/apps-config/settings/types';
 import { ThemeProps } from '@polkadot/react-components/types';
 import { Group } from './types';
 
@@ -10,7 +10,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 /* eslint-disable-next-line node/no-deprecated-api */
 import punycode from 'punycode';
 import styled from 'styled-components';
-import { createEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config/settings';
+import { CUSTOM_ENDPOINT_KEY, createWsEndpoints } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
@@ -100,7 +100,7 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
 
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const linkOptions = createEndpoints(t);
+  const linkOptions = createWsEndpoints(t);
   const [groups, setGroups] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
@@ -159,7 +159,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
 
     try {
       localStorage.setItem(CUSTOM_ENDPOINT_KEY, JSON.stringify(newStoredCurstomEndpoints));
-      setGroups(combineEndpoints(createEndpoints(t)));
+      setGroups(combineEndpoints(createWsEndpoints(t)));
       setStoredCustomEndpoints(getCustomEndpoints());
     } catch (e) {
       console.error(e);

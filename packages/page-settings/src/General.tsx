@@ -4,7 +4,7 @@
 import { Option } from '@polkadot/apps-config/settings/types';
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { createLanguages, createSs58 } from '@polkadot/apps-config/settings';
+import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';

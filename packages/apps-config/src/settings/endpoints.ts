@@ -1,17 +1,10 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TFunction } from 'i18next';
-import { Option } from './types';
+import type { TFunction } from 'i18next';
+import { LinkOption } from './types';
 
 import { CUSTOM_ENDPOINT_KEY } from './constants';
-
-export interface LinkOption extends Option {
-  dnslink?: string;
-  isChild?: boolean;
-  isDevelopment?: boolean;
-  textBy: string;
-}
 
 interface EnvWindow {
   // eslint-disable-next-line camelcase
@@ -372,7 +365,7 @@ function createCustom (t: TFunction): LinkOption[] {
     : [];
 }
 
-export function createEndpoints (t: TFunction): LinkOption[] {
+export function createWsEndpoints (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {
