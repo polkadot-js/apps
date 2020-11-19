@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Raw } from '@polkadot/types';
 import type { Registry, TypeDef } from '@polkadot/types/types';
 
 import { getTypeDef } from '@polkadot/types';
@@ -114,7 +113,7 @@ export default function getInitValue (registry: Registry, def: TypeDef): unknown
       return undefined;
 
     case 'Extrinsic':
-      return new Raw(registry);
+      return registry.createType('Raw');
 
     case 'Null':
       return null;

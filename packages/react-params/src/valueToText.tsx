@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Keys, ValidatorId } from '@polkadot/types/interfaces';
-import type { Option, Raw } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 
 import React from 'react';
 import { classes } from '@polkadot/react-components/util';
+import { Option, Raw } from '@polkadot/types';
 import { isFunction, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 
 interface DivProps {
