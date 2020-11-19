@@ -70,7 +70,7 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function selectProfitable (maxPaid: BN, list: ValidatorInfo[], { withGroup, withIdentity }: Flags): string[] {
+function selectProfitable (maxPaid: BN |undefined, list: ValidatorInfo[], { withGroup, withIdentity }: Flags): string[] {
   const parentIds: (string | null)[] = [];
   const result: string[] = [];
 
@@ -138,7 +138,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => setSelected(selectProfitable(
-      api.consts.staking.maxNominatorRewardedPerValidator,
+      api.consts.staking?.maxNominatorRewardedPerValidator,
       validators || [],
       { withGroup, withIdentity }
     )),
