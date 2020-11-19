@@ -2052,9 +2052,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.12.5
     "@polkadot/react-components": ^0.67.2-7
-    "@polkadot/vanitygen": ^0.23.2-4
     "@testing-library/react": ^11.1.2
-    detect-browser: ^5.2.0
     file-saver: ^2.0.2
     testcontainers: ^4.7.0
   languageName: unknown
@@ -2264,6 +2262,7 @@ __metadata:
     "@laminar/type-definitions": ^0.2.0-beta.141
     "@polkadot/networks": ^4.1.2-2
     "@subsocial/types": ^0.4.7
+    i18next: ^19.8.3
   languageName: unknown
   linkType: soft
 
