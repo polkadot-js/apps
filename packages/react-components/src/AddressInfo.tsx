@@ -6,7 +6,7 @@ import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/type
 
 import BN from 'bn.js';
 import React from 'react';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import styled from 'styled-components';
 import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';

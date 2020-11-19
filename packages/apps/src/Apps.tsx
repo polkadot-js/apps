@@ -6,7 +6,7 @@ import { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-compon
 import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
-import { getSystemChainColor } from '@polkadot/apps-config/ui';
+import { getSystemChainColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';

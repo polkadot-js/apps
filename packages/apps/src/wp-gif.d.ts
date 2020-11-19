@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 declare module '*.gif' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content: any;
+  const content: unknown;
+
   export default content;
 }

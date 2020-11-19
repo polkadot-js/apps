@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { Option } from './types';
 
 export function createLanguages (t: TFunction): Option[] {

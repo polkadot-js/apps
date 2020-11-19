@@ -1,6 +1,9 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// The mapping here is done on the actual chain name (system.chain RPC) or
+// the actual RPC node it is corrected to (system.name RPC)
+
 // defaults
 const emptyColor = '#99999';
 
@@ -37,9 +40,11 @@ const nodeKilt = '#eb5b2a';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 
+export { emptyColor };
+
 // overrides based on the actual matched chain name
 // alphabetical
-const chainColors: Record<string, any> = [
+export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
@@ -69,7 +74,7 @@ const chainColors: Record<string, any> = [
 
 // overrides based on the actual software node type (all '-' converted to ' ')
 // alphabetical
-const nodeColors: Record<string, any> = [
+export const nodeColors: Record<string, any> = [
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
@@ -87,9 +92,3 @@ const nodeColors: Record<string, any> = [
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
-
-export {
-  chainColors,
-  emptyColor,
-  nodeColors
-};

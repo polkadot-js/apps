@@ -1,8 +1,8 @@
 {
   "name": "@polkadot/apps-config",
-  "private": true,
   "version": "0.67.2-7",
   "main": "index.js",
+  "sideEffects": true,
   "repository": "github:polkadot-js/apps",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [],
@@ -15,5 +15,8 @@
     "@laminar/type-definitions": "^0.2.0-beta.141",
     "@polkadot/networks": "^4.1.2-2",
     "@subsocial/types": "^0.4.7"
+  },
+  "devDependencies": {
+    "i18next": "^19.8.3"
   }
 }
