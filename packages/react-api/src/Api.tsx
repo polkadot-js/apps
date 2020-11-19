@@ -182,10 +182,12 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
   const [state, setState] = useState<ApiState>({ hasInjectedAccounts: false, isApiReady: false } as unknown as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
+  const [apiError, setApiError] = useState<null | string>(null);
   const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
+
   const value = useMemo<ApiProps>(
-    () => ({ ...state, api, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
-    [extensions, isApiConnected, isApiInitialized, state]
+    () => ({ ...state, api, apiError, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
+    [apiError, extensions, isApiConnected, isApiInitialized, state]
   );
 
   // initial initialization
@@ -198,6 +200,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
+    api.on('error', (error: Error) => setApiError(error.message));
     api.on('ready', (): void => {
       const injectedPromise = web3Enable('polkadot-js/apps');
 
@@ -207,7 +210,11 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
 
       loadOnReady(api, injectedPromise, store, types)
         .then(setState)
-        .catch(console.error);
+        .catch((error): void => {
+          console.error(error);
+
+          setApiError((error as Error).message);
+        });
     });
 
     setIsApiInitialized(true);
