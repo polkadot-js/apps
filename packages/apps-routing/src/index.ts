@@ -14,7 +14,7 @@ import democracy from './democracy';
 import explorer from './explorer';
 import extrinsics from './extrinsics';
 import masterSubmission from './master-proposals';
-import anchor from './anchor';
+// import anchor from './anchor';
 import genericAsset from './generic-asset';
 import js from './js';
 import parachains from './parachains';
@@ -52,7 +52,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     storage(t),
     extrinsics(t),
     masterSubmission(t),
-    anchor(t),
+    // anchor(t),
     rpc(t),
     signing(t),
     sudo(t),

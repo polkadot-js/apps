@@ -17261,10 +17261,10 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mrklt@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "mrklt@npm:0.2.0"
-  checksum: 5ca116d7d77c6bc2d332ba125489bb029756bfbd3adf0499c3a65dab5b6383421a4f4fbcc96c05761d6eb14107f06d3eb08811d74a2986b97714e7a1b308f0da
+"mrklt@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "mrklt@npm:0.1.0"
+  checksum: 251961fa2afd8b9a820368cb6f7cd549a19a2a44d0dfd36cb0a92191e9ec4bb33181ae7bc57e8fdc296a8d3101f782dd90921ac200e9a9ef2e5dab66865350ed
   languageName: node
   linkType: hard
 
@@ -19058,7 +19058,7 @@ fsevents@^1.2.7:
     hash-wasm: ^4.3.0
     i18next-scanner: ^2.11.0
     is-extglob: ^2.1.1
-    mrklt: ^0.2.0
+    mrklt: ^0.1.0
     react: ^16.13.1
     react-apollo: ^3.1.5
     react-dom: ^16.13.1
