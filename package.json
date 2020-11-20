@@ -123,7 +123,7 @@
     "graphql-tag": "^2.11.0",
     "hash-wasm": "^4.3.0",
     "is-extglob": "^2.1.1",
-    "mrklt": "^0.2.0",
+    "mrklt": "^0.1.0",
     "react-apollo": "^3.1.5"
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ProofElement, dehexproof } from './hrproof';
-import { blake2b256File, blake2b256 } from './hash';
+import { blake2sFile, blake2b256 } from './hash';
 import { u8aToHex } from '@polkadot/util';
 import { useApi } from '@polkadot/react-hooks';
 import ApiPromise from '@polkadot/api/promise';
@@ -21,6 +21,12 @@ type AnchorStatus = {
   tag: 'hashing',
 };
 
+/* function depends<T, R>(compute: (_: T) => Promise<R>, dat: T, initial: R): R {
+ *   const [ret, setRet] = useState<R>(initial);
+ *   useEffect(() => { compute(dat).then(setRet); }, [dat]);
+ *   return ret;
+ * }
+ *  */
 function Check(): React.ReactElement {
   const [file, setFile] = useState<File | null>(null);
   const [proofFile, setProofFile] = useState<File | null>(null);
@@ -45,7 +51,7 @@ function Check(): React.ReactElement {
     if (file === null) { return; }
 
     setAnchorStatus({ tag: 'hashing' });
-    const fileHash = await blake2b256File(file);
+    const fileHash = await blake2sFile(file);
 
     const proof = proofFile === null ? [] : await proofFromFile(proofFile);
     const root = await vproof(fileHash, proof);
