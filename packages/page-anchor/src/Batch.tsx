@@ -3,7 +3,7 @@ import assert from 'assert';
 import Download from './Download';
 import { hex, hexproof, ProofElement } from './hrproof';
 import { u8aToHex } from '@polkadot/util';
-import { blake2sFile } from './hash';
+import { blake2b256File } from './hash';
 import { CSSProperties } from 'styled-components';
 import _ from 'lodash';
 import { useApi } from '@polkadot/react-hooks';
@@ -13,7 +13,7 @@ import { hexDisplay } from './common';
 type Proof = {
   filename: string,
   proof?: ProofElement<Uint8Array>[],
-  blake2s256?: Uint8Array,
+  blake2b256?: Uint8Array,
 };
 
 /// a proof with metadata and all hashes converted to hex so they look nice as json
@@ -22,17 +22,17 @@ type OutputProof = {
   proof: ProofElement<string>[],
   content_hash: string,
   root: string,
-  hashalg: 'blake2s256',
+  hashalg: 'blake2b256',
 }
 
 function toOutput(p: Proof, root: Uint8Array): OutputProof {
-  assert(p.proof !== undefined && p.blake2s256 !== undefined);
+  assert(p.proof !== undefined && p.blake2b256 !== undefined);
   return {
     filename: p.filename,
     proof: hexproof(p.proof),
-    content_hash: hex(p.blake2s256),
+    content_hash: hex(p.blake2b256),
     root: hex(root),
-    hashalg: 'blake2s256',
+    hashalg: 'blake2b256',
   };
 }
 
@@ -54,22 +54,23 @@ function Batch(): React.ReactElement {
       return;
     }
 
-    const { compute_root, create_proof } = await import('mrklt');
+    const { construct } = await import('mrklt');
 
     // Processing files in sequence seems to be faster than in processing them in parallel
     // and it helps prevent OOM.
     for (const [f, i] of enumerate(files)) {
-      proofs[i].blake2s256 = await blake2sFile(f);
+      proofs[i].blake2b256 = await blake2b256File(f);
       setProofs(clone(proofs));
     }
 
-    const pl = pack32(proofs.map(p => p.blake2s256 as Uint8Array));
-    const root = compute_root(pl);
-    for (const [p, i] of enumerate(proofs)) {
-      p.proof = create_proof(i, pl);
+    const pl = pack32(proofs.map(p => p.blake2b256 as Uint8Array));
+    const [root, merkleproofs] = construct(pl);
+    assert(merkleproofs.length === proofs.length);
+    for (let i = 0; i < proofs.length; i++) {
+      proofs[i].proof = merkleproofs[i];
     }
     setProofs(proofs);
-    setRoot(root);
+    setRoot(new Uint8Array(root));
   }
 
   const topchild = { flex: 1 };
@@ -98,7 +99,7 @@ function Batch(): React.ReactElement {
 
 function proofrow(proof: Proof, root: Uint8Array | null): React.ReactElement[] {
   let hash = <div style={{ fontFamily: 'monospace', width: '64ch' }}>{
-    proof.blake2s256 !== undefined ? hex(proof.blake2s256) : 'hashing...'
+    proof.blake2b256 !== undefined ? hex(proof.blake2b256) : 'hashing...'
   }</div>;
   if (proof.proof !== undefined && root !== null) {
     hash = <Download
