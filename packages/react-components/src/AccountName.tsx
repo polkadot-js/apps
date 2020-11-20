@@ -203,6 +203,7 @@ export default React.memo(styled(AccountName)`
       opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: 1.358rem;
 
       &:not(.isAddress) {
         text-transform: uppercase;
