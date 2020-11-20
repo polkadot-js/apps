@@ -1838,17 +1838,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ledgerhq/devices@npm:^5.28.0":
-  version: 5.28.0
-  resolution: "@ledgerhq/devices@npm:5.28.0"
-  dependencies:
-    "@ledgerhq/errors": ^5.28.0
-    "@ledgerhq/logs": ^5.28.0
-    rxjs: ^6.6.3
-  checksum: 8e97769d81a7bfa56ed62001839facd64d1d99caef79862a0152346c7b26da0c0556f252ba30e26de40adf7d4f6c433e6480a6ce786beb4e0dedacf5a804922c
-  languageName: node
-  linkType: hard
-
 "@ledgerhq/devices@npm:^5.30.0":
   version: 5.30.0
   resolution: "@ledgerhq/devices@npm:5.30.0"
@@ -1857,13 +1846,6 @@ __metadata:
     "@ledgerhq/logs": ^5.30.0
     rxjs: ^6.6.3
   checksum: 6107f0974e6d080278b7c2e99ff0334f1daa3cfaf9b185e7a94254b8ab834f022af01c2a93433cb894c9147fa66b5d312628dbb0127be9e1d694f6b1a8f76971
-  languageName: node
-  linkType: hard
-
-"@ledgerhq/errors@npm:^5.28.0":
-  version: 5.28.0
-  resolution: "@ledgerhq/errors@npm:5.28.0"
-  checksum: 0fcf37cd86ff7b2aa4ea070824b2c7b59318401e5162ff7bae3e014fd8c1f19d56552321101cb643e1e029dd965baa23768ee42b35f468fb52de5e3fe3e17ed2
   languageName: node
   linkType: hard
 
@@ -1915,18 +1897,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ledgerhq/hw-transport@npm:^5.17.0":
-  version: 5.28.0
-  resolution: "@ledgerhq/hw-transport@npm:5.28.0"
-  dependencies:
-    "@ledgerhq/devices": ^5.28.0
-    "@ledgerhq/errors": ^5.28.0
-    events: ^3.2.0
-  checksum: 898fc53e6d878205e9ebe0bd7e7fddfb5fb08366832d89b73c0d07aa23797ccb49ccff1a4f8a0ddf8c87db6ec23edeb8ea4c837598d92d698b7d4c22b5b1c063
-  languageName: node
-  linkType: hard
-
-"@ledgerhq/hw-transport@npm:^5.30.0":
+"@ledgerhq/hw-transport@npm:^5.17.0, @ledgerhq/hw-transport@npm:^5.30.0":
   version: 5.30.0
   resolution: "@ledgerhq/hw-transport@npm:5.30.0"
   dependencies:
@@ -1934,13 +1905,6 @@ __metadata:
     "@ledgerhq/errors": ^5.30.0
     events: ^3.2.0
   checksum: 2f08214f27ce555ed4a235c90e54174dd56db98d4c135bbd75ef5ad6ab388a5b3863dd775e1e406dd59160b917cc146e8e85f7a25c47f01be4eea50896d7f8ea
-  languageName: node
-  linkType: hard
-
-"@ledgerhq/logs@npm:^5.28.0":
-  version: 5.28.0
-  resolution: "@ledgerhq/logs@npm:5.28.0"
-  checksum: 65a41d145771414b2c41e141c41e6734d47c6f61939ac7c89481cb0ba4917867efb610ce036280705edfe512351d94b6727a96f8c46483aadba55166f27fa7ec
   languageName: node
   linkType: hard
 
