@@ -59,5 +59,5 @@ export default {
   stable_poc: stablePoc,
   stafi,
   subsocial,
-  'metablockchain-testnet': metablockchain
+  'metablockchain-runtime': metablockchain
 };

@@ -346,9 +346,9 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://westend-rpc.polkadot.io'
     },
     {
-      dnslink: 'metablockchain-testnet',
-      info: 'metablockchain-testnet',
-      text: t('rpc.metablockchain', 'metablockchain-testnet', { ns: 'apps-config' }),
+      dnslink: 'metablockchain-runtime',
+      info: 'metablockchain-runtime',
+      text: t('rpc.metablockchain', 'metablockchain-runtime', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Metablockchain' } }),
       // value: 'ws://ec2-52-76-185-53.ap-southeast-1.compute.amazonaws.com:9944'
       value: "ws://127.0.0.1:9944"

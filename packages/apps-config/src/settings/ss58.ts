@@ -22,6 +22,11 @@ export function createSs58 (t: TFunction): Option[] {
       info: network,
       text: displayName,
       value: prefix
-    }))
+    })),
+    {
+      info: 'metablockchain-runtime',
+      text: t('ss58.metablockchain-runtime', 'Metablockchain Node', { ns: 'apps-config' }),
+      value: 99
+    }
   ];
 }
