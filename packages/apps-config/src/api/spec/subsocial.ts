@@ -4,7 +4,7 @@
 import * as subsocialDefinitions from '@subsocial/types/substrate/interfaces/definitions';
 
 import { typesFromDefs } from '../util';
-console.log(subsocialDefinitions)
+
 const subsocialTypes = typesFromDefs(subsocialDefinitions);
-console.log('Subsocial Types', subsocialTypes)
+
 export default subsocialTypes;

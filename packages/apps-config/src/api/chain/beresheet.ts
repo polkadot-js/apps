@@ -5,7 +5,7 @@
 /* eslint-disable sort-keys */
 
 import { Beresheet } from '@edgeware/node-types';
-console.log('Beresheet', Beresheet.types)
+
 export default {
   ...Beresheet.types,
   // Substrate overrides
