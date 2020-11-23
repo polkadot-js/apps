@@ -42,8 +42,8 @@ const nodeSubsocial = '#b9018c';
 
 export { emptyColor };
 
-// overrides based on the actual matched chain name
-// alphabetical
+// Alphabetical overrides based on the actual matched chain name
+// NOTE: This is as retrieved via the system.chain RPC
 export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['Darwinia Crab', chainCrab],
@@ -72,8 +72,8 @@ export const chainColors: Record<string, any> = [
   [chain.toLowerCase()]: color
 }), {});
 
-// overrides based on the actual software node type (all '-' converted to ' ')
-// alphabetical
+// Alphabetical overrides based on the actual software node type
+// NOTE: This is as retrieved via the system.name RPC
 export const nodeColors: Record<string, any> = [
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
