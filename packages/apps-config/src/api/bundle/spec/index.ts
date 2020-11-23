@@ -3,9 +3,11 @@
 
 import acala from './acala';
 import laminar from './laminar';
+import soraSubstrate from './soraSubstrate';
 
 export default {
   acala,
   laminar,
-  mandala: acala
+  mandala: acala,
+  'sora-substrate': soraSubstrate
 };

@@ -332,6 +332,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
     },
     {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA-Substrate', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Soramitsu' } }),
+      value: 'wss://ws.parachain-node-1.s1.dev.soraneo.soramitsu.co.jp'
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
