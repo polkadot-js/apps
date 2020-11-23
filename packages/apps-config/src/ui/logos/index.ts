@@ -58,9 +58,8 @@ import externalSubscan from './external/subscan.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 
-// overrides based on the actual matched chain name
-// NOTE: this matches up with RPC system.chain
-// alphabetical
+// Alphabetical overrides based on the actual matched chain name
+// NOTE: This is as retrieved via system.chain RPC
 export const chainLogos: Record<string, unknown> = [
   ['darwinia crab', nodeCrab],
   ['Dusty', chainDusty],
@@ -78,9 +77,8 @@ export const chainLogos: Record<string, unknown> = [
   [(chain as string).toLowerCase()]: logo
 }), {});
 
-// overrides based on the actual software node type (all '-' converted to ' ')
-// NOTE: this matches up with what the RPC via system.name
-// alphabetical
+// Alphabetical overrides based on the actual software node type
+// NOTE: This is as retrieved via system.name RPC
 export const nodeLogos: Record<string, unknown> = [
   ['airalab-robonomics', nodeRobonomics],
   ['Bifrost Node', nodeBifrost],
@@ -118,9 +116,10 @@ export const nodeLogos: Record<string, unknown> = [
   [(node as string).toLowerCase().replace(/-/g, ' ')]: logo
 }), {});
 
-// overrides when we pass an explicit logo name
-// NOTE: this matches up with what is defined as "info" in settings/endpoints.ts
-// alphabetical
+// Alphabetical overrides when we pass an explicit logo name
+// NOTE: Matches with what is defined as "info" in settings/endpoints.ts
+// (Generally would be the 'network' key in the known ss58 as per
+// https://github.com/polkadot-js/common/blob/master/packages/networks/src/index.ts)
 export const namedLogos: Record<string, unknown> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
