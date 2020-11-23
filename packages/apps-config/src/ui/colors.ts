@@ -25,7 +25,6 @@ const chainRococoLaminar = '#004FFF';
 const chainRoccoTick = '#22bb22';
 const chainRoccoTrack = '#bb2222';
 const chainRoccoTrick = '#2222bb';
-const chainSora = '#ed145b';
 const chainWestend = '#da68a7';
 
 // based on node name
@@ -38,7 +37,7 @@ const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
-const nodeSora = '#ed145b';
+const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 
@@ -65,7 +64,6 @@ export const chainColors: Record<string, any> = [
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],
   ['Rococo', chainRocco],
-  ['SORA Substrate', chainSora],
   ['Tick', chainRoccoTick],
   ['Track', chainRoccoTrack],
   ['Trick', chainRoccoTrick],
@@ -86,7 +84,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
-  ['SORA-Substrate', nodeSora],
+  ['SORA-Substrate Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
   // ['node template', emptyColor],
