@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 0.68.1 Nov 23, 2020
+
+Changes:
+
+- Adjust API state display to explictly render "connecting to node" state
+- Change Mill/Bill/Tril rendering from Mega/Giga/Tera
+- Staking now limits per-operator exposure by default (only 1 selected on auto)
+- Adjust Expanded rendering to be completely on-demand (no hidden background renders)
+- Ensure `MultiAddress` nodes fully work (API updates)
+- Adjust number of digits for number inputs to max decimals
+- Rework invalid ABI detection with proper error clearning
+- Use TypeScript `import type { ... }` for all files
+- Expand notes on colors/logos with actual RPC endpoints
+- Publish `@polkadot/apps-config` (with reworked import/export)
+- Bump Ledger libs to latest version (as per `@polkadot/ledger`)
+
+
 ## 0.67.1 Nov 16, 2020
 
 Contributed:
