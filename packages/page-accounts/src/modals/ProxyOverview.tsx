@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { registry } from '@polkadot/react-api';
 import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
+import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import styled from 'styled-components';
@@ -46,7 +47,9 @@ function createExtrinsic (api: ApiPromise, batchPrevious: SubmittableExtrinsic<'
       : batchAdded[0];
   }
 
-  return api.tx.utility.batch([...batchPrevious, ...batchAdded]);
+  return isFunction(api.tx.utility.batchAll)
+    ? api.tx.utility.batchAll([...batchPrevious, ...batchAdded])
+    : api.tx.utility.batch([...batchPrevious, ...batchAdded]);
 }
 
 function createAddProxy (api: ApiPromise, account: AccountId, type: ProxyType, delay = 0): SubmittableExtrinsic<'promise'> {
