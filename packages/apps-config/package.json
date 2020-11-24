@@ -11,13 +11,13 @@
   "dependencies": {
     "@acala-network/type-definitions": "^0.4.0-beta.33",
     "@babel/runtime": "^7.12.5",
-    "@edgeware/node-types": "^3.0.7",
+    "@edgeware/node-types": "^3.0.10",
     "@laminar/type-definitions": "^0.2.0-beta.141",
     "@polkadot/networks": "^4.2.1",
     "@sora-substrate/type-definitions": "^0.1.4",
-    "@subsocial/types": "^0.4.7"
+    "@subsocial/types": "^0.4.23"
   },
   "devDependencies": {
-    "i18next": "^19.8.3"
+    "i18next": "^19.8.4"
   }
 }
