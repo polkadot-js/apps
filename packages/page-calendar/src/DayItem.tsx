@@ -3,9 +3,10 @@
 
 import type { EntryInfo } from './types';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { formatNumber, isString } from '@polkadot/util';
+import { Button } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 
@@ -21,6 +22,8 @@ function assertUnreachable (x: never): never {
 
 function DayItem ({ className, item: { date, info, type } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+
+  const [description, setDescription] = useState<String>("");
 
   const desc = useMemo(
     (): React.ReactNode => {
@@ -46,62 +49,113 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
                     : ['treasurySpend'].includes(type)
                       ? <div className='itemLink'><a href='#/treasury'>{t<string>('via Treasury')}</a></div>
                       : undefined;
-
+      let s ='';
       switch (type) {
         case 'councilElection':
-          return <><div className='itemDesc'>{t<string>('Election of new council candidates')}</div>{typeLink}</>;
-
+          s = 'Election of new council candidates';
+          break;
         case 'councilMotion':
-          return <><div className='itemDesc'>{t<string>('Voting ends on council motion {{id}}', { replace: { id } })}</div>{typeLink}</>;
-
+          s = 'Voting ends on council motion {{id}}';
+          break;
         case 'democracyDispatch':
-          return <><div className='itemDesc'>{t<string>('Enactment of the result of referendum {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = 'Enactment of the result of referendum {{id}}';
+          break;
 
         case 'democracyLaunch':
-          return <><div className='itemDesc'>{t<string>('Start of the next referendum voting period')}</div>{typeLink}</>;
+          s = 'Start of the next referendum voting period';
+          break;
 
         case 'referendumDispatch':
-          return <><div className='itemDesc'>{t<string>('Potential dispatch of referendum {{id}} (if passed)', { replace: { id } })}</div>{typeLink}</>;
+          s = 'Potential dispatch of referendum {{id}} (if passed)';
+          break;
 
         case 'referendumVote':
-          return <><div className='itemDesc'>{t<string>('Voting ends for referendum {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = 'Voting ends for referendum {{id}}';
+          break;
 
         case 'scheduler':
-          return <><div className='itemDesc'>{
-            id
-              ? t<string>('Execute named scheduled task {{id}}', { replace: { id } })
-              : t<string>('Execute anonymous scheduled task')
-          }</div>{typeLink}</>;
+          s = 'Execute named scheduled task';
+          id && (s = s + ' {{id}}')
+          break;
 
         case 'stakingEpoch':
-          return <><div className='itemDesc'>{t<string>('Start of a new staking session {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = 'Start of a new staking session {{id}}';
+          break;
 
         case 'stakingEra':
-          return <><div className='itemDesc'>{t<string>('Start of a new staking era {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = 'Start of a new staking era {{id}}';
+          break;
 
         case 'stakingSlash':
-          return <><div className='itemDesc'>{t<string>('Application of slashes from era {{id}}', { replace: { id } })}</div>{typeLink}</>;
+          s = 'Application of slashes from era {{id}}';
+          break;
 
         case 'treasurySpend':
-          return <><div className='itemDesc'>{t<string>('Start of next spending period')}</div>{typeLink}</>;
+          s = 'Start of next spending period';
+          break;
 
         case 'societyChallenge':
-          return <><div className='itemDesc'>{t<string>('Start of next membership challenge period')}</div>{typeLink}</>;
+          s = 'Start of next membership challenge period';
+          break;
 
         case 'societyRotate':
-          return <><div className='itemDesc'>{t<string>('Acceptance of new members and bids')}</div>{typeLink}</>;
+          s = 'Acceptance of new members and bids';
+          break;
 
         default:
           return assertUnreachable(type);
       }
+      setDescription(id ? s.replaceAll('{{id}}', id) : s);
+      return id ? <><div className='itemDesc'>{t<string>(s, { replace: { id } })}</div>{typeLink}</> : (<><div className='itemDesc'>{s}</div>{typeLink}</>);
     },
     [info, t, type]
   );
+
+  function transformDate (date: Date): String {
+    return new Date(date)
+      .toISOString()
+      .split(".")[0]
+      .replaceAll("-","")
+      .replaceAll(":","") + "Z"
+  }
+
+  function exportToCal (fileName: string, date: Date): void {
+    let startDate = transformDate(date)
+    // For now just add 1 hour for each event
+    let endDate = transformDate(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
+    let test =
+      "BEGIN:VCALENDAR\n" +
+      "CALSCALE:GREGORIAN\n" +
+      "METHOD:PUBLISH\n" +
+      "PRODID:-//Test Cal//EN\n" +
+      "VERSION:2.0\n" +
+      "BEGIN:VEVENT\n" +
+      "UID:test-1\n" +
+      "DTSTART;VALUE=DATE:" + startDate + "\n" +
+      "DTEND;VALUE=DATE:" + endDate + "\n" +
+      "SUMMARY:" + description + "\n" +
+      "DESCRIPTION:" + description + "\n" +
+      "END:VEVENT\n" +
+      "END:VCALENDAR";
+    let data = new File([test], 'calendar.isc', { type: "text/plain" });
+    const anchor = window.document.createElement('a');
+    anchor.href = window.URL.createObjectURL(data);
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    window.URL.revokeObjectURL(anchor.href);
+  }
+
+  function calendarIcon (date: Date): React.ReactNode {
+    return date ? (<Button className='exportCal' icon='calendar-plus' onClick={() => exportToCal('calendar.ics', date)} />) : null
+  }
 
   return (
     <div className={className}>
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
       {desc}
+      {calendarIcon(date)}
     </div>
   );
 }
@@ -114,6 +168,17 @@ export default React.memo(styled(DayItem)`
 
   > div+div {
     margin-left: 0.5rem;
+  }
+
+  .exportCal {
+    padding: 0;
+    position: absolute;
+    right: 1.5rem;
+    
+    .ui--Icon {
+      width: 0.7rem;
+      height: 0.7rem;
+    }
   }
 
   .itemTime {
