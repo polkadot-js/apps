@@ -55,10 +55,10 @@ export function getDateState (_dateMonth: Date, _dateSelected: Date): DateState 
   };
 }
 
-export function dateCalendarFormat (date: Date): String {
+export function dateCalendarFormat (date: Date): string {
   return new Date(date)
     .toISOString()
-    .split(".")[0]
-    .replaceAll("-","")
-    .replaceAll(":","") + "Z"
+    .split('.')[0]
+    .replaceAll('-', '')
+    .replaceAll(':', '') + 'Z';
 }

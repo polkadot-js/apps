@@ -24,7 +24,7 @@ function assertUnreachable (x: never): never {
 function DayItem ({ className, item: { date, info, type } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string>('');
 
   const desc = useMemo(
     (): React.ReactNode => {
@@ -50,7 +50,8 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
                     : ['treasurySpend'].includes(type)
                       ? <div className='itemLink'><a href='#/treasury'>{t<string>('via Treasury')}</a></div>
                       : undefined;
-      let s ='';
+      let s = '';
+
       switch (type) {
         case 'councilElection':
           s = 'Election of new council candidates';
@@ -76,7 +77,7 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
 
         case 'scheduler':
           s = 'Execute named scheduled task';
-          id && (s = s + ' {{id}}')
+          id && (s = s + ' {{id}}');
           break;
 
         case 'stakingEpoch':
@@ -106,33 +107,36 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
         default:
           return assertUnreachable(type);
       }
+
       setDescription(id ? s.replaceAll('{{id}}', id) : s);
+
       return id ? <><div className='itemDesc'>{t<string>(s, { replace: { id } })}</div>{typeLink}</> : (<><div className='itemDesc'>{s}</div>{typeLink}</>);
     },
     [info, t, type]
   );
 
   function exportToCal (fileName: string, date: Date): void {
-    let startDate = dateCalendarFormat(date)
+    const startDate = dateCalendarFormat(date);
     // For now just add 1 hour for each event
-    let endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
-    let test =
-      "BEGIN:VCALENDAR\n" +
-      "CALSCALE:GREGORIAN\n" +
-      "METHOD:PUBLISH\n" +
-      "PRODID:-//Test Cal//EN\n" +
-      "VERSION:2.0\n" +
-      "BEGIN:VEVENT\n" +
-      "UID:test-1\n" +
-      "DTSTART;VALUE=DATE:" + startDate + "\n" +
-      "DTEND;VALUE=DATE:" + endDate + "\n" +
-      "SUMMARY:" + description + "\n" +
-      "DESCRIPTION:" + description + "\n" +
-      "END:VEVENT\n" +
-      "END:VCALENDAR";
-    let fileNameIcs = encodeURI(fileName) + '.ics';
-    let data = new File([test], fileNameIcs, { type: "text/plain" });
+    const endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
+    const calData =
+      'BEGIN:VCALENDAR\n' +
+      'CALSCALE:GREGORIAN\n' +
+      'METHOD:PUBLISH\n' +
+      'PRODID:-//Test Cal//EN\n' +
+      'VERSION:2.0\n' +
+      'BEGIN:VEVENT\n' +
+      'UID:test-1\n' +
+      'DTSTART;VALUE=DATE:' + startDate + '\n' +
+      'DTEND;VALUE=DATE:' + endDate + '\n' +
+      'SUMMARY:' + description + '\n' +
+      'DESCRIPTION:' + description + '\n' +
+      'END:VEVENT\n' +
+      'END:VCALENDAR';
+    const fileNameIcs = encodeURI(fileName) + '.ics';
+    const data = new File([calData], fileNameIcs, { type: 'text/plain' });
     const anchor = window.document.createElement('a');
+
     anchor.href = window.URL.createObjectURL(data);
     anchor.download = fileNameIcs;
     document.body.appendChild(anchor);
@@ -142,7 +146,13 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
   }
 
   function calendarIcon (date: Date): React.ReactNode {
-    return date ? (<Button className='exportCal' icon='calendar-plus' onClick={() => exportToCal(description, date)} />) : null
+    if (date) {
+      return (<Button className='exportCal'
+        icon='calendar-plus'
+        onClick={() => exportToCal(description, date)} />);
+    } else {
+      return null;
+    }
   }
 
   return (
