@@ -10,7 +10,7 @@ This can be accessed as a hosted application via https://polkadot.js.org/apps/ o
 
 If you run one or more IPFS node(s), pinning the UI (which only gets updated on releases) will make it faster for you and others. You can find details about that below in the IPFS chapter below.
 
-**Important** If you are a chain developer and would like to add support for your chain to the UI, all the local configuration (API types, settings, logos) can be customized in [the apps-config package](packages/apps-config#README.md), complete with instructions of what goes where.
+**Important** If you are a chain developer and would like to add support for your chain to the UI, all the local configuration (settings, logos) can be customized in [the apps-config package](packages/apps-config/README.md) and API types can be set in [the known-types package](packages/known-types/README.md), complete with instructions of what goes where.
 
 ## overview
 
