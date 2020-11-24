@@ -44,7 +44,7 @@ interface TypeToComponent {
 const SPECIAL_TYPES = ['AccountId', 'AccountIndex', 'Address', 'Balance'];
 
 const componentDef: TypeToComponent[] = [
-  { c: Account, t: ['AccountId', 'Address'] },
+  { c: Account, t: ['AccountId', 'Address', 'LookupSource'] },
   { c: Amount, t: ['AccountIndex', 'i8', 'i16', 'i32', 'i64', 'i128', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256'] },
   { c: Balance, t: ['Amount', 'Balance', 'BalanceOf'] },
   { c: Bool, t: ['bool'] },
