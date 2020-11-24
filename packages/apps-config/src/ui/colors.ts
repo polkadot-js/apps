@@ -37,6 +37,7 @@ const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
+const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 
@@ -83,6 +84,7 @@ export const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
+  ['SORA-Substrate Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
   // ['node template', emptyColor],
