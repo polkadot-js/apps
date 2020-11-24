@@ -6,6 +6,7 @@ import type { EntryInfo } from './types';
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { formatNumber, isString } from '@polkadot/util';
+import { dateCalendarFormat } from './util';
 import { Button } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
@@ -23,7 +24,7 @@ function assertUnreachable (x: never): never {
 function DayItem ({ className, item: { date, info, type } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
-  const [description, setDescription] = useState<String>("");
+  const [description, setDescription] = useState<string>("");
 
   const desc = useMemo(
     (): React.ReactNode => {
@@ -111,18 +112,10 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
     [info, t, type]
   );
 
-  function transformDate (date: Date): String {
-    return new Date(date)
-      .toISOString()
-      .split(".")[0]
-      .replaceAll("-","")
-      .replaceAll(":","") + "Z"
-  }
-
   function exportToCal (fileName: string, date: Date): void {
-    let startDate = transformDate(date)
+    let startDate = dateCalendarFormat(date)
     // For now just add 1 hour for each event
-    let endDate = transformDate(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
+    let endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
     let test =
       "BEGIN:VCALENDAR\n" +
       "CALSCALE:GREGORIAN\n" +
@@ -137,10 +130,11 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
       "DESCRIPTION:" + description + "\n" +
       "END:VEVENT\n" +
       "END:VCALENDAR";
-    let data = new File([test], 'calendar.isc', { type: "text/plain" });
+    let fileNameIcs = encodeURI(fileName) + '.ics';
+    let data = new File([test], fileNameIcs, { type: "text/plain" });
     const anchor = window.document.createElement('a');
     anchor.href = window.URL.createObjectURL(data);
-    anchor.download = fileName;
+    anchor.download = fileNameIcs;
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
@@ -148,7 +142,7 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
   }
 
   function calendarIcon (date: Date): React.ReactNode {
-    return date ? (<Button className='exportCal' icon='calendar-plus' onClick={() => exportToCal('calendar.ics', date)} />) : null
+    return date ? (<Button className='exportCal' icon='calendar-plus' onClick={() => exportToCal(description, date)} />) : null
   }
 
   return (
