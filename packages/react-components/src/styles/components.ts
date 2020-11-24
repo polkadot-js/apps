@@ -24,12 +24,6 @@ export default (theme: ThemeDef): string => `
     &.monospace {
       font-family: monospace;
     }
-
-    .ui--output-button {
-      position: absolute;
-      top: 0.25rem;
-      right: 0.25rem;
-    }
   }
 
   header .ui--Button-Group {

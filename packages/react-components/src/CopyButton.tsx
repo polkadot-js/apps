@@ -22,7 +22,7 @@ interface Props {
 
 const NOOP = () => undefined;
 
-function CopyButton ({ children, className, icon = 'copy', type, value }: Props): React.ReactElement<Props> {
+function CopyButton ({ children, className = '', icon = 'copy', type, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { queueAction } = useContext(StatusContext);
 
@@ -39,7 +39,7 @@ function CopyButton ({ children, className, icon = 'copy', type, value }: Props)
   );
 
   return (
-    <div className={className}>
+    <div className={`ui--CopyButton ${className}`}>
       <CopyToClipboard
         onCopy={_onCopy}
         text={value}

@@ -43,16 +43,10 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
           : value
         }
         {children}
-        {withCopy
-          ? (
-            <CopyButton
-              className='ui--output-button'
-              value={value}
-            />
-          )
-          : null
-        }
       </div>
+      {withCopy && (
+        <CopyButton value={value} />
+      )}
     </Labelled>
   );
 }
