@@ -78,6 +78,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, tip, v
           <Static
             className='hash'
             label={labelHash || t<string>('extrinsic hash')}
+            withCopy
           >
             {hash.toHex()}
           </Static>
@@ -117,8 +118,8 @@ export default React.memo(styled(Call)`
     .ui--Labelled {
       padding-left: 0;
 
-      label {
-        left: 1.55rem;
+      > label {
+        left: 1.55rem !important;
       }
     }
   }

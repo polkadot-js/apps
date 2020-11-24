@@ -50,6 +50,12 @@ export default React.memo(styled(Labelled)`
     display: block;
     position: relative;
 
+    .ui--CopyButton {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.5rem;
+    }
+
     .withEllipsis {
       display: inline;
       overflow: hidden;

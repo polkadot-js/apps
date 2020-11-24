@@ -21,6 +21,7 @@ function Hash160 ({ className = '', defaultValue, isDisabled, isError, label, na
       onEnter={onEnter}
       onEscape={onEscape}
       type={type}
+      withCopy={isDisabled}
       withLabel={withLabel}
     />
   );
