@@ -27,6 +27,10 @@ function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) =>
   };
 }
 
+function isWaitingDerive (derive: DeriveStakingElected | DeriveStakingWaiting): derive is DeriveStakingWaiting {
+  return !(derive as DeriveStakingElected).nextElected;
+}
+
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
   return list
     .filter((a) => a.bondTotal.gtn(0))
@@ -63,9 +67,10 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
+function extractSingle (allAccounts: string[], amount: BN = baseBalance(), derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const emptyExposure = registry.createType('Exposure');
+  const info = derive.info;
   const list = info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
     let bondOwn = exposure.own?.unwrap() || BN_ZERO;
@@ -91,6 +96,7 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
 
       return isNominating || allAccounts.includes(nominator);
     }, allAccounts.includes(key));
+    const isElected = !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId));
 
     return {
       accountId,
@@ -129,8 +135,8 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
 
 function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward, true);
-  const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward, false);
+  const [elected, nominators] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward);
+  const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward);
   const validators = sortValidators(elected.concat(waiting));
   const validatorIds = validators.map(({ accountId }) => accountId.toString());
   const activeTotals = elected
