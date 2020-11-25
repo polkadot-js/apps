@@ -182,7 +182,7 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 }
 
-export default React.memo(styled(AccountName)`
+export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
   border: 1px dotted transparent;
   vertical-align: middle;
   white-space: nowrap;
@@ -200,17 +200,17 @@ export default React.memo(styled(AccountName)`
     .name {
       font-weight: 400 !important;
       filter: grayscale(100%);
+      line-height: 1;
       opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 22px;
 
       &:not(.isAddress) {
         text-transform: uppercase;
       }
 
       &.isAddress {
-        font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+        font: ${theme.fontMono};
         text-transform: none;
       }
 
@@ -230,4 +230,4 @@ export default React.memo(styled(AccountName)`
       }
     }
   }
-`);
+`));

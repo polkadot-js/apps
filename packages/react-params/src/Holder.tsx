@@ -21,7 +21,7 @@ function Holder ({ children, className = '', withBorder, withPadding }: Props): 
   );
 }
 
-export default React.memo(styled(Holder)`
+export default React.memo(styled(Holder)(({ theme }: ThemeProps) => `
   &.withBorder {
     border-left: 0.25rem solid #f2f2f2;
   }
@@ -37,7 +37,7 @@ export default React.memo(styled(Holder)`
 
   .ui--Param .ui--Labelled label {
     text-transform: none !important;
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font: ${theme.fontMono};
   }
 
   .ui--row {
@@ -45,7 +45,7 @@ export default React.memo(styled(Holder)`
   }
 
   .ui--Param-Address {
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font: ${theme.fontMono};
   }
 
   .ui--Params-Content {
@@ -95,4 +95,4 @@ export default React.memo(styled(Holder)`
       right: 3.5rem;
     }
   }
-`);
+`));

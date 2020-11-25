@@ -215,7 +215,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   #root {
     background: ${theme.bgPage};
     color: ${theme.color};
-    font-family: ${theme.fontSans};
+    font: ${theme.fontSans};
     height: 100%;
   }
 
@@ -300,7 +300,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
   body {
     height: 100%;
     margin: 0;
-    font-family: ${theme.fontSans};
+    font: ${theme.fontSans};
   }
 
   br {
@@ -332,8 +332,9 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
 
   h1, h2, h3, h4, h5 {
     color: ${theme.colorSummary};
-    font-family: ${theme.fontSans};
+    font: ${theme.fontSans};
     font-weight: ${theme.fontWeightLight};
+    margin-bottom: 0.25rem;
   }
 
   h1 {
@@ -345,8 +346,8 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
-  h1, h2, h3, h4, h5 {
-    margin-bottom: 0.25rem;
+  h2 {
+    font-size: 1.71428571rem;
   }
 
   header {
@@ -366,7 +367,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     box-sizing: border-box;
     color: ${theme.colorLabel};
     display: block;
-    font-family: ${theme.fontSans};
+    font: ${theme.fontSans};
     font-size: 1rem;
     font-weight: 400;
   }

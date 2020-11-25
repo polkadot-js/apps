@@ -89,7 +89,7 @@ function Parachain ({ className = '', parachain: { didUpdate, id, info, pendingS
   );
 }
 
-export default React.memo(styled(Parachain)`
+export default React.memo(styled(Parachain)(({ theme }: ThemeProps) => `
   & {
     cursor: pointer !important;
   }
@@ -116,10 +116,10 @@ export default React.memo(styled(Parachain)`
   }
 
   td.headhex {
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font: ${theme.fontMono};
   }
 
   .did-update {
     margin-bottom: 0;
   }
-`);
+`));

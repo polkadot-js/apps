@@ -24,7 +24,8 @@ export default (theme: ThemeDef): string => `
   .ui.selection.dropdown > input {
     background: ${theme.bgInput};
     color: ${theme.color};
-    font-family: ${theme.fontSans};
+    font: ${theme.fontSans};
+    font-size: 1rem;
 
     &:focus {
       background: ${theme.bgInput};
@@ -125,7 +126,7 @@ export default (theme: ThemeDef): string => `
     background: ${theme.bgPage};
     box-shadow: none;
     color: ${theme.color};
-    font-family: ${theme.fontSans};
+    font: ${theme.fontSans};
 
     > .actions,
     > .content {
@@ -143,7 +144,7 @@ export default (theme: ThemeDef): string => `
       background: transparent;
       border-bottom: none;
       color: ${theme.colorSummary};
-      font-family: ${theme.fontSans};
+      font: ${theme.fontSans};
       font-size: 1.75rem;
       font-weight: 400;
       line-height: 1.25rem;
