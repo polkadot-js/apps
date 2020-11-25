@@ -3,7 +3,7 @@
 
 import type { EntryInfo } from './types';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { formatNumber, isString } from '@polkadot/util';
 import { dateCalendarFormat } from './util';
@@ -25,6 +25,39 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
   const { t } = useTranslation();
 
   const [description, setDescription] = useState<string>('');
+
+  const _exportCal = useCallback(
+    () => {
+      const startDate = dateCalendarFormat(date);
+      // For now just add 1 hour for each event
+      const endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
+      const calData =
+        'BEGIN:VCALENDAR\n' +
+        'CALSCALE:GREGORIAN\n' +
+        'METHOD:PUBLISH\n' +
+        'PRODID:-//Test Cal//EN\n' +
+        'VERSION:2.0\n' +
+        'BEGIN:VEVENT\n' +
+        'UID:test-1\n' +
+        'DTSTART;VALUE=DATE:' + startDate + '\n' +
+        'DTEND;VALUE=DATE:' + endDate + '\n' +
+        'SUMMARY:' + description + '\n' +
+        'DESCRIPTION:' + description + '\n' +
+        'END:VEVENT\n' +
+        'END:VCALENDAR';
+      const fileNameIcs = encodeURI(description) + '.ics';
+      const data = new File([calData], fileNameIcs, { type: 'text/plain' });
+      const anchor = window.document.createElement('a');
+
+      anchor.href = window.URL.createObjectURL(data);
+      anchor.download = fileNameIcs;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      window.URL.revokeObjectURL(anchor.href);
+    },
+    [description, date]
+  );
 
   const desc = useMemo(
     (): React.ReactNode => {
@@ -54,112 +87,81 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
 
       switch (type) {
         case 'councilElection':
-          s = 'Election of new council candidates';
+          s = t<string>('Election of new council candidates');
           break;
+
         case 'councilMotion':
-          s = 'Voting ends on council motion {{id}}';
+          s = t<string>('Voting ends on council motion {{id}}', { replace: { id } });
           break;
+
         case 'democracyDispatch':
-          s = 'Enactment of the result of referendum {{id}}';
+          s = t<string>('Enactment of the result of referendum {{id}}', { replace: { id } });
           break;
 
         case 'democracyLaunch':
-          s = 'Start of the next referendum voting period';
+          s = t<string>('Start of the next referendum voting period');
           break;
 
         case 'referendumDispatch':
-          s = 'Potential dispatch of referendum {{id}} (if passed)';
+          s = t<string>('Potential dispatch of referendum {{id}} (if passed)', { replace: { id } });
           break;
 
         case 'referendumVote':
-          s = 'Voting ends for referendum {{id}}';
+          s = t<string>('Voting ends for referendum {{id}}', { replace: { id } });
           break;
 
         case 'scheduler':
-          s = 'Execute named scheduled task';
-          id && (s = s + ' {{id}}');
+          s = id
+            ? t<string>('Execute named scheduled task {{id}}', { replace: { id } })
+            : t<string>('Execute anonymous scheduled task');
           break;
 
         case 'stakingEpoch':
-          s = 'Start of a new staking session {{id}}';
+          s = t<string>('Start of a new staking session {{id}}', { replace: { id } });
           break;
 
         case 'stakingEra':
-          s = 'Start of a new staking era {{id}}';
+          s = t<string>('Start of a new staking era {{id}}', { replace: { id } });
           break;
 
         case 'stakingSlash':
-          s = 'Application of slashes from era {{id}}';
+          s = t<string>('Application of slashes from era {{id}}', { replace: { id } });
           break;
 
         case 'treasurySpend':
-          s = 'Start of next spending period';
+          s = t<string>('Start of next spending period');
           break;
 
         case 'societyChallenge':
-          s = 'Start of next membership challenge period';
+          s = t<string>('Start of next membership challenge period');
           break;
 
         case 'societyRotate':
-          s = 'Acceptance of new members and bids';
+          s = t<string>('Acceptance of new members and bids');
           break;
 
         default:
           return assertUnreachable(type);
       }
 
-      setDescription(id ? s.replaceAll('{{id}}', id) : s);
+      setDescription(s);
 
-      return id ? <><div className='itemDesc'>{t<string>(s, { replace: { id } })}</div>{typeLink}</> : (<><div className='itemDesc'>{s}</div>{typeLink}</>);
+      return (<><div className='itemDesc'>{s}</div>{typeLink}</>);
     },
     [info, t, type]
   );
-
-  function exportToCal (fileName: string, date: Date): void {
-    const startDate = dateCalendarFormat(date);
-    // For now just add 1 hour for each event
-    const endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
-    const calData =
-      'BEGIN:VCALENDAR\n' +
-      'CALSCALE:GREGORIAN\n' +
-      'METHOD:PUBLISH\n' +
-      'PRODID:-//Test Cal//EN\n' +
-      'VERSION:2.0\n' +
-      'BEGIN:VEVENT\n' +
-      'UID:test-1\n' +
-      'DTSTART;VALUE=DATE:' + startDate + '\n' +
-      'DTEND;VALUE=DATE:' + endDate + '\n' +
-      'SUMMARY:' + description + '\n' +
-      'DESCRIPTION:' + description + '\n' +
-      'END:VEVENT\n' +
-      'END:VCALENDAR';
-    const fileNameIcs = encodeURI(fileName) + '.ics';
-    const data = new File([calData], fileNameIcs, { type: 'text/plain' });
-    const anchor = window.document.createElement('a');
-
-    anchor.href = window.URL.createObjectURL(data);
-    anchor.download = fileNameIcs;
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-    window.URL.revokeObjectURL(anchor.href);
-  }
-
-  function calendarIcon (date: Date): React.ReactNode {
-    if (date) {
-      return (<Button className='exportCal'
-        icon='calendar-plus'
-        onClick={() => exportToCal(description, date)} />);
-    } else {
-      return null;
-    }
-  }
 
   return (
     <div className={className}>
       <div className='itemTime'>{date.toLocaleTimeString().split(':').slice(0, 2).join(':')}</div>
       {desc}
-      {calendarIcon(date)}
+      {date && (
+        <Button
+          className='exportCal'
+          icon='calendar-plus'
+          onClick={_exportCal}
+        />
+      )}
     </div>
   );
 }
