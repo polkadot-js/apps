@@ -54,3 +54,11 @@ export function getDateState (_dateMonth: Date, _dateSelected: Date): DateState 
     startClass: `start${DAYS[dateMonth.getDay()]}`
   };
 }
+
+export function dateCalendarFormat (date: Date): string {
+  return new Date(date)
+    .toISOString()
+    .split('.')[0]
+    .replaceAll('-', '')
+    .replaceAll(':', '') + 'Z';
+}

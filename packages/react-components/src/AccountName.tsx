@@ -193,14 +193,14 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
   }
 
   .via-identity {
-    align-items: end;
+    align-items: center;
     display: inline-flex;
     width: 100%;
 
     .name {
       font-weight: 400 !important;
       filter: grayscale(100%);
-      line-height: 1;
+      line-height: 22px;
       opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
