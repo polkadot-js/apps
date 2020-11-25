@@ -178,7 +178,7 @@ export default React.memo(styled(FullSidebar)(({ theme }: ThemeProps) => `
   }
 
   .ui--AddressMenu-addr {
-    font-family: ${theme.fontMono};
+    font: ${theme.fontMono};
     margin: 0.5rem 0;
     overflow: hidden;
     text-align: center;

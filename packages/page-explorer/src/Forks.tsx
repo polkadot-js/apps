@@ -391,13 +391,13 @@ function Forks ({ className }: Props): React.ReactElement<Props> | null {
   );
 }
 
-export default React.memo(styled(Forks)`
+export default React.memo(styled(Forks)(({ theme }: ThemeProps) => `
   margin-bottom: 1.5rem;
 
   table {
     border-collapse: separate;
     border-spacing: 0.25rem;
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font: ${theme.fontMono};
 
     td {
       padding: 0.25rem 0.5rem;
@@ -460,4 +460,4 @@ export default React.memo(styled(Forks)`
       }
     }
   }
-`);
+`));

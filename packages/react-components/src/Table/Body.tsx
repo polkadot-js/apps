@@ -98,7 +98,7 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
     }
 
     &.hash {
-      font-family: ${theme.fontMono};
+      font: ${theme.fontMono};
     }
 
     &.links {
