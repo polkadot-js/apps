@@ -8,7 +8,7 @@ import type { ThemeDef } from '@polkadot/react-components/types';
 //   - additional download size
 const FONT = {
   fontMono: 'monospace',
-  fontSans: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+  fontSans: '"Nunito Sans", sans-serif',
   fontWeightLight: 300,
   fontWeightNormal: 400
 };

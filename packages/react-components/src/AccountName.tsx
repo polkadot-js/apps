@@ -193,17 +193,17 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: end;
+    align-items: center;
     display: inline-flex;
     width: 100%;
 
     .name {
       font-weight: 400 !important;
       filter: grayscale(100%);
-      line-height: 1;
       opacity: 0.6;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: 22px;
 
       &:not(.isAddress) {
         text-transform: uppercase;
