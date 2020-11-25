@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { TxButtonProps as Props } from './types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { TxButtonProps as Props } from './types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { SubmittableResult } from '@polkadot/api';

@@ -1,6 +1,9 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// The mapping here is done on the actual chain name (system.chain RPC) or
+// the actual RPC node it is corrected to (system.name RPC)
+
 // defaults
 const emptyColor = '#99999';
 
@@ -34,12 +37,15 @@ const nodeEquilibrium = '#1792ff';
 const nodeMoonbeam = '#53cbc9';
 const nodeNodle = '#1ab394';
 const nodeKilt = '#eb5b2a';
+const nodeSora = '#2D2926';
 const nodeStafi = '#00F3AB';
 const nodeSubsocial = '#b9018c';
 
-// overrides based on the actual matched chain name
-// alphabetical
-const chainColors: Record<string, any> = [
+export { emptyColor };
+
+// Alphabetical overrides based on the actual matched chain name
+// NOTE: This is as retrieved via the system.chain RPC
+export const chainColors: Record<string, any> = [
   ['acala mandala pc1', chainRoccoAcala],
   ['Darwinia Crab', chainCrab],
   ['crust maxwell cc2', chainCrust],
@@ -67,9 +73,9 @@ const chainColors: Record<string, any> = [
   [chain.toLowerCase()]: color
 }), {});
 
-// overrides based on the actual software node type (all '-' converted to ' ')
-// alphabetical
-const nodeColors: Record<string, any> = [
+// Alphabetical overrides based on the actual software node type
+// NOTE: This is as retrieved via the system.name RPC
+export const nodeColors: Record<string, any> = [
   ['Bifrost Node', nodeBifrost],
   ['Canvas Node', nodeCanvas],
   ['centrifuge chain', nodeCentrifuge],
@@ -78,6 +84,7 @@ const nodeColors: Record<string, any> = [
   ['Equilibrium node', nodeEquilibrium],
   ['kilt node', nodeKilt],
   ['nodle chain node', nodeNodle],
+  ['SORA-Substrate Node', nodeSora],
   ['Stafi node', nodeStafi],
   ['subsocial node', nodeSubsocial]
   // ['node template', emptyColor],
@@ -87,9 +94,3 @@ const nodeColors: Record<string, any> = [
   ...colors,
   [node.toLowerCase().replace(/-/g, ' ')]: color
 }), {});
-
-export {
-  chainColors,
-  emptyColor,
-  nodeColors
-};

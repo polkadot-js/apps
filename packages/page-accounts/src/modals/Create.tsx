@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { CreateResult } from '@polkadot/ui-keyring/types';
-import { KeypairType } from '@polkadot/util-crypto/types';
-import { ModalProps } from '../types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { CreateResult } from '@polkadot/ui-keyring/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
+import type { ModalProps } from '../types';
 
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';

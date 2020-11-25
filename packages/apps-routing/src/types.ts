@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { AppProps, BareProps } from '@polkadot/react-components/types';
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { AppProps, BareProps } from '@polkadot/react-components/types';
 
 export type RouteGroup = 'accounts' | 'developer' | 'governance' | 'network' | 'settings';
 

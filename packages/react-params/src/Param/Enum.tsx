@@ -1,13 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TypeDef } from '@polkadot/types/types';
-import { ParamDef, Props, RawParam } from '../types';
+import type { TypeDef } from '@polkadot/types/types';
+import type { ParamDef, Props, RawParam } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown } from '@polkadot/react-components';
-import { Enum } from '@polkadot/types';
-import { getTypeDef } from '@polkadot/types/create';
+import { Enum, getTypeDef } from '@polkadot/types';
 
 import Params from '../';
 import Bare from './Bare';

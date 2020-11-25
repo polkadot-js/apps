@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { Codec, ITuple } from '@polkadot/types/types';
-import { StakerState } from './types';
+import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { AccountId, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { Codec, ITuple } from '@polkadot/types/types';
+import type { StakerState } from './types';
 
 import { useEffect, useMemo, useState } from 'react';
 import { u8aConcat, u8aToHex } from '@polkadot/util';

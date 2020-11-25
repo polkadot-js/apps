@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
-import { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import { ValidatorInfo } from '../../types';
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
+import type { ValidatorInfo } from '../../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
@@ -12,7 +13,6 @@ import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { Option } from '@polkadot/types';
 
 import Favorite from './Favorite';
 import NominatedBy from './NominatedBy';

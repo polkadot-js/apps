@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AmountValidateState } from '../Accounts/types';
+import type { AmountValidateState } from '../Accounts/types';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';

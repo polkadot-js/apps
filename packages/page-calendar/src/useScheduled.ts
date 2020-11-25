@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
-import { BlockNumber, EraIndex, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
-import { EntryInfo, EntryType } from './types';
+import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { BlockNumber, EraIndex, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
+import type { EntryInfo, EntryType } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
-import { Option } from '@polkadot/types';
 import { BN_ONE } from '@polkadot/util';
 
 interface DateExt {

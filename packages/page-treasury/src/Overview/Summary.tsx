@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import { Balance } from '@polkadot/types/interfaces';
+import type { DeriveBalancesAccount } from '@polkadot/api-derive/types';
+import type { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';

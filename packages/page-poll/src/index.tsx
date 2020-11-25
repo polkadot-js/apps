@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-poll authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
-import { ITuple } from '@polkadot/types/types';
+import type { Approvals, Balance, BlockNumber } from '@polkadot/types/interfaces';
+import type { ITuple } from '@polkadot/types/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useRef, useState } from 'react';

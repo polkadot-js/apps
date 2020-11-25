@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveElectionsInfo } from '@polkadot/api-derive/types';
+import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useState } from 'react';
 import { Button, InputAddress, InputAddressMulti, Modal, TxButton, VoteValue } from '@polkadot/react-components';

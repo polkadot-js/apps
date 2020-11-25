@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ModalProps } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import { Button, Input, InputAddressSimple, Modal } from '@polkadot/react-components';

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueryableStorageEntry } from '@polkadot/api/types';
-import { DropdownOptions } from '../util/types';
+import type { QueryableStorageEntry } from '@polkadot/api/types';
+import type { DropdownOptions } from '../util/types';
 
 import React from 'react';
 

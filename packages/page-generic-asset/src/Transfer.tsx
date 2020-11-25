@@ -1,7 +1,7 @@
 // Copyright 2019 @polkadot/app-generic-asset authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';

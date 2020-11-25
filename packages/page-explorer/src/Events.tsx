@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { KeyedEvent } from '@polkadot/react-query/types';
+import type { KeyedEvent } from '@polkadot/react-query/types';
 
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';

@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveSessionIndexes } from '@polkadot/api-derive/types';
-import { EraIndex, UnappliedSlash } from '@polkadot/types/interfaces';
+import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import type { Option, Vec } from '@polkadot/types';
+import type { EraIndex, UnappliedSlash } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
-import { Option, Vec } from '@polkadot/types';
 
 type Unsub = () => void;
 

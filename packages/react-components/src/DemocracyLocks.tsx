@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveDemocracyLock } from '@polkadot/api-derive/types';
+import type { DeriveDemocracyLock } from '@polkadot/api-derive/types';
 
 import BN from 'bn.js';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { SlashEra } from './types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { SlashEra } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
 import { Button, Table, TxButton } from '@polkadot/react-components';

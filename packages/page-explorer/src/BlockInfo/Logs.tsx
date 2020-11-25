@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DigestItem } from '@polkadot/types/interfaces';
-import { Codec, TypeDef } from '@polkadot/types/types';
+import type { DigestItem } from '@polkadot/types/interfaces';
+import type { Codec, TypeDef } from '@polkadot/types/types';
 
 import React, { useRef } from 'react';
-import { Struct, Tuple, Raw, Vec } from '@polkadot/types';
 import { getTypeDef } from '@polkadot/types/create';
 import { Expander, Table } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
+import { Struct, Tuple, Raw, Vec } from '@polkadot/types';
 
 import { useTranslation } from '../translate';
 

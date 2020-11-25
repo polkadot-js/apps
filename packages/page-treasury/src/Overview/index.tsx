@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
+import type { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import { Button } from '@polkadot/react-components';

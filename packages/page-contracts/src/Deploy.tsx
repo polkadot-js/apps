@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
-import { StringOrNull } from '@polkadot/react-components/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { StringOrNull } from '@polkadot/react-components/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';

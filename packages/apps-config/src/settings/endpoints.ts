@@ -1,17 +1,10 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TFunction } from 'i18next';
-import { Option } from './types';
+import type { TFunction } from 'i18next';
+import type { LinkOption } from './types';
 
 import { CUSTOM_ENDPOINT_KEY } from './constants';
-
-export interface LinkOption extends Option {
-  dnslink?: string;
-  isChild?: boolean;
-  isDevelopment?: boolean;
-  textBy: string;
-}
 
 interface EnvWindow {
   // eslint-disable-next-line camelcase
@@ -82,6 +75,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://cc1-1.polkadot.network'
     },
     {
+      info: 'polkadot',
+      text: t('rpc.polkadot.onfinality', 'Polkadot', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
+      value: 'wss://polkadot.api.onfinality.io/public-ws'
+    },
+    {
       dnslink: 'kusama',
       info: 'kusama',
       text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
@@ -93,6 +92,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       text: t('rpc.kusama.w3f', 'Kusama', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Web3 Foundation' } }),
       value: 'wss://cc3-5.kusama.network'
+    },
+    {
+      info: 'kusama',
+      text: t('rpc.kusama.onfinality', 'Kusama', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
+      value: 'wss://kusama.api.onfinality.io/public-ws'
     },
     {
       info: 'kusama',
@@ -351,6 +356,12 @@ function createTestNetworks (t: TFunction): LinkOption[] {
       value: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
     },
     {
+      info: 'sora-substrate',
+      text: t('rpc.sora-substrate', 'SORA-Substrate', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Soramitsu' } }),
+      value: 'wss://ws.parachain-node-1.s1.dev.soraneo.soramitsu.co.jp'
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t('rpc.westend', 'Westend', { ns: 'apps-config' }),
@@ -384,7 +395,7 @@ function createCustom (t: TFunction): LinkOption[] {
     : [];
 }
 
-export function createEndpoints (t: TFunction): LinkOption[] {
+export function createWsEndpoints (t: TFunction): LinkOption[] {
   return [
     ...createCustom(t),
     {

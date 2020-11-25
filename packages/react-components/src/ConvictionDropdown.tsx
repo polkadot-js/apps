@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import React, { useRef } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { useApi, useBlockTime } from '@polkadot/react-hooks';

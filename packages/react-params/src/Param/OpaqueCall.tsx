@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Props } from '../types';
+import type { Props } from '../types';
+import type { Bytes } from '@polkadot/types';
 
 import React from 'react';
-import { Bytes } from '@polkadot/types';
 
 import CallDisplay from './Call';
 import Unknown from './Unknown';

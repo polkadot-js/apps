@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveParachainInfo } from '@polkadot/api-derive/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { DeriveParachainInfo } from '@polkadot/api-derive/types';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useApi } from '@polkadot/react-hooks';
