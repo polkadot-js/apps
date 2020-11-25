@@ -13,9 +13,9 @@ import AssetCard from './AssetCard';
 import CreateModal from './modals/Create';
 import translate from './translate';
 
-type Props = I18nProps & {
+interface Props extends I18nProps {
   assets?: AssetsSubjectInfo;
-};
+}
 
 function Assets ({ assets, t }: Props): React.ReactElement<Props> {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
