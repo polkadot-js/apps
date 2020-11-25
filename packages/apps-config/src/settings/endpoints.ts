@@ -69,6 +69,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://cc1-1.polkadot.network'
     },
     {
+      info: 'polkadot',
+      text: t('rpc.polkadot.onfinality', 'Polkadot', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
+      value: 'wss://polkadot.api.onfinality.io/public-ws'
+    },
+    {
       dnslink: 'kusama',
       info: 'kusama',
       text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
@@ -80,6 +86,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       text: t('rpc.kusama.w3f', 'Kusama', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Web3 Foundation' } }),
       value: 'wss://cc3-5.kusama.network'
+    },
+    {
+      info: 'kusama',
+      text: t('rpc.kusama.onfinality', 'Kusama', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
+      value: 'wss://kusama.api.onfinality.io/public-ws'
     },
     {
       info: 'kusama',
