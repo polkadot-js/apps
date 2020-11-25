@@ -334,6 +334,7 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     color: ${theme.colorSummary};
     font: ${theme.fontSans};
     font-weight: ${theme.fontWeightLight};
+    margin-bottom: 0.25rem;
   }
 
   h1 {
@@ -345,8 +346,8 @@ export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Pr
     }
   }
 
-  h1, h2, h3, h4, h5 {
-    margin-bottom: 0.25rem;
+  h2 {
+    font-size: 1.71428571rem;
   }
 
   header {
