@@ -140,6 +140,8 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
     [hash]
   );
 
+  const isAye = type === 'aye';
+
   return (
     <Modal
       className={className}
@@ -234,9 +236,9 @@ function MultisigApprove ({ className = '', onClose, ongoing, threshold, who }: 
         <TxButton
           accountId={signatory}
           extrinsic={tx}
-          icon={type === 'aye' ? 'check' : 'times'}
-          isDisabled={!tx || !whoFilter.length}
-          label={type === 'aye' ? 'Approve' : 'Reject'}
+          icon={isAye ? 'check' : 'times'}
+          isDisabled={!tx || (isAye && !whoFilter.length)}
+          label={isAye ? 'Approve' : 'Reject'}
           onStart={onClose}
         />
       </Modal.Actions>
