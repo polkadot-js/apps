@@ -13,7 +13,6 @@ import { useAccounts } from './useAccounts';
 import { useApi } from './useApi';
 import { useIsMountedRef } from './useIsMountedRef';
 import { useOwnStashes } from './useOwnStashes';
-import { useStashIds } from './useStashIds';
 
 type ValidatorInfo = ITuple<[ValidatorPrefs, Codec]> | ValidatorPrefs;
 type Queried = Record<string, [boolean, DeriveStakingAccount, ValidatorInfo]>;
@@ -24,9 +23,9 @@ function toIdString (id?: AccountId | null): string | null {
     : null;
 }
 
-function getStakerState (stashId: string, allAccounts: string[], allStashes: string[] | undefined, [isOwnStash, { controllerId: _controllerId, exposure, nextSessionIds, nominators, rewardDestination, sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
+function getStakerState (stashId: string, allAccounts: string[], [isOwnStash, { controllerId: _controllerId, exposure, nextSessionIds, nominators, rewardDestination, sessionIds, stakingLedger, validatorPrefs }, validateInfo]: [boolean, DeriveStakingAccount, ValidatorInfo]): StakerState {
   const isStashNominating = !!(nominators?.length);
-  const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty) || !!allStashes?.includes(stashId);
+  const isStashValidating = !(Array.isArray(validateInfo) ? validateInfo[1].isEmpty : validateInfo.isEmpty);
   const nextConcat = u8aConcat(...nextSessionIds.map((id): Uint8Array => id.toU8a()));
   const currConcat = u8aConcat(...sessionIds.map((id): Uint8Array => id.toU8a()));
   const controllerId = toIdString(_controllerId);
@@ -60,7 +59,6 @@ export function useOwnStashInfos (): StakerState[] | undefined {
   const { allAccounts } = useAccounts();
   const mountedRef = useIsMountedRef();
   const ownStashes = useOwnStashes();
-  const allStashes = useStashIds();
   const [queried, setQueried] = useState<Queried | undefined>();
 
   useEffect((): () => void => {
@@ -95,11 +93,11 @@ export function useOwnStashInfos (): StakerState[] | undefined {
   }, [api, mountedRef, ownStashes]);
 
   return useMemo(
-    () => allStashes && ownStashes && queried && ownStashes.length === Object.keys(queried).length
+    () => ownStashes && queried && ownStashes.length === Object.keys(queried).length
       ? ownStashes
         .filter(([stashId]) => queried[stashId])
-        .map(([stashId]) => getStakerState(stashId, allAccounts, allStashes, queried[stashId]))
+        .map(([stashId]) => getStakerState(stashId, allAccounts, queried[stashId]))
       : undefined,
-    [allAccounts, allStashes, ownStashes, queried]
+    [allAccounts, ownStashes, queried]
   );
 }
