@@ -5,7 +5,7 @@ import type { ParamDef, RawParam } from '@polkadot/react-params/types';
 import type { QueueTxRpcAdd } from '@polkadot/react-components/Status/types';
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Button, InputRpc } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
@@ -20,7 +20,6 @@ interface Props {
 
 interface State {
   isValid: boolean;
-  accountId?: string | null;
   rpc: DefinitionRpcExt;
   values: RawParam[];
 }
@@ -29,21 +28,27 @@ const defaultMethod = jsonrpc.author.submitExtrinsic;
 
 function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const [{ accountId, isValid, rpc, values }, setState] = useState<State>({
-    accountId: null,
+  const [{ isValid, rpc, values }, setState] = useState<State>({
     isValid: false,
     rpc: defaultMethod,
     values: []
   });
 
+  const params = useMemo(
+    () => rpc.params.map(({ isOptional, name, type }): ParamDef => ({
+      name,
+      type: getTypeDef(isOptional ? `Option<${type}>` : type)
+    })),
+    [rpc]
+  );
+
   const _nextState = useCallback(
     (newState: Partial<State>) => setState((prevState: State): State => {
-      const { accountId = prevState.accountId, rpc = prevState.rpc, values = prevState.values } = newState;
+      const { rpc = prevState.rpc, values = prevState.values } = newState;
       const reqCount = rpc.params.reduce((count, { isOptional }) => count + (isOptional ? 0 : 1), 0);
       const isValid = values.reduce((isValid, value) => isValid && value.isValid === true, reqCount <= values.length);
 
       return {
-        accountId,
         isValid,
         rpc,
         values
@@ -64,19 +69,13 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
 
   const _onSubmit = useCallback(
     (): void => queueRpc({
-      accountId,
       rpc,
       values: values
         .filter(({ value }) => !isNull(value))
         .map(({ value }): any => value)
     }),
-    [accountId, queueRpc, rpc, values]
+    [queueRpc, rpc, values]
   );
-
-  const params = rpc.params.map(({ isOptional, name, type }): ParamDef => ({
-    name,
-    type: getTypeDef(isOptional ? `Option<${type}>` : type)
-  }));
 
   return (
     <section className='rpc--Selection'>
