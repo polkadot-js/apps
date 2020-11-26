@@ -37,29 +37,28 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
   });
 
   const _nextState = useCallback(
-    (newState: Partial<State>): void =>
-      setState((prevState: State): State => {
-        const { accountId = prevState.accountId, rpc = prevState.rpc, values = prevState.values } = newState;
-        const reqCount = rpc.params.reduce((count, { isOptional }): number => count + (isOptional ? 0 : 1), 0);
-        const isValid = values.reduce((isValid, value) => isValid && value.isValid === true, reqCount <= values.length);
+    (newState: Partial<State>) => setState((prevState: State): State => {
+      const { accountId = prevState.accountId, rpc = prevState.rpc, values = prevState.values } = newState;
+      const reqCount = rpc.params.reduce((count, { isOptional }) => count + (isOptional ? 0 : 1), 0);
+      const isValid = values.reduce((isValid, value) => isValid && value.isValid === true, reqCount <= values.length);
 
-        return {
-          accountId,
-          isValid,
-          rpc,
-          values
-        };
-      }),
+      return {
+        accountId,
+        isValid,
+        rpc,
+        values
+      };
+    }),
     []
   );
 
   const _onChangeMethod = useCallback(
-    (rpc: DefinitionRpcExt): void => _nextState({ rpc, values: [] }),
+    (rpc: DefinitionRpcExt) => _nextState({ rpc, values: [] }),
     [_nextState]
   );
 
   const _onChangeValues = useCallback(
-    (values: RawParam[]): void => _nextState({ values }),
+    (values: RawParam[]) => _nextState({ values }),
     [_nextState]
   );
 
@@ -68,7 +67,7 @@ function Selection ({ queueRpc }: Props): React.ReactElement<Props> {
       accountId,
       rpc,
       values: values
-        .filter(({ value }): boolean => !isNull(value))
+        .filter(({ value }) => !isNull(value))
         .map(({ value }): any => value)
     }),
     [accountId, queueRpc, rpc, values]
