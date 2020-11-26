@@ -64,20 +64,16 @@ async function sendRpc (api: ApiPromise, queueSetTxStatus: QueueTxMessageSetStat
 
 function extractCurrent (txqueue: QueueTx[]): ItemState {
   const available = txqueue.filter(({ status }) => AVAIL_STATUS.includes(status));
-  const nextItem = available[0] || null;
+  const currentItem = available[0] || null;
   let isRpc = false;
   let isVisible = false;
-  let currentItem = null;
 
-  if (nextItem) {
-    // when the next up is an RPC, send it immediately
-    if (nextItem.status === 'queued' && !(nextItem.extrinsic || nextItem.payload)) {
+  if (currentItem) {
+    if (currentItem.status === 'queued' && !(currentItem.extrinsic || currentItem.payload)) {
       isRpc = true;
-    } else if (nextItem.status !== 'signing') {
+    } else if (currentItem.status !== 'signing') {
       isVisible = true;
     }
-
-    currentItem = nextItem;
   }
 
   return {
