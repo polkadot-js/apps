@@ -1,7 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Balance } from '@polkadot/types/interfaces';
+import type { Inflation } from '@polkadot/react-hooks/types';
+import type { Balance } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -13,6 +14,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   avgStaked?: BN;
+  inflation: Inflation;
   lowStaked?: BN;
   lastReward?: BN;
   numNominators?: number;
@@ -20,7 +22,7 @@ interface Props {
   totalStaked?: BN;
 }
 
-function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, inflation, lastReward, lowStaked, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
@@ -71,6 +73,14 @@ function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidato
                 withSi
               />
             </div>
+          </CardSummary>
+        )}
+        {(inflation.stakedReturn > 0) && (
+          <CardSummary
+            className='media--1200'
+            label={t<string>('returns')}
+          >
+            {inflation.stakedReturn.toFixed(1)}%
           </CardSummary>
         )}
       </section>

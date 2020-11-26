@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { StakerState } from '@polkadot/react-hooks/types';
+import type { Inflation, StakerState } from '@polkadot/react-hooks/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
@@ -22,6 +22,7 @@ import useOwnNominators from './useOwnNominators';
 
 interface Props {
   className?: string;
+  inflation: Inflation;
   isInElection: boolean;
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
@@ -92,7 +93,7 @@ function selectProfitable (maxPaid: BN |undefined, list: ValidatorInfo[], { with
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', inflation, isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -206,6 +207,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     <div className={className}>
       <Summary
         avgStaked={avgStaked}
+        inflation={inflation}
         lastReward={lastReward}
         lowStaked={lowStaked}
         numNominators={nominators?.length}
