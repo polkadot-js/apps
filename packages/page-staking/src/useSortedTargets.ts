@@ -32,7 +32,20 @@ function isWaitingDerive (derive: DeriveStakingElected | DeriveStakingWaiting): 
 }
 
 function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
+  const existing: string[] = [];
+
   return list
+    .filter((a): boolean => {
+      const s = a.accountId.toString();
+
+      if (!existing.includes(s)) {
+        existing.push(s);
+
+        return true;
+      }
+
+      return false;
+    })
     .filter((a) => a.bondTotal.gtn(0))
     .sort((a, b) => b.commissionPer - a.commissionPer)
     .map(mapIndex('rankComm'))
