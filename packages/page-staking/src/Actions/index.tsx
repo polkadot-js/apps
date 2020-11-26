@@ -32,8 +32,16 @@ interface State {
   foundStashes?: StakerState[];
 }
 
+function assignValue ({ isStashNominating, isStashValidating }: StakerState): number {
+  return isStashValidating
+    ? 1
+    : isStashNominating
+      ? 5
+      : 99;
+}
+
 function sortStashes (a: StakerState, b: StakerState): number {
-  return (a.isStashValidating ? 1 : (a.isStashNominating ? 5 : 99)) - (b.isStashValidating ? 1 : (b.isStashNominating ? 5 : 99));
+  return assignValue(a) - assignValue(b);
 }
 
 function extractState (ownStashes?: StakerState[]): State {
