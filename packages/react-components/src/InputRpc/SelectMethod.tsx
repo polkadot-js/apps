@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionRpcExt } from '@polkadot/types/types';
-import type { DropdownOptions } from '../util/types';
+import type { DropdownOption } from '../util/types';
 
 import React, { useCallback } from 'react';
 
@@ -14,13 +14,13 @@ interface Props {
   className?: string;
   isError?: boolean;
   onChange: (value: DefinitionRpcExt) => void;
-  options: DropdownOptions;
+  options: DropdownOption[];
   value: DefinitionRpcExt;
 }
 
 function SelectMethod ({ className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
   const _transform = useCallback(
-    () => rpcs[value.section][value.method],
+    (method: string) => rpcs[value.section][method],
     [value]
   );
 
