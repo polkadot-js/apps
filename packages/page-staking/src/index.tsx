@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useInflation, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import basicMd from './md/basic.md';
@@ -42,6 +42,8 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const inflation = useInflation(targets?.totalStaked);
   const stakingOverview = useCall<DeriveStakingOverview>(api.derive.staking.overview);
   const isInElection = useCall<boolean>(api.query.staking?.eraElectionStatus, undefined, transformElection);
 
