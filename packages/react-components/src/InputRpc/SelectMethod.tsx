@@ -4,11 +4,10 @@
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 import type { DropdownOptions } from '../util/types';
 
-import React from 'react';
-
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+import React, { useCallback } from 'react';
 
 import Dropdown from '../Dropdown';
+import rpcs from './rpcs';
 import { classes } from '../util';
 
 interface Props {
@@ -19,14 +18,11 @@ interface Props {
   value: DefinitionRpcExt;
 }
 
-function transform ({ value: { section } }: Props): (method: string) => DefinitionRpcExt {
-  return function (method: string): DefinitionRpcExt {
-    return jsonrpc[section][method];
-  };
-}
-
-function SelectMethod (props: Props): React.ReactElement<Props> | null {
-  const { className = '', isError, onChange, options, value } = props;
+function SelectMethod ({ className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
+  const _transform = useCallback(
+    () => rpcs[value.section][value.method],
+    [value]
+  );
 
   if (!options.length) {
     return null;
@@ -38,7 +34,7 @@ function SelectMethod (props: Props): React.ReactElement<Props> | null {
       isError={isError}
       onChange={onChange}
       options={options}
-      transform={transform(props)}
+      transform={_transform}
       value={value.method}
       withLabel={false}
     />
