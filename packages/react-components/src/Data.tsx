@@ -87,6 +87,39 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
         return truncate(value.toString(), TRUNCATE_TO);
       }
 
+      if (type.info === TypeDefInfo.Enum) {
+        const json = value as unknown as Record<string, AnyJson>;
+        const [variant, subValue] = Object.entries(json)[0];
+        const isNull = Object.entries(subValue!)[0][1] === null;
+        const subType = (type.sub as TypeDef[]).find(({ name }) => name === variant);
+
+        // console.log('variant:', variant);
+        // console.log('subvalue:', JSON.stringify(subValue));
+        // console.log('subtype:', subType);
+
+        return (
+          <Labelled
+            isIndented
+            isSmall
+            withLabel={false}
+          >
+            <Field
+              key={variant}
+              name={variant}
+              value={
+                isNull
+                  ? Object.keys(subValue!)[0]
+                  : <Data
+                    registry={registry}
+                    type={subType}
+                    value={formatData(registry, subValue, subType)}
+                  />
+              }
+            />
+          </Labelled>
+        );
+      }
+
       if (type.info === TypeDefInfo.Struct) {
         const struct = value.toJSON() as Record<string, AnyJson>;
 
