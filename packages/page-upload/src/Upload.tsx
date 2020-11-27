@@ -101,19 +101,16 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
   const additionalDetails = useMemo((): Record<string, string> => ({ name: name || '' }), [name]);
   // const preparedWasm = useMemo((): Uint8Array | null => wasm ? compactAddLength(wasm.data) : null, [wasm]);
 
-  if (pendingTx.currentItem) {
-    return (
-      <PendingTx
-        additionalDetails={additionalDetails}
-        instructions={t<string>('Sign and submit to upload this code bundle on the chain.')}
-        registry={registry}
-        {...pendingTx}
-      />
-    );
-  }
-
   return (
     <>
+      {pendingTx.currentItem && (
+        <PendingTx
+          additionalDetails={additionalDetails}
+          instructions={t<string>('Sign and submit to upload this code bundle on the chain.')}
+          registry={registry}
+          {...pendingTx}
+        />
+      )}
       <header>
         <h1>{t<string>('Upload WASM Code Blob')}</h1>
         <div className='instructions'>
