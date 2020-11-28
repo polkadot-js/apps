@@ -131,7 +131,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       info: 'edgeware',
       text: t('rpc.edgeware', 'Edgeware', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Commonwealth Labs' } }),
-      value: 'wss://mainnet1.edgewa.re'
+      value: 'wss://mainnet4.edgewa.re'
     },
     {
       info: 'equilibrium',
