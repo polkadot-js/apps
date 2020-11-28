@@ -14,16 +14,17 @@ import AddressSmall from './AddressMini';
 import Labelled from './Labelled';
 
 interface Props extends BareProps {
+  asJson?: boolean;
   isTrimmed?: boolean;
   registry?: Registry;
   type?: TypeDef;
-  value?: Codec | null;
+  value?: AnyJson | null;
 }
 
 const TRUNCATE_TO = 16;
 
 function formatData (registry: Registry, data: AnyJson, type: TypeDef | undefined): Codec {
-  return createTypeUnsafe(registry, type?.type || 'Raw', [data], true);
+  return createTypeUnsafe(registry, type?.displayName || type?.type || 'Raw', [data]);
 }
 
 function Field ({ name, value }: { name: string, value: React.ReactNode }): React.ReactElement {
@@ -39,15 +40,17 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
   );
 }
 
-function Data ({ className, registry = baseRegistry, type, value }: Props): React.ReactElement<Props> | null {
+function Data ({ asJson = false, className, registry = baseRegistry, type, value }: Props): React.ReactElement<Props> | null {
   const content = useMemo(
     (): React.ReactNode => {
-      if (!value) {
+      if (!value || (Array.isArray(value) && value.length === 0)) {
         return '()';
       }
 
+      const codec = formatData(registry, value, type);
+
       if (!type || type.displayName === 'Hash') {
-        return truncate(value.toHex(), TRUNCATE_TO);
+        return truncate(codec.toHex(), TRUNCATE_TO);
       }
 
       if (type.type === 'AccountId') {
@@ -63,6 +66,10 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
         const isSome = value.isSome;
         const subType = type.sub as TypeDef;
 
+        if (asJson) {
+          return `${isSome ? 'Some' : 'None'}${isSome ? `(${value.toString()})` : ''}`;
+        }
+
         return (
           <div className='enum'>
             {isSome ? 'Some' : 'None'}
@@ -73,7 +80,7 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
                   <Data
                     registry={registry}
                     type={subType}
-                    value={formatData(registry, value.toString(), subType)}
+                    value={value.toString()}
                   />
                 </div>
                 {')'}
@@ -90,12 +97,12 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
       if (type.info === TypeDefInfo.Enum) {
         const json = value as unknown as Record<string, AnyJson>;
         const [variant, subValue] = Object.entries(json)[0];
-        const isNull = Object.entries(subValue!)[0][1] === null;
+        const isNull = !!subValue && typeof subValue === 'object' && Object.entries(subValue)[0] === null;
         const subType = (type.sub as TypeDef[]).find(({ name }) => name === variant);
 
-        // console.log('variant:', variant);
-        // console.log('subvalue:', JSON.stringify(subValue));
-        // console.log('subtype:', subType);
+        if (asJson) {
+          return `${variant}: ${JSON.stringify(formatData(registry, subValue, subType).toJSON()) || '()'}`;
+        }
 
         return (
           <Labelled
@@ -108,11 +115,12 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
               name={variant}
               value={
                 isNull
-                  ? Object.keys(subValue!)[0]
+                  ? Object.keys(subValue as Record<string, AnyJson>)[0]
                   : <Data
+                    asJson
                     registry={registry}
                     type={subType}
-                    value={formatData(registry, subValue, subType)}
+                    value={subValue}
                   />
               }
             />
@@ -121,7 +129,11 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
       }
 
       if (type.info === TypeDefInfo.Struct) {
-        const struct = value.toJSON() as Record<string, AnyJson>;
+        const struct = value as Record<string, AnyJson>;
+
+        if (asJson) {
+          return JSON.stringify(struct);
+        }
 
         return (
           <Labelled
@@ -139,9 +151,10 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
                     name={key}
                     value={
                       <Data
+                        asJson
                         registry={registry}
                         type={subType}
-                        value={formatData(registry, field, subType)}
+                        value={formatData(registry, field, subType).toJSON()}
                       />
                     }
                   />
@@ -156,13 +169,17 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
         const sub = type.sub as TypeDef;
 
         if (sub.type === 'u8') {
-          return truncate(value.toHex(), TRUNCATE_TO);
+          return truncate(codec.toHex(), TRUNCATE_TO);
         }
 
-        const array = value.toJSON() as AnyJson[];
+        const array = codec.toJSON() as AnyJson[];
 
         if (!Array.isArray(array)) {
           return null;
+        }
+
+        if (asJson) {
+          return JSON.stringify(array);
         }
 
         return (
@@ -179,9 +196,10 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
                     name={`${index}`}
                     value={
                       <Data
+                        asJson
                         registry={registry}
                         type={sub}
-                        value={formatData(registry, element, sub)}
+                        value={element}
                       />
                     }
                   />
@@ -192,7 +210,7 @@ function Data ({ className, registry = baseRegistry, type, value }: Props): Reac
         );
       }
 
-      return truncate(value.toHex(), TRUNCATE_TO);
+      return truncate(codec.toHex(), TRUNCATE_TO);
     },
     [value, registry, type]
   );

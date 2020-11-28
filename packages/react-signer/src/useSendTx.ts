@@ -11,7 +11,7 @@ import { SignerPayloadJSON } from '@polkadot/types/types';
 import { AddressFlags, AddressProxy } from './types';
 
 import BN from 'bn.js';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { registry } from '@canvas-ui/react-api';
@@ -47,7 +47,7 @@ interface UseSendTx {
   signedOptions: Partial<SignerOptions>;
   signedTx: StringOrNull;
   tip: BN;
-  tx: QueueTx;
+  tx: QueueTx | null;
 }
 
 interface QrState {
@@ -207,7 +207,8 @@ async function extractParams (address: string, options: Partial<SignerOptions>, 
 
 let qrId = 0;
 
-export default function useSendTx (currentItem: QueueTx, requestAddress: string): UseSendTx {
+export default function useSendTx (source: QueueTx | null, requestAddress: string): UseSendTx {
+  const currentItem = useMemo((): QueueTx | null => source, [source]);
   const { api } = useApi();
   const { queueSetTxStatus } = useContext(StatusContext);
   const [flags, setFlags] = useState(extractExternal(requestAddress));
@@ -221,6 +222,10 @@ export default function useSendTx (currentItem: QueueTx, requestAddress: string)
   const [multiCall, setMultiCall] = useState<string | null>(null);
   const [tip, setTip] = useState(BN_ZERO);
   const { qrResolve } = qrState;
+
+  useEffect((): void => {
+    setSenderInfo({ isMultiCall: false, isUnlockCached: false, multiRoot: null, proxyRoot: null, signAddress: requestAddress, signPassword: '' });
+  }, [requestAddress]);
 
   useEffect((): void => {
     setFlags(extractExternal(senderInfo.signAddress));
@@ -288,7 +293,7 @@ export default function useSendTx (currentItem: QueueTx, requestAddress: string)
 
   const onSend = useCallback(
     async (): Promise<void> => {
-      if (_unlock() && currentItem && senderInfo.signAddress) {
+      if (_unlock() && currentItem?.extrinsic && senderInfo.signAddress) {
         const [tx, [status, pairOrAddress, options]] = await Promise.all([
           wrapTx(api, currentItem, senderInfo),
           extractParams(senderInfo.signAddress, { tip }, setQrState)
@@ -303,7 +308,7 @@ export default function useSendTx (currentItem: QueueTx, requestAddress: string)
 
   const onSendUnsigned = useCallback(
     async (): Promise<void> => {
-      if (currentItem.extrinsic) {
+      if (currentItem?.extrinsic) {
         await sendUnsigned(queueSetTxStatus, currentItem, currentItem.extrinsic);
       }
     },

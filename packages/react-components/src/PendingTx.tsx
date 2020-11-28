@@ -18,7 +18,7 @@ import { truncate } from '@canvas-ui/react-util';
 
 interface Props extends BareProps {
   additionalDetails: Record<string, any>;
-  currentItem: QueueTx;
+  currentItem: QueueTx | null;
   instructions: React.ReactNode;
   isSendable: boolean;
   onError: () => void;
@@ -26,10 +26,11 @@ interface Props extends BareProps {
   requestAddress: string;
 }
 
-function PendingTx ({ additionalDetails, className, currentItem, currentItem: { accountId, extrinsic }, instructions, registry, requestAddress }: Props): React.ReactElement<Props> | null {
+function PendingTx ({ additionalDetails, children, className, currentItem, instructions, registry, requestAddress }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const willSend = useRef(false);
   const { onCancel, onSend, tx } = useSendTx(currentItem, requestAddress);
+  const isSigning = !!currentItem?.extrinsic;
 
   const _onSend = useCallback(
     async (): Promise<void> => {
@@ -52,9 +53,11 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
 
   const content = useMemo(
     (): React.ReactNode | null => {
-      if (!extrinsic) {
+      if (!currentItem?.extrinsic) {
         return null;
       }
+
+      const { accountId, extrinsic } = currentItem;
 
       const { meta, method, section } = baseRegistry.findMetaCall(extrinsic.callIndex);
 
@@ -224,38 +227,40 @@ function PendingTx ({ additionalDetails, className, currentItem, currentItem: { 
         </>
       );
     },
-    [accountId, additionalDetails, extrinsic, registry, t]
+    [currentItem, additionalDetails, registry, t]
   );
-
-  if (!extrinsic) {
-    return null;
-  }
 
   return (
     <div className={className}>
-      {content}
-      <footer>
-        <h3>{t<string>('Sign & Submit')}</h3>
-        <div className='instructions'>
-          {instructions}
-        </div>
-        <Button.Group>
-          <Button
-            isPrimary
-            label={t<string>('Sign & Submit')}
-            onClick={_onSend}
-          />
-          <Button
-            label={t<string>('Cancel')}
-            onClick={onCancel}
-          />
-        </Button.Group>
-      </footer>
+      <div style={{ display: isSigning ? 'block' : 'none' }}>
+        {content}
+        <footer>
+          <h3>{t<string>('Sign & Submit')}</h3>
+          <div className='instructions'>
+            {instructions}
+          </div>
+          <Button.Group>
+            <Button
+              isPrimary
+              label={t<string>('Sign & Submit')}
+              onClick={_onSend}
+            />
+            <Button
+              label={t<string>('Cancel')}
+              onClick={onCancel}
+            />
+          </Button.Group>
+        </footer>
+      </div>
+      <div style={{ display: isSigning ? 'none' : 'block' }}>
+        {children}
+      </div>
     </div>
   );
 }
 
 export default React.memo(styled(PendingTx)`
+
   .details {
     ${ELEV_2_CSS}
     padding: 1rem 1.25rem;

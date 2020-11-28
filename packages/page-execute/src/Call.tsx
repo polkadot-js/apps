@@ -170,137 +170,133 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
     [contract?.registry, name, messageOptions, messageIndex, params, values, weight]
   );
 
-  if (pendingTx.currentItem) {
-    return (
-      <PendingTx
-        additionalDetails={additionalDetails}
-        instructions={t<string>('Sign and submit to call the contract message with the above parameters.')}
-        registry={contract?.registry}
-        {...pendingTx}
-      />
-    );
-  }
-
   if (isNull(contract) || isNull(messageIndex) || !contract?.abi?.messages[messageIndex]) {
     return null;
   }
 
   return (
-    <div className={className}>
-      <header>
-        <h1>{t<string>('Execute {{name}}', { replace: { name } })}</h1>
-        <div className='instructions'>
-          {t<string>('Using the unique code hash you can add on-chain contract code for you to deploy.')}
-        </div>
-      </header>
-      <section className={className}>
-        {contract && (
-          <>
-            <InputAddress
-              defaultValue={accountId}
-              help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
-              label={t<string>('Call from Account')}
-              onChange={setAccountId}
-              type='account'
-              value={accountId}
-            />
-            <Dropdown
-              defaultValue={messageIndex}
-              help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
-              isError={messageIndex >= contract?.abi?.messages.length}
-              label={t<string>('Message to Send')}
-              onChange={setMessageIndex}
-              options={messageOptions}
-              value={messageIndex}
-            />
-            <ContractParams
-              onChange={setValues}
-              params={params}
-              values={values}
-            />
-            <InputBalance
-              className='retain-appearance'
-              help={t<string>(contract.abi.messages[messageIndex].isPayable ? 'The balance to transfer to the contract as part of this call.' : 'This message is not payable.')}
-              isDisabled={!contract.abi.messages[messageIndex].isPayable}
-              isError={isPaymentError}
-              isZeroable
-              label={t<string>('Payment')}
-              onChange={setPayment}
-              value={payment}
-            />
-            <InputMegaGas
-              help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
-              label={t<string>('Maximum Gas Allowed')}
-              {...useWeightHook}
-            />
-            <Dropdown
-              onChange={setUseRpc}
-              options={[
-                {
-                  text: t<string>('Send as RPC call'),
-                  value: true
-                },
-                {
-                  text: t<string>('Send as transaction'),
-                  value: false
-                }
-              ]}
-              value={useRpc}
-            />
-          </>
-        )}
-        <Button.Group>
-          <Button
-            label={t<string>('Cancel')}
-            onClick={navigateTo.execute}
-          />
-          {useRpc
-            ? (
-              <Button
-                isDisabled={!isValid}
-                isPrimary
-                label={t<string>('Call')}
-                onClick={_onSubmitRpc}
-              />
-            )
-            : (
-              <TxButton
-                accountId={accountId}
-                isDisabled={!isValid}
-                isPrimary
-                label={t<string>('Call')}
-                params={_constructTx}
-                tx='contracts.call'
-              />
-            )
-          }
-
-        </Button.Group>
-      </section>
-      {outcomes.length > 0 && (
-        <footer>
-          <h3>
-            {t<string>('Call results')}
-            {/* <IconLink
-              className='clear-all'
-              icon='close'
-              label={t<string>('Clear all')}
-              onClick={_onClearOutcomes}
-            /> */}
-          </h3>
-          <div className='outcomes'>
-            {outcomes.map((outcome, index): React.ReactNode => (
-              <Outcome
-                key={`outcome-${index}`}
-                onClear={_onClearOutcome(index)}
-                outcome={outcome}
-                registry={contract.registry}
-              />
-            ))}
+    <PendingTx
+      additionalDetails={additionalDetails}
+      instructions={t<string>('Sign and submit to call the contract message with the above parameters.')}
+      registry={contract?.registry}
+      {...pendingTx}
+    >
+      <div className={className}>
+        <header>
+          <h1>{t<string>('Execute {{name}}', { replace: { name } })}</h1>
+          <div className='instructions'>
+            {t<string>('Using the unique code hash you can add on-chain contract code for you to deploy.')}
           </div>
-        </footer>
-      )}
-    </div>
+        </header>
+        <section className={className}>
+          {contract && (
+            <>
+              <InputAddress
+                defaultValue={accountId}
+                help={t<string>('Specify the user account to use for this contract call. And fees will be deducted from this account.')}
+                label={t<string>('Call from Account')}
+                onChange={setAccountId}
+                type='account'
+                value={accountId}
+              />
+              <Dropdown
+                defaultValue={messageIndex}
+                help={t<string>('The message to send to this contract. Parameters are adjusted based on the ABI provided.')}
+                isError={messageIndex >= contract?.abi?.messages.length}
+                label={t<string>('Message to Send')}
+                onChange={setMessageIndex}
+                options={messageOptions}
+                value={messageIndex}
+              />
+              <ContractParams
+                onChange={setValues}
+                params={params}
+                values={values}
+              />
+              <InputBalance
+                className='retain-appearance'
+                help={t<string>(contract.abi.messages[messageIndex].isPayable ? 'The balance to transfer to the contract as part of this call.' : 'This message is not payable.')}
+                isDisabled={!contract.abi.messages[messageIndex].isPayable}
+                isError={isPaymentError}
+                isZeroable
+                label={t<string>('Payment')}
+                onChange={setPayment}
+                value={payment}
+              />
+              <InputMegaGas
+                help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+                label={t<string>('Maximum Gas Allowed')}
+                {...useWeightHook}
+              />
+              <Dropdown
+                onChange={setUseRpc}
+                options={[
+                  {
+                    text: t<string>('Send as RPC call'),
+                    value: true
+                  },
+                  {
+                    text: t<string>('Send as transaction'),
+                    value: false
+                  }
+                ]}
+                value={useRpc}
+              />
+            </>
+          )}
+          <Button.Group>
+            <Button
+              label={t<string>('Cancel')}
+              onClick={navigateTo.execute}
+            />
+            {useRpc
+              ? (
+                <Button
+                  isDisabled={!isValid}
+                  isPrimary
+                  label={t<string>('Call')}
+                  onClick={_onSubmitRpc}
+                />
+              )
+              : (
+                <TxButton
+                  accountId={accountId}
+                  isDisabled={!isValid}
+                  isPrimary
+                  label={t<string>('Call')}
+                  params={_constructTx}
+                  tx='contracts.call'
+                />
+              )
+            }
+
+          </Button.Group>
+        </section>
+        {outcomes.length > 0 && (
+          <footer>
+            <h3>
+              {t<string>('Call results')}
+              {/* <IconLink
+                className='clear-all'
+                icon='close'
+                label={t<string>('Clear all')}
+                onClick={_onClearOutcomes}
+              /> */}
+            </h3>
+            <div className='outcomes'>
+              {outcomes.map((outcome, index): React.ReactNode => (
+                <Outcome
+                  key={`outcome-${index}`}
+                  onClear={_onClearOutcome(index)}
+                  outcome={outcome}
+                  registry={contract.registry}
+                />
+              ))}
+            </div>
+          </footer>
+        )}
+      </div>
+    </PendingTx>
   );
 }
 

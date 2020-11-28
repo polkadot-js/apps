@@ -11,6 +11,7 @@
   "Deploy {{contractName}}": "Deploy {{contractName}}",
   "Deployment Constructor": "Deployment Constructor",
   "Execute Contract": "Execute Contract",
+  "Sign and submit to instantiate this contract derived from the code hash.": "Sign and submit to instantiate this contract derived from the code hash.",
   "Sign and submite to instantiate this contract derived from the code hash.": "Sign and submite to instantiate this contract derived from the code hash.",
   "Specify the user account to use for this deployment. Any fees will be deducted from this account.": "Specify the user account to use for this deployment. Any fees will be deducted from this account.",
   "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.": "The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.",

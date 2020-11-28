@@ -161,102 +161,98 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
   //   return null;
   // }
 
-  if (pendingTx.currentItem) {
-    return (
-      <PendingTx
-        additionalDetails={additionalDetails}
-        instructions={t<string>('Sign and submite to instantiate this contract derived from the code hash.')}
-        registry={abi?.registry}
-        {...pendingTx}
-      />
-    );
-  }
-
   return (
-    <div className={className}>
-      <header>
-        <h1>{t<string>('Deploy {{contractName}}', { replace: { contractName: code?.name || 'Contract' } })}</h1>
-        <div className='instructions'>
-          {t<string>('Choose an account to deploy the contract from, give it a descriptive name and set the endowment amount.')}
-        </div>
-      </header>
-      <section>
-        <InputAddress
-          help={t<string>('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
-          isInput={false}
-          label={t<string>('deployment account')}
-          onChange={setAccountId}
-          type='account'
-          value={accountId}
-        />
-        <InputName
-          isContract
-          isError={isNameError}
-          onChange={setName}
-          value={name || ''}
-        />
-        <Labelled label={t<string>('Code Bundle')}>
-          <div className='code-bundle'>
-            <div className='name'>
-              {code?.name || ''}
-            </div>
-            <div className='code-hash'>
-              {truncate(code?.codeHash || '', 16)}
-            </div>
+    <PendingTx
+      additionalDetails={additionalDetails}
+      instructions={t<string>('Sign and submit to instantiate this contract derived from the code hash.')}
+      registry={abi?.registry}
+      {...pendingTx}
+    >
+      <div className={className}>
+        <header>
+          <h1>{t<string>('Deploy {{contractName}}', { replace: { contractName: code?.name || 'Contract' } })}</h1>
+          <div className='instructions'>
+            {t<string>('Choose an account to deploy the contract from, give it a descriptive name and set the endowment amount.')}
           </div>
-        </Labelled>
-        {abi && (
-          <>
-            <Dropdown
-              help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
-              isDisabled={abi.constructors.length <= 1}
-              label={t<string>('Deployment Constructor')}
-              onChange={setConstructorIndex}
-              options={constructOptions}
-              value={`${constructorIndex}`}
-            />
-            <ContractParams
-              onChange={setValues}
-              params={params || []}
-              values={values}
-            />
-          </>
-        )}
-        <InputBalance
-          help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
-          isError={!isEndowmentValid}
-          label={t<string>('endowment')}
-          onChange={setEndowment}
-          value={endowment}
-        />
-        <InputMegaGas
-          help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
-          label={t<string>('maximum gas allowed')}
-          {...useWeightHook}
-        />
-        <Button.Group>
-          <TxButton
-            accountId={accountId}
-            icon='cloud upload'
-            isDisabled={!isValid}
-            isPrimary
-            label={t<string>('Deploy')}
-            onSuccess={_onSuccess}
-            params={_constructCall}
-            tx={
-              api.tx.contracts
-                ? (
-                  !api.tx.contracts.instantiate
-                    ? 'contracts.create' // V2 (new)
-                    : 'contracts.instantiate' // V2 (old)
-                )
-                : 'contract.create' // V1
-            }
-            withSpinner
+        </header>
+        <section>
+          <InputAddress
+            help={t<string>('Specify the user account to use for this deployment. Any fees will be deducted from this account.')}
+            isInput={false}
+            label={t<string>('deployment account')}
+            onChange={setAccountId}
+            type='account'
+            value={accountId}
           />
-        </Button.Group>
-      </section>
-    </div>
+          <InputName
+            isContract
+            isError={isNameError}
+            onChange={setName}
+            value={name || ''}
+          />
+          <Labelled label={t<string>('Code Bundle')}>
+            <div className='code-bundle'>
+              <div className='name'>
+                {code?.name || ''}
+              </div>
+              <div className='code-hash'>
+                {truncate(code?.codeHash || '', 16)}
+              </div>
+            </div>
+          </Labelled>
+          {abi && (
+            <>
+              <Dropdown
+                help={t<string>('The deployment constructor information for this contract, as provided by the ABI.')}
+                isDisabled={abi.constructors.length <= 1}
+                label={t<string>('Deployment Constructor')}
+                onChange={setConstructorIndex}
+                options={constructOptions}
+                value={`${constructorIndex}`}
+              />
+              <ContractParams
+                onChange={setValues}
+                params={params || []}
+                values={values}
+              />
+            </>
+          )}
+          <InputBalance
+            help={t<string>('The allotted endowment for this contract, i.e. the amount transferred to the contract upon instantiation.')}
+            isError={!isEndowmentValid}
+            label={t<string>('endowment')}
+            onChange={setEndowment}
+            value={endowment}
+          />
+          <InputMegaGas
+            help={t<string>('The maximum amount of gas that can be used by this deployment, if the code requires more, the deployment will fail.')}
+            label={t<string>('maximum gas allowed')}
+            {...useWeightHook}
+          />
+          <Button.Group>
+            <TxButton
+              accountId={accountId}
+              icon='cloud upload'
+              isDisabled={!isValid}
+              isPrimary
+              label={t<string>('Deploy')}
+              onSuccess={_onSuccess}
+              params={_constructCall}
+              tx={
+                api.tx.contracts
+                  ? (
+                    !api.tx.contracts.instantiate
+                      ? 'contracts.create' // V2 (new)
+                      : 'contracts.instantiate' // V2 (old)
+                  )
+                  : 'contract.create' // V1
+              }
+              withSpinner
+            />
+          </Button.Group>
+        </section>
+      </div>
+    </PendingTx>
   );
 }
 
