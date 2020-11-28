@@ -1138,7 +1138,7 @@
   "launch period": "période de lancement",
   "legal name": "nom légal",
   "lifetime": "durée de vie",
-  "limit to elected": "Limiter aux élus",
+  "only elected": "Limiter aux élus",
   "lng.detect": "Language du navigateur (détection automatique)",
   "lock expired": "verrouillage expiré",
   "locked": "verrouillé",

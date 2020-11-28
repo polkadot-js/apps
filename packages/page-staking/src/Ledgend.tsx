@@ -64,7 +64,7 @@ function Ledgend ({ className }: Props): React.ReactElement<Props> {
 
 export default React.memo(styled(Ledgend)`
   font-size: 0.85rem;
-  padding: 1rem 0.5rem 0.5rem;
+  padding: 1rem 0.5rem;
   text-align: center;
 
   .ui--Badge {

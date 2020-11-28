@@ -1104,7 +1104,7 @@
   "launch period": "시작 기간",
   "legal name": "법정 이름",
   "lifetime": "일생",
-  "limit to elected": "선출된 자로 제한하다",
+  "only elected": "선출된 자로 제한하다",
   "lng.detect": "디폴트 브라우저 언어(자동 검색)",
   "lock expired": "록이 만료됐습니다",
   "locked": "잠겼습니다",
