@@ -1,31 +1,26 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Inflation } from '@polkadot/react-hooks/types';
-import type { Balance } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import { SummaryBox, CardSummary } from '@polkadot/react-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 
 interface Props {
   avgStaked?: BN;
-  inflation: Inflation;
   lowStaked?: BN;
   lastReward?: BN;
   numNominators?: number;
   numValidators?: number;
+  stakedReturn: number;
+  totalIssuance?: BN;
   totalStaked?: BN;
 }
 
-function Summary ({ avgStaked, inflation, lastReward, lowStaked, numNominators, numValidators, totalStaked }: Props): React.ReactElement<Props> {
+function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidators, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const { api } = useApi();
-  const totalIssuance = useCall<Balance>(api.query.balances?.totalIssuance);
 
   const progressStake = useMemo(
     () => totalIssuance && totalStaked && totalStaked.gtn(0)
@@ -53,35 +48,37 @@ function Summary ({ avgStaked, inflation, lastReward, lowStaked, numNominators, 
     <SummaryBox>
       <section className='media--800'>
         {totalIssuance && (
-          <CardSummary
-            label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')} / ` : ''}${t<string>('total issuance')}`}
-            progress={progressStake}
-          >
-            <div>
-              {totalStaked?.gtn(0) && (
-                <>
-                  <FormatBalance
-                    value={totalStaked}
-                    withCurrency={false}
-                    withSi
-                  />
-                  &nbsp;/&nbsp;
-                </>
-              )}
-              <FormatBalance
-                value={totalIssuance}
-                withSi
-              />
-            </div>
-          </CardSummary>
-        )}
-        {(inflation.stakedReturn > 0) && (
-          <CardSummary
-            className='media--1200'
-            label={t<string>('returns')}
-          >
-            {inflation.stakedReturn.toFixed(1)}%
-          </CardSummary>
+          <>
+            <CardSummary
+              label={`${totalStaked?.gtn(0) ? `${t<string>('total staked')} / ` : ''}${t<string>('total issuance')}`}
+              progress={progressStake}
+            >
+              <div>
+                {totalStaked?.gtn(0) && (
+                  <>
+                    <FormatBalance
+                      value={totalStaked}
+                      withCurrency={false}
+                      withSi
+                    />
+                    &nbsp;/&nbsp;
+                  </>
+                )}
+                <FormatBalance
+                  value={totalIssuance}
+                  withSi
+                />
+              </div>
+            </CardSummary>
+            {(stakedReturn > 0) && (
+              <CardSummary
+                className='media--1200'
+                label={t<string>('returns')}
+              >
+                {stakedReturn.toFixed(1)}%
+              </CardSummary>
+            )}
+          </>
         )}
       </section>
       {avgStaked && lowStaked && (

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { Inflation, StakerState } from '@polkadot/react-hooks/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Icon, InputBalance, Table, Toggle } from '@polkadot/react-components';
+import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
@@ -23,7 +23,6 @@ import useOwnNominators from './useOwnNominators';
 
 interface Props {
   className?: string;
-  inflation: Inflation;
   isInElection: boolean;
   ownStashes?: StakerState[];
   stakingOverview?: DeriveStakingOverview;
@@ -75,18 +74,18 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
 }
 
 function selectProfitable (maxPaid: BN |undefined, list: ValidatorInfo[], { withGroup, withIdentity, withoutComm, withoutOver }: Flags): string[] {
-  const parentIds: (string | null)[] = [];
+  const parentIds: string[] = [];
   const result: string[] = [];
 
   for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
-    const { commissionPer, hasIdentity, isElected, isFavorite, key, numNominators, parentId, rewardPayout } = list[i];
+    const { commissionPer, hasIdentity, isElected, isFavorite, key, numNominators, parentId, stakedReturnCmp } = list[i];
 
     if (
       (!withIdentity || hasIdentity) &&
       (isElected || isFavorite) &&
-      !rewardPayout.isZero() &&
+      stakedReturnCmp &&
       (isFavorite || (
-        (!withGroup || !parentIds.includes(parentId)) &&
+        (!withGroup || !parentId || !parentIds.includes(parentId)) &&
         (!withoutComm || commissionPer < 20) &&
         (!withoutOver || !maxPaid || maxPaid.gtn(numNominators))
       ))
@@ -99,7 +98,7 @@ function selectProfitable (maxPaid: BN |undefined, list: ValidatorInfo[], { with
   return result;
 }
 
-function Targets ({ className = '', inflation, isInElection, ownStashes, targets: { avgStaked, calcWith, lastReward, lowStaked, nominators, setCalcWith, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -160,7 +159,7 @@ function Targets ({ className = '', inflation, isInElection, ownStashes, targets
     rankBondTotal: t<string>('total stake'),
     rankComm: t<string>('comm.'),
     rankNumNominators: t<string>('nominators'),
-    rankOverall: t<string>('profit/era')
+    rankOverall: t<string>('return')
   });
 
   const header = useMemo(() => [
@@ -179,15 +178,6 @@ function Targets ({ className = '', inflation, isInElection, ownStashes, targets
   const filter = useMemo(() => (
     sorted && (
       <div>
-        <InputBalance
-          className='balanceInput'
-          help={t<string>('The amount that will be used on a per-validator basis to calculate profits for that validator.')}
-          isFull
-          isZeroable={false}
-          label={t<string>('amount to use for estimation')}
-          onChange={setCalcWith}
-          value={calcWith}
-        />
         <Filtering
           nameFilter={nameFilter}
           setNameFilter={setNameFilter}
@@ -221,17 +211,18 @@ function Targets ({ className = '', inflation, isInElection, ownStashes, targets
         </Filtering>
       </div>
     )
-  ), [calcWith, setCalcWith, nameFilter, sorted, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
+  ), [nameFilter, sorted, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
 
   return (
     <div className={className}>
       <Summary
         avgStaked={avgStaked}
-        inflation={inflation}
         lastReward={lastReward}
         lowStaked={lowStaked}
         numNominators={nominators?.length}
         numValidators={validators?.length}
+        stakedReturn={stakedReturn}
+        totalIssuance={totalIssuance}
         totalStaked={totalStaked}
       />
       <Button.Group>
