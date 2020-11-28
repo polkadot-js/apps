@@ -32,6 +32,11 @@ export interface ModalState {
   onClose: () => void;
 }
 
+export interface Inflation {
+  inflation: number;
+  stakedReturn: number;
+}
+
 export interface Slash {
   accountId: AccountId;
   amount: Balance;
