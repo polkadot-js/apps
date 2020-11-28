@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { Inflation } from '@polkadot/react-hooks/types';
 
 import React, { useContext } from 'react';
 import styled from 'styled-components';
@@ -14,7 +13,7 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  inflation: Inflation;
+  inflation: number;
   isVisible: boolean;
   next?: string[];
   nominators?: string[];
@@ -49,12 +48,12 @@ function Summary ({ className = '', inflation, isVisible, next, nominators, stak
             {nominators.length}
           </CardSummary>
         )}
-        {(inflation.inflation > 0) && (
+        {(inflation > 0) && (
           <CardSummary
             className='media--1200'
             label={t<string>('inflation')}
           >
-            {inflation.inflation.toFixed(1)}%
+            {inflation.toFixed(1)}%
           </CardSummary>
         )}
       </section>

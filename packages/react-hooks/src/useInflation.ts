@@ -29,7 +29,8 @@ const KNOWN_CONFIG: Record<string, Config> = {
   [POLKADOT_GENESIS]: { ...DEFAULT_CONFIG, idealStake: 0.75 }
 };
 
-function getInflation ({ falloff, idealStake, maxInflation, minInflation }: Config = DEFAULT_CONFIG, totalStaked: BN, totalIssuance: BN): Inflation {
+export function calcInflation (genesisHash: string, totalStaked: BN, totalIssuance: BN): Inflation {
+  const { falloff, idealStake, maxInflation, minInflation } = KNOWN_CONFIG[genesisHash] || DEFAULT_CONFIG;
   const stakedFraction = totalStaked.muln(1_000_000).div(totalIssuance).toNumber() / 1_000_000;
   const idealInterest = maxInflation / idealStake;
   const inflation = 100 * (minInflation + (
@@ -51,7 +52,7 @@ export function useInflation (totalStaked?: BN): Inflation {
 
   useEffect((): void => {
     totalIssuance && totalStaked && setState(
-      getInflation(KNOWN_CONFIG[api.genesisHash.toHex()], totalStaked, totalIssuance)
+      calcInflation(api.genesisHash.toHex(), totalStaked, totalIssuance)
     );
   }, [api, totalIssuance, totalStaked]);
 

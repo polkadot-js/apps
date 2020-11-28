@@ -7,17 +7,13 @@ import type { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { registry } from '@polkadot/react-api';
-import { useAccounts, useApi, useCall, useDebounce } from '@polkadot/react-hooks';
-import { BN_ONE, BN_ZERO, formatBalance } from '@polkadot/util';
+import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
+import { BN_ONE, BN_ZERO } from '@polkadot/util';
 
 const PERBILL = new BN(1_000_000_000);
 const EMPTY_PARTIAL = {};
-
-function baseBalance (): BN {
-  return new BN('1'.padEnd(formatBalance.getDefaults().decimals + 4, '0'));
-}
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
   return (info, index): ValidatorInfo => {
@@ -57,12 +53,12 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     .map(mapIndex('rankBondTotal'))
     .sort((a, b) => b.validatorPayment.cmp(a.validatorPayment))
     .map(mapIndex('rankPayment'))
-    .sort((a, b) => a.rewardSplit.cmp(b.rewardSplit))
+    .sort((a, b) => a.stakedReturnCmp - b.stakedReturnCmp)
     .map(mapIndex('rankReward'))
     .sort((a, b) => b.numNominators - a.numNominators)
     .map(mapIndex('rankNumNominators'))
     .sort((a, b): number => {
-      const cmp = b.rewardPayout.cmp(a.rewardPayout);
+      const cmp = b.stakedReturnCmp - a.stakedReturnCmp;
 
       return cmp !== 0
         ? cmp
@@ -80,7 +76,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], amount: BN = baseBalance(), derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN): [ValidatorInfo[], string[]] {
+function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const emptyExposure = registry.createType('Exposure');
   const info = derive.info;
@@ -99,9 +95,6 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), deriv
       : validatorPrefs.commission.unwrap().mul(perValidatorReward).div(PERBILL);
     const key = accountId.toString();
     const rewardSplit = perValidatorReward.sub(validatorPayment);
-    const rewardPayout = amount.isZero() || rewardSplit.isZero()
-      ? BN_ZERO
-      : amount.mul(rewardSplit).div(amount.add(bondTotal));
     const isNominating = (exposure.others || []).reduce((isNominating, indv): boolean => {
       const nominator = indv.who.toString();
 
@@ -136,8 +129,10 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), deriv
       rankOverall: 0,
       rankPayment: 0,
       rankReward: 0,
-      rewardPayout: skipRewards ? BN_ZERO : rewardPayout,
       rewardSplit,
+      skipRewards,
+      stakedReturn: 0,
+      stakedReturnCmp: 0,
       validatorPayment,
       validatorPrefs
     };
@@ -146,20 +141,38 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), deriv
   return [list, Object.keys(nominators)];
 }
 
-function extractInfo (allAccounts: string[], amount: BN = baseBalance(), electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], lastReward = BN_ONE): Partial<SortedTargets> {
+function extractInfo (genesisHash: string, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastReward = BN_ONE): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators] = extractSingle(allAccounts, amount, electedDerive, favorites, perValidatorReward);
-  const [waiting] = extractSingle(allAccounts, amount, waitingDerive, favorites, perValidatorReward);
-  const validators = sortValidators(elected.concat(waiting));
-  const validatorIds = validators.map(({ accountId }) => accountId.toString());
+  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward);
+  const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, perValidatorReward);
   const activeTotals = elected
     .filter(({ isActive }) => isActive)
     .map(({ bondTotal }) => bondTotal)
     .sort((a, b) => a.cmp(b));
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
+  const inflation = calcInflation(genesisHash, totalStaked, totalIssuance);
 
-  return { avgStaked, lowStaked: activeTotals[0] || BN_ZERO, nominators, totalStaked, validatorIds, validators };
+  // add the explicit stakedReturn
+  !avgStaked.isZero() && elected.forEach((e): void => {
+    if (!e.skipRewards) {
+      e.stakedReturn = inflation.stakedReturn * avgStaked.muln(1_000_000).div(e.bondTotal).toNumber() / 1_000_000;
+      e.stakedReturnCmp = e.stakedReturn * (100 - e.commissionPer) / 100;
+    }
+  });
+
+  const validators = sortValidators(elected.concat(waiting));
+
+  return {
+    avgStaked,
+    inflation,
+    lowStaked: activeTotals[0] || BN_ZERO,
+    nominators,
+    totalIssuance,
+    totalStaked,
+    validatorIds: validators.map(({ accountId }) => accountId.toString()),
+    validators
+  };
 }
 
 const transformEra = {
@@ -173,19 +186,18 @@ const transformReward = {
 export default function useSortedTargets (favorites: string[]): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo);
   const lastEra = useCall<BN>(api.derive.session.indexes, undefined, transformEra);
   const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], transformReward);
-  const [calcWith, setCalcWith] = useState<BN | undefined>(baseBalance());
-  const calcWithDebounce = useDebounce(calcWith);
 
   const partial = useMemo(
-    () => electedInfo && waitingInfo
-      ? extractInfo(allAccounts, calcWithDebounce, electedInfo, waitingInfo, favorites, lastReward)
+    () => electedInfo && totalIssuance && waitingInfo
+      ? extractInfo(api.genesisHash.toHex(), allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastReward)
       : EMPTY_PARTIAL,
-    [allAccounts, calcWithDebounce, electedInfo, favorites, lastReward, waitingInfo]
+    [api, allAccounts, electedInfo, favorites, lastReward, totalIssuance, waitingInfo]
   );
 
-  return { ...partial, calcWith, lastReward, setCalcWith };
+  return { inflation: { inflation: 0, stakedReturn: 0 }, ...partial, lastReward };
 }

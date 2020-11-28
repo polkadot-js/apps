@@ -15,7 +15,7 @@ export { useFormField } from './useFormField';
 export { useDebounce } from './useDebounce';
 export { useFavorites } from './useFavorites';
 export { useIncrement } from './useIncrement';
-export { useInflation } from './useInflation';
+export { calcInflation, useInflation } from './useInflation';
 export { useIpfs } from './useIpfs';
 export { useIsMountedRef } from './useIsMountedRef';
 export { useLoadingDelay } from './useLoadingDelay';
