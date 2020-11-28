@@ -93,4 +93,8 @@ export default React.memo(styled(Holder)`
       right: 3.5rem;
     }
   }
+
+  .ui--Params {
+    margin-top: 1.5rem;
+  }
 `);

@@ -3,7 +3,6 @@
 
 import { ComponentProps as Props } from '@canvas-ui/apps/types';
 import { FileState } from '@canvas-ui/react-hooks/types';
-import { Raw } from '@polkadot/types';
 
 import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -102,15 +101,12 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
   // const preparedWasm = useMemo((): Uint8Array | null => wasm ? compactAddLength(wasm.data) : null, [wasm]);
 
   return (
-    <>
-      {pendingTx.currentItem && (
-        <PendingTx
-          additionalDetails={additionalDetails}
-          instructions={t<string>('Sign and submit to upload this code bundle on the chain.')}
-          registry={registry}
-          {...pendingTx}
-        />
-      )}
+    <PendingTx
+      additionalDetails={additionalDetails}
+      instructions={t<string>('Sign and submit to upload this code bundle on the chain.')}
+      registry={registry}
+      {...pendingTx}
+    >
       <header>
         <h1>{t<string>('Upload WASM Code Blob')}</h1>
         <div className='instructions'>
@@ -147,7 +143,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           setFile={setAbiFile}
           withLabel
         />
-        {abi?.project.source.wasm && (abi.project.source.wasm as Raw).length === 0 && (
+        {abi?.project.source.wasm && abi.project.source.wasm.length === 0 && (
           <InputFile
             help={t<string>('The compiled WASM for the contract that you wish to deploy. Each unique code blob will be attached with a code hash that can be used to create new instances.')}
             isError={isWasmFromFileSupplied && !isWasmFromFileValid}
@@ -172,7 +168,7 @@ function Upload ({ basePath, navigateTo }: Props): React.ReactElement<Props> {
           />
         </Button.Group>
       </section>
-    </>
+    </PendingTx>
   );
 }
 

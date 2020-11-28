@@ -45,7 +45,7 @@ function Output ({ children, className = '', help, isError, isFull, isHidden, is
           isTrimmed={isTrimmed}
           registry={registry}
           type={type}
-          value={value}
+          value={value?.toJSON()}
         />
         {children}
         {withCopy

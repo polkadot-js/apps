@@ -30,9 +30,9 @@ function EnumParam (props: Props): React.ReactElement<Props> {
   const [{ options, subTypes }, setOptions] = useState<Options>({ options: [], subTypes: [] });
 
   useEffect((): void => {
-    const rawType = createType(registry, type.type as 'u32').toRawType();
-    const typeDef = getTypeDef(rawType);
-    const subTypes = typeDef.sub as TypeDef[];
+    // const rawType = createType(registry, type.type as 'u32').toRawType();
+    // const typeDef = getTypeDef(rawType);
+    const subTypes = type.sub as TypeDef[];
 
     setOptions({
       options: subTypes.map(({ name }): Option => ({
