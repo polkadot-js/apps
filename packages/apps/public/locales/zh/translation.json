@@ -1076,7 +1076,7 @@
   "launch period": "启动期",
   "legal name": "法定名称",
   "lifetime": "生命周期",
-  "limit to elected": "仅限于当选的",
+  "only elected": "仅限于当选的",
   "lng.detect": "默认浏览器语言 (自动检测)",
   "lock expired": "锁定已过期",
   "locked": "锁定",

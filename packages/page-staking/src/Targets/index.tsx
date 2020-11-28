@@ -13,6 +13,7 @@ import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
+import Ledgend from '../Ledgend';
 import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
 import Nominate from './Nominate';
@@ -30,8 +31,10 @@ interface Props {
 }
 
 interface Flags {
-  withIdentity: boolean;
   withGroup: boolean;
+  withIdentity: boolean;
+  withoutComm: boolean;
+  withoutOver: boolean;
 }
 
 interface SortState {
@@ -70,19 +73,22 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function selectProfitable (maxPaid: BN |undefined, list: ValidatorInfo[], { withGroup, withIdentity }: Flags): string[] {
+function selectProfitable (maxPaid: BN |undefined, list: ValidatorInfo[], { withGroup, withIdentity, withoutComm, withoutOver }: Flags): string[] {
   const parentIds: (string | null)[] = [];
   const result: string[] = [];
 
   for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
-    const { hasIdentity, isElected, isFavorite, key, numNominators, parentId, rewardPayout } = list[i];
+    const { commissionPer, hasIdentity, isElected, isFavorite, key, numNominators, parentId, rewardPayout } = list[i];
 
     if (
       (!withIdentity || hasIdentity) &&
       (isElected || isFavorite) &&
       !rewardPayout.isZero() &&
-      (!maxPaid || maxPaid.gtn(numNominators)) &&
-      (!withGroup || (isFavorite || !parentIds.includes(parentId)))
+      (isFavorite || (
+        (!withGroup || !parentIds.includes(parentId)) &&
+        (!withoutComm || commissionPer < 20) &&
+        (!withoutOver || !maxPaid || maxPaid.gtn(numNominators))
+      ))
     ) {
       result.push(key);
       parentId && parentIds.push(parentId);
@@ -102,6 +108,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const [withElected, setWithElected] = useState(false);
   const [withGroup, setWithGroup] = useState(true);
   const [withIdentity, setWithIdentity] = useState(false);
+  const [withoutComm, setWithoutComm] = useState(true);
+  const [withoutOver, setWithoutOver] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
   const [sorted, setSorted] = useState<number[] | undefined>();
 
@@ -140,9 +148,9 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     () => setSelected(selectProfitable(
       api.consts.staking?.maxNominatorRewardedPerValidator,
       validators || [],
-      { withGroup, withIdentity }
+      { withGroup, withIdentity, withoutComm, withoutOver }
     )),
-    [api, validators, withGroup, withIdentity]
+    [api, validators, withGroup, withIdentity, withoutComm, withoutOver]
   );
 
   const labelsRef = useRef({
@@ -193,14 +201,26 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           />
           <Toggle
             className='staking--buttonToggle'
-            label={t<string>('limit to elected')}
+            label={t<string>('no 20%+ comm')}
+            onChange={setWithoutComm}
+            value={withoutComm}
+          />
+          <Toggle
+            className='staking--buttonToggle'
+            label={t<string>('no oversubscribed')}
+            onChange={setWithoutOver}
+            value={withoutOver}
+          />
+          <Toggle
+            className='staking--buttonToggle'
+            label={t<string>('only elected')}
             onChange={setWithElected}
             value={withElected}
           />
         </Filtering>
       </div>
     )
-  ), [calcWith, setCalcWith, nameFilter, sorted, t, withElected, withGroup, withIdentity]);
+  ), [calcWith, setCalcWith, nameFilter, sorted, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
 
   return (
     <div className={className}>
@@ -230,6 +250,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         empty={sorted && t<string>('No active validators to check')}
         filter={filter}
         header={header}
+        ledgend={<Ledgend />}
       >
         {validators && sorted && (validators.length === sorted.length) && sorted.map((index): React.ReactNode =>
           <Validator
@@ -244,6 +265,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
             toggleSelected={_toggleSelected}
             withElected={withElected}
             withIdentity={withIdentity}
+            withoutComm={withoutComm}
+            withoutOver={withoutOver}
           />
         )}
       </Table>

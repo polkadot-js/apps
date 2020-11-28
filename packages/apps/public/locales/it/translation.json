@@ -1090,7 +1090,7 @@
   "launch period": "finestra di voto",
   "legal name": "nome legale",
   "lifetime": "perpetuo",
-  "limit to elected": "mostra validator eletti (attivi)",
+  "only elected": "mostra validator eletti (attivi)",
   "lng.detect": "Lingua del browser predefinita (rilevamento automatico)",
   "lock expired": "vincolo terminato",
   "locked": "bloccati/riservati",
