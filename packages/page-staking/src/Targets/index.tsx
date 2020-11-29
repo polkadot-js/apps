@@ -137,7 +137,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
-  const [nameFilter, setNameFilter] = useState<string>('');
+  const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
   const [withElected, setWithElected] = useState(false);
   const [withGroup, setWithGroup] = useState(true);
   const [withIdentity, setWithIdentity] = useState(false);
@@ -158,6 +158,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const flags = useMemo(
     () => ({
+      isQueryFiltered,
       maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator,
       withElected,
       withGroup,
@@ -165,7 +166,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       withoutComm,
       withoutOver
     }),
-    [api, withElected, withGroup, withIdentity, withoutComm, withoutOver]
+    [api, isQueryFiltered, withElected, withGroup, withIdentity, withoutComm, withoutOver]
   );
 
   const filtered = useMemo(
@@ -213,6 +214,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     [filtered]
   );
 
+  const _setNameFilter = useCallback(
+    (nameFilter: string, isQueryFiltered: boolean) => setNameFilter({ isQueryFiltered, nameFilter }),
+    []
+  );
+
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
@@ -229,7 +235,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     <div>
       <Filtering
         nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
+        setNameFilter={_setNameFilter}
         setWithIdentity={setWithIdentity}
         withIdentity={withIdentity}
       >
@@ -259,7 +265,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         />
       </Filtering>
     </div>
-  ), [nameFilter, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
+  ), [nameFilter, _setNameFilter, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
+
+  const displayList = isQueryFiltered
+    ? validators
+    : sorted;
 
   return (
     <div className={className}>
@@ -293,7 +303,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         header={header}
         legend={<Legend />}
       >
-        {sorted?.map((info): React.ReactNode =>
+        {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={selected.length < MAX_NOMINATIONS}
