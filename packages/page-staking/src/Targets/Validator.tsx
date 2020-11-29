@@ -63,7 +63,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
     return null;
   }
 
-  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, numNominators, rankOverall, stakedReturnCmp, validatorPayment } = info;
+  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp, validatorPayment } = info;
 
   return (
     <tr>
@@ -108,6 +108,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
+      <td className='number media--1400'>{lastPayout && formatNumber(lastPayout)}</td>
       <td className='number media--1200'>{numNominators || ''}</td>
       <td className='number'>
         {
