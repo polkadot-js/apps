@@ -216,6 +216,7 @@
   "proxy account": "",
   "reason": "",
   "recent blocks": "",
+  "recently": "",
   "referenda": "",
   "remaining": "",
   "reporters": "",
@@ -251,7 +252,9 @@
   "vote using my account": "",
   "votes": "",
   "voting end": "",
+  "yesterday": "",
   "{{balance}} voted": "",
   "{{count}} key/value pairs encoded for submission": "",
+  "{{days}} days": "",
   "{{percentage}}% turnout": ""
 }
