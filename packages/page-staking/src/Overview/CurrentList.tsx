@@ -13,7 +13,7 @@ import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
 import Filtering from '../Filtering';
-import Ledgend from '../Ledgend';
+import Legend from '../Legend';
 import { useTranslation } from '../translate';
 import Address from './Address';
 
@@ -180,7 +180,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           />
         }
         header={headerWaitingRef.current}
-        ledgend={<Ledgend />}
+        legend={<Legend />}
       >
         {isLoading ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
@@ -197,7 +197,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           />
         }
         header={headerActiveRef.current}
-        ledgend={<Ledgend />}
+        legend={<Legend />}
       >
         {isLoading ? undefined : _renderRows(validators, true)}
       </Table>

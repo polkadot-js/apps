@@ -28,10 +28,7 @@ interface Props {
   isSelected: boolean;
   toggleFavorite: (accountId: string) => void;
   toggleSelected: (accountId: string) => void;
-  withElected: boolean;
   withIdentity: boolean;
-  withoutComm: boolean;
-  withoutOver: boolean;
 }
 
 function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): [boolean, string | null] {
@@ -63,7 +60,7 @@ function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): [boole
   return [hasIdentity, parentId];
 }
 
-function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withElected, withIdentity, withoutComm, withoutOver }: Props): React.ReactElement<Props> | null {
+function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withIdentity }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
@@ -101,11 +98,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
     [info.key, toggleSelected]
   );
 
-  const nonToggled = (withElected && !info.isElected) ||
-    (withoutComm && info.commissionPer >= 20) ||
-    (withoutOver && api.consts.staking?.maxNominatorRewardedPerValidator?.lten(info.numNominators));
-
-  if (!isVisible || (!info.isFavorite && nonToggled)) {
+  if (!isVisible) {
     return null;
   }
 

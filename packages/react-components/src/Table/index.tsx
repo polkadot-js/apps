@@ -17,7 +17,7 @@ interface TableProps {
   footer?: React.ReactNode;
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
-  ledgend?: React.ReactNode;
+  legend?: React.ReactNode;
 }
 
 function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
@@ -31,12 +31,12 @@ function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, ledgend }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, legend }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, kids] = extractKids(children);
 
   return (
     <div className={`ui--Table ${className}`}>
-      {ledgend}
+      {legend}
       <table className={`${(isFixed && !isEmpty) ? 'isFixed' : 'isNotFixed'} highlight--bg-faint`}>
         <Head
           filter={filter}
