@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
+import type { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
 
 import secp256k1 from 'secp256k1/elliptic';
 import registry from '@polkadot/react-api/typeRegistry';
