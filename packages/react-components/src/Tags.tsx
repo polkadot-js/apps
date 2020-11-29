@@ -5,7 +5,6 @@ import type { VoidFn } from './types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
-import { classes } from './util';
 
 import EditButton from './EditButton';
 import InputTags from './InputTags';
@@ -24,7 +23,7 @@ interface Props {
   value: string[];
 }
 
-function Tags ({ children, className, isEditable, isEditing, onChange, onSave, onToggleIsEditing, value }: Props): React.ReactElement<Props> {
+function Tags ({ children, className = '', isEditable, isEditing, onChange, onSave, onToggleIsEditing, value }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const contents = useMemo(
@@ -48,7 +47,7 @@ function Tags ({ children, className, isEditable, isEditing, onChange, onSave, o
   );
 
   return (
-    <div className={classes('ui--Tags', className)}>
+    <div className={`ui--Tags ${className}`}>
       {isEditable && isEditing
         ? (
           <InputTags

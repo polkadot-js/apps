@@ -12,7 +12,7 @@ import keyring from '@polkadot/ui-keyring';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import { classes, getAddressName } from '../util';
+import { getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';
 import Dropdown from '../Dropdown';
 import createHeader from './createHeader';
@@ -159,7 +159,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return (
       <Dropdown
-        className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
+        className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
         defaultValue={_defaultValue}
         help={help}
         isDisabled={isDisabled}

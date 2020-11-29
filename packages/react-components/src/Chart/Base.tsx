@@ -6,8 +6,6 @@ import type { BaseProps } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { classes } from '../util';
-
 const Wrapper = styled.div`
   position: relative;
   display: inline-block;
@@ -18,7 +16,7 @@ const Wrapper = styled.div`
 
 function BaseChart ({ children, className = '' }: BaseProps): React.ReactElement<BaseProps> {
   return (
-    <Wrapper className={classes('ui--Chart', className)}>
+    <Wrapper className={`ui--Chart ${className}`}>
       {children}
     </Wrapper>
   );

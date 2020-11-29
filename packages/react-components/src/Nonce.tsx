@@ -6,8 +6,6 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React from 'react';
 import { Nonce } from '@polkadot/react-query';
 
-import { classes } from './util';
-
 export interface Props {
   className?: string;
   label?: React.ReactNode;
@@ -21,7 +19,7 @@ function NonceDisplay ({ className = '', label, params }: Props): React.ReactEle
 
   return (
     <Nonce
-      className={classes('ui--Nonce', className)}
+      className={`ui--Nonce ${className}`}
       label={label}
       params={params.toString()}
     />

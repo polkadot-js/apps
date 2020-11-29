@@ -4,7 +4,6 @@
 import type { Props, Props as CProps } from '../types';
 
 import React, { useMemo, useRef } from 'react';
-import { classes } from '@polkadot/react-components/util';
 import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 
@@ -35,7 +34,7 @@ function Param ({ className = '', defaultValue, isDisabled, isInOption, isOption
     )
     : (
       <compRef.current
-        className={classes('ui--Param', className)}
+        className={`ui--Param ${className}`}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
         isInOption={isInOption}

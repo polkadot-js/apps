@@ -12,7 +12,6 @@ import Button from '../Button';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
-import { classes } from '../util';
 import StatusContext from './Context';
 import { STATUS_COMPLETE } from './constants';
 
@@ -70,7 +69,7 @@ function signerIconName (status: QueueTxStatus): IconName {
 function renderStatus ({ account, action, id, message, removeItem, status }: QueueStatus): React.ReactNode {
   return (
     <div
-      className={classes('item', status)}
+      className={`item ${status}`}
       key={id}
     >
       <div className='wrapper'>
@@ -117,7 +116,7 @@ function renderItem ({ error, extrinsic, id, removeItem, rpc, status }: QueueTx)
 
   return (
     <div
-      className={classes('item', status)}
+      className={`item ${status}`}
       key={id}
     >
       <div className='wrapper'>

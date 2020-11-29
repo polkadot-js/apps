@@ -12,7 +12,7 @@ import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';
 
 import { useTranslation } from './translate';
-import { classes, getContractAbi } from './util';
+import { getContractAbi } from './util';
 
 export interface Props {
   children?: React.ReactNode;
@@ -64,7 +64,7 @@ function EventDisplay ({ children, className = '', value }: Props): React.ReactE
   );
 
   return (
-    <div className={classes('ui--Event', className)}>
+    <div className={`ui--Event ${className}`}>
       {children}
       <Params
         isDisabled

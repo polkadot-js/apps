@@ -8,7 +8,6 @@ import React, { useCallback } from 'react';
 import { ApiPromise } from '@polkadot/api';
 
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
 
 interface Props {
   api: ApiPromise;
@@ -32,7 +31,7 @@ function SelectMethod ({ api, className = '', isError, onChange, options, value 
 
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
+      className={`ui--DropdownLinked-Items ${className}`}
       isError={isError}
       onChange={onChange}
       options={options}

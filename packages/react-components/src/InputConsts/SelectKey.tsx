@@ -7,7 +7,6 @@ import type { ConstValueBase } from './types';
 import React from 'react';
 
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
 
 interface Props {
   className?: string;
@@ -37,7 +36,7 @@ function SelectKey (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
+      className={`ui--DropdownLinked-Items ${className}`}
       isError={isError}
       onChange={onChange}
       options={options}

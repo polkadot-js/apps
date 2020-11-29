@@ -8,7 +8,6 @@ import React, { useCallback } from 'react';
 
 import Dropdown from '../Dropdown';
 import rpcs from './rpcs';
-import { classes } from '../util';
 
 interface Props {
   className?: string;
@@ -30,7 +29,7 @@ function SelectMethod ({ className = '', isError, onChange, options, value }: Pr
 
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
+      className={`ui--DropdownLinked-Items ${className}`}
       isError={isError}
       onChange={onChange}
       options={options}

@@ -7,7 +7,6 @@ import type { DropdownOptions } from '../util/types';
 import React from 'react';
 
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
 
 interface Props {
   className?: string;
@@ -21,7 +20,7 @@ interface Props {
 function SelectSection ({ className = '', defaultValue, isError, onChange, options, value: { creator: { section } } }: Props): React.ReactElement<Props> {
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Sections', className)}
+      className={`ui--DropdownLinked-Sections ${className}`}
       defaultValue={defaultValue}
       isError={isError}
       onChange={onChange}

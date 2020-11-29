@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from './Icon';
-import { classes } from './util';
 import Tooltip from './Tooltip';
 
 interface Props {
@@ -21,7 +20,7 @@ function LabelHelp ({ className = '', help, icon = 'question-circle' }: Props): 
   const [trigger] = useState(`label-help-${++id}`);
 
   return (
-    <div className={classes('ui--LabelHelp', className)}>
+    <div className={`ui--LabelHelp ${className}`}>
       <Icon
         icon={icon}
         tooltip={trigger}
