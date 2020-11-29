@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-function Ledgend ({ className }: Props): React.ReactElement<Props> {
+function Legend ({ className }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (
@@ -62,7 +62,7 @@ function Ledgend ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Ledgend)`
+export default React.memo(styled(Legend)`
   font-size: 0.85rem;
   padding: 1rem 0.5rem;
   text-align: center;
