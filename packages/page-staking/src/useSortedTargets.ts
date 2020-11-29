@@ -104,6 +104,7 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
       return isNominating || allAccounts.includes(nominator);
     }, allAccounts.includes(key));
     const isElected = !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId));
+    const lastPayout = stakingLedger.claimedRewards[stakingLedger.claimedRewards.length - 1];
 
     return {
       accountId,
@@ -119,6 +120,7 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
       isFavorite: favorites.includes(key),
       isNominating,
       key,
+      lastPayout,
       numNominators: (exposure.others || []).length,
       rankBondOther: 0,
       rankBondOwn: 0,
