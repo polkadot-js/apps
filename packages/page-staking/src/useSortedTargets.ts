@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ApiPromise } from '@polkadot/api';
-import type { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
+import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
@@ -12,6 +12,13 @@ import { useMemo } from 'react';
 import { registry } from '@polkadot/react-api';
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
+
+interface LastEra {
+  eraLength: BN;
+  lastEra: BN;
+  lastEraEnd: BN;
+  sessionLength: BN;
+}
 
 const PERBILL = new BN(1_000_000_000);
 const EMPTY_PARTIAL = {};
@@ -77,7 +84,7 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN): [ValidatorInfo[], string[]] {
+function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, { eraLength, lastEra, sessionLength }: LastEra): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const emptyExposure = registry.createType('Exposure');
   const info = derive.info;
@@ -104,7 +111,14 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
       return isNominating || allAccounts.includes(nominator);
     }, allAccounts.includes(key));
     const isElected = !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId));
-    const lastPayout = stakingLedger.claimedRewards[stakingLedger.claimedRewards.length - 1];
+    const lastEraPayout = !lastEra.isZero()
+      ? stakingLedger.claimedRewards[stakingLedger.claimedRewards.length - 1]
+      : undefined;
+    let lastPayout: BN | undefined = lastEraPayout;
+
+    if (lastPayout && !sessionLength.eq(BN_ONE)) {
+      lastPayout = lastEra.sub(lastPayout).mul(eraLength);
+    }
 
     return {
       accountId,
@@ -142,10 +156,10 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
   return [list, Object.keys(nominators)];
 }
 
-function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastReward = BN_ONE): Partial<SortedTargets> {
+function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, lastReward: BN): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward);
-  const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, perValidatorReward);
+  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward, lastEraInfo);
+  const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, perValidatorReward, lastEraInfo);
   const activeTotals = elected
     .filter(({ isActive }) => isActive)
     .map(({ bondTotal }) => bondTotal)
@@ -177,7 +191,12 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
 }
 
 const transformEra = {
-  transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : BN_ZERO
+  transform: ({ activeEra, activeEraStart, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
+    eraLength,
+    lastEra: activeEra.gtn(0) ? activeEra.subn(1) : BN_ZERO,
+    lastEraEnd: activeEra.gtn(0) && activeEraStart.isSome ? activeEraStart.unwrap() : BN_ZERO,
+    sessionLength
+  })
 };
 
 const transformReward = {
@@ -190,14 +209,14 @@ export default function useSortedTargets (favorites: string[]): SortedTargets {
   const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo);
-  const lastEra = useCall<BN>(api.derive.session.indexes, undefined, transformEra);
-  const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], transformReward);
+  const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
+  const lastReward = useCall<BN>(lastEraInfo && api.query.staking.erasValidatorReward, [lastEraInfo?.lastEra], transformReward);
 
   const partial = useMemo(
-    () => electedInfo && totalIssuance && waitingInfo
-      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastReward)
+    () => electedInfo && lastEraInfo && lastReward && totalIssuance && waitingInfo
+      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, lastReward)
       : EMPTY_PARTIAL,
-    [api, allAccounts, electedInfo, favorites, lastReward, totalIssuance, waitingInfo]
+    [api, allAccounts, electedInfo, favorites, lastEraInfo, lastReward, totalIssuance, waitingInfo]
   );
 
   return { inflation: { inflation: 0, stakedReturn: 0 }, ...partial, lastReward };

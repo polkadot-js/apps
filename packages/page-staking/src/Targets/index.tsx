@@ -221,7 +221,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
-    [t('paid'), 'media--1400'],
+    [t('payout'), 'media--1500'],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,

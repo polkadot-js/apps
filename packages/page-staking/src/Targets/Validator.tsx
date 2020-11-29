@@ -10,7 +10,7 @@ import React, { useCallback, useMemo } from 'react';
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { FormatBalance } from '@polkadot/react-query';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import MaxBadge from '../MaxBadge';
@@ -32,6 +32,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
   const { t } = useTranslation();
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
+  const [,, time] = useBlockTime(info.lastPayout);
 
   const isVisible = useMemo(
     () => accountInfo
@@ -108,7 +109,17 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       <td className='address all'>
         <AddressSmall value={accountId} />
       </td>
-      <td className='number media--1400'>{lastPayout && formatNumber(lastPayout)}</td>
+      <td className='number media--1400'>
+        {lastPayout && (
+          api.consts.babe
+            ? time.days
+              ? time.days === 1
+                ? t('yesterday')
+                : t('{{days}} days', { replace: { days: time.days } })
+              : t('recently')
+            : formatNumber(lastPayout)
+        )}
+      </td>
       <td className='number media--1200'>{numNominators || ''}</td>
       <td className='number'>
         {
