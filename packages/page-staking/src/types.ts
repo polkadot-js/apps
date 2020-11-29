@@ -47,7 +47,6 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   bondTotal: Balance;
   commissionPer: number;
   exposure: Exposure;
-  hasIdentity: boolean;
   isActive: boolean;
   isCommission: boolean;
   isElected: boolean;
@@ -55,7 +54,6 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   isNominating: boolean;
   key: string;
   numNominators: number;
-  parentId: string | null;
   rewardSplit: BN;
   skipRewards: boolean;
   stakedReturn: number;
