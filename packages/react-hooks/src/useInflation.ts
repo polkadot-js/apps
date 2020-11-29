@@ -1,36 +1,18 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { Inflation } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
-import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '@polkadot/apps-config';
+import { getInflationParams } from '@polkadot/apps-config';
 
 import { useApi } from './useApi';
 import { useCall } from './useCall';
 
-interface Config {
-  falloff: number;
-  idealStake: number;
-  maxInflation: number;
-  minInflation: number;
-}
-
-const DEFAULT_CONFIG: Config = {
-  falloff: 0.05,
-  idealStake: 0.5,
-  maxInflation: 0.1,
-  minInflation: 0.025
-};
-
-const KNOWN_CONFIG: Record<string, Config> = {
-  [KUSAMA_GENESIS]: { ...DEFAULT_CONFIG, idealStake: 0.75 },
-  [POLKADOT_GENESIS]: { ...DEFAULT_CONFIG, idealStake: 0.75 }
-};
-
-export function calcInflation (genesisHash: string, totalStaked: BN, totalIssuance: BN): Inflation {
-  const { falloff, idealStake, maxInflation, minInflation } = KNOWN_CONFIG[genesisHash] || DEFAULT_CONFIG;
+export function calcInflation (api: ApiPromise, totalStaked: BN, totalIssuance: BN): Inflation {
+  const { falloff, idealStake, maxInflation, minInflation } = getInflationParams(api);
   const stakedFraction = totalStaked.muln(1_000_000).div(totalIssuance).toNumber() / 1_000_000;
   const idealInterest = maxInflation / idealStake;
   const inflation = 100 * (minInflation + (
@@ -52,7 +34,7 @@ export function useInflation (totalStaked?: BN): Inflation {
 
   useEffect((): void => {
     totalIssuance && totalStaked && setState(
-      calcInflation(api.genesisHash.toHex(), totalStaked, totalIssuance)
+      calcInflation(api, totalStaked, totalIssuance)
     );
   }, [api, totalIssuance, totalStaked]);
 

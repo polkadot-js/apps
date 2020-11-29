@@ -5,12 +5,12 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
+import { getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { getThreshold } from '../thresholds';
 
 interface Props {
   isMember: boolean;
@@ -38,7 +38,7 @@ function Propose ({ isMember, members }: Props): React.ReactElement<Props> {
   useEffect((): void => {
     members && setThreshold({
       isThresholdValid: members.length !== 0,
-      threshold: new BN(Math.ceil(members.length * getThreshold(api)))
+      threshold: new BN(Math.ceil(members.length * getProposalThreshold(api)))
     });
   }, [api, members]);
 
