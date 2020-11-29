@@ -298,6 +298,12 @@ export default createGlobalStyle<Props>`
     }
   }
 
+  .tippy-box {
+    background: transparent !important;
+    margin: 0 !important;
+    max-width: 640px !important;
+  }
+
   /* Add our overrides */
   ${cssSemantic}
   ${cssTheme}

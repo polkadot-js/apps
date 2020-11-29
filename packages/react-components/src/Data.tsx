@@ -212,7 +212,7 @@ function Data ({ asJson = false, className, registry = baseRegistry, type, value
 
       return truncate(codec.toHex(), TRUNCATE_TO);
     },
-    [value, registry, type]
+    [asJson, value, registry, type]
   );
 
   return (
