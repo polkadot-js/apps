@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
+import type { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { AddressMini, Expander, Spinner } from '@polkadot/react-components';

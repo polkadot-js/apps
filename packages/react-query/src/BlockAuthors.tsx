@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { EraRewardPoints } from '@polkadot/types/interfaces';
+import type { EraRewardPoints } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
 import { HeaderExtended } from '@polkadot/api-derive';
