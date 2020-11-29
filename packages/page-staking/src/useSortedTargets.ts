@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
@@ -141,7 +142,7 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
   return [list, Object.keys(nominators)];
 }
 
-function extractInfo (genesisHash: string, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastReward = BN_ONE): Partial<SortedTargets> {
+function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastReward = BN_ONE): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
   const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward);
   const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, perValidatorReward);
@@ -151,7 +152,7 @@ function extractInfo (genesisHash: string, allAccounts: string[], electedDerive:
     .sort((a, b) => a.cmp(b));
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
-  const inflation = calcInflation(genesisHash, totalStaked, totalIssuance);
+  const inflation = calcInflation(api, totalStaked, totalIssuance);
 
   // add the explicit stakedReturn
   !avgStaked.isZero() && elected.forEach((e): void => {
@@ -194,7 +195,7 @@ export default function useSortedTargets (favorites: string[]): SortedTargets {
 
   const partial = useMemo(
     () => electedInfo && totalIssuance && waitingInfo
-      ? extractInfo(api.genesisHash.toHex(), allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastReward)
+      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastReward)
       : EMPTY_PARTIAL,
     [api, allAccounts, electedInfo, favorites, lastReward, totalIssuance, waitingInfo]
   );
