@@ -169,8 +169,12 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const filtered = useMemo(
-    () => allIdentity && validators && filterValidators(validators, allIdentity, flags),
-    [allIdentity, flags, validators]
+    () => allIdentity && validators && (
+      nameFilter
+        ? validators
+        : filterValidators(validators, allIdentity, flags)
+    ),
+    [allIdentity, flags, nameFilter, validators]
   );
 
   // We are using an effect here to get this async. Sorting will have a double-render, however it allows
