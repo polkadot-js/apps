@@ -40,13 +40,13 @@ const EmptyAuthorsContext: React.Context<Authors> = React.createContext<Authors>
 
 function filterAccounts (accounts: string[] = [], elected: string[], favorites: string[], without: string[]): AccountExtend[] {
   return accounts
-    .filter((accountId): boolean => !without.includes(accountId as any))
+    .filter((accountId) => !without.includes(accountId))
     .map((accountId): AccountExtend => [
       accountId,
       elected.includes(accountId),
       favorites.includes(accountId)
     ])
-    .sort(([,, isFavA]: AccountExtend, [,, isFavB]: AccountExtend): number =>
+    .sort(([,, isFavA]: AccountExtend, [,, isFavB]: AccountExtend) =>
       isFavA === isFavB
         ? 0
         : (isFavA ? -1 : 1)
@@ -54,7 +54,7 @@ function filterAccounts (accounts: string[] = [], elected: string[], favorites: 
 }
 
 function accountsToString (accounts: AccountId[]): string[] {
-  return accounts.map((accountId): string => accountId.toString());
+  return accounts.map((accountId) => accountId.toString());
 }
 
 function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[], next?: string[]): Filtered {

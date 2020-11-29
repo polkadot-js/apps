@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { DeriveStakingOverview, DeriveHasIdentity } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useCall } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
@@ -51,13 +51,38 @@ const CLASSES: Record<string, string> = {
 const MAX_COMM_FILTER = 20;
 const SORT_KEYS = ['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
-function isIncluded ({ commissionPer, hasIdentity, isElected, isFavorite, numNominators }: ValidatorInfo, { maxPaid, withElected, withIdentity, withoutComm, withoutOver }: Flags): boolean {
-  return isFavorite || (
-    (!withIdentity || hasIdentity) &&
-    (!withElected || isElected) &&
-    (!withoutComm || commissionPer < MAX_COMM_FILTER) &&
-    (!withoutOver || !maxPaid || maxPaid.gtn(numNominators))
-  );
+function filterValidators (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { maxPaid, withElected, withGroup, withIdentity, withoutComm, withoutOver }: Flags): ValidatorInfo[] {
+  const parentIds: string[] = [];
+
+  return validators.filter(({ accountId, commissionPer, isElected, isFavorite, numNominators }): boolean => {
+    if (isFavorite) {
+      return true;
+    }
+
+    const stashId = accountId.toString();
+    const thisIdentity = allIdentity[stashId];
+
+    if (
+      (!withIdentity || !!thisIdentity?.hasIdentity) &&
+      (!withElected || isElected) &&
+      (!withoutComm || (commissionPer < MAX_COMM_FILTER)) &&
+      (!withoutOver || !maxPaid || maxPaid.gtn(numNominators))
+    ) {
+      if (!withGroup || !thisIdentity || !thisIdentity.parentId) {
+        if (!parentIds.includes(stashId)) {
+          parentIds.push(stashId);
+
+          return true;
+        }
+      } else if (!parentIds.includes(thisIdentity.parentId)) {
+        parentIds.push(thisIdentity.parentId);
+
+        return true;
+      }
+    }
+
+    return false;
+  });
 }
 
 function sort (sortBy: TargetSortBy, sortFromMax: boolean, validators: ValidatorInfo[]): ValidatorInfo[] {
@@ -84,33 +109,35 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function selectProfitable (list: ValidatorInfo[], flags: Flags): string[] {
-  const parentIds: string[] = [];
+function transformIdentity ([[validatorIds], hasIdentities]: [[string[]], DeriveHasIdentity[]]): Record<string, DeriveHasIdentity> {
+  return validatorIds.reduce((result: Record<string, DeriveHasIdentity>, validatorId, index): Record<string, DeriveHasIdentity> => {
+    result[validatorId] = hasIdentities[index];
+
+    return result;
+  }, {});
+}
+
+function selectProfitable (list: ValidatorInfo[]): string[] {
   const result: string[] = [];
-  const { withGroup } = flags;
 
   for (let i = 0; i < list.length && result.length < MAX_NOMINATIONS; i++) {
-    const { isFavorite, key, parentId, stakedReturnCmp } = list[i];
+    const { isFavorite, key, stakedReturnCmp } = list[i];
 
-    if (isFavorite || (
-      (stakedReturnCmp > 0) &&
-      (!withGroup || !parentId || !parentIds.includes(parentId))
-    )) {
+    if (isFavorite || (stakedReturnCmp > 0)) {
       result.push(key);
-      parentId && parentIds.push(parentId);
     }
   }
 
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validatorIds = [], validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
-  const [nameFilter, setNameFilter] = useState<string>('');
+  const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
   const [withElected, setWithElected] = useState(false);
   const [withGroup, setWithGroup] = useState(true);
   const [withIdentity, setWithIdentity] = useState(false);
@@ -118,6 +145,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const [withoutOver, setWithoutOver] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
+  const allIdentity = useCall<Record<string, DeriveHasIdentity>>(api.derive.accounts.hasIdentityMulti, [validatorIds], { transform: transformIdentity, withParamsTransform: true });
 
   const labelsRef = useRef({
     rankBondOther: t<string>('other stake'),
@@ -130,6 +158,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const flags = useMemo(
     () => ({
+      isQueryFiltered,
       maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator,
       withElected,
       withGroup,
@@ -137,12 +166,12 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       withoutComm,
       withoutOver
     }),
-    [api, withElected, withGroup, withIdentity, withoutComm, withoutOver]
+    [api, isQueryFiltered, withElected, withGroup, withIdentity, withoutComm, withoutOver]
   );
 
   const filtered = useMemo(
-    () => validators && validators.filter((info) => isIncluded(info, flags)),
-    [flags, validators]
+    () => allIdentity && validators && filterValidators(validators, allIdentity, flags),
+    [allIdentity, flags, validators]
   );
 
   // We are using an effect here to get this async. Sorting will have a double-render, however it allows
@@ -180,9 +209,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const _selectProfitable = useCallback(
     () => filtered && setSelected(
-      selectProfitable(filtered, flags)
+      selectProfitable(filtered)
     ),
-    [filtered, flags]
+    [filtered]
+  );
+
+  const _setNameFilter = useCallback(
+    (nameFilter: string, isQueryFiltered: boolean) => setNameFilter({ isQueryFiltered, nameFilter }),
+    []
   );
 
   const header = useMemo(() => [
@@ -201,7 +235,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     <div>
       <Filtering
         nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
+        setNameFilter={_setNameFilter}
         setWithIdentity={setWithIdentity}
         withIdentity={withIdentity}
       >
@@ -231,7 +265,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         />
       </Filtering>
     </div>
-  ), [nameFilter, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
+  ), [nameFilter, _setNameFilter, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
+
+  const displayList = isQueryFiltered
+    ? validators
+    : sorted;
 
   return (
     <div className={className}>
@@ -265,7 +303,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         header={header}
         legend={<Legend />}
       >
-        {sorted?.map((info): React.ReactNode =>
+        {displayList?.map((info): React.ReactNode =>
           <Validator
             allSlashes={allSlashes}
             canSelect={selected.length < MAX_NOMINATIONS}
@@ -276,7 +314,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
             key={info.key}
             toggleFavorite={toggleFavorite}
             toggleSelected={_toggleSelected}
-            withIdentity={withIdentity}
           />
         )}
       </Table>

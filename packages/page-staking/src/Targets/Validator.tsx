@@ -6,14 +6,12 @@ import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import type { ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { ApiPromise } from '@polkadot/api';
+import React, { useCallback, useMemo } from 'react';
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
-import keyring from '@polkadot/ui-keyring';
 
 import MaxBadge from '../MaxBadge';
 import Favorite from '../Overview/Address/Favorite';
@@ -28,55 +26,18 @@ interface Props {
   isSelected: boolean;
   toggleFavorite: (accountId: string) => void;
   toggleSelected: (accountId: string) => void;
-  withIdentity: boolean;
 }
 
-function checkIdentity (api: ApiPromise, accountInfo: DeriveAccountInfo): [boolean, string | null] {
-  let hasIdentity = false;
-  let parentId: string | null = null;
-
-  const { accountId, identity, nickname } = accountInfo;
-
-  if (accountId) {
-    parentId = accountId.toString();
-  }
-
-  if (api.query.identity && api.query.identity.identityOf) {
-    hasIdentity = !!(identity?.display && identity.display.toString());
-
-    if (identity.parent) {
-      parentId = identity.parent.toString();
-    }
-  } else if (nickname) {
-    hasIdentity = !!nickname.toString();
-  }
-
-  if (!hasIdentity && accountId) {
-    const account = keyring.getAddress(accountId.toString());
-
-    hasIdentity = !!account?.meta?.name;
-  }
-
-  return [hasIdentity, parentId];
-}
-
-function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected, withIdentity }: Props): React.ReactElement<Props> | null {
+function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
 
-  useEffect((): void => {
-    if (accountInfo) {
-      const [hasIdentity, parentId] = checkIdentity(api, accountInfo);
-
-      info.hasIdentity = hasIdentity;
-      info.parentId = parentId;
-    }
-  }, [api, accountInfo, info]);
-
   const isVisible = useMemo(
-    () => accountInfo ? checkVisibility(api, info.key, accountInfo, filterName, withIdentity) : true,
-    [accountInfo, api, filterName, info, withIdentity]
+    () => accountInfo
+      ? checkVisibility(api, info.key, accountInfo, filterName)
+      : true,
+    [accountInfo, api, filterName, info]
   );
 
   const slashes = useMemo(
