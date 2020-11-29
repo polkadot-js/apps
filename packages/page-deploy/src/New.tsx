@@ -61,7 +61,7 @@ function New ({ allCodes, className, navigateTo }: Props): React.ReactElement<Pr
             key: `${index}`,
             text: (
               <MessageSignature
-                asConstructor
+                isConstructor
                 message={constructor}
                 registry={abi.registry}
               />

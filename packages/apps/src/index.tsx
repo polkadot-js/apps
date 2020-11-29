@@ -4,6 +4,7 @@
 // setup these right at front
 import './initSettings';
 import 'semantic-ui-css/semantic.min.css';
+import 'tippy.js/dist/tippy.css'; // optional
 import '@canvas-ui/react-components/i18n';
 
 import React, { Suspense } from 'react';

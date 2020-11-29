@@ -9,7 +9,7 @@ import { Raw } from '@polkadot/types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import store from '@canvas-ui/apps/store';
-import { ELEV_1_CSS } from '@canvas-ui/react-components/styles/constants';
+import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 import { useAbi, useToggle } from '@canvas-ui/react-hooks';
 
 import Abi from './Abi';
@@ -94,7 +94,7 @@ function CodeCard ({ className, code, code: { id }, navigateTo, onForget: _onFor
 }
 
 export default styled(React.memo(CodeCard))`
-  ${ELEV_1_CSS}
+  ${ELEV_2_CSS}
 
   .footer {
     display: flex;

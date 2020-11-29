@@ -14,7 +14,7 @@ export const ELEV_0_CSS = `
 
 export const ELEV_1_CSS = `
   ${ELEV_CSS}
-  background: var(--grey15);
+  background: var(--grey10);
 `;
 
 export const ELEV_2_CSS = `

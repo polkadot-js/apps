@@ -6,7 +6,7 @@ import { ComponentProps } from '@canvas-ui/apps/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { ELEV_1_CSS } from '@canvas-ui/react-components/styles/constants';
+import { ELEV_2_CSS } from '@canvas-ui/react-components/styles/constants';
 
 import Abi from './Abi';
 import Button from './Button';
@@ -51,7 +51,7 @@ function ContractCard ({ className, contract: { abi, address }, navigateTo }: Pr
 }
 
 export default styled(React.memo(ContractCard))`
-  ${ELEV_1_CSS}
+  ${ELEV_2_CSS}
 
   .footer {
     display: flex;

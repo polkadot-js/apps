@@ -26,7 +26,7 @@ function MessageSignature ({ className, message: { args, identifier, isConstruct
   const { t } = useTranslation();
 
   return (
-    <div className={classes(className, isConstructor && 'asConstructor')}>
+    <div className={classes(className, isConstructor && 'isConstructor')}>
       <span className='ui--MessageSignature-name'>
         {identifier}
       </span>
@@ -114,7 +114,7 @@ export default React.memo(
       font-weight: bold;
     }
 
-    &.asConstructor .ui--MessageSignature-name {
+    &.isConstructor .ui--MessageSignature-name {
       color: var(--blue-primary);
     }
 
