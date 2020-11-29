@@ -175,6 +175,7 @@
   "next": "next",
   "no 20%+ comm": "no 20%+ comm",
   "no oversubscribed": "no oversubscribed",
+  "no {{maxComm}}%+ comm": "no {{maxComm}}%+ comm",
   "nominated accounts": "nominated accounts",
   "nominators": "nominators",
   "on-chain bonding duration": "on-chain bonding duration",
