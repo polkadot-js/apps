@@ -72,7 +72,7 @@ function SummarySession ({ withEra = true, withSession = true }: Props): React.R
                       className='isSecondary'
                       value={activeEraStart}
                     >
-                      &nbsp;{t('elpased')}
+                      &nbsp;{t('elapsed')}
                     </Elapsed>
                   )}
                 </CardSummary>
