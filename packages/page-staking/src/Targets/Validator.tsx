@@ -121,7 +121,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
         )}
       </td>
       <td className='number media--1200'>{numNominators || ''}</td>
-      <td className='number'>
+      <td className='number media--1100'>
         {
           isCommission
             ? `${commissionPer.toFixed(2)}%`
@@ -129,7 +129,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
         }
       </td>
       <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
-      <td className='number together'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
+      <td className='number together media--900'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
       <td className='number together media--1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>
       <td className='number together'>{(stakedReturnCmp > 0) && <>{stakedReturnCmp.toFixed(2)}%</>}</td>
       <td>
