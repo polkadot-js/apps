@@ -53,7 +53,8 @@ const CLASSES: Record<string, string> = {
   rankComm: 'media--1100',
   rankNumNominators: 'media--1200'
 };
-const MAX_COMM_FILTER = 20;
+const MAX_CAP_PERCENT = 75;
+const MAX_COMM_PERCENT = 20; // %
 const MAX_DAYS = 7;
 const SORT_KEYS = ['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
@@ -72,8 +73,8 @@ function filterValidators (validators: ValidatorInfo[], allIdentity: Record<stri
       (!withElected || isElected) &&
       (!withIdentity || !!thisIdentity?.hasIdentity) &&
       (!withPayout || !isBabe || (!!lastPayout && daysPayout.gte(lastPayout))) &&
-      (!withoutComm || (commissionPer < MAX_COMM_FILTER)) &&
-      (!withoutOver || !maxPaid || maxPaid.gtn(numNominators))
+      (!withoutComm || (commissionPer < MAX_COMM_PERCENT)) &&
+      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gtn(numNominators))
     ) {
       if (!withGroup || !thisIdentity || !thisIdentity.parentId) {
         if (!parentIds.includes(stashId)) {
@@ -149,7 +150,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const [withElected, setWithElected] = useState(false);
   const [withGroup, setWithGroup] = useState(true);
   const [withIdentity, setWithIdentity] = useState(false);
-  const [withPayout, setWithPayout] = useState(true);
+  const [withPayout, setWithPayout] = useState(false);
   const [withoutComm, setWithoutComm] = useState(true);
   const [withoutOver, setWithoutOver] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
@@ -254,15 +255,21 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       >
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('limit operator exposure')}
+          label={t<string>('single from operator')}
           onChange={setWithGroup}
           value={withGroup}
         />
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_FILTER } })}
+          label={t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })}
           onChange={setWithoutComm}
           value={withoutComm}
+        />
+        <Toggle
+          className='staking--buttonToggle'
+          label={t<string>('no {{maxCap}}%+ capacity', { replace: { maxCap: MAX_CAP_PERCENT } })}
+          onChange={setWithoutOver}
+          value={withoutOver}
         />
         {api.consts.babe && (
           // FIXME have some sane era defaults for Aura
@@ -273,12 +280,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
             value={withPayout}
           />
         )}
-        <Toggle
-          className='staking--buttonToggle'
-          label={t<string>('no oversubscribed')}
-          onChange={setWithoutOver}
-          value={withoutOver}
-        />
         <Toggle
           className='staking--buttonToggle'
           label={t<string>('only elected')}
