@@ -6,8 +6,6 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React from 'react';
 import { LockedVote } from '@polkadot/react-query';
 
-import { classes } from './util';
-
 export interface Props {
   className?: string;
   label?: React.ReactNode;
@@ -15,16 +13,14 @@ export interface Props {
   withLabel?: boolean;
 }
 
-function LockedVoteDisplay (props: Props): React.ReactElement<Props> | null {
-  const { className = '', label, params } = props;
-
+function LockedVoteDisplay ({ className = '', label, params }: Props): React.ReactElement<Props> | null {
   if (!params) {
     return null;
   }
 
   return (
     <LockedVote
-      className={classes('ui--LockedVote', className)}
+      className={`ui--LockedVote ${className}`}
       label={label}
       params={params}
     />

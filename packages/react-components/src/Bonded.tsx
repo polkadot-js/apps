@@ -8,7 +8,6 @@ import React from 'react';
 import { Bonded } from '@polkadot/react-query';
 
 import { renderProvided } from './Balance';
-import { classes } from './util';
 
 export interface Props {
   bonded?: BN | BN[];
@@ -29,7 +28,7 @@ function BondedDisplay (props: Props): React.ReactElement<Props> | null {
     ? <>{renderProvided({ className, label, value: bonded })}</>
     : (
       <Bonded
-        className={classes('ui--Bonded', className)}
+        className={`ui--Bonded ${className}`}
         label={label}
         params={params}
       />

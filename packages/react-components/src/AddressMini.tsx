@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 
-import { classes, toShortAddress } from './util';
+import { toShortAddress } from './util';
 import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
@@ -44,7 +44,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
   }
 
   return (
-    <div className={classes('ui--AddressMini', isHighlight ? 'isHighlight' : '', isPadded ? 'padded' : '', withShrink ? 'withShrink' : '', className)}>
+    <div className={`ui--AddressMini${isHighlight ? ' isHighlight' : ''}${isPadded ? ' padded' : ''}${withShrink ? ' withShrink' : ''} ${className}`}>
       {label && (
         <label className='ui--AddressMini-label'>{label}</label>
       )}

@@ -6,8 +6,6 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 import React from 'react';
 import { Available } from '@polkadot/react-query';
 
-import { classes } from './util';
-
 export interface Props {
   className?: string;
   label?: React.ReactNode;
@@ -21,7 +19,7 @@ function AvailableDisplay ({ className = '', label, params }: Props): React.Reac
 
   return (
     <Available
-      className={classes('ui--Available', className)}
+      className={`ui--Available ${className}`}
       label={label}
       params={params}
     />

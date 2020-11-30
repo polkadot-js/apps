@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { registry } from '@polkadot/react-api';
 import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
-import { classes } from './util';
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS_PRE } from './Input';
@@ -251,7 +250,7 @@ function InputNumber ({ autoFocus, bitLength = DEFAULT_BITLENGTH, children, clas
   return (
     <Input
       autoFocus={autoFocus}
-      className={classes('ui--InputNumber', isDisabled && 'isDisabled', className)}
+      className={`ui--InputNumber${isDisabled ? ' isDisabled' : ''} ${className}`}
       help={help}
       isAction={isSi}
       isDisabled={isDisabled}
