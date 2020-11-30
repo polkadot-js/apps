@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfo } from './types';
+import type { EntryInfoTyped } from './types';
 
 import React, { useMemo, useState, useCallback } from 'react';
 import styled from 'styled-components';
@@ -13,12 +13,42 @@ import { useTranslation } from './translate';
 
 interface Props {
   className?: string;
-  item: EntryInfo;
+  item: EntryInfoTyped;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function assertUnreachable (x: never): never {
   throw new Error('We cannot get here');
+}
+
+function exportCalendar (date: Date, description: string): void {
+  const startDate = dateCalendarFormat(date);
+  // For now just add 1 hour for each event
+  const endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
+  const calData =
+    'BEGIN:VCALENDAR\n' +
+    'CALSCALE:GREGORIAN\n' +
+    'METHOD:PUBLISH\n' +
+    'PRODID:-//Test Cal//EN\n' +
+    'VERSION:2.0\n' +
+    'BEGIN:VEVENT\n' +
+    'UID:test-1\n' +
+    'DTSTART;VALUE=DATE:' + startDate + '\n' +
+    'DTEND;VALUE=DATE:' + endDate + '\n' +
+    'SUMMARY:' + description + '\n' +
+    'DESCRIPTION:' + description + '\n' +
+    'END:VEVENT\n' +
+    'END:VCALENDAR';
+  const fileNameIcs = encodeURI(description) + '.ics';
+  const data = new File([calData], fileNameIcs, { type: 'text/plain' });
+  const anchor = window.document.createElement('a');
+
+  anchor.href = window.URL.createObjectURL(data);
+  anchor.download = fileNameIcs;
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+  window.URL.revokeObjectURL(anchor.href);
 }
 
 function DayItem ({ className, item: { date, info, type } }: Props): React.ReactElement<Props> {
@@ -27,35 +57,7 @@ function DayItem ({ className, item: { date, info, type } }: Props): React.React
   const [description, setDescription] = useState<string>('');
 
   const _exportCal = useCallback(
-    () => {
-      const startDate = dateCalendarFormat(date);
-      // For now just add 1 hour for each event
-      const endDate = dateCalendarFormat(new Date(new Date(date).setHours(new Date(date).getHours() + 1)));
-      const calData =
-        'BEGIN:VCALENDAR\n' +
-        'CALSCALE:GREGORIAN\n' +
-        'METHOD:PUBLISH\n' +
-        'PRODID:-//Test Cal//EN\n' +
-        'VERSION:2.0\n' +
-        'BEGIN:VEVENT\n' +
-        'UID:test-1\n' +
-        'DTSTART;VALUE=DATE:' + startDate + '\n' +
-        'DTEND;VALUE=DATE:' + endDate + '\n' +
-        'SUMMARY:' + description + '\n' +
-        'DESCRIPTION:' + description + '\n' +
-        'END:VEVENT\n' +
-        'END:VCALENDAR';
-      const fileNameIcs = encodeURI(description) + '.ics';
-      const data = new File([calData], fileNameIcs, { type: 'text/plain' });
-      const anchor = window.document.createElement('a');
-
-      anchor.href = window.URL.createObjectURL(data);
-      anchor.download = fileNameIcs;
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-      window.URL.revokeObjectURL(anchor.href);
-    },
+    () => exportCalendar(date, description),
     [description, date]
   );
 
@@ -180,7 +182,7 @@ export default React.memo(styled(DayItem)`
     padding: 0;
     position: absolute;
     right: 1.5rem;
-    
+
     .ui--Icon {
       width: 0.7rem;
       height: 0.7rem;

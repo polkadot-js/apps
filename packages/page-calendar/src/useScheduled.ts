@@ -4,7 +4,7 @@
 import type { DeriveCollectiveProposal, DeriveDispatch, DeriveReferendumExt, DeriveSessionProgress } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { BlockNumber, EraIndex, Scheduled, UnappliedSlash } from '@polkadot/types/interfaces';
-import type { EntryInfo, EntryType } from './types';
+import type { EntryInfo, EntryInfoTyped, EntryType } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
@@ -38,8 +38,7 @@ function createConstDurations (bestNumber: BlockNumber, blockTime: number, items
       ...newDate(blocks, blockTime),
       blockNumber: bestNumber.add(blocks),
       blocks,
-      info: null,
-      type
+      info: null
     }]];
   });
 }
@@ -58,8 +57,7 @@ function createCouncilMotions (bestNumber: BlockNumber, blockTime: number, motio
         ...newDate(blocks, blockTime),
         blockNumber: votes.end,
         blocks,
-        info: `${hashStr.substr(0, 6)}…${hashStr.substr(-4)}`,
-        type: 'councilMotion'
+        info: `${hashStr.substr(0, 6)}…${hashStr.substr(-4)}`
       };
     })
     .filter((item): item is EntryInfo => !!item)
@@ -74,8 +72,7 @@ function createDispatches (bestNumber: BlockNumber, blockTime: number, dispatche
       ...newDate(blocks, blockTime),
       blockNumber: at,
       blocks,
-      info: index,
-      type: 'democracyDispatch'
+      info: index
     }]];
   });
 }
@@ -89,16 +86,14 @@ function createReferendums (bestNumber: BlockNumber, blockTime: number, referend
       ...newDate(voteBlocks, blockTime),
       blockNumber: bestNumber.add(voteBlocks),
       blocks: voteBlocks,
-      info: index,
-      type: 'referendumVote'
+      info: index
     }]]);
     result.push(['referendumDispatch', [{
       ...newDate(enactBlocks, blockTime),
       blockNumber: bestNumber.add(enactBlocks),
       blocks: enactBlocks,
       info: index,
-      isPending: true,
-      type: 'referendumDispatch'
+      isPending: true
     }]]);
 
     return result;
@@ -121,8 +116,7 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
           ...newDate(blocks, blockTime),
           blockNumber: bestNumber.add(blocks),
           blocks,
-          info: eraIndex,
-          type: 'stakingSlash'
+          info: eraIndex
         };
       })
     : [];
@@ -132,15 +126,13 @@ function createStakingInfo (bestNumber: BlockNumber, blockTime: number, sessionI
       ...newDate(blocksSes, blockTime),
       blockNumber: bestNumber.add(blocksSes),
       blocks: blocksSes,
-      info: sessionInfo.currentIndex.add(BN_ONE),
-      type: 'stakingEpoch'
+      info: sessionInfo.currentIndex.add(BN_ONE)
     }]],
     ['stakingEra', [{
       ...newDate(blocksEra, blockTime),
       blockNumber: bestNumber.add(blocksEra),
       blocks: blocksEra,
-      info: sessionInfo.activeEra.add(BN_ONE),
-      type: 'stakingEra'
+      info: sessionInfo.activeEra.add(BN_ONE)
     }]],
     ['stakingSlash', slashEras]
   ];
@@ -167,8 +159,7 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
               ? idOrNull.isAscii
                 ? idOrNull.toUtf8()
                 : idOrNull.toHex()
-              : null,
-            type: 'scheduler'
+              : null
           });
 
           return items;
@@ -176,10 +167,16 @@ function createScheduled (bestNumber: BlockNumber, blockTime: number, scheduled:
     }, [])]];
 }
 
-function addFiltered (state: EntryInfo[], types: [EntryType, EntryInfo[]][]): EntryInfo[] {
-  return types.reduce((state: EntryInfo[], [typeFilter, items]): EntryInfo[] =>
-    state.filter(({ type }) => type !== typeFilter).concat(...items), state
-  );
+function addFiltered (state: EntryInfoTyped[], types: [EntryType, EntryInfo[]][]): EntryInfoTyped[] {
+  return types.reduce((state: EntryInfoTyped[], [typeFilter, items]): EntryInfoTyped[] => {
+    return state
+      .filter(({ type }) => type !== typeFilter)
+      .concat(...items.map((item): EntryInfoTyped => {
+        (item as EntryInfoTyped).type = typeFilter;
+
+        return item as EntryInfoTyped;
+      }));
+  }, state);
 }
 
 // TODO council votes, tips closing
@@ -193,7 +190,7 @@ export default function useScheduled (): EntryInfo[] {
   const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda.entries);
   const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
   const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries);
-  const [state, setState] = useState<EntryInfo[]>([]);
+  const [state, setState] = useState<EntryInfoTyped[]>([]);
 
   useEffect((): void => {
     bestNumber && dispatches && setState((state) =>
