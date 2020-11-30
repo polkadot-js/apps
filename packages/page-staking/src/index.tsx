@@ -194,8 +194,8 @@ export default React.memo(styled(StakingApp)(({ theme }: ThemeProps) => `
   }
 
   .staking--optionsBar {
-    marging: 0.5rem 0 1rem;
-    text-align: right;
+    margin: 0.5rem 0 1rem;
+    text-align: center;
     white-space: normal;
 
     .staking--buttonToggle {
