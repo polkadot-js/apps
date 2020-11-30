@@ -4,7 +4,7 @@
   "main": "packages/apps-electron/build/electron.js",
   "description": "An Apps portal into the Polkadot network",
   "author": "Jaco Greeff <jacogr@gmail.com>",
-  "version": "0.68.2-34",
+  "version": "0.69.0",
   "license": "Apache-2",
   "private": true,
   "homepage": ".",
@@ -12,11 +12,11 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^2.8.3-5",
-    "@polkadot/api-contract": "^2.8.3-5",
+    "@polkadot/api": "^2.9.1",
+    "@polkadot/api-contract": "^2.9.1",
     "@polkadot/keyring": "^4.2.1",
     "@polkadot/networks": "^4.2.1",
-    "@polkadot/types": "^2.8.3-5",
+    "@polkadot/types": "^2.9.1",
     "@polkadot/util": "^4.2.1",
     "@polkadot/util-crypto": "^4.2.1",
     "@polkadot/wasm-crypto": "^2.0.1",
@@ -61,7 +61,7 @@
     "start:electron": "yarn clean:electronBuild && concurrently 'yarn build:devElectronMain && cd packages/apps-electron && electron ./build/electron.js' 'yarn build:devElectronRenderer'"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.8",
+    "@babel/core": "^7.12.9",
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.5",
     "@pinata/sdk": "^1.1.11",
@@ -73,7 +73,7 @@
     "@types/jest": "^26.0.15",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-copy-to-clipboard": "^4.3.0",
-    "@types/react-dom": "^16.9.10",
+    "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/store": "^2.0.2",
     "@types/styled-components": "^5.1.4",
@@ -88,7 +88,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-is": "^17.0.1",
-    "source-map-explorer": "^2.5.0",
+    "source-map-explorer": "^2.5.1",
     "styled-components": "^5.2.1",
     "stylelint": "^13.8.0",
     "stylelint-config-recommended": "^3.0.0",
@@ -97,6 +97,6 @@
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.4.0",
-    "webpack-plugin-serve": "^1.2.0"
+    "webpack-plugin-serve": "^1.2.1"
   }
 }

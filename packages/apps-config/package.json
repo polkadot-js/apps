@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/apps-config",
-  "version": "0.68.2-34",
+  "version": "0.69.0",
   "main": "index.js",
   "sideEffects": true,
   "repository": "github:polkadot-js/apps",
@@ -14,7 +14,7 @@
     "@edgeware/node-types": "^3.0.10",
     "@laminar/type-definitions": "^0.2.0-beta.141",
     "@polkadot/networks": "^4.2.1",
-    "@sora-substrate/type-definitions": "^0.1.4",
+    "@sora-substrate/type-definitions": "^0.1.5",
     "@subsocial/types": "^0.4.23"
   },
   "devDependencies": {
