@@ -190,9 +190,9 @@ export default function useScheduled (): EntryInfo[] {
   const councilMotions = useCall<DeriveCollectiveProposal[]>(api.derive.council?.proposals);
   const dispatches = useCall<DeriveDispatch[]>(api.derive.democracy?.dispatchQueue);
   const referendums = useCall<DeriveReferendumExt[]>(api.derive.democracy?.referendums);
-  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda.entries as any);
+  const scheduled = useCall<ScheduleEntry[]>(api.query.scheduler?.agenda.entries);
   const sessionInfo = useCall<DeriveSessionProgress>(api.query.staking && api.derive.session?.progress);
-  const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries as any);
+  const slashes = useCall<SlashEntry[]>(api.query.staking?.unappliedSlashes.entries);
   const [state, setState] = useState<EntryInfo[]>([]);
 
   useEffect((): void => {

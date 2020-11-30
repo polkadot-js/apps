@@ -38,7 +38,7 @@ const transformEntries = {
 function Schedule ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries as any, undefined, transformEntries);
+  const items = useCall<ScheduledExt[]>(api.query.scheduler.agenda.entries, undefined, transformEntries);
 
   const headerRef = useRef([
     [t('scheduled'), 'start'],
