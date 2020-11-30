@@ -10,7 +10,13 @@ import { isNull, isUndefined } from '@polkadot/util';
 
 import { useIsMountedRef, MountedRef } from './useIsMountedRef';
 
-type TrackFnResult = Promise<() => void>;
+type VoidFn = () => void;
+
+// This should be VoidFn, however the API actually does allow us to use any general single-shot queries with
+// a result callback, so `api.query.system.account.at(<blokHash>, <account>, (info) => {... })` does work
+// (The same applies to e.g. keys or entries). So where we actally use the unsub, we cast `unknown` to `VoidFn`
+// to cater for our usecase.
+type TrackFnResult = Promise<unknown>;
 
 interface TrackFn {
   (...params: CallParam[]): TrackFnResult;
@@ -23,7 +29,6 @@ interface TrackFn {
 
 interface Tracker {
   isActive: boolean;
-  count: number;
   serialized: string | null;
   subscriber: TrackFnResult | null;
 }
@@ -52,13 +57,13 @@ function unsubscribe (tracker: TrackerRef): void {
   tracker.current.isActive = false;
 
   if (tracker.current.subscriber) {
-    tracker.current.subscriber.then((unsubFn) => unsubFn()).catch(console.error);
+    tracker.current.subscriber.then((unsubFn) => (unsubFn as VoidFn)()).catch(console.error);
     tracker.current.subscriber = null;
   }
 }
 
 // subscribe, trying to play nice with the browser threads
-function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { isSingle, transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
+function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn | undefined, params: CallParams, setValue: (value: T) => void, { transform = transformIdentity, withParams, withParamsTransform }: CallOptions<T> = {}): void {
   const validParams = params.filter((p) => !isUndefined(p));
 
   unsubscribe(tracker);
@@ -66,16 +71,12 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
   setTimeout((): void => {
     if (mountedRef.current) {
       if (fn && (!fn.meta || !fn.meta.type?.isDoubleMap || validParams.length === 2)) {
-        // swap to acive mode and reset our count
+        // swap to acive mode
         tracker.current.isActive = true;
-        tracker.current.count = 0;
 
         tracker.current.subscriber = (fn as (...params: unknown[]) => Promise<() => void>)(...params, (value: Codec): void => {
-          // when we don't have an active sub, or single-shot, ignore (we use the isActive flag here
-          // since .subscriber may not be set on immediate callback)
-          if (mountedRef.current && tracker.current.isActive && (!isSingle || !tracker.current.count)) {
-            tracker.current.count++;
-
+          // we use the isActive flag here since .subscriber may not be set on immediate callback)
+          if (mountedRef.current && tracker.current.isActive) {
             mountedRef.current && tracker.current.isActive && setValue(
               withParams
                 ? [params, transform(value)] as any
@@ -98,12 +99,12 @@ function subscribe <T> (mountedRef: MountedRef, tracker: TrackerRef, fn: TrackFn
 // FIXME The typings here need some serious TLC
 export function useCall <T> (fn: TrackFn | undefined | null | false, params?: CallParams, options?: CallOptions<T>): T | undefined {
   const mountedRef = useIsMountedRef();
-  const tracker = useRef<Tracker>({ count: 0, isActive: false, serialized: null, subscriber: null });
+  const tracker = useRef<Tracker>({ isActive: false, serialized: null, subscriber: null });
   const [value, setValue] = useState<T | undefined>((options || {}).defaultValue);
 
   // initial effect, we need an un-subscription
   useEffect((): () => void => {
-    return (): void => unsubscribe(tracker);
+    return () => unsubscribe(tracker);
   }, []);
 
   // on changes, re-subscribe
