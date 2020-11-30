@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes, useCall } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useBlocksPerDays, useCall } from '@polkadot/react-hooks';
 
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
@@ -31,10 +31,13 @@ interface Props {
 }
 
 interface Flags {
+  daysPayout: BN;
+  isBabe: boolean;
   maxPaid: BN | undefined;
   withElected: boolean;
   withGroup: boolean;
   withIdentity: boolean;
+  withPayout: boolean;
   withoutComm: boolean;
   withoutOver: boolean;
 }
@@ -49,12 +52,13 @@ const CLASSES: Record<string, string> = {
   rankNumNominators: 'media--1200'
 };
 const MAX_COMM_FILTER = 20;
+const MAX_DAYS = 7;
 const SORT_KEYS = ['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
-function filterValidators (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { maxPaid, withElected, withGroup, withIdentity, withoutComm, withoutOver }: Flags): ValidatorInfo[] {
+function filterValidators (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags): ValidatorInfo[] {
   const parentIds: string[] = [];
 
-  return validators.filter(({ accountId, commissionPer, isElected, isFavorite, numNominators }): boolean => {
+  return validators.filter(({ accountId, commissionPer, isElected, isFavorite, lastPayout, numNominators }): boolean => {
     if (isFavorite) {
       return true;
     }
@@ -63,8 +67,9 @@ function filterValidators (validators: ValidatorInfo[], allIdentity: Record<stri
     const thisIdentity = allIdentity[stashId];
 
     if (
-      (!withIdentity || !!thisIdentity?.hasIdentity) &&
       (!withElected || isElected) &&
+      (!withIdentity || !!thisIdentity?.hasIdentity) &&
+      (!withPayout || !isBabe || (!!lastPayout && daysPayout.gte(lastPayout))) &&
       (!withoutComm || (commissionPer < MAX_COMM_FILTER)) &&
       (!withoutOver || !maxPaid || maxPaid.gtn(numNominators))
     ) {
@@ -135,12 +140,14 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
+  const daysPayout = useBlocksPerDays(MAX_DAYS);
   const ownNominators = useOwnNominators(ownStashes);
   const [selected, setSelected] = useState<string[]>([]);
   const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
   const [withElected, setWithElected] = useState(false);
   const [withGroup, setWithGroup] = useState(true);
   const [withIdentity, setWithIdentity] = useState(false);
+  const [withPayout, setWithPayout] = useState(true);
   const [withoutComm, setWithoutComm] = useState(true);
   const [withoutOver, setWithoutOver] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
@@ -158,15 +165,18 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
 
   const flags = useMemo(
     () => ({
+      daysPayout,
+      isBabe: !!api.consts.babe,
       isQueryFiltered,
       maxPaid: api.consts.staking?.maxNominatorRewardedPerValidator,
       withElected,
       withGroup,
       withIdentity,
+      withPayout,
       withoutComm,
       withoutOver
     }),
-    [api, isQueryFiltered, withElected, withGroup, withIdentity, withoutComm, withoutOver]
+    [api, daysPayout, isQueryFiltered, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver]
   );
 
   const filtered = useMemo(
@@ -252,6 +262,15 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
           onChange={setWithoutComm}
           value={withoutComm}
         />
+        {api.consts.babe && (
+          // FIXME have some sane era defaults for Aura
+          <Toggle
+            className='staking--buttonToggle'
+            label={t<string>('recent payouts')}
+            onChange={setWithPayout}
+            value={withPayout}
+          />
+        )}
         <Toggle
           className='staking--buttonToggle'
           label={t<string>('no oversubscribed')}
@@ -266,7 +285,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         />
       </Filtering>
     </div>
-  ), [nameFilter, _setNameFilter, t, withElected, withGroup, withIdentity, withoutComm, withoutOver]);
+  ), [api, nameFilter, _setNameFilter, t, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver]);
 
   const displayList = isQueryFiltered
     ? validators
