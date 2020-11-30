@@ -21,6 +21,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   iconInfo?: React.ReactNode;
+  isCached?: boolean;
   isHighlight?: boolean;
   isPadded?: boolean;
   isShort?: boolean;
@@ -38,7 +39,7 @@ interface Props {
   withShrink?: boolean;
 }
 
-function AddressMini ({ balance, bonded, children, className = '', iconInfo, isHighlight, isPadded = true, label, labelBalance, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
+function AddressMini ({ balance, bonded, children, className = '', iconInfo, isCached, isHighlight, isPadded = true, label, labelBalance, summary, value, withAddress = true, withBalance = false, withBonded = false, withLockedVote = false, withName = true, withShrink = false, withSidebar = true }: Props): React.ReactElement<Props> | null {
   if (!value) {
     return null;
   }
@@ -62,6 +63,7 @@ function AddressMini ({ balance, bonded, children, className = '', iconInfo, isH
             {withName
               ? (
                 <AccountName
+                  isCached={isCached}
                   value={value}
                   withSidebar={withSidebar}
                 />

@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { Authors } from '@polkadot/react-query/BlockAuthors';
 import type { SortedTargets, ValidatorInfo } from '../types';
 
@@ -15,6 +14,7 @@ import { BlockAuthorsContext } from '@polkadot/react-query';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';
+import useNominations from '../useNominations';
 import Address from './Address';
 
 interface Props {
@@ -71,34 +71,12 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Record<string, [string, EraIndex, number][]> {
-  return nominations.reduce((mapped: Record<string, [string, EraIndex, number][]>, [key, optNoms]) => {
-    if (optNoms.isSome && key.args.length) {
-      const nominatorId = key.args[0].toString();
-      const { submittedIn, targets } = optNoms.unwrap();
-
-      targets.forEach((_validatorId, index): void => {
-        const validatorId = _validatorId.toString();
-        const info: [string, EraIndex, number] = [nominatorId, submittedIn, index + 1];
-
-        if (!mapped[validatorId]) {
-          mapped[validatorId] = [info];
-        } else {
-          mapped[validatorId].push(info);
-        }
-      });
-    }
-
-    return mapped;
-  }, {});
-}
-
 function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
-  const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries);
+  const nominatedBy = useNominations(isIntentions);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [withIdentity, setWithIdentity] = useState(false);
 
@@ -117,11 +95,6 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
       return result;
     }, {}),
     [targets]
-  );
-
-  const nominatedBy = useMemo(
-    () => nominators ? extractNominators(nominators) : null,
-    [nominators]
   );
 
   const headerWaitingRef = useRef([
@@ -144,8 +117,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   ]);
 
   const _renderRows = useCallback(
-    (addresses?: AccountExtend[], isMain?: boolean): React.ReactNode[] =>
-      (addresses || []).map(([address, isElected, isFavorite]): React.ReactNode => (
+    (addresses: AccountExtend[] = [], isMain?: boolean): React.ReactNode[] =>
+      addresses.map(([address, isElected, isFavorite]): React.ReactNode => (
         <Address
           address={address}
           filterName={nameFilter}
@@ -155,7 +128,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           isMain={isMain}
           key={address}
           lastBlock={byAuthor[address]}
-          nominatedBy={nominatedBy ? (nominatedBy[address] || []) : undefined}
+          nominatedBy={(isIntentions && nominatedBy) ? (nominatedBy[address] || []) : undefined}
           onlineCount={recentlyOnline?.[address]?.blockCount}
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
@@ -164,13 +137,13 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           withIdentity={withIdentity}
         />
       )),
-    [byAuthor, eraPoints, hasQueries, infoMap, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
+    [byAuthor, eraPoints, hasQueries, infoMap, isIntentions, nameFilter, nominatedBy, recentlyOnline, toggleFavorite, withIdentity]
   );
 
   return isIntentions
     ? (
       <Table
-        empty={!isLoading && waiting && t<string>('No waiting validators found')}
+        empty={!isLoading && waiting && nominatedBy && t<string>('No waiting validators found')}
         filter={
           <Filtering
             nameFilter={nameFilter}
@@ -182,7 +155,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
         header={headerWaitingRef.current}
         legend={<Legend />}
       >
-        {isLoading ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
+        {(!nominatedBy || isLoading) ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
     )
     : (

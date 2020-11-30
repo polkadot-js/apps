@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
@@ -10,7 +10,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import registry from '@polkadot/react-api/typeRegistry';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
-import { useCall, useApi } from '@polkadot/react-hooks';
+import { useApi, useAccountInfoCache } from '@polkadot/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
 import { getAddressName } from './util';
@@ -20,12 +20,13 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultName?: string;
+  isCached?: boolean;
   label?: React.ReactNode;
   onClick?: () => void;
   override?: React.ReactNode;
   // this is used by app-account/addresses to toggle editing
   toggle?: boolean;
-  value: AccountId | AccountIndex | Address | string | Uint8Array | null | undefined;
+  value: AccountId | AccountIndex | Address | string | null | undefined;
   withSidebar?: boolean;
 }
 
@@ -43,7 +44,7 @@ export function getParentAccount (value: string): string | undefined {
   return parentCache.get(value);
 }
 
-function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string | Uint8Array, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
+function defaultOrAddr (defaultName = '', _address: AccountId | AccountIndex | Address | string, _accountIndex?: AccountIndex | null): [React.ReactNode, boolean, boolean, boolean] {
   const known = KNOWN.find(([known]) => known.eq(_address));
 
   if (known) {
@@ -130,9 +131,9 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
   return elem;
 }
 
-function AccountName ({ children, className = '', defaultName, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
+function AccountName ({ children, className = '', defaultName, isCached = true, label, onClick, override, toggle, value, withSidebar }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
+  const info = useAccountInfoCache(value, isCached);
   const [name, setName] = useState<React.ReactNode>(() => extractName((value || '').toString(), undefined, defaultName));
   const toggleSidebar = useContext(AccountSidebarToggle);
 

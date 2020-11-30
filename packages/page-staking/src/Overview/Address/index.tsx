@@ -1,7 +1,6 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { Option } from '@polkadot/types';
 import type { Balance, EraIndex, SlashingSpans, ValidatorPrefs } from '@polkadot/types/interfaces';
 import type { ValidatorInfo } from '../../types';
@@ -11,7 +10,7 @@ import React, { useCallback, useMemo } from 'react';
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccountInfoCache, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import Favorite from './Favorite';
@@ -73,9 +72,13 @@ const transformSlashes = {
   transform: (opt: Option<SlashingSpans>) => opt.unwrapOr(null)
 };
 
+function redirect (address: string): void {
+  window.location.hash = `/staking/query/${address}`;
+}
+
 function useAddressCalls (api: ApiPromise, address: string, isMain?: boolean) {
   const params = useMemo(() => [address], [address]);
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, params);
+  const accountInfo = useAccountInfoCache(address, true);
   const slashingSpans = useCall<SlashingSpans | null>(!isMain && api.query.staking.slashingSpans, params, transformSlashes);
 
   return { accountInfo, slashingSpans };
@@ -96,9 +99,7 @@ function Address ({ address, className = '', filterName, hasQueries, isElected, 
   );
 
   const _onQueryStats = useCallback(
-    (): void => {
-      window.location.hash = `/staking/query/${address}`;
-    },
+    () => redirect(address),
     [address]
   );
 

@@ -7,14 +7,14 @@ import type { AccountId, Address } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { useApi, useCall } from '@polkadot/react-hooks';
+import { useAccountInfoCache, useApi } from '@polkadot/react-hooks';
 
 interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultValue?: string;
   label?: React.ReactNode;
-  value?: string | AccountId | Address | null | Uint8Array;
+  value?: string | AccountId | Address | null;
 }
 
 function extractIndex ({ accountIndex }: Partial<DeriveAccountInfo> = {}): string | null {
@@ -25,7 +25,7 @@ function extractIndex ({ accountIndex }: Partial<DeriveAccountInfo> = {}): strin
 
 function AccountIndex ({ children, className = '', defaultValue, label, value }: Props): React.ReactElement<Props> | null {
   const { api } = useApi();
-  const info = useCall<DeriveAccountInfo>(api.derive.accounts.info, [value]);
+  const info = useAccountInfoCache(value, true);
 
   const accountIndex = useMemo(
     () => extractIndex(info),

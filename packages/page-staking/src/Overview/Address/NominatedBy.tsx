@@ -4,7 +4,7 @@
 import type { EraIndex, SlashingSpans } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
-import { AddressMini, Expander, Spinner } from '@polkadot/react-components';
+import { AddressMini, Expander } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
@@ -60,25 +60,18 @@ function NominatedBy ({ nominators, slashingSpans }: Props): React.ReactElement<
 
   return (
     <td className='expand all'>
-      {nominators
-        ? (
-          <>
-            {active && (
-              <Expander
-                renderChildren={active[1]}
-                summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
-              />
-            )}
-            {chilled && (
-              <Expander
-                renderChildren={chilled[1]}
-                summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
-              />
-            )}
-          </>
-        )
-        : <Spinner variant='mini' />
-      }
+      {active && (
+        <Expander
+          renderChildren={active[1]}
+          summary={t<string>('Nominations ({{count}})', { replace: { count: formatNumber(active[0]) } })}
+        />
+      )}
+      {chilled && (
+        <Expander
+          renderChildren={chilled[1]}
+          summary={t<string>('Renomination required ({{count}})', { replace: { count: formatNumber(chilled[0]) } })}
+        />
+      )}
     </td>
   );
 }

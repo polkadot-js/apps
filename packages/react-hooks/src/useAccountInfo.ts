@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { DeriveAccountFlags } from '@polkadot/api-derive/types';
 import type { StringOrNull } from '@polkadot/react-components/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 
 import { useAccounts } from './useAccounts';
+import { useAccountInfoCache } from './useAccountInfoCache';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';
 import { useCall } from './useCall';
@@ -36,8 +37,8 @@ export function useAccountInfo (value: string | null, isContract = false): UseAc
   const { api } = useApi();
   const { isAccount } = useAccounts();
   const { isAddress } = useAddresses();
-  const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info as any, [value]);
-  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags as any, [value]);
+  const accountInfo = useAccountInfoCache(value, false);
+  const accountFlags = useCall<DeriveAccountFlags>(api.derive.accounts.flags, [value]);
   const [accountIndex, setAccountIndex] = useState<string | undefined>(undefined);
   const [tags, setSortedTags] = useState<string[]>([]);
   const [name, setName] = useState('');

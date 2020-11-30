@@ -66,7 +66,8 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
                 labelPost={` (${rewarded[0]})`}
                 value={rewardedTotal}
               />
-            }/>
+            }
+          />
           {unrewarded && (
             <Expander
               className='stakeOver'

@@ -284,7 +284,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         )}
       </td>
       <td className='address'>
-        <AddressSmall value={address} />
+        <AddressSmall
+          isCached={false}
+          value={address}
+        />
         {isBackupOpen && (
           <Backup
             address={address}
@@ -387,7 +390,10 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       </td>
       <td className='address media--1400'>
         {meta.parentAddress && (
-          <AddressMini value={meta.parentAddress} />
+          <AddressMini
+            isCached={false}
+            value={meta.parentAddress}
+          />
         )}
       </td>
       <td className='number'>

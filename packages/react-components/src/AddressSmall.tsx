@@ -13,6 +13,7 @@ interface Props {
   children?: React.ReactNode;
   className?: string;
   defaultName?: string;
+  isCached?: boolean;
   onClickName?: () => void;
   overrideName?: React.ReactNode;
   withSidebar?: boolean;
@@ -20,13 +21,14 @@ interface Props {
   value?: string | Address | AccountId | null | Uint8Array;
 }
 
-function AddressSmall ({ children, className = '', defaultName, onClickName, overrideName, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
+function AddressSmall ({ children, className = '', defaultName, isCached, onClickName, overrideName, toggle, value, withSidebar = true }: Props): React.ReactElement<Props> {
   return (
     <div className={`ui--AddressSmall ${className}`}>
       <IdentityIcon value={value as Uint8Array} />
       <AccountName
         className={withSidebar ? 'withSidebar' : ''}
         defaultName={defaultName}
+        isCached={isCached}
         onClick={onClickName}
         override={overrideName}
         toggle={toggle}

@@ -3,6 +3,7 @@
 
 export { useAccountId } from './useAccountId';
 export { useAccountInfo } from './useAccountInfo';
+export { useAccountInfoCache } from './useAccountInfoCache';
 export { useAccounts } from './useAccounts';
 export { useAddresses } from './useAddresses';
 export { useApi } from './useApi';
