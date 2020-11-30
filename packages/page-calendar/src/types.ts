@@ -12,6 +12,9 @@ export interface EntryInfo {
   dateTime: number;
   info: string | BN | null;
   isPending?: boolean;
+}
+
+export interface EntryInfoTyped extends EntryInfo {
   type: EntryType;
 }
 
