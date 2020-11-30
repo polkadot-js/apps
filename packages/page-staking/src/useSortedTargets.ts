@@ -84,10 +84,11 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, { eraLength, lastEra, sessionLength }: LastEra): [ValidatorInfo[], string[]] {
+function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, { eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const emptyExposure = registry.createType('Exposure');
   const info = derive.info;
+  const earliestEra = historyDepth && lastEra.sub(historyDepth).addn(1);
   const list = info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
     let bondOwn = exposure.own?.unwrap() || BN_ZERO;
@@ -114,7 +115,11 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
     const lastEraPayout = !lastEra.isZero()
       ? stakingLedger.claimedRewards[stakingLedger.claimedRewards.length - 1]
       : undefined;
-    let lastPayout: BN | undefined = lastEraPayout;
+
+    // only use if it is more recent than historyDepth
+    let lastPayout: BN | undefined = earliestEra && lastEraPayout && lastEraPayout.gt(earliestEra)
+      ? lastEraPayout
+      : undefined;
 
     if (lastPayout && !sessionLength.eq(BN_ONE)) {
       lastPayout = lastEra.sub(lastPayout).mul(eraLength);
@@ -156,9 +161,9 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
   return [list, Object.keys(nominators)];
 }
 
-function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, lastReward: BN): Partial<SortedTargets> {
+function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, lastReward: BN, historyDepth?: BN): Partial<SortedTargets> {
   const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward, lastEraInfo);
+  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward, lastEraInfo, historyDepth);
   const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, perValidatorReward, lastEraInfo);
   const activeTotals = elected
     .filter(({ isActive }) => isActive)
@@ -206,6 +211,7 @@ const transformReward = {
 export default function useSortedTargets (favorites: string[]): SortedTargets {
   const { api } = useApi();
   const { allAccounts } = useAccounts();
+  const historyDepth = useCall<BN>(api.query.staking.historyDepth);
   const totalIssuance = useCall<BN>(api.query.balances.totalIssuance);
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo);
@@ -214,9 +220,9 @@ export default function useSortedTargets (favorites: string[]): SortedTargets {
 
   const partial = useMemo(
     () => electedInfo && lastEraInfo && lastReward && totalIssuance && waitingInfo
-      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, lastReward)
+      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, lastReward, historyDepth)
       : EMPTY_PARTIAL,
-    [api, allAccounts, electedInfo, favorites, lastEraInfo, lastReward, totalIssuance, waitingInfo]
+    [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, lastReward, totalIssuance, waitingInfo]
   );
 
   return { inflation: { inflation: 0, stakedReturn: 0 }, ...partial, lastReward };
