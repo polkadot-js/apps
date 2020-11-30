@@ -21,6 +21,7 @@ import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
+import dusty from './dusty';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
@@ -39,7 +40,7 @@ export default {
   'darwinia-parachain': darwiniaParachain,
   'dock-main-runtime': dock,
   'dock-testnet': dock,
-  dusty3: plasm,
+  dusty3: dusty,
   edgeware,
   'encointer-node': encointerNodeNotee,
   'encointer-node-notee': encointerNodeNotee,
