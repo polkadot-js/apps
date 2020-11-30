@@ -252,7 +252,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       >
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('limit single operator exposure')}
+          label={t<string>('limit operator exposure')}
           onChange={setWithGroup}
           value={withGroup}
         />
