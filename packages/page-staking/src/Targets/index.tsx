@@ -49,6 +49,8 @@ interface SortState {
 
 const CLASSES: Record<string, string> = {
   rankBondOther: 'media--1600',
+  rankBondOwn: 'media--900',
+  rankComm: 'media--1100',
   rankNumNominators: 'media--1200'
 };
 const MAX_COMM_FILTER = 20;
