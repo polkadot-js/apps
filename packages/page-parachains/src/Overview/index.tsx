@@ -33,7 +33,7 @@ const transformProposals = {
 function Overview ({ isMine, sudoKey }: Props): React.ReactElement<Props> {
   const { api } = useApi();
   const parachains = useCall<DeriveParachain[]>(api.derive.parachains?.overview);
-  const proposals = useCall<ProposalExt[]>(api.query.proposeParachain?.proposals.entries as any, undefined, transformProposals);
+  const proposals = useCall<ProposalExt[]>(api.query.proposeParachain?.proposals.entries, undefined, transformProposals);
   const nextFreeId = useCall<BN>(api.query.registrar?.nextFreeId);
 
   return (

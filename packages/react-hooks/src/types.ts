@@ -14,7 +14,6 @@ export type CallParams = [] | CallParam[];
 
 export interface CallOptions <T> {
   defaultValue?: T;
-  isSingle?: boolean;
   paramMap?: (params: any) => CallParams;
   transform?: (value: any) => T;
   withParams?: boolean;
