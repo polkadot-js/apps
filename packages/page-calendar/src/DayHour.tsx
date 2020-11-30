@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfo } from './types';
+import type { EntryInfoTyped } from './types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
@@ -14,23 +14,25 @@ interface Props {
   hour: number;
   index: number;
   minutes: number;
-  scheduled: EntryInfo[];
+  scheduled: EntryInfoTyped[];
 }
 
 const MN_TO_MS = 60 * 1000;
 const HR_TO_MS = 60 * MN_TO_MS;
 
+function filterEntries (date: Date, minutes: number, index: number, scheduled: EntryInfoTyped[]): EntryInfoTyped[] {
+  const start = date.getTime() + (index * HR_TO_MS);
+  const end = start + HR_TO_MS;
+  const explicit = start + (minutes * MN_TO_MS);
+
+  return scheduled
+    .filter(({ dateTime }) => dateTime >= explicit && dateTime < end)
+    .sort((a, b) => (a.dateTime - b.dateTime) || a.type.localeCompare(b.type));
+}
+
 function DayHour ({ className = '', date, hour, index, minutes, scheduled }: Props): React.ReactElement<Props> | null {
   const filtered = useMemo(
-    (): EntryInfo[] => {
-      const start = date.getTime() + (index * HR_TO_MS);
-      const end = start + HR_TO_MS;
-      const explicit = start + (minutes * MN_TO_MS);
-
-      return scheduled
-        .filter(({ dateTime }) => dateTime >= explicit && dateTime < end)
-        .sort((a, b) => (a.dateTime - b.dateTime) || a.type.localeCompare(b.type));
-    },
+    () => filterEntries(date, minutes, index, scheduled),
     [date, index, minutes, scheduled]
   );
 
