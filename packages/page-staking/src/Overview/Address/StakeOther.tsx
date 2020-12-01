@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Balance } from '@polkadot/types/interfaces';
+import type { NominatorValue } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
@@ -12,18 +12,18 @@ import { BN_ZERO } from '@polkadot/util';
 
 interface Props {
   stakeOther?: BN;
-  nominators: [string, Balance][];
+  nominators: NominatorValue[];
 }
 
-function extractFunction (all: [string, Balance][]): null | [number, () => React.ReactNode[]] {
+function extractFunction (all: NominatorValue[]): null | [number, () => React.ReactNode[]] {
   return all.length
     ? [
       all.length,
-      () => all.map(([who, bonded]): React.ReactNode =>
+      () => all.map(({ nominatorId, value }): React.ReactNode =>
         <AddressMini
-          bonded={bonded}
-          key={who}
-          value={who}
+          bonded={value}
+          key={nominatorId}
+          value={nominatorId}
           withBonded
         />
       )
@@ -31,8 +31,8 @@ function extractFunction (all: [string, Balance][]): null | [number, () => React
     : null;
 }
 
-function extractTotals (maxPaid: BN | undefined, nominators: [string, Balance][], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
-  const sorted = nominators.sort((a, b) => b[1].cmp(a[1]));
+function extractTotals (maxPaid: BN | undefined, nominators: NominatorValue[], stakeOther?: BN): [null | [number, () => React.ReactNode[]], BN, null | [number, () => React.ReactNode[]], BN] {
+  const sorted = nominators.sort((a, b) => b.value.cmp(a.value));
 
   if (!maxPaid || maxPaid.gtn(sorted.length)) {
     return [extractFunction(sorted), stakeOther || BN_ZERO, null, BN_ZERO];
@@ -40,9 +40,9 @@ function extractTotals (maxPaid: BN | undefined, nominators: [string, Balance][]
 
   const max = maxPaid.toNumber();
   const rewarded = sorted.slice(0, max);
-  const rewardedTotal = rewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
+  const rewardedTotal = rewarded.reduce((total, { value }) => total.iadd(value), new BN(0));
   const unrewarded = sorted.slice(max);
-  const unrewardedTotal = unrewarded.reduce((total, [, value]) => total.iadd(value), new BN(0));
+  const unrewardedTotal = unrewarded.reduce((total, { value }) => total.iadd(value), new BN(0));
 
   return [extractFunction(rewarded), rewardedTotal, extractFunction(unrewarded), unrewardedTotal];
 }
@@ -66,7 +66,8 @@ function StakeOther ({ nominators, stakeOther }: Props): React.ReactElement<Prop
                 labelPost={` (${rewarded[0]})`}
                 value={rewardedTotal}
               />
-            }/>
+            }
+          />
           {unrewarded && (
             <Expander
               className='stakeOver'

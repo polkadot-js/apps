@@ -51,8 +51,9 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
       return false;
     })
     .filter((a) => a.bondTotal.gtn(0))
-    .sort((a, b) => b.commissionPer - a.commissionPer)
-    .map(mapIndex('rankComm'))
+    // ignored, not used atm
+    // .sort((a, b) => b.commissionPer - a.commissionPer)
+    // .map(mapIndex('rankComm'))
     .sort((a, b) => b.bondOther.cmp(a.bondOther))
     .map(mapIndex('rankBondOther'))
     .sort((a, b) => b.bondOwn.cmp(a.bondOwn))
@@ -63,8 +64,9 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     .map(mapIndex('rankPayment'))
     .sort((a, b) => a.stakedReturnCmp - b.stakedReturnCmp)
     .map(mapIndex('rankReward'))
-    .sort((a, b) => b.numNominators - a.numNominators)
-    .map(mapIndex('rankNumNominators'))
+    // ignored, not used atm
+    // .sort((a, b) => b.numNominators - a.numNominators)
+    // .map(mapIndex('rankNumNominators'))
     .sort((a, b): number => {
       const cmp = b.stakedReturnCmp - a.stakedReturnCmp;
 

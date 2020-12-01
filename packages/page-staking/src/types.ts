@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, Balance, BlockNumber, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import type { AccountId, Balance, BlockNumber, EraIndex, Exposure, Hash, SessionIndex, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import type { Inflation } from '@polkadot/react-hooks/types';
 
 import BN from 'bn.js';
@@ -11,6 +11,12 @@ export type Nominators = Record<string, string[]>;
 export type AccountFilter = 'all' | 'controller' | 'session' | 'stash' | 'unbonded';
 
 export type ValidatorFilter = 'all' | 'hasNominators' | 'noNominators' | 'hasWarnings' | 'noWarnings' | 'iNominated' | 'nextSet';
+
+export interface NominatedBy {
+  index: number;
+  nominatorId: string;
+  submittedIn: EraIndex;
+}
 
 export interface Slash {
   accountId: AccountId;

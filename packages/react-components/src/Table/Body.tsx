@@ -107,6 +107,14 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       width: 0;
     }
 
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
+    }
+
     &.number {
       text-align: right;
     }
