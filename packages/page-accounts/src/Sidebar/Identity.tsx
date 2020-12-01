@@ -95,7 +95,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <div className='tr'>
                 <div className='th'>{t<string>('email')}</div>
                 <div className='td'>
-                  {isHex(identity.email)
+                  {isHex(identity.email) || !identity.isKnownGood
                     ? identity.email
                     : (
                       <a
@@ -113,7 +113,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <div className='tr'>
                 <div className='th'>{t<string>('website')}</div>
                 <div className='td'>
-                  {isHex(identity.web)
+                  {isHex(identity.web) || !identity.isKnownGood
                     ? identity.web
                     : (
                       <a
@@ -131,7 +131,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <div className='tr'>
                 <div className='th'>{t<string>('twitter')}</div>
                 <div className='td'>
-                  {isHex(identity.twitter)
+                  {isHex(identity.twitter) || !identity.isKnownGood
                     ? identity.twitter
                     : (
                       <a
