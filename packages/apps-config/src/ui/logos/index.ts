@@ -8,11 +8,22 @@
 // alphabetical
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
-import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
-
+import chainRococo from './chains/rococo.svg';
+// last-resort fallback, just something empty
+import emptyLogo from './empty.svg';
+// extensions
+// alphabetical
+import extensionPolkadotJs from './extensions/polkadot-js.svg';
+// external links
+// alphabetical
+import externalCommonwealth from './external/commonwealth.png';
+import externalPolkascan from './external/polkascan.png';
+import externalPolkassembly from './external/polkassembly.png';
+import externalPolkastats from './external/polkastats.png';
+import externalSubscan from './external/subscan.svg';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 // alphabetical
 import nodeAcala from './nodes/acala-circle.svg';
@@ -28,36 +39,21 @@ import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
 import nodeEquilibrium from './nodes/equilibrium.svg';
-import nodeNodle from './nodes/nodle.svg';
 import nodeHanonycash from './nodes/hanonycash.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodeKulupu from './nodes/kulupu.svg';
 import nodeLaminar from './nodes/laminar-circle.svg';
 import moonbeam from './nodes/moonbeam.png';
+import nodeNodle from './nodes/nodle.svg';
 import nodePhala from './nodes/phala.svg';
 import nodePlasm from './nodes/plasm.png';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
-import nodeSora from './nodes/sora-substrate.svg';
 import nodeRobonomics from './nodes/robonomics.svg';
+import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
-
-// extensions
-// alphabetical
-import extensionPolkadotJs from './extensions/polkadot-js.svg';
-
-// external links
-// alphabetical
-import externalCommonwealth from './external/commonwealth.png';
-import externalPolkascan from './external/polkascan.png';
-import externalPolkassembly from './external/polkassembly.png';
-import externalPolkastats from './external/polkastats.png';
-import externalSubscan from './external/subscan.svg';
-
-// last-resort fallback, just something empty
-import emptyLogo from './empty.svg';
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC

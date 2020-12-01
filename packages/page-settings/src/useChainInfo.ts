@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainInfo } from './types';
-
 import { useMemo } from 'react';
 
 import { getSystemChainColor, getSystemIcon } from '@polkadot/apps-config';
-import { getSpecTypes } from '@polkadot/types-known';
 import { DEFAULT_DECIMALS, DEFAULT_SS58, registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
+import { getSpecTypes } from '@polkadot/types-known';
 import { isNumber } from '@polkadot/util';
+
+import type { ChainInfo } from './types';
 
 export default function useChainInfo (): ChainInfo | null {
   const { api, isApiReady, systemChain, systemName } = useApi();

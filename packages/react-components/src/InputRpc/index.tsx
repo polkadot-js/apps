@@ -3,18 +3,18 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import type { DefinitionRpcExt } from '@polkadot/types/types';
-import type { DropdownOptions } from '../util/types';
-
 import React, { useCallback, useEffect, useState } from 'react';
+
+import type { DefinitionRpcExt } from '@polkadot/types/types';
 import { useApi } from '@polkadot/react-hooks';
 
+import type { DropdownOptions } from '../util/types';
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
 import rpcs from './rpcs';
+import SelectMethod from './SelectMethod';
+import SelectSection from './SelectSection';
 
 interface Props {
   className?: string;

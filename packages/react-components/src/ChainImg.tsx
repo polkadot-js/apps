@@ -3,6 +3,7 @@
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
 import { chainLogos, emptyLogos, namedLogos, nodeLogos } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 

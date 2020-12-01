@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyringJson } from '@polkadot/ui-keyring/types';
-
 import { contextBridge, ipcRenderer } from 'electron';
+
+import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
 contextBridge.exposeInMainWorld('ElectronMain', {
   accountStore: {

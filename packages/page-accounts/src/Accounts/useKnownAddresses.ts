@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useMemo } from 'react';
+
 import { useAccounts, useAddresses } from '@polkadot/react-hooks';
 
 export default function useKnownAddresses (exclude?: string): string[] {

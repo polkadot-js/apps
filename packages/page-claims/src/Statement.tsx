@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { StatementKind } from '@polkadot/types/interfaces';
-
 import React from 'react';
 import styled from 'styled-components';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { StatementKind } from '@polkadot/types/interfaces';
 
 import { useTranslation } from './translate';
 import { getStatement } from './util';

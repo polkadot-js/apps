@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { RouteProps } from '@polkadot/apps-routing/types';
-
 import React from 'react';
 import { Redirect } from 'react-router';
+
+import type { RouteProps } from '@polkadot/apps-routing/types';
 
 interface Props extends RouteProps {
   missingApis?: (string | string[])[];

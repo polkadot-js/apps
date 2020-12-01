@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-
 import React from 'react';
+
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { LockedVote } from '@polkadot/react-query';
 
 export interface Props {

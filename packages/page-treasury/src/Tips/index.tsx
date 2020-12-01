@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-
 import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
+
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Button, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 

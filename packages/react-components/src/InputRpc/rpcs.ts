@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DefinitionRpc, DefinitionRpcExt } from '@polkadot/types/types';
-
 import { typesRpc } from '@polkadot/apps-config';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 

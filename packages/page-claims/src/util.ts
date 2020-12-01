@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EthereumAddress, EcdsaSignature, StatementKind } from '@polkadot/types/interfaces';
-
 import secp256k1 from 'secp256k1/elliptic';
+
+import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 import registry from '@polkadot/react-api/typeRegistry';
-import { assert, hexToU8a, stringToU8a, u8aToBuffer, u8aConcat } from '@polkadot/util';
+import { assert, hexToU8a, stringToU8a, u8aConcat, u8aToBuffer } from '@polkadot/util';
 import { keccakAsHex, keccakAsU8a } from '@polkadot/util-crypto';
 
 interface RecoveredSignature {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
+
 import keyring from '@polkadot/ui-keyring';
 
 interface PasswordProps {

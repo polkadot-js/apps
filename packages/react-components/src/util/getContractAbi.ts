@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { AnyJson } from '@polkadot/types/types';
-
 import { Abi } from '@polkadot/api-contract';
 import { api } from '@polkadot/react-api';
 

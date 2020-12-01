@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React, { useCallback } from 'react';
+
 import type { SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { RawParamOnChange, RawParamOnEnter, RawParamOnEscape } from '@polkadot/react-params/types';
-
-import React, { useCallback } from 'react';
 
 import BaseExtrinsic from '../Extrinsic';
 

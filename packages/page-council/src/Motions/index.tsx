@@ -1,17 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React, { useRef } from 'react';
+
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
-
-import React, { useRef } from 'react';
 import { Button, Table } from '@polkadot/react-components';
 import { useMembers } from '@polkadot/react-hooks';
 
 import { useTranslation } from '../translate';
 import Motion from './Motion';
-import ProposeMotion from './ProposeMotion';
 import ProposeExternal from './ProposeExternal';
+import ProposeMotion from './ProposeMotion';
 import Slashing from './Slashing';
 
 interface Props {

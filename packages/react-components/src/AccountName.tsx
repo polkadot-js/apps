@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import registry from '@polkadot/react-api/typeRegistry';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
-import { useCall, useApi } from '@polkadot/react-hooks';
+import registry from '@polkadot/react-api/typeRegistry';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
-import { getAddressName } from './util';
 import Badge from './Badge';
+import { getAddressName } from './util';
 
 interface Props {
   children?: React.ReactNode;

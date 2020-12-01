@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Call } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
+
+import type { Call } from '@polkadot/types/interfaces';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useApi } from './useApi';

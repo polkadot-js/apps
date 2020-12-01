@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React from 'react';
+
 import type { Option } from '@polkadot/apps-config/settings/types';
 import type { SettingsStruct } from '@polkadot/ui-settings/types';
-
-import React from 'react';
 import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 

@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-
 import React, { useCallback, useState } from 'react';
+
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Button, Extrinsic, InputAddress, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BalanceFree } from '@polkadot/react-query';

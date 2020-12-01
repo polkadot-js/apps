@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StakerState } from '@polkadot/react-hooks/types';
-
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
+import type { StakerState } from '@polkadot/react-hooks/types';
 import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 

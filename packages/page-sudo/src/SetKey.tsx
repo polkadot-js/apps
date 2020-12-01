@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from 'react';
-import { AddressMini, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
-
 import styled from 'styled-components';
+
+import { AddressMini, InputAddress, Labelled, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
 

@@ -1,10 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ModalState } from './types';
-
 import { useCallback } from 'react';
 
+import type { ModalState } from './types';
 import { useToggle } from './useToggle';
 
 export function useModal (defaultIsOpen?: boolean, onOpen?: () => void, onClose?: () => void): ModalState {

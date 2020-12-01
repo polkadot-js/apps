@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-parachains authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ProposalExt } from './types';
-
 import React, { useMemo } from 'react';
-import { AddressSmall, AddressMini } from '@polkadot/react-components';
+
+import { AddressMini, AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
+
+import type { ProposalExt } from './types';
 
 interface Props {
   proposal: ProposalExt;

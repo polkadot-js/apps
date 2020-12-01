@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Time } from '@polkadot/util/types';
-
 import BN from 'bn.js';
 import { useMemo } from 'react';
+
+import type { Time } from '@polkadot/util/types';
 import { useApi } from '@polkadot/react-hooks';
 import { BN_ONE, extractTime } from '@polkadot/util';
 

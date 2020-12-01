@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { PeerInfo } from '@polkadot/types/interfaces';
-
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+
+import type { PeerInfo } from '@polkadot/types/interfaces';
+import { Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { Table } from '@polkadot/react-components';
 
 interface Props {
   className?: string;

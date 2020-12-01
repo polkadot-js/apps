@@ -3,17 +3,17 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic
 
-import type { QueryableStorageEntry } from '@polkadot/api/types';
-import type { DropdownOptions } from '../util/types';
-
 import React, { useCallback, useState } from 'react';
+
+import type { QueryableStorageEntry } from '@polkadot/api/types';
 import { useApi } from '@polkadot/react-hooks';
 
+import type { DropdownOptions } from '../util/types';
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectKey from './SelectKey';
-import SelectSection from './SelectSection';
 import keyOptions from './options/key';
 import sectionOptions from './options/section';
+import SelectKey from './SelectKey';
+import SelectSection from './SelectSection';
 
 interface Props {
   className?: string;

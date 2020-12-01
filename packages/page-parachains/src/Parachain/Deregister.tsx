@@ -1,15 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React, { useCallback, useMemo, useRef } from 'react';
+
 import type { DeriveParachainInfo } from '@polkadot/api-derive/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-
-import React, { useCallback, useMemo, useRef } from 'react';
+import { Modal, Static, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import { Modal, Static, TxButton } from '@polkadot/react-components';
 import ParachainInfo from '../ParachainInfo';
-
 import { useTranslation } from '../translate';
 
 interface Props {

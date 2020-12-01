@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
+
 import FormatBalance from './FormatBalance';
 
 interface Props {

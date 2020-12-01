@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
-import type { LinkOption } from './types';
 
+import type { LinkOption } from './types';
 import { CUSTOM_ENDPOINT_KEY } from './constants';
 
 interface EnvWindow {

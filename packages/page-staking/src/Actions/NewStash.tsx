@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BondInfo } from './partials/types';
-
 import React, { useCallback, useState } from 'react';
+
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
+import type { BondInfo } from './partials/types';
 import { useTranslation } from '../translate';
 import BondPartial from './partials/Bond';
 

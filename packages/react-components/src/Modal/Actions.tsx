@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActionsProps } from './types';
-
 import React from 'react';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
 
+import type { ActionsProps } from './types';
 import Button from '../Button';
 import ButtonCancel from '../ButtonCancel';
 

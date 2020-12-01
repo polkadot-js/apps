@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
-import type { ChartInfo, LineDataEntry, Props } from './types';
-
 import React, { useMemo, useRef } from 'react';
+
+import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import type { ChartInfo, LineDataEntry, Props } from './types';
 import { useTranslation } from '../translate';
 
 const COLORS_POINTS = [undefined, '#acacac'];

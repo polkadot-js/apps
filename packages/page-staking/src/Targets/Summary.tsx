@@ -3,7 +3,8 @@
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';

@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useCallback, useEffect, useState } from 'react';
+
 import type { DeriveAccountFlags, DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { StringOrNull } from '@polkadot/react-components/types';
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
-import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
-
-import { useCallback, useEffect, useState } from 'react';
 import keyring from '@polkadot/ui-keyring';
 
+import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 import { useAccounts } from './useAccounts';
 import { useAddresses } from './useAddresses';
 import { useApi } from './useApi';

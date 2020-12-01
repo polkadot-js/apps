@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useFormField, FormField } from './useFormField';
+import { FormField, useFormField } from './useFormField';
 
 export function useNonEmptyString (initialValue = ''): FormField<string> {
   return useFormField(

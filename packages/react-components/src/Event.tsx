@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React, { useMemo } from 'react';
+
 import type { DecodedEvent } from '@polkadot/api-contract/types';
 import type { Bytes } from '@polkadot/types';
 import type { Event } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
-
-import React, { useMemo } from 'react';
 import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';

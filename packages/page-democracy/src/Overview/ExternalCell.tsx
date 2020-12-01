@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React from 'react';
+
 import type { DeriveProposalImage } from '@polkadot/api-derive/types';
 import type { Hash } from '@polkadot/types/interfaces';
-
-import React from 'react';
-import { useApi, useCall } from '@polkadot/react-hooks';
 import { CallExpander } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { Holder } from '@polkadot/react-params';
 
 import { useTranslation } from '../translate';

@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { POLKADOT_GENESIS, KUSAMA_GENESIS } from '../constants';
+import { KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
 
 interface InflationParams {
   falloff: number;

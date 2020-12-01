@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ItemRoute } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
+
 import { Badge, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
+
+import type { ItemRoute } from './types';
 
 interface Props {
   className?: string;

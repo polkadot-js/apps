@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React, { useCallback, useEffect, useState } from 'react';
+
 import type { Data, Option, Vec } from '@polkadot/types';
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 import type { ITuple } from '@polkadot/types/types';
-
-import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Columar, Input, InputAddress, Modal, Spinner, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { u8aToString } from '@polkadot/util';

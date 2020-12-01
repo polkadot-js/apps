@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useEffect, useState } from 'react';
+
 import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
 import type { u32 } from '@polkadot/types';
-import type { SessionRewards } from '../types';
-
-import { useEffect, useState } from 'react';
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
+
+import type { SessionRewards } from '../types';
 
 export default function useBlockCounts (accountId: string, sessionRewards: SessionRewards[]): u32[] {
   const { api } = useApi();

@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { StringOrNull } from '@polkadot/react-components/types';
-
 import { useCallback, useEffect, useState } from 'react';
+
+import type { StringOrNull } from '@polkadot/react-components/types';
 import { Abi } from '@polkadot/api-contract';
 import { api } from '@polkadot/react-api';
 import { u8aToString } from '@polkadot/util';

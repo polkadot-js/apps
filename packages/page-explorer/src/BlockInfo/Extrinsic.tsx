@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
-import type { KeyedEvent } from '@polkadot/react-query/types';
-
 import React from 'react';
 import styled from 'styled-components';
+
+import type { KeyedEvent } from '@polkadot/react-query/types';
+import type { BlockNumber, Extrinsic } from '@polkadot/types/interfaces';
 import { AddressMini, Call, Expander, LinkExternal } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import Event from '../Event';
+import { useTranslation } from '../translate';
 
 interface Props {
   blockNumber?: BlockNumber;
