@@ -3,7 +3,7 @@
 
 import type { DeriveStakingOverview, DeriveHasIdentity } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
-import type { SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -16,6 +16,7 @@ import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { MAX_NOMINATIONS } from '../constants';
 import { useTranslation } from '../translate';
+import useNominations from '../useNominations';
 import Nominate from './Nominate';
 import Summary from './Summary';
 import Validator from './Validator';
@@ -49,16 +50,14 @@ interface SortState {
 
 const CLASSES: Record<string, string> = {
   rankBondOther: 'media--1600',
-  rankBondOwn: 'media--900',
-  rankComm: 'media--1100',
-  rankNumNominators: 'media--1200'
+  rankBondOwn: 'media--900'
 };
-const MAX_CAP_PERCENT = 75;
-const MAX_COMM_PERCENT = 20; // %
+const MAX_CAP_PERCENT = 100; // 75 if only using numNominators
+const MAX_COMM_PERCENT = 20;
 const MAX_DAYS = 7;
-const SORT_KEYS = ['rankNumNominators', 'rankComm', 'rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
+const SORT_KEYS = ['rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
-function filterValidators (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags): ValidatorInfo[] {
+function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
   const parentIds: string[] = [];
 
   return validators.filter(({ accountId, commissionPer, isElected, isFavorite, lastPayout, numNominators }): boolean => {
@@ -68,13 +67,14 @@ function filterValidators (validators: ValidatorInfo[], allIdentity: Record<stri
 
     const stashId = accountId.toString();
     const thisIdentity = allIdentity[stashId];
+    const nomCount = nominatedBy?.[stashId]?.length || numNominators || 0;
 
     if (
       (!withElected || isElected) &&
       (!withIdentity || !!thisIdentity?.hasIdentity) &&
       (!withPayout || !isBabe || (!!lastPayout && daysPayout.gte(lastPayout))) &&
       (!withoutComm || (commissionPer < MAX_COMM_PERCENT)) &&
-      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gtn(numNominators))
+      (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gten(nomCount))
     ) {
       if (!withGroup || !thisIdentity || !thisIdentity.parentId) {
         if (!parentIds.includes(stashId)) {
@@ -145,6 +145,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const allSlashes = useAvailableSlashes();
   const daysPayout = useBlocksPerDays(MAX_DAYS);
   const ownNominators = useOwnNominators(ownStashes);
+  const nominatedBy = useNominations(true);
   const [selected, setSelected] = useState<string[]>([]);
   const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
   const [withElected, setWithElected] = useState(false);
@@ -161,8 +162,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     rankBondOther: t<string>('other stake'),
     rankBondOwn: t<string>('own stake'),
     rankBondTotal: t<string>('total stake'),
-    rankComm: t<string>('comm.'),
-    rankNumNominators: t<string>('nominators'),
     rankOverall: t<string>('return')
   });
 
@@ -183,8 +182,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const filtered = useMemo(
-    () => allIdentity && validators && filterValidators(validators, allIdentity, flags),
-    [allIdentity, flags, validators]
+    () => allIdentity && validators && nominatedBy && applyFilter(validators, allIdentity, flags, nominatedBy),
+    [allIdentity, flags, nominatedBy, validators]
   );
 
   // We are using an effect here to get this async. Sorting will have a double-render, however it allows
@@ -235,6 +234,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const header = useMemo(() => [
     [t('validators'), 'start', 3],
     [t('payout'), 'media--1500'],
+    [t('nominators'), 'media--1200', 2],
+    [t('comm.'), 'media--1100'],
     ...(SORT_KEYS as (keyof typeof labelsRef.current)[]).map((header) => [
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
@@ -267,7 +268,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         />
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('no {{maxCap}}%+ capacity', { replace: { maxCap: MAX_CAP_PERCENT } })}
+          label={
+            MAX_CAP_PERCENT < 100
+              ? t<string>('no {{maxCap}}%+ capacity', { replace: { maxCap: MAX_CAP_PERCENT } })
+              : t<string>('no at capacity')
+          }
           onChange={setWithoutOver}
           value={withoutOver}
         />
@@ -322,6 +327,12 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <ElectionBanner isInElection={isInElection} />
       <Table
         empty={sorted && t<string>('No active validators to check')}
+        emptySpinner={
+          <>
+            {!(validators && allIdentity) && <div>{t('Retrieving validators')}</div>}
+            {!nominatedBy && <div>{t('Retrieving nominators')}</div>}
+          </>
+        }
         filter={filter}
         header={header}
         legend={<Legend />}
@@ -335,6 +346,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
             isNominated={myNominees.includes(info.key)}
             isSelected={selected.includes(info.key)}
             key={info.key}
+            nominatedBy={nominatedBy?.[info.key]}
             toggleFavorite={toggleFavorite}
             toggleSelected={_toggleSelected}
           />

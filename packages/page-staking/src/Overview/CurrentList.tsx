@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { Option, StorageKey } from '@polkadot/types';
-import type { AccountId, EraIndex, Nominations } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 import type { Authors } from '@polkadot/react-query/BlockAuthors';
 import type { SortedTargets, ValidatorInfo } from '../types';
 
@@ -15,6 +14,7 @@ import { BlockAuthorsContext } from '@polkadot/react-query';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';
+import useNominations from '../useNominations';
 import Address from './Address';
 
 interface Props {
@@ -71,34 +71,12 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function extractNominators (nominations: [StorageKey, Option<Nominations>][]): Record<string, [string, EraIndex, number][]> {
-  return nominations.reduce((mapped: Record<string, [string, EraIndex, number][]>, [key, optNoms]) => {
-    if (optNoms.isSome && key.args.length) {
-      const nominatorId = key.args[0].toString();
-      const { submittedIn, targets } = optNoms.unwrap();
-
-      targets.forEach((_validatorId, index): void => {
-        const validatorId = _validatorId.toString();
-        const info: [string, EraIndex, number] = [nominatorId, submittedIn, index + 1];
-
-        if (!mapped[validatorId]) {
-          mapped[validatorId] = [info];
-        } else {
-          mapped[validatorId].push(info);
-        }
-      });
-    }
-
-    return mapped;
-  }, {});
-}
-
 function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
   const recentlyOnline = useCall<DeriveHeartbeats>(!isIntentions && api.derive.imOnline?.receivedHeartbeats);
-  const nominators = useCall<[StorageKey, Option<Nominations>][]>(isIntentions && api.query.staking.nominators.entries);
+  const nominatedBy = useNominations(isIntentions);
   const [nameFilter, setNameFilter] = useState<string>('');
   const [withIdentity, setWithIdentity] = useState(false);
 
@@ -111,17 +89,12 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   );
 
   const infoMap = useMemo(
-    () => (targets?.validators || []).reduce((result: Record<string, ValidatorInfo>, info): Record<string, ValidatorInfo> => {
+    () => targets.validators?.reduce((result: Record<string, ValidatorInfo>, info): Record<string, ValidatorInfo> => {
       result[info.accountId.toString()] = info;
 
       return result;
     }, {}),
     [targets]
-  );
-
-  const nominatedBy = useMemo(
-    () => nominators ? extractNominators(nominators) : null,
-    [nominators]
   );
 
   const headerWaitingRef = useRef([
@@ -160,7 +133,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
           onlineMessage={recentlyOnline?.[address]?.hasMessage}
           points={eraPoints[address]}
           toggleFavorite={toggleFavorite}
-          validatorInfo={infoMap[address]}
+          validatorInfo={infoMap?.[address]}
           withIdentity={withIdentity}
         />
       )),
@@ -170,7 +143,14 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   return isIntentions
     ? (
       <Table
-        empty={!isLoading && waiting && t<string>('No waiting validators found')}
+        empty={!isLoading && waiting && nominatedBy && t<string>('No waiting validators found')}
+        emptySpinner={
+          <>
+            {!waiting && <div>{t<string>('Retrieving validators')}</div>}
+            {!infoMap && <div>{t<string>('Retrieving validator info')}</div>}
+            {!nominatedBy && <div>{t<string>('Retrieving nominators')}</div>}
+          </>
+        }
         filter={
           <Filtering
             nameFilter={nameFilter}
@@ -182,12 +162,19 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
         header={headerWaitingRef.current}
         legend={<Legend />}
       >
-        {isLoading ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
+        {(isLoading || !nominatedBy) ? undefined : _renderRows(elected, false).concat(_renderRows(waiting, false))}
       </Table>
     )
     : (
       <Table
-        empty={!isLoading && validators && t<string>('No active validators found')}
+        empty={!isLoading && recentlyOnline && validators && infoMap && t<string>('No active validators found')}
+        emptySpinner={
+          <>
+            {!validators && <div>{t<string>('Retrieving validators')}</div>}
+            {!infoMap && <div>{t<string>('Retrieving validator info')}</div>}
+            {!recentlyOnline && <div>{t<string>('Retrieving online status')}</div>}
+          </>
+        }
         filter={
           <Filtering
             nameFilter={nameFilter}
@@ -199,7 +186,7 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
         header={headerActiveRef.current}
         legend={<Legend />}
       >
-        {isLoading ? undefined : _renderRows(validators, true)}
+        {(isLoading || !recentlyOnline || !infoMap) ? undefined : _renderRows(validators, true)}
       </Table>
     );
 }
