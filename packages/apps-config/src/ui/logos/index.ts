@@ -88,7 +88,7 @@ export const nodeLogos: Record<string, unknown> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
   ['darwinia crab', nodeCrab],
-  ['crust node', nodeCrust],
+  ['crust', nodeCrust],
   ['darwinia', nodeDarwinia],
   ['darwinia parachain', nodeDarwinia],
   ['Dock Full Node', nodeDockMainnet],
