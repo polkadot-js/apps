@@ -1,28 +1,28 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import type { ElectionStatus } from '@polkadot/types/interfaces';
-
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { ElectionStatus } from '@polkadot/types/interfaces';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
-import basicMd from './md/basic.md';
 import Actions from './Actions';
+import { STORE_FAVS_BASE } from './constants';
+import basicMd from './md/basic.md';
 import Overview from './Overview';
+import Summary from './Overview/Summary';
 import Payouts from './Payouts';
 import Query from './Query';
-import Summary from './Overview/Summary';
 import Slashes from './Slashes';
 import Targets from './Targets';
-import { STORE_FAVS_BASE } from './constants';
 import { useTranslation } from './translate';
 import useSortedTargets from './useSortedTargets';
 

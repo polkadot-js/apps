@@ -1,17 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { UInt } from '@polkadot/types';
-import type { ThemeProps } from './types';
-
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+
+import type { UInt } from '@polkadot/types';
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isUndefined } from '@polkadot/util';
 
-import Progress from './Progress';
+import type { ThemeProps } from './types';
 import Labelled from './Labelled';
-import { BlockToTime } from '@polkadot/react-query';
+import Progress from './Progress';
 
 interface ProgressProps {
   hideValue?: boolean;

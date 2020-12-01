@@ -5,7 +5,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Collection, { CollectionProps as Props, CollectionState as State, collectionStyles } from './Collection';
-
 import translate from './translate';
 
 class Column extends Collection<Props, State> {

@@ -4,8 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useTranslation } from './translate';
 import spinnerSrc from './Spinner.png';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

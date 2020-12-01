@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { DateState } from './types';
-
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
 import { Tabs } from '@polkadot/react-components';
 
+import type { DateState } from './types';
 import Day from './Day';
 import Month from './Month';
 import { useTranslation } from './translate';

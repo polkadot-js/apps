@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { SortedTargets } from '../types';
-
 import React from 'react';
 
+import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+
+import type { SortedTargets } from '../types';
 import CurrentList from './CurrentList';
 
 interface Props {

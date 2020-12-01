@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
-
 import React, { useState } from 'react';
+
+import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle, useWeight } from '@polkadot/react-hooks';
 

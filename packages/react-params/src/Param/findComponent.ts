@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Registry, TypeDef } from '@polkadot/types/types';
-import type { Props, ComponentMap } from '../types';
-
 import { getTypeDef } from '@polkadot/types';
 import { TypeDefInfo } from '@polkadot/types/types';
 import { isBn } from '@polkadot/util';
 
+import type { ComponentMap, Props } from '../types';
 import Account from './Account';
 import Amount from './Amount';
 import Balance from './Balance';
@@ -17,8 +16,8 @@ import Call from './Call';
 import Code from './Code';
 import DispatchError from './DispatchError';
 import Enum from './Enum';
-import Hash256 from './Hash256';
 import Hash160 from './Hash160';
+import Hash256 from './Hash256';
 import Hash512 from './Hash512';
 import KeyValue from './KeyValue';
 import KeyValueArray from './KeyValueArray';

@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { useEffect, useState } from 'react';
+
 import type { QueryableStorageEntry } from '@polkadot/api/types';
 import type { Option } from '@polkadot/types';
-import type { Codec } from '@polkadot/types/types';
 import type { EthereumAddress } from '@polkadot/types/interfaces';
-
-import { useEffect, useState } from 'react';
+import type { Codec } from '@polkadot/types/types';
 import { useAccounts, useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 
 export default function usePolkadotPreclaims (): string[] {

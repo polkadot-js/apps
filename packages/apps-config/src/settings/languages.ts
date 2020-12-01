@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
+
 import type { Option } from './types';
 
 export function createLanguages (t: TFunction): Option[] {

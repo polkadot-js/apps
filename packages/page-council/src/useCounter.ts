@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 const transformCounter = {

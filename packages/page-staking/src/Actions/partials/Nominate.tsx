@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { NominateInfo } from './types';
-import type { SortedTargets } from '../../types';
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { InputAddress, InputAddressMulti, Modal } from '@polkadot/react-components';
 import { useApi, useFavorites } from '@polkadot/react-hooks';
 
+import type { SortedTargets } from '../../types';
+import type { NominateInfo } from './types';
 import { MAX_NOMINATIONS, STORE_FAVS_BASE } from '../../constants';
 import { useTranslation } from '../../translate';
 

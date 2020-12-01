@@ -1,20 +1,20 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { LinkOption } from '@polkadot/apps-config/settings/types';
-import type { ThemeProps } from '@polkadot/react-components/types';
-import type { Group } from './types';
-
-import React, { useCallback, useMemo, useState } from 'react';
 // ok, this seems to be an eslint bug, this _is_ a package import
 /* eslint-disable-next-line node/no-deprecated-api */
 import punycode from 'punycode';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { CUSTOM_ENDPOINT_KEY, createWsEndpoints } from '@polkadot/apps-config';
+
+import type { LinkOption } from '@polkadot/apps-config/settings/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import { createWsEndpoints, CUSTOM_ENDPOINT_KEY } from '@polkadot/apps-config';
 import { Button, Input, Sidebar } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 import { isAscii } from '@polkadot/util';
 
+import type { Group } from './types';
 import { useTranslation } from '../translate';
 import GroupDisplay from './Group';
 

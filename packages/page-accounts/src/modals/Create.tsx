@@ -1,23 +1,23 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ActionStatus } from '@polkadot/react-components/Status/types';
-import type { CreateResult } from '@polkadot/ui-keyring/types';
-import type { KeypairType } from '@polkadot/util-crypto/types';
-import type { ModalProps } from '../types';
-
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { CreateResult } from '@polkadot/ui-keyring/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
+import { getEnvironment } from '@polkadot/react-api/util';
 import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, Modal, TextArea } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { getEnvironment } from '@polkadot/react-api/util';
 
+import type { ModalProps } from '../types';
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
 import ExternalWarning from './ExternalWarning';

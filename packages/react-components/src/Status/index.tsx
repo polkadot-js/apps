@@ -1,19 +1,18 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
-
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import type { IconName } from '@fortawesome/fontawesome-svg-core';
 
+import type { QueueStatus, QueueTx, QueueTxStatus } from './types';
 import AddressMini from '../AddressMini';
 import Button from '../Button';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 import { useTranslation } from '../translate';
-import StatusContext from './Context';
 import { STATUS_COMPLETE } from './constants';
+import StatusContext from './Context';
 
 export { StatusContext };
 

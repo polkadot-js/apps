@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DispatchError } from '@polkadot/types/interfaces';
-import type { Props } from '../types';
-
 import React, { useEffect, useState } from 'react';
+
+import type { DispatchError } from '@polkadot/types/interfaces';
 import { Input } from '@polkadot/react-components';
 
+import type { Props } from '../types';
 import { useTranslation } from '../translate';
 import Static from './Static';
 import Unknown from './Unknown';

@@ -1,19 +1,19 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyringItemType } from '@polkadot/ui-keyring/types';
-import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 
-import { toShortAddress } from './util';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
+import type { KeyringItemType } from '@polkadot/ui-keyring/types';
+
 import AccountName from './AccountName';
 import BalanceDisplay from './Balance';
 import BondedDisplay from './Bonded';
 import IdentityIcon from './IdentityIcon';
 import LockedVote from './LockedVote';
+import { toShortAddress } from './util';
 
 interface Props {
   balance?: BN | BN[];

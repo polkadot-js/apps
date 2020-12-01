@@ -1,11 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { EntryInfoTyped } from './types';
-
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
+import type { EntryInfoTyped } from './types';
 import DayItem from './DayItem';
 
 interface Props {

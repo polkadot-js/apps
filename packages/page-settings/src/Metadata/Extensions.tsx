@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { ChainInfo } from '../types';
-
 import React, { useCallback, useMemo, useState } from 'react';
+
 import { extensionLogos } from '@polkadot/apps-config';
 import { Button, Dropdown, Spinner } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
+import type { ChainInfo } from '../types';
 import { useTranslation } from '../translate';
 import useExtensions from '../useExtensions';
 import iconOption from './iconOption';

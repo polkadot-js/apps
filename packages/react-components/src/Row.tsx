@@ -3,6 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { useToggle } from '@polkadot/react-hooks';
 
 import EditButton from './EditButton';

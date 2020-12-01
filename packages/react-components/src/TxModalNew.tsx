@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TxModalProps as Props } from './types';
+import React, { useEffect, useState } from 'react';
 
-import React, { useState, useEffect } from 'react';
 import { Button, InputAddress, Modal } from '@polkadot/react-components';
 // import { useTx } from '@polkadot/react-hooks';
 import { isUndefined } from '@polkadot/util';
 
+import type { TxModalProps as Props } from './types';
 import translate from './translate';
 
 function TxModal<P extends Props> ({

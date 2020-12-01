@@ -1,20 +1,20 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
-import type { Option } from '@polkadot/types';
-import type { ContractInfo } from '@polkadot/types/interfaces';
-import type { ThemeProps } from '@polkadot/react-components/types';
-
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import type { AbiMessage, ContractCallOutcome } from '@polkadot/api-contract/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Option } from '@polkadot/types';
+import type { ContractInfo } from '@polkadot/types/interfaces';
 import { Abi, ContractPromise } from '@polkadot/api-contract';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import Message from './Message';
 import { useTranslation } from '../translate';
+import Message from './Message';
 
 export interface Props {
   className?: string;

@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props } from '../types';
-
 import React, { useCallback, useMemo, useState } from 'react';
+
 import { Dropdown } from '@polkadot/react-components';
 
+import type { Props } from '../types';
 import { useTranslation } from '../translate';
 import Bare from './Bare';
 

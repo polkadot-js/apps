@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
-import type { Text } from '@polkadot/types';
-
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
+import type { Text } from '@polkadot/types';
 import { LabelHelp } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
 import Icon from './Icon';
+import { useTranslation } from './translate';
 
 interface Meta {
   documentation: Text[];

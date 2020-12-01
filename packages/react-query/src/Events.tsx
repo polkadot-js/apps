@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { IndexedEvent, KeyedEvent } from './types';
-
 import React, { useEffect, useState } from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';
+
+import type { IndexedEvent, KeyedEvent } from './types';
 
 type Events = KeyedEvent[];
 

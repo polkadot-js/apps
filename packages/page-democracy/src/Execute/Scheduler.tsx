@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import React, { useRef } from 'react';
+
 import type { Option } from '@polkadot/types';
 import type { BlockNumber, Scheduled } from '@polkadot/types/interfaces';
-import type { ScheduledExt } from './types';
-
-import React, { useRef } from 'react';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import type { ScheduledExt } from './types';
 import { useTranslation } from '../translate';
 import ScheduledView from './Scheduled';
 

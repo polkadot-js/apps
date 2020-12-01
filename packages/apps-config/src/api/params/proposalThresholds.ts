@@ -3,7 +3,7 @@
 
 import type { ApiPromise } from '@polkadot/api';
 
-import { POLKADOT_GENESIS, KULUPU_GENESIS, KUSAMA_GENESIS } from '../constants';
+import { KULUPU_GENESIS, KUSAMA_GENESIS, POLKADOT_GENESIS } from '../constants';
 
 const PROPOSE_THRESHOLDS: Record<string, number> = {
   [KULUPU_GENESIS]: 1,

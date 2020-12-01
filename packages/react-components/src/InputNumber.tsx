@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { SiDef } from '@polkadot/util/types';
-import type { BitLength } from './types';
-
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { registry } from '@polkadot/react-api';
-import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
+import type { SiDef } from '@polkadot/util/types';
+import { registry } from '@polkadot/react-api';
+import { BN_TEN, BN_ZERO, formatBalance, isBn } from '@polkadot/util';
+
+import type { BitLength } from './types';
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';
 import Input, { KEYS_PRE } from './Input';

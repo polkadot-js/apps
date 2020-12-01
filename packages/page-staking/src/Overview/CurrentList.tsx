@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { AccountId } from '@polkadot/types/interfaces';
-import type { Authors } from '@polkadot/react-query/BlockAuthors';
-import type { SortedTargets, ValidatorInfo } from '../types';
-
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
+
+import type { DeriveHeartbeats, DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { Authors } from '@polkadot/react-query/BlockAuthors';
+import type { AccountId } from '@polkadot/types/interfaces';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall, useLoadingDelay } from '@polkadot/react-hooks';
 import { BlockAuthorsContext } from '@polkadot/react-query';
 
+import type { SortedTargets, ValidatorInfo } from '../types';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';

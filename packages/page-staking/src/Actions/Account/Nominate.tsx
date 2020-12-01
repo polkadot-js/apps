@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { NominateInfo } from '../partials/types';
-import type { SortedTargets } from '../../types';
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import { Modal, TxButton } from '@polkadot/react-components';
 
+import type { SortedTargets } from '../../types';
+import type { NominateInfo } from '../partials/types';
 import { useTranslation } from '../../translate';
 import NominatePartial from '../partials/Nominate';
 

@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { I18nProps } from '@polkadot/react-components/types';
-
 import React from 'react';
+
+import type { I18nProps } from '@polkadot/react-components/types';
 
 export interface CollectionProps extends I18nProps {
   banner?: React.ReactNode;

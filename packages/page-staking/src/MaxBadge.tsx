@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { Badge } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 

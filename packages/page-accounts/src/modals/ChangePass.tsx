@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useState } from 'react';
+
 import { AddressRow, Button, Modal, Password, PasswordStrength } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 

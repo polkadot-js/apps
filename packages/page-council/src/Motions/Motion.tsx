@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { AccountId } from '@polkadot/types/interfaces';
-import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-
 import React, { useMemo } from 'react';
+
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useVotingStatus, useWeight } from '@polkadot/react-hooks';

@@ -3,6 +3,7 @@
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 
 const DEFAULT_TIME = new BN(6000);
