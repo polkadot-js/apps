@@ -6,7 +6,7 @@ const base = require('@polkadot/dev/config/eslint.cjs');
 // add override for any (a metric ton of them, initial conversion)
 module.exports = {
   ...base,
-  plugins: [...base.plugins, 'eslint-plugin-import', 'eslint-plugin-import-helpers'],
+  plugins: [...base.plugins, 'simple-import-sort'],
   ignorePatterns: [
     '.eslintrc.js',
     '.github/**',
@@ -28,18 +28,15 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     // this seems very broken atm, false positives
     '@typescript-eslint/unbound-method': 'off',
-    'import-helpers/order-imports': [
-      'warn',
-      {
-        groups: [
-          '/^i18next$/',
-          '/^((?!polkadot\/types$).)*\/types.*$/',
-          'module',
-          '/^@polkadot/',
-          ['parent', 'sibling', 'index'],
-          'absolute'
-        ]
+    'simple-import-sort/imports': [
+      'error',
+      { 
+        groups: [ 
+            ['^[^\/\\.]'],
+            ['^@polkadot'],
+            ['^\\.']
+        ],
       },
-    ],
+    ]
   }
 };
