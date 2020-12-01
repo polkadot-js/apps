@@ -26,7 +26,7 @@ export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => 
   },
   'account-store-get': async (key: string) => new Promise((resolve) => {
     try {
-      fileStore.get(key, () => resolve(undefined));
+      fileStore.get(key, resolve);
     } catch (err) {
       resolve(null);
     }
