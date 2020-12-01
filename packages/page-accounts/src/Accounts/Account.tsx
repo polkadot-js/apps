@@ -386,7 +386,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
         )}
       </td>
       <td className='address media--1400'>
-        {meta.parentAddress && (
+        {(meta.parentAddress as string) && (
           <AddressMini value={meta.parentAddress} />
         )}
       </td>

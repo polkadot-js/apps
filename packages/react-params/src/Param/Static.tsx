@@ -22,7 +22,7 @@ interface Props {
 
 function StaticParam ({ asHex, children, className = '', defaultValue, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const value = defaultValue && defaultValue.value && (
+  const value = defaultValue && (defaultValue.value as string) && (
     asHex
       ? (defaultValue.value as Codec).toHex()
       : JSON.stringify(
