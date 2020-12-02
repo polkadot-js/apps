@@ -1,0 +1,19 @@
+{
+  "name": "@polkadot/app-bounties",
+  "private": true,
+  "version": "0.69.2-8",
+  "description": "A on-chain bounties",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "maintainers": [],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.12.5",
+    "@polkadot/react-components": "^0.69.2-1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.2",
+    "testcontainers": "^4.7.0"
+  }
+}
