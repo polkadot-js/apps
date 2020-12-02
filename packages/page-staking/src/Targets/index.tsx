@@ -57,7 +57,18 @@ const MAX_COMM_PERCENT = 20;
 const MAX_DAYS = 7;
 const SORT_KEYS = ['rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
+function overlapsDisplay (displays: (string[])[], test: string[]): boolean {
+  return displays.some((d) =>
+    d.length === test.length
+      ? d.length === 1
+        ? d[0] === test[0]
+        : d.reduce((c, p, i) => c + (p === test[i] ? 1 : 0), 0) >= (test.length - 1)
+      : false
+  );
+}
+
 function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
+  const displays: (string[])[] = [];
   const parentIds: string[] = [];
 
   return validators.filter(({ accountId, commissionPer, isElected, isFavorite, lastPayout, numNominators }): boolean => {
@@ -76,8 +87,28 @@ function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, D
       (!withoutComm || (commissionPer < MAX_COMM_PERCENT)) &&
       (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gten(nomCount))
     ) {
-      if (!withGroup || !thisIdentity || !thisIdentity.parentId) {
+      if (!withGroup) {
+        return true;
+      } else if (!thisIdentity || !thisIdentity.hasIdentity) {
+        parentIds.push(stashId);
+
+        return true;
+      } else if (!thisIdentity.parentId) {
         if (!parentIds.includes(stashId)) {
+          if (thisIdentity.display) {
+            const sanitized = thisIdentity.display
+              .replace(/[^\x20-\x7E]/g, '')
+              .split(' ')
+              .map((p) => p.trim())
+              .filter((v) => !!v);
+
+            if (overlapsDisplay(displays, sanitized)) {
+              return false;
+            }
+
+            displays.push(sanitized);
+          }
+
           parentIds.push(stashId);
 
           return true;
