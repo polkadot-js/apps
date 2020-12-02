@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import type { UpwardMessage } from '@polkadot/types/interfaces';
-import { Card, Output, Static } from '@polkadot/react-components';
+import { Card, Output } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
 
@@ -22,17 +22,11 @@ function DispatchQueue ({ className = '', dispatchQueue = [] }: Props): React.Re
       <h1>{t<string>('relay dispatch queue')}</h1>
       {dispatchQueue.length === 0
         ? t<string>('no messages')
-        : dispatchQueue.map(({ data, origin }): React.ReactNode => (
+        : dispatchQueue.map((data): React.ReactNode => (
           <Card
             className='queue-message'
             key={data.toHex()}
           >
-            <Static
-              help={t<string>('Message origin.')}
-              isFull
-              label={t<string>('origin')}
-              value={origin.toString()}
-            />
             <Output
               help={t<string>('Message data')}
               isFull
