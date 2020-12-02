@@ -7,5 +7,5 @@ import Phala from './phala';
 // alphabetical, based on the actual displayed name
 export default {
   Beresheet,
-  'Phala PoC-2': Phala
+  'Phala PoC-3': Phala
 };
