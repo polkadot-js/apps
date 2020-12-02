@@ -96,7 +96,7 @@ function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, D
       } else if (!thisIdentity.parentId) {
         if (!parentIds.includes(stashId)) {
           if (thisIdentity.display) {
-            const sanitized = (thisIdentity.display as string)
+            const sanitized = thisIdentity.display
               .replace(/[^\x20-\x7E]/g, '')
               .split(' ')
               .map((p) => p.trim())
