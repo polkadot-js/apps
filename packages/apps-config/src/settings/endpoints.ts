@@ -99,7 +99,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'OnFinality' } }),
       value: 'wss://kusama.api.onfinality.io/public-ws'
     },
-     {
+    {
       info: 'kusama',
       text: t('rpc.kusama.patractlabs', 'Kusama', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'PatractLabs' } }),
