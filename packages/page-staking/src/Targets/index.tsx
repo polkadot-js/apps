@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes, useBlocksPerDays, useCall } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useBlocksPerDays } from '@polkadot/react-hooks';
 
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import { MAX_NOMINATIONS } from '../constants';
@@ -16,6 +16,7 @@ import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';
+import useIdentities from '../useIdentities';
 import useNominations from '../useNominations';
 import Nominate from './Nominate';
 import Summary from './Summary';
@@ -98,6 +99,8 @@ function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, D
           if (thisIdentity.display) {
             const sanitized = thisIdentity.display
               .replace(/[^\x20-\x7E]/g, '')
+              .replaceAll('-', ' ')
+              .replaceAll('_', ' ')
               .split(' ')
               .map((p) => p.trim())
               .filter((v) => !!v);
@@ -148,14 +151,6 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function transformIdentity ([[validatorIds], hasIdentities]: [[string[]], DeriveHasIdentity[]]): Record<string, DeriveHasIdentity> {
-  return validatorIds.reduce((result: Record<string, DeriveHasIdentity>, validatorId, index): Record<string, DeriveHasIdentity> => {
-    result[validatorId] = hasIdentities[index];
-
-    return result;
-  }, {});
-}
-
 function selectProfitable (list: ValidatorInfo[]): string[] {
   const result: string[] = [];
 
@@ -170,13 +165,14 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validatorIds = [], validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
   const daysPayout = useBlocksPerDays(MAX_DAYS);
   const ownNominators = useOwnNominators(ownStashes);
   const nominatedBy = useNominations(true);
+  const allIdentity = useIdentities(validatorIds);
   const [selected, setSelected] = useState<string[]>([]);
   const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
   const [withElected, setWithElected] = useState(false);
@@ -187,7 +183,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const [withoutOver, setWithoutOver] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
-  const allIdentity = useCall<Record<string, DeriveHasIdentity>>(api.derive.accounts.hasIdentityMulti, [validatorIds], { transform: transformIdentity, withParamsTransform: true });
 
   const labelsRef = useRef({
     rankBondOther: t<string>('other stake'),
