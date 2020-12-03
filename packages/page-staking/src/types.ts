@@ -59,8 +59,10 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   isFavorite: boolean;
   isNominating: boolean;
   key: string;
+  knownLength: BN;
   lastPayout?: BN;
   numNominators: number;
+  numRecentPayouts: number;
   rewardSplit: BN;
   skipRewards: boolean;
   stakedReturn: number;
@@ -76,6 +78,7 @@ export interface SortedTargets {
   inflation: Inflation;
   lastReward?: BN;
   lowStaked?: BN;
+  medianComm: number;
   nominators?: string[];
   totalStaked?: BN;
   totalIssuance?: BN;

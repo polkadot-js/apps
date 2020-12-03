@@ -54,7 +54,7 @@ const CLASSES: Record<string, string> = {
   rankBondOwn: 'media--900'
 };
 const MAX_CAP_PERCENT = 100; // 75 if only using numNominators
-const MAX_COMM_PERCENT = 20;
+const MAX_COMM_PERCENT = 20; // -1 for median
 const MAX_DAYS = 7;
 const SORT_KEYS = ['rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
@@ -68,7 +68,7 @@ function overlapsDisplay (displays: (string[])[], test: string[]): boolean {
   );
 }
 
-function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
+function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
   const displays: (string[])[] = [];
   const parentIds: string[] = [];
 
@@ -85,7 +85,11 @@ function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, D
       (!withElected || isElected) &&
       (!withIdentity || !!thisIdentity?.hasIdentity) &&
       (!withPayout || !isBabe || (!!lastPayout && daysPayout.gte(lastPayout))) &&
-      (!withoutComm || (commissionPer < MAX_COMM_PERCENT)) &&
+      (!withoutComm || (
+        MAX_COMM_PERCENT > 0
+          ? (commissionPer < MAX_COMM_PERCENT)
+          : (!medianComm || (commissionPer <= medianComm)))
+      ) &&
       (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gten(nomCount))
     ) {
       if (!withGroup) {
@@ -165,7 +169,7 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -208,8 +212,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const filtered = useMemo(
-    () => allIdentity && validators && nominatedBy && applyFilter(validators, allIdentity, flags, nominatedBy),
-    [allIdentity, flags, nominatedBy, validators]
+    () => allIdentity && validators && nominatedBy && applyFilter(validators, medianComm, allIdentity, flags, nominatedBy),
+    [allIdentity, flags, medianComm, nominatedBy, validators]
   );
 
   // We are using an effect here to get this async. Sorting will have a double-render, however it allows
@@ -288,7 +292,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         />
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })}
+          label={
+            MAX_COMM_PERCENT > 0
+              ? t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })
+              : t<string>('no median+ comm')
+          }
           onChange={setWithoutComm}
           value={withoutComm}
         />
