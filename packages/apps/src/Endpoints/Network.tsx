@@ -34,6 +34,11 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
     [affinity, name, providers, setApiUrl]
   );
 
+  const _setApiUrl = useCallback(
+    (apiUrl: string) => setApiUrl(name, apiUrl),
+    [name, setApiUrl]
+  );
+
   return (
     <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
       <div
@@ -51,7 +56,7 @@ function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: {
           apiUrl={apiUrl}
           key={url}
           label={name}
-          setApiUrl={setApiUrl}
+          setApiUrl={_setApiUrl}
           url={url}
         />
       ))}
