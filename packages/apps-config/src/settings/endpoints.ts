@@ -345,9 +345,9 @@ function createTestNetworks (t: TFunction): LinkOption[] {
     },
     {
       info: 'phala',
-      text: t('rpc.phala', 'Phala PoC-2', { ns: 'apps-config' }),
+      text: t('rpc.phala', 'Phala PoC-3', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Phala Network' } }),
-      value: 'wss://poc2.phala.network/ws'
+      value: 'wss://poc3.phala.network/ws'
     },
     {
       info: 'laminar',
