@@ -22,6 +22,7 @@ import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
 import plasm from './plasm';
+import phala from './phala';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
@@ -53,6 +54,7 @@ export default {
   'node-moonbeam': moonbeam,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
+  'phala-node': phala,
   plasm,
   robonomics,
   'stable-poc': stablePoc,
