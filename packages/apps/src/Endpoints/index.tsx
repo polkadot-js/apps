@@ -101,13 +101,29 @@ function extractUrlState (apiUrl: string, groups: Group[]): UrlState {
   };
 }
 
+function loadAffinities (groups: Group[]): Record<string, string> {
+  return Object
+    .entries<string>(store.get(STORAGE_AFFINITIES) || {})
+    .filter(([network, apiUrl]) =>
+      groups.some(({ networks }) =>
+        networks.some(({ name, providers }) =>
+          name === network && providers.some(({ url }) => url === apiUrl)
+        )
+      )
+    )
+    .reduce((result: Record<string, string>, [network, apiUrl]): Record<string, string> => ({
+      ...result,
+      [network]: apiUrl
+    }), {});
+}
+
 function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const linkOptions = createWsEndpoints(t);
   const [groups, setGroups] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
-  const [affinities, setAffinities] = useState<Record<string, string>>(store.get(STORAGE_AFFINITIES) || {});
+  const [affinities, setAffinities] = useState(loadAffinities(groups));
 
   const isKnownUrl = useMemo(() => {
     let result = false;
