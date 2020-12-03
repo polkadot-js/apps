@@ -11,28 +11,34 @@ import type { Network } from './types';
 import Url from './Url';
 
 interface Props {
+  affinity?: string;
   apiUrl: string;
   className?: string;
-  setApiUrl: (apiUrl: string) => void;
+  setApiUrl: (network: string, apiUrl: string) => void;
   value: Network;
 }
 
-function NetworkDisplay ({ apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
+function NetworkDisplay ({ affinity, apiUrl, className = '', setApiUrl, value: { icon, isChild, name, providers } }: Props): React.ReactElement<Props> {
   const isSelected = useMemo(
     () => providers.some(({ url }) => url === apiUrl),
     [apiUrl, providers]
   );
 
-  const _selectFirst = useCallback(
-    () => setApiUrl(providers[0].url),
-    [providers, setApiUrl]
+  const _selectUrl = useCallback(
+    () => setApiUrl(
+      name,
+      affinity && providers.find(({ url }) => url === affinity)
+        ? affinity
+        : providers[0].url
+    ),
+    [affinity, name, providers, setApiUrl]
   );
 
   return (
     <div className={`${className}${isSelected ? ' isSelected highlight--border' : ''}`}>
       <div
         className={`endpointSection${isChild ? ' isChild' : ''}`}
-        onClick={_selectFirst}
+        onClick={_selectUrl}
       >
         <ChainImg
           className='endpointIcon'

@@ -5,6 +5,7 @@
 /* eslint-disable-next-line node/no-deprecated-api */
 import punycode from 'punycode';
 import React, { useCallback, useMemo, useState } from 'react';
+import store from 'store';
 import styled from 'styled-components';
 
 import type { LinkOption } from '@polkadot/apps-config/settings/types';
@@ -30,6 +31,8 @@ interface UrlState {
   hasUrlChanged: boolean;
   isUrlValid: boolean;
 }
+
+const STORAGE_AFFINITIES = 'network:affinities';
 
 function isValidUrl (url: string): boolean {
   return (
@@ -104,6 +107,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   const [groups, setGroups] = useState(combineEndpoints(linkOptions));
   const [{ apiUrl, groupIndex, hasUrlChanged, isUrlValid }, setApiUrl] = useState<UrlState>(extractUrlState(uiSettings.get().apiUrl, groups));
   const [storedCustomEndpoints, setStoredCustomEndpoints] = useState<string[]>(getCustomEndpoints());
+  const [affinities, setAffinities] = useState<Record<string, string>>(store.get(STORAGE_AFFINITIES) || {});
 
   const isKnownUrl = useMemo(() => {
     let result = false;
@@ -168,7 +172,16 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
   };
 
   const _setApiUrl = useCallback(
-    (apiUrl: string) => setApiUrl(extractUrlState(apiUrl, groups)),
+    (network: string, apiUrl: string): void => {
+      setAffinities((affinities): Record<string, string> => {
+        const newValue = { ...affinities, [network]: apiUrl };
+
+        store.set(STORAGE_AFFINITIES, newValue);
+
+        return newValue;
+      });
+      setApiUrl(extractUrlState(apiUrl, groups));
+    },
     [groups]
   );
 
@@ -212,6 +225,7 @@ function Endpoints ({ className = '', offset, onClose }: Props): React.ReactElem
     >
       {groups.map((group, index): React.ReactNode => (
         <GroupDisplay
+          affinities={affinities}
           apiUrl={apiUrl}
           index={index}
           isSelected={groupIndex === index}

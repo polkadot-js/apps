@@ -11,6 +11,7 @@ import type { Group } from './types';
 import Network from './Network';
 
 interface Props {
+  affinities: Record<string, string>;
   apiUrl: string;
   children?: React.ReactNode;
   className?: string;
@@ -21,7 +22,7 @@ interface Props {
   value: Group;
 }
 
-function GroupDisplay ({ apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, networks } }: Props): React.ReactElement<Props> {
+function GroupDisplay ({ affinities, apiUrl, children, className = '', index, isSelected, setApiUrl, setGroup, value: { header, networks } }: Props): React.ReactElement<Props> {
   const _setGroup = useCallback(
     () => setGroup(isSelected ? -1 : index),
     [index, isSelected, setGroup]
@@ -41,6 +42,7 @@ function GroupDisplay ({ apiUrl, children, className = '', index, isSelected, se
           <div className='groupNetworks'>
             {networks.map((network, index): React.ReactNode => (
               <Network
+                affinity={affinities[network.name]}
                 apiUrl={apiUrl}
                 key={index}
                 setApiUrl={setApiUrl}
