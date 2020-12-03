@@ -14,6 +14,12 @@ export default {
     nonce: 'U256',
     balance: 'u128'
   },
+      ExtrinsicSignature: 'EthereumSignature',
+      EthereumSignature:{
+        r: 'U256',
+        s: 'U256',
+        v: 'U256',
+      },
   TransactionCondition: {
     _enum: {
       block: 'u64',
@@ -35,7 +41,9 @@ export default {
     public_key: 'Option<H512>',
     r: 'U256',
     raw: 'Bytes',
+    s: 'U256',
     standard_v: 'U256',
+    //signature: 'ExtrinsicSignature',
     to: 'Option<H160>',
     transaction_index: 'Option<U256>',
     v: 'U256',
