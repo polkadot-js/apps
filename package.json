@@ -50,7 +50,7 @@
     "clean:electronBuild": "cd packages/apps-electron && polkadot-dev-clean-build",
     "clean:electronRelease": "cd packages/apps-electron && rm -rf release",
     "clean:i18n": "rm -rf packages/apps/public/locales/en && mkdir -p packages/apps/public/locales/en",
-    "lint": "polkadot-dev-run-lint",
+    "lint": "polkadot-dev-run-lint --fix",
     "lint:css": "stylelint './packages/**/src/**/*.tsx'",
     "postinstall": "polkadot-dev-yarn-only",
     "postinstall:electron": "electron-builder install-app-deps",
