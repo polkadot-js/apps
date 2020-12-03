@@ -77,7 +77,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
     {
       info: 'polkadot',
       text: t('rpc.polkadot.patractlabs', 'Polkadot', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'PatractLabs' } }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Patract Elara' } }),
       value: 'wss://polkadot.elara.patract.io'
     },
     {
@@ -102,7 +102,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
     {
       info: 'kusama',
       text: t('rpc.kusama.patractlabs', 'Kusama', { ns: 'apps-config' }),
-      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'PatractLabs' } }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Patract Elara' } }),
       value: 'wss://kusama.elara.patract.io'
     },
     {
