@@ -75,6 +75,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       value: 'wss://polkadot.api.onfinality.io/public-ws'
     },
     {
+      info: 'polkadot',
+      text: t('rpc.polkadot.patractlabs', 'Polkadot', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'PatractLabs' } }),
+      value: 'wss://polkadot.elara.patract.io'
+    },
+    {
       dnslink: 'kusama',
       info: 'kusama',
       text: t('rpc.kusama.parity', 'Kusama', { ns: 'apps-config' }),
