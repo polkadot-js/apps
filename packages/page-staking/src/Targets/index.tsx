@@ -103,8 +103,8 @@ function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdenti
           if (thisIdentity.display) {
             const sanitized = thisIdentity.display
               .replace(/[^\x20-\x7E]/g, '')
-              .replaceAll('-', ' ')
-              .replaceAll('_', ' ')
+              .replace(/-/g, ' ')
+              .replace(/_/g, ' ')
               .split(' ')
               .map((p) => p.trim())
               .filter((v) => !!v);
