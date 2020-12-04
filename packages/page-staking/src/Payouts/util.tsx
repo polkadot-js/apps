@@ -1,8 +1,9 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
 import BN from 'bn.js';
+import React from 'react';
+
 import { formatNumber } from '@polkadot/util';
 
 function isSingle (entry: BN | [BN, BN]): entry is BN {

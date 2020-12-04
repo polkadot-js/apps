@@ -1,86 +1,101 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { StringOrNull } from '@polkadot/react-components/types';
-
 import { useCallback, useEffect, useState } from 'react';
+
+import type { StringOrNull } from '@polkadot/react-components/types';
 import { Abi } from '@polkadot/api-contract';
-import { registry } from '@polkadot/react-api';
+import { api } from '@polkadot/react-api';
 import { u8aToString } from '@polkadot/util';
 
 import store from './store';
-import { useTranslation } from './translate';
 
-interface UseAbi {
+interface AbiState {
   abi: string | null;
+  abiName: string | null;
   contractAbi: Abi | null;
   errorText: string | null;
   isAbiError: boolean;
   isAbiValid: boolean;
   isAbiSupplied: boolean;
-  onChangeAbi: (u8a: Uint8Array) => void;
+}
+
+interface UseAbi extends AbiState {
+  onChangeAbi: (u8a: Uint8Array, name: string) => void;
   onRemoveAbi: () => void;
 }
 
-interface ContractABIOutdated {
-  deploy?: any;
-  messages?: any;
+function fromInitial (initialValue: [string | null | undefined, Abi | null | undefined], isRequired: boolean): AbiState {
+  return {
+    abi: initialValue[0] || null,
+    abiName: null,
+    contractAbi: initialValue[1] || null,
+    errorText: null,
+    isAbiError: false,
+    isAbiSupplied: !!initialValue[1],
+    isAbiValid: !isRequired || !!initialValue[1]
+  };
 }
 
-export default function useAbi (initialValue: [string | null, Abi | null] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
-  const { t } = useTranslation();
-  const [[abi, contractAbi, isAbiSupplied, isAbiValid], setAbi] = useState<[StringOrNull, Abi | null, boolean, boolean]>([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
-  const [[isAbiError, errorText], setError] = useState<[boolean, string | null]>([false, null]);
+const EMPTY: AbiState = {
+  abi: null,
+  abiName: null,
+  contractAbi: null,
+  errorText: null,
+  isAbiError: false,
+  isAbiSupplied: false,
+  isAbiValid: false
+};
+
+export default function useAbi (initialValue: [string | null | undefined, Abi | null | undefined] = [null, null], codeHash: StringOrNull = null, isRequired = false): UseAbi {
+  const [state, setAbi] = useState<AbiState>(fromInitial(initialValue, isRequired));
 
   useEffect(
-    (): void => {
-      if (!!initialValue[0] && abi !== initialValue[0]) {
-        setAbi([initialValue[0], initialValue[1], !!initialValue[1], !isRequired || !!initialValue[1]]);
-      }
-    },
-    [abi, initialValue, isRequired]
+    () => setAbi((state) =>
+      initialValue[0] && state.abi !== initialValue[0]
+        ? fromInitial(initialValue, isRequired)
+        : state
+    ),
+    [initialValue, isRequired]
   );
 
   const onChangeAbi = useCallback(
-    (u8a: Uint8Array): void => {
+    (u8a: Uint8Array, name: string): void => {
       const json = u8aToString(u8a);
 
       try {
-        const abiOutdated = JSON.parse(json) as ContractABIOutdated;
+        setAbi({
+          abi: json,
+          abiName: name.replace('.contract', '').replace('.json', '').replace('_', ' '),
+          contractAbi: new Abi(json, api.registry.getChainProperties()),
+          errorText: null,
+          isAbiError: false,
+          isAbiSupplied: true,
+          isAbiValid: true
+        });
 
-        if (abiOutdated.deploy || abiOutdated.messages) {
-          throw new Error(t('You are using an ABI with an outdated format. Please generate a new one.'));
-        }
-
-        setAbi([json, new Abi(registry, JSON.parse(json)), true, true]);
-        codeHash && store.saveCode(
-          codeHash,
-          { abi: json }
-        );
+        codeHash && store.saveCode(codeHash, { abi: json });
       } catch (error) {
         console.error(error);
 
-        setAbi([null, null, false, false]);
-        setError([true, error]);
+        setAbi({ ...EMPTY, errorText: (error as Error).message });
       }
     },
-    [codeHash, t]
+    [codeHash]
   );
 
   const onRemoveAbi = useCallback(
     (): void => {
-      setAbi([null, null, false, false]);
-      setError([false, null]);
+      setAbi(EMPTY);
 
-      codeHash && store.saveCode(
-        codeHash,
-        { abi: null }
-      );
+      codeHash && store.saveCode(codeHash, { abi: null });
     },
     [codeHash]
   );
 
   return {
-    abi, contractAbi, errorText, isAbiError, isAbiSupplied, isAbiValid, onChangeAbi, onRemoveAbi
+    ...state,
+    onChangeAbi,
+    onRemoveAbi
   };
 }

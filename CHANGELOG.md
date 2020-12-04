@@ -1,5 +1,204 @@
 # CHANGELOG
 
+## 0.69.1 Nov 30, 2020
+
+Contributed:
+
+- Adjust font alignments (Thanks to https://github.com/MiZiet)
+- Add iCal export on calendar (Thanks to https://github.com/wirednkod)
+- Add OnFinality endpoint for Polkadot/Kusama (Thanks to https://github.com/ianhe8x)
+- Soramitsu Sora testnet (Thanks to https://github.com/stefashkaa)
+- Update Plasm Dusty types (Thanks to https://github.com/hoonsubin)
+- Update Edgeware mainnet endpoints (Thanks to https://github.com/drewstone)
+- Typo fixes (Thanks to https://github.com/ShankarWarang)
+
+Changes:
+
+- Display the actual era start when using Aura (no extra session info)
+- Expand staking account filters (payouts, # nominators, grouping)
+- Use percentage-based model for returns on staking targets
+- Display actual chain inflation as well as average staking returns
+- Adjust refresh on validator chill, i.e. it moves to correct location
+- User-defined RPCs (via config), not are treated first-class (operating everywhere)
+- MultiSig now allows any participant to reject (despite any prior approvals)
+- Adjust base fonts with saner cross-platform (from new.css) defaults
+- Adjust staking targets to display nominations for those dropped next session
+- Use `batchAll` on staking creation as available (failure reverses all)
+- Add CopyButton on all `Hash`-like fields
+- Cleanup component detection with non-primitives only (allows for greater configurability)
+- Improve `useCall` typing, e.g. no hacks for `.entries` or `.at` in usage
+- Adjust most type imports via `import type { ... }`
+- Move all chain-specific config to `apps-config` (thresholds & inflation)
+
+
+## 0.68.1 Nov 23, 2020
+
+Changes:
+
+- Adjust API state display to explictly render "connecting to node" state
+- Change Mill/Bill/Tril rendering from Mega/Giga/Tera
+- Staking now limits per-operator exposure by default (only 1 selected on auto)
+- Adjust Expanded rendering to be completely on-demand (no hidden background renders)
+- Ensure `MultiAddress` nodes fully work (API updates)
+- Adjust number of digits for number inputs to max decimals
+- Rework invalid ABI detection with proper error clearning
+- Use TypeScript `import type { ... }` for all files
+- Expand notes on colors/logos with actual RPC endpoints
+- Publish `@polkadot/apps-config` (with reworked import/export)
+- Bump Ledger libs to latest version (as per `@polkadot/ledger`)
+
+
+## 0.67.1 Nov 16, 2020
+
+Contributed:
+
+- Improve support/naming for Ethereum-compatible accounts (Thanks to https://github.com/joelamouche)
+- Support for Ethereum-compatible signature verification (https://github.com/joelamouche)
+- Added Moonbeam types for current versions (Thanks to https://github.com/joelamouche)
+- Added Moonbase Alpha to list of test networks (Thanks to (Thanks to https://github.com/joelamouche))
+- Add Equilibrium Mainnet; updated Equilibrium Testnet (Thanks to https://github.com/pr0fedt)
+- Update types of Cantillon testnet (Thanks to https://github.com/brenzi)
+- Update types of Gesell testnet (Thanks to https://github.com/brenzi)
+- Add Darwinia network (Thanks to https://github.com/WoeOm)
+- Add Bitfrost Asgard testnet (Thanks to https://github.com/janpo)
+
+Changes:
+
+- Ensure account addition checkbox shows on smaller screens
+- Add support for contract budles via `.contract` files
+- Allow contracts to specify salt parameter on deployments
+- Update contracts banner to reflect released Solang 0.1.5+ support
+
+
+## 0.66.1 Nov 9, 2020
+
+Contributed:
+
+- Adjust font injection into all pages (Thanks to https://github.com/EthWorks)
+- Update types for Acala TC5 (Thanks to https://github.com/xlc)
+- Cleanup global font injection (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Cleanup calculation of available voting balance on council (no unneeded refreshes)
+- Default to make contract calls with maximum weight (& align wih Rust RPC max)
+- Always check the refCount before allowing all-balance transfers
+- Allow council motions to display even when some on-chain proposals are invalid
+- Fix treasury tips to correctly check values against hashes
+- Add support for Ethereum icons (for Ethereum-compatible chains)
+- Bump to major `@polkadot/{keyring, util, util-crypto}` release
+
+
+## 0.65.1 Nov 2, 2020
+
+Contributed:
+
+- Fix for Electron account loading (Thanks to https://github.com/EthWorks)
+- Adjust electron override hashes & bump versions (Thanks to https://github.com/EthWorks)
+- Update i18n zh strings (Thanks to https://github.com/starit)
+- Adjust Edgeware RefCount type (Thanks to https://github.com/drewstone)
+- Trigger tip refresh on close (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Adjust for latest Rococo types
+- Adjust council motion parsing (allow for some non-parseable)
+- Adjust for use of new `api-contracts` (including call errors)
+- Allow for selection of payment destination on initial bonding
+
+
+## 0.64.1 Oct 26, 2020
+
+Contributed:
+
+- New account creation dialog (Thanks to https://github.com/EthWorks)
+- Update Darwinia Crab types (Thanks to https://github.com/WoeOm)
+- Update Kulupu types (Thans to https://github.com/sorpaas)
+- Add Hanonycash types & endpoints (Thanks to https://github.com/Hanonycash)
+- Update ko i18n (Thanks to https://github.com/maestro779)
+- Update links in apps-config (Thanks to https://github.com/NukeManDan)
+
+Changes:
+
+- Allow for Ascii inputs on Bytes (in addition to hex & files)
+- Ensure that InputNumber respects the biLength for the type it is dealing with
+- Displays the last blocks containing contract executions in contract overview
+- Parse contract events (both status pops-up and explorer views)
+- Display actual codeHash (and allow copy) as part of code management
+- Adjust labels for contracts UI with explicit "None" projection
+- Adjust contracts UI to actually use Balance types where so specified in the ABI
+- Add support for Solang i256 & u256 types
+- Adjust contract messages to display names in camelCase (consistent with API)
+- Add gas estimation for contracts
+- Adjust JS bundles to have a better parallel throughput
+- Adjust checks for Aura for unbonding, displaying on era
+
+
+## 0.63.1 Oct 19, 2020
+
+Contributed:
+
+- Updates for new Acala testnet (Thanks to https://github.com/aniiantt)
+- Update i18n ko (Thanks to https://github.com/maestro779)
+- Update i18n fr (Thanks to https://github.com/Tbaut)
+- Contract metadata display bg on dark mode (Thanks to https://github.com/Tbaut)
+
+Changes:
+
+- Swap chain/prefix lookups to `@polkadot/networks` (single area to manage)
+- Fix formatting for large decimals on InputNumber (previously had toNumber)
+- Adjust Dock logos naming (aligns with network identifier)
+- Update i18n generation to handle routing strings
+- Estimate contracts execution gas (on contract call)
+- Use RPC for rent projection (to project eviction as available)
+- Metadata QR now aligns decimals with UI defaults (shared with react-api values)
+- Add endpoint for Canvas testnet (& setup types for node)
+
+
+## 0.62.1 Oct 13, 2020
+
+Contributed:
+
+- Add Dock network (Thanks to https://github.com/lovesh)
+- Bump Edgeware types for network updates (Thanks to https://github.com/jnaviask)
+- Add French i18n (Thanks to https://github.com/Tbaut & https://github.com/chevdor)
+- Update Italian i18n (Thanks to https://github.com/fomod-in)
+- Update Indonesian i18n (Thanks to https://github.com/nzjourney)
+
+Changes:
+
+- Update the contracts UI to support ink! 3.0-rc1 (via API)
+- Align contracts UI with the L&F/layout of the rest of the UI
+- Add contracts on-chain overview
+- Show code & contract availability statuses
+- Auto-query non-param messages from the contract overview
+- Expand info on logos (documentation, better/easier additions)
+- Update i18n to remove left navbar references
+- Support seconding multiple times from a single account
+
+
+## 0.61.1 Oct 5, 2020
+
+Contributed:
+
+- Update Arabic i18n for calendar (Thanks to https://github.com/YessineAmor)
+- Additional Korean i18n (Thanks to https://github.com/hskang9)
+- Italian i18n typo fix (Thanks to https://github.com/roccomuso)
+- Add Equilibrium testnet endpoint (Thanks to https://github.com/mikolajsobolewski)
+- Update types for stable-poc (Thanks to https://github.com/riusricardo)
+
+Changes:
+
+- Add experimental dark UI theme
+- Adjust i18n strings for network endpoint (explicit as per display)
+- Adjust vesting display with no countdown when fully vested
+- Adjust validator rewards, fixing issues with "keeps loading" when retrieved in the current era
+- Adjust updates on per-era change, protecting against non-existent (not yet retrieved) exposures
+- Add RoboHash icon theme
+- Adjust logging in InputAddress transforms (don't log already-handled errors)
+- Remove unmaintained packages (e.g. page-dashboard)
+
+
 ## 0.60.1 Sep 28, 2020
 
 Contributed:

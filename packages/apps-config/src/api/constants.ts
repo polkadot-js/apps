@@ -3,9 +3,20 @@
 
 import BN from 'bn.js';
 
-export const KUSAMA_GENESIS = '0xb0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe';
+import networks from '@polkadot/networks';
+import { assert } from '@polkadot/util';
 
-export const POLKADOT_GENESIS = '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3';
+function getGenesis (name: string): string {
+  const network = networks.find(({ network }) => network === name);
+
+  assert(network && network.genesisHash[0], `Unable to find genesisHash for ${name}`);
+
+  return network.genesisHash[0];
+}
+
+export const KUSAMA_GENESIS = getGenesis('kusama');
+
+export const POLKADOT_GENESIS = getGenesis('polkadot');
 export const POLKADOT_DENOM_BLOCK = new BN(1248328);
 
-export const KULUPU_GENESIS = '0xf7a99d3cb92853d00d5275c971c132c074636256583fee53b3bbe60d7b8769ba';
+export const KULUPU_GENESIS = getGenesis('kulupu');

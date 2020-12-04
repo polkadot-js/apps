@@ -3,6 +3,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { AddressInfo, Icon } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -45,7 +46,7 @@ export default React.memo(styled(Balances)`
       label {
         color: inherit;
         font-size: 0.93rem;
-        font-weight: bold;
+        font-weight: 400;
       }
 
       .ui--Expander-content .ui--FormatBalance-value {

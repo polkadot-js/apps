@@ -1,4 +1,5 @@
 {
+  "0x prefixed hex, e.g. 0x1234 or ascii data": "0x prefixed hex, e.g. 0x1234 or ascii data",
   "<empty>": "<empty>",
   "Add item": "Add item",
   "Aye": "Aye",
@@ -16,7 +17,6 @@
   "aye: bool": "aye: bool",
   "conviction: Conviction": "conviction: Conviction",
   "details": "details",
-  "exclude option": "exclude option",
   "file upload": "file upload",
   "include option": "include option",
   "type": "type",

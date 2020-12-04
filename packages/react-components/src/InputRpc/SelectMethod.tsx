@@ -1,32 +1,27 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOptions } from '../util/types';
+import React, { useCallback } from 'react';
 
-import React from 'react';
+import type { DefinitionRpcExt } from '@polkadot/types/types';
 
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
-
+import type { DropdownOption } from '../util/types';
 import Dropdown from '../Dropdown';
-import { classes } from '../util';
+import rpcs from './rpcs';
 
 interface Props {
   className?: string;
   isError?: boolean;
   onChange: (value: DefinitionRpcExt) => void;
-  options: DropdownOptions;
+  options: DropdownOption[];
   value: DefinitionRpcExt;
 }
 
-function transform ({ value: { section } }: Props): (method: string) => DefinitionRpcExt {
-  return function (method: string): DefinitionRpcExt {
-    return jsonrpc[section][method];
-  };
-}
-
-function SelectMethod (props: Props): React.ReactElement<Props> | null {
-  const { className = '', isError, onChange, options, value } = props;
+function SelectMethod ({ className = '', isError, onChange, options, value }: Props): React.ReactElement<Props> | null {
+  const _transform = useCallback(
+    (method: string) => rpcs[value.section][method],
+    [value]
+  );
 
   if (!options.length) {
     return null;
@@ -34,11 +29,11 @@ function SelectMethod (props: Props): React.ReactElement<Props> | null {
 
   return (
     <Dropdown
-      className={classes('ui--DropdownLinked-Items', className)}
+      className={`ui--DropdownLinked-Items ${className}`}
       isError={isError}
       onChange={onChange}
       options={options}
-      transform={transform(props)}
+      transform={_transform}
       value={value.method}
       withLabel={false}
     />

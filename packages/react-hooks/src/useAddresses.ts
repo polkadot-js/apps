@@ -2,22 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
-import addressObservable from '@polkadot/ui-keyring/observable/addresses';
 
-import useIsMountedRef from './useIsMountedRef';
+import keyring from '@polkadot/ui-keyring';
 
-interface UseAccounts {
+import { useIsMountedRef } from './useIsMountedRef';
+
+interface UseAddresses {
   allAddresses: string[];
   hasAddresses: boolean;
   isAddress: (address: string) => boolean;
 }
 
-export default function useAccounts (): UseAccounts {
+export function useAddresses (): UseAddresses {
   const mountedRef = useIsMountedRef();
-  const [state, setState] = useState<UseAccounts>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
+  const [state, setState] = useState<UseAddresses>({ allAddresses: [], hasAddresses: false, isAddress: () => false });
 
   useEffect((): () => void => {
-    const subscription = addressObservable.subject.subscribe((addresses): void => {
+    const subscription = keyring.addresses.subject.subscribe((addresses): void => {
       if (mountedRef.current) {
         const allAddresses = addresses ? Object.keys(addresses) : [];
         const hasAddresses = allAddresses.length !== 0;

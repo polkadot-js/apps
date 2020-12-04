@@ -1,24 +1,24 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
-
+import type { TFunction } from 'i18next';
 import BN from 'bn.js';
 import React from 'react';
-import { TFunction } from 'i18next';
 import styled from 'styled-components';
-import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
-import { Expander, Icon, Tooltip } from '@polkadot/react-components';
+
+import type { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 import { withCalls, withMulti } from '@polkadot/react-api/hoc';
+import { Expander, Icon, Tooltip } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
+import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 
+import CryptoType from './CryptoType';
 import DemocracyLocks from './DemocracyLocks';
+import Label from './Label';
 import StakingRedeemable from './StakingRedeemable';
 import StakingUnbonding from './StakingUnbonding';
-import CryptoType from './CryptoType';
-import Label from './Label';
 import { useTranslation } from './translate';
 
 // true to display, or (for bonded) provided values [own, ...all extras]
@@ -272,10 +272,14 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
                 <div>
                   {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
                   <div className='faded'>{t('available to be unlocked')}</div>
-                  <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
-                  <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
-                  {formatBalance(balancesAll.vestingPerBlock)}
-                  <div className='faded'>{t('per block')}</div>
+                  {bestNumber.lt(balancesAll.vestingEndBlock) && (
+                    <>
+                      <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
+                      <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
+                      {formatBalance(balancesAll.vestingPerBlock)}
+                      <div className='faded'>{t('per block')}</div>
+                    </>
+                  )}
                 </div>
               }
               trigger={`${address}-vested-trigger`}

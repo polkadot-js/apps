@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import type { ThemeProps } from '../types';
+
 interface Props {
   className?: string;
   footer?: React.ReactNode;
@@ -22,11 +24,11 @@ function Foot ({ className = '', footer, isEmpty }: Props): React.ReactElement<P
   );
 }
 
-export default React.memo(styled(Foot)`
+export default React.memo(styled(Foot)(({ theme }: ThemeProps) => `
   td {
-    color: rgba(78, 78, 78, .66);
-    font-family: sans-serif;
-    font-weight: 100;
+    color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+    font: ${theme.fontSans};
+    font-weight: 400;
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
@@ -34,6 +36,6 @@ export default React.memo(styled(Foot)`
   }
 
   tr {
-    background: #f5f3f1;
+    background: ${theme.bgPage};
   }
-`);
+`));

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { GenericContainer, Wait } from 'testcontainers';
+
 import { SubstrateTestsGlobal } from './substrateTestsGlobal';
 
 declare const global: SubstrateTestsGlobal;

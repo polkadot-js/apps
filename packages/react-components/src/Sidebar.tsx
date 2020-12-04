@@ -4,6 +4,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import type { ThemeProps } from './types';
 import Button from './Button';
 
 interface Props {
@@ -32,8 +33,8 @@ function Sidebar ({ button, children, className = '', onClose }: Props): React.R
   );
 }
 
-export default React.memo(styled(Sidebar)(({ offset = 0, position }: Props) => `
-  background: #f5f3f1;
+export default React.memo(styled(Sidebar)(({ offset = 0, position, theme }: Props & ThemeProps) => `
+  background: ${theme.bgPage};
   bottom: 0;
   box-shadow: ${position === 'right' ? '-6px' : '6px'} 0px 20px 0px rgba(0, 0, 0, 0.3);
   margin-left: -0.125rem;

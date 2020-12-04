@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-
 import BN from 'bn.js';
 import React, { useCallback, useMemo, useState } from 'react';
+
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Button, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi } from '@polkadot/react-hooks';
 
@@ -77,6 +77,7 @@ function TipsEntry ({ className, hashes, isMember, members, trigger }: Props): R
         hashes={hashes}
         isMember={isMember}
         members={members}
+        onRefresh={trigger}
         onSelectTip={_selectTip}
       />
     </div>

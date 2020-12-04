@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-nodeinfo authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BlockNumber, Extrinsic, Health, PeerInfo } from '@polkadot/types/interfaces';
-
-import { Vec } from '@polkadot/types';
+import type { Vec } from '@polkadot/types';
+import type { BlockNumber, Extrinsic, Health, PeerInfo } from '@polkadot/types/interfaces';
 
 export interface Info {
   blockNumber?: BlockNumber;

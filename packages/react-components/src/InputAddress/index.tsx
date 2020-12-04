@@ -1,21 +1,20 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { KeyringOptions, KeyringSectionOption, KeyringSectionOptions, KeyringOption$Type } from '@polkadot/ui-keyring/options/types';
-import { Option } from './types';
-
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
+
+import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import keyringOption from '@polkadot/ui-keyring/options';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import { classes, getAddressName } from '../util';
-import addressToAddress from '../util/toAddress';
+import type { Option } from './types';
 import Dropdown from '../Dropdown';
+import { getAddressName } from '../util';
+import addressToAddress from '../util/toAddress';
 import createHeader from './createHeader';
 import createItem from './createItem';
 
@@ -60,7 +59,7 @@ function transformToAddress (value?: string | Uint8Array | null): string | null 
   try {
     return addressToAddress(value) || null;
   } catch (error) {
-    console.error('Unable to transform address', value);
+    // noop, handled by return
   }
 
   return null;
@@ -160,7 +159,7 @@ class InputAddress extends React.PureComponent<Props, State> {
 
     return (
       <Dropdown
-        className={classes('ui--InputAddress', hideAddress && 'hideAddress', className)}
+        className={`ui--InputAddress${hideAddress ? ' hideAddress' : ''} ${className}`}
         defaultValue={_defaultValue}
         help={help}
         isDisabled={isDisabled}
@@ -289,9 +288,11 @@ const ExportedComponent = withMulti(
           left: -2.75rem;
           top: -1.05rem;
 
+          > div,
+          img,
           svg {
-            height: 32px;
-            width: 32px;
+            height: 32px !important;
+            width: 32px !important;
           }
         }
 
@@ -314,7 +315,7 @@ const ExportedComponent = withMulti(
       max-width: 0;
     }
   `,
-  withObservable(keyringOption.optionsSubject, {
+  withObservable(keyring.keyringOption.optionsSubject, {
     propName: 'optionsAll',
     transform: (optionsAll: KeyringOptions): Record<string, (Option | React.ReactNode)[]> =>
       Object.entries(optionsAll).reduce((result: Record<string, (Option | React.ReactNode)[]>, [type, options]): Record<string, (Option | React.ReactNode)[]> => {

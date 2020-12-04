@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { Modal, Password, PasswordStrength } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 
@@ -23,11 +24,17 @@ export default function PasswordInput ({ onChange, onEnter }: Props): React.Reac
   );
 
   const _onPassword1Change = useCallback(
-    (password1: string) => setPassword1({
-      isPass1Valid: keyring.isPassValid(password1),
-      password1
-    }),
-    []
+    (password1: string) => {
+      setPassword1({
+        isPass1Valid: keyring.isPassValid(password1),
+        password1
+      });
+      setPassword2({
+        isPass2Valid: keyring.isPassValid(password2) && (password2 === password1),
+        password2
+      });
+    },
+    [password2]
   );
 
   const onPassword2Change = useCallback(

@@ -3,7 +3,8 @@
 
 import BN from 'bn.js';
 import React from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { BestNumber } from '@polkadot/react-query';
 import { formatNumber, isNumber } from '@polkadot/util';

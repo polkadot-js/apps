@@ -1,11 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ButtonProps } from './types';
-
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
+import type { ThemeProps } from '../types';
+import type { ButtonProps } from './types';
 import Icon from '../Icon';
 import Spinner from '../Spinner';
 
@@ -36,7 +36,7 @@ function Button ({ children, className = '', icon, isBasic, isBusy, isCircular, 
 
 const ICON_PADDING = 0.5;
 
-export default React.memo(styled(Button)`
+export default React.memo(styled(Button)(({ theme }: ThemeProps) => `
   background: transparent;
   border: none;
   color: inherit;
@@ -73,7 +73,7 @@ export default React.memo(styled(Button)`
   }
 
   &.isBasic {
-    background: #fff;
+    background: ${theme.bgTable};
   }
 
   &.isCircular {
@@ -131,4 +131,4 @@ export default React.memo(styled(Button)`
   &.isDisabled {
     color: #bcbbba;
   }
-`);
+`));

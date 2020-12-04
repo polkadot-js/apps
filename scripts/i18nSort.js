@@ -6,7 +6,7 @@ const path = require('path');
 
 const i18nRoot = path.join(__dirname, '../packages/apps/public/locales');
 
-const SKIP_NS = ['app-123code', 'app-dashboard', 'app-i18n', 'translation'].map((f) => `${f}.json`);
+const SKIP_NS = ['translation'].map((f) => `${f}.json`);
 
 function getEntries (langRoot) {
   return fs

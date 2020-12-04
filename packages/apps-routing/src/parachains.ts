@@ -1,11 +1,13 @@
 // Copyright 2017-2020 @polkadot/apps-routing authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Route } from './types';
+import type { TFunction } from 'i18next';
 
 import Component from '@polkadot/app-parachains';
 
-export default function create (t: <T = string> (key: string, text: string, options: { ns: string }) => T): Route {
+import type { Route } from './types';
+
+export default function create (t: TFunction): Route {
   return {
     Component,
     display: {
@@ -16,6 +18,6 @@ export default function create (t: <T = string> (key: string, text: string, opti
     group: 'network',
     icon: 'link',
     name: 'parachains',
-    text: t<string>('nav.parachains', 'Parachains', { ns: 'apps-routing' })
+    text: t('nav.parachains', 'Parachains', { ns: 'apps-routing' })
   };
 }

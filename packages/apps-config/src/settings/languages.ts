@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { TFunction } from 'i18next';
-import { Option } from './types';
+import type { TFunction } from 'i18next';
 
-export default function create (t: TFunction): Option[] {
+import type { Option } from './types';
+
+export function createLanguages (t: TFunction): Option[] {
   return [
     {
-      text: t<string>('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
+      text: t('lng.detect', 'Default browser language (auto-detect)', { ns: 'apps-config' }),
       value: 'default'
     },
     // default/native
@@ -23,6 +24,10 @@ export default function create (t: TFunction): Option[] {
     {
       text: 'Español',
       value: 'es'
+    },
+    {
+      text: 'Français',
+      value: 'fr'
     },
     {
       text: 'Bahasa Indonesia',

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 
 interface Props {
@@ -12,7 +13,9 @@ interface Props {
 
 function NodeVersion ({ children, className = '', label }: Props): React.ReactElement<Props> {
   const { systemVersion } = useApi();
-  const displayVersion = systemVersion.split('-').filter((_, index) => index <= 1).join('-');
+
+  // eg. 0.1.0-90d0bb6-x86_64-macos
+  const displayVersion = systemVersion.split('-')[0];
 
   return (
     <div className={className}>

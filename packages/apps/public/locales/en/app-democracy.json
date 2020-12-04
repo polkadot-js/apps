@@ -1,5 +1,4 @@
 {
-  "0.1x voting balance, no lockup period": "0.1x voting balance, no lockup period",
   "Aye {{count}}": "Aye {{count}}",
   "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.": "Conviction locks do overlap and is additive, meaning that funds locked during a previous vote can be locked again.",
   "Democracy overview": "Democracy overview",
@@ -14,9 +13,6 @@
   "No active schedules": "No active schedules",
   "No external proposal": "No external proposal",
   "Nothing queued for execution": "Nothing queued for execution",
-  "Only applicable if the proposal has already passed and is ready for dispatch.": "Only applicable if the proposal has already passed and is ready for dispatch.",
-  "Preimage": "Preimage",
-  "Register the vote for or against the proposal.": "Register the vote for or against the proposal.",
   "Second": "Second",
   "Second proposal": "Second proposal",
   "Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.": "Seconding a proposal that indicates your backing for the proposal. Proposals with greater interest moves up the queue for potential next referendums.",
@@ -53,7 +49,6 @@
   "Vote on proposal": "Vote on proposal",
   "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.": "When submitting a proposal the hash needs to be known. Proposals can be submitted with hash-only, but upon dispatch the preimage needs to be available.",
   "activate": "activate",
-  "aye": "aye",
   "calculated storage fee": "calculated storage fee",
   "conviction": "conviction",
   "count": "count",
@@ -62,12 +57,10 @@
   "enact": "enact",
   "external": "external",
   "id": "id",
-  "imminent preimage (proposal already passed)": "imminent preimage (proposal already passed)",
   "launch period": "launch period",
   "locked": "locked",
   "locked balance": "locked balance",
   "minimum deposit": "minimum deposit",
-  "nay": "nay",
   "period": "period",
   "preimage hash": "preimage hash",
   "preimage {{hash}}": "preimage {{hash}}",
@@ -89,6 +82,5 @@
   "{{blocks}} blocks": "{{blocks}} blocks",
   "{{percentage}} aye": "{{percentage}} aye",
   "{{threshold}}, not passing": "{{threshold}}, not passing",
-  "{{threshold}}, passing": "{{threshold}}, passing",
-  "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)": "{{value}}x voting balance, locked for {{lock}}x enactment ({{period}} days)"
+  "{{threshold}}, passing": "{{threshold}}, passing"
 }

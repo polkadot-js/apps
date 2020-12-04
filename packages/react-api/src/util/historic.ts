@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Hash } from '@polkadot/types/interfaces';
-import { Codec } from '@polkadot/types/types';
+import type { Hash } from '@polkadot/types/interfaces';
+import type { Codec } from '@polkadot/types/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AtQuery <I extends any[]> = (hash: string | Uint8Array, ...params: I) => Promise<Codec>;

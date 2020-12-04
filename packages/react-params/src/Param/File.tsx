@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { InputFile } from '@polkadot/react-components';
 
 import Bare from './Bare';

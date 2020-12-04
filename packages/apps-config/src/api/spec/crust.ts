@@ -6,7 +6,6 @@
 
 export default {
   Address: 'AccountId',
-  RefCount: 'u8',
   AddressInfo: 'Vec<u8>',
   FileAlias: 'Vec<u8>',
   Guarantee: {

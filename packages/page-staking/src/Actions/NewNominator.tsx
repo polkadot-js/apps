@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BondInfo, NominateInfo } from './partials/types';
-import { SortedTargets } from '../types';
-
 import React, { useCallback, useState } from 'react';
+
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import type { SortedTargets } from '../types';
+import type { BondInfo, NominateInfo } from './partials/types';
 import { useTranslation } from '../translate';
 import BondPartial from './partials/Bond';
 import NominatePartial from './partials/Nominate';
@@ -103,7 +103,11 @@ function NewNominator ({ isInElection, targets }: Props): React.ReactElement<Pro
                       ? [bondTx, nominateTx]
                       : [bondOwnTx, nominateTx, controllerTx]
                   ]}
-                  tx='utility.batch'
+                  tx={
+                    isFunction(api.tx.utility.batchAll)
+                      ? 'utility.batchAll'
+                      : 'utility.batch'
+                  }
                 />
               )
               : (

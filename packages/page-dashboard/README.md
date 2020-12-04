@@ -1,1 +1,0 @@
-# @polkadot/app-dashboard

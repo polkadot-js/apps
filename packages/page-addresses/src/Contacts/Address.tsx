@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-addresses authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
-import { KeyringAddress } from '@polkadot/ui-keyring/types';
-import { ActionStatus } from '@polkadot/react-components/Status/types';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 
-import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import type { DeriveAccountInfo, DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { ThemeDef } from '@polkadot/react-components/types';
+import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import Transfer from '@polkadot/app-accounts/modals/Transfer';
-import { AddressSmall, AddressInfo, Button, ChainLock, Icon, LinkExternal, Forget, Menu, Popup, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, ChainLock, Forget, Icon, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
@@ -29,6 +30,7 @@ const isEditable = true;
 
 function Address ({ address, className = '', filter, isFavorite, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
+  const { theme } = useContext<ThemeDef>(ThemeContext);
   const api = useApi();
   const info = useCall<DeriveAccountInfo>(api.api.derive.accounts.info, [address]);
   const balancesAll = useCall<DeriveBalancesAll>(api.api.derive.balances.all, [address]);
@@ -203,7 +205,7 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
           />
         )}
         <Popup
-          className='theme--default'
+          className={`theme--${theme}`}
           isOpen={isSettingPopupOpen}
           onClose={_toggleSettingPopup}
           trigger={

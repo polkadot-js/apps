@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { css } from 'styled-components';
+import type { ThemeDef } from '../types';
 
-export default css`
+export default (theme: ThemeDef): string => `
   .ui.hidden.divider {
     margin: 0.5rem 0;
   }
@@ -20,8 +20,17 @@ export default css`
   }
 
   .ui.selection.dropdown,
-  .ui.input > input {
-    color: inherit;
+  .ui.input > input,
+  .ui.selection.dropdown > input {
+    background: ${theme.bgInput};
+    color: ${theme.color};
+    font: ${theme.fontSans};
+    font-size: 1rem;
+
+    &:focus {
+      background: ${theme.bgInput};
+      color: ${theme.color};
+    }
   }
 
   .ui.action.input > .buttons {
@@ -39,19 +48,38 @@ export default css`
       }
     }
 
+    &.selection.visible {
+      background: ${theme.bgInput};
+      color: ${theme.color};
+    }
+
+    .menu {
+      background: ${theme.bgInput};
+      color: ${theme.color};
+
+      > .item {
+        border-color: transparent !important;
+        color: ${theme.color} !important;
+
+        &.header.disabled {
+          margin: 1em 0 0 0;
+          opacity: 1;
+
+          &:hover,
+          &.selected {
+            background: ${theme.bgInput};
+          }
+        }
+      }
+    }
+
     > .text {
       min-height: 1em;
+
+      &:not(.default) {
+        color: ${theme.color} !important;
+      }
     }
-  }
-
-  .ui.dropdown .menu > .item.header.disabled {
-    margin: 1em 0 0 0;
-    opacity: 1;
-  }
-
-  .ui.dropdown .menu > .item.header.disabled:hover,
-  .ui.dropdown .menu > .item.header.disabled.selected {
-    background: white;
   }
 
   .ui.input {
@@ -68,7 +96,6 @@ export default css`
       .ui.primary.buttons .ui.button {
         background-color: #666;
         border-color: transparent;
-        border-left-color: transparent;
         color: #f9f8f7;
         opacity: 0.5;
 
@@ -78,8 +105,8 @@ export default css`
       }
     }
 
-    &.disabled.error input {
-      background-color: #fff6f6;
+    &.error input {
+      background-color: ${theme.bgInputError};
       border-color: #e0b4b4;
     }
 
@@ -90,16 +117,16 @@ export default css`
 
   .ui.label {
     background: transparent;
-    font-weight: normal;
+    font-weight: 400;
     position: relative;
     z-index: 1;
   }
 
   .ui.modal {
-    background: #f9f8f7;
+    background: ${theme.bgPage};
     box-shadow: none;
-    color: #4e4e4e;
-    font-family: sans-serif;
+    color: ${theme.color};
+    font: ${theme.fontSans};
 
     > .actions,
     > .content {
@@ -116,10 +143,10 @@ export default css`
     > .header:not(.ui) {
       background: transparent;
       border-bottom: none;
-      color: rgba(0, 0, 0, .6);
-      font-family: sans-serif;
+      color: ${theme.colorSummary};
+      font: ${theme.fontSans};
       font-size: 1.75rem;
-      font-weight: 100;
+      font-weight: 400;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
       text-transform: lowercase;
@@ -131,12 +158,21 @@ export default css`
 
     .description {
       margin: 1.5em 0;
-      font-weight: 700;
+      font-weight: 400;
     }
   }
 
   .ui.page.modals.transition.visible {
     display: flex !important;
+  }
+
+  .ui.popup {
+    background: ${theme.bgMenu};
+    color: ${theme.color};
+
+    .ui.text.menu .item {
+      color: ${theme.color};
+    }
   }
 
   .ui.secondary.vertical.menu > .item {

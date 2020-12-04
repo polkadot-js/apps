@@ -4,8 +4,8 @@
 import Beresheet from './beresheet';
 import Phala from './phala';
 
-// alphabetical
+// alphabetical, based on the actual displayed name
 export default {
   Beresheet,
-  'Phala PoC-2': Phala
+  'Phala PoC-3': Phala
 };

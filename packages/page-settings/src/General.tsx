@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Option } from '@polkadot/apps-config/settings/types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { createLanguages, createSs58 } from '@polkadot/apps-config/settings';
+import type { Option } from '@polkadot/apps-config/settings/types';
+import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';
 import uiSettings, { SettingsStruct } from '@polkadot/ui-settings';
@@ -22,15 +22,29 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   // tri-state: null = nothing changed, false = no reload, true = reload required
   const [changed, setChanged] = useState<boolean | null>(null);
-  const [settings, setSettings] = useState(uiSettings.get());
+  const [settings, setSettings] = useState((): SettingsStruct => {
+    const settings = uiSettings.get();
+
+    return { ...settings, uiTheme: settings.uiTheme === 'dark' ? 'dark' : 'light' };
+  });
 
   const iconOptions = useMemo(
-    () => uiSettings.availableIcons.map((o): Option => createIdenticon(o, ['default'])),
+    () => uiSettings.availableIcons
+      .map((o): Option => createIdenticon(o, ['default']))
+      .concat(createIdenticon({ info: 'robohash', text: 'RoboHash', value: 'robohash' })),
     []
   );
 
   const prefixOptions = useMemo(
     () => createSs58(t).map((o): Option | React.ReactNode => createOption(o, ['default'])),
+    [t]
+  );
+
+  const themeOptions = useMemo(
+    () => [
+      { text: t('Light theme (default)'), value: 'light' },
+      { text: t('Dark theme (experimental, work-in-progress)'), value: 'dark' }
+    ],
     [t]
   );
 
@@ -52,7 +66,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
   }, [settings]);
 
   const _handleChange = useCallback(
-    (key: keyof SettingsStruct) => <T extends string | number>(value: T): void =>
+    (key: keyof SettingsStruct) => <T extends string | number>(value: T) =>
       setSettings((settings) => ({ ...settings, [key]: value })),
     []
   );
@@ -70,7 +84,7 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
     [settings]
   );
 
-  const { i18nLang, icon, ledgerConn, prefix } = settings;
+  const { i18nLang, icon, ledgerConn, prefix, uiTheme } = settings;
 
   return (
     <div className={className}>
@@ -103,6 +117,14 @@ function General ({ className = '' }: Props): React.ReactElement<Props> {
           />
         </div>
       )}
+      <div className='ui--row'>
+        <Dropdown
+          defaultValue={uiTheme}
+          label={t<string>('default interface theme')}
+          onChange={_handleChange('uiTheme')}
+          options={themeOptions}
+        />
+      </div>
       <div className='ui--row'>
         <Dropdown
           defaultValue={i18nLang}
