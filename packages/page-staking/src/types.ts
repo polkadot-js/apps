@@ -75,6 +75,7 @@ export type TargetSortBy = keyof ValidatorInfoRank;
 
 export interface SortedTargets {
   avgStaked?: BN;
+  electedIds?: string[];
   inflation: Inflation;
   lastReward?: BN;
   lowStaked?: BN;
@@ -84,4 +85,5 @@ export interface SortedTargets {
   totalIssuance?: BN;
   validators?: ValidatorInfo[];
   validatorIds?: string[];
+  waitingIds?: string[];
 }
