@@ -111,6 +111,16 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     setTermsSelected(!termsSelected);
   }
 
+  function canSubmitStep() {
+    if (activeStep === 0) {
+      return !!txHash;
+    } else if (activeStep === 1) {
+      return !!address;
+    } else {
+      return !!signature;
+    }
+  }
+
   const steps = [
     {
       title: 'Send ERC-2O tokens',
@@ -157,7 +167,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       <p style={{marginTop: '24px'}}>
         <strong>Mainnet address</strong><br />
         Add an address on the Dock mainnet to receive the migrating tokens.<br />
-        Don't have a mainnet address? <a href="#">Create a Dock token wallet</a>
+        Don't have a mainnet address? <a href="/#/accounts">Create a Dock token wallet</a>
       </p>
       <InputAddress
         label={t<string>('Dock mainnet address')}
@@ -245,9 +255,9 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
         <td style={{backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(34, 36, 38, 0.15)', paddingBottom: '20px', marginBottom: '10px', circleTop: '0'}}>
             <Stepper steps={steps} activeStep={activeStep} {...{
               titleFontSize: 13,
-              circleFontSize: 13,
+              circleFontSize: 11,
               circleTop: 16,
-              size: 24
+              size: 25
             }} />
         </td>
       </tr>
@@ -275,11 +285,12 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           ) : (
             <>
               {stepElements[activeStep]}
+              <br />
               {activeStep < 2 ? (
                 <div style={{textAlign: 'right', display: 'inline-block', float: 'right', marginTop: '20px'}}>
                   <Button
                     icon='chevron-right'
-                    isDisabled={submitting || !txHash}
+                    isDisabled={submitting || !canSubmitStep()}
                     isPrimary={true}
                     label={t<string>(' Next')}
                     onClick={() => {
