@@ -254,15 +254,24 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       <tr>
         <td>
           {success ? (
-            <div style={{textAlign: 'center', margin: '40px auto'}}>
-              <p style={{fontSize: '24px'}}>
-                Successfully submitted
-              </p>
-              <p>
-                Your token migration request is being processed<br /><br />
-                Check the status of your request <a href="/#/token-swap/status" onClick={handleResetState}>here</a>.
-              </p>
-            </div>
+            <>
+              <div style={{textAlign: 'center', margin: '40px auto'}}>
+                <p style={{fontSize: '24px'}}>
+                  Successfully submitted
+                </p>
+                <p>
+                  Your token migration request is being processed<br /><br />
+                  Check the status of your request <a href="/#/token-swap/status" onClick={handleResetState}>here</a>.
+                </p>
+              </div>
+              <div style={{float: 'right'}}>
+                <Button
+                  isPrimary={true}
+                  label={t<string>('Submit another request')}
+                  onClick={handleResetState}
+                />
+              </div>
+            </>
           ) : (
             <>
               {stepElements[activeStep]}
