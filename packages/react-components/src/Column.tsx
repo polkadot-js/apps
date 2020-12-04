@@ -10,11 +10,11 @@ import translate from './translate';
 
 class Column extends Collection<Props, State> {
   public render (): React.ReactNode {
-    const { className = '' } = this.props;
+    const { style, className = '' } = this.props;
     const { isEmpty } = this.state;
 
     return (
-      <div className={`ui--Column ${className}`}>
+      <div className={`ui--Column ${className}`} style={style}>
         {this.renderHeader()}
         {isEmpty && this.renderEmpty()}
         {this.renderCollection()}

@@ -1,6 +1,7 @@
 import bs58 from 'bs58';
 import bs58check from 'bs58check';
 import { Buffer } from 'safe-buffer';
+import Stepper from 'react-stepper-horizontal';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton, Checkbox } from '@polkadot/react-components';
@@ -16,7 +17,7 @@ interface Props {
 const apiUrl = 'http://localhost:8080';
 const useBonusCheckbox = true;
 
-function SwapForm ({ title = 'Submit token migration request' }: Props): React.ReactElement<Props> {
+function SwapForm ({ title = 'Token migration request' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
     [t(title), 'start', 3]
@@ -25,12 +26,14 @@ function SwapForm ({ title = 'Submit token migration request' }: Props): React.R
   const [submitting, setSubmitting] = useState<Boolean>(false);
   const [success, setSuccess] = useState<Boolean>(false);
   const [error, setError] = useState<string>('');
+  const [activeStep, setActiveStep] = useState<number>(0);
   const [txHash, setTxHash] = useState<string>('');
   const [signature, setSignature] = useState<string>('');
   const [base58Check, setBase58Check] = useState<string>('');
   const [address, setAddress] = useState<string | null>(null);
   const [currentPair, setCurrentPair] = useState<KeyringPair | null>(keyring.getPairs()[0] || null);
   const [isSelected, setIsSelected] = useState(false);
+  const [termsSelected, setTermsSelected] = useState(false);
 
   useEffect((): void => {
     setAddress(currentPair?.address || '');
@@ -94,6 +97,128 @@ function SwapForm ({ title = 'Submit token migration request' }: Props): React.R
     setIsSelected(!isSelected);
   }
 
+  function _onSelectTerms() {
+    setTermsSelected(!termsSelected);
+  }
+
+  const steps = [
+    {
+      title: 'Send ERC-2O tokens',
+      onClick: () => {
+        setActiveStep(0);
+      }
+    },
+    {
+      title: 'Destination address',
+      onClick: () => {
+        setActiveStep(1);
+      }
+    },
+    {
+      title: 'Sign & submit',
+      onClick: () => {
+        setActiveStep(2);
+      }
+    }
+  ];
+
+  const stepElements = [(
+    <>
+      <p style={{marginTop: '24px'}}>
+        <strong>Send ERC-2O tokens</strong><br />
+        Send your ERC-20 DOCK tokens to the Dock Vault. <a href="#" target="">See how it works</a><br />
+        Once sent, copy the transaction hash and paste below.
+      </p>
+      <p style={{marginTop: '24px'}}>
+        <strong>Transaction hash</strong><br />
+        Add the Ethereum transaction hash in which you sent tokens to the Vault.
+      </p>
+
+      <Input
+        help={t<string>('Enter the Ethereum transaction hash in which you sent tokens to the Vault.')}
+        label={t<string>('Transaction hash')}
+        onChange={setTxHash}
+        value={txHash}
+        isFull
+      />
+    </>
+  ), (
+    <>
+      <p style={{marginTop: '24px'}}>
+        <strong>Mainnet address</strong><br />
+        Add an address on the Dock mainnet to receive the migrating tokens.<br />
+        Don't have a mainnet address? <a href="#">Create a Dock token wallet</a>
+      </p>
+      <InputAddress
+        label={t<string>('Dock mainnet address')}
+        onChange={setAddress}
+        type='account'
+        value={address}
+        isFull
+      />
+    </>
+  ), (
+    <>
+      <div style={{backgroundColor: '#FAFAFA', border: '1px solid #ECEBED', padding: '20px', marginTop: '10px'}}>
+        <p>
+          <strong>Generate signature</strong><br />
+          Use this code to sign your transaction using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature. <a href="#">See how it works</a>
+        </p>
+        <Input
+          help={t<string>('Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.')}
+          label={t<string>('Code to sign')}
+          value={base58Check}
+          disabled
+          isFull
+        />
+      </div>
+
+      <br />
+
+      <p>
+        <strong>Signature</strong><br />
+        Add the signature generated from signing with the above code
+      </p>
+
+      <Input
+        help={t<string>('Enter the signature over the above code.')}
+        label={t<string>('Signature')}
+        onChange={setSignature}
+        value={signature}
+        isFull
+      />
+
+      <br />
+
+      <div style={{display: 'flex'}}>
+        <Checkbox
+          onChange={_onSelectTerms}
+          value={termsSelected}
+        />
+        <p style={{marginLeft: '10px'}}>
+          I agree to Dock's <a href="#" target="_blank">Terms & Conditions</a>
+        </p>
+      </div>
+
+      <br />
+
+      {useBonusCheckbox && (
+        <div style={{display: 'flex'}}>
+          <Checkbox
+            onChange={_onSelect}
+            value={isSelected}
+          />
+          <p style={{marginLeft: '10px'}}>
+            {t<string>(`Opt-in for vesting bonus (Optional)`)}<br />
+            <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
+              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="#" target="_blank">here</a>.
+            </span>
+          </p>
+        </div>
+      )}
+    </>
+  )];
+
   return (
     <Table
       header={headerRef.current}
@@ -101,109 +226,63 @@ function SwapForm ({ title = 'Submit token migration request' }: Props): React.R
     >
       <tr>
         <td>
-          <Modal.Columns>
-            <Modal.Column>
-              <InputAddress
-                label={t<string>('Dock mainnet address')}
-                onChange={setAddress}
-                type='account'
-                value={address}
-                isFull
+          <p>
+            Migrate ERC-20 DOCK tokens to Dock's native tokens.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td style={{backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(34, 36, 38, 0.15)', paddingBottom: '20px', marginBottom: '10px', circleTop: '0'}}>
+            <Stepper steps={steps} activeStep={activeStep} {...{
+              titleFontSize: 13,
+              circleFontSize: 12,
+              circleTop: 16,
+              size: 22
+            }} />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {stepElements[activeStep]}
+          {activeStep < 2 ? (
+            <div style={{textAlign: 'right', display: 'inline-block', float: 'right', marginTop: '20px'}}>
+              <Button
+                icon='chevron-right'
+                isDisabled={submitting || !txHash}
+                isPrimary={true}
+                label={t<string>(' Next')}
+                onClick={() => {
+                  setActiveStep(activeStep + 1);
+                }}
               />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>(`Go to the accounts page and add or create an account if one doesn't appear here.`)}</p>
-            </Modal.Column>
-          </Modal.Columns>
-
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                help={t<string>('Enter the Ethereum transaction hash in which you sent tokens to the Vault.')}
-                label={t<string>('Transaction hash')}
-                onChange={setTxHash}
-                value={txHash}
-                isFull
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>(`Enter the Ethereum transaction hash in which you sent tokens to the Vault.`)}</p>
-            </Modal.Column>
-          </Modal.Columns>
-
-          {useBonusCheckbox && (
+            </div>
+          ) : (
             <Modal.Columns>
               <Modal.Column>
-              </Modal.Column>x
+                {success ? (
+                  <p style={{color: 'green'}}>
+                    Success! Your token migration request has been submitted and is being processed. Check the status with the other form on this page.
+                  </p>
+                ) : (
+                  <p style={{color: '#d82323'}}>
+                    {error}
+                  </p>
+                )}
+              </Modal.Column>
               <Modal.Column>
-                <div style={{display: 'flex'}}>
-                  <Checkbox
-                    onChange={_onSelect}
-                    value={isSelected}
-                  />
-                  <p style={{marginLeft: '10px'}}>{t<string>(`Opt-in for vesting bonus?`)}</p>
-                </div>
+              <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
+                <Button
+                  accountId={address}
+                  icon='sign-in-alt'
+                  isDisabled={!termsSelected || submitting || !(address && signature && txHash)}
+                  isPrimary={true}
+                  label={t<string>(submitting ? 'Please wait...' : 'Submit request')}
+                  onClick={handleSubmitSwap}
+                />
+              </div>
               </Modal.Column>
             </Modal.Columns>
           )}
-
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                help={t<string>('Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.')}
-                label={t<string>('Code to sign')}
-                value={base58Check}
-                disabled
-                isFull
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>
-                Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.
-              </p>
-            </Modal.Column>
-          </Modal.Columns>
-
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                help={t<string>('Enter the signature over the above code.')}
-                label={t<string>('Signature')}
-                onChange={setSignature}
-                value={signature}
-                isFull
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>(`Enter the signature over the above code.`)}</p>
-            </Modal.Column>
-          </Modal.Columns>
-
-          <Modal.Columns>
-            <Modal.Column>
-              {success ? (
-                <p style={{color: 'green'}}>
-                  Success! Your token migration request has been submitted and is being processed. Check the status with the other form on this page.
-                </p>
-              ) : (
-                <p style={{color: '#d82323'}}>
-                  {error}
-                </p>
-              )}
-            </Modal.Column>
-            <Modal.Column>
-            <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
-              <Button
-                accountId={address}
-                icon='sign-in-alt'
-                isDisabled={submitting || !(address && signature && txHash)}
-                isPrimary={true}
-                label={t<string>(submitting ? 'Please wait...' : 'Submit')}
-                onClick={handleSubmitSwap}
-              />
-            </div>
-            </Modal.Column>
-          </Modal.Columns>
         </td>
       </tr>
     </Table>

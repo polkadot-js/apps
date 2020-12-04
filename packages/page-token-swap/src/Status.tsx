@@ -71,35 +71,30 @@ function SwapForm ({ title = 'Check token migration status' }: Props): React.Rea
     >
       <tr>
         <td>
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                help={t<string>('Enter the Ethereum address that you sent your tokens from')}
-                label={t<string>('Ethereum address')}
-                onChange={setAddress}
-                value={address}
-                isFull
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>(`Enter the Ethereum address that you sent your tokens from`)}</p>
-            </Modal.Column>
-          </Modal.Columns>
+          <Input
+            help={t<string>('Enter the Ethereum address that you sent your tokens from')}
+            label={t<string>('Ethereum address')}
+            onChange={setAddress}
+            value={address}
+            isFull
+          />
 
-          <Modal.Columns>
-            <Modal.Column>
-              <Input
-                help={t<string>('Enter the Ethereum transaction hash in which you sent tokens to the Vault.')}
-                label={t<string>('Transaction hash')}
-                onChange={setTxHash}
-                value={txHash}
-                isFull
-              />
-            </Modal.Column>
-            <Modal.Column>
-              <p>{t<string>(`Enter the Ethereum transaction hash in which you sent tokens to the Vault.`)}</p>
-            </Modal.Column>
-          </Modal.Columns>
+          <p style={{marginTop: '6px'}}>
+            {t<string>(`The Ethereum address that you sent your tokens from`)}
+          </p>
+
+          <Input
+            help={t<string>('Enter the Ethereum transaction hash in which you sent tokens to the Vault.')}
+            label={t<string>('Transaction hash')}
+            onChange={setTxHash}
+            value={txHash}
+            isFull
+          />
+
+          <p style={{marginTop: '6px'}}>
+            {t<string>(`The Ethereum transaction hash in which you sent tokens to the Vault.`)}
+          </p>
+
 
           <Modal.Columns>
             <Modal.Column>
