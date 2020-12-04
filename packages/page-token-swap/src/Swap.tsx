@@ -237,7 +237,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
               titleFontSize: 13,
               circleFontSize: 12,
               circleTop: 16,
-              size: 22
+              size: 24
             }} />
         </td>
       </tr>
