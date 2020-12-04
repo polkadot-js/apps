@@ -1,19 +1,20 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Route, Routes } from '@polkadot/apps-routing/types';
-import { ApiProps } from '@polkadot/react-api/types';
-import { AccountId } from '@polkadot/types/interfaces';
-import { Group, Groups, ItemRoute } from './types';
-
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+
+import type { Route, Routes } from '@polkadot/apps-routing/types';
+import type { ApiProps } from '@polkadot/react-api/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { AccountId } from '@polkadot/types/interfaces';
 import createRoutes from '@polkadot/apps-routing';
 import { Icon } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
+import type { Group, Groups, ItemRoute } from './types';
 import { findMissingApis } from '../endpoint';
 import { useTranslation } from '../translate';
 import ChainInfo from './ChainInfo';
@@ -158,7 +159,7 @@ function Menu ({ className = '' }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Menu)`
+export default React.memo(styled(Menu)(({ theme }: ThemeProps) => `
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -168,12 +169,12 @@ export default React.memo(styled(Menu)`
   &.isLoading {
     background: #999 !important;
 
-    &:before {
-      filter: grayscale(1);
+    .menuActive {
+      background: ${theme.bgPage};
     }
 
-    .menuActive {
-      background: #f5f3f1;
+    &:before {
+      filter: grayscale(1);
     }
 
     .menuItems {
@@ -188,10 +189,10 @@ export default React.memo(styled(Menu)`
   }
 
   .menuActive {
-    background: #fff;
+    background: ${theme.bgTabs};
     border-bottom: none;
     border-radius: 0.25rem 0.25rem 0 0;
-    color: #4e4e4e;
+    color: ${theme.color};
     padding: 1rem 1.5rem;
     margin: 0 1rem -1px;
     z-index: 1;
@@ -211,4 +212,4 @@ export default React.memo(styled(Menu)`
       display: inline-block;
     }
   }
-`);
+`));

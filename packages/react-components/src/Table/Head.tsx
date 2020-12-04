@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import type { ThemeProps } from '../types';
+
 type HeaderDef = [React.ReactNode?, string?, number?, (() => void)?];
 
 interface Props {
@@ -46,13 +48,13 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
   );
 }
 
-export default React.memo(styled(Head)`
+export default React.memo(styled(Head)(({ theme }: ThemeProps) => `
   position: relative;
   z-index: 1;
 
   th {
-    font-family: sans-serif;
-    font-weight: 100;
+    font: ${theme.fontSans};
+    font-weight: 400;
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;
@@ -63,11 +65,11 @@ export default React.memo(styled(Head)`
     }
 
     &:first-child {
-      border-left: 1px solid #eeecea;
+      border-left: 1px solid ${theme.borderTable};
     }
 
     &:last-child {
-      border-right: 1px solid #eeecea;
+      border-right: 1px solid ${theme.borderTable};
     }
 
     &.address {
@@ -98,18 +100,12 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: white;
+    background: ${theme.bgTable};
     text-transform: lowercase;
 
     &:first-child {
       th {
-        border-top: 1px solid #eeecea;
-      }
-    }
-
-    &:not(.filter) {
-      th {
-        color: rgba(78, 78, 78, 0.66);
+        border-top: 1px solid ${theme.borderTable};
       }
     }
 
@@ -126,5 +122,11 @@ export default React.memo(styled(Head)`
         padding: 0;
       }
     }
+
+    &:not(.filter) {
+      th {
+        color: rgba(${theme.theme === 'dark' ? '254, 240, 240' : '78, 78, 78'}, 0.66);
+      }
+    }
   }
-`);
+`));

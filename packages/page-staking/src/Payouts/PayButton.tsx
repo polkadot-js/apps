@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { SubmittableExtrinsic } from '@polkadot/api/types';
-import { EraIndex } from '@polkadot/types/interfaces';
-import { PayoutValidator } from './types';
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ApiPromise } from '@polkadot/api';
-import { AddressMini, Button, Modal, InputAddress, Static, TxButton } from '@polkadot/react-components';
-import { useApi, useAccounts, useToggle } from '@polkadot/react-hooks';
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import { ApiPromise } from '@polkadot/api';
+import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
+import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
+
+import type { PayoutValidator } from './types';
 import { useTranslation } from '../translate';
 
 interface Props {
@@ -40,7 +40,11 @@ function createBatches (api: ApiPromise, maxPayouts: number, payouts: SinglePayo
 
       return batches;
     }, [[]])
-    .map((batch) => api.tx.utility.batch(batch));
+    .map((batch) =>
+      batch.length === 1
+        ? batch[0]
+        : api.tx.utility.batch(batch)
+    );
 }
 
 function createExtrinsics (api: ApiPromise, payout: PayoutValidator | PayoutValidator[], maxPayouts: number): SubmittableExtrinsic<'promise'>[] | null {

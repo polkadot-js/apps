@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { BitLength } from './types';
-
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { BN_TEN, formatBalance, isBn } from '@polkadot/util';
 
+import type { BitLength } from './types';
 import InputNumber from './InputNumber';
 
 interface Props {
@@ -41,8 +41,16 @@ const DEFAULT_BITLENGTH = BitLengthOption.CHAIN_SPEC as BitLength;
 function reformat (value: string | BN, isDisabled?: boolean): string {
   if (isBn(value)) {
     // format for 4 decimals (align with util)
-    let fmt = (value.mul(BN_TEN_THOUSAND).div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals))).toNumber() / 10000).toFixed(4);
+    const valStr = value
+      .mul(BN_TEN_THOUSAND)
+      .div(BN_TEN.pow(new BN(formatBalance.getDefaults().decimals)))
+      .toString()
+      .padStart(5, '0'); // 4 after decimal, 1 before, min 5
 
+    // dive using string format (the value may be too large for 2^53-1)
+    let fmt = `${valStr.substr(0, valStr.length - 4)}.${valStr.slice(-4)}`;
+
+    // remove all trailing 0's until the decimal
     while (fmt.length !== 1 && ['.', '0'].includes(fmt[fmt.length - 1])) {
       const isLast = fmt.endsWith('.');
 

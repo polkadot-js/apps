@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import { DeriveBalancesAll } from '@polkadot/api-derive/types';
+
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { InputBalance } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

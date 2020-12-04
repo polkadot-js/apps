@@ -3,11 +3,12 @@
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
-import { InputAddressMulti, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
+
+import { InputAddress, InputAddressMulti, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { sortAddresses } from '@polkadot/util-crypto';
 
-import { useTranslation } from '../translate';
 import useKnownAddresses from '../Accounts/useKnownAddresses';
+import { useTranslation } from '../translate';
 
 interface Props {
   address: string;

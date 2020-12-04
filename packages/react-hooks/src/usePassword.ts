@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useEffect, useState } from 'react';
+
 import keyring from '@polkadot/ui-keyring';
 
 interface PasswordProps {
@@ -11,7 +12,7 @@ interface PasswordProps {
   setIsPasswordValid: React.Dispatch<boolean>;
 }
 
-export default function usePassword (): PasswordProps {
+export function usePassword (): PasswordProps {
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
 

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 import settings from '@polkadot/ui-settings';
 
@@ -19,9 +20,29 @@ interface Props {
 
 function Connecting ({ className }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
-  const { isApiConnected, isWaitingInjected } = useApi();
+  const { apiError, isApiConnected, isApiReady, isWaitingInjected } = useApi();
 
-  if (isWaitingInjected) {
+  if (apiError) {
+    return (
+      <BaseOverlay
+        className={className}
+        icon='globe'
+        type='error'
+      >
+        <div>{apiError}</div>
+      </BaseOverlay>
+    );
+  } else if (!isApiReady) {
+    return (
+      <BaseOverlay
+        className={className}
+        icon='globe'
+        type='info'
+      >
+        <div>{t<string>('Waiting to make a connection to the remote endpoint and finishing API initialization.')}</div>
+      </BaseOverlay>
+    );
+  } else if (isWaitingInjected) {
     return (
       <BaseOverlay
         className={className}

@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-settings authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Option } from '@polkadot/apps-config/settings/types';
-import { SettingsStruct } from '@polkadot/ui-settings/types';
-
 import React from 'react';
+
+import type { Option } from '@polkadot/apps-config/settings/types';
+import type { SettingsStruct } from '@polkadot/ui-settings/types';
 import { ChainImg, Dropdown, IdentityIcon } from '@polkadot/react-components';
 import uiSettings from '@polkadot/ui-settings';
 
@@ -79,7 +79,7 @@ export function save (settings: SettingsStruct): void {
 export function saveAndReload (settings: SettingsStruct): void {
   save(settings);
 
-  // HACK This is terrible, but since the API needs to re-connect, but since
+  // HACK This is terrible, but since the API needs to re-connect and
   // the API does not yet handle re-connections properly, it is what it is
   window.location.reload();
 }

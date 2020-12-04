@@ -1,0 +1,17 @@
+---
+productName: Polkadot-JS Apps
+artifactName: Polkadot-JS-Apps-${version}.${ext}
+files:
+  - "./packages/apps-electron/build"
+  - "./packages/apps-electron/assets"
+  - "./packages/apps-electron/appleEntitlements"
+appId: com.polkadotjs.polkadotjs-apps
+mac:
+  artifactName: Polkadot-JS-Apps-mac-${version}.${ext}
+  category: public.app-category.finance
+  entitlements: "./packages/apps-electron/appleEntitlements/entitlements.mac.plist"
+  hardenedRuntime: true
+directories:
+  buildResources: "./packages/apps-electron/assets"
+  output: "./packages/apps-electron/release"
+afterSign: electron-builder-notarize

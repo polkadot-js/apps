@@ -11,7 +11,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackPluginServe } = require('webpack-plugin-serve');
 const findPackages = require('../../scripts/findPackages');
 
-function mapChunks (name, regs, inc) {
+function mapChunks(name, regs, inc) {
   return regs.reduce((result, test, index) => ({
     ...result,
     [`${name}${index}`]: {
@@ -23,7 +23,7 @@ function mapChunks (name, regs, inc) {
   }), {});
 }
 
-function createWebpack (ENV, context) {
+function createWebpack(ENV, context) {
   const pkgJson = require(path.join(context, 'package.json'));
   const isProd = ENV === 'production';
   const hasPublic = fs.existsSync(path.join(context, 'public'));
@@ -49,10 +49,15 @@ function createWebpack (ENV, context) {
 
   return {
     context,
-    entry: ['@babel/polyfill', './src/index.tsx'],
+    entry: ['@babel/polyfill', './src/index.tsx', '@polkadot/app-anchor'],
     mode: ENV,
     module: {
       rules: [
+        {
+          include: /node_modules/,
+          test: /\.mjs$/,
+          type: 'javascript/auto'
+        },
         {
           exclude: /(node_modules)/,
           test: /\.css$/,
@@ -80,12 +85,13 @@ function createWebpack (ENV, context) {
         },
         {
           exclude: /(node_modules)/,
-          test: /\.(js|ts|tsx)$/,
+          test: /\.(js|mjs|ts|tsx)$/,
           use: [
             require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev/config/babel')
+              // options: require('@polkadot/dev/config/babel'),
+              options: require('./babel.js'),
             }
           ]
         },
@@ -141,27 +147,32 @@ function createWebpack (ENV, context) {
       net: 'empty',
       tls: 'empty'
     },
-    optimization: {
-      runtimeChunk: 'single',
-      splitChunks: {
-        cacheGroups: {
-          ...mapChunks('polkadot', [
-            /* 00 */ /node_modules\/@polkadot\/(wasm)/,
-            /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
-            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
-          ]),
-          ...mapChunks('react', [
-            /* 00 */ /node_modules\/(@fortawesome)/,
-            /* 01 */ /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|remark-parse|semantic-ui|styled-components)/
-          ]),
-          ...mapChunks('other', [
-            /* 00 */ /node_modules\/(@babel|ansi-styles|asn1|browserify|buffer|history|html-parse|inherit|lodash|memoizee|object|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|readable-stream|regenerator-runtime|repeat|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch)/,
-            /* 01 */ /node_modules\/(attr|brorand|camelcase|core|chalk|color|create|cuint|decode-uri|deep-equal|define-properties|detect-browser|es|event|evp|ext|function-bind|has-symbols|ieee754|ip|is|lru|markdown|minimalistic-|moment|next-tick|node-libs-browser|random|regexp|resolve|rxjs|scheduler|sdp|setimmediate|timers-browserify|trough)/,
-            /* 03 */ /node_modules\/(base-x|base64-js|blakejs|bip|bn\.js|cipher-base|crypto|des\.js|diffie-hellman|elliptic|hash|hmac|js-sha3|md5|miller-rabin|ripemd160|secp256k1|sha\.js|xxhashjs)/
-          ])
-        }
-      }
-    },
+    // optimization: {
+    //   runtimeChunk: 'single',
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       ...mapChunks('polkadot', [
+    //         /* 00 */ /node_modules\/@polkadot\/(wasm)/,
+    //         /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
+    //         /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
+    //       ]),
+    //       ...mapChunks('react', [
+    //         /* 00 */ /node_modules\/(@fortawesome)/,
+    //         /* 01 */ /node_modules\/(@emotion|@semantic-ui-react|@stardust|classnames|chart\.js|codeflask|copy-to-clipboard|file-selector|file-saver|hoist-non-react|i18next|jdenticon|keyboard-key|mini-create-react|popper\.js|prop-types|qrcode-generator|react|remark-parse|semantic-ui|styled-components)/
+    //       ]),
+    //       ...mapChunks('other', [
+    //         /* 00 */ /node_modules\/(@babel|ansi-styles|asn1|browserify|buffer|history|html-parse|inherit|lodash|memoizee|object|path-|parse-asn1|pbkdf2|process|public-encrypt|query-string|readable-stream|regenerator-runtime|repeat|rtcpeerconnection-shim|safe-buffer|stream-browserify|store|tslib|unified|unist-util|util|vfile|vm-browserify|webrtc-adapter|whatwg-fetch)/,
+    //         /* 01 */ /node_modules\/(attr|brorand|camelcase|core|chalk|color|create|cuint|decode-uri|deep-equal|define-properties|detect-browser|es|event|evp|ext|function-bind|has-symbols|ieee754|ip|is|lru|markdown|minimalistic-|moment|next-tick|node-libs-browser|random|regexp|resolve|rxjs|scheduler|sdp|setimmediate|timers-browserify|trough)/,
+    //         /* 03 */ /node_modules\/(base-x|base64-js|blakejs|bip|bn\.js|cipher-base|crypto|des\.js|diffie-hellman|elliptic|hash|hmac|js-sha3|md5|miller-rabin|ripemd160|secp256k1|sha\.js|xxhashjs)/,
+    //         // /* 04 */ /node_modules\/mrkl/
+    //       ]),
+    //       // ...mapChunks('mrklt', [
+    //       //   /* 01 */ /node_modules\/(mrklt)/,
+    //       //   /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
+    //       // ]),
+    //     }
+    //   }
+    // },
     output: {
       chunkFilename: '[name].[chunkhash:8].js',
       filename: '[name].[hash:8].js',
@@ -181,14 +192,14 @@ function createWebpack (ENV, context) {
           WS_URL: JSON.stringify(process.env.WS_URL)
         }
       }),
-      new webpack.optimize.SplitChunksPlugin(),
+      // new webpack.optimize.SplitChunksPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash:8].css'
       })
     ]).filter((plugin) => plugin),
     resolve: {
       alias,
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
+      extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx']
     },
     watch: !isProd,
     watchOptions: {

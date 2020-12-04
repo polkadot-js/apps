@@ -1,18 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ContractABIFnArg } from '@polkadot/api-contract/types';
-import { TypeDef } from '@polkadot/types/types';
-import { RawParams } from '@polkadot/react-params/types';
-
 import React, { useCallback, useEffect, useState } from 'react';
+
+import type { RawParams } from '@polkadot/react-params/types';
+import type { Registry, TypeDef } from '@polkadot/types/types';
 import UIParams from '@polkadot/react-params';
 
 interface Props {
   isDisabled?: boolean;
-  params?: ContractABIFnArg[];
+  params?: ParamDef[];
   onChange: (values: any[]) => void;
   onEnter?: () => void;
+  registry: Registry;
 }
 
 interface ParamDef {
@@ -20,7 +20,7 @@ interface ParamDef {
   type: TypeDef;
 }
 
-function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): React.ReactElement<Props> | null {
+function Params ({ isDisabled, onChange, onEnter, params: propParams, registry }: Props): React.ReactElement<Props> | null {
   const [params, setParams] = useState<ParamDef[]>([]);
 
   useEffect((): void => {
@@ -42,6 +42,7 @@ function Params ({ isDisabled, onChange, onEnter, params: propParams }: Props): 
       onChange={_onChange}
       onEnter={onEnter}
       params={params}
+      registry={registry}
     />
   );
 }

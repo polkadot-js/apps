@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-calendar authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DateState } from './types';
-
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
 import { Tabs } from '@polkadot/react-components';
 
+import type { DateState } from './types';
 import Day from './Day';
 import Month from './Month';
 import { useTranslation } from './translate';
@@ -138,15 +139,15 @@ function CalendarApp ({ basePath, className }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(styled(CalendarApp)`
+export default React.memo(styled(CalendarApp)(({ theme }: ThemeProps) => `
   .calendarFlex {
     align-items: flex-start;
     display: flex;
     flex-wrap: nowrap;
 
     > div {
-      background-color: #fff;
-      border: 1px solid #eeecea;
+      background-color: ${theme.bgTable};
+      border: 1px solid ${theme.borderTable};
       border-radius: 0.25rem;
 
       &+div {
@@ -169,4 +170,4 @@ export default React.memo(styled(CalendarApp)`
       }
     }
   }
-`);
+`));

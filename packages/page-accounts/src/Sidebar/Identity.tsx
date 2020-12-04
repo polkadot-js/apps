@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { AddressIdentity } from '@polkadot/react-hooks/types';
-import { AccountId, BalanceOf } from '@polkadot/types/interfaces';
-
 import React from 'react';
+
+import type { AddressIdentity } from '@polkadot/react-hooks/types';
+import type { AccountId, BalanceOf } from '@polkadot/types/interfaces';
 import { AddressMini, AvatarItem, Expander, Icon, IconLink, Tag } from '@polkadot/react-components';
 import { useApi, useCall, useRegistrars, useToggle } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
@@ -95,7 +95,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <div className='tr'>
                 <div className='th'>{t<string>('email')}</div>
                 <div className='td'>
-                  {isHex(identity.email)
+                  {isHex(identity.email) || !identity.isKnownGood
                     ? identity.email
                     : (
                       <a
@@ -113,7 +113,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <div className='tr'>
                 <div className='th'>{t<string>('website')}</div>
                 <div className='td'>
-                  {isHex(identity.web)
+                  {isHex(identity.web) || !identity.isKnownGood
                     ? identity.web
                     : (
                       <a
@@ -131,7 +131,7 @@ function Identity ({ address, identity }: Props): React.ReactElement<Props> | nu
               <div className='tr'>
                 <div className='th'>{t<string>('twitter')}</div>
                 <div className='td'>
-                  {isHex(identity.twitter)
+                  {isHex(identity.twitter) || !identity.isKnownGood
                     ? identity.twitter
                     : (
                       <a

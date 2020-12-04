@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Group } from './types';
-
 import React from 'react';
 import styled from 'styled-components';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
 import { Icon } from '@polkadot/react-components';
 
+import type { Group } from './types';
 import Item from './Item';
 
 interface Props extends Group {
@@ -28,7 +29,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
 
   return (
     <li className={className}>
-      <div className='groupHdr  highlight--color-contrast'>
+      <div className='groupHdr highlight--color-contrast'>
         <span>{name}</span>
         <Icon icon='caret-down' />
       </div>
@@ -44,7 +45,7 @@ function Grouping ({ className = '', name, routes }: Props): React.ReactElement<
   );
 }
 
-export default React.memo(styled(Grouping)`
+export default React.memo(styled(Grouping)(({ theme }: ThemeProps) => `
   cursor: pointer;
   position: relative;
 
@@ -79,8 +80,8 @@ export default React.memo(styled(Grouping)`
   &:hover {
     .groupHdr,
     .groupMenu li {
-      background: #fff;
-      color: #4e4e4e;
+      background: ${theme.bgMenu};
+      color: ${theme.color};
     }
 
     .groupHdr {
@@ -91,8 +92,8 @@ export default React.memo(styled(Grouping)`
       display: block;
 
       > li:hover {
-        background: rgba(255, 255, 255, 0.5);
+        background: ${theme.bgMenuHover};
       }
     }
   }
-`);
+`));

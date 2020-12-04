@@ -1,16 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { CodeStored } from '@polkadot/app-contracts/types';
-
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { createType } from '@polkadot/types';
-import { registry } from '@polkadot/react-api';
-import { toShortAddress } from '@polkadot/react-components/util';
-import Row from '@polkadot/react-components/Row';
-import { CopyButton, Icon } from '@polkadot/react-components';
 
+import { registry } from '@polkadot/react-api';
+import { Icon } from '@polkadot/react-components';
+import Row from '@polkadot/react-components/Row';
+
+import type { CodeStored } from '../types';
 import contracts from '../store';
 
 interface Props {
@@ -41,7 +39,7 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
       const trimmedName = name.trim();
 
       if (trimmedName && codeHash) {
-        contracts.saveCode(createType(registry, 'Hash', codeHash), { name })
+        contracts.saveCode(registry.createType('Hash', codeHash), { name })
           .catch((e): void => console.error(e));
       }
     },
@@ -51,7 +49,7 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
   const _onSaveTags = useCallback(
     (): void => {
       codeHash && contracts
-        .saveCode(createType(registry, 'Hash', codeHash), { tags })
+        .saveCode(registry.createType('Hash', codeHash), { tags })
         .catch((e): void => console.error(e));
     },
     [codeHash, tags]
@@ -59,26 +57,13 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
 
   return (
     <Row
-      address={
-        <CopyButton
-          isAddress
-          value={codeHash}
-        >
-          <span>{toShortAddress(codeHash)}</span>
-        </CopyButton>
-      }
       buttons={buttons}
       className={className}
       icon={
         <div className='ui--CodeRow-icon'>
-          <Icon
-            icon='code'
-            size='large'
-          />
+          <Icon icon='code' />
         </div>
       }
-      isEditableName
-      isEditableTags
       isInline={isInline}
       name={name}
       onChangeName={setName}
@@ -92,18 +77,16 @@ function CodeRow ({ buttons, children, className, code: { json }, isInline, with
   );
 }
 
-export default React.memo(
-  styled(CodeRow)`
-    .ui--CodeRow-icon {
-      margin-right: 1em;
-      background: #eee;
-      color: #666;
-      width: 4rem;
-      height: 5rem;
-      padding: 0.5rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-  `
-);
+export default React.memo(styled(CodeRow)`
+  .ui--CodeRow-icon {
+    margin-right: -0.5em;
+    background: #eee;
+    border-radius: 50%;
+    color: #666;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`);

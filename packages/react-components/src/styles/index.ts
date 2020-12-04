@@ -3,6 +3,7 @@
 
 import { createGlobalStyle } from 'styled-components';
 
+import type { ThemeProps } from '../types';
 import cssComponents from './components';
 import cssForm from './form';
 import cssMedia from './media';
@@ -20,12 +21,12 @@ const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
 
-function getHighlight (props: Props): string {
-  return (props.uiHighlight || defaultHighlight);
+function getHighlight (uiHighlight: string | undefined): string {
+  return (uiHighlight || defaultHighlight);
 }
 
-function getContrast (props: Props): string {
-  const hc = getHighlight(props).replace('#', '').toLowerCase();
+function getContrast (uiHighlight: string | undefined): string {
+  const hc = getHighlight(uiHighlight).replace('#', '').toLowerCase();
   const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
 
   return brightness > BRIGHTNESS
@@ -33,36 +34,36 @@ function getContrast (props: Props): string {
     : 'rgba(255, 253, 251, 0.875)';
 }
 
-export default createGlobalStyle<Props>`
+export default createGlobalStyle<Props & ThemeProps>(({ theme, uiHighlight }: Props & ThemeProps) => `
   .highlight--all {
-    background: ${getHighlight} !important;
-    border-color: ${getHighlight} !important;
-    color: ${getHighlight} !important;
+    background: ${getHighlight(uiHighlight)} !important;
+    border-color: ${getHighlight(uiHighlight)} !important;
+    color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--before:before {
-    background: ${getHighlight} !important;
+    background: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--before-border:before {
-    border-color: ${getHighlight} !important;
+    border-color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--bg {
-    background: ${getHighlight} !important;
+    background: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--bg-contrast {
-    background: ${getContrast};
+    background: ${getContrast(uiHighlight)};
   }
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: white;
+    background: ${theme.bgTable};
     position: relative;
 
     &:before {
-      background: ${getHighlight};
+      background: ${getHighlight(uiHighlight)};
       bottom: 0;
       content: ' ';
       left: 0;
@@ -82,74 +83,74 @@ export default createGlobalStyle<Props>`
   }
 
   .highlight--border {
-    border-color: ${getHighlight} !important;
+    border-color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--color {
-    color: ${getHighlight} !important;
+    color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--color-contrast {
-    color: ${getContrast};
+    color: ${getContrast(uiHighlight)};
   }
 
   .highlight--fill {
-    fill: ${getHighlight} !important;
+    fill: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--gradient {
-    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+    background: ${`linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .highlight--hover-bg:hover {
-    background: ${getHighlight} !important;
+    background: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--hover-color:hover {
-    color: ${getHighlight} !important;
+    color: ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--icon {
     .ui--Icon {
-      color: ${getHighlight} !important;
+      color: ${getHighlight(uiHighlight)} !important;
     }
   }
 
   .highlight--shadow {
-    box-shadow: 0 0 1px ${getHighlight} !important;
+    box-shadow: 0 0 1px ${getHighlight(uiHighlight)} !important;
   }
 
   .highlight--stroke {
-    stroke: ${getHighlight} !important;
+    stroke: ${getHighlight(uiHighlight)} !important;
   }
 
   .ui--Button {
     &:not(.isDisabled):not(.isIcon):not(.isBasic),
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
-        background: ${getHighlight};
-        color: ${getContrast};
+        background: ${getHighlight(uiHighlight)};
+        color: ${getContrast(uiHighlight)};
       }
     }
 
     &.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) {
       &:not(.isReadOnly) {
-        box-shadow: 0 0 1px ${getHighlight};
+        box-shadow: 0 0 1px ${getHighlight(uiHighlight)};
       }
 
       .ui--Icon {
-        color: ${getHighlight};
+        color: ${getHighlight(uiHighlight)};
       }
     }
 
     &.isSelected {
-      box-shadow: 0 0 1px ${getHighlight};
+      box-shadow: 0 0 1px ${getHighlight(uiHighlight)};
     }
 
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
-      background: ${getHighlight};
-      color: ${getContrast};
+      background: ${getHighlight(uiHighlight)};
+      color: ${getContrast(uiHighlight)};
       text-shadow: none;
 
       &:not(.isIcon),
@@ -166,46 +167,44 @@ export default createGlobalStyle<Props>`
     &.withoutLink:not(.isDisabled) {
       &:hover {
         .ui--Icon {
-          color: ${getContrast};
+          color: ${getContrast(uiHighlight)};
         }
       }
 
       .ui--Icon {
         background: transparent;
-        color: ${getHighlight};
+        color: ${getHighlight(uiHighlight)};
       }
     }
   }
 
-  .theme--default {
-    .ui--Tabs-Tab.tabLinkActive {
-      border-bottom-color: ${getHighlight};
-    }
-
-    .ui.negative.button,
-    .ui.buttons .negative.button {
-      background: #666 !important;
+  .theme--dark,
+  .theme--light {
+    .ui--Tabs {
+      .ui--Tab.tabLinkActive {
+        border-bottom-color: ${getHighlight(uiHighlight)};
+      }
     }
 
     .ui.primary.button,
     .ui.buttons .primary.button {
-      background: ${getHighlight};
+      background: ${getHighlight(uiHighlight)};
 
       &.active,
       &:active,
       &:focus,
       &:hover {
-        background-color: ${getHighlight};
+        background-color: ${getHighlight(uiHighlight)};
       }
     }
 
     .ui--Toggle.isChecked {
       &:not(.isRadio) {
         .ui--Toggle-Slider {
-          background-color: ${getHighlight} !important;
+          background-color: ${getHighlight(uiHighlight)} !important;
 
           &:before {
-            border-color: ${getHighlight} !important;
+            border-color: ${getHighlight(uiHighlight)} !important;
           }
         }
       }
@@ -213,8 +212,9 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
-    font-family: sans-serif;
+    background: ${theme.bgPage};
+    color: ${theme.color};
+    font: ${theme.fontSans};
     height: 100%;
   }
 
@@ -223,7 +223,7 @@ export default createGlobalStyle<Props>`
   }
 
   article {
-    background: white;
+    background: ${theme.bgTable};
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
@@ -297,9 +297,9 @@ export default createGlobalStyle<Props>`
   }
 
   body {
-    background: #f5f3f1;
     height: 100%;
     margin: 0;
+    font: ${theme.fontSans};
   }
 
   br {
@@ -330,12 +330,14 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: rgba(0, 0, 0, .6);
-    font-family: sans-serif;
-    font-weight: 100;
+    color: ${theme.colorSummary};
+    font: ${theme.fontSans};
+    font-weight: ${theme.fontWeightLight};
+    margin-bottom: 0.25rem;
   }
 
   h1 {
+    font-size: 1.75rem;
     text-transform: lowercase;
 
     em {
@@ -344,8 +346,8 @@ export default createGlobalStyle<Props>`
     }
   }
 
-  h1, h2, h3, h4, h5 {
-    margin-bottom: 0.25rem;
+  h2 {
+    font-size: 1.71428571rem;
   }
 
   header {
@@ -363,11 +365,11 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: ${theme.colorLabel};
     display: block;
-    font-family: sans-serif;
+    font: ${theme.fontSans};
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: 400;
   }
 
   main {
@@ -377,10 +379,10 @@ export default createGlobalStyle<Props>`
   }
 
   /* Add our overrides */
-  ${cssSemantic}
+  ${cssSemantic(theme)}
   ${cssTheme}
   ${cssForm}
   ${cssMedia}
   ${cssRx}
-  ${cssComponents}
-`;
+  ${cssComponents(theme)}
+`);

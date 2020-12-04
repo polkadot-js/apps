@@ -1,15 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { ModalProps } from '../types';
-
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import { AddressRow, Button, Input, InputAddress, Modal, QrScanAddress } from '@polkadot/react-components';
 import { useApi, useIpfs } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 
+import type { ModalProps } from '../types';
 import { useTranslation } from '../translate';
 import PasswordInput from './PasswordInput';
 
@@ -149,7 +149,7 @@ function QrModal ({ className = '', onClose, onStatusChange }: Props): React.Rea
                 </div>
               </Modal.Column>
               <Modal.Column>
-                <p>{t<string>('Provide the account QR from the module/external application for scanning. One detected as valid, you will be taken to the next step to add the account to your list.')}</p>
+                <p>{t<string>('Provide the account QR from the module/external application for scanning. Once detected as valid, you will be taken to the next step to add the account to your list.')}</p>
               </Modal.Column>
             </Modal.Columns>
           )

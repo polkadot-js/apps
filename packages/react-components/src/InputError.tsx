@@ -4,8 +4,6 @@
 import React from 'react';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
-import { classes } from './util';
-
 interface Props {
   className?: string;
   label?: React.ReactNode;
@@ -17,7 +15,7 @@ const defaultLabel: React.ReactNode = (
 
 function InputError ({ className = '', label = defaultLabel }: Props): React.ReactElement<Props> {
   return (
-    <div className={classes('ui--InputError', className)}>
+    <div className={`ui--InputError ${className}`}>
       <Label
         color='red'
         pointing='left'

@@ -25,20 +25,14 @@ function IconLink ({ className = '', href, icon, label, onClick, rel, target }: 
       rel={rel}
       target={target}
     >
-      {icon && <Icon className={icon} />}
+      {icon && <Icon icon={icon} />}
       {label}
     </a>
   );
 }
 
 export default React.memo(styled(IconLink)`
-  font-size: 0.9rem !important;
-
-  &:hover {
-    text-decoration: underline;
-
-    i {
-      text-decoration: none;
-    }
+  .ui--Icon {
+    margin-right: 0.5em;
   }
 `);

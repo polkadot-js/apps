@@ -3,8 +3,10 @@
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { isString } from '@polkadot/util';
 
+import type { ThemeProps } from '../types';
 import Spinner from '../Spinner';
 
 interface Props {
@@ -28,7 +30,7 @@ function Body ({ children, className = '', empty, emptySpinner }: Props): React.
   );
 }
 
-export default React.memo(styled(Body)`
+export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
   position: relative;
 
   td {
@@ -37,11 +39,11 @@ export default React.memo(styled(Body)`
     vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid #eeecea;
+      border-left: 1px solid ${theme.borderTable};
     }
 
     &:last-child {
-      border-right: 1px solid #eeecea;
+      border-right: 1px solid ${theme.borderTable};
     }
 
     label {
@@ -96,13 +98,21 @@ export default React.memo(styled(Body)`
     }
 
     &.hash {
-      font-family: monospace;
+      font: ${theme.fontMono};
     }
 
     &.links {
       padding: 0.5rem 0.75rem;
       text-align: center;
       width: 0;
+    }
+
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
     }
 
     &.number {
@@ -158,7 +168,7 @@ export default React.memo(styled(Body)`
     // }
 
     &:nth-child(odd) {
-      background: white;
+      background: ${theme.bgTable};
     }
 
     &:first-child {
@@ -173,7 +183,7 @@ export default React.memo(styled(Body)`
 
     &:last-child {
       td {
-        border-bottom: 1px solid #eeecea;
+        border-bottom: 1px solid ${theme.borderTable};
 
         &:first-child {
           border-bottom-left-radius: 0.25rem;
@@ -203,4 +213,4 @@ export default React.memo(styled(Body)`
       background-color: #eee !important;
     }
   }
-`);
+`));

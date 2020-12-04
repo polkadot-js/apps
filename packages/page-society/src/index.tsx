@@ -3,6 +3,7 @@
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
+
 import { Tabs } from '@polkadot/react-components';
 
 import Overview from './Overview';

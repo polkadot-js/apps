@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import type { ThemeProps } from '@polkadot/react-components/types';
+
 import AccountName from '../AccountName';
 import IdentityIcon from '../IdentityIcon';
 
@@ -17,7 +19,7 @@ interface Props {
 
 function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props> {
   return (
-    <div className={['ui--KeyPair', className].join(' ')}>
+    <div className={`ui--KeyPair ${className}`}>
       <IdentityIcon
         className='icon'
         value={address}
@@ -32,7 +34,7 @@ function KeyPair ({ address, className = '' }: Props): React.ReactElement<Props>
   );
 }
 
-export default React.memo(styled(KeyPair)`
+export default React.memo(styled(KeyPair)(({ theme }: ThemeProps) => `
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -42,7 +44,7 @@ export default React.memo(styled(KeyPair)`
   > .address {
     display: inline-block;
     flex: 1;
-    font-family: monospace;
+    font: ${theme.fontMono};
     margin-left: 1rem;
     opacity: 0.5;
     overflow: hidden;
@@ -52,7 +54,7 @@ export default React.memo(styled(KeyPair)`
 
   > .icon {
     position: absolute;
-    top: -3px;
+    top: -5px;
     left: 0;
   }
 
@@ -67,4 +69,4 @@ export default React.memo(styled(KeyPair)`
       text-transform: uppercase;
     }
   }
-`);
+`));
