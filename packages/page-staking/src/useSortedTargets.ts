@@ -195,6 +195,11 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
       : (commValues[midIndex - 1] + commValues[midIndex]) / 2
     : 0;
 
+  // ids
+  const electedIds = elected.map(({ accountId }) => accountId.toString());
+  const waitingIds = waiting.map(({ accountId }) => accountId.toString());
+  const validatorIds = electedIds.concat(waitingIds);
+
   return {
     avgStaked,
     inflation,
@@ -203,8 +208,9 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     nominators,
     totalIssuance,
     totalStaked,
-    validatorIds: validators.map(({ accountId }) => accountId.toString()),
-    validators
+    validatorIds,
+    validators,
+    waitingIds
   };
 }
 
