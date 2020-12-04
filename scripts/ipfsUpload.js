@@ -4,7 +4,7 @@
 const fs = require('fs');
 const pinataSDK = require('@pinata/sdk');
 const cloudflare = require('dnslink-cloudflare');
-const execSync = require('@polkadot/dev/scripts/execSync');
+const execSync = require('@polkadot/dev/scripts/execSync.cjs');
 
 const createEndpoints = require('../packages/apps-config/build/settings/endpoints').default;
 const pkgJson = require('../package.json');

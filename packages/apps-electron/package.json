@@ -2,24 +2,24 @@
   "name": "@polkadot/apps-electron",
   "main": "index.js",
   "private": true,
-  "version": "0.66.2-5",
+  "version": "0.69.2-20",
   "dependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.9",
     "@babel/polyfill": "^7.12.1",
-    "@polkadot/dev": "^0.59.20",
-    "@polkadot/react-components": "^0.66.2-5",
+    "@polkadot/dev": "^0.60.6",
+    "@polkadot/react-components": "^0.69.2-20",
     "electron-log": "^4.3.0",
     "electron-updater": "^4.3.5"
   },
   "devDependencies": {
-    "@types/react-dom": "^16.9.8",
+    "@types/react-dom": "^17.0.0",
     "@types/tmp": "^0.2.0",
-    "babel-loader": "^8.1.0",
-    "copy-webpack-plugin": "^6.2.1",
+    "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^6.3.2",
     "html-webpack-plugin": "^4.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "thread-loader": "^3.0.0",
+    "thread-loader": "^3.0.1",
     "tmp": "^0.2.1",
     "webpack": "^4.44.2"
   }

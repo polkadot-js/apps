@@ -3,7 +3,7 @@
 
 // Adapted (wih permission) from https://www.w3schools.com/code/tryit.asp?filename=GGIGKE2GG7N1
 
-import { AccountId } from '@polkadot/types/interfaces';
+import type { AccountId } from '@polkadot/types/interfaces';
 
 // const DEFAULT_FN = (ctx: CanvasRenderingContext2D, path: Path2D) => ctx.fill(path);
 const PADD = 25;

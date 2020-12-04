@@ -111,7 +111,7 @@ export function extractIpfsDetails (): State {
       : extractOther(url);
 }
 
-export default function useIpfs (): State {
+export function useIpfs (): State {
   const [state] = useState(extractIpfsDetails());
 
   return state;

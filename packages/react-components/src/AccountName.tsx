@@ -1,20 +1,20 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
-import { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
-
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
-import registry from '@polkadot/react-api/typeRegistry';
+
+import type { DeriveAccountInfo, DeriveAccountRegistration } from '@polkadot/api-derive/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 import { AccountSidebarToggle } from '@polkadot/app-accounts/Sidebar';
-import { useCall, useApi } from '@polkadot/react-hooks';
+import registry from '@polkadot/react-api/typeRegistry';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction, stringToU8a } from '@polkadot/util';
 
-import { getAddressName } from './util';
 import Badge from './Badge';
+import { getAddressName } from './util';
 
 interface Props {
   children?: React.ReactNode;
@@ -182,8 +182,10 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
   );
 }
 
-export default React.memo(styled(AccountName)`
+export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
+  align-items: center;
   border: 1px dotted transparent;
+  display: inline-flex;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -193,11 +195,13 @@ export default React.memo(styled(AccountName)`
   }
 
   .via-identity {
-    align-items: end;
+    align-items: center;
     display: inline-flex;
     width: 100%;
 
     .name {
+      align-items: center;
+      display: inline-flex;
       font-weight: 400 !important;
       filter: grayscale(100%);
       line-height: 1;
@@ -210,7 +214,7 @@ export default React.memo(styled(AccountName)`
       }
 
       &.isAddress {
-        font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+        font: ${theme.fontMono};
         text-transform: none;
       }
 
@@ -230,4 +234,4 @@ export default React.memo(styled(AccountName)`
       }
     }
   }
-`);
+`));

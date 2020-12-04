@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
-import { TypeRegistry } from '@polkadot/types';
+
 import { calcPassing } from '@polkadot/api-derive/democracy/util';
+import { TypeRegistry } from '@polkadot/types/create';
 
 import { approxChanges } from './util';
 

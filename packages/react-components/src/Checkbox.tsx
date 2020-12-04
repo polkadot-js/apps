@@ -4,7 +4,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { ThemeProps } from './types';
+import type { ThemeProps } from './types';
 import Icon from './Icon';
 
 interface Props {

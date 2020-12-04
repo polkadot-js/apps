@@ -54,6 +54,11 @@ function createWebpack (ENV, context) {
     module: {
       rules: [
         {
+          include: /node_modules/,
+          test: /\.mjs$/,
+          type: 'javascript/auto'
+        },
+        {
           exclude: /(node_modules)/,
           test: /\.css$/,
           use: [
@@ -80,12 +85,12 @@ function createWebpack (ENV, context) {
         },
         {
           exclude: /(node_modules)/,
-          test: /\.(js|ts|tsx)$/,
+          test: /\.(js|mjs|ts|tsx)$/,
           use: [
             require.resolve('thread-loader'),
             {
               loader: require.resolve('babel-loader'),
-              options: require('@polkadot/dev/config/babel')
+              options: require('@polkadot/dev/config/babel-config-cjs.cjs')
             }
           ]
         },
@@ -153,7 +158,7 @@ function createWebpack (ENV, context) {
           ...mapChunks('polkadot', [
             /* 00 */ /node_modules\/@polkadot\/(wasm)/,
             /* 01 */ /node_modules\/(@polkadot\/(api|metadata|rpc|types))/,
-            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|networks|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@subsocial|@zondax|edgeware)/
+            /* 02 */ /node_modules\/(@polkadot\/(extension|keyring|networks|react|ui|util|vanitygen)|@acala-network|@edgeware|@laminar|@ledgerhq|@open-web3|@sora-substrate|@subsocial|@zondax|edgeware)/
           ]),
           ...mapChunks('react', [
             /* 00 */ /node_modules\/(@fortawesome)/,
@@ -193,7 +198,7 @@ function createWebpack (ENV, context) {
     ]).filter((plugin) => plugin),
     resolve: {
       alias,
-      extensions: ['.js', '.jsx', '.ts', '.tsx']
+      extensions: ['.js', '.jsx', '.mjs', '.ts', '.tsx']
     },
     watch: !isProd,
     watchOptions: {

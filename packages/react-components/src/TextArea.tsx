@@ -4,8 +4,8 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import { Labelled } from '.';
-import { ThemeProps } from './types';
+import type { ThemeProps } from './types';
+import Labelled from './Labelled';
 
 interface Props {
   children?: React.ReactNode;
@@ -58,7 +58,7 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
     textarea {
       border-radius: 0.25rem 0 0 0.25rem;
       border: 1px solid #DDE1EB;
-      border-right: none;      
+      border-right: none;
       background: ${theme.bgInput};
       box-sizing: border-box;
       color: ${theme.color};
@@ -67,23 +67,23 @@ export default React.memo(styled(TextArea)(({ theme }: ThemeProps) => `
       padding: 1.75rem 3rem 0.75rem 1.5rem;
       resize: none;
       width: 100%;
-    
+
       &:read-only {
         background: ${theme.bgInverse};
         box-shadow: none;
         outline: none;
-        
+
         ~ .ui.buttons > .ui.selection.dropdown {
           background: ${theme.bgInverse};
         }
       }
-      
+
       &.ui-textArea-withError {
         background: ${theme.bgInputError};
         color: ${theme.colorError};
       }
     }
-    
+
     & > .ui.buttons > .ui.button.floating.selection.dropdown {
       border: 1px solid #DDE1EB;
       border-left: none;

@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import { Abi } from '@polkadot/api-contract';
 import { IconLink, InputFile, Labelled } from '@polkadot/react-components';
 
-import Messages from './Messages';
 import { useTranslation } from '../translate';
+import Messages from './Messages';
 
 interface Props {
   className?: string;
@@ -19,7 +20,7 @@ interface Props {
   isValid?: boolean;
   isSupplied?: boolean;
   label?: React.ReactNode;
-  onChange: (u8a: Uint8Array) => void;
+  onChange: (u8a: Uint8Array, name: string) => void;
   onRemove?: () => void;
   onRemoved?: () => void;
   onSelect?: () => void;
@@ -27,11 +28,12 @@ interface Props {
   withConstructors?: boolean;
   withLabel?: boolean;
   withMessages?: boolean;
+  withWasm?: boolean;
 }
 
 const NOOP = (): void => undefined;
 
-function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, isValid, onChange, onRemove = NOOP, onSelectConstructor, withConstructors = true, withLabel = true, withMessages = true }: Props): React.ReactElement<Props> {
+function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, isValid, label, onChange, onRemove = NOOP, onSelectConstructor, withConstructors = true, withLabel = true, withMessages = true, withWasm }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   return (contractAbi && isValid)
@@ -39,7 +41,7 @@ function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, 
       <Labelled
         className={className}
         help={t<string>('This is the ABI as supplied. Any calls to the contract will use this information for encoding.')}
-        label={t<string>('contract ABI')}
+        label={label || t<string>('contract ABI')}
         labelExtra={onRemove && (
           <IconLink
             icon='trash'
@@ -55,6 +57,7 @@ function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, 
           onSelectConstructor={onSelectConstructor}
           withConstructors={withConstructors}
           withMessages={withMessages}
+          withWasm={withWasm}
         />
       </Labelled>
     )
@@ -65,9 +68,9 @@ function ABI ({ className, contractAbi, errorText, isDisabled, isError, isFull, 
           isDisabled={isDisabled}
           isError={isError}
           isFull={isFull}
-          label={t<string>('contract ABI')}
+          label={label || t<string>('contract ABI')}
           onChange={onChange}
-          placeholder={errorText || t<string>('click to select or drag and drop a JSON ABI file')}
+          placeholder={errorText || t<string>('click to select or drag and drop a JSON file')}
         />
       </div>
     );

@@ -3,6 +3,7 @@
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
+
 import { Badge, Icon } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 
@@ -11,7 +12,7 @@ import MaxBadge from '../../MaxBadge';
 interface Props {
   isElected: boolean;
   isMain?: boolean;
-  nominators?: ([string, BN] | [string, BN, number])[];
+  nominators?: { nominatorId: string }[];
   onlineCount?: false | BN;
   onlineMessage?: boolean;
 }
@@ -21,7 +22,7 @@ function Status ({ isElected, isMain, nominators = [], onlineCount, onlineMessag
   const blockCount = onlineCount && onlineCount.toNumber();
 
   const isNominating = useMemo(
-    () => nominators.some(([nominatorId]) => allAccounts.includes(nominatorId)),
+    () => nominators.some(({ nominatorId }) => allAccounts.includes(nominatorId)),
     [allAccounts, nominators]
   );
 

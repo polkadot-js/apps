@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useMemo } from 'react';
-import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
 import { Button, IdentityIcon } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 
@@ -69,7 +70,7 @@ function Match ({ address, className = '', count, offset, onCreateToggle, onRemo
   );
 }
 
-export default React.memo(styled(Match)`
+export default React.memo(styled(Match)(({ theme }: ThemeProps) => `
   text-align: center;
 
   &:hover {
@@ -97,7 +98,7 @@ export default React.memo(styled(Match)`
 
   .vanity--Match-item {
     display: inline-block;
-    font-family: ${({ theme }: ThemeProps) => theme.fontMono};
+    font: ${theme.fontMono};
     margin: 0 auto;
     padding: 0.5em;
     position: relative;
@@ -107,4 +108,4 @@ export default React.memo(styled(Match)`
     opacity: 0.45;
     padding: 0 1rem;
   }
-`);
+`));

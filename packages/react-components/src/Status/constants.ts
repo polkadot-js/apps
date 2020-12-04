@@ -1,7 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { QueueTxStatus } from './types';
+import type { QueueTxStatus } from './types';
 
 export const STATUS_COMPLETE: QueueTxStatus[] = [
   // status from subscription

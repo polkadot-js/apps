@@ -58,7 +58,7 @@
   "the parachain that will receive the transfer of tokens.": "the parachain that will receive the transfer of tokens.",
   "the parachain to transfer to": "the parachain to transfer to",
   "transfer remark/comment": "transfer remark/comment",
-  "transferrable ": "transferrable ",
+  "transferrable": "transferrable",
   "validation": "validation",
   "validators": "validators",
   "yes": "yes",

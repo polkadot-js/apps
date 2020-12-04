@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ThemeProps } from '@polkadot/react-components/types';
-
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
-import { Compact } from '@polkadot/types';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Compact } from '@polkadot/types';
 import { formatBalance } from '@polkadot/util';
 
 import { useTranslation } from './translate';
@@ -48,7 +48,7 @@ function FormatBalance ({ children, className = '', isShort, label, labelPost, v
   // labelPost here looks messy, however we ensure we have one less text node
   return (
     <div className={`ui--FormatBalance ${className}`}>
-      {label || ''}<span className='ui--FormatBalance-value'>{
+      {label ? <>{label}&nbsp;</> : ''}<span className='ui--FormatBalance-value'>{
         value
           ? value === 'all'
             ? t<string>('everything{{labelPost}}', { replace: { labelPost } })

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
+
 import useClaimCounter from '@polkadot/app-claims/useCounter'; // exceptionally CRAP idea
 
 import { useTranslation } from '../translate';

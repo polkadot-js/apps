@@ -3,7 +3,8 @@
 
 import queryString from 'query-string';
 import store from 'store';
-import { createEndpoints } from '@polkadot/apps-config/settings';
+
+import { createWsEndpoints } from '@polkadot/apps-config';
 import { extractIpfsDetails } from '@polkadot/react-hooks/useIpfs';
 import settings from '@polkadot/ui-settings';
 import { assert } from '@polkadot/util';
@@ -26,7 +27,7 @@ function getApiUrl (): string {
     return url;
   }
 
-  const endpoints = createEndpoints(<T = string>(): T => ('' as unknown as T));
+  const endpoints = createWsEndpoints(<T = string>(): T => ('' as unknown as T));
   const { ipnsChain } = extractIpfsDetails();
 
   // check against ipns domains (could be expanded to others)

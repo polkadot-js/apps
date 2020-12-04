@@ -4,6 +4,7 @@
 import acala from './acala';
 import laminar from './laminar';
 import moonbeam from './moonbeam';
+import soraSubstrate from './soraSubstrate';
 
 export default {
   acala,
@@ -12,5 +13,6 @@ export default {
   'moonbase-alphanet': moonbeam,
   moonbeam,
   'moonbeam-standalone': moonbeam,
-  'node-moonbeam': moonbeam
+  'node-moonbeam': moonbeam,
+  'sora-substrate': soraSubstrate
 };

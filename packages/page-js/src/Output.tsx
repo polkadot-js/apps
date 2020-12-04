@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { Log } from './types';
-
 import React from 'react';
-import { ThemeProps } from '@polkadot/react-components/types';
 import styled from 'styled-components';
+
+import type { ThemeProps } from '@polkadot/react-components/types';
 import { isError, isNull, isUndefined } from '@polkadot/util';
+
+import type { Log } from './types';
 
 interface Props {
   children?: React.ReactNode;
@@ -54,14 +55,13 @@ function Output ({ children, className = '', logs }: Props): React.ReactElement<
   );
 }
 
-export default React.memo(styled(Output)`
+export default React.memo(styled(Output)(({ theme }: ThemeProps) => `
   background-color: #4e4e4e;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  font-family: ${({ theme }: ThemeProps) => theme.fontMono};
-  font-size: 12px;
+  font: ${theme.fontMono};
   font-variant-ligatures: common-ligatures;
   line-height: 18px;
   padding: 50px 10px 10px;
@@ -92,4 +92,4 @@ export default React.memo(styled(Output)`
       color: #f88;
     }
   }
-`);
+`));

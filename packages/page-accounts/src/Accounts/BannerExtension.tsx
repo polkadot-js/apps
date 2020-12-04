@@ -4,12 +4,13 @@
 import { detect } from 'detect-browser';
 import React from 'react';
 import { Trans } from 'react-i18next';
+
 import useExtensionCounter from '@polkadot/app-settings/useCounter';
-import { availableExtensions } from '@polkadot/apps-config/extensions';
+import { availableExtensions } from '@polkadot/apps-config';
 import { isWeb3Injected } from '@polkadot/extension-dapp';
-import { stringUpperFirst } from '@polkadot/util';
 import { onlyOnWeb } from '@polkadot/react-api/hoc';
 import { useApi } from '@polkadot/react-hooks';
+import { stringUpperFirst } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import Banner from './Banner';

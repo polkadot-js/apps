@@ -3,18 +3,18 @@
 
 // TODO: We have a lot shared between this and InputExtrinsic & InputStorage
 
-import { DefinitionRpcExt } from '@polkadot/types/types';
-import { DropdownOptions } from '../util/types';
-
 import React, { useCallback, useEffect, useState } from 'react';
-import { useApi } from '@polkadot/react-hooks';
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
+import type { DefinitionRpcExt } from '@polkadot/types/types';
+import { useApi } from '@polkadot/react-hooks';
+
+import type { DropdownOptions } from '../util/types';
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
+import rpcs from './rpcs';
+import SelectMethod from './SelectMethod';
+import SelectSection from './SelectSection';
 
 interface Props {
   className?: string;
@@ -43,7 +43,7 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
       }
 
       // set via callback since the method is a function itself
-      setValue((): DefinitionRpcExt => newValue);
+      setValue(() => newValue);
     },
     [value]
   );
@@ -57,7 +57,7 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
       const optionsMethod = methodOptions(api, section);
 
       setOptionsMethod(optionsMethod);
-      _onMethodChange(jsonrpc[section][optionsMethod[0].value]);
+      _onMethodChange(rpcs[section][optionsMethod[0].value]);
     },
     [_onMethodChange, api, value]
   );

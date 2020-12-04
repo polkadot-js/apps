@@ -1,23 +1,23 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ActionStatus } from '@polkadot/react-components/Status/types';
-import { CreateResult } from '@polkadot/ui-keyring/types';
-import { KeypairType } from '@polkadot/util-crypto/types';
-import { ModalProps } from '../types';
-
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
+import type { ActionStatus } from '@polkadot/react-components/Status/types';
+import type { CreateResult } from '@polkadot/ui-keyring/types';
+import type { KeypairType } from '@polkadot/util-crypto/types';
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
+import { getEnvironment } from '@polkadot/react-api/util';
 import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, Modal, TextArea } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { getEnvironment } from '@polkadot/react-api/util';
 
+import type { ModalProps } from '../types';
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';
 import ExternalWarning from './ExternalWarning';
@@ -204,8 +204,8 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
       : []
   ).concat(
     { text: t<string>('Mnemonic'), value: 'bip' },
-    { text: t<string>('Raw seed'), value: 'raw' }
-  ), [isDevelopment, t]);
+    isEthereum ? { text: t<string>('Private Key'), value: 'raw' } : { text: t<string>('Raw seed'), value: 'raw' }
+  ), [isEthereum, isDevelopment, t]);
 
   const _onChangeDerive = useCallback(
     (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
@@ -295,7 +295,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
           <Modal.Columns>
             <Modal.Column>
               <TextArea
-                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+                help={isEthereum
+                  ? t<string>("Your ethereum key pair is derived from your private key. Don't divulge this key.")
+                  : t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
                 isAction
                 isError={!isSeedValid}
                 isReadOnly={seedType === 'dev'}
@@ -304,7 +306,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                     ? t<string>('mnemonic seed')
                     : seedType === 'dev'
                       ? t<string>('development seed')
-                      : t<string>('seed (hex or string)')
+                      : isEthereum
+                        ? t<string>('ethereum private key')
+                        : t<string>('seed (hex or string)')
                 }
                 onChange={_onChangeSeed}
                 seed={seed}
@@ -316,9 +320,9 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
                   onChange={_selectSeedType}
                   options={seedOpt}
                 />
-                <CopyButton
+                < CopyButton
                   className='copyMoved'
-                  isMnemonic
+                  type={seedType === 'bip' ? t<string>('mnemonic') : seedType === 'raw' ? isEthereum ? t<string>('private key') : 'seed' : t<string>('raw seed')}
                   value={seed}
                 />
               </TextArea>
@@ -379,15 +383,16 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
               </Modal.Column>
             </Modal.Columns>
           </Expander>
-          <ExternalWarning />
           <Modal.Columns>
-            <Modal.Column>&nbsp;</Modal.Column>
             <Modal.Column>
-              <Checkbox
-                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-                onChange={_toggleMnemonicSaved}
-                value={isMnemonicSaved}
-              />
+              <ExternalWarning />
+              <div className='saveToggle'>
+                <Checkbox
+                  label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                  onChange={_toggleMnemonicSaved}
+                  value={isMnemonicSaved}
+                />
+              </div>
             </Modal.Column>
           </Modal.Columns>
         </>}
@@ -413,7 +418,11 @@ function Create ({ className = '', onClose, onStatusChange, seed: propsSeed, typ
             onChange={_onPasswordChange}
             onEnter={_onCommit}
           />
-          <ExternalWarning />
+          <Modal.Columns>
+            <Modal.Column>
+              <ExternalWarning />
+            </Modal.Column>
+          </Modal.Columns>
         </>}
         {step === 3 && address && <CreateConfirmation
           derivePath={derivePath}
@@ -476,6 +485,7 @@ export default React.memo(styled(Create)`
     right: 9.1rem;
     top: 1.25rem;
   }
+
   && .TextAreaWithDropdown {
     textarea {
       width: 80%;
@@ -484,11 +494,16 @@ export default React.memo(styled(Create)`
       width: 20%;
     }
   }
-  & .ui--Checkbox {
-    margin: 0.8rem 0 0 2rem;
-    
-    > label {
-        font-weight: 400;
+
+  .saveToggle {
+    text-align: right;
+
+    .ui--Checkbox {
+      margin: 0.8rem 0;
+
+      > label {
+          font-weight: 400;
+      }
     }
   }
 `);

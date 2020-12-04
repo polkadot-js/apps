@@ -1,14 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
-import { SocietyVote } from '@polkadot/types/interfaces';
-import { VoteType } from '../types';
-
 import React, { useRef } from 'react';
+
+import type { DeriveSociety, DeriveSocietyMember } from '@polkadot/api-derive/types';
+import type { SocietyVote } from '@polkadot/types/interfaces';
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import type { VoteType } from '../types';
 import { useTranslation } from '../translate';
 import DefenderVoting from './DefenderVoting';
 import Votes from './Votes';

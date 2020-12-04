@@ -1,5 +1,75 @@
 # CHANGELOG
 
+## 0.69.1 Nov 30, 2020
+
+Contributed:
+
+- Adjust font alignments (Thanks to https://github.com/MiZiet)
+- Add iCal export on calendar (Thanks to https://github.com/wirednkod)
+- Add OnFinality endpoint for Polkadot/Kusama (Thanks to https://github.com/ianhe8x)
+- Soramitsu Sora testnet (Thanks to https://github.com/stefashkaa)
+- Update Plasm Dusty types (Thanks to https://github.com/hoonsubin)
+- Update Edgeware mainnet endpoints (Thanks to https://github.com/drewstone)
+- Typo fixes (Thanks to https://github.com/ShankarWarang)
+
+Changes:
+
+- Display the actual era start when using Aura (no extra session info)
+- Expand staking account filters (payouts, # nominators, grouping)
+- Use percentage-based model for returns on staking targets
+- Display actual chain inflation as well as average staking returns
+- Adjust refresh on validator chill, i.e. it moves to correct location
+- User-defined RPCs (via config), not are treated first-class (operating everywhere)
+- MultiSig now allows any participant to reject (despite any prior approvals)
+- Adjust base fonts with saner cross-platform (from new.css) defaults
+- Adjust staking targets to display nominations for those dropped next session
+- Use `batchAll` on staking creation as available (failure reverses all)
+- Add CopyButton on all `Hash`-like fields
+- Cleanup component detection with non-primitives only (allows for greater configurability)
+- Improve `useCall` typing, e.g. no hacks for `.entries` or `.at` in usage
+- Adjust most type imports via `import type { ... }`
+- Move all chain-specific config to `apps-config` (thresholds & inflation)
+
+
+## 0.68.1 Nov 23, 2020
+
+Changes:
+
+- Adjust API state display to explictly render "connecting to node" state
+- Change Mill/Bill/Tril rendering from Mega/Giga/Tera
+- Staking now limits per-operator exposure by default (only 1 selected on auto)
+- Adjust Expanded rendering to be completely on-demand (no hidden background renders)
+- Ensure `MultiAddress` nodes fully work (API updates)
+- Adjust number of digits for number inputs to max decimals
+- Rework invalid ABI detection with proper error clearning
+- Use TypeScript `import type { ... }` for all files
+- Expand notes on colors/logos with actual RPC endpoints
+- Publish `@polkadot/apps-config` (with reworked import/export)
+- Bump Ledger libs to latest version (as per `@polkadot/ledger`)
+
+
+## 0.67.1 Nov 16, 2020
+
+Contributed:
+
+- Improve support/naming for Ethereum-compatible accounts (Thanks to https://github.com/joelamouche)
+- Support for Ethereum-compatible signature verification (https://github.com/joelamouche)
+- Added Moonbeam types for current versions (Thanks to https://github.com/joelamouche)
+- Added Moonbase Alpha to list of test networks (Thanks to (Thanks to https://github.com/joelamouche))
+- Add Equilibrium Mainnet; updated Equilibrium Testnet (Thanks to https://github.com/pr0fedt)
+- Update types of Cantillon testnet (Thanks to https://github.com/brenzi)
+- Update types of Gesell testnet (Thanks to https://github.com/brenzi)
+- Add Darwinia network (Thanks to https://github.com/WoeOm)
+- Add Bitfrost Asgard testnet (Thanks to https://github.com/janpo)
+
+Changes:
+
+- Ensure account addition checkbox shows on smaller screens
+- Add support for contract budles via `.contract` files
+- Allow contracts to specify salt parameter on deployments
+- Update contracts banner to reflect released Solang 0.1.5+ support
+
+
 ## 0.66.1 Nov 9, 2020
 
 Contributed:
