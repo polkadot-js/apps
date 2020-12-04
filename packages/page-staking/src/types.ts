@@ -38,10 +38,8 @@ interface ValidatorInfoRank {
   rankBondOther: number;
   rankBondOwn: number;
   rankBondTotal: number;
-  rankComm: number;
   rankNumNominators: number;
   rankOverall: number;
-  rankPayment: number;
   rankReward: number;
 }
 
@@ -63,11 +61,9 @@ export interface ValidatorInfo extends ValidatorInfoRank {
   lastPayout?: BN;
   numNominators: number;
   numRecentPayouts: number;
-  rewardSplit: BN;
   skipRewards: boolean;
   stakedReturn: number;
   stakedReturnCmp: number;
-  validatorPayment: BN;
   validatorPrefs?: ValidatorPrefs | ValidatorPrefsTo196;
 }
 
@@ -77,7 +73,6 @@ export interface SortedTargets {
   avgStaked?: BN;
   electedIds?: string[];
   inflation: Inflation;
-  lastReward?: BN;
   lowStaked?: BN;
   medianComm: number;
   nominators?: string[];

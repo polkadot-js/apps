@@ -42,8 +42,7 @@ function AddressSmall ({ children, className = '', defaultName, onClickName, ove
 export default React.memo(styled(AddressSmall)`
   white-space: nowrap;
 
-  .ui--IdentityIcon,
-  .ui--AccountName {
+  .ui--IdentityIcon{
     vertical-align: middle;
   }
 
@@ -52,7 +51,6 @@ export default React.memo(styled(AddressSmall)`
   }
 
   .ui--AccountName {
-    display: inline-block;
     max-width: 26rem;
     overflow: hidden;
 

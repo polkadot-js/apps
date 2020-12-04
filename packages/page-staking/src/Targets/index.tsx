@@ -169,7 +169,7 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
@@ -270,7 +270,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
-      () => _sort(header as 'rankComm')
+      () => _sort(header as 'rankOverall')
     ]),
     [],
     []
@@ -337,7 +337,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     <div className={className}>
       <Summary
         avgStaked={avgStaked}
-        lastReward={lastReward}
         lowStaked={lowStaked}
         numNominators={nominators?.length}
         numValidators={validators?.length}
