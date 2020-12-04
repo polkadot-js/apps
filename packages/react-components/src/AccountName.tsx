@@ -183,7 +183,9 @@ function AccountName ({ children, className = '', defaultName, label, onClick, o
 }
 
 export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
+  align-items: center;
   border: 1px dotted transparent;
+  display: inline-flex;
   vertical-align: middle;
   white-space: nowrap;
 
@@ -198,6 +200,8 @@ export default React.memo(styled(AccountName)(({ theme }: ThemeProps) => `
     width: 100%;
 
     .name {
+      align-items: center;
+      display: inline-flex;
       font-weight: 400 !important;
       filter: grayscale(100%);
       line-height: 1;
