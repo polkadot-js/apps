@@ -245,7 +245,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
         <td style={{backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(34, 36, 38, 0.15)', paddingBottom: '20px', marginBottom: '10px', circleTop: '0'}}>
             <Stepper steps={steps} activeStep={activeStep} {...{
               titleFontSize: 13,
-              circleFontSize: 12,
+              circleFontSize: 13,
               circleTop: 16,
               size: 24
             }} />
