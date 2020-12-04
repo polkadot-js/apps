@@ -146,7 +146,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     <>
       <p style={{marginTop: '24px'}}>
         <strong>Send ERC-2O tokens</strong><br />
-        Send your ERC-20 DOCK tokens to the Dock Vault. <a href="#" target="">See how it works</a><br />
+        Send your ERC-20 DOCK tokens to the Dock Vault. <a href="https://docs.dock.io/migration-support" target="_blank">See how it works</a><br />
         Once sent, copy the transaction hash and paste below.
       </p>
       <p style={{marginTop: '24px'}}>
@@ -182,7 +182,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       <div style={{backgroundColor: '#FAFAFA', border: '1px solid #ECEBED', padding: '20px', marginTop: '10px'}}>
         <p>
           <strong>Generate signature</strong><br />
-          Use this code to sign your transaction using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature. <a href="#">See how it works</a>
+          Use this code to sign your transaction using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature. <a href="https://docs.dock.io/migration-support">See how it works</a>
         </p>
         <Input
           help={t<string>('Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.')}
@@ -216,7 +216,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           value={termsSelected}
         />
         <p style={{marginLeft: '10px'}}>
-          I agree to Dock's <a href="#" target="_blank">Terms & Conditions</a>
+          I agree to Dock's <a href="https://docs.dock.io/migration-terms-and-conditions" target="_blank">Terms & Conditions</a>
         </p>
       </div>
 
@@ -231,7 +231,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           <p style={{marginLeft: '10px'}}>
             {t<string>(`Opt-in for vesting bonus (Optional)`)}<br />
             <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
-              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="#" target="_blank">here</a>.
+              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://docs.dock.io/migration-support" target="_blank">here</a>.
             </span>
           </p>
         </div>
