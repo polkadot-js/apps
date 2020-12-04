@@ -35,6 +35,16 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
   const [isSelected, setIsSelected] = useState(false);
   const [termsSelected, setTermsSelected] = useState(false);
 
+  function handleResetState() {
+    setSuccess(false);
+    setError('');
+    setActiveStep(0);
+    setSubmitting(false);
+    setTxHash('');
+    setSignature('');
+    setBase58Check('');
+  }
+
   useEffect((): void => {
     setAddress(currentPair?.address || '');
   }, [currentPair?.address]);
@@ -243,45 +253,59 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       </tr>
       <tr>
         <td>
-          {stepElements[activeStep]}
-          {activeStep < 2 ? (
-            <div style={{textAlign: 'right', display: 'inline-block', float: 'right', marginTop: '20px'}}>
-              <Button
-                icon='chevron-right'
-                isDisabled={submitting || !txHash}
-                isPrimary={true}
-                label={t<string>(' Next')}
-                onClick={() => {
-                  setActiveStep(activeStep + 1);
-                }}
-              />
+          {success ? (
+            <div style={{textAlign: 'center', margin: '40px auto'}}>
+              <p style={{fontSize: '24px'}}>
+                Successfully submitted
+              </p>
+              <p>
+                Your token migration request is being processed<br /><br />
+                Check the status of your request <a href="/#/token-swap/status" onClick={handleResetState}>here</a>.
+              </p>
             </div>
           ) : (
-            <Modal.Columns>
-              <Modal.Column>
-                {success ? (
-                  <p style={{color: 'green'}}>
-                    Success! Your token migration request has been submitted and is being processed. Check the status with the other form on this page.
-                  </p>
-                ) : (
-                  <p style={{color: '#d82323'}}>
-                    {error}
-                  </p>
-                )}
-              </Modal.Column>
-              <Modal.Column>
-              <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
-                <Button
-                  accountId={address}
-                  icon='sign-in-alt'
-                  isDisabled={!termsSelected || submitting || !(address && signature && txHash)}
-                  isPrimary={true}
-                  label={t<string>(submitting ? 'Please wait...' : 'Submit request')}
-                  onClick={handleSubmitSwap}
-                />
-              </div>
-              </Modal.Column>
-            </Modal.Columns>
+            <>
+              {stepElements[activeStep]}
+              {activeStep < 2 ? (
+                <div style={{textAlign: 'right', display: 'inline-block', float: 'right', marginTop: '20px'}}>
+                  <Button
+                    icon='chevron-right'
+                    isDisabled={submitting || !txHash}
+                    isPrimary={true}
+                    label={t<string>(' Next')}
+                    onClick={() => {
+                      setActiveStep(activeStep + 1);
+                    }}
+                  />
+                </div>
+              ) : (
+                <Modal.Columns>
+                  <Modal.Column>
+                    {success ? (
+                      <p style={{color: 'green'}}>
+                        Success! Your token migration request has been submitted and is being processed. Check the status with the other form on this page.
+                      </p>
+                    ) : (
+                      <p style={{color: '#d82323'}}>
+                        {error}
+                      </p>
+                    )}
+                  </Modal.Column>
+                  <Modal.Column>
+                  <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
+                    <Button
+                      accountId={address}
+                      icon='sign-in-alt'
+                      isDisabled={!termsSelected || submitting || !(address && signature && txHash)}
+                      isPrimary={true}
+                      label={t<string>(submitting ? 'Please wait...' : 'Submit request')}
+                      onClick={handleSubmitSwap}
+                    />
+                  </div>
+                  </Modal.Column>
+                </Modal.Columns>
+              )}
+            </>
           )}
         </td>
       </tr>
