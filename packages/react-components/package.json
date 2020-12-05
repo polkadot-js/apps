@@ -32,7 +32,7 @@
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
-    "react-i18next": "^11.7.3",
+    "react-i18next": "^11.7.4",
     "react-is": "^17.0.1",
     "react-markdown": "^4.3.1",
     "react-router": "^5.2.0",
