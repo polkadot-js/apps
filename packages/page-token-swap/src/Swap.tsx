@@ -113,9 +113,9 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
 
   function canSubmitStep() {
     if (activeStep === 0) {
-      return !!txHash;
-    } else if (activeStep === 1) {
       return !!address;
+    } else if (activeStep === 1) {
+      return !!txHash;
     } else {
       return !!signature;
     }
@@ -123,13 +123,13 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
 
   const steps = [
     {
-      title: 'Send ERC-2O tokens',
+      title: 'Destination address',
       onClick: () => {
         setActiveStep(0);
       }
     },
     {
-      title: 'Destination address',
+      title: 'Send ERC-2O tokens',
       onClick: () => {
         setActiveStep(1);
       }
@@ -143,6 +143,21 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
   ];
 
   const stepElements = [(
+    <>
+      <p style={{marginTop: '24px'}}>
+        <strong>Mainnet address</strong><br />
+        Add an address on the Dock mainnet to receive the migrating tokens.<br />
+        Don't have a mainnet address? <a href="/#/accounts">Create a Dock token wallet</a>
+      </p>
+      <InputAddress
+        label={t<string>('Dock mainnet address')}
+        onChange={setAddress}
+        type='account'
+        value={address}
+        isFull
+      />
+    </>
+  ), (
     <>
       <p style={{marginTop: '24px'}}>
         <strong>Send ERC-2O tokens</strong><br />
@@ -159,21 +174,6 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
         label={t<string>('Transaction hash')}
         onChange={setTxHash}
         value={txHash}
-        isFull
-      />
-    </>
-  ), (
-    <>
-      <p style={{marginTop: '24px'}}>
-        <strong>Mainnet address</strong><br />
-        Add an address on the Dock mainnet to receive the migrating tokens.<br />
-        Don't have a mainnet address? <a href="/#/accounts">Create a Dock token wallet</a>
-      </p>
-      <InputAddress
-        label={t<string>('Dock mainnet address')}
-        onChange={setAddress}
-        type='account'
-        value={address}
         isFull
       />
     </>
