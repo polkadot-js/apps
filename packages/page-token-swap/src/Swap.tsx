@@ -180,6 +180,21 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     </>
   ), (
     <>
+      {useBonusCheckbox && (
+        <div style={{display: 'flex'}}>
+          <Checkbox
+            onChange={_onSelect}
+            value={isSelected}
+          />
+          <p style={{marginLeft: '10px'}}>
+            {t<string>(`Opt-in for vesting bonus (Optional)`)}<br />
+            <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
+              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://docs.dock.io/migration-support" target="_blank">here</a>.
+            </span>
+          </p>
+        </div>
+      )}
+      
       <div style={{backgroundColor: '#FAFAFA', border: '1px solid #ECEBED', padding: '20px', marginTop: '10px'}}>
         <p>
           <strong>Generate signature</strong><br />
@@ -198,7 +213,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
 
       <p>
         <strong>Signature</strong><br />
-        Add the signature generated from signing with the above code
+        Add the signature generated from signing the above code
       </p>
 
       <Input
@@ -223,20 +238,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
 
       <br />
 
-      {useBonusCheckbox && (
-        <div style={{display: 'flex'}}>
-          <Checkbox
-            onChange={_onSelect}
-            value={isSelected}
-          />
-          <p style={{marginLeft: '10px'}}>
-            {t<string>(`Opt-in for vesting bonus (Optional)`)}<br />
-            <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
-              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://docs.dock.io/migration-support" target="_blank">here</a>.
-            </span>
-          </p>
-        </div>
-      )}
+      
     </>
   )];
 
