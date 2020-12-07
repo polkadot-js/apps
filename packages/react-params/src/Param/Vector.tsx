@@ -8,9 +8,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '@polkadot/react-components';
 import { isUndefined } from '@polkadot/util';
 
-import Params from '../';
 import getInitValue from '../initValue';
 import { useTranslation } from '../translate';
+import Params from '../';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 

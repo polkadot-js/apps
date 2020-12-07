@@ -9,10 +9,10 @@ import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
+import md from './md/basics.md';
 import Developer from './Developer';
 import General from './General';
 import I18n from './I18n';
-import md from './md/basics.md';
 import Metadata from './Metadata';
 import { useTranslation } from './translate';
 import useCounter from './useCounter';

@@ -4,9 +4,9 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
+import addressToAddress from './util/toAddress';
 import IdentityIcon from './IdentityIcon';
 import Input from './Input';
-import addressToAddress from './util/toAddress';
 
 interface Props {
   autoFocus?: boolean;

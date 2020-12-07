@@ -9,9 +9,9 @@ import React, { useState } from 'react';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { Button, CardGrid } from '@polkadot/react-components';
 
+import CreateModal from './modals/Create';
 import AssetCard from './AssetCard';
 import assetRegistry, { AssetsSubjectInfo } from './assetsRegistry';
-import CreateModal from './modals/Create';
 import translate from './translate';
 
 interface Props extends I18nProps {
