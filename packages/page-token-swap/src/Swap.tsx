@@ -84,10 +84,11 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     setSuccess(false);
     setError('');
 
+    const signatureb58 = bs58check.encode(Buffer.from(signature, 'hex'));
     try {
       const res = await axios.post(`${apiUrl}/` + (useBonusCheckbox ? `migrate_with_bonus` : `migrate`), {
         payload: base58Check,
-        signature,
+        signature: signatureb58,
       });
       if (!res.data.error) {
         setSuccess(true);
