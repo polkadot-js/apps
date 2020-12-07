@@ -6,8 +6,6 @@ import { useMemo } from 'react';
 
 import type { ApiPromise } from '@polkadot/api';
 import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
-import type { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { registry } from '@polkadot/react-api';
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
@@ -15,13 +13,12 @@ import { BN_ONE, BN_ZERO } from '@polkadot/util';
 import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 interface LastEra {
+  activeEra: BN;
   eraLength: BN;
   lastEra: BN;
-  lastEraEnd: BN;
   sessionLength: BN;
 }
 
-const PERBILL = new BN(1_000_000_000);
 const EMPTY_PARTIAL = {};
 
 function mapIndex (mapBy: TargetSortBy): (info: ValidatorInfo, index: number) => ValidatorInfo {
@@ -61,24 +58,18 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     .map(mapIndex('rankBondOwn'))
     .sort((a, b) => b.bondTotal.cmp(a.bondTotal))
     .map(mapIndex('rankBondTotal'))
-    .sort((a, b) => b.validatorPayment.cmp(a.validatorPayment))
-    .map(mapIndex('rankPayment'))
+    // .sort((a, b) => b.validatorPayment.cmp(a.validatorPayment))
+    // .map(mapIndex('rankPayment'))
     .sort((a, b) => a.stakedReturnCmp - b.stakedReturnCmp)
     .map(mapIndex('rankReward'))
     // ignored, not used atm
     // .sort((a, b) => b.numNominators - a.numNominators)
     // .map(mapIndex('rankNumNominators'))
-    .sort((a, b): number => {
-      const cmp = b.stakedReturnCmp - a.stakedReturnCmp;
-
-      return cmp !== 0
-        ? cmp
-        : a.rankReward === b.rankReward
-          ? a.rankPayment === b.rankPayment
-            ? b.rankBondTotal - a.rankBondTotal
-            : b.rankPayment - a.rankPayment
-          : b.rankReward - a.rankReward;
-    })
+    .sort((a, b) =>
+      (b.stakedReturnCmp - a.stakedReturnCmp) ||
+      (a.commissionPer - b.commissionPer) ||
+      (b.rankBondTotal - a.rankBondTotal)
+    )
     .map(mapIndex('rankOverall'))
     .sort((a, b) =>
       a.isFavorite === b.isFavorite
@@ -87,12 +78,11 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
     );
 }
 
-function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, { eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
+function extractSingle (allAccounts: string[], derive: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], { activeEra, eraLength, lastEra, sessionLength }: LastEra, historyDepth?: BN): [ValidatorInfo[], string[]] {
   const nominators: Record<string, boolean> = {};
   const emptyExposure = registry.createType('Exposure');
-  const info = derive.info;
   const earliestEra = historyDepth && lastEra.sub(historyDepth).addn(1);
-  const list = info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
+  const list = derive.info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
     // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
     let bondOwn = exposure.own?.unwrap() || BN_ZERO;
     let bondTotal = exposure.total?.unwrap() || BN_ZERO;
@@ -102,19 +92,7 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
       bondTotal = bondOwn = stakingLedger.total.unwrap();
     }
 
-    const validatorPayment = (validatorPrefs as unknown as ValidatorPrefsTo196).validatorPayment
-      ? (validatorPrefs as unknown as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
-      : validatorPrefs.commission.unwrap().mul(perValidatorReward).div(PERBILL);
     const key = accountId.toString();
-    const rewardSplit = perValidatorReward.sub(validatorPayment);
-    const isNominating = (exposure.others || []).reduce((isNominating, indv): boolean => {
-      const nominator = indv.who.toString();
-
-      nominators[nominator] = true;
-
-      return isNominating || allAccounts.includes(nominator);
-    }, allAccounts.includes(key));
-    const isElected = !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId));
     const lastEraPayout = !lastEra.isZero()
       ? stakingLedger.claimedRewards[stakingLedger.claimedRewards.length - 1]
       : undefined;
@@ -138,25 +116,31 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
       exposure,
       isActive: !skipRewards,
       isCommission: !!validatorPrefs.commission,
-      isElected,
+      isElected: !isWaitingDerive(derive) && derive.nextElected.some((e) => e.eq(accountId)),
       isFavorite: favorites.includes(key),
-      isNominating,
+      isNominating: (exposure.others || []).reduce((isNominating, indv): boolean => {
+        const nominator = indv.who.toString();
+
+        nominators[nominator] = true;
+
+        return isNominating || allAccounts.includes(nominator);
+      }, allAccounts.includes(key)),
       key,
+      knownLength: activeEra.sub(stakingLedger.claimedRewards[0] || activeEra),
       lastPayout,
       numNominators: (exposure.others || []).length,
+      numRecentPayouts: earliestEra
+        ? stakingLedger.claimedRewards.filter((era) => era.gte(earliestEra)).length
+        : 0,
       rankBondOther: 0,
       rankBondOwn: 0,
       rankBondTotal: 0,
-      rankComm: 0,
       rankNumNominators: 0,
       rankOverall: 0,
-      rankPayment: 0,
       rankReward: 0,
-      rewardSplit,
       skipRewards,
       stakedReturn: 0,
       stakedReturnCmp: 0,
-      validatorPayment,
       validatorPrefs
     };
   });
@@ -164,10 +148,9 @@ function extractSingle (allAccounts: string[], derive: DeriveStakingElected | De
   return [list, Object.keys(nominators)];
 }
 
-function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, lastReward: BN, historyDepth?: BN): Partial<SortedTargets> {
-  const perValidatorReward = lastReward.divn(electedDerive.info.length);
-  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, perValidatorReward, lastEraInfo, historyDepth);
-  const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, perValidatorReward, lastEraInfo);
+function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: DeriveStakingElected, waitingDerive: DeriveStakingWaiting, favorites: string[], totalIssuance: BN, lastEraInfo: LastEra, historyDepth?: BN): Partial<SortedTargets> {
+  const [elected, nominators] = extractSingle(allAccounts, electedDerive, favorites, lastEraInfo, historyDepth);
+  const [waiting] = extractSingle(allAccounts, waitingDerive, favorites, lastEraInfo);
   const activeTotals = elected
     .filter(({ isActive }) => isActive)
     .map(({ bondTotal }) => bondTotal)
@@ -184,31 +167,42 @@ function extractInfo (api: ApiPromise, allAccounts: string[], electedDerive: Der
     }
   });
 
+  // all validators, calc median commission
   const validators = sortValidators(elected.concat(waiting));
+  const commValues = validators.map(({ commissionPer }) => commissionPer).sort((a, b) => a - b);
+  const midIndex = Math.floor(commValues.length / 2);
+  const medianComm = commValues.length
+    ? commValues.length % 2
+      ? commValues[midIndex]
+      : (commValues[midIndex - 1] + commValues[midIndex]) / 2
+    : 0;
+
+  // ids
+  const electedIds = elected.map(({ accountId }) => accountId.toString());
+  const waitingIds = waiting.map(({ accountId }) => accountId.toString());
+  const validatorIds = electedIds.concat(waitingIds);
 
   return {
     avgStaked,
     inflation,
     lowStaked: activeTotals[0] || BN_ZERO,
+    medianComm,
     nominators,
     totalIssuance,
     totalStaked,
-    validatorIds: validators.map(({ accountId }) => accountId.toString()),
-    validators
+    validatorIds,
+    validators,
+    waitingIds
   };
 }
 
 const transformEra = {
-  transform: ({ activeEra, activeEraStart, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
+  transform: ({ activeEra, eraLength, sessionLength }: DeriveSessionInfo): LastEra => ({
+    activeEra,
     eraLength,
-    lastEra: activeEra.gtn(0) ? activeEra.subn(1) : BN_ZERO,
-    lastEraEnd: activeEra.gtn(0) && activeEraStart.isSome ? activeEraStart.unwrap() : BN_ZERO,
+    lastEra: activeEra.isZero() ? BN_ZERO : activeEra.subn(1),
     sessionLength
   })
-};
-
-const transformReward = {
-  transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
 };
 
 export default function useSortedTargets (favorites: string[]): SortedTargets {
@@ -219,14 +213,13 @@ export default function useSortedTargets (favorites: string[]): SortedTargets {
   const electedInfo = useCall<DeriveStakingElected>(api.derive.staking.electedInfo);
   const waitingInfo = useCall<DeriveStakingWaiting>(api.derive.staking.waitingInfo);
   const lastEraInfo = useCall<LastEra>(api.derive.session.info, undefined, transformEra);
-  const lastReward = useCall<BN>(lastEraInfo && api.query.staking.erasValidatorReward, [lastEraInfo?.lastEra], transformReward);
 
   const partial = useMemo(
-    () => electedInfo && lastEraInfo && lastReward && totalIssuance && waitingInfo
-      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, lastReward, historyDepth)
+    () => electedInfo && lastEraInfo && totalIssuance && waitingInfo
+      ? extractInfo(api, allAccounts, electedInfo, waitingInfo, favorites, totalIssuance, lastEraInfo, historyDepth)
       : EMPTY_PARTIAL,
-    [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, lastReward, totalIssuance, waitingInfo]
+    [api, allAccounts, electedInfo, favorites, historyDepth, lastEraInfo, totalIssuance, waitingInfo]
   );
 
-  return { inflation: { inflation: 0, stakedReturn: 0 }, ...partial, lastReward };
+  return { inflation: { inflation: 0, stakedReturn: 0 }, medianComm: 0, ...partial };
 }
