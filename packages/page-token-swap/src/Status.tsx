@@ -51,7 +51,7 @@ function StatusForm ({ title = 'Check token migration status' }: Props): React.R
 
     try {
       const res = await axios.post(`${apiUrl}/status`, {
-        addr,
+        address: addr,
         txnHash,
       });
       if (!res.data.error) {
