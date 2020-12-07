@@ -100,32 +100,28 @@ function StatusForm ({ title = 'Check token migration status' }: Props): React.R
             {t<string>(`The Ethereum transaction hash in which you sent tokens to the Vault.`)}
           </p>
 
+          <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
+            <Button
+              accountId={address}
+              icon='sign-in-alt'
+              isDisabled={!(address && txHash)}
+              isPrimary={true}
+              label={t<string>('Check Status')}
+              onClick={handleSubmitStatus}
+            />
+          </div>
 
-          <Modal.Columns>
-            <Modal.Column>
-              {status ? (
-                <p>
-                  Status: {status}
-                </p>
-              ) : (
-                <p style={{color: '#d82323'}}>
-                  {error}
-                </p>
-              )}
-            </Modal.Column>
-            <Modal.Column>
-            <div style={{textAlign: 'right', display: 'inline-block', float: 'right'}}>
-              <Button
-                accountId={address}
-                icon='sign-in-alt'
-                isDisabled={!(address && txHash)}
-                isPrimary={true}
-                label={t<string>('Check Status')}
-                onClick={handleSubmitStatus}
-              />
-            </div>
-            </Modal.Column>
-          </Modal.Columns>
+          <div>
+            {status ? (
+              <p>
+                Status: {status}
+              </p>
+            ) : (
+              <p style={{color: '#d82323'}}>
+                {error}
+              </p>
+            )}
+          </div>
         </td>
       </tr>
     </Table>
