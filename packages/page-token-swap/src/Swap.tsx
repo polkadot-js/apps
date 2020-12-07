@@ -170,7 +170,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     <>
       <p style={{marginTop: '24px'}}>
         <strong>Send ERC-2O tokens</strong><br />
-        Send your ERC-20 DOCK tokens to the Dock Vault. <a href="https://docs.dock.io/migration-support" target="_blank">See how it works</a><br />
+        Send your ERC-20 DOCK tokens to the Dock Vault. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial" target="_blank">See how it works</a><br />
         Once sent, copy the transaction hash and paste below.
       </p>
       <p style={{marginTop: '24px'}}>
@@ -240,7 +240,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           value={termsSelected}
         />
         <p style={{marginLeft: '10px'}}>
-          I agree to Dock's <a href="https://docs.dock.io/migration-terms-and-conditions" target="_blank">Terms & Conditions</a>
+          I agree to Dock's <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-terms-and-conditions" target="_blank">Terms & Conditions</a>
         </p>
       </div>
 
