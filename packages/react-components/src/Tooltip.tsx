@@ -86,14 +86,22 @@ export default React.memo(styled(Tooltip)`
     margin-top: 0.75rem;
   }
 
+  > div+div {
+    margin-top: 0.5rem;
+  }
+
   .faded {
-    margin-top: -0.25rem;
+    margin-top: 0;
     opacity: 0.75 !important;
     font-size: 0.85em !important;
+
+    .faded {
+      font-size: 1em !important;
+    }
   }
 
   .faded+.faded {
-    margin-top: -0.5rem;
+    margin-top: 0;
   }
 
   .row+.row {
