@@ -14,6 +14,7 @@
   "Add account": "Add account",
   "Add account via Ledger": "Add account via Ledger",
   "Add account via Qr": "Add account via Qr",
+  "Add an account via seed": "Add an account via seed",
   "Add an account via seed {{step}}/{{STEPS_COUNT}}": "Add an account via seed {{step}}/{{STEPS_COUNT}}",
   "Add identity judgment": "Add identity judgment",
   "Add multisig": "Add multisig",

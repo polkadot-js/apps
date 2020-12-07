@@ -20,14 +20,13 @@ const statusMap = {
   '5': 'Bonus sent',
 };
 
-function SwapForm ({ title = 'Check token migration status' }: Props): React.ReactElement<Props> {
+function StatusForm ({ title = 'Check token migration status' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
     [t(title), 'start', 3]
   ]);
 
   const [txHash, setTxHash] = useState<string>('');
-  const [signature, setSignature] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [submitting, setSubmitting] = useState<Boolean>(false);
   const [status, setStatus] = useState<string>('');
@@ -127,4 +126,4 @@ function SwapForm ({ title = 'Check token migration status' }: Props): React.Rea
   );
 }
 
-export default React.memo(SwapForm);
+export default React.memo(StatusForm);
