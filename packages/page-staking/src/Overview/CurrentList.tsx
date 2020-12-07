@@ -21,7 +21,6 @@ interface Props {
   favorites: string[];
   hasQueries: boolean;
   isIntentions?: boolean;
-  next?: string[];
   setNominators?: (nominators: string[]) => void;
   stakingOverview?: DeriveStakingOverview;
   targets: SortedTargets;
@@ -71,7 +70,7 @@ function getFiltered (stakingOverview: DeriveStakingOverview, favorites: string[
   };
 }
 
-function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
+function CurrentList ({ favorites, hasQueries, isIntentions, stakingOverview, targets, toggleFavorite }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const { byAuthor, eraPoints } = useContext(isIntentions ? EmptyAuthorsContext : BlockAuthorsContext);
@@ -84,8 +83,8 @@ function CurrentList ({ favorites, hasQueries, isIntentions, next, stakingOvervi
   const isLoading = useLoadingDelay();
 
   const { elected, validators, waiting } = useMemo(
-    () => stakingOverview ? getFiltered(stakingOverview, favorites, next) : {},
-    [favorites, next, stakingOverview]
+    () => stakingOverview ? getFiltered(stakingOverview, favorites, targets.waitingIds) : {},
+    [favorites, stakingOverview, targets]
   );
 
   const infoMap = useMemo(

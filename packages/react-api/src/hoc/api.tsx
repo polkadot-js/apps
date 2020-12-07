@@ -10,7 +10,7 @@ import type { DefaultProps } from './types';
 import { ApiConsumer } from '../ApiContext';
 
 export default function withApi <P extends ApiProps> (Inner: React.ComponentType<P>, defaultProps: DefaultProps = {}): React.ComponentType<any> {
-  return class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
+  class WithApi extends React.PureComponent<SubtractProps<P, ApiProps>> {
     private component: any = React.createRef();
 
     public render (): React.ReactNode {
@@ -32,5 +32,7 @@ export default function withApi <P extends ApiProps> (Inner: React.ComponentType
         </ApiConsumer>
       );
     }
-  };
+  }
+
+  return WithApi;
 }

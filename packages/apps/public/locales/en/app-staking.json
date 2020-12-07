@@ -184,6 +184,7 @@
   "next": "next",
   "no 20%+ comm": "no 20%+ comm",
   "no at capacity": "no at capacity",
+  "no median+ comm": "no median+ comm",
   "no oversubscribed": "no oversubscribed",
   "no {{maxCap}}%+ capacity": "no {{maxCap}}%+ capacity",
   "no {{maxComm}}%+ comm": "no {{maxComm}}%+ comm",

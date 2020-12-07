@@ -67,7 +67,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
     return null;
   }
 
-  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp, validatorPayment } = info;
+  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp } = info;
 
   return (
     <tr>
@@ -125,13 +125,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
       </td>
       <td className='number media--1200 no-pad-right'>{numNominators || ''}</td>
       <td className='number media--1200 no-pad-left'>{nominatedBy.length || ''}</td>
-      <td className='number media--1100'>
-        {
-          isCommission
-            ? `${commissionPer.toFixed(2)}%`
-            : <FormatBalance value={validatorPayment} />
-        }
-      </td>
+      <td className='number media--1100'>{isCommission && `${commissionPer.toFixed(2)}%`}</td>
       <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
       <td className='number together media--900'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
       <td className='number together media--1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>

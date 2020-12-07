@@ -26,7 +26,8 @@ export function useAvailableSlashes (): [BN, UnappliedSlash[]][] {
       const range: BN[] = [];
       let start = new BN(from);
 
-      while (start.lt(indexes.activeEra)) {
+      // any <= activeEra (we include activeEra since slashes are immediately reflected)
+      while (start.lte(indexes.activeEra)) {
         range.push(start);
         start = start.addn(1);
       }

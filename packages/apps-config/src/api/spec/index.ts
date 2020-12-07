@@ -18,9 +18,9 @@ import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
-import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
+import phala from './phala';
 import plasm from './plasm';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
@@ -48,11 +48,9 @@ export default {
   hanonycash,
   kulupu,
   'mashnet-node': kilt,
-  'moonbase-alphanet': moonbeam,
-  'moonbeam-standalone': moonbeam,
-  'node-moonbeam': moonbeam,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
+  'phala-node': phala,
   plasm,
   robonomics,
   'stable-poc': stablePoc,

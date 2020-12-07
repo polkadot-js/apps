@@ -11,7 +11,7 @@ import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/t
 import type { ElectionStatus } from '@polkadot/types/interfaces';
 import { HelpOverlay } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
-import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos, useStashIds } from '@polkadot/react-hooks';
+import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import Actions from './Actions';
@@ -38,7 +38,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const { hasAccounts } = useAccounts();
   const { pathname } = useLocation();
   const [favorites, toggleFavorite] = useFavorites(STORE_FAVS_BASE);
-  const allStashes = useStashIds();
   const ownStashes = useOwnStashInfos();
   const slashes = useAvailableSlashes();
   const targets = useSortedTargets(favorites);
@@ -48,13 +47,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
   const hasQueries = useMemo(
     () => hasAccounts && !!(api.query.imOnline?.authoredBlocks) && !!(api.query.staking.activeEra),
     [api, hasAccounts]
-  );
-
-  const next = useMemo(
-    () => (allStashes && stakingOverview)
-      ? allStashes.filter((address) => !stakingOverview.validators.includes(address as any))
-      : undefined,
-    [allStashes, stakingOverview]
   );
 
   const ownValidators = useMemo(
@@ -114,11 +106,9 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         />
       </header>
       <Summary
-        inflation={targets.inflation.inflation}
         isVisible={pathname === basePath}
-        next={next}
-        nominators={targets.nominators}
         stakingOverview={stakingOverview}
+        targets={targets}
       />
       <Switch>
         <Route path={`${basePath}/payout`}>
@@ -150,7 +140,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             favorites={favorites}
             hasQueries={hasQueries}
             isIntentions
-            next={next}
             stakingOverview={stakingOverview}
             targets={targets}
             toggleFavorite={toggleFavorite}
@@ -167,7 +156,6 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         className={basePath === pathname ? '' : 'staking--hidden'}
         favorites={favorites}
         hasQueries={hasQueries}
-        next={next}
         stakingOverview={stakingOverview}
         targets={targets}
         toggleFavorite={toggleFavorite}

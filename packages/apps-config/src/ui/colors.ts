@@ -14,7 +14,7 @@ const chainCrust = '#ff8812';
 const chainDarwinia = 'linear-gradient(-45deg, #FE3876 0%, #7C30DD 71%, #3A30DD 100%)';
 const chainHanonycash = '#0099CC';
 const chainKulupu = '#003366';
-const chainPhala = '#4dc56a';
+const chainPhala = '#a7e300';
 const chainPlasm = '#2096F3';
 const chainPolkadot = '#e6007a';
 const chainKusama = '#000000';
@@ -59,7 +59,7 @@ export const chainColors: Record<string, any> = [
   ['Kusama CC3', chainKusama],
   ['laminar turbulence pc1', chainRococoLaminar],
   ['Moonbase Alpha', nodeMoonbeam],
-  ['phala poc 2', chainPhala],
+  ['Phala poc 3', chainPhala],
   ['Plasm', chainPlasm],
   ['Polkadot', chainPolkadot],
   ['Polkadot CC1', chainPolkadot],

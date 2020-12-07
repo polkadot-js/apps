@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
 import type { StakerState } from '@polkadot/react-hooks/types';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
-import { useApi, useAvailableSlashes, useBlocksPerDays, useCall } from '@polkadot/react-hooks';
+import { useApi, useAvailableSlashes, useBlocksPerDays } from '@polkadot/react-hooks';
 
 import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import { MAX_NOMINATIONS } from '../constants';
@@ -16,6 +16,7 @@ import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';
 import Legend from '../Legend';
 import { useTranslation } from '../translate';
+import useIdentities from '../useIdentities';
 import useNominations from '../useNominations';
 import Nominate from './Nominate';
 import Summary from './Summary';
@@ -53,11 +54,22 @@ const CLASSES: Record<string, string> = {
   rankBondOwn: 'media--900'
 };
 const MAX_CAP_PERCENT = 100; // 75 if only using numNominators
-const MAX_COMM_PERCENT = 20;
+const MAX_COMM_PERCENT = 20; // -1 for median
 const MAX_DAYS = 7;
 const SORT_KEYS = ['rankBondTotal', 'rankBondOwn', 'rankBondOther', 'rankOverall'];
 
-function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
+function overlapsDisplay (displays: (string[])[], test: string[]): boolean {
+  return displays.some((d) =>
+    d.length === test.length
+      ? d.length === 1
+        ? d[0] === test[0]
+        : d.reduce((c, p, i) => c + (p === test[i] ? 1 : 0), 0) >= (test.length - 1)
+      : false
+  );
+}
+
+function applyFilter (validators: ValidatorInfo[], medianComm: number, allIdentity: Record<string, DeriveHasIdentity>, { daysPayout, isBabe, maxPaid, withElected, withGroup, withIdentity, withPayout, withoutComm, withoutOver }: Flags, nominatedBy?: Record<string, NominatedBy[]>): ValidatorInfo[] {
+  const displays: (string[])[] = [];
   const parentIds: string[] = [];
 
   return validators.filter(({ accountId, commissionPer, isElected, isFavorite, lastPayout, numNominators }): boolean => {
@@ -73,11 +85,37 @@ function applyFilter (validators: ValidatorInfo[], allIdentity: Record<string, D
       (!withElected || isElected) &&
       (!withIdentity || !!thisIdentity?.hasIdentity) &&
       (!withPayout || !isBabe || (!!lastPayout && daysPayout.gte(lastPayout))) &&
-      (!withoutComm || (commissionPer < MAX_COMM_PERCENT)) &&
+      (!withoutComm || (
+        MAX_COMM_PERCENT > 0
+          ? (commissionPer < MAX_COMM_PERCENT)
+          : (!medianComm || (commissionPer <= medianComm)))
+      ) &&
       (!withoutOver || !maxPaid || maxPaid.muln(MAX_CAP_PERCENT).divn(100).gten(nomCount))
     ) {
-      if (!withGroup || !thisIdentity || !thisIdentity.parentId) {
+      if (!withGroup) {
+        return true;
+      } else if (!thisIdentity || !thisIdentity.hasIdentity) {
+        parentIds.push(stashId);
+
+        return true;
+      } else if (!thisIdentity.parentId) {
         if (!parentIds.includes(stashId)) {
+          if (thisIdentity.display) {
+            const sanitized = thisIdentity.display
+              .replace(/[^\x20-\x7E]/g, '')
+              .replace(/-/g, ' ')
+              .replace(/_/g, ' ')
+              .split(' ')
+              .map((p) => p.trim())
+              .filter((v) => !!v);
+
+            if (overlapsDisplay(displays, sanitized)) {
+              return false;
+            }
+
+            displays.push(sanitized);
+          }
+
           parentIds.push(stashId);
 
           return true;
@@ -117,14 +155,6 @@ function extractNominees (ownNominators: StakerState[] = []): string[] {
   return myNominees;
 }
 
-function transformIdentity ([[validatorIds], hasIdentities]: [[string[]], DeriveHasIdentity[]]): Record<string, DeriveHasIdentity> {
-  return validatorIds.reduce((result: Record<string, DeriveHasIdentity>, validatorId, index): Record<string, DeriveHasIdentity> => {
-    result[validatorId] = hasIdentities[index];
-
-    return result;
-  }, {});
-}
-
 function selectProfitable (list: ValidatorInfo[]): string[] {
   const result: string[] = [];
 
@@ -139,13 +169,14 @@ function selectProfitable (list: ValidatorInfo[]): string[] {
   return result;
 }
 
-function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lastReward, lowStaked, nominators, totalIssuance, totalStaked, validatorIds = [], validators }, toggleFavorite }: Props): React.ReactElement<Props> {
+function Targets ({ className = '', isInElection, ownStashes, targets: { avgStaked, inflation: { stakedReturn }, lowStaked, medianComm, nominators, totalIssuance, totalStaked, validatorIds, validators }, toggleFavorite }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
   const allSlashes = useAvailableSlashes();
   const daysPayout = useBlocksPerDays(MAX_DAYS);
   const ownNominators = useOwnNominators(ownStashes);
   const nominatedBy = useNominations(true);
+  const allIdentity = useIdentities(validatorIds);
   const [selected, setSelected] = useState<string[]>([]);
   const [{ isQueryFiltered, nameFilter }, setNameFilter] = useState({ isQueryFiltered: false, nameFilter: '' });
   const [withElected, setWithElected] = useState(false);
@@ -156,7 +187,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   const [withoutOver, setWithoutOver] = useState(true);
   const [{ sortBy, sortFromMax }, setSortBy] = useState<SortState>({ sortBy: 'rankOverall', sortFromMax: true });
   const [sorted, setSorted] = useState<ValidatorInfo[] | undefined>();
-  const allIdentity = useCall<Record<string, DeriveHasIdentity>>(api.derive.accounts.hasIdentityMulti, [validatorIds], { transform: transformIdentity, withParamsTransform: true });
 
   const labelsRef = useRef({
     rankBondOther: t<string>('other stake'),
@@ -182,8 +212,8 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
   );
 
   const filtered = useMemo(
-    () => allIdentity && validators && nominatedBy && applyFilter(validators, allIdentity, flags, nominatedBy),
-    [allIdentity, flags, nominatedBy, validators]
+    () => allIdentity && validators && nominatedBy && applyFilter(validators, medianComm, allIdentity, flags, nominatedBy),
+    [allIdentity, flags, medianComm, nominatedBy, validators]
   );
 
   // We are using an effect here to get this async. Sorting will have a double-render, however it allows
@@ -240,7 +270,7 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
       <>{labelsRef.current[header]}<Icon icon={sortBy === header ? (sortFromMax ? 'chevron-down' : 'chevron-up') : 'minus'} /></>,
       `${sorted ? `isClickable ${sortBy === header ? 'highlight--border' : ''} number` : 'number'} ${CLASSES[header] || ''}`,
       1,
-      () => _sort(header as 'rankComm')
+      () => _sort(header as 'rankOverall')
     ]),
     [],
     []
@@ -262,7 +292,11 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
         />
         <Toggle
           className='staking--buttonToggle'
-          label={t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })}
+          label={
+            MAX_COMM_PERCENT > 0
+              ? t<string>('no {{maxComm}}%+ comm', { replace: { maxComm: MAX_COMM_PERCENT } })
+              : t<string>('no median+ comm')
+          }
           onChange={setWithoutComm}
           value={withoutComm}
         />
@@ -303,7 +337,6 @@ function Targets ({ className = '', isInElection, ownStashes, targets: { avgStak
     <div className={className}>
       <Summary
         avgStaked={avgStaked}
-        lastReward={lastReward}
         lowStaked={lowStaked}
         numNominators={nominators?.length}
         numValidators={validators?.length}
