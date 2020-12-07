@@ -56,6 +56,8 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       return;
     }
 
+    // TODO: Add a function to remove prefix from hex strings
+
     // Trim 0x from hash incase
     let txnHash = txHash;
     if (txnHash.substr(0, 2) === '0x') {
@@ -66,7 +68,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     try {
       const arrayBuff = [bs58.decode(address), Buffer.from(txnHash, 'hex')];
       if (useBonusCheckbox) {
-        arrayBuff.push(Buffer.from(isSelected ? '1' : '0'));
+        arrayBuff.push(Buffer.from([isSelected ? 1 : 0]));
       }
 
       const payloadRaw = Buffer.concat(arrayBuff);
@@ -84,7 +86,13 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     setSuccess(false);
     setError('');
 
-    const signatureb58 = bs58check.encode(Buffer.from(signature, 'hex'));
+    // Trim 0x from signature incase
+    let sigWithoutPrefix = signature;
+    if (signature.substr(0, 2) === '0x') {
+      sigWithoutPrefix = signature.substr(2);
+    }
+
+    const signatureb58 = bs58.encode(Buffer.from(sigWithoutPrefix, 'hex'));
     try {
       const res = await axios.post(`${apiUrl}/` + (useBonusCheckbox ? `migrate_with_bonus` : `migrate`), {
         payload: base58Check,
