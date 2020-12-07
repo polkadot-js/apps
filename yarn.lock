@@ -2273,7 +2273,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.9
     "@babel/polyfill": ^7.12.1
-    "@polkadot/dev": ^0.60.8
+    "@polkadot/dev": ^0.60.11
     "@polkadot/react-components": ^0.70.2-1
     "@types/react-dom": ^17.0.0
     "@types/tmp": ^0.2.0
@@ -2307,7 +2307,7 @@ __metadata:
     "@babel/runtime": ^7.12.5
     "@polkadot/apps-config": ^0.70.2-1
     "@polkadot/apps-routing": ^0.70.2-1
-    "@polkadot/dev": ^0.60.8
+    "@polkadot/dev": ^0.60.11
     "@polkadot/react-api": ^0.70.2-1
     "@polkadot/react-components": ^0.70.2-1
     "@polkadot/react-hooks": ^0.70.2-1
@@ -2334,9 +2334,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@polkadot/dev@npm:^0.60.8":
-  version: 0.60.8
-  resolution: "@polkadot/dev@npm:0.60.8"
+"@polkadot/dev@npm:^0.60.11":
+  version: 0.60.11
+  resolution: "@polkadot/dev@npm:0.60.11"
   dependencies:
     "@babel/cli": ^7.12.8
     "@babel/core": ^7.12.9
@@ -2378,6 +2378,7 @@ __metadata:
     eslint-plugin-promise: ^4.2.1
     eslint-plugin-react: ^7.21.5
     eslint-plugin-react-hooks: ^4.2.0
+    eslint-plugin-simple-import-sort: ^7.0.0-beta.1
     eslint-plugin-sort-destructure-keys: ^1.3.5
     fs-extra: ^9.0.1
     gh-pages: ^3.1.0
@@ -2398,7 +2399,7 @@ __metadata:
     typedoc-plugin-markdown: ^3.0.11
     typedoc-plugin-no-inherit: ^1.2.0
     typescript: ^4.1.2
-    yargs: ^16.1.1
+    yargs: ^16.2.0
   bin:
     polkadot-ci-ghact-build: scripts/polkadot-ci-ghact-build.cjs
     polkadot-ci-ghact-docs: scripts/polkadot-ci-ghact-docs.cjs
@@ -2422,7 +2423,7 @@ __metadata:
     polkadot-exec-typedoc: scripts/polkadot-exec-typedoc.cjs
     polkadot-exec-vuepress: scripts/polkadot-exec-vuepress.cjs
     polkadot-exec-webpack: scripts/polkadot-exec-webpack.cjs
-  checksum: e9b4dd08aa90de176f719fdfa4b2b810e9219fb554b7c1137dc6ae28f6ea7aa608447ce0050c16a739a98bbae979f4fd09e41a77ad08c7ada04784dcbf61fcc0
+  checksum: d583afb3162f8e806d1226ae71cf2860a276fb9e3b2a89c91596d6fec4dd3638555cdfa7568a2f09371bb1a77db485a61d82354aa3867458d8dea60212a99664
   languageName: node
   linkType: hard
 
@@ -8001,7 +8002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-simple-import-sort@npm:7.0.0-beta.1":
+"eslint-plugin-simple-import-sort@npm:^7.0.0-beta.1":
   version: 7.0.0-beta.1
   resolution: "eslint-plugin-simple-import-sort@npm:7.0.0-beta.1"
   peerDependencies:
@@ -14219,7 +14220,7 @@ fsevents@~2.1.2:
     "@babel/register": ^7.12.1
     "@babel/runtime": ^7.12.5
     "@pinata/sdk": ^1.1.11
-    "@polkadot/dev": ^0.60.8
+    "@polkadot/dev": ^0.60.11
     "@polkadot/ts": ^0.3.57
     "@types/bn.js": ^4.11.6
     "@types/chart.js": ^2.9.28
@@ -14238,7 +14239,6 @@ fsevents@~2.1.2:
     electron: ^10.1.6
     electron-builder: ^22.9.1
     electron-builder-notarize: ^1.2.0
-    eslint-plugin-simple-import-sort: 7.0.0-beta.1
     i18next-scanner: ^2.11.0
     react: ^17.0.1
     react-dom: ^17.0.1

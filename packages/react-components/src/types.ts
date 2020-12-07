@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { WithTranslation } from 'react-i18next';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { Abi } from '@polkadot/api-contract';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { TxState } from '@polkadot/react-hooks/types';
 import type { AccountId, Index } from '@polkadot/types/interfaces';
-import type { WithTranslation } from 'react-i18next';
 import type { ButtonProps } from './Button/types';
 import type { InputAddressProps } from './InputAddress/types';
 import type { TxCallback, TxFailedCallback } from './Status/types';

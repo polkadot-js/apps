@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react';
 
 import { isUndefined } from '@polkadot/util';
 
-import Params from '../';
 import getInitValue from '../initValue';
+import Params from '../';
 import Base from './Base';
 import useParamDefs from './useParamDefs';
 

@@ -9,14 +9,14 @@ import styled from 'styled-components';
 import { Button, HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useContracts, useToggle } from '@polkadot/react-hooks';
 
-import Banner from './Banner';
-import Codes from './Codes';
 import CodeAdd from './Codes/Add';
 import CodeUpload from './Codes/Upload';
-import Contracts from './Contracts';
 import ContractAdd from './Contracts/Add';
-import Deploy from './Deploy';
 import introMd from './md/intro.md';
+import Banner from './Banner';
+import Codes from './Codes';
+import Contracts from './Contracts';
+import Deploy from './Deploy';
 import store from './store';
 import Summary from './Summary';
 import { useTranslation } from './translate';

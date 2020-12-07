@@ -12,9 +12,9 @@ import GlobalStyle from '@polkadot/react-components/styles';
 import { useApi } from '@polkadot/react-hooks';
 import Signer from '@polkadot/react-signer';
 
+import ConnectingOverlay from './overlays/Connecting';
 import Content from './Content';
 import Menu from './Menu';
-import ConnectingOverlay from './overlays/Connecting';
 import WarmUp from './WarmUp';
 
 export const PORTAL_ID = 'portals';

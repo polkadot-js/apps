@@ -7,8 +7,8 @@ import type { VoidFn } from './types';
 import React from 'react';
 import styled from 'styled-components';
 
-import Icon from './Icon';
 import { colorLink } from './styles/theme';
+import Icon from './Icon';
 
 interface Props {
   children?: React.ReactNode;

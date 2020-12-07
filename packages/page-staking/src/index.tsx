@@ -15,11 +15,11 @@ import Tabs from '@polkadot/react-components/Tabs';
 import { useAccounts, useApi, useAvailableSlashes, useCall, useFavorites, useOwnStashInfos } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
+import basicMd from './md/basic.md';
+import Summary from './Overview/Summary';
 import Actions from './Actions';
 import { STORE_FAVS_BASE } from './constants';
-import basicMd from './md/basic.md';
 import Overview from './Overview';
-import Summary from './Overview/Summary';
 import Payouts from './Payouts';
 import Query from './Query';
 import Slashes from './Slashes';

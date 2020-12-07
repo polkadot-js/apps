@@ -9,8 +9,8 @@ import { Route, Switch } from 'react-router';
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useAccounts, useIpfs } from '@polkadot/react-hooks';
 
-import Accounts from './Accounts';
 import basicMd from './md/basic.md';
+import Accounts from './Accounts';
 import { useTranslation } from './translate';
 import useCounter from './useCounter';
 import Vanity from './Vanity';

@@ -12,8 +12,6 @@ import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
-// last-resort fallback, just something empty
-import emptyLogo from './empty.svg';
 // extensions
 // alphabetical
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -54,6 +52,8 @@ import nodeSora from './nodes/sora-substrate.svg';
 import nodeStafi from './nodes/stafi.png';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+// last-resort fallback, just something empty
+import emptyLogo from './empty.svg';
 
 // Alphabetical overrides based on the actual matched chain name
 // NOTE: This is as retrieved via system.chain RPC
