@@ -1,6 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Props } from '../types';
+
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
@@ -8,7 +10,6 @@ import { Input, InputNumber } from '@polkadot/react-components';
 import { ClassOf } from '@polkadot/types/create';
 import { bnToBn, formatNumber, isUndefined } from '@polkadot/util';
 
-import type { Props } from '../types';
 import Bare from './Bare';
 
 function Amount ({ className = '', defaultValue: { value }, isDisabled, isError, label, onChange, onEnter, registry, type, withLabel }: Props): React.ReactElement<Props> {

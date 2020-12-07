@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-explorer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { EventRecord } from '@polkadot/types/interfaces';
+
 import React from 'react';
 
-import type { EventRecord } from '@polkadot/types/interfaces';
 import { Event as EventDisplay, Expander } from '@polkadot/react-components';
 
 interface Props {

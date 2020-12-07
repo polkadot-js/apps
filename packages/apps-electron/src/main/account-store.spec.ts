@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { KeyringJson } from '@polkadot/ui-keyring/types';
+
 import * as tmp from 'tmp';
 
-import type { KeyringJson } from '@polkadot/ui-keyring/types';
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
 import { accountStoreIpcHandler } from './account-store';

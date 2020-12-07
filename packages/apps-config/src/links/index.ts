@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ExternalDef } from './types';
+
 import Commonwealth from './commonwealth';
 import Polkascan from './polkascan';
 import Polkassembly from './polkassembly';

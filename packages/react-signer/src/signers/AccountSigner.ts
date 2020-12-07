@@ -4,6 +4,7 @@
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { SignerPayloadJSON } from '@polkadot/types/types';
+
 import { registry } from '@polkadot/react-api';
 
 import { lockAccount } from '../util';

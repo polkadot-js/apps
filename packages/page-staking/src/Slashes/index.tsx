@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StakerState } from '@polkadot/react-hooks/types';
+import type { UnappliedSlash } from '@polkadot/types/interfaces';
+import type { Slash, SlashEra } from './types';
+
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
 
-import type { StakerState } from '@polkadot/react-hooks/types';
-import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
-import type { Slash, SlashEra } from './types';
 import { useTranslation } from '../translate';
 import Era from './Era';
 

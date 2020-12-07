@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { StakerState } from '@polkadot/react-hooks/types';
+import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
+
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import type { DeriveHasIdentity, DeriveStakingOverview } from '@polkadot/api-derive/types';
-import type { StakerState } from '@polkadot/react-hooks/types';
 import { Button, Icon, Table, Toggle } from '@polkadot/react-components';
 import { useApi, useAvailableSlashes, useBlocksPerDays } from '@polkadot/react-hooks';
 
-import type { NominatedBy, SortedTargets, TargetSortBy, ValidatorInfo } from '../types';
 import { MAX_NOMINATIONS } from '../constants';
 import ElectionBanner from '../ElectionBanner';
 import Filtering from '../Filtering';

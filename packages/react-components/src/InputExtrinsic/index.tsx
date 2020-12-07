@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
+import type { DropdownOptions } from '../util/types';
+
 import React, { useCallback, useState } from 'react';
 
-import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import { useApi } from '@polkadot/react-hooks';
 
-import type { DropdownOptions } from '../util/types';
 import LinkedWrapper from './LinkedWrapper';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';

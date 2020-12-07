@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { StringOrNull } from '@polkadot/react-components/types';
+
 import React, { useCallback, useState } from 'react';
 
-import type { StringOrNull } from '@polkadot/react-components/types';
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { isNull } from '@polkadot/util';
 

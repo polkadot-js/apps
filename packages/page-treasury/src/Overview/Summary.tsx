@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveBalancesAccount } from '@polkadot/api-derive/types';
+import type { Balance } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React from 'react';
 
-import type { DeriveBalancesAccount } from '@polkadot/api-derive/types';
-import type { Balance } from '@polkadot/types/interfaces';
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';

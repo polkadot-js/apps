@@ -6,6 +6,7 @@ import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { QueueTxMessageSetStatus, QueueTxPayloadAdd, QueueTxStatus } from '@polkadot/react-components/Status/types';
 import type { Hash } from '@polkadot/types/interfaces';
 import type { SignerPayloadJSON } from '@polkadot/types/types';
+
 import { registry } from '@polkadot/react-api';
 import { ClassOf } from '@polkadot/types/create';
 

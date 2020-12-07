@@ -9,12 +9,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
+import type { ApiProps, CallState as State, SubtractProps } from '../types';
+import type { Options } from './types';
+
 import React from 'react';
 
 import { assert, isNull, isUndefined } from '@polkadot/util';
 
-import type { ApiProps, CallState as State, SubtractProps } from '../types';
-import type { Options } from './types';
 import echoTransform from '../transform/echo';
 import { isEqual, triggerChange } from '../util';
 import withApi from './api';

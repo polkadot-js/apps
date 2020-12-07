@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
+
 import React, { useRef } from 'react';
 
-import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

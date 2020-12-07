@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-society authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveSociety } from '@polkadot/api-derive/types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-import type { DeriveSociety } from '@polkadot/api-derive/types';
 import { Button } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 

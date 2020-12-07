@@ -1,16 +1,17 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { EraIndex } from '@polkadot/types/interfaces';
+import type { PayoutValidator } from './types';
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { EraIndex } from '@polkadot/types/interfaces';
 import { ApiPromise } from '@polkadot/api';
 import { AddressMini, Button, InputAddress, Modal, Static, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 
-import type { PayoutValidator } from './types';
 import { useTranslation } from '../translate';
 
 interface Props {

@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-claims authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
+import type { Option } from '@polkadot/types';
+import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
+
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 
-import type { AppProps as Props, ThemeProps } from '@polkadot/react-components/types';
-import type { Option } from '@polkadot/types';
-import type { EcdsaSignature, EthereumAddress, StatementKind } from '@polkadot/types/interfaces';
 import { Button, Card, Columar, Column, Input, InputAddress, Tabs, Tooltip } from '@polkadot/react-components';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { useApi, useCall } from '@polkadot/react-hooks';

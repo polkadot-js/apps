@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '../types';
+import type { TabItem } from './types';
+
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import type { ThemeProps } from '../types';
-import type { TabItem } from './types';
 import Tab from './Tab';
 
 interface Props {

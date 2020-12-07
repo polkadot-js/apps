@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SlashingSpans } from '@polkadot/types/interfaces';
+import type { NominatedBy as NominatedByType } from '../../types';
+
 import React, { useMemo } from 'react';
 
-import type { SlashingSpans } from '@polkadot/types/interfaces';
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 
-import type { NominatedBy as NominatedByType } from '../../types';
 import { useTranslation } from '../../translate';
 
 interface Props {

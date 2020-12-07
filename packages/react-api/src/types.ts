@@ -3,6 +3,7 @@
 
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/promise/types';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
+
 import { ApiPromise } from '@polkadot/api/promise';
 
 // helpers for HOC props

@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfaces';
+
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfaces';
 import { BountyDescription } from '@polkadot/app-bounties/types';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';

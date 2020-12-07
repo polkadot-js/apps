@@ -1,14 +1,16 @@
 // Copyright 2017-2020 @polkadot/react-api authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import store from 'store';
-
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
-import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import type { ApiProps, ApiState } from './types';
+
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import store from 'store';
+
 import { ApiPromise } from '@polkadot/api/promise';
+import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
 import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesRpc, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
@@ -21,7 +23,6 @@ import { formatBalance, isTestChain } from '@polkadot/util';
 import { setSS58Format } from '@polkadot/util-crypto';
 import { defaults as addressDefaults } from '@polkadot/util-crypto/address/defaults';
 
-import type { ApiProps, ApiState } from './types';
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
 

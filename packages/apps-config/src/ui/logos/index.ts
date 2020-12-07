@@ -8,10 +8,10 @@
 // alphabetical
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
+import chainRococo from './chains/rococo.svg';
 import chainRococoTick from './chains/rococo-tick.svg';
 import chainRococoTrack from './chains/rococo-track.svg';
 import chainRococoTrick from './chains/rococo-trick.svg';
-import chainRococo from './chains/rococo.svg';
 // last-resort fallback, just something empty
 import emptyLogo from './empty.svg';
 // extensions

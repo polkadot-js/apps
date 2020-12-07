@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from './types';
+
 import React from 'react';
 import ReactMd from 'react-markdown';
 import styled from 'styled-components';
 
 import { useToggle } from '@polkadot/react-hooks';
 
-import type { ThemeProps } from './types';
 import Icon from './Icon';
 
 interface Props {

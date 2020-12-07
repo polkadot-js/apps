@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { TypeDef } from '@polkadot/types/types';
+import type { Props } from '../types';
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import type { TypeDef } from '@polkadot/types/types';
 import { Toggle } from '@polkadot/react-components';
 
-import type { Props } from '../types';
 import { useTranslation } from '../translate';
 import Param from './index';
 
