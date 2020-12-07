@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useRef } from 'react';
-
 import type { Bytes, Option } from '@polkadot/types';
 import type { BlockNumber, Bounty as BountyType, BountyIndex } from '@polkadot/types/interfaces';
+
+import React, { useRef } from 'react';
+
 import { BountyDescription } from '@polkadot/app-bounties/types';
 import { Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';

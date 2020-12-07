@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useState } from 'react';
-
 import type { Option } from '@polkadot/types';
 import type { ContractInfo } from '@polkadot/types/interfaces';
+
+import React, { useEffect, useState } from 'react';
+
 import { InfoForInput } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';

@@ -1,10 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '@polkadot/react-components/types';
+
 import React from 'react';
 import styled from 'styled-components';
-
-import type { ThemeProps } from '@polkadot/react-components/types';
 
 import AccountName from '../AccountName';
 import IdentityIcon from '../IdentityIcon';

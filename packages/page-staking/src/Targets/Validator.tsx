@@ -1,18 +1,19 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
+import type { UnappliedSlash } from '@polkadot/types/interfaces';
+import type { NominatedBy, ValidatorInfo } from '../types';
+
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
 
-import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
-import type { UnappliedSlash } from '@polkadot/types/interfaces';
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
 import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
-import type { NominatedBy, ValidatorInfo } from '../types';
 import MaxBadge from '../MaxBadge';
 import Favorite from '../Overview/Address/Favorite';
 import { useTranslation } from '../translate';

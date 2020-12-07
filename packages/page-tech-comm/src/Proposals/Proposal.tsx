@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-tech-comm authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo } from 'react';
-
 import type { Option } from '@polkadot/types';
 import type { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
+
+import React, { useMemo } from 'react';
+
 import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { AddressMini, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';

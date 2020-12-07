@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
+
 import React, { useMemo } from 'react';
 
-import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';

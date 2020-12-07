@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Props } from '../types';
+
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 import { Toggle } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
 
-import type { Props } from '../types';
 import { useTranslation } from '../translate';
 import BaseBytes from './BaseBytes';
 import File from './File';

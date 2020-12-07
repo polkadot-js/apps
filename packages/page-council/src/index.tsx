@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { AccountId } from '@polkadot/types/interfaces';
+
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import type { DeriveCollectiveProposal } from '@polkadot/api-derive/types';
-import type { Option } from '@polkadot/types';
-import type { AccountId } from '@polkadot/types/interfaces';
 import { Tabs } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import { Button, Extrinsic, Icon, InputNumber, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';

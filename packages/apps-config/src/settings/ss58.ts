@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { TFunction } from 'i18next';
+import type { Option } from './types';
 
 import known from '@polkadot/networks';
-
-import type { Option } from './types';
 
 // Definitions here are with the following values -
 //   info: the name of a logo as defined in ../logos, specifically in namedLogos

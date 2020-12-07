@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
+import type { Option } from './types';
+
 import React from 'react';
 import store from 'store';
 import styled from 'styled-components';
 
-import type { KeyringOption$Type, KeyringOptions, KeyringSectionOption, KeyringSectionOptions } from '@polkadot/ui-keyring/options/types';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
 import createKeyringItem from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
-import type { Option } from './types';
 import Dropdown from '../Dropdown';
 import { getAddressName } from '../util';
 import addressToAddress from '../util/toAddress';

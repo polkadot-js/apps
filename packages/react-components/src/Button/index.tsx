@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ButtonType } from './types';
+
 import IButton from './Button';
 import Group from './Group';
 

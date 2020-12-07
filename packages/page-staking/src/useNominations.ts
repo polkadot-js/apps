@@ -1,13 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { useMemo } from 'react';
-
 import type { Option, StorageKey } from '@polkadot/types';
 import type { Nominations } from '@polkadot/types/interfaces';
-import { useApi, useCall } from '@polkadot/react-hooks';
-
 import type { NominatedBy } from './types';
+
+import { useMemo } from 'react';
+
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 type Result = Record<string, NominatedBy[]>;
 

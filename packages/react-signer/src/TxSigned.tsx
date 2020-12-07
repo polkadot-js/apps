@@ -1,15 +1,17 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-
 import type { SignerOptions } from '@polkadot/api/submittable/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 import type { Option } from '@polkadot/types';
 import type { Multisig, Timepoint } from '@polkadot/types/interfaces';
+import type { AddressProxy, QrState } from './types';
+
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import { ApiPromise } from '@polkadot/api';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { registry } from '@polkadot/react-api';
@@ -18,7 +20,6 @@ import { useApi, useToggle } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import { assert, BN_ZERO } from '@polkadot/util';
 
-import type { AddressProxy, QrState } from './types';
 import Address from './Address';
 import Qr from './Qr';
 import { AccountSigner, LedgerSigner, QrSigner } from './signers';

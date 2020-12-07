@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useState } from 'react';
-
 import type { Vec } from '@polkadot/types';
 import type { KeyValue as Pair } from '@polkadot/types/interfaces';
+import type { Props, RawParam } from '../types';
+
+import React, { useCallback, useState } from 'react';
+
 import { assert, isHex, u8aToHex, u8aToString } from '@polkadot/util';
 
-import type { Props, RawParam } from '../types';
 import { useTranslation } from '../translate';
 import Base from './Base';
 import Bytes from './Bytes';

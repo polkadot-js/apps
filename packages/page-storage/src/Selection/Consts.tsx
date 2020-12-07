@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-storage authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useState } from 'react';
-
 import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
 import type { ConstValue } from '@polkadot/react-components/InputConsts/types';
+import type { ComponentProps as Props } from '../types';
+
+import React, { useCallback, useState } from 'react';
+
 import { Button, InputConsts } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
-import type { ComponentProps as Props } from '../types';
 import { useTranslation } from '../translate';
 
 function Consts ({ onAdd }: Props): React.ReactElement<Props> {

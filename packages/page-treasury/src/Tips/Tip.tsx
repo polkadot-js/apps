@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import type { AccountId, Balance, BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfaces';
 import { AddressMini, AddressSmall, Checkbox, Expander, Icon, LinkExternal, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';

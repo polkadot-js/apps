@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { DeriveStakerReward, DeriveStakingAccount } from '@polkadot/api-derive/types';
+import type { PayoutStash } from './types';
+
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
-import type { DeriveStakerReward, DeriveStakingAccount } from '@polkadot/api-derive/types';
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import { ApiPromise } from '@polkadot/api';
 import { AddressSmall, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
-import type { PayoutStash } from './types';
 import { useTranslation } from '../translate';
 import useEraBlocks from './useEraBlocks';
 import { createErasString } from './util';

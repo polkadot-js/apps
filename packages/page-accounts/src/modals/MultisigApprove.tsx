@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { AccountId, Call, H256, Multisig } from '@polkadot/types/interfaces';
 import { registry } from '@polkadot/react-api';
 import { Dropdown, Input, InputAddress, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useWeight } from '@polkadot/react-hooks';

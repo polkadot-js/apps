@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Props } from '../types';
+
 import React from 'react';
 
-import type { Props } from '../types';
 import BaseBytes from './BaseBytes';
 import Static from './Static';
 

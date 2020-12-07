@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/app-democracy authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { Hash, VoteThreshold } from '@polkadot/types/interfaces';
 import { Button, Input, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useMembers, useToggle } from '@polkadot/react-hooks';
 
