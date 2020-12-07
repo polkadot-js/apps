@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 0.70.1 Dec 7, 2020
+
+Contributed:
+
+- Add Polkadot/Kusama endpoints via PatractLabs (Thanks to https://github.com/toxotguo)
+- Add types for Bitfrost testnet (Thaks to https://github.com/janpo)
+- Adjust Crust network types & logo (Thanks to https://github.com/zikunfan)
+- Adjust types for Phala poc-3 (Thanks to https://github.com/LusWar)
+- Move to typesBundle for Moonbeam (Thanks to https://github.com/joelamouche)
+- Adjust import ordering with plugin (Thanks to https://github.com/ekowalsk)
+
+Changes:
+
+- Bump to latest Ledger libraries for Windows USB fixes
+- Store network endpoint affinity (last-used per network)
+- Only show links in sidebar for verified-good identities
+- Adjust staking pages to show loading indicators, optimize number of queries
+- Adjust staking target filters, including explicit identity grouping
+- Rework target/waiting loading with shared nominator loading
+- Cleanup calendar interface (ease of maintaining)
+- Remove sparsely-used classes utility (inconsistent use)
+- Swap to using TypeScript 4.1.2
+- Adjust dark theme to work with help overlays
+
+
 ## 0.69.1 Nov 30, 2020
 
 Contributed:
