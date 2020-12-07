@@ -91,11 +91,16 @@ function Content ({ className }: Props): React.ReactElement<Props> {
 export default React.memo(styled(Content)`
   flex-grow: 1;
   overflow: hidden auto;
-  padding: 0 1.5rem 1rem;
+  padding: 0 0 1rem 0;
   position: relative;
   width: 100%;
 
   .connecting {
     padding: 3.5rem 0;
+  }
+  & main > *:not(header) {
+    max-width: 1750px;
+    margin: 0 auto;
+    width: 100%;
   }
 `);
