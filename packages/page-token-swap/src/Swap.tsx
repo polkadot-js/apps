@@ -130,7 +130,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       }
     },
     {
-      title: 'Send ERC-2O tokens',
+      title: 'Send ERC-2O tokens to the Vault',
       onClick: () => {
         setActiveStep(1);
       }
@@ -161,8 +161,8 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
   ), (
     <>
       <p style={{marginTop: '24px'}}>
-        <strong>Send ERC-2O tokens</strong><br />
-        Send your ERC-20 DOCK tokens to the Dock Vault. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial" target="_blank">See how it works</a><br />
+        <strong>Send you Dock ERC-2O tokens to the Vault.</strong><br />
+        The Vault has address <span style="color: #01498b;">0x0cf75f808479c9e7d61c78f65e997b605160b0aa</span>. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial" target="_blank">See how it works</a><br />
         Once sent, copy the transaction hash and paste below.
       </p>
       <p style={{marginTop: '24px'}}>
@@ -189,7 +189,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           <p style={{marginLeft: '10px'}}>
             {t<string>(`Opt-in for vesting bonus (Optional)`)}<br />
             <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
-              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://docs.dock.io/migration-support" target="_blank">here</a>.
+              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://blog.dock.io/dock-token-migration-part-2-incentives/" target="_blank">here</a>.
             </span>
           </p>
         </div>
@@ -198,10 +198,10 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       <div style={{backgroundColor: '#FAFAFA', border: '1px solid #ECEBED', padding: '20px', marginTop: '10px'}}>
         <p>
           <strong>Generate signature</strong><br />
-          Use this code to sign your transaction using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature. <a href="https://docs.dock.io/migration-support">See how it works</a>
+          Sign this unique code using MyCrypto or a similar tool with your Ethereum private key in order to give your consent to migrate. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial">See how it works</a>
         </p>
         <Input
-          help={t<string>('Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.')}
+          help={t<string>('Take this unique code and sign it using MyCrypto or a similar tool with your Ethereum private key in order to generate a signature.')}
           label={t<string>('Code to sign')}
           value={base58Check}
           disabled
