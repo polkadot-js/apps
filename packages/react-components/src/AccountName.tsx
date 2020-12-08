@@ -118,12 +118,12 @@ function extractIdentity (address: string, identity: DeriveAccountRegistration):
       : identity.displayParent.replace(/[^\x20-\x7E]/g, '')
   );
   const elem = createIdElem(
-    <span className={`name${isGood ? ' isGood' : ''}`}>
+    <span className={`name${isGood && !isBad ? ' isGood' : ''}`}>
       <span className='top'>{displayParent || displayName}</span>
       {displayParent && <span className='sub'>{`/${displayName || ''}`}</span>}
     </span>,
-    isGood ? 'green' : (isBad ? 'red' : 'gray'),
-    identity.parent ? 'link' : (isGood ? 'check' : 'minus')
+    (isBad ? 'red' : (isGood ? 'green' : 'gray')),
+    identity.parent ? 'link' : (isGood && !isBad ? 'check' : 'minus')
   );
 
   displayCache.set(address, elem);
