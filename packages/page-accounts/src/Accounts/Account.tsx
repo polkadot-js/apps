@@ -1,17 +1,19 @@
 // Copyright 2017-2020 @polkadot/app-accounts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import BN from 'bn.js';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import styled, { ThemeContext } from 'styled-components';
-
-import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { DeriveBalancesAll, DeriveDemocracyLock } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
 import type { ThemeDef } from '@polkadot/react-components/types';
 import type { Option } from '@polkadot/types';
 import type { ProxyDefinition, RecoveryConfig } from '@polkadot/types/interfaces';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
+import type { Delegation } from '../types';
+
+import BN from 'bn.js';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import styled, { ThemeContext } from 'styled-components';
+
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
 import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
@@ -19,7 +21,6 @@ import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hook
 import keyring from '@polkadot/ui-keyring';
 import { BN_ZERO, formatBalance, formatNumber } from '@polkadot/util';
 
-import type { Delegation } from '../types';
 import Backup from '../modals/Backup';
 import ChangePass from '../modals/ChangePass';
 import DelegateModal from '../modals/Delegate';

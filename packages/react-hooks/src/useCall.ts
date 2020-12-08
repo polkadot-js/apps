@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/react-hooks authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Codec } from '@polkadot/types/types';
+import type { CallOptions, CallParam, CallParams } from './types';
+
 import { useEffect, useRef, useState } from 'react';
 
-import type { Codec } from '@polkadot/types/types';
 import { isNull, isUndefined } from '@polkadot/util';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { CallOptions, CallParam, CallParams } from './types';
 import { MountedRef, useIsMountedRef } from './useIsMountedRef';
 
 type VoidFn = () => void;

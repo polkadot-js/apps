@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Route } from '@polkadot/apps-routing/types';
+
 import React, { Suspense, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import type { Route } from '@polkadot/apps-routing/types';
 import createRoutes from '@polkadot/apps-routing';
 import { ErrorBoundary, Spinner, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';

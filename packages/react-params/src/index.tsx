@@ -1,14 +1,15 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-
 import type { I18nProps } from '@polkadot/react-components/types';
 import type { Registry } from '@polkadot/types/types';
+import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
+
+import React from 'react';
+
 import { registry as defaultRegistry } from '@polkadot/react-api';
 import { ErrorBoundary } from '@polkadot/react-components';
 
-import type { ComponentMap, ParamDef, RawParam, RawParamOnChangeValue, RawParams } from './types';
 import Holder from './Holder';
 import ParamComp from './ParamComp';
 import translate from './translate';

@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-extrinsics authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-
 import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { Props } from '@polkadot/react-params/types';
+
+import React from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 
 import Extrinsic from './Extrinsic';

@@ -1,13 +1,14 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ThemeProps } from '@polkadot/react-components/types';
+import type { Group } from './types';
+
 import React from 'react';
 import styled from 'styled-components';
 
-import type { ThemeProps } from '@polkadot/react-components/types';
 import { Icon } from '@polkadot/react-components';
 
-import type { Group } from './types';
 import Item from './Item';
 
 interface Props extends Group {

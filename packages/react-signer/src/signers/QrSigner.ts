@@ -3,10 +3,10 @@
 
 import type { Signer, SignerResult } from '@polkadot/api/types';
 import type { SignerPayloadJSON } from '@polkadot/types/types';
+import type { QrState } from '../types';
+
 import { registry } from '@polkadot/react-api';
 import { blake2AsU8a } from '@polkadot/util-crypto';
-
-import type { QrState } from '../types';
 
 export default class QrSigner implements Signer {
   readonly #setState: (state: QrState) => void;

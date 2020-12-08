@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-council authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ComponentProps as Props } from './types';
+
 import React, { useState } from 'react';
 
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useModal } from '@polkadot/react-hooks';
 
-import type { ComponentProps as Props } from './types';
 import { useTranslation } from '../translate';
 
 function SubmitCandidacy ({ electionsInfo }: Props): React.ReactElement<Props> {

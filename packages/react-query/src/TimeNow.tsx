@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-query authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Moment } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 
-import type { Moment } from '@polkadot/types/interfaces';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Elapsed from './Elapsed';

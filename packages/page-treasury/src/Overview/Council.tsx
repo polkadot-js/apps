@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/app-treasury authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect, useRef, useState } from 'react';
-
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { ProposalIndex } from '@polkadot/types/interfaces';
+
+import React, { useEffect, useRef, useState } from 'react';
+
 import { getTreasuryProposalThreshold } from '@polkadot/apps-config';
 import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';

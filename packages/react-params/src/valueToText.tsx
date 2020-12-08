@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React from 'react';
-
 import type { Keys, ValidatorId } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
+
+import React from 'react';
+
 import { Option, Raw } from '@polkadot/types';
 import { isFunction, isNull, isUndefined, u8aToHex } from '@polkadot/util';
 

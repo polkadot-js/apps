@@ -1,11 +1,12 @@
 // Copyright 2019 @polkadot/app-generic-asset authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import { Button, Dropdown, InputAddress, InputBalance, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveHasIdentity } from '@polkadot/api-derive/types';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 function transformIdentity ([[validatorIds], hasIdentities]: [[string[]], DeriveHasIdentity[]]): Record<string, DeriveHasIdentity> {

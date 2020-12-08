@@ -1,17 +1,18 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
+import type { AmountValidateState, DestinationType } from '../types';
+import type { BondInfo } from './types';
+
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import type { AmountValidateState, DestinationType } from '../types';
-import type { BondInfo } from './types';
 import { useTranslation } from '../../translate';
 import InputValidateAmount from '../Account/InputValidateAmount';
 import InputValidationController from '../Account/InputValidationController';

@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 
-import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import type { RuntimeDispatchInfo } from '@polkadot/types/interfaces';
 import { Expander } from '@polkadot/react-components';
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatBalance, isFunction } from '@polkadot/util';

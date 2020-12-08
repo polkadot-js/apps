@@ -1,10 +1,11 @@
 // Copyright 2017-2020 @polkadot/react-signer authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useCallback, useContext } from 'react';
-
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
+
+import React, { useCallback, useContext } from 'react';
+
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 

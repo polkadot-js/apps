@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DoughnutProps } from './types';
+
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
 import { bnToBn } from '@polkadot/util';
 
-import type { DoughnutProps } from './types';
 import Base from './Base';
 
 interface Options {

@@ -1,16 +1,16 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { ApiPromise } from '@polkadot/api';
+import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
+import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
+
 import BN from 'bn.js';
 import { useMemo } from 'react';
 
-import type { ApiPromise } from '@polkadot/api';
-import type { DeriveSessionInfo, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
 import { registry } from '@polkadot/react-api';
 import { calcInflation, useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ONE, BN_ZERO } from '@polkadot/util';
-
-import type { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 interface LastEra {
   activeEra: BN;

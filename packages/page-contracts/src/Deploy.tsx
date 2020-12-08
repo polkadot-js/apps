@@ -1,12 +1,13 @@
 // Copyright 2017-2020 @polkadot/app-contracts authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SubmittableExtrinsic } from '@polkadot/api/types';
+import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
+import type { StringOrNull } from '@polkadot/react-components/types';
+
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { BlueprintSubmittableResult } from '@polkadot/api-contract/promise/types';
-import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { StringOrNull } from '@polkadot/react-components/types';
 import { BlueprintPromise } from '@polkadot/api-contract';
 import { Dropdown, Input, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useFormField, useNonEmptyString, useNonZeroBn } from '@polkadot/react-hooks';

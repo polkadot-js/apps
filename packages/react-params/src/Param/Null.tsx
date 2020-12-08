@@ -1,9 +1,9 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useEffect } from 'react';
-
 import type { Props } from '../types';
+
+import React, { useEffect } from 'react';
 
 function Null ({ onChange }: Props): React.ReactElement<Props> | null {
   useEffect((): void => {

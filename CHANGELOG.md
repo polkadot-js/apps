@@ -4,12 +4,13 @@
 
 Contributed:
 
+- Add first area around bounties, the existing display (Thanks to https://github.com/krzysztof-jelski)
+- Adjust import ordering with plugin (Thanks to https://github.com/ekowalsk)
 - Add Polkadot/Kusama endpoints via PatractLabs (Thanks to https://github.com/toxotguo)
 - Add types for Bitfrost testnet (Thaks to https://github.com/janpo)
 - Adjust Crust network types & logo (Thanks to https://github.com/zikunfan)
 - Adjust types for Phala poc-3 (Thanks to https://github.com/LusWar)
 - Move to typesBundle for Moonbeam (Thanks to https://github.com/joelamouche)
-- Adjust import ordering with plugin (Thanks to https://github.com/ekowalsk)
 
 Changes:
 

@@ -3,12 +3,13 @@
 
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
+import type { CallState } from '../types';
+import type { DefaultProps, HOC, Options, RenderFn } from './types';
+
 import React from 'react';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import type { CallState } from '../types';
-import type { DefaultProps, HOC, Options, RenderFn } from './types';
 import echoTransform from '../transform/echo';
 import { intervalObservable, isEqual, triggerChange } from '../util';
 
