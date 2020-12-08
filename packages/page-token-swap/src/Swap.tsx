@@ -215,7 +215,11 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
 
       <p>
         <strong>Signature</strong><br />
-        Add the signature generated from signing the above code
+        Sign the above code. Copy the signature and paste below.<br />
+        <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
+          Note that the signature is a hexadecimal sequence of characters. When using MyCrypto, you should not copy the
+          whole JSON object in the Signature box, but only the value of “sig” field.
+        </span>
       </p>
 
       <Input
