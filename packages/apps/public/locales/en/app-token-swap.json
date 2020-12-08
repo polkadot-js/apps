@@ -19,6 +19,7 @@
   "Take the base 58 string above, sign it and enter it here.": "Take the base 58 string above, sign it and enter it here.",
   "Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.": "Take this base58 string and sign it using MyCrypto or a similar tool using your ethereum keypair in order to generate a signature.",
   "Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.": "Take this unique code and sign it using MyCrypto or a similar tool using your Ethereum keypair in order to generate a signature.",
+  "Take this unique code and sign it using MyCrypto or a similar tool with your Ethereum private key in order to generate a signature.": "Take this unique code and sign it using MyCrypto or a similar tool with your Ethereum private key in order to generate a signature.",
   "The Ethereum address that you sent your tokens from": "The Ethereum address that you sent your tokens from",
   "The Ethereum transaction hash in which you sent tokens to the Vault.": "The Ethereum transaction hash in which you sent tokens to the Vault.",
   "Transaction hash": "Transaction hash",
