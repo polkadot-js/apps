@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/react-query",
-  "version": "0.70.2-3",
+  "version": "0.70.2-4",
   "description": "A collection of RxJs React components the Polkadot JS API",
   "main": "index.js",
   "keywords": [
