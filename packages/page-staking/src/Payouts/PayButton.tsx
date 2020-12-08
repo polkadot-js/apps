@@ -94,9 +94,9 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
               .sub(api.consts.system.blockWeights.perClass.normal.baseExtrinsic)
               .div(info.weight)
               .toNumber()
-            // 65% of the block weight on a single extrinsic (64 for safety)
             : (api.consts.system.maximumBlockWeight as Weight)
-              .muln(64)
+              .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
+              .div(info.weight)
               .toNumber() / 100
         )))
         .catch(console.error);
