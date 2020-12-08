@@ -1,5 +1,6 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
+
 import type { Observable } from 'rxjs';
 import { combineLatest, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
