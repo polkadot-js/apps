@@ -10,11 +10,11 @@ import keyring from '@polkadot/ui-keyring';
 import axios from 'axios';
 
 import { useTranslation } from './translate';
+import { migrationApiUrl, removePrefixFromHex } from './index';
 
 interface Props {
   title: string,
 }
-const apiUrl = 'http://localhost:8080';
 const useBonusCheckbox = true;
 
 function SwapForm ({ title = 'Token migration request' }: Props): React.ReactElement<Props> {
@@ -56,13 +56,8 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
       return;
     }
 
-    // TODO: Add a function to remove prefix from hex strings
-
     // Trim 0x from hash incase
-    let txnHash = txHash;
-    if (txnHash.substr(0, 2) === '0x') {
-      txnHash = txnHash.substr(2);
-    }
+    let txnHash = removePrefixFromHex(txHash);
 
     // Build payload
     try {
@@ -87,14 +82,11 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     setError('');
 
     // Trim 0x from signature incase
-    let sigWithoutPrefix = signature;
-    if (signature.substr(0, 2) === '0x') {
-      sigWithoutPrefix = signature.substr(2);
-    }
+    let sigWithoutPrefix = removePrefixFromHex(signature);
 
     const signatureb58 = bs58.encode(Buffer.from(sigWithoutPrefix, 'hex'));
     try {
-      const res = await axios.post(`${apiUrl}/` + (useBonusCheckbox ? `migrate_with_bonus` : `migrate`), {
+      const res = await axios.post(`${migrationApiUrl}/` + (useBonusCheckbox ? `migrate_with_bonus` : `migrate`), {
         payload: base58Check,
         signature: signatureb58,
       });
@@ -202,7 +194,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           </p>
         </div>
       )}
-      
+
       <div style={{backgroundColor: '#FAFAFA', border: '1px solid #ECEBED', padding: '20px', marginTop: '10px'}}>
         <p>
           <strong>Generate signature</strong><br />
@@ -246,7 +238,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
 
       <br />
 
-      
+
     </>
   )];
 

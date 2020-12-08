@@ -61,4 +61,15 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
     <Status />
   </Column>
 </Columar>
+
 export default React.memo(TokenSwapApp);
+
+export const migrationApiUrl = 'http://localhost:8080';
+
+// Remove prefix '0x' from a hex string if present. Doesn't check if string is hex or not
+export function removePrefixFromHex(string) {
+  if (string.startsWith('0x')) {
+    return string.slice(2);
+  }
+  return string;
+}

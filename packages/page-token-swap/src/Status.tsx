@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';
-const apiUrl = 'http://localhost:8080';
+import { migrationApiUrl, removePrefixFromHex } from './index';
 
 interface Props {
   title: string,
@@ -38,19 +38,13 @@ function StatusForm ({ title = 'Check token migration status' }: Props): React.R
     setError('');
 
     // Trim 0x from hash incase
-    let txnHash = txHash;
-    if (txnHash.substr(0, 2) === '0x') {
-      txnHash = txnHash.substr(2);
-    }
+    let txnHash = removePrefixFromHex(txHash);
 
     // Trim 0x from address incase
-    let addr = address;
-    if (address.substr(0, 2) === '0x') {
-      addr = address.substr(2);
-    }
+    let addr = removePrefixFromHex(address);
 
     try {
-      const res = await axios.post(`${apiUrl}/status`, {
+      const res = await axios.post(`${migrationApiUrl}/status`, {
         address: addr,
         txnHash,
       });
@@ -114,7 +108,7 @@ function StatusForm ({ title = 'Check token migration status' }: Props): React.R
           <div>
             {status ? (
               <p>
-                Status: {status}
+                <b>STATUS:</b> {status}
               </p>
             ) : (
               <p style={{color: '#d82323'}}>
