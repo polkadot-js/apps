@@ -2,9 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Observable } from 'rxjs';
-import { combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-
 import type { ApiInterfaceRx } from '@polkadot/api/types';
 import type { Enum, Struct } from '@polkadot/types';
 import type { Option } from '@polkadot/types/codec';
@@ -15,6 +12,10 @@ import type { AccountId,
   Balance,
   BlockNumber,
   Index } from '@polkadot/types/interfaces';
+
+import { combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
 import { memo } from '@polkadot/api-derive/util/memo';
 
 interface VestingInfo extends Struct {

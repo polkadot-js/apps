@@ -124,8 +124,8 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   registry.register(types);
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format = uiSettings.prefix === -1
-      ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
-      : uiSettings.prefix;
+    ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
+    : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
   const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
   const isEthereum = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
