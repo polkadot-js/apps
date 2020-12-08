@@ -99,6 +99,10 @@ export default {
     locked_reward: 'Option<Balance>',
     unlocked_reward: 'Option<Balance>'
   },
+  Bonus: {
+    swap_bonuses: 'Vec<(Balance, BlockNumber)>',
+    vesting_bonuses: 'Vec<(Balance, Balance, BlockNumber)>'
+  },
   Payload: {
     proposal: 'Vec<u8>',
     round_no: 'u64'
