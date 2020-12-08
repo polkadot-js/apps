@@ -89,11 +89,15 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         .payoutStakers(validatorId, eras[0].era)
         .paymentInfo(allAccounts[0])
         .then((info) => setMaxPayouts(Math.floor(
-          (api.consts.system.blockWeights
+          api.consts.system.blockWeights
             ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic
+              .sub(api.consts.system.blockWeights.perClass.normal.baseExtrinsic)
+              .div(info.weight)
+              .toNumber()
             // 65% of the block weight on a single extrinsic (64 for safety)
-            : (api.consts.system.maximumBlockWeight as Weight).muln(64)
-          ).div(info.weight).toNumber() / 100
+            : (api.consts.system.maximumBlockWeight as Weight)
+              .muln(64)
+              .toNumber() / 100
         )))
         .catch(console.error);
     } else {
