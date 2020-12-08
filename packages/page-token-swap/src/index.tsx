@@ -2,6 +2,7 @@ import { AppProps as Props } from '@polkadot/react-components/types';
 import { Columar, Column } from '@polkadot/react-components';
 import Tabs from '@polkadot/react-components/Tabs';
 import { Route, Switch } from 'react-router';
+import styled from 'styled-components';
 
 import React, { useContext, useRef } from 'react';
 
@@ -53,16 +54,12 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
   );
 }
 
-<Columar>
-  <Column>
-    <Swap />
-  </Column>
-  <Column>
-    <Status />
-  </Column>
-</Columar>
-
-export default React.memo(TokenSwapApp);
+export default React.memo(styled(TokenSwapApp)`
+  .copyMoved {
+    position: absolute;
+    top: 0.5rem;
+  }
+`);
 
 export const migrationApiUrl = 'https://migration-api.dock.io';
 

@@ -4,7 +4,7 @@ import { Buffer } from 'safe-buffer';
 import Stepper from 'react-stepper-horizontal';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton, Checkbox } from '@polkadot/react-components';
+import { Table, Button, InputAddress, Modal, Password, Input, Extrinsic, TxButton, Checkbox, CopyButton } from '@polkadot/react-components';
 import { KeyringPair } from '@polkadot/keyring/types';
 import keyring from '@polkadot/ui-keyring';
 import axios from 'axios';
@@ -206,7 +206,9 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
           value={base58Check}
           disabled
           isFull
-        />
+        >
+          <CopyButton type="other" className="copyMoved" value={base58Check} />
+        </Input>
       </div>
 
       <br />
