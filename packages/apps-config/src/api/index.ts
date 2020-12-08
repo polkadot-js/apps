@@ -6,6 +6,7 @@ import typesSpec from './spec';
 
 export { default as typesBundle } from './bundle';
 export * from './constants';
+export { default as derivesSpec } from './derive';
 export * from './params';
 export { default as typesRpc } from './rpc';
 
