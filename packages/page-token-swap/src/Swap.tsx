@@ -161,7 +161,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
   ), (
     <>
       <p style={{marginTop: '24px'}}>
-        <strong>Send you Dock ERC-2O tokens to the Vault.</strong><br />
+        <strong>Send your Dock ERC-2O tokens to the Vault.</strong><br />
         The Vault's address is <span style={{color: '#01498b'}}>0x0cf75f808479c9e7d61c78f65e997b605160b0aa</span>. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial" target="_blank">See how it works</a><br />
         Once sent, copy the transaction hash and paste below.
       </p>
