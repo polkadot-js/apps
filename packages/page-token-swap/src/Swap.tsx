@@ -162,7 +162,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     <>
       <p style={{marginTop: '24px'}}>
         <strong>Send you Dock ERC-2O tokens to the Vault.</strong><br />
-        The Vault has address <span style={{color: '#01498b'}}>0x0cf75f808479c9e7d61c78f65e997b605160b0aa</span>. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial" target="_blank">See how it works</a><br />
+        The Vault's address is <span style={{color: '#01498b'}}>0x0cf75f808479c9e7d61c78f65e997b605160b0aa</span>. <a href="https://docs.dock.io/token-migration/migration-tutorial/migration-tutorial" target="_blank">See how it works</a><br />
         Once sent, copy the transaction hash and paste below.
       </p>
       <p style={{marginTop: '24px'}}>
@@ -187,7 +187,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
             value={isSelected}
           />
           <p style={{marginLeft: '10px'}}>
-            {t<string>(`Opt-in for vesting bonus (Optional)`)}<br />
+            <strong style={{color: 'rgb(80, 150, 255)'}}>{t<string>(`Opt-in for vesting bonus (Optional)`)}</strong><br />
             <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
               By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://blog.dock.io/dock-token-migration-part-2-incentives/" target="_blank">here</a>.
             </span>
@@ -274,7 +274,7 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
                 </p>
                 <p>
                   Your token migration request is being processed<br /><br />
-                  Check the status of your request <a href="/#/token-swap/status" onClick={handleResetState}>here</a>.
+                  Check the status of your request <a href="/#/token-migration/status" onClick={handleResetState}>here</a>.
                 </p>
               </div>
               <div style={{float: 'right'}}>

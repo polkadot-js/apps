@@ -45,7 +45,7 @@ function TokenSwapApp ({ basePath }: Props): React.ReactElement<Props> {
           <div>
             <a href="https://docs.dock.io/token-migration/migration-tutorial" target="_blank">Get help</a>
             {' '}
-            <a href="/#/token-swap/status" style={{marginLeft: '20px'}}>Check request status</a>
+            <a href="/#/token-migration/status" style={{marginLeft: '20px'}}>Check request status</a>
           </div>
         </Column>
       </Columar>

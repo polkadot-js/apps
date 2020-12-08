@@ -15,7 +15,7 @@ export default function create (t: <T = string> (key: string, text: string, opti
     },
     group: 'network',
     icon: 'sync',
-    name: 'token-swap',
-    text: t<string>('nav.token-swap', 'Token Migration', { ns: 'apps-routing' })
+    name: 'token-migration',
+    text: t<string>('nav.token-migration', 'Token Migration', { ns: 'apps-routing' })
   };
 }
