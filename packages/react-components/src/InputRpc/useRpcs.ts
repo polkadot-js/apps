@@ -1,8 +1,6 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// TODO: We have a lot shared between this and InputExtrinsic & InputStorage
-
 import type { DefinitionRpcExt } from '@polkadot/types/types';
 
 import { useMemo } from 'react';
