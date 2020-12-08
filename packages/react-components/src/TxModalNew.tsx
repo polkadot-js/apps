@@ -11,28 +11,7 @@ import { isUndefined } from '@polkadot/util';
 
 import translate from './translate';
 
-function TxModal<P extends Props> ({
-  t,
-  accountId,
-  onChangeAccountId,
-  sendTx,
-  isSending,
-  trigger: Trigger,
-  header = t<string>('Submit signed extrinsic'),
-  children,
-  preContent,
-  isDisabled = false,
-  isSubmittable = true,
-  modalProps = {},
-  inputAddressExtra,
-  inputAddressLabel = t<string>('using my account'),
-  inputAddressHelp = t<string>('Select the account to use for this action.'),
-  inputAddressProps = {},
-  submitButtonIcon = 'sign-in-alt',
-  submitButtonLabel = t<string>('Submit'),
-  submitButtonProps = {},
-  ...props
-}: P): React.ReactElement<P> | null {
+function TxModal<P extends Props> ({ t, accountId, onChangeAccountId, sendTx, isSending, trigger: Trigger, header = t<string>('Submit signed extrinsic'), children, preContent, isDisabled = false, isSubmittable = true, modalProps = {}, inputAddressExtra, inputAddressLabel = t<string>('using my account'), inputAddressHelp = t<string>('Select the account to use for this action.'), inputAddressProps = {}, submitButtonIcon = 'sign-in-alt', submitButtonLabel = t<string>('Submit'), submitButtonProps = {}, ...props }: P): React.ReactElement<P> | null {
   const isControlled = !isUndefined(props.isOpen);
   const [isOpen, setIsOpen] = useState(isControlled ? props.isOpen : false);
 
@@ -52,33 +31,6 @@ function TxModal<P extends Props> ({
     sendTx();
     onClose();
   };
-
-  // const onStart = (): void => {
-  //   props.onSubmit && props.onSubmit();
-  // };
-
-  // const onFailed = (): void => {
-  //   props.onFailed && props.onFailed();
-  // };
-
-  // const onSuccess = (): void => {
-  //   !isControlled && setIsOpen(false);
-
-  //   props.onSuccess && props.onSuccess();
-  // };
-
-  // const txState = useTx(
-  //   txSource,
-  //   {
-  //     ...(props.accountId ? { accountId: props.accountId } : {}),
-  //     onChangeAccountId: props.onChangeAccountId,
-  //     onStart,
-  //     onFailed,
-  //     onSuccess
-  //   }
-  // );
-
-  // const { accountId, onChangeAccountId, isSending, sendTx } = th
 
   useEffect((): void => {
     !isUndefined(props.isOpen) && setIsOpen(props.isOpen);
