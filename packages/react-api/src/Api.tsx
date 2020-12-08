@@ -11,14 +11,7 @@ import store from 'store';
 
 import { ApiPromise } from '@polkadot/api/promise';
 import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
-import { derivesSpec,
-  ethereumNetworks,
-  POLKADOT_DENOM_BLOCK,
-  POLKADOT_GENESIS,
-  typesBundle,
-  typesChain,
-  typesRpc,
-  typesSpec } from '@polkadot/apps-config';
+import { derivesSpec, ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesRpc, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
 import { StatusContext } from '@polkadot/react-components/Status';
@@ -75,10 +68,7 @@ function isKeyringLoaded () {
 }
 
 function getDevTypes (): Record<string, Record<string, string>> {
-  const types = store.get('types', {}) as Record<
-  string,
-  Record<string, string>
-  >;
+  const types = store.get('types', {}) as Record<string, Record<string, string>>;
   const names = Object.keys(types);
 
   names.length && console.log('Injected types:', names.join(', '));
@@ -86,19 +76,8 @@ function getDevTypes (): Record<string, Record<string, string>> {
   return types;
 }
 
-async function retrieve (
-  api: ApiPromise,
-  injectedPromise: Promise<InjectedExtension[]>
-): Promise<ChainData> {
-  const [
-    bestHeader,
-    chainProperties,
-    systemChain,
-    systemChainType,
-    systemName,
-    systemVersion,
-    injectedAccounts
-  ] = await Promise.all([
+async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>): Promise<ChainData> {
+  const [bestHeader, chainProperties, systemChain, systemChainType, systemName, systemVersion, injectedAccounts] = await Promise.all([
     api.rpc.chain.getHeader(),
     api.rpc.system.properties(),
     api.rpc.system.chain(),
@@ -109,15 +88,11 @@ async function retrieve (
     api.rpc.system.version(),
     injectedPromise
       .then(() => web3Accounts())
-      .then((accounts) =>
-        accounts.map(
-          ({ address, meta }, whenCreated): InjectedAccountExt => ({
+      .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
             address,
             meta: {
               ...meta,
-              name: `${meta.name || 'unknown'} (${
-                meta.source === 'polkadot-js' ? 'extension' : meta.source
-              })`,
+              name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
               whenCreated
             }
           })
@@ -133,16 +108,8 @@ async function retrieve (
   // HACK Horrible hack to try and give some window to the DOT denomination
   const properties = api.genesisHash.eq(POLKADOT_GENESIS)
     ? bestHeader.number.toBn().gte(POLKADOT_DENOM_BLOCK)
-      ? registry.createType('ChainProperties', {
-        ...chainProperties,
-        tokenDecimals: 10,
-        tokenSymbol: 'DOT'
-      })
-      : registry.createType('ChainProperties', {
-        ...chainProperties,
-        tokenDecimals: 12,
-        tokenSymbol: 'DOT (old)'
-      })
+      ? registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 10, tokenSymbol: 'DOT' })
+      : registry.createType('ChainProperties', { ...chainProperties, tokenDecimals: 12, tokenSymbol: 'DOT (old)' })
     : chainProperties;
 
   return {
@@ -155,52 +122,22 @@ async function retrieve (
   };
 }
 
-async function loadOnReady (
-  api: ApiPromise,
-  injectedPromise: Promise<InjectedExtension[]>,
-  store: KeyringStore | undefined,
-  types: Record<string, Record<string, string>>
-): Promise<ApiState> {
+async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
-  const {
-    injectedAccounts,
-    properties,
-    systemChain,
-    systemChainType,
-    systemName,
-    systemVersion
-  } = await retrieve(api, injectedPromise);
+  const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
   const ss58Format =
     uiSettings.prefix === -1
       ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
       : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
-  const tokenDecimals = properties.tokenDecimals
-    .unwrapOr(DEFAULT_DECIMALS)
-    .toNumber();
-  const isEthereum = ethereumNetworks.includes(
-    api.runtimeVersion.specName.toString()
-  );
-  const isDevelopment =
-    !isEthereum &&
-    (systemChainType.isDevelopment ||
-      systemChainType.isLocal ||
-      isTestChain(systemChain));
+  const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber();
+  const isEthereum = ethereumNetworks.includes(api.runtimeVersion.specName.toString());
+  const isDevelopment = !isEthereum && (systemChainType.isDevelopment || systemChainType.isLocal || isTestChain(systemChain));
 
-  console.log(
-    `chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(
-      properties
-    )}`
-  );
+  console.log(`chain: ${systemChain} (${systemChainType.toString()}), ${JSON.stringify(properties)}`);
 
   // explicitly override the ss58Format as specified
-  registry.setChainProperties(
-    registry.createType('ChainProperties', {
-      ss58Format,
-      tokenDecimals,
-      tokenSymbol
-    })
-  );
+  registry.setChainProperties(registry.createType('ChainProperties', { ss58Format, tokenDecimals, tokenSymbol }));
 
   // FIXME This should be removed (however we have some hanging bits, e.g. vanity)
   setSS58Format(ss58Format);
@@ -213,23 +150,18 @@ async function loadOnReady (
   TokenUnit.setAbbr(tokenSymbol);
 
   // finally load the keyring
-  isKeyringLoaded() ||
-    keyring.loadAll(
-      {
-        genesisHash: api.genesisHash,
-        isDevelopment,
-        ss58Format,
-        store,
-        type: isEthereum ? 'ethereum' : 'ed25519'
-      },
-      injectedAccounts
-    );
+  isKeyringLoaded() || keyring.loadAll({
+    genesisHash: api.genesisHash,
+    isDevelopment,
+    ss58Format,
+    store,
+    type: isEthereum ? 'ethereum' : 'ed25519'
+  }, injectedAccounts);
 
   const defaultSection = Object.keys(api.tx)[0];
   const defaultMethod = Object.keys(api.tx[defaultSection])[0];
   const apiDefaultTx = api.tx[defaultSection][defaultMethod];
-  const apiDefaultTxSudo =
-    (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
+  const apiDefaultTxSudo = (api.tx.system && api.tx.system.setCode) || apiDefaultTx;
   const isSubstrateV2 = !!Object.keys(api.consts).length;
 
   setDeriveCache(api.genesisHash.toHex(), deriveMapCache);
@@ -254,27 +186,14 @@ function Api ({
   url
 }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
-  const [state, setState] = useState<ApiState>(({
-    hasInjectedAccounts: false,
-    isApiReady: false
-  } as unknown) as ApiState);
+  const [state, setState] = useState<ApiState>(({ hasInjectedAccounts: false, isApiReady: false } as unknown) as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
   const [isApiInitialized, setIsApiInitialized] = useState(false);
   const [apiError, setApiError] = useState<null | string>(null);
-  const [extensions, setExtensions] = useState<
-  InjectedExtension[] | undefined
-  >();
+  const [extensions, setExtensions] = useState<InjectedExtension[] | undefined>();
 
   const value = useMemo<ApiProps>(
-    () => ({
-      ...state,
-      api,
-      apiError,
-      extensions,
-      isApiConnected,
-      isApiInitialized,
-      isWaitingInjected: !extensions
-    }),
+    () => ({ ...state, api, apiError, extensions, isApiConnected, isApiInitialized, isWaitingInjected: !extensions }),
     [apiError, extensions, isApiConnected, isApiInitialized, state]
   );
 
@@ -287,28 +206,9 @@ function Api ({
       const types = getDevTypes();
 
       if (specName) {
-        api = new ApiPromise({
-          derives: derivesSpec[specName],
-          provider,
-          registry,
-          rpc: typesRpc,
-          signer,
-          types,
-          typesBundle,
-          typesChain,
-          typesSpec
-        });
+        api = new ApiPromise({ derives: derivesSpec[specName], provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
       } else {
-        api = new ApiPromise({
-          provider,
-          registry,
-          rpc: typesRpc,
-          signer,
-          types,
-          typesBundle,
-          typesChain,
-          typesSpec
-        });
+        api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
       }
 
       api.on('connected', () => setIsApiConnected(true));
@@ -318,7 +218,6 @@ function Api ({
     };
 
     create(undefined, () => {
-      console.log(api.runtimeVersion.specName.toString(), 'SPEC');
       const specName = Object.keys(derivesSpec).find((specName) =>
         api.runtimeVersion.specName.eq(specName)
       ) as keyof typeof derivesSpec | undefined;
@@ -340,7 +239,7 @@ function Api ({
     });
 
     setIsApiInitialized(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!value.isApiInitialized) {
