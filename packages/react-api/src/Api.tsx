@@ -89,15 +89,13 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
     injectedPromise
       .then(() => web3Accounts())
       .then((accounts) => accounts.map(({ address, meta }, whenCreated): InjectedAccountExt => ({
-            address,
-            meta: {
-              ...meta,
-              name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
-              whenCreated
-            }
-          })
-        )
-      )
+        address,
+        meta: {
+          ...meta,
+          name: `${meta.name || 'unknown'} (${meta.source === 'polkadot-js' ? 'extension' : meta.source})`,
+          whenCreated
+        }
+      })))
       .catch((error): InjectedAccountExt[] => {
         console.error('web3Enable', error);
 
@@ -125,8 +123,7 @@ async function retrieve (api: ApiPromise, injectedPromise: Promise<InjectedExten
 async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedExtension[]>, store: KeyringStore | undefined, types: Record<string, Record<string, string>>): Promise<ApiState> {
   registry.register(types);
   const { injectedAccounts, properties, systemChain, systemChainType, systemName, systemVersion } = await retrieve(api, injectedPromise);
-  const ss58Format =
-    uiSettings.prefix === -1
+  const ss58Format = uiSettings.prefix === -1
       ? properties.ss58Format.unwrapOr(DEFAULT_SS58).toNumber()
       : uiSettings.prefix;
   const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.toString();
@@ -180,11 +177,7 @@ async function loadOnReady (api: ApiPromise, injectedPromise: Promise<InjectedEx
   };
 }
 
-function Api ({
-  children,
-  store,
-  url
-}: Props): React.ReactElement<Props> | null {
+function Api ({ children, store, url }: Props): React.ReactElement<Props> | null {
   const { queuePayload, queueSetTxStatus } = useContext(StatusContext);
   const [state, setState] = useState<ApiState>(({ hasInjectedAccounts: false, isApiReady: false } as unknown) as ApiState);
   const [isApiConnected, setIsApiConnected] = useState(false);
@@ -246,7 +239,11 @@ function Api ({
     return null;
   }
 
-  return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
+  return (
+    <ApiContext.Provider value={value}>
+      {children}
+    </ApiContext.Provider>
+  );
 }
 
 export default React.memo(Api);
