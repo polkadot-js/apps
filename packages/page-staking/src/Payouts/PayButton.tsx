@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
-import type { EraIndex } from '@polkadot/types/interfaces';
+import type { EraIndex, Weight } from '@polkadot/types/interfaces';
 import type { PayoutValidator } from './types';
 
 import React, { useEffect, useState } from 'react';
@@ -89,8 +89,15 @@ function PayButton ({ className, isAll, isDisabled, payout }: Props): React.Reac
         .payoutStakers(validatorId, eras[0].era)
         .paymentInfo(allAccounts[0])
         .then((info) => setMaxPayouts(Math.floor(
-          // 65% of the block weight on a single extrinsic (64 for safety)
-          api.consts.system.maximumBlockWeight.muln(64).div(info.weight).toNumber() / 100
+          api.consts.system.blockWeights
+            ? api.consts.system.blockWeights.perClass.normal.maxExtrinsic
+              .sub(api.consts.system.blockWeights.perClass.normal.baseExtrinsic)
+              .div(info.weight)
+              .toNumber()
+            : (api.consts.system.maximumBlockWeight as Weight)
+              .muln(64) // 65% of the block weight on a single extrinsic (64 for safety)
+              .div(info.weight)
+              .toNumber() / 100
         )))
         .catch(console.error);
     } else {

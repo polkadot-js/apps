@@ -1,12 +1,15 @@
 // Copyright 2017-2020 @polkadot/apps-config authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { OverrideBundleDefinition } from '@polkadot/types/types';
+import type { OverrideBundleDefinition } from '@polkadot/types/types';
+
+import rpcGen from './moonbeam-rpc';
 
 // structs need to be in order
 /* eslint-disable sort-keys */
 
 export default {
+  rpc: rpcGen(),
   types: [
     {
       minmax: [0, undefined],
