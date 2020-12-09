@@ -157,6 +157,21 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
         value={address}
         isFull
       />
+
+      {useBonusCheckbox && (
+        <div style={{display: 'flex', marginTop: '20px'}}>
+          <Checkbox
+            onChange={_onSelect}
+            value={isSelected}
+          />
+          <p style={{marginLeft: '10px'}}>
+            <strong style={{color: 'rgb(80, 150, 255)'}}>{t<string>(`Opt-in for vesting bonus (Optional)`)}</strong><br />
+            <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
+              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://blog.dock.io/dock-token-migration-part-2-incentives/" target="_blank">here</a>.
+            </span>
+          </p>
+        </div>
+      )}
     </>
   ), (
     <>
@@ -180,21 +195,6 @@ function SwapForm ({ title = 'Token migration request' }: Props): React.ReactEle
     </>
   ), (
     <>
-      {useBonusCheckbox && (
-        <div style={{display: 'flex'}}>
-          <Checkbox
-            onChange={_onSelect}
-            value={isSelected}
-          />
-          <p style={{marginLeft: '10px'}}>
-            <strong style={{color: 'rgb(80, 150, 255)'}}>{t<string>(`Opt-in for vesting bonus (Optional)`)}</strong><br />
-            <span style={{fontSize: '13px', color: 'rgb(138, 138, 138)'}}>
-              By checking this box, I opt-in to participate in the vesting bonus and understand the terms of the vesting bonus, including the vesting schedule, which can be found <a href="https://blog.dock.io/dock-token-migration-part-2-incentives/" target="_blank">here</a>.
-            </span>
-          </p>
-        </div>
-      )}
-
       <div style={{backgroundColor: '#FAFAFA', border: '1px solid #ECEBED', padding: '20px', marginTop: '10px'}}>
         <p>
           <strong>Generate signature</strong><br />
