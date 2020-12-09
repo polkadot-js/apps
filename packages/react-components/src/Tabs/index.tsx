@@ -44,16 +44,18 @@ function Tabs ({ basePath, className = '', hidden, isSequence, items }: Props): 
 
   return (
     <div className={`ui--Tabs ${className}`}>
-      {filtered.map((tab, index) => (
-        <Tab
-          {...tab}
-          basePath={basePath}
-          index={index}
-          isSequence={isSequence}
-          key={tab.name}
-          num={filtered.length}
-        />
-      ))}
+      <div className='tabs-container'>
+        {filtered.map((tab, index) => (
+          <Tab
+            {...tab}
+            basePath={basePath}
+            index={index}
+            isSequence={isSequence}
+            key={tab.name}
+            num={filtered.length}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -62,11 +64,17 @@ export default React.memo(styled(Tabs)(({ theme }: ThemeProps) => `
   align-items: flex-end;
   background: ${theme.bgTabs};
   border-bottom: 1px solid ${theme.borderTabs};
-  display: flex;
-  margin: 0 -1.5rem;
-  padding: 1.5rem 1.5rem 0;
+
   text-align: left;
   z-index: 1;
+  
+  & .tabs-container {
+    max-width: ${theme.contentMaxWidth};
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    padding: 1.5rem 1.5rem 0;
+  }
 
   &::-webkit-scrollbar {
     display: none;
