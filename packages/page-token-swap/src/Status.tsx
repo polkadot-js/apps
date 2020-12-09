@@ -9,17 +9,6 @@ interface Props {
   title: string,
 }
 
-const statusMap = {
-  '-2': 'Sender address was blacklisted',
-  '-1': 'Invalid due to any reason, like txn was not for Dock\'s contract or was not for Dock\'s vault address',
-  '0': 'Signature valid but transaction not parsed to find out how many tokens to transfer.',
-  '1': 'Migration request is in progress and pending sufficient confirmations.',
-  '2': 'Sufficient confirmations',
-  '3': 'Initial transfer done',
-  '4': 'Bonus has been calculated but not yet sent.',
-  '5': 'Bonus sent',
-};
-
 function StatusForm ({ title = 'Check token migration status' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const headerRef = useRef([
@@ -49,8 +38,7 @@ function StatusForm ({ title = 'Check token migration status' }: Props): React.R
         txnHash,
       });
       if (!res.data.error) {
-        const status = res.data.status;
-        setStatus(statusMap[status]);
+        setStatus(res.data.details);
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
@@ -107,9 +95,19 @@ function StatusForm ({ title = 'Check token migration status' }: Props): React.R
 
           <div>
             {status ? (
-              <p>
-                <b>STATUS:</b> {status}
-              </p>
+              status.status > -1 ? (
+                <p style={{color: '#128de8'}}>
+                  {status.messages.map((msg, i) => {
+                    return <span key={i}>{msg}<br/></span>;
+                  })}
+                </p>
+              ) : (
+                <p style={{color: 'red'}}>
+                  {status.messages.map((msg, i) => {
+                    return <span key={i}>{msg}<br/></span>;
+                  })}
+                </p>
+              )
             ) : (
               <p style={{color: '#d82323'}}>
                 {error}
