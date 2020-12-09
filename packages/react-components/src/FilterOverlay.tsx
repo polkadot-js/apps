@@ -30,7 +30,7 @@ export default React.memo(styled(FilterOverlay)`
     display: flex;
     justify-content: flex-end;
     position: absolute;
-    right: 1.5rem;
+    right: calc(50% - 875px + 1.5rem);
     top: 0.525rem;
 
     > div {
@@ -43,6 +43,9 @@ export default React.memo(styled(FilterOverlay)`
 
     .ui.selection.dropdown {
       white-space: nowrap;
+    }
+    @media (max-width: 1750px) {
+      right: 1.5rem;
     }
   `}
 `);

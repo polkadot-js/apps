@@ -98,9 +98,11 @@ export default React.memo(styled(Content)`
   .connecting {
     padding: 3.5rem 0;
   }
-  & main > *:not(header) {
+
+  & main > *:not(header):not(.ui--FilterOverlay) {
     max-width: 1750px;
     margin: 0 auto;
     width: 100%;
+    padding: 0 1.5rem;
   }
 `);
