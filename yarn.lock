@@ -2000,7 +2000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^2.10.2-7":
+"@polkadot/api@npm:^2.10.2-3":
   version: 2.10.2-7
   resolution: "@polkadot/api@npm:2.10.2-7"
   dependencies:

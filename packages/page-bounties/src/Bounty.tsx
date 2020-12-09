@@ -44,7 +44,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
     <>
       <tr className={className}>
         <td>{bountyStatus}</td>
-        <td>{description.description}</td>
+        <td>{description}</td>
         <td className='column-with-label'/>
         <td><FormatBalance value={value} /></td>
         <td className='column-with-label'/>

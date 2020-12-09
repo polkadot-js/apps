@@ -12,7 +12,7 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^2.10.2-7",
+    "@polkadot/api": "^2.10.2-3",
     "@polkadot/api-contract": "^2.10.2-7",
     "@polkadot/keyring": "^4.2.1",
     "@polkadot/networks": "^4.2.1",
