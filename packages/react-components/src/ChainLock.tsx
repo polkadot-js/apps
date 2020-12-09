@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { useApi } from '@polkadot/react-hooks';
-import chains from '@polkadot/ui-settings/defaults/chains';
+import { chains } from '@polkadot/ui-settings/defaults/chains';
 
 import Toggle from './Toggle';
 import { useTranslation } from './translate';

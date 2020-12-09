@@ -12,11 +12,11 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^2.10.2-4",
-    "@polkadot/api-contract": "^2.10.2-4",
+    "@polkadot/api": "^2.10.2-7",
+    "@polkadot/api-contract": "^2.10.2-7",
     "@polkadot/keyring": "^4.2.1",
     "@polkadot/networks": "^4.2.1",
-    "@polkadot/types": "^2.10.2-4",
+    "@polkadot/types": "^2.10.2-7",
     "@polkadot/util": "^4.2.1",
     "@polkadot/util-crypto": "^4.2.1",
     "@polkadot/wasm-crypto": "^2.0.1",
@@ -66,7 +66,7 @@
     "@babel/runtime": "^7.12.5",
     "@pinata/sdk": "^1.1.11",
     "@polkadot/dev": "^0.60.13",
-    "@polkadot/ts": "^0.3.57",
+    "@polkadot/ts": "^0.3.58",
     "@types/bn.js": "^4.11.6",
     "@types/chart.js": "^2.9.28",
     "@types/file-saver": "^2.0.1",
