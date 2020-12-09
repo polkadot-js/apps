@@ -13,7 +13,7 @@ const statusMap = {
   '-2': 'Sender address was blacklisted',
   '-1': 'Invalid due to any reason, like txn was not for Dock\'s contract or was not for Dock\'s vault address',
   '0': 'Signature valid but transaction not parsed to find out how many tokens to transfer.',
-  '1': 'Parsed and checked that was intended for Dock\'s contract and vault address but not sufficient confirmations',
+  '1': 'Migration request is in progress and pending sufficient confirmations.',
   '2': 'Sufficient confirmations',
   '3': 'Initial transfer done',
   '4': 'Bonus has been calculated but not yet sent.',
