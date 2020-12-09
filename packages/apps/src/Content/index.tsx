@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Route } from '@polkadot/apps-routing/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { Suspense, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -88,7 +89,7 @@ function Content ({ className }: Props): React.ReactElement<Props> {
   );
 }
 
-export default React.memo(styled(Content)`
+export default React.memo(styled(Content)(({ theme }: ThemeProps) => `
   flex-grow: 1;
   overflow: hidden auto;
   padding: 0 0 1rem 0;
@@ -100,9 +101,9 @@ export default React.memo(styled(Content)`
   }
 
   & main > *:not(header):not(.ui--FilterOverlay) {
-    max-width: 1750px;
+    max-width: ${theme.contentMaxWidth};
     margin: 0 auto;
     width: 100%;
     padding: 0 1.5rem;
   }
-`);
+`));

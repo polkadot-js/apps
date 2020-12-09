@@ -142,6 +142,8 @@ export interface ThemeDef {
   colorError: string;
   colorLabel: string;
   colorSummary: string;
+  contentHalfWidth: string;
+  contentMaxWidth: string;
   fontSans: string;
   fontMono: string;
   fontWeightLight: number;
