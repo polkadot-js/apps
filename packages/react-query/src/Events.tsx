@@ -4,6 +4,7 @@
 import type { IndexedEvent, KeyedEvent } from './types';
 
 import React, { useEffect, useState } from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 import { stringToU8a } from '@polkadot/util';
 import { xxhashAsHex } from '@polkadot/util-crypto';

@@ -4,6 +4,7 @@
 import type { Size } from '../types';
 
 import React from 'react';
+
 import { Labelled } from '@polkadot/react-components';
 
 import Bare from './Bare';

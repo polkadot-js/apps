@@ -5,6 +5,7 @@ import type { DeriveProposal } from '@polkadot/api-derive/types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { AddressMini, Button, Expander, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';

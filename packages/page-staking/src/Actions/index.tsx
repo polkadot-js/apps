@@ -6,6 +6,7 @@ import type { SortedTargets } from '../types';
 
 import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
+
 import { Button, Table, ToggleGroup } from '@polkadot/react-components';
 import { useAvailableSlashes } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';

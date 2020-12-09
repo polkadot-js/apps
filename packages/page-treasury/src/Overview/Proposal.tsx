@@ -4,6 +4,7 @@
 import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React, { useMemo } from 'react';
+
 import { AddressMini, AddressSmall, LinkExternal } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';

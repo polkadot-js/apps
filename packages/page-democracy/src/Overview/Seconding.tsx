@@ -6,6 +6,7 @@ import type { AccountId } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useState } from 'react';
+
 import { Button, InputAddress, Modal, ProposedAction, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useToggle } from '@polkadot/react-hooks';
 

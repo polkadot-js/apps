@@ -5,10 +5,10 @@ import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 import BN from 'bn.js';
 import React, { useMemo, useRef } from 'react';
-import { useApi, useFormField, useModal } from '@polkadot/react-hooks';
-import { BN_THOUSAND, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { Button, Dropdown, InputFile, InputNumber, InputWasm, Modal, TxButton } from '@polkadot/react-components';
+import { useApi, useFormField, useModal } from '@polkadot/react-hooks';
+import { BN_THOUSAND, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 

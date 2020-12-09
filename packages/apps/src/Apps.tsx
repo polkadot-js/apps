@@ -5,6 +5,7 @@ import type { BareProps as Props, ThemeDef, ThemeProps } from '@polkadot/react-c
 
 import React, { useContext, useMemo } from 'react';
 import styled, { ThemeContext } from 'styled-components';
+
 import AccountSidebar from '@polkadot/app-accounts/Sidebar';
 import { getSystemChainColor } from '@polkadot/apps-config';
 import GlobalStyle from '@polkadot/react-components/styles';

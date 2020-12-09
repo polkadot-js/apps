@@ -4,6 +4,7 @@
 import type { VoidFn } from '@polkadot/react-components/types';
 
 import React from 'react';
+
 import { Input } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

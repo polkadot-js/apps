@@ -5,16 +5,17 @@ import type { ThemeDef } from '@polkadot/react-components/types';
 import type { KeyringStore } from '@polkadot/ui-keyring/types';
 
 import React, { Suspense, useEffect, useState } from 'react';
-import { ThemeProvider } from 'styled-components';
 import { HashRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+
 import { Api } from '@polkadot/react-api';
 import Queue from '@polkadot/react-components/Status/Queue';
 import { BlockAuthors, Events } from '@polkadot/react-query';
 import settings from '@polkadot/ui-settings';
 
 import Apps from './Apps';
-import WindowDimensions from './WindowDimensions';
 import { darkTheme, lightTheme } from './themes';
+import WindowDimensions from './WindowDimensions';
 
 interface Props {
   store?: KeyringStore;

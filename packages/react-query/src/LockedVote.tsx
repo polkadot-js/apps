@@ -5,6 +5,7 @@ import type { DeriveCouncilVote } from '@polkadot/api-derive/types';
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import FormatBalance from './FormatBalance';

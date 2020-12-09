@@ -4,6 +4,7 @@
 import type { Bid } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
+
 import { AddressSmall, TxButton } from '@polkadot/react-components';
 import { useAccounts } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';

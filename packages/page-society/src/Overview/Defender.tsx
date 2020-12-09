@@ -6,6 +6,7 @@ import type { SocietyVote } from '@polkadot/types/interfaces';
 import type { VoteType } from '../types';
 
 import React, { useRef } from 'react';
+
 import { AddressSmall, Table } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

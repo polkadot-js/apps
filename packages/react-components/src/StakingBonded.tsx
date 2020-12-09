@@ -4,6 +4,7 @@
 import type { DeriveStakingAccount } from '@polkadot/api-derive/types';
 
 import React from 'react';
+
 import { FormatBalance } from '@polkadot/react-query';
 
 interface Props {

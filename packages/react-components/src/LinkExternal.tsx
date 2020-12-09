@@ -6,6 +6,7 @@ import type { LinkTypes } from '@polkadot/apps-config/links/types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
 import { externalLinks } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 

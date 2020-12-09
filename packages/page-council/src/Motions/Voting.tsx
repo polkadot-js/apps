@@ -4,6 +4,7 @@
 import type { AccountId, Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React, { useState } from 'react';
+
 import { Button, Modal, ProposedAction, TxButton, VoteAccount } from '@polkadot/react-components';
 import { useAccounts, useToggle } from '@polkadot/react-hooks';
 

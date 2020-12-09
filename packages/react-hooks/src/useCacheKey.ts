@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useCallback, useMemo } from 'react';
-
 import store from 'store';
+
 import { useApi } from './useApi';
 
 // create a chain-specific key for the local cache

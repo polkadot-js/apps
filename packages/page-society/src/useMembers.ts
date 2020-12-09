@@ -5,6 +5,7 @@ import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
 import type { OwnMembers } from './types';
 
 import { useEffect, useState } from 'react';
+
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 function transform (allAccounts: string[], members: DeriveSocietyMember[]): OwnMembers {

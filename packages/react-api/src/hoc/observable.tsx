@@ -4,7 +4,7 @@
 // TODO: Lots of duplicated code between this and withObservable, surely there is a better way of doing this?
 
 import type { CallState } from '../types';
-import type { HOC, Options, DefaultProps, RenderFn } from './types';
+import type { DefaultProps, HOC, Options, RenderFn } from './types';
 
 import React from 'react';
 import { Observable, of } from 'rxjs';
@@ -19,7 +19,7 @@ interface State extends CallState {
 
 export default function withObservable<T, P> (observable: Observable<P>, { callOnResult, propName = 'value', transform = echoTransform }: Options = {}): HOC {
   return (Inner: React.ComponentType<any>, defaultProps: DefaultProps = {}, render?: RenderFn): React.ComponentType<any> => {
-    return class WithObservable extends React.Component<any, State> {
+    class WithObservable extends React.Component<any, State> {
       private isActive = true;
 
       public state: State = {
@@ -86,6 +86,8 @@ export default function withObservable<T, P> (observable: Observable<P>, { callO
           </Inner>
         );
       }
-    };
+    }
+
+    return WithObservable;
   };
 }

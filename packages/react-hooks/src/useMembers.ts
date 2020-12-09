@@ -4,6 +4,7 @@
 import type { AccountId } from '@polkadot/types/interfaces';
 
 import { useMemo } from 'react';
+
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 interface Result {

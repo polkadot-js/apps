@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { ConstantCodec } from '@polkadot/metadata/decorate/types';
-import type { DropdownOptions, DropdownOption } from '../../util/types';
+import type { DropdownOption, DropdownOptions } from '../../util/types';
 
 import React from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 
 export default function createOptions (api: ApiPromise, sectionName: string): DropdownOptions {

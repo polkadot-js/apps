@@ -3,6 +3,7 @@
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+
 import { bnToBn } from '@polkadot/util';
 
 type Ticker = (now: number) => void;

@@ -3,8 +3,9 @@
 
 import type { Info } from './types';
 
-import React, { useState, useEffect } from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+import React, { useEffect, useState } from 'react';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { BestNumber, Elapsed } from '@polkadot/react-query';
 import { BN_ZERO, formatNumber } from '@polkadot/util';
 

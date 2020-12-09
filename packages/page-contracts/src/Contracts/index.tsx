@@ -6,6 +6,7 @@ import type { FullNewBlock } from '@polkadot/api-derive/types';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { ContractPromise } from '@polkadot/api-contract';
 import { Table } from '@polkadot/react-components';
@@ -13,8 +14,8 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import Contract from './Contract';
 import Call from './Call';
+import Contract from './Contract';
 import { getContractForAddress } from './util';
 
 export interface Props {

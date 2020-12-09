@@ -6,6 +6,7 @@ import type { RawParam } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { Static } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';
@@ -22,7 +23,7 @@ interface Props {
 
 function StaticParam ({ asHex, children, className = '', defaultValue, label }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
-  const value = defaultValue && defaultValue.value && (
+  const value = defaultValue && (defaultValue.value as string) && (
     asHex
       ? (defaultValue.value as Codec).toHex()
       : JSON.stringify(

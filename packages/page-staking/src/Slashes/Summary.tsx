@@ -6,6 +6,7 @@ import type { SlashEra } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
+
 import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';

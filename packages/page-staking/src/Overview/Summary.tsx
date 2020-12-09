@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DeriveStakingOverview } from '@polkadot/api-derive/types';
+import type { SortedTargets } from '../types';
 
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+
 import SummarySession from '@polkadot/app-explorer/SummarySession';
 import { CardSummary, IdentityIcon, SummaryBox } from '@polkadot/react-components';
 import { BlockAuthorsContext } from '@polkadot/react-query';
@@ -13,14 +15,13 @@ import { useTranslation } from '../translate';
 
 interface Props {
   className?: string;
-  inflation: number;
   isVisible: boolean;
-  next?: string[];
   nominators?: string[];
   stakingOverview?: DeriveStakingOverview;
+  targets: SortedTargets;
 }
 
-function Summary ({ className = '', inflation, isVisible, next, nominators, stakingOverview }: Props): React.ReactElement<Props> {
+function Summary ({ className = '', isVisible, stakingOverview, targets: { inflation: { inflation }, nominators, waitingIds } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { lastBlockAuthors, lastBlockNumber } = useContext(BlockAuthorsContext);
 
@@ -32,12 +33,12 @@ function Summary ({ className = '', inflation, isVisible, next, nominators, stak
             {stakingOverview.validators.length}&nbsp;/&nbsp;{stakingOverview.validatorCount.toString()}
           </CardSummary>
         )}
-        {!!next?.length && (
+        {!!waitingIds?.length && (
           <CardSummary
             className='media--1000'
             label={t<string>('waiting')}
           >
-            {next.length}
+            {waitingIds.length}
           </CardSummary>
         )}
         {!!nominators?.length && (

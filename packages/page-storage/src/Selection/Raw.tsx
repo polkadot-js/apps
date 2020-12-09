@@ -4,10 +4,11 @@
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Input } from '@polkadot/react-components';
+import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 function Raw ({ onAdd }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

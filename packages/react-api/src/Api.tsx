@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
-import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ChainProperties, ChainType } from '@polkadot/types/interfaces';
+import type { KeyringStore } from '@polkadot/ui-keyring/types';
 import type { ApiProps, ApiState } from './types';
 
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import store from 'store';
+
 import { ApiPromise } from '@polkadot/api/promise';
-import { setDeriveCache, deriveMapCache } from '@polkadot/api-derive/util';
-import { POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, ethereumNetworks, typesChain, typesSpec, typesBundle, typesRpc } from '@polkadot/apps-config';
+import { deriveMapCache, setDeriveCache } from '@polkadot/api-derive/util';
+import { ethereumNetworks, POLKADOT_DENOM_BLOCK, POLKADOT_GENESIS, typesBundle, typesChain, typesSpec } from '@polkadot/apps-config';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
-import { WsProvider } from '@polkadot/rpc-provider';
-import { StatusContext } from '@polkadot/react-components/Status';
 import { TokenUnit } from '@polkadot/react-components/InputNumber';
+import { StatusContext } from '@polkadot/react-components/Status';
 import ApiSigner from '@polkadot/react-signer/signers/ApiSigner';
+import { WsProvider } from '@polkadot/rpc-provider';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { formatBalance, isTestChain } from '@polkadot/util';
@@ -193,7 +194,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, rpc: typesRpc, signer, types, typesBundle, typesChain, typesSpec });
+    api = new ApiPromise({ provider, registry, signer, types, typesBundle, typesChain, typesSpec });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));

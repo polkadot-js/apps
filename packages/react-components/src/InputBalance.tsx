@@ -6,6 +6,7 @@ import type { BitLength } from './types';
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
 import { BitLengthOption } from '@polkadot/react-components/constants';
 import { BN_TEN, formatBalance, isBn } from '@polkadot/util';
 

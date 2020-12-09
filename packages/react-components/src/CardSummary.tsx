@@ -7,11 +7,12 @@ import type { ThemeProps } from './types';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+
+import { BlockToTime } from '@polkadot/react-query';
 import { formatNumber, isUndefined } from '@polkadot/util';
 
-import Progress from './Progress';
 import Labelled from './Labelled';
-import { BlockToTime } from '@polkadot/react-query';
+import Progress from './Progress';
 
 interface ProgressProps {
   hideValue?: boolean;

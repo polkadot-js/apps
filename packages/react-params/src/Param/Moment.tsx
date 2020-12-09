@@ -4,6 +4,7 @@
 import type { Props, RawParamOnChangeValue } from '../types';
 
 import React, { useCallback } from 'react';
+
 import { Static } from '@polkadot/react-components';
 
 import Amount from './Amount';

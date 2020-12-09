@@ -5,6 +5,7 @@ import type { Props } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useState } from 'react';
+
 import { InputBalance } from '@polkadot/react-components';
 
 import Bare from './Bare';

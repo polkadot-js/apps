@@ -6,6 +6,7 @@ import type { Proposal } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
+
 import { formatNumber, isString } from '@polkadot/util';
 
 import Call from './Call';

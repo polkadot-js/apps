@@ -5,6 +5,7 @@ import type { DeriveParachain } from '@polkadot/api-derive/types';
 
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

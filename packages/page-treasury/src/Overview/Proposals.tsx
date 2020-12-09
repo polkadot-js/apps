@@ -5,10 +5,11 @@ import type { DeriveTreasuryProposal } from '@polkadot/api-derive/types';
 
 import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { Table } from '@polkadot/react-components';
 
-import Proposal from './Proposal';
 import { useTranslation } from '../translate';
+import Proposal from './Proposal';
 
 interface Props {
   className?: string;

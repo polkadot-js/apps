@@ -4,6 +4,7 @@
 import type { BondInfo } from './partials/types';
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Modal, TxButton } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 

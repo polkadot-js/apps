@@ -5,15 +5,16 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
+
 import { HelpOverlay, Tabs } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 
 import md from './md/basics.md';
-import { useTranslation } from './translate';
 import Developer from './Developer';
+import General from './General';
 import I18n from './I18n';
 import Metadata from './Metadata';
-import General from './General';
+import { useTranslation } from './translate';
 import useCounter from './useCounter';
 
 export { useCounter };

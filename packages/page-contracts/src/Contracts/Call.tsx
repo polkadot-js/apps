@@ -6,19 +6,20 @@ import type { ContractCallOutcome } from '@polkadot/api-contract/types';
 import type { CallResult } from './types';
 
 import BN from 'bn.js';
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
+
 import { ContractPromise } from '@polkadot/api-contract';
+import { Button, Dropdown, Expander, InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useAccountId, useDebounce, useFormField, useToggle } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { InputMegaGas, Params } from '../shared';
-import Outcome from './Outcome';
 import { useTranslation } from '../translate';
-import { getCallMessageOptions } from './util';
 import useWeight from '../useWeight';
+import Outcome from './Outcome';
+import { getCallMessageOptions } from './util';
 
 interface Props {
   className?: string;

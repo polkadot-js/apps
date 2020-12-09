@@ -5,6 +5,7 @@ import type { Moment } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import Elapsed from './Elapsed';

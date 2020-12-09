@@ -5,6 +5,7 @@ import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+
 import { Toggle } from '@polkadot/react-components';
 import { compactAddLength } from '@polkadot/util';
 

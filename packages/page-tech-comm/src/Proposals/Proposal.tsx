@@ -5,10 +5,11 @@ import type { Option } from '@polkadot/types';
 import type { AccountId, Hash, Proposal as ProposalType, Votes } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
+
+import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { AddressMini, TxButton } from '@polkadot/react-components';
 import { useAccounts, useApi, useCall, useVotingStatus, useWeight } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
-import ProposalCell from '@polkadot/app-democracy/Overview/ProposalCell';
 import { formatNumber } from '@polkadot/util';
 
 import { useTranslation } from '../translate';

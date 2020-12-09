@@ -4,6 +4,7 @@
 import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 
 import React from 'react';
+
 import { AddressMini, Icon, Static } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

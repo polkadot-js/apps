@@ -4,6 +4,7 @@
 import type { I18nProps } from '@polkadot/react-components/types';
 
 import React from 'react';
+
 import { InputAddress, Modal, TxButton, TxComponent } from '@polkadot/react-components';
 
 export interface TxModalProps extends I18nProps {

@@ -5,11 +5,12 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { QueueTx, QueueTxMessageSetStatus } from '@polkadot/react-components/Status/types';
 
 import React, { useCallback, useContext } from 'react';
+
 import { Button, ErrorBoundary, Modal, StatusContext } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from './translate';
 import Transaction from './Transaction';
+import { useTranslation } from './translate';
 import { handleTxResults } from './util';
 
 interface Props {

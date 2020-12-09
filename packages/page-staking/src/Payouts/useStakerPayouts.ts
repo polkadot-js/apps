@@ -6,6 +6,7 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 

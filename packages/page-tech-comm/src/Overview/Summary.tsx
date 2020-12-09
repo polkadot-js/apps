@@ -5,7 +5,8 @@ import type { u32 } from '@polkadot/types';
 import type { ComponentProps as Props } from '../types';
 
 import React from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 

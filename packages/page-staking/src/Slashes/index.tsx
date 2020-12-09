@@ -7,6 +7,7 @@ import type { Slash, SlashEra } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo, useState } from 'react';
+
 import { getSlashProposalThreshold } from '@polkadot/apps-config';
 import { Table, ToggleGroup } from '@polkadot/react-components';
 import { useAccounts, useApi, useMembers } from '@polkadot/react-hooks';

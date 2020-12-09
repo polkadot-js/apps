@@ -6,6 +6,7 @@ import type { ProposalIndex, TreasuryProposal } from '@polkadot/types/interfaces
 import type { TypeDef } from '@polkadot/types/types';
 
 import React, { useEffect, useState } from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types/create';

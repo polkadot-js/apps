@@ -5,9 +5,10 @@ import type { CodeStored } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { registry } from '@polkadot/react-api';
-import Row from '@polkadot/react-components/Row';
 import { Icon } from '@polkadot/react-components';
+import Row from '@polkadot/react-components/Row';
 
 import contracts from '../store';
 

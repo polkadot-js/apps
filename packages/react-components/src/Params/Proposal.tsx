@@ -4,6 +4,7 @@
 import type { Props, RawParam } from '@polkadot/react-params/types';
 
 import React, { useCallback } from 'react';
+
 import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';
 

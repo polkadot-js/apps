@@ -6,6 +6,7 @@ import type { Inflation } from './types';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
+
 import { getInflationParams } from '@polkadot/apps-config';
 
 import { useApi } from './useApi';

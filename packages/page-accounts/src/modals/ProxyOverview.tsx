@@ -7,13 +7,14 @@ import type { AccountId, ProxyDefinition, ProxyType } from '@polkadot/types/inte
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
+
 import { registry } from '@polkadot/react-api';
-import { Button, InputAddress, Modal, TxButton, Dropdown } from '@polkadot/react-components';
+import { Button, Dropdown, InputAddress, Modal, TxButton } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
-import styled from 'styled-components';
 
 type PrevProxy = [AccountId, ProxyType];
 

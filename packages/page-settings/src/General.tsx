@@ -3,7 +3,8 @@
 
 import type { Option } from '@polkadot/apps-config/settings/types';
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { createLanguages, createSs58 } from '@polkadot/apps-config';
 import { isLedgerCapable } from '@polkadot/react-api';
 import { Button, Dropdown } from '@polkadot/react-components';

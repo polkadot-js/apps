@@ -6,6 +6,7 @@ import type { UseWeight } from '../types';
 import BN from 'bn.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
 import { InputNumber, Toggle } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 

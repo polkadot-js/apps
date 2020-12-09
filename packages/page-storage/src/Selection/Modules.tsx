@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { QueryableStorageEntry } from '@polkadot/api/types';
+import type { RawParams } from '@polkadot/react-params/types';
 import type { StorageEntryTypeLatest } from '@polkadot/types/interfaces';
 import type { TypeDef } from '@polkadot/types/types';
-import type { RawParams } from '@polkadot/react-params/types';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { Button, InputStorage } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';

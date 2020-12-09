@@ -6,6 +6,7 @@ import type { AccountId, StakingLedger } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import { InputAddress, InputBalance, Modal, Static, Toggle, TxButton } from '@polkadot/react-components';
 import { BlockToTime } from '@polkadot/react-query';
 

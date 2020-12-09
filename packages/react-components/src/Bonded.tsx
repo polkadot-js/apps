@@ -5,6 +5,7 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 
 import BN from 'bn.js';
 import React from 'react';
+
 import { Bonded } from '@polkadot/react-query';
 
 import { renderProvided } from './Balance';

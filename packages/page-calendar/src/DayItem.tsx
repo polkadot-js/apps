@@ -3,13 +3,14 @@
 
 import type { EntryInfoTyped } from './types';
 
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { formatNumber, isString } from '@polkadot/util';
-import { dateCalendarFormat } from './util';
+
 import { Button } from '@polkadot/react-components';
+import { formatNumber, isString } from '@polkadot/util';
 
 import { useTranslation } from './translate';
+import { dateCalendarFormat } from './util';
 
 interface Props {
   className?: string;

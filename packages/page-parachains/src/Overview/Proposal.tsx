@@ -4,7 +4,8 @@
 import type { ProposalExt } from './types';
 
 import React, { useMemo } from 'react';
-import { AddressSmall, AddressMini } from '@polkadot/react-components';
+
+import { AddressMini, AddressSmall } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 

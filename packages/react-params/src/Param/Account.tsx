@@ -4,6 +4,7 @@
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { InputAddress } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 

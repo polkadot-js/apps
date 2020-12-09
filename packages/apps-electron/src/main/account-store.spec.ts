@@ -4,6 +4,7 @@
 import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
 import * as tmp from 'tmp';
+
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
 import { accountStoreIpcHandler } from './account-store';

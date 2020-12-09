@@ -5,6 +5,7 @@ import type { BareProps as Props } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { useApi } from '@polkadot/react-hooks';
 import { NodeName, NodeVersion } from '@polkadot/react-query';
 

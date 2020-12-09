@@ -1,9 +1,10 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Props, Props as CProps } from '../types';
+import type { Props as CProps, Props } from '../types';
 
 import React, { useMemo, useRef } from 'react';
+
 import { encodeTypeDef } from '@polkadot/types/create';
 import { isUndefined } from '@polkadot/util';
 

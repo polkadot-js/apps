@@ -4,6 +4,7 @@
 import type { DeriveSocietyMember } from '@polkadot/api-derive/types';
 
 import React, { useEffect, useRef, useState } from 'react';
+
 import { AddressSmall, Icon, Modal, Tag } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';
 

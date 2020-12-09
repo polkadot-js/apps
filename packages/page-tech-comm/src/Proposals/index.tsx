@@ -5,6 +5,7 @@ import type { Hash } from '@polkadot/types/interfaces';
 import type { ComponentProps as Props } from '../types';
 
 import React, { useRef } from 'react';
+
 import { Button, Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

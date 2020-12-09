@@ -5,6 +5,7 @@ import type { IdentityProps } from '@polkadot/react-identicon/types';
 
 import React, { useCallback, useContext } from 'react';
 import styled from 'styled-components';
+
 import { getSystemIcon } from '@polkadot/apps-config';
 import { useApi } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';

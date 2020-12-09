@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ipcMain } from 'electron';
+
 import { IpcMainHandler } from './ipc-main-handler';
 
 export const registerIpcHandler = (ipcHandler: IpcMainHandler): void => {

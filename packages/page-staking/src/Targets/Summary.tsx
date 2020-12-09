@@ -1,9 +1,15 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DeriveSessionIndexes } from '@polkadot/api-derive/types';
+import type { Option } from '@polkadot/types';
+import type { Balance } from '@polkadot/types/interfaces';
+
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
+import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
@@ -11,7 +17,6 @@ import { useTranslation } from '../translate';
 interface Props {
   avgStaked?: BN;
   lowStaked?: BN;
-  lastReward?: BN;
   numNominators?: number;
   numValidators?: number;
   stakedReturn: number;
@@ -19,8 +24,19 @@ interface Props {
   totalStaked?: BN;
 }
 
-function Summary ({ avgStaked, lastReward, lowStaked, numNominators, numValidators, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
+const transformReward = {
+  transform: (optBalance: Option<Balance>) => optBalance.unwrapOrDefault()
+};
+
+const transformEra = {
+  transform: ({ activeEra }: DeriveSessionIndexes) => activeEra.gtn(0) ? activeEra.subn(1) : undefined
+};
+
+function Summary ({ avgStaked, lowStaked, numNominators, numValidators, stakedReturn, totalIssuance, totalStaked }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
+  const { api } = useApi();
+  const lastEra = useCall<BN | undefined>(api.derive.session.indexes, undefined, transformEra);
+  const lastReward = useCall<BN>(lastEra && api.query.staking.erasValidatorReward, [lastEra], transformReward);
 
   const progressStake = useMemo(
     () => totalIssuance && totalStaked && totalStaked.gtn(0)

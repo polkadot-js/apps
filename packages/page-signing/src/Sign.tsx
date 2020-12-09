@@ -6,6 +6,7 @@ import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { Button, Input, InputAddress, Output, Static } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';

@@ -5,6 +5,7 @@ import type { Extrinsic } from '@polkadot/types/interfaces';
 import type { Props } from '../types';
 
 import React from 'react';
+
 import { Call, Static } from '@polkadot/react-components';
 
 import Bare from './Bare';

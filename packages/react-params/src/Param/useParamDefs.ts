@@ -5,6 +5,7 @@ import type { Registry, TypeDef } from '@polkadot/types/types';
 import type { ParamDef } from '../types';
 
 import { useEffect, useState } from 'react';
+
 import { getTypeDef } from '@polkadot/types/create';
 
 function expandDef (registry: Registry, td: TypeDef): TypeDef {

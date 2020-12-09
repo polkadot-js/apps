@@ -6,6 +6,7 @@ import type { CodeJson, CodeStored } from './types';
 
 import EventEmitter from 'eventemitter3';
 import store from 'store';
+
 import { Abi } from '@polkadot/api-contract';
 import { api, registry } from '@polkadot/react-api';
 

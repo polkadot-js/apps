@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import EditButton from './EditButton';
 import InputTags from './InputTags';
 import Tag from './Tag';
-
 import { useTranslation } from './translate';
 
 interface Props {

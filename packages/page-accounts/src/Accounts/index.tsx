@@ -8,23 +8,24 @@ import type { Delegation, SortedAccount } from '../types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { isLedger } from '@polkadot/react-api';
-import { useApi, useAccounts, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
-import { FormatBalance } from '@polkadot/react-query';
 import { Button, Input, Table } from '@polkadot/react-components';
+import { useAccounts, useApi, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
-import { useTranslation } from '../translate';
 import CreateModal from '../modals/Create';
 import ImportModal from '../modals/Import';
 import Ledger from '../modals/Ledger';
 import Multisig from '../modals/MultisigCreate';
 import Proxy from '../modals/ProxiedAdd';
 import Qr from '../modals/Qr';
+import { useTranslation } from '../translate';
+import { sortAccounts } from '../util';
 import Account from './Account';
 import BannerClaims from './BannerClaims';
 import BannerExtension from './BannerExtension';
-import { sortAccounts } from '../util';
 
 interface Balances {
   accounts: Record<string, BN>;

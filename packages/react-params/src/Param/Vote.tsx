@@ -5,6 +5,7 @@ import type { Props } from '../types';
 
 import BN from 'bn.js';
 import React, { useRef } from 'react';
+
 import { Dropdown } from '@polkadot/react-components';
 import { GenericVote } from '@polkadot/types';
 

@@ -5,6 +5,7 @@ import type { BlockNumber, Votes } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useMemo } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { isFunction } from '@polkadot/util';
 

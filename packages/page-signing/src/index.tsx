@@ -5,12 +5,13 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
 import { Route, Switch } from 'react-router';
+
 import Tabs from '@polkadot/react-components/Tabs';
 
 import Hash from './Hash';
 import Sign from './Sign';
-import Verify from './Verify';
 import { useTranslation } from './translate';
+import Verify from './Verify';
 
 function SigningApp ({ basePath }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();

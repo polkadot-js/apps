@@ -5,8 +5,8 @@ import type { ThemeDef } from '@polkadot/react-components/types';
 import type { ActionsProps, ColumnProps, ModalProps } from './types';
 
 import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
 import SUIModal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
+import { ThemeContext } from 'styled-components';
 
 import Actions from './Actions';
 import Column from './Column';

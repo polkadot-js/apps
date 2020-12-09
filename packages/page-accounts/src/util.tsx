@@ -5,6 +5,7 @@ import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 import type { SortedAccount } from './types';
 
 import React from 'react';
+
 import { Menu } from '@polkadot/react-components';
 import keyring from '@polkadot/ui-keyring';
 

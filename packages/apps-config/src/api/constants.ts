@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import BN from 'bn.js';
+
 import networks from '@polkadot/networks';
 import { assert } from '@polkadot/util';
 

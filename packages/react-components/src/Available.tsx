@@ -4,6 +4,7 @@
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { Available } from '@polkadot/react-query';
 
 export interface Props {

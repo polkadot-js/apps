@@ -6,6 +6,7 @@ import type { KeyedEvent } from '@polkadot/react-query/types';
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { Table } from '@polkadot/react-components';
 import { formatNumber } from '@polkadot/util';
 

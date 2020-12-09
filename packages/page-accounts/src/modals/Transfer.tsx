@@ -7,6 +7,7 @@ import type { AccountInfo } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { InputAddress, InputBalance, Modal, Toggle, TxButton } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { Available } from '@polkadot/react-query';

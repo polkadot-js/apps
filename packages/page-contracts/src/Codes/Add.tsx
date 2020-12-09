@@ -4,14 +4,15 @@
 import type { StringOrNull } from '@polkadot/react-components/types';
 
 import React, { useCallback, useState } from 'react';
+
 import { Button, Input, Modal } from '@polkadot/react-components';
 import { isNull } from '@polkadot/util';
-import { ABI, InputName } from '../shared';
 
-import ValidateCode from './ValidateCode';
+import { ABI, InputName } from '../shared';
 import store from '../store';
 import { useTranslation } from '../translate';
 import useAbi from '../useAbi';
+import ValidateCode from './ValidateCode';
 
 interface Props {
   onClose: () => void;

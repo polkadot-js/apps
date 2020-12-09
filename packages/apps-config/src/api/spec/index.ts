@@ -6,10 +6,11 @@ import canvas from './canvas';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
+import testPara from './cumulus-test-parachain';
 import darwinia from './darwinia';
 import darwiniaParachain from './darwinia-parachain';
 import dock from './dock';
-import testPara from './cumulus-test-parachain';
+import dusty from './dusty';
 import edgeware from './edgeware';
 import encointerNodeNotee from './encointer-node-notee';
 import encointerNodeTeeproxy from './encointer-node-teeproxy';
@@ -17,11 +18,10 @@ import equilibrium from './equilibrium';
 import hanonycash from './hanonycash';
 import kilt from './kilt';
 import kulupu from './kulupu';
-import moonbeam from './moonbeam';
 import nodeTemplate from './node-template';
 import nodle from './nodle';
+import phala from './phala';
 import plasm from './plasm';
-import dusty from './dusty';
 import robonomics from './robonomics';
 import stablePoc from './stable-poc';
 import stafi from './stafi';
@@ -48,11 +48,9 @@ export default {
   hanonycash,
   kulupu,
   'mashnet-node': kilt,
-  'moonbase-alphanet': moonbeam,
-  'moonbeam-standalone': moonbeam,
-  'node-moonbeam': moonbeam,
   'node-template': nodeTemplate,
   'nodle-chain': nodle,
+  'phala-node': phala,
   plasm,
   robonomics,
   'stable-poc': stablePoc,

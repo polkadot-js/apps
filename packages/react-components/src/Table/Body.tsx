@@ -5,6 +5,7 @@ import type { ThemeProps } from '../types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { isString } from '@polkadot/util';
 
 import Spinner from '../Spinner';
@@ -105,6 +106,14 @@ export default React.memo(styled(Body)(({ theme }: ThemeProps) => `
       padding: 0.5rem 0.75rem;
       text-align: center;
       width: 0;
+    }
+
+    &.no-pad-left {
+      padding-left: 0.125rem;
+    }
+
+    &.no-pad-right {
+      padding-right: 0.125rem;
     }
 
     &.number {

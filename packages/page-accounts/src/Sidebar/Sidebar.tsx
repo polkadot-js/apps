@@ -5,9 +5,10 @@ import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
-import { colorLink } from '@polkadot/react-components/styles/theme';
+
 import { AccountName, Button, Icon, IdentityIcon, Input, LinkExternal, Sidebar, Tags } from '@polkadot/react-components';
+import { colorLink } from '@polkadot/react-components/styles/theme';
+import { useAccountInfo, useToggle } from '@polkadot/react-hooks';
 
 import Transfer from '../modals/Transfer';
 import { useTranslation } from '../translate';

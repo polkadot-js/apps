@@ -3,9 +3,9 @@
 
 import type { ThemeProps } from './types';
 
+import strengthTester from 'owasp-password-strength-test';
 import React from 'react';
 import styled from 'styled-components';
-import strengthTester from 'owasp-password-strength-test';
 
 import { useTranslation } from './translate';
 

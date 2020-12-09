@@ -6,11 +6,12 @@ import type { Option } from '@polkadot/types';
 import type { SlashingSpans } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 
-import TxButton from './TxButton';
 import { useTranslation } from './translate';
+import TxButton from './TxButton';
 
 interface Props {
   className?: string;

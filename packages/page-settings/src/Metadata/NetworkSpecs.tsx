@@ -5,12 +5,13 @@ import type { ChainInfo } from '../types';
 
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
+
 import { Button, ChainImg, Columar, Column, Input, QrNetworkSpecs, Spinner } from '@polkadot/react-components';
 import { useApi, useDebounce } from '@polkadot/react-hooks';
 import { NetworkSpecsStruct } from '@polkadot/ui-settings';
 
-import ChainColorIndicator from './ChainColorIndicator';
 import { useTranslation } from '../translate';
+import ChainColorIndicator from './ChainColorIndicator';
 
 interface Props {
   chainInfo: ChainInfo | null;

@@ -9,14 +9,15 @@ import type { ModalProps } from '../types';
 import FileSaver from 'file-saver';
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
+
 import { DEV_PHRASE } from '@polkadot/keyring/defaults';
+import { getEnvironment } from '@polkadot/react-api/util';
 import { AddressRow, Button, Checkbox, CopyButton, Dropdown, Expander, Input, InputAddress, Modal, TextArea } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import keyring from '@polkadot/ui-keyring';
 import uiSettings from '@polkadot/ui-settings';
 import { isHex, u8aToHex } from '@polkadot/util';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
-import { getEnvironment } from '@polkadot/react-api/util';
 
 import { useTranslation } from '../translate';
 import CreateConfirmation from './CreateConfirmation';

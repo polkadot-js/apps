@@ -7,6 +7,7 @@ import type { AccountId, SocietyVote } from '@polkadot/types/interfaces';
 import type { VoteType } from '../types';
 
 import React from 'react';
+
 import { AddressSmall } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';

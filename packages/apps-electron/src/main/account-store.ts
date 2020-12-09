@@ -5,6 +5,7 @@ import type { KeyringJson } from '@polkadot/ui-keyring/types';
 
 import { app } from 'electron';
 import path from 'path';
+
 import { FileStore } from '@polkadot/ui-keyring/stores';
 
 import { IpcMainHandler } from './ipc-main-handler';
@@ -32,10 +33,10 @@ export const accountStoreIpcHandler = (fileStore: FileStore): IpcMainHandler => 
     }
   }),
   'account-store-remove': async (key: string) => new Promise((resolve) =>
-    fileStore.remove(key, resolve)
+    fileStore.remove(key, () => resolve(undefined))
   ),
   'account-store-set': async (key: string, value: KeyringJson) => new Promise((resolve) =>
-    fileStore.set(key, value, resolve)
+    fileStore.set(key, value, () => resolve(undefined))
   )
 });
 

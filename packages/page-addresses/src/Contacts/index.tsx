@@ -5,11 +5,12 @@ import type { ComponentProps as Props } from '../types';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { Button, Input, Table } from '@polkadot/react-components';
 import { useAddresses, useFavorites, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 
-import { useTranslation } from '../translate';
 import CreateModal from '../modals/Create';
+import { useTranslation } from '../translate';
 import Address from './Address';
 
 type SortedAddress = { address: string; isFavorite: boolean };

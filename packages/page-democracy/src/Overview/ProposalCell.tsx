@@ -5,6 +5,7 @@ import type { Compact } from '@polkadot/types';
 import type { Hash, Proposal, ProposalIndex } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { CallExpander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

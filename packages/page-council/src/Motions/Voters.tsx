@@ -4,6 +4,7 @@
 import type { AccountId, MemberCount } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
+
 import { AddressMini, Expander } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

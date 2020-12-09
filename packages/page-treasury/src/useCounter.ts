@@ -3,7 +3,8 @@
 
 import type { DeriveTreasuryProposals } from '@polkadot/api-derive/types';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import { useAccounts, useApi, useCall } from '@polkadot/react-hooks';
 
 export default function useCounter (): number {

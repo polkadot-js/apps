@@ -4,6 +4,7 @@
 import type { ValidateInfo } from '../partials/types';
 
 import React, { useState } from 'react';
+
 import { Modal, TxButton } from '@polkadot/react-components';
 
 import { useTranslation } from '../../translate';

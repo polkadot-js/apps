@@ -4,6 +4,7 @@
 import type { ComponentProps as Props } from './types';
 
 import React, { useState } from 'react';
+
 import { Button, InputAddress, InputBalance, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useModal } from '@polkadot/react-hooks';
 

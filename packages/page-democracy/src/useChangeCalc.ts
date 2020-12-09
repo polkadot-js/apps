@@ -5,6 +5,7 @@ import type { VoteThreshold } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import { useEffect, useState } from 'react';
+
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { BN_ZERO } from '@polkadot/util';
 

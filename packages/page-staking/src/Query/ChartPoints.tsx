@@ -5,6 +5,7 @@ import type { DeriveStakerPoints } from '@polkadot/api-derive/types';
 import type { ChartInfo, LineDataEntry, Props } from './types';
 
 import React, { useMemo, useRef } from 'react';
+
 import { Chart, Spinner } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

@@ -5,13 +5,14 @@ import type { PayoutValidator } from './types';
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
+
 import { AddressMini, AddressSmall, Expander } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 
 import { useTranslation } from '../translate';
 import PayButton from './PayButton';
-import { createErasString } from './util';
 import useEraBlocks from './useEraBlocks';
+import { createErasString } from './util';
 
 interface Props {
   className?: string;

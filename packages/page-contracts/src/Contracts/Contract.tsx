@@ -8,11 +8,12 @@ import type { BlockNumber, ContractInfo } from '@polkadot/types/interfaces';
 import type { ContractLink } from './types';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import keyring from '@polkadot/ui-keyring';
+
 import { ContractPromise } from '@polkadot/api-contract';
 import { AddressInfo, AddressMini, Button, Forget } from '@polkadot/react-components';
 import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { BlockToTime } from '@polkadot/react-query';
+import keyring from '@polkadot/ui-keyring';
 import { formatNumber, isFunction, isUndefined } from '@polkadot/util';
 
 import Messages from '../shared/Messages';

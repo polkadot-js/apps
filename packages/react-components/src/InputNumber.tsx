@@ -7,8 +7,9 @@ import type { BitLength } from './types';
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { registry } from '@polkadot/react-api';
-import { BN_ZERO, BN_TEN, formatBalance, isBn } from '@polkadot/util';
+import { BN_TEN, BN_ZERO, formatBalance, isBn } from '@polkadot/util';
 
 import { BitLengthOption } from './constants';
 import Dropdown from './Dropdown';

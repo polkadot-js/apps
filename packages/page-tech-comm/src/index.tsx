@@ -6,8 +6,9 @@ import type { AccountId, Hash } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import { Route, Switch } from 'react-router';
-import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
+
 import { Tabs } from '@polkadot/react-components';
+import { useApi, useCall, useMembers } from '@polkadot/react-hooks';
 
 import Overview from './Overview';
 import Proposals from './Proposals';

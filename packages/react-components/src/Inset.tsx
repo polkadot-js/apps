@@ -4,6 +4,7 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { useToggle } from '@polkadot/react-hooks';
 
 import Icon from './Icon';

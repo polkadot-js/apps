@@ -5,6 +5,7 @@ import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
+
 import { Button, IdentityIcon } from '@polkadot/react-components';
 import { u8aToHex } from '@polkadot/util';
 

@@ -4,6 +4,7 @@
 import type { KeyringPair } from '@polkadot/keyring/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { Button, InputAddress, Modal, Password } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';

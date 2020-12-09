@@ -4,6 +4,7 @@
 import type { AccountId, Balance } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { AddressSmall, Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

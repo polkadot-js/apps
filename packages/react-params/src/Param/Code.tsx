@@ -4,6 +4,7 @@
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { isWasm } from '@polkadot/util';
 
 import Bytes from './Bytes';

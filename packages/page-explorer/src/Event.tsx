@@ -4,6 +4,7 @@
 import type { EventRecord } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { Event as EventDisplay, Expander } from '@polkadot/react-components';
 
 interface Props {

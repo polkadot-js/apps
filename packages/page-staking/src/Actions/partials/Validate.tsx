@@ -5,9 +5,10 @@ import type { ValidateInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback } from 'react';
+
 import { InputAddress, InputNumber, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
-import { BN_ZERO, BN_HUNDRED as MAX_COMM } from '@polkadot/util';
+import { BN_HUNDRED as MAX_COMM, BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';
 

@@ -5,6 +5,7 @@ import type { InjectedExtension, InjectedMetadataKnown, MetadataDef } from '@pol
 
 import { useEffect, useMemo, useState } from 'react';
 import store from 'store';
+
 import { ApiPromise } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import { useApi } from '@polkadot/react-hooks';

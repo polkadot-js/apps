@@ -4,10 +4,11 @@
 import type { DeriveReferendumExt } from '@polkadot/api-derive/types';
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
-import Referendum from './Referendum';
 import { useTranslation } from '../translate';
+import Referendum from './Referendum';
 
 interface Props {
   className?: string;

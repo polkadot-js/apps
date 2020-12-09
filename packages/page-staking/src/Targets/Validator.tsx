@@ -3,14 +3,15 @@
 
 import type { DeriveAccountInfo } from '@polkadot/api-derive/types';
 import type { UnappliedSlash } from '@polkadot/types/interfaces';
-import type { ValidatorInfo } from '../types';
+import type { NominatedBy, ValidatorInfo } from '../types';
 
 import BN from 'bn.js';
 import React, { useCallback, useMemo } from 'react';
+
 import { AddressSmall, Badge, Checkbox, Icon } from '@polkadot/react-components';
 import { checkVisibility } from '@polkadot/react-components/util';
-import { FormatBalance } from '@polkadot/react-query';
 import { useApi, useBlockTime, useCall } from '@polkadot/react-hooks';
+import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
 
 import MaxBadge from '../MaxBadge';
@@ -24,11 +25,16 @@ interface Props {
   info: ValidatorInfo;
   isNominated: boolean;
   isSelected: boolean;
+  nominatedBy?: NominatedBy[];
   toggleFavorite: (accountId: string) => void;
   toggleSelected: (accountId: string) => void;
 }
 
-function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, toggleFavorite, toggleSelected }: Props): React.ReactElement<Props> | null {
+function queryAddress (address: string): void {
+  window.location.hash = `/staking/query/${address}`;
+}
+
+function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSelected, nominatedBy = [], toggleFavorite, toggleSelected }: Props): React.ReactElement<Props> | null {
   const { t } = useTranslation();
   const { api } = useApi();
   const accountInfo = useCall<DeriveAccountInfo>(api.derive.accounts.info, [info.accountId]);
@@ -49,9 +55,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
   );
 
   const _onQueryStats = useCallback(
-    (): void => {
-      window.location.hash = `/staking/query/${info.key}`;
-    },
+    () => queryAddress(info.key),
     [info.key]
   );
 
@@ -64,7 +68,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
     return null;
   }
 
-  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp, validatorPayment } = info;
+  const { accountId, bondOther, bondOwn, bondTotal, commissionPer, isCommission, isElected, isFavorite, key, lastPayout, numNominators, rankOverall, stakedReturnCmp } = info;
 
   return (
     <tr>
@@ -92,7 +96,7 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
           )
           : <Badge color='transparent' />
         }
-        <MaxBadge numNominators={numNominators} />
+        <MaxBadge numNominators={numNominators || nominatedBy.length} />
         {slashes.length !== 0 && (
           <Badge
             color='red'
@@ -120,14 +124,9 @@ function Validator ({ allSlashes, canSelect, filterName, info, isNominated, isSe
             : formatNumber(lastPayout)
         )}
       </td>
-      <td className='number media--1200'>{numNominators || ''}</td>
-      <td className='number media--1100'>
-        {
-          isCommission
-            ? `${commissionPer.toFixed(2)}%`
-            : <FormatBalance value={validatorPayment} />
-        }
-      </td>
+      <td className='number media--1200 no-pad-right'>{numNominators || ''}</td>
+      <td className='number media--1200 no-pad-left'>{nominatedBy.length || ''}</td>
+      <td className='number media--1100'>{isCommission && `${commissionPer.toFixed(2)}%`}</td>
       <td className='number together'>{!bondTotal.isZero() && <FormatBalance value={bondTotal} />}</td>
       <td className='number together media--900'>{!bondOwn.isZero() && <FormatBalance value={bondOwn} />}</td>
       <td className='number together media--1600'>{!bondOther.isZero() && <FormatBalance value={bondOther} />}</td>

@@ -5,6 +5,7 @@ import type { Option } from '@polkadot/types';
 import type { TreasuryProposal as TreasuryProposalType } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
+
 import { InputAddress, Labelled, Static } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';

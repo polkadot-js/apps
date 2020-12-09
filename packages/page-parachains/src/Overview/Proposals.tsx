@@ -4,6 +4,7 @@
 import type { ProposalExt } from './types';
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

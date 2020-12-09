@@ -7,6 +7,7 @@ import type { KeyringJson$Meta } from '@polkadot/ui-keyring/types';
 import type { AddressFlags, AddressIdentity, UseAccountInfo } from './types';
 
 import { useCallback, useEffect, useState } from 'react';
+
 import keyring from '@polkadot/ui-keyring';
 
 import { useAccounts } from './useAccounts';

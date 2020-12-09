@@ -5,6 +5,7 @@ import type { DeriveElectionsInfo } from '@polkadot/api-derive/types';
 import type { AccountId } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
+
 import { Table } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

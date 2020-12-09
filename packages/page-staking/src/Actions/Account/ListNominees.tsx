@@ -5,6 +5,7 @@ import type { DeriveEraExposure, DeriveSessionIndexes } from '@polkadot/api-deri
 
 import BN from 'bn.js';
 import React, { useMemo } from 'react';
+
 import { AddressMini, Expander } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

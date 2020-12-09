@@ -6,6 +6,7 @@ import type { EraIndex } from '@polkadot/types/interfaces';
 import type { StakerState } from './types';
 
 import { useEffect, useState } from 'react';
+
 import { registry } from '@polkadot/react-api';
 import { BN_ZERO } from '@polkadot/util';
 

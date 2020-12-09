@@ -4,6 +4,7 @@
 import type { AddressFlags } from '@polkadot/react-hooks/types';
 
 import React from 'react';
+
 import { Tag } from '@polkadot/react-components';
 
 import { useTranslation } from '../translate';

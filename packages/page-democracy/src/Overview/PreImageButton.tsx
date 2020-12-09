@@ -4,6 +4,7 @@
 import type { Hash } from '@polkadot/types/interfaces';
 
 import React from 'react';
+
 import { Button } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 

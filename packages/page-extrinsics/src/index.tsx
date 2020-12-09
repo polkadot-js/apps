@@ -4,6 +4,7 @@
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
 import React, { useRef } from 'react';
+
 import { Tabs } from '@polkadot/react-components';
 
 import Selection from './Selection';

@@ -5,6 +5,7 @@ import type { SubmittableExtrinsic } from '@polkadot/api/types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { getProposalThreshold } from '@polkadot/apps-config';
 import { Button, Extrinsic, InputAddress, InputNumber, Modal, TxButton } from '@polkadot/react-components';
 import { useApi, useToggle } from '@polkadot/react-hooks';

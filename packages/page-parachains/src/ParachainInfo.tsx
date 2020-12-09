@@ -4,6 +4,7 @@
 import type { DeriveParachainInfo } from '@polkadot/api-derive/types';
 
 import React from 'react';
+
 import { AvatarItem, Icon } from '@polkadot/react-components';
 
 import { useTranslation } from './translate';

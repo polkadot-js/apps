@@ -6,6 +6,7 @@ import type { Log } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { isError, isNull, isUndefined } from '@polkadot/util';
 
 interface Props {

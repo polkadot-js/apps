@@ -5,13 +5,14 @@ import type { SubmittableExtrinsicFunction } from '@polkadot/api/types';
 import type { DropdownOptions } from '../util/types';
 
 import React, { useCallback, useState } from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 
+import methodOptions from './options/method';
+import sectionOptions from './options/section';
 import LinkedWrapper from './LinkedWrapper';
 import SelectMethod from './SelectMethod';
 import SelectSection from './SelectSection';
-import methodOptions from './options/method';
-import sectionOptions from './options/section';
 
 interface Props {
   className?: string;

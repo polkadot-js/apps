@@ -4,6 +4,7 @@
 import type { KeypairType } from '@polkadot/util-crypto/types';
 
 import React from 'react';
+
 import { AddressRow, Modal, Static } from '@polkadot/react-components';
 import { isHex } from '@polkadot/util';
 

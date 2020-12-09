@@ -7,6 +7,7 @@ import type { DefinitionRpcExt } from '@polkadot/types/types';
 
 import React, { useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+
 import { ApiPromise } from '@polkadot/api';
 import { Modal, StatusContext } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';

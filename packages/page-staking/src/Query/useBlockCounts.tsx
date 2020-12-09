@@ -6,6 +6,7 @@ import type { u32 } from '@polkadot/types';
 import type { SessionRewards } from '../types';
 
 import { useEffect, useState } from 'react';
+
 import { useApi, useCall, useIsMountedRef } from '@polkadot/react-hooks';
 import { isFunction } from '@polkadot/util';
 

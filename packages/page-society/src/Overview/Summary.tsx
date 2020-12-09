@@ -6,7 +6,8 @@ import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { SummaryBox, CardSummary } from '@polkadot/react-components';
+
+import { CardSummary, SummaryBox } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 

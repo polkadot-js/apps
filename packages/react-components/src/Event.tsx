@@ -7,6 +7,7 @@ import type { Event } from '@polkadot/types/interfaces';
 import type { Codec } from '@polkadot/types/types';
 
 import React, { useMemo } from 'react';
+
 import { Input } from '@polkadot/react-components';
 import Params from '@polkadot/react-params';
 import { getTypeDef } from '@polkadot/types';

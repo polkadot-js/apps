@@ -7,6 +7,7 @@ import type { BlockNumber, OpenTip, OpenTipTo225 } from '@polkadot/types/interfa
 import BN from 'bn.js';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { Table, Toggle } from '@polkadot/react-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 

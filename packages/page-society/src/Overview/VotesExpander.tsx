@@ -4,6 +4,7 @@
 import type { VoteType } from '../types';
 
 import React from 'react';
+
 import { AddressMini, Expander } from '@polkadot/react-components';
 
 interface Props {

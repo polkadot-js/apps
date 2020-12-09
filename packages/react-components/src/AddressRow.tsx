@@ -5,12 +5,13 @@ import type { AccountId, AccountIndex, Address } from '@polkadot/types/interface
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { useAccountInfo } from '@polkadot/react-hooks';
 import BaseIdentityIcon from '@polkadot/react-identicon';
 
-import { toShortAddress } from './util';
 import IdentityIcon from './IdentityIcon';
 import Row, { RowProps } from './Row';
+import { toShortAddress } from './util';
 
 export interface Props extends RowProps {
   isContract?: boolean;

@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { WithTranslation } from 'react-i18next';
 import type { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { WithTranslation } from 'react-i18next';
 import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import type { Abi } from '@polkadot/api-contract';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';

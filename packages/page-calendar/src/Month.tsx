@@ -5,11 +5,12 @@ import type { DateState, EntryInfo } from './types';
 
 import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
+
 import { Button } from '@polkadot/react-components';
 
 import { DAYS, MONTHS } from './constants';
-import { useTranslation } from './translate';
 import MonthDay from './MonthDay';
+import { useTranslation } from './translate';
 
 interface Props {
   className?: string;

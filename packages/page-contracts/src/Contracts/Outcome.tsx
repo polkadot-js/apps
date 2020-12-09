@@ -5,6 +5,7 @@ import type { CallResult } from './types';
 
 import React from 'react';
 import styled from 'styled-components';
+
 import { Button, IdentityIcon, Output } from '@polkadot/react-components';
 import valueToText from '@polkadot/react-params/valueToText';
 

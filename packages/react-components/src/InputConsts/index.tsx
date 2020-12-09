@@ -6,14 +6,15 @@ import type { DropdownOptions } from '../util/types';
 import type { ConstValue, ConstValueBase } from './types';
 
 import React, { useCallback, useState } from 'react';
+
 import { ApiPromise } from '@polkadot/api';
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectKey from './SelectKey';
-import SelectSection from './SelectSection';
 import keyOptions from './options/key';
 import sectionOptions from './options/section';
+import SelectKey from './SelectKey';
+import SelectSection from './SelectSection';
 
 interface Props {
   className?: string;

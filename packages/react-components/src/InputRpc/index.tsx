@@ -7,14 +7,15 @@ import type { DefinitionRpcExt } from '@polkadot/types/types';
 import type { DropdownOptions } from '../util/types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { useApi } from '@polkadot/react-hooks';
 
 import LinkedWrapper from '../InputExtrinsic/LinkedWrapper';
-import SelectMethod from './SelectMethod';
-import SelectSection from './SelectSection';
 import methodOptions from './options/method';
 import sectionOptions from './options/section';
-import rpcs from './rpcs';
+import SelectMethod from './SelectMethod';
+import SelectSection from './SelectSection';
+import useRpcs from './useRpcs';
 
 interface Props {
   className?: string;
@@ -28,7 +29,8 @@ interface Props {
 
 function InputRpc ({ className = '', defaultValue, help, label, onChange, withLabel }: Props): React.ReactElement<Props> {
   const { api } = useApi();
-  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, defaultValue.section));
+  const rpcs = useRpcs();
+  const [optionsMethod, setOptionsMethod] = useState<DropdownOptions>(methodOptions(api, rpcs, defaultValue.section));
   const [optionsSection] = useState<DropdownOptions>(sectionOptions(api));
   const [value, setValue] = useState<DefinitionRpcExt>((): DefinitionRpcExt => defaultValue);
 
@@ -54,12 +56,12 @@ function InputRpc ({ className = '', defaultValue, help, label, onChange, withLa
         return;
       }
 
-      const optionsMethod = methodOptions(api, section);
+      const optionsMethod = methodOptions(api, rpcs, section);
 
       setOptionsMethod(optionsMethod);
       _onMethodChange(rpcs[section][optionsMethod[0].value]);
     },
-    [_onMethodChange, api, value]
+    [_onMethodChange, api, rpcs, value]
   );
 
   return (

@@ -4,6 +4,7 @@
 import type { Props } from '../types';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
 import { Input } from '@polkadot/react-components';
 import { compactAddLength, hexToU8a, u8aConcat } from '@polkadot/util';
 

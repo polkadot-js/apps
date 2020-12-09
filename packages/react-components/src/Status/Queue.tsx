@@ -8,13 +8,14 @@ import type { ITuple, SignerPayloadJSON } from '@polkadot/types/types';
 import type { ActionStatus, ActionStatusPartial, PartialQueueTxExtrinsic, PartialQueueTxRpc, QueueStatus, QueueTx, QueueTxExtrinsic, QueueTxRpc, QueueTxStatus, SignerCallback } from './types';
 
 import React, { useCallback, useRef, useState } from 'react';
+
 import { SubmittableResult } from '@polkadot/api';
 import { registry } from '@polkadot/react-api';
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
 
 import { getContractAbi } from '../util';
-import { QueueProvider } from './Context';
 import { STATUS_COMPLETE } from './constants';
+import { QueueProvider } from './Context';
 
 export interface Props {
   children: React.ReactNode;

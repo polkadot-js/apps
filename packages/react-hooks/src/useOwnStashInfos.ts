@@ -7,6 +7,7 @@ import type { Codec, ITuple } from '@polkadot/types/types';
 import type { StakerState } from './types';
 
 import { useEffect, useMemo, useState } from 'react';
+
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { useAccounts } from './useAccounts';

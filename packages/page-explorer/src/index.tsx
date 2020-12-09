@@ -5,6 +5,7 @@ import type { KeyedEvent } from '@polkadot/react-query/types';
 
 import React, { useContext, useRef } from 'react';
 import { Route, Switch } from 'react-router';
+
 import Tabs from '@polkadot/react-components/Tabs';
 import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';

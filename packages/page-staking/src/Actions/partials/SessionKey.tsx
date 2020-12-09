@@ -4,7 +4,8 @@
 import type { SessionInfo } from './types';
 
 import React, { useEffect, useState } from 'react';
-import { InputAddress, Input, Modal } from '@polkadot/react-components';
+
+import { Input, InputAddress, Modal } from '@polkadot/react-components';
 import { useApi } from '@polkadot/react-hooks';
 import { isHex } from '@polkadot/util';
 

@@ -4,6 +4,7 @@
 import type { AccountId, AccountIndex, Address } from '@polkadot/types/interfaces';
 
 import React, { useEffect, useState } from 'react';
+
 import keyring from '@polkadot/ui-keyring';
 
 interface Props {

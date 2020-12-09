@@ -7,9 +7,10 @@ import type { BondInfo } from './types';
 
 import BN from 'bn.js';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Dropdown, InputAddress, InputBalance, Modal, Static } from '@polkadot/react-components';
-import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { useApi, useCall } from '@polkadot/react-hooks';
+import { BalanceFree, BlockToTime } from '@polkadot/react-query';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../../translate';

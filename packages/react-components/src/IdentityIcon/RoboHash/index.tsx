@@ -14,6 +14,7 @@ import type { ThemeProps } from '../../types';
 
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import backgrounds from './backgrounds';

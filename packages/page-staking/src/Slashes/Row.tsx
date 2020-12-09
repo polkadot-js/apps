@@ -4,6 +4,7 @@
 import type { Slash } from './types';
 
 import React, { useCallback } from 'react';
+
 import { AddressMini, AddressSmall, Badge, Checkbox, Expander } from '@polkadot/react-components';
 import { FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';

@@ -1,11 +1,12 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { IconName } from '@fortawesome/fontawesome-svg-core';
 import type { ThemeProps } from '@polkadot/react-components/types';
 
 import React from 'react';
 import styled from 'styled-components';
-import type { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import { Button, Icon } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
 

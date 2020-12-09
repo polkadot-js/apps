@@ -4,6 +4,7 @@
 import type { Props } from '../types';
 
 import React, { useCallback, useState } from 'react';
+
 import { Input } from '@polkadot/react-components';
 
 import Bare from './Bare';

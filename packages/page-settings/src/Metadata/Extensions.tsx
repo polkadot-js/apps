@@ -4,6 +4,7 @@
 import type { ChainInfo } from '../types';
 
 import React, { useCallback, useMemo, useState } from 'react';
+
 import { extensionLogos } from '@polkadot/apps-config';
 import { Button, Dropdown, Spinner } from '@polkadot/react-components';
 import { useToggle } from '@polkadot/react-hooks';
