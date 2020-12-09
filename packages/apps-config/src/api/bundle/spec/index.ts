@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import acala from './acala';
+import equilibrium from './equilibrium';
 import laminar from './laminar';
 import moonbeam from './moonbeam';
 import soraSubstrate from './soraSubstrate';
 
 export default {
+  Equilibrium: equilibrium,
   acala,
   laminar,
   mandala: acala,

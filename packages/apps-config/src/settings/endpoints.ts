@@ -149,7 +149,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       info: 'equilibrium',
       text: t('rpc.equilibrium', 'Equilibrium Mainnet', { ns: 'apps-config' }),
       textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Equilibrium' } }),
-      value: 'wss://tge.equilibrium.io:9944'
+      value: 'wss://tge.equilibrium.io'
     },
     {
       info: 'hanonycash',
