@@ -102,7 +102,8 @@ export default React.memo(styled(Content)(({ theme }: ThemeProps) => `
 
   & main > *:not(header):not(.ui--FilterOverlay) {
     max-width: ${theme.contentMaxWidth};
-    margin: 0 auto;
+    margin-right: auto;
+    margin-left: auto;
     width: 100%;
     padding: 0 1.5rem;
   }
