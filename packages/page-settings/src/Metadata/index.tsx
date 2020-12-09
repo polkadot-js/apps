@@ -16,7 +16,7 @@ export default function Metadata (): React.ReactElement {
   const chainInfo = useChainInfo();
 
   return (
-    <>
+    <div>
       {!isDevelopment && (
         <>
           <h1>{t<string>('Extensions')}</h1>
@@ -25,6 +25,6 @@ export default function Metadata (): React.ReactElement {
       )}
       <h1>{t<string>('Chain specifications')}</h1>
       <NetworkSpecs chainInfo={chainInfo} />
-    </>
+    </div>
   );
 }

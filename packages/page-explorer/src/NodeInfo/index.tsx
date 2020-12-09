@@ -55,7 +55,7 @@ function NodeInfo (): React.ReactElement {
   }, []);
 
   return (
-    <>
+    <div>
       <Summary
         info={info}
         nextRefresh={nextRefresh}
@@ -66,7 +66,7 @@ function NodeInfo (): React.ReactElement {
         label={t<string>('pending extrinsics')}
         value={info.extrinsics}
       />
-    </>
+    </div>
   );
 }
 

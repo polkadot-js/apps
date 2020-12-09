@@ -61,7 +61,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
   );
 
   return (
-    <>
+    <div>
       <Summary slash={slash} />
       <Button.Group>
         {buttons}
@@ -99,7 +99,7 @@ function Slashes ({ buttons, councilId, councilThreshold, slash }: Props): React
           />
         ))}
       </Table>
-    </>
+    </div>
   );
 }
 

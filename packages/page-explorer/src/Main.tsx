@@ -20,7 +20,7 @@ interface Props {
 
 function Main ({ events, headers }: Props): React.ReactElement<Props> {
   return (
-    <>
+    <div>
       <Query />
       <Summary />
       <Columar>
@@ -31,7 +31,7 @@ function Main ({ events, headers }: Props): React.ReactElement<Props> {
           <Events events={events} />
         </Column>
       </Columar>
-    </>
+    </div>
   );
 }
 

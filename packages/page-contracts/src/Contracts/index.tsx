@@ -106,7 +106,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
   const contract = contracts[contractIndex] || null;
 
   return (
-    <>
+    <div>
       <Table
         empty={t<string>('No contracts available')}
         header={headerRef.current}
@@ -131,7 +131,7 @@ function Contracts ({ contracts: keyringContracts }: Props): React.ReactElement<
           onClose={_toggleCall}
         />
       )}
-    </>
+    </div>
   );
 }
 
