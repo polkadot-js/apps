@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import { withMulti, withObservable } from '@polkadot/react-api/hoc';
 import keyring from '@polkadot/ui-keyring';
-import createKeyringItem from '@polkadot/ui-keyring/options/item';
+import { createOptionItem } from '@polkadot/ui-keyring/options/item';
 import { isNull, isUndefined } from '@polkadot/util';
 
 import Dropdown from '../Dropdown';
@@ -96,7 +96,7 @@ function createOption (address: string): Option {
     }
   }
 
-  return createItem(createKeyringItem(address, name), !isRecent);
+  return createItem(createOptionItem(address, name), !isRecent);
 }
 
 function readOptions (): Record<string, Record<string, string>> {
