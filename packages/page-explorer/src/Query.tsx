@@ -12,6 +12,8 @@ import { useTranslation } from './translate';
 interface Props {
   className?: string;
   value?: string;
+  redirectPath?: string;
+  placeholder?: string;
 }
 
 interface State {
@@ -26,7 +28,7 @@ function stateFromValue (value: string): State {
   };
 }
 
-function Query ({ className = '', value: propsValue }: Props): React.ReactElement<Props> {
+function Query ({ className = '', value: propsValue, redirectPath = '/explorer/query/', placeholder = 'block hash or number to query' }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const [{ isValid, value }, setState] = useState(stateFromValue(propsValue || ''));
 
@@ -38,7 +40,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
   const _onQuery = useCallback(
     (): void => {
       if (isValid && value.length !== 0) {
-        window.location.hash = `/explorer/query/${value}`;
+        window.location.hash = `${redirectPath}${value}`;
       }
     },
     [isValid, value]
@@ -52,7 +54,7 @@ function Query ({ className = '', value: propsValue }: Props): React.ReactElemen
         isError={!isValid && value.length !== 0}
         onChange={_setHash}
         onEnter={_onQuery}
-        placeholder={t<string>('block hash or number to query')}
+        placeholder={t<string>(placeholder)}
         withLabel={false}
       >
         <Button

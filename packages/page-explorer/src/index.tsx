@@ -11,6 +11,7 @@ import { useApi } from '@polkadot/react-hooks';
 import { BlockAuthorsContext, EventsContext } from '@polkadot/react-query';
 
 import BlockInfo from './BlockInfo';
+import ExtrinsicBlockInfo from './BlockInfo/ByExtrinsic';
 import Forks from './Forks';
 import Main from './Main';
 import DBMain from './DBMain';
@@ -114,6 +115,7 @@ function ExplorerApp ({ basePath, className }: Props): React.ReactElement<Props>
           <Route path={`${basePath}/node`}><NodeInfo /></Route>
           <Route path={`${basePath}/blocks`}><BlocksList /></Route>
           <Route path={`${basePath}/events`}><EventsList /></Route>
+          <Route path={`${basePath}/extrinsics/:value`} component={ExtrinsicBlockInfo}></Route>
           <Route path={`${basePath}/extrinsics`}><ExtrinsicsList /></Route>
           <Route path={`${basePath}/transfers`}><TransfersList /></Route>
           <Route path={`${basePath}/accounts`}><AccountsList /></Route>

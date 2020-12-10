@@ -10,6 +10,7 @@ import type { Codec, IExtrinsic, IMethod, TypeDef } from '@polkadot/types/types'
 import Params from '@polkadot/react-params';
 import { FormatBalance } from '@polkadot/react-query';
 import { GenericCall, getTypeDef } from '@polkadot/types';
+import { Link } from 'react-router-dom';
 
 import Static from './Static';
 import { useTranslation } from './translate';
@@ -51,6 +52,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, tip, v
       name: name.toString(),
       type: getTypeDef(type.toString())
     }));
+
     const values = value.args.map((value): Value => ({
       isValid: true,
       value
@@ -76,7 +78,13 @@ function Call ({ children, className = '', labelHash, mortality, onError, tip, v
         {hash && (
           <Static
             className='hash'
-            label={labelHash || t<string>('extrinsic hash')}
+            label={(
+              <>
+                {labelHash || t<string>('extrinsic hash')}
+                {' '}
+                <Link to={`/explorer/extrinsics/${hash.toHex()}`}>(#)</Link>
+              </>
+            )}
             withCopy
           >
             {hash.toHex()}

@@ -16,9 +16,10 @@ interface Props {
   events?: KeyedEvent[];
   label?: React.ReactNode;
   value?: Extrinsic[] | null;
+  extrinsicIndex?: number | null;
 }
 
-function Extrinsics ({ blockNumber, className = '', events, label, value }: Props): React.ReactElement<Props> {
+function Extrinsics ({ blockNumber, className = '', events, label, value, extrinsicIndex }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
   const header = useMemo(() => [
@@ -34,14 +35,24 @@ function Extrinsics ({ blockNumber, className = '', events, label, value }: Prop
       header={header}
       isFixed
     >
-      {value?.map((extrinsic, index): React.ReactNode =>
+      {(!isNaN(extrinsicIndex) && value) ? (
         <ExtrinsicDisplay
           blockNumber={blockNumber}
           events={events}
-          index={index}
-          key={`extrinsic:${index}`}
-          value={extrinsic}
+          index={extrinsicIndex}
+          key={`extrinsic:${extrinsicIndex}`}
+          value={value[extrinsicIndex]}
         />
+      ) : (
+        value?.map((extrinsic, index): React.ReactNode =>
+          <ExtrinsicDisplay
+            blockNumber={blockNumber}
+            events={events}
+            index={index}
+            key={`extrinsic:${index}`}
+            value={extrinsic}
+          />
+        )
       )}
     </Table>
   );

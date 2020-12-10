@@ -63,6 +63,8 @@ export async function extrinsicToPolkadot(extrinsic, api) {
   const blockNumber = registry.createType('BlockNumber', extrinsic.block_number);
   const blockHash = await api.rpc.chain.getBlockHash(blockNumber.toNumber());
   const indexes = [extrinsic.extrinsic_index];
+  const args = JSON.parse(extrinsic.args);
+
   return {
     blockHash,
     blockNumber,
@@ -75,7 +77,7 @@ export async function extrinsicToPolkadot(extrinsic, api) {
         section: extrinsic.section,
         method: extrinsic.method,
         index: extrinsic.extrinsic_index,
-        data: [{}]
+        data: args
       },
       topics: []
     }

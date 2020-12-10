@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useApi } from '@polkadot/react-hooks';
+import { useParams } from 'react-router-dom';
 import Events from '../Events';
+import Query from '../Query';
 
 import { getSub, getQuery, extrinsicToPolkadot } from '../apollo-helpers';
-import { ApolloProvider, Query } from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const EXTRINSIC_QUERY = gql`
@@ -17,12 +19,14 @@ const EXTRINSIC_QUERY = gql`
       method
       hash
       success
+      args
     }
   }
 `;
 
 function ExtrinsicsList (): React.ReactElement<Props> {
   const { api } = useApi();
+  const { value } = useParams<{ value: string }>();
   const [lastEvents, setLastEvents] = useState([]);
   const [ eventsData, eventsError ] = getSub(EXTRINSIC_QUERY);
 
@@ -40,7 +44,12 @@ function ExtrinsicsList (): React.ReactElement<Props> {
   }, [eventsData]);
 
   return (
-    <Events events={lastEvents} title="extrinsics" />
+    <>
+      <Query
+        redirectPath="/explorer/extrinsics/"
+        placeholder="transaction hash to query" />
+      <Events events={lastEvents} title="extrinsics" />
+    </>
   );
 }
 
