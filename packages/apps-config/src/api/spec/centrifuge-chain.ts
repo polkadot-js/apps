@@ -35,5 +35,30 @@ export default {
   ChainId: 'u8',
   ResourceId: '[u8; 32]',
   'chainbridge::ChainId': 'u8',
-  DepositNonce: 'u64'
+  DepositNonce: 'u64',
+  // NFT
+  RegistryId: 'H160',
+  TokenId: 'U256',
+  AssetId: {
+    registryId: 'RegistryId',
+    tokenId: 'TokenId'
+  },
+  RegistryInfo: {
+    ownerCanBurn: 'bool',
+    fields: 'Vec<Bytes>'
+  },
+  AssetInfo: {
+    metadata: 'Bytes'
+  },
+  ProofMint: {
+    value: 'Bytes',
+    property: 'Bytes',
+    salt: '[u8; 32]',
+    hashes: 'Vec<Hash>'
+  },
+  MintInfo: {
+    anchorId: 'Hash',
+    staticHashes: '[Hash; 3]',
+    proofs: 'Vec<ProofMint>'
+  }
 };
