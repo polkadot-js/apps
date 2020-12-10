@@ -31,6 +31,10 @@ function Epoch ({ value }: Props): React.ReactElement<Props> | null {
     }
   }, []);
 
+  const validatorEmission = stats && !stats.emission_for_validators.isNone ? stats.emission_for_validators.unwrap() : 0;
+  const treasuryEmission = stats && !stats.emission_for_treasury.isNone ? stats.emission_for_treasury.unwrap() : 0;
+  const totalEmission = validatorEmission + validatorEmission;
+
   return (
     <tr>
       <td className='number'>
@@ -51,13 +55,13 @@ function Epoch ({ value }: Props): React.ReactElement<Props> | null {
             <p>{`${stats.ending_slot.isSome ? stats.ending_slot.unwrap().toHuman() : '-'}`}</p>
           </td>
           <td className='number'>
-            <FormatBalance value={stats.emission_for_treasury.isSome ? stats.emission_for_treasury.unwrap() + stats.emission_for_validators.unwrap() : 0} />
+            <FormatBalance value={totalEmission} />
           </td>
           <td className='number'>
-            <FormatBalance value={stats.emission_for_treasury.isSome ? stats.emission_for_treasury.unwrap() : 0} />
+            <FormatBalance value={treasuryEmission} />
           </td>
           <td className='number'>
-            <FormatBalance value={stats.emission_for_validators.isSome ? stats.emission_for_validators.unwrap() : 0} />
+            <FormatBalance value={validatorEmission} />
           </td>
         </>
       )}
