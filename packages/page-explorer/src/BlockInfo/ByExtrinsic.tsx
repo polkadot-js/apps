@@ -33,8 +33,6 @@ const EXTRINSIC_QUERY = gql`
   }
 `;
 
-
-
 function Entry (): React.ReactElement | null {
   const { api } = useApi();
   const { value } = useParams<{ value: string }>();
@@ -43,33 +41,36 @@ function Entry (): React.ReactElement | null {
     EXTRINSIC_QUERY
   );
 
-  function getExtrinsicIndex(index) {
+  function getExtrinsics() {
     const { data } = queryResult;
     if (!data) {
-      return;
+      return false;
     }
 
     const extrinsics = data.extrinsic;
     if (!extrinsics || extrinsics.length === 0) {
-      return;
+      return false;
     }
 
+    return extrinsics;
+  }
+
+  function getExtrinsicIndex(index) {
+    const extrinsics = getExtrinsics();
+    if (!extrinsics) {
+      return;
+    }
     return extrinsics[index] && extrinsics[index].extrinsic_index;
   }
 
   useEffect((): void => {
-    const { data } = queryResult;
-    if (!data) {
+    const extrinsics = getExtrinsics();
+    if (!extrinsics) {
       return;
     }
 
-    const extrinsics = data.extrinsic;
-    if (!extrinsics || extrinsics.length === 0) {
-      return;
-    }
-
+    // TODO: Store block hash in database to remove need for this lookup
     const promises = extrinsics.map(extrinsic => api.rpc.chain.getBlockHash(extrinsic.block_number));
-
     Promise.all(promises)
       .then(result => {
         setStateValue(result);

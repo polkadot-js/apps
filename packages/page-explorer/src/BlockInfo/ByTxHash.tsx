@@ -11,21 +11,20 @@ import { AddressSmall, Columar, Column, LinkExternal, Table } from '@polkadot/re
 import { useApi, useIsMountedRef } from '@polkadot/react-hooks';
 import { formatNumber } from '@polkadot/util';
 
+import { useLazyQuery } from 'react-apollo';
+import { getQuery } from '../apollo-helpers';
+import gql from 'graphql-tag';
+
 import Events from '../Events';
 import { useTranslation } from '../translate';
 import Extrinsics from './Extrinsics';
 import Logs from './Logs';
 
-import { useLazyQuery } from 'react-apollo';
-
-import { getQuery } from '../apollo-helpers';
-import gql from 'graphql-tag';
-
 const EXTRINSIC_QUERY = gql`
   query ExtrinsicSearchQuery($filter: String!) {
     extrinsic(order_by: { block_number: desc }, where: {
       hash: { _eq: $filter }
-    }, limit: 64) {
+    }) {
       block_number
       extrinsic_index
       is_signed
@@ -38,7 +37,6 @@ const EXTRINSIC_QUERY = gql`
   }
 `;
 
-
 interface Props {
   className?: string;
   error?: Error | null;
@@ -46,6 +44,7 @@ interface Props {
   extrinsicIndex?: number | null;
 }
 
+// TODO: Same as in ByHash.tsx, should export from there and reuse here
 function transformResult ([events, getBlock, getHeader]: [EventRecord[], SignedBlock, HeaderExtended?]): [KeyedEvent[], SignedBlock, HeaderExtended?] {
   return [
     events.map((record, index) => ({
