@@ -44,11 +44,11 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
     <>
       <tr className={className}>
         <td>{bountyStatus}</td>
-        <td className='title-column'>{description.description}</td>
+        <td>{description.description}</td>
         <td className='column-with-label'/>
         <td><FormatBalance value={value} /></td>
         <td className='column-with-label'/>
-        <td className='column-curator'>{curator ? <AddressSmall value={curator}/> : EMPTY_CELL}</td>
+        <td>{curator ? <AddressSmall value={curator}/> : EMPTY_CELL}</td>
         <td>
           {updateDue ? <BlockToTime blocks={blocksUntilUpdate} /> : EMPTY_CELL}
           {updateDue && t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocksUntilUpdate) } })}
@@ -73,7 +73,7 @@ function Bounty ({ bestNumber, bounty, className = '', description, index }: Pro
         </td>
       </tr>
       <tr className={className}
-        style={{ display: isExpanded ? 'table-row' : 'none' }}>
+        style={{ visibility: isExpanded ? 'visible' : 'collapse' }}>
         <td />
         <td className='proposer'>
           <div className='label'>Proposer</div>
@@ -143,10 +143,6 @@ export default React.memo(styled(Bounty)`
     }
   }
 
-  & .column-curator {
-    width: 100px;
-  }
-
   & .proposer {
     vertical-align: middle;
     div {
@@ -160,8 +156,5 @@ export default React.memo(styled(Bounty)`
       text-transform: uppercase;
       color: #4D4D4D;
     }
-  }
-  & .title-column {
-    min-width: 20rem;
   }
 `);
