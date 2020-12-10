@@ -78,6 +78,7 @@ function Call ({ children, className = '', labelHash, mortality, onError, tip, v
         {hash && (
           <Static
             className='hash'
+            value={hash.toHex()}
             label={(
               <>
                 {labelHash || t<string>('extrinsic hash')}
