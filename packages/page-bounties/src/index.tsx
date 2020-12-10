@@ -8,6 +8,8 @@ import { Tabs } from '@polkadot/react-components';
 import Bounties from './Bounties';
 import { useTranslation } from './translate';
 
+export { default as useCounter } from './useCounter';
+
 interface Props {
   basePath: string;
 }
