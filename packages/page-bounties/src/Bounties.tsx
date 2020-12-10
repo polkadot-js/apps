@@ -1,8 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-bounties authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { BlockNumber } from '@polkadot/types/interfaces';
 import type { DeriveBounties } from '@polkadot/api-derive/types';
+import type { BlockNumber } from '@polkadot/types/interfaces';
 
 import React, { useRef } from 'react';
 
@@ -37,11 +37,11 @@ function Bounties (): React.ReactElement {
       empty={deriveBounties && t<string>('No open bounties')}
       header={headerRef.current}
     >
-      {deriveBounties && bestNumber && deriveBounties.map((deriveBounty, index) => (
+      {deriveBounties && bestNumber && deriveBounties.map(({ bounty, description }, index) => (
         <Bounty
           bestNumber={bestNumber}
-          bounty={deriveBounty.bounty}
-          description={deriveBounty.description}
+          bounty={bounty}
+          description={description}
           index={index}
           key={index}
         />

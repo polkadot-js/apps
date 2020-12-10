@@ -6,7 +6,6 @@ import type { BlockNumber, Bounty as BountyType } from '@polkadot/types/interfac
 import React, { useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { BountyDescription } from '@polkadot/app-bounties/types';
 import { AddressSmall, Icon, LinkExternal } from '@polkadot/react-components';
 import { BlockToTime, FormatBalance } from '@polkadot/react-query';
 import { formatNumber } from '@polkadot/util';
@@ -18,7 +17,7 @@ interface Props {
   bestNumber: BlockNumber;
   bounty: BountyType;
   className?: string;
-  description: BountyDescription;
+  description: string;
   index: number;
 }
 
