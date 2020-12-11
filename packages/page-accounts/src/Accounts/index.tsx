@@ -219,13 +219,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         )}
         <Button
           icon='plus'
-          isDisabled={!(api.tx.multisig || api.tx.utility)}
+          isDisabled={!(api.tx.multisig || api.tx.utility) || !hasAccounts}
           label={t<string>('Multisig')}
           onClick={toggleMultisig}
         />
         <Button
           icon='plus'
-          isDisabled={!api.tx.proxy}
+          isDisabled={!api.tx.proxy || !hasAccounts}
           label={t<string>('Proxied')}
           onClick={toggleProxy}
         />
