@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { registry as baseRegistry } from '@canvas-ui/react-api';
 import { truncate } from '@canvas-ui/react-util';
+import { isNull } from '@polkadot/util';
 import { createTypeUnsafe, Option } from '@polkadot/types';
 
 import AddressSmall from './AddressMini';
@@ -43,7 +44,7 @@ function Field ({ name, value }: { name: string, value: React.ReactNode }): Reac
 function Data ({ asJson = false, className, registry = baseRegistry, type, value }: Props): React.ReactElement<Props> | null {
   const content = useMemo(
     (): React.ReactNode => {
-      if (!value || (Array.isArray(value) && value.length === 0)) {
+      if (isNull(value) || (Array.isArray(value) && value.length === 0)) {
         return '()';
       }
 

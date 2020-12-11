@@ -141,12 +141,15 @@ export interface StakerState {
 }
 
 export interface UseWeight {
-  isValid: boolean;
-  weight: BN;
   executionTime: number;
+  isEmpty: boolean;
+  isValid: boolean;
   megaGas: BN;
   percentage: number;
-  setMegaGas: React.Dispatch<BN | undefined>
+  setIsEmpty: React.Dispatch<boolean>
+  setMegaGas: React.Dispatch<BN | undefined>;
+  weight: BN;
+  weightToString: string;
 }
 
 export interface FileState {

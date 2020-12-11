@@ -90,8 +90,28 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
   const [accountId, setAccountId] = useAccountId();
   const [payment, setPayment, isPaymentValid, isPaymentError] = useFormField<BN>(BN_ZERO);
   const [useRpc, setUseRpc] = useState(hasRpc && !contract?.abi?.messages[messageIndex].isMutating);
+  const [estimatedWeight, setEstimatedWeight] = useState<BN | null>(null);
   const useWeightHook = useGasWeight();
-  const { isValid: isWeightValid, weight } = useWeightHook;
+  const { isValid: isWeightValid, setMegaGas, weightToString } = useWeightHook;
+
+  useEffect((): void => {
+    if (!accountId || !contract?.abi?.messages[messageIndex] || !values || !payment) return;
+
+    const message = contract.abi.messages[messageIndex];
+
+    contract
+      .read(message, { gasLimit: -1, value: message.isPayable ? payment : 0 }, ...extractValues(values))
+      .send(accountId)
+      .then(({ gasConsumed, result }) => {
+        setEstimatedWeight(
+          result.isOk
+            ? gasConsumed
+            : null
+        );
+        setMegaGas(gasConsumed);
+      })
+      .catch((e) => { console.error(e); setEstimatedWeight(null); });
+  }, [accountId, contract, contract?.abi?.messages, messageIndex, payment, setMegaGas, values]);
 
   const messageOptions = useMemo(
     (): Options => getCallMessageOptions(contract),
@@ -113,17 +133,17 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         return [];
       }
 
-      return [contract.address.toString(), payment, weight, data];
+      return [contract.address.toString(), payment, weightToString, data];
     },
-    [accountId, contract, encoder, payment, weight]
+    [accountId, contract, encoder, payment, weightToString]
   );
 
   const _onSubmitRpc = useCallback(
     (): void => {
-      if (!accountId || !contract || !payment || !weight) return;
+      if (!accountId || !contract || !payment || !weightToString) return;
 
       !!contract && contract
-        .read(messageIndex, 0, weight, ...extractValues(values))
+        .read(messageIndex, 0, weightToString, ...extractValues(values))
         .send(accountId)
         .then((result): void => {
           setOutcomes([{
@@ -135,7 +155,7 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
           }, ...outcomes]);
         });
     },
-    [accountId, contract, messageIndex, payment, weight, outcomes, values]
+    [accountId, contract, messageIndex, payment, weightToString, outcomes, values]
   );
 
   const _onClearOutcome = useCallback(
@@ -165,9 +185,9 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
         type: param.type,
         value: values[index]?.value
       })),
-      weight: weight.toString()
+      weight: weightToString
     }),
-    [contract?.registry, name, messageOptions, messageIndex, params, values, weight]
+    [contract?.registry, name, messageOptions, messageIndex, params, values, weightToString]
   );
 
   if (isNull(contract) || isNull(messageIndex) || !contract?.abi?.messages[messageIndex]) {
@@ -224,9 +244,11 @@ function Call ({ className, navigateTo }: Props): React.ReactElement<Props> | nu
                 value={payment}
               />
               <InputMegaGas
+                estimatedWeight={estimatedWeight}
                 help={t<string>('The maximum amount of gas to use for this contract call. If the call requires more, it will fail.')}
+                isCall
                 label={t<string>('Maximum Gas Allowed')}
-                {...useWeightHook}
+                weight={useWeightHook}
               />
               <Dropdown
                 onChange={setUseRpc}

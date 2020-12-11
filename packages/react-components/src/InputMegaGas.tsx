@@ -4,34 +4,78 @@
 import { BareProps } from '@canvas-ui/react-components/types';
 import { UseWeight } from '@canvas-ui/react-hooks/types';
 
-import React from 'react';
+import BN from 'bn.js';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { BN_ZERO } from '@polkadot/util';
+import { classes } from '@canvas-ui/react-util';
 
 import InputNumber from './InputNumber';
+import Toggle from './Toggle';
 import Progress from './Progress';
 import { useTranslation } from './translate';
 
-interface Props extends BareProps, UseWeight {
+interface Props extends BareProps {
+  estimatedWeight?: BN;
   help: React.ReactNode;
+  isCall?: boolean;
   label: React.ReactNode;
+  weight: UseWeight;
 }
 
-function InputMegaGas ({ className, executionTime, help, isValid, label, megaGas, percentage, setMegaGas }: Props): React.ReactElement<Props> {
+const MEGA = new BN(1_000_000);
+
+function InputMegaGas ({ className, estimatedWeight, help, isCall, label, weight: { executionTime, isValid, megaGas, percentage, setIsEmpty, setMegaGas, weight } }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
 
+  const [withEstimate, setWithEstimate] = useState(true);
+
+  const estimatedMg = useMemo(
+    () => estimatedWeight
+      ? estimatedWeight.div(MEGA).iaddn(1)
+      : null,
+    [estimatedWeight]
+  );
+
+  useEffect((): void => {
+    withEstimate && estimatedMg && setMegaGas(estimatedMg);
+  }, [estimatedMg, setMegaGas, withEstimate]);
+
+  useEffect((): void => {
+    setIsEmpty(withEstimate && !!isCall);
+  }, [isCall, setIsEmpty, withEstimate]);
+
+  const isDisabled = !!estimatedMg && withEstimate;
+
   return (
-    <InputNumber
-      className={className}
-      help={help}
-      isError={!isValid}
-      label={label}
-      onChange={setMegaGas}
-      value={megaGas}
-    >
+    <div className={classes(className, isCall ? 'isCall' : 'isDeploy')}>
+      <InputNumber
+        defaultValue={estimatedMg && isDisabled ? estimatedMg.toString() : undefined}
+        help={help}
+        isDisabled={isDisabled}
+        isError={!isValid}
+        isZeroable={isCall}
+        label={t<string>('Max Gas Allowed (M)')}
+        onChange={isDisabled ? undefined : setMegaGas}
+        value={isDisabled ? undefined : ((isCall && withEstimate) ? BN_ZERO : megaGas)}
+      >
+        {(estimatedWeight || isCall) && (
+          <Toggle
+            isOverlay
+            label={
+              isCall
+                ? t<string>(withEstimate ? 'use estimated gas' : 'specify gas')
+                : t<string>('use estimated gas')
+            }
+            onChange={setWithEstimate}
+            value={withEstimate}
+          />
+        )}
+      </InputNumber>
       <div className='contracts--InputMegaGas-meter'>
-        {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime.toFixed(3) } })}
+        {t<string>('{{executionTime}}s execution time', { replace: { executionTime: executionTime < 0.001 ? '<0.001' : executionTime.toFixed(3) } })}
         <aside>
-          {t<string>('{{percentage}}% of block time', { replace: { percentage } })}
+          {t<string>('{{percentage}}% of block time', { replace: { percentage: percentage.toFixed(3) } })}
         </aside>
         <Progress
           className='contracts--InputMegaGas-progress'
@@ -40,7 +84,7 @@ function InputMegaGas ({ className, executionTime, help, isValid, label, megaGas
           value={percentage}
         />
       </div>
-    </InputNumber>
+    </div>
   );
 }
 
@@ -48,13 +92,26 @@ export default React.memo(
   styled(InputMegaGas)`
     .ui.input {
       display: flex;
-      flex-grow: 0;
-      width: 12rem;
+    }
+
+    &.isDeploy {
+      .ui.input {
+        flex-grow: 1;
+        margin-right: 0;
+      }
+    }
+
+    &.isCall {
+      .ui.input {
+        width: 18rem;
+        margin-right: 1rem;
+        flex-grow: 0;
+      }
     }
     
     .contracts--InputMegaGas-meter {
       flex: 1;
-      padding: 0 0.75rem;
+      margin: 1rem 0;
 
       aside {
         float: right;
